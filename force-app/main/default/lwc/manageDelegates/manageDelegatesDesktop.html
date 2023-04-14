@@ -10,15 +10,26 @@
     </template>
     <!--Spinner: Ends-->
     <!--Remove Delegate Modal: Starts-->
-    <template if:true={showpopup}>
+    <template if:true={showRemovePopup}>
         <c-pp-remove-delegate-modal-old
             pdenrollmentid={removeStudyPDEId}
             messtext={modalMesstext}
             tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
             onconfirmmodal={handleRemoveDelegate}
-            onmodalclose={handleModalClose}
+            onmodalclose={handleRemoveModalClose}
         >
         </c-pp-remove-delegate-modal-old>
+    </template>
+    <template if:true={showRemovePopupPPNew}>
+        <c-pp-remove-delegate-modal
+            pdenrollmentid={removeStudyPDEId}
+            messtext={modalMesstext}
+            tittext={label.PG_PST_L_Delegates_Remove_Himself_Header}
+            onconfirmmodal={handleRemoveDelegate}
+            onmodalclose={handleRemoveModalClose}
+            is-desktop={isDesktop}
+        >
+        </c-pp-remove-delegate-modal>
     </template>
     <!--Remove Delegate Modal: Ends-->
     <!--Delete Delegate Modal: Starts-->
@@ -32,17 +43,30 @@
         >
         </c-pp-delete-delegate-modal-old>
     </template>
+    <template if:true={showDeletePopupPPNew}>
+        <c-pp-delete-delegate-modal
+            patientdelegateid={deletePatientDelId}
+            messtext={label.PP_Delegate_Delegate_Warning}
+            tittext={label.PP_Delegate_Delegate}
+            ondeletemodal={handleDeleteDelegate}
+            ondeletemodalclose={handleDeleteModalClose}
+            is-desktop={isDesktop}
+        >
+        </c-pp-delete-delegate-modal>
+    </template>
     <!--Delete Delegate Modal: Ends-->
     <!-- <c-web-spinner fixed="true"></c-web-spinner> -->
     <template if:true={dataInitialized}>
         <!-- Show Add Delegate Page: Start-->
         <template if:true={showAddDelegatePage}>
             <c-pp-add-new-delegate
-                selected-parent={participantState.Participant_Contact__c}
+                selected-parent={participantContactId}
                 is-desktop={isDesktop}
                 delegate-filter-data={availableStudyData}
                 total-no-of-studies={totalNoOfStudies}
                 is-r-t-l={isRTL}
+                picklist-label={picklistLabel}
+                current-community={currentCommunity}
             >
             </c-pp-add-new-delegate>
         </template>
@@ -51,12 +75,14 @@
         <template if:false={showAddDelegatePage}>
             <!--Active Delegates View: Starts-->
             <div class={cardRTL}>
-                <div class="manage-del-continer">
+                <div class="manage-del manage-del-continer">
                     <!--Main Layout: Starts -->
                     <lightning-layout multiple-rows="true">
                         <!-- Manage Delegate Header: Starts-->
                         <lightning-layout-item size="6" class="slds-m-top_small">
-                            <span class="manage-delegates-header"> {label.PP_ManageDelegates} </span>
+                            <span class="manage-delegates-header">
+                                {label.PP_ManageDelegates}
+                            </span>
                         </lightning-layout-item>
                         <!-- Manage Delegate Header: Ends-->
                         <template if:false={hasNoActiveDelegate}
@@ -108,7 +134,12 @@
                                             size="12"
                                             class="slds-m-top_x-large slds-align_absolute-center"
                                         >
-                                            <span><img src={noDelIcon_url} /></span>
+                                            <template if:true={isNewPatientPortal}>
+                                                <span><img src={new_awatar_icon_url} /></span>
+                                            </template>
+                                            <template if:false={isNewPatientPortal}>
+                                                <span><img src={icon_url} /></span>
+                                            </template>
                                         </lightning-layout-item>
                                         <lightning-layout-item
                                             size="12"
@@ -143,7 +174,10 @@
                                         key={del.PatientDelegate.Id}
                                     >
                                         <!--Dlegate Info Layout: Starts -->
-                                        <lightning-layout multiple-rows="true" class="manage-del-items">
+                                        <lightning-layout
+                                            multiple-rows="true"
+                                            class="manage-del-items"
+                                        >
                                             <!--Delegate Profile Logo and Name Section: Starts-->
                                             <lightning-layout-item
                                                 size="12"
@@ -156,7 +190,14 @@
                                                         size="1"
                                                         class={delAvararIcon}
                                                     >
-                                                        <span><img src={icon_url} /></span>
+                                                        <template if:true={isNewPatientPortal}>
+                                                            <span
+                                                                ><img src={new_awatar_icon_url}
+                                                            /></span>
+                                                        </template>
+                                                        <template if:false={isNewPatientPortal}>
+                                                            <span><img src={icon_url} /></span>
+                                                        </template>
                                                     </lightning-layout-item>
                                                     <!--Profile Logo: Ends-->
                                                     <!--Delegate Name: Stats-->
@@ -173,7 +214,9 @@
                                                             <lightning-layout-item
                                                                 size="12"
                                                                 class="delegate-email"
-                                                                >{del.PatientDelegate.Email__c}
+                                                                ><p class="elipsis">
+                                                                    {del.PatientDelegate.Email__c}
+                                                                </p>
                                                             </lightning-layout-item>
                                                         </lightning-layout>
                                                     </lightning-layout-item>
@@ -244,7 +287,8 @@
                                                                 icon-width="18"
                                                             ></c-web-icon>
                                                             <span class="add-assignment-label"
-                                                                >&nbsp; {label.PP_AddAssignment}</span
+                                                                >&nbsp;
+                                                                {label.PP_AddAssignment}</span
                                                             >
                                                         </button>
                                                     </lightning-layout-item>
@@ -274,6 +318,7 @@
                                                                 total-no-of-studies={totalNoOfStudiesToAssign}
                                                                 is-desktop={isDesktop}
                                                                 add-new-delegate={isAddNewDelegate}
+                                                                picklist-label={picklistLabel}
                                                             ></c-pp_multi-picklist-l-w-c
                                                         ></lightning-layout-item>
                                                         <lightning-layout-item
@@ -299,7 +344,7 @@
                                                                 data-pdid={del.PatientDelegate.Id}
                                                                 class="taps mob-checkbox-txt validate"
                                                                 type="checkbox"
-                                                                label={label.PP_Delegate_Email_Consent}
+                                                                label={getStudyEmailConsent}
                                                                 checked={del.isEmailConsentChecked}
                                                                 onchange={handleConsentCheckActiveDel}
                                                             ></lightning-input
@@ -376,14 +421,30 @@
                                                                 size="2"
                                                                 class={delAvararIcon}
                                                             >
-                                                                <span><img src={icon_url} /></span>
+                                                                <template
+                                                                    if:true={isNewPatientPortal}
+                                                                >
+                                                                    <span
+                                                                        ><img
+                                                                            src={new_awatar_icon_url}
+                                                                    /></span>
+                                                                </template>
+                                                                <template
+                                                                    if:false={isNewPatientPortal}
+                                                                >
+                                                                    <span
+                                                                        ><img src={icon_url}
+                                                                    /></span>
+                                                                </template>
                                                             </lightning-layout-item>
                                                             <!--Profile Logo: Ends-->
                                                             <!--Delegate Name: Stats-->
                                                             <lightning-layout-item
                                                                 size="9"
                                                                 class={delInfoFormer}
-                                                                ><lightning-layout multiple-rows="true">
+                                                                ><lightning-layout
+                                                                    multiple-rows="true"
+                                                                >
                                                                     <lightning-layout-item
                                                                         size="12"
                                                                         class="delegate-name"
@@ -473,7 +534,7 @@
                                                     >
                                                         <template if:false={del.isWithdrawn}
                                                             ><button
-                                                                class="apollo-btn secondary box-add-assignment-btn"
+                                                                class="apollo-btn secondary box-add-assignment-btn box-add-assignment-btn-former"
                                                                 onclick={addAssignmentFormer}
                                                                 data-pdid={del.PatientDelegate.Id}
                                                                 disabled={del.disableAddAssignmentButton}
@@ -522,7 +583,14 @@
                                                             size="1"
                                                             class={delAvararIcon}
                                                         >
-                                                            <span><img src={icon_url} /></span>
+                                                            <template if:true={isNewPatientPortal}>
+                                                                <span
+                                                                    ><img src={new_awatar_icon_url}
+                                                                /></span>
+                                                            </template>
+                                                            <template if:false={isNewPatientPortal}>
+                                                                <span><img src={icon_url} /></span>
+                                                            </template>
                                                         </lightning-layout-item>
                                                         <!--Profile Logo: Ends-->
                                                         <!--Delegate Name: Stats-->
@@ -549,7 +617,9 @@
                                                             size="1"
                                                             class="slds-align_absolute-center"
                                                         >
-                                                            <template if:false={del.showDeleteRedIcon}>
+                                                            <template
+                                                                if:false={del.showDeleteRedIcon}
+                                                            >
                                                                 <button
                                                                     class="delete-btn"
                                                                     onclick={openDeleteDelegateModal}
@@ -567,7 +637,9 @@
                                                             </template>
 
                                                             <!--Red Delete Button: Start-->
-                                                            <template if:true={del.showDeleteRedIcon}>
+                                                            <template
+                                                                if:true={del.showDeleteRedIcon}
+                                                            >
                                                                 <button
                                                                     class="delete-btn"
                                                                     onclick={openDeleteDelegateModal}
@@ -599,6 +671,8 @@
                                                                         picklist-values={availableStudyData.studies}
                                                                         total-no-of-studies={totalNoOfStudies}
                                                                         is-desktop={isDesktop}
+                                                                        add-new-delegate={isAddNewDelegate}
+                                                                        picklist-label={picklistLabel}
                                                                     ></c-pp_multi-picklist-l-w-c
                                                                 ></lightning-layout-item>
                                                                 <lightning-layout-item
@@ -624,7 +698,7 @@
                                                                         data-pdid={del.PatientDelegate.Id}
                                                                         class="taps mob-checkbox-txt validate"
                                                                         type="checkbox"
-                                                                        label={label.PP_Delegate_Email_Consent}
+                                                                        label={getStudyEmailConsent}
                                                                         checked={del.isEmailConsentChecked}
                                                                         onchange={handleConsentCheckFormerDel}
                                                                     ></lightning-input
@@ -642,7 +716,8 @@
                                                                 data-pdid={del.PatientDelegate.Id}
                                                             >
                                                                 <span class="discard-label"
-                                                                    >&nbsp; {label.PIR_Discard}</span
+                                                                    >&nbsp;
+                                                                    {label.PIR_Discard}</span
                                                                 >
                                                             </button>
                                                         </lightning-layout-item>
@@ -674,5 +749,4 @@
         </template>
         <!-- Show Manage Delegate Page: Ends-->
     </template>
-    
 </template>

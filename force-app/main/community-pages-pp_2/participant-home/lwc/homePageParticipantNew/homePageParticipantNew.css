@@ -14,9 +14,9 @@
     background: #f0efef;
 }
 .po-fontsize {
-  color: #444444;
-  font-size: 32px;
-  font-weight: 600;
+    color: #444444;
+    font-size: 32px;
+    font-weight: 600;
 }
 .margin-top-bottom-20 {
     margin-top: 20px;
@@ -140,6 +140,10 @@
     border-left: 4px solid #c627a6;
     margin-top: 50px;
 }
+.progress-green {
+    border-left: 4px solid #044B51;
+    margin-top: 50px;
+}
 .updates-darkblue {
     border-left: 4px solid #003346;
     margin-top: 50px;
@@ -158,12 +162,10 @@
 }
 .update-circle {
     background-color: #e20000;
-    border: 1px solid #ffff;
+    border: 1.5px solid #ffff;
     height: 24px;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    width: 24px;
+    min-width: 24px;
+    border-radius: 12px;
     position: absolute;
     text-align: center;
     right: -6px;
@@ -180,8 +182,121 @@
 .update-count-font {
     color: #ffffff;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
+    padding: 0px 7px;
 }
 .pad-left {
     margin-left: -30px !important;
+}
+
+.visit-button {
+    border-radius: 16px 0 0 16px;
+    border: 1px solid #d9d9d9 !important;
+    font-size: 14px;
+    padding: 0px 36px;
+    font-weight: 600;
+}
+.active-button-background {
+    color: white !important;
+    background-color: #015ff1;
+}
+
+.inactive-button-background {
+    color: #595959 !important;
+    background-color: #ffffff !important;
+}
+
+.televisit-button {
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+    border-radius: 0 16px 16px 0 !important;
+    font-family: 'Proxima Nova';
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    height: 32px;
+    width: 109px;
+    margin-left: -1px;
+    font-size: 14px;
+}
+
+.upcomingheader {
+    height: 3.14%;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+
+.taskHeader {
+    height: 3.14%;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+
+.card-wrap {
+    padding: 0;
+}
+.container-card {
+    background-color: rgb(246, 247, 249);
+    border-top-color: #0096ff;
+    border-top-width: 8px;
+    padding: 0;
+    border-radius: 7px;
+    /* width: 412px; */
+    height: 416px;
+}
+
+.overflow-scroll {
+    height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 1rem 0 1rem;
+}
+.upcoming-card {
+    /*background: rgb(248, 249, 251);*/
+    height: auto;
+    /*border: 1px solid lightgrey;*/
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-top-color: #005587;
+    background: linear-gradient(to bottom, #005587 32px, #005587 32px, #f8f9fb 0%, #f8f9fb 100%);
+}
+
+.uc-text-mobile {
+    /*margin-top: 6px;*/
+    padding: 6px 0;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    text-align: center;
+    color: #ffffff;
+}
+.progressTab{
+    height: 32px;
+    margin: 0px 10px;
+    margin-top: 13px;
+    border-radius: 20.5px 20.5px 0 0;
+    background-color: #044B51;
+    color: #FFFFFF;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    line-height: 32px;
+    text-align: center;
+}
+
+.marginbottom{
+    margin-bottom: -50px;
 }

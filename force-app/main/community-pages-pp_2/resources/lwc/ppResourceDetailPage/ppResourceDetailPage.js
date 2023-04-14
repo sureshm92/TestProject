@@ -1,14 +1,18 @@
 import { LightningElement, track } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
 import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesById';
-import getCtpName from '@salesforce/apex/ParticipantStateRemote.getInitData';
+import getUnsortedResources from '@salesforce/apex/ResourceRemote.getUnsortedResourcesByType';
+import getDataWrapper from '@salesforce/apex/RelevantLinksRemote.getDataWrapper';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import VERSION from '@salesforce/label/c.Version_date';
+import POSTING from '@salesforce/label/c.Posting_date';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
+import Back_To_Home from '@salesforce/label/c.Link_Back_To_Home';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
+
 export default class PpResourceDetailPage extends NavigationMixin(LightningElement) {
     userTimezone = TIME_ZONE;
     isInitialized = false;
@@ -23,11 +27,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     isDocument = false;
     langCode;
     documentLink;
+    showHomePage = false;
     studyTitle = '';
     state;
     label = {
         VERSION,
-        Back_To_Resources
+        POSTING,
+        Back_To_Resources,
+        Back_To_Home
     };
     isMultimedia = false;
     isArticleVideo = false;
@@ -35,100 +42,181 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
     desktop = true;
     spinner;
+    resourceForPostingDate = ['Article', 'Video', 'Multimedia'];
+    resourcesData;
+    suggestedArticlesData;
+    isInvalidResource = false;
 
+    /*******Getters******************/
+
+    get showSpinner() {
+        return !this.isInitialized;
+    }
+
+    get showPostingDate() {
+        if (this.resourceForPostingDate.includes(this.resourceType)) {
+            return true;
+        }
+        return false;
+    }
+
+    get showPostingOrVersionLabel() {
+        if (this.resourceForPostingDate.includes(this.resourceType)) {
+            return this.label.POSTING;
+        }
+        return this.label.VERSION;
+    }
+
+    get isSuggestedArticlesVisible() {
+        return this.isArticleVideo && this.suggestedArticlesData;
+    }
+
+    get linkLabel() {
+        return this.showHomePage ? this.label.Back_To_Home : this.label.Back_To_Resources;
+    }
+
+    /** Lifecycle hooks **/
     connectedCallback() {
         //get resource parameters from url
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         this.resourceId = urlParams.get('resourceid');
         this.resourceType = urlParams.get('resourcetype');
+        this.showHomePage = urlParams.get('showHomePage');
+
         this.state = urlParams.get('state');
         if (this.resourceType == 'Study_Document') {
             this.langCode = urlParams.get('lang');
             this.isDocument = true;
         }
 
-        switch(FORM_FACTOR) {
-            case "Small":
+        switch (FORM_FACTOR) {
+            case 'Small':
                 this.desktop = false;
                 break;
-            case "Medium":
+            case 'Medium':
                 this.desktop = true;
                 break;
-            case "Large":
+            case 'Large':
                 this.desktop = true;
                 break;
-          }
+        }
 
         this.initializeData();
-        // window.addEventListener("orientationchange", function() {
-        //     alert("the orientation of the device is now1 " + screen.orientation.angle);
-        //     screen.orientation.angle > 0 ? this.landscape = true : this.landscape = false;
-        //     alert(this.landscape);         
-        // });
     }
 
-    get showSpinner() {
-        return !this.isInitialized;
-    }
-
+    /** Methods **/
     async initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
             this.spinner.show();
         }
+        this.isArticleVideo = this.resourceType == 'Article' || this.resourceType == 'Video';
 
-        //get clicked resource details
-        getResourceDetails({
-            resourceId: this.resourceId,
-            resourceType: this.resourceType
-        })
-            .then((result) => {
-                this.requestFullScreen();
-                let resourceData = result.wrappers[0].resource;
-                this.resUploadDate = resourceData.Version_Date__c;
-                this.resourceTitle = resourceData.Title__c;
-                this.resourceSummary = resourceData.Body__c;
-                this.isArticleVideo =
-                    this.resourceType == 'Article' || this.resourceType == 'Video';
-                this.resourceLink =
-                    this.resourceType == 'Article' ? resourceData.Image__c : resourceData.Video__c;
-                if (this.resourceType == 'Multimedia') {
-                    this.resourceLink = resourceData.Multimedia__c;
-                    this.resourceType = 'Multimedia';
-                    this.isMultimedia = true;
-                }
-                this.isFavourite = result.wrappers[0].isFavorite;
-                this.isVoted = result.wrappers[0].isVoted;
-
-                //get study Title
-                if (
-                    this.state != 'ALUMNI' &&
-                    (resourceData.Content_Class__c == 'Study-Specific' || this.isDocument)
-                ) {
-                    getCtpName({})
-                        .then((result) => {
-                            let data = JSON.parse(result);
-                            this.studyTitle =
-                                data.pi?.pe?.Clinical_Trial_Profile__r?.Study_Code_Name__c;
-                            if (this.isDocument) {
-                                this.handleDocumentLoad();
+        let participantData = communityService.getParticipantData();
+        if (this.resourceType == 'Relevant_Link') {
+            getDataWrapper({ sortByCOI: false })
+                .then((returnValue) => {
+                    let initData = JSON.parse(JSON.stringify(returnValue));
+                    let linksWrappers = [];
+                    let link;
+                    initData.resources.forEach((resObj) => {
+                        linksWrappers.push(resObj.resource);
+                    });
+                    if (
+                        linksWrappers &&
+                        linksWrappers.some((resource) => {
+                            let returnValue = false;
+                            if (resource.Id === this.resourceId) {
+                                link = resource.URL__c;
+                                returnValue = true;
                             }
-                            this.isInitialized = true;
+                            return returnValue;
                         })
-                        .catch((error) => {
-                            this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-                        });
-                }
+                    ) {
+                        window.location.href = link;
+                    } else {
+                        this.isInvalidResource = true;
+                        this.isInitialized = true;
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                });
+        } else {
+            getUnsortedResources({
+                resourceType:
+                    this.resourceType == 'Article' || this.resourceType == 'Video'
+                        ? 'Article;Video'
+                        : this.resourceType,
+                participantData: JSON.stringify(participantData)
             })
-            .catch((error) => {
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-            })
-            .finally(() => {
-                if (this.spinner) {
-                    this.spinner.hide();
-                }
-            });
+                .then((result) => {
+                    this.resourcesData = result;
+                    if (this.isArticleVideo) {
+                        this.suggestedArticlesData = result;
+                    }
+                    if (
+                        !this.resourcesData.wrappers.some(
+                            (wrapper) => wrapper.resource.Id === this.resourceId
+                        )
+                    ) {
+                        this.isInvalidResource = true;
+                        this.isInitialized = true;
+                    } else {
+                        //get clicked resource details
+                        getResourceDetails({
+                            resourceId: this.resourceId,
+                            resourceType: this.resourceType
+                        })
+                            .then((result) => {
+                                let resourceData = result.wrappers[0].resource;
+                                this.resUploadDate = this.resourceForPostingDate.includes(
+                                    this.resourceType
+                                )
+                                    ? resourceData.Posting_Date__c
+                                    : resourceData.Version_Date__c;
+                                this.resourceTitle = resourceData.Title__c;
+                                this.resourceSummary = resourceData.Body__c;
+                                this.resourceLink =
+                                    this.resourceType == 'Article'
+                                        ? resourceData.Image__c
+                                        : resourceData.Video__c;
+                                if (this.resourceType == 'Multimedia') {
+                                    this.resourceLink = resourceData.Multimedia__c;
+                                    this.isMultimedia = true;
+                                }
+                                this.isFavourite = result.wrappers[0].isFavorite;
+                                this.isVoted = result.wrappers[0].isVoted;
+
+                                //get study Title
+                                if (
+                                    this.state != 'ALUMNI' &&
+                                    (resourceData.Content_Class__c == 'Study-Specific' ||
+                                        this.isDocument)
+                                ) {
+                                    this.studyTitle =
+                                        communityService.getParticipantData()?.ctp?.Study_Code_Name__c;
+                                    if (this.isDocument) {
+                                        this.handleDocumentLoad();
+                                    }
+                                }
+                                this.isInitialized = true;
+                            })
+                            .catch((error) => {
+                                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                            });
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                })
+                .finally(() => {
+                    if (this.spinner) {
+                        this.spinner.hide();
+                    }
+                });
+        }
     }
 
     handleDocumentLoad() {
@@ -154,9 +242,19 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         }
     }
 
-    handleBackClick() {
-        sessionStorage.setItem('Cookies', 'Accepted');
-        if (FORM_FACTOR == 'Large') {
+    handleBackClick(event) {
+        let backToHome;
+        if (event) {
+            backToHome = event.detail.backToHome;
+        }
+        if (this.showHomePage || backToHome) {
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'home'
+                }
+            });
+        } else if (FORM_FACTOR == 'Large') {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
@@ -171,14 +269,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 resType = 'documents';
             } else if (this.resourceType == 'Video' || this.resourceType == 'Article') {
                 resType = 'explore';
-            }    
+            }
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
                     pageName: 'resources'
                 },
                 state: {
-                    resType : resType
+                    resType: resType
                 }
             });
         }
@@ -204,40 +302,5 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 variant: variantType
             })
         );
-    }
-
-    requestFullScreen(){
-        let ele = this.template.querySelectorAll(".forceOrientation");
-       
-    }
-
-    goBackToPortraitMode(){
-        // console.log("goBackToPortraitMode");
-        // let ele = window.document.documentElement;
-        // // ele[0].style.transform = "rotate(90deg)";
-        //  if (ele.requestFullscreen) {
-        //     ele.requestFullscreen();
-        // } else if (ele.webkitRequestFullscreen) { /* Safari */
-        //     ele.webkitRequestFullscreen();
-        // } else if (ele.msRequestFullscreen) { /* IE11 */
-        //     ele.msRequestFullscreen();
-        // }
-
-        // ele.requestFullscreen({ navigationUI: "show" })
-        // .then(() => {
-        //     console.log("success");
-        // })
-        // .catch((err) => {
-        //     console.log(
-        //     `An error occurred while trying to switch into fullscreen mode: ${err.message} (${err.name})`
-        //     );
-        // });
-        // screen.orientation.lock("portrait-primary")
-        // .then(function(){
-        //     console.log("success");
-        // })
-        // .catch(function(error){
-        //     console.log(error);
-        // })
     }
 }

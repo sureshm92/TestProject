@@ -43,7 +43,7 @@
             class="{!'rr-all-content ' + $Browser.formFactor + ' ' + if(v.showSideMenu, ' bodyShift ', ' ') + if(v.availableModes.length > 1, ' with-selector ', '')}"
         >
             <div
-                class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode ', ' ') + if(v.isInitialized, 'main-header-brand', 'main-header-neutral')}"
+                class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode ', ' ') + if(v.isInitialized, 'pp-main-header-brand', 'main-header-neutral')}"
             >
                 <div
                     class="{!'layout-header' + ' rr-width-limiter-pp' + ' side-padding' + if(v.isRTL, ' rtl', '')}"
@@ -115,12 +115,12 @@
                     />
                 </aura:if>
                 <!-- Televisit Meet Banner Section PEH-5892 -->
-                <!--      <aura:if isTrue="{!v.handleTelevistBanner}">                   
+                <aura:if isTrue="{!v.handleTelevistBanner}">
                     <c:televisitMeetBanner
-                                           urlPathPrefix="{!v.urlPathPrefix}"
-                                           currentMode="{!v.currentMode}"
-                                           ></c:televisitMeetBanner>
-                </aura:if>-->
+                        urlPathPrefix="{!v.urlPathPrefix}"
+                        currentMode="{!v.currentMode}"
+                    ></c:televisitMeetBanner>
+                </aura:if>
                 {!v.body}
             </div>
             <div

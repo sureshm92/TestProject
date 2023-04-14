@@ -1,7 +1,8 @@
 import { LightningElement, api } from 'lwc';
 import versionDate from '@salesforce/label/c.Version_date';
+import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import { NavigationMixin } from 'lightning/navigation';
-
+import VIEW_RESOURCE from '@salesforce/label/c.PP_View_Resource';
 export default class PpDocumentUpdates extends NavigationMixin(LightningElement) {
     @api documentData;
     @api showVisitSection;
@@ -11,7 +12,8 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
     subDomain;
     thumbnail;
     label = {
-        versionDate
+        versionDate,
+        VIEW_RESOURCE
     };
 
     connectedCallback() {
@@ -30,33 +32,28 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
     }
 
     navigateResourceDetail() {
-        let subDomain = communityService.getSubDomain();
-        let state;
+        this.removeCardHandler();
+        let participantState;
         if (communityService.isInitialized()) {
-            state = communityService.getCurrentCommunityMode().participantState;
+            participantState = communityService.getCurrentCommunityMode().participantState;
         }
-        let detailLink =
-            window.location.origin +
-            subDomain +
-            '/s/resource-detail' +
-            '?resourceid=' +
-            this.documentData.resource.Id +
-            '&resourcetype=' +
-            this.documentData.resource.RecordType.DeveloperName +
-            '&state=' +
-            state;
-
-        const config = {
-            type: 'standard__webPage',
-
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: detailLink
+                pageName: 'resource-detail'
+            },
+            state: {
+                resourceid: this.documentData.recId,
+                resourcetype: this.documentData.resourceDevRecordType,
+                state: participantState,
+                showHomePage: true
             }
-        };
-
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
         });
+    }
+    removeCardHandler() {
+        const removeCardEvent = new CustomEvent('removecard', {
+            detail: { sendResultId: this.documentData.sendResultId }
+        });
+        this.dispatchEvent(removeCardEvent);
     }
 }

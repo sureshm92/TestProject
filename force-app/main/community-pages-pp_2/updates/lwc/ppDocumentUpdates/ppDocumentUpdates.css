@@ -4,7 +4,7 @@
 
 .title-section {
     width: 100%;
-    height: 54px;
+    height: 32px;
 }
 
 .date-section {
@@ -12,14 +12,14 @@
     height: 27px;
 }
 
-.date-section {
+.date-section-mobile {
     width: 100%;
     height: 27px;
 }
 
 .title-section-mobile {
     width: 100%;
-    height: 58px;
+    height: 32px;
 }
 
 .horizontal-card {
@@ -32,18 +32,15 @@
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     margin-left: 10px;
     margin-top: 5px;
     line-height: 24px;
     letter-spacing: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-right: 30px;
     cursor: pointer;
+    margin-right: 16px;
 }
 
 .thumbnail-image {
@@ -80,8 +77,6 @@
 }
 
 .document-label-section-horizontal {
-    width: 90%;
-    height: 52px;
     cursor: pointer;
 }
 
@@ -95,33 +90,30 @@
 }
 
 .date-desktop {
-    height: 30px;
+    height: 22px;
     width: 85%;
     color: #999999;
     font-family: 'Proxima Nova';
     font-size: 13px;
     letter-spacing: 0;
-    line-height: 24px;
     margin-left: 10px;
     margin-top: 9px;
 }
 
 .document-label-desktop {
     color: #444444;
-    height: 52px;
+    height: 20px;
     font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
     margin-left: 10px;
     line-height: 24px;
     letter-spacing: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     margin-top: 10px;
     cursor: pointer;
+    margin-right: 7px;
 }
 
 .card-border {
@@ -137,9 +129,10 @@
     height: 88px;
     border: 1px solid #e9e9e9;
     border-radius: 8px;
-    margin-top: 8px;
+    margin-bottom: 8px;
     margin-left: 16px;
     margin-right: 16px;
+    cursor: pointer;
 }
 
 .card-element-links {
@@ -177,4 +170,22 @@
 .open-tab {
     width: 14px;
     height: 14px;
+}
+.view-resource-container {
+    height: 30px;
+    border-top: 1px solid #e9e9e9;
+}
+.view-resource-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #015ff1;
+}
+.view-resource-label-vertical {
+    font-size: 14px;
+    font-weight: 600;
+    color: #015ff1;
+    margin-left: 10px;
+}
+.pointer-class {
+    cursor: pointer;
 }

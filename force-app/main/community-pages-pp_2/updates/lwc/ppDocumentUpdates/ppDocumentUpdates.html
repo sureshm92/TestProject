@@ -29,13 +29,13 @@
                 <div></div>
             </div>
             <div class="slds-col slds-size_4-of-6 card-data-element">
-                <div class="slds-grid slds-wrap title-section-mobile">
+                <div class="slds-grid slds-wrap title-section-mobile slds-truncate">
                     <p
                         class="document-label"
                         onclick={navigateResourceDetail}
-                        title={documentData.resource.Title__c}
+                        title={documentData.title}
                     >
-                        {documentData.resource.Title__c}
+                        {documentData.title}
                     </p>
                 </div>
                 <div class="slds-grid date-section-mobile">
@@ -43,32 +43,28 @@
                         <p class="date">
                             {label.versionDate}&nbsp;
                             <lightning-formatted-date-time
-                                value={documentData.resource.Version_Date__c}
+                                value={documentData.versionDate}
                             ></lightning-formatted-date-time>
                         </p>
                     </div>
+                </div>
+                <div class="slds-grid">
+                    <span class="view-resource-label-vertical"> {label.VIEW_RESOURCE} </span>
                 </div>
             </div>
         </div>
     </template>
     <template if:true={desktop}>
         <template if:true={showVisitSection}>
-            <div class="slds-grid slds-wrap card-border-desktop">
-                <div
-                    class="slds-col slds-size_2-of-6 card-element"
-                    onclick={navigateResourceDetail}
-                >
-                    <div
-                        class="slds-align_absolute-center icon-container"
-                        onclick={navigateResourceDetail}
-                    >
+            <div class="slds-grid slds-wrap card-border-desktop" onclick={navigateResourceDetail}>
+                <div class="slds-col slds-size_2-of-6 card-element">
+                    <div class="slds-align_absolute-center icon-container">
                         <div if:true={thumbnailPresent} class="thumbnail-image">
                             <img
                                 src={thumbnail}
                                 class="thumnail-img-desktop-vertical"
                                 alt="Image N/A"
                                 onerror={handleNoThumnnailError}
-                                onclick={navigateResourceDetail}
                             />
                         </div>
                         <c-web-icon
@@ -82,13 +78,9 @@
                     <div></div>
                 </div>
                 <div class="slds-col slds-size_4-of-6 card-data-element">
-                    <div class="slds-grid slds-wrap title-section">
-                        <p
-                            class="document-label"
-                            onclick={navigateResourceDetail}
-                            title={documentData.resource.Title__c}
-                        >
-                            {documentData.resource.Title__c}
+                    <div class="slds-grid slds-wrap title-section slds-truncate">
+                        <p class="document-label" title={documentData.title}>
+                            {documentData.title}
                         </p>
                     </div>
                     <div class="slds-grid date-section">
@@ -96,52 +88,56 @@
                             <p class="date">
                                 {label.versionDate}&nbsp;
                                 <lightning-formatted-date-time
-                                    value={documentData.resource.Version_Date__c}
+                                    value={documentData.versionDate}
                                 ></lightning-formatted-date-time>
                             </p>
                         </div>
+                    </div>
+                    <div class="slds-grid">
+                        <span class="view-resource-label-vertical"> {label.VIEW_RESOURCE} </span>
                     </div>
                 </div>
             </div>
         </template>
         <template if:false={showVisitSection}>
-            <div class="slds-align_absolute-center thumbnail-section-horizontal">
-                <div
-                    if:true={thumbnailPresent}
-                    class="thumbnail-image-desktop-horizontal-section"
-                    onclick={navigateResourceDetail}
-                >
-                    <img
-                        src={thumbnail}
-                        class="thumnail-img"
-                        alt="Image N/A"
-                        onerror={handleNoThumnnailError}
-                        onclick={navigateResourceDetail}
-                    />
+            <div class="pointer-class" onclick={navigateResourceDetail}>
+                <div class="slds-align_absolute-center thumbnail-section-horizontal">
+                    <div
+                        if:true={thumbnailPresent}
+                        class="thumbnail-image-desktop-horizontal-section"
+                    >
+                        <img
+                            src={thumbnail}
+                            class="thumnail-img"
+                            alt="Image N/A"
+                            onerror={handleNoThumnnailError}
+                        />
+                    </div>
+                    <div>
+                        <c-web-icon
+                            if:false={thumbnailPresent}
+                            icon-color="#b5b5b5"
+                            icon-width="55"
+                            icon-height="55"
+                            icon-size="large"
+                            icon-name="empty-thumbnail-updates"
+                        ></c-web-icon>
+                    </div>
                 </div>
-                <div onclick={navigateResourceDetail}>
-                    <c-web-icon
-                        if:false={thumbnailPresent}
-                        icon-color="#b5b5b5"
-                        icon-width="55"
-                        icon-height="55"
-                        icon-size="large"
-                        icon-name="empty-thumbnail-updates"
-                    ></c-web-icon>
+                <div class="slds-grid slds-wrap document-label-section-horizontal">
+                    <p class="document-label-desktop slds-truncate" title={documentData.title}>
+                        {documentData.title}
+                    </p>
                 </div>
-            </div>
-            <div
-                class="slds-grid slds-wrap document-label-desktop document-label-section-horizontal"
-            >
-                <p onclick={navigateResourceDetail} title={documentData.resource.Title__c}>
-                    {documentData.resource.Title__c}
-                </p>
-            </div>
-            <div class="date-desktop">
-                {label.versionDate}&nbsp;
-                <lightning-formatted-date-time
-                    value={documentData.resource.Version_Date__c}
-                ></lightning-formatted-date-time>
+                <div class="date-desktop slds-truncate">
+                    {label.versionDate}&nbsp;
+                    <lightning-formatted-date-time
+                        value={documentData.versionDate}
+                    ></lightning-formatted-date-time>
+                </div>
+                <div class="slds-grid view-resource-container slds-align_absolute-center">
+                    <span class="view-resource-label">{label.VIEW_RESOURCE}</span>
+                </div>
             </div>
         </template>
     </template>

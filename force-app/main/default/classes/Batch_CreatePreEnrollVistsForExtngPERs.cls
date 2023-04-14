@@ -7,7 +7,7 @@
  * @group             : IQVIA Patient Portal
  * @last modified on  : 03-07-2022
  * @last modified by  : Krishna Mahto
- **/ 
+ **/
 global without sharing class Batch_CreatePreEnrollVistsForExtngPERs implements Database.Batchable<SObject> {
     private Set<Id> ctpIds;
     private Set<Id> ssIds;
@@ -29,6 +29,8 @@ global without sharing class Batch_CreatePreEnrollVistsForExtngPERs implements D
             'SELECT Id, ' +
             'Participant_Status__c, ' +
             'Study_Site__c, ' +
+            'Initial_Visit_Scheduled_DateTime__c,' +
+            'Initial_visit_occurred_flag__c,'+
             'Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c, ' +
             'Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c, ' +
             'Clinical_Trial_Profile__r.CommunityTemplate__c ' +
@@ -56,7 +58,7 @@ global without sharing class Batch_CreatePreEnrollVistsForExtngPERs implements D
         List<Patient_Visit__c> patentientVisitsToInsert = new List<Patient_Visit__c>();
 
         for (Participant_Enrollment__c pe : scope) {
-            if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c !='PatientPortal') {
+            if (pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal') {
                 peWithCTPPreEnrollConsentIsOnMap.put(pe.id, pe);
             }
         }

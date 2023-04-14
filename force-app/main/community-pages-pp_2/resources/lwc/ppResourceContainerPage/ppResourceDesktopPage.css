@@ -212,7 +212,9 @@ p {
     letter-spacing: 0;
     text-decoration: underline;
 }
-
+.change-preferences:hover {
+    cursor: pointer;
+}
 .resource-container {
     height: 95px;
     width: 627px;
@@ -296,6 +298,6 @@ p {
     height: 607px;
 }
 
-.left-column{
+.left-column {
     overflow-y: hidden;
 }

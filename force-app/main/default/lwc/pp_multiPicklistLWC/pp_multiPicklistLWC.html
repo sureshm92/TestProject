@@ -1,9 +1,10 @@
 <template>
     <!-- Ethnicity starts -->
-    <div class="std outcome-form-element slds-m-bottom_medium p-left std-height">
-        <label class="slds-form-element__label slds-no-flex disflex mb-5"
-            ><span class="text-overflow1 study-p-bottom" title="Studies"
-                >{label.PG_MS_L_Studies_up}</span
+    <div
+        class="manage-del-multi-picklist std outcome-form-element slds-m-bottom_medium p-left std-height"
+    >
+        <label class="slds-form-element__label add-new-del-input-padding slds-no-flex disflex mb-5"
+            ><span class="text-overflow1 study-p-bottom" title="Studies">{picklistLabel}</span
             ><template if:true={showSelectAll}>
                 <span class="btn select-all-clear-all disable-select-all" onclick={selectAll}
                     >{label.Select_All_PI}</span
@@ -14,7 +15,7 @@
             </template>
         </label>
         <div
-            class="slds-form-element__control slds-grow slds-input slds-p-around--none eBox study-box dropdown-width disable-dropdown"
+            class="study-box-manage-del slds-form-element__control slds-grow slds-input slds-p-around--none eBox study-box dropdown-width disable-dropdown multipicklist-box"
             tabindex="0"
             onclick={openStudy}
             onblur={closeStudy}
@@ -81,73 +82,82 @@
                         role="listbox"
                     >
                         <ul class="slds-listbox slds-listbox_vertical" role="presentation">
-                            <template if:true={picklistValues}>
-                                <template for:each={picklistValues} for:item="item">
-                                    <li
-                                        key={item.value}
-                                        role="presentation"
-                                        class="slds-listbox__item"
-                                    >
-                                        <div
-                                            id={item.value}
-                                            onclick={divSetStudy}
-                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
-                                            role="option"
-                                        >
-                                            <span
-                                                class="slds-media__figure slds-listbox__option-icon"
-                                            ></span>
-                                            <span class="slds-media__body">
-                                                <label class="slds-truncate">
-                                                    <!-- <input
-                                                        type="checkbox"
-                                                        name={item.label}
-                                                        value={item.value}
-                                                        class="input-width noclk studyCheckBox"
-                                                        onchange={setStudyList}
-                                                    /> -->
-                                                    <!-- <lightning-input
-                                                        type="checkbox"
-                                                        name={item.label}
-                                                        label={item.label}
-                                                        value={item.value}
-                                                        class="input-width noclk"
-                                                        onchange={setStudyList}
-                                                        variant="label-hidden"
-                                                        data-id={item.value}
-                                                    ></lightning-input> -->
-                                                    <lightning-input
-                                                        type="checkbox"
-                                                        name={item.label}
-                                                        label={item.label}
-                                                        value={item.value}
-                                                        class="input-width noclk check-box-bold"
-                                                        onchange={setStudyList}
-                                                        data-id={item.value}
-                                                        data-clsid="check-box-label"
-                                                        data-labelid={item.value}
-                                                    ></lightning-input>
-                                                    <!-- <span
-                                                        data-labelid={item.value}
-                                                        data-id="check-box-label"
-                                                        class="text-for-check"
-                                                        >{item.label}</span
-                                                    > -->
-                                                </label>
-                                            </span>
-                                        </div>
-                                    </li>
-                                </template>
-                            </template>
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12">
+                                    <template if:true={picklistValues}>
+                                        <template for:each={picklistValues} for:item="item">
+                                            <div
+                                                data-id={item.value}
+                                                key={item.value}
+                                                onclick={divSetStudy}
+                                                onmouseover={manageCheckbox}
+                                            >
+                                                <!-- <span>{item.label}</span> -->
+                                                <lightning-layout
+                                                    key={item.value}
+                                                    multiple-rows="true"
+                                                >
+                                                    <lightning-layout-item
+                                                        size="12"
+                                                        class="md-check-box-layout-item"
+                                                    >
+                                                        <!-- <li
+                                                            role="presentation"
+                                                            class="slds-listbox__item"
+                                                        >
+                                                            <div
+                                                                id={item.value}
+                                                                onclick={divSetStudy}
+                                                                class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                                role="option"
+                                                            >
+                                                                <span
+                                                                    class="slds-media__figure slds-listbox__option-icon"
+                                                                ></span>
+                                                                <span class="slds-media__body"> -->
+                                                        <label class="slds-truncate">
+                                                            <lightning-input
+                                                                type="checkbox"
+                                                                name={item.label}
+                                                                label={item.label}
+                                                                value={item.value}
+                                                                class="input-width noclk check-box-bold"
+                                                                onchange={setStudyList}
+                                                                data-id={item.value}
+                                                                data-clsid="check-box-label"
+                                                                data-labelid={item.value}
+                                                            ></lightning-input>
+                                                        </label>
+                                                        <!-- </span>
+                                                            </div>
+                                                        </li> -->
+                                                    </lightning-layout-item>
+                                                    <!-- <lightning-layout-item
+                                                        size="10"
+                                                        class={manageMarginCustom}
+                                                    >
+                                                        <span
+                                                            data-spanid={item.value}
+                                                            data-id="check-box-label"
+                                                            class="labelForOptions"
+                                                            >{item.label}</span
+                                                        >
+                                                    </lightning-layout-item> -->
+                                                </lightning-layout>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </lightning-layout-item>
+                            </lightning-layout>
                         </ul>
                     </div>
                 </div>
                 <!-- <span
-                    class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right dropdown-icon-alignment"
-                >
-                    <lightning-icon icon-name="utility:down" size="x-small" alternative-text="down">
-                    </lightning-icon>
-                </span> -->
+                class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right dropdown-icon-alignment"
+            >
+                <lightning-icon icon-name="utility:down" size="x-small" alternative-text="down">
+                </lightning-icon>
+            </span> -->
             </div>
         </div>
     </div>

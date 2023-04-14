@@ -18,12 +18,20 @@
                                     </div>
                                 </template>
                             </lightning-layout-item>
-                            <lightning-layout-item size="6" class="slds-p-left_medium slds-p-bottom_medium slds-p-top_medium">
+                            <lightning-layout-item size="6" class="slds-p-left_medium slds-p-bottom_medium slds-p-top_medium slds-p-right_medium">
                                 <template if:true={clinicalrecord.Brief_Summary__c}>
                                     <lightning-formatted-rich-text class="po-text" value={shortOverview}></lightning-formatted-rich-text>
                                 </template>
                             </lightning-layout-item>
-                            <lightning-layout-item size="3" class="slds-align_absolute-center">
+                            <lightning-layout-item size="3" class="slds-align_absolute-center li3">
+                                <lightning-layout class="piPhone">
+                                    <lightning-layout-item><img src={phone_Icon} class="phoneIcon"/></lightning-layout-item>
+                                    <lightning-layout-item>{studySitePhone}</lightning-layout-item>
+                                </lightning-layout>
+                                <lightning-layout class="piName">
+                                    <lightning-layout-item class="piIcon-li"><img src={pi_Icon} class="piIcon"/></lightning-layout-item>
+                                    <lightning-layout-item class="piNameText">{piName}&nbsp;{label.PI_Post_Fix}</lightning-layout-item>
+                                </lightning-layout>
                                 <div class="po-more">
                                     <a><span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREMBLELabel}</span></a>
                                     <lightning-button-icon
@@ -91,15 +99,23 @@
                                 </template>
                             </lightning-layout-item>   
 
-                            <lightning-layout-item size="7" class="slds-align_absolute-center">
+                            <lightning-layout-item size="7" class="slds-align_absolute-center li3">
+                                <lightning-layout class="piPhone">
+                                    <lightning-layout-item><img src={phone_Icon} class="phoneIcon"/></lightning-layout-item>
+                                    <lightning-layout-item>{studySitePhone}</lightning-layout-item>
+                                </lightning-layout>
+                                <lightning-layout class="piName">
+                                    <lightning-layout-item><img src={pi_Icon} class="piIcon"/></lightning-layout-item>
+                                    <lightning-layout-item>{piName}&nbsp;{label.PI_Post_Fix}</lightning-layout-item>
+                                </lightning-layout>
                                 <div class="po-more">
-                                    <span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREMBLELabel}</span>
+                                    <a><span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREMBLELabel}</span></a>
                                     <lightning-button-icon
-                                    icon-name="utility:chevronright"
-                                    variant="bare"
-                                    size="large"
-                                    onclick={handleclick}
-                                ></lightning-button-icon>
+                                        icon-name="utility:chevronright"
+                                        variant="bare"
+                                        size="large"
+                                        onclick={handleclick}
+                                    ></lightning-button-icon>
                                 </div>
                             </lightning-layout-item>
 

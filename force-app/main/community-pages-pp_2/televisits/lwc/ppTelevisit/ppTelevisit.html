@@ -1,0 +1,216 @@
+<template>
+    <c-web-spinner fixed="true"></c-web-spinner>
+    <template if:true={contentLoaded}>
+        <template if:false={isMobile}>
+            <template if:true = {isdelegate}>
+              <div class = "delegate-desktop">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="com-icon pointer">
+                    <use xlink:href={homeSvg} onclick={redircttohomepage}></use>
+                </svg>
+                <lightning-icon icon-name="utility:chevronright" class = "icon-chevron-right"></lightning-icon>
+                <span class = "delegate-televisit" > &nbsp;{label.Televisits}</span>
+                <h2 class="my-televisits-delegate">{label.Televisits}</h2><br/>
+              </div>
+            </template>
+            <template if:false = {isdelegate}>
+                <h2 class="my-televisits">{label.Televisits}</h2><br/>
+            </template>
+            <div class="slds-grid slds-wrap slds-gutters">
+                <div
+                    class="slds-col slds-size_1-of-1 "
+                >
+                    <template if:true={contentLoaded}>
+                        <div class="list-selection">
+                            <template if:true={past}>
+                                <button
+                                    class="slds-button slds-button_neutral up-button inactive-button-background"
+                                    onclick = {onUpcomingClick}
+                                >
+                                    {label.upcoming}
+                                </button>
+                                <button
+                                    class="slds-button slds-button_brand past-button active-button-background"
+                                    onclick = {onPastClick}
+                                >
+                                    {label.past}
+                                </button>
+                            </template>
+                            <template if:false={past}>
+                                <button
+                                    class="slds-button slds-button_brand up-button active-button-background"
+                                    onclick = {onUpcomingClick}
+                                >
+                                    {label.upcoming}
+                                </button>
+                                <button
+                                    class="slds-button slds-button_neutral past-button inactive-button-background"
+                                    onclick = {onPastClick}
+                                >
+                                    {label.past}
+                                </button>
+                            </template>
+                        </div>
+                        <!--<template if:true={showupcomingtelevisits}>
+                            <template if:false={showblankupcomingtelevisits}>-->
+                                <template if:true= {reloadupcomingcomponent}>
+                                    <c-pp-my-televisits-list
+                                    upcomingtelevisitsrecords = {upcomingTelevisitslist}
+                                    pasttelevisitsrecords = {pastTelevisitlist}
+                                    ismobile = {isMobile} zonetime= {timechanges} past = {past}
+                                    onselection={selectedNavHandler}
+                                >
+                                </c-pp-my-televisits-list>
+                                </template>
+                            <!--</template>
+                            
+                        </template>-->
+                        <template if:true={showuppasttelevisits}>
+                            <template if:false={showblankpasttelsvisits}>
+                                <c-pp-my-past-televisit-list
+                                pasttelevisitsrecords = {pastTelevisitlist}
+                                ismobile = {isMobile}
+                                zonetime= {timechanges}
+                            >
+                            </c-pp-my-past-televisit-list>
+                            </template>
+                        </template>
+                        <template if:false={past}>
+                            <template if:true={showblankupcomingtelevisits}>
+                                <div
+                            class="slds-card-wrapper slds-card_boundary slds-align_absolute-center televisit-card-upcoming"
+                        >
+                            <span class="center-align">
+                                <img src={empty_state} />
+                            </span>
+                           <span class="text-colour"> {label.No_upcoming_televisits} </span>
+                        </div>
+                            </template>
+
+                        </template>
+                        <template if:true={past}>
+                            <template if:true={showblankpasttelsvisits}>
+                                <div
+                            class="slds-card-wrapper slds-card_boundary slds-align_absolute-center televisit-card-upcoming"
+                        >
+                            <span class="center-align">
+                                <img src={empty_state} />
+                            </span>
+                           <span class="text-colour">  {label.No_past_televisits} </span>
+                        </div>
+                            </template>
+
+                        </template>
+                    </template>
+                </div>
+                </div>
+        </template>
+        <template if:true={isMobile}>
+            <template if:true = {isdelegate}>
+                <div class = "delegatecssmobile">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="com-icon pointer">
+                        <use xlink:href={homeSvg} onclick={redircttohomepage}></use>
+                    </svg>
+                    <lightning-icon icon-name="utility:chevronright" class = "icon-chevron-right"></lightning-icon>
+                    <span class = "delegate-televisit" > &nbsp;{label.Televisits}</span>
+                    <h2 class="my-televisits-mobiledelegate">{label.Televisits}</h2><br/>
+                  </div>
+            </template>
+            <template if:false = {isdelegate}>
+                <h2 class="my-televisits-mobile">{label.Televisits}</h2><br/>
+            </template>
+            <div class="slds-grid slds-wrap slds-gutters">
+                <div
+                    class="slds-col slds-size_1-of-1"
+                >
+                    <template if:true={contentLoaded}>
+                        <div class="list-selection">
+                            <template if:true={past}>
+                                <button
+                                    class="slds-button slds-button_neutral up-button inactive-button-background"
+                                    onclick = {onUpcomingClick}
+                                >
+                                    {label.upcoming}
+                                </button>
+                                <button
+                                    class="slds-button slds-button_brand past-button active-button-background"
+                                    onclick = {onPastClick}
+                                >
+                                    {label.past}
+                                </button>
+                            </template>
+                            <template if:false={past}>
+                                <button
+                                    class="slds-button slds-button_brand up-button active-button-background"
+                                    onclick = {onUpcomingClick} 
+                                >
+                                    {label.upcoming}
+                                </button>
+                                <button
+                                    class="slds-button slds-button_neutral past-button inactive-button-background"
+                                    onclick = {onPastClick}
+                                >
+                                    {label.past}
+                                </button>
+                            </template>
+                        </div>
+                        <!--<template if:true={showupcomingtelevisits}>
+                            <template if:false={showblankupcomingtelevisits}>-->
+                                <template if:true= {reloadupcomingcomponent}>
+                                    <c-pp-my-televisits-list
+                                    upcomingtelevisitsrecords = {upcomingTelevisitslist}
+                                    pasttelevisitsrecords = {pastTelevisitlist}
+                                    ismobile = {isMobile} zonetime= {timechanges} past = {past}
+                                    onselection={selectedNavHandler}
+                                >
+                                </c-pp-my-televisits-list>
+                                </template>
+                            <!--</template>
+                            
+                        </template>-->
+                        <template if:true={showuppasttelevisits}>
+                            <template if:false={showblankpasttelsvisits}>
+                                <c-pp-my-past-televisit-list
+                                pasttelevisitsrecords = {pastTelevisitlist}
+                                ismobile = {isMobile} zonetime= {timechanges}
+                            >
+                            </c-pp-my-past-televisit-list>
+                            </template>
+                        </template>
+                        <template if:false={past}>
+                            <template if:true={showblankupcomingtelevisits}>
+                                <div
+                            class="slds-card-wrapper slds-card_boundary slds-align_absolute-center televisit-card-upcoming-mobile"
+                        >
+                            <span class="center-align">
+                                <img src={empty_state} />
+                            </span>
+                           <span class="text-colour-mobile"> {label.No_upcoming_televisits} </span>
+                        </div>
+                            </template>
+
+                        </template>
+                        <template if:true={past}>
+                            <template if:true={showblankpasttelsvisits}>
+                                <div
+                            class="slds-card-wrapper slds-card_boundary slds-align_absolute-center televisit-card-upcoming-mobile"
+                        >
+                            <span class="center-align">
+                                <img src={empty_state} />
+                            </span>
+                           <span class="text-colour-mobile">  {label.No_past_televisits} </span>
+                        </div>
+                            </template>
+
+                        </template>
+                    </template>
+                </div>
+                </div>
+        </template>
+        
+    </template>
+            
+</template>

@@ -12,6 +12,9 @@ import CUSTOMIZE_EXP from '@salesforce/label/c.PP_Customize_Experience';
 import COOKIE_SETTINGS from '@salesforce/label/c.PP_Cookie_Settings';
 import MEDICAL_RECORD_ACCESS from '@salesforce/label/c.Medical_Record_Access';
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitDataforAccPage';
+import MANAGE_DELEGATES from '@salesforce/label/c.PP_ManageDelegates';
+import MANAGE_ASSIGNMENTS from '@salesforce/label/c.PP_Assignments';
+import STUDIES_AND_PROGRAM_PP from '@salesforce/label/c.Studies_And_Program_PP';
 export default class PpAccountSettings extends LightningElement {
     @api userMode;
     @api isRTL = false;
@@ -38,7 +41,10 @@ export default class PpAccountSettings extends LightningElement {
         CUSTOMIZE_EXP,
         COOKIE_SETTINGS,
         MEDICAL_RECORD_ACCESS,
-        ERROR_MESSAGE
+        ERROR_MESSAGE,
+        MANAGE_DELEGATES,
+        MANAGE_ASSIGNMENTS,
+        STUDIES_AND_PROGRAM_PP
     };
 
     navHeadersList = [
@@ -154,11 +160,17 @@ export default class PpAccountSettings extends LightningElement {
     get showMedicalRecordAccess() {
         return this.componentId === 'medRecAccess' ? true : false;
     }
-
+    get showManageDelegates() {
+        return this.componentId === 'manage-delegates' ? true : false;
+    }
+    get showManageAssignments() {
+        return this.componentId === 'manage-assignmens' ? true : false;
+    }
     initializeData() {
         getInitData()
             .then((result) => {
                 let initialData = JSON.parse(result);
+                this.initData = initialData;
                 this.medicalRecordVendorToggle = communityService.getParticipantData().ctp
                     ? communityService.getParticipantData().ctp.Medical_Vendor_is_Available__c
                     : false;
@@ -168,6 +180,12 @@ export default class PpAccountSettings extends LightningElement {
                         value: 'medRecAccess'
                     });
                 }
+                this.displayManageDelegates();
+                initialData.password = {
+                    old: '',
+                    new: '',
+                    reNew: ''
+                };
 
                 const queryString = window.location.href;
 
@@ -181,6 +199,74 @@ export default class PpAccountSettings extends LightningElement {
             .catch((error) => {
                 this.showToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
+    }
+    displayManageDelegates() {
+        let isDelegateSwitchingToParView = false;
+        let showManageDelegateTab = false;
+        let showMamanageAssignmentTab = false;
+        let isDelSelfView =
+            communityService.getParticipantData().value == 'ALUMNI' ||
+            (communityService.getParticipantData().hasPatientDelegates &&
+                !communityService.getParticipantData().isDelegate &&
+                !communityService.getParticipantData().pe);
+        let allUserModes = communityService.getAllUserModes();
+        //Delegate switched to Par View
+        if (communityService.getCurrentCommunityMode().currentDelegateId) {
+            isDelegateSwitchingToParView = true;
+            showMamanageAssignmentTab = false;
+            showManageDelegateTab = false;
+        }
+        //Del Self View
+        else if (isDelSelfView && !communityService.getCurrentCommunityMode().hasPastStudies) {
+            showMamanageAssignmentTab = true;
+            showManageDelegateTab = false;
+        }
+        //Pure Participant Login
+        else if (
+            !isDelegateSwitchingToParView &&
+            !communityService.getParticipantData().hasPatientDelegates
+        ) {
+            showMamanageAssignmentTab = false;
+            showManageDelegateTab = true;
+        }
+        //Multi Role
+        else if (
+            !isDelegateSwitchingToParView &&
+            communityService.getParticipantData().hasPatientDelegates &&
+            allUserModes
+        ) {
+            // For Participant also same JSON make sure it shouldnt execute for Participnat
+            allUserModes.forEach(function (item) {
+                if (item.userMode == 'Participant') {
+                    if (item.subModes != undefined && item.subModes.length > 0) {
+                        item.subModes.forEach(function (subModeitem) {
+                            if (subModeitem.currentDelegateId == null) {
+                                showMamanageAssignmentTab = true;
+                                showManageDelegateTab = true;
+                            }
+                        });
+                    }
+                    else if(item.subModes.length == 0){ 
+                        if(item.hasPastStudies && item.currentDelegateId == null){
+                            showMamanageAssignmentTab = true;
+                            showManageDelegateTab = true;
+                        }
+                    }
+                }
+            });
+        }
+        if (showManageDelegateTab) {
+            this.navHeadersList.push({
+                label: MANAGE_DELEGATES,
+                value: 'manage-delegates'
+            });
+        }
+        if (showMamanageAssignmentTab) {
+            this.navHeadersList.push({
+                label: MANAGE_ASSIGNMENTS,
+                value: 'manage-assignmens'
+            });
+        }
     }
 
     setComponentId(queryString) {
@@ -209,6 +295,12 @@ export default class PpAccountSettings extends LightningElement {
         } else if (queryString.includes('medRecAccess')) {
             this.componentId = 'medRecAccess';
             window.history.replaceState(null, null, '?medRecAccess');
+        } else if (queryString.includes('manage-delegates')) {
+            this.componentId = 'manage-delegates';
+            window.history.replaceState(null, null, '?manage-delegates');
+        } else if (queryString.includes('manage-assignmens')) {
+            this.componentId = 'manage-assignmens';
+            window.history.replaceState(null, null, '?manage-assignmens');
         } else {
             if (!this.isMobile) {
                 this.componentId = 'profileInformation';

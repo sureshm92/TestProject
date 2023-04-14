@@ -1,0 +1,17 @@
+<template>
+    <div class={cardStyle}>
+        <div class={imageStyle}>
+            <span><img src={invalidResource} /></span>
+        </div>
+        <div class="slds-col slds-grid_align-center slds-m-vertical_medium">
+            {label.PP_Invalid_Resource}
+        </div>
+        <template lwc:if={showButton}>
+            <div class="slds-col slds-grid_align-center slds-m-top_x-large">
+                <button class="avlble-res-btn" onclick={handleViewResources}>
+                    { label.PP_Available_Resources }
+                </button>
+            </div>
+        </template>
+    </div>
+</template>

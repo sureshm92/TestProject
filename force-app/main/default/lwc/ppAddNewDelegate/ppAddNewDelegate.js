@@ -52,6 +52,9 @@ import PP_ExistingDelError_1 from '@salesforce/label/c.PP_ExistingDelError_1';
 import PP_Select_User from '@salesforce/label/c.PP_Select_User';
 import PP_There_Are from '@salesforce/label/c.PP_There_Are';
 import PP_Users_Associated from '@salesforce/label/c.PP_Users_Associated';
+import PP_AS_RECEIVE_EMAIL_STUDY_PROG from '@salesforce/label/c.PP_AS_RECEIVE_EMAIL_STUDY_PROG';
+import PP_AS_CONDITIONAL_FEATURE_GENERIC from '@salesforce/label/c.PP_AS_CONDITIONAL_FEATURE_GENERIC';
+import PP_Delegate_Email_Consent_1 from '@salesforce/label/c.PP_Delegate_Email_Consent_1';
 
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
 import {
@@ -66,6 +69,8 @@ export default class PpAddNewDelegate extends LightningElement {
     @track delegate = {};
     @track allDelegate = {};
     @api selectedParent;
+    @api picklistLabel;
+    @api currentCommunity;
     @api isRTL;
     isAttested = false;
     isEmailConsentChecked = false;
@@ -74,6 +79,7 @@ export default class PpAddNewDelegate extends LightningElement {
     showExistingDelegateError = false;
     cmpinitialized = false;
     @track delegateOptions = [];
+    @track existingContacts = [];
     currentUserContactId = '';
     parentFullName = '';
     userMode;
@@ -148,7 +154,10 @@ export default class PpAddNewDelegate extends LightningElement {
         PP_ExistingDelError_1,
         PP_Select_User,
         PP_There_Are,
-        PP_Users_Associated
+        PP_Users_Associated,
+        PP_AS_RECEIVE_EMAIL_STUDY_PROG,
+        PP_AS_CONDITIONAL_FEATURE_GENERIC,
+        PP_Delegate_Email_Consent_1
     };
     backToDelegates() {
         const selectedEvent = new CustomEvent('backtodelegates', {
@@ -212,8 +221,8 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     get saveButtonClass() {
         return this.validateData
-            ? 'save-del-btn btn-save-opacity addDelegateMobile'
-            : 'save-del-btn addDelegateMobile';
+            ? 'save-del-btn btn-save-opacity addDelegateMobile manage-del-add-Del-page-save-btn'
+            : 'save-del-btn addDelegateMobile manage-del-add-Del-page-save-btn';
     }
     get whatDelCanSeeSection() {
         return this.isRTL
@@ -233,6 +242,21 @@ export default class PpAddNewDelegate extends LightningElement {
             checkBoxDisabled = true;
         }
         return checkBoxDisabled;
+    }
+    get getEmailHelpText() {
+        return this.currentCommunity === 'Iqvia Patient Portal II'
+            ? this.label.PP_AS_RECEIVE_EMAIL_STUDY_PROG
+            : this.label.PG_PST_L_Delegates_Receive_Emails_New;
+    }
+    get getConditionalFeatureHelpText() {
+        return this.currentCommunity === 'Iqvia Patient Portal II'
+            ? this.label.PP_AS_CONDITIONAL_FEATURE_GENERIC
+            : this.label.PP_AS_CONDITIONAL_FEATURE;
+    }
+    get getStudyEmailConsent() {
+        return this.currentCommunity === 'Iqvia Patient Portal II'
+            ? this.label.PP_Delegate_Email_Consent_1
+            : this.label.PP_Delegate_Email_Consent;
     }
     handleDateChange(event) {
         if (event.currentTarget.dataset.id == 'firstNameInput') {
@@ -369,49 +393,49 @@ export default class PpAddNewDelegate extends LightningElement {
     partiallyMaskFields() {
         this.allDelegate.forEach((del) => {
             let firstName = del.delegateContact.FirstName;
-            let firstNameLength=firstName.length;
-            let firstNameCiel=Math.ceil(firstNameLength/2);
+            let firstNameLength = firstName.length;
+            let firstNameCiel = Math.ceil(firstNameLength / 2);
             let maskedFirstName = '';
             for (let i = 0; i < firstNameLength; i++) {
-                switch(true){
-                    case (firstNameLength >= 5 ) : 
-                        if (i<firstNameCiel) {
-                                maskedFirstName += firstName.charAt(i);
-                            } else {
-                                maskedFirstName += '*';
-                            }
-                        break
-                    case (firstNameLength < 5 ) :
-                        if(i<=1){
-                                maskedFirstName += firstName.charAt(i);
-                            } else {
-                                maskedFirstName += '*';
-                            }
-                        break
+                switch (true) {
+                    case firstNameLength >= 5:
+                        if (i < firstNameCiel) {
+                            maskedFirstName += firstName.charAt(i);
+                        } else {
+                            maskedFirstName += '*';
+                        }
+                        break;
+                    case firstNameLength < 5:
+                        if (i <= 1) {
+                            maskedFirstName += firstName.charAt(i);
+                        } else {
+                            maskedFirstName += '*';
+                        }
+                        break;
                 }
             }
             del.delegateContact.FirstName = maskedFirstName;
 
             let lastName = del.delegateContact.LastName;
-            let lastNameLength=lastName.length;
-            let lastNameCiel=Math.ceil(lastNameLength/2);
+            let lastNameLength = lastName.length;
+            let lastNameCiel = Math.ceil(lastNameLength / 2);
             let maskedLastName = '';
             for (let i = 0; i < lastNameLength; i++) {
-                switch(true){
-                    case (lastNameLength >= 5 ) : 
-                        if (i<lastNameCiel) {
-                                maskedLastName += lastName.charAt(i);
-                            } else {
-                                maskedLastName += '*';
-                            }
-                        break
-                    case (lastNameLength < 5 ) :
-                        if(i<=1){
-                                maskedLastName += lastName.charAt(i);
-                            } else {
-                                maskedLastName += '*';
-                            }
-                        break
+                switch (true) {
+                    case lastNameLength >= 5:
+                        if (i < lastNameCiel) {
+                            maskedLastName += lastName.charAt(i);
+                        } else {
+                            maskedLastName += '*';
+                        }
+                        break;
+                    case lastNameLength < 5:
+                        if (i <= 1) {
+                            maskedLastName += lastName.charAt(i);
+                        } else {
+                            maskedLastName += '*';
+                        }
+                        break;
                 }
             }
             del.delegateContact.LastName = maskedLastName;
@@ -445,6 +469,8 @@ export default class PpAddNewDelegate extends LightningElement {
         }
     }
     doSearchContact() {
+        this.selectedContact = '';
+        this.existingContacts = [];
         let emailElement = this.template.querySelector('[data-id="emailInput"]');
         this.delegate.delegateContact.Email = this.delegate.delegateContact.Email.trim();
         let delegate = this.delegate;
@@ -518,13 +544,19 @@ export default class PpAddNewDelegate extends LightningElement {
                     this.showExistingContactWarning = true;
                     this.sendMessageToDisableMultipicklist(true);
                     this.allDelegate.forEach((delegate) => {
+                        let option = {
+                            label: delegate.fullNameMasked,
+                            value: delegate.delegateContact.Id
+                        };
+                        this.existingContacts.push(option);
+
                         //check Delegate status.
                         let status = delegate.status;
                         let isActiveDelegate = delegate.isActive;
                         let isFormerDelegate =
                             !isActiveDelegate &&
                             (status === 'Disconnected' || status === 'On Hold');
-                        //If Delegate is Active/former(Not Withdrawn).
+                        //If Delegate is Active/former(Not Withdrawn/Deleted).
                         if (isActiveDelegate || isFormerDelegate) {
                             this.showExistingContactWarning = false;
                             this.showExistingDelegateError = true;
@@ -721,7 +753,7 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     //Send Reset All to True to child component PP_MultiPickistLWC to reset the multipicklist value.
     //This LMS will be subscribe in connectedCallback in PP_MultiPickistLWC LWC comp.
-    sendFilterUpdates() {
+    sendResetAllStudiesMessage() {
         const returnPayload = {
             ResetAll: true
         };
@@ -760,21 +792,18 @@ export default class PpAddNewDelegate extends LightningElement {
     //This method will set the selected contact among multiple contacts.
     setSelectedContact(event) {
         this.selectedContact = event.target.value;
+        this.isContactSelected = true;
         console.log('selectedContact: ' + this.selectedContact);
-        let checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
-        //Unslect the previously selected checkbox and keep the latest selection.
-        for (var i = 0; i < checkboxes.length; ++i) {
-            if (checkboxes[i].value != this.selectedContact) {
-                checkboxes[i].checked = false;
+        const labels = this.template.querySelectorAll('.check-box-label-class');
+        labels.forEach((label) => {
+            if (label.querySelector('input').value === this.selectedContact) {
+                label.classList.add('redio-selected-bold');
             } else {
-                if (checkboxes[i].checked) {
-                    this.isContactSelected = true;
-                } else {
-                    this.isContactSelected = false;
-                }
+                label.classList.remove('redio-selected-bold');
             }
-        }
+        });
     }
+
     //Return the total number of existing contacts found.
     get existingContactsCount() {
         return this.allDelegate.length;
@@ -799,6 +828,6 @@ export default class PpAddNewDelegate extends LightningElement {
         if (clearEmail) {
             this.template.querySelector('[data-id="emailInput"]').value = '';
         }
-        this.sendFilterUpdates();
+        this.sendResetAllStudiesMessage();
     }
 }

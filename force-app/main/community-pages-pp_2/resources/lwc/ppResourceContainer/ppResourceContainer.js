@@ -5,6 +5,8 @@ import TIME_ZONE from '@salesforce/i18n/timeZone';
 import { NavigationMixin } from 'lightning/navigation';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import VERSION from '@salesforce/label/c.Version_date';
+import POSTING from '@salesforce/label/c.Posting_date';
+
 export default class PpResourceContainer extends NavigationMixin(LightningElement) {
     userTimezone = TIME_ZONE;
     //@api vars
@@ -14,15 +16,19 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
     @api resourceType;
     @api resourceId;
     @api resourceTitle;
+    @api resPostingDate;
     @api resUploadDate;
+    @api resVersionDate;
     @api isFavourite = false;
     @api resourceSummary;
     @api isVoted = false;
     state;
+    resourceForPostingDate = ['Article', 'Video', 'Multimedia'];
     isThumbnailPresent = false;
 
     label = {
-        VERSION
+        VERSION,
+        POSTING
     };
 
     connectedCallback() {
@@ -32,18 +38,17 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
         }
     }
     handleNavigate() {
-        sessionStorage.setItem('Cookies', 'Accepted');		
-			this[NavigationMixin.Navigate]({
+        this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
                 pageName: 'resource-detail'
             },
-			state: {
-                resourceid : this.resourceId,
-                resourcetype : this.resourceType,
-                state : this.state
+            state: {
+                resourceid: this.resourceId,
+                resourcetype: this.resourceType,
+                state: this.state
             }
-		});	
+        });
     }
     handleFavourite() {
         this.isFavourite = !this.isFavourite;
@@ -68,6 +73,20 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
 
     handleError() {
         this.isThumbnailPresent = false;
+    }
+
+    get showPostingOrVersionDate() {
+        if (this.resourceForPostingDate.includes(this.resourceType)) {
+            return this.resPostingDate;
+        }
+        return this.resVersionDate;
+    }
+
+    get showPostingOrVersionLabel() {
+        if (this.resourceForPostingDate.includes(this.resourceType)) {
+            return this.label.POSTING;
+        }
+        return this.label.VERSION;
     }
 
     showErrorToast(titleText, messageText, variantType) {

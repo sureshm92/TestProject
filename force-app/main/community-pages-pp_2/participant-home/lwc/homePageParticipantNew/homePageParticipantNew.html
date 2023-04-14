@@ -14,41 +14,103 @@
                             <template if:true={isProgram}>
                                 <c-program-overview
                                     clinicalrecord={clinicalrecord}
+                                    studysite={studysite}
                                 ></c-program-overview>
                             </template>
                             <template if:false={isProgram}>
                                 <c-study-overview
                                     clinicalrecord={clinicalrecord}
+                                    studysite={studysite}
                                 ></c-study-overview>
                             </template>
-                        </template> </lightning-layout-item
+                        </template> 
+                    </lightning-layout-item
                 ></lightning-layout>
             </template>
 
             <lightning-layout multiple-rows="true">
-                <template if:true={showVisitCard}>
-                    <template if:false={isDelegateSelfview}>
-                        <lightning-layout-item size="4" class="around-small-custom">
-                            <c-pp-home-page-visits-card desktop={desktop} is-program={isProgram}>
-                            </c-pp-home-page-visits-card>
-                        </lightning-layout-item>
-                    </template>
-                </template>
-                <lightning-layout-item size="4" class="around-small-custom">
-                    <c-pp-tasks desktop={desktop}></c-pp-tasks>
-                </lightning-layout-item>
-                <template if:true={showVisitCard}>
-                    <lightning-layout-item size="4" class="around-small-custom around-right-zero">
-                        <c-pp-updates showvisitsection={showVisitCard}></c-pp-updates>
+                <template if:true={showUpcomingSection}>
+                    <lightning-layout-item size="4" class="around-small-custom">
+                        <div class="slds-grid card-wrap">
+                            <header class="slds-has-flexi-truncate">
+                                <h2 class="slds-card__header-title">
+                                    <p class="slds-card__header-link slds-truncate upcomingheader">
+                                        <span>Upcoming</span>
+                                    </p>
+                                </h2>
+                            </header>
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner card-wrap " style="overflow: hidden">
+                            <article class="slds-card slds-card_boundary container-card">
+                                <div class="slds-card__body slds-card__body_inner slds-scrollable_y" style="height:50rem;width:380px">
+                                    <div style="text-align: center; padding-bottom: 10px;">
+                                        <template if:true={showTelevisitCard}>
+                                            <template if:true={showVisitCard}>
+                                                <template if:true={isTelevisits}>
+                                                    <button class="slds-button slds-button_neutral visit-button inactive-button-background" onclick={visitsTab}> 
+                                                        <template if:true={isProgram}>
+                                                            Events
+                                                        </template> 
+                                                        <template if:false={isProgram}>
+                                                            Visits
+                                                        </template>
+                                                    </button>
+                                                    <button class="slds-button slds-button_brand televisit-button active-button-background" onclick={televisitsTab}> Televisits </button>
+                                                </template>
+                                                <template if:false={isTelevisits}>
+                                                    <button class="slds-button slds-button_neutral visit-button active-button-background" onclick={visitsTab}> 
+                                                        <template if:true={isProgram}>
+                                                            Events
+                                                        </template> 
+                                                        <template if:false={isProgram}>
+                                                            Visits
+                                                        </template>
+                                                    </button>
+                                                    <button class="slds-button slds-button_brand televisit-button inactive-button-background" onclick={televisitsTab}> Televisits </button>
+                                                </template>
+                                            </template>
+                                        </template>
+
+                                        
+                                    </div>
+                                    <template if:true={isTelevisits}>
+                                        <c-pp-televisit-upcoming-tile ></c-pp-televisit-upcoming-tile>
+                                    </template> 
+                                    <template if:false={isTelevisits}>
+                                        <template if:true={showVisitCard}>
+                                            <template if:false={isDelegateSelfview}>
+                                                <lightning-layout-item size="4" class="around-small-custom">
+                                                    <c-pp-home-page-visits-card desktop={desktop} is-program={isProgram}>
+                                                    </c-pp-home-page-visits-card>
+                                                </lightning-layout-item>
+                                            </template>
+                                        </template>
+                                    </template>   
+                                </div>
+                            </article>
+                        </div> 
                     </lightning-layout-item>
                 </template>
-                <template if:false={showVisitCard}>
+               <lightning-layout-item size="4" class="around-small-custom">
+                    <c-pp-tasks desktop={desktop}></c-pp-tasks>
+                </lightning-layout-item>
+                <template if:true={showUpcomingSection}>
+                    <lightning-layout-item size="4" class="around-small-custom around-right-zero">
+                        <c-pp-updates showvisitsection={showUpcomingSection} counter={counter}></c-pp-updates>
+                    </lightning-layout-item>
+                </template>
+                <template if:false={showUpcomingSection}>
                     <lightning-layout-item size="8" class="around-small-custom around-right-zero">
-                        <c-pp-updates showvisitsection={showVisitCard}></c-pp-updates>
+                        <c-pp-updates showvisitsection={showUpcomingSection} counter={counter}></c-pp-updates>
                     </lightning-layout-item>
                 </template>
             </lightning-layout>
             <!-- Bottom Congrats Text -->
+            <template if:true={participantState}>
+                <template if:true={participantState.pe}>
+                    <c-pp-progress-bar perid={participantState.pe.Id}></c-pp-progress-bar>
+                </template>
+            </template>
         </template>
         <template if:false={desktop}>
             <!--<template if:true={clinicalrecord}>-->
@@ -69,11 +131,14 @@
                                 <template if:true={isProgram}>
                                     <c-program-overview
                                         clinicalrecord={clinicalrecord}
+                                        studysite={studysite}
                                     ></c-program-overview>
                                 </template>
                                 <template if:false={isProgram}>
                                     <div class="vl"></div>
-                                    <c-study-overview clinicalrecord={clinicalrecord}>
+                                    <c-study-overview 
+                                        clinicalrecord={clinicalrecord}
+                                        studysite={studysite}>
                                     </c-study-overview>
                                 </template>
                             </template>
@@ -87,11 +152,55 @@
                 class="slds-grid slds-grid_align-center slds-p-vertical_large slds-p-horizontal_small"
             >
                 <div class="slds-col slds-m-horizontal_xxx-small">
+                    <!--<template if:true={showVisitCard}>-->
+                    <template if:true={showUpcomingSection}>
+                        <template if:false={isDelegateSelfview}>
+                            <template if:true={showVisitCardMobile}>
+                                <div class="visit">
+                                    <div class="icon-marg">
+                                        <c-web-icon
+                                            class="svg-icon"
+                                            icon-size="large"
+                                            icon-name="calendar"
+                                            data-id="calendar"
+                                            icon-color="#ffffff"
+                                            onclick={showVisitCardOnMobile}
+                                        >
+                                        </c-web-icon>
+                                    </div>
+                                    <div class="vertical"></div>
+                                </div>
+                            </template>
+                            <template if:false={showVisitCardMobile}>
+                                <div class="visit">
+                                    <div class="icon-updates">
+                                        <c-web-icon
+                                            class="svg-icon svg-icon-with-text"
+                                            icon-size="medium"
+                                            icon-name="calendar"
+                                            data-id="calendar"
+                                            icon-color="#ffffff"
+                                            onclick={showVisitCardOnMobile}
+                                        >
+                                        </c-web-icon>
+                                    </div>
+                                    <template if:true={isProgram}>
+                                        <p class="p-text">{label.EVENTS}</p>
+                                    </template>
+                                    <template if:false={isProgram}>
+                                        <p class="p-text">{label.VISITS}</p>
+                                    </template>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+                </div>
+                <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="updates">
                         <template if:true={updatesSection}>
                             <template if:true={displayCounter}>
                                 <div class="update-circle">
-                                    <span class="update-count-font">{counter}</span>
+                                    <span class="update-count-font">{counterLabel}</span>
                                 </div>
                             </template>
                             <div class="icon-update-section-large svg-icon-with-text">
@@ -110,7 +219,7 @@
                         <template if:false={updatesSection}>
                             <template if:true={displayCounter}>
                                 <div class="update-circle">
-                                    <span class="update-count-font">{counter}</span>
+                                    <span class="update-count-font">{counterLabel}</span>
                                 </div>
                             </template>
                             <div class="icon-update-section-small">
@@ -160,76 +269,102 @@
                             <p class="p-text">Tasks</p>
                         </template>
                     </div>
-                </div>
-                <div class="slds-col slds-m-horizontal_xxx-small">
-                    <template if:true={showVisitCard}>
-                        <template if:false={isDelegateSelfview}>
-                            <template if:true={showVisitCardMobile}>
-                                <div class="visit">
-                                    <div class="icon-marg">
-                                        <c-web-icon
-                                            class="svg-icon"
-                                            icon-size="large"
-                                            icon-name="calendar"
-                                            data-id="calendar"
-                                            icon-color="#ffffff"
-                                            onclick={showVisitCardOnMobile}
-                                        >
-                                        </c-web-icon>
-                                    </div>
-                                    <div class="vertical"></div>
-                                </div>
-                            </template>
-                            <template if:false={showVisitCardMobile}>
-                                <div class="visit">
-                                    <div class="icon-updates">
-                                        <c-web-icon
-                                            class="svg-icon svg-icon-with-text"
-                                            icon-size="medium"
-                                            icon-name="calendar"
-                                            data-id="calendar"
-                                            icon-color="#ffffff"
-                                            onclick={showVisitCardOnMobile}
-                                        >
-                                        </c-web-icon>
-                                    </div>
-                                    <template if:true={isProgram}>
-                                        <p class="p-text">{label.EVENTS}</p>
-                                    </template>
-                                    <template if:false={isProgram}>
-                                        <p class="p-text">{label.VISITS}</p>
-                                    </template>
-                                </div>
-                            </template>
-                        </template>
-                    </template>
-                </div>
+                </div>             
                 <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="progress">
-                        <div class="icon-updates">
+                        <div class={progressIcon}>
                             <c-web-icon
                                 class="svg-icon svg-icon-with-text"
                                 icon-size="medium"
                                 icon-name="navigation-menu-horizontal"
                                 data-id="navigationmenuhorizontal"
                                 icon-color="#ffffff"
+                                onclick={showProgressMob}
                             >
                             </c-web-icon>
                         </div>
-                        <p class="p-text">Progress</p>
+                        <p if:false={showProgress} class="p-text">Progress</p>
+                        <template if:true={showProgress} >
+                            <div class="vertical progress-green"></div>
+                        </template>
                     </div>
                 </div>
             </div>
-            <template if:true={showVisitCard}>
-                <template if:false={isDelegateSelfview}>
-                    <template if:true={showVisitCardMobile}>
-                        <c-pp-home-page-visits-card
-                            desktop={desktop}
-                            is-program={isProgram}
-                        ></c-pp-home-page-visits-card>
-                    </template>
+            <template if:true={showVisitCardMobile}>
+                <div class="upcoming-card slds-m-around_small">
+                    <div class = "uc-text-mobile">
+                        <template if:true={isProgram}>
+                            UPCOMING
+                        </template>
+                        <template if:false={isProgram}>
+                            UPCOMING
+                        </template>
+                    </div>
+                        <div class={marginbottom}>
+                        <template if:true={showVisitCardMobile}>
+                            <template if:true={showTelevisitCard}>
+                                <template if:true={showVisitCard}>
+                                        <div style="text-align: center;background: #f8f9fb;padding: 8px 0px;">
+                                        <template if:true={isTelevisits}>
+                                            <button class="slds-button slds-button_neutral visit-button inactive-button-background" onclick={visitsTab}> 
+                                                <template if:true={isProgram}>
+                                                    Events
+                                                </template> 
+                                                <template if:false={isProgram}>
+                                                    Visits
+                                                </template>
+                                            </button>
+                                            <button class="slds-button slds-button_brand televisit-button active-button-background" onclick={televisitsTab}> Televisits </button>
+                                        </template>
+                                        <template if:false={isTelevisits}>
+                                            <button class="slds-button slds-button_neutral visit-button active-button-background" onclick={visitsTab}> 
+                                                <template if:true={isProgram}>
+                                                    Events
+                                                </template> 
+                                                <template if:false={isProgram}>
+                                                    Visits
+                                                </template>
+                                            </button>
+                                            <button class="slds-button slds-button_brand televisit-button inactive-button-background" onclick={televisitsTab}> Televisits </button>
+                                        </template>
+                                    </div>
+                                </template>
+                            </template>
+                                <template if:true={showTelevisitCard}>
+                                    <template if:false={showVisitCard}>
+                                        <template if:false={desktop}>
+                                            <p style="padding: 6px;text-align: center; background: rgb(248, 249, 251);"></p>
+                        </template>
+                                    </template>
+                                </template>
+                                <template if:false={showTelevisitCard}>
+                                    <template if:true={showVisitCard}>
+                                        <template if:false={desktop}>
+                                            <p style="padding: 6px;text-align: center; background: rgb(248, 249, 251);"></p>
+                                        </template>
+                                    </template>
+                                </template>
+                            </template>
+                   
+                        <template if:true={isTelevisits}>
+                            <c-pp-televisit-upcoming-tile ></c-pp-televisit-upcoming-tile>
+                        </template>
+                        <template if:true={showVisitCard}>
+                            <template if:false={isDelegateSelfview}>
+                                <template if:true={showVisitCardMobile}>
+                                    <template if:false={isTelevisits}>
+                                        <c-pp-home-page-visits-card
+                                            desktop={desktop}
+                                            is-program={isProgram}
+                                        ></c-pp-home-page-visits-card>
+                                    </template>
+                                </template>
+                            </template>
+                        </template> 
+                    </div>
+                </div>
                 </template>
-            </template>
+            
             <template if:true={taskList}>
                 <template if:false={showVisitCardMobile}>
                     <c-pp-tasks desktop={desktop}></c-pp-tasks>
@@ -237,7 +372,17 @@
             </template>
             <template if:true={updatesSection}>
                 <c-pp-updates oncounterupdate={updateCounter} desktop={desktop}></c-pp-updates>
-            </template>
-        </template>
+            </template>            
+            <div if:true={showProgress}>
+                <div class="progressTab">
+                    MY PROGRESS
+                </div>
+                <template if:true={participantState}>
+                    <template if:true={participantState.pe}>
+                        <c-pp-progress-bar perid={participantState.pe.Id}></c-pp-progress-bar>
+                    </template>
+                </template>
+            </div>
+        </template>        
     </template>
 </template>

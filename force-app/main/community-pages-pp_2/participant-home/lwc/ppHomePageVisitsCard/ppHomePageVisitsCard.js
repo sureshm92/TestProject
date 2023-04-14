@@ -84,7 +84,7 @@ export default class HomePageVisitsCard extends LightningElement {
                     this.planDateTime = this.upcomingVisit.visitDate
                         ? this.upcomingVisit.visitDate
                         : false;
-                    this.visitName = this.upcomingVisit.visit?.Visit__r?.Patient_Portal_Name__c;
+                        this.visitName = this.upcomingVisit.visit?.Visit__r?.Patient_Portal_Name__c;
                     this.siteTitle =
                         this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r?.Site__r?.Name;
                     this.sitePhone =
@@ -104,8 +104,8 @@ export default class HomePageVisitsCard extends LightningElement {
                         : '';
 
                     let icons = this.upcomingVisit.iconDetails;
-                    this.moreIconsCount = icons.length > 4 ? icons.length - 4 : false;
-                    this.iconDetails = icons.length > 0 ? icons?.slice(0, 4) : false;
+                    this.moreIconsCount = icons.length > 3 ? icons.length - 3 : false;
+                    this.iconDetails = icons.length > 0 ? icons?.slice(0, 3) : false;
                 } else {
                     this.isUpcomingDetails = false;
                 }

@@ -8,8 +8,8 @@ import TERMS_OF_USE from '@salesforce/label/c.Footer_Link_Terms_Of_Use';
 import CPRA_DoNotSell_PatientPortal from '@salesforce/label/c.CPRA_DoNotSell_PatientPortal';
 import ABOUT_IQVIA from '@salesforce/label/c.Footer_Link_About_IQVIA';
 import COPYRIGHT from '@salesforce/label/c.Footer_T_Copyright';
-import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error'; 
-
+import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
+import CONTACT_SUPPORT from '@salesforce/label/c.PP_Contact_Support';
 
 export default class PpCommunityFooter extends LightningElement {
     //String var
@@ -29,8 +29,9 @@ export default class PpCommunityFooter extends LightningElement {
     initialized = false;
     isRTL = false;
     isCPRAAvailable = false;
+    showmodal = false;
 
-    
+    studysite;
 
     labels = {
         PRIVACY_POLICY,
@@ -38,7 +39,8 @@ export default class PpCommunityFooter extends LightningElement {
         ABOUT_IQVIA,
         COPYRIGHT,
         ERROR_MESSAGE,
-        CPRA_DoNotSell_PatientPortal
+        CPRA_DoNotSell_PatientPortal,
+        CONTACT_SUPPORT
     };
 
     connectedCallback() {
@@ -69,15 +71,18 @@ export default class PpCommunityFooter extends LightningElement {
         ) {
             this.isRTL = true;
         }
+
         //getting ctp terms of use and privacy policy if exists
         getInitData({})
             .then((result) => {
                 let ps = JSON.parse(result);
-                if(ps.objCPRA){
+
+                if (ps.objCPRA) {
                     this.isCPRAAvailable = true;
                     this.CPRALinkToredirect = ps.objCPRA.Link_to_redirect__c;
                 }
                 if (ps.ctp != null) {
+                    this.studysite = ps.pe.Study_Site__r;
                     if (ps.ctp.Terms_And_Conditions_ID__c != null) {
                         this.ctpId = ps.ctp.Id;
                         var tclink =
@@ -144,5 +149,29 @@ export default class PpCommunityFooter extends LightningElement {
     }
     get footerClass() {
         return this.isRTL ? 'rrc-footer rtl' : 'rrc-footer';
+    }
+    //show contact support link for Participant and delegate when switches to Active/Half Alumni Participant view.
+    get showContactSupportLink() {
+        let currentMode = communityService.getCurrentCommunityMode();
+        let isActiveOrHalfAlumniPart =
+            currentMode.userMode === 'Participant' &&
+            currentMode.participantState !== 'ALUMNI' &&
+            currentMode.currentPE != null;
+        let isDelInActiveOrHalfAlumniPartView =
+            currentMode.userMode === 'Participant' &&
+            currentMode.participantState === 'ALUMNI' &&
+            currentMode.isDelegate &&
+            currentMode.currentPE != null;
+
+        return this.initialized && (isActiveOrHalfAlumniPart || isDelInActiveOrHalfAlumniPartView)
+            ? true
+            : false;
+    }
+    openContactSupportModal() {
+        this.showmodal = true;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    handleModalClose() {
+        this.showmodal = false;
     }
 }

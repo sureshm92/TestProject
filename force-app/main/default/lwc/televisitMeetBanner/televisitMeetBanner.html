@@ -1,56 +1,139 @@
 <template>
     <template if:true={hasActiveVisits}>
-        <div class="divBody slds-p-around_medium slds-text-color_inverse">
+        <div class={bgCss} onclick={ignore}>
             <lightning-layout>
-                <lightning-layout-item size="11">
-                    <div class="slds-align_absolute-center slds-grid slds-col_bump-left">
-                        <div class="slds-p-right_small">
-                            <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
-                        </div>
-                        <div class="slds-p-right_xx-small meet_info singleMeet">
-                            {meetMainInfo}
-                            <template if:false={singleActiveVisit}>
-                                <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"
-                                    onclick={handleOpenCloseVisits} alternative-text="Show Visits"
-                                    class="arrow_icn desktop"></lightning-button-icon>
-                            </template>
-                        </div>
-
-                    </div>
-                </lightning-layout-item>
-                <lightning-layout-item size="1" class="singleMeet">
+                <lightning-layout-item size={deviceSize} style="padding: 6px;">
+                    
                     <template if:true={singleActiveVisit}>
-                        <a class="slds-text-color_inverse join" href="javascript:void(0);"
-                            onclick={handleSingleMeetJoin}>
-                            {labels.JOIN_MEET}
-                        </a>
+                        <div class="slds-align_absolute-center slds-grid slds-col_bump-left " >
+                            <div class="slds-p-right_small">
+                                <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
+                            </div>
+                            <div class="slds-p-right_xx-small meet_info singleMeet">
+                                {meetMainInfo}
+                                <template if:false={singleActiveVisit}>
+                                    <!--
+                                    <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"
+                                        onclick={handleOpenCloseVisits} alternative-text="Show Visits"
+                                        class="arrow_icn desktop"></lightning-button-icon>
+                                        -->
+                                        <lightning-icon icon-name={moreVisitIconName} size="x-small" variant="inverse"
+                                        onclick={handleOpenCloseVisits} alternative-text="Show Visits"
+                                        class="arrow_icn desktop"></lightning-icon>
+                                </template>
+                            </div>
+
+                        </div>
                     </template>
                     <template if:false={singleActiveVisit}>
+                        <template if:false={isMobileDevice}>
+                            <div class="slds-align_absolute-center slds-grid slds-col_bump-left " style="padding-left: 20%;" >
+                                <div class="slds-p-right_small">
+                                    <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
+                                </div>
+                                <div class="slds-p-right_xx-small meet_info singleMeet">
+                                    {meetMainInfo}
+                                    <template if:false={singleActiveVisit}>
+                                        <!--
+                                        <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"
+                                            onclick={handleOpenCloseVisits} alternative-text="Show Visits"
+                                            class="arrow_icn desktop"></lightning-button-icon>
+                                        -->
+                                        <lightning-icon icon-name={moreVisitIconName} size="x-small" variant="inverse"
+                                            onclick={handleOpenCloseVisits} alternative-text="Show Visits"
+                                            class="arrow_icn desktop"></lightning-icon>
+                                    </template>
+                                </div>
+
+                            </div>
+                        </template>
+
+                        <template if:true={isMobileDevice}>
+                            <div class="slds-align_absolute-center slds-grid slds-col_bump-left " >
+                                <div class="slds-p-right_small">
+                                    <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
+                                </div>
+                                <div class="slds-p-right_xx-small meet_info singleMeet">
+                                    {meetMainInfo}
+                                    <template if:false={singleActiveVisit}>
+                                        <!--
+                                        <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"
+                                            onclick={handleOpenCloseVisits} alternative-text="Show Visits"
+                                            class="arrow_icn desktop"></lightning-button-icon>
+                                        -->
+                                        <lightning-icon icon-name={moreVisitIconName} size="x-small" variant="inverse"
+                                            onclick={handleOpenCloseVisits} alternative-text="Show Visits"
+                                            class="arrow_icn desktop"></lightning-icon>
+                                    </template>
+                                </div>
+
+                            </div>
+                        </template>
+                    </template>
+                </lightning-layout-item>
+                <lightning-layout-item  class="singleMeet">
+                    <template if:true={singleActiveVisit}>
+                        <template if:true={isPP2View}>
+                            <a class={singleJoinCss} 
+                            href="javascript:void(0);"
+                            onclick={handleSingleMeetJoin}>
+                                {labels.JOIN_MEET}
+                            </a>
+                        </template>
+                        <template if:false={isPP2View}>
+                            <a class="slds-text-color_inverse join" href="javascript:void(0);"
+                                onclick={handleSingleMeetJoin}>
+                                {labels.JOIN_MEET}
+                            </a>
+                        </template>
+                        
+                    </template>
+                    <template if:false={singleActiveVisit}>
+                        <!--
                         <lightning-button-icon icon-name={moreVisitIconName} variant="bare-inverse"
                             onclick={handleOpenCloseVisits} alternative-text="Show Visits"
                             class="arrow_icn mobile slds-align_absolute-center">
                         </lightning-button-icon>
+                        -->
+                        <lightning-icon icon-name={moreVisitIconName} size="x-small" variant="inverse"
+                            onclick={handleOpenCloseVisits} alternative-text="Show Visits"
+                            class="arrow_icn mobile slds-align_absolute-center">
+                        </lightning-icon>
                     </template>
                 </lightning-layout-item>
             </lightning-layout>
 
         </div>
         <lightning-layout>
-            <div class="allVisits" if:true={showMoreVisits}>
+            <div class={allVisitCss} if:true={showMoreVisits} onclick={ignore}>
                 <template for:each={allActiveVisits} for:item="visit">
                     <div key={visit.Id}>
                         <lightning-layout class="slds-p-bottom_x-small meet_info eachMeetInfo meetList">
-                            <lightning-layout-item size="10" class="slds-text-align_left">
+                            <lightning-layout-item size="10" class="slds-text-align_left meetingInfo">
                                 {visit.eachMeetInfo}
                             </lightning-layout-item>
                             <lightning-layout-item size="2" class="slds-text-align_right slds-p-right_medium">
-                                <lightning-button data-name={visit.Televisit__r.Meeting_URL__c} label={labels.JOIN_MEET}
-                                    title="Click To Join" onclick={handleJoinClick} variant="base"></lightning-button>
+                                <template if:true={isPP2View}>
+                                    <a data-name={visit.Televisit__r.Meeting_URL__c} 
+                                    class={multipleJoinCss}
+                                    href="javascript:void(0);"
+                                    onclick={handleJoinClick}>
+                                        {labels.JOIN_MEET}
+                                    </a>
+                                </template>
+                                <template if:false={isPP2View}>
+                                    <lightning-button data-name={visit.Televisit__r.Meeting_URL__c} label={labels.JOIN_MEET}
+                                        title="Click To Join" onclick={handleJoinClick} variant="base"></lightning-button>
+                                </template>
                             </lightning-layout-item>
+                            
                         </lightning-layout>
+                        <!--<hr class="hrline"/>-->
                     </div>
+                    
                 </template>
             </div>
         </lightning-layout>
+            
     </template>
-    </template>
+</template>

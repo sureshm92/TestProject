@@ -547,10 +547,9 @@ public without sharing class PatientDelegateEnrollmentService {
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain removeAssignment(String pDEId) {
         list<Patient_Delegate_Enrollment__c> lst = [
-            SELECT Id, Status__c,Patient_Delegate__r.Contact__c
+            SELECT Id, Status__c, Patient_Delegate__r.Contact__c
             FROM Patient_Delegate_Enrollment__c
-            WHERE Id = :pDEId
-            AND Status__c = 'Active'
+            WHERE Id = :pDEId AND Status__c = 'Active'
         ];
         if (lst.size() > 0) {
             Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
@@ -813,6 +812,9 @@ public without sharing class PatientDelegateEnrollmentService {
             }
         }
         return delConMap;
+    }
+    public static list<Id> getDelegatedParticipantIds(Id contactId) {
+        return getDelegatedParticipantIdsMap(contactId).delParticipantIds.get(contactId);
     }
     public static PDEWrapper getDelegatedParticipantIdsMap(Id contactId) {
         List<Patient_Delegate_Enrollment__c> pdeList = new List<Patient_Delegate_Enrollment__c>();

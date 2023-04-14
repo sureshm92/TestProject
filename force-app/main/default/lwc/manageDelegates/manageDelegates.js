@@ -15,6 +15,7 @@ import PP_Delegate_Delegate_Warning from '@salesforce/label/c.PP_Delegate_Delega
 import PP_Delegate_Delegate from '@salesforce/label/c.PP_Delegate_Delegate';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
 import PP_Delegate_Email_Consent from '@salesforce/label/c.PP_Delegate_Email_Consent';
+import PP_Delegate_Email_Consent_1 from '@salesforce/label/c.PP_Delegate_Email_Consent_1';
 import PIR_Discard from '@salesforce/label/c.PIR_Discard';
 import PP_NO_Active_Delegate from '@salesforce/label/c.PP_NO_Active_Delegate';
 import Icon_Delete from '@salesforce/label/c.pir_Delete_Btn';
@@ -32,6 +33,7 @@ import getFilterData from '@salesforce/apex/MyTeamRemote.getFilterData';
 import largeTemplate from './manageDelegatesDesktop.html';
 import mobileTemplate from './manageDelegatesMobile.html';
 import formFactor from '@salesforce/client/formFactor';
+import BACK from '@salesforce/label/c.Back';
 
 import {
     subscribe,
@@ -44,12 +46,16 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     @api participantState;
     @api userMode;
     @api isRTL;
+    @api participantContactId;
+    @api picklistLabel;
+    @api currentCommunity;
     @track listPDE = [];
     @track formerListPDE = [];
     @wire(MessageContext)
     messageContext;
     subscription = null;
     icon_url = pp_icons + '/Avatar_Delegate.svg';
+    new_awatar_icon_url = pp_icons + '/Avatar_Delegate_New.svg';
     noDelIcon_url = pp_icons + '/Avatar-Delegate-Gray.svg';
     selectMenuTriagleDown_url = pp_icons + '/SelectMenuTriangleDown_blue.svg';
     iconTriangleRight_url = pp_icons + '/iconTriangleRight_blue.svg';
@@ -58,10 +64,12 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     spinner = false;
     loaded = false;
     showAddDelegatePage = false;
-    showpopup = false;
+    showRemovePopup = false;
+    showRemovePopupPPNew = false;
     removeStudyPDEId;
     deletePatientDelId;
     showDeletePopup = false;
+    showDeletePopupPPNew = false;
     modalMesstext;
     showActiveDelegates = true;
     showFormerDelegates = true;
@@ -95,9 +103,11 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         PP_Delegate_Delegate,
         BTN_Save,
         PP_Delegate_Email_Consent,
+        PP_Delegate_Email_Consent_1,
         PIR_Discard,
         PP_NO_Active_Delegate,
-        Icon_Delete
+        Icon_Delete,
+        BACK
     };
 
     connectedCallback() {
@@ -128,17 +138,14 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
 
     initializeData() {
         this.spinner = true;
-
         //get Available list of studies of participant
         getFilterData({
             userMode: this.userMode
         })
             .then((result) => {
                 this.availableStudyData = result;
-                // //console.log('Delegate fileter data: '+JSON.stringify(result));
                 this.totalNoOfStudies = result.studies.length;
-                // this.isLoading = false;
-                // this.spinner = false;
+                this.getDelegates();
             })
             .catch((error) => {
                 this.isLoading = false;
@@ -150,8 +157,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 );
                 this.spinner = false;
             });
-
-        //Get Patient Delegate Enrollment records.
+    }
+    //Get Patient Delegate Enrollment records.
+    getDelegates() {
         getPDE()
             .then((result) => {
                 //console.log('success', result);
@@ -164,19 +172,20 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 this.spinner = false;
             });
     }
-
     setInitializedData(result) {
+        this.hasNoFormerDelegate = true;
+        this.hasNoActiveDelegate = true;
         this.listPDE = result.activePDEWrapperList;
         this.formerListPDE = result.formerPDEWrapperList;
         this.setDefaultValuesToInItData(this.listPDE, true);
         this.setDefaultValuesToInItData(this.formerListPDE, false);
-        this.setActiveAndFormerDelegateFlags();
+        //this.setActiveAndFormerDelegateFlags();
     }
 
-    setActiveAndFormerDelegateFlags() {
-        this.hasNoActiveDelegate = this.listPDE.length == 0 ? true : false;
-        this.hasNoFormerDelegate = this.formerListPDE.length == 0 ? true : false;
-    }
+    // setActiveAndFormerDelegateFlags() {
+    //     this.hasNoActiveDelegate = this.listPDE.length == 0 ? true : false;
+    //     this.hasNoFormerDelegate = this.formerListPDE.length == 0 ? true : false;
+    // }
     //this method will separate email chars in two parts to partially mask the email address.
     setDefaultValuesToInItData(pdeList, activeDelegates) {
         pdeList.forEach((pde) => {
@@ -184,6 +193,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             //Add Additional default flags in the list of PDEnrollments.
             if (activeDelegates) {
                 //For Active Delegates.
+                this.hasNoActiveDelegate = false;
                 pde['addNewStudy'] = false;
                 pde['disableAddAssignmentButton'] = false;
                 pde['isEmailConsentChecked'] = false;
@@ -230,6 +240,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 pde['disableAddAssignmentButton'] = false;
                 pde['disableDeleteButton'] = false;
                 pde['isEmailConsentChecked'] = false;
+                if (!pde.isDeleted) {
+                    this.hasNoFormerDelegate = false;
+                }
                 // pde.PDEEnrollmentsFormer.forEach((pdenFormer) => {
                 //     //If not withdrawn delegate.
                 //     if(!std.isWithdrawn){
@@ -242,17 +255,22 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     //mask Email for active/former delegate
     maskEmail(pde) {
         let maskedEmail = '';
-        let pdeEmailBeforeAt= pde.PatientDelegate.Email__c.substring(0, pde.PatientDelegate.Email__c .lastIndexOf("@"));
-        let pdeEmailBeforeAtCiel=Math.ceil(pdeEmailBeforeAt.length/2);
-        let pdeEmailPostfix= pde.PatientDelegate.Email__c.substring(pde.PatientDelegate.Email__c .lastIndexOf("@"));
-        for (let i = 0; i < pdeEmailBeforeAt.length; i++) { 
-            if(i<pdeEmailBeforeAtCiel){          
-                maskedEmail += pde.PatientDelegate.Email__c.charAt(i);   
-            }else {
-                maskedEmail += '*'; 
+        let pdeEmailBeforeAt = pde.PatientDelegate.Email__c.substring(
+            0,
+            pde.PatientDelegate.Email__c.lastIndexOf('@')
+        );
+        let pdeEmailBeforeAtCiel = Math.ceil(pdeEmailBeforeAt.length / 2);
+        let pdeEmailPostfix = pde.PatientDelegate.Email__c.substring(
+            pde.PatientDelegate.Email__c.lastIndexOf('@')
+        );
+        for (let i = 0; i < pdeEmailBeforeAt.length; i++) {
+            if (i < pdeEmailBeforeAtCiel) {
+                maskedEmail += pde.PatientDelegate.Email__c.charAt(i);
+            } else {
+                maskedEmail += '*';
             }
         }
-            pde.PatientDelegate.Email__c = maskedEmail+pdeEmailPostfix;
+        pde.PatientDelegate.Email__c = maskedEmail + pdeEmailPostfix;
     }
     //Subscribe the message channel to read the message published.
     subscribeToMessageChannel() {
@@ -296,6 +314,18 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         unsubscribe(this.subscription);
         this.subscription = null;
     }
+
+    get getStudyEmailConsent() {
+        return this.currentCommunity === 'Iqvia Patient Portal II'
+            ? this.label.PP_Delegate_Email_Consent_1
+            : this.label.PP_Delegate_Email_Consent;
+    }
+    get isPPLight() {
+        return this.currentCommunity === 'Iqvia Patient Portal II' ? true : false;
+    }
+    get iconChevron() {
+        return 'icon-chevron-left';
+    }
     get addDelBtnMarin() {
         return this.isRTL
             ? 'mr-5 add-Delegate-Btn slds-float_left'
@@ -335,8 +365,13 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     }
     get saveButtonClass() {
         return this.isEmailConsentChecked && this.isAtLeastOneStudySelected
-            ? 'save-del-btn addDelegateMobile'
-            : 'save-del-btn btn-save-opacity addDelegateMobile';
+            ? 'save-del-btn addDelegateMobile manage-del-save-btn'
+            : 'save-del-btn btn-save-opacity addDelegateMobile manage-del-save-btn';
+    }
+    get saveButtonClassMob() {
+        return this.isEmailConsentChecked && this.isAtLeastOneStudySelected
+            ? 'save-del-bt-mob addDelegateMobile manage-del-save-btn-mob'
+            : 'save-del-bt-mob btn-save-opacity addDelegateMobile manage-del-save-btn-mob';
     }
     get delInfoFormer() {
         return this.isRTL ? 'slds-p-right_large' : 'slds-p-left_large';
@@ -377,6 +412,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     }
     get isAddNewDelegate() {
         return false;
+    }
+    get isNewPatientPortal() {
+        return this.currentCommunity === 'Iqvia Patient Portal II' ? true : false;
     }
     handleConsentCheckActiveDel(event) {
         let delId = event.currentTarget.dataset.pdid;
@@ -422,12 +460,22 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             pdln +
             '. ' +
             this.label.PG_PST_L_Delegates_Remove_Mess_P3_New;
-        this.showpopup = true;
+        // this.showRemovePopup = true;
+        this.currentCommunity === 'Iqvia Patient Portal II'
+            ? (this.showRemovePopupPPNew = true)
+            : (this.showRemovePopup = true);
         //this.removeStudyPDEId = event.currentTarget.dataset.pdeid;
     }
     openDeleteDelegateModal(event) {
-        this.showDeletePopup = true;
+        // this.showDeletePopup = true;
+        this.currentCommunity === 'Iqvia Patient Portal II'
+            ? (this.showDeletePopupPPNew = true)
+            : (this.showDeletePopup = true);
         this.deletePatientDelId = event.currentTarget.dataset.id;
+        //for Mobile, meke Icon color to red when clicked.
+        if (!this.isDesktop) {
+            this.toggleDeleteIcon(event);
+        }
     }
 
     //This method will remove the delegate once Confirm button clicked on Remove Delegate Modal.
@@ -439,7 +487,10 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             pDEId: pdEnrollmentId
         })
             .then((result) => {
-                this.showpopup = false;
+                // this.showRemovePopup = false;
+                this.currentCommunity === 'Iqvia Patient Portal II'
+                    ? (this.showRemovePopupPPNew = false)
+                    : (this.showRemovePopup = false);
                 this.setInitializedData(result);
                 // window.scrollTo({ top: 0, behavior: 'smooth' });
                 this.spinner = false;
@@ -450,15 +501,39 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 this.spinner = false;
             });
     }
-    handleModalClose(event) {
+    handleRemoveModalClose(event) {
         const showHideModal = event.detail;
-        this.showpopup = showHideModal;
+        // this.showRemovePopup = showHideModal;
+        this.currentCommunity === 'Iqvia Patient Portal II'
+            ? (this.showRemovePopupPPNew = showHideModal)
+            : (this.showRemovePopup = showHideModal);
         this.removeStudyPDEId = '';
+        //for Mobile, meke Icon color to gray when modal is closed.
+        if (!this.isDesktop) {
+            this.formerListPDE.filter(function (del) {
+                if (del.showDeleteRedIcon) {
+                    del.showDeleteRedIcon = false;
+                    return;
+                }
+            });
+        }
     }
     handleDeleteModalClose(event) {
         const showHideModal = event.detail;
-        this.showDeletePopup = showHideModal;
+        // this.showDeletePopup = showHideModal;
+        this.currentCommunity === 'Iqvia Patient Portal II'
+            ? (this.showDeletePopupPPNew = showHideModal)
+            : (this.showDeletePopup = showHideModal);
         this.deletePatientDelId = '';
+        //for Mobile, meke Icon color to gray when modal is closed.
+        if (!this.isDesktop) {
+            this.formerListPDE.filter(function (del) {
+                if (del.showDeleteRedIcon) {
+                    del.showDeleteRedIcon = false;
+                    return;
+                }
+            });
+        }
     }
 
     handleDeleteDelegate(event) {
@@ -468,7 +543,10 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
             pdId: patientdelegateid
         })
             .then((result) => {
-                this.showDeletePopup = false;
+                // this.showDeletePopup = false;
+                this.currentCommunity === 'Iqvia Patient Portal II'
+                    ? (this.showDeletePopupPPNew = false)
+                    : (this.showDeletePopup = false);
                 this.setInitializedData(result);
                 this.spinner = false;
                 communityService.showToast('', 'success', this.label.PP_Delegate_Updated, 300);
@@ -732,5 +810,17 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 //console.log('error');
                 this.spinner = false;
             });
+    }
+    showMenuBar(event) {
+        if (event.target.dataset.header) {
+            this.dispatchEvent(
+                new CustomEvent('shownavmenubar', {
+                    detail: {
+                        header: event.target.dataset.header
+                    }
+                })
+            );
+            this.dataInitialized = false;
+        }
     }
 }

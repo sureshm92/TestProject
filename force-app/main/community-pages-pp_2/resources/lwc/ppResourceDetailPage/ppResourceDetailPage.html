@@ -5,24 +5,26 @@
         <div class="forceOrientation">
             <template lwc:if={desktop}>
                 <div class="page-container page-margin">
-                        <!--***************  Detail Top Bar  ******************-->
-                        <lightning-layout multiple-rows="true">
-                            <!-- ************** Back To Resources *************** -->
-                            <lightning-layout-item size="12">
-                                <div onclick={handleBackClick} class="back-link slds-p-vertical_small">
-                                    <c-web-icon
-                                        icon-size="medium-large"
-                                        icon-name="chevron-left"
-                                        icon-color="#015ff1"
-                                        onclick={handleBackClick}
-                                        class="slds-p-right_xx-small"
-                                    ></c-web-icon>
-                                    <span>{label.Back_To_Resources}</span>
-                                </div>
-                                <hr />
-                            </lightning-layout-item>
-
-                            <!-- ***************** Resource Title ******************* -->
+                    <!--***************  Detail Top Bar  ******************-->
+                    <lightning-layout multiple-rows="true">
+                        <!-- ************** Back To Resources *************** -->
+                        <lightning-layout-item size="12">
+                            <span onclick={handleBackClick} class="back-link slds-p-vertical_small">
+                                <c-web-icon
+                                    icon-size="medium-large"
+                                    icon-name="chevron-left"
+                                    icon-color="#015ff1"
+                                    class="slds-p-right_xx-small"
+                                ></c-web-icon
+                                >{linkLabel}
+                            </span>
+                            <hr />
+                        </lightning-layout-item>
+                        <!-- ***************** Resource Title ******************* -->
+                        <template lwc:if={isInvalidResource}>
+                            <!--Don't render title-->
+                        </template>
+                        <template lwc:else>
                             <lightning-layout-item size="12" class="slds-p-vertical_medium">
                                 <lightning-layout multiple-rows="true" class="study-title-mobile">
                                     <lightning-layout-item size="12" class="study-title">
@@ -32,14 +34,50 @@
                                         {resourceTitle}</lightning-layout-item
                                     >
                                 </lightning-layout>
-                                <template if:false={isDocument}> </template>
                             </lightning-layout-item>
-                        </lightning-layout>
-                        <hr />
-                        <!--****************  Resource Container **********************-->
-                        <lightning-layout multiple-rows="true">
-                            <!--**************  Article/Videos ******************* -->
-                            <template if:false={isDocument}>
+                        </template>
+                    </lightning-layout>
+                    <template lwc:if={isInvalidResource}>
+                        <!-- Don't show <hr / > -->
+                    </template>
+                    <template lwc:else><hr /></template>
+
+                    <!--****************  Resource Container **********************-->
+                    <lightning-layout multiple-rows="true">
+                        <!-- *************** Study Documents ****************** -->
+                        <template lwc:if={isDocument}>
+                            <template lwc:if={isInvalidResource}>
+                                <lightning-layout-item size="12" class="resource-container">
+                                    <c-pp-invalid-resource
+                                        resource-type={resourceType}
+                                        onviewresources={handleBackClick}
+                                    ></c-pp-invalid-resource>
+                                </lightning-layout-item>
+                            </template>
+                            <template lwc:else>
+                                <lightning-layout-item size="12" class="title-row-document">
+                                    <div class="ah-video-iframe">
+                                        <iframe
+                                            frameborder="0"
+                                            src={documentLink}
+                                            class="my_iframe"
+                                        >
+                                        </iframe>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                        </template>
+                        <!--**************  Article/Videos ******************* -->
+                        <template lwc:else>
+                            <template lwc:if={isInvalidResource}>
+                                <lightning-layout-item size="12" class="resource-container">
+                                    <c-pp-invalid-resource
+                                        resource-type={resourceType}
+                                        onviewresources={handleBackClick}
+                                    ></c-pp-invalid-resource>
+                                </lightning-layout-item>
+                            </template>
+                            <template lwc:else>
                                 <lightning-layout-item size="12" class="resource-container">
                                     <!-- ***************  Resource Container Media ***************** -->
                                     <lightning-layout multiple-rows="true">
@@ -57,7 +95,10 @@
                                             <lightning-layout multiple-rows="true">
                                                 <!--   TITLE    -->
                                                 <lightning-layout-item size="10">
-                                                    <div class="summary-title" onclick={handleNavigate}>
+                                                    <div
+                                                        class="summary-title"
+                                                        onclick={handleNavigate}
+                                                    >
                                                         {resourceTitle}
                                                     </div>
                                                 </lightning-layout-item>
@@ -90,7 +131,7 @@
                                         <!--   Upload Date    -->
                                         <lightning-layout-item size="12">
                                             <div class="summary-date">
-                                                {label.VERSION}&nbsp;
+                                                {label.POSTING}&nbsp;
                                                 <lightning-formatted-date-time
                                                     value={resUploadDate}
                                                     time-zone={userTimeZone}
@@ -106,52 +147,46 @@
                                                 ></lightning-formatted-rich-text>
                                             </div>
                                         </lightning-layout-item>
-                                        <!-- Article suggestions-->
-                                        <lightning-layout-item size="12">
-                                            <div if:true={isArticleVideo}>
-                                                <c-pp-suggested-articles
-                                                    resid={resourceId}
-                                                ></c-pp-suggested-articles>
-                                            </div>
-                                        </lightning-layout-item>
                                     </lightning-layout>
                                 </lightning-layout-item>
                             </template>
-                            <!-- *************** Study Documents ****************** -->
-                            <template if:true={isDocument}>
-                                <lightning-layout-item size="12" class="title-row-document">
-                                    <div class="ah-video-iframe">
-                                        <iframe frameborder="0" src={documentLink} class="my_iframe"> </iframe>
-                                    </div>
-                                </lightning-layout-item>
-                            </template>
-                        </lightning-layout>
-                        <!--*************  Resource Container End *************** -->
-                </div> 
-                <!--   FOOTER    -->
-                <div style="margin: -4px 0" class="rr-width-limiter-pp side-padding footer-resource">
-                    <c-pp-community-footer> </c-pp-community-footer>
-                </div>          
+                            <!-- Article suggestions-->
+                            <lightning-layout-item
+                                size="12"
+                                class="suggested-container slds-p-top_x-large"
+                            >
+                                <template lwc:if={isSuggestedArticlesVisible}>
+                                    <c-pp-suggested-articles
+                                        resid={resourceId}
+                                        suggested-articles-data={suggestedArticlesData}
+                                        is-invalid={isInvalidResource}
+                                    ></c-pp-suggested-articles>
+                                </template>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                    <!--*************  Resource Container End *************** -->
+                </div>
             </template>
             <template lwc:else>
                 <div class="page-container page-margin">
-                    <!-- <button class="back-button-multimedia" onclick={goBackToPortraitMode}>Back</button> -->
                     <!--***************  Detail Top Bar  ******************-->
                     <lightning-layout multiple-rows="true" class="full-width-container">
                         <!-- ************** Back To Resources *************** -->
                         <div class="portrait-mode">
-                            
                             <lightning-layout-item size="12">
-                                <div onclick={handleBackClick} class="back-link slds-p-vertical_small">
+                                <span
+                                    onclick={handleBackClick}
+                                    class="back-link slds-p-vertical_small"
+                                >
                                     <c-web-icon
                                         icon-size="medium-large"
                                         icon-name="chevron-left"
                                         icon-color="#015ff1"
-                                        onclick={handleBackClick}
                                         class="slds-p-right_xx-small"
-                                    ></c-web-icon>
-                                    <span>{label.Back_To_Resources}</span>
-                                </div>
+                                    ></c-web-icon
+                                    >{linkLabel}
+                                </span>
                                 <hr />
                             </lightning-layout-item>
 
@@ -167,7 +202,6 @@
                                 </lightning-layout>
                                 <template if:false={isDocument}> </template>
                             </lightning-layout-item>
-
                         </div>
 
                         <lightning-layout-item size="12" class="resource-container1">
@@ -184,27 +218,15 @@
                                 </lightning-layout>
                             </template>
                         </lightning-layout-item>
-
-                        
                     </lightning-layout>
                     <div class="portrait-mode">
-                    <hr />
+                        <hr />
                     </div>
                     <!--****************  Resource Container **********************-->
                     <lightning-layout multiple-rows="true" class="portrait-mode">
                         <!--**************  Article/Videos ******************* -->
                         <template if:false={isDocument}>
                             <lightning-layout-item size="12" class="resource-container">
-                                <!-- ***************  Resource Container Media ***************** -->
-                                <!-- <lightning-layout multiple-rows="true">
-                                    <lightning-layout-item size="12">
-                                        <c-pp-detail-page-resource-item
-                                            resource-link={resourceLink}
-                                            resource-type={resourceType}
-                                        >
-                                        </c-pp-detail-page-resource-item>
-                                    </lightning-layout-item>
-                                </lightning-layout> -->
                                 <!-- ***************** Resource Detail ***********************  -->
                                 <lightning-layout multiple-rows="true">
                                     <lightning-layout-item size="12" class="title-row">
@@ -244,7 +266,7 @@
                                     <!--   Upload Date    -->
                                     <lightning-layout-item size="12">
                                         <div class="summary-date">
-                                            {label.VERSION}&nbsp;
+                                            {showPostingOrVersionLabel}&nbsp;
                                             <lightning-formatted-date-time
                                                 value={resUploadDate}
                                                 time-zone={userTimeZone}
@@ -261,12 +283,17 @@
                                         </div>
                                     </lightning-layout-item>
                                     <!-- Article suggestions-->
-                                    <lightning-layout-item size="12">
-                                        <div if:true={isArticleVideo}>
+                                    <lightning-layout-item
+                                        size="12"
+                                        class="suggested-container slds-p-top_x-large"
+                                    >
+                                        <template lwc:if={isSuggestedArticlesVisible}>
                                             <c-pp-suggested-articles
                                                 resid={resourceId}
+                                                suggested-articles-data={suggestedArticlesData}
+                                                is-invalid={isInvalidResource}
                                             ></c-pp-suggested-articles>
-                                        </div>
+                                        </template>
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
@@ -275,17 +302,13 @@
                         <template if:true={isDocument}>
                             <lightning-layout-item size="12" class="title-row-document">
                                 <div class="ah-video-iframe">
-                                    <iframe frameborder="0" src={documentLink} class="my_iframe"> </iframe>
+                                    <iframe frameborder="0" src={documentLink} class="my_iframe">
+                                    </iframe>
                                 </div>
                             </lightning-layout-item>
                         </template>
                     </lightning-layout>
                     <!--*************  Resource Container End *************** -->
-                </div> 
-                
-                <!--   FOOTER    -->
-                <div style="margin: -4px 0" class="rr-width-limiter-pp side-padding footer-resource portrait-mode">
-                    <c-pp-community-footer> </c-pp-community-footer>
                 </div>
             </template>
         </div>
