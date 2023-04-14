@@ -266,34 +266,37 @@ public without sharing class PreferenceManagementController {
         }
     }
 
-    /**
-     * @description: This Method will update the Participant Contact Communication consent to Primary Delegate contact.
+     /**
+     * @description: This Method will opt out Study/Delegate/Platfrom level SMS if MobilePhone is deleted from PP2.0.
      * @author: Krishna Mahto
-     * @param: parContact
+     * @param: contactId
      * @return:
      **/
-    /*Not required as part of Delegate Redesign
-    public static Void updatePrimaryDelegateCommConsent(Contact parContact) {
-        //Get Patient Delegate for the logged in Participant.
-        List<Patient_Delegate__c> pdLest = PatientDelegateService.getPDelegates(parContact.Id);
-        List<Contact> primaryDelContToUpd = new List<Contact>();
-        for (Patient_Delegate__c pd : pdLest) {
-            //If Primary Delegate
-            if (pd.Primary_Delegate__c) {
-                Contact cont = new Contact();
-                cont.Id = pd.Contact__c;
-                cont.Participant_Opt_In_Status_Emails__c = parContact.Participant_Opt_In_Status_Emails__c;
-                cont.Participant_Opt_In_Status_SMS__c = parContact.Participant_Opt_In_Status_SMS__c;
-                cont.Participant_Phone_Opt_In_Permit_Phone__c = parContact.Participant_Phone_Opt_In_Permit_Phone__c;
-                cont.IQVIA_Direct_Mail_Consent__c = parContact.IQVIA_Direct_Mail_Consent__c;
-                primaryDelContToUpd.Add(cont);
-                break;
-            }
-        }
-        if (primaryDelContToUpd != null && !primaryDelContToUpd.isEmpty()) {
-            update primaryDelContToUpd;
-        }
-    }*/
+    public static void optOutSMSWhenMobileIsDeletedforPPLite(
+        Id contactId
+    ) {
+        //Get PERList
+        list<Participant_Enrollment__c> PERList = [SELECT Id, 
+                                                            Permit_SMS_Text_for_this_study__c,
+                                                            Welcome_Message_Sent__c,
+                                                            Welcome_Message_Delivered__c
+        
+                                                    FROM Participant_Enrollment__c 
+                                                    WHERE Participant_Contact__c = :contactId
+                                                    AND Permit_SMS_Text_for_this_study__c = true
+                                                    ];
+        //Get PDEList
+        list<Patient_Delegate_Enrollment__c> PDEList = [SELECT Id, 
+                                                                Study_SMS_Consent__c,
+                                                                Welcome_Message_Sent__c,
+                                                                Welcome_Message_Delivered__c
+                                                        FROM Patient_Delegate_Enrollment__c 
+                                                        WHERE Patient_Delegate__r.Contact__c = :contactId
+                                                        AND Study_SMS_Consent__c =  true
+                                                        ];
+        optOutSMSWhenMobileIsDeleted(PERList, PDEList, null);
+
+    }
     /**
      * @description: This Method will opt out Study/Delegate/Platfrom level SMS if MobilePhone is deleted.
      * @author: Krishna Mahto
