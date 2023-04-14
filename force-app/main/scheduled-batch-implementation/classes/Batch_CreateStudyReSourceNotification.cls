@@ -91,7 +91,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                 }
             }
         }
-
+        if (!resIds.isEmpty()) {
         List<ContentDocumentLink> contentDocumentLinks = [
             SELECT
                 Id,
@@ -107,6 +107,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
             }
             contentLangByResId.get(content.LinkedEntityId)
                 .add(content.ContentDocument.LatestPublishedVersion.LanguageCode__c);
+            }
         }
         Map<Id, List<String>> resIdsByContactId = new Map<Id, List<String>>();
         List<Contact> contactToNotify = new List<Contact>();
