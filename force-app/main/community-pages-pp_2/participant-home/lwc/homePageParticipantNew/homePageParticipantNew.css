@@ -246,7 +246,7 @@
 }
 .container-card {
     background-color: rgb(246, 247, 249);
-    border-top-color: #0096ff;
+    border-top-color:  #0096ff; 
     border-top-width: 8px;
     padding: 0;
     border-radius: 7px;
