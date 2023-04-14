@@ -1940,6 +1940,10 @@ outline: none !important;
 .std .text-checked-bold .slds-checkbox .slds-checkbox__label .slds-form-element__label{
     font-weight: 600 !important;
 }
+.manage-delegate-acc-setting-old .manage-del-multi-picklist .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    font-size:14px !important;
+    white-space: normal !important;
+}
 .adn-multi-picklist .slds-media__body {
     height: 30px !important;
     line-height: 42px !important;
@@ -2018,8 +2022,9 @@ outline: none !important;
 .manage-delegate-acc-setting-old .check-box-label-class input:focus {
     box-shadow: none !important
 }
+/* This is for Add New Delegate Page */
 .manage-delegate-acc-setting-old .md-check-box-layout-item{
-    height: 32px !important;
+    height: auto !important;
     width: 100% !important;
     padding-top: 10px !important;
     padding-left: 10px !important;
@@ -2031,8 +2036,9 @@ outline: none !important;
 .manage-delegate-acc-setting-old .md-check-box-layout-item:hover{  
     background: #ecf3ff !important;
 }
+/* This is for manage Assignment  Page */
 .manage-delegate-acc-setting-old .manage-del-continer .md-check-box-layout-item{
-    height: 32px !important;
+    height: auto !important;
     width: 100% !important;
     padding-top: 0px !important;
     padding-left: 10px !important;
