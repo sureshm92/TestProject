@@ -195,3 +195,18 @@
 .pointer-class {
     cursor: pointer;
 }
+.load-more-label {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 600;
+    padding-top: 16px;
+}
+.load-more-icon {
+    height: 10px;
+    width: 16px;
+    padding-top: 10px;
+}
+.load-more-section {
+    display: block;
+}

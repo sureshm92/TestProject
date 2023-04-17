@@ -217,7 +217,14 @@
                             </div>
                         </template>
                     </div>
-                    <div onclick={loadMore}>Load more</div>
+                    <div class="load-more-section" if:true={showloadMore} onclick={loadMore}>
+                        <div class="load-more-label slds-align_absolute-center">
+                            {label.load_more}
+                        </div>
+                        <div class="load-more-icon slds-align_absolute-center">
+                            <img src={loadmore_icon} />
+                        </div>
+                    </div>
                 </article>
                 <article
                     if:false={resourcePresent}

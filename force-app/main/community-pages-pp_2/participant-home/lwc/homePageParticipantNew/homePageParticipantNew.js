@@ -53,7 +53,7 @@ export default class HomePageParticipantNew extends LightningElement {
     }
 
     connectedCallback() {
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner ? this.spinner.show() : '';
         this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');

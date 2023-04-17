@@ -10,6 +10,7 @@ import updatesLabel from '@salesforce/label/c.Updates_Label';
 import viewAllResource from '@salesforce/label/c.View_All_Resource';
 import caughtup from '@salesforce/label/c.Caught_up';
 import refresh from '@salesforce/label/c.PP_Update_Refresh';
+import load_more from '@salesforce/label/c.PP_Load_More';
 export default class PpUpdates extends NavigationMixin(LightningElement) {
     @api desktop;
     @api showvisitsection;
@@ -26,6 +27,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     empty_state = pp_community_icons + '/' + 'empty_updates.PNG';
     link_state = pp_community_icons + '/' + 'linkssvg.svg';
     refresh_icon = pp_community_icons + '/' + 'refresh_Icon.svg';
+    loadmore_icon = pp_community_icons + '/' + 'down.svg';
     isRendered = false;
     offset = 0;
     limit = 4;
@@ -33,11 +35,19 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         updatesLabel,
         viewAllResource,
         caughtup,
-        refresh
+        refresh,
+        load_more
     };
     timer;
     initialLoadTime;
-
+    loadMoreValue;
+    get showloadMore() {
+        if (this.counter > 4 && this.loadMoreValue && this.counter > this.offset) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     renderedCallback() {
         if (!this.isRendered) {
             this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
@@ -49,7 +59,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
         this.getCount();
     }
     getCount() {
@@ -91,6 +101,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                         this.addHorizontalScroll();
                     }
                 }
+                this.loadMoreValue = true;
                 this.spinner.hide();
             })
             .catch((error) => {
