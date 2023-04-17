@@ -129,6 +129,7 @@
     /* width: 28%; */
     height: 29px;
     overflow: hidden;
+    width: auto !important;
 }
 .std .study-thmore-add-newdel {
     padding: 5px 0px 0px 550px;
@@ -179,6 +180,8 @@
 .std .noclk {
     pointer-events: none;
     cursor: pointer;
+    width: 100%;
+    height: auto;
 }
 .dropdown-width {
     display: inline-block;

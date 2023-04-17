@@ -108,7 +108,11 @@
 }
 
 .blue-icon{
-    --lwc-colorTextIconDefault: #015FF1;
+    --lwc-colorTextIconDefault: #595959;
 
-;
+}
+.blue-icon:hover{
+    --lwc-colorTextIconDefault:#015ff1;   
+    cursor: pointer;
+
 }

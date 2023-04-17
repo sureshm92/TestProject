@@ -10,6 +10,13 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <!-- events: -->
     <aura:registerEvent access="global" name="onModeChange" type="c:uiEvent" />
+     <!-- LMS: -->
+    <lightning:messageChannel
+        type="ppLightningMessageService__c"
+        aura:id="LMS"
+        scope="APPLICATION"
+        onMessage="{!c.handleMessage}"
+    />
     <aura:if isTrue="{!not(v.reset)}">
         <c:ppModeHeaderMenu class="menu-block" >
             <aura:set attribute="title">

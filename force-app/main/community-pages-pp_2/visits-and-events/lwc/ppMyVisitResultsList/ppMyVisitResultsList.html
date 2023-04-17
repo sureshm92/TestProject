@@ -1,0 +1,89 @@
+<template>
+    <div class="slds-grid slds-wrap slds-gutters">
+        <div
+            class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_3-of-12 visit-list-container"
+        >
+            <div class="slds-border_right slds-m-top_large list-container">
+                <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
+                <div class="slds-scrollable_y scroll-bar">
+                    <template lwc:if={completedVisitsWithResults}>
+                        <template
+                            for:each={completedVisitsWithResults}
+                            for:item="item"
+                            for:index="index"
+                        >
+                            <div key={item}>
+                                <div
+                                    class="inactive-custom-box"
+                                    onclick={onVisitSelect}
+                                    data-index={index}
+                                    data-past="false"
+                                    data-id={item.Id}
+                                >
+                                    <div class="slds-grid slds-wrap">
+                                        <div
+                                            class="slds-col slds-size_1-of-12 slds-align_absolute-center"
+                                        >
+                                            <div class="left-line"></div>
+                                        </div>
+
+                                        <div
+                                            class="slds-col slds-size_9-of-12 slds-p-horizontal_x-small"
+                                        >
+                                            <div
+                                                class="slds-truncate"
+                                                title={item.Visit__r.Patient_Portal_Name__c}
+                                            >
+                                                <lightning-formatted-text
+                                                    class="name-style"
+                                                    value={item.Visit__r.Patient_Portal_Name__c}
+                                                >
+                                                </lightning-formatted-text>
+
+                                                <p class="no-date no-visit-date">
+                                                    <template if:false={item.Completed_Date__c}>
+                                                        {label.noVisitsLabel}
+                                                    </template>
+                                                </p>
+                                                <template if:true={item.Completed_Date__c}>
+                                                    <lightning-formatted-date-time
+                                                        value={item.Completed_Date__c}
+                                                        class="l-padding date-style"
+                                                        time-zone={userTimezone}
+                                                    ></lightning-formatted-date-time>
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_2-of-12"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <div
+            class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_8-of-12"
+        >
+            <template lwc:if={isInitiliazed}>
+                <!--Jayashree Component Logic-->
+            </template>
+            <template lwc:elseif={showSpinner}>
+                <div class="list-container">
+                    <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
+                </div>
+            </template>
+            <template lwc:else>
+                <div class="slds-align_absolute-center no-task-box">
+                    <span class="slds-align_absolute-center"
+                        ><img src={NO_RESULTS_AVAILABLE}
+                    /></span>
+                    <span class="no-result-text slds-m-top_medium"
+                        >{labels.NO_RESULTS_MESSAGE}</span
+                    >
+                </div>
+            </template>
+        </div>
+    </div>
+</template>
