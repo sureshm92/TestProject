@@ -36,9 +36,11 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         refresh
     };
     timer;
+    initialLoadTime;
 
     renderedCallback() {
         if (!this.isRendered) {
+            this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
             this.isRendered = true;
             this.initializeData();
         }
@@ -56,7 +58,11 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     }
     getUpdates() {
         this.spinner = this.template.querySelector('c-web-spinner');
-        getSendResultUpdates({ offsets: this.offset, limits: this.limit })
+        getSendResultUpdates({
+            offsets: this.offset,
+            limits: this.limit,
+            initialLoadTime: this.initialLoadTime
+        })
             .then((returnValue) => {
                 returnValue.forEach((resObj) => {
                     if (resObj.contentType == 'Article' || resObj.contentType == 'Video') {
@@ -69,6 +75,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                         resObj.isLink = true;
                     } else if (resObj.contentType == 'Televisit') {
                         resObj.isTelevisit = true;
+                    } else {
+                        resObj.isMultimedia = true;
                     }
                 });
                 this.resourcedData = [...this.resourcedData, ...returnValue];
@@ -76,10 +84,12 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                     this.resourcePresent = true;
                 }
                 this.offset += this.limit;
-                if (this.showvisitsection) {
-                    this.addVerticalScroll();
-                } else {
-                    this.addHorizontalScroll();
+                if (this.desktop) {
+                    if (this.showvisitsection) {
+                        this.addVerticalScroll();
+                    } else {
+                        this.addHorizontalScroll();
+                    }
                 }
                 this.spinner.hide();
             })
@@ -89,7 +99,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             });
     }
     refreshUpdatesData() {
-        getSendResultCount()
+        getSendResultCount({ initialLoadTime: this.initialLoadTime })
             .then((returnValue) => {
                 this.counter = returnValue;
                 this.showCounterCheck();
@@ -149,6 +159,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     refresh() {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
+        this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
         this.counter = 0;
         this.displayCounter = false;
         this.offset = 0;
@@ -159,15 +170,10 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             this.refreshUpdatesData();
         }, 1000);
     }
-
-    showErrorToast(titleText, messageText, variantType) {
-        this.dispatchEvent(
-            new ShowToastEvent({
-                title: titleText,
-                message: messageText,
-                variant: variantType
-            })
-        );
+    loadMore() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.spinner.show();
+        this.getUpdates();
     }
     handleRemoveCard(event) {
         const sendResultId = event.detail.sendResultId;
