@@ -1,6 +1,6 @@
 include:
   - project: 'e2e-pe/e2e-templates'
-    file: 'RHPP_ymls/production.yml'
+    file: 'RHPP_ymls/release_component.yml'
     ref: master
 
 variables:
