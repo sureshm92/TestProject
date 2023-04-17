@@ -19348,6 +19348,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Receive emails about your program status</value>
     </labels>
     <labels>
+        <fullName>PP_AS_RECEIVE_EMAIL_STUDY_PROG</fullName>
+        <categories>PPAccountSettings</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_AS_RECEIVE_EMAIL_STUDY_PROG</shortDescription>
+        <value>Receive emails about your study/program status</value>
+    </labels>
+    <labels>
         <fullName>PP_AS_REQUIRED_FIELD</fullName>
         <categories>PPAccountSettings</categories>
         <language>en_US</language>
@@ -21735,7 +21743,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Events tab</shortDescription>
-        <value>My Events</value>
+        <value>Events</value>
     </labels>
     <labels>
         <fullName>PP_Tab_Files</fullName>
@@ -21749,14 +21757,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Lab Results tab</shortDescription>
-        <value>My Results</value>
+        <value>Results</value>
     </labels>
     <labels>
         <fullName>PP_Tab_Visits</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Visits tab</shortDescription>
-        <value>My Visits</value>
+        <value>Visits</value>
     </labels>
     <labels>
         <fullName>PP_TaskCreationSuccess</fullName>
@@ -22973,7 +22981,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Posting_date</shortDescription>
-        <value>Posting date:</value>
+        <value>Posted date:</value>
     </labels>
     <labels>
         <fullName>Potassium</fullName>
@@ -27830,7 +27838,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Study Document For RTL</shortDescription>
-        <value>Study Document</value>
+        <value>Document</value>
     </labels>
     <labels>
         <fullName>Study_GUID_Error_Message</fullName>

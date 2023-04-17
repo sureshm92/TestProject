@@ -13,6 +13,7 @@ import refresh from '@salesforce/label/c.PP_Update_Refresh';
 export default class PpUpdates extends NavigationMixin(LightningElement) {
     @api desktop;
     @api showvisitsection;
+    @api counter;
     linksWrappers = [];
     @track resourcedData = [];
     resourcePresent = false;
@@ -35,13 +36,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         refresh
     };
     timer;
-    get countStyle() {
-        if (this.counter >= 100) {
-            return 'update-count-2';
-        } else {
-            return 'update-count-1';
-        }
-    }
 
     renderedCallback() {
         if (!this.isRendered) {
@@ -57,27 +51,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.getCount();
     }
     getCount() {
-        getSendResultCount()
-            .then((returnValue) => {
-                this.counter = returnValue;
-                if (this.counter < 100 && this.counter > 0) {
-                    this.displayCounter = true;
-                    this.counterLabel = this.counter;
-                    this.resourcePresent = true;
-                } else if (this.counter >= 100) {
-                    this.displayCounter = true;
-                    this.counterLabel = '99+';
-                    this.resourcePresent = true;
-                } else if (this.counter <= 0) {
-                    this.resourcePresent = false;
-                    this.displayCounter = false;
-                }
-                this.getUpdates();
-            })
-            .catch((error) => {
-                console.log('error message : ' + error?.message);
-                this.spinner.hide();
-            });
+        this.showCounterCheck();
+        this.getUpdates();
     }
     getUpdates() {
         this.spinner = this.template.querySelector('c-web-spinner');
@@ -113,16 +88,38 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             });
     }
+    refreshUpdatesData() {
+        getSendResultCount()
+            .then((returnValue) => {
+                this.counter = returnValue;
+                this.showCounterCheck();
+                this.getUpdates();
+            })
+            .catch((error) => {
+                console.log('error message : ' + error?.message);
+                this.spinner.hide();
+            });
+    }
     addHorizontalScroll() {
         if (this.counter > 4 && this.desktop && !this.showvisitsection) {
             var scrollDiv = this.template.querySelector('[data-id = "horz_scroll"]');
             scrollDiv.classList.add('horizontal-scroll');
+        } else if (this.counter <= 4 && this.desktop && !this.showvisitsection) {
+            const myDiv = this.template.querySelector('.horizontal-scroll');
+            if (myDiv) {
+                myDiv.classList.remove('horizontal-scroll');
+            }
         }
     }
     addVerticalScroll() {
         if (this.counter > 4 && this.desktop && this.showvisitsection) {
-            const myDiv = this.template.querySelector('.custom-padding');
-            myDiv.classList.add('vertical-scroll');
+            var scrollDiv = this.template.querySelector('[data-id = "vert_scroll"]');
+            scrollDiv.classList.add('vertical-scroll');
+        } else if (this.counter <= 4 && this.desktop && this.showvisitsection) {
+            const myDiv = this.template.querySelector('.vertical-scroll');
+            if (myDiv) {
+                myDiv.classList.remove('vertical-scroll');
+            }
         }
     }
     handleScroll(event) {
@@ -159,7 +156,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.resourcedData = [];
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
-            this.initializeData();
+            this.refreshUpdatesData();
         }, 1000);
     }
 
@@ -179,5 +176,19 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             .catch((error) => {
                 console.log('error message ' + error?.message);
             });
+    }
+    showCounterCheck() {
+        if (this.counter < 100 && this.counter > 0) {
+            this.displayCounter = true;
+            this.counterLabel = this.counter;
+            this.resourcePresent = true;
+        } else if (this.counter >= 100) {
+            this.displayCounter = true;
+            this.counterLabel = '99+';
+            this.resourcePresent = true;
+        } else if (this.counter <= 0) {
+            this.resourcePresent = false;
+            this.displayCounter = false;
+        }
     }
 }

@@ -95,6 +95,114 @@ public inherited sharing class ModifiedVisitResultsService {
         }
     }
 
+    /**This method returns all the completed visits with configuration done at CTP*/
+    public ModifiedInitDataWrapper getInitDataForVisitResultsModified() {
+        Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
+        Integer ctpSharingTiming = Integer.valueOf(
+            currentPE.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c
+        );
+        List<Patient_Visit__c> patientVisitList = checkDataSharebackTimingForResults(
+            ctpSharingTiming
+        );
+        ModifiedInitDataWrapper wrapper = (ModifiedInitDataWrapper) ClassFactory.newInstance(
+            ModifiedInitDataWrapper.class
+        );
+        if (patientVisitList != null && patientVisitList.size() > 0) {
+            Set<Id> patientVisitIdSet = new Set<Id>();
+            for (Patient_Visit__c pv : patientVisitList) {
+                patientVisitIdSet.add(pv.Id);
+            }
+            /**CTP level configuration in Map*/
+            Map<String, Map<String, List<String>>> visitResultSharings = VisitResultSharingService.visitResultSharingByGroupAndModeAndCountry();
+            if (visitResultSharings != null) {
+                wrapper.visitResultWithSubTypesCTP = visitResultSharings;
+            }
+
+            Set<String> visitResultSubTypeSet = new Set<String>();
+            wrapper.visitResultsShares = new Map<String, List<String>>();
+            Contact currentContact = ParticipantContext.getCurrentContact();
+            for (String visitResultTypeCTP : visitResultSharings.keySet()) {
+                Map<String, List<String>> visitResultTypeWithSubTypeCTP = visitResultSharings.get(
+                    visitResultTypeCTP
+                );
+                if (visitResultTypeCTP == VITALS_VISIT_RESULT_GROUP) {
+                    wrapper.toggleStateForVitals = toggleState(visitResultTypeCTP, currentContact);
+                } else if (visitResultTypeCTP == LABS_VISIT_RESULT_GROUP) {
+                    wrapper.toggleStateForLabs = toggleState(visitResultTypeCTP, currentContact);
+                } else if (visitResultTypeCTP == BIOMARKER_VISIT_RESULT_GROUP) {
+                    wrapper.toggleStateForBiomarkers = toggleState(
+                        visitResultTypeCTP,
+                        currentContact
+                    );
+                }
+                for (String visitResultTypeInner : visitResultTypeWithSubTypeCTP.keySet()) {
+                    List<String> subTypeSet = visitResultTypeWithSubTypeCTP.get(
+                        visitResultTypeInner
+                    );
+                    visitResultSubTypeSet.addAll(subTypeSet);
+                    if (wrapper.visitResultsShares.containsKey(visitResultTypeCTP)) {
+                        List<String> subTypeList = wrapper.visitResultsShares.get(
+                            visitResultTypeCTP
+                        );
+                        subTypeList.addAll(subTypeSet);
+                    } else {
+                        wrapper.visitResultsShares.put(visitResultTypeCTP, subTypeSet);
+                    }
+                }
+            }
+
+            List<Visit_Result__c> visResults = [
+                SELECT
+                    Id,
+                    Actual_Value__c,
+                    Max_Value__c,
+                    Measurement__c,
+                    Min_Value__c,
+                    Patient_Visit__r.Completed_Date__c,
+                    Patient_Visit__r.Portal_Name__c,
+                    Patient_Visit__r.Participant_Enrollment__c,
+                    Result_Type__c,
+                    RecordType.DeveloperName,
+                    Patient_Visit__c
+                FROM Visit_Result__c
+                WHERE
+                    Patient_Visit__c IN :patientVisitIdSet
+                    AND Result_Type__c IN :visitResultSubTypeSet
+            ];
+
+            wrapper.visitResultsGroupNamesCTP = new List<String>(visitResultSharings.keySet());
+            if (visResults != null && !visResults.isEmpty()) {
+                wrapper.isVisitResultsAvailable = false;
+                Set<Id> patientVisitWithResultsIdSet = new Set<Id>();
+                for (Visit_Result__c vr : visResults) {
+                    List<String> subTypesList = wrapper.visitResultsShares.get(
+                        vr.RecordType.DeveloperName + 's'
+                    );
+                    if (subTypesList != null && subTypesList.contains(vr.Result_Type__c)) {
+                        wrapper.isVisitResultsAvailable = true;
+                        if (!patientVisitWithResultsIdSet.contains(vr.Patient_Visit__c)) {
+                            patientVisitWithResultsIdSet.add(vr.Patient_Visit__c);
+                        }
+                    }
+                }
+                List<Patient_Visit__c> completedPVList = new List<Patient_Visit__c>();
+                for (Integer i = patientVisitList.size() - 1; i >= 0; i--) {
+                    if (patientVisitWithResultsIdSet.contains(patientVisitList[i].Id)) {
+                        wrapper.patientVisitsWithResultsList.add(patientVisitList[i]);
+                    }
+                }
+            } else {
+                wrapper.isVisitResultsAvailable = false;
+            }
+            wrapper.isDelegate = ParticipantContext.isCurrentDelegate();
+            return wrapper;
+        } else {
+            //no visit results
+            wrapper.isVisitResultsAvailable = false;
+            return wrapper;
+        }
+    }
+
     public Boolean checkDataSharebackTiming(Integer ctpSharingTiming, String patientVisitId) {
         List<Patient_Visit__c> patientVisitList = getPatientVisitsModified();
         /**checking CTP level Data Shareback Timing Configuration*/
@@ -136,6 +244,40 @@ public inherited sharing class ModifiedVisitResultsService {
         }
     }
 
+    /**All Completed Patient Visits for Current Participant meeting ctpSharingTiming value*/
+    public List<Patient_Visit__c> checkDataSharebackTimingForResults(Integer ctpSharingTiming) {
+        List<Patient_Visit__c> patientVisitList = getPatientVisitsModified();
+        /**checking CTP level Data Shareback Timing Configuration*/
+        if (
+            patientVisitList == null ||
+            (patientVisitList != null &&
+            patientVisitList.size() <= ctpSharingTiming)
+        ) {
+            return new List<Patient_Visit__c>();
+        } else {
+            List<Patient_Visit__c> completedPatientVisitsList = new List<Patient_Visit__c>();
+            List<Patient_Visit__c> validCompletedPatientVisitsList = new List<Patient_Visit__c>();
+            for (Patient_Visit__c pv : patientVisitList) {
+                if (pv.Status__c == 'Completed') {
+                    completedPatientVisitsList.add(pv);
+                }
+            }
+            /*check if completed visits are less than or equal to ctpSharingTiming*/
+            if (completedPatientVisitsList.size() <= ctpSharingTiming) {
+                return new List<Patient_Visit__c>();
+            }
+            /*check the position of current patientvisit in completed visit list*/
+            Integer ctpSharingDifference = completedPatientVisitsList.size() - ctpSharingTiming;
+            for (Integer i = 0; i < completedPatientVisitsList.size(); i++) {
+                Integer patientVisitPosition = i + 1;
+                if (patientVisitPosition <= ctpSharingDifference) {
+                    validCompletedPatientVisitsList.add(completedPatientVisitsList[i]);
+                }
+            }
+            return validCompletedPatientVisitsList;
+        }
+    }
+
     /**Returns toggle state for specific visit result type configured at PE level*/
     public Boolean toggleState(String visitResultsMode, Contact currentContact) {
         String currentVisitResults = currentContact == null ||
@@ -150,7 +292,14 @@ public inherited sharing class ModifiedVisitResultsService {
             return new List<Patient_Visit__c>();
 
         return [
-            SELECT Id, Completed_Date__c, Visit_Number__c, Status__c
+            SELECT
+                Id,
+                Name,
+                Portal_Name__c,
+                Visit__r.Patient_Portal_Name__c,
+                Completed_Date__c,
+                Visit_Number__c,
+                Status__c
             FROM Patient_Visit__c
             WHERE Participant_Enrollment__c = :ParticipantContext.getCurrentPEId()
             ORDER BY Visit_Number__c, Completed_Date__c
@@ -556,8 +705,12 @@ public inherited sharing class ModifiedVisitResultsService {
         @AuraEnabled
         public List<String> visitResultsGroupNamesCTP;
 
+        @AuraEnabled
+        public List<Patient_Visit__c> patientVisitsWithResultsList;
+
         public ModifiedInitDataWrapper() {
             this.isVisitResultsAvailable = false;
+            this.patientVisitsWithResultsList = new List<Patient_Visit__c>();
         }
     }
 

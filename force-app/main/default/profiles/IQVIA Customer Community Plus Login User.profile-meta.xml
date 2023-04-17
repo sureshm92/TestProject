@@ -2165,7 +2165,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ppProgressBarUtility</apexClass>
+        <apexClass>PP_ProgressBarUtility</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

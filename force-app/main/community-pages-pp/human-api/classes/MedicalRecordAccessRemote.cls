@@ -136,8 +136,8 @@ public class MedicalRecordAccessRemote {
             return labelItems;}
         return labelItems;
     }
-
-   @AuraEnabled
+    
+    @AuraEnabled
     public static HumanAPIWrapper getHumanAPIAlunmiPastPEListRevamp()
     {
         try{
@@ -150,9 +150,18 @@ public class MedicalRecordAccessRemote {
             Contact userContact = [Select id,userCommunityDelegateId__c,Current_Participant_Enrollment__c from Contact where id =:contactId];
             //populate current contact details
             hWrapper.currentContactId = (userContact.userCommunityDelegateId__c != null) ? userContact.userCommunityDelegateId__c : contactId;
+            hWrapper.isDelegate = (userContact.userCommunityDelegateId__c != null) ? true : false;
             //populate current PER Id
             hWrapper.currentPerId =  userContact.Current_Participant_Enrollment__c;
             
+            //fetching non-active Participant delegate enrollments for Delegate users
+            List<Id> patientDelegateEnrollmentIds = new List<Id>();
+            if(hWrapper.isDelegate){
+                List<Patient_Delegate_Enrollment__c> pdes = [select Id,Status__c,Participant_Enrollment__c from Patient_Delegate_Enrollment__c where Patient_Delegate__r.contact__c =: userContact.id and Patient_Delegate__r.Participant__r.Contact__c =: userContact.userCommunityDelegateId__c and  status__c = 'Active' ];
+                for(Patient_Delegate_Enrollment__c pde : pdes){
+                    patientDelegateEnrollmentIds.add(pde.Participant_Enrollment__c);
+                }
+            }
             Participant_Enrollment__c currentPer;
             List<Medical_Record_Vendor__c> medicalVendors;
             if(hWrapper.currentPerId != null){
@@ -169,7 +178,6 @@ public class MedicalRecordAccessRemote {
             }
             
             List<Participant_Enrollment__c> newPRList = [select id,Participant__c,Name,Participant__r.Contact__c,Participant_Status__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Human_Id__c,Unique_HumanId__c,Participant__r.Email__c from Participant_Enrollment__c where (Human_Id__c != null and Participant__r.Contact__c =: hWrapper.currentContactId and Participant_Status__c IN :aluminiStatus ) ];
-            
             List<LabelValueItem> labelItems = new List<LabelValueItem>();
             //adding current Active study in list
             if(hWrapper.currentPerId != null && currentPer.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c && !medicalVendors.isEmpty()){
@@ -189,6 +197,9 @@ public class MedicalRecordAccessRemote {
             if(newPRList.size()>0){
                 for(Participant_Enrollment__c pe : newPRList){
                     if(hWrapper.currentPerId != null && hWrapper.currentPerId == pe.id){
+                        continue;
+                    }
+                    if(hWrapper.isDelegate && !patientDelegateEnrollmentIds.contains(pe.id)){
                         continue;
                     }
                     LabelValueItem labelItem = new LabelValueItem(pe.Clinical_Trial_Profile__r.Study_Code_Name__c,pe.Unique_HumanId__c+':::'+pe.Id);

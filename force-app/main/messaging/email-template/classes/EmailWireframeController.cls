@@ -128,7 +128,18 @@ global without sharing class EmailWireframeController {
     }
 
     public String getGreetingText() {
-        return prepareLineBreaks(replaceParams(getLabelValue(greetingValue)) + '\n');
+        if(greetingValue == Label.Televisit_Greeting){
+            String greetingText = replaceParams(getLabelValue(greetingValue)); 
+            if(greetingText.length()>0 && greetingText.endsWith(',')){
+               String greetingTextName = greetingText.removeEnd(',');
+                if(!String.isBlank(greetingTextName)){
+                    greetingText = greetingTextName.trim()+',';
+                }
+            }
+            return prepareLineBreaks(greetingText + '\n');
+        }else{
+            return prepareLineBreaks(replaceParams(getLabelValue(greetingValue)) + '\n');
+        }
     }
 
     public String getPreSignatureText() {
