@@ -13,22 +13,18 @@
     letter-spacing: 0;
     line-height: 32px;
 }
-.update-count-1 {
+.update-count {
     color: #ffffff;
     font-weight: 600;
-    font-size: 14px;
-}
-.update-count-2 {
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 10px;
+    font-size: 16px;
+    padding:0px 6px;
 }
 .update-counter-oval {
     box-sizing: border-box;
     height: 24px;
-    width: 24px;
     text-align: center;
-    border-radius: 50%;
+    border-radius: 12px;
+    min-width: 24px;
     margin: 0.3rem 0 0 0.6rem;
     border: 1.5px solid #ffffff;
     background-color: #e20000;
@@ -57,7 +53,7 @@
     border-radius: 7px;
     overflow-y: auto;
     height: 416px;
-    padding-top: 8px;
+    padding-top: 16px;
 }
 
 .container-card-mobile {

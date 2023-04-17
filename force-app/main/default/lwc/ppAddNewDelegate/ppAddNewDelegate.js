@@ -52,7 +52,7 @@ import PP_ExistingDelError_1 from '@salesforce/label/c.PP_ExistingDelError_1';
 import PP_Select_User from '@salesforce/label/c.PP_Select_User';
 import PP_There_Are from '@salesforce/label/c.PP_There_Are';
 import PP_Users_Associated from '@salesforce/label/c.PP_Users_Associated';
-import PP_AS_RECEIVE_EMAIL from '@salesforce/label/c.PP_AS_RECEIVE_EMAIL';
+import PP_AS_RECEIVE_EMAIL_STUDY_PROG from '@salesforce/label/c.PP_AS_RECEIVE_EMAIL_STUDY_PROG';
 import PP_AS_CONDITIONAL_FEATURE_GENERIC from '@salesforce/label/c.PP_AS_CONDITIONAL_FEATURE_GENERIC';
 import PP_Delegate_Email_Consent_1 from '@salesforce/label/c.PP_Delegate_Email_Consent_1';
 
@@ -155,7 +155,7 @@ export default class PpAddNewDelegate extends LightningElement {
         PP_Select_User,
         PP_There_Are,
         PP_Users_Associated,
-        PP_AS_RECEIVE_EMAIL,
+        PP_AS_RECEIVE_EMAIL_STUDY_PROG,
         PP_AS_CONDITIONAL_FEATURE_GENERIC,
         PP_Delegate_Email_Consent_1
     };
@@ -245,7 +245,7 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     get getEmailHelpText() {
         return this.currentCommunity === 'Iqvia Patient Portal II'
-            ? this.label.PP_AS_RECEIVE_EMAIL
+            ? this.label.PP_AS_RECEIVE_EMAIL_STUDY_PROG
             : this.label.PG_PST_L_Delegates_Receive_Emails_New;
     }
     get getConditionalFeatureHelpText() {

@@ -2206,6 +2206,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Patient_Visit__c.Participant_Enrollment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ECOA_Study_Schedule__c.Clinical_Trial_Profile__c</field>
         <readable>true</readable>

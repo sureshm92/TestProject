@@ -40,6 +40,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             if (!Test.isRunningTest()) {
                 List<Id> peshIdsList=new List<Id>();
                 for(SObject obj: newList) peshIdsList.add(obj.Id);
+                createPlatformAlerts(newList);
                // createStudyAlerts((List<Participant_Enrollment_Status_History__c>) newList);
                 createStudyAlerts(peshIdsList);
             }
@@ -350,7 +351,6 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
                 PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
             };
-            List<Alert__c> alertsForInsert = new List<Alert__c>();
             List<Id> recipientIds = new List<Id>();
             List<Id> whatIds = new List<Id>();
             for (Participant_Enrollment__c newPE : participantEnrollments) {
@@ -388,26 +388,6 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                         if (newPE.HCP__c != null)
                             hcpContact = newPE.HCP__r.HCP_Contact__c;
                         toCreateUser.put(participant.Contact__c, hcpContact);
-                        if (
-                            newPE.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                            CommunityTemplateService.TEMPLATE_PP
-                        ) {
-                            alertsForInsert.add(
-                                new Alert__c(
-                                    Contact__c = participant.Contact__c,
-                                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_PP,
-                                    Is_Platform_Level__c = true
-                                )
-                            );
-                        } else {
-                            alertsForInsert.add(
-                                new Alert__c(
-                                    Contact__c = participant.Contact__c,
-                                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH,
-                                    Is_Platform_Level__c = true
-                                )
-                            );
-                        }
                     } else {
                         System.debug('NOTIFY USER');
                         String notificationTypeStr;
@@ -465,8 +445,6 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 }
             }
 
-            if (!alertsForInsert.isEmpty())
-                insert alertsForInsert;
             if (!toCreateUser.isEmpty()) {
                 if (Test.isRunningTest()) {
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
@@ -480,6 +458,79 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 insert notifications;
             if (!contactsForChangeMode.isEmpty())
                 update contactsForChangeMode;
+        }
+    }
+    @TestVisible
+    private static void createPlatformAlerts(
+        List<Participant_Enrollment_Status_History__c> newList
+    ) {
+        Set<Id> peIds = new Set<Id>();
+        List<Alert__c> alertsForInsert = new List<Alert__c>();
+        for (Participant_Enrollment_Status_History__c pesh : newList) {
+            if (pesh.Status__c == PEStatusState.PE_STATUS_RECEIVED) {
+                peIds.add(pesh.ParticipantEnrollment__c);
+            }
+        }
+        if (!peIds.isEmpty()) {
+            List<Participant_Enrollment__c> participantEnrollments = [
+                SELECT
+                Id,
+                Participant__c,
+                Participant__r.Adult__c,
+                Participant_Contact__c,
+                Participant__r.Contact__r.Visited_Communities__c,
+                Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                Study_Site__c,
+                Study_Site__r.Clinical_Trial_Profile__c,
+                Study_Site__r.Suppress_Participant_Emails__c,
+                Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                Is_Virtual_Study_Site__c,
+                HCP__c,
+                HCP__r.HCP_Contact__c,
+                Referral_Source__c,
+                Participant_Status__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN :peIds
+            ];
+            for (Participant_Enrollment__c newPE : participantEnrollments) {
+                Boolean filterCriteria =
+                    !newPE.Is_Virtual_Study_Site__c &&
+                    newPE.Study_Site__c != null &&
+                    newPE.Study_Site__r.Clinical_Trial_Profile__c != null &&
+                    !newPE.Study_Site__r.Suppress_Participant_Emails__c &&
+                    !newPE.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                    newPE.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
+                    newPE.Participant__c != null &&
+                    !newPE.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                    newPE.Participant_Contact__c != null &&
+                    newPE.Participant__r.Adult__c;
+                if(filterCriteria){
+                    if (
+                        newPE.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                        CommunityTemplateService.TEMPLATE_PP
+                    ) {
+                        alertsForInsert.add(
+                            new Alert__c(
+                                Contact__c = newPE.Participant_Contact__c,
+                                Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_PP,
+                                Is_Platform_Level__c = true
+                            )
+                        );
+                    } else {
+                        alertsForInsert.add(
+                            new Alert__c(
+                                Contact__c = newPE.Participant_Contact__c,
+                                Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH,
+                                Is_Platform_Level__c = true
+                            )
+                        );
+                    }
+                }
+            }
+            if (!alertsForInsert.isEmpty())
+                insert alertsForInsert;
         }
     }
     @TestVisible

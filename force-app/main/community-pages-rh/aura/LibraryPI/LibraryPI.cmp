@@ -147,7 +147,7 @@
                                         </div>
                                         <div
                                              data-attributeVal="{!key + ',' + resourceIndex}"
-                                             class="slds-coll slds-size--1-of-12"
+                                             class="slds-coll slds-size--1-of-12 download-action"
                                              onclick="{!c.downloadResource}"
                                              >
                                             <aura:if isTrue="{!!empty(resource.fileID)}">
