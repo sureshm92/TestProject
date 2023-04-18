@@ -27,6 +27,7 @@ import markAsCompleted from '@salesforce/apex/TaskEditRemote.markAsCompleted';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import basePathName from '@salesforce/community/basePath';
 import viewAllTasks from '@salesforce/label/c.View_All_Tasks';
+import PP_Open from '@salesforce/label/c.PP_Open';
 
 export default class PpTasks extends NavigationMixin(LightningElement) {
     initData;
@@ -56,7 +57,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         taskPPCompleted,
         taskPPIgnored,
         taskPPExpired,
-        viewAllTasks
+        viewAllTasks,
+        PP_Open
     };
     taskSelectionMode = 'Open';
     taskBtnOpenClass = 'open-task active-btn';

@@ -35,7 +35,7 @@
                             <header class="slds-has-flexi-truncate">
                                 <h2 class="slds-card__header-title">
                                     <p class="slds-card__header-link slds-truncate upcomingheader">
-                                        <span>Upcoming</span>
+                                        <span>{label.Upcoming}</span>
                                     </p>
                                 </h2>
                             </header>
@@ -49,10 +49,10 @@
                                                 <template if:true={isTelevisits}>
                                                     <button class="slds-button slds-button_neutral visit-button inactive-button-background" onclick={visitsTab}> 
                                                         <template if:true={isProgram}>
-                                                            Events
+                                                            {label.EVENTS}
                                                         </template> 
                                                         <template if:false={isProgram}>
-                                                            Visits
+                                                            {label.VISITS}
                                                         </template>
                                                     </button>
                                                     <button class="slds-button slds-button_brand televisit-button active-button-background" onclick={televisitsTab}> Televisits </button>
@@ -60,10 +60,10 @@
                                                 <template if:false={isTelevisits}>
                                                     <button class="slds-button slds-button_neutral visit-button active-button-background" onclick={visitsTab}> 
                                                         <template if:true={isProgram}>
-                                                            Events
+                                                            {label.EVENTS}
                                                         </template> 
                                                         <template if:false={isProgram}>
-                                                            Visits
+                                                            {label.VISITS}
                                                         </template>
                                                     </button>
                                                     <button class="slds-button slds-button_brand televisit-button inactive-button-background" onclick={televisitsTab}> Televisits </button>
@@ -100,15 +100,24 @@
                     </lightning-layout-item>
                 </template>
                 <template if:false={showUpcomingSection}>
-                    <lightning-layout-item size="8" class="around-small-custom around-right-zero">
-                        <c-pp-updates showvisitsection={showUpcomingSection} counter={counter}></c-pp-updates>
+                    <lightning-layout-item size={updateCardLayoutSize} class={updateCardLayoutClass}>
+                        <c-pp-updates showvisitsection={updateCardLayoutSmall} counter={counter}></c-pp-updates>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="4" class={progressBarLayoutClass}>
+                        <template if:true={participantState}>
+                            <template if:true={participantState.pe}>
+                                <c-pp-progress-bar parent-class="small" onprogressbarempty={showBiggerUpdatesSection} perid={participantState.pe.Id}></c-pp-progress-bar>
+                            </template>
+                        </template>
                     </lightning-layout-item>
                 </template>
             </lightning-layout>
             <!-- Bottom Congrats Text -->
-            <template if:true={participantState}>
-                <template if:true={participantState.pe}>
-                    <c-pp-progress-bar perid={participantState.pe.Id}></c-pp-progress-bar>
+            <template if:true={showUpcomingSection}>
+                <template if:true={participantState}>
+                    <template if:true={participantState.pe}>
+                        <c-pp-progress-bar perid={participantState.pe.Id}></c-pp-progress-bar>
+                    </template>
                 </template>
             </template>
         </template>
@@ -151,6 +160,100 @@
             <div
                 class="slds-grid slds-grid_align-center slds-p-vertical_large slds-p-horizontal_small"
             >
+                <div class="slds-col slds-m-horizontal_xxx-small">
+                    <div class="updates">
+                        <template if:true={updatesSection}>
+                            <template if:true={displayCounter}>
+                                <div class="update-circle">
+                                    <span class="update-count-font">{counterLabel}</span>
+                                </div>
+                            </template>
+                            <div class="icon-update-section-large svg-icon-with-text">
+                                <c-web-icon
+                                    class="svg-icon"
+                                    icon-size="large"
+                                    icon-name="reminderbell_icon"
+                                    data-id="reminderbell"
+                                    icon-color="#ffffff"
+                                    onclick={showUpdatesOnMobile}
+                                >
+                                </c-web-icon>
+                            </div>
+                            <div class="vertical updates-darkblue"></div>
+                        </template>
+                        <template if:false={updatesSection}>
+                            <template if:true={displayCounter}>
+                                <div class="update-circle">
+                                    <span class="update-count-font">{counterLabel}</span>
+                                </div>
+                            </template>
+                            <div class="icon-update-section-small">
+                                <c-web-icon
+                                    class="svg-icon svg-icon-with-text"
+                                    icon-size="medium"
+                                    icon-name="reminderbell_icon"
+                                    data-id="reminderbell"
+                                    icon-color="#ffffff"
+                                    onclick={showUpdatesOnMobile}
+                                >
+                                </c-web-icon>
+                            </div>
+                            <p class="p-text">{label.Updates}</p>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="slds-col slds-m-horizontal_xxx-small">
+                    <div class="tasks">
+                        <template if:true={taskList}>
+                            <div class="icon-updates taskIconPosition">
+                                <c-web-icon
+                                    class="svg-icon svg-icon-with-text"
+                                    icon-size="task_mobile"
+                                    icon-name="check-circle-1-alternate"
+                                    data-id="checkcirclealternate"
+                                    icon-color="#ffffff"
+                                    onclick={showTaskList}
+                                >
+                                </c-web-icon>
+                            </div>
+                            <div class="vertical task-pink"></div>
+                        </template>
+                        <template if:false={taskList}>
+                            <div class="icon-updates">
+                                <c-web-icon
+                                    class="svg-icon svg-icon-with-text"
+                                    icon-size="medium"
+                                    icon-name="check-circle-1-alternate"
+                                    data-id="checkcirclealternate"
+                                    icon-color="#ffffff"
+                                    onclick={showTaskList}
+                                >
+                                </c-web-icon>
+                            </div>
+                            <p class="p-text">{label.Tasks}</p>
+                        </template>
+                    </div>
+                </div>             
+                <div class="slds-col slds-m-horizontal_xxx-small">
+                    <div class="progress">
+                        <div class={progressIcon}>
+                            <c-web-icon
+                                class="svg-icon svg-icon-with-text"
+                                icon-size="medium"
+                                icon-name="navigation-menu-horizontal"
+                                data-id="navigationmenuhorizontal"
+                                icon-color="#ffffff"
+                                onclick={showProgressMob}
+                            >
+                            </c-web-icon>
+                        </div>
+                        <p if:false={showProgress} class="p-text">{label.Progress}</p>
+                        <template if:true={showProgress} >
+                            <div class="vertical progress-green"></div>
+                        </template>
+                    </div>
+                </div>
                 <div class="slds-col slds-m-horizontal_xxx-small">
                     <!--<template if:true={showVisitCard}>-->
                     <template if:true={showUpcomingSection}>
@@ -195,109 +298,15 @@
                         </template>
                     </template>
                 </div>
-                <div class="slds-col slds-m-horizontal_xxx-small">
-                    <div class="updates">
-                        <template if:true={updatesSection}>
-                            <template if:true={displayCounter}>
-                                <div class="update-circle">
-                                    <span class="update-count-font">{counterLabel}</span>
-                                </div>
-                            </template>
-                            <div class="icon-update-section-large svg-icon-with-text">
-                                <c-web-icon
-                                    class="svg-icon"
-                                    icon-size="large"
-                                    icon-name="reminderbell_icon"
-                                    data-id="reminderbell"
-                                    icon-color="#ffffff"
-                                    onclick={showUpdatesOnMobile}
-                                >
-                                </c-web-icon>
-                            </div>
-                            <div class="vertical updates-darkblue"></div>
-                        </template>
-                        <template if:false={updatesSection}>
-                            <template if:true={displayCounter}>
-                                <div class="update-circle">
-                                    <span class="update-count-font">{counterLabel}</span>
-                                </div>
-                            </template>
-                            <div class="icon-update-section-small">
-                                <c-web-icon
-                                    class="svg-icon svg-icon-with-text"
-                                    icon-size="medium"
-                                    icon-name="reminderbell_icon"
-                                    data-id="reminderbell"
-                                    icon-color="#ffffff"
-                                    onclick={showUpdatesOnMobile}
-                                >
-                                </c-web-icon>
-                            </div>
-                            <p class="p-text">Updates</p>
-                        </template>
-                    </div>
-                </div>
-
-                <div class="slds-col slds-m-horizontal_xxx-small">
-                    <div class="tasks">
-                        <template if:true={taskList}>
-                            <div class="icon-updates taskIconPosition">
-                                <c-web-icon
-                                    class="svg-icon svg-icon-with-text"
-                                    icon-size="task_mobile"
-                                    icon-name="check-circle-1-alternate"
-                                    data-id="checkcirclealternate"
-                                    icon-color="#ffffff"
-                                    onclick={showTaskList}
-                                >
-                                </c-web-icon>
-                            </div>
-                            <div class="vertical task-pink"></div>
-                        </template>
-                        <template if:false={taskList}>
-                            <div class="icon-updates">
-                                <c-web-icon
-                                    class="svg-icon svg-icon-with-text"
-                                    icon-size="medium"
-                                    icon-name="check-circle-1-alternate"
-                                    data-id="checkcirclealternate"
-                                    icon-color="#ffffff"
-                                    onclick={showTaskList}
-                                >
-                                </c-web-icon>
-                            </div>
-                            <p class="p-text">Tasks</p>
-                        </template>
-                    </div>
-                </div>             
-                <div class="slds-col slds-m-horizontal_xxx-small">
-                    <div class="progress">
-                        <div class={progressIcon}>
-                            <c-web-icon
-                                class="svg-icon svg-icon-with-text"
-                                icon-size="medium"
-                                icon-name="navigation-menu-horizontal"
-                                data-id="navigationmenuhorizontal"
-                                icon-color="#ffffff"
-                                onclick={showProgressMob}
-                            >
-                            </c-web-icon>
-                        </div>
-                        <p if:false={showProgress} class="p-text">Progress</p>
-                        <template if:true={showProgress} >
-                            <div class="vertical progress-green"></div>
-                        </template>
-                    </div>
-                </div>
             </div>
             <template if:true={showVisitCardMobile}>
                 <div class="upcoming-card slds-m-around_small">
                     <div class = "uc-text-mobile">
                         <template if:true={isProgram}>
-                            UPCOMING
+                            {label.Upcoming_Caps}
                         </template>
                         <template if:false={isProgram}>
-                            UPCOMING
+                            {label.Upcoming_Caps}
                         </template>
                     </div>
                         <div class={marginbottom}>
@@ -308,10 +317,10 @@
                                         <template if:true={isTelevisits}>
                                             <button class="slds-button slds-button_neutral visit-button inactive-button-background" onclick={visitsTab}> 
                                                 <template if:true={isProgram}>
-                                                    Events
+                                                    {label.EVENTS}
                                                 </template> 
                                                 <template if:false={isProgram}>
-                                                    Visits
+                                                    {label.VISITS}
                                                 </template>
                                             </button>
                                             <button class="slds-button slds-button_brand televisit-button active-button-background" onclick={televisitsTab}> Televisits </button>
@@ -319,10 +328,10 @@
                                         <template if:false={isTelevisits}>
                                             <button class="slds-button slds-button_neutral visit-button active-button-background" onclick={visitsTab}> 
                                                 <template if:true={isProgram}>
-                                                    Events
+                                                    {label.EVENTS}
                                                 </template> 
                                                 <template if:false={isProgram}>
-                                                    Visits
+                                                    {label.VISITS}
                                                 </template>
                                             </button>
                                             <button class="slds-button slds-button_brand televisit-button inactive-button-background" onclick={televisitsTab}> Televisits </button>
@@ -371,11 +380,11 @@
                 </template>
             </template>
             <template if:true={updatesSection}>
-                <c-pp-updates oncounterupdate={updateCounter} desktop={desktop}></c-pp-updates>
+                <c-pp-updates counter={counter} desktop={desktop}></c-pp-updates>
             </template>            
             <div if:true={showProgress}>
                 <div class="progressTab">
-                    MY PROGRESS
+                    {label.MY_PROGRESS_Caps}
                 </div>
                 <template if:true={participantState}>
                     <template if:true={participantState.pe}>
