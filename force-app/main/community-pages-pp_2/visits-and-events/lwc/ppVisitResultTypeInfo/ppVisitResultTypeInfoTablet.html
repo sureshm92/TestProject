@@ -212,7 +212,10 @@
             </div>
         </div>
         <template lwc:if={validVisitResults}
-            ><div class="view-all-results slds-p-top_small slds-align_absolute-center">
+            ><div
+                class="view-all-results slds-p-top_small slds-align_absolute-center"
+                onclick={navigateToMyResults}
+            >
                 {labels.Visits_View_All_Results}
             </div></template
         >

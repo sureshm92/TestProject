@@ -113,7 +113,7 @@ export default class PpMyVisitResultsList extends LightningElement {
 
     handleBackToVisitList() {
         if (this.isMobile || this.isTablet) {
-            window.history.replaceState(null, null, '?vrlist');
+            window.history.replaceState(null, null, '?vrlistHome');
             this.urlString = window.location.href;
         }
     }
