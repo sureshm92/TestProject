@@ -5,6 +5,12 @@ import DEVICE from '@salesforce/client/formFactor';
 import PPWELCOME from '@salesforce/label/c.PP_Welcome';
 import VISITS from '@salesforce/label/c.PG_SW_Tab_Visits';
 import EVENTS from '@salesforce/label/c.PG_SW_Tab_Events';
+import Upcoming from '@salesforce/label/c.Visits_Upcoming';
+import Upcoming_Caps from '@salesforce/label/c.PP_Upcoming_Caps';
+import Updates from '@salesforce/label/c.Updates_Label';
+import Tasks from '@salesforce/label/c.PG_SW_Tab_Tasks';
+import Progress from '@salesforce/label/c.PP_Progress';
+import MY_PROGRESS_Caps from '@salesforce/label/c.PP_MY_PROGRESS_Caps';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getVisitsPreviewAndCount from '@salesforce/apex/ParticipantVisitsRemote.getVisitsPreviewAndCount';
@@ -15,7 +21,13 @@ export default class HomePageParticipantNew extends LightningElement {
     label = {
         PPWELCOME,
         VISITS,
-        EVENTS
+        EVENTS,
+        Upcoming,
+        Updates,
+        Tasks,
+        Progress,
+        Upcoming_Caps,
+        MY_PROGRESS_Caps
     };
     counter;
     displayCounter = false;
