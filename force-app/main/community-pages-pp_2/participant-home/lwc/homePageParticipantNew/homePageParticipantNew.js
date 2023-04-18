@@ -184,8 +184,8 @@ export default class HomePageParticipantNew extends LightningElement {
                         this.marginbottom = 'marginbottom';
                     }
                     if (this.desktop != true) {
-                        //this.updatesSection = true;
-                        this.showVisitCardMobile = true;
+                        this.updatesSection = true;
+                        // this.showVisitCardMobile = true;
                     }
 
                     if (!this.showTelevisitCard && !this.showVisitCard) {

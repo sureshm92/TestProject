@@ -161,50 +161,6 @@
                 class="slds-grid slds-grid_align-center slds-p-vertical_large slds-p-horizontal_small"
             >
                 <div class="slds-col slds-m-horizontal_xxx-small">
-                    <!--<template if:true={showVisitCard}>-->
-                    <template if:true={showUpcomingSection}>
-                        <template if:false={isDelegateSelfview}>
-                            <template if:true={showVisitCardMobile}>
-                                <div class="visit">
-                                    <div class="icon-marg">
-                                        <c-web-icon
-                                            class="svg-icon"
-                                            icon-size="large"
-                                            icon-name="calendar"
-                                            data-id="calendar"
-                                            icon-color="#ffffff"
-                                            onclick={showVisitCardOnMobile}
-                                        >
-                                        </c-web-icon>
-                                    </div>
-                                    <div class="vertical"></div>
-                                </div>
-                            </template>
-                            <template if:false={showVisitCardMobile}>
-                                <div class="visit">
-                                    <div class="icon-updates">
-                                        <c-web-icon
-                                            class="svg-icon svg-icon-with-text"
-                                            icon-size="medium"
-                                            icon-name="calendar"
-                                            data-id="calendar"
-                                            icon-color="#ffffff"
-                                            onclick={showVisitCardOnMobile}
-                                        >
-                                        </c-web-icon>
-                                    </div>
-                                    <template if:true={isProgram}>
-                                        <p class="p-text">{label.EVENTS}</p>
-                                    </template>
-                                    <template if:false={isProgram}>
-                                        <p class="p-text">{label.VISITS}</p>
-                                    </template>
-                                </div>
-                            </template>
-                        </template>
-                    </template>
-                </div>
-                <div class="slds-col slds-m-horizontal_xxx-small">
                     <div class="updates">
                         <template if:true={updatesSection}>
                             <template if:true={displayCounter}>
@@ -297,6 +253,50 @@
                             <div class="vertical progress-green"></div>
                         </template>
                     </div>
+                </div>
+                <div class="slds-col slds-m-horizontal_xxx-small">
+                    <!--<template if:true={showVisitCard}>-->
+                    <template if:true={showUpcomingSection}>
+                        <template if:false={isDelegateSelfview}>
+                            <template if:true={showVisitCardMobile}>
+                                <div class="visit">
+                                    <div class="icon-marg">
+                                        <c-web-icon
+                                            class="svg-icon"
+                                            icon-size="large"
+                                            icon-name="calendar"
+                                            data-id="calendar"
+                                            icon-color="#ffffff"
+                                            onclick={showVisitCardOnMobile}
+                                        >
+                                        </c-web-icon>
+                                    </div>
+                                    <div class="vertical"></div>
+                                </div>
+                            </template>
+                            <template if:false={showVisitCardMobile}>
+                                <div class="visit">
+                                    <div class="icon-updates">
+                                        <c-web-icon
+                                            class="svg-icon svg-icon-with-text"
+                                            icon-size="medium"
+                                            icon-name="calendar"
+                                            data-id="calendar"
+                                            icon-color="#ffffff"
+                                            onclick={showVisitCardOnMobile}
+                                        >
+                                        </c-web-icon>
+                                    </div>
+                                    <template if:true={isProgram}>
+                                        <p class="p-text">{label.EVENTS}</p>
+                                    </template>
+                                    <template if:false={isProgram}>
+                                        <p class="p-text">{label.VISITS}</p>
+                                    </template>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
                 </div>
             </div>
             <template if:true={showVisitCardMobile}>
