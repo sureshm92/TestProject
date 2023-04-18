@@ -7,7 +7,10 @@
                     <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-col" style="display: inline-flex">
                             <div class="updates">{label.updatesLabel}</div>
-                            <div if:true={displayCounter} class="update-counter-oval slds-align_absolute-center">
+                            <div
+                                if:true={displayCounter}
+                                class="update-counter-oval slds-align_absolute-center"
+                            >
                                 <span class="update-count">{counterLabel}</span>
                             </div>
                         </div>
@@ -178,13 +181,14 @@
                     class="slds-card slds-card_boundary container-card-mobile"
                 >
                     <p class="task-header-mobile">{label.updatesLabel}</p>
-                    <div class="slds-card__body slds-card__body_inner custom-padding">
+                    <div class="slds-card__body slds-card__body_inner custom-padding-mobile">
                         <template for:each={resourcedData} for:item="res" for:index="index">
                             <div if:true={res.isExplore} key={res}>
                                 <c-pp-explore-updates
                                     explore-data={res}
                                     desktop={desktop}
                                     show-visit-section={showvisitsection}
+                                    onremovecard={handleRemoveCard}
                                 ></c-pp-explore-updates>
                             </div>
                             <div if:true={res.isDoc} key={res}>
@@ -192,6 +196,7 @@
                                     document-data={res}
                                     desktop={desktop}
                                     show-visit-section={showvisitsection}
+                                    onremovecard={handleRemoveCard}
                                 ></c-pp-document-updates>
                             </div>
                             <div if:true={res.isLink} key={res}>
@@ -199,6 +204,7 @@
                                     link-data={res}
                                     desktop={desktop}
                                     show-visit-section={showvisitsection}
+                                    onremovecard={handleRemoveCard}
                                 ></c-pp-link-updates>
                             </div>
                             <div if:true={res.isMultimedia} key={res}>
@@ -206,9 +212,18 @@
                                     explore-data={res}
                                     desktop={desktop}
                                     show-visit-section={showvisitsection}
+                                    onremovecard={handleRemoveCard}
                                 ></c-pp-explore-updates>
                             </div>
                         </template>
+                    </div>
+                    <div class="load-more-section" if:true={showloadMore} onclick={loadMore}>
+                        <div class="load-more-label slds-align_absolute-center">
+                            {label.load_more}
+                        </div>
+                        <div class="load-more-icon slds-align_absolute-center">
+                            <img src={loadmore_icon} />
+                        </div>
                     </div>
                 </article>
                 <article

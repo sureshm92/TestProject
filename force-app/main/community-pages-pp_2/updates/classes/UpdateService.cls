@@ -18,13 +18,15 @@ public without sharing class UpdateService {
             instance = new UpdateService();
         return instance;
     }
-
+ 
     public List<Send_Result__c> getSendResultRecords(
         List<Id> resStudyIds,
         List<Id> resPlatformIds,
         Integer offsets,
-        Integer limits
+        Integer limits,
+        String initialLoadTime
     ) {
+        DateTime initialDateTime = Datetime.valueOfGMT(initialLoadTime); 
         ResourceFilter resFilter = getSendResultFilter();
         List<Send_Result__c> sendResults = [
             SELECT
@@ -35,7 +37,8 @@ public without sharing class UpdateService {
                 Notification__r.whatId__c
             FROM Send_Result__c
             WHERE
-                Notification__r.Target_Record_Ids__c != NULL
+                Notification__r.Target_Record_Ids__c != NULL 
+                AND CreatedDate <= :initialDateTime
                 AND Target_Type__c = :SR_TARGET_TYPE_UPDATES
                 AND Status__c = :SR_STATUS_IN_PROGRESS
                 AND Notification__r.Recipient__c = :resFilter.participantContactId
@@ -158,6 +161,7 @@ public without sharing class UpdateService {
             if (targetType == OBJECT_TYPE_STD_RESOURCE || targetType == OBJECT_TYPE_PT_RESOURCE) {
                 wrp.updateType = 'resource';
                 wrp.sendResultId = sr.Id;
+                wrp.targetRecordId = targetId;
                 if (targetType == OBJECT_TYPE_STD_RESOURCE) {
                     createResStudyWrapper(targetId, resStudyMap, wrp, resIdContentVersionIdMap);
                 } else if (targetType == OBJECT_TYPE_PT_RESOURCE) {
@@ -178,8 +182,8 @@ public without sharing class UpdateService {
         UpdateWrapper wrp,
         Map<Id, Id> resIdContentVersionIdMap
     ) {
+        if(resStudyMap.containsKey(targetId) && resStudyMap.get(targetId).Resource__c!=null){
         wrp.Title = resStudyMap.get(targetId).Resource__r.Title__c;
-        wrp.targetRecordId = targetId;
         wrp.recId = resStudyMap.get(targetId).Resource__c;
         wrp.contentType = resStudyMap.get(targetId).Resource__r.Content_Type__c;
         wrp.resourceDevRecordType = resStudyMap.get(targetId).Resource__r.RecordType.DeveloperName;
@@ -202,15 +206,16 @@ public without sharing class UpdateService {
             wrp.linkType = resStudyMap.get(targetId).Resource__r.Type__c;
             wrp.versionDate = resStudyMap.get(targetId).Resource__r.Posting_Date__c;
         }
+        }  
     }
     public void createResPlatformWrapper(
-        Id targetId,
+        Id targetId, 
         Map<Id, Resource__c> resPlatformMap,
         UpdateWrapper wrp,
         Map<Id, Id> resIdContentVersionIdMap
-    ) {
+    ) {  
+        if(resPlatformMap.containsKey(targetId)){
         wrp.Title = resPlatformMap.get(targetId).Title__c;
-        wrp.targetRecordId = targetId;
         wrp.recId = targetId;
         wrp.contentType = resPlatformMap.get(targetId).Content_Type__c;
         wrp.versionDate = resPlatformMap.get(targetId).Version_Date__c;
@@ -227,6 +232,11 @@ public without sharing class UpdateService {
         } else if (resPlatformMap.get(targetId).Content_Type__c == 'Relevant_Link') {
             wrp.redirectLink = resPlatformMap.get(targetId).URL__c;
             wrp.linkType = resPlatformMap.get(targetId).Type__c;
+        }
+        }else{
+            wrp.recId = targetId;
+            wrp.contentType = 'Multimedia';
+            wrp.resourceDevRecordType='Multimedia';
         }
     }
     public static ResourceFilter getSendResultFilter() {
