@@ -132,7 +132,8 @@ public with sharing class IntegrationVisitResultService {
                 updateNotificationsForNewVResults.add(
                     new Notification__c(
                         Id = sr.Notification__c,
-                        Target_Record_Ids__c = '' + peAndPv.get(sr.Notification__r.whatId__c).Id
+                        Target_Record_Ids__c = sr.Notification__r.Target_Record_Ids__c +
+                            peAndPv.get(sr.Notification__r.whatId__c).Id
                     )
                 );
                 alreadyNotifiedPEs.add(sr.Notification__r.WhatId__c);
