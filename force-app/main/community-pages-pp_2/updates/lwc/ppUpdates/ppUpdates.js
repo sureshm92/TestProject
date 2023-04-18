@@ -85,8 +85,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                         resObj.isLink = true;
                     } else if (resObj.contentType == 'Televisit') {
                         resObj.isTelevisit = true;
-                    } else {
-                        resObj.isMultimedia = true;
+                    } else if (resObj.contentType == 'VisitResult') {
+                        resObj.isVisitResult = true;
                     }
                 });
                 this.resourcedData = [...this.resourcedData, ...returnValue];
@@ -95,11 +95,11 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 }
                 this.offset += this.limit;
                 if (this.desktop) {
-                    if (this.showvisitsection) {
-                        this.addVerticalScroll();
-                    } else {
-                        this.addHorizontalScroll();
-                    }
+                if (this.showvisitsection) {
+                    this.addVerticalScroll();
+                } else {
+                    this.addHorizontalScroll();
+                }
                 }
                 this.loadMoreValue = true;
                 this.spinner.hide();
