@@ -22,7 +22,7 @@
     </values>
     <values>
         <field>Notification_Type__c</field>
-        <value xsi:type="xsd:string">Patient_New_Visit_Result_Update</value>
+        <value xsi:type="xsd:string">Update_to_PT_New_Visit_Result</value>
     </values>
     <values>
         <field>Org_Wide_Email_Address__c</field>
