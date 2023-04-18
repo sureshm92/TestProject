@@ -35,7 +35,7 @@
                             <header class="slds-has-flexi-truncate">
                                 <h2 class="slds-card__header-title">
                                     <p class="slds-card__header-link slds-truncate upcomingheader">
-                                        <span>Upcoming</span>
+                                        <span>{label.Upcoming}</span>
                                     </p>
                                 </h2>
                             </header>
@@ -49,10 +49,10 @@
                                                 <template if:true={isTelevisits}>
                                                     <button class="slds-button slds-button_neutral visit-button inactive-button-background" onclick={visitsTab}> 
                                                         <template if:true={isProgram}>
-                                                            Events
+                                                            {label.EVENTS}
                                                         </template> 
                                                         <template if:false={isProgram}>
-                                                            Visits
+                                                            {label.VISITS}
                                                         </template>
                                                     </button>
                                                     <button class="slds-button slds-button_brand televisit-button active-button-background" onclick={televisitsTab}> Televisits </button>
@@ -60,10 +60,10 @@
                                                 <template if:false={isTelevisits}>
                                                     <button class="slds-button slds-button_neutral visit-button active-button-background" onclick={visitsTab}> 
                                                         <template if:true={isProgram}>
-                                                            Events
+                                                            {label.EVENTS}
                                                         </template> 
                                                         <template if:false={isProgram}>
-                                                            Visits
+                                                            {label.VISITS}
                                                         </template>
                                                     </button>
                                                     <button class="slds-button slds-button_brand televisit-button inactive-button-background" onclick={televisitsTab}> Televisits </button>
@@ -233,7 +233,7 @@
                                 >
                                 </c-web-icon>
                             </div>
-                            <p class="p-text">Updates</p>
+                            <p class="p-text">{label.Updates}</p>
                         </template>
                     </div>
                 </div>
@@ -266,7 +266,7 @@
                                 >
                                 </c-web-icon>
                             </div>
-                            <p class="p-text">Tasks</p>
+                            <p class="p-text">{label.Tasks}</p>
                         </template>
                     </div>
                 </div>             
@@ -283,7 +283,7 @@
                             >
                             </c-web-icon>
                         </div>
-                        <p if:false={showProgress} class="p-text">Progress</p>
+                        <p if:false={showProgress} class="p-text">{label.Progress}</p>
                         <template if:true={showProgress} >
                             <div class="vertical progress-green"></div>
                         </template>
@@ -294,10 +294,10 @@
                 <div class="upcoming-card slds-m-around_small">
                     <div class = "uc-text-mobile">
                         <template if:true={isProgram}>
-                            UPCOMING
+                            {label.Upcoming_Caps}
                         </template>
                         <template if:false={isProgram}>
-                            UPCOMING
+                            {label.Upcoming_Caps}
                         </template>
                     </div>
                         <div class={marginbottom}>
@@ -308,10 +308,10 @@
                                         <template if:true={isTelevisits}>
                                             <button class="slds-button slds-button_neutral visit-button inactive-button-background" onclick={visitsTab}> 
                                                 <template if:true={isProgram}>
-                                                    Events
+                                                    {label.EVENTS}
                                                 </template> 
                                                 <template if:false={isProgram}>
-                                                    Visits
+                                                    {label.VISITS}
                                                 </template>
                                             </button>
                                             <button class="slds-button slds-button_brand televisit-button active-button-background" onclick={televisitsTab}> Televisits </button>
@@ -319,10 +319,10 @@
                                         <template if:false={isTelevisits}>
                                             <button class="slds-button slds-button_neutral visit-button active-button-background" onclick={visitsTab}> 
                                                 <template if:true={isProgram}>
-                                                    Events
+                                                    {label.EVENTS}
                                                 </template> 
                                                 <template if:false={isProgram}>
-                                                    Visits
+                                                    {label.VISITS}
                                                 </template>
                                             </button>
                                             <button class="slds-button slds-button_brand televisit-button inactive-button-background" onclick={televisitsTab}> Televisits </button>
@@ -375,7 +375,7 @@
             </template>            
             <div if:true={showProgress}>
                 <div class="progressTab">
-                    MY PROGRESS
+                    {label.MY_PROGRESS_Caps}
                 </div>
                 <template if:true={participantState}>
                     <template if:true={participantState.pe}>
