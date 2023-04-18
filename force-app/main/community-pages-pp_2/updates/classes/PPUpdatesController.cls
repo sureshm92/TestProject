@@ -1,11 +1,11 @@
 public without sharing class PPUpdatesController {
     @AuraEnabled 
-    public static List<UpdateService.UpdateWrapper> getSendResultUpdates(Integer offsets,Integer limits){
+    public static List<UpdateService.UpdateWrapper> getSendResultUpdates(Integer offsets,Integer limits,String initialLoadTime){
         List<UpdateService.UpdateWrapper> updateWrapperlist = new List<UpdateService.UpdateWrapper>();
         List<Id> resStudyIds = new List<Id>();
         List<Id> resPlatformIds = new List<Id>();
         UpdateService instanceObj = UpdateService.getInstance();
-        List<Send_Result__c> sendResults = instanceObj.getSendResultRecords(resStudyIds,resPlatformIds,offsets,limits);
+        List<Send_Result__c> sendResults = instanceObj.getSendResultRecords(resStudyIds,resPlatformIds,offsets,limits,initialLoadTime);
         Map<Id,Res_study__c> resStudyMap = instanceObj.getResStudy(resStudyIds);
         Map<Id,Resource__c> resPlatformMap = instanceObj.getResPlatform(resPlatformIds);
         Map<Id,Id> resIdContentVersionIdMap = instanceObj.getContentVersionForStdDoc(resStudyMap,resPlatformMap);
@@ -14,9 +14,10 @@ public without sharing class PPUpdatesController {
     } 
     
     @AuraEnabled
-    public static Integer getSendResultCount(){ 
+    public static Integer getSendResultCount(String initialLoadTime){
+        DateTime initialDateTime = Datetime.valueOfGMT(initialLoadTime); 
         UpdateService.ResourceFilter resFilter = UpdateService.getSendResultFilter();
-        Integer updateCount = [SELECT count() FROM Send_Result__c where Notification__r.Target_Record_Ids__c!=null 
+        Integer updateCount = [SELECT count() FROM Send_Result__c where Notification__r.Target_Record_Ids__c!=null AND CreatedDate<=:initialDateTime 
                                AND Target_Type__c=:UpdateService.SR_TARGET_TYPE_UPDATES AND Status__c=:UpdateService.SR_STATUS_IN_PROGRESS
                                AND Notification__r.Recipient__c=:resFilter.participantContactId AND 
                                ((Notification__r.whatId__c in : resFilter.peList AND Notification__r.Target_Record_Ids__c in : resFilter.resStudyIdVisToPt)

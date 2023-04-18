@@ -100,15 +100,24 @@
                     </lightning-layout-item>
                 </template>
                 <template if:false={showUpcomingSection}>
-                    <lightning-layout-item size="8" class="around-small-custom around-right-zero">
-                        <c-pp-updates showvisitsection={showUpcomingSection} counter={counter}></c-pp-updates>
+                    <lightning-layout-item size={updateCardLayoutSize} class={updateCardLayoutClass}>
+                        <c-pp-updates showvisitsection={updateCardLayoutSmall} counter={counter}></c-pp-updates>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="4" class={progressBarLayoutClass}>
+                        <template if:true={participantState}>
+                            <template if:true={participantState.pe}>
+                                <c-pp-progress-bar parent-class="small" onprogressbarempty={showBiggerUpdatesSection} perid={participantState.pe.Id}></c-pp-progress-bar>
+                            </template>
+                        </template>
                     </lightning-layout-item>
                 </template>
             </lightning-layout>
             <!-- Bottom Congrats Text -->
-            <template if:true={participantState}>
-                <template if:true={participantState.pe}>
-                    <c-pp-progress-bar perid={participantState.pe.Id}></c-pp-progress-bar>
+            <template if:true={showUpcomingSection}>
+                <template if:true={participantState}>
+                    <template if:true={participantState.pe}>
+                        <c-pp-progress-bar perid={participantState.pe.Id}></c-pp-progress-bar>
+                    </template>
                 </template>
             </template>
         </template>
@@ -371,7 +380,7 @@
                 </template>
             </template>
             <template if:true={updatesSection}>
-                <c-pp-updates oncounterupdate={updateCounter} desktop={desktop}></c-pp-updates>
+                <c-pp-updates counter={counter} desktop={desktop}></c-pp-updates>
             </template>            
             <div if:true={showProgress}>
                 <div class="progressTab">
