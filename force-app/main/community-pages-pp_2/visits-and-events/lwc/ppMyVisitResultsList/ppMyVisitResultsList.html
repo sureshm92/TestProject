@@ -42,7 +42,7 @@
 
                                                 <p class="no-date no-visit-date">
                                                     <template if:false={item.Completed_Date__c}>
-                                                        {label.noVisitsLabel}
+                                                        {labels.NOT_AVAILABLE}
                                                     </template>
                                                 </p>
                                                 <template if:true={item.Completed_Date__c}>
@@ -64,7 +64,7 @@
             </div>
         </div>
         <div
-            class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_8-of-12"
+            class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_8-of-12 result-container"
         >
             <template lwc:if={isInitiliazed}>
                 <!--Jayashree Component Logic-->

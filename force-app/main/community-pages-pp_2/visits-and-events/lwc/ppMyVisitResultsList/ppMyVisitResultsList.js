@@ -7,6 +7,7 @@ import desktopTemplate from './ppMyVisitResultsList.html';
 import PP_ICONS from '@salesforce/resourceUrl/pp_community_icons';
 import getPatientVisitsWithResults from '@salesforce/apex/ModifiedVisitResultsRemote.getInitDataForVisitResultsModified';
 import NO_RESULTS_MESSAGE from '@salesforce/label/c.PG_VP_L_No_Items_display';
+import NOT_AVAILABLE from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
 
 export default class PpMyVisitResultsList extends LightningElement {
     @track completedVisitsWithResults;
@@ -18,7 +19,8 @@ export default class PpMyVisitResultsList extends LightningElement {
     userTimezone = TIME_ZONE;
 
     labels = {
-        NO_RESULTS_MESSAGE
+        NO_RESULTS_MESSAGE,
+        NOT_AVAILABLE
     };
 
     connectedCallback() {
