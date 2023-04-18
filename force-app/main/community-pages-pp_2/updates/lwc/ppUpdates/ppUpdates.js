@@ -87,6 +87,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                         resObj.isTelevisit = true;
                     } else if (resObj.contentType == 'VisitResult') {
                         resObj.isVisitResult = true;
+                    }else {
+                        resObj.isMultimedia = true;
                     }
                 });
                 this.resourcedData = [...this.resourcedData, ...returnValue];

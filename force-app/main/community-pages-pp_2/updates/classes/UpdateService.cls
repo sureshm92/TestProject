@@ -191,7 +191,6 @@ public without sharing class UpdateService {
     }
 
     public void createPatientVisitWrapper(Id patientVisitId, UpdateWrapper wrp) {
-        wrp.Title = 'new Visit Result Available';
         wrp.contentType = 'VisitResult';
         wrp.recId = patientVisitId;
     }
