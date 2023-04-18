@@ -47,6 +47,10 @@ export default class HomePageParticipantNew extends LightningElement {
     studysite;
     counterLabel;
     initialLoadTime;
+    updateCardLayoutSize = 4;
+    updateCardLayoutClass = 'around-small-custom';
+    updateCardLayoutSmall = true;
+    progressBarLayoutClass = 'around-small-custom around-right-zero';
 
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
@@ -281,5 +285,12 @@ export default class HomePageParticipantNew extends LightningElement {
     televisitsTab() {
         this.isTelevisits = true;
         this.marginbottom = 'marginbottom';
+    }
+
+    showBiggerUpdatesSection() {
+        this.updateCardLayoutSize = 8;
+        this.updateCardLayoutClass = 'around-small-custom around-right-zero';
+        this.updateCardLayoutSmall = false;
+        this.progressBarLayoutClass = 'slds-hide';
     }
 }

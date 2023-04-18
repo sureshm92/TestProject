@@ -167,11 +167,10 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                     )
                                 );
                             }
-                                if (isDelegate)
-                                    continue;
+
                                 if (
                                     pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                                    CommunityTemplateService.TEMPLATE_PP
+                                    CommunityTemplateService.TEMPLATE_PP && !isDelegate
                                 ) {
                             if (res.Resource__r.Content_Type__c == 'Study_Document') {
                                 notifications.add(
