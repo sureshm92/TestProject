@@ -19,7 +19,8 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                     Participant_Status__c,
                     Study_Site__r.Approved_Lng__c,
                     Study_Site__r.Site__r.BillingCountryCode,
-                    Participant__r.Has_Studies_In_Progress__c
+                    Participant__r.Has_Studies_In_Progress__c,
+                    Clinical_Trial_Profile__r.CommunityTemplate__c
                 FROM Participant_Enrollment__c
                 WHERE
                     Clinical_Trial_Profile__c IN :ctpIds
@@ -90,7 +91,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                 }
             }
         }
-
+        if (!resIds.isEmpty()) {
         List<ContentDocumentLink> contentDocumentLinks = [
             SELECT
                 Id,
@@ -106,14 +107,16 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
             }
             contentLangByResId.get(content.LinkedEntityId)
                 .add(content.ContentDocument.LatestPublishedVersion.LanguageCode__c);
+            }
         }
         Map<Id, List<String>> resIdsByContactId = new Map<Id, List<String>>();
         List<Contact> contactToNotify = new List<Contact>();
         List<Notification__c> notifications = new List<Notification__c>();
 
         List<Id> partContIds = new List<Id>();
-        for (Participant_Enrollment__c pe : pelist)
+        for (Participant_Enrollment__c pe : pelist) {
             partContIds.add(pe.Participant_Contact__c);
+        }
         Map<Id, List<Contact>> delContactsByParticipant = PatientDelegateEnrollmentService.getDelegatedCntsByParticipantCnt(
             partContIds,
             new List<String>{ 'Id', 'userCommunityMode__c', 'Resource_Notifications__c' }
@@ -166,6 +169,10 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                             }
                                 if (isDelegate)
                                     continue;
+                                if (
+                                    pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                                    CommunityTemplateService.TEMPLATE_PP
+                                ) {
                             if (res.Resource__r.Content_Type__c == 'Study_Document') {
                                 notifications.add(
                                     new Notification__c(
@@ -220,6 +227,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                     )
                                 );
                             }
+                                }
 
                             if (!resIdsByContactId.containsKey(contact.Id)) {
                                 List<String> resNotificationIds = contact.Resource_Notifications__c !=

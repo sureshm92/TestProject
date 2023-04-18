@@ -13,6 +13,7 @@ public without sharing class AccountSettingsController {
     public static Boolean isParticipantLoggedIn = true;
     public static Boolean checkIfDelAlsoAParticipant = false;
     public static Boolean isDelegateSwitchedToParView = false;
+    public static Boolean isPatientPortalLite = true;
     public static Id currentParticipantId = null;
     public static Participant__c delegateParticipant = new Participant__c();
     public static Contact delegateContact = new Contact();
@@ -281,6 +282,7 @@ public without sharing class AccountSettingsController {
                 initData.myContact,
                 initData.participant
             );
+            initData.isActiveDelegate = PatientDelegateEnrollmentService.isActiveDelegate(initData.myContact.Id);
             return JSON.serialize(initData, false);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -337,6 +339,7 @@ public without sharing class AccountSettingsController {
         String commPrefWrapperJSON,
         String userMode
     ) {
+        isPatientPortalLite = false;
         updatePerson(wrapperJSON);
         //If loggied in user is Participant or Patient Delegate.
         if (userMode == 'Participant') {
@@ -407,6 +410,12 @@ public without sharing class AccountSettingsController {
                 PersonWrapper.class
             );
             update wrapper.convertToContact();
+
+            //if Phone number is deleted by participant or Patient deleted from Paient portal II
+            if(isPatientPortalLite && String.isBlank(wrapper.mobilePhone)){
+                PreferenceManagementController.optOutSMSWhenMobileIsDeletedforPPLite(wrapper.contactId);
+
+            }
 
             TaskService.getInstance().completeCYPTaskForParticipant();
 
@@ -821,6 +830,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public ProgramOverViewData programOverViewData = new ProgramOverViewData();
         @AuraEnabled
         public ParticipantService.ParticipantState participantState;
+        @AuraEnabled
+        public Boolean isActiveDelegate = false;
     }
 
     public class ContactSectionData {
@@ -1061,6 +1072,10 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             personContact.MailingPostalCode = zip;
             personContact.Salutation = prefix;
             personContact.Phone_Type__c = phoneType;
+            // //if Phone number is deleted by participant or Patient deleted from Paient portal II
+            // if(isPatientPortalLite && String.isBlank(mobilePhone)){
+            //     personContact.Participant_Opt_In_Status_SMS__c = false;
+            // }
             return personContact;
         }
 

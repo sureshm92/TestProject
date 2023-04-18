@@ -162,12 +162,10 @@
 }
 .update-circle {
     background-color: #e20000;
-    border: 1px solid #ffff;
+    border: 1.5px solid #ffff;
     height: 24px;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    width: 24px;
+    min-width: 24px;
+    border-radius: 12px;
     position: absolute;
     text-align: center;
     right: -6px;
@@ -184,7 +182,8 @@
 .update-count-font {
     color: #ffffff;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
+    padding: 0px 7px;
 }
 .pad-left {
     margin-left: -30px !important;
@@ -247,7 +246,7 @@
 }
 .container-card {
     background-color: rgb(246, 247, 249);
-    border-top-color: #0096ff;
+    border-top-color: #00a3e0;
     border-top-width: 8px;
     padding: 0;
     border-radius: 7px;
