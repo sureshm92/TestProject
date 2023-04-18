@@ -23,7 +23,15 @@ export default class PPVisitResultUpdates extends NavigationMixin(LightningEleme
         }
         let visitresultdetailpageurl =
                 window.location.origin + basePathName + '/results';    
-            window.open(visitresultdetailpageurl, '_self');
+                const config = {
+                    type: 'standard__webPage',
+                    attributes: {
+                        url: visitresultdetailpageurl
+                    }
+                };        
+                this[NavigationMixin.GenerateUrl](config).then((url) => {
+                    window.open(url, '_self');
+                });
         
     }
     removeCardHandler() {
