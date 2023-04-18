@@ -19810,6 +19810,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>For the site to contact you through this platform regarding participation in this study, please note that at least one contact method should be selected.</value>
     </labels>
     <labels>
+        <fullName>PP_Communication_Study_Static_Message_2_0</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Communication_Study_Static_Message_2.0</shortDescription>
+        <value>For the site to contact you through this platform regarding participation in this study/program, please note that at least one contact method should be selected.</value>
+    </labels>
+    <labels>
         <fullName>PP_Conditions</fullName>
         <language>en_US</language>
         <protected>true</protected>

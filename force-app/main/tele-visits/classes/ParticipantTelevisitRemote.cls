@@ -6,7 +6,6 @@ public without sharing class ParticipantTelevisitRemote {
             String timezonechanges;
             Boolean delegatecheck = false;
             participantservice.participantstate pstate = ((participantservice) classfactory.newinstance(participantservice.class)).getState(); 
-            system.debug('+++++++++pstate'+pstate);
             String ctpId;
             if(pstate != null && pstate.pe != null){
                 ctpId = pstate.pe.Clinical_Trial_Profile__c;
@@ -21,7 +20,12 @@ public without sharing class ParticipantTelevisitRemote {
                 query += '  where Televisit__r.Participant_Enrollment__c = :peId order by Televisit__r.Visit_Date_Time__c desc';
             }else{
                 delegatecheck = true;
-                String contactId = pstate.currentContactId;
+                String contactId;
+                if(pstate.isDelegate){
+                    contactId = ParticipantContext.getCurrentParticipant().Contact__c ;
+                }else{
+                    contactId = pstate.currentContactId;
+                }
                 query += '  where Contact__c =:contactId order by Televisit__r.Visit_Date_Time__c desc';
             }
             List<Televisit_Attendee__c> televisitattendeesdata = Database.query(query);
