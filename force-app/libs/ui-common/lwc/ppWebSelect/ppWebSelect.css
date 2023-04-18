@@ -226,4 +226,7 @@
     .dropdown-menu {
         max-height: 15rem !important;
     }
+    .custom-no-border .dropdown-span {
+        width: 80%;
+    }
 }
