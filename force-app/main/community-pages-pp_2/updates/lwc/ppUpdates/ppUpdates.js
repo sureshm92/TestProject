@@ -10,6 +10,7 @@ import updatesLabel from '@salesforce/label/c.Updates_Label';
 import viewAllResource from '@salesforce/label/c.View_All_Resource';
 import caughtup from '@salesforce/label/c.Caught_up';
 import refresh from '@salesforce/label/c.PP_Update_Refresh';
+import load_more from '@salesforce/label/c.PP_Load_More';
 export default class PpUpdates extends NavigationMixin(LightningElement) {
     @api desktop;
     @api showvisitsection;
@@ -26,6 +27,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     empty_state = pp_community_icons + '/' + 'empty_updates.PNG';
     link_state = pp_community_icons + '/' + 'linkssvg.svg';
     refresh_icon = pp_community_icons + '/' + 'refresh_Icon.svg';
+    loadmore_icon = pp_community_icons + '/' + 'down.svg';
     isRendered = false;
     offset = 0;
     limit = 4;
@@ -33,12 +35,22 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         updatesLabel,
         viewAllResource,
         caughtup,
-        refresh
+        refresh,
+        load_more
     };
     timer;
-
+    initialLoadTime;
+    loadMoreValue;
+    get showloadMore() {
+        if (this.counter > 4 && this.loadMoreValue && this.counter > this.offset) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     renderedCallback() {
         if (!this.isRendered) {
+            this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
             this.isRendered = true;
             this.initializeData();
         }
@@ -47,7 +59,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
         this.getCount();
     }
     getCount() {
@@ -56,7 +68,11 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     }
     getUpdates() {
         this.spinner = this.template.querySelector('c-web-spinner');
-        getSendResultUpdates({ offsets: this.offset, limits: this.limit })
+        getSendResultUpdates({
+            offsets: this.offset,
+            limits: this.limit,
+            initialLoadTime: this.initialLoadTime
+        })
             .then((returnValue) => {
                 returnValue.forEach((resObj) => {
                     if (resObj.contentType == 'Article' || resObj.contentType == 'Video') {
@@ -69,6 +85,10 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                         resObj.isLink = true;
                     } else if (resObj.contentType == 'Televisit') {
                         resObj.isTelevisit = true;
+                    } else if (resObj.contentType == 'VisitResult') {
+                        resObj.isVisitResult = true;
+                    }else {
+                        resObj.isMultimedia = true;
                     }
                 });
                 this.resourcedData = [...this.resourcedData, ...returnValue];
@@ -76,11 +96,14 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                     this.resourcePresent = true;
                 }
                 this.offset += this.limit;
+                if (this.desktop) {
                 if (this.showvisitsection) {
                     this.addVerticalScroll();
                 } else {
                     this.addHorizontalScroll();
                 }
+                }
+                this.loadMoreValue = true;
                 this.spinner.hide();
             })
             .catch((error) => {
@@ -89,7 +112,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             });
     }
     refreshUpdatesData() {
-        getSendResultCount()
+        getSendResultCount({ initialLoadTime: this.initialLoadTime })
             .then((returnValue) => {
                 this.counter = returnValue;
                 this.showCounterCheck();
@@ -149,6 +172,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     refresh() {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
+        this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
         this.counter = 0;
         this.displayCounter = false;
         this.offset = 0;
@@ -159,15 +183,10 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             this.refreshUpdatesData();
         }, 1000);
     }
-
-    showErrorToast(titleText, messageText, variantType) {
-        this.dispatchEvent(
-            new ShowToastEvent({
-                title: titleText,
-                message: messageText,
-                variant: variantType
-            })
-        );
+    loadMore() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.spinner.show();
+        this.getUpdates();
     }
     handleRemoveCard(event) {
         const sendResultId = event.detail.sendResultId;

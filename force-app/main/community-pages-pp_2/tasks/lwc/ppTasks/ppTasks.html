@@ -51,7 +51,7 @@
             </template>
             <template if:false={desktop}>
                 <article class="slds-card slds-card_boundary container-card-mobile">
-                    <p class="task-header">Tasks</p>
+                    <p class="task-header">{label.tasksHeader}</p>
                     <div class="custom-padding">
                         <template if:true={taskOpenTab}>
                             <c-pp-tasks-list
@@ -107,7 +107,7 @@
                                 <div class="page-section page-header">
                                     <div class="slds-align_absolute-center">
                                         <button class={taskBtnOpenClass} onclick={navigateToOpen}>
-                                            Open</button
+                                            {label.PP_Open}</button
                                         ><button
                                             class={taskBtnCompleteClass}
                                             onclick={navigateToCompleted}
