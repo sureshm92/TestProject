@@ -12233,6 +12233,14 @@ The expected format is REF##### to REF########</value>
         <value>You have ##Count new referral(s) for Study ##StudyName since your last login. {URL}</value>
     </labels>
     <labels>
+        <fullName>New_Visit_Results_Now_Available</fullName>
+        <categories>View_Results</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New_Visit_Results_Now_Available</shortDescription>
+        <value>New visit results now available.</value>
+    </labels>
+    <labels>
         <fullName>New_York_carcinoma</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19800,6 +19808,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Communication_Study_Static_Message</shortDescription>
         <value>For the site to contact you through this platform regarding participation in this study, please note that at least one contact method should be selected.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Study_Static_Message_2_0</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Communication_Study_Static_Message_2.0</shortDescription>
+        <value>For the site to contact you through this platform regarding participation in this study/program, please note that at least one contact method should be selected.</value>
     </labels>
     <labels>
         <fullName>PP_Conditions</fullName>
@@ -29928,6 +29943,14 @@ The IQVIA Referral Hub Support Team</value>
         <protected>true</protected>
         <shortDescription>View_More</shortDescription>
         <value>View More</value>
+    </labels>
+    <labels>
+        <fullName>View_Results</fullName>
+        <categories>View_Results</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View_Results</shortDescription>
+        <value>View Results</value>
     </labels>
     <labels>
         <fullName>View_Visit_Details</fullName>
