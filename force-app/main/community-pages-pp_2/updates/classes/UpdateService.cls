@@ -47,14 +47,15 @@ public without sharing class UpdateService {
                 AND ((Notification__r.whatId__c IN :resFilter.peList
                 AND Notification__r.Target_Record_Ids__c IN :resFilter.resStudyIdVisToPt)
                 OR (Notification__r.whatId__c = :resFilter.currentPe
-                AND Notification_Type__c = :NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE)
+                AND Notification__r.Notification_Type__c = :NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE)
                 OR Notification__r.whatId__c = :resFilter.currentParticipantId)
             ORDER BY lastModifiedDate DESC
             LIMIT :limits
             OFFSET :offsets
         ];
         for (Send_Result__c sr : sendResults) {
-            Id targetId = (Id) sr.Notification__r.Target_Record_Ids__c;
+            List<Id> targetIds = (List<Id>)sr.Notification__r.Target_Record_Ids__c.split(',');
+            Id targetId = targetIds[0];
             String targetType = targetId.getSObjectType().getDescribe().getName().toLowerCase();
             if (targetType == OBJECT_TYPE_STD_RESOURCE) {
                 resStudyIds.add(sr.Notification__r.Target_Record_Ids__c);
@@ -162,7 +163,8 @@ public without sharing class UpdateService {
         List<UpdateWrapper> updateWrapperlist
     ) {
         for (Send_Result__c sr : sendResults) {
-            Id targetId = (Id) sr.Notification__r.Target_Record_Ids__c;
+            List<Id> targetIds = (List<Id>)sr.Notification__r.Target_Record_Ids__c.split(',');
+            Id targetId = targetIds[0];
             String targetType = targetId.getSObjectType().getDescribe().getName().toLowerCase();
             UpdateWrapper wrp = new UpdateWrapper();
             if (
