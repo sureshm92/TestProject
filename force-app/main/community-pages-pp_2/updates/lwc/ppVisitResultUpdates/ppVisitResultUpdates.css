@@ -43,7 +43,6 @@
     border-radius: 8px;
     background-color: #ffffff;
     margin-top: 8px;
-    cursor: pointer;
 }
 
 .link-img {
@@ -206,9 +205,11 @@
     margin-left: 10px;
     margin-top: 10px;
     overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     text-transform: uppercase;
-    margin-right: 10px;
 }
 
 .helpful-link-horizontal {
