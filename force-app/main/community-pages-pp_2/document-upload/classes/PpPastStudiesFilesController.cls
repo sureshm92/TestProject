@@ -37,7 +37,7 @@ public with sharing class PpPastStudiesFilesController {
             FROM Patient_Delegate_Enrollment__c
             WHERE
                 Participant_Enrollment__c IN :perIDs
-                AND Participant_Enrollment__r.Participant_Contact__c = :contID
+                AND Patient_Delegate__r.Contact__c = :getUserContact
                 AND Primary_Delegate__c = TRUE
             LIMIT 10000])
             {
@@ -60,7 +60,7 @@ public with sharing class PpPastStudiesFilesController {
 
         List<ContentDocumentLink> getFiles = new List<ContentDocumentLink> ();
         wrap.fileList = getFiles;
-        wrap.perList = PrimaryalumniPERList.isEmpty() ? alumiPerList : PrimaryalumniPERList;
+        wrap.perList = isDelegate ? PrimaryalumniPERList : alumiPerList  ;
         if (!pder.isEmpty()) {
             wrap.isPrimary = true;
         }
