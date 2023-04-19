@@ -7,9 +7,9 @@
                     <div class="slds-grid slds-grid_align-spread">
                         <div class="slds-col" style="display: inline-flex">
                             <div class="updates">{label.updatesLabel}</div>
-                            <div
-                                if:true={displayCounter}
-                                class="update-counter-oval slds-align_absolute-center"
+                            <div 
+                            if:true={displayCounter} 
+                            class="update-counter-oval slds-align_absolute-center"
                             >
                                 <span class="update-count">{counterLabel}</span>
                             </div>
@@ -74,6 +74,14 @@
                                         show-visit-section={showvisitsection}
                                         onremovecard={handleRemoveCard}
                                     ></c-pp-link-updates>
+                                </div>
+                                <div if:true={res.isVisitResult} key={res}>
+                                    <c-pp-visit-result-updates
+                                        link-data={res}
+                                        desktop={desktop}
+                                        show-visit-section={showvisitsection}
+                                        onremovecard={handleRemoveCard}
+                                    ></c-pp-visit-result-updates>
                                 </div>
                             </template>
                         </div>
@@ -147,6 +155,17 @@
                                             onremovecard={handleRemoveCard}
                                         ></c-pp-explore-updates>
                                     </div>
+                                    <div if:true={res.isVisitResult} 
+                                         key={res}
+                                         class="slds-col slds-size_3-of-12 slds-m-right_x-small horizontal-card"
+                                    >     
+                                        <c-pp-visit-result-updates
+                                            link-data={res}
+                                            desktop={desktop}
+                                            show-visit-section={showvisitsection}
+                                            onremovecard={handleRemoveCard}
+                                        ></c-pp-visit-result-updates>
+                                    </div>
                                     <!--    <div
                                     key={res}
                                     if:true={res.isTelevisit}
@@ -214,6 +233,14 @@
                                     show-visit-section={showvisitsection}
                                     onremovecard={handleRemoveCard}
                                 ></c-pp-explore-updates>
+                            </div>
+                            <div if:true={res.isVisitResult} key={res}>
+                                <c-pp-visit-result-updates
+                                    link-data={res}
+                                    desktop={desktop}
+                                    show-visit-section={showvisitsection}
+                                    onremovecard={handleRemoveCard}
+                                ></c-pp-visit-result-updates>
                             </div>
                         </template>
                     </div>
