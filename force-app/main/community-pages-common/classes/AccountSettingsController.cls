@@ -1248,6 +1248,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 delegateEnrollmentRecordPERIds != null &&
                 initData.consentPreferenceData.isParticipantLoggedIn == false
             ) {
+                isIQIVAOutrechToggleOnAtCTP = false;
                 for (Participant_Enrollment__c per : participantEnrollments) {
                     if (
                         delegateEnrollmentRecordPERIds.contains(per.Id) &&
