@@ -73,7 +73,8 @@ export default class PpCommunityFooter extends LightningElement {
         }
 
         //getting ctp terms of use and privacy policy if exists
-        getInitData({})
+        setTimeout(()=>{
+            getInitData({})
             .then((result) => {
                 let ps = JSON.parse(result);
 
@@ -124,6 +125,8 @@ export default class PpCommunityFooter extends LightningElement {
             .catch((error) => {
                 this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
+        },100);
+       
         this.privacyLabel = this.sponser
             ? this.sponser + ' ' + this.labels.PRIVACY_POLICY
             : this.labels.PRIVACY_POLICY;
