@@ -1284,7 +1284,8 @@ public without sharing class DashboardRemoteNew {
             PRE_REVIEW_FAILED
         },
         'conditionStatus1' => new List<String>{
-            PE_STATUS_SUCCESSFULLY_CONTACTED
+            PE_STATUS_SUCCESSFULLY_CONTACTED,
+            STATUS_CONTACTED_NOT_SUITABLE
         },
         'conditionStatus2' => new List<String>{
             PE_STATUS_SUCCESSFULLY_CONTACTED,
@@ -1621,7 +1622,7 @@ public without sharing class DashboardRemoteNew {
                         } else if (
                             initialVisitScheduledDate != null &&
                             initialVisitOccuredFlag == false &&
-                            funnelChartAndLeaderBoardStatusMap.get('conditionStatus2')
+                            funnelChartAndLeaderBoardStatusMap.get('conditionStatus4')
                                 .contains(participantEnrolmentStatus)
                         ) {
                             contacted = contacted + total;
@@ -1629,21 +1630,21 @@ public without sharing class DashboardRemoteNew {
                         }
                         if (initialVisitOccuredFlag == true) {
                             if (
-                                funnelChartAndLeaderBoardStatusMap.get('conditionStatus3')
-                                    .contains(participantEnrolmentStatus)
-                            ) {
-                                contacted = contacted + total;
-                                scheduled = scheduled + total;
-                                initial_Visits_Completed = initial_Visits_Completed + total;
-                            } else if (
-                                funnelChartAndLeaderBoardStatusMap.get('conditionStatus4')
-                                    .contains(participantEnrolmentStatus)
-                            ) {
-                                contacted = contacted + total;
-                                scheduled = scheduled + total;
-                                initial_Visits_Completed = initial_Visits_Completed + total;
-                            } else if (
                                 funnelChartAndLeaderBoardStatusMap.get('conditionStatus5')
+                                    .contains(participantEnrolmentStatus)
+                            ) {
+                                contacted = contacted + total;
+                                scheduled = scheduled + total;
+                                initial_Visits_Completed = initial_Visits_Completed + total;
+                            } else if (
+                                funnelChartAndLeaderBoardStatusMap.get('conditionStatus6')
+                                    .contains(participantEnrolmentStatus)
+                            ) {
+                                contacted = contacted + total;
+                                scheduled = scheduled + total;
+                                initial_Visits_Completed = initial_Visits_Completed + total;
+                            } else if (
+                                funnelChartAndLeaderBoardStatusMap.get('conditionStatus7')
                                     .contains(participantEnrolmentStatus)
                             ) {
                                 contacted = contacted + total;
@@ -1653,7 +1654,7 @@ public without sharing class DashboardRemoteNew {
                             }
                         }
                         if (
-                            funnelChartAndLeaderBoardStatusMap.get('conditionStatus6')
+                            funnelChartAndLeaderBoardStatusMap.get('conditionStatus8')
                                 .contains(participantEnrolmentStatus)
                         ) {
                             contacted = contacted + total;
@@ -1662,7 +1663,7 @@ public without sharing class DashboardRemoteNew {
                             enrolled_randomized = enrolled_randomized + total;
                             initial_Visits_Completed = initial_Visits_Completed + total;
                         } else if (
-                            funnelChartAndLeaderBoardStatusMap.get('conditionStatus7')
+                            funnelChartAndLeaderBoardStatusMap.get('conditionStatus9')
                                 .contains(participantEnrolmentStatus)
                         ) {
                             contacted = contacted + total;
