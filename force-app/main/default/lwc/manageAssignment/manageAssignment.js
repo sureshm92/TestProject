@@ -259,6 +259,16 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     get isNewPatientPortal() {
         return this.currentCommunity === 'Iqvia Patient Portal II' ? true : false;
     }
+    get helpTextItemClassDesktop() {
+        return this.isRTL
+            ? 'slds-align_absolute-center help-text-item-p-right'
+            : 'slds-align_absolute-center help-text-item-p-left';
+    }
+    get helpTextItemClassMobile() {
+        return this.isRTL
+            ? 'slds-align_absolute-center help-text-item-p-right-mob'
+            : 'slds-align_absolute-center help-text-item-p-left-mob';
+    }
     //This method will open Remove Delegate Modal.
     openWithdrawDelegateModal(event) {
         this.withdrawStudyPDEId = event.currentTarget.dataset.pdeid;
