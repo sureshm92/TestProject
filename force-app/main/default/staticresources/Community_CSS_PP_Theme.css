@@ -1576,4 +1576,11 @@ svg:not(:root) {
 .update-container .rr-spinner{
     background-color: transparent;
 }
+.result-container .rr-spinner{
+    background: #ffffff;
+}
+.result-container-mobile .rr-spinner{
+    background: #ffffff;
+}
+
 /* Contact support Modal css- Ends */
