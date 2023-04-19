@@ -37,7 +37,7 @@ import PP_Outreach_Communication_Pref_D from '@salesforce/label/c.PP_Outreach_Co
 import PP_Communication_Par_Mobile_Upd_Success from '@salesforce/label/c.PP_Communication_Par_Mobile_Upd_Success';
 import PP_Communication_Del_Mobile_Upd_Success from '@salesforce/label/c.PP_Communication_Del_Mobile_Upd_Success';
 import PP_Profile_Information from '@salesforce/label/c.PP_Profile_Information';
-import PP_Communication_Study_Static_Message from '@salesforce/label/c.PP_Communication_Study_Static_Message';
+import PP_Communication_Study_Static_Message_2_0 from '@salesforce/label/c.PP_Communication_Study_Static_Message_2_0';
 import PP_Phone_Mandatory from '@salesforce/label/c.PP_Phone_Mandatory';
 import PP_Phone_Numeric from '@salesforce/label/c.PP_Phone_Numeric';
 import Mob_Phone_Field from '@salesforce/label/c.Mob_Phone_Field';
@@ -98,7 +98,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         PP_Communication_Par_Mobile_Upd_Success,
         PP_Communication_Del_Mobile_Upd_Success,
         PP_Profile_Information,
-        PP_Communication_Study_Static_Message,
+        PP_Communication_Study_Static_Message_2_0,
         PP_Phone_Mandatory,
         PP_Phone_Numeric,
         Mob_Phone_Field,

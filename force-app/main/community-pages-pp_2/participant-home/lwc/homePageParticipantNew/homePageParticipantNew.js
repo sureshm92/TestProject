@@ -79,8 +79,9 @@ export default class HomePageParticipantNew extends LightningElement {
         this.initializeData();
     }
 
-    getVisitsPreviewAndCount() {
-        getVisitsPreviewAndCount({})
+    getVisitsPreviewAndCount(){
+        setTimeout(()=>{
+            getVisitsPreviewAndCount({})
             .then((result) => {
                 let visitDetails = result.visitPreviewList;
                 if (visitDetails != null && visitDetails.length != 0 && visitDetails != '') {
@@ -93,33 +94,38 @@ export default class HomePageParticipantNew extends LightningElement {
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
+        },15);
+     
     }
 
-    getVisits() {
-        getVisits({ communityMode: 'IQVIA Patient Portal', userMode: 'Participant' })
+    getVisits(){
+        setTimeout(()=>{
+            getVisits({communityMode : 'IQVIA Patient Portal', userMode : 'Participant'})
             .then((result) => {
-                console.log('result', result);
+                console.log('result',result);
                 var televisitInformation = JSON.parse(result);
                 if (televisitInformation.length > 0) {
                     this.isUpcomingTelevisitVisitDetails = true;
-                } else {
+                }else{
                     this.isUpcomingTelevisitVisitDetails = false;
                 }
-                console.log('Televisit :', this.isUpcomingTelevisitVisitDetails);
-                if (!this.isUpcomingVisitDetails && this.isUpcomingTelevisitVisitDetails) {
+                console.log('Televisit :',this.isUpcomingTelevisitVisitDetails);
+                if(!this.isUpcomingVisitDetails && this.isUpcomingTelevisitVisitDetails){
                     this.isTelevisits = true;
                     this.marginbottom = 'marginbottom';
-                } else {
+                }else{
                     //this.isTelevisits = false;
                 }
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
+        }, 22);
     }
 
     getUpdatesCount() {
-        getSendResultCount({ initialLoadTime: this.initialLoadTime })
+        setTimeout(()=>{
+            getSendResultCount( { initialLoadTime: this.initialLoadTime })
             .then((returnValue) => {
                 this.counter = returnValue;
                 if (this.counter < 100 && this.counter > 0) {
@@ -135,12 +141,16 @@ export default class HomePageParticipantNew extends LightningElement {
             .catch((error) => {
                 console.log('error message : ' + error?.message);
                 this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
+                if(this.spinner){
                 this.spinner.hide();
+                }
             });
+        },8);  
     }
 
     initializeData() {
-        getParticipantData()
+        setTimeout(()=>{
+            getParticipantData()
             .then((result) => {
                 if (result) {
                     let res = JSON.parse(result);
@@ -223,6 +233,8 @@ export default class HomePageParticipantNew extends LightningElement {
                 this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
                 this.spinner ? this.spinner.hide() : '';
             });
+        },40);
+       
     }
 
     renderedCallback() {
