@@ -69,7 +69,8 @@ export default class HomePageVisitsCard extends LightningElement {
         if (this.spinner) {
             this.spinner.show();
         }
-        getVisitsPreviewAndCount({})
+        setTimeout(()=>{
+            getVisitsPreviewAndCount({})
             .then((result) => {
                 let visitDetails = result.visitPreviewList;
                 this.isVisitAvailable = result.showVisits;
@@ -117,6 +118,8 @@ export default class HomePageVisitsCard extends LightningElement {
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
+        },12);
+      
     }
 
     showErrorToast(titleText, messageText, variantType) {
