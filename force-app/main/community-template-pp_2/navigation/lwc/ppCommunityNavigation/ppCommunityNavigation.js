@@ -129,7 +129,8 @@ export default class PpCommunityNavigation extends LightningElement {
                 });
                 this.dispatchEvent(valueChangeEvent);
             } else {
-                getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
+                setTimeout(()=>{
+                    getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
                     .then((result) => {
                         let td = JSON.parse(result);
                         this.shouldDisplayFilesTab = td.tabvisiblity.isFileTabVisiblity;
@@ -166,6 +167,9 @@ export default class PpCommunityNavigation extends LightningElement {
                     .catch((error) => {
                         this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                     });
+                },10);
+                
+               
             }
         }
 
