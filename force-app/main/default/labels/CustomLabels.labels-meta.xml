@@ -12233,6 +12233,14 @@ The expected format is REF##### to REF########</value>
         <value>You have ##Count new referral(s) for Study ##StudyName since your last login. {URL}</value>
     </labels>
     <labels>
+        <fullName>New_Visit_Results_Now_Available</fullName>
+        <categories>View_Results</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New_Visit_Results_Now_Available</shortDescription>
+        <value>New visit results now available.</value>
+    </labels>
+    <labels>
         <fullName>New_York_carcinoma</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18382,6 +18390,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Tasks</value>
     </labels>
     <labels>
+        <fullName>PP_Progress</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Progress</shortDescription>
+        <value>Progress</value>
+    </labels>
+    <labels>
         <fullName>PG_SW_Tab_Visits</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -19795,6 +19810,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>For the site to contact you through this platform regarding participation in this study, please note that at least one contact method should be selected.</value>
     </labels>
     <labels>
+        <fullName>PP_Communication_Study_Static_Message_2_0</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Communication_Study_Static_Message_2.0</shortDescription>
+        <value>For the site to contact you through this platform regarding participation in this study/program, please note that at least one contact method should be selected.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Conditions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Condition</shortDescription>
+        <value>Conditions</value>
+    </labels>
+    <labels>
         <fullName>PP_Condition_of_Interest_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20850,6 +20879,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>1 week before</value>
     </labels>
     <labels>
+        <fullName>PP_Open</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Open</shortDescription>
+        <value>Open</value>
+    </labels>
+    <labels>
         <fullName>PP_Open_In_New_Tab</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21556,6 +21592,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Select Username to use</value>
     </labels>
     <labels>
+        <fullName>PP_Select_up_to_5_conditions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Select_up_to_5_conditions</shortDescription>
+        <value>Select up to 5 conditions</value>
+    </labels>
+    <labels>
         <fullName>PP_SelectYear</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21972,6 +22015,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Update Refresh</shortDescription>
         <value>Refresh</value>
+    </labels>
+    <labels>
+        <fullName>PP_Load_More</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Load_More</shortDescription>
+        <value>Load More</value>
     </labels>
     <labels>
         <fullName>PP_Upload_Photo</fullName>
@@ -29895,6 +29945,14 @@ The IQVIA Referral Hub Support Team</value>
         <value>View More</value>
     </labels>
     <labels>
+        <fullName>View_Results</fullName>
+        <categories>View_Results</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View_Results</shortDescription>
+        <value>View Results</value>
+    </labels>
+    <labels>
         <fullName>View_Visit_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -30339,6 +30397,20 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Visits Upcoming</shortDescription>
         <value>Upcoming</value>
+    </labels>
+    <labels>
+        <fullName>PP_Upcoming_Caps</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Upcoming_Caps</shortDescription>
+        <value>UPCOMING</value>
+    </labels>
+    <labels>
+        <fullName>PP_MY_PROGRESS_Caps</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_MY_PROGRESS_Caps</shortDescription>
+        <value>MY PROGRESS</value>
     </labels>
     <labels>
         <fullName>Visits_View_All_Results</fullName>

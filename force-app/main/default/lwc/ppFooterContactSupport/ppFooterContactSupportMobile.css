@@ -117,7 +117,7 @@
 
 .mob-ph-content1 {
     height: 19px;
-    width: 109px;
+    /* width: 109px; */
     color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -178,6 +178,6 @@
 .site-staff-container {
     /* overflow-y: auto;
     height: 116px; */
-    width: 100%;    
+    width: 100%;
     padding-right: 10px;
 }

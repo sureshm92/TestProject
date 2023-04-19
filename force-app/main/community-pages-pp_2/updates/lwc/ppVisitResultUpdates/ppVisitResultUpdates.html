@@ -1,10 +1,15 @@
 <template>
     <template if:false={desktop}>
-        <div class="slds-grid slds-wrap card-border" onclick={openLink}>
+        <div class="slds-grid slds-wrap card-border">
             <div class="slds-col slds-size_2-of-6 card-element">
                 <div class="slds-align_absolute-center icon-container">
                     <div class="slds-align_absolute-center">
-                        <img data-link={linkData.redirectLink} src={link_state} class="link-img" />
+                        <img
+                            data-link={linkData.redirectLink}
+                            onclick={openLink}
+                            src={results_Illustration}
+                            class="link-img"
+                        />
                     </div>
                 </div>
             </div>
@@ -18,22 +23,16 @@
                             <p
                                 class="links-title"
                                 data-link={linkData.redirectLink}
-                                title={linkData.title}
+                                onclick={openLink}
+                                title={label.New_Visit_Results_Now_Available}
                             >
-                                {linkData.title}
+                                {label.New_Visit_Results_Now_Available}
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="slds-grid">
-                    <span class="open-in-new-tab-label"> {label.Open_In_New_Tab} </span>
-                    <span>
-                        <img
-                            src={open_new_tab}
-                            data-link={linkData.redirectLink}
-                            class="open-tab-horizontal"
-                        />
-                    </span>
+                    <span class="open-in-new-tab-label"> {label.View_Results} </span>
                 </div>
             </div>
         </div>
@@ -46,7 +45,7 @@
                         <div class="slds-align_absolute-center">
                             <img
                                 data-link={linkData.redirectLink}
-                                src={link_state}
+                                src={results_Illustration}
                                 class="link-img"
                             />
                         </div>
@@ -60,20 +59,13 @@
                         <p
                             class="links-title"
                             data-link={linkData.redirectLink}
-                            title={linkData.title}
+                            title={label.New_Visit_Results_Now_Available}
                         >
-                            {linkData.title}
+                            {label.New_Visit_Results_Now_Available}
                         </p>
                     </div>
                     <div class="slds-grid">
-                        <span class="open-in-new-tab-label"> {label.Open_In_New_Tab} </span>
-                        <span>
-                            <img
-                                src={open_new_tab}
-                                data-link={linkData.redirectLink}
-                                class="open-tab-horizontal"
-                            />
-                        </span>
+                        <span class="open-in-new-tab-label"> {label.View_Results} </span>
                     </div>
                 </div>
             </div>
@@ -81,7 +73,7 @@
         <template if:false={showVisitSection}>
             <div class="pointer-class" onclick={openLink}>
                 <div class="slds-align_absolute-center link-image-section-horizontal">
-                    <img data-link={linkData.redirectLink} src={link_state} class="link-image" />
+                    <img data-link={linkData.redirectLink} src={results_Illustration} class="link-image" />
                 </div>
                 <div class="helpful-link-horizontal">
                     <p class="helpful-link-title" title={linkData.linkType}>{linkData.linkType}</p>
@@ -90,9 +82,9 @@
                     <p
                         class="link-title-horizontal slds-truncate"
                         data-link={linkData.redirectLink}
-                        title={linkData.title}
+                        title={label.New_Visit_Results_Now_Available}
                     >
-                        {linkData.title}
+                        {label.New_Visit_Results_Now_Available}
                     </p>
                 </div>
                 <div class="slds-grid open-tab-data-icon-container slds-align_absolute-center">
@@ -100,17 +92,10 @@
                         <p
                             class="open-in-new-tab"
                             data-link={linkData.redirectLink}
-                            title={linkData.title}
+                            title={label.New_Visit_Results_Now_Available}
                         >
-                            {label.Open_In_New_Tab}
+                            {label.View_Results}
                         </p>
-                    </div>
-                    <div class="">
-                        <img
-                            src={open_new_tab}
-                            data-link={linkData.redirectLink}
-                            class="open-tab-image"
-                        />
                     </div>
                 </div>
             </div>
