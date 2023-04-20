@@ -20,8 +20,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     resourcePresent = false;
     desktop = true;
     isInitialized = false;
-    counterLabel = 0;
-    displayCounter = false;
     open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
     empty_state = pp_community_icons + '/' + 'empty_updates.PNG';
     link_state = pp_community_icons + '/' + 'linkssvg.svg';
@@ -61,6 +59,20 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             return 'slds-card__body slds-card__body_inner custom-padding';
         }
     }
+    get displayCounter() {
+        if (this.counter > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    get counterLabel() {
+        if (this.counter < 100 && this.counter > 0) {
+            return this.counter;
+        } else if (this.counter >= 100) {
+            return '99+';
+        }
+    }
     renderedCallback() {
         if (!this.isRendered) {
             this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
@@ -76,7 +88,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.getCount();
     }
     getCount() {
-        this.showCounterCheck();
         this.getUpdates();
     }
     getUpdates() {
@@ -121,7 +132,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         getSendResultCount({ initialLoadTime: this.initialLoadTime })
             .then((returnValue) => {
                 this.counter = returnValue;
-                this.showCounterCheck();
                 this.getUpdates();
             })
             .catch((error) => {
@@ -158,7 +168,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         this.spinner.show();
         this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
         this.counter = 0;
-        this.displayCounter = false;
         this.offset = 0;
         this.limit = 4;
         this.resourcedData = [];
@@ -179,19 +188,5 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             .catch((error) => {
                 console.log('error message ' + error?.message);
             });
-    }
-    showCounterCheck() {
-        if (this.counter < 100 && this.counter > 0) {
-            this.displayCounter = true;
-            this.counterLabel = this.counter;
-            this.resourcePresent = true;
-        } else if (this.counter >= 100) {
-            this.displayCounter = true;
-            this.counterLabel = '99+';
-            this.resourcePresent = true;
-        } else if (this.counter <= 0) {
-            this.resourcePresent = false;
-            this.displayCounter = false;
-        }
     }
 }
