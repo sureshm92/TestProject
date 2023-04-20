@@ -14,7 +14,7 @@ import load_more from '@salesforce/label/c.PP_Load_More';
 export default class PpUpdates extends NavigationMixin(LightningElement) {
     @api desktop;
     @api showvisitsection;
-    @api counter = 0;
+    @api counter;
     linksWrappers = [];
     @track resourcedData = [];
     resourcePresent = false;
