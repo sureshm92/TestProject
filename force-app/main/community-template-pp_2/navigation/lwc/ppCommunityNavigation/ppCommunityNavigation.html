@@ -8,7 +8,13 @@
                 <template for:each={participantTabs} for:item="item">
                     <div class="nav-item" key={item.label}>
                         <template if:true={item.displayIcon}>
-                            <div data-page-name={item.page} onclick={handleNavigation}>
+                            <div
+                                tabindex="0"
+                                role="button"
+                                aria-pressed="false"
+                                data-page-name={item.page}
+                                onclick={handleNavigation}
+                            >
                                 <c-web-icon
                                     icon-name={item.icon}
                                     icon-color="white"
@@ -20,7 +26,7 @@
                             <template if:false={item.expand}>
                                 <div data-page-name={item.page} onclick={handleNavigation}>
                                     <ul>
-                                        <li>{item.label}</li>
+                                        <li tabindex="0">{item.label}</li>
                                     </ul>
                                 </div>
                             </template>
@@ -29,12 +35,14 @@
                         <template if:true={item.expand}>
                             <div
                                 class="slds-dropdown-trigger slds-dropdown-trigger_click my-menu my-submenuopen"
-                                data-key={item.label} 
+                                data-key={item.label}
                             >
                                 <a
                                     href="javascript:void(0);"
-                                    aria-haspopup="true"  onclick={dropdownMenu} onblur={removeElementFocus}
-                                    data-tagname='myprogram'
+                                    aria-haspopup="true"
+                                    onclick={dropdownMenu}
+                                    onblur={removeElementFocus}
+                                    data-tagname="myprogram"
                                     class="slds-text-color_inverse color-text-link-disabled slds-var-p-around_x-small"
                                 >
                                     {item.label}
@@ -59,8 +67,15 @@
                                                     class="slds-dropdown__item"
                                                     role="presentation"
                                                     key={subItem.label}
+                                                    tabindex="0"
                                                 >
-                                                    <a onclick={handleNavigationSubMenu}  data-pagename={subItem.page} role="menuitem" onmouseover={handleOnMouseOver} onmouseleave={handleOnMouseLeave}>
+                                                    <a
+                                                        onclick={handleNavigationSubMenu}
+                                                        data-pagename={subItem.page}
+                                                        role="menuitem"
+                                                        onmouseover={handleOnMouseOver}
+                                                        onmouseleave={handleOnMouseLeave}
+                                                    >
                                                         <span
                                                             class="slds-truncate"
                                                             title={subItem.label}
