@@ -55,7 +55,7 @@ public without sharing class UpdateService {
         ];
         for (Send_Result__c sr : sendResults) {
             List<Id> targetIds = (List<Id>)sr.Notification__r.Target_Record_Ids__c.split(',');
-            Id targetId = targetIds[0];
+            Id targetId = targetIds[targetIds.size()-1];
             String targetType = targetId.getSObjectType().getDescribe().getName().toLowerCase();
             if (targetType == OBJECT_TYPE_STD_RESOURCE) {
                 resStudyIds.add(sr.Notification__r.Target_Record_Ids__c);
@@ -164,7 +164,7 @@ public without sharing class UpdateService {
     ) {
         for (Send_Result__c sr : sendResults) {
             List<Id> targetIds = (List<Id>)sr.Notification__r.Target_Record_Ids__c.split(',');
-            Id targetId = targetIds[0];
+            Id targetId = targetIds[targetIds.size()-1];
             String targetType = targetId.getSObjectType().getDescribe().getName().toLowerCase();
             UpdateWrapper wrp = new UpdateWrapper();
             if (
