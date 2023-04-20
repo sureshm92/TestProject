@@ -47,11 +47,6 @@ export default class PpCommunityFooter extends LightningElement {
         this.initializeData();
     }
     initializeData() {
-        this.spinner = this.template.querySelector('c-web-spinner');
-        if (this.spinner) {
-            this.spinner.show();
-        }
-
         let sponsor = communityService.getCurrentSponsorName();
         let currentPage = communityService.getPageName();
         let hasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI();
@@ -73,66 +68,66 @@ export default class PpCommunityFooter extends LightningElement {
         }
 
         //getting ctp terms of use and privacy policy if exists
-        getInitData({})
-            .then((result) => {
-                let ps = JSON.parse(result);
+        setTimeout(() => {
+            getInitData({})
+                .then((result) => {
+                    let ps = JSON.parse(result);
 
-                if (ps.objCPRA) {
-                    this.isCPRAAvailable = true;
-                    this.CPRALinkToredirect = ps.objCPRA.Link_to_redirect__c;
-                }
-                if (ps.ctp != null) {
-                    this.studysite = ps.pe.Study_Site__r;
-                    if (ps.ctp.Terms_And_Conditions_ID__c != null) {
-                        this.ctpId = ps.ctp.Id;
-                        var tclink =
-                            'terms-and-conditions?id=' +
-                            ps.ctp.Id +
-                            '&ret=' +
-                            communityService.createRetString();
-                        this.tcLink = tclink;
+                    if (ps.objCPRA) {
+                        this.isCPRAAvailable = true;
+                        this.CPRALinkToredirect = ps.objCPRA.Link_to_redirect__c;
+                    }
+                    if (ps.ctp != null) {
+                        this.studysite = ps.pe.Study_Site__r;
+                        if (ps.ctp.Terms_And_Conditions_ID__c != null) {
+                            this.ctpId = ps.ctp.Id;
+                            var tclink =
+                                'terms-and-conditions?id=' +
+                                ps.ctp.Id +
+                                '&ret=' +
+                                communityService.createRetString();
+                            this.tcLink = tclink;
+                        } else {
+                            this.tcLink =
+                                'terms-and-conditions?ret=' +
+                                this.retUrl +
+                                (this.defaultTC ? '&amp;' + 'default=true' : '');
+                        }
+
+                        if (ps.ctp.Privacy_Policy_ID__c != null) {
+                            this.privacyLink =
+                                'privacy-policy?id=' +
+                                ps.ctp.Id +
+                                '&ret=' +
+                                communityService.createRetString();
+                        } else {
+                            this.privacyLink = this.defaultTC
+                                ? 'privacy-policy?ret=' + this.retUrl + '&amp;' + 'default=true'
+                                : 'privacy-policy?ret=' + this.retUrl;
+                        }
                     } else {
+                        //if not patient portal then
                         this.tcLink =
                             'terms-and-conditions?ret=' +
                             this.retUrl +
                             (this.defaultTC ? '&amp;' + 'default=true' : '');
-                    }
-
-                    if (ps.ctp.Privacy_Policy_ID__c != null) {
-                        this.privacyLink =
-                            'privacy-policy?id=' +
-                            ps.ctp.Id +
-                            '&ret=' +
-                            communityService.createRetString();
-                    } else {
                         this.privacyLink = this.defaultTC
                             ? 'privacy-policy?ret=' + this.retUrl + '&amp;' + 'default=true'
                             : 'privacy-policy?ret=' + this.retUrl;
                     }
-                } else {
-                    //if not patient portal then
-                    this.tcLink =
-                        'terms-and-conditions?ret=' +
-                        this.retUrl +
-                        (this.defaultTC ? '&amp;' + 'default=true' : '');
-                    this.privacyLink = this.defaultTC
-                        ? 'privacy-policy?ret=' + this.retUrl + '&amp;' + 'default=true'
-                        : 'privacy-policy?ret=' + this.retUrl;
-                }
-                this.initialized = true;
-            })
-            .catch((error) => {
-                this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-            });
+                    this.initialized = true;
+                })
+                .catch((error) => {
+                    this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
+                });
+        }, 100);
+
         this.privacyLabel = this.sponser
             ? this.sponser + ' ' + this.labels.PRIVACY_POLICY
             : this.labels.PRIVACY_POLICY;
         this.termsOfUseLabel = this.sponsor
             ? this.sponser + ' ' + this.labels.TERMS_OF_USE
             : this.labels.TERMS_OF_USE;
-        if (this.spinner) {
-            this.spinner.hide();
-        }
     }
     showErrorToast(titleText, messageText, variantType) {
         this.dispatchEvent(
