@@ -229,18 +229,34 @@
                 </template>
                 <template if:true={isVisitAvailable}>
                     <!--<footer class="slds-card__footer card-wrap slds-card__footer-action slds-align_absolute-center">-->
-                        <div style="margin-top: -40px; text-align: center;">
-                            <template if:true={isProgram}>
-                                <a class="label" href="events" onclick={setSessionCookie}
-                                    >{labels.View_Event_Details}
-                                </a>
-                            </template>
-                            <template if:false={isProgram}>
-                                <a class="label" href="visits" onclick={setSessionCookie}
-                                    >{labels.View_Visit_Details}
-                                </a>
-                            </template> 
-                        </div>                       
+                        <template if:true={isUpcomingDetails}>
+                            <div style="margin-top: -40px; text-align: center;">
+                                <template if:true={isProgram}>
+                                    <a class="label" href="events" onclick={setSessionCookie}
+                                        >{labels.View_Event_Details}
+                                    </a>
+                                </template>
+                                <template if:false={isProgram}>
+                                    <a class="label" href="visits" onclick={setSessionCookie}
+                                        >{labels.View_Visit_Details}
+                                    </a>
+                                </template> 
+                            </div>  
+                        </template>    
+                        <template if:false={isUpcomingDetails}>
+                            <div style="margin-top: -40px; text-align: center;">
+                                <template if:true={isProgram}>
+                                    <a class="label" href="events" onclick={setSessionCookie}
+                                        >{labels.View_All_Events}
+                                    </a>
+                                </template>
+                                <template if:false={isProgram}>
+                                    <a class="label" href="visits" onclick={setSessionCookie}
+                                        >{labels.View_All_Visits}
+                                    </a>
+                                </template> 
+                            </div>  
+                        </template>                 
                     <!--</footer>-->
                 </template>
             </article>
@@ -432,21 +448,39 @@
                 <!--<div
                     class="slds-card__footer-action slds-align_absolute-center label"
                 >-->
-
-                <div style="margin-top: -40px; text-align: center;">
-                    <template if:true={isProgram}>
-                        <a href="events" onclick={setSessionCookie}
-                            >{labels.View_Event_Details}
-                            <span class="slds-assistive-text">{labels.View_Event_Details}</span>
-                        </a>
-                    </template> 
-                    <template if:false={isProgram}>
-                        <a href="visits" onclick={setSessionCookie}
-                            >{labels.View_Visit_Details}
-                            <span class="slds-assistive-text">{labels.View_Visit_Details}</span>
-                        </a>
-                    </template> 
-                </div>                      
+                
+                <template if:true={isUpcomingDetails}>
+                    <div style="margin-top: -40px; text-align: center;">
+                        <template if:true={isProgram}>
+                            <a href="events" onclick={setSessionCookie}
+                                >{labels.View_Event_Details}
+                                <span class="slds-assistive-text">{labels.View_Event_Details}</span>
+                            </a>
+                        </template> 
+                        <template if:false={isProgram}>
+                            <a href="visits" onclick={setSessionCookie}
+                                >{labels.View_Visit_Details}
+                                <span class="slds-assistive-text">{labels.View_Visit_Details}</span>
+                            </a>
+                        </template> 
+                    </div> 
+                </template>   
+                <template if:false={isUpcomingDetails}>
+                    <div style="margin-top: -40px; text-align: center;">
+                        <template if:true={isProgram}>
+                            <a href="events" onclick={setSessionCookie}
+                                >{labels.View_All_Events}
+                                <span class="slds-assistive-text">{labels.View_All_Events}</span>
+                            </a>
+                        </template> 
+                        <template if:false={isProgram}>
+                            <a href="visits" onclick={setSessionCookie}
+                                >{labels.View_All_Visits}
+                                <span class="slds-assistive-text">{labels.View_All_Visits}</span>
+                            </a>
+                        </template> 
+                    </div> 
+                </template>                  
                 <!--</div>-->
             </template>
         </template>
