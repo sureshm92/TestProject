@@ -54,15 +54,15 @@ public without sharing class UpdateService {
             OFFSET :offsets
         ];
         for (Send_Result__c sr : sendResults) {
-            List<Id> targetIds = (List<Id>)sr.Notification__r.Target_Record_Ids__c.split(',');
-            Id targetId = targetIds[targetIds.size()-1];
+            List<Id> targetIds = (List<Id>) sr.Notification__r.Target_Record_Ids__c.split(',');
+            Id targetId = targetIds[targetIds.size() - 1];
             String targetType = targetId.getSObjectType().getDescribe().getName().toLowerCase();
             if (targetType == OBJECT_TYPE_STD_RESOURCE) {
                 resStudyIds.add(sr.Notification__r.Target_Record_Ids__c);
             } else if (targetType == OBJECT_TYPE_PT_RESOURCE) {
                 resPlatformIds.add(sr.Notification__r.Target_Record_Ids__c);
             } else if (targetType == OBJECT_TYPE_PATIENT_VISIT) {
-                patientVisitIds.add(sr.Notification__r.Target_Record_Ids__c);
+                patientVisitIds.addAll(targetIds);
             }
         }
         return sendResults;
@@ -163,8 +163,8 @@ public without sharing class UpdateService {
         List<UpdateWrapper> updateWrapperlist
     ) {
         for (Send_Result__c sr : sendResults) {
-            List<Id> targetIds = (List<Id>)sr.Notification__r.Target_Record_Ids__c.split(',');
-            Id targetId = targetIds[targetIds.size()-1];
+            List<Id> targetIds = (List<Id>) sr.Notification__r.Target_Record_Ids__c.split(',');
+            Id targetId = targetIds[targetIds.size() - 1];
             String targetType = targetId.getSObjectType().getDescribe().getName().toLowerCase();
             UpdateWrapper wrp = new UpdateWrapper();
             if (
@@ -265,7 +265,7 @@ public without sharing class UpdateService {
         ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
         Id participantContact = ps.participant.Contact__c;
         Id currentParticipant = ps.participant.Id;
-        Id currentContactId = ps.currentContactId;
+        Id currentContactId = CommunityService.getUserContact()?.Id;
         List<Id> resStudyIdVisToPt = new List<Id>();
         List<Id> peList = new List<Id>();
         if (ps.pe != null) {
