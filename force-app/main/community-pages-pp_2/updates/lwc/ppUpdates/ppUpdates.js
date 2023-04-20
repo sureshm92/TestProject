@@ -110,13 +110,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                     this.resourcePresent = true;
                 }
                 this.offset += this.limit;
-                /*  if (this.desktop) {
-                    if (this.showvisitsection) {
-                        this.addVerticalScroll();
-                    } else {
-                        this.addHorizontalScroll();
-                    }
-                }  */
                 this.loadMoreValue = true;
                 this.spinner.hide();
             })
@@ -137,28 +130,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             });
     }
-    /*   addHorizontalScroll() {
-        if (this.counter > 4 && this.desktop && !this.showvisitsection) {
-            var scrollDiv = this.template.querySelector('[data-id = "horz_scroll"]');
-            scrollDiv.classList.add('horizontal-scroll');
-        } else if (this.counter <= 4 && this.desktop && !this.showvisitsection) {
-            const myDiv = this.template.querySelector('.horizontal-scroll');
-            if (myDiv) {
-                myDiv.classList.remove('horizontal-scroll');
-            }
-        }
-    }
-    addVerticalScroll() {
-        if (this.counter > 4 && this.desktop && this.showvisitsection) {
-            var scrollDiv = this.template.querySelector('[data-id = "vert_scroll"]');
-            scrollDiv.classList.add('vertical-scroll');
-        } else if (this.counter <= 4 && this.desktop && this.showvisitsection) {
-            const myDiv = this.template.querySelector('.vertical-scroll');
-            if (myDiv) {
-                myDiv.classList.remove('vertical-scroll');
-            }
-        }
-    }  */
     handleScroll(event) {
         const container = event.target;
         const { scrollLeft, scrollWidth, clientWidth } = container;
