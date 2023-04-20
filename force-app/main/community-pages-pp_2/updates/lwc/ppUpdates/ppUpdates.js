@@ -14,13 +14,12 @@ import load_more from '@salesforce/label/c.PP_Load_More';
 export default class PpUpdates extends NavigationMixin(LightningElement) {
     @api desktop;
     @api showvisitsection;
-    @api counter;
+    @api counter = 0;
     linksWrappers = [];
     @track resourcedData = [];
     resourcePresent = false;
     desktop = true;
     isInitialized = false;
-    counter = 0;
     counterLabel = 0;
     displayCounter = false;
     open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
