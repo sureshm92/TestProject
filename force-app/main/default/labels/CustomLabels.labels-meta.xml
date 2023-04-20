@@ -5810,7 +5810,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Participant Delegate Reactivated pp</shortDescription>
-        <value>Your access as a participant delegate has changed for one or more ##studiesOrPrograms that are listed below</value>
+        <value>Your access as a participant delegate has changed for one or more studies or programs that are listed below</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Delegate_New_Study</fullName>
