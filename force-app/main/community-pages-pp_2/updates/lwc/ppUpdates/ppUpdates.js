@@ -48,6 +48,20 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             return false;
         }
     }
+    get hor_scroll() {
+        if (this.counter > 4 && this.desktop && !this.showvisitsection) {
+            return 'slds-grid horizontal-scroll';
+        } else if (this.counter <= 4 && this.desktop && !this.showvisitsection) {
+            return 'slds-grid';
+        }
+    }
+    get ver_scroll() {
+        if (this.counter > 4 && this.desktop && this.showvisitsection) {
+            return 'slds-card__body slds-card__body_inner custom-padding vertical-scroll';
+        } else if (this.counter <= 4 && this.desktop && this.showvisitsection) {
+            return 'slds-card__body slds-card__body_inner custom-padding';
+        }
+    }
     renderedCallback() {
         if (!this.isRendered) {
             this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
@@ -87,7 +101,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                         resObj.isTelevisit = true;
                     } else if (resObj.contentType == 'VisitResult') {
                         resObj.isVisitResult = true;
-                    }else {
+                    } else {
                         resObj.isMultimedia = true;
                     }
                 });
@@ -96,13 +110,13 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                     this.resourcePresent = true;
                 }
                 this.offset += this.limit;
-                if (this.desktop) {
-                if (this.showvisitsection) {
-                    this.addVerticalScroll();
-                } else {
-                    this.addHorizontalScroll();
-                }
-                }
+                /*  if (this.desktop) {
+                    if (this.showvisitsection) {
+                        this.addVerticalScroll();
+                    } else {
+                        this.addHorizontalScroll();
+                    }
+                }  */
                 this.loadMoreValue = true;
                 this.spinner.hide();
             })
@@ -123,7 +137,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             });
     }
-    addHorizontalScroll() {
+    /*   addHorizontalScroll() {
         if (this.counter > 4 && this.desktop && !this.showvisitsection) {
             var scrollDiv = this.template.querySelector('[data-id = "horz_scroll"]');
             scrollDiv.classList.add('horizontal-scroll');
@@ -144,7 +158,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 myDiv.classList.remove('vertical-scroll');
             }
         }
-    }
+    }  */
     handleScroll(event) {
         const container = event.target;
         const { scrollLeft, scrollWidth, clientWidth } = container;

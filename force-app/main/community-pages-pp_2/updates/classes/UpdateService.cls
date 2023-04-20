@@ -265,7 +265,7 @@ public without sharing class UpdateService {
         ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
         Id participantContact = ps.participant.Contact__c;
         Id currentParticipant = ps.participant.Id;
-        Id currentContactId = ps.currentContactId;
+        Id currentContactId = CommunityService.getUserContact()?.Id;
         List<Id> resStudyIdVisToPt = new List<Id>();
         List<Id> peList = new List<Id>();
         if (ps.pe != null) {
