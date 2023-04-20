@@ -49,7 +49,7 @@ public without sharing class UpdateService {
                 OR (Notification__r.whatId__c = :resFilter.currentPe
                 AND Notification__r.Notification_Type__c = :NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE)
                 OR Notification__r.whatId__c = :resFilter.currentParticipantId)
-            ORDER BY lastModifiedDate DESC
+            ORDER BY Notification__r.lastModifiedDate DESC
             LIMIT :limits
             OFFSET :offsets
         ];
