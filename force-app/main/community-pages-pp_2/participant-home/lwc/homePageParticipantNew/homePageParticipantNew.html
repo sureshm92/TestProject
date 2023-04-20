@@ -41,8 +41,8 @@
                             </header>
                         </div>
                         <div class="slds-card__body slds-card__body_inner card-wrap " style="overflow: hidden">
-                            <article class="slds-card slds-card_boundary container-card">
-                                <div class="slds-card__body slds-card__body_inner slds-scrollable_y" style="height:50rem;">
+                            <article class="slds-card slds-card_boundary container-card slds-scrollable_y">
+                                <div class="slds-card__body slds-card__body_inner">
                                     <div style="text-align: center; padding-bottom: 10px;">
                                         <template if:true={showTelevisitCard}>
                                             <template if:true={showVisitCard}>
@@ -257,7 +257,7 @@
                 <div class="slds-col slds-m-horizontal_xxx-small">
                     <!--<template if:true={showVisitCard}>-->
                     <template if:true={showUpcomingSection}>
-                        <template if:false={isDelegateSelfview}>
+                        <!--<template if:false={isDelegateSelfview}>-->
                             <template if:true={showVisitCardMobile}>
                                 <div class="visit">
                                     <div class="icon-marg">
@@ -295,7 +295,7 @@
                                     </template>
                                 </div>
                             </template>
-                        </template>
+                        <!--</template>-->
                     </template>
                 </div>
             </div>
