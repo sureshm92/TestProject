@@ -7,9 +7,12 @@ public with sharing class PpPastStudiesFilesController {
         Set<id> studyIDs = new Set<id>();
         String getUserContact = UserContext.getUserContactId();
         List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+        set<Id> setPrimaryPER = new set<Id> ();
         pastStudyFileWrapper wrap = new pastStudyFileWrapper();
+        List<Participant_Enrollment__c> alumiPerList =  new List<Participant_Enrollment__c>();
+        List<Participant_Enrollment__c> PrimaryalumniPERList = new List<Participant_Enrollment__c> ();
 
-        List<Participant_Enrollment__c> alumiPerList = [
+        for(Participant_Enrollment__c objPER :  [
             SELECT
                 id,
                 Participant_Status__c,
@@ -20,38 +23,44 @@ public with sharing class PpPastStudiesFilesController {
                 Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_ALUMNI
                 AND Participant_Contact__c = :contID
             LIMIT 10000
-        ];
+        ])
+        {
+            perIDs.add(objPER.id);
+            studyIDs.add(objPER.Clinical_Trial_Profile__c);
+            alumiPerList.add(objPER);
+        }
+       
         //logged in contact ka per alumi more thn 1 meaning ki multiple studies alumi hai.
 
-        for (Participant_Enrollment__c per : alumiPerList) {
-            perIDs.add(per.id);
-            studyIDs.add(per.Clinical_Trial_Profile__c);
-        }
         if (isDelegate) {
-            pder = [
-                SELECT id, Participant_Enrollment__c
-                FROM Patient_Delegate_Enrollment__c
-                WHERE
-                    Participant_Enrollment__c IN :perIDs
-                    AND Participant_Enrollment__r.Participant_Contact__c = :contID
-                    AND Primary_Delegate__c = TRUE
-                LIMIT 10000
-            ];
+            for(Patient_Delegate_Enrollment__c objPDER : [SELECT id, Participant_Enrollment__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE
+                Participant_Enrollment__c IN :perIDs
+                AND Patient_Delegate__r.Contact__c = :getUserContact
+                AND Primary_Delegate__c = TRUE
+            LIMIT 10000])
+            {
+                setPrimaryPER.add(objPDER.Participant_Enrollment__c);
+                pder.add(objPDER);
+
+            } 
+
+            for(Participant_Enrollment__c objPER : alumiPerList)
+            {
+                if(setPrimaryPER.contains(objPER.Id))
+                {
+                    PrimaryalumniPERList.add(objPER);
+                }
+
+            } 
+             
         }
 
-        List<ContentDocumentLink> getFiles = [
-            SELECT
-                id,
-                ContentDocument.CreatedBy.name,
-                ContentDocument.FileType,
-                ContentDocument.Title,
-                ContentDocument.CreatedDate
-            FROM ContentDocumentLink
-            WHERE LinkedEntityId IN :perIDs
-        ];
 
+        List<ContentDocumentLink> getFiles = new List<ContentDocumentLink> ();
         wrap.fileList = getFiles;
-        wrap.perList = alumiPerList;
+        wrap.perList = isDelegate ? PrimaryalumniPERList : alumiPerList  ;
         if (!pder.isEmpty()) {
             wrap.isPrimary = true;
         }
