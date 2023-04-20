@@ -14,7 +14,7 @@
                 signature="{!$Label.Email_Signature_Participant_Delegate_New}"
                 communityTemplate="PatientPortal">
 <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate_PP}"/>
-<c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}"/>
+<c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}" recipientId="{!recipient.Id}"/>
 
 </c:PP_EmailWireframe>
 </messaging:htmlEmailBody>
