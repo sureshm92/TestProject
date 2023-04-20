@@ -115,10 +115,10 @@ export default class PpCommunityNavigation extends LightningElement {
         }
     }
     initializeData() {
-        this.spinner = this.template.querySelector('c-web-spinner');
-        if (this.spinner) {
-            this.spinner.show();
-        }
+        // this.spinner = this.template.querySelector('c-web-spinner');
+        // if (this.spinner) {
+        //     this.spinner.show();
+        // }
         if (communityService.isInitialized()) {
             var recId = communityService.getUrlParameter('id');
             var userMode = communityService.getUserMode();
@@ -173,9 +173,9 @@ export default class PpCommunityNavigation extends LightningElement {
             }
         }
 
-        if (this.spinner) {
-            this.spinner.hide();
-        }
+        // if (this.spinner) {
+        //     this.spinner.hide();
+        // }
     }
     gettelevisitDetails(studysiteId) {
         gettelevisitData({ siteId: studysiteId })
