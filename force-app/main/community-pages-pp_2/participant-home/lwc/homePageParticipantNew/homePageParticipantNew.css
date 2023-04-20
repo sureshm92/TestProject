@@ -94,10 +94,9 @@
 }
 .icon-update-section-large {
     margin-left: 28px !important;
-    margin-top: 11px !important;
-    text-align: center;
+    margin-top: 18px !important;
     width: 25px;
-    height: 25px;
+    height: 18px;
 }
 
 .p-text {
@@ -141,7 +140,7 @@
     margin-top: 50px;
 }
 .progress-green {
-    border-left: 4px solid #044B51;
+    border-left: 4px solid #044b51;
     margin-top: 50px;
 }
 .updates-darkblue {
@@ -282,14 +281,14 @@
     text-align: center;
     color: #ffffff;
 }
-.progressTab{
+.progressTab {
     height: 32px;
     margin: 0px 10px;
     margin-top: 13px;
     border-radius: 20.5px 20.5px 0 0;
-    background-color: #044B51;
-    color: #FFFFFF;
-    font-family: "Proxima Nova";
+    background-color: #044b51;
+    color: #ffffff;
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: bold;
     letter-spacing: 0.5px;
@@ -297,6 +296,6 @@
     text-align: center;
 }
 
-.marginbottom{
+.marginbottom {
     margin-bottom: -50px;
 }
