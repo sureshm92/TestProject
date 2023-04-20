@@ -49,7 +49,7 @@ public without sharing class UpdateService {
                 OR (Notification__r.whatId__c = :resFilter.currentPe
                 AND Notification__r.Notification_Type__c = :NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE)
                 OR Notification__r.whatId__c = :resFilter.currentParticipantId)
-            ORDER BY lastModifiedDate DESC
+            ORDER BY Notification__r.lastModifiedDate DESC
             LIMIT :limits
             OFFSET :offsets
         ];
@@ -265,7 +265,7 @@ public without sharing class UpdateService {
         ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
         Id participantContact = ps.participant.Contact__c;
         Id currentParticipant = ps.participant.Id;
-        Id currentContactId = ps.currentContactId;
+        Id currentContactId = CommunityService.getUserContact()?.Id;
         List<Id> resStudyIdVisToPt = new List<Id>();
         List<Id> peList = new List<Id>();
         if (ps.pe != null) {
