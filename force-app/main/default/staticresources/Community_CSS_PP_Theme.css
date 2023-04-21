@@ -48,6 +48,14 @@
     font-size: 16px;
     text-decoration: none !important;
 }
+.pp-doc .slds-tabs_default__nav{
+   margin-top: 12px;
+   margin-left: 12px;
+   margin-right: 12px;
+}
+.pp-doc .slds-tabs_default__item{
+   margin-left: -6px;
+}
 .pir-parent .slds-tabs--default__item.slds-is-active {
     background-color: #0768fd !important;
     border-radius: 80px !important;
