@@ -10448,6 +10448,13 @@ The expected format is REF##### to REF########</value>
         <value>IQVIA™ Patient Portal would like to access the microphone and camera.</value>
     </labels>
     <labels>
+        <fullName>IsConfidential</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IsConfidential</shortDescription>
+        <value>Is Confidential</value>
+    </labels>
+    <labels>
         <fullName>IQVIA_intervention_completed</fullName>
         <language>en_US</language>
         <protected>false</protected>
