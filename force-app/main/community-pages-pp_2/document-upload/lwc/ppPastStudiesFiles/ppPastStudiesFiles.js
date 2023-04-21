@@ -4,6 +4,7 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import formFactor from '@salesforce/client/formFactor';
 
 export default class PpPastStudiesFiles extends LightningElement {
+    sycnDropDown = pp_icons + '/' + 'arrow2-sync.svg';
     contID;
     isDelegate = false;
     isFile = true;

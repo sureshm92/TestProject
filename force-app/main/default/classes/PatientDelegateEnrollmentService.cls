@@ -35,6 +35,14 @@ public without sharing class PatientDelegateEnrollmentService {
         }
         return peIdSet;
     }
+    public static List<Patient_Delegate_Enrollment__c> getPatientDelegateEnrollments(Id participantConId, Id delContactId){
+        List<Patient_Delegate_Enrollment__c> pdEnrollments = [SELECT Id, Participant_Enrollment__c,Primary_Delegate__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE
+                Participant_Enrollment__r.Participant_Contact__c = :participantConId
+                AND Patient_Delegate__r.Contact__c = :delContactId];
+        return pdEnrollments;
+    }
     public static List<Participant_Enrollment__c> getPEList(Id participantConId, Id delContactId) {
         Set<Id> peIdSet = new Set<Id>();
         List<Id> peIdList = new List<Id>();
