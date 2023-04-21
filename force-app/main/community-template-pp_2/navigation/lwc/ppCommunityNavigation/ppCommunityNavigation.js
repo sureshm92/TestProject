@@ -26,7 +26,6 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import DEVICE from '@salesforce/client/formFactor';
 import { publish, MessageContext } from 'lightning/messageService';
 import messagingChannel from '@salesforce/messageChannel/ppVisResults__c';
-import ppIcons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class PpCommunityNavigation extends LightningElement {
     @api communityServic;
@@ -130,47 +129,47 @@ export default class PpCommunityNavigation extends LightningElement {
                 });
                 this.dispatchEvent(valueChangeEvent);
             } else {
-                setTimeout(()=>{
+                setTimeout(() => {
                     getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
-                    .then((result) => {
-                        let td = JSON.parse(result);
-                        this.shouldDisplayFilesTab = td.tabvisiblity.isFileTabVisiblity;
-                        this.shouldDisplayPastStudyTab = td.tabvisiblity.isPastStudyVisible;
-                        this.showVisits = td.tabs?.some((studyTab) => studyTab.id == 'tab-visits');
-                        this.showResults = td.tabs?.some(
-                            (resultTab) => resultTab.id == 'tab-lab-results'
-                        );
-                        this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
-                        this.showAboutStudy = !this.showAboutProgram;
-                        if (this.showAboutStudy) {
-                            this.communityServic.setVisResultsAvailable(this.showResults);
-                        }
-                        if (DEVICE != 'Large' && this.showAboutStudy && this.showResults) {
-                            let isResultTab = {
-                                isVisResultsAvailable: this.showResults
-                            };
-                            publish(this.messageContext, messagingChannel, isResultTab);
-                        }
-
-                        if (
-                            td.pe &&
-                            td.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c
-                        ) {
-                            this.gettelevisitDetails(td.pe.Study_Site__c);
-                        } else {
-                            this.showAboutTelevisit = false;
-                            if (this.participantTabs.length < 1) {
-                                this.populateNavigationItems();
+                        .then((result) => {
+                            let td = JSON.parse(result);
+                            this.shouldDisplayFilesTab = td.tabvisiblity.isFileTabVisiblity;
+                            this.shouldDisplayPastStudyTab = td.tabvisiblity.isPastStudyVisible;
+                            this.showVisits = td.tabs?.some(
+                                (studyTab) => studyTab.id == 'tab-visits'
+                            );
+                            this.showResults = td.tabs?.some(
+                                (resultTab) => resultTab.id == 'tab-lab-results'
+                            );
+                            this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
+                            this.showAboutStudy = !this.showAboutProgram;
+                            if (this.showAboutStudy) {
+                                this.communityServic.setVisResultsAvailable(this.showResults);
                             }
-                            this.isInitialized = true;
-                        }
-                    })
-                    .catch((error) => {
-                        this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-                    });
-                },10);
-                
-               
+                            if (DEVICE != 'Large' && this.showAboutStudy && this.showResults) {
+                                let isResultTab = {
+                                    isVisResultsAvailable: this.showResults
+                                };
+                                publish(this.messageContext, messagingChannel, isResultTab);
+                            }
+
+                            if (
+                                td.pe &&
+                                td.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c
+                            ) {
+                                this.gettelevisitDetails(td.pe.Study_Site__c);
+                            } else {
+                                this.showAboutTelevisit = false;
+                                if (this.participantTabs.length < 1) {
+                                    this.populateNavigationItems();
+                                }
+                                this.isInitialized = true;
+                            }
+                        })
+                        .catch((error) => {
+                            this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                        });
+                }, 10);
             }
         }
 
@@ -280,8 +279,8 @@ export default class PpCommunityNavigation extends LightningElement {
                 icon: '',
                 visible: this.shouldDisplayFilesTab,
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
-            }, 
-            
+            },
+
             'about-study': {
                 page: 'about-study-and-overview',
                 label: navigationStudy,
