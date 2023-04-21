@@ -1,6 +1,4 @@
 <template>
-    <!-- Loading Spinner-->
-    <c-web-spinner class="main-spinner"></c-web-spinner>
     <template if:true={showmodal}>
         <c-pp-footer-contact-support
             tittext={labels.CONTACT_SUPPORT}
@@ -42,7 +40,7 @@
                         <c-pp-footer-link label={termsOfUseLabel} link={tcLink}> </c-pp-footer-link>
                     </template>
                 </div>
-                <!-- Terms Of Use-->
+                <!-- Contact Support -->
                 <div class="cf-link">
                     <template if:true={showContactSupportLink}>
                         <button class="contact-support-btn" onclick={openContactSupportModal}>

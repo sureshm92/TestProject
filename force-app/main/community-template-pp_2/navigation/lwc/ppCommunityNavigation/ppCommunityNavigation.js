@@ -115,10 +115,10 @@ export default class PpCommunityNavigation extends LightningElement {
         }
     }
     initializeData() {
-        this.spinner = this.template.querySelector('c-web-spinner');
-        if (this.spinner) {
-            this.spinner.show();
-        }
+        // this.spinner = this.template.querySelector('c-web-spinner');
+        // if (this.spinner) {
+        //     this.spinner.show();
+        // }
         if (communityService.isInitialized()) {
             var recId = communityService.getUrlParameter('id');
             var userMode = communityService.getUserMode();
@@ -129,7 +129,8 @@ export default class PpCommunityNavigation extends LightningElement {
                 });
                 this.dispatchEvent(valueChangeEvent);
             } else {
-                getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
+                setTimeout(()=>{
+                    getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
                     .then((result) => {
                         let td = JSON.parse(result);
                         this.shouldDisplayFilesTab = td.tabvisiblity.isFileTabVisiblity;
@@ -166,12 +167,15 @@ export default class PpCommunityNavigation extends LightningElement {
                     .catch((error) => {
                         this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                     });
+                },10);
+                
+               
             }
         }
 
-        if (this.spinner) {
-            this.spinner.hide();
-        }
+        // if (this.spinner) {
+        //     this.spinner.hide();
+        // }
     }
     gettelevisitDetails(studysiteId) {
         gettelevisitData({ siteId: studysiteId })
