@@ -1,0 +1,60 @@
+<template>
+    <template for:each={conversationWrappers} for:item="conWr" for:index="index">
+        <div class="list-border-btm slds-p-vertical_xxx-small" onclick={handleMouseSelect} key={conWr.conversation.Id}
+            data-id={index} tabindex="0">
+            <lightning-layout horizontal-align="space" size="9" class="slds-p-top_small">
+                <lightning-layout-item size="1" class="slds-p-top_x-small slds-p-left_small">
+                    <template if:true={conWr.isLastMsgUnRead}><span class="oval"></span></template>
+                </lightning-layout-item>
+                <lightning-layout-item size="8">
+                    <div class="study-txt"
+                        title={conWr.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}>
+                        {conWr.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" class="slds-p-top_xx-small slds-p-left_small">
+                    <div class="study-time">
+                        <lightning-formatted-date-time value={conWr.lastUpdate} year="numeric" month="short"
+                            day="2-digit" time-zone={timeZone}>
+                        </lightning-formatted-date-time>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout horizontal-align="space">
+                <lightning-layout-item size="1"></lightning-layout-item>
+                <lightning-layout-item size="9" class="slds-m-bottom_small">
+                    <template if:true={conWr.isLastMsgUnRead}>
+                        <div class="txt-ellipsis" title={conWr.lastMessagePart}>
+                            {conWr.lastMessagePart}
+                        </div>
+                    </template>
+                    <template if:false={conWr.isLastMsgUnRead}>
+                        <div class="txt-ellipsis-normal" title={conWr.lastMessagePart}>
+                            {conWr.lastMessagePart}
+                        </div>
+                    </template>
+                </lightning-layout-item>
+                <lightning-layout-item size="2" class="slds-m-bottom_small">
+                    <template if:true={conWr.haveAttachment}>
+                        <img src={message_attachment} class="attachment slds-p-left_x-large" />
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </template>
+    <template if:false={conversationWrappers}>
+        <template for:each={enrollments} for:item="enroll" for:index="index">
+            <div class="list-border-btm slds-p-vertical_xxx-small" onclick={handleMouseSelect} key={enroll.Id}
+                data-id={index} tabindex="0">
+                <lightning-layout horizontal-align="space" size="9"
+                    class="slds-p-top_small slds-p-bottom_x-large slds-p-left_x-large slds-grid slds-grid_align-space">
+                    <lightning-layout-item size="12">
+                        <div class="study-txt" title={enroll.Clinical_Trial_Profile__r.Study_Code_Name__c}>
+                            {enroll.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
+    </template>
+</template>
