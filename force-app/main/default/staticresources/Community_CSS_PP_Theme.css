@@ -944,7 +944,27 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     left: -1px;
     border: none !important;
 }
-
+/* Message combobox custom css  */
+.selection .slds-listbox_vertical .slds-listbox__option{
+    border-bottom: 1px solid #d9d9d9 !important;
+}
+.selection .slds-listbox_vertical .slds-listbox__option:last-child{
+    border-bottom:none !important;
+}
+.selection .slds-listbox_vertical .slds-listbox__option:hover {
+    background-color:#015ff1 !important;
+    color:#ffffff !important;
+}
+.selection .slds-dropdown-trigger_click .slds-dropdown,
+.selection .slds-dropdown-trigger_click:hover {
+    border-radius: 16px !important;
+    background-color: #ffffff !important;
+    margin-bottom:10px !important;
+}
+.selection .slds-listbox__option-icon{
+    width:0px !important;
+    display:none !important;
+}
 /* Date Time Dropdown Alignment */
 
 .slds-listbox.slds-dropdown {

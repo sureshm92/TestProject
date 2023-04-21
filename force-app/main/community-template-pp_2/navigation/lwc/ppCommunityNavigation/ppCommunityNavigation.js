@@ -26,6 +26,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import DEVICE from '@salesforce/client/formFactor';
 import { publish, MessageContext } from 'lightning/messageService';
 import messagingChannel from '@salesforce/messageChannel/ppVisResults__c';
+import ppIcons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class PpCommunityNavigation extends LightningElement {
     @api communityServic;
@@ -228,7 +229,8 @@ export default class PpCommunityNavigation extends LightningElement {
             messages: {
                 page: 'messages',
                 label: navigationMessages,
-                icon: 'icon-envelope'
+                icon: 'icon-envelope',
+                ismsg: true
             },
             'e-diaries': {
                 page: 'e-diaries',
@@ -309,11 +311,6 @@ export default class PpCommunityNavigation extends LightningElement {
                 }
             }
         }
-        if (this.communityServic.getMessagesVisible()) {
-            if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
-                this.participantTabs.push(this.allPagesMap['messages']);
-            }
-        }
         if (this.communityServic.getTrialMatchVisible()) {
             if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
                 if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal') {
@@ -323,6 +320,11 @@ export default class PpCommunityNavigation extends LightningElement {
         }
         this.participantTabs.push(this.allPagesMap['tasks']);
         this.participantTabs.push(this.allPagesMap['resources']);
+        if (this.communityServic.getMessagesVisible()) {
+            if (communityService.getCurrentCommunityTemplateName() === 'PatientPortal') {
+                this.participantTabs.push(this.allPagesMap['messages']);
+            }
+        }
         this.participantTabs.push(this.allPagesMap['help']);
         this.submenu = Object.keys(this.allPagesSubMenu).map((key) => ({
             key: key,
