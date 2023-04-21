@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>View_All_Events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View All Events</shortDescription>
+        <value>View All Events</value>
+    </labels>
+    <labels>
+        <fullName>View_All_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View All Visits</shortDescription>
+        <value>View All Visits</value>
+    </labels>
+    <labels>
         <fullName>AF_All</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5803,7 +5817,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Participant Delegate Reactivated pp</shortDescription>
-        <value>Your access as a participant delegate has changed for one or more ##studiesOrPrograms that are listed below</value>
+        <value>Your access as a participant delegate has changed for one or more studies or programs that are listed below</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Delegate_New_Study</fullName>
