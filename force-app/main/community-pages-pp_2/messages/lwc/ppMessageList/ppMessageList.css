@@ -1,0 +1,50 @@
+.list-border-btm {
+  border-bottom: 1px solid #d9d9d9;
+  height: auto;
+}
+.list-border-btm:hover {
+  background-color: #f2f2f2;
+}
+.study-txt {
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.study-time {
+  color: #595959;
+  font-size: 12px;
+}
+.attachment {
+  /* width: 16px; */
+  height: 16px;
+}
+.txt-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: auto;
+  overflow: hidden;
+  color: #595959;
+  font-size: 14px;
+  font-weight: bold;
+}
+.txt-ellipsis-normal {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: auto;
+  overflow: hidden;
+  color: #595959;
+  font-size: 14px;
+}
+.oval {
+  height: 8px;
+  width: 8px;
+  background-color: #0768fd;
+  position: absolute;
+  border-radius: 50%;
+  /*top: 27px;
+    left: 6px; */
+}
