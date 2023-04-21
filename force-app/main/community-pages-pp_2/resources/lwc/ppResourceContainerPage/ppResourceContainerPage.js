@@ -24,6 +24,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     desktop = true;
     isRTL = false;
     isInitialized = false;
+    isDOMInitialized = false;
     toggleExplore = false;
     toggleLinks = false;
     toggleDocs = false;
@@ -98,16 +99,19 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             this.selectedOptions = this.labels.ENGAGE;
             this.selectedResourceType = 'engage';
         }
-        this.initializeData();
     }
-    // renderedCallback(){
-    //     window.addEventListener('click', this.closeOptions);
-    // }
-    //template toggle
+    renderedCallback() {
+        if (!this.isDOMInitialized) {
+            this.initializeData();
+            this.isDOMInitialized = true;
+        }
+    }
+
     render() {
         return this.desktop ? resourcesDesktop : resourcesMobile;
     }
-    async initializeData() {
+
+    initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
             this.spinner.show();
@@ -170,11 +174,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                 })
                 .catch((error) => {
                     this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                    this.showSpinner = false;
                 });
-        }
-
-        if (this.spinner) {
-            this.spinner.hide();
         }
     }
     async getUpdates(returnValue) {
@@ -198,6 +199,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                 })
                 .catch((error) => {
                     this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                    this.showSpinner = false;
                 });
         }
     }
