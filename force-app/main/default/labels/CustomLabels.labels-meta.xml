@@ -22293,6 +22293,55 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP required</shortDescription>
         <value>required</value>
     </labels>
+     <labels>
+        <fullName>PP_No_Messages</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>You have no messages.</shortDescription>
+        <value>You have no messages.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Select_Question_Below</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Below you can select a question to ask.</shortDescription>
+        <value>Below you can select a question to ask.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Select_Question</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select question</shortDescription>
+        <value>Select question</value>
+    </labels>
+    <labels>
+        <fullName>PP_Select_Questions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select question ...</shortDescription>
+        <value>Select question ...</value>
+    </labels>
+     <labels>
+        <fullName>PP_New_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New Message</shortDescription>
+        <value>New Message</value>
+    </labels>
+     <labels>
+        <fullName>PP_Time_At</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>at</shortDescription>
+        <value>at</value>
+    </labels>
+     <labels>
+        <fullName>PP_Attachment_Saved_To_Files</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Attachments are automatically saved to your Files</shortDescription>
+        <value>Attachments are automatically saved to your Files</value>
+    </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
         <language>en_US</language>
