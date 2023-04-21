@@ -278,11 +278,17 @@ export default class HomePageParticipantNew extends LightningElement {
         }
         this.showProgress = true;
     }
-    get progressIcon() {
-        if (this.showProgress) {
-            return 'icon-updates taskIconPosition';
+    get progressIcon(){
+        if(this.showProgress){
+            return "icon-updates progressIconPosition";
         }
-        return 'icon-updates';
+        return "icon-updates";
+    }
+    get progressIconSize(){
+        if(this.showProgress){
+            return "xlarge";
+        }
+        return "medium";
     }
 
     updateCounter(event) {
