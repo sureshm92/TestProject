@@ -249,6 +249,7 @@
                                 typeSelectLVList="{!v.initData.typeSelectLVList}"
                                 globalCountries="{!v.options.selectedCountries}"
                                 globalType="{!v.options.countrySelectionType}"
+                                communityTemplate="{!v.communityTemplate}"
                                 onChange="{!c.doGroupChanged}"
                                 onChangeShowOnMyResultCard="{!c.doGroupSelectionChanged}"
                             />
