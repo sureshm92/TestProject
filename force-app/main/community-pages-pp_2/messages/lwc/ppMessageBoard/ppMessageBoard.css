@@ -1,0 +1,73 @@
+.msg-study-header {
+  height: 72px;
+  border-bottom: inset;
+}
+.study-header {
+  height: 32px;
+  width: 100%;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 32px;
+  margin-top: 24px;
+  margin-left: 32px;
+  margin-bottom: 16px;
+}
+.empty-msg {
+  font-size: 16px;
+  color: #595959;
+  font-family: "Proxima Nova";
+}
+.chat-item {
+  height: 472px;
+  overflow-y: scroll;
+}
+.medium {
+  height: 472px;
+  text-align: center;
+  color: #595959;
+  font-size: 16px;
+}
+.question-item {
+  height: 88px;
+  border-top: outset;
+}
+.selection {
+  box-sizing: border-box;
+  --sds-c-input-radius-border: 20px;
+  height: 40px;
+  margin: 1.5rem 0 0 2rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+}
+.send-button {
+  height: 40px;
+  width: 96px;
+  margin: 1.5rem 0 0 4rem;
+}
+.send-message {
+  border-radius: 20px;
+  width: 96px;
+  height: 40px;
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04),
+    0 4px 8px 0 rgba(7, 104, 253, 0.32);
+}
+.hideDesktop {
+  display: none;
+}
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 472px;
+}
+@media all and (max-width: 47.9375em) {
+  .hideDesktop {
+    display: unset;
+  }
+  .hideMobile {
+    display: none;
+  }
+}

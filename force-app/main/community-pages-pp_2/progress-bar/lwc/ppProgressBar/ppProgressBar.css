@@ -192,26 +192,26 @@
     }
 }
 @media all and (max-width: 1023px) {
-    .box{
+    .big .box{
         padding: 11px;
     }    
-    .btnmac{
+    .big .btnmac{
         display: block;
         padding-top: 16px;
     }
-    .evtBtn{
+    .big .evtBtn{
         width: 100%
     }
-    .topBar{
+    .big .topBar{
         display: none;
     }
-    .box{
+    .big .box{
         box-sizing: unset;
         border: none;
         border-radius: unset;
         background-color: unset;
     }
-    .rightBox{
+    .big .rightBox{
         box-sizing: border-box;
         border: 1px solid #E9E9E9;
         border-radius: 8px;
@@ -220,18 +220,18 @@
         margin-bottom: 8px;
         width: 100%;
     }
-    .divider{
+    .big .divider{
         display:none;
     }
-    .rightTitle{
+    .big .rightTitle{
         width: 100%;
         font-size: 20px;
         line-height: 30px;
     }
-    .rightDesc{
+    .big .rightDesc{
         width: 100%;
     }
-    .leftBox{
+    .big .leftBox{
         box-sizing: border-box;
         border: 1px solid #E9E9E9;
         border-radius: 8px;
@@ -239,44 +239,44 @@
         padding: 30px 24px 24px 24px;
         margin-top: 0px;
     }
-    .arrowCont{
+    .big .arrowCont{
         display: none;
     }
-    .rMain{
+    .big .rMain{
         width:100%;
     }
-    .leftTitle{
+    .big .leftTitle{
         display: inline-block;
         width: 88%;
         text-align: center;
         font-size: 18px
     }
-    .arrowMob{
+    .big .arrowMob{
         display: inline-block;
         width: 6%;
     }
-    .prIcon{
+    .big .prIcon{
         width: 20%;
         max-width: 72px;        
         padding-right: 6px;
     }
-    .iconCont{
+    .big .iconCont{
         padding: 0px;
         display: block;
     } 
-    .rightImg{
+    .big .rightImg{
         text-align: right;
     }
 }
 @media all and (max-width: 420px) {
-    .rightText{
+    .big .rightText{
         width: unset;
     }
-    .rightImg{
+    .big .rightImg{
         width: 100%;
         text-align: end;
     }
-    .rightImg img {
+    .big .rightImg img {
         width: 32%;
     }
 }
@@ -354,6 +354,7 @@
 .small .arrowMob{
 	display: inline-block;
 	width: 6%;
+    cursor: pointer;
 }
 .small .prIcon{
 	width: 20%;
@@ -366,16 +367,10 @@
 } 
 .small .rightImg{
 	text-align: right;
+    padding-top: 8px;
 }
-.small .rightText{
-    width: unset;
-}
-.small .rightImg{
-    width: 100%;
-    text-align: end;
-}
-.small .rightImg img {
-    width: 32%;
+.small .rightImg img{
+	width: 75px;
 }
 .small .headerTitle{
     display : block;
@@ -385,4 +380,19 @@
     letter-spacing: 0;
     line-height: 32px;
     padding-bottom: 12px;
+}
+.small .leftDescription{
+    min-height: 128px;
+}
+@media all and (max-width: 1314px) {
+    .small .rightText{
+        width: unset;
+    }
+    .small .rightImg{
+        width: 100%;
+        text-align: end;
+    }
+    .small .rightImg img {
+        width: 32%;
+    }
 }
