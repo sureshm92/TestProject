@@ -55,6 +55,7 @@ export default class PpVisitResultTypeInfo extends LightningElement {
     @api patientVisitId;
 
     showSpinner = true;
+    showToggleSpinner = false;
     isVitalsToggleOn = false;
     isLabsToggleOn = false;
     isBiomarkersToggleOn = false;
@@ -197,7 +198,7 @@ export default class PpVisitResultTypeInfo extends LightningElement {
     }
 
     handleVRToggle(event) {
-        this.showSpinner = true;
+        this.showToggleSpinner = true;
         modifiedSwitchToggleRemote({
             visitResultsMode: this.selectedResultType,
             isToggleOn: event.target.checked
@@ -210,12 +211,12 @@ export default class PpVisitResultTypeInfo extends LightningElement {
                 } else if (this.selectedResultType === 'Biomarkers') {
                     this.isBiomarkersToggleOn = !this.isBiomarkersToggleOn;
                 }
-                this.showSpinner = false;
+                this.showToggleSpinner = false;
             })
             .catch((error) => {
                 console.error(error);
                 this.showErrorToast('Error occured here', error.message, 'error');
-                this.showSpinner = false;
+                this.showToggleSpinner = false;
             });
     }
 
