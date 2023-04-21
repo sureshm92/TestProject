@@ -144,7 +144,10 @@ public with sharing class IntegrationVisitResultService {
             if (
                 !alreadyNotifiedPEs.contains(peId) &&
                 peAndPVsDetails.containsKey(peId) &&
-                peAndPVsDetails.get(peId).contains(peAndPv.get(peId).Id)
+                peAndPv.containsKey(peId) &&
+                peAndPVsDetails.get(peId).contains(peAndPv.get(peId).Id) &&
+                peAndPv.get(peId)
+                    .Participant_Enrollment__r.Clinical_Trial_Profile__r.Visits_are_Available__c
             ) {
                 insertNotificationsForNewVResults.add(
                     new Notification__c(
@@ -291,6 +294,7 @@ public with sharing class IntegrationVisitResultService {
                 Participant_Enrollment__c,
                 Participant_Enrollment__r.Participant_Contact__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.Visits_are_Available__c,
                 Completed_Date__c,
                 SDH_Key__c
             FROM Patient_Visit__c

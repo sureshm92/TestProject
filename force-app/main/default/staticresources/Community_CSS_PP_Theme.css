@@ -48,6 +48,14 @@
     font-size: 16px;
     text-decoration: none !important;
 }
+.pp-doc .slds-tabs_default__nav{
+   margin-top: 12px;
+   margin-left: 12px;
+   margin-right: 12px;
+}
+.pp-doc .slds-tabs_default__item{
+   margin-left: -6px;
+}
 .pir-parent .slds-tabs--default__item.slds-is-active {
     background-color: #0768fd !important;
     border-radius: 80px !important;
@@ -944,7 +952,27 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     left: -1px;
     border: none !important;
 }
-
+/* Message combobox custom css  */
+.selection .slds-listbox_vertical .slds-listbox__option{
+    border-bottom: 1px solid #d9d9d9 !important;
+}
+.selection .slds-listbox_vertical .slds-listbox__option:last-child{
+    border-bottom:none !important;
+}
+.selection .slds-listbox_vertical .slds-listbox__option:hover {
+    background-color:#015ff1 !important;
+    color:#ffffff !important;
+}
+.selection .slds-dropdown-trigger_click .slds-dropdown,
+.selection .slds-dropdown-trigger_click:hover {
+    border-radius: 16px !important;
+    background-color: #ffffff !important;
+    margin-bottom:10px !important;
+}
+.selection .slds-listbox__option-icon{
+    width:0px !important;
+    display:none !important;
+}
 /* Date Time Dropdown Alignment */
 
 .slds-listbox.slds-dropdown {
