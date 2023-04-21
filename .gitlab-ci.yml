@@ -3,5 +3,6 @@ include:
     file: 'RHPP_ymls/release_community.yml'
     ref: master
 
+
 variables:
    currentenv: $CI_COMMIT_BRANCH
