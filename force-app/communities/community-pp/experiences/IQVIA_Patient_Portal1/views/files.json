@@ -1,0 +1,38 @@
+{
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "componentName" : "c:PPOneColumnLayout",
+  "dataProviders" : [ ],
+  "id" : "d8b7ee34-d1af-4cdb-94d7-cd721c104a78",
+  "label" : "files",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ppfilesViewPage",
+      "id" : "e0501d4f-f8bb-4df2-bad4-2dd2a4a1eb34",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "29214384-50db-434b-9349-9f9f36487118",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "files"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "d1071149-e79e-468c-83f6-8c2674c8cd0e",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "ceeac3fe-3854-4550-94b4-b4ee7673abf6",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-files"
+}
