@@ -95,7 +95,7 @@ public with sharing class ppFileUploadController {
         contentToInsert.VersionData = EncodingUtil.base64Decode(base64Data);
         contentToInsert.PathOnClient = '/' + fileName;
         contentToInsert.IsMajorVersion = false;
-        contentToInsert.FileStatus__c = 'Draft';         
+        // contentToInsert.FileStatus__c = 'Draft';         
         insert contentToInsert;
         system.debug('>>contentToInsert>>'+contentToInsert);
         contentToInsert = [
@@ -334,10 +334,10 @@ public with sharing class ppFileUploadController {
                 cntDocumentIds.add(cdlink.ContentDocumentId);
             }
             Set<id> draftDocumnetIds=new  Set<id>();
-            for( ContentVersion lstConversationDraft : [SELECT Id,OwnerId, Title,ContentSize,ContentDocumentId, CreatedDate, FileExtension, ContentModifiedDate FROM ContentVersion
-                                                WHERE ContentDocumentId IN : cntDocumentIds AND FileStatus__c = 'Draft']) {
-                draftDocumnetIds.add(lstConversationDraft.ContentDocumentId);
-            }
+            // for( ContentVersion lstConversationDraft : [SELECT Id,OwnerId, Title,ContentSize,ContentDocumentId, CreatedDate, FileExtension, ContentModifiedDate FROM ContentVersion
+            //                                     WHERE ContentDocumentId IN : cntDocumentIds AND FileStatus__c = 'Draft']) {
+            //     draftDocumnetIds.add(lstConversationDraft.ContentDocumentId);
+            // }
 
             isUplaodAvailable = per[0].Clinical_Trial_Profile__r.Document_Upload_Is_Available__c;
             DraftFileWrapper objWrapper = new DraftFileWrapper();
@@ -348,9 +348,9 @@ public with sharing class ppFileUploadController {
 
             
 
-            if( !draftDocumnetIds.isEmpty()){
-                deletDraftFiles(draftDocumnetIds);
-            }
+            // if( !draftDocumnetIds.isEmpty()){
+            //     deletDraftFiles(draftDocumnetIds);
+            // }
 
 
             return objWrapper;
