@@ -95,7 +95,7 @@ public with sharing class ppFileUploadController {
         contentToInsert.VersionData = EncodingUtil.base64Decode(base64Data);
         contentToInsert.PathOnClient = '/' + fileName;
         contentToInsert.IsMajorVersion = false;
-         
+        contentToInsert.FileStatus__c = 'Draft';         
         insert contentToInsert;
         system.debug('>>contentToInsert>>'+contentToInsert);
         contentToInsert = [
