@@ -2,22 +2,59 @@ public with sharing class ppFileUploadController {
     public ppFileUploadController() {
     }
 
+    public class fileId{
+        public string filecontentversion;
+        public string FileContentDocId;
+        
+    }
+
     @AuraEnabled
-    public static Id saveTheChunkFile(
+    public static String saveTheChunkFile(
         Id parentId,
         String fileName,
         String base64Data,
+        // String completeFile,
         String contentType,
-        String fileId
+        String fileId,
+        String strfileContentDocumentId,
+        Boolean isDeleted,
+        Boolean isRetry,
+        String Progress
     ) {
-        base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
-        if (String.isBlank(fileId)) {
-            fileId = saveFiles(parentId, fileName, base64Data);
-        } else {
-            appendToFile(fileId, base64Data);
+        if(isDeleted)
+        {
+            if(String.isNotBlank(fileId)){
+                deleteFile(fileId);
+            }
+            return null;
+
+        }
+        system.debug('>>isRetry>>'+isRetry);
+        system.debug('>>isRetry>>'+fileId);
+        if(isRetry && string.isNotBlank(fileId)){
+            deleteFile(fileId);  
+            fileId = '';
+            strfileContentDocumentId='';
+            system.debug('>>fileidd>>'+fileId);
         }
 
-        return Id.valueOf(fileId);
+        
+        system.debug('fileId>>>'+fileId+'>>Progress>>'+Progress);
+        ppFileUploadController.fileId objWrapper = new ppFileUploadController.fileId();
+        objWrapper.filecontentversion = fileId;
+        objWrapper.FileContentDocId = strfileContentDocumentId;
+        base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
+        // base64Data = EncodingUtil.urlDecode(completeFile, 'UTF-8');
+        if (String.isBlank(fileId)) {
+            system.debug('>>inside save>>'+isRetry);
+            objWrapper = saveFiles(parentId, fileName, base64Data,Progress); 
+        } else {
+            system.debug('>>inside apend>>'+isRetry);
+            appendToFile(fileId, base64Data,Progress);
+        }
+
+        // return Id.valueOf(fileId);
+        return JSON.serialize(objWrapper);
     }
     @AuraEnabled
     public static list<Patient_Delegate_Enrollment__c> checkifPrimary(
@@ -52,14 +89,15 @@ public with sharing class ppFileUploadController {
     }
 
     @AuraEnabled
-    public static Id saveFiles(Id recordId, String fileName, String base64Data) {
+    public static ppFileUploadController.fileId saveFiles(Id recordId, String fileName, String base64Data,String Progress) {
         ContentVersion contentToInsert = new ContentVersion();
         contentToInsert.Title = fileName;
         contentToInsert.VersionData = EncodingUtil.base64Decode(base64Data);
         contentToInsert.PathOnClient = '/' + fileName;
         contentToInsert.IsMajorVersion = false;
+         
         insert contentToInsert;
-
+        system.debug('>>contentToInsert>>'+contentToInsert);
         contentToInsert = [
             SELECT id, ContentDocumentId
             FROM ContentVersion
@@ -71,12 +109,16 @@ public with sharing class ppFileUploadController {
         cl.ShareType = 'I';
         cl.Visibility = 'AllUsers';
         insert cl;
-
-        return contentToInsert.id;
+        ppFileUploadController.fileId objWrapper = new ppFileUploadController.fileId();
+        objWrapper.filecontentversion = contentToInsert.Id;
+        objWrapper.FileContentDocId = contentToInsert.ContentDocumentId;
+        // return contentToInsert.id;
+        
+        return objWrapper;
     }
 
     @AuraEnabled
-    public static void appendToFile(Id contentDocumentId, String base64Data) {
+    public static void appendToFile(Id contentDocumentId, String base64Data,String Progress) {
         //base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
         ContentVersion versionData = [
             SELECT Id, VersionData, ContentDocumentId
@@ -86,7 +128,7 @@ public with sharing class ppFileUploadController {
 
         String existingBody = EncodingUtil.base64Encode(versionData.VersionData);
         versionData.VersionData = EncodingUtil.base64Decode(existingBody + base64Data);
-
+        system.debug('>>progress>>'+versionData);
         update versionData;
     }
     @AuraEnabled
@@ -271,9 +313,10 @@ public with sharing class ppFileUploadController {
         public String fileName;
     }
     @AuraEnabled
-    public static Boolean isUplaodAvailable(string perId) {
+    public static DraftFileWrapper isUplaodAvailable(string perId) {
         try {
             Boolean isUplaodAvailable = false;
+            Set<Id> cntDocumentIds = new Set<Id>();
 
             LIST<Participant_Enrollment__c> per = [
                 SELECT
@@ -285,10 +328,58 @@ public with sharing class ppFileUploadController {
                 LIMIT 1
             ];
 
+            for (ContentDocumentLink cdlink : [  SELECT Id, LinkedEntityId, ContentDocument.CreatedById, ContentDocumentId
+                                                 FROM ContentDocumentLink   WHERE LinkedEntityId = :perId  
+                                                 AND ContentDocument.CreatedById =: userinfo.getUserId()]) {
+                cntDocumentIds.add(cdlink.ContentDocumentId);
+            }
+            Set<id> draftDocumnetIds=new  Set<id>();
+            for( ContentVersion lstConversationDraft : [SELECT Id,OwnerId, Title,ContentSize,ContentDocumentId, CreatedDate, FileExtension, ContentModifiedDate FROM ContentVersion
+                                                WHERE ContentDocumentId IN : cntDocumentIds AND FileStatus__c = 'Draft']) {
+                draftDocumnetIds.add(lstConversationDraft.ContentDocumentId);
+            }
+
             isUplaodAvailable = per[0].Clinical_Trial_Profile__r.Document_Upload_Is_Available__c;
-            return isUplaodAvailable;
+            DraftFileWrapper objWrapper = new DraftFileWrapper();
+
+            objWrapper.isUplaodAvailable = isUplaodAvailable;
+            // objWrapper.lstContentVersion = lstConversationDraft.isEmpty() ? null : lstConversationDraft;
+            objWrapper.lstContentVersion =  null ;
+
+            
+
+            if( !draftDocumnetIds.isEmpty()){
+                deletDraftFiles(draftDocumnetIds);
+            }
+
+
+            return objWrapper;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
+    }
+    
+    @Future
+    public static void deletDraftFiles(Set<id> cntDocumentIds) {
+        try {
+           // List< ContentVersion> cvDelete= new  List< ContentVersion>();
+            List< contentdocument> cdDelete= new  List< contentdocument>();
+            for( Id cdId: cntDocumentIds){
+                contentdocument cd = new contentdocument(id = cdId);
+                cdDelete.add(cd);
+
+            }
+            delete cdDelete;
+        }
+        catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+    public class DraftFileWrapper {
+        @AuraEnabled
+        public List<ContentVersion> lstContentVersion;
+        @AuraEnabled
+        public Boolean isUplaodAvailable;
     }
 }
