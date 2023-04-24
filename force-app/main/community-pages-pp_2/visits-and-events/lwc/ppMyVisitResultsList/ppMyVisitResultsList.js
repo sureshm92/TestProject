@@ -14,6 +14,10 @@ export default class PpMyVisitResultsList extends LightningElement {
     showSpinner = true;
     @api currentVisitId;
     urlString;
+    patientVisitWrapper;
+    @track currentVisit;
+    @track showResults;
+    @track onLoad;
 
     NO_RESULTS_AVAILABLE = PP_ICONS + '/' + 'results_Illustration.svg';
     userTimezone = TIME_ZONE;
@@ -28,7 +32,9 @@ export default class PpMyVisitResultsList extends LightningElement {
         if (window.location.href.includes('pvId')) {
             this.currentVisitId = communityService.getUrlParameter('pvId');
         }
-        this.initiazeData();
+        this.onLoad = true;
+        console.log('JJ' + JSON.stringify(this.currentVisit));
+        this.initializeData();
     }
 
     get isDesktop() {
@@ -69,16 +75,20 @@ export default class PpMyVisitResultsList extends LightningElement {
         this.handleVisitChangeCSS();
     }
 
-    initiazeData() {
-        this.showSpinner = true;
+    initializeData() {
+        if (this.onLoad) this.showSpinner = true;
         getPatientVisitsWithResults()
             .then((patientVisitWrapper) => {
+                this.patientVisitWrapper = patientVisitWrapper;
                 this.completedVisitsWithResults = patientVisitWrapper.patientVisitsWithResultsList;
                 if (this.completedVisitsWithResults && !this.currentVisitId) {
                     this.currentVisitId = this.completedVisitsWithResults[0]?.Id;
+                    this.currentVisit = this.completedVisitsWithResults[0];
                 }
+
                 //pass currentVisitId and patientVisitWrapper to jayashree component
-                this.showSpinner = false;
+                if (this.onLoad) this.showSpinner = false;
+                this.showResults = true;
             })
             .catch((error) => {
                 console.error(error);
@@ -102,13 +112,23 @@ export default class PpMyVisitResultsList extends LightningElement {
 
     onVisitSelect(event) {
         this.currentVisitId = event.currentTarget.dataset.id;
+        this.onLoad = false;
+        this.initializeData();
         this.handleVisitChangeCSS();
+        this.showResults = false;
         if (this.isMobile || this.isTablet) {
             //show user the results values if available
             window.history.replaceState(null, null, '?vrlist&pvId=' + this.currentVisitId);
             this.urlString = window.location.href;
         }
-        //pass info to jayashree's components to show visit results
+
+        for (let i = 0; i < this.completedVisitsWithResults.length; i++) {
+            if (this.currentVisitId == this.completedVisitsWithResults[i].Id) {
+                this.currentVisit = this.completedVisitsWithResults[i];
+                break;
+            }
+        }
+        this.showResults = true;
     }
 
     handleBackToVisitList() {
