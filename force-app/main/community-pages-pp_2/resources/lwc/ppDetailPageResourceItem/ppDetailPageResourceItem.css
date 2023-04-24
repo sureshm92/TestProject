@@ -41,4 +41,8 @@ iframe {
         min-height: 100vh;
         width:  100vw;
     }
+    iframe {
+        margin-left: -32px;
+        margin-top: -38px;
+    }
 }

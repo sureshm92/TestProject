@@ -204,9 +204,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
             }
             this.progress = 0;
             this.progressWidth = 'width :0%';
-            // this.base = 1;
-            // this.totalRecs = 0;
-            // this.progressMultiplier = 0;
+            event.target.value = null;
             this.saveFile();
         }
     }
