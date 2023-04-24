@@ -13,6 +13,7 @@
     <aura:attribute name="globalType" type="String" default="" />
     <aura:attribute name="showOnMyResultCard" type="Boolean" default="false" />
     <aura:attribute name="previousGlobalType" type="String" default="" access="private" />
+    <aura:attribute name="communityTemplate" type="String" />
 
     <!-- events: -->
     <aura:registerEvent name="onChange" type="c:uiEvent" />
@@ -41,16 +42,18 @@
                 />
                 <span class="slds-form-element__label">{!v.groupLabel}</span>
             </label>
-            <label class="uiInput--checkbox showMyResult--checkbox">
-                <ui:inputCheckbox
-                    aura:id="ShowMyResult"
-                    label=""
-                    value="{!v.showOnMyResultCard}"
-                    disabled="{!v.showGroup == false}"
-                    change="{!c.doUpdateGroupSelection}"
-                />
-                <span class="slds-form-element__label">Show In My Results</span>
-            </label>
+            <aura:if isTrue="{!v.communityTemplate != 'PatientPortal'}">
+                <label class="uiInput--checkbox showMyResult--checkbox">
+                    <ui:inputCheckbox
+                        aura:id="ShowMyResult"
+                        label=""
+                        value="{!v.showOnMyResultCard}"
+                        disabled="{!v.showGroup == false}"
+                        change="{!c.doUpdateGroupSelection}"
+                    />
+                    <span class="slds-form-element__label">Show In My Results</span>
+                </label>
+            </aura:if>
         </div>
         <aura:if isTrue="{!v.showGroup}">
             <div class="group-body slds-grid slds-wrap slds-gutters_direct-xxx-small">
