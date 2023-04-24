@@ -87,7 +87,7 @@
     padding-bottom: 56.25%;
     height: 620px;
     overflow: hidden;
-    margin-top: -1%;
+    /* margin-top: -1%; */
 }
 hr {
     margin: 0%;
@@ -137,8 +137,11 @@ hr {
     }
 
     .forceOrientation {
-        width: 100%;
+        width: auto;
+        margin-left: -2rem;
+        margin-right: -2rem;
         height: 100%;
+        margin-top: -12%;
     }
 }
 
