@@ -28,7 +28,7 @@
     align-items: center;
     font-size: 1rem;
     color: #fff;
-    padding-left: 0.75rem;   
+    padding-left: 0.75rem;
 }
 
 .nav-item .my-menu {
@@ -80,4 +80,7 @@ img {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+.mainNav div.nav-item:nth-child(10) {
+    width: 135px !important;
 }
