@@ -72,6 +72,16 @@
     color: #015ff1;
     width: fit-content;
 }
+.back-link-mobile {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+    padding-left: 1.5rem;
+}
 .ah-video-iframe {
     position: relative;
     padding-bottom: 56.25%;
