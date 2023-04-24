@@ -6,7 +6,7 @@
         <template if:true={isSaving}>
             <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
         </template>
-        <div class="document-box pir-parent">
+        <div class="document-boxDesk pir-parent pp-doc">
             <div class="section-padding all-tabs slds-show_medium">
                 <lightning-tabset active-tab-value="">
                     <lightning-tab label="Uploaded">
@@ -189,6 +189,11 @@
     <template if:true={isMobile}>
         <div class="document-box pir-parent">
             <!-- Uplaoded by picklist -->
+            <div if:true={isctpenableUpload} class="slds-col uploadfileBtncheck slds-m-top_large">
+                <button class="upload-newFile-btn" onclick={showfileUplaodSection}>
+                    <span class="upload-new-file-txt">Upload New Files</span>
+                </button>
+            </div>
             <div
                 class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large D"
             >
@@ -313,12 +318,228 @@
                     </div>
                 </div>
                 <!-- sort by picklist End-->
-
+                <div
+                    if:true={isctpenableUpload}
+                    class="slds-col uploadfileBtncheck slds-m-top_large"
+                >
+                    <button class="upload-newFile-btn" onclick={showfileUplaodSection}>
+                        <span class="upload-new-file-txt">Upload New Files</span>
+                    </button>
+                </div>
+                value >>>> {isctpenableUpload}
                 <div class="slds-grid">
                     <div class="slds-col slds-size_8-of-12 slds-p-left_medium slds-m-top_small">
                         <div class="upld-file-name">Note from Physician</div>
                         <div class="pdf slds-m-vertical_x-small">PDF</div>
                         <div class="file-upld-date">September 19, 2022</div>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:download"
+                            alternative-text="download"
+                            size="small"
+                            title="download"
+                        ></lightning-icon>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:delete"
+                            alternative-text="delete"
+                            size="small"
+                            title="delete"
+                        ></lightning-icon>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_8-of-12 slds-p-left_medium slds-m-top_small">
+                        <div class="upld-file-name">Note from Physician11</div>
+                        <div class="pdf slds-m-vertical_x-small">PDF1</div>
+                        <div class="file-upld-date">September 20, 2022</div>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:download"
+                            alternative-text="download"
+                            size="small"
+                            title="download"
+                        ></lightning-icon>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:delete"
+                            alternative-text="delete"
+                            size="small"
+                            title="delete"
+                        ></lightning-icon>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_8-of-12 slds-p-left_medium slds-m-top_small">
+                        <div class="upld-file-name">Note from Physician11</div>
+                        <div class="pdf slds-m-vertical_x-small">PDF1</div>
+                        <div class="file-upld-date">September 20, 2022</div>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:download"
+                            alternative-text="download"
+                            size="small"
+                            title="download"
+                        ></lightning-icon>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:delete"
+                            alternative-text="delete"
+                            size="small"
+                            title="delete"
+                        ></lightning-icon>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_8-of-12 slds-p-left_medium slds-m-top_small">
+                        <div class="upld-file-name">Note from Physician11</div>
+                        <div class="pdf slds-m-vertical_x-small">PDF1</div>
+                        <div class="file-upld-date">September 20, 2022</div>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:download"
+                            alternative-text="download"
+                            size="small"
+                            title="download"
+                        ></lightning-icon>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:delete"
+                            alternative-text="delete"
+                            size="small"
+                            title="delete"
+                        ></lightning-icon>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_8-of-12 slds-p-left_medium slds-m-top_small">
+                        <div class="upld-file-name">Note from Physician11</div>
+                        <div class="pdf slds-m-vertical_x-small">PDF1</div>
+                        <div class="file-upld-date">September 20, 2022</div>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:download"
+                            alternative-text="download"
+                            size="small"
+                            title="download"
+                        ></lightning-icon>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:delete"
+                            alternative-text="delete"
+                            size="small"
+                            title="delete"
+                        ></lightning-icon>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_8-of-12 slds-p-left_medium slds-m-top_small">
+                        <div class="upld-file-name">Note from Physician11</div>
+                        <div class="pdf slds-m-vertical_x-small">PDF1</div>
+                        <div class="file-upld-date">September 20, 2022</div>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:download"
+                            alternative-text="download"
+                            size="small"
+                            title="download"
+                        ></lightning-icon>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:delete"
+                            alternative-text="delete"
+                            size="small"
+                            title="delete"
+                        ></lightning-icon>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_8-of-12 slds-p-left_medium slds-m-top_small">
+                        <div class="upld-file-name">Note from Physician11</div>
+                        <div class="pdf slds-m-vertical_x-small">PDF1</div>
+                        <div class="file-upld-date">September 20, 2022</div>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:download"
+                            alternative-text="download"
+                            size="small"
+                            title="download"
+                        ></lightning-icon>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:delete"
+                            alternative-text="delete"
+                            size="small"
+                            title="delete"
+                        ></lightning-icon>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_8-of-12 slds-p-left_medium slds-m-top_small">
+                        <div class="upld-file-name">Note from Physician11</div>
+                        <div class="pdf slds-m-vertical_x-small">PDF1</div>
+                        <div class="file-upld-date">September 20, 2022</div>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:download"
+                            alternative-text="download"
+                            size="small"
+                            title="download"
+                        ></lightning-icon>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:delete"
+                            alternative-text="delete"
+                            size="small"
+                            title="delete"
+                        ></lightning-icon>
+                    </div>
+                </div>
+
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_8-of-12 slds-p-left_medium slds-m-top_small">
+                        <div class="upld-file-name">Note from Physician11</div>
+                        <div class="pdf slds-m-vertical_x-small">PDF1</div>
+                        <div class="file-upld-date">September 20, 2022</div>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:download"
+                            alternative-text="download"
+                            size="small"
+                            title="download"
+                        ></lightning-icon>
+                    </div>
+                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                        <lightning-icon
+                            icon-name="utility:delete"
+                            alternative-text="delete"
+                            size="small"
+                            title="delete"
+                        ></lightning-icon>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_8-of-12 slds-p-left_medium slds-m-top_small">
+                        <div class="upld-file-name">Note from Physician11</div>
+                        <div class="pdf slds-m-vertical_x-small">PDF1</div>
+                        <div class="file-upld-date">September 20, 2022</div>
                     </div>
                     <div class="slds-col center slds-align-middle slds-size_2-of-12">
                         <lightning-icon

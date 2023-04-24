@@ -17,7 +17,7 @@
                 patient-delegates={patientDelegates}
                 onback={handleBackClick}
                 onselectionchange={handleSelectionChange}
-                onenrollmentselect={handleEnrollmentSelect}
+                onenrollmentselect={handleEnrollmentSelect} 
             ></c-message-board-header>
             <div class="ms-board-body" style={boardStyles} data-gtm="ms-board-body">
                 <template if:true={messageWrappers}>
@@ -26,7 +26,7 @@
                             key={msWr.message.Id}
                             item={msWr}
                             user-mode={userMode}
-                        ></c-message-item>
+                        ></c-message-item> 
                     </template>
                 </template>
             </div>
@@ -48,6 +48,8 @@
                                 onkeyup={handleInputEnter}
                             />
                             <template if:true={attachment}>
+                               <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-large-size_4-of-5 slds-size_1-of-2"> 
                                 <lightning-pill
                                     class="ms-file-pill"
                                     label={attachment.fileName}
@@ -62,7 +64,11 @@
                                         style="margin-right: 2px"
                                     ></c-web-icon>
                                 </lightning-pill>
-                            </template>
+                                </div>
+                                <div class="slds-col slds-large-size_1-of-5 slds-size_1-of-2">
+                                    <lightning-input class="slds-float--right slds-p-top--small" type="checkbox" label={labels.isConfidentialLabel} onchange={handleConfidential} > </lightning-input>
+                                </div>
+                            </div></template>
                         </div>
                     </div>
                     <div class="ms-send-pi-buttons">
@@ -142,7 +148,7 @@
                         data-gtm="ms-send-pa-button"
                         onclick={handleSendClick}
                         disabled
-                    >
+                                            >
                         {labels.sendBtnLabel}
                     </button>
                 </div>
