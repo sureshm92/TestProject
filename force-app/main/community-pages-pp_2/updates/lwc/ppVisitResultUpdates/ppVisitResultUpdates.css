@@ -174,7 +174,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 16px;
-    font-weight: 500;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-weight: 600;
     margin: 5px 10px 0 10px;
     cursor: pointer;
 }

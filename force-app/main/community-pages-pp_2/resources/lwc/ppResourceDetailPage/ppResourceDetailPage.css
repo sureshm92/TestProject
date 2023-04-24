@@ -166,3 +166,21 @@ hr {
     transition: 0.5s;
     margin-top: 5%;
 }
+
+.back-to-res{
+    width: 35px;
+    height: 35px;
+    position: fixed;
+    top: 19%;
+    left: 1%;
+}
+
+.mobile-ladscape-back-button{
+    display: none;
+}
+
+@media screen and (orientation: landscape) and (max-width: 896px) {
+    .mobile-ladscape-back-button{
+        display: block;
+    }
+}
