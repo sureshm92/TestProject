@@ -89,10 +89,15 @@
 }
 
 .visit-list-container {
-    min-width: 380px;
+    /* min-width: 380px; */
+    width: 30% !important;
     border-right-width: 1px;
     border-right-color: #999999;
     padding-right: 1rem;
+}
+
+.result-container {
+    width: 70% !important;
 }
 
 .my-results {
