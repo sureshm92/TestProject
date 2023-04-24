@@ -5727,6 +5727,13 @@ Your username is ##UserName.</value>
         <protected>false</protected>
         <shortDescription>Email Body PA New Mess</shortDescription>
         <value>You have a new message from your study center. Please login to the ##ShortCommunityName to view your messages.</value>
+    </labels> 
+    <labels>
+        <fullName>Email_Body_PA_New_Mess_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body PA New Mess PP</shortDescription>
+        <value>You have a new message from your study/program center. Please login to the ##ShortCommunityName to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
