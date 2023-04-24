@@ -626,12 +626,12 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     }
 
     removeFiles(event) {
-       /* let indexcalled = event.currentTarget.dataset.key;
+        let indexcalled = event.currentTarget.dataset.key;
         this.filesData[indexcalled].isDeleted = true;
         this.totalfilesUploaded = this.totalfilesUploaded - 1;
         if (this.totalfilesUploaded == 0) {
             this.Nofilesupload = true;
-        } */
+        } 
     }
     retryFiles(event) {
         console.log('>>retry called>>' + event.currentTarget.dataset.key);
