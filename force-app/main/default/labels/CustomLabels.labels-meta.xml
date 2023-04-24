@@ -31150,4 +31150,11 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>PP_More_Results</shortDescription>
         <value>more results</value>
     </labels>
+    <labels>
+        <fullName>PP_Download_Results_Data</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Download_Results_Data</shortDescription>
+        <value>Download Results Data</value>
+    </labels>
 </CustomLabels>
