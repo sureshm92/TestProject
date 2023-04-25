@@ -120,7 +120,9 @@ public class TestData {
                 Study_Site__r.Principal_Investigator__r.Name,
                 Study_Site__r.Principal_Investigator__r.Title,
                 Participant__r.Mailing_Country_Code__c,
-                Participant__r.Mailing_Country__c
+                Participant__r.Mailing_Country__c,
+                Participant__r.Mailing_Zip_Postal_Code__c,
+            	Participant__r.Mailing_State__c
             FROM Participant_Enrollment__c
             WHERE Participant__c = :participant.Id
         ];
