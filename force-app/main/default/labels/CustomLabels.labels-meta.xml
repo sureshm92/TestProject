@@ -19663,6 +19663,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate&apos;s mobile phone updated successfully!</value>
     </labels>
     <labels>
+        <fullName>PP_Communication_Email_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Communication Email Text</shortDescription>
+        <value>If you have previously opted into any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
+    </labels>
+    <labels>
         <fullName>PP_Communication_Par_Mobile_Upd_Success</fullName>
         <language>en_US</language>
         <protected>true</protected>
