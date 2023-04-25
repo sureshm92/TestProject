@@ -809,8 +809,16 @@
                                     small-device-size="12"
                                     large-device-size="12"
                                 >
-                                    <div class={getStudyConsentMargin}>
+                                    <!--div class={getStudyConsentMargin}>
                                         {label.PP_Communication_Pref_Study_consent}
+                                    </div-->
+                                    <div class={getStudyConsentMargin}>
+                                        <template if:true={isCountryUS}>
+                                            {label.PP_Study_Consent_Adult_US}
+                                        </template>
+                                        <template if:false={isCountryUS}>
+                                            {label.PP_Study_Consent_Adult_ROW}
+                                        </template>
                                     </div>
                                 </lightning-layout-item>
                             </lightning-layout>
