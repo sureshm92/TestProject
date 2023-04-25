@@ -466,6 +466,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
     ) {
         Set<Id> peIds = new Set<Id>();
         List<Alert__c> alertsForInsert = new List<Alert__c>();
+        Set<Id> parContacts = new Set<Id>();
         for (Participant_Enrollment_Status_History__c pesh : newList) {
             if (pesh.Status__c == PEStatusState.PE_STATUS_RECEIVED) {
                 peIds.add(pesh.ParticipantEnrollment__c);
@@ -495,37 +496,49 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 WHERE Id IN :peIds
             ];
             for (Participant_Enrollment__c newPE : participantEnrollments) {
-                Boolean filterCriteria =
-                    !newPE.Is_Virtual_Study_Site__c &&
-                    newPE.Study_Site__c != null &&
-                    newPE.Study_Site__r.Clinical_Trial_Profile__c != null &&
-                    !newPE.Study_Site__r.Suppress_Participant_Emails__c &&
-                    !newPE.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                    newPE.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
-                    newPE.Participant__c != null &&
-                    !newPE.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
-                    newPE.Participant_Contact__c != null &&
-                    newPE.Participant__r.Adult__c;
-                if(filterCriteria){
-                    if (
-                        newPE.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                        CommunityTemplateService.TEMPLATE_PP
-                    ) {
-                        alertsForInsert.add(
-                            new Alert__c(
-                                Contact__c = newPE.Participant_Contact__c,
-                                Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_PP,
-                                Is_Platform_Level__c = true
-                            )
-                        );
-                    } else {
-                        alertsForInsert.add(
-                            new Alert__c(
-                                Contact__c = newPE.Participant_Contact__c,
-                                Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH,
-                                Is_Platform_Level__c = true
-                            )
-                        );
+                parContacts.add(newPE.Participant_Contact__c);
+            }
+            List<Alert__c> alerts = [
+                SELECT Id, Record_ID__c, Alert_Code__c, Contact__r.Name,Viewed__c
+                FROM Alert__c
+                WHERE Contact__c IN : parContacts AND Is_Platform_Level__c = TRUE 
+                ORDER BY CreatedDate ASC 
+            ];
+            
+            for (Participant_Enrollment__c newPE : participantEnrollments) {
+                if(alerts.isEmpty()){
+                    Boolean filterCriteria =
+                        !newPE.Is_Virtual_Study_Site__c &&
+                        newPE.Study_Site__c != null &&
+                        newPE.Study_Site__r.Clinical_Trial_Profile__c != null &&
+                        !newPE.Study_Site__r.Suppress_Participant_Emails__c &&
+                        !newPE.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                        newPE.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
+                        newPE.Participant__c != null &&
+                        !newPE.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                        newPE.Participant_Contact__c != null &&
+                        newPE.Participant__r.Adult__c;
+                    if(filterCriteria){
+                        if (
+                            newPE.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                            CommunityTemplateService.TEMPLATE_PP
+                        ) {
+                            alertsForInsert.add(
+                                new Alert__c(
+                                    Contact__c = newPE.Participant_Contact__c,
+                                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_PP,
+                                    Is_Platform_Level__c = true
+                                )
+                            );
+                        } else {
+                            alertsForInsert.add(
+                                new Alert__c(
+                                    Contact__c = newPE.Participant_Contact__c,
+                                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH,
+                                    Is_Platform_Level__c = true
+                                )
+                            );
+                        }
                     }
                 }
             }
