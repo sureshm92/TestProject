@@ -152,6 +152,8 @@ export default class HomePageParticipantNew extends LightningElement {
         setTimeout(()=>{
             getParticipantData()
             .then((result) => {
+                this.spinner ? this.spinner.hide() : '';
+                this.showSpinner = false;
                 if (result) {
                     let res = JSON.parse(result);
                     this.participantState = res.pState;
@@ -225,9 +227,7 @@ export default class HomePageParticipantNew extends LightningElement {
                             !this.participantState.isDelegate &&
                             !this.participantState.pe);
                 }
-                this.isInitialized = true;
-                this.spinner ? this.spinner.hide() : '';
-                this.showSpinner = false;
+                this.isInitialized = true;                
             })
             .catch((error) => {
                 this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
@@ -278,11 +278,17 @@ export default class HomePageParticipantNew extends LightningElement {
         }
         this.showProgress = true;
     }
-    get progressIcon() {
-        if (this.showProgress) {
-            return 'icon-updates taskIconPosition';
+    get progressIcon(){
+        if(this.showProgress){
+            return "icon-updates progressIconPosition";
         }
-        return 'icon-updates';
+        return "icon-updates";
+    }
+    get progressIconSize(){
+        if(this.showProgress){
+            return "xlarge";
+        }
+        return "medium";
     }
 
     updateCounter(event) {
