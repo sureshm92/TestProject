@@ -15,6 +15,7 @@ import attFileLabel from '@salesforce/label/c.MS_Attach_File';
 import sendBtnLabel from '@salesforce/label/c.BTN_Send';
 import fileLimitLabel from '@salesforce/label/c.MS_Attach_File_Limit';
 import fileWrongExtLabel from '@salesforce/label/c.MS_Attach_File_Unsup_Type';
+import isConfidentialLabel from '@salesforce/label/c.IsConfidential';
 
 import createConversation from '@salesforce/apex/MessagePageRemote.createConversation';
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
@@ -41,7 +42,8 @@ export default class MessageBoard extends LightningElement {
         inputPlaceholderLabel,
         limitLabel,
         attFileLabel,
-        sendBtnLabel
+        sendBtnLabel,
+        isConfidentialLabel
     };
 
     fileTypes = '.csv,.doc,.jpg,.pdf,.png,.xls';
@@ -74,6 +76,9 @@ export default class MessageBoard extends LightningElement {
 
     @track hideEmptyStub;
     needAfterRenderSetup;
+
+    isConfidential = false;
+
 
     //Public Methods:---------------------------------------------------------------------------------------------------
     @api
@@ -120,7 +125,7 @@ export default class MessageBoard extends LightningElement {
         if (patientDelegates) this.patientDelegates = patientDelegates;
 
         this.isMultipleMode = false;
-        this.conversation = conversation;
+        this.conversation = conversation;       
         this.messageWrappers = messageWrappers;
         this.selectedEnrollment = conversation.Participant_Enrollment__r;
         this.isHoldMode =
@@ -187,6 +192,11 @@ export default class MessageBoard extends LightningElement {
         this.selectedEnrollments = event.detail.selection;
         this.checkSendBTNAvailability();
     }
+    
+    handleConfidential(event){
+        this.isConfidential =  event.target.checked;
+
+    }
 
     //File Handlers:----------------------------------------------------------------------------------------------------
     handleFileSelect(event) {
@@ -224,6 +234,7 @@ export default class MessageBoard extends LightningElement {
 
     handleFilePreviewRemove() {
         this.attachment = null;
+        this.isConfidential = false;
         this.isAttachEnable = this.isSendEnable;
     }
 
@@ -278,10 +289,12 @@ export default class MessageBoard extends LightningElement {
             sendMultipleMessage({
                 peIds: this.selectedEnrollments,
                 messageText: messageText,
+                isConfidential: this.isConfidential,
                 fileJSON: JSON.stringify(fileList),
                 piContactNames: context.piContactNames
             })
                 .then(function () {
+                    context.isConfidential = false;
                     inputToDisable.classList.remove("pointer-none");
                     context.fireMultipleSendEvent();
                     if (context.spinner) context.spinner.hide();
@@ -297,11 +310,13 @@ export default class MessageBoard extends LightningElement {
                 createConversation({
                     enrollment: this.selectedEnrollment,
                     messageText: messageText,
+                    isConfidential: this.isConfidential,
                     fileJSON: JSON.stringify(fileList),
                     isIE: navigator.userAgent.match(/Trident|Edge/) !== null,
                     piContactNames: context.piContactNames
                 })
                     .then(function (data) {
+                        context.isConfidential = false;
                         inputToDisable.classList.remove("pointer-none");
                         if (formFactor === 'Small') context.hideEmptyStub = false;
                         setTimeout(function () {
@@ -319,11 +334,13 @@ export default class MessageBoard extends LightningElement {
                 sendMessage({
                     conversation: this.conversation,
                     messageText: messageText,
+                    isConfidential: this.isConfidential,
                     fileJSON: JSON.stringify(fileList),
                     isIE: navigator.userAgent.match(/Trident|Edge/) !== null,
                     piContactNames: context.piContactNames
                 })
                     .then(function (data) {
+                        context.isConfidential = false;
                         inputToDisable.classList.remove("pointer-none");
                         context.fireSendEvent(data);
                         if (context.spinner) context.spinner.hide();

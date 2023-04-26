@@ -27,7 +27,10 @@ export default class ppdocmentViewPage extends LightningElement {
         } else {
             this.isMobile = false;
         }
-        console.log('this.isMobile' + this.isMobile);
+
+        console.log(
+            'this.isMobile' + this.isMobile + '>>isctpenableUpload>>' + this.isctpenableUpload
+        );
         this.isSaving = true;
         if (!communityService.isDummy()) {
             this.getData = communityService.getParticipantData();
@@ -56,6 +59,13 @@ export default class ppdocmentViewPage extends LightningElement {
         }
     }
     renderedCallback() {}
+
+    showfileUplaodSection(event) {
+        const showUplaodEvent = new CustomEvent('showuplaodsectionevent', {
+            detail: ''
+        });
+        this.dispatchEvent(showUplaodEvent);
+    }
 
     get optionstab() {
         return [
