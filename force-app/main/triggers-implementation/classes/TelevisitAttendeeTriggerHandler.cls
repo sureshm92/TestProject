@@ -120,7 +120,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                     new Notification__c(
                         Recipient__c = conId,
                         WhatId__c = whatId,
-                        Notification_Type__c = 'Update_to_PT_Televisit_Scheduled',
+                        Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED,
                         Target_Record_Ids__c = '' + attendeeTelevisitMap.get(conId).Televisit__c
                     )
                 );
