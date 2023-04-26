@@ -154,8 +154,9 @@
         }
 
         if (
-            (!displayOnMyResultCardFlag && options.countrySelectionType !== 'Disabled') ||
-            showCustomTooltipErrorMessage
+            component.get('v.communityTemplate') != 'PatientPortal' &&
+            ((!displayOnMyResultCardFlag && options.countrySelectionType !== 'Disabled') ||
+                showCustomTooltipErrorMessage)
         ) {
             if (!displayOnMyResultCardFlag && options.countrySelectionType !== 'Disabled') {
                 communityService.showErrorToast(

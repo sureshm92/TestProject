@@ -19663,6 +19663,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate&apos;s mobile phone updated successfully!</value>
     </labels>
     <labels>
+        <fullName>PP_Communication_Email_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Communication Email Text</shortDescription>
+        <value>If you have previously opted into any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
+    </labels>
+    <labels>
         <fullName>PP_Communication_Par_Mobile_Upd_Success</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20517,6 +20524,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP IQVIA Communication US</shortDescription>
         <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_IQVIA_Consent_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP IQVIA Consent US</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_IQVIA_Consent_ROW</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP IQVIA Consent ROW</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Button_Review</fullName>
@@ -21772,6 +21793,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Study Consent Adult US</shortDescription>
         <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Study_Consent_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Consent US</shortDescription>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Study_Consent_ROW</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Consent ROW</shortDescription>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Study_Overview</fullName>
@@ -31149,5 +31184,12 @@ The IQVIA Referral Hub Support Team</value>
         <protected>true</protected>
         <shortDescription>PP_More_Results</shortDescription>
         <value>more results</value>
+    </labels>
+    <labels>
+        <fullName>PP_Download_Results_Data</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Download_Results_Data</shortDescription>
+        <value>Download Results Data</value>
     </labels>
 </CustomLabels>

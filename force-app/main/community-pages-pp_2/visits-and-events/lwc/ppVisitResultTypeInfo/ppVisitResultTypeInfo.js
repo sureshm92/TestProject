@@ -1,6 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import FORM_FACTOR from '@salesforce/client/formFactor';
+import { NavigationMixin } from 'lightning/navigation';
 import mobileTemplate from './ppVisitResultTypeInfoMobile.html';
 import tabletTemplate from './ppVisitResultTypeInfoTablet.html';
 import desktopTemplate from './ppVisitResultTypeInfo.html';
@@ -22,7 +23,7 @@ import Biomarkers_Toggle_Off from '@salesforce/label/c.Biomarkers_Toggle_Off';
 import No_Visit_Results_Available from '@salesforce/label/c.No_Visit_Results_Available';
 import Visits_View_All_Results from '@salesforce/label/c.Visits_View_All_Results';
 
-export default class PpVisitResultTypeInfo extends LightningElement {
+export default class PpVisitResultTypeInfo extends NavigationMixin(LightningElement) {
     labels = {
         Visit_Results_Tab_Vit_Disclaimer,
         Visit_Results_Tab_Lab_Disclaimer,
@@ -88,7 +89,6 @@ export default class PpVisitResultTypeInfo extends LightningElement {
                 patientVisitId: this.patientVisitId
             })
                 .then((result) => {
-                    console.log('rk:::', result);
                     this.validVisitResults = result.isVisitResultsAvailable;
                     if (this.validVisitResults) {
                         if (
@@ -225,6 +225,21 @@ export default class PpVisitResultTypeInfo extends LightningElement {
     }
     handleResultAvailability(event) {
         this.isVisitResultsAvaliable = event.detail;
+    }
+
+    navigateToMyResults() {
+        let stateParameters = this.isDesktop
+            ? {
+                  pvId: this.patientVisitId
+              }
+            : { vrlistHome: null, pvId: this.patientVisitId };
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'results'
+            },
+            state: stateParameters
+        });
     }
 
     showErrorToast(titleText, messageText, variantType) {
