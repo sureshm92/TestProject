@@ -21,9 +21,20 @@
 }
 .result-name {
     color: #444444;
-    font-size: 18px;
+    font-size: 16px;
 }
-.expected-range {
+/*.expected-range {
     color: #757575;
     font-size: 0.875rem;
+}*/
+.expected-range {
+    position: relative;
+    width: -webkit-fill-available;
+    color: #6e6e6e;
+    font-size: 14px;
+    line-height: 17px;
+}
+.push-down-txt {
+    position: absolute;
+    bottom: 5px;
 }

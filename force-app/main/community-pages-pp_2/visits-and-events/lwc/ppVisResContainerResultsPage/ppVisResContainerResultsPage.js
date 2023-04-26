@@ -12,6 +12,10 @@ import Labs_Toggle_Off from '@salesforce/label/c.Labs_Toggle_Off';
 import Biomarkers_Toggle_Off from '@salesforce/label/c.Biomarkers_Toggle_Off';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
+import mobileTemplate from './ppVisResContainerResultsPageMobile.html';
+import tabletTemplate from './ppVisResContainerResultsPageTablet.html';
+import desktopTemplate from './ppVisResContainerResultsPage.html';
+import FORM_FACTOR from '@salesforce/client/formFactor';
 
 export default class PpMyResultsContainer extends LightningElement {
     label = {
@@ -28,11 +32,11 @@ export default class PpMyResultsContainer extends LightningElement {
     };
     group2;
     group3;
-    isButton1Group2;
-    isButton2Group2;
-    isButton1Group3;
-    isButton2Group3;
-    isButton3Group3;
+    isButton1Group2 = false;
+    isButton2Group2 = false;
+    isButton1Group3 = false;
+    isButton2Group3 = false;
+    isButton3Group3 = false;
     Button1Label;
     Button2Label;
     Button3Label;
@@ -78,6 +82,27 @@ export default class PpMyResultsContainer extends LightningElement {
     get showTabs() {
         return this.visResultTypeTabs.length > 1 ? true : false;
     }
+
+    render() {
+        if (this.isDesktop) {
+            return desktopTemplate;
+        } else if (this.isMobile) {
+            return mobileTemplate;
+        } else {
+            return tabletTemplate;
+        }
+    }
+    get isDesktop() {
+        return FORM_FACTOR == 'Large';
+    }
+
+    get isMobile() {
+        return FORM_FACTOR == 'Small';
+    }
+
+    get isTablet() {
+        return FORM_FACTOR == 'Medium';
+    }
     checkButtonClass() {
         if (this.visResultTypeTabs.length == 1) {
             this.selectedResultType = this.visResultTypeTabs[0];
@@ -93,9 +118,12 @@ export default class PpMyResultsContainer extends LightningElement {
                 this.selectedResultType = 'Labs';
             }
             this.isButton1Group2 = true;
+            this.isButton2Group2 = false;
         } else {
             this.group3 = true;
             this.isButton1Group3 = true;
+            this.isButton2Group3 = false;
+            this.isButton3Group3 = false;
             this.Button1Label = 'Vitals';
             this.Button2Label = 'Labs';
             this.Button3Label = 'Biomarkers';
@@ -260,5 +288,12 @@ export default class PpMyResultsContainer extends LightningElement {
         } else if (this.selectedResultType === 'Biomarkers') {
             return this.label.Visit_Results_Tab_Bio_Disclaimer;
         }
+    }
+
+    handleNavigation() {
+        const custEvent = new CustomEvent('navigateback', {
+            detail: true
+        });
+        this.dispatchEvent(custEvent);
     }
 }
