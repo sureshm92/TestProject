@@ -28,18 +28,109 @@ public without sharing class TelevisitAttendeeTriggerHandler {
     private static void notifyNewAttendees(List<Televisit_Attendee__c> attendeeList) {
         //Insert notifications for new attendees
         Map<Id, Televisit_Attendee__c> attendeeTelevisitMap = new Map<Id, Televisit_Attendee__c>();
+        List<Id> peIdList = new List<Id>();
+        List<Id> conIdList = new List<Id>();
+
+        List<Id> idList = new List<Id>();
+        for (Televisit_Attendee__c taObj : attendeeList) {
+            conIdList.add(taObj.Contact__c);
+        }
+        Map<Id, Contact> contactMap = new Map<Id, Contact>(
+            [
+                SELECT Id, (SELECT Id, Has_Studies_In_Progress__c FROM Participants__r)
+                FROM Contact
+                WHERE Id IN :conIdList
+            ]
+        );
 
         for (Televisit_Attendee__c attendee : [
-            SELECT Id, Contact__c, Televisit__c, Attendee_Type__c
+            SELECT
+                Id,
+                Contact__c,
+                Televisit__c,
+                Attendee_Type__c,
+                Televisit__r.Participant_Enrollment__c,
+                Televisit__r.Participant_Enrollment__r.Participant__c,
+                Televisit__r.Participant_Enrollment__r.Participant__r.Contact__c,
+                Televisit__r.Participant_Enrollment__r.Participant__r.Has_Studies_In_Progress__c
             FROM Televisit_Attendee__c
             WHERE Id IN :attendeeList
         ]) {
             if (attendee.Attendee_Type__c != 'Site Staff' && attendee.Attendee_Type__c != 'PI') {
                 attendeeTelevisitMap.put(attendee.Contact__c, attendee);
+                if (
+                    contactMap.get(attendee.Contact__c)
+                        .Participants__r[0]
+                        .Has_Studies_In_Progress__c
+                ) {
+                    idList.add(attendee.Televisit__r.Participant_Enrollment__c);
+                } else {
+                    idList.add(contactMap.get(attendee.Contact__c).Participants__r[0].Id);
+                }
             }
         }
+        List<Notification__c> exisistingNotificationList = [
+            SELECT Id, Target_Record_Ids__c, WhatId__c, Recipient__c
+            FROM Notification__c
+            WHERE
+                Notification_Type__c = 'Update_to_PT_Televisit_Scheduled'
+                AND WhatId__c IN :idList
+                AND Recipient__c IN :attendeeTelevisitMap.keySet()
+        ];
+        List<Notification__c> updatedNotificationList = new List<Notification__c>();
+        for (Id conId : attendeeTelevisitMap.keySet()) {
+            Boolean needtoCreate = true;
+            for (Notification__c notificationObj : exisistingNotificationList) {
+                if (
+                    notificationObj.Recipient__c == conId &&
+                    notificationObj.WhatId__c ==
+                    attendeeTelevisitMap.get(conId).Televisit__r.Participant_Enrollment__c
+                ) {
+                    needtoCreate = false;
+                    updatedNotificationList.add(
+                        new Notification__c(
+                            Id = notificationObj.Id,
+                            Target_Record_Ids__c = notificationObj.Target_Record_Ids__c +
+                                ';' +
+                                attendeeTelevisitMap.get(conId).Televisit__c
+                        )
+                    );
+                }
+                if (
+                    notificationObj.Recipient__c == conId &&
+                    notificationObj.WhatId__c == contactMap.get(conId).Participants__r[0].Id
+                ) {
+                    needtoCreate = false;
+                    updatedNotificationList.add(
+                        new Notification__c(
+                            Id = notificationObj.Id,
+                            Target_Record_Ids__c = notificationObj.Target_Record_Ids__c +
+                                ';' +
+                                attendeeTelevisitMap.get(conId).Televisit__c
+                        )
+                    );
+                }
+            }
+            if (needtoCreate) {
+                Id whatId = contactMap.get(conId).Participants__r[0].Has_Studies_In_Progress__c
+                    ? attendeeTelevisitMap.get(conId).Televisit__r.Participant_Enrollment__c
+                    : contactMap.get(conId).Participants__r[0].Id;
 
-        createAttendeeNotifications(attendeeTelevisitMap, 'Message_to_PT_Added_Attendee_Type');
+                updatedNotificationList.add(
+                    new Notification__c(
+                        Recipient__c = conId,
+                        WhatId__c = whatId,
+                        Notification_Type__c = 'Update_to_PT_Televisit_Scheduled',
+                        Target_Record_Ids__c = '' + attendeeTelevisitMap.get(conId).Televisit__c
+                    )
+                );
+            }
+        }
+        createAttendeeNotifications(
+            attendeeTelevisitMap,
+            'Message_to_PT_Added_Attendee_Type',
+            updatedNotificationList
+        );
     }
 
     @TestVisible
@@ -71,7 +162,8 @@ public without sharing class TelevisitAttendeeTriggerHandler {
         if (!delConTeleMap.isEmpty()) {
             createAttendeeNotifications(
                 delConTeleMap,
-                NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE
+                NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE,
+                new List<Notification__c>{}
             );
         }
     }
@@ -79,7 +171,8 @@ public without sharing class TelevisitAttendeeTriggerHandler {
     @TestVisible
     private static void createAttendeeNotifications(
         Map<Id, Televisit_Attendee__c> contactTelevistMap,
-        String notificationType
+        String notificationType,
+        List<Notification__c> updateNotifications
     ) {
         List<Notification__c> notifications = new List<Notification__c>();
         for (Id conId : contactTelevistMap.keySet()) {
@@ -96,7 +189,10 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                 )
             );
         }
-        Database.insert(notifications);
+        if (!updateNotifications.isEmpty()) {
+            notifications.addAll(updateNotifications);
+        }
+        Database.upsert(notifications);
     }
 
     @TestVisible
