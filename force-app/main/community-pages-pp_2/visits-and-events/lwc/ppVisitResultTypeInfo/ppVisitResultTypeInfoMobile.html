@@ -54,7 +54,11 @@
                     <!--DIVIDER START-->
                     <div class="divider slds-m-horizontal_medium slds-border_top"></div>
                     <!--DIVIDER END-->
-                    <div class="slds-grid slds-wrap slds-p-horizontal_xx-small">
+                    <div class="slds-grid slds-wrap slds-p-horizontal_xx-small position-container">
+                        <c-web-spinner
+                            class="main-spinner"
+                            show-spinner={showToggleSpinner}
+                        ></c-web-spinner>
                         <div class="slds-col slds-size_1-of-1 slds-p-top_medium">
                             <div class="slds-grid slds-wrap slds-gutters">
                                 <div class="slds-col slds-size_12-of-12 result-type-toggle">
@@ -212,7 +216,10 @@
             </div>
         </div>
         <template lwc:if={validVisitResults}>
-            <div class="view-all-results slds-p-top_small slds-align_absolute-center">
+            <div
+                class="view-all-results slds-p-top_small slds-align_absolute-center"
+                onclick={navigateToMyResults}
+            >
                 {labels.Visits_View_All_Results}
             </div>
         </template>

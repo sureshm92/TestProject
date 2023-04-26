@@ -262,14 +262,40 @@
 .linkLabel {
     color: #015ff1;
 }
+.linkLabelMbl {
+    color: #0768fd;
+    font-weight: 600;
+}
 .imgname {
     padding-left: 0.5rem;
+    /* padding-top: 4px; */
+    padding-top: 5px;
 }
 .progressBar {
     /* width: 95%; */
     /* padding-top: 7px; */
     display: inline-block;
     padding-left: 1rem;
+    padding-top: 0.85rem;
+    /* padding-top: 0.75rem; */
+}
+.progressBarMbl {
+    /* width: 95%; */
+    /* padding-top: 7px; */
+    display: inline-block;
+    padding-left: 1rem;
+    /* padding-top: 0.85rem; */
+    /* padding-top: 0.75rem; */
+}
+.cancelBtnmbl {
+    padding-left: 8px;
+}
+.progressBarError {
+    /* width: 95%; */
+    /* padding-top: 7px; */
+    display: inline-block;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
 }
 .mainuploadclass {
     height: 698px;
@@ -279,6 +305,7 @@
     border: 1px solid #e9e9e9;
     border-radius: 16px;
     background-color: #ffffff;
+    margin-top: 8px;
 }
 .progressBar .slds-progress-bar {
     width: 81%;
@@ -289,7 +316,25 @@
 .errorMessage {
     font-size: 13px;
     padding-left: 1rem;
-    color: red;
+    color: #e20000;
+    font-style: italic;
+}
+.errorMessageMbl {
+    font-size: 13px;
+    /* padding-left: 1rem; */
+    color: #e20000;
+    font-style: italic;
+}
+.errorMessageProgress {
+    font-size: 13px;
+    padding-left: 6px;
+    font-style: italic;
+    color: #e20000;
+}
+
+.retryIcon {
+    float: right;
+    padding-right: 2rem;
 }
 .uploadinfo {
     font-size: 14px;
@@ -306,6 +351,12 @@
     line-height: 24px;
 }
 .imagecss {
+    margin-bottom: 3px;
+    /* padding-left: 0.5rem; */
+    padding-left: 0.25rem;
+}
+.imagecsscrossicon {
+    padding-top: 5px;
     margin-bottom: 3px;
     padding-left: 0.5rem;
 }
@@ -336,7 +387,7 @@
     width: 16px;
 }
 .filegrid {
-    align-items: center;
+    /* align-items: center; */
 }
 .upld-file-txt {
     color: #444444;
@@ -397,7 +448,7 @@
     border-radius: 8px;
     background-color: #f2f2f2;
     font-size: 14px;
-    font-weight: 600;
+    /* font-weight: 600; */
     position: relative;
 }
 .mbllightninglayout {
@@ -428,10 +479,24 @@
     height: 32px;
     width: 157px;
     border: 1px solid #e9e9e9;
+    /* border: 1px solid #9797975c; */
+    border-radius: 16px;
+    color: #015ff1;
+    cursor: pointer;
+    /* border: none; */
+    background: None;
+}
+.cancel-btnDesk {
+    box-sizing: border-box;
+    height: 32px;
+    width: 157px;
+    border: 1px solid #e9e9e9;
+    /* border: 1px solid #9797975c; */
     border-radius: 16px;
     color: #015ff1;
     cursor: pointer;
     border: none;
+    /* background-color: white; */
 }
 .upload-btn {
     height: 32px;
@@ -472,20 +537,27 @@
         width: 140px;
     }
     .btn-position {
-        position: absolute;
-        bottom: -0.5rem !important;
+        /* position: absolute; */
+        /* bottom: -0.5rem !important; */
     }
 }
+
+@media all and (min-width: 389px) and (max-width: 394px) {
+    .cancel-btn {
+        width: 132px;
+    }
+}
+
 @media all and (min-width: 363px) and (max-width: 376px) {
     .upload-btn {
         margin-left: 2.5rem;
         width: 190px;
     }
     .cancel-btn {
-        width: 141px;
+        width: 124px;
     }
     .btn-position {
-        bottom: -4.8rem !important;
+        /* bottom: -4.8rem !important; */
     }
     .upload-newFile-btn {
         width: 349px !important;
@@ -499,7 +571,7 @@
         margin-left: 2.5rem;
     }
     .btn-position {
-        bottom: 6.2rem !important;
+        /* bottom: 6.2rem !important; */
     }
     .upload-newFile-btn {
         width: 355px !important;
@@ -516,15 +588,24 @@
         width: 300px !important;
     }
     .cancel-btn {
-        width: 128px;
+        width: 123px;
     }
     .upload-btn {
-        width: 145px;
+        width: 146px;
         margin-left: 3rem;
     }
     .btn-position {
-        top: 103%;
+        /* top: 103%; */
         bottom: unset !important;
+    }
+}
+
+@media all and (max-width: 394px) {
+    .upld-file-txt {
+        padding-left: 0.5rem;
+    }
+    .progressBarMbl {
+        padding-left: 0.5rem;
     }
 }
 
@@ -560,8 +641,8 @@
         font-weight: 600;
     }
     .btn-position {
-        position: absolute;
-        bottom: 7rem;
+        /* position: absolute; */
+        /* bottom: 7rem; */
     }
 }
 @media all and (min-width: 768px) and (max-width: 1024px) {
@@ -569,7 +650,7 @@
         width: 432px;
     }
     .btn-position {
-        margin-top: 7rem;
+        /* margin-top: 7rem; */
         position: unset;
     }
     .document-box {
@@ -583,13 +664,13 @@
 
 @media all and (min-width: 769px) and (max-width: 821px) {
     .btn-position {
-        margin-top: 13rem !important;
+        /* margin-top: 13rem !important; */
         position: unset;
     }
 }
 @media all and (min-width: 822px) and (max-width: 1024px) {
     .btn-position {
-        margin-top: 24rem !important;
+        /* margin-top: 24rem !important; */
         position: unset;
     }
 }
@@ -598,22 +679,36 @@
         width: 98%;
     }
 }
+@media all and (min-width: 768px) {
+    .upload-progress-scroll {
+        height: 36rem;
+    }
+}
+
 @media all and (min-width: 658px) and (max-width: 1368px) {
     .cancel-btn {
-        width: 90%;
+        width: 100%;
     }
 
     .upload-btn {
-        width: 90%;
+        width: 93%;
+        margin-left: 2.5rem;
     }
 }
+
+@media screen and (pointer: coarse) and (orientation: landscape) and (min-width: 600px) {
+    .upload-progress-scroll {
+        height: 21rem;
+    }
+}
+
 @media screen and (pointer: coarse) and (orientation: landscape) and (min-width: 74px) and (max-width: 895px) {
     .btn-position {
         position: unset;
-        bottom: 0px;
+        /* bottom: 0px; */
     }
     .upload-btn {
-        margin-left: 3.5rem;
+        margin-left: 2.5rem;
     }
 }
 @media screen and (pointer: coarse) and (orientation: landscape) and (max-width: 740px) {

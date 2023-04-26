@@ -1164,6 +1164,10 @@
         <apexClass>MessagePageRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>PPMessagePageRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>MessageService</apexClass>
         <enabled>true</enabled>

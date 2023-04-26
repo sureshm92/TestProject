@@ -26,7 +26,14 @@
                             <template if:false={item.expand}>
                                 <div data-page-name={item.page} onclick={handleNavigation}>
                                     <ul>
-                                        <li tabindex="0">{item.label}</li>
+                                        <li tabindex="0">
+                                            {item.label}
+                                            <template if:true={item.ismsg}>
+                                                <c-nav-message-counter
+                                                    is-message-page="true"
+                                                ></c-nav-message-counter>
+                                            </template>
+                                        </li>
                                     </ul>
                                 </div>
                             </template>

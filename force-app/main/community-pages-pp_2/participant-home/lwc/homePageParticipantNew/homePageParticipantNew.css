@@ -299,3 +299,7 @@
 .marginbottom {
     margin-bottom: -50px;
 }
+.progressIconPosition{
+    padding-top: 7px !important;
+    margin-left: 26px !important;
+}

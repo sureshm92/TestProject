@@ -5562,7 +5562,7 @@ Your username is ##UserName.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
-        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more programs listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies/programs listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Delegate_PP_2</fullName>
@@ -5729,6 +5729,13 @@ Your username is ##UserName.</value>
         <value>You have a new message from your study center. Please login to the ##ShortCommunityName to view your messages.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_PA_New_Mess_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body PA New Mess PP</shortDescription>
+        <value>You have a new message from your study/program center. Please login to the ##ShortCommunityName to view your messages.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_PI1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5817,7 +5824,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Participant Delegate Reactivated pp</shortDescription>
-        <value>Your access as a participant delegate has changed for one or more studies or programs that are listed below</value>
+        <value>Your access as a participant delegate has changed for one or more studies/programs that are listed below</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Delegate_New_Study</fullName>
@@ -10446,6 +10453,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>IQVIA Patient Portal would like to access the microphone and camera</shortDescription>
         <value>IQVIA™ Patient Portal would like to access the microphone and camera.</value>
+    </labels>
+    <labels>
+        <fullName>IsConfidential</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IsConfidential</shortDescription>
+        <value>Is Confidential</value>
     </labels>
     <labels>
         <fullName>IQVIA_intervention_completed</fullName>
@@ -19649,6 +19663,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate&apos;s mobile phone updated successfully!</value>
     </labels>
     <labels>
+        <fullName>PP_Communication_Email_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Communication Email Text</shortDescription>
+        <value>If you have previously opted into any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
+    </labels>
+    <labels>
         <fullName>PP_Communication_Par_Mobile_Upd_Success</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20503,6 +20524,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP IQVIA Communication US</shortDescription>
         <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_IQVIA_Consent_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP IQVIA Consent US</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_IQVIA_Consent_ROW</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP IQVIA Consent ROW</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Button_Review</fullName>
@@ -21760,6 +21795,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
+        <fullName>PP_Study_Consent_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Consent US</shortDescription>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Study_Consent_ROW</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Consent ROW</shortDescription>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
         <fullName>PP_Study_Overview</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -22292,6 +22341,55 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP required</shortDescription>
         <value>required</value>
+    </labels>
+    <labels>
+        <fullName>PP_No_Messages</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>You have no messages.</shortDescription>
+        <value>You have no messages.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Select_Question_Below</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Below you can select a question to ask.</shortDescription>
+        <value>Below you can select a question to ask.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Select_Question</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select question</shortDescription>
+        <value>Select question</value>
+    </labels>
+    <labels>
+        <fullName>PP_Select_Questions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select question ...</shortDescription>
+        <value>Select question ...</value>
+    </labels>
+    <labels>
+        <fullName>PP_New_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New Message</shortDescription>
+        <value>New Message</value>
+    </labels>
+    <labels>
+        <fullName>PP_Time_At</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>at</shortDescription>
+        <value>at</value>
+    </labels>
+    <labels>
+        <fullName>PP_Attachment_Saved_To_Files</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Attachments are automatically saved to your Files</shortDescription>
+        <value>Attachments are automatically saved to your Files</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
@@ -31086,5 +31184,26 @@ The IQVIA Referral Hub Support Team</value>
         <protected>true</protected>
         <shortDescription>PP_More_Results</shortDescription>
         <value>more results</value>
+    </labels>
+    <labels>
+        <fullName>PP_Download_Results_Data</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Download_Results_Data</shortDescription>
+        <value>Download Results Data</value>
+    </labels>
+    <labels>
+        <fullName>PP_For_Participants_and_Caregivers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_For_Participants_and_Caregivers</shortDescription>
+        <value>For Participants and Caregivers</value>
+    </labels>
+    <labels>
+        <fullName>PP_Connecting_professionals</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Connecting_professionals</shortDescription>
+        <value>Connecting professionals, patients and clinical researchers for better healthcare.</value>
     </labels>
 </CustomLabels>
