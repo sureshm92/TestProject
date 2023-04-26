@@ -5,7 +5,9 @@
 }
 .completed-date {
     color: #444444;
-    font-size: 20px;
+    font-size: 1.5rem;
+    letter-spacing: 0;
+    line-height: 3rem;
 }
 .border-class {
     border-left: 6px solid black;
@@ -104,4 +106,25 @@
 .container-visit-results {
     position: relative;
     height: 100%;
+}
+.toggle-off-image {
+    height: 2.5rem;
+    width: 2.6rem;
+}
+
+.toggle-off-text {
+    color: #6e6e6e;
+    font-size: 1rem;
+    letter-spacing: 0;
+    text-align: center;
+    padding-bottom: 5.313rem;
+    width: 385px;
+}
+.toggle-off-section {
+    padding-top: 148px;
+}
+
+.divider {
+    border: 1px solid #999999;
+    height: 18px;
 }
