@@ -1,5 +1,5 @@
 <template>
-    <template lwc:if={isDesktop}>
+    <template lwc:if={isMobile}>
         <div>
             <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
             <!--Labs-->
@@ -19,7 +19,7 @@
                                 >
                                     <div
                                         key={result}
-                                        class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                                        class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small slds-p-left_none"
                                     >
                                         <c-pp-visit-result-display-card
                                             visit-result={result}
@@ -108,7 +108,7 @@
                         <template for:each={visitResultsVitals} for:item="result" for:index="index">
                             <div
                                 key={result}
-                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small slds-p-left_none"
                             >
                                 <c-pp-visit-result-display-card
                                     visit-result={result}
@@ -144,7 +144,7 @@
                         <template for:each={visitResultsBio} for:item="result" for:index="index">
                             <div
                                 key={result}
-                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small slds-p-left_none"
                             >
                                 <c-pp-visit-result-display-card
                                     visit-result={result}
