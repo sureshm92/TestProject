@@ -28,6 +28,9 @@ public without sharing class UpdateService {
         Integer limits,
         String initialLoadTime
     ) {
+        List<String> notificationsTypeList = new List<String>();
+        notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE);
+        notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED);
         DateTime initialDateTime = Datetime.valueOfGMT(initialLoadTime);
         ResourceFilter resFilter = getSendResultFilter();
         List<Send_Result__c> sendResults = [
@@ -36,7 +39,8 @@ public without sharing class UpdateService {
                 Notification__c,
                 Notification__r.Target_Record_Ids__c,
                 Status__c,
-                Notification__r.whatId__c
+                Notification__r.whatId__c,
+                Notification__r.Notification_Type__c 
             FROM Send_Result__c
             WHERE
                 Notification__r.Target_Record_Ids__c != NULL
@@ -47,7 +51,7 @@ public without sharing class UpdateService {
                 AND ((Notification__r.whatId__c IN :resFilter.peList
                 AND Notification__r.Target_Record_Ids__c IN :resFilter.resStudyIdVisToPt)
                 OR (Notification__r.whatId__c = :resFilter.currentPe
-                AND Notification__r.Notification_Type__c = :NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE)
+                AND Notification__r.Notification_Type__c IN : notificationsTypeList)
                 OR Notification__r.whatId__c = :resFilter.currentParticipantId)
             ORDER BY Notification__r.lastModifiedDate DESC
             LIMIT :limits
@@ -187,6 +191,9 @@ public without sharing class UpdateService {
                 } else if (targetType == OBJECT_TYPE_PATIENT_VISIT) {
                     createPatientVisitWrapper(targetId, wrp);
                 }
+            }else if(targetType == OBJECT_TYPE_TELEVISIT){
+                wrp.sendResultId = sr.Id;
+                createTelevisitWrapper(wrp, sr);
             }
             updateWrapperlist.add(wrp);
         }
@@ -195,6 +202,14 @@ public without sharing class UpdateService {
     public void createPatientVisitWrapper(Id patientVisitId, UpdateWrapper wrp) {
         wrp.contentType = 'VisitResult';
         wrp.recId = patientVisitId;
+    }
+
+    public void createTelevisitWrapper(UpdateWrapper wrp,Send_Result__c sr){
+        wrp.contentType = 'Televisit';
+        if(sr.Notification__r.Notification_Type__c == NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED){
+            wrp.televisitType = 'Scheduled';
+        }
+        //add check to set televisit Type from notification type
     }
 
     public void createResStudyWrapper(
@@ -376,6 +391,8 @@ public without sharing class UpdateService {
         public String targetRecordId;
         @AuraEnabled
         public String sendResultId;
+        @AuraEnabled
+        public String televisitType;
     }
     public void updateNotificationsStatus(List<Id> notificationIds) {
         List<Notification__c> notifications = [

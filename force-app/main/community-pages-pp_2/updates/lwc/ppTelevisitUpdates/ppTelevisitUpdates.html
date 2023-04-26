@@ -1,3 +1,65 @@
 <template>
-    
+    <template if:false={desktop}>
+        <div class="slds-grid slds-wrap card-border" onclick={openLink}>
+            <div class="slds-col slds-size_2-of-6 card-element">
+                <div class="slds-align_absolute-center icon-container">
+                    <div class="slds-align_absolute-center">
+                        <img src={televisit_image} class="link-img" />
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_4-of-6">
+                <div class="slds-grid data-section">
+                    <div class="slds-col">
+                        <div>
+                            <p class="televisits-title" title={televisitTitle}>{televisitTitle}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <span class="view-televisit-label"> {label.PP_View_Televisits} </span>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={desktop}>
+        <template if:true={showVisitSection}>
+            <div class="slds-grid slds-wrap card-border-desktop" onclick={openLink}>
+                <div class="slds-col slds-size_2-of-6 card-element">
+                    <div class="slds-align_absolute-center icon-container">
+                        <div class="slds-align_absolute-center">
+                            <img src={televisit_image} class="link-img" />
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_4-of-6">
+                    <div class="slds-grid slds-wrap data-section">
+                        <p class="televisits-title" title={televisitTitle}>{televisitTitle}</p>
+                    </div>
+                    <div class="slds-grid">
+                        <span class="view-televisit-label"> {label.PP_View_Televisits} </span>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template if:false={showVisitSection}>
+            <div class="pointer-class" onclick={openLink}>
+                <div class="slds-align_absolute-center link-image-section-horizontal">
+                    <img src={televisit_image} class="link-image" />
+                </div>
+                <div class="televisit-title">
+                    <p class="televisit-title-horizontal" title={televisitTitle}>
+                        {televisitTitle}
+                    </p>
+                </div>
+                <div class="slds-grid open-tab-data-icon-container slds-align_absolute-center">
+                    <div class="">
+                        <p class="open-in-new-tab" title={televisitData.title}>
+                            {label.PP_View_Televisits}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </template>
 </template>

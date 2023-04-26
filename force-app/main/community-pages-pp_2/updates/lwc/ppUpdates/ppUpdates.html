@@ -68,12 +68,12 @@
                                     ></c-pp-explore-updates>
                                 </div>
                                 <div if:true={res.isTelevisit} key={res}>
-                                    <c-pp-link-updates
-                                        link-data={res}
+                                    <c-pp-televisit-updates
+                                        televisit-data={res}
                                         desktop={desktop}
                                         show-visit-section={showvisitsection}
                                         onremovecard={handleRemoveCard}
-                                    ></c-pp-link-updates>
+                                    ></c-pp-televisit-updates>
                                 </div>
                                 <div if:true={res.isVisitResult} key={res}>
                                     <c-pp-visit-result-updates
@@ -161,23 +161,24 @@
                                         class="slds-col slds-size_3-of-12 slds-m-right_x-small horizontal-card"
                                     >
                                         <c-pp-visit-result-updates
-                                            link-data={res}
+                                            televisit-data={res}
                                             desktop={desktop}
                                             show-visit-section={showvisitsection}
                                             onremovecard={handleRemoveCard}
                                         ></c-pp-visit-result-updates>
                                     </div>
-                                    <!--    <div
-                                    key={res}
-                                    if:true={res.isTelevisit}
-                                    class="slds-col slds-size_3-of-12 slds-m-left_xx-small slds-m-right_xx-small horizontal-card"
-                                >
-                                        <c-pp-link-updates
-                                            link-data={res}
+                                    <div
+                                        key={res}
+                                        if:true={res.isTelevisit}
+                                        class="slds-col slds-size_3-of-12 slds-m-right_x-small horizontal-card"
+                                    >
+                                        <c-pp-televisit-updates
+                                            televisit-data={res}
                                             desktop={desktop}
                                             show-visit-section={showvisitsection}
-                                        ></c-pp-link-updates>
-                                    </div> -->
+                                            onremovecard={handleRemoveCard}
+                                        ></c-pp-televisit-updates>
+                                    </div>
                                 </template>
                             </div>
                         </div>
@@ -242,6 +243,14 @@
                                     show-visit-section={showvisitsection}
                                     onremovecard={handleRemoveCard}
                                 ></c-pp-visit-result-updates>
+                            </div>
+                            <div if:true={res.isTelevisit} key={res}>
+                                <c-pp-televisit-updates
+                                    televisit-data={res}
+                                    desktop={desktop}
+                                    show-visit-section={showvisitsection}
+                                    onremovecard={handleRemoveCard}
+                                ></c-pp-televisit-updates>
                             </div>
                         </template>
                     </div>

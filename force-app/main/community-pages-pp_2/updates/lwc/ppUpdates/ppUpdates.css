@@ -169,12 +169,10 @@
 }
 .horizontal-scroll {
     overflow-x: scroll;
-    white-space: nowrap;
     overflow-y: hidden;
 }
 .vertical-scroll {
     overflow-y: scroll;
-    white-space: nowrap;
     overflow-x: hidden;
     margin-right: 7px;
 }
