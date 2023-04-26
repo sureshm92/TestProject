@@ -101,10 +101,6 @@
     border-radius: 20px;
 }
 
-:host {
-    --slds-c-tooltip-color-background: #444444 !important;
-}
-
 .new-title {
     color: #444;
     font-size: 0.9rem;

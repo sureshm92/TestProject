@@ -4,7 +4,7 @@
     controller="CommunityFacadeRemote"
 >
     <ltng:require
-        styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_PP_Theme, $Resource.proximanova + '/proximanova.css')}"
+        styles="{!join(',', $Resource.Community_CSS_PP_Theme, $Resource.proximanova + '/proximanova.css')}"
         scripts="{!$Resource.rr_community_js}"
         afterScriptsLoaded="{!c.doInit}"
     />

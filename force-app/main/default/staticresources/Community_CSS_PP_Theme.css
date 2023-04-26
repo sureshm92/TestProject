@@ -1,3 +1,152 @@
+/* Community_CSS_PP_Theme */
+html {
+    height: 100%;
+    background-color: #f2f2f2;
+    font-family: 'Proxima Nova' !important;
+    transition: 100ms;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Proxima Nova' !important;
+}
+
+.toastMessage.forceActionsText {
+    font-family: 'Proxima Nova' !important;
+}
+body {
+    font-size: 13px;
+    overflow: visible !important;
+}
+a,
+.slds-button {
+    color: #015ff1;
+}
+.slds-button:focus {
+    color: #0557d5;
+    box-shadow: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    color: #015ff1;
+}
+.rr-header-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 8700;
+}
+@media not print {
+    .rr-header-content,
+    .rr-header-margin {
+        height: 50px;
+    }
+}
+.rr-width-limiter-pp {
+    max-width: 1366px;
+    margin: auto;
+    padding: 0 2rem;
+}
+.rr-width-limiter {
+    max-width: 1366px;
+    margin: auto;
+}
+.layout-header.rr-width-limiter-pp {
+    padding: 0 !important;
+}
+.rr-all-content {
+    width: 100%;
+    font-family: 'Proxima Nova';
+    margin: auto;
+    overflow-x: hidden;
+    display: block;
+}
+.rr-min-body-height {
+    min-height: 90vh;
+}
+.rr-body-content {
+    background-color: #f8f9fb;
+    vertical-align: top;
+}
+/* SLDS overrides */
+.slds-spinner_brand.slds-spinner:before,
+.slds-spinner_brand.slds-spinner:after,
+.slds-spinner--brand.slds-spinner:before,
+.slds-spinner--brand.slds-spinner:after,
+.slds-spinner_brand .slds-spinner__dot-a:before,
+.slds-spinner_brand .slds-spinner__dot-b:before,
+.slds-spinner_brand .slds-spinner__dot-a:after,
+.slds-spinner_brand .slds-spinner__dot-b:after,
+.slds-spinner--brand .slds-spinner__dot-a:before,
+.slds-spinner--brand .slds-spinner__dot-b:before,
+.slds-spinner--brand .slds-spinner__dot-a:after,
+.slds-spinner--brand .slds-spinner__dot-b:after {
+    background-color: #182a75 !important;
+}
+
+.slds-select {
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+}
+
+.slds-select:focus,
+.slds-input:focus,
+.slds-pill:focus,
+.slds-textarea:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.slds-select:hover,
+.slds-input:hover,
+.slds-pill:hover,
+.slds-textarea:hover {
+    border: 1px solid #015ff1;
+}
+
+.slds-input {
+    box-sizing: border-box;
+    height: 2rem;
+    border: 1px solid #d9d9d9;
+    border-radius: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
+}
+
+.slds-select {
+    font-size: 1rem;
+}
+
+.slds-input::placeholder {
+    font-size: 0.875rem;
+    color: #999;
+    font-weight: 400;
+}
+
+input::placeholder {
+    color: #999;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.slds-pill {
+    height: 32px;
+    font-size: 1rem;
+}
+
+@media all and (max-width: 768px) {
+    .rr-header-margin {
+        height: 0;
+    }
+}
 @media (max-width: 500px) {
     .rr-width-limiter.side-padding {
         padding: 0px !important;
@@ -10,7 +159,7 @@
     .rr-min-body-height .rr-min-body-height {
         height: auto !important;
     }
-    
+
     .toastContainer > .forceToastMessage {
         width: 95% !important;
     }
@@ -28,7 +177,7 @@
     .slds-popover_tooltip,
     .slds-popover--tooltip ::after {
         background-color: #444444;
-        margin-right: .5rem;
+        margin-right: 0.5rem;
     }
 }
 @media (max-width: 390px) {
@@ -38,23 +187,23 @@
     .slds-popover_tooltip,
     .slds-popover--tooltip ::after {
         background-color: #444444;
-        margin-right: .5rem;
+        margin-right: 0.5rem;
     }
 }
 
-.pir-parent .slds-tabs_default__item.slds-is-active .slds-tabs_default__link{
+.pir-parent .slds-tabs_default__item.slds-is-active .slds-tabs_default__link {
     color: #000000 !important;
     font-weight: 600 !important;
     font-size: 16px;
     text-decoration: none !important;
 }
-.pp-doc .slds-tabs_default__nav{
-   margin-top: 12px;
-   margin-left: 12px;
-   margin-right: 12px;
+.pp-doc .slds-tabs_default__nav {
+    margin-top: 12px;
+    margin-left: 12px;
+    margin-right: 12px;
 }
-.pp-doc .slds-tabs_default__item{
-   margin-left: -6px;
+.pp-doc .slds-tabs_default__item {
+    margin-left: -6px;
 }
 .pir-parent .slds-tabs--default__item.slds-is-active {
     background-color: #0768fd !important;
@@ -67,52 +216,15 @@
     border-radius: 80px;
     height: calc(var(--sds-c-tabs-list-sizing-border, 2px) + 2.5px);
 }
-.pir-parent .slds-tabs_default__item.slds-is-active:after{
-    background-color: #0768FD !important;
+.pir-parent .slds-tabs_default__item.slds-is-active:after {
+    background-color: #0768fd !important;
 }
 .task-modal-background .slds-backdrop {
-    background:rgba(0, 0, 0, 0.1) !important;
+    background: rgba(0, 0, 0, 0.1) !important;
 }
 .task-ignore-modal-background .slds-backdrop {
-    background:rgba(0, 0, 0, 0.1) !important;
+    background: rgba(0, 0, 0, 0.1) !important;
 }
-
-.rr-width-limiter-pp {
-   max-width: 1366px;
-   margin: auto;
-   padding: 0 2rem;
-}
-.layout-header.rr-width-limiter-pp {
-    padding: 0 !important;
- }
-
-a, .slds-button {
-    color: #015FF1;
-}
-
-a:hover {
-    text-decoration: underline;
-    text-decoration-style: dashed;
-    color: #015FF1;
-}
-
-/* Community_CSS_PP_Theme */
-
-.slds-spinner_brand.slds-spinner:before,
-.slds-spinner_brand.slds-spinner:after,
-.slds-spinner--brand.slds-spinner:before,
-.slds-spinner--brand.slds-spinner:after,
-.slds-spinner_brand .slds-spinner__dot-a:before,
-.slds-spinner_brand .slds-spinner__dot-b:before,
-.slds-spinner_brand .slds-spinner__dot-a:after,
-.slds-spinner_brand .slds-spinner__dot-b:after,
-.slds-spinner--brand .slds-spinner__dot-a:before,
-.slds-spinner--brand .slds-spinner__dot-b:before,
-.slds-spinner--brand .slds-spinner__dot-a:after,
-.slds-spinner--brand .slds-spinner__dot-b:after {
-    background-color: #182a75 !important;
-}
-
 .cp-content {
     align-items: start;
 }
@@ -125,11 +237,11 @@ a:hover {
 }
 
 .profile-info-input .slds-input {
-    height: 2rem !important;
-    box-sizing: border-box !important;
-    border: 1px solid #d9d9d9 !important;
-    border-radius: 16px !important;
-    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%) !important;
+    height: 2rem;
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+    border-radius: 1rem;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
 }
 .taskName-focus .slds-input:focus-within {
     border: 1px solid #015ff1 !important;
@@ -305,10 +417,6 @@ a:hover {
     text-decoration: none !important;
 }
 
-.grayInfoIcon lightning-primitive-icon {
-    color: #444444 !important;
-}
-
 .rr-min-body-height .rr-min-body-height {
     min-height: auto !important;
     padding-bottom: 35px !important;
@@ -352,7 +460,7 @@ a:hover {
     box-shadow: none;
 }
 .cookie-accordion-border lightning-primitive-icon svg {
-    fill: #015FF1 !important;
+    fill: #015ff1 !important;
 }
 
 .support-combobox button {
@@ -391,7 +499,7 @@ a:hover {
     opacity: 1;
 }
 
-.help-support{
+.help-support {
     height: 40px;
     padding-top: 0.3rem;
 }
@@ -512,10 +620,10 @@ a:hover {
 }
 /* Get Support */
 
-.help-match-username-radio-options .slds-form-element__label{
+.help-match-username-radio-options .slds-form-element__label {
     height: 24px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
@@ -660,33 +768,36 @@ a:hover {
     cursor: pointer;
     text-decoration: none;
     justify-content: center;
-    transition: .25s;
+    transition: 0.25s;
 }
 
 .secondaryBtn {
     justify-content: center;
     border: 1px solid #d9d9d9;
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     border-radius: 1rem;
     color: #015ff1;
     cursor: pointer;
-    transition: .25s;
+    transition: 0.25s;
 }
 
-.slds-button.primaryBtn:hover, .slds-button.primaryBtn:focus {
+.slds-button.primaryBtn:hover,
+.slds-button.primaryBtn:focus {
     --slds-c-button-color-border: unset;
     color: #fff;
     background: #0557d5;
-    transition: .25s;
+    transition: 0.25s;
     text-decoration: none;
-    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04), 0 8px 16px 0 rgba(41, 125, 253, 0.32);
+    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04),
+        0 8px 16px 0 rgba(41, 125, 253, 0.32);
 }
 
-.slds-button.secondaryBtn:hover, .slds-button.secondaryBtn:focus {
+.slds-button.secondaryBtn:hover,
+.slds-button.secondaryBtn:focus {
     --slds-c-button-color-border: #015ff1;
     --slds-c-button-color-background: #ecf3ff;
     color: #015ff1;
-    transition: .25s;
+    transition: 0.25s;
     text-decoration: none;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
 }
@@ -703,8 +814,8 @@ a:hover {
     color: #ffffff;
 }
 
-.btn-footer .slds-button+.slds-button {
-    margin-left: .5rem;
+.btn-footer .slds-button + .slds-button {
+    margin-left: 0.5rem;
 }
 /* Study Visits Page */
 
@@ -787,7 +898,7 @@ c-pp-study-visit-details-card .slds-card__header {
     color: #595959;
 }
 
-.cPpCustomThemeLayout .curve-input .timc .slds-combobox__input.slds-input{
+.cPpCustomThemeLayout .curve-input .timc .slds-combobox__input.slds-input {
     height: 1.875rem !important;
 }
 
@@ -950,25 +1061,25 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     border: none !important;
 }
 /* Message combobox custom css  */
-.selection .slds-listbox_vertical .slds-listbox__option{
+.selection .slds-listbox_vertical .slds-listbox__option {
     border-bottom: 1px solid #d9d9d9 !important;
 }
-.selection .slds-listbox_vertical .slds-listbox__option:last-child{
-    border-bottom:none !important;
+.selection .slds-listbox_vertical .slds-listbox__option:last-child {
+    border-bottom: none !important;
 }
 .selection .slds-listbox_vertical .slds-listbox__option:hover {
-    background-color:#015ff1 !important;
-    color:#ffffff !important;
+    background-color: #015ff1 !important;
+    color: #ffffff !important;
 }
 .selection .slds-dropdown-trigger_click .slds-dropdown,
 .selection .slds-dropdown-trigger_click:hover {
     border-radius: 16px !important;
     background-color: #ffffff !important;
-    margin-bottom:10px !important;
+    margin-bottom: 10px !important;
 }
-.selection .slds-listbox__option-icon{
-    width:0px !important;
-    display:none !important;
+.selection .slds-listbox__option-icon {
+    width: 0px !important;
+    display: none !important;
 }
 /* Date Time Dropdown Alignment */
 
@@ -1049,7 +1160,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
         width: 100% !important;
     }
 
-    .cPpCustomThemeLayout .curve-input .timc .slds-input{
+    .cPpCustomThemeLayout .curve-input .timc .slds-input {
         height: 1.875rem !important;
     }
 }
@@ -1062,23 +1173,22 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 
 /* Study/program Overview */
 
-.study-program-anchor li{
+.study-program-anchor li {
     padding-left: 0px;
     padding-right: 30px;
 }
 
-.study-program-anchor .slds-tabs_default__item:after{
+.study-program-anchor .slds-tabs_default__item:after {
     right: 30px;
 }
 
-.study-program-anchor .slds-tabs_default__item.slds-is-active:after{
-    background-color: #0768FD;
+.study-program-anchor .slds-tabs_default__item.slds-is-active:after {
+    background-color: #0768fd;
 }
 
-.study-program-anchor .slds-tabs_default__item.slds-is-active .slds-tabs_default__link{
+.study-program-anchor .slds-tabs_default__item.slds-is-active .slds-tabs_default__link {
     font-weight: 600 !important;
 }
-
 
 @media all and (max-width: 486px) {
     c-pp-Study-Visit-Details-Card .slds-card {
@@ -1106,42 +1216,43 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 
 /* Edit Task Input Disabled */
-.create-task-input-container .slds-input:disabled{
-    background: #F2F2F2 !important;
+.create-task-input-container .slds-input:disabled {
+    background: #f2f2f2 !important;
     color: #595959 !important;
     -webkit-text-fill-color: #595959 !important;
     opacity: 1 !important; /* required on iOS */
 }
 
 /* Resources */
-.resDiscoverIcon lightning-primitive-icon svg{
+.resDiscoverIcon lightning-primitive-icon svg {
     height: 16px;
     width: 16px;
-    color: #015FF1;
+    color: #015ff1;
 }
 
 /* Opt out page PP 2.0 */
 
-.logo-block-mobile .rr-width-limiter{
+.logo-block-mobile .rr-width-limiter {
     padding: 0px !important;
     background-color: transparent;
 }
 
-.opt-out-comm-pref, .opt-out-page-tech-support{
+.opt-out-comm-pref,
+.opt-out-page-tech-support {
     padding-left: 5px;
 }
-.opt-out-comm-pref span.slds-checkbox{
+.opt-out-comm-pref span.slds-checkbox {
     line-height: 28px;
 }
 
-.opt-out-page-tech-support span.slds-checkbox{
+.opt-out-page-tech-support span.slds-checkbox {
     line-height: 32px;
 }
 
-.opt-out-comm-pref .slds-form-element__label{
+.opt-out-comm-pref .slds-form-element__label {
     height: 48px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px !important;
     letter-spacing: 0;
     line-height: 24px;
@@ -1150,14 +1261,14 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     margin-left: 4px;
 }
 
-.opt-out-comm-pref .slds-checkbox__label{
+.opt-out-comm-pref .slds-checkbox__label {
     display: flex;
 }
 
-.opt-out-comm-pref-mobile .slds-form-element__label{
+.opt-out-comm-pref-mobile .slds-form-element__label {
     height: 64px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px !important;
     letter-spacing: 0;
     line-height: 20px;
@@ -1166,26 +1277,26 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     padding-left: 5px;
 }
 
-.opt-out-comm-pref-mobile .slds-checkbox__label{
+.opt-out-comm-pref-mobile .slds-checkbox__label {
     display: flex;
 }
 
 .optoutcheckbox-alignment span:nth-child(1) {
     margin-bottom: 6px;
-  }
+}
 
 .optoutcheckbox-alignment span:nth-child(3) {
     margin-top: 6px;
 }
 
-.opt-out-comm-pref-mobile span.slds-checkbox{
+.opt-out-comm-pref-mobile span.slds-checkbox {
     line-height: 26px;
 }
 
-.opt-out-page-tech-support .slds-form-element__label{
+.opt-out-page-tech-support .slds-form-element__label {
     height: 19px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px !important;
     letter-spacing: 0;
     line-height: 19px;
@@ -1193,142 +1304,142 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 .cookie-block-user {
     pointer-events: none !important;
-    position:relative !important;
+    position: relative !important;
     overflow: hidden !important;
     height: 100% !important;
 }
 .read-only-background input {
     background-color: #f2f2f2 !important;
 }
-.time-error-allignment .slds-has-error .slds-form-element__help{
+.time-error-allignment .slds-has-error .slds-form-element__help {
     margin-left: -37px !important;
 }
 
-.pp2-errorFields input{
+.pp2-errorFields input {
     border-radius: 20px !important;
 }
 
-.no-border article{
-    border:none !important;
+.no-border article {
+    border: none !important;
 }
 
-.icon-chevron-right svg{
+.icon-chevron-right svg {
     width: 10px;
 }
-.custom-notify-container .slds-notify_toast, .slds-notify--toast {
+.custom-notify-container .slds-notify_toast,
+.slds-notify--toast {
     align-items: flex-start;
-   }
+}
 
 /* Delegate Redesing - Manage delegate page CSS override -start*/
-.manage-delegate-acc-setting .manage-del-continer{
+.manage-delegate-acc-setting .manage-del-continer {
     margin-left: 24px !important;
     margin-right: 24px !important;
     margin-top: 10px !important;
 }
-.manage-delegate-acc-setting .manage-del-continer-mobile{
+.manage-delegate-acc-setting .manage-del-continer-mobile {
     margin-left: 16px !important;
     margin-right: 16px !important;
     margin-top: 0px !important;
 }
-.manage-delegate-acc-setting .manage-delegates-header{
+.manage-delegate-acc-setting .manage-delegates-header {
     font-size: 24px !important;
 }
-.manage-del .del-container{
+.manage-del .del-container {
     border-radius: 8px !important;
 }
-.manage-del .study-rectangle{
+.manage-del .study-rectangle {
     border-radius: 8px !important;
 }
-.manage-del .former-del-rectangle{
+.manage-del .former-del-rectangle {
     border-radius: 8px !important;
 }
-.manage-del .add-Delegate-Btn{
+.manage-del .add-Delegate-Btn {
     width: 160px !important;
     border-radius: 16px !important;
-    background-color: #015FF1 !important;
+    background-color: #015ff1 !important;
 }
-.manage-del .add-Delegate-Btn-mob{
+.manage-del .add-Delegate-Btn-mob {
     height: 32px !important;
     border-radius: 16px !important;
-    background-color: #015FF1 !important;
+    background-color: #015ff1 !important;
 }
-.manage-del .remove-btn{
-    border: 1px solid #D9D9D9 !important;
+.manage-del .remove-btn {
+    border: 1px solid #d9d9d9 !important;
     border-radius: 16px !important;
     width: 107px !important;
 }
-.manage-del .remove-btn-mob{
-    border: 1px solid #D9D9D9 !important;
+.manage-del .remove-btn-mob {
+    border: 1px solid #d9d9d9 !important;
     border-radius: 16px !important;
 }
-.manage-del .box-add-assignment-btn{
+.manage-del .box-add-assignment-btn {
     border-radius: 21px !important;
 }
-.manage-del .box-add-assignment-btn-former{
+.manage-del .box-add-assignment-btn-former {
     width: 200px !important;
 }
-.manage-del .box-add-assignment-btn-former-mob{
+.manage-del .box-add-assignment-btn-former-mob {
     width: 100% !important;
     height: 40px !important;
 }
-.manage-del .box-discard-btn{
+.manage-del .box-discard-btn {
     border-radius: 21px !important;
 }
-.manage-del .box-Withdraw-del-btn{
+.manage-del .box-Withdraw-del-btn {
     border-radius: 21px !important;
     width: 200px !important;
 }
-.manage-del .box-Withdraw-del-btn-mob{
+.manage-del .box-Withdraw-del-btn-mob {
     border-radius: 21px !important;
     width: 100% !important;
 }
-.manage-del .withdrawn-del-label{
+.manage-del .withdrawn-del-label {
     font-size: 14px !important;
 }
-.manage-del .manage-del-save-btn{
+.manage-del .manage-del-save-btn {
     height: 32px !important;
     width: 107px !important;
     border-radius: 16px !important;
     margin-top: -9px !important;
     font-size: 14px !important;
 }
-.manage-del .save-del-bt-mob{
+.manage-del .save-del-bt-mob {
     height: 32px !important;
     border-radius: 16px !important;
 }
-.manage-delegate-acc-setting .add-assignment-rectangle{
-    border-radius: 16px !important;
-
-}
-.manage-delegate-acc-setting .add-assignment-former-rectangle{
+.manage-delegate-acc-setting .add-assignment-rectangle {
     border-radius: 16px !important;
 }
+.manage-delegate-acc-setting .add-assignment-former-rectangle {
+    border-radius: 16px !important;
+}
 
-.manage-delegate-acc-setting .save-button-aligment{
-    padding: 22px 0px 0px 12px;	
+.manage-delegate-acc-setting .save-button-aligment {
+    padding: 22px 0px 0px 12px;
 }
 /* Delegate Redesing - Add New Delegate Page CSS  Override - Starts*/
-.manage-del-multi-picklist .multipicklist-box{
+.manage-del-multi-picklist .multipicklist-box {
     border-radius: 21px !important;
     /* height: 32px !important; */
 }
 /* .manage-del-multi-picklist .study-box{
     height: 32px !important;
 } */
-.manage-del-multi-picklist .slds-input__icon_right{
+.manage-del-multi-picklist .slds-input__icon_right {
     padding-right: 18px !important;
 }
-.manage-del-multi-picklist .slds-truncate{
+.manage-del-multi-picklist .slds-truncate {
     height: 32px !important;
 }
 /* .manage-del-multi-picklist .study-box-manage-del{
     line-height: 32px !important;
 } */
 .manage-delegate-acc-setting .check-box-label-class input:focus {
-    box-shadow: none !important
+    box-shadow: none !important;
 }
 /* This is for Add New Delegate Page */
-.manage-delegate-acc-setting .md-check-box-layout-item{
+.manage-delegate-acc-setting .md-check-box-layout-item {
     height: auto !important;
     width: 100% !important;
     padding-top: 10px !important;
@@ -1338,11 +1449,11 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     cursor: pointer !important;
 }
 
-.manage-delegate-acc-setting .md-check-box-layout-item:hover{  
+.manage-delegate-acc-setting .md-check-box-layout-item:hover {
     background: #ecf3ff !important;
 }
 /* This is for manage Assignment Page */
-.manage-delegate-acc-setting .manage-del-continer .md-check-box-layout-item{
+.manage-delegate-acc-setting .manage-del-continer .md-check-box-layout-item {
     height: auto !important;
     width: 100% !important;
     padding-top: 10px !important;
@@ -1352,10 +1463,10 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     cursor: pointer !important;
 }
 
-.manage-delegate-acc-setting .manage-del-continer .md-check-box-layout-item:hover{  
+.manage-delegate-acc-setting .manage-del-continer .md-check-box-layout-item:hover {
     background: #ecf3ff !important;
 }
-.manage-delegate-acc-setting .manage-del-continer-mobile .md-check-box-layout-item{
+.manage-delegate-acc-setting .manage-del-continer-mobile .md-check-box-layout-item {
     height: auto !important;
     width: 100% !important;
     padding-top: 10px !important;
@@ -1385,11 +1496,11 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     line-height: 22px !important;
 }
 
-.manage-delegate-acc-setting .manage-del-continer-mobile .md-check-box-layout-item:hover{  
+.manage-delegate-acc-setting .manage-del-continer-mobile .md-check-box-layout-item:hover {
     background: #ecf3ff !important;
 }
-.manage-delegate-acc-setting .noclk .slds-checkbox_faux{
-            margin-top: -2px;
+.manage-delegate-acc-setting .noclk .slds-checkbox_faux {
+    margin-top: -2px;
 }
 
 /* .manage-delegate-acc-setting .slds-checkbox [type='checkbox']:hover + .slds-checkbox__label .slds-checkbox_faux:before {
@@ -1409,37 +1520,36 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .del-access-rectangle {
     border-radius: 16px !important;
 }
-.manage-delegate-acc-setting .manage-del-add-Del-page-save-btn{
+.manage-delegate-acc-setting .manage-del-add-Del-page-save-btn {
     height: 32px !important;
     width: 233px !important;
     border-radius: 16px !important;
     font-size: 14px !important;
 }
-.manage-delegate-acc-setting .ad-warning-container{
+.manage-delegate-acc-setting .ad-warning-container {
     border-radius: 8px !important;
 }
-.manage-delegate-acc-setting .btn-confirm-selection{
+.manage-delegate-acc-setting .btn-confirm-selection {
     height: 32px !important;
     width: 144px !important;
     border-radius: 16px !important;
     font-size: 14px !important;
-    border: 1px solid #D9D9D9 !important;
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04) !important;
-     
+    border: 1px solid #d9d9d9 !important;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04) !important;
 }
-.manage-delegate-acc-setting .blue-highlight-text-color{
+.manage-delegate-acc-setting .blue-highlight-text-color {
     font-weight: 600 !important;
 }
-.manage-delegate-acc-setting .ad-text-red{
-    color: #E20000 !important;
+.manage-delegate-acc-setting .ad-text-red {
+    color: #e20000 !important;
 }
-.manage-delegate-acc-setting .study-box{
+.manage-delegate-acc-setting .study-box {
     margin-top: -1px !important;
     height: 32px !important;
     line-height: 32px !important;
 }
 
-.manage-delegate-acc-setting .std .selectedValue{
+.manage-delegate-acc-setting .std .selectedValue {
     border: 1px solid #d9d9d9 !important;
     border-radius: 16px !important;
     color: black !important;
@@ -1452,117 +1562,131 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     margin: 3px !important;
 }
 
-.manage-delegate-acc-setting .padding-placeholder{
+.manage-delegate-acc-setting .padding-placeholder {
     padding: 0 0 0 15px !important;
 }
 
-@media (max-device-width: 767px){
-    .manage-delegate-acc-setting .ad-warning-container{
+@media (max-device-width: 767px) {
+    .manage-delegate-acc-setting .ad-warning-container {
         padding-right: 7px !important;
     }
 }
 
 .manage-delegate-acc-setting .slds-input__icon_right {
-    top : 16px !important;
+    top: 16px !important;
 }
 
-.manage-delegate-acc-setting .slds-dropdown .slds-dropdown_fluid .open-width .rtl-width{
+.manage-delegate-acc-setting .slds-dropdown .slds-dropdown_fluid .open-width .rtl-width {
     margin-top: -6px !important;
-} 
+}
 
 .manage-delegate-acc-setting .add-del-custom-radio-group .slds-radio__label {
     line-height: 36px !important;
 }
-.manage-delegate-acc-setting .manage-del-multi-picklist .slds-combobox_container{
+.manage-delegate-acc-setting .manage-del-multi-picklist .slds-combobox_container {
     height: 32px !important;
 }
-.manage-delegate-acc-setting .manage-del-multi-picklist .slds-checkbox .slds-checkbox__label .slds-form-element__label {
-    font-size:14px !important;
+.manage-delegate-acc-setting
+    .manage-del-multi-picklist
+    .slds-checkbox
+    .slds-checkbox__label
+    .slds-form-element__label {
+    font-size: 14px !important;
     white-space: normal !important;
 }
 .manage-delegate-acc-setting .add-del-padding {
     padding: 0px !important;
 }
-.manage-delegate-acc-setting .no-active-delegates{
+.manage-delegate-acc-setting .no-active-delegates {
     color: #444444 !important;
 }
 
-.manage-delegate-acc-setting .add-new-del-input-padding{
-     padding: 0px !important;
- }
+.manage-delegate-acc-setting .add-new-del-input-padding {
+    padding: 0px !important;
+}
 
- .manage-delegate-acc-setting .back-to-manage-del-btn{
-     width: auto !important;
-     background-color: transparent !important
- }
- @media (max-device-width: 767px){
-    .manage-delegate-acc-setting .back-to-manage-del-btn{
-        width: 70% !important
+.manage-delegate-acc-setting .back-to-manage-del-btn {
+    width: auto !important;
+    background-color: transparent !important;
+}
+@media (max-device-width: 767px) {
+    .manage-delegate-acc-setting .back-to-manage-del-btn {
+        width: 70% !important;
     }
- }
-.manage-delegate-acc-setting .profile-information-rectangle{
+}
+.manage-delegate-acc-setting .profile-information-rectangle {
     background-color: transparent !important;
     width: auto !important;
     position: relative !important;
     width: 100% !important;
 }
 
-@media screen and (max-width: 768px){
-    .manage-delegate-acc-setting .profile-information-rectangle{
+@media screen and (max-width: 768px) {
+    .manage-delegate-acc-setting .profile-information-rectangle {
         margin-right: 0px !important;
-        padding-top: 0px!important;
+        padding-top: 0px !important;
     }
     .manage-delegate-acc-setting .pp-manade-del-modal .slds-icon_container {
         display: none !important;
-     }
+    }
 }
 
-.manage-delegate-acc-setting .slds-truncate_container_25{
+.manage-delegate-acc-setting .slds-truncate_container_25 {
     max-width: 29% !important;
 }
-.manage-delegate-acc-setting .manage-del-continer .slds-truncate_container_25{
+.manage-delegate-acc-setting .manage-del-continer .slds-truncate_container_25 {
     max-width: 27% !important;
 }
-.manage-delegate-acc-setting .add-new-del-existing-del-warn{
+.manage-delegate-acc-setting .add-new-del-existing-del-warn {
     margin-top: 6px !important;
 }
-.manage-delegate-acc-setting .ad-error-container{
+.manage-delegate-acc-setting .ad-error-container {
     border-radius: 8px !important;
 }
-.manage-delegate-acc-setting .pp-add-new-del-radio .slds-form-element__label{
+.manage-delegate-acc-setting .pp-add-new-del-radio .slds-form-element__label {
     font-size: 16px !important;
 }
 
 /* Delegate Redesing - Add New Delegate Page CSS  Override - ends*/
 /*Manage Assignment Changes Start */
-.manage-assignment-acc-setting .manage-assignment-continer{
+.manage-assignment-acc-setting .manage-assignment-continer {
     margin-right: 23px !important;
 }
-.manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn-item-Desktop{
+.manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn-item-Desktop {
     padding-left: 40px !important;
 }
-.manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn{
+.manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn {
     border-radius: 16px !important;
     padding: 5px 0px 5px 0px !important;
     width: 107px !important;
 }
-.manage-assignment-acc-setting .manage-assignment-continer .ma-btn-box , .ma-btn-box-1, .ma-what-I-can-see-card, .del-container, .study-rectangle{
+.manage-assignment-acc-setting .manage-assignment-continer .ma-btn-box,
+.ma-btn-box-1,
+.ma-what-I-can-see-card,
+.del-container,
+.study-rectangle {
     border-radius: 8px !important;
 }
 .manage-assignment-acc-setting .ma-icon-color {
     --sds-c-icon-color-foreground-default: #595959 !important;
 }
-@media screen and (max-width: 768px){
-    .manage-assignment-acc-setting .manage-assignment-continer .ma-what-I-can-see-button-mob .apollo-btn.secondary {
+@media screen and (max-width: 768px) {
+    .manage-assignment-acc-setting
+        .manage-assignment-continer
+        .ma-what-I-can-see-button-mob
+        .apollo-btn.secondary {
         min-height: 56px !important;
     }
-    .manage-assignment-acc-setting .manage-assignment-continer .ma-what-I-can-see-button-mob-1 .apollo-btn.secondary {
+    .manage-assignment-acc-setting
+        .manage-assignment-continer
+        .ma-what-I-can-see-button-mob-1
+        .apollo-btn.secondary {
         min-height: 56px !important;
     }
-    .manage-assignment-acc-setting .manage-assignment-continer .ma-what-I-can-see-card{
-        background-color: #FFFFFF !important;
+    .manage-assignment-acc-setting .manage-assignment-continer .ma-what-I-can-see-card {
+        background-color: #ffffff !important;
     }
-    .manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn{
+    .manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn {
         width: 100% !important;
     }
 }
@@ -1572,33 +1696,40 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .slds-checkbox_toggle .slds-checkbox--faux,
 .slds-checkbox--toggle .slds-checkbox_faux,
 .slds-checkbox--toggle .slds-checkbox--faux {
-    background-color: #B5B5B5 !important;
-    border: 1px solid #B5B5B5 !important;
+    background-color: #b5b5b5 !important;
+    border: 1px solid #b5b5b5 !important;
     height: 1.5rem;
     outline: none;
     width: 3rem;
 }
-.result-type-toggle .slds-checkbox_toggle
+.result-type-toggle
+    .slds-checkbox_toggle
     [type='checkbox']:checked
     + .slds-checkbox_faux_container
     .slds-checkbox_faux {
-    background-color: #00C700 !important;
-    border: 1px solid #00C700 !important;
+    background-color: #00c700 !important;
+    border: 1px solid #00c700 !important;
 }
 
-.result-type-toggle .slds-checkbox_toggle .slds-checkbox_faux::after, .slds-checkbox_toggle .slds-checkbox--faux::after, .slds-checkbox--toggle .slds-checkbox_faux::after, .slds-checkbox--toggle .slds-checkbox--faux::after{
+.result-type-toggle .slds-checkbox_toggle .slds-checkbox_faux::after,
+.slds-checkbox_toggle .slds-checkbox--faux::after,
+.slds-checkbox--toggle .slds-checkbox_faux::after,
+.slds-checkbox--toggle .slds-checkbox--faux::after {
     width: 1rem;
     height: 1rem;
     top: 3.5px;
     left: 4px;
 }
-.result-type-toggle .slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux_container .slds-checkbox_faux::before{
+.result-type-toggle
+    .slds-checkbox_toggle
+    [type='checkbox']:checked
+    + .slds-checkbox_faux_container
+    .slds-checkbox_faux::before {
     width: 1rem;
     height: 1rem;
     top: 3.5px;
     right: 4px;
 }
-
 
 element.style {
 }
@@ -1606,34 +1737,45 @@ svg:not(:root) {
     overflow: hidden;
 }
 .slds-button__icon {
-    width: var(--lwc-squareIconMediumContentAlt,0.875rem);
-    height: var(--lwc-squareIconMediumContentAlt,0.875rem);
+    width: var(--lwc-squareIconMediumContentAlt, 0.875rem);
+    height: var(--lwc-squareIconMediumContentAlt, 0.875rem);
     fill: var(--slds-c-icon-color-foreground, currentColor);
 }
-audio, canvas, iframe, img, svg, video {
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
     vertical-align: middle;
 }
-*, *:before, *:after {
+*,
+*:before,
+*:after {
     box-sizing: border-box;
 }
-user agent stylesheet
-svg:not(:root) {
+user agent stylesheet svg:not(:root) {
     overflow-clip-margin: content-box;
     overflow: hidden;
 }
-.show-result-tooltip lightning-primitive-icon {
-    color: #595959 !important;
+.pp-tooltip lightning-primitive-icon {
+    color: #595959;
+}
+.pp-tooltip .slds-button:hover .slds-button__icon {
+    fill: #015ff1;
+}
+.pp-tooltip .slds-button:focus .slds-button__icon {
+    fill: #015ff1;
 }
 
-
 /* Contact support Modal css- Starts */
-@media (min-width: 48em){
+@media (min-width: 48em) {
     .contact-support-popup .slds-modal_medium .slds-modal__container {
         width: 720px !important;
     }
 }
 
-.contact-support-popup .slds-icon_x-small{
+.contact-support-popup .slds-icon_x-small {
     height: 24px !important;
     width: 24px !important;
     display: block !important;
@@ -1641,17 +1783,17 @@ svg:not(:root) {
 .contact-support-popup .slds-modal {
     position: absolute;
     top: 48px;
-    }
-.contact-support-popup .slds-modal__container{
+}
+.contact-support-popup .slds-modal__container {
     height: auto;
 }
-.update-container .rr-spinner{
+.update-container .rr-spinner {
     background-color: transparent;
 }
-.result-container .rr-spinner{
+.result-container .rr-spinner {
     background: #ffffff;
 }
-.result-container-mobile .rr-spinner{
+.result-container-mobile .rr-spinner {
     background: #ffffff;
 }
 
