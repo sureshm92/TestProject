@@ -1,16 +1,16 @@
-.headerTitle{
-    display : none;
+.headerTitle {
+    display: none;
 }
-.topBar{
+.topBar {
     height: 8px;
     border-radius: 20.5px 20.5px 0 0;
-    background-color: #00BFB3;
+    background-color: #00bfb3;
 }
-.box{
+.box {
     box-sizing: border-box;
-    border: 1px solid #E9E9E9;
+    border: 1px solid #e9e9e9;
     border-radius: 0px 0px 8px 8px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     border-top: none;
 }
 .rightBox {
@@ -20,41 +20,41 @@
     margin-bottom: 19px;
     position: relative;
 }
-.rightTitle{
+.rightTitle {
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 24px;
     font-weight: 600;
     letter-spacing: 0;
-    line-height: 32px;  
+    line-height: 32px;
 }
-.rightDesc{
-    color: #6E6E6E;
-    font-family: "Proxima Nova";
+.rightDesc {
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
     margin-top: 8px;
     margin-bottom: 8px;
 }
-.sLink{
-    color: #015FF1;
-    font-family: "Proxima Nova";
+.sLink {
+    color: #015ff1;
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 24px;
 }
-.rightText{
+.rightText {
     display: inline-block;
     width: 70%;
     vertical-align: bottom;
 }
-.rightImg{
+.rightImg {
     display: inline-block;
     width: 30%;
 }
-.divider{
+.divider {
     border-right: 1px solid #979797;
     float: right;
     height: 78%;
@@ -62,57 +62,57 @@
     margin-top: 24px;
     width: 18px;
 }
-.leftBox{
+.leftBox {
     width: 100%;
     display: inline-block;
     padding: 17.95px 31px 19px 22px;
 }
-.arrowCont{
+.arrowCont {
     display: inline-block;
     height: 24px;
     width: 6%;
     margin: 52px 0px 60px 0px;
     cursor: pointer;
 }
-.arrowMob{
+.arrowMob {
     display: none;
 }
-.disableClick{
+.disableClick {
     opacity: 0.5;
     pointer-events: none;
 }
-.rMain{
+.rMain {
     width: 88%;
     display: inline-block;
 }
-.tRight{
+.tRight {
     text-align: end;
 }
-.tCenter{
+.tCenter {
     text-align: center;
 }
-.leftTitle{
+.leftTitle {
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 20px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 24px;
 }
-.leftDescription{
-    color: #6E6E6E;
-    font-family: "Proxima Nova";
+.leftDescription {
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
     padding-top: 8px;
 }
-.progress{
+.progress {
     padding-top: 12px;
 }
-.progressText{
+.progressText {
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0.5px;
@@ -121,7 +121,7 @@
     padding-top: 12px;
     padding-bottom: 7px;
 }
-.iconCont{    
+.iconCont {
     padding-right: 21px;
     display: inline;
 }
@@ -133,10 +133,10 @@
     vertical-align: bottom;
     padding-bottom: 2px;
 }
-.prIconActive img{
-    padding-bottom: 0px; 
+.prIconActive img {
+    padding-bottom: 0px;
 }
-.contButton{
+.contButton {
     color: white;
     font-weight: 600;
     line-height: 24px;
@@ -144,135 +144,135 @@
     width: 107px;
     border: none;
     border-radius: 24px;
-    background-color: #015FF1;
-    box-shadow: 0 4px 8px 0 rgba(7,104,253,0.25);
+    background-color: #015ff1;
+    box-shadow: 0 4px 8px 0 rgba(7, 104, 253, 0.25);
 }
-.cancelBtn{
-    color: #0768FD;
+.cancelBtn {
+    color: #015ff1;
 }
-.evtBtn{
+.evtBtn {
     box-sizing: border-box;
     height: 40px;
     width: 220px;
-    border: 1px solid #D9D9D9;
+    border: 1px solid #d9d9d9;
     border-radius: 20px;
-    background-color: #FFFFFF;
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
-    color: #015FF1;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    color: #015ff1;
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
 }
-.btnmac{
+.btnmac {
     display: inline-block;
 }
-@media (min-width: 1024px){
-    .big .box{
+@media (min-width: 1024px) {
+    .big .box {
         position: relative;
     }
-    .big .rMain{
+    .big .rMain {
         min-height: 182px;
     }
-    .big .progress{
+    .big .progress {
         position: absolute;
         bottom: 0;
         padding-bottom: 19px;
     }
-    .big .leftDescription{
+    .big .leftDescription {
         padding-bottom: 78px;
     }
-    .big .rightTextPar{
+    .big .rightTextPar {
         min-height: 97px;
     }
-    .big .prIconActive{
+    .big .prIconActive {
         margin-right: 5px;
         vertical-align: middle;
     }
 }
 @media all and (max-width: 1023px) {
-    .box{
+    .box {
         padding: 11px;
-    }    
-    .btnmac{
+    }
+    .btnmac {
         display: block;
         padding-top: 16px;
     }
-    .evtBtn{
-        width: 100%
+    .evtBtn {
+        width: 100%;
     }
-    .topBar{
+    .topBar {
         display: none;
     }
-    .box{
+    .box {
         box-sizing: unset;
         border: none;
         border-radius: unset;
         background-color: unset;
     }
-    .rightBox{
+    .rightBox {
         box-sizing: border-box;
-        border: 1px solid #E9E9E9;
+        border: 1px solid #e9e9e9;
         border-radius: 8px;
-        background-color: #FFFFFF;
+        background-color: #ffffff;
         padding: 24px;
         margin-bottom: 8px;
         width: 100%;
     }
-    .divider{
-        display:none;
+    .divider {
+        display: none;
     }
-    .rightTitle{
+    .rightTitle {
         width: 100%;
         font-size: 20px;
         line-height: 30px;
     }
-    .rightDesc{
+    .rightDesc {
         width: 100%;
     }
-    .leftBox{
+    .leftBox {
         box-sizing: border-box;
-        border: 1px solid #E9E9E9;
+        border: 1px solid #e9e9e9;
         border-radius: 8px;
-        background-color: #FFFFFF;
+        background-color: #ffffff;
         padding: 30px 24px 24px 24px;
         margin-top: 0px;
     }
-    .arrowCont{
+    .arrowCont {
         display: none;
     }
-    .rMain{
-        width:100%;
+    .rMain {
+        width: 100%;
     }
-    .leftTitle{
+    .leftTitle {
         display: inline-block;
         width: 88%;
         text-align: center;
-        font-size: 18px
+        font-size: 18px;
     }
-    .arrowMob{
+    .arrowMob {
         display: inline-block;
         width: 6%;
     }
-    .prIcon{
+    .prIcon {
         width: 20%;
-        max-width: 72px;        
+        max-width: 72px;
         padding-right: 6px;
     }
-    .iconCont{
+    .iconCont {
         padding: 0px;
         display: block;
-    } 
-    .rightImg{
+    }
+    .rightImg {
         text-align: right;
     }
 }
 @media all and (max-width: 420px) {
-    .rightText{
+    .rightText {
         width: unset;
     }
-    .rightImg{
+    .rightImg {
         width: 100%;
         text-align: end;
     }
@@ -281,10 +281,10 @@
     }
 }
 @media all and (max-width: 1038px) and (min-width: 1024px) {
-    .big .rightText{
+    .big .rightText {
         width: unset;
     }
-    .big .rightImg{
+    .big .rightImg {
         width: 100%;
         text-align: end;
     }
@@ -293,92 +293,92 @@
     }
 }
 
-.small .box{
-	padding: 11px;
-}    
-.small .btnmac{
-	display: block;
-	padding-top: 16px;
+.small .box {
+    padding: 11px;
 }
-.small .evtBtn{
-	width: 100%
+.small .btnmac {
+    display: block;
+    padding-top: 16px;
 }
-.small .box{
+.small .evtBtn {
+    width: 100%;
+}
+.small .box {
     background-color: rgb(246, 247, 249);
     border-top: 0px;
     border-radius: 7px;
     border-top-right-radius: 0px;
     border-top-left-radius: 0px;
-    border-color: #D4D4D4;
+    border-color: #d4d4d4;
 }
-.small .rightBox{
-	box-sizing: border-box;
-	border: 1px solid #E9E9E9;
-	border-radius: 8px;
-	background-color: #FFFFFF;
-	padding: 24px;
-	margin-bottom: 8px;
-	width: 100%;
+.small .rightBox {
+    box-sizing: border-box;
+    border: 1px solid #e9e9e9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 24px;
+    margin-bottom: 8px;
+    width: 100%;
 }
-.small .divider{
-	display:none;
+.small .divider {
+    display: none;
 }
-.small .rightTitle{
-	width: 100%;
-	font-size: 20px;
-	line-height: 30px;
+.small .rightTitle {
+    width: 100%;
+    font-size: 20px;
+    line-height: 30px;
 }
-.small .rightDesc{
-	width: 100%;
+.small .rightDesc {
+    width: 100%;
 }
-.small .leftBox{
-	box-sizing: border-box;
-	border: 1px solid #E9E9E9;
-	border-radius: 8px;
-	background-color: #FFFFFF;
-	padding: 30px 24px 24px 24px;
-	margin-top: 0px;
+.small .leftBox {
+    box-sizing: border-box;
+    border: 1px solid #e9e9e9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 30px 24px 24px 24px;
+    margin-top: 0px;
 }
-.small .arrowCont{
-	display: none;
+.small .arrowCont {
+    display: none;
 }
-.small .rMain{
-	width:100%;
+.small .rMain {
+    width: 100%;
 }
-.small .leftTitle{
-	display: inline-block;
-	width: 88%;
-	text-align: center;
-	font-size: 18px
+.small .leftTitle {
+    display: inline-block;
+    width: 88%;
+    text-align: center;
+    font-size: 18px;
 }
-.small .arrowMob{
-	display: inline-block;
-	width: 6%;
+.small .arrowMob {
+    display: inline-block;
+    width: 6%;
 }
-.small .prIcon{
-	width: 20%;
-	max-width: 72px;        
-	padding-right: 6px;
+.small .prIcon {
+    width: 20%;
+    max-width: 72px;
+    padding-right: 6px;
 }
-.small .iconCont{
-	padding: 0px;
-	display: block;
-} 
-.small .rightImg{
-	text-align: right;
+.small .iconCont {
+    padding: 0px;
+    display: block;
 }
-.small .rightText{
+.small .rightImg {
+    text-align: right;
+}
+.small .rightText {
     width: unset;
 }
-.small .rightImg{
+.small .rightImg {
     width: 100%;
     text-align: end;
 }
 .small .rightImg img {
     width: 32%;
 }
-.small .headerTitle{
-    display : block;
+.small .headerTitle {
+    display: block;
     color: #444444;
     font-size: 24px;
     font-weight: 600;

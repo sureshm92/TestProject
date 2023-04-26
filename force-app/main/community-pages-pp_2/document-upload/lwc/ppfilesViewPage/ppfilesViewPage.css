@@ -260,7 +260,7 @@
     line-height: 26px;
 }
 .linkLabel {
-    color: #0768fd;
+    color: #015ff1;
 }
 .imgname {
     padding-left: 0.5rem;
@@ -284,7 +284,7 @@
     width: 81%;
 }
 .progressBar .slds-progress-bar__value {
-    background-color: #0768fd;
+    background-color: #015ff1;
 }
 .errorMessage {
     font-size: 13px;

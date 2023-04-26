@@ -77,6 +77,17 @@
 .layout-header.rr-width-limiter-pp {
     padding: 0 !important;
  }
+
+a, .slds-button {
+    color: #015FF1;
+}
+
+a:hover {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    color: #015FF1;
+}
+
 /* Community_CSS_PP_Theme */
 
 .slds-spinner_brand.slds-spinner:before,
@@ -333,7 +344,7 @@
     box-shadow: none;
 }
 .cookie-accordion-border lightning-primitive-icon svg {
-    fill: #297dfd !important;
+    fill: #015FF1 !important;
 }
 
 .support-combobox button {
