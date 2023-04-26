@@ -1,0 +1,247 @@
+<template>
+    <template lwc:if={isTablet}>
+        <div class="slds-grid" onclick={handleNavigation}>
+            <div>
+                <lightning-icon
+                    icon-name="utility:chevronleft"
+                    size="xx-small"
+                    class="download-icon"
+                >
+                </lightning-icon>
+            </div>
+            <div class="back-text">Back</div>
+        </div>
+
+        <div class="slds-grid slds-wrap">
+            <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
+            <div class="slds-col slds-medium-size_1-of-2 slds-p-horizontal_none">
+                <div class="slds-float_left">
+                    <span class="visit-name slds-m-right_medium"
+                        >{currentVisit.Visit__r.Patient_Portal_Name__c}</span
+                    >
+                    <span style="border-left: 1px solid #444444"></span>
+                    <span class="slds-m-left_medium">
+                        <lightning-formatted-date-time
+                            value={currentVisit.Completed_Date__c}
+                            class="completed-date"
+                            time-zone={userTimezone}
+                        ></lightning-formatted-date-time>
+                    </span>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-p-horizontal_none slds-align-middle">
+                <div class="slds-float_right">
+                    <span class="download-section">
+                        <lightning-icon
+                            icon-name="utility:download"
+                            size="xx-small"
+                            class="download-icon"
+                        >
+                        </lightning-icon>
+                        <span class="download-res-data slds-p-left_small"
+                            >{label.PP_Download_Results_Data}</span
+                        >
+                    </span>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-border_bottom slds-p-horizontal_none">
+                <div class="disclaimer slds-m-bottom_small">{resultTypeDisclaimer}</div>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
+                <div class="slds-align_absolute-center">
+                    <template lwc:if={showTabs}>
+                        <template lwc:if={group2}>
+                            <button
+                                class={button1Group2Class}
+                                value={Button1Label}
+                                onclick={handleResultTypeSelection}
+                                name="Button1Group2"
+                            >
+                                {Button1Label}
+                            </button>
+                            <button
+                                class={button2Group2Class}
+                                value={Button2Label}
+                                onclick={handleResultTypeSelection}
+                                name="Button2Group2"
+                            >
+                                {Button2Label}
+                            </button>
+                        </template>
+                        <template lwc:else>
+                            <button
+                                class={button1Group3Class}
+                                value={Button1Label}
+                                onclick={handleResultTypeSelection}
+                                name="Button1Group3"
+                            >
+                                {Button1Label}
+                            </button>
+                            <button
+                                class={button2Group3Class}
+                                value={Button2Label}
+                                onclick={handleResultTypeSelection}
+                                name="Button2Group3"
+                            >
+                                {Button2Label}
+                            </button>
+                            <button
+                                class={button3Group3Class}
+                                value={Button3Label}
+                                onclick={handleResultTypeSelection}
+                                name="Button3Group3"
+                            >
+                                {Button3Label}
+                            </button>
+                        </template>
+                    </template>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-1 container-visit-results slds-p-horizontal_none">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <div
+                            class="slds-col slds-size_12-of-12 result-type-toggle slds-p-horizontal_none"
+                        >
+                            <div class="slds-grid">
+                                <!--Toggle Label-->
+                                <div class="show-result-type-text">
+                                    <span>{toggleLabel}</span>
+                                </div>
+                                <!--Toggle Helptext-->
+                                <div class="slds-p-horizontal_x-small">
+                                    <span
+                                        ><lightning-helptext
+                                            content="This button will toggle the result data for all the visits."
+                                            class="show-result-tooltip"
+                                            icon-name="utility:info"
+                                        ></lightning-helptext
+                                    ></span>
+                                </div>
+                                <!--TOGGLE START-->
+                                <div class="slds-p-horizontal_small">
+                                    <span
+                                        ><lightning-input
+                                            type="toggle"
+                                            checked={toggleValue}
+                                            messagetoggleactive="ON"
+                                            variant="label-hidden"
+                                            messagetoggleinactive="OFF"
+                                            onchange={handleVRToggle}
+                                        >
+                                        </lightning-input
+                                    ></span>
+                                </div>
+                                <!--TOGGLE END-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none">
+                    <!--VITALS SECTION START-->
+                    <template lwc:if={isVitalsSelected}>
+                        <template lwc:if={showSpinnerResults}>
+                            <c-web-spinner
+                                class="main-spinner"
+                                show-spinner={showSpinnerResults}
+                            ></c-web-spinner
+                        ></template>
+                        <template lwc:else>
+                            <template lwc:if={isVitalsToggleOn}>
+                                <c-pp-visit-result-section
+                                    visit-result-type-with-sub-types={visitResultTypeWithSubTypes}
+                                    patient-visit={currentVisit}
+                                    selected-result-type={selectedResultType}
+                                    selected-visit={currentVisit}
+                                ></c-pp-visit-result-section>
+                            </template>
+                            <!-- Vital Toggle OFF-->
+                            <template lwc:else>
+                                <div class="slds-grid slds-wrap slds-gutters toggle-off-section">
+                                    <div class="slds-col slds-size_12-of-12">
+                                        <img
+                                            src={toggleOffHeart}
+                                            class="toggle-off-image slds-align_absolute-center"
+                                        />
+                                    </div>
+                                    <div
+                                        class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small slds-align_absolute-center"
+                                    >
+                                        {label.Vitals_Toggle_Off}
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+                    <!--VITALS SECTION END-->
+                    <!--LABS SECTION START-->
+                    <template lwc:elseif={isLabsSelected}>
+                        <template lwc:if={showSpinnerResults}>
+                            <c-web-spinner
+                                class="main-spinner"
+                                show-spinner={showSpinnerResults}
+                            ></c-web-spinner
+                        ></template>
+                        <template lwc:else>
+                            <template lwc:if={isLabsToggleOn}>
+                                <c-pp-visit-result-section
+                                    visit-result-type-with-sub-types={visitResultTypeWithSubTypes}
+                                    patient-visit={currentVisit}
+                                    selected-result-type={selectedResultType}
+                                    selected-visit={currentVisit}
+                                ></c-pp-visit-result-section>
+                            </template>
+                            <!--    Lab Toggle OFF-->
+                            <template lwc:else>
+                                <div class="slds-grid slds-wrap toggle-off-section">
+                                    <div class="slds-col slds-size_12-of-12">
+                                        <img
+                                            src={toggleOffHeart}
+                                            class="toggle-off-image slds-align_absolute-center"
+                                        />
+                                    </div>
+                                    <div
+                                        class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small slds-align_absolute-center"
+                                    >
+                                        {label.Labs_Toggle_Off}
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+
+                    <!--LABS SECTION END-->
+                    <!--BIOMARKERS SECTION START-->
+                    <template lwc:elseif={isBiomarkersSelected}>
+                        <template lwc:if={isBiomarkersToggleOn}>
+                            <c-pp-visit-result-section
+                                visit-result-type-with-sub-types={visitResultTypeWithSubTypes}
+                                patient-visit={currentVisit}
+                                selected-result-type={selectedResultType}
+                                selected-visit={currentVisit}
+                            ></c-pp-visit-result-section>
+                        </template>
+                        <!--   Biomarker Toggle OFF-->
+                        <template lwc:else>
+                            <div class="slds-grid slds-wrap toggle-off-section">
+                                <div class="slds-col slds-size_12-of-12">
+                                    <img
+                                        src={toggleOffHeart}
+                                        class="toggle-off-image slds-align_absolute-center"
+                                    />
+                                </div>
+                                <div
+                                    class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small slds-align_absolute-center"
+                                >
+                                    {label.Biomarkers_Toggle_Off}
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <!--BIOMARKERS SECTION END-->
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

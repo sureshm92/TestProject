@@ -99,6 +99,21 @@
             </div>
         </template>
         <!--JAYASHREE MOBILE COMPONENT-->
-        <template lwc:else><!--Jayashree Component Logic--></template>
+        <template lwc:else
+            ><!--Jayashree Component Logic-->
+            <template lwc:if={showResults}>
+                <c-pp-vis-res-container-results-page
+                    current-visit={currentVisit}
+                    visits-details={patientVisitWrapper}
+                    selected-visit={currentVisit}
+                    onnavigateback={handleBackToVisitList}
+                ></c-pp-vis-res-container-results-page>
+            </template>
+            <template lwc:else>
+                <c-web-spinner
+                    class="main-spinner"
+                    show-spinner={showSpinner}
+                ></c-web-spinner></template
+        ></template>
     </template>
 </template>
