@@ -1,9 +1,9 @@
 <template>
     <div class="slds-grid slds-wrap slds-gutters">
         <div
-            class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_3-of-12 visit-list-container"
+            class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_3-of-12 visit-list-container slds-p-right_none"
         >
-            <div class="slds-border_right slds-m-top_large list-container">
+            <div class="slds-m-top_large list-container">
                 <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
                 <div class="slds-scrollable_y scroll-bar">
                     <template lwc:if={completedVisitsWithResults}>
@@ -64,7 +64,7 @@
             </div>
         </div>
         <div
-            class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_8-of-12 result-container"
+            class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_8-of-12 result-container slds-border_left"
         >
             <template lwc:if={isInitiliazed}>
                 <!--Jayashree Component Logic-->
