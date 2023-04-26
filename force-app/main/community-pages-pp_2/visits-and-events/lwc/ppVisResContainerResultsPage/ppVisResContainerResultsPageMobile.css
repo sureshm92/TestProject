@@ -115,9 +115,16 @@
     font-size: 1rem;
     letter-spacing: 0;
     text-align: center;
-    padding-bottom: 5.313rem;
-    width: 385px;
 }
-.toggle-off-section {
-    padding-top: 148px;
+
+.disclaimer {
+    color: #444444;
+    font-size: 14px;
+    line-height: 21px;
+}
+.back-text {
+    color: #015ff1;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px;
 }

@@ -10,6 +10,9 @@
     font-size: 32px;
     font-weight: 600;
 }
+.hide-results {
+    display: none;
+}
 .col1-height {
     height: 627px;
     width: 356px;
