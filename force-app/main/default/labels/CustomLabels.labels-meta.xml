@@ -31192,4 +31192,18 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>PP_Download_Results_Data</shortDescription>
         <value>Download Results Data</value>
     </labels>
+    <labels>
+        <fullName>PP_For_Participants_and_Caregivers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_For_Participants_and_Caregivers</shortDescription>
+        <value>For Participants and Caregivers</value>
+    </labels>
+    <labels>
+        <fullName>PP_Connecting_professionals</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Connecting_professionals</shortDescription>
+        <value>Connecting professionals, patients and clinical researchers for better healthcare.</value>
+    </labels>
 </CustomLabels>

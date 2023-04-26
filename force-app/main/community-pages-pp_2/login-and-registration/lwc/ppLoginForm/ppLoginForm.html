@@ -2,10 +2,9 @@
     <template if:false={isLockOut}>
         <div class="slds-grid slds-grid_align-center">
             <div class="slds-col">
-                <div class="patient-care-txt">For Participants and Caregivers</div>
+                <div class="patient-care-txt">{label.PP_For_Participants_and_Caregivers}</div>
                 <div class="prof-clinical-txt">
-                    Connecting professionals, patients and clinical researchers for better
-                    healthcare.
+                    {label.PP_Connecting_professionals}
                 </div>
                 <template if:true={inError}>
                     <div class="login-validation" style="margin-top: -1em; margin-bottom: 0.5em">
