@@ -648,64 +648,50 @@ a:hover {
     border-radius: 1rem;
     color: #ffffff;
     background: #015ff1;
-    padding: 0 1rem;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
-    margin-left: 0.5rem;
-    font-weight: 500;
     cursor: pointer;
-    font-family: 'Proxima Nova';
-    height: 35px;
-    width: 90px;
     text-decoration: none;
     justify-content: center;
-    border: none;
     transition: .25s;
 }
 
 .secondaryBtn {
     justify-content: center;
-    padding: 0;
     border: 1px solid #d9d9d9;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
     border-radius: 1rem;
     color: #015ff1;
-    font-weight: 500;
     cursor: pointer;
-    font-family: 'Proxima Nova';
-    height: 35px;
-    width: 90px;
     transition: .25s;
 }
 
-.slds-button.primaryBtn:hover {
+.slds-button.primaryBtn:hover, .slds-button.primaryBtn:focus {
     --slds-c-button-color-border: unset;
     color: #fff;
     background: #0557d5;
     transition: .25s;
     text-decoration: none;
+    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04), 0 8px 16px 0 rgba(41, 125, 253, 0.32);
 }
 
-.slds-button.secondaryBtn:hover {
+.slds-button.secondaryBtn:hover, .slds-button.secondaryBtn:focus {
     --slds-c-button-color-border: #015ff1;
-    /*--slds-c-button-color-background: #ecf3ff;*/
+    --slds-c-button-color-background: #ecf3ff;
     color: #015ff1;
     transition: .25s;
     text-decoration: none;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
 }
 
 .secondaryBtn:disabled,
 .secondaryBtn:hover:disabled {
     color: #015ff175;
-    border-radius: 1rem;
-    padding: 0 1rem;
     border-color: #d9d9d9;
 }
 
 .primaryBtn:disabled,
 .primaryBtn:hover:disabled {
     background-color: #015ff170;
-    border-radius: 1rem;
-    padding: 0 1rem;
-    margin-left: 0.5rem;
     color: #ffffff;
 }
 
