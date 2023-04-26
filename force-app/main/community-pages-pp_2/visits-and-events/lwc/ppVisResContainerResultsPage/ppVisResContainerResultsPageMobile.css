@@ -1,0 +1,123 @@
+.visit-name {
+    color: #444444;
+    font-size: 32px;
+    font-weight: 600;
+}
+.completed-date {
+    color: #444444;
+    font-size: 20px;
+}
+.border-class {
+    border-left: 6px solid black;
+}
+.download-res-data {
+    color: #0768fd;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.active-btn {
+    background: rgba(7, 104, 253, 1);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+}
+
+.completed-task {
+    border-radius: 0rem 1rem 1rem 0rem;
+    width: 7.5rem;
+    height: 2rem;
+    margin-left: 0rem;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+}
+
+.inactive-btn {
+    --slds-c-button-brand-color-background: #ffffff;
+    color: #595959;
+    font-size: 1rem;
+    font-weight: 500;
+    border: 1px solid #d9d9d9;
+}
+.open-task {
+    margin-left: 10px;
+}
+.show-result-type-text {
+    color: #000000;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+}
+.download-icon {
+    --slds-c-icon-color-foreground-default: #0768fd;
+}
+.download-section {
+    /* padding-left: 335px;*/
+}
+.active-btn {
+    background-color: #015ff1;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+}
+.inactive-btn {
+    color: #595959;
+    font-size: 1rem;
+    font-weight: 500;
+    border: 1px solid #d9d9d9;
+    background: #ffffff;
+}
+.group-button1 {
+    height: 32px;
+    width: 119px;
+    border-radius: 16px 0 0 16px;
+    justify-content: center;
+}
+.group-button2 {
+    box-sizing: border-box;
+    height: 32px;
+    width: 119px;
+    /* background-color: #ffffff;*/
+    margin-left: 0px;
+    justify-content: center;
+    border-radius: unset;
+}
+.group-button3 {
+    box-sizing: border-box;
+    height: 32px;
+    width: 119px;
+    border: 1px solid #d9d9d9;
+    border-radius: 0 16px 16px 0;
+    /* background-color: #ffffff;*/
+    margin-left: 0px;
+    justify-content: center;
+}
+.single-button {
+    height: 32px;
+    width: 119px;
+    border-radius: 16px 0 0 16px;
+    background-color: #015ff1;
+}
+.container-visit-results {
+    position: relative;
+    height: 100%;
+}
+.toggle-off-image {
+    height: 2.5rem;
+    width: 2.6rem;
+}
+
+.toggle-off-text {
+    color: #6e6e6e;
+    font-size: 1rem;
+    letter-spacing: 0;
+    text-align: center;
+    padding-bottom: 5.313rem;
+    width: 385px;
+}
+.toggle-off-section {
+    padding-top: 148px;
+}

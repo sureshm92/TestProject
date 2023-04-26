@@ -1,45 +1,59 @@
 <template>
-    <!--Biomarker Visit Results-->
-    <template lwc:if={isBiomarkersResult}>
-        <div class="slds-card result-card">
-            <div class="slds-card__header slds-grid">
-                <span class="result-name"> {header}</span>
-                <span class="slds-p-horizontal_x-small show-result-tooltip"
-                    ><lightning-helptext content={toolTipText}></lightning-helptext
-                ></span>
-            </div>
-            <template lwc:if={ICOSRelatedResults}>
-                <div class={actualValueClass}>{actualResultValue}</div>
-            </template>
-            <template if:false={ICOSRelatedResults}>
-                <div class={actualValueClass}>{biomarkerResult}</div>
-                <template lwc:if={showExpectedRange}>
-                    <div class="expected-range slds-p-left_medium">
-                        <span>{expectedRange}</span>
-                        <span class="slds-p-left_x-small">{label.Biomarkers_Expected_Range}</span>
+    <template lwc:if={isDesktop}>
+        <!--Biomarker Visit Results-->
+        <template lwc:if={isBiomarkersResult}>
+            <div class="slds-card result-card">
+                <div
+                    class="slds-p-top_medium slds-p-left_medium slds-p-right_medium slds-p-bottom_small"
+                >
+                    <div class="slds-card__header slds-grid">
+                        <span class="result-name"> {header}</span>
+                        <span class="slds-p-horizontal_x-small show-result-tooltip"
+                            ><lightning-helptext content={toolTipText}></lightning-helptext
+                        ></span>
                     </div>
-                </template>
-            </template>
-        </div>
-    </template>
-    <!--Vitals/Lab Visit Results-->
-    <template lwc:else>
-        <div class="slds-card result-card">
-            <div class="slds-card__header slds-grid">
-                <span class="result-name">{header}</span>
-                <span class="slds-p-horizontal_x-small show-result-tooltip">
-                    <lightning-helptext content={toolTipText}></lightning-helptext>
-                </span>
-            </div>
-            <div class={actualValueClass}>{actualResultValue}</div>
-            <template lwc:if={showExpectedRange}>
-                <div class="expected-range slds-p-left_medium">
-                    <span>{expectedRangeLabel}</span>
-                    <span class="slds-p-left_x-small">{expectedRange}</span>
+                    <template lwc:if={ICOSRelatedResults}>
+                        <div class={actualValueClass}>{actualResultValue}</div>
+                    </template>
+                    <template if:false={ICOSRelatedResults}>
+                        <div class={actualValueClass}>{biomarkerResult}</div>
+                        <template lwc:if={showExpectedRange}>
+                            <div class="expected-range">
+                                <span>{expectedRange}</span>
+                                <span class="slds-p-left_x-small"
+                                    >{label.Biomarkers_Expected_Range}</span
+                                >
+                            </div>
+                        </template>
+                    </template>
                 </div>
-            </template>
-        </div>
-    </template>
+            </div>
+        </template>
+        <!--Vitals/Lab Visit Results-->
+        <template lwc:else>
+            <div class="slds-card result-card">
+                <div
+                    class="slds-p-top_medium slds-p-left_medium slds-p-right_medium slds-p-bottom_small"
+                >
+                    <div class="slds-card__header slds-grid slds-p-around_none">
+                        <span class="result-name">{header}</span>
+                        <span class="slds-p-horizontal_x-small show-result-tooltip">
+                            <lightning-helptext content={toolTipText}></lightning-helptext>
+                        </span>
+                    </div>
+                    <div class={actualValueClass}>{actualResultValue}</div>
+                    <template lwc:if={showExpectedRange}>
+                        <div class="expected-range">
+                            <div class="push-down-txt">
+                                <span>{expectedRangeLabel}</span>
+                                <span class="slds-p-left_x-small">{expectedRange}</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
 
-    <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
+        <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
+    </template>
 </template>
