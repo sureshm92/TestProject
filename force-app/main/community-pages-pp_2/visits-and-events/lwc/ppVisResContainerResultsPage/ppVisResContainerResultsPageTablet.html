@@ -1,14 +1,25 @@
 <template>
-    <template lwc:if={isDesktop}>
+    <template lwc:if={isTablet}>
+        <div class="slds-grid" onclick={handleNavigation}>
+            <div>
+                <lightning-icon
+                    icon-name="utility:chevronleft"
+                    size="xx-small"
+                    class="download-icon"
+                >
+                </lightning-icon>
+            </div>
+            <div class="back-text">Back</div>
+        </div>
+
         <div class="slds-grid slds-wrap">
             <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
-            <div class="slds-col slds-size_2-of-3 slds-p-horizontal_none">
+            <div class="slds-col slds-medium-size_1-of-2 slds-p-horizontal_none">
                 <div class="slds-float_left">
                     <span class="visit-name slds-m-right_medium"
                         >{currentVisit.Visit__r.Patient_Portal_Name__c}</span
                     >
-                    <span class="divider slds-align-middle"></span>
-                    <!--     <span style="border-left: 1px solid #444444"></span>-->
+                    <span style="border-left: 1px solid #444444"></span>
                     <span class="slds-m-left_medium">
                         <lightning-formatted-date-time
                             value={currentVisit.Completed_Date__c}
@@ -18,7 +29,7 @@
                     </span>
                 </div>
             </div>
-            <div class="slds-col slds-size_1-of-3 slds-p-horizontal_none slds-align-middle">
+            <div class="slds-col slds-size_1-of-2 slds-p-horizontal_none slds-align-middle">
                 <div class="slds-float_right">
                     <span class="download-section">
                         <lightning-icon
@@ -33,6 +44,7 @@
                     </span>
                 </div>
             </div>
+
             <div class="slds-col slds-size_1-of-1 slds-border_bottom slds-p-horizontal_none">
                 <div class="disclaimer slds-m-bottom_small">{resultTypeDisclaimer}</div>
             </div>
