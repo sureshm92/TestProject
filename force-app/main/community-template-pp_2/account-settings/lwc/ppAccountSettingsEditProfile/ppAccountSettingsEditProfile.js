@@ -462,10 +462,6 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             : false;
     }
 
-    get isMobilePhoneRequired() {
-        return this.personWrapper.optInSMS && this.personWrapper.mailingCC === 'US' ? true : false;
-    }
-
     get isMobilePhoneDisabled() {
         return this.personWrapper.mailingCC !== 'US' ? true : false;
     }
