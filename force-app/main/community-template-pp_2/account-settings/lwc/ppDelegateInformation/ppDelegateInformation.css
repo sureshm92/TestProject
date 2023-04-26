@@ -21,8 +21,8 @@
 .withdraw-button {
     --slds-c-button-radius-border: 1rem;
     --slds-c-button-brand-color-background: #ffffff;
-    --slds-c-button-brand-color-background-hover: #0768fd;
-    --slds-c-button-brand-text-color: #0768fd;
+    --slds-c-button-brand-color-background-hover: #015ff1;
+    --slds-c-button-brand-text-color: #015ff1;
     --slds-c-button-brand-text-color-hover: #ffffff;
     --slds-c-button-brand-text-color-focus: #ffffff;
     --slds-c-button-brand-text-color-active: #ffffff;
@@ -31,7 +31,7 @@
     border: 1px solid #d9d9d9;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04) !important;
     transform: rotate(-360deg);
-    /* color: #0768fd; */
+    /* color: #015FF1; */
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0;

@@ -156,4 +156,5 @@ public without sharing class NotificationCatalog {
     public static final String UPDATE_TO_PT_NEW_PLATFROMMULTIMEDIA_TYPE = 'Update_to_PT_New_PlatformMultimedia_Type';
     public static final String UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE = 'Update_to_PT_New_Platform_Video_Type';
     public static final String UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE = 'Update_to_PT_New_Visit_Result';
+    public static final String UPDATE_TO_PT_TELEVISIT_SCHEDULED = 'Update_to_PT_Televisit_Scheduled';
 }
