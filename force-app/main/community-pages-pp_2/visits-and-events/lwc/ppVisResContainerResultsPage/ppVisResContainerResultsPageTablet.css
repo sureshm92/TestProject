@@ -5,9 +5,7 @@
 }
 .completed-date {
     color: #444444;
-    font-size: 1.5rem;
-    letter-spacing: 0;
-    line-height: 3rem;
+    font-size: 20px;
 }
 .border-class {
     border-left: 6px solid black;
@@ -123,8 +121,23 @@
 .toggle-off-section {
     padding-top: 148px;
 }
-
-.divider {
-    border: 1px solid #999999;
-    height: 18px;
+.back-text {
+    height: 24px;
+    width: 35px;
+    color: #015ff1;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.back-btn {
+    position: absolute;
+    top: 3.7rem;
+    opacity: 0.9;
+    cursor: pointer;
+}
+.back-icon {
+    --sds-c-icon-color-foreground-default: #0768fd;
+    height: 15px;
+    width: 10.5px;
 }

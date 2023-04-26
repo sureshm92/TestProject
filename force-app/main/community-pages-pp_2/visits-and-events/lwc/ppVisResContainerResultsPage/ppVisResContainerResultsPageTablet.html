@@ -1,45 +1,50 @@
 <template>
-    <template lwc:if={isDesktop}>
-        <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
+    <template lwc:if={isTablet}>
+        <div class="slds-grid" onclick={handleNavigation}>
+            <div>
+                <lightning-icon
+                    icon-name="utility:chevronleft"
+                    size="xx-small"
+                    class="download-icon"
+                >
+                </lightning-icon>
+            </div>
+            <div class="back-text">Back</div>
+        </div>
+
+        <div class="slds-grid slds-wrap">
             <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
-            <div class="slds-col slds-size_2-of-3 slds-float_left slds-p-horizontal_none">
-                <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
-                    <div
-                        class="slds-col slds-m-right_medium visit-name slds-grow-none slds-p-horizontal_none"
+            <div class="slds-col slds-medium-size_1-of-2 slds-p-horizontal_none">
+                <div class="slds-float_left">
+                    <span class="visit-name slds-m-right_medium"
+                        >{currentVisit.Visit__r.Patient_Portal_Name__c}</span
                     >
-                        <div class="visit-name">{currentVisit.Visit__r.Patient_Portal_Name__c}</div>
-                    </div>
-                    <div class="slds-col slds-grow-none slds-p-horizontal_none">
-                        <div class="completed-date">
-                            |
-                            <lightning-formatted-date-time
-                                value={currentVisit.Completed_Date__c}
-                                class="completed-date slds-m-left_small"
-                                time-zone={userTimezone}
-                            ></lightning-formatted-date-time>
-                        </div>
-                    </div>
+                    <span style="border-left: 1px solid #444444"></span>
+                    <span class="slds-m-left_medium">
+                        <lightning-formatted-date-time
+                            value={currentVisit.Completed_Date__c}
+                            class="completed-date"
+                            time-zone={userTimezone}
+                        ></lightning-formatted-date-time>
+                    </span>
                 </div>
             </div>
-            <div class="slds-col slds-size_1-of-3 slds-p-horizontal_none">
+            <div class="slds-col slds-size_1-of-2 slds-p-horizontal_none slds-align-middle">
                 <div class="slds-float_right">
-                    <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
-                        <div class="slds-col">
-                            <span class="download-section">
-                                <lightning-icon
-                                    icon-name="utility:download"
-                                    size="xx-small"
-                                    class="download-icon"
-                                >
-                                </lightning-icon>
-                                <span class="download-res-data slds-p-left_small">
-                                    {label.PP_Download_Results_Data}
-                                </span>
-                            </span>
-                        </div>
-                    </div>
+                    <span class="download-section">
+                        <lightning-icon
+                            icon-name="utility:download"
+                            size="xx-small"
+                            class="download-icon"
+                        >
+                        </lightning-icon>
+                        <span class="download-res-data slds-p-left_small"
+                            >{label.PP_Download_Results_Data}</span
+                        >
+                    </span>
                 </div>
             </div>
+
             <div class="slds-col slds-size_1-of-1 slds-border_bottom slds-p-horizontal_none">
                 <div class="disclaimer slds-m-bottom_small">{resultTypeDisclaimer}</div>
             </div>

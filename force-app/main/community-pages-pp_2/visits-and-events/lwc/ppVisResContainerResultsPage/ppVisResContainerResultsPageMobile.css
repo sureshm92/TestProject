@@ -5,9 +5,7 @@
 }
 .completed-date {
     color: #444444;
-    font-size: 1.5rem;
-    letter-spacing: 0;
-    line-height: 3rem;
+    font-size: 20px;
 }
 .border-class {
     border-left: 6px solid black;
@@ -122,9 +120,4 @@
 }
 .toggle-off-section {
     padding-top: 148px;
-}
-
-.divider {
-    border: 1px solid #999999;
-    height: 18px;
 }
