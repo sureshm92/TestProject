@@ -24,8 +24,8 @@ import PP_Communication_Pref_Outreach_Gen_Comm from '@salesforce/label/c.PP_Comm
 import PP_Communication_Pref_Warning from '@salesforce/label/c.PP_Communication_Pref_Warning';
 import PP_Communication_Pref_Mobile_Required from '@salesforce/label/c.PP_Communication_Pref_Mobile_Required';
 import PP_Communication_Pref_Mobile_Required_Del from '@salesforce/label/c.PP_Communication_Pref_Mobile_Required_Del';
-import PP_Study_Consent_Adult_ROW from '@salesforce/label/c.PP_Study_Consent_Adult_ROW';
-import PP_Study_Consent_Adult_US from '@salesforce/label/c.PP_Study_Consent_Adult_US';
+import PP_Study_Consent_Adult_ROW from '@salesforce/label/c.PP_Study_Consent_ROW';
+import PP_Study_Consent_Adult_US from '@salesforce/label/c.PP_Study_Consent_US';
 import PP_Communication_Purchase_Pref_V2 from '@salesforce/label/c.PP_Communication_Purchase_Pref_V2';
 import PP_IQVIA_Communication_US from '@salesforce/label/c.PP_IQVIA_Communication_US';
 import PP_Outreach_Communication_Pref_A from '@salesforce/label/c.PP_Outreach_Communication_Pref_A';

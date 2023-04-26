@@ -1388,14 +1388,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     line-height: 22px !important;
 }
 
-
-
-
-
-.manage-delegate-acc-setting .manage-del-continer .std .study-thmore-add-assignment {
-    padding: 0px 0px 0px 514px !important;
-}
-
 .manage-delegate-acc-setting .manage-del-continer-mobile .md-check-box-layout-item:hover{  
     background: #ecf3ff !important;
 }
@@ -1467,17 +1459,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     padding: 0 0 0 15px !important;
 }
 
-.manage-delegate-acc-setting .std .study-thmore-add-newdel{
-    padding: 0px 0px 1px 708px !important;
-}
-
 @media (max-device-width: 767px){
-    .manage-delegate-acc-setting .std .study-thmore-add-newdel {
-        padding: 1px 0px 0px 175px !important;
-    }
-    .manage-delegate-acc-setting .std .study-thmore-add-assignment {
-        padding: 0px 0px 0px 125px !important;
-    }
     .manage-delegate-acc-setting .ad-warning-container{
         padding-right: 7px !important;
     }

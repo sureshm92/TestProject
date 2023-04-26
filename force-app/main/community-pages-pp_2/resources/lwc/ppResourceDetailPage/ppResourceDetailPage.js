@@ -1,4 +1,4 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
 import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesById';
 import getUnsortedResources from '@salesforce/apex/ResourceRemote.getUnsortedResourcesByType';
@@ -13,7 +13,22 @@ import Back_To_Home from '@salesforce/label/c.Link_Back_To_Home';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
 
+import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+
+import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
+import {
+    publish,
+    subscribe,
+    unsubscribe,
+    MessageContext,
+    APPLICATION_SCOPE
+} from 'lightning/messageService';
+
 export default class PpResourceDetailPage extends NavigationMixin(LightningElement) {
+
+    @wire(MessageContext)
+    messageContext;
+
     userTimezone = TIME_ZONE;
     isInitialized = false;
     resourceType;
@@ -46,6 +61,8 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     resourcesData;
     suggestedArticlesData;
     isInvalidResource = false;
+
+    backToRes = pp_community_icons + '/' + 'back_to_resources.png';
 
     /*******Getters******************/
 
@@ -101,8 +118,40 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 this.desktop = true;
                 break;
         }
-
+      
         this.initializeData();
+
+        window.addEventListener("orientationchange", function() {
+            console.log(screen.orientation.angle);
+            if(screen.orientation.angle != 0){
+                console.log("changing orientation to landscape");
+                // this.fireFooterEvent(true);
+                console.log("after landscape publish");
+            }
+            else{
+                console.log("changing orientation to portrait");
+                // this.fireFooterEvent(false);
+                console.log("after portrait publish");
+            }
+          }, false);
+
+    }
+
+    fireFooterEvent(value){
+        console.log("firing footer event now.....");
+        const returnPayload = {
+            hideFooter: value
+        };
+        publish(this.messageContext, messageChannel, returnPayload);
+    }
+
+    disconnectedCallback(){
+        // console.log("disconneting resource detail page");
+        // const returnPayload = {
+        //     hideFooter: false
+        // };
+        // publish(this.messageContext, messageChannel, returnPayload);
+        // console.log("after disconnected publish");
     }
 
     /** Methods **/
@@ -302,5 +351,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 variant: variantType
             })
         );
+    }
+
+    goBackToPrevPage(){
+        window.history.back();
     }
 }
