@@ -204,9 +204,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
             }
             this.progress = 0;
             this.progressWidth = 'width :0%';
-            // this.base = 1;
-            // this.totalRecs = 0;
-            // this.progressMultiplier = 0;
+            event.target.value = null;
             this.saveFile();
         }
     }
@@ -626,12 +624,12 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     }
 
     removeFiles(event) {
-       /* let indexcalled = event.currentTarget.dataset.key;
+        let indexcalled = event.currentTarget.dataset.key;
         this.filesData[indexcalled].isDeleted = true;
         this.totalfilesUploaded = this.totalfilesUploaded - 1;
         if (this.totalfilesUploaded == 0) {
             this.Nofilesupload = true;
-        } */
+        } 
     }
     retryFiles(event) {
         console.log('>>retry called>>' + event.currentTarget.dataset.key);

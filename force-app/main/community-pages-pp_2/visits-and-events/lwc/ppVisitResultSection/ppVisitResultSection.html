@@ -1,0 +1,174 @@
+<template>
+    <template lwc:if={isDesktop}>
+        <div>
+            <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
+            <!--Labs-->
+            <template lwc:if={isLabsSelected}>
+                <template lwc:if={labsResultsAvailable}>
+                    <template lwc:if={isMetabolicPanel}>
+                        <div class="labs-subtype">
+                            <div class="labs-header slds-p-bottom_small">
+                                {label.Visit_Result_Group_MetabolicPanel}
+                            </div>
+
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <template
+                                    for:each={visitResultsMetabolicPanel}
+                                    for:item="result"
+                                    for:index="index"
+                                >
+                                    <div
+                                        key={result}
+                                        class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                                    >
+                                        <c-pp-visit-result-display-card
+                                            visit-result={result}
+                                            visit-result-type={selectedResultType}
+                                        >
+                                        </c-pp-visit-result-display-card>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <template lwc:if={isHeamatology}>
+                        <div class="labs-subtype">
+                            <div class="labs-header slds-p-bottom_small">
+                                {label.Visit_Result_Group_Hematology}
+                            </div>
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <template
+                                    for:each={visitResultsHematology}
+                                    for:item="result"
+                                    for:index="index"
+                                >
+                                    <div
+                                        key={result}
+                                        class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                                    >
+                                        <c-pp-visit-result-display-card
+                                            visit-result={result}
+                                            visit-result-type={selectedResultType}
+                                        >
+                                        </c-pp-visit-result-display-card>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <template lwc:if={isFastLipProfile}>
+                        <div class="labs-subtype">
+                            <div class="labs-header slds-p-bottom_small">
+                                {label.Visit_Result_Group_FastingLipidProfile}
+                            </div>
+
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <template
+                                    for:each={visitResultsFastingLipidProfile}
+                                    for:item="result"
+                                    for:index="index"
+                                >
+                                    <div
+                                        key={result}
+                                        class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                                    >
+                                        <c-pp-visit-result-display-card
+                                            visit-result={result}
+                                            visit-result-type={selectedResultType}
+                                        >
+                                        </c-pp-visit-result-display-card>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+                <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
+                <template lwc:else>
+                    <div
+                        class="slds-grid slds-wrap slds-p-top_x-large no-visit-result-container slds-p-horizontal_none"
+                    >
+                        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
+                            <img src={noVisitResultsAvailable} class="no-result-image" />
+                        </div>
+                        <div class="slds-col slds-size_12-of-12 no-result-text">
+                            {label.No_Labs_Available}
+                        </div>
+                    </div>
+                </template>
+                <div class="slds-align_absolute-center disclaimer">
+                    {label.Visit_Results_Tab_Panel_Disclaimer}
+                </div>
+            </template>
+
+            <!--Vitals-->
+            <template lwc:if={isVitalsSelected}>
+                <template lwc:if={isVitalsResultsAvailable}>
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <template for:each={visitResultsVitals} for:item="result" for:index="index">
+                            <div
+                                key={result}
+                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                            >
+                                <c-pp-visit-result-display-card
+                                    visit-result={result}
+                                    visit-result-type={selectedResultType}
+                                >
+                                </c-pp-visit-result-display-card>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+                <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
+                <template lwc:else>
+                    <div
+                        class="slds-grid slds-wrap slds-p-top_x-large no-visit-result-container slds-p-horizontal_none"
+                    >
+                        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
+                            <img src={noVisitResultsAvailable} class="no-result-image" />
+                        </div>
+                        <div class="slds-col slds-size_12-of-12 no-result-text">
+                            {label.No_Vitals_Available}
+                        </div>
+                    </div>
+                </template>
+                <div class="slds-align_absolute-center disclaimer">
+                    {label.Visit_Results_Tab_Panel_Disclaimer}
+                </div>
+            </template>
+
+            <!--Biomarker-->
+            <template lwc:if={isBiomarkersSelected}>
+                <template lwc:if={isBioResultsAvailable}>
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <template for:each={visitResultsBio} for:item="result" for:index="index">
+                            <div
+                                key={result}
+                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                            >
+                                <c-pp-visit-result-display-card
+                                    visit-result={result}
+                                    visit-result-type={selectedResultType}
+                                >
+                                </c-pp-visit-result-display-card>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+                <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
+                <template lwc:else>
+                    <div
+                        class="slds-grid slds-wrap slds-p-top_x-large no-visit-result-container slds-p-horizontal_none"
+                    >
+                        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
+                            <img src={noVisitResultsAvailable} class="no-result-image" />
+                        </div>
+                        <div class="slds-col slds-size_12-of-12 no-result-text">
+                            {label.No_Biomarkers_Available}
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </template>
+</template>
