@@ -43,7 +43,7 @@
     font-size: 14px;
 }
 .chevron-icon {
-    --sds-c-icon-color-foreground-default: #0768fd;
+    --sds-c-icon-color-foreground-default: #015ff1;
     cursor: pointer;
 }
 .participant-label {
