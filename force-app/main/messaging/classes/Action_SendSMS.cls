@@ -399,21 +399,25 @@ public without sharing class Action_SendSMS implements Action {
                     recipientIdSet.Add(notificationObj.recipient__c);
                 } else if (objType == 'Clinical_Trial_Profile__c') {
                     ctpIdList.add(whatId);
+                    recipientIdSet.Add(notificationObj.recipient__c);
                 } else if (objType == 'Task') {
                     taskIdList.add(whatId);
                     recipientIdSet.Add(notificationObj.recipient__c);
                 } else if (objType == 'Televisit__c') {
+                    recipientIdSet.Add(notificationObj.recipient__c);
                     televisitIdList.add(whatId);
                 } else if (objType == 'Televisit_Attendee__c') {
+                    recipientIdSet.Add(notificationObj.recipient__c);
                     televisitAttendeeIdList.add(whatId);
                 }
 
                 if (objType == 'SurveyInvitation') {
                     surveyInvitationIdList.add(whatId);
+                    recipientIdSet.Add(notificationObj.recipient__c);
                 } else if (objType == 'Task') {
                     taskIdList.add(whatId);
+                    recipientIdSet.Add(notificationObj.recipient__c);
                 } else if (objType == 'Participant__c') {
-                    // Added by Anitha
                     participantIdList.add(whatId);
                 }
             }
@@ -488,6 +492,57 @@ public without sharing class Action_SendSMS implements Action {
         }
 
         system.debug('peIdList:::' + peIdList);
+        Map<Id, Televisit__c> televisitIdMap = new Map<Id, Televisit__c>(
+            [
+                SELECT
+                    Id,
+                    Participant_Enrollment__c,
+                    Participant_Enrollment__r.Study_Site__c,
+                    Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c,
+                    Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c,
+                    Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
+                    Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                    Participant_Enrollment__r.Study_Site__r.From_Number__c,
+                    Participant_Enrollment__r.Welcome_Message_Sent__c,
+                    Participant_Enrollment__r.Welcome_Message_Delivered__c
+                FROM Televisit__c
+                WHERE Id IN :televisitIdList
+            ]
+        );
+        Map<Id, Televisit_Attendee__c> televisitAttendeeIdMap = new Map<Id, Televisit_Attendee__c>(
+            [
+                SELECT
+                    Id,
+                    Televisit__r.Participant_Enrollment__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
+                    Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
+                    Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c,
+                    Televisit__r.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__r.From_Number__c,
+                    Televisit__r.Participant_Enrollment__r.Welcome_Message_Sent__c,
+                    Televisit__r.Participant_Enrollment__r.Welcome_Message_Delivered__c
+                FROM Televisit_Attendee__c
+                WHERE Id IN :televisitAttendeeIdList
+            ]
+        );
+        if(!televisitIdMap.isempty()){
+            for(Televisit__c tv : televisitIdMap.values()){
+                peIdList.add(tv.Participant_Enrollment__c);
+            }
+        }
+        
+        if(!televisitAttendeeIdMap.isempty()){
+            for(Televisit_Attendee__c tv : televisitAttendeeIdMap.values()){
+                peIdList.add(tv.Televisit__r.Participant_Enrollment__c);
+            }
+        }
         ///Added by Anitha
         Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>(
             [
@@ -653,46 +708,7 @@ public without sharing class Action_SendSMS implements Action {
         );
         system.debug('notificationsList:::' + notificationsList);
 
-        Map<Id, Televisit__c> televisitIdMap = new Map<Id, Televisit__c>(
-            [
-                SELECT
-                    Id,
-                    Participant_Enrollment__c,
-                    Participant_Enrollment__r.Study_Site__c,
-                    Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c,
-                    Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-                    Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c,
-                    Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
-                    Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
-                    Participant_Enrollment__r.Study_Site__r.From_Number__c,
-                    Participant_Enrollment__r.Welcome_Message_Sent__c,
-                    Participant_Enrollment__r.Welcome_Message_Delivered__c
-                FROM Televisit__c
-                WHERE Id IN :televisitIdList
-            ]
-        );
-        Map<Id, Televisit_Attendee__c> televisitAttendeeIdMap = new Map<Id, Televisit_Attendee__c>(
-            [
-                SELECT
-                    Id,
-                    Televisit__r.Participant_Enrollment__c,
-                    Televisit__r.Participant_Enrollment__r.Study_Site__c,
-                    Televisit__r.Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c,
-                    Televisit__r.Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
-                    Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
-                    Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-                    Televisit__r.Participant_Enrollment__r.Study_Site__r.Sponsor_AWS__c,
-                    Televisit__r.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
-                    Televisit__r.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
-                    Televisit__r.Participant_Enrollment__r.Study_Site__r.From_Number__c,
-                    Televisit__r.Participant_Enrollment__r.Welcome_Message_Sent__c,
-                    Televisit__r.Participant_Enrollment__r.Welcome_Message_Delivered__c
-                FROM Televisit_Attendee__c
-                WHERE Id IN :televisitAttendeeIdList
-            ]
-        );
+        
         for (Notification__c notObj : notificationsList) {
             Map<Id, String> participantContactSponsorMap = new Map<Id, String>();
             Id peId = null;
@@ -727,9 +743,7 @@ public without sharing class Action_SendSMS implements Action {
                         studyName = peOBJ.Study_Site__r.Study_AWS__c;
                         ctpTemplateName = peOBJ.Clinical_Trial_Profile__r.CommunityTemplate__c;
                         studySiteId = peOBJ.Study_Site__c;
-                        fromNumber = peOBJ.Study_Site__r.From_Number__c; //Added by Anitha
-                        welcomemsgsent = peOBJ.Welcome_Message_Sent__c; //Added by Anitha
-                        welcomemsgDelivered = peOBJ.Welcome_Message_Delivered__c; //Added by Anitha
+                        fromNumber = peOBJ.Study_Site__r.From_Number__c; 
                         if (
                             notObj.IsDelegate__c &&
                             delContIdMapOfPerIdPDEnromentMap.containsKey(recipientID)
@@ -742,10 +756,14 @@ public without sharing class Action_SendSMS implements Action {
                                 (pdelEnrollmentrecrd != null) &&
                                 pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                 pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                            welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                            welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
                         } else {
                             isSMSAvailableForPER =
                                 peOBJ.Permit_SMS_Text_for_this_study__c &&
                                 peOBJ.Study_Site__r.SMS_Are_Available__c;
+                            welcomemsgsent = peOBJ.Welcome_Message_Sent__c;
+                            welcomemsgDelivered = peOBJ.Welcome_Message_Delivered__c;
                         }
                         studySiteToFromNoMap.put(studySiteId, peOBJ.Study_Site__r.From_Number__c);
                         //If this method is called from platform Event
@@ -780,10 +798,14 @@ public without sharing class Action_SendSMS implements Action {
                                         (pdelEnrollmentrecrd != null) &&
                                         pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                         pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                } else {
+                                        welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;            
+                                    } else {
                                     isSMSAvailableForPER =
                                         per.Permit_SMS_Text_for_this_study__c &&
                                         per.Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent = per.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered = per.Welcome_Message_Delivered__c;        
                                 }
                                 studySiteToFromNoMap.put(
                                     studySiteId,
@@ -791,9 +813,6 @@ public without sharing class Action_SendSMS implements Action {
                                 );
                                 pinPoint = per.Study_Site__r.Pin_Point_ProjectId__c;
                                 fromNumber = per.Study_Site__r.From_Number__c; //Added by Anitha
-                                welcomemsgsent = per.Welcome_Message_Sent__c; //Added by Anitha
-                                welcomemsgDelivered = per.Welcome_Message_Delivered__c; //Added by Anitha
-
                                 //If this method is called from platform Event
                                 if (isPlatFormEvent) {
                                     participantContactSponsorMap.put(
@@ -840,17 +859,19 @@ public without sharing class Action_SendSMS implements Action {
                                     (pdelEnrollmentrecrd != null) &&
                                     pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                     pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                            } else {
+                                welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                } else {
                                 isSMSAvailableForPER =
                                     peIdMap.get(taskMap.get(whatId).WhatId)
                                         .Permit_SMS_Text_for_this_study__c &&
                                     peIdMap.get(taskMap.get(whatId).WhatId)
                                         .Study_Site__r.SMS_Are_Available__c;
-                            }
-                            welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Welcome_Message_Sent__c; //Added by Anitha
-                            welcomemsgDelivered = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Welcome_Message_Delivered__c; //Added by Anitha
+                                    welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
+                                        .Welcome_Message_Sent__c; //Added by Anitha
+                                    welcomemsgDelivered = peIdMap.get(taskMap.get(whatId).WhatId)
+                                        .Welcome_Message_Delivered__c; //Added by Anitha
+                                    }
 
                             studySiteToFromNoMap.put(
                                 studySiteId,
@@ -887,10 +908,6 @@ public without sharing class Action_SendSMS implements Action {
                                 .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__c;
                             fromNumber = taskMap.get(whatId)
                                 .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.From_Number__c;
-                            welcomemsgsent = taskMap.get(whatId)
-                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Sent__c;
-                            welcomemsgDelivered = taskMap.get(whatId)
-                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Delivered__c;
                             if (
                                 notObj.IsDelegate__c &&
                                 delContIdMapOfPerIdPDEnromentMap.containsKey(recipientID)
@@ -906,7 +923,10 @@ public without sharing class Action_SendSMS implements Action {
                                     (pdelEnrollmentrecrd != null) &&
                                     pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                     pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                            } else {
+                                welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+    
+                                } else {
                                 isSMSAvailableForPER =
                                     taskMap.get(whatId)
                                         .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
@@ -914,7 +934,12 @@ public without sharing class Action_SendSMS implements Action {
                                     taskMap.get(whatId)
                                         .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
                                         .Study_Site__r.SMS_Are_Available__c;
-                            }
+                                welcomemsgsent = taskMap.get(whatId)
+                                        .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                                welcomemsgDelivered = taskMap.get(whatId)
+                                        .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+        
+                                    }
                             studySiteToFromNoMap.put(
                                 studySiteId,
                                 taskMap.get(whatId)
@@ -962,14 +987,19 @@ public without sharing class Action_SendSMS implements Action {
                                     (pdelEnrollmentrecrd != null) &&
                                     pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                     pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
                             } else {
                                 isSMSAvailableForPER =
                                     tvOBJ.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c &&
                                     tvOBJ.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                    
+                                welcomemsgsent = tvOBJ.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                                welcomemsgDelivered = tvOBJ.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+                                    
                             }
                             fromNumber = tvOBJ.Participant_Enrollment__r.Study_Site__r.From_Number__c;
-                            welcomemsgsent = tvOBJ.Participant_Enrollment__r.Welcome_Message_Sent__c;
-                            welcomemsgDelivered = tvOBJ.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+                            
                         }
                     }
                 } else {
@@ -1006,17 +1036,21 @@ public without sharing class Action_SendSMS implements Action {
                                         (pdelEnrollmentrecrd != null) &&
                                         pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                         pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                } else {
+                                    welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                    welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+        
+                                    } else {
                                     isSMSAvailableForPER =
                                         surveyInvitationMap.get(whatId)
                                             .Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c &&
                                         surveyInvitationMap.get(whatId)
                                             .Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                }
-                                welcomemsgsent = surveyInvitationMap.get(whatId)
-                                    .Participant_Enrollment__r.Welcome_Message_Sent__c; //Added by Anitha
-                                welcomemsgDelivered = surveyInvitationMap.get(whatId)
-                                    .Participant_Enrollment__r.Welcome_Message_Delivered__c; //Added by Anitha
+                                    welcomemsgsent = surveyInvitationMap.get(whatId)
+                                            .Participant_Enrollment__r.Welcome_Message_Sent__c; //Added by Anitha
+                                    welcomemsgDelivered = surveyInvitationMap.get(whatId)
+                                            .Participant_Enrollment__r.Welcome_Message_Delivered__c; //Added by Anitha
+        
+                                        }
 
                                 studySiteToFromNoMap.put(
                                     studySiteId,
@@ -1070,17 +1104,21 @@ public without sharing class Action_SendSMS implements Action {
                                     (pdelEnrollmentrecrd != null) &&
                                     pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                     pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                            } else {
+                                welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+    
+                                } else {
                                 isSMSAvailableForPER =
                                     peIdMap.get(taskMap.get(whatId).WhatId)
                                         .Permit_SMS_Text_for_this_study__c &&
                                     peIdMap.get(taskMap.get(whatId).WhatId)
                                         .Study_Site__r.SMS_Are_Available__c;
-                            }
-                            welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Welcome_Message_Sent__c; //Added by Anitha
-                            welcomemsgDelivered = peIdMap.get(taskMap.get(whatId).WhatId)
-                                .Welcome_Message_Delivered__c; //Added by Anitha
+                                welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
+                                        .Welcome_Message_Sent__c; //Added by Anitha
+                                welcomemsgDelivered = peIdMap.get(taskMap.get(whatId).WhatId)
+                                        .Welcome_Message_Delivered__c; //Added by Anitha
+        
+                                    }
 
                             studySiteToFromNoMap.put(
                                 studySiteId,
