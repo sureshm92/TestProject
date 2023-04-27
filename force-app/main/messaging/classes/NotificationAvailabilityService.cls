@@ -30,74 +30,12 @@ public without sharing class NotificationAvailabilityService {
     public Map<Id, Id> partPerDelegateIds;
     public Set<Id> studyConsentAvailableAtParRecrd;
     Map<Id, Map<Id, Patient_Delegate_Enrollment__c>> delContIdMapOfPerIdPDEnromentMap;
+    Set<Id> perIdLst = new Set<Id>();
 
     public NotificationAvailabilityService(List<Id> recipientIds, List<String> whatIds) {
         contactByIdMap = new Map<Id, Contact>();
         contactLangZoneMap = new Map<Id, String>();
-        Map<Id, Patient_Delegate_Enrollment__c> pdelIdMap = new Map<Id, Patient_Delegate_Enrollment__c>(
-            [
-                SELECT
-                    Id,
-                    Patient_Delegate__r.Participant__r.Full_Name__c,
-                    Patient_Delegate__r.Id,
-                    Welcome_Message_Sent__c,
-                    Study_Email_Consent__c,
-                    Study_SMS_Consent__c,
-                    Welcome_Message_Delivered__c,
-                    Patient_Delegate__r.Participant__r.Contact__c,
-                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-                    Patient_Delegate__r.Participant__r.First_Name__c,
-                    Patient_Delegate__r.Participant__r.Last_Name__c,
-                    Patient_Delegate__r.Contact__c,
-                    Patient_Delegate__r.Participant__c,
-                    Patient_Delegate__r.Participant_Delegate__r.Id,
-                    Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
-                    Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
-                    Patient_Delegate__r.Participant_Delegate__r.Email__c,
-                    Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                    Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-                    Status__c,
-                    Participant_Enrollment__c,
-                    Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
-                    Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
-                    Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
-                    Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                    Participant_Enrollment__r.Name,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
-                FROM Patient_Delegate_Enrollment__c
-                WHERE
-                    Participant_Enrollment__c IN :whatIds
-                    AND Patient_Delegate__r.Contact__c IN :recipientIds
-            ]
-        );
-        delContIdMapOfPerIdPDEnromentMap = new Map<Id, Map<Id, Patient_Delegate_Enrollment__c>>();
-        for (Patient_Delegate_Enrollment__c pdelEnrollment : pdelIdMap.values()) {
-            // junction object records
-            if (
-                delContIdMapOfPerIdPDEnromentMap.containskey(
-                    pdelEnrollment.Patient_Delegate__r.Contact__c
-                )
-            ) {
-                Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = delContIdMapOfPerIdPDEnromentMap.get(
-                    pdelEnrollment.Patient_Delegate__r.Contact__c
-                );
-                perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
-                delContIdMapOfPerIdPDEnromentMap.put(
-                    pdelEnrollment.Patient_Delegate__r.Contact__c,
-                    perIdPDEnrollment
-                );
-            } else {
-                Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = new Map<Id, Patient_Delegate_Enrollment__c>();
-                perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
-                delContIdMapOfPerIdPDEnromentMap.put(
-                    pdelEnrollment.Patient_Delegate__r.Contact__c,
-                    perIdPDEnrollment
-                );
-            }
-        }
+        
         List<Contact> contacts = [
             SELECT
                 Id,
@@ -177,6 +115,7 @@ public without sharing class NotificationAvailabilityService {
                 );
                 for (Participant_Enrollment__c pe : listPE) {
                     objectsByIds.put(pe.Id, pe);
+                    perIdLst.add(pe.Id);
                 }
             }
             if (objType == PARTICIPANT_OBJ_NAME) {
@@ -220,6 +159,8 @@ public without sharing class NotificationAvailabilityService {
                         '~' +
                         string.valueOf(objPer.Participant_Contact__c);
                     ctpContactToPer.put(str, objPer);
+                    perIdLst.add(objPer.Id);
+
                 }
             }
             if (objType == SURVEY_INVITATION_OBJ_NAME) {
@@ -227,6 +168,7 @@ public without sharing class NotificationAvailabilityService {
                     SELECT
                         Id,
                         IsTrialSurvey__c,
+                        Participant_Enrollment__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
@@ -237,6 +179,7 @@ public without sharing class NotificationAvailabilityService {
                 ];
                 for (SurveyInvitation sur : survInvList) {
                     objectsByIds.put(sur.Id, sur);
+                    perIdLst.add(sur.Participant_Enrollment__c);
                 }
             }
             if (objType == TASK_OBJ_NAME) {
@@ -280,6 +223,7 @@ public without sharing class NotificationAvailabilityService {
                     List<Participant_Enrollment__c> peList = getPEList(peIds);
                     for (Participant_Enrollment__c pe : peList) {
                         objectsByIds.put(pe.Id, pe);
+                        perIdLst.add(pe.Id);
                     }
                 }
                 if (participantId != null) {
@@ -306,6 +250,7 @@ public without sharing class NotificationAvailabilityService {
                     }
                 }
             }
+            
             if (objType == HCP_ENROLLMENT_OBJ_NAME) {
                 List<HCP_Enrollment__c> hcpeList = [
                     SELECT
@@ -352,6 +297,7 @@ public without sharing class NotificationAvailabilityService {
                 List<Televisit__c> teleVisitsList = [
                     SELECT
                         Id,
+                        Participant_Enrollment__c,
                         Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                         Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
                         Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
@@ -369,6 +315,7 @@ public without sharing class NotificationAvailabilityService {
                 ];
                 for (Televisit__c tv : teleVisitsList) {
                     objectsByIds.put(tv.Id, tv);
+                    perIdLst.add(tv.Participant_Enrollment__c);
                 }
             }
             //As part of RH-6577
@@ -385,6 +332,7 @@ public without sharing class NotificationAvailabilityService {
                         Televisit__r.Visit_Date_Time__c,
                         Televisit__r.Status__c,
                         Televisit__r.Title__c,
+                        Televisit__r.Participant_Enrollment__c,
                         Televisit__r.Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                         Televisit__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
                         Televisit__r.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
@@ -402,8 +350,73 @@ public without sharing class NotificationAvailabilityService {
                 ];
                 for (Televisit_Attendee__c ta : televisitAttendees) {
                     objectsByIds.put(ta.Id, ta);
+                    perIdLst.add(ta.Televisit__r.Participant_Enrollment__c);
                 }
             }
+            Map<Id, Patient_Delegate_Enrollment__c> pdelIdMap = new Map<Id, Patient_Delegate_Enrollment__c>(
+            [
+                SELECT
+                    Id,
+                    Patient_Delegate__r.Participant__r.Full_Name__c,
+                    Patient_Delegate__r.Id,
+                    Welcome_Message_Sent__c,
+                    Study_Email_Consent__c,
+                    Study_SMS_Consent__c,
+                    Welcome_Message_Delivered__c,
+                    Patient_Delegate__r.Participant__r.Contact__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                    Patient_Delegate__r.Participant__r.First_Name__c,
+                    Patient_Delegate__r.Participant__r.Last_Name__c,
+                    Patient_Delegate__r.Contact__c,
+                    Patient_Delegate__r.Participant__c,
+                    Patient_Delegate__r.Participant_Delegate__r.Id,
+                    Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
+                    Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
+                    Patient_Delegate__r.Participant_Delegate__r.Email__c,
+                    Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                    Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                    Status__c,
+                    Participant_Enrollment__c,
+                    Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                    Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                    Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Name,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE
+                    Participant_Enrollment__c IN :perIdLst
+                    AND Patient_Delegate__r.Contact__c IN :recipientIds
+            ]
+        );
+        delContIdMapOfPerIdPDEnromentMap = new Map<Id, Map<Id, Patient_Delegate_Enrollment__c>>();
+        for (Patient_Delegate_Enrollment__c pdelEnrollment : pdelIdMap.values()) {
+            // junction object records
+            if (
+                delContIdMapOfPerIdPDEnromentMap.containskey(
+                    pdelEnrollment.Patient_Delegate__r.Contact__c
+                )
+            ) {
+                Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = delContIdMapOfPerIdPDEnromentMap.get(
+                    pdelEnrollment.Patient_Delegate__r.Contact__c
+                );
+                perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
+                delContIdMapOfPerIdPDEnromentMap.put(
+                    pdelEnrollment.Patient_Delegate__r.Contact__c,
+                    perIdPDEnrollment
+                );
+            } else {
+                Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = new Map<Id, Patient_Delegate_Enrollment__c>();
+                perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
+                delContIdMapOfPerIdPDEnromentMap.put(
+                    pdelEnrollment.Patient_Delegate__r.Contact__c,
+                    perIdPDEnrollment
+                );
+            }
+        }
             //End
 
             //TODO for other objects passing in WhatID

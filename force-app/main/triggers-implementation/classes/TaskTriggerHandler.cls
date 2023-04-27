@@ -110,6 +110,7 @@ public without sharing class TaskTriggerHandler {
         Set<Notification__c> deDupeNotifications = new Set<Notification__c>();
         List<Id> allContactsIds = new List<Id>();
         Map<Id,List<Task>> allPeIds = new Map<Id,List<Task>>();
+        set<Id> recipientswithpderecrd = new set<Id>();
         Set<Id> ownerIds = new Set<Id>();
         Set<Id> contactWithoutUser = new Set<Id>();
         // set to hold all tasks whose onwers are minor participants
@@ -130,6 +131,7 @@ public without sharing class TaskTriggerHandler {
             FROM Task
             WHERE Id IN :tasks
         ];
+        Set<Id> receipientIdset = new Set<Id>();
         /* If the task is created for user without email, owner_contact  is present*/
         for (Task t : tasksWithOwner) {
             if (t.Owner_Contact__c == null) {
@@ -147,12 +149,14 @@ public without sharing class TaskTriggerHandler {
                     allPeIds.put(t.whatId, new List<Task>());
                 }
                 allPeIds.get(t.whatId).add(t); 
+                receipientIdset.add(t.WhoId);
             }
             else if(t.Task_Type__c == 'Survey' ){
                 if (!allPeIds.containsKey(t.Survey_Invitation__r.Participant_Enrollment__c)) {
                     allPeIds.put(t.Survey_Invitation__r.Participant_Enrollment__c, new List<Task>());
                 }
                 allPeIds.get(t.Survey_Invitation__r.Participant_Enrollment__c).add(t);
+                receipientIdset.add(t.WhoId);
             }
             else{
                 allContactsIds.add(t.WhoId);
@@ -224,6 +228,11 @@ public without sharing class TaskTriggerHandler {
                 FROM Patient_Delegate_Enrollment__c
                 WHERE Participant_Enrollment__c IN : allPeIds.keySet() AND Status__c = 'Active' 
             ];
+            for(Patient_Delegate_Enrollment__c pde : pdelist){
+                if(receipientIdset.contains(pde.Patient_Delegate__r.contact__c)){
+                    recipientswithpderecrd.add(pde.Patient_Delegate__r.contact__c);
+                }
+            }
         }else{
             patientDelegates = [
             SELECT
@@ -273,7 +282,8 @@ public without sharing class TaskTriggerHandler {
                                     Recipient__c = usersByIds.get(task.OwnerId).ContactId,
                                     WhatId__c = whatId,
                                     Notification_Type__c = card.Immediate_Notification_Type__c,
-                                    RemindUsing__c = 'Email'
+                                    RemindUsing__c = 'Email',
+                                    IsDelegate__c = recipientswithpderecrd.contains(usersByIds.get(task.OwnerId).ContactId) ? true : false;
                                 )
                             );
                         }
@@ -333,7 +343,8 @@ public without sharing class TaskTriggerHandler {
                             WhatId__c = task.Id,
                             Notification_Type__c = 'Message_To_PT_Ecoa_Task_Instant_Type',
                             StartDate__c = task.Start_Date__c,
-                            RemindUsing__c = 'Email'
+                            RemindUsing__c = 'Email',
+                            IsDelegate__c = recipientswithpderecrd.contains(task.WhoId) ? true : false
                         )
                     );
                 }
@@ -372,7 +383,8 @@ public without sharing class TaskTriggerHandler {
                             WhatId__c = task.Id,
                             Notification_Type__c = 'Message_To_PT_Task_Instant_Type',
                             StartDate__c = task.Start_Date__c,
-                            RemindUsing__c = 'Email'
+                            RemindUsing__c = 'Email',
+                            IsDelegate__c = recipientswithpderecrd.contains(task.WhoId) ? true : false
                         )
                     );
                 }
