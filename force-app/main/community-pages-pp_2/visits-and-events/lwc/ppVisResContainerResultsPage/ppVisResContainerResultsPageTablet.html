@@ -1,19 +1,21 @@
 <template>
     <template lwc:if={isTablet}>
-        <div class="slds-grid" onclick={handleNavigation}>
-            <div>
-                <lightning-icon
-                    icon-name="utility:chevronleft"
-                    size="xx-small"
-                    class="download-icon"
-                >
-                </lightning-icon>
-            </div>
-            <div class="back-text">Back</div>
-        </div>
-
         <div class="slds-grid slds-wrap">
             <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
+            <div
+                class="slds-col slds-medium-size_1-of-1 slds-p-horizontal_none slds-p-top_small"
+                onclick={handleNavigation}
+            >
+                <span class="slds-p-right_small">
+                    <lightning-icon
+                        icon-name="utility:chevronleft"
+                        size="x-small"
+                        class="download-icon"
+                    >
+                    </lightning-icon>
+                </span>
+                <span class="back-text">{label.Back}</span>
+            </div>
             <div class="slds-col slds-medium-size_1-of-2 slds-p-horizontal_none">
                 <div class="slds-float_left">
                     <span class="visit-name slds-m-right_medium"
