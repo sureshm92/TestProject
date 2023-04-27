@@ -6436,6 +6436,39 @@ Due Date and Time: ##expirationDate</value>
 &lt;span &gt;Please login to update the status of your task.&lt;/span&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Televisit_Cancelled_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Cancelled PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName scheduled for ##VisitDttime has been canceled.&lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;Please contact the Study/Program Team for further updates or please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Rescheduled_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Rescheduled PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName has been rescheduled.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Scheduled_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Scheduled PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFullName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Televisit_Cancelled</fullName>
         <language>en_US</language>
         <protected>true</protected>

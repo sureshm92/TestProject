@@ -1,3 +1,6 @@
+.visit-info {
+    margin-top: -1.25rem;
+}
 .visit-name {
     color: #444444;
     font-size: 32px;
@@ -5,7 +8,9 @@
 }
 .completed-date {
     color: #444444;
-    font-size: 20px;
+    font-size: 1.5rem;
+    letter-spacing: 0;
+    line-height: 3rem;
 }
 .border-class {
     border-left: 6px solid black;
