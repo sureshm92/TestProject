@@ -5573,6 +5573,13 @@ Your username is ##UserName.</value>
             &lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_New_Assignment_Patient_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body New Assignment Patient Delegate PP</shortDescription>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies/programs listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_Patient_New</fullName>
         <language>en_US</language>
         <protected>true</protected>
