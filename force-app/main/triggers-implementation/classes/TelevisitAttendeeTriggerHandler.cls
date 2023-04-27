@@ -76,6 +76,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                 Notification_Type__c = 'Update_to_PT_Televisit_Scheduled'
                 AND WhatId__c IN :idList
                 AND Recipient__c IN :attendeeTelevisitMap.keySet()
+                AND Status__c != 'Processed'
         ];
         List<Notification__c> updatedNotificationList = new List<Notification__c>();
         for (Id conId : attendeeTelevisitMap.keySet()) {
@@ -91,7 +92,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                         new Notification__c(
                             Id = notificationObj.Id,
                             Target_Record_Ids__c = notificationObj.Target_Record_Ids__c +
-                                ';' +
+                                ',' +
                                 attendeeTelevisitMap.get(conId).Televisit__c
                         )
                     );
@@ -105,7 +106,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                         new Notification__c(
                             Id = notificationObj.Id,
                             Target_Record_Ids__c = notificationObj.Target_Record_Ids__c +
-                                ';' +
+                                ',' +
                                 attendeeTelevisitMap.get(conId).Televisit__c
                         )
                     );
