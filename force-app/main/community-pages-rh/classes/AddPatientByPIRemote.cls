@@ -689,6 +689,9 @@ public without sharing class AddPatientByPIRemote {
         TriggerHandlerExecutor.bypassHandler(
         PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
         );
+        TriggerHandlerExecutor.bypassHandler( 
+        PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+        );
         
         if(sendPEToStudyHubAsync == true){
             IntegrationService.sendPEToStudyHub(peId);
