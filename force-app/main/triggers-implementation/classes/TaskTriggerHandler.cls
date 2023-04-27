@@ -228,7 +228,7 @@ public without sharing class TaskTriggerHandler {
                 FROM Patient_Delegate_Enrollment__c
                 WHERE Participant_Enrollment__c IN : allPeIds.keySet() AND Status__c = 'Active' 
             ];
-            for(Patient_Delegate_Enrollment__c pde : pdelist){
+            for(Patient_Delegate_Enrollment__c pde : patientDelegates){
                 if(receipientIdset.contains(pde.Patient_Delegate__r.contact__c)){
                     recipientswithpderecrd.add(pde.Patient_Delegate__r.contact__c);
                 }
@@ -262,7 +262,6 @@ public without sharing class TaskTriggerHandler {
             }
             delegatesCntByPartCnt.get(pd.Patient_Delegate__r.Participant__r.Contact__c).add(pd.Patient_Delegate__r.Contact__c);
         }
-
         for (Task task : tasksWithOwner) {
            if (task.Task_Code__c != null ) {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
@@ -283,7 +282,7 @@ public without sharing class TaskTriggerHandler {
                                     WhatId__c = whatId,
                                     Notification_Type__c = card.Immediate_Notification_Type__c,
                                     RemindUsing__c = 'Email',
-                                    IsDelegate__c = recipientswithpderecrd.contains(usersByIds.get(task.OwnerId).ContactId) ? true : false;
+                                    IsDelegate__c = recipientswithpderecrd.contains(usersByIds.get(task.OwnerId).ContactId) ? true : false
                                 )
                             );
                         }
@@ -385,6 +384,7 @@ public without sharing class TaskTriggerHandler {
                             StartDate__c = task.Start_Date__c,
                             RemindUsing__c = 'Email',
                             IsDelegate__c = recipientswithpderecrd.contains(task.WhoId) ? true : false
+
                         )
                     );
                 }
