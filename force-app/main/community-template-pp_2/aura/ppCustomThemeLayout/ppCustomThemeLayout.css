@@ -147,57 +147,6 @@
     margin: 0 0.25rem 0 -2px;
 }
 
-.THIS .slds-select {
-    background-color: #fff;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-}
-
-.THIS .slds-select:focus,
-.THIS .slds-input:focus,
-.THIS .slds-pill:focus,
-.THIS .slds-textarea:focus {
-    box-shadow: none;
-    outline: none;
-}
-
-.THIS .slds-select:hover,
-.THIS .slds-input:hover,
-.THIS .slds-pill:hover,
-.THIS .slds-textarea:hover {
-    border: 1px solid #297dfd;
-}
-
-.THIS .slds-input {
-    box-sizing: border-box;
-    height: 32px;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
-}
-
-.THIS .slds-select {
-    font-size: 1rem;
-}
-
-.THIS .slds-input::placeholder {
-    font-size: 0.875rem;
-    color: #999;
-    font-weight: 400;
-}
-
-.THIS input::placeholder {
-    color: #999;
-    font-weight: 400;
-    font-size: 1rem;
-}
-
-.THIS .slds-pill {
-    height: 32px;
-    font-size: 1rem;
-}
-
 .THIS .sub-title {
     font-size: 0.65rem;
     color: white;
