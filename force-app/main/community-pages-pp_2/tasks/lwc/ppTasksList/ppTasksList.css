@@ -192,8 +192,11 @@
     fill: #ffffff;
 }
 .empty-oval:hover,
-.empty-oval:active {
+.empty-oval:focus {
     fill: rgba(196, 46, 165, 0.1);
+}
+.empty-oval:focus-visible {
+    outline: none;
 }
 .critical-rect {
     position: relative;
