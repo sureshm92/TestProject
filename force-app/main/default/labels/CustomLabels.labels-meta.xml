@@ -5562,7 +5562,7 @@ Your username is ##UserName.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
-        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies/programs listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more programs listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Delegate_PP_2</fullName>
@@ -6434,6 +6434,39 @@ Due Date and Time: ##expirationDate</value>
 &lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##TaskOnlydate.&lt;/span&gt;
 
 &lt;span &gt;Please login to update the status of your task.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Cancelled_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Cancelled PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName scheduled for ##VisitDttime has been canceled.&lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;Please contact the Study/Program Team for further updates or please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Rescheduled_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Rescheduled PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName has been rescheduled.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Scheduled_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Scheduled PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFullName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Televisit_Cancelled</fullName>
