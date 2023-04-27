@@ -28,7 +28,6 @@
     font-size: 0.875rem;
 }*/
 .expected-range {
-    position: relative;
     width: -webkit-fill-available;
     color: #6e6e6e;
     font-size: 14px;
@@ -36,5 +35,5 @@
 }
 .push-down-txt {
     position: absolute;
-    bottom: 5px;
+    bottom: 14px;
 }
