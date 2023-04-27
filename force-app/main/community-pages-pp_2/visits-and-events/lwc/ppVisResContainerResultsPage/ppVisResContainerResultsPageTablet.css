@@ -5,7 +5,7 @@
 }
 .completed-date {
     color: #444444;
-    font-size: 20px;
+    font-size: 1.5rem;
 }
 .border-class {
     border-left: 6px solid black;
@@ -122,22 +122,14 @@
     padding-top: 148px;
 }
 .back-text {
-    height: 24px;
-    width: 35px;
     color: #015ff1;
     font-size: 16px;
     font-weight: 500;
-    letter-spacing: 0;
-    line-height: 24px;
+    line-height: 26px;
 }
-.back-btn {
-    position: absolute;
-    top: 3.7rem;
-    opacity: 0.9;
-    cursor: pointer;
-}
-.back-icon {
-    --sds-c-icon-color-foreground-default: #0768fd;
-    height: 15px;
-    width: 10.5px;
+
+.disclaimer {
+    color: #444444;
+    font-size: 16px;
+    line-height: 21px;
 }
