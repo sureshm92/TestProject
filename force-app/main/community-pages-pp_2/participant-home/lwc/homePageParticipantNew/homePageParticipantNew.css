@@ -113,6 +113,20 @@
     text-align: center;
 }
 
+.p-text-televisit{
+    margin-left: 6px;
+    margin-top: 10px;
+    height: 24px;
+    width: 68.74px;
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+
 .v-line {
     border-left: 4px solid #005587;
     height: 40px;

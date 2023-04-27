@@ -43,12 +43,10 @@
         margin: 0.8rem 1.5rem 0.8rem 1.5rem;
     }
 }
-@media all and (min-width: 500px) and (max-width: 768px) {
+/**CSS for Tablet*/
+@media all and (width: 768px) and (max-height: 1024px) {
     .my-results {
-        margin: -1.5rem 0 1rem 0;
-    }
-    .no-task-box {
-        margin: 0.8rem 1.5rem 0.8rem 1.5rem;
+        margin-top: 3rem;
     }
 }
 @media all and (max-width: 1200px) {
