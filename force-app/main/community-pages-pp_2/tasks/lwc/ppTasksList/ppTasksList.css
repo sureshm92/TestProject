@@ -187,11 +187,13 @@
     background-color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
 }
-.fill-oval {
-    fill: rgba(196, 46, 165, 0.1);
-}
+
 .empty-oval {
     fill: #ffffff;
+}
+.empty-oval:hover,
+.empty-oval:active {
+    fill: rgba(196, 46, 165, 0.1);
 }
 .critical-rect {
     position: relative;

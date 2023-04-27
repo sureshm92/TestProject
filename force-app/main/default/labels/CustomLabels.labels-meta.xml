@@ -21549,6 +21549,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Explore</value>
     </labels>
     <labels>
+        <fullName>PP_Resource_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Resource_Disclaimer</shortDescription>
+        <value>Links will open in new browser window. IQVIA Patient Portal
+            is not responsible for content provided in external websites.</value>
+    </labels>
+    <labels>
         <fullName>PP_Resource_Submit</fullName>
         <language>en_US</language>
         <protected>false</protected>

@@ -15,6 +15,7 @@ import DOCUMENTS from '@salesforce/label/c.PP_Resource_Documents';
 import FIND_ANSWERS from '@salesforce/label/c.PP_Resource_Answers';
 import RESOURCES from '@salesforce/label/c.PG_SW_Tab_Resources';
 import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
+import DISCLAIMER from '@salesforce/label/c.PP_Resource_Disclaimer';
 import { NavigationMixin } from 'lightning/navigation';
 
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
@@ -47,7 +48,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         DOCUMENTS,
         FIND_ANSWERS,
         DISCOVER_TITLE,
-        CHANGE_PREFERENCES
+        CHANGE_PREFERENCES,
+        DISCLAIMER
     };
     @track linksData;
     @track trialdata;
