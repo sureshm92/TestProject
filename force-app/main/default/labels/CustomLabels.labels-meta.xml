@@ -31200,6 +31200,27 @@ The IQVIA Referral Hub Support Team</value>
         <value>For Participants and Caregivers</value>
     </labels>
     <labels>
+        <fullName>PP_Rescheduled_Televisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Rescheduled Televisit</shortDescription>
+        <value>A televisit has been rescheduled.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Scheduled_Televisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Scheduled Televisit</shortDescription>
+        <value>New televisit(s) has been scheduled.</value>
+    </labels>
+    <labels>
+        <fullName>PP_View_Televisits</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP View Televisits</shortDescription>
+        <value>View Televisits</value>
+    </labels>
+    <labels>
         <fullName>PP_Connecting_professionals</fullName>
         <language>en_US</language>
         <protected>true</protected>
