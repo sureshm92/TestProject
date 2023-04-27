@@ -1,69 +1,82 @@
 <template>
     <template if:true={medicalCard}>
-            <div class="slds-m-left--large slds-m-top--large">
-       
-            <div class="slds-grid card-wrap MRRHeader slds-p-around-xx--small">
+        <div class="slds-m-left--large slds-m-top--large">
+            <div class="pp-tooltip slds-grid card-wrap MRRHeader slds-p-around-xx--small">
                 <span class="slds-p-bottom--x-small header">{label.MRRHeader}</span>
                 &nbsp;
-                <div class="info-tooltip">
+                <!--<div class="info-tooltip">
                     <lightning-icon icon-name="utility:info" class="blue-icon slds-is-absolute slds-m-top--xxx-small" size="x-small"  onmouseover={showHideInfo} onmouseleave={showHideInfo}></lightning-icon>
                     <div class="slds-popover slds-popover_tooltip slds-nubbin_top-right info-tooltip_position slds-hide" role="tooltip" id="help" >
                     <div class="slds-popover__body info-tooltip_dimension">{label.RHManageAuth}</div>
                     </div>
-                  </div>
-               <!--- <lightning-helptext content={label.RHManageAuth}></lightning-helptext> -->
+                  </div>-->
+                <lightning-helptext content={label.RHManageAuth}></lightning-helptext>
             </div>
-            
-        <div class="slds-card card-radius">
-                <template if:true={innerspinner}>
-                        <lightning-spinner  data-id="spinner"  variant="brand" size="small" ></lightning-spinner>
-                </template>
-          <div class="mrr-main_container slds-p-top--medium">
 
-                <template if:true={pastStudiesVisibility}>
-                    <div class="slds-size--1-of-1">
-                        <lightning-combobox
+            <div class="slds-card card-radius">
+                <template if:true={innerspinner}>
+                    <lightning-spinner
+                        data-id="spinner"
+                        variant="brand"
+                        size="small"
+                    ></lightning-spinner>
+                </template>
+                <div class="mrr-main_container slds-p-top--medium">
+                    <template if:true={pastStudiesVisibility}>
+                        <div class="slds-size--1-of-1">
+                            <lightning-combobox
                                 name="opt"
                                 class="slds-float_left slds-p-horizontal--small slds-p-bottom--x-small combostyle"
                                 placeholder={label.Select}
                                 value={defaultStudy}
                                 onchange={doListProviders}
-                                options={studyProviders}>
-                        </lightning-combobox> 
-                    </div>
-                </template>
-                <template if:true={isAuthorised}>
-                    <template for:each= {medicalProviders} for:item ="provider" for:index="index">
-                        <div class="slds-grid slds-wrap slds-m-horizontal--small slds-m-bottom--x-small slds-p-around--xx-small border1" key={provider.providerName}>
-                            <div class="namesize slds-col slds-size_3-of-5 slds-truncate" key={provider.providerName}>
-                                 {provider.providerName}
-                            </div>
-                        <div class="slds-size_2-of-5 statussize" key={provider.providerName}>
-                                {provider.mappedStatus}
-                            <span class={provider.dotClass}>●</span>
+                                options={studyProviders}
+                            >
+                            </lightning-combobox>
                         </div>
-                        </div>
-                    </template>    
-                </template>
-                <template if:true={showEmptySpace}>
-                    <div class="slds-text-align_center slds-p-top--xx-large">
-                        <div class="slds-p-around--medium"><img src={MRRImage}></div>
-                        <div class="text_para">{label.HAPI_Provider}</div>
-                    </div>
-                </template>
-                </div>
-            <div class="slds-align_absolute-center mrr-footer_container slds-m-bottom--medium">
-                <footer>
-                    <template if:true={authorisedVisibility}>
-                        <a class="AuthButton" href="javascript:void(0)" onclick={manageSources}
-                                        >{label.Manage_Authorization}</a>
                     </template>
-                        
-                </footer>
+                    <template if:true={isAuthorised}>
+                        <template for:each={medicalProviders} for:item="provider" for:index="index">
+                            <div
+                                class="slds-grid slds-wrap slds-m-horizontal--small slds-m-bottom--x-small slds-p-around--xx-small border1"
+                                key={provider.providerName}
+                            >
+                                <div
+                                    class="namesize slds-col slds-size_3-of-5 slds-truncate"
+                                    key={provider.providerName}
+                                >
+                                    {provider.providerName}
+                                </div>
+                                <div
+                                    class="slds-size_2-of-5 statussize"
+                                    key={provider.providerName}
+                                >
+                                    {provider.mappedStatus}
+                                    <span class={provider.dotClass}>●</span>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:true={showEmptySpace}>
+                        <div class="slds-text-align_center slds-p-top--xx-large">
+                            <div class="slds-p-around--medium"><img src={MRRImage} /></div>
+                            <div class="text_para">{label.HAPI_Provider}</div>
+                        </div>
+                    </template>
+                </div>
+                <div class="slds-align_absolute-center slds-m-bottom--medium">
+                    <footer>
+                        <template if:true={authorisedVisibility}>
+                            <button
+                                class="secondaryBtn slds-button mrr-footer_btn"
+                                onclick={manageSources}
+                            >
+                                {label.Manage_Authorization}
+                            </button>
+                        </template>
+                    </footer>
+                </div>
             </div>
-                                               
         </div>
-     </div> 
     </template>
-
 </template>
