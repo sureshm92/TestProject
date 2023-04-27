@@ -58,9 +58,7 @@
 .download-icon {
     --slds-c-icon-color-foreground-default: #0768fd;
 }
-.download-section {
-    /* padding-left: 335px;*/
-}
+
 .active-btn {
     background-color: #015ff1;
     color: #ffffff;
@@ -130,4 +128,9 @@
 .divider {
     border: 1px solid #999999;
     height: 18px;
+}
+.disclaimer {
+    color: #444444;
+    font-size: 16px;
+    line-height: 21px;
 }

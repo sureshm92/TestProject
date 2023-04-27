@@ -1654,5 +1654,8 @@ svg:not(:root) {
 .result-container-mobile .rr-spinner{
     background: #ffffff;
 }
+.container-visit-results .rr-spinner{
+    background: #ffffff;
+}
 
 /* Contact support Modal css- Ends */
