@@ -10,7 +10,7 @@
     </template>
     <!--Spinner: Ends-->
     <!--Withdraw Delegate Modal: Starts-->
-    <template if:true={showpopup}>
+    <template if:true={showWithDrawPopup}>
         <c-pp-remove-delegate-modal-old
             pdenrollmentid={withdrawStudyPDEId}
             messtext={label.Withdrew_Assignment_Consent}
@@ -19,6 +19,17 @@
             onmodalclose={handleModalClose}
         >
         </c-pp-remove-delegate-modal-old>
+    </template>
+    <template if:true={showWithDrawPopupNew}>
+        <c-pp-remove-delegate-modal
+            pdenrollmentid={withdrawStudyPDEId}
+            messtext={label.Withdrew_Assignment_Consent}
+            tittext={label.Withdrew_Assignment}
+            onconfirmmodal={handleWithdrawDelegate}
+            onmodalclose={handleModalClose}
+            is-desktop={isDesktop}
+        >
+        </c-pp-remove-delegate-modal>
     </template>
     <!--Withdraw Delegate Modal: Ends-->
     <!-- Show Manage Delegate Page: Start-->
@@ -50,7 +61,12 @@
                                 <lightning-layout multiple-rows="true">
                                     <!--Profile Logo: Stats-->
                                     <lightning-layout-item size="1" class={delAvararIcon}>
-                                        <span><img src={icon_url} /></span>
+                                        <template if:true={isNewPatientPortal}>
+                                            <span><img src={new_awatar_icon_url} /></span>
+                                        </template>
+                                        <template if:false={isNewPatientPortal}>
+                                            <span><img src={icon_url} /></span>
+                                        </template>
                                     </lightning-layout-item>
                                     <!--Profile Logo: Ends-->
                                     <!--Delegate Name: Stats-->
@@ -95,7 +111,7 @@
                                         <template if:false={pdEnrollment.isPrimaryDelegate}>
                                             <lightning-layout-item
                                                 size="3"
-                                                class="slds-align_absolute-center slds-p-top_medium slds-p-bottom_medium slds-p-right_x-small slds-p-left_xx-small"
+                                                class="slds-align_absolute-center slds-p-top_medium slds-p-bottom_medium slds-p-right_x-small slds-p-left_xx-small withdraw-btn-item-Desktop"
                                                 ><button
                                                     class="withdraw-btn"
                                                     title=""
@@ -109,7 +125,7 @@
                                         <template if:true={pdEnrollment.isPrimaryDelegate}>
                                             <lightning-layout-item
                                                 size="3"
-                                                class="slds-p-top_medium slds-p-bottom_medium slds-p-right_x-large slds-p-left_large"
+                                                class={helpTextItemClassDesktop}
                                             >
                                                 <c-custom-tool-tip-help-text
                                                     position="absolute"
@@ -200,9 +216,7 @@
                                 <lightning-layout-item size="6"
                                     ><ul class="slds-list_dotted">
                                         <li>{label.PG_PST_L_Delegates_Compl_Task_Behalf_New}</li>
-                                        <li class="slds-m-vertical_xx-small">
-                                            {label.PG_PST_L_Delegates_Receive_Emails_New}
-                                        </li>
+                                        <li class="slds-m-vertical_xx-small">{getEmailHelpText}</li>
                                         <li>{label.PG_PST_L_Delegates_See_Lab_Result_New}</li>
                                     </ul></lightning-layout-item
                                 >
@@ -214,7 +228,7 @@
                                         </li>
                                     </ul>
                                     <span class="text-italic">
-                                        {label.PP_AS_CONDITIONAL_FEATURE}
+                                        {getConditionalFeatureHelpText}
                                     </span></lightning-layout-item
                                 >
                             </lightning-layout>

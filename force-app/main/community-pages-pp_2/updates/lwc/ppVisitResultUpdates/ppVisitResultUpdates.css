@@ -1,0 +1,263 @@
+.icon-container {
+    margin-top: 20px;
+}
+
+.document-label {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    margin-top: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 10px;
+    line-height: 24px;
+    letter-spacing: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 30px;
+}
+
+.document-label-desktop {
+    color: #444444;
+    height: 52px;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 10px;
+    line-height: 24px;
+    letter-spacing: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 10px;
+}
+
+.card-border {
+    box-sizing: border-box;
+    height: 88px;
+    border: 1px solid #e9e9e9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin-top: 8px;
+}
+
+.link-img {
+    height: 48px;
+    cursor: pointer;
+}
+
+.data-section-helpful {
+    width: 100%;
+    height: 24px;
+}
+
+.data-section {
+    width: 100%;
+    height: 56px;
+}
+
+.card-border-desktop {
+    box-sizing: border-box;
+    height: 88px;
+    border: 1px solid #e9e9e9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin-bottom: 8px;
+    margin-left: 16px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.card-element-links {
+    box-sizing: border-box;
+    background-color: #fff;
+    height: 88px;
+    border-radius: 8px 0 0 8px;
+}
+
+.card-element {
+    box-sizing: border-box;
+    background-color: #fff;
+    height: 86px;
+    border-radius: 8px 0 0 8px;
+}
+
+.date {
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-left: 10px;
+}
+
+.open-tab {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    margin-left: 14px;
+    margin-bottom: 4px;
+}
+
+.helpful-links {
+    height: 16px;
+    width: 100%;
+    color: #757575;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    letter-spacing: 0.1px;
+    line-height: 24px;
+    margin-left: 10px;
+    margin-top: 5px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+}
+
+.links-title {
+    color: #444444;
+    white-space: initial;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-left: 10px;
+    cursor: pointer;
+    margin-right: 16px;
+    padding-top: 5px;
+}
+
+.link-image-section-horizontal {
+    height: 120px;
+}
+
+.open-tab-link-section {
+    width: 100%;
+    height: 20px;
+}
+
+.open-tab-image {
+    margin-bottom: 4px;
+    margin-left: 6px;
+    height: 12px;
+    width: 12px;
+    cursor: pointer;
+    margin-top: 2px;
+}
+
+.icon-section {
+    height: 12px;
+}
+
+.empty-space {
+    height: 42px;
+}
+
+.open-tab-data-icon-container {
+    height: 30px;
+    border-top: 1px solid #e9e9e9;
+}
+
+.title-section-horizontal {
+    height: 48px;
+}
+
+.link-title-horizontal {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-weight: 600;
+    margin: 5px 10px 0 10px;
+    cursor: pointer;
+}
+.open-in-new-tab {
+    color: #015ff1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    cursor: pointer;
+}
+.link-title {
+    width: 100%;
+    height: 30px;
+}
+.icon-style {
+    margin-top: 5px;
+}
+.helpful-link-title {
+    color: #757575;
+    font-size: 13px;
+    letter-spacing: 0.1px;
+    line-height: 14px;
+    margin-left: 10px;
+    margin-top: 10px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+}
+
+.helpful-link-horizontal {
+    width: 100%;
+    height: 16px;
+}
+
+.link-image {
+    margin-top: 20px;
+    height: 72px;
+    width: 105px;
+    cursor: pointer;
+}
+
+.horizontal-card {
+    height: 216px;
+    border: 1px solid #f2f2f2;
+    border-radius: 7px 7px 7px 7px;
+}
+
+.open-tab-empty-section {
+    height: 29px;
+}
+
+@media all and (max-width: 486px) {
+    .open-tab {
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+        margin-left: 18px;
+        margin-bottom: 4px;
+    }
+}
+.open-in-new-tab-label {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #015ff1;
+    font-weight: 600;
+    padding-top: 3px;
+}
+.open-tab-horizontal {
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+.pointer-class {
+    cursor: pointer;
+}

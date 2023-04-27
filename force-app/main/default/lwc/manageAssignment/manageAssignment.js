@@ -31,6 +31,8 @@ import PP_AS_CONDITIONAL_FEATURE from '@salesforce/label/c.PP_AS_CONDITIONAL_FEA
 import PP_Delegates_Permitted_Actions from '@salesforce/label/c.PP_Delegates_Permitted_Actions';
 import Withdrew_Assignment from '@salesforce/label/c.Withdrew_Assignment';
 import Withdrew_Assignment_Consent from '@salesforce/label/c.Withdrew_Assignment_Consent';
+import PP_AS_RECEIVE_EMAIL_STUDY_PROG from '@salesforce/label/c.PP_AS_RECEIVE_EMAIL_STUDY_PROG';
+import PP_AS_CONDITIONAL_FEATURE_GENERIC from '@salesforce/label/c.PP_AS_CONDITIONAL_FEATURE_GENERIC';
 
 import {
     publish,
@@ -45,17 +47,20 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     @api isDelegate;
     @api ParticipantStateValue;
     @api isRTL;
+    @api currentCommunity;
     @track parAndStdAssociatedList = [];
     @wire(MessageContext)
     messageContext;
     subscription = null;
+    new_awatar_icon_url = pp_icons + '/Avatar_Delegate_New.svg';
     icon_url = pp_icons + '/Avatar_Delegate.svg';
     noDelIcon_url = pp_icons + '/Avatar-Delegate-Gray.svg';
     selectMenuTriagleDown_url = pp_icons + '/SelectMenuTriangleDown_blue.svg';
     iconChevronleRight_url = pp_icons + '/Chevron-Right-Blue.svg';
     spinner = false;
     loaded = false;
-    showpopup = false;
+    showWithDrawPopup = false;
+    showWithDrawPopupNew = false;
     withdrawStudyPDEId;
     showWhatCanISeeCard = false;
     isDesktop;
@@ -85,7 +90,9 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
         PP_Assigned_As_Primary_Delegate,
         PP_Assigned_As_Primary_Delegate_help,
         Withdrew_Assignment,
-        Withdrew_Assignment_Consent
+        Withdrew_Assignment_Consent,
+        PP_AS_RECEIVE_EMAIL_STUDY_PROG,
+        PP_AS_CONDITIONAL_FEATURE_GENERIC
     };
 
     connectedCallback() {
@@ -136,17 +143,22 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     maskEmail(par) {
         if (par.Participant.Email__c !== undefined && par.Participant.Email__c != null) {
             let maskedEmail = '';
-            let pdeEmailBeforeAt= par.Participant.Email__c.substring(0, par.Participant.Email__c .lastIndexOf("@"));
-            let pdeEmailBeforeAtCiel=Math.ceil(pdeEmailBeforeAt.length/2);
-            let pdeEmailPostfix= par.Participant.Email__c.substring(par.Participant.Email__c .lastIndexOf("@"));
+            let pdeEmailBeforeAt = par.Participant.Email__c.substring(
+                0,
+                par.Participant.Email__c.lastIndexOf('@')
+            );
+            let pdeEmailBeforeAtCiel = Math.ceil(pdeEmailBeforeAt.length / 2);
+            let pdeEmailPostfix = par.Participant.Email__c.substring(
+                par.Participant.Email__c.lastIndexOf('@')
+            );
             for (let i = 0; i < pdeEmailBeforeAt.length; i++) {
-                if(i<pdeEmailBeforeAtCiel){
+                if (i < pdeEmailBeforeAtCiel) {
                     maskedEmail += par.Participant.Email__c.charAt(i);
-                }else {
+                } else {
                     maskedEmail += '*';
                 }
             }
-            par.Participant.Email__c =maskedEmail+pdeEmailPostfix;
+            par.Participant.Email__c = maskedEmail + pdeEmailPostfix;
         }
     }
     //Subscribe the message channel to read the message published.
@@ -234,10 +246,36 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
             ? 'con-chevronle-down conChevronle-float-left'
             : 'con-chevronle-down conChevronle-float-right';
     }
+    get getEmailHelpText() {
+        return this.currentCommunity === 'Iqvia Patient Portal II'
+            ? this.label.PP_AS_RECEIVE_EMAIL_STUDY_PROG
+            : this.label.PG_PST_L_Delegates_Receive_Emails_New;
+    }
+    get getConditionalFeatureHelpText() {
+        return this.currentCommunity === 'Iqvia Patient Portal II'
+            ? this.label.PP_AS_CONDITIONAL_FEATURE_GENERIC
+            : this.label.PP_AS_CONDITIONAL_FEATURE;
+    }
+    get isNewPatientPortal() {
+        return this.currentCommunity === 'Iqvia Patient Portal II' ? true : false;
+    }
+    get helpTextItemClassDesktop() {
+        return this.isRTL
+            ? 'slds-align_absolute-center help-text-item-p-right'
+            : 'slds-align_absolute-center help-text-item-p-left';
+    }
+    get helpTextItemClassMobile() {
+        return this.isRTL
+            ? 'slds-align_absolute-center help-text-item-p-right-mob'
+            : 'slds-align_absolute-center help-text-item-p-left-mob';
+    }
     //This method will open Remove Delegate Modal.
     openWithdrawDelegateModal(event) {
         this.withdrawStudyPDEId = event.currentTarget.dataset.pdeid;
-        this.showpopup = true;
+        //this.showWithDrawPopup = true;
+        this.currentCommunity === 'Iqvia Patient Portal II'
+            ? (this.showWithDrawPopupNew = true)
+            : (this.showWithDrawPopup = true);
         //this.withdrawStudyPDEId = event.currentTarget.dataset.pdeid;
     }
 
@@ -249,7 +287,10 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
             pdeId: pdEnrollmentId
         })
             .then((result) => {
-                this.showpopup = false;
+                //this.showWithDrawPopup = false;
+                this.currentCommunity === 'Iqvia Patient Portal II'
+                    ? (this.showWithDrawPopupNew = false)
+                    : (this.showWithDrawPopup = false);
                 this.resetProfileMenueItems();
                 //When delegate withdrawn from all the studies.
                 if (result.length == 0) {
@@ -279,7 +320,10 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
     }
     handleModalClose(event) {
         const showHideModal = event.detail;
-        this.showpopup = showHideModal;
+        //this.showWithDrawPopup = showHideModal;
+        this.currentCommunity === 'Iqvia Patient Portal II'
+            ? (this.showWithDrawPopupNew = showHideModal)
+            : (this.showWithDrawPopup = showHideModal);
         this.withdrawStudyPDEId = '';
     }
 

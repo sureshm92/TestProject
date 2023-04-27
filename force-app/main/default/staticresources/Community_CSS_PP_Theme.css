@@ -944,7 +944,27 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     left: -1px;
     border: none !important;
 }
-
+/* Message combobox custom css  */
+.selection .slds-listbox_vertical .slds-listbox__option{
+    border-bottom: 1px solid #d9d9d9 !important;
+}
+.selection .slds-listbox_vertical .slds-listbox__option:last-child{
+    border-bottom:none !important;
+}
+.selection .slds-listbox_vertical .slds-listbox__option:hover {
+    background-color:#015ff1 !important;
+    color:#ffffff !important;
+}
+.selection .slds-dropdown-trigger_click .slds-dropdown,
+.selection .slds-dropdown-trigger_click:hover {
+    border-radius: 16px !important;
+    background-color: #ffffff !important;
+    margin-bottom:10px !important;
+}
+.selection .slds-listbox__option-icon{
+    width:0px !important;
+    display:none !important;
+}
 /* Date Time Dropdown Alignment */
 
 .slds-listbox.slds-dropdown {
@@ -1360,14 +1380,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     line-height: 22px !important;
 }
 
-
-
-
-
-.manage-delegate-acc-setting .manage-del-continer .std .study-thmore-add-assignment {
-    padding: 0px 0px 0px 514px !important;
-}
-
 .manage-delegate-acc-setting .manage-del-continer-mobile .md-check-box-layout-item:hover{  
     background: #ecf3ff !important;
 }
@@ -1439,17 +1451,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     padding: 0 0 0 15px !important;
 }
 
-.manage-delegate-acc-setting .std .study-thmore-add-newdel{
-    padding: 0px 0px 1px 708px !important;
-}
-
 @media (max-device-width: 767px){
-    .manage-delegate-acc-setting .std .study-thmore-add-newdel {
-        padding: 1px 0px 0px 175px !important;
-    }
-    .manage-delegate-acc-setting .std .study-thmore-add-assignment {
-        padding: 0px 0px 0px 125px !important;
-    }
     .manage-delegate-acc-setting .ad-warning-container{
         padding-right: 7px !important;
     }
@@ -1525,7 +1527,41 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .pp-add-new-del-radio .slds-form-element__label{
     font-size: 16px !important;
 }
+
 /* Delegate Redesing - Add New Delegate Page CSS  Override - ends*/
+/*Manage Assignment Changes Start */
+.manage-assignment-acc-setting .manage-assignment-continer{
+    margin-right: 23px !important;
+}
+.manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn-item-Desktop{
+    padding-left: 40px !important;
+}
+.manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn{
+    border-radius: 16px !important;
+    padding: 5px 0px 5px 0px !important;
+    width: 107px !important;
+}
+.manage-assignment-acc-setting .manage-assignment-continer .ma-btn-box , .ma-btn-box-1, .ma-what-I-can-see-card, .del-container, .study-rectangle{
+    border-radius: 8px !important;
+}
+.manage-assignment-acc-setting .ma-icon-color {
+    --sds-c-icon-color-foreground-default: #595959 !important;
+}
+@media screen and (max-width: 768px){
+    .manage-assignment-acc-setting .manage-assignment-continer .ma-what-I-can-see-button-mob .apollo-btn.secondary {
+        min-height: 56px !important;
+    }
+    .manage-assignment-acc-setting .manage-assignment-continer .ma-what-I-can-see-button-mob-1 .apollo-btn.secondary {
+        min-height: 56px !important;
+    }
+    .manage-assignment-acc-setting .manage-assignment-continer .ma-what-I-can-see-card{
+        background-color: #FFFFFF !important;
+    }
+    .manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn{
+        width: 100% !important;
+    }
+}
+/*Manage Assignment Changes End */
 /** VISIT RESULT CARD TOGGLE*/
 .result-type-toggle .slds-checkbox_toggle .slds-checkbox_faux,
 .slds-checkbox_toggle .slds-checkbox--faux,

@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>View_All_Events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View All Events</shortDescription>
+        <value>View All Events</value>
+    </labels>
+    <labels>
+        <fullName>View_All_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View All Visits</shortDescription>
+        <value>View All Visits</value>
+    </labels>
+    <labels>
         <fullName>AF_All</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5803,7 +5817,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Participant Delegate Reactivated pp</shortDescription>
-        <value>Your access as a participant delegate has changed for one or more ##studiesOrPrograms that are listed below</value>
+        <value>Your access as a participant delegate has changed for one or more studies or programs that are listed below</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Delegate_New_Study</fullName>
@@ -10434,6 +10448,13 @@ The expected format is REF##### to REF########</value>
         <value>IQVIA™ Patient Portal would like to access the microphone and camera.</value>
     </labels>
     <labels>
+        <fullName>IsConfidential</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IsConfidential</shortDescription>
+        <value>Is Confidential</value>
+    </labels>
+    <labels>
         <fullName>IQVIA_intervention_completed</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12231,6 +12252,14 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>New Referrals Bell Notification L1 PI</shortDescription>
         <value>You have ##Count new referral(s) for Study ##StudyName since your last login. {URL}</value>
+    </labels>
+    <labels>
+        <fullName>New_Visit_Results_Now_Available</fullName>
+        <categories>View_Results</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New_Visit_Results_Now_Available</shortDescription>
+        <value>New visit results now available.</value>
     </labels>
     <labels>
         <fullName>New_York_carcinoma</fullName>
@@ -18382,6 +18411,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Tasks</value>
     </labels>
     <labels>
+        <fullName>PP_Progress</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Progress</shortDescription>
+        <value>Progress</value>
+    </labels>
+    <labels>
         <fullName>PG_SW_Tab_Visits</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -19795,6 +19831,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>For the site to contact you through this platform regarding participation in this study, please note that at least one contact method should be selected.</value>
     </labels>
     <labels>
+        <fullName>PP_Communication_Study_Static_Message_2_0</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Communication_Study_Static_Message_2.0</shortDescription>
+        <value>For the site to contact you through this platform regarding participation in this study/program, please note that at least one contact method should be selected.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Conditions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Condition</shortDescription>
+        <value>Conditions</value>
+    </labels>
+    <labels>
         <fullName>PP_Condition_of_Interest_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20850,6 +20900,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>1 week before</value>
     </labels>
     <labels>
+        <fullName>PP_Open</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Open</shortDescription>
+        <value>Open</value>
+    </labels>
+    <labels>
         <fullName>PP_Open_In_New_Tab</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21556,6 +21613,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Select Username to use</value>
     </labels>
     <labels>
+        <fullName>PP_Select_up_to_5_conditions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Select_up_to_5_conditions</shortDescription>
+        <value>Select up to 5 conditions</value>
+    </labels>
+    <labels>
         <fullName>PP_SelectYear</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21757,14 +21821,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Lab Results tab</shortDescription>
-        <value>My Results</value>
+        <value>Results</value>
     </labels>
     <labels>
         <fullName>PP_Tab_Visits</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Visits tab</shortDescription>
-        <value>My Visits</value>
+        <value>Visits</value>
     </labels>
     <labels>
         <fullName>PP_TaskCreationSuccess</fullName>
@@ -21972,6 +22036,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Update Refresh</shortDescription>
         <value>Refresh</value>
+    </labels>
+    <labels>
+        <fullName>PP_Load_More</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Load_More</shortDescription>
+        <value>Load More</value>
     </labels>
     <labels>
         <fullName>PP_Upload_Photo</fullName>
@@ -22228,6 +22299,55 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP required</shortDescription>
         <value>required</value>
+    </labels>
+     <labels>
+        <fullName>PP_No_Messages</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>You have no messages.</shortDescription>
+        <value>You have no messages.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Select_Question_Below</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Below you can select a question to ask.</shortDescription>
+        <value>Below you can select a question to ask.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Select_Question</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select question</shortDescription>
+        <value>Select question</value>
+    </labels>
+    <labels>
+        <fullName>PP_Select_Questions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select question ...</shortDescription>
+        <value>Select question ...</value>
+    </labels>
+     <labels>
+        <fullName>PP_New_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New Message</shortDescription>
+        <value>New Message</value>
+    </labels>
+     <labels>
+        <fullName>PP_Time_At</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>at</shortDescription>
+        <value>at</value>
+    </labels>
+     <labels>
+        <fullName>PP_Attachment_Saved_To_Files</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Attachments are automatically saved to your Files</shortDescription>
+        <value>Attachments are automatically saved to your Files</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
@@ -29895,6 +30015,14 @@ The IQVIA Referral Hub Support Team</value>
         <value>View More</value>
     </labels>
     <labels>
+        <fullName>View_Results</fullName>
+        <categories>View_Results</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View_Results</shortDescription>
+        <value>View Results</value>
+    </labels>
+    <labels>
         <fullName>View_Visit_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -30339,6 +30467,20 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Visits Upcoming</shortDescription>
         <value>Upcoming</value>
+    </labels>
+    <labels>
+        <fullName>PP_Upcoming_Caps</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Upcoming_Caps</shortDescription>
+        <value>UPCOMING</value>
+    </labels>
+    <labels>
+        <fullName>PP_MY_PROGRESS_Caps</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_MY_PROGRESS_Caps</shortDescription>
+        <value>MY PROGRESS</value>
     </labels>
     <labels>
         <fullName>Visits_View_All_Results</fullName>
