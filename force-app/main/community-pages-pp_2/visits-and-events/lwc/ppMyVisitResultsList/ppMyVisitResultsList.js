@@ -33,7 +33,6 @@ export default class PpMyVisitResultsList extends LightningElement {
             this.currentVisitId = communityService.getUrlParameter('pvId');
         }
         this.onLoad = true;
-        console.log('JJ' + JSON.stringify(this.currentVisit));
         this.initializeData();
     }
 
@@ -120,6 +119,10 @@ export default class PpMyVisitResultsList extends LightningElement {
             //show user the results values if available
             window.history.replaceState(null, null, '?vrlist&pvId=' + this.currentVisitId);
             this.urlString = window.location.href;
+            const custEvent = new CustomEvent('visitclick', {
+                detail: false
+            });
+            this.dispatchEvent(custEvent);
         }
 
         for (let i = 0; i < this.completedVisitsWithResults.length; i++) {
