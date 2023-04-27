@@ -5,6 +5,7 @@ import DEVICE from '@salesforce/client/formFactor';
 import PPWELCOME from '@salesforce/label/c.PP_Welcome';
 import VISITS from '@salesforce/label/c.PG_SW_Tab_Visits';
 import EVENTS from '@salesforce/label/c.PG_SW_Tab_Events';
+import TELEVISITS from '@salesforce/label/c.Televisits';
 import Upcoming from '@salesforce/label/c.Visits_Upcoming';
 import Upcoming_Caps from '@salesforce/label/c.PP_Upcoming_Caps';
 import Updates from '@salesforce/label/c.Updates_Label';
@@ -22,6 +23,7 @@ export default class HomePageParticipantNew extends LightningElement {
         PPWELCOME,
         VISITS,
         EVENTS,
+        TELEVISITS,
         Upcoming,
         Updates,
         Tasks,
@@ -42,6 +44,7 @@ export default class HomePageParticipantNew extends LightningElement {
     showVisitCard = false;
     showProgress = false;
     showTelevisitCard = false;
+    @track showTelevisitCardDelegate = false;
     updatesSection = false;
     @track showVisitCardMobile = false;
     updateSize;
@@ -206,6 +209,26 @@ export default class HomePageParticipantNew extends LightningElement {
                         this.showTelevisitCard = true;
                         this.isTelevisits = true;
                         this.marginbottom = 'marginbottom';
+
+                        this.showSpinner = true;
+                        this.showUpcomingSection = false;
+                        
+                        CheckIfTelevisitToggleOnForDelegate()
+                            .then((result) => {
+                                this.showSpinner = false;
+                                this.showTelevisitCardDelegate = result;
+                                if(this.isDelegateSelfview && !this.showTelevisitCardDelegate){
+                                    this.showUpcomingSection = false;
+                                    if (this.desktop != true) {
+                                        this.showVisitCardMobile = false;
+                                    }
+                                }else{
+                                    this.showUpcomingSection = true;
+                                }
+                            })
+                            .catch((error) => {
+                                console.log('Error :',error);
+                            });
                     }
                     if (this.desktop != true) {
                         this.updatesSection = true;
