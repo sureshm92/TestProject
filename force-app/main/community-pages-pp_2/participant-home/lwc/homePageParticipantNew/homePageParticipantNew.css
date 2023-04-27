@@ -162,7 +162,7 @@
 .update-circle {
     background-color: #e20000;
     border: 1.5px solid #ffff;
-    height: 24px;
+    height: auto;
     min-width: 24px;
     border-radius: 12px;
     position: absolute;
@@ -299,7 +299,7 @@
 .marginbottom {
     margin-bottom: -50px;
 }
-.progressIconPosition{
+.progressIconPosition {
     padding-top: 7px !important;
     margin-left: 26px !important;
 }
