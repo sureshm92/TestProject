@@ -1423,6 +1423,19 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     border-radius: 21px !important;
     /* height: 32px !important; */
 }
+.manage-delegate-acc-setting .add-delegate-input-container .slds-input {
+    border-radius: 16px !important;
+}
+.manage-delegate-acc-setting .add-delegate-input-container .slds-input[disabled] {
+    /* opacity: .4; */
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    border: 1px solid #d9d9d9 !important;
+    background-color: #f2f2f2 !important;
+    color: #747474 !important;
+    -webkit-text-fill-color: #747474 !important;
+    opacity: 1 !important; /* required on iOS */
+}
 /* .manage-del-multi-picklist .study-box{
     height: 32px !important;
 } */
@@ -1608,6 +1621,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .back-to-manage-del-btn {
     width: auto !important;
     background-color: transparent !important;
+    color: #015ff1 !important;
 }
 @media (max-device-width: 767px) {
     .manage-delegate-acc-setting .back-to-manage-del-btn {
@@ -1796,7 +1810,7 @@ user agent stylesheet svg:not(:root) {
 .result-container-mobile .rr-spinner {
     background: #ffffff;
 }
-.container-visit-results .rr-spinner{
+.container-visit-results .rr-spinner {
     background: #ffffff;
 }
 
