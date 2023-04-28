@@ -83,6 +83,13 @@ export default class PpMyVisitResultsList extends LightningElement {
                 if (this.completedVisitsWithResults && !this.currentVisitId) {
                     this.currentVisitId = this.completedVisitsWithResults[0]?.Id;
                     this.currentVisit = this.completedVisitsWithResults[0];
+                } else if (this.currentVisitId) {
+                    for (let i = 0; i < this.completedVisitsWithResults.length; i++) {
+                        if (this.completedVisitsWithResults[i].Id == this.currentVisitId) {
+                            this.currentVisit = this.completedVisitsWithResults[i];
+                            break;
+                        }
+                    }
                 }
 
                 //pass currentVisitId and patientVisitWrapper to jayashree component
@@ -138,6 +145,10 @@ export default class PpMyVisitResultsList extends LightningElement {
         if (this.isMobile || this.isTablet) {
             window.history.replaceState(null, null, '?vrlistHome');
             this.urlString = window.location.href;
+            const custEvent = new CustomEvent('visitclick', {
+                detail: false
+            });
+            this.dispatchEvent(custEvent);
         }
     }
 }

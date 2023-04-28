@@ -30,6 +30,7 @@ export default class PpVisitResultSection extends LightningElement {
     @track isLabsResultsAvailable = false;
     @track initialised = false;
     @track visResultsList;
+    loadData;
 
     label = {
         Visit_Result_Group_MetabolicPanel,
@@ -44,7 +45,8 @@ export default class PpVisitResultSection extends LightningElement {
     noVisitResultsAvailable = pp_icons + '/' + 'results_Illustration.svg';
 
     connectedCallback() {
-        this.getResultsData();
+        //this.getResultsData();
+        console.log('JJ sec');
     }
     get isVitalsSelected() {
         return this.selectedResultType == 'Vitals';
@@ -63,6 +65,7 @@ export default class PpVisitResultSection extends LightningElement {
         return this.patientVisit;
     }
     set selectedVisit(value) {
+        console.log('JJ setter');
         this.patientVisit = value;
         this.getResultsData();
     }
