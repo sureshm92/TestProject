@@ -2,7 +2,7 @@
     <template lwc:if={isDesktop}>
         <!--Biomarker Visit Results-->
         <template lwc:if={isBiomarkersResult}>
-            <div class="result-card slds-p-vertical_small slds-p-horizontal_medium">
+            <div class="result-card slds-p-vertical_small slds-p-horizontal_small">
                 <div class="slds-grid">
                     <span class={resultNameClass}>
                         {header}&nbsp;
@@ -23,36 +23,11 @@
                         </div>
                     </template>
                 </template>
-
-                <!-- <div
-                    class="slds-p-top_medium slds-p-left_medium slds-p-right_medium slds-p-bottom_small"
-                >
-                    <div class="slds-p-vertical_x-small slds-p-horizontal_medium slds-grid">
-                        <span class="result-name show-result-tooltip">
-                            {header}&nbsp;
-                            <lightning-helptext content={toolTipText}></lightning-helptext
-                        ></span>
-                    </div>
-                    <template lwc:if={ICOSRelatedResults}>
-                        <div class={actualValueClass}>{actualResultValue}</div>
-                    </template>
-                    <template if:false={ICOSRelatedResults}>
-                        <div class={actualValueClass}>{biomarkerResult}</div>
-                        <template lwc:if={showExpectedRange}>
-                            <div class="expected-range">
-                                <span>{expectedRange}</span>
-                                <span class="slds-p-left_x-small"
-                                    >{label.Biomarkers_Expected_Range}</span
-                                >
-                            </div>
-                        </template>
-                    </template>
-                </div> -->
             </div>
         </template>
         <!--Vitals/Lab Visit Results-->
         <template lwc:else>
-            <div class="result-card slds-p-vertical_small slds-p-horizontal_medium">
+            <div class="result-card slds-p-vertical_small slds-p-horizontal_small">
                 <div class="slds-grid">
                     <span class={resultNameClass}>
                         {header}&nbsp;
