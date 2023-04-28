@@ -1907,10 +1907,10 @@ border: 1px solid #00c221 !important;
 outline: none !important;
 }
 /* Delegate redesing - Chages-  Starts */
-.add-delegate-input-container .slds-input{
+.manage-delegate-acc-setting-old .add-delegate-input-container .slds-input{
     height: 40px !important;
 }
-.add-delegate-input-container .slds-input[disabled]{
+.manage-delegate-acc-setting-old .add-delegate-input-container .slds-input[disabled]{
     /* opacity: .4; */
     cursor: not-allowed;
     pointer-events: none;
@@ -1930,13 +1930,6 @@ outline: none !important;
     display: flex;
 }
 
-.add-del-fn-ln-cls input:disabled{
-    /* color: #747474;
-    background-color: #f2f2f2; */
-    color: red;
-    background-color: magenta;
-
-}
 .std .text-checked-bold .slds-checkbox .slds-checkbox__label .slds-form-element__label{
     font-weight: 600 !important;
 }
