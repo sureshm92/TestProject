@@ -124,7 +124,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.spinner.hide();
             })
             .catch((error) => {
-                console.log('error message : ' + error?.message);
+                console.log('error message : ' + JSON.stringify(error));
                 this.spinner.hide();
             });
     }
@@ -135,7 +135,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.getUpdates();
             })
             .catch((error) => {
-                console.log('error message : ' + error?.message);
+                console.log('error message : ' + JSON.stringify(error));
                 this.spinner.hide();
             });
     }
@@ -186,7 +186,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         removeCard({ sendResultId: sendResultId })
             .then((returnValue) => {})
             .catch((error) => {
-                console.log('error message ' + error?.message);
+                console.log('error message ' + JSON.stringify(error));
             });
     }
 }

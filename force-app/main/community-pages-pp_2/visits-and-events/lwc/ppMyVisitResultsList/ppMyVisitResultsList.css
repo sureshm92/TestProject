@@ -93,11 +93,13 @@
     width: 30% !important;
     border-right-width: 1px;
     border-right-color: #999999;
-    padding-right: 1rem;
+    padding-right: 0.5rem !important;
 }
 
 .result-container {
     width: 70% !important;
+    padding-left: 1.5rem;
+    min-height: 39rem;
 }
 
 .my-results {
@@ -118,9 +120,7 @@
     font-size: 1rem;
     font-weight: 500;
 }
-.result-container {
-    margin-top: -20px;
-}
+
 @media all and (max-width: 500px) {
     .my-results {
         margin-left: 1.5rem;

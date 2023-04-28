@@ -16,6 +16,7 @@ import mobileTemplate from './ppVisResContainerResultsPageMobile.html';
 import tabletTemplate from './ppVisResContainerResultsPageTablet.html';
 import desktopTemplate from './ppVisResContainerResultsPage.html';
 import FORM_FACTOR from '@salesforce/client/formFactor';
+import Back from '@salesforce/label/c.BTN_Back';
 
 export default class PpMyResultsContainer extends LightningElement {
     label = {
@@ -28,7 +29,8 @@ export default class PpMyResultsContainer extends LightningElement {
         Show_Biomarkers,
         Vitals_Toggle_Off,
         Labs_Toggle_Off,
-        Biomarkers_Toggle_Off
+        Biomarkers_Toggle_Off,
+        Back
     };
     group2;
     group3;

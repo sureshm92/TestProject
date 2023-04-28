@@ -14,7 +14,7 @@
     font-size: 1rem;
 }
 .dropdown:focus {
-    border: 1px solid #0768fd;
+    border: 1px solid #015ff1;
 }
 .dropdown:after {
     content: '';

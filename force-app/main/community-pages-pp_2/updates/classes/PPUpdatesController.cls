@@ -37,6 +37,9 @@ public without sharing class PPUpdatesController {
 
     @AuraEnabled
     public static Integer getSendResultCount(String initialLoadTime) {
+        List<String> notificationsTypeList = new List<String>();
+        notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE);
+        notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED);
         DateTime initialDateTime = Datetime.valueOfGMT(initialLoadTime);
         UpdateService.ResourceFilter resFilter = UpdateService.getSendResultFilter();
         Integer updateCount = [
@@ -50,7 +53,7 @@ public without sharing class PPUpdatesController {
                 AND ((Notification__r.whatId__c IN :resFilter.peList
                 AND Notification__r.Target_Record_Ids__c IN :resFilter.resStudyIdVisToPt)
                 OR (Notification__r.whatId__c = :resFilter.currentPe
-                AND Notification__r.Notification_Type__c = :NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE)
+                AND Notification__r.Notification_Type__c IN :notificationsTypeList)
                 OR Notification__r.whatId__c = :resFilter.currentParticipantId)
         ];
         return updateCount;

@@ -1,8 +1,22 @@
 <template>
     <template lwc:if={isMobile}>
-        <div class="slds-grid slds-wrap">
+        <div class="slds-grid slds-wrap slds-p-horizontal_large">
             <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
-            <div class="slds-col slds-size_1-of-2 slds-p-horizontal_none">
+            <div
+                class="slds-col slds-size_1-of-1 slds-p-horizontal_none slds-p-top_small"
+                onclick={handleNavigation}
+            >
+                <span class="slds-p-right_small">
+                    <lightning-icon
+                        icon-name="utility:chevronleft"
+                        size="x-small"
+                        class="download-icon"
+                    >
+                    </lightning-icon>
+                </span>
+                <span class="back-text">{label.Back}</span>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none">
                 <div class="slds-float_left">
                     <span class="visit-name slds-m-right_medium"
                         >{currentVisit.Visit__r.Patient_Portal_Name__c}</span
@@ -17,9 +31,15 @@
                     </span>
                 </div>
             </div>
-            <div class="slds-col slds-size_1-of-2 slds-p-horizontal_none slds-align-middle">
-                <div class="slds-float_right">
-                    <span class="download-section">
+
+            <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none">
+                <div class="disclaimer">{resultTypeDisclaimer}</div>
+            </div>
+            <div
+                class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-border_bottom slds-p-vertical_small"
+            >
+                <div>
+                    <span>
                         <lightning-icon
                             icon-name="utility:download"
                             size="xx-small"
@@ -32,11 +52,7 @@
                     </span>
                 </div>
             </div>
-
-            <div class="slds-col slds-size_1-of-1 slds-border_bottom slds-p-horizontal_none">
-                <div class="disclaimer slds-m-bottom_small">{resultTypeDisclaimer}</div>
-            </div>
-            <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
+            <div class="slds-col slds-size_1-of-1 slds-p-vertical_medium slds-p-horizontal_none">
                 <div class="slds-align_absolute-center">
                     <template lwc:if={showTabs}>
                         <template lwc:if={group2}>
@@ -146,15 +162,17 @@
                             </template>
                             <!-- Vital Toggle OFF-->
                             <template lwc:else>
-                                <div class="slds-grid slds-wrap slds-gutters toggle-off-section">
-                                    <div class="slds-col slds-size_12-of-12">
+                                <div class="slds-grid slds-wrap slds-gutters">
+                                    <div
+                                        class="slds-col slds-size_12-of-12 slds-p-top_xx-large slds-p-bottom_small"
+                                    >
                                         <img
                                             src={toggleOffHeart}
                                             class="toggle-off-image slds-align_absolute-center"
                                         />
                                     </div>
                                     <div
-                                        class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small slds-align_absolute-center"
+                                        class="slds-col slds-size_12-of-12 toggle-off-text slds-p-horizontal_small slds-align_absolute-center slds-p-bottom_large"
                                     >
                                         {label.Vitals_Toggle_Off}
                                     </div>
@@ -182,15 +200,17 @@
                             </template>
                             <!--    Lab Toggle OFF-->
                             <template lwc:else>
-                                <div class="slds-grid slds-wrap toggle-off-section">
-                                    <div class="slds-col slds-size_12-of-12">
+                                <div class="slds-grid slds-wrap">
+                                    <div
+                                        class="slds-col slds-size_12-of-12 slds-p-top_xx-large slds-p-bottom_small"
+                                    >
                                         <img
                                             src={toggleOffHeart}
                                             class="toggle-off-image slds-align_absolute-center"
                                         />
                                     </div>
                                     <div
-                                        class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small slds-align_absolute-center"
+                                        class="slds-col slds-size_12-of-12 toggle-off-text slds-p-horizontal_small slds-align_absolute-center slds-p-bottom_large"
                                     >
                                         {label.Labs_Toggle_Off}
                                     </div>
@@ -212,15 +232,17 @@
                         </template>
                         <!--   Biomarker Toggle OFF-->
                         <template lwc:else>
-                            <div class="slds-grid slds-wrap toggle-off-section">
-                                <div class="slds-col slds-size_12-of-12">
+                            <div class="slds-grid slds-wrap">
+                                <div
+                                    class="slds-col slds-size_12-of-12 slds-p-top_xx-large slds-p-bottom_small"
+                                >
                                     <img
                                         src={toggleOffHeart}
                                         class="toggle-off-image slds-align_absolute-center"
                                     />
                                 </div>
                                 <div
-                                    class="slds-col slds-size_12-of-12 slds-p-top_large toggle-off-text slds-p-horizontal_small slds-align_absolute-center"
+                                    class="slds-col slds-size_12-of-12 toggle-off-text slds-p-horizontal_small slds-align_absolute-center slds-p-bottom_large"
                                 >
                                     {label.Biomarkers_Toggle_Off}
                                 </div>
