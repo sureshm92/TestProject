@@ -40,6 +40,9 @@ import Duration_Help_Text from '@salesforce/label/c.Duration_Help_Text';
 import Duration_Place_Holder from '@salesforce/label/c.Duration_Place_Holder';
 import Participants from '@salesforce/label/c.Participants';
 import Attendees_Place_Holder from '@salesforce/label/c.Attendees_Place_Holder';
+import Update from '@salesforce/label/c.PIR_Update';
+import Televisit_record_canceled_successfully from '@salesforce/label/c.PP_Televisit_record_canceled_successfully';
+
 
 const cbClass = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click';
 const isMenuOpen = ' slds-is-open';
@@ -138,7 +141,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         Duration_Place_Holder,
         Participants,
         Attendees_Place_Holder,
-
+        Update,
+        Televisit_record_canceled_successfully
     }
 
     //bishwa starts
@@ -666,8 +670,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                 if (result === 'Televisit Cancelled Successfully') {
                     this.fetchTelevisitRecord();
                     const event = new ShowToastEvent({
-                        title: 'Televisit record canceled successfully',
-                        message: 'Televisit record canceled successfully',
+                        title: Televisit_record_canceled_successfully,
+                        message: Televisit_record_canceled_successfully,
                         variant: 'success',
                         mode: 'dismissable'
                     });

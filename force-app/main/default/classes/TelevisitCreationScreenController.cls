@@ -369,7 +369,7 @@ public without sharing class TelevisitCreationScreenController {
             AttendeesWrapper wrap3 = new AttendeesWrapper();
             wrap3.firstName = per.Participant__r.First_Name__c;
             wrap3.lastName = per.Participant__r.Last_Name__c;
-            wrap3.attendeeType = 'Participant';
+            wrap3.attendeeType = System.Label.PP_Participant;
             wrap3.contactId = per.Participant_Contact__c;
             lstAttendeesWrapper.add(wrap3);
         }
@@ -385,7 +385,7 @@ public without sharing class TelevisitCreationScreenController {
                 wrap.firstName = mapUserRecord.get(siteStaff.Site_Contact__c).FirstName;
                 wrap.lastName = mapUserRecord.get(siteStaff.Site_Contact__c).LastName;
             }
-            wrap.attendeeType = 'Site Staff';
+            wrap.attendeeType = System.Label.PG_SST_L_Site_Staff;
             wrap.contactId = siteStaff.Site_Contact__c;
             lstAttendeesWrapper.add(wrap);
         }
@@ -400,7 +400,7 @@ public without sharing class TelevisitCreationScreenController {
             wrap1.firstName = mapUserRecord.get(per.PI_Contact__c).FirstName;
             wrap1.lastName = mapUserRecord.get(per.PI_Contact__c).LastName;
         }
-        wrap1.attendeeType = 'PI';
+        wrap1.attendeeType = System.Label.RH_PI;
         wrap1.contactId = per.PI_Contact__c;
         lstAttendeesWrapper.add(wrap1);
 
@@ -434,7 +434,7 @@ public without sharing class TelevisitCreationScreenController {
                     wrap2.firstName = participantDelegate.Patient_Delegate__r.Contact__r.FirstName;
                     wrap2.lastName = participantDelegate.Patient_Delegate__r.contact__r.LastName;
                 }
-                wrap2.attendeeType = 'Participant Delegate';
+                wrap2.attendeeType = System.Label.PP_Participant_Delegate;
                 wrap2.contactId = participantDelegate.Patient_Delegate__r.Contact__c;
                 wrap2.participantAdult = participantDelegate.Patient_Delegate__r.Participant__r.Adult__c;
                 if (participantDelegate.Patient_Delegate__r.Participant__r.Email__c != null) {

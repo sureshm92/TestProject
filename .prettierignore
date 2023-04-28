@@ -4,6 +4,7 @@
 
 **/staticresources/**
 !**/staticresources/rr_community_js.js
+!**/staticresources/Community_CSS_PP_Theme.css
 .sfdx
 .vscode
 **/*.json

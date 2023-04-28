@@ -7,23 +7,42 @@ import formFactor from '@salesforce/client/formFactor';
 export default class PpMyResultsCard extends LightningElement {
     resultsIllustration = pp_icons + '/' + 'results_Illustration.svg';
     label = { noItemToDisplay, myResults };
-    isMobile = false;
-    isTablet = false;
-    isDesktop = false;
+    showResultsinTablet;
+    showResultsinMobile;
+    showResultsinDesktop;
 
     connectedCallback() {
-        if (formFactor === 'Small') {
-            this.isMobile = true;
-            this.isTablet = false;
-            this.isDesktop = false;
-        } else if (formFactor === 'Medium') {
-            this.isTablet = true;
-            this.isMobile = false;
-            this.isDesktop = false;
-        } else if (formFactor === 'Large') {
-            this.isDesktop = true;
-            this.isTablet = false;
-            this.isMobile = false;
-        }
+        if (formFactor == 'Large') this.showResultsinDesktop = true;
+        else if (formFactor == 'Medium') this.showResultsinTablet = true;
+        else this.showResultsinMobile = true;
+    }
+
+    get isDesktop() {
+        return formFactor == 'Large';
+    }
+
+    get isMobile() {
+        return formFactor == 'Small';
+    }
+
+    get isTablet() {
+        return formFactor == 'Medium';
+    }
+
+    get resultClassDesktop() {
+        return this.showResultsinDesktop ? 'my-results' : 'hide-results';
+    }
+
+    get resultClassTablet() {
+        return this.showResultsinTablet ? 'my-results' : 'hide-results';
+    }
+
+    get resultClassMobile() {
+        return this.showResultsinMobile ? 'my-results' : 'hide-results';
+    }
+
+    handleShowResultsHeader(event) {
+        if (this.isMobile) this.showResultsinMobile = false;
+        else if (this.isTablet) this.showResultsinTablet = false;
     }
 }

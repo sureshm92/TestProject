@@ -1,26 +1,29 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Televisit_Del_Cancelled_P1} {!relatedTo.Title__c} {!$Label.Email_Subject_Televisit_Del_Cancelled_P2}"
+<messaging:emailTemplate subject="{!relatedTo.Title__c} {!$Label.Email_Subject_Televisit_Cancelled}"
                          recipientType="Contact"
                          relatedToType="Televisit__c"
                          language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailWireframe recipientId="{!recipient.Id}"
+        <c:PP_EmailWireframe recipientId="{!recipient.Id}"
                           sourceId="{!relatedTo.Id}"
-                          header="{!$Label.Email_Header_Televisit_Del_Cancelled}"
+                          header="{!$Label.Email_Header_Televisit_Cancelled}"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Signature_PT}">
-            <c:Paragraph emailLabel="{!$Label.Email_Body_Televisit_Del_Cancelled}"/>
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
-        </c:EmailWireframe>
+                          signature="{!$Label.Email_Signature_PT}"
+                          isPreBodyButton="true"
+                          communityTemplate="PatientPortal"
+                          preBodyButtonName="{!$Label.Email_Action_Login_now}"
+                          >
+            <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Televisit_Cancelled_PP}"/>
+        </c:PP_EmailWireframe>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
                               sourceId="{!relatedTo.Id}"
-                              header="{!$Label.Email_Header_Televisit_Del_Cancelled}"
+                              header="{!$Label.Email_Header_Televisit_Cancelled}"
                               greeting="{!$Label.Email_User_Greeting_FirstName}"
                               signature="{!$Label.Email_Signature_PT}">
-            <c:ParagraphText emailLabel="{!$Label.Email_Body_Televisit_Del_Cancelled}"/>
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Televisit_Cancelled_PP}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailWireframeText>
     </messaging:plainTextEmailBody>
