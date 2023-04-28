@@ -16,6 +16,7 @@ import mobileTemplate from './ppVisResContainerResultsPageMobile.html';
 import tabletTemplate from './ppVisResContainerResultsPageTablet.html';
 import desktopTemplate from './ppVisResContainerResultsPage.html';
 import FORM_FACTOR from '@salesforce/client/formFactor';
+import Back from '@salesforce/label/c.BTN_Back';
 
 export default class PpMyResultsContainer extends LightningElement {
     label = {
@@ -28,7 +29,8 @@ export default class PpMyResultsContainer extends LightningElement {
         Show_Biomarkers,
         Vitals_Toggle_Off,
         Labs_Toggle_Off,
-        Biomarkers_Toggle_Off
+        Biomarkers_Toggle_Off,
+        Back
     };
     group2;
     group3;
@@ -55,6 +57,7 @@ export default class PpMyResultsContainer extends LightningElement {
     resultsWrapper;
     initialised = false;
     @track showSpinnerResults;
+    showToggleSpinner = false;
 
     toggleOffHeart = pp_icons + '/' + 'heart_Icon.svg';
 
@@ -75,6 +78,7 @@ export default class PpMyResultsContainer extends LightningElement {
         this.patientVisitWrapper = value;
     }
     connectedCallback() {
+        console.log('JJ page');
         this.showSpinner = true;
         this.initializeData();
     }
@@ -103,6 +107,19 @@ export default class PpMyResultsContainer extends LightningElement {
     get isTablet() {
         return FORM_FACTOR == 'Medium';
     }
+
+    get patientVisitName() {
+        return this.selectedVisit ? this.currentVisit.Visit__r.Patient_Portal_Name__c : '';
+    }
+
+    get completedDate() {
+        return this.selectedVisit ? this.currentVisit.Completed_Date__c : '';
+    }
+
+    get isInitialized() {
+        return this.patientVisitWrapper && this.currentVisit ? true : false;
+    }
+
     checkButtonClass() {
         if (this.visResultTypeTabs.length == 1) {
             this.selectedResultType = this.visResultTypeTabs[0];
@@ -226,7 +243,7 @@ export default class PpMyResultsContainer extends LightningElement {
     }
 
     handleVRToggle(event) {
-        this.showSpinner = true;
+        this.showToggleSpinner = true;
         modifiedSwitchToggleRemote({
             visitResultsMode: this.selectedResultType,
             isToggleOn: event.target.checked
@@ -239,16 +256,18 @@ export default class PpMyResultsContainer extends LightningElement {
                 } else if (this.selectedResultType === 'Biomarkers') {
                     this.isBiomarkersToggleOn = !this.isBiomarkersToggleOn;
                 }
-                this.showSpinner = false;
+                this.showToggleSpinner = false;
                 this.initialised = true;
             })
             .catch((error) => {
                 console.error('Error occured here', error.message, 'error');
-                this.showSpinner = false;
+                this.showToggleSpinner = false;
                 this.initialised = true;
             });
     }
     initializeData() {
+        console.log('JJ page initi');
+
         if (!communityService.isDummy()) {
             if (this.patientVisitWrapper) {
                 let result = this.patientVisitWrapper;

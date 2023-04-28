@@ -110,6 +110,11 @@ export default class PpVisitResultDisplayCard extends LightningElement {
     get actualValueClass() {
         return this.visitResult.value != null ? 'actual-value' : 'not-available-text';
     }
+    get resultNameClass() {
+        return this.visitResult.value != null
+            ? 'result-name show-result-tooltip'
+            : 'result-name-without-result slds-p-bottom_x-small show-result-tooltip';
+    }
 
     render() {
         if (this.isDesktop) {

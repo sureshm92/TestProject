@@ -1,26 +1,29 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Televisit_Del_Rescheduled_P1} {!relatedTo.Title__c} {!$Label.Email_Subject_Televisit_Del_Rescheduled_P2}"
+<messaging:emailTemplate subject="{!relatedTo.Title__c} {!$Label.Email_Subject_Televisit_Rescheduled}"
                          recipientType="Contact"
                          relatedToType="Televisit__c"
                          language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailWireframe recipientId="{!recipient.Id}"
+        <c:PP_EmailWireframe recipientId="{!recipient.Id}"
                           sourceId="{!relatedTo.Id}"
-                          header="{!$Label.Email_Header_Televisit_Del_Rescheduled}"
+                          header="{!$Label.Email_Header_Televisit_Rescheduled}"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Signature_Televisit_Del_PT}">
-            <c:Paragraph emailLabel="{!$Label.Email_Body_Televisit_Del_Rescheduled}"/>
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
-        </c:EmailWireframe>
+                          signature="{!$Label.Email_Signature_Televisit_PT}"
+                          isPreBodyButton="true"
+                          communityTemplate="PatientPortal"
+                          preBodyButtonName="{!$Label.Email_Action_Login_now}"
+                          >
+            <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Televisit_Rescheduled_PP}"/>
+        </c:PP_EmailWireframe>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
                               sourceId="{!relatedTo.Id}"
-                              header="{!$Label.Email_Header_Televisit_Del_Rescheduled}"
+                              header="{!$Label.Email_Header_Televisit_Rescheduled}"
                               greeting="{!$Label.Email_User_Greeting_FirstName}"
-                              signature="{!$Label.Email_Signature_Televisit_Del_PT}">
-            <c:ParagraphText emailLabel="{!$Label.Email_Body_Televisit_Del_Rescheduled}"/>
+                              signature="{!$Label.Email_Signature_Televisit_PT}">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Televisit_Rescheduled_PP}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailWireframeText>
     </messaging:plainTextEmailBody>

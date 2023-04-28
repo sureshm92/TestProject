@@ -7,7 +7,7 @@
     font-family: 'Proxima Nova';
     margin-top: 5px;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     margin-left: 10px;
     line-height: 24px;
     letter-spacing: 0;
@@ -43,6 +43,7 @@
     border-radius: 8px;
     background-color: #ffffff;
     margin-top: 8px;
+    cursor: pointer;
 }
 
 .link-img {
@@ -50,14 +51,9 @@
     cursor: pointer;
 }
 
-.data-section-helpful {
-    width: 100%;
-    height: 24px;
-}
-
 .data-section {
     width: 100%;
-    height: 56px;
+    height: 59px;
 }
 
 .card-border-desktop {
@@ -103,27 +99,10 @@
     margin-bottom: 4px;
 }
 
-.helpful-links {
-    height: 16px;
-    width: 100%;
-    color: #757575;
-    font-family: 'Proxima Nova';
-    font-size: 13px;
-    letter-spacing: 0.1px;
-    line-height: 24px;
-    margin-left: 10px;
-    margin-top: 5px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    text-transform: uppercase;
-}
-
-.links-title {
+.televisits-title {
     color: #444444;
-    white-space: initial;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
@@ -132,7 +111,7 @@
     margin-left: 10px;
     cursor: pointer;
     margin-right: 16px;
-    padding-top: 5px;
+    margin-top: 5px;
 }
 
 .link-image-section-horizontal {
@@ -170,14 +149,12 @@
     height: 48px;
 }
 
-.link-title-horizontal {
+.televisit-title-horizontal {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 16px;
-    color: #444444;
-    font-family: 'Proxima Nova';
     font-weight: 500;
-    margin: 5px 10px 0 10px;
+    margin: 10px 10px 0 10px;
     cursor: pointer;
 }
 .open-in-new-tab {
@@ -188,35 +165,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0;
     cursor: pointer;
 }
-.link-title {
+.televisit-title {
     width: 100%;
-    height: 30px;
+    height: 51px;
 }
 .icon-style {
     margin-top: 5px;
-}
-.helpful-link-title {
-    color: #757575;
-    font-size: 13px;
-    letter-spacing: 0.1px;
-    line-height: 14px;
-    margin-left: 10px;
-    margin-top: 10px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    text-transform: uppercase;
-}
-
-.helpful-link-horizontal {
-    width: 100%;
-    height: 16px;
 }
 
 .link-image {
@@ -245,12 +203,11 @@
         margin-bottom: 4px;
     }
 }
-.open-in-new-tab-label {
+.view-televisit-label {
     margin-left: 10px;
     font-size: 14px;
     color: #015ff1;
-    font-weight: 500;
-    padding-top: 3px;
+    font-weight: 600;
 }
 .open-tab-horizontal {
     width: 12px;
