@@ -132,12 +132,6 @@ export default class PpMyVisitResultsList extends LightningElement {
             this.dispatchEvent(custEvent);
         }
 
-        for (let i = 0; i < this.completedVisitsWithResults.length; i++) {
-            if (this.currentVisitId == this.completedVisitsWithResults[i].Id) {
-                this.currentVisit = this.completedVisitsWithResults[i];
-                break;
-            }
-        }
         this.showResults = true;
     }
 
