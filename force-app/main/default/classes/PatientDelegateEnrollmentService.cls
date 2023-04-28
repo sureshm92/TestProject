@@ -353,6 +353,7 @@ public without sharing class PatientDelegateEnrollmentService {
                 Status__c,
                 Participant_Enrollment__c,
                 Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                Participant_Enrollment__r.Study_Site__r.Participant_DOB_format__c,
                 Participant_Enrollment__r.Name,
                 Participant_Enrollment__r.Clinical_Trial_Profile__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
