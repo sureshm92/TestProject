@@ -31244,7 +31244,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Scheduled Televisit</shortDescription>
-        <value>New televisit(s) has been scheduled.</value>
+        <value>New televisit(s) has been scheduled!</value>
     </labels>
     <labels>
         <fullName>PP_View_Televisits</fullName>
