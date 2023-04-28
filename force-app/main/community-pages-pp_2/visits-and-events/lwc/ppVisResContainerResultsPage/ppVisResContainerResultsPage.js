@@ -67,7 +67,7 @@ export default class PpMyResultsContainer extends LightningElement {
     }
     set selectedVisit(value) {
         this.currentVisit = value;
-        //  this.initializeData();
+        this.initializeData();
     }
 
     @api
