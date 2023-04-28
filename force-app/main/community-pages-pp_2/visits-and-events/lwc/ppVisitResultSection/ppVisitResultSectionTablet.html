@@ -92,7 +92,7 @@
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
                 <template lwc:else>
                     <div
-                        class="slds-grid slds-wrap slds-p-top_x-large no-visit-result-container slds-m-horizontal_xx-large"
+                        class="slds-grid slds-wrap slds-p-top_x-large no-visit-result-container slds-m-horizontal_xx-large labs-subtype"
                     >
                         <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
                             <img src={noVisitResultsAvailable} class="no-result-image" />
@@ -110,7 +110,9 @@
             <!--Vitals-->
             <template lwc:if={isVitalsSelected}>
                 <template lwc:if={isVitalsResultsAvailable}>
-                    <div class="slds-grid slds-wrap slds-gutters slds-p-horizontal_xx-large">
+                    <div
+                        class="slds-grid slds-wrap slds-gutters slds-p-horizontal_xx-large labs-subtype"
+                    >
                         <template for:each={visitResultsVitals} for:item="result" for:index="index">
                             <div
                                 key={result}
@@ -128,7 +130,7 @@
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
                 <template lwc:else>
                     <div
-                        class="slds-grid slds-wrap slds-p-top_x-large no-visit-result-container slds-m-horizontal_xx-large"
+                        class="slds-grid slds-wrap slds-p-top_x-large no-visit-result-container slds-m-horizontal_xx-large labs-subtype"
                     >
                         <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
                             <img src={noVisitResultsAvailable} class="no-result-image" />
@@ -146,7 +148,9 @@
             <!--Biomarker-->
             <template lwc:if={isBiomarkersSelected}>
                 <template lwc:if={isBioResultsAvailable}>
-                    <div class="slds-grid slds-wrap slds-gutters slds-p-horizontal_xx-large">
+                    <div
+                        class="slds-grid slds-wrap slds-gutters slds-p-horizontal_xx-large labs-subtype"
+                    >
                         <template for:each={visitResultsBio} for:item="result" for:index="index">
                             <div
                                 key={result}
@@ -164,7 +168,7 @@
                 <!--SECTION : WHEN TOGGLE IS ON BUT VISIT RESULTS ARE NOT AVAILABLE-->
                 <template lwc:else>
                     <div
-                        class="slds-grid slds-wrap slds-p-top_x-large no-visit-result-container slds-m-horizontal_xx-large"
+                        class="slds-grid slds-wrap slds-p-top_x-large no-visit-result-container slds-m-horizontal_xx-large labs-subtype"
                     >
                         <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
                             <img src={noVisitResultsAvailable} class="no-result-image" />
