@@ -1025,7 +1025,8 @@ public without sharing class PatientDelegateService {
                    Participant__c,
                    Permit_SMS_Text_for_this_study__c,
                    Welcome_Message_Sent__c,
-                   Welcome_Message_Delivered__c
+                   Welcome_Message_Delivered__c,
+                   Study_Site__r.Participant_DOB_format__c
             FROM Participant_Enrollment__c
             WHERE Participant__c IN: ParticipantIdSet 
         ];
