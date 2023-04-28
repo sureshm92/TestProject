@@ -17,6 +17,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getVisitsPreviewAndCount from '@salesforce/apex/ParticipantVisitsRemote.getVisitsPreviewAndCount';
 import getVisits from '@salesforce/apex/PPTelevisitUpcomingTileController.getVisits';
 import getSendResultCount from '@salesforce/apex/PPUpdatesController.getSendResultCount';
+import CheckIfTelevisitToggleOnForDelegate from '@salesforce/apex/PPTelevisitUpcomingTileController.CheckIfTelevisitToggleOnForDelegate';
 
 export default class HomePageParticipantNew extends LightningElement {
     label = {
