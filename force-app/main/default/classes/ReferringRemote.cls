@@ -938,6 +938,9 @@ return String.join(addressList, ', ');
              TriggerHandlerExecutor.bypassHandler(
                                 PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                             );  
+             TriggerHandlerExecutor.bypassHandler( 
+                                PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+                                );  
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
@@ -1092,6 +1095,9 @@ return String.join(addressList, ', ');
              TriggerHandlerExecutor.bypassHandler(
                                 PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                             );  
+             TriggerHandlerExecutor.bypassHandler( 
+                                PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+                                );  
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
@@ -1630,6 +1636,9 @@ update objConVersion;*/
              TriggerHandlerExecutor.bypassHandler(
                                 PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                             );  
+             TriggerHandlerExecutor.bypassHandler( 
+                                PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+                                ); 
             List<Patient_Delegate__c> lstPTUpdate = new List<Patient_Delegate__c> ();
              for(Patient_Delegate__c objPT : [ SELECT Id, Primary_Delegate__c FROM Patient_Delegate__c 
                                                 Where ID IN:lstPatientDelegtaeId and Primary_Delegate__c = True])
@@ -1649,6 +1658,9 @@ update objConVersion;*/
              TriggerHandlerExecutor.bypassHandler(
                                 PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                             );               
+             TriggerHandlerExecutor.bypassHandler( 
+                                PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+                                );              
             
             List<Patient_Delegate__c> lstPTUpdate = new List<Patient_Delegate__c> ();
 

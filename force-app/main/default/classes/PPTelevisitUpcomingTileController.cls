@@ -1,5 +1,24 @@
 Public without sharing Class PPTelevisitUpcomingTileController{
     @auraEnabled
+    Public Static Boolean CheckIfTelevisitToggleOnForDelegate(){
+        String userId = UserInfo.getUserId();
+        List<User> lstUsr = [SELECT ContactId FROM User WHERE Id =:userId limit 1];
+        Boolean televisitVendorAvailable = false;
+        
+        for(Patient_Delegate__c pd : [SELECT Id,Contact__c,Name,Participant__c,Participant__r.Contact__r.LastName,Participant__r.Contact__r.Current_Participant_Enrollment__r.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c FROM Patient_Delegate__c WHERE Contact__c =:lstUsr[0].ContactId ]){
+            if(pd.Participant__r.Contact__r.Current_Participant_Enrollment__r.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c){
+                televisitVendorAvailable = true;
+                break;
+            }else{
+                televisitVendorAvailable = false;
+            }
+        }
+        
+        return televisitVendorAvailable;
+        
+    }
+    
+    @auraEnabled
     Public Static List<TelevisitWrapper> fetchTelevisitAttendees(List<String> lstTelevisitIds){
         List<TelevisitWrapper> lstTelevisitWrapper = new List<TelevisitWrapper>();
         List<televisitattendeeWrapper> lstTelevisitAttendeeWrapper = new List<televisitattendeeWrapper>();
@@ -63,7 +82,7 @@ Public without sharing Class PPTelevisitUpcomingTileController{
         
         if(ctpId != ''){
             String peId = pstate.pe.Id;
-            query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
+            query += ' WHERE Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
         }else{
             delegateOrAlumni = true;
             query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
