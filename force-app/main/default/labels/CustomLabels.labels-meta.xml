@@ -5562,7 +5562,7 @@ Your username is ##UserName.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
-        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies/programs listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more programs listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Delegate_PP_2</fullName>
@@ -5571,6 +5571,13 @@ Your username is ##UserName.</value>
         <shortDescription>Email Body Initial Patient Delegate PP</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Please register for the IQVIA Patient Portal.&lt;/span&gt;
             &lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_New_Assignment_Patient_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body New Assignment Patient Delegate PP</shortDescription>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies/programs listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_New</fullName>
@@ -6434,6 +6441,39 @@ Due Date and Time: ##expirationDate</value>
 &lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##TaskOnlydate.&lt;/span&gt;
 
 &lt;span &gt;Please login to update the status of your task.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Cancelled_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Cancelled PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName scheduled for ##VisitDttime has been canceled.&lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;Please contact the Study/Program Team for further updates or please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Rescheduled_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Rescheduled PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName has been rescheduled.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Scheduled_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Scheduled PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFullName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Televisit_Cancelled</fullName>
@@ -19565,6 +19605,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I cannot remember my username</value>
     </labels>
     <labels>
+        <fullName>PP_CancelUpload</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_CancelUpload</shortDescription>
+        <value>By continuing, your files will no longer be available for upload. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
         <fullName>PP_CannotReuseOldPwd</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21486,6 +21533,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Remove</value>
     </labels>
     <labels>
+        <fullName>PP_RemoveFile</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_RemoveFile</shortDescription>
+        <value>Are you sure you would like to remove "#fileName" file?</value>
+    </labels>
+    <labels>
         <fullName>PP_Remove_Photo</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21547,6 +21601,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Explore</shortDescription>
         <value>Explore</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Resource_Disclaimer</shortDescription>
+        <value>Links will open in new browser window. IQVIA Patient Portal
+            is not responsible for content provided in external websites.</value>
     </labels>
     <labels>
         <fullName>PP_Resource_Submit</fullName>
@@ -22035,6 +22097,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_UPDATE_EMAIL_WARNING</shortDescription>
         <value>Updating your email address will not change your login credentials. You may submit a request to update your login credentials by submitting a ticket from the ##HELPLINK page.</value>
+    </labels>
+    <labels>
+        <fullName>PP_UploadSuccess</fullName> 
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UploadSuccess</shortDescription>
+        <value>File(s) uploaded succesfully</value>
     </labels>
     <labels>
         <fullName>PP_URL_Error</fullName>
@@ -24116,6 +24185,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>RH_PI</shortDescription>
         <value>PI</value>
+    </labels>
+    <labels>
+        <fullName>PP_Participant_Delegate</fullName>
+        <categories>PP</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Participant Delegate</shortDescription>
+        <value>Participant Delegate</value>
     </labels>
     <labels>
         <fullName>RH_PI_Site_staff_country_is_not_the_same</fullName>
@@ -31200,10 +31277,38 @@ The IQVIA Referral Hub Support Team</value>
         <value>For Participants and Caregivers</value>
     </labels>
     <labels>
+        <fullName>PP_Rescheduled_Televisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Rescheduled Televisit</shortDescription>
+        <value>A televisit has been rescheduled.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Scheduled_Televisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Scheduled Televisit</shortDescription>
+        <value>New televisit(s) has been scheduled!</value>
+    </labels>
+    <labels>
+        <fullName>PP_View_Televisits</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP View Televisits</shortDescription>
+        <value>View Televisits</value>
+    </labels>
+    <labels>
         <fullName>PP_Connecting_professionals</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Connecting_professionals</shortDescription>
         <value>Connecting professionals, patients and clinical researchers for better healthcare.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Televisit_record_canceled_successfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Televisit record canceled successfully</shortDescription>
+        <value>Televisit record canceled successfully</value>
     </labels>
 </CustomLabels>

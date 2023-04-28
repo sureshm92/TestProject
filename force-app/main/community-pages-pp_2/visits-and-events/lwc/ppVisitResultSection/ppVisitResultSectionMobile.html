@@ -11,7 +11,9 @@
                                 {label.Visit_Result_Group_MetabolicPanel}
                             </div>
 
-                            <div class="slds-grid slds-wrap slds-gutters">
+                            <div
+                                class="slds-grid slds-wrap slds-gutters slds-align_absolute-center slds-m-horizontal_large"
+                            >
                                 <template
                                     for:each={visitResultsMetabolicPanel}
                                     for:item="result"
@@ -19,7 +21,7 @@
                                 >
                                     <div
                                         key={result}
-                                        class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small slds-p-left_none"
+                                        class="slds-col slds-size_1-of-1 slds-p-right_small slds-p-bottom_small slds-p-left_none"
                                     >
                                         <c-pp-visit-result-display-card
                                             visit-result={result}
@@ -36,7 +38,9 @@
                             <div class="labs-header slds-p-bottom_small">
                                 {label.Visit_Result_Group_Hematology}
                             </div>
-                            <div class="slds-grid slds-wrap slds-gutters">
+                            <div
+                                class="slds-grid slds-wrap slds-gutters slds-align_absolute-center slds-m-horizontal_large"
+                            >
                                 <template
                                     for:each={visitResultsHematology}
                                     for:item="result"
@@ -44,7 +48,7 @@
                                 >
                                     <div
                                         key={result}
-                                        class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                                        class="slds-col slds-size_1-of-1 slds-p-right_small slds-p-bottom_small"
                                     >
                                         <c-pp-visit-result-display-card
                                             visit-result={result}
@@ -62,7 +66,9 @@
                                 {label.Visit_Result_Group_FastingLipidProfile}
                             </div>
 
-                            <div class="slds-grid slds-wrap slds-gutters">
+                            <div
+                                class="slds-grid slds-wrap slds-gutters slds-align_absolute-center slds-m-horizontal_large"
+                            >
                                 <template
                                     for:each={visitResultsFastingLipidProfile}
                                     for:item="result"
@@ -70,7 +76,7 @@
                                 >
                                     <div
                                         key={result}
-                                        class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                                        class="slds-col slds-size_1-of-1 slds-p-bottom_small"
                                     >
                                         <c-pp-visit-result-display-card
                                             visit-result={result}
@@ -91,7 +97,9 @@
                         <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
                             <img src={noVisitResultsAvailable} class="no-result-image" />
                         </div>
-                        <div class="slds-col slds-size_12-of-12 no-result-text">
+                        <div
+                            class="slds-col slds-size_12-of-12 no-result-text slds-m-vertical_none slds-align_absolute-center"
+                        >
                             {label.No_Labs_Available}
                         </div>
                     </div>
@@ -104,11 +112,13 @@
             <!--Vitals-->
             <template lwc:if={isVitalsSelected}>
                 <template lwc:if={isVitalsResultsAvailable}>
-                    <div class="slds-grid slds-wrap slds-gutters">
+                    <div
+                        class="slds-grid slds-wrap slds-gutters slds-align_absolute-center slds-m-horizontal_large"
+                    >
                         <template for:each={visitResultsVitals} for:item="result" for:index="index">
                             <div
                                 key={result}
-                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small slds-p-left_none"
+                                class="slds-col slds-size_1-of-1 slds-p-right_small slds-p-bottom_small slds-p-left_none"
                             >
                                 <c-pp-visit-result-display-card
                                     visit-result={result}
@@ -127,7 +137,9 @@
                         <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
                             <img src={noVisitResultsAvailable} class="no-result-image" />
                         </div>
-                        <div class="slds-col slds-size_12-of-12 no-result-text">
+                        <div
+                            class="slds-col slds-size_12-of-12 no-result-text slds-m-vertical_none slds-align_absolute-center"
+                        >
                             {label.No_Vitals_Available}
                         </div>
                     </div>
@@ -140,11 +152,13 @@
             <!--Biomarker-->
             <template lwc:if={isBiomarkersSelected}>
                 <template lwc:if={isBioResultsAvailable}>
-                    <div class="slds-grid slds-wrap slds-gutters">
+                    <div
+                        class="slds-grid slds-wrap slds-gutters slds-align_absolute-center slds-m-horizontal_large"
+                    >
                         <template for:each={visitResultsBio} for:item="result" for:index="index">
                             <div
                                 key={result}
-                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small slds-p-left_none"
+                                class="slds-col slds-size_1-of-1 slds-p-right_small slds-p-bottom_small slds-p-left_none"
                             >
                                 <c-pp-visit-result-display-card
                                     visit-result={result}
@@ -163,11 +177,16 @@
                         <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
                             <img src={noVisitResultsAvailable} class="no-result-image" />
                         </div>
-                        <div class="slds-col slds-size_12-of-12 no-result-text">
+                        <div
+                            class="slds-col slds-size_12-of-12 no-result-text slds-m-vertical_none slds-align_absolute-center"
+                        >
                             {label.No_Biomarkers_Available}
                         </div>
                     </div>
                 </template>
+                <div class="slds-align_absolute-center disclaimer">
+                    {label.Visit_Results_Tab_Panel_Disclaimer}
+                </div>
             </template>
         </div>
     </template>

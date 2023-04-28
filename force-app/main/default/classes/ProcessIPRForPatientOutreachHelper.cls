@@ -531,6 +531,9 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
         TriggerHandlerExecutor.bypassHandler(
             PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
             );
+        TriggerHandlerExecutor.bypassHandler( 
+            PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+            );
         if (!delegateIds.isEmpty()) {
             Set<Id> ptDelegateContSet = new Set<Id>();
             Set<Id> participantSet = new Set<Id>();

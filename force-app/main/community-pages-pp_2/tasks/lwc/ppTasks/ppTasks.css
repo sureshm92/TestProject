@@ -7,14 +7,8 @@
     height: 2rem;
     letter-spacing: 0;
     line-height: 1.5rem;
-}
-
-.active-btn {
-    background: rgba(7, 104, 253, 1);
-    color: #ffffff;
     font-size: 1rem;
-    font-weight: 600;
-    border: none;
+    font-weight: 500;
 }
 
 .completed-task {
@@ -24,20 +18,12 @@
     margin-left: 0rem;
     letter-spacing: 0;
     line-height: 1.5rem;
-}
-
-.inactive-btn {
-    --slds-c-button-brand-color-background: #ffffff;
-    color: #595959;
     font-size: 1rem;
+    color: #595959;
     font-weight: 500;
-    border: 1px solid #d9d9d9;
-    background: #ffffff;
 }
 .create-task {
-    background: rgba(7, 104, 253, 1);
     border-radius: 2rem;
-    color: #ffffff;
     width: 510px;
     height: 40px;
     font-size: 1rem;
@@ -48,14 +34,10 @@
 }
 .plus-icon {
     --sds-c-icon-color-foreground-default: #ffffff;
-    padding-right: 16px;
+    padding-right: 1rem;
 }
-.before-create-task {
-    background: rgba(7, 104, 253, 1);
-    cursor: pointer;
-}
+
 .after-create-task {
-    background: rgba(7, 104, 253, 1);
     opacity: 0.4;
     pointer-events: none;
 }

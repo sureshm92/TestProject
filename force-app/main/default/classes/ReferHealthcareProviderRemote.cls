@@ -500,6 +500,10 @@ global without sharing class ReferHealthcareProviderRemote {
         TriggerHandlerExecutor.bypassHandler(
             PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
             );
+        TriggerHandlerExecutor.bypassHandler( 
+            PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+            );
+           
         try {
             HealthcareProvider delegateDuplicate;
             if (ddInfo != null)
