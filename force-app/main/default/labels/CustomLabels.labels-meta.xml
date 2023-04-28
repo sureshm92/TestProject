@@ -19605,6 +19605,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I cannot remember my username</value>
     </labels>
     <labels>
+        <fullName>PP_CancelUpload</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_CancelUpload</shortDescription>
+        <value>By continuing, your files will no longer be available for upload. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
         <fullName>PP_CannotReuseOldPwd</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21526,6 +21533,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Remove</value>
     </labels>
     <labels>
+        <fullName>PP_RemoveFile</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_RemoveFile</shortDescription>
+        <value>Are you sure you would like to remove "#fileName" file?</value>
+    </labels>
+    <labels>
         <fullName>PP_Remove_Photo</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -22083,6 +22097,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_UPDATE_EMAIL_WARNING</shortDescription>
         <value>Updating your email address will not change your login credentials. You may submit a request to update your login credentials by submitting a ticket from the ##HELPLINK page.</value>
+    </labels>
+    <labels>
+        <fullName>PP_UploadSuccess</fullName> 
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UploadSuccess</shortDescription>
+        <value>File(s) uploaded succesfully</value>
     </labels>
     <labels>
         <fullName>PP_URL_Error</fullName>
