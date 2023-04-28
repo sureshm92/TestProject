@@ -24158,6 +24158,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>PI</value>
     </labels>
     <labels>
+        <fullName>PP_Participant_Delegate</fullName>
+        <categories>PP</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Participant Delegate</shortDescription>
+        <value>Participant Delegate</value>
+    </labels>
+    <labels>
         <fullName>RH_PI_Site_staff_country_is_not_the_same</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -31245,5 +31253,12 @@ The IQVIA Referral Hub Support Team</value>
         <protected>true</protected>
         <shortDescription>PP_Connecting_professionals</shortDescription>
         <value>Connecting professionals, patients and clinical researchers for better healthcare.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Televisit_record_canceled_successfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Televisit record canceled successfully</shortDescription>
+        <value>Televisit record canceled successfully</value>
     </labels>
 </CustomLabels>
