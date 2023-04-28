@@ -46,7 +46,7 @@ export default class PpVisitResultSection extends LightningElement {
 
     connectedCallback() {
         //this.getResultsData();
-        console.log('JJ sec');
+        console.log('JJ sec' + this.initialised);
     }
     get isVitalsSelected() {
         return this.selectedResultType == 'Vitals';
@@ -65,7 +65,6 @@ export default class PpVisitResultSection extends LightningElement {
         return this.patientVisit;
     }
     set selectedVisit(value) {
-        console.log('JJ setter');
         this.patientVisit = value;
         this.getResultsData();
     }
