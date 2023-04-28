@@ -210,6 +210,7 @@ public without sharing class AccountSettingsController {
                     );
                 }
             }
+            initData = getleastYOBFormat(initData);
             return JSON.serialize(initData, false);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -294,6 +295,7 @@ public without sharing class AccountSettingsController {
                 initData.myContact,
                 initData.participant
             );
+            initData = getleastYOBFormat(initData);
             initData.isActiveDelegate = PatientDelegateEnrollmentService.isActiveDelegate(
                 initData.myContact.Id
             );
@@ -301,6 +303,33 @@ public without sharing class AccountSettingsController {
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
+    }
+    public static AccountSettingsController.AccountData getleastYOBFormat(AccountSettingsController.AccountData initData) {
+        List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
+        List<Participant_Enrollment__c> perListForYOB = new List<Participant_Enrollment__c>();
+        Set<Id> participantIdSet = new Set<Id>();
+        allPdeList = PatientDelegateEnrollmentService.getPDEnrollmentforDelContact(
+            initData.myContact.Id,
+            (Id) initData.myContact.userCommunityDelegateId__c
+        );
+        participantIdSet.add(initData.participant.Id);
+        perList = PatientDelegateService.getPerRecords(participantIdSet);
+        //Del self view
+        if(allPdeList != null  && allPdeList.size() >0  && perList.size() == 0){
+            initData.consentPreferenceData.studySiteYOBFormat = 'YYYY';
+        }
+        else {
+            for (Patient_Delegate_Enrollment__c pde : allPdeList) {
+                perListForYOB.add(pde.Participant_Enrollment__r);
+            }
+            perListForYOB.addAll(perList);
+        }
+        if(perListForYOB != null && perListForYOB.size() >0){
+             initData.consentPreferenceData.studySiteYOBFormat = leastYOBFormat(
+                perListForYOB
+            );
+        }
+        return initData;
     }
     @AuraEnabled
     public static void updateParticipant(String cont, String participantJSON) {
@@ -1241,7 +1270,6 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 //Pure Delegate Self View.
                 initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = isIQIVAOutrechToggleOnAtCTPForDel;
                 initData.consentPreferenceData.isParticipantLoggedIn = false;
-                initData.consentPreferenceData.studySiteYOBFormat = 'YYYY';
             }
         } else {
             if (
@@ -1268,14 +1296,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = isIQIVAOutrechToggleOnAtCTP;
         }
 
-        if (
-            initData.consentPreferenceData.perList != null &&
-            initData.consentPreferenceData.perList.size() > 0
-        ) {
-            initData.consentPreferenceData.studySiteYOBFormat = leastYOBFormat(
-                initData.consentPreferenceData.perList
-            );
-        }
+        
         Boolean isParticipantLoggedInTemp = initData.consentPreferenceData.isParticipantLoggedIn;
         Boolean isDelegateSelfViewTemp = initData.consentPreferenceData.isDelegateSelfView;
         Participant__c currentParticipantTemp = new Participant__c();

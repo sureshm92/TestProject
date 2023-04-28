@@ -52,6 +52,7 @@ export default class PpProgressBar extends LightningElement {
         PP_ProgressBar_No_Visit,
         PP_ProgressBar_Event_Complete
     };
+    @api
     parentWrapper ;
     bars;
     barsToShow;
@@ -84,7 +85,7 @@ export default class PpProgressBar extends LightningElement {
                 this.dispatchEvent(emptyEvent);
             }
         })
-        .catch(error => {
+        .catch(error => {            
             console.log(error);
             const emptyEvent = new CustomEvent('progressbarempty', {
                 detail: null
@@ -195,6 +196,11 @@ export default class PpProgressBar extends LightningElement {
             variant: _variant,
         });
         this.dispatchEvent(evt);
+    }
+    learnMore(){
+        if(this.parentWrapper.journeyLink != null){
+            window.open(this.parentWrapper.journeyLink);
+        } 
     }
     get title(){
         if(this.parentWrapper.progressWrapperList[this.currentCard-1])
