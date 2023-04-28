@@ -756,8 +756,8 @@ public without sharing class Action_SendSMS implements Action {
                                 (pdelEnrollmentrecrd != null) &&
                                 pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                 pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                            welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                            welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                            welcomemsgsent =pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                            welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
                         } else {
                             isSMSAvailableForPER =
                                 peOBJ.Permit_SMS_Text_for_this_study__c &&
@@ -798,8 +798,8 @@ public without sharing class Action_SendSMS implements Action {
                                         (pdelEnrollmentrecrd != null) &&
                                         pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                         pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                        welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                                        welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;            
+                                        welcomemsgsent = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;            
                                     } else {
                                     isSMSAvailableForPER =
                                         per.Permit_SMS_Text_for_this_study__c &&
@@ -859,8 +859,8 @@ public without sharing class Action_SendSMS implements Action {
                                     (pdelEnrollmentrecrd != null) &&
                                     pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                     pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                                welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                welcomemsgsent = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
                                 } else {
                                 isSMSAvailableForPER =
                                     peIdMap.get(taskMap.get(whatId).WhatId)
@@ -923,8 +923,8 @@ public without sharing class Action_SendSMS implements Action {
                                     (pdelEnrollmentrecrd != null) &&
                                     pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                     pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                                welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                welcomemsgsent = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
     
                                 } else {
                                 isSMSAvailableForPER =
@@ -987,8 +987,8 @@ public without sharing class Action_SendSMS implements Action {
                                     (pdelEnrollmentrecrd != null) &&
                                     pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                     pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                                welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                welcomemsgsent = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
                             } else {
                                 isSMSAvailableForPER =
                                     tvOBJ.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c &&
@@ -1036,8 +1036,8 @@ public without sharing class Action_SendSMS implements Action {
                                         (pdelEnrollmentrecrd != null) &&
                                         pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                         pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                    welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                                    welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                    welcomemsgsent = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                    welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
         
                                     } else {
                                     isSMSAvailableForPER =
@@ -1104,8 +1104,8 @@ public without sharing class Action_SendSMS implements Action {
                                     (pdelEnrollmentrecrd != null) &&
                                     pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                     pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                welcomemsgsent = pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                                welcomemsgDelivered = pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                welcomemsgsent =pdelEnrollmentrecrd != null &&   pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
     
                                 } else {
                                 isSMSAvailableForPER =
