@@ -12,6 +12,7 @@ import NOT_AVAILABLE from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Enter
 export default class PpMyVisitResultsList extends LightningElement {
     @track completedVisitsWithResults;
     showSpinner = true;
+    showResultSpinner;
     @api currentVisitId;
     urlString;
     patientVisitWrapper;
@@ -92,8 +93,10 @@ export default class PpMyVisitResultsList extends LightningElement {
                     }
                 }
 
-                //pass currentVisitId and patientVisitWrapper to jayashree component
                 if (this.onLoad) this.showSpinner = false;
+                if (this.showResultSpinner) {
+                    this.showResultSpinner = false;
+                }
                 this.showResults = true;
             })
             .catch((error) => {
@@ -119,6 +122,7 @@ export default class PpMyVisitResultsList extends LightningElement {
     onVisitSelect(event) {
         this.currentVisitId = event.currentTarget.dataset.id;
         this.onLoad = false;
+        this.showResultSpinner = true;
         this.initializeData();
         this.handleVisitChangeCSS();
         this.showResults = false;
@@ -131,7 +135,6 @@ export default class PpMyVisitResultsList extends LightningElement {
             });
             this.dispatchEvent(custEvent);
         }
-        this.showResults = true;
     }
 
     handleBackToVisitList() {
