@@ -1,5 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitDataAndCount';
+import showProgress from '@salesforce/apex/PP_ProgressBarUtility.showProgress';
 import DEVICE from '@salesforce/client/formFactor';
 // importing Custom Label
 import PPWELCOME from '@salesforce/label/c.PP_Welcome';
@@ -67,7 +68,7 @@ export default class HomePageParticipantNew extends LightningElement {
     updateCardLayoutClass = 'around-small-custom';
     updateCardLayoutSmall = true;
     progressBarLayoutClass = 'around-small-custom around-right-zero';
-
+    showProgressMobile = true;
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
     }
@@ -251,7 +252,16 @@ export default class HomePageParticipantNew extends LightningElement {
                             !this.participantState.isDelegate &&
                             !this.participantState.pe);
                 }
-                this.isInitialized = true;                
+                this.isInitialized = true;        
+                if(!this.desktop && this.participantState.pe){
+                    showProgress({ peId: this.participantState.pe.Id })
+                        .then(result => {
+                            this.showProgressMobile = result;
+                        })
+                        .catch(error => {
+                            this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
+                        });
+                }        
             })
             .catch((error) => {
                 this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
