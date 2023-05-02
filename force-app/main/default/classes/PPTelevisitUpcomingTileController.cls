@@ -19,6 +19,34 @@ Public without sharing Class PPTelevisitUpcomingTileController{
     }
     
     @auraEnabled
+    Public Static Boolean CheckIfTelevisitToggleOnForAlumni(){
+        String userId = UserInfo.getUserId();
+        List<User> lstUsr = [SELECT ContactId FROM User WHERE Id =:userId limit 1];
+        Boolean televisitVendorAvailable = false;
+        Set<Id> ssIds = new Set<Id>();
+        Set<Id> actualSSIds = new Set<Id>();
+        
+        for(Participant_Enrollment__c pe : [SELECT Id,Name,Study_Site__c FROM Participant_Enrollment__c WHERE Participant_Contact__c =:lstUsr[0].ContactId]){
+            ssIds.add(pe.Study_Site__c);
+        }
+        
+        for(TelevisitVendorSettings__c tvs :[SELECT Id,Study_Site__c FROM TelevisitVendorSettings__c  WHERE isEnable__c = TRUE AND Study_Site__r.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c = TRUE AND Study_Site__c IN:ssIds]){
+            actualSSIds.add(tvs.Study_Site__c);
+        }
+        
+        for(Participant_Enrollment__c pe : [SELECT Id,Name,Study_Site__c,Study_Site__r.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c FROM Participant_Enrollment__c WHERE Participant_Contact__c =:lstUsr[0].ContactId]){
+            if(pe.Study_Site__r.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c && actualSSIds.contains(pe.Study_Site__c)){
+                televisitVendorAvailable = true;
+                break;
+            }else{
+                televisitVendorAvailable = false;
+            }
+        }
+        
+        return televisitVendorAvailable;
+        
+    }
+    @auraEnabled
     Public Static List<TelevisitWrapper> fetchTelevisitAttendees(List<String> lstTelevisitIds){
         List<TelevisitWrapper> lstTelevisitWrapper = new List<TelevisitWrapper>();
         List<televisitattendeeWrapper> lstTelevisitAttendeeWrapper = new List<televisitattendeeWrapper>();

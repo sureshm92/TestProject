@@ -183,6 +183,14 @@
     min-width: 160px;
     border-radius: 4px;
     width: 100%;
+    background: #ffff;
+    justify-content: center;
+}
+.box-add-assignment-btn:disabled {
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.4;
 }
 .apollo-btn.secondary:hover {
     border: 1px solid #0768fd !important;
@@ -199,6 +207,7 @@
     background: #fff;
     padding: 6px 16px;
     font-size: 1rem;
+    justify-content: center;
 }
 
 .btn-discard.apollo-btn.secondary:hover {

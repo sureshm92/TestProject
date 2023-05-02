@@ -641,6 +641,7 @@ public without sharing class NotificationAvailabilityService {
                                     taskrecrd.Ecoa_Task_Configuration_del__r.Participant_Enrollment__c
                                 );
                             perEmailToSend =
+                                pdelEnrollmentrecrd != null &&
                                 pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
@@ -679,6 +680,7 @@ public without sharing class NotificationAvailabilityService {
                 )
                 .get(pe.Id);
             perEmailToSend =
+                pdelEnrollmentrecrd != null &&
                 pdelEnrollmentrecrd.Study_Email_Consent__c &&
                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
