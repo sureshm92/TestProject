@@ -18,6 +18,7 @@ import getVisitsPreviewAndCount from '@salesforce/apex/ParticipantVisitsRemote.g
 import getVisits from '@salesforce/apex/PPTelevisitUpcomingTileController.getVisits';
 import getSendResultCount from '@salesforce/apex/PPUpdatesController.getSendResultCount';
 import CheckIfTelevisitToggleOnForDelegate from '@salesforce/apex/PPTelevisitUpcomingTileController.CheckIfTelevisitToggleOnForDelegate';
+import CheckIfTelevisitToggleOnForAlumni from '@salesforce/apex/PPTelevisitUpcomingTileController.CheckIfTelevisitToggleOnForAlumni';
 
 export default class HomePageParticipantNew extends LightningElement {
     label = {
@@ -46,6 +47,7 @@ export default class HomePageParticipantNew extends LightningElement {
     showProgress = false;
     showTelevisitCard = false;
     @track showTelevisitCardDelegate = false;
+    @track showTelevisitCardAlumni = false;
     updatesSection = false;
     @track showVisitCardMobile = false;
     updateSize;
@@ -213,24 +215,13 @@ export default class HomePageParticipantNew extends LightningElement {
 
                         this.showSpinner = true;
                         this.showUpcomingSection = false;
-                        
-                        CheckIfTelevisitToggleOnForDelegate()
-                            .then((result) => {
-                                this.showSpinner = false;
-                                this.showTelevisitCardDelegate = result;
-                                if(this.isDelegateSelfview && !this.showTelevisitCardDelegate){
-                                    this.showUpcomingSection = false;
-                                    if (this.desktop != true) {
-                                        this.showVisitCardMobile = false;
-                                    }
-                                }else{
-                                    this.showUpcomingSection = true;
-                                }
-                            })
-                            .catch((error) => {
-                                console.log('Error :',error);
-                            });
+
+                        if(this.participantState.hasPatientDelegates)
+                            this.CheckIfTelevisitToggleOnForDelegate();
+                        else    
+                            this.CheckIfTelevisitToggleOnForAlumni();
                     }
+                    
                     if (this.desktop != true) {
                         this.updatesSection = true;
                         // this.showVisitCardMobile = true;
@@ -259,6 +250,48 @@ export default class HomePageParticipantNew extends LightningElement {
             });
         },40);
        
+    }
+
+    CheckIfTelevisitToggleOnForDelegate(){
+        this.showSpinner = true;
+        this.showUpcomingSection = false;
+        CheckIfTelevisitToggleOnForDelegate()
+        .then((result) => {
+            this.showSpinner = false;
+            this.showTelevisitCardDelegate = result;
+            if(this.isDelegateSelfview && !this.showTelevisitCardDelegate){
+                this.showUpcomingSection = false;
+                if (this.desktop != true) {
+                    this.showVisitCardMobile = false;
+                }
+            }else{
+                this.showUpcomingSection = true;
+            }
+        })
+        .catch((error) => {
+            console.log('Error :',error);
+        });
+    }
+
+    CheckIfTelevisitToggleOnForAlumni(){
+        this.showSpinner = true;
+        this.showUpcomingSection = false;
+        CheckIfTelevisitToggleOnForAlumni()
+        .then((result) => {
+            this.showSpinner = false;
+            this.showTelevisitCardAlumni = result;
+            if(this.isDelegateSelfview && !this.showTelevisitCardAlumni){
+                this.showUpcomingSection = false;
+                if (this.desktop != true) {
+                    this.showVisitCardMobile = false;
+                }
+            }else{
+                this.showUpcomingSection = true;
+            }
+        })
+        .catch((error) => {
+            console.log('Error :',error);
+        });
     }
 
     renderedCallback() {
