@@ -80,7 +80,7 @@ export default class PpMyVisitResultsList extends LightningElement {
             .then((patientVisitWrapper) => {
                 this.patientVisitWrapper = patientVisitWrapper;
                 this.completedVisitsWithResults = patientVisitWrapper.patientVisitsWithResultsList;
-                if (this.completedVisitsWithResults && !this.currentVisitId) {
+                if (this.completedVisitsWithResults && !this.currentVisitId && this.isDesktop) {
                     this.currentVisitId = this.completedVisitsWithResults[0]?.Id;
                     this.currentVisit = this.completedVisitsWithResults[0];
                 } else if (this.currentVisitId) {
@@ -131,7 +131,6 @@ export default class PpMyVisitResultsList extends LightningElement {
             });
             this.dispatchEvent(custEvent);
         }
-
         this.showResults = true;
     }
 
@@ -139,6 +138,8 @@ export default class PpMyVisitResultsList extends LightningElement {
         if (this.isMobile || this.isTablet) {
             window.history.replaceState(null, null, '?vrlistHome');
             this.urlString = window.location.href;
+            this.currentVisit = '';
+            this.currentVisitId = '';
             const custEvent = new CustomEvent('visitclick', {
                 detail: false
             });
