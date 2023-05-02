@@ -322,3 +322,7 @@ hr {
         margin-top: 1rem;
     }
 }
+
+a:hover {
+    text-decoration: none !important;
+}
