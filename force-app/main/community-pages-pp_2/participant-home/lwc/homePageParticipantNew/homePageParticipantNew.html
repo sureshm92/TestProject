@@ -288,10 +288,20 @@
                                         </c-web-icon>
                                     </div>
                                     <template if:true={isProgram}>
-                                        <p class="p-text">{label.EVENTS}</p>
+                                        <template if:true={isDelegateSelfview}>
+                                            <p class="p-text-televisit">{label.TELEVISITS}</p>
+                                        </template>
+                                        <template if:false={isDelegateSelfview}>
+                                            <p class="p-text">{label.EVENTS}</p>
+                                        </template>
                                     </template>
                                     <template if:false={isProgram}>
-                                        <p class="p-text">{label.VISITS}</p>
+                                        <template if:true={isDelegateSelfview}>
+                                            <p class="p-text-televisit">{label.TELEVISITS}</p>
+                                        </template>
+                                        <template if:false={isDelegateSelfview}>
+                                            <p class="p-text">{label.VISITS}</p>
+                                        </template>
                                     </template>
                                 </div>
                             </template>

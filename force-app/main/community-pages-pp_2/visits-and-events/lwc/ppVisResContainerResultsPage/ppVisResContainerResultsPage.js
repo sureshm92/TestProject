@@ -57,6 +57,9 @@ export default class PpMyResultsContainer extends LightningElement {
     resultsWrapper;
     initialised = false;
     @track showSpinnerResults;
+    showToggleSpinner = false;
+    showTabSpinner;
+    onLoad = true;
 
     toggleOffHeart = pp_icons + '/' + 'heart_Icon.svg';
 
@@ -66,6 +69,7 @@ export default class PpMyResultsContainer extends LightningElement {
     }
     set selectedVisit(value) {
         this.currentVisit = value;
+        this.showSpinner = true;
         this.initializeData();
     }
 
@@ -77,8 +81,10 @@ export default class PpMyResultsContainer extends LightningElement {
         this.patientVisitWrapper = value;
     }
     connectedCallback() {
-        this.showSpinner = true;
-        this.initializeData();
+        if (!this.isDesktop) {
+            //  this.showTabSpinner = true;
+            this.initializeData();
+        }
     }
 
     get showTabs() {
@@ -91,6 +97,12 @@ export default class PpMyResultsContainer extends LightningElement {
         } else if (this.isMobile) {
             return mobileTemplate;
         } else {
+            // if (this.onLoad) {
+            //     this.showTabSpinner = true;
+            //     this.onLoad = false;
+            // } else {
+            //     this.showTabSpinner = false;
+            // }
             return tabletTemplate;
         }
     }
@@ -105,6 +117,19 @@ export default class PpMyResultsContainer extends LightningElement {
     get isTablet() {
         return FORM_FACTOR == 'Medium';
     }
+
+    get patientVisitName() {
+        return this.selectedVisit ? this.currentVisit.Visit__r.Patient_Portal_Name__c : '';
+    }
+
+    get completedDate() {
+        return this.selectedVisit ? this.currentVisit.Completed_Date__c : '';
+    }
+
+    get isInitialized() {
+        return this.patientVisitWrapper && this.currentVisit ? true : false;
+    }
+
     checkButtonClass() {
         if (this.visResultTypeTabs.length == 1) {
             this.selectedResultType = this.visResultTypeTabs[0];
@@ -228,7 +253,7 @@ export default class PpMyResultsContainer extends LightningElement {
     }
 
     handleVRToggle(event) {
-        this.showSpinner = true;
+        this.showToggleSpinner = true;
         modifiedSwitchToggleRemote({
             visitResultsMode: this.selectedResultType,
             isToggleOn: event.target.checked
@@ -241,21 +266,22 @@ export default class PpMyResultsContainer extends LightningElement {
                 } else if (this.selectedResultType === 'Biomarkers') {
                     this.isBiomarkersToggleOn = !this.isBiomarkersToggleOn;
                 }
-                this.showSpinner = false;
+                this.showToggleSpinner = false;
                 this.initialised = true;
             })
             .catch((error) => {
                 console.error('Error occured here', error.message, 'error');
-                this.showSpinner = false;
+                this.showToggleSpinner = false;
                 this.initialised = true;
             });
     }
     initializeData() {
+        this.showSpinner = true;
         if (!communityService.isDummy()) {
             if (this.patientVisitWrapper) {
                 let result = this.patientVisitWrapper;
                 this.validVisitResults = result.isVisitResultsAvailable;
-                if (this.validVisitResults) {
+                if (this.validVisitResults == true) {
                     if (
                         result.visitResultsGroupNamesCTP &&
                         result.visitResultsGroupNamesCTP.length
@@ -273,11 +299,11 @@ export default class PpMyResultsContainer extends LightningElement {
                         ? result.toggleStateForBiomarkers
                         : false;
                     this.showSpinner = false;
-                    this.initialised = true;
+                    this.showTabSpinner = false;
                     this.visitResultTypeWithSubTypes = result.visitResultWithSubTypesCTP;
-                } else {
+                } else if (this.validVisitResults == false) {
                     this.showSpinner = false;
-                    this.initialised = true;
+                    this.showTabSpinner = false;
                 }
             }
         }
