@@ -287,9 +287,11 @@ public without sharing class PIR_ParticipantDetailController {
       }
       //delegate operation
       Id contactId ;
+      Boolean isNewDel = false;
       if (isDelUpdated) {
 
         if(delegateCriteria == 'insertDelegate'){
+          isNewDel = true;
           Participant__c piToInsertDelegate = new Participant__c();
           piToInsertDelegate = peDeligate.Participant_Delegate__r;
           piToInsertDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
@@ -309,8 +311,9 @@ public without sharing class PIR_ParticipantDetailController {
           }
           contactId = parti[0].Contact__c;
           insert pdToupdateAfterInsert;
-          createPDE(parti[0].Contact__c,pdToupdateAfterInsert,perRecord,consentWrapper);
+          createPDE(parti[0].Contact__c,isNewDel,pdToupdateAfterInsert,perRecord,consentWrapper);
         }else if(delegateCriteria == 'insertDelegateSiteStaff'){
+          isNewDel = true;
           Participant__c piToInsertDelegate = new Participant__c();
           piToInsertDelegate = peDeligate.Participant_Delegate__r;
           piToInsertDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
@@ -331,7 +334,7 @@ public without sharing class PIR_ParticipantDetailController {
           }
           contactId = contactIdSiteStaff;
           insert pdToupdateAfterInsert;
-          createPDE(contactIdSiteStaff,pdToupdateAfterInsert,perRecord,consentWrapper);
+          createPDE(contactIdSiteStaff,isNewDel,pdToupdateAfterInsert,perRecord,consentWrapper);
         }else if(delegateCriteria == 'updateParticipant'){
           Participant__c piToUpdateDelegate = new Participant__c();
           piToUpdateDelegate = peDeligate.Participant_Delegate__r;
@@ -418,14 +421,16 @@ public without sharing class PIR_ParticipantDetailController {
                         update pdeToupdateDuplicate;    
                         update new contact (id =pd[0].Contact__c, userCommunityIsDelegate__c = true) ; 
                  }else{
+                  isNewDel = false;
                       contactId = peDeligate.Participant_Delegate__r.Contact__c;
                       Patient_Delegate__c patdelgate = new Patient_Delegate__c();
                       patdelgate = [Select Id,Participant__c,Contact__c, Participant_Delegate__c,Contact__r.Participant_Opt_In_Status_SMS__c,Attestation__c,
                             Attestation_TimeStamp__c,Attested_by__c,isInviteToPP__c,Primary_Delegate__c from Patient_Delegate__c where Id=:pd[0].Id];
-                      createPDE(contactId,patdelgate ,perRecord,consentWrapper );
+                      createPDE(contactId,isNewDel,patdelgate ,perRecord,consentWrapper );
                  }
                   
             }else{
+              isNewDel = false;
                 Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
                 Primary_Delegate__c = true,
                 Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
@@ -436,10 +441,11 @@ public without sharing class PIR_ParticipantDetailController {
                 contactId = peDeligate.Participant_Delegate__r.Contact__c;
                 insert pdToupdateAfterInsertDuplicate;
                 
-                createPDE(contactId,pdToupdateAfterInsertDuplicate,perRecord,consentWrapper);
+                createPDE(contactId,isNewDel,pdToupdateAfterInsertDuplicate,perRecord,consentWrapper);
                  
               }
           }else{
+            isNewDel = false; 
             Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
               Primary_Delegate__c = true,
               Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
@@ -449,7 +455,7 @@ public without sharing class PIR_ParticipantDetailController {
             );
             contactId = peDeligate.Participant_Delegate__r.Contact__c;
             insert pdToupdateAfterInsertDuplicate;
-            createPDE(contactId,pdToupdateAfterInsertDuplicate,perRecord,consentWrapper);
+            createPDE(contactId,isNewDel,pdToupdateAfterInsertDuplicate,perRecord,consentWrapper);
              
           }
         }else if(string.isBlank(peDeligate.Participant_Delegate__r.First_Name__c)){//if(delegateCriteria == 'deleteDelegate'){
@@ -578,12 +584,17 @@ public without sharing class PIR_ParticipantDetailController {
       update con;
     
   }
-  public static void createPDE(Id delcon, Patient_Delegate__c peDeligate, Participant_Enrollment__c perRecord,ConsentDetailsWrapper consentWrapper){
+  public static void createPDE(Id delcon,Boolean isNewDel, Patient_Delegate__c peDeligate, Participant_Enrollment__c perRecord,ConsentDetailsWrapper consentWrapper){
         contact con = new Contact();
         con.id =delcon;
         con.AccountId = [Select Id,Participant__c,Participant__r.Contact__r.AccountId from Participant_Enrollment__c where Id=:perRecord.Id].Participant__r.Contact__r.AccountId;
         if(con.AccountId != null){
         con.userCommunityIsDelegate__c = true; 
+        if(isNewDel == true){
+          con.MailingPostalCode = perRecord.Participant__r.Mailing_Zip_Postal_Code__c;
+          con.MailingState = perRecord.Participant__r.Mailing_State__c;
+          con.MailingCountry = perRecord.Participant__r.Mailing_Country__c;
+        }
         update con;
         }
         else {
