@@ -42,7 +42,7 @@ export default class PpMyResultsCard extends LightningElement {
     }
 
     handleShowResultsHeader(event) {
-        if (this.isMobile) this.showResultsinMobile = false;
-        else if (this.isTablet) this.showResultsinTablet = false;
+        if (this.isMobile) this.showResultsinMobile = !this.showResultsinMobile;
+        else if (this.isTablet) this.showResultsinTablet = !this.showResultsinTablet;
     }
 }

@@ -232,7 +232,7 @@ export default class PpVisitResultTypeInfo extends NavigationMixin(LightningElem
             ? {
                   pvId: this.patientVisitId
               }
-            : { vrlistHome: null, pvId: this.patientVisitId };
+            : { vrlist: null, pvId: this.patientVisitId };
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
