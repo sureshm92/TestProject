@@ -109,10 +109,9 @@
                 ></c-pp-vis-res-container-results-page>
             </template>
             <template lwc:else>
-                <c-web-spinner
-                    class="main-spinner"
-                    show-spinner={showSpinner}
-                ></c-web-spinner></template
+                <div class="list-container">
+                    <c-web-spinner class="main-spinner" show-spinner={showResultSpinner}>
+                    </c-web-spinner></div></template
         ></template>
     </template>
 </template>
