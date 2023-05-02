@@ -190,6 +190,7 @@
     box-shadow: none;
     cursor: not-allowed;
     pointer-events: none;
+    opacity: 0.4;
 }
 .apollo-btn.secondary:hover {
     border: 1px solid #0768fd !important;
