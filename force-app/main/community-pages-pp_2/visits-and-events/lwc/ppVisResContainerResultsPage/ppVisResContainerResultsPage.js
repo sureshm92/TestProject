@@ -58,6 +58,8 @@ export default class PpMyResultsContainer extends LightningElement {
     initialised = false;
     @track showSpinnerResults;
     showToggleSpinner = false;
+    showTabSpinner;
+    onLoad = true;
 
     toggleOffHeart = pp_icons + '/' + 'heart_Icon.svg';
 
@@ -67,6 +69,7 @@ export default class PpMyResultsContainer extends LightningElement {
     }
     set selectedVisit(value) {
         this.currentVisit = value;
+        this.showSpinner = true;
         this.initializeData();
     }
 
@@ -78,9 +81,10 @@ export default class PpMyResultsContainer extends LightningElement {
         this.patientVisitWrapper = value;
     }
     connectedCallback() {
-        console.log('JJ page');
-        this.showSpinner = true;
-        this.initializeData();
+        if (!this.isDesktop) {
+            //  this.showTabSpinner = true;
+            this.initializeData();
+        }
     }
 
     get showTabs() {
@@ -93,6 +97,12 @@ export default class PpMyResultsContainer extends LightningElement {
         } else if (this.isMobile) {
             return mobileTemplate;
         } else {
+            // if (this.onLoad) {
+            //     this.showTabSpinner = true;
+            //     this.onLoad = false;
+            // } else {
+            //     this.showTabSpinner = false;
+            // }
             return tabletTemplate;
         }
     }
@@ -266,13 +276,12 @@ export default class PpMyResultsContainer extends LightningElement {
             });
     }
     initializeData() {
-        console.log('JJ page initi');
-
+        this.showSpinner = true;
         if (!communityService.isDummy()) {
             if (this.patientVisitWrapper) {
                 let result = this.patientVisitWrapper;
                 this.validVisitResults = result.isVisitResultsAvailable;
-                if (this.validVisitResults) {
+                if (this.validVisitResults == true) {
                     if (
                         result.visitResultsGroupNamesCTP &&
                         result.visitResultsGroupNamesCTP.length
@@ -290,11 +299,11 @@ export default class PpMyResultsContainer extends LightningElement {
                         ? result.toggleStateForBiomarkers
                         : false;
                     this.showSpinner = false;
-                    this.initialised = true;
+                    this.showTabSpinner = false;
                     this.visitResultTypeWithSubTypes = result.visitResultWithSubTypesCTP;
-                } else {
+                } else if (this.validVisitResults == false) {
                     this.showSpinner = false;
-                    this.initialised = true;
+                    this.showTabSpinner = false;
                 }
             }
         }
