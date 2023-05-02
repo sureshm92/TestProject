@@ -711,6 +711,7 @@ export default class PpAddNewDelegate extends LightningElement {
                     delegateFilterData: JSON.stringify(selectedStudies)
                 })
                     .then((result) => {
+                        this.isLoading = false;
                         communityService.showToast(
                             '',
                             'success',
@@ -721,7 +722,6 @@ export default class PpAddNewDelegate extends LightningElement {
                         this.isEmailConsentChecked = false;
                         this.resetInputValues(true);
                         this.goBackToManageDelegate();
-                        this.isLoading = false;
                     })
                     .catch((error) => {
                         communityService.showToast('', 'error', 'Failed To save the Data...', 100);

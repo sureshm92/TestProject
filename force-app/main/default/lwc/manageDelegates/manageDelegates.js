@@ -162,9 +162,8 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     getDelegates() {
         getPDE()
             .then((result) => {
-                //console.log('success', result);
-                this.setInitializedData(result);
                 this.spinner = false;
+                this.setInitializedData(result);
                 this.dataInitialized = true;
             })
             .catch((error) => {

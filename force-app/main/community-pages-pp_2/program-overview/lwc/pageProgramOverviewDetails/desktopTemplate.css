@@ -335,14 +335,18 @@ span:hover {
 
 .piName {
     height: 19px;
-    width: 146px;
+    /* width: 146px; */
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 17px;
-    text-align: center;
+    /* text-align: center; */
     padding-left: 27px;
+}
+
+.piName-text {
+    margin-left: 15px;
 }
 
 .tdpiIcon {

@@ -310,7 +310,7 @@
 .piName {
     /* height: 19px; */
     height: auto;
-    width: 146px;
+    /* width: 146px; */
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -323,7 +323,7 @@
 .piIcon {
     height: 20px;
     width: 18px;
-    margin-right: 15px;
+    /* margin-right: 15px; */
 }
 
 .phoneIcon {
@@ -349,4 +349,9 @@
 
 .mr-left-54 {
     margin-left: 54px;
+}
+
+.piName-text {
+    width: 233px;
+    margin-left: 15px;
 }

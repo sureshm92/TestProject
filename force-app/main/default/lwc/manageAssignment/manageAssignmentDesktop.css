@@ -155,3 +155,9 @@
     border-top: none;
     border-radius: 4px;
 }
+.help-text-item-p-left {
+    padding-left: 14.5%;
+}
+.help-text-item-p-right {
+    padding-right: 14.5%;
+}

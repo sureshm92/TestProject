@@ -1,11 +1,8 @@
 <template>
     <template if:false={desktop}>
-        <div class="slds-grid slds-wrap card-border">
-            <div class="slds-col slds-size_2-of-6 card-element" onclick={navigateResourceDetail}>
-                <div
-                    class="slds-align_absolute-center icon-container"
-                    onclick={navigateResourceDetail}
-                >
+        <div class="slds-grid slds-wrap card-border" onclick={navigateResourceDetail}>
+            <div class="slds-col slds-size_2-of-6 card-element">
+                <div class="slds-align_absolute-center icon-container">
                     <div
                         if:true={thumbnailPresent}
                         class="thumbnail-image thumbnail-image-padding slds-align_absolute-center"
@@ -15,7 +12,6 @@
                             class="thumnail-img-mobile"
                             alt="Image N/A"
                             onerror={handleNoThumnnailError}
-                            onclick={navigateResourceDetail}
                         />
                     </div>
                     <c-web-icon
@@ -30,13 +26,7 @@
             </div>
             <div class="slds-col slds-size_4-of-6 card-data-element">
                 <div class="slds-grid slds-wrap title-section-mobile slds-truncate">
-                    <p
-                        class="document-label"
-                        onclick={navigateResourceDetail}
-                        title={documentData.title}
-                    >
-                        {documentData.title}
-                    </p>
+                    <p class="document-label" title={documentData.title}>{documentData.title}</p>
                 </div>
                 <div class="slds-grid date-section-mobile">
                     <div class="slds-col slds-size_11-of-12">

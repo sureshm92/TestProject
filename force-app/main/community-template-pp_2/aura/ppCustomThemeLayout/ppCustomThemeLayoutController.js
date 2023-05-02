@@ -11,7 +11,9 @@
     handleLoadTelevisitBanner: function (component, event, helper) {
         let loadTelevisitBanner = event.getParam('loadTelevisitBanner');
         component.set('v.handleTelevistBanner', loadTelevisitBanner);
-        component.find('spinner').hide();
+        if(component.find('spinner')){
+            component.find('spinner').hide();
+        }
     },
     doRefresh: function (component, event, helper) {
         helper.init(component);
@@ -45,6 +47,17 @@
     handleHamberungTouchEnd: function (component, event, helper) {
         if ($A.get('$Browser.formFactor') != 'DESKTOP' && component.get('v.stopLoading')) {
             component.set('v.stopLoading', false);
+        }
+    },
+
+    handleMessage: function (component, event, helper) {
+        // Read the message argument to get the values in the message payload
+        alert("Handler: orientation change");
+        if (event != null && event.getParams() != null) {
+            const message = event.getParam('hideFooter');
+            if (message) {
+                component.set('v.hideFooter', message);
+            }
         }
     }
 });

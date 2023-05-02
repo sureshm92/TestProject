@@ -10,6 +10,7 @@ import updatesLabel from '@salesforce/label/c.Updates_Label';
 import viewAllResource from '@salesforce/label/c.View_All_Resource';
 import caughtup from '@salesforce/label/c.Caught_up';
 import refresh from '@salesforce/label/c.PP_Update_Refresh';
+import load_more from '@salesforce/label/c.PP_Load_More';
 export default class PpUpdates extends NavigationMixin(LightningElement) {
     @api desktop;
     @api showvisitsection;
@@ -19,13 +20,11 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     resourcePresent = false;
     desktop = true;
     isInitialized = false;
-    counter = 0;
-    counterLabel = 0;
-    displayCounter = false;
     open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
     empty_state = pp_community_icons + '/' + 'empty_updates.PNG';
     link_state = pp_community_icons + '/' + 'linkssvg.svg';
     refresh_icon = pp_community_icons + '/' + 'refresh_Icon.svg';
+    loadmore_icon = pp_community_icons + '/' + 'down.svg';
     isRendered = false;
     offset = 0;
     limit = 4;
@@ -33,12 +32,50 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         updatesLabel,
         viewAllResource,
         caughtup,
-        refresh
+        refresh,
+        load_more
     };
     timer;
-
+    initialLoadTime;
+    loadMoreValue;
+    get showloadMore() {
+        if (this.counter > 4 && this.loadMoreValue && this.counter > this.offset) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    get hor_scroll() {
+        if (this.counter > 4 && this.desktop && !this.showvisitsection) {
+            return 'slds-grid horizontal-scroll';
+        } else if (this.counter <= 4 && this.desktop && !this.showvisitsection) {
+            return 'slds-grid';
+        }
+    }
+    get ver_scroll() {
+        if (this.counter > 4 && this.desktop && this.showvisitsection) {
+            return 'slds-card__body slds-card__body_inner custom-padding vertical-scroll';
+        } else if (this.counter <= 4 && this.desktop && this.showvisitsection) {
+            return 'slds-card__body slds-card__body_inner custom-padding';
+        }
+    }
+    get displayCounter() {
+        if (this.counter > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    get counterLabel() {
+        if (this.counter < 100 && this.counter > 0) {
+            return this.counter;
+        } else if (this.counter >= 100) {
+            return '99+';
+        }
+    }
     renderedCallback() {
         if (!this.isRendered) {
+            this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
             this.isRendered = true;
             this.initializeData();
         }
@@ -47,16 +84,19 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
         this.getCount();
     }
     getCount() {
-        this.showCounterCheck();
         this.getUpdates();
     }
     getUpdates() {
         this.spinner = this.template.querySelector('c-web-spinner');
-        getSendResultUpdates({ offsets: this.offset, limits: this.limit })
+        getSendResultUpdates({
+            offsets: this.offset,
+            limits: this.limit,
+            initialLoadTime: this.initialLoadTime
+        })
             .then((returnValue) => {
                 returnValue.forEach((resObj) => {
                     if (resObj.contentType == 'Article' || resObj.contentType == 'Video') {
@@ -69,6 +109,10 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                         resObj.isLink = true;
                     } else if (resObj.contentType == 'Televisit') {
                         resObj.isTelevisit = true;
+                    } else if (resObj.contentType == 'VisitResult') {
+                        resObj.isVisitResult = true;
+                    } else {
+                        resObj.isMultimedia = true;
                     }
                 });
                 this.resourcedData = [...this.resourcedData, ...returnValue];
@@ -76,11 +120,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                     this.resourcePresent = true;
                 }
                 this.offset += this.limit;
-                if (this.showvisitsection) {
-                    this.addVerticalScroll();
-                } else {
-                    this.addHorizontalScroll();
-                }
+                this.loadMoreValue = true;
                 this.spinner.hide();
             })
             .catch((error) => {
@@ -89,38 +129,15 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             });
     }
     refreshUpdatesData() {
-        getSendResultCount()
+        getSendResultCount({ initialLoadTime: this.initialLoadTime })
             .then((returnValue) => {
                 this.counter = returnValue;
-                this.showCounterCheck();
                 this.getUpdates();
             })
             .catch((error) => {
                 console.log('error message : ' + error?.message);
                 this.spinner.hide();
             });
-    }
-    addHorizontalScroll() {
-        if (this.counter > 4 && this.desktop && !this.showvisitsection) {
-            var scrollDiv = this.template.querySelector('[data-id = "horz_scroll"]');
-            scrollDiv.classList.add('horizontal-scroll');
-        } else if (this.counter <= 4 && this.desktop && !this.showvisitsection) {
-            const myDiv = this.template.querySelector('.horizontal-scroll');
-            if (myDiv) {
-                myDiv.classList.remove('horizontal-scroll');
-            }
-        }
-    }
-    addVerticalScroll() {
-        if (this.counter > 4 && this.desktop && this.showvisitsection) {
-            var scrollDiv = this.template.querySelector('[data-id = "vert_scroll"]');
-            scrollDiv.classList.add('vertical-scroll');
-        } else if (this.counter <= 4 && this.desktop && this.showvisitsection) {
-            const myDiv = this.template.querySelector('.vertical-scroll');
-            if (myDiv) {
-                myDiv.classList.remove('vertical-scroll');
-            }
-        }
     }
     handleScroll(event) {
         const container = event.target;
@@ -149,8 +166,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     refresh() {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
+        this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
         this.counter = 0;
-        this.displayCounter = false;
         this.offset = 0;
         this.limit = 4;
         this.resourcedData = [];
@@ -159,15 +176,10 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             this.refreshUpdatesData();
         }, 1000);
     }
-
-    showErrorToast(titleText, messageText, variantType) {
-        this.dispatchEvent(
-            new ShowToastEvent({
-                title: titleText,
-                message: messageText,
-                variant: variantType
-            })
-        );
+    loadMore() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        this.spinner.show();
+        this.getUpdates();
     }
     handleRemoveCard(event) {
         const sendResultId = event.detail.sendResultId;
@@ -176,19 +188,5 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             .catch((error) => {
                 console.log('error message ' + error?.message);
             });
-    }
-    showCounterCheck() {
-        if (this.counter < 100 && this.counter > 0) {
-            this.displayCounter = true;
-            this.counterLabel = this.counter;
-            this.resourcePresent = true;
-        } else if (this.counter >= 100) {
-            this.displayCounter = true;
-            this.counterLabel = '99+';
-            this.resourcePresent = true;
-        } else if (this.counter <= 0) {
-            this.resourcePresent = false;
-            this.displayCounter = false;
-        }
     }
 }

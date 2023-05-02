@@ -77,9 +77,19 @@ export default class PpProgressBar extends LightningElement {
                 this.setBars(result.currentStatusVal);
                 this.showSpinner = false;
             }
+            else{
+                const emptyEvent = new CustomEvent('progressbarempty', {
+                    detail: null
+                });
+                this.dispatchEvent(emptyEvent);
+            }
         })
         .catch(error => {
             console.log(error);
+            const emptyEvent = new CustomEvent('progressbarempty', {
+                detail: null
+            });
+            this.dispatchEvent(emptyEvent);
         });
         if(this.parentClass!='big'){
             this.layoutClass1 = 'slds-col slds-size_1-of-1';

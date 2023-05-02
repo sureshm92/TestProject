@@ -177,7 +177,7 @@
                             <lightning-layout-item size="12">
                                 <span
                                     onclick={handleBackClick}
-                                    class="back-link slds-p-vertical_small"
+                                    class="back-link-mobile slds-p-vertical_small"
                                 >
                                     <c-web-icon
                                         icon-size="medium-large"
@@ -204,6 +204,10 @@
                             </lightning-layout-item>
                         </div>
 
+                        <div class="mobile-ladscape-back-button">
+                            <img src={backToRes} alt="Back to resoruces" onclick={handleBackClick} class="back-to-res"/>
+                        </div>
+
                         <lightning-layout-item size="12" class="resource-container1">
                             <!-- Insert PP detail page resource item for portrait as well as desktop -->
                             <template if:false={isDocument}>
@@ -223,10 +227,10 @@
                         <hr />
                     </div>
                     <!--****************  Resource Container **********************-->
-                    <lightning-layout multiple-rows="true" class="portrait-mode">
+                    <lightning-layout multiple-rows="true" class="">
                         <!--**************  Article/Videos ******************* -->
                         <template if:false={isDocument}>
-                            <lightning-layout-item size="12" class="resource-container">
+                            <lightning-layout-item size="12" class="resource-container portrait-mode">
                                 <!-- ***************** Resource Detail ***********************  -->
                                 <lightning-layout multiple-rows="true">
                                     <lightning-layout-item size="12" class="title-row">

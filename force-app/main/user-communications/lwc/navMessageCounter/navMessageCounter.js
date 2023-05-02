@@ -4,10 +4,15 @@
 
 import { LightningElement, api, track } from 'lwc';
 import getCounter from '@salesforce/apex/MessagePageRemote.getUnreadCount';
+import New from '@salesforce/label/c.New';
 
 export default class NavMessageCounter extends LightningElement {
     @api isOnPage = false;
     @track counter;
+    @api isMessagePage = false;
+    labels = {
+        New
+    };
 
     connectedCallback() {
         setInterval(

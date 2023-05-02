@@ -1,0 +1,38 @@
+<template>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12" class="chat-item" id="messageBody">
+            <template if:true={selectConWrap}>
+                <div class="ms-board-body">
+                    <template for:each={selectConWrap.messages} for:item="msWr" for:index="index">
+                        <c-pp-message-item key={msWr.message.Id} msg-item={msWr} msg-index={index} user-id={userId}
+                            message_attachment={message_attachment} file_default={file_default}></c-pp-message-item>
+                    </template>
+                </div>
+            </template>
+            <template if:false={selectConWrap}>
+                <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-center medium">
+                    <div class="slds-col">
+                        <p><img src={msgIllustration} /></p>
+                        <p class="slds-m-top_small empty-msg">{labels.PP_No_Messages}</p>
+                        <p class="empty-msg">{labels.PP_Select_Question_Below}</p>
+                    </div>
+                </div>
+            </template>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" class="question-item">
+            <lightning-layout>
+                <lightning-layout-item size="9">
+                    <lightning-combobox name="message" value={messageValue} placeholder={labels.PP_Select_Question}
+                        options={options} onchange={handleChange} class="selection" dropdown-alignment="bottom-left">
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" class="send-button">
+                    <button class="apollo-btn primary ms-send-button" data-gtm="ms-send-pa-button"
+                        onclick={handleSendClick} disabled={handleValidation} style="border-radius: 20px">
+                        {labels.BTN_Send}
+                    </button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

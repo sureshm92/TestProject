@@ -146,7 +146,8 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
             console.log('Televisit Get visits called');
             this.hasVisits = true;
             this.showMoreVisits = false;
-            getVisits({communityMode : 'IQVIA Patient Portal', userMode : 'Participant'})
+            setTimeout(()=>{
+                getVisits({communityMode : 'IQVIA Patient Portal', userMode : 'Participant'})
                 .then((result) => {
                     console.log('result',result);
                     var televisitInformation = JSON.parse(result);
@@ -208,6 +209,8 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
                     let message = error.message || error.body.message;
                     console.log('Error' + message);
                 });
+            },30);
+           
         }
 
         loadVisitData(visitData) {

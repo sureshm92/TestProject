@@ -1,15 +1,10 @@
 <template>
     <template if:false={desktop}>
-        <div class="slds-grid slds-wrap card-border">
+        <div class="slds-grid slds-wrap card-border" onclick={openLink}>
             <div class="slds-col slds-size_2-of-6 card-element">
                 <div class="slds-align_absolute-center icon-container">
                     <div class="slds-align_absolute-center">
-                        <img
-                            data-link={linkData.redirectLink}
-                            onclick={openLink}
-                            src={link_state}
-                            class="link-img"
-                        />
+                        <img data-link={linkData.redirectLink} src={link_state} class="link-img" />
                     </div>
                 </div>
             </div>
@@ -23,7 +18,6 @@
                             <p
                                 class="links-title"
                                 data-link={linkData.redirectLink}
-                                onclick={openLink}
                                 title={linkData.title}
                             >
                                 {linkData.title}

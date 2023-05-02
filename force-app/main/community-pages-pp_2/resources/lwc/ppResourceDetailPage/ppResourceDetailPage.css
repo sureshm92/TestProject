@@ -72,12 +72,22 @@
     color: #015ff1;
     width: fit-content;
 }
+.back-link-mobile {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+    padding-left: 1.5rem;
+}
 .ah-video-iframe {
     position: relative;
     padding-bottom: 56.25%;
     height: 620px;
     overflow: hidden;
-    margin-top: -1%;
+    /* margin-top: -1%; */
 }
 hr {
     margin: 0%;
@@ -127,8 +137,11 @@ hr {
     }
 
     .forceOrientation {
-        width: 100%;
+        width: auto;
+        margin-left: -2rem;
+        margin-right: -2rem;
         height: 100%;
+        margin-top: -12%;
     }
 }
 
@@ -155,4 +168,23 @@ hr {
     bottom: 35px;
     transition: 0.5s;
     margin-top: 5%;
+}
+
+.back-to-res{
+    width: 35px;
+    height: 35px;
+    position: fixed;
+    top: 19%;
+    left: 1%;
+}
+
+.mobile-ladscape-back-button{
+    display: none;
+}
+
+@media screen and (orientation: landscape) and (max-width: 896px) {
+    .mobile-ladscape-back-button{
+        display: block;
+        z-index: 10000;
+    }
 }

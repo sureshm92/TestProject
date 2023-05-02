@@ -151,6 +151,7 @@ window.communityService = (function () {
                         if (finalCallback) finalCallback();
                     }
                 });
+                action.setBackground();
                 $A.enqueueAction(action);
             });
         },

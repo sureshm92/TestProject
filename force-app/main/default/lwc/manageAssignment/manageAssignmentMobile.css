@@ -156,3 +156,9 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
+.help-text-item-p-left-mob {
+    padding-left: 10%;
+}
+.help-text-item-p-right-mob {
+    padding-right: 10%;
+}

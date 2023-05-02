@@ -1,0 +1,96 @@
+.pp-message-txt {
+  color: #444444;
+  font-size: 16px;
+  font-weight: 500;
+}
+.msg-txt {
+  color: #444444;
+  font-size: 32px;
+  font-weight: 600;
+}
+.msg-disclaimer-color {
+  color: #595959;
+}
+.study-txt-ellipse {
+  font-size: 18px;
+  font-weight: 500;
+  color: #444444;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.info-icon {
+  margin: 13px 10px 0 0px;
+  width: 24px;
+  height: 24px;
+}
+.com-icon {
+  height: 16px;
+  color: grey;
+  width: 16px;
+  margin-right: 8px;
+  fill: #999999;
+}
+.pointer {
+  cursor: pointer;
+}
+.rectangle-box {
+  box-sizing: border-box;
+  height: 80px;
+  width: auto;
+  border: 1px solid #d9d9d9;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+}
+.layout-box {
+  box-sizing: border-box;
+  height: 628px;
+  width: auto;
+  border: 1px solid #d9d9d9;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+}
+.divider {
+  height: auto;
+  border-right: 1px solid #d9d9d9;
+}
+.border-btm {
+  border-bottom: 1px solid #d9d9d9;
+  height: 4.5rem;
+  color: #444444;
+  font-size: 18px;
+  font-weight: 500;
+}
+.group-icon {
+  height: 24px;
+  padding-left: 3.6rem;
+}
+/* Mobile css start */
+.left-chevron {
+  height: 30px;
+  width: 25px;
+  color: #015ff1;
+}
+.back {
+  color: #015ff1;
+  font-size: 16px;
+  font-weight: 600;
+}
+.mob-pp-message-txt {
+  height: 32px;
+  width: 217px;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 32px;
+}
+.mob-rectangle-box {
+  box-sizing: border-box;
+  height: 112px;
+  width: auto;
+  border: 1px solid #d9d9d9;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+}

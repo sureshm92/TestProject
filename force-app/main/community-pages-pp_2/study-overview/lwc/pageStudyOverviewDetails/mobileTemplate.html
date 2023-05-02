@@ -57,8 +57,9 @@
                                     <span class="site-Name">{siteName}</span>
                                 </div>
                                 <div class="site-addr mr-left-54">{siteAddress}</div>
-                                <div class="piName mr-left-24 mr-24"><img src={pi_Icon} class="piIcon"/>
-                                    {piName}&nbsp;{label.PI_Post_Fix}</div>
+                                <lightning-layout class="piName mr-left-24 mr-24">
+                                    <lightning-layout-item><img src={pi_Icon} class="piIcon"/></lightning-layout-item>
+                                    <lightning-layout-item class="piName-text">{piName}&nbsp;{label.PI_Post_Fix}</lightning-layout-item></lightning-layout>
                             </div>
 
                             <div class="po-tab-overview po-mt-10">

@@ -1,7 +1,7 @@
 <template>
     
     <div if:true={parentWrapper} class={parentClass}>
-        
+        <div class="headerTitle">Progress</div>
         <div class="topBar"></div>
         <div class="slds-grid slds-wrap box">
             <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium"></lightning-spinner>

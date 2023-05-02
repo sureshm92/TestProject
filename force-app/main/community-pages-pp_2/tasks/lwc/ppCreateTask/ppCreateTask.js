@@ -15,6 +15,7 @@ import taskName from '@salesforce/label/c.Task_Name';
 import enterTaskName from '@salesforce/label/c.Enter_Task_Name';
 import cancel from '@salesforce/label/c.BTN_Cancel';
 import save from '@salesforce/label/c.BTN_Save';
+import PP_required from '@salesforce/label/c.PP_required';
 import formFactor from '@salesforce/client/formFactor';
 
 export default class PpCreateTask extends LightningElement {
@@ -53,7 +54,8 @@ export default class PpCreateTask extends LightningElement {
         taskName,
         enterTaskName,
         cancel,
-        save
+        save,
+        PP_required
     };
     enableSave = false;
     createTask = true;

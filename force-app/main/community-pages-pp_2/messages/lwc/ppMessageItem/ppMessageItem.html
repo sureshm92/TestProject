@@ -1,0 +1,193 @@
+<template>
+    <template if:false={msgItem.message.isNewMsg}>
+        <template if:true={msgItem.message.isToday}>
+            <div class="separator">{labels.DRF_L_Today}</div>
+        </template>
+    </template>
+    <template if:true={msgItem.message.isNewMsg}>
+        <div class="separator">{labels.PP_New_Message}</div>
+    </template>
+    <template if:true={msgItem.message.newDay}>
+        <div class="separator">
+            <lightning-formatted-date-time value={msgItem.message.CreatedDate} year="numeric" month="short"
+                day="2-digit" time-zone={timeZone}>
+            </lightning-formatted-date-time>
+        </div>
+    </template>
+    <template if:true={isCurrParticipant}>
+        <lightning-layout>
+            <lightning-layout-item size="12" class="slds-p-horizontal_x-large slds-p-vertical_small">
+                <div class="float-rt">
+                    <template if:false={msgItem.message.isSameTime}>
+                        <div class="slds-grid slds-grid_align-end">
+                            <div
+                                class="slds-col txt-align-right slds-align-middle slds-size_10-of-12 slds-p-right_medium">
+                                <div class="participant-name">{msgItem.message.Sender_Name__c}</div>
+                                <div class="participant-date">
+                                    <lightning-formatted-date-time value={msgItem.message.CreatedDate} month="short"
+                                        day="2-digit" time-zone={timeZone}>
+                                    </lightning-formatted-date-time>
+                                    <span class="slds-p-horizontal_xx-small">{labels.PP_Time_At}</span>
+                                    <lightning-formatted-date-time value={msgItem.message.CreatedDate} hour="numeric"
+                                        minute="numeric" time-zone={timeZone}>
+                                    </lightning-formatted-date-time>
+                                </div>
+                            </div>
+                            <div
+                                class="slds-col slds-align-middle slds-m-right_small slds-size_2-of-12 ms-item-icon-circle">
+                                <template if:true={msgItem.message.pic}>
+                                    <lightning-avatar variant="circle" src={userPic}
+                                        fallback-icon-name="standard:person_account"></lightning-avatar>
+                                </template>
+                                <template if:false={msgItem.message.pic}>
+                                    <div class="ms-item-icon-circle">
+                                        <span class="rt-initial-pos">{initials}</span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-grid_align-end">
+                            <div class="right-ms-item-txt-pp slds-m-top_medium">
+                                {msgItem.message.Message_Content__c}
+                            </div>
+                        </div>
+                    </template><template if:true={msgItem.message.isSameTime}>
+                        <div class="slds-grid">
+                            <div class="slds-grid slds-grid_align-end">
+                                <div class="right-ms-item-sec-txt-pp">
+                                    {msgItem.message.Message_Content__c}
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+    <template if:false={isCurrParticipant}>
+        <lightning-layout>
+            <lightning-layout-item size="12" class="slds-p-horizontal_x-large slds-p-vertical_small">
+                <div class="float-lt">
+                    <template if:false={msgItem.message.isSameTime}>
+                        <div class="slds-grid">
+                            <div
+                                class="slds-col slds-align-middle slds-size_2-of-12 slds-m-left_small ms-item-icon-circle">
+                                <template if:true={msgItem.message.pic}>
+                                    <lightning-avatar variant="circle" src={userPic}
+                                        fallback-icon-name="standard:person_account"></lightning-avatar>
+                                </template>
+                                <template if:false={msgItem.message.pic}>
+                                    <div class="ms-item-icon-circle">
+                                        <span class="lt-initial-pos">{initials}</span>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <div class="slds-col slds-size_10-of-12 slds-p-left_medium">
+                                <div class="participant-name">{msgItem.message.Sender_Name__c}</div>
+                                <div class="participant-date">
+                                    <lightning-formatted-date-time value={msgItem.message.CreatedDate} month="short"
+                                        day="2-digit" time-zone={timeZone}>
+                                    </lightning-formatted-date-time>
+                                    <span class="slds-p-horizontal_xx-small">{labels.PP_Time_At}</span>
+                                    <lightning-formatted-date-time value={msgItem.message.CreatedDate} hour="numeric"
+                                        minute="numeric" time-zone={timeZone}>
+                                    </lightning-formatted-date-time>
+                                </div>
+                            </div>
+                        </div>
+                        <template if:false={msgItem.attachmentWrapper}>
+                            <div class="slds-grid">
+                                <div class="left-ms-item-txt-pp slds-m-top_medium">
+                                    {msgItem.message.Message_Content__c}
+                                </div>
+                            </div>
+                        </template>
+                        <template if:true={msgItem.attachmentWrapper}>
+                            <div class="slds-grid">
+                                <div class="left-ms-item-txt-pp slds-m-top_medium file-width">
+                                    {msgItem.message.Message_Content__c}
+                                    <div class="chat-iframe slds-p-around_small slds-m-vertical_x-small">
+                                        <lightning-layout>
+                                            <lightning-layout-item size="3">
+                                                <div class="frame-img">
+
+                                                    <img src={thumbnail} class={isCSV} />
+
+                                                </div>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="9"
+                                                class="slds-p-left_medium file-name-ellipsis">
+                                                <span class="complete-consent">
+                                                    <a href={msgItem.attachmentWrapper.downloadLink} title={fileName}>
+                                                        {fileName} </a></span>
+                                                <lightning-layout class="slds-grid_align-spread file-m-top">
+                                                    <lightning-layout-item size="11">
+                                                        <span
+                                                            class="slds-p-top_small extension">{msgItem.attachmentWrapper.fileExtension}</span>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item size="1">
+                                                        <img src={message_attachment} class="attachment-icon" />
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </div>
+                                    <div class="file-attach-info">
+                                        {labels.PP_Attachment_Saved_To_Files}
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:true={msgItem.message.isSameTime}>
+                        <template if:false={msgItem.attachmentWrapper}>
+                            <div class="slds-grid">
+                                <div class="left-ms-item-sec-txt-pp slds-m-top_medium">
+                                    {msgItem.message.Message_Content__c}
+                                </div>
+                            </div>
+                        </template>
+                        <template if:true={msgItem.attachmentWrapper}>
+                            <div class="slds-grid">
+                                <div class="left-ms-item-sec-txt-pp slds-m-top_medium file-width">
+                                    {msgItem.message.Message_Content__c}
+                                    <div class="chat-iframe slds-p-around_small slds-m-vertical_x-small">
+                                        <lightning-layout>
+                                            <lightning-layout-item size="3">
+                                                <div class="frame-img">
+
+                                                    <img src={thumbnail} class={isCSV} />
+
+                                                </div>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="9" class="slds-p-left_medium"><span
+                                                    class="complete-consent">
+                                                    <a href={msgItem.attachmentWrapper.downloadLink} title={fileName}>
+                                                        {fileName}</a></span>
+                                                <lightning-layout class="slds-grid_align-spread file-m-top">
+                                                    <lightning-layout-item size="11">
+                                                        <span
+                                                            class="slds-p-top_small extension">{msgItem.attachmentWrapper.fileExtension}</span>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item size="1">
+                                                        <lightning-icon icon-name="utility:attach"
+                                                            alternative-text="attach" size="x-small" title="attach">
+                                                        </lightning-icon>
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </div>
+                                    <div class="file-attach-info">
+                                        {labels.PP_Attachment_Saved_To_Files}
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+</template>
