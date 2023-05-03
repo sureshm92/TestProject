@@ -32,6 +32,12 @@ export default class PpMyVisitResultsList extends LightningElement {
         this.urlString = window.location.href;
         if (window.location.href.includes('pvId')) {
             this.currentVisitId = communityService.getUrlParameter('pvId');
+            if(!this.isDesktop){
+                const custEvent = new CustomEvent('visitclick', {
+                    detail: false
+                });
+                this.dispatchEvent(custEvent);
+            }
         }
         this.onLoad = true;
         this.initializeData();
@@ -143,10 +149,18 @@ export default class PpMyVisitResultsList extends LightningElement {
             this.urlString = window.location.href;
             this.currentVisit = '';
             this.currentVisitId = '';
-            const custEvent = new CustomEvent('visitclick', {
-                detail: false
-            });
-            this.dispatchEvent(custEvent);
+            if(window.location.href.includes('pvId')){
+                const custEvent = new CustomEvent('visitclick', {
+                    detail: false
+                });
+                this.dispatchEvent(custEvent);
+            }else{
+                const custEvent = new CustomEvent('visitclick', {
+                    detail: true
+                });
+                this.dispatchEvent(custEvent);
+            }
+           
         }
     }
 }
