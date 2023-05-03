@@ -74,7 +74,7 @@
 }
 
 .back-to-manage-del-btn {
-    height: 24px;
+    height: auto;
     /* width: 191px; */
     color: #3374ee;
     font-family: 'Proxima Nova';
