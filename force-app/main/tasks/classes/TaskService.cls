@@ -169,9 +169,12 @@ public without sharing class TaskService {
         if (sortOrder != null)
             commonFilter += ' ' + sortOrder;
         List<Task> tasks;
-        List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
-            ParticipantContext.getCurrentContact().Id
-        );
+        List<Participant_Enrollment__c> pastEnrollments = new List<Participant_Enrollment__c>();
+        if (ParticipantContext.getCurrentContact() != null){
+            pastEnrollments = ContactService.getPastEnrollments(
+                ParticipantContext.getCurrentContact().Id
+            );
+        }
         if (pastEnrollments.size() > 0){
             hasPastEnrollments = true;
             for(Participant_Enrollment__c pe:pastEnrollments){
