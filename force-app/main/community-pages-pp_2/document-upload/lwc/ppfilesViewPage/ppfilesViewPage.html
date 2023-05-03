@@ -170,8 +170,10 @@
                                         alternative-text='Cancel' size='xx-small'  onclick={removeFiles}></lightning-icon>
                                     </div>
                                     <span if:true={imgData.error}  class="slds-col slds-size_1-of-12 retryimageicon">
-                                        <img src={retry_icon} class="image-result crossicon" data-key={imgData.index} 
-                                        title='Retry' onclick={retryFiles} />  
+                                        <div class="image-result crossicon" >
+                                            <lightning-icon icon-name='utility:loop'  title="Retry"  data-key={imgData.index}
+                                            alternative-text='Retry' size='x-small'  onclick={retryFiles}></lightning-icon>
+                                        </div>
                                   </span>   
                                 </template>
 
