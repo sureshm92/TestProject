@@ -128,3 +128,8 @@
     font-weight: 500;
     line-height: 26px;
 }
+.horizontal-line {
+    display: block;
+    border: 1px solid #e9e9e9;
+
+}
