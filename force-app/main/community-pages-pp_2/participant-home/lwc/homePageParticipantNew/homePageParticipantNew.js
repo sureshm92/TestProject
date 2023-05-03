@@ -81,7 +81,7 @@ export default class HomePageParticipantNew extends LightningElement {
         this.spinner ? this.spinner.show() : '';
         this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
         this.getVisitsPreviewAndCount();
-        this.getVisits();
+        //this.getVisits();
         this.getUpdatesCount();
         this.initializeData();
     }
@@ -97,6 +97,7 @@ export default class HomePageParticipantNew extends LightningElement {
                     this.isUpcomingVisitDetails = false;
                 }
                 console.log('Visit :', this.isUpcomingVisitDetails);
+                this.getVisits();
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
