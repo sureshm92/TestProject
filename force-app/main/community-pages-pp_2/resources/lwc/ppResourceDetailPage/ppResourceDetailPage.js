@@ -269,26 +269,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     }
 
     handleDocumentLoad() {
-        let subDomain = communityService.getSubDomain();
-        if (FORM_FACTOR == 'Large') {
-            if (subDomain) {
-                this.documentLink =
-                    subDomain +
-                    '/apex/RRPDFViewer?resourceId=' +
-                    this.resourceId +
-                    '&language=' +
-                    this.langCode;
-            }
-        } else {
-            let updates = true;
-            this.documentLink =
-                'mobile-pdf-viewer?resId=' +
-                this.resourceId +
-                '&lang=' +
-                this.langCode +
-                '&updates=' +
-                updates;
-        }
+        let updates = true;
+        this.documentLink =
+            'mobile-pdf-viewer?resId=' +
+            this.resourceId +
+            '&lang=' +
+            this.langCode +
+            '&updates=' +
+            updates;
     }
 
     handleBackClick(event) {

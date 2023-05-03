@@ -235,25 +235,31 @@
                         </template>
                     </div>
                 </div>             
-                <div class="slds-col slds-m-horizontal_xxx-small">
-                    <div class="progress">
-                        <div class={progressIcon}>
-                            <c-web-icon
-                                class="svg-icon svg-icon-with-text"
-                                icon-size={progressIconSize}
-                                icon-name="navigation-menu-horizontal"
-                                data-id="navigationmenuhorizontal"
-                                icon-color="#ffffff"
-                                onclick={showProgressMob}
-                            >
-                            </c-web-icon>
-                        </div>
-                        <p if:false={showProgress} class="p-text">{label.Progress}</p>
-                        <template if:true={showProgress} >
-                            <div class="vertical progress-green"></div>
+                <template if:true={participantState}>
+                    <template if:true={participantState.pe}>  
+                        <template if:true={showProgressMobile}>                                  
+                            <div class="slds-col slds-m-horizontal_xxx-small">
+                                <div class="progress">
+                                    <div class={progressIcon}>
+                                        <c-web-icon
+                                            class="svg-icon svg-icon-with-text"
+                                            icon-size={progressIconSize}
+                                            icon-name="navigation-menu-horizontal"
+                                            data-id="navigationmenuhorizontal"
+                                            icon-color="#ffffff"
+                                            onclick={showProgressMob}
+                                        >
+                                        </c-web-icon>
+                                    </div>
+                                    <p if:false={showProgress} class="p-text">{label.Progress}</p>
+                                    <template if:true={showProgress} >
+                                        <div class="vertical progress-green"></div>
+                                    </template>
+                                </div>
+                            </div>
                         </template>
-                    </div>
-                </div>
+                    </template>
+                </template>
                 <div class="slds-col slds-m-horizontal_xxx-small">
                     <!--<template if:true={showVisitCard}>-->
                     <template if:true={showUpcomingSection}>
