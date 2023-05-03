@@ -171,6 +171,7 @@ public without sharing class AccountSettingsController {
                             break;
                         }
                     }
+                    initData = getleastYOBFormat(initData);
                 } else {
                     initData.contactSectionData.institute = getInstituteById(
                         initData.myContact.AccountId
@@ -210,7 +211,6 @@ public without sharing class AccountSettingsController {
                     );
                 }
             }
-            initData = getleastYOBFormat(initData);
             return JSON.serialize(initData, false);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);

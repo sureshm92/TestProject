@@ -25,7 +25,6 @@ import {
 } from 'lightning/messageService';
 
 export default class PpResourceDetailPage extends NavigationMixin(LightningElement) {
-
     @wire(MessageContext)
     messageContext;
 
@@ -61,6 +60,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     resourcesData;
     suggestedArticlesData;
     isInvalidResource = false;
+    mediaContent = false;
+    displaySection = "";
+    backButtonLandscape = "";
 
     backToRes = pp_community_icons + '/' + 'back_to_resources.png';
 
@@ -101,6 +103,28 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         this.resourceType = urlParams.get('resourcetype');
         this.showHomePage = urlParams.get('showHomePage');
 
+        if(this.resourceType == "Multimedia" || this.resourceType == "Video"){
+            this.mediaContent = true;
+            const returnPayload = {
+                mediaContent: true
+            };
+            publish(this.messageContext, messageChannel, returnPayload);
+            console.log("publishing media type True: " + returnPayload.mediaContent);
+        }else{
+            this.mediaContent = false;
+            const returnPayload = {
+                mediaContent: false
+            };
+            publish(this.messageContext, messageChannel, returnPayload);
+            console.log("publishing media type False: " + returnPayload.mediaContent);
+        }
+
+        // Logic for portrait mode and landscape mode - hide content in case of mediaContent is true
+ 
+        (this.mediaContent == true) ? this.displaySection = "portrait-mode" :  this.displaySection = "";
+
+        (this.mediaContent == true) ? this.backButtonLandscape = "" : this.backButtonLandscape = "hidden";
+
         this.state = urlParams.get('state');
         if (this.resourceType == 'Study_Document') {
             this.langCode = urlParams.get('lang');
@@ -120,38 +144,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         }
       
         this.initializeData();
-
-        window.addEventListener("orientationchange", function() {
-            console.log(screen.orientation.angle);
-            if(screen.orientation.angle != 0){
-                console.log("changing orientation to landscape");
-                // this.fireFooterEvent(true);
-                console.log("after landscape publish");
-            }
-            else{
-                console.log("changing orientation to portrait");
-                // this.fireFooterEvent(false);
-                console.log("after portrait publish");
-            }
-          }, false);
-
-    }
-
-    fireFooterEvent(value){
-        console.log("firing footer event now.....");
-        const returnPayload = {
-            hideFooter: value
-        };
-        publish(this.messageContext, messageChannel, returnPayload);
-    }
-
-    disconnectedCallback(){
-        // console.log("disconneting resource detail page");
-        // const returnPayload = {
-        //     hideFooter: false
-        // };
-        // publish(this.messageContext, messageChannel, returnPayload);
-        // console.log("after disconnected publish");
     }
 
     /** Methods **/
@@ -269,26 +261,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     }
 
     handleDocumentLoad() {
-        let subDomain = communityService.getSubDomain();
-        if (FORM_FACTOR == 'Large') {
-            if (subDomain) {
-                this.documentLink =
-                    subDomain +
-                    '/apex/RRPDFViewer?resourceId=' +
-                    this.resourceId +
-                    '&language=' +
-                    this.langCode;
-            }
-        } else {
-            let updates = true;
-            this.documentLink =
-                'mobile-pdf-viewer?resId=' +
-                this.resourceId +
-                '&lang=' +
-                this.langCode +
-                '&updates=' +
-                updates;
-        }
+        let updates = true;
+        this.documentLink =
+            'mobile-pdf-viewer?resId=' +
+            this.resourceId +
+            '&lang=' +
+            this.langCode +
+            '&updates=' +
+            updates;
     }
 
     handleBackClick(event) {
@@ -353,7 +333,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         );
     }
 
-    goBackToPrevPage(){
+    goBackToPrevPage() {
         window.history.back();
     }
 }

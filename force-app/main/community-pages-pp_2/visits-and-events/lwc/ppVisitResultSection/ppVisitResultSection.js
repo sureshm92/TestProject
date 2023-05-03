@@ -46,7 +46,6 @@ export default class PpVisitResultSection extends LightningElement {
 
     connectedCallback() {
         //this.getResultsData();
-        console.log('JJ sec' + this.initialised);
     }
     get isVitalsSelected() {
         return this.selectedResultType == 'Vitals';
@@ -112,11 +111,9 @@ export default class PpVisitResultSection extends LightningElement {
             visitResultsMode: this.selectedResultType
         })
             .then((result) => {
-                console.log('JJ GGGG' + JSON.stringify(result));
                 let resultsWrapper = result;
                 this.visResultsList = result;
                 if (this.selectedResultType == 'Labs') {
-                    console.log('JJ leng' + resultsWrapper.length);
                     for (let i = 0; i < resultsWrapper.length; i++) {
                         if (resultsWrapper[i].isResultsAvailable) {
                             if (resultsWrapper[i].resultsModeName == 'Metabolic Panel') {

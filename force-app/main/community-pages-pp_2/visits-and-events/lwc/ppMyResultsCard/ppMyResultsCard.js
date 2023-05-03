@@ -1,7 +1,7 @@
 import { LightningElement } from 'lwc';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import noItemToDisplay from '@salesforce/label/c.PG_VP_L_No_Items_display';
-import myResults from '@salesforce/label/c.PP_Tab_Results';
+import myResults from '@salesforce/label/c.Visit_Results_Dashboard_My_Results';
 import formFactor from '@salesforce/client/formFactor';
 
 export default class PpMyResultsCard extends LightningElement {
@@ -42,7 +42,7 @@ export default class PpMyResultsCard extends LightningElement {
     }
 
     handleShowResultsHeader(event) {
-        if (this.isMobile) this.showResultsinMobile = false;
-        else if (this.isTablet) this.showResultsinTablet = false;
+        if (this.isMobile) this.showResultsinMobile = event.detail;
+        else if (this.isTablet) this.showResultsinTablet = event.detail;
     }
 }

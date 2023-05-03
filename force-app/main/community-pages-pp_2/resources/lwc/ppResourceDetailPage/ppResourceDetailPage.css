@@ -127,6 +127,11 @@ hr {
     height: 100%;
 }
 
+.forceOrientation {
+    width: auto !important;  
+    height: 100% !important;
+}
+
 /* Smartphones (landscape) ----------- */
 @media only screen and (min-width: 321px) and (orientation: landscape) {
     .portrait-mode {
@@ -135,14 +140,21 @@ hr {
     .resource-container1 {
         min-height: auto;
     }
+    .resource-container {
+        padding-top: 0%;
+    }
 
-    .forceOrientation {
+    .forceOrientation-mobile {
         width: auto;
         margin-left: -2rem;
         margin-right: -2rem;
         height: 100%;
-        margin-top: -12%;
+        /* margin-top: -12%; */
     }
+}
+
+.hidden{
+    display: none;
 }
 
 /* Smartphones (portrait) ----------- */
@@ -157,6 +169,12 @@ hr {
 
     .full-width-container {
         width: 100%;
+    }
+
+    .forceOrientation-mobile {
+        width: auto;
+        height: 100%;
+        margin-top: 0px;
     }
 }
 

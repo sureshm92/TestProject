@@ -3,6 +3,8 @@
  */
 
 public without sharing class NotificationAvailabilityService {
+    public class NotificationServiceException extends Exception {
+    }
     private static final String PARTICIPANT_ENROLLMENT_OBJ_NAME = 'Participant_Enrollment__c';
     private static final String CLINICAL_TRIAL_PROFILE_OBJ_NAME = 'Clinical_Trial_Profile__c';
     private static final String STUDY_SITE_OBJ_NAME = 'Study_Site__c';
@@ -596,27 +598,18 @@ public without sharing class NotificationAvailabilityService {
             if (taskrecrd != null) {
                 if (taskTriggerEmail) {
                     Contact contact = contactByIdMap.get(contactId);
-                    if (objType == 'Participant_Enrollment__c') {
+                    if (objType == 'Participant_Enrollment__c') {// PEH-13657
                         Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                             taskrecrd.whatId
                         );
-                        pertriggerEmail = isPEREmailtoSend(pe, notObj);
+                        isEmailAvailableAtPER = isPEREmailtoSend(pe, notObj);
                     } else if (objType == 'Participant__c') {
                         Participant__c pe = (Participant__c) objectsByIds.get(taskrecrd.WhatId);
-                        if (
-                            studyConsentAvailableAtParRecrd != null &&
-                            (studyConsentAvailableAtParRecrd.contains(pe.Id) ||
-                            partPerDelegateIds.containsKey(pe.Id))
+                        if (                                    // PEH-13657
+                            contact.Participant_Opt_In_Status_Emails__c
                         ) {
-                            partriggerEmail = true;
+                            isEmailAvailableAtPER = true;
                         }
-                    }
-                    if (
-                        pertriggerEmail ||
-                        partriggerEmail ||
-                        contact.Participant_Opt_In_Status_Emails__c
-                    ) {
-                        isEmailAvailableAtPER = true;
                     }
                 } else {
                     if (objType == 'Participant_Enrollment__c') {
@@ -641,6 +634,7 @@ public without sharing class NotificationAvailabilityService {
                                     taskrecrd.Ecoa_Task_Configuration_del__r.Participant_Enrollment__c
                                 );
                             perEmailToSend =
+                                pdelEnrollmentrecrd != null &&
                                 pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
@@ -679,6 +673,7 @@ public without sharing class NotificationAvailabilityService {
                 )
                 .get(pe.Id);
             perEmailToSend =
+                pdelEnrollmentrecrd != null &&
                 pdelEnrollmentrecrd.Study_Email_Consent__c &&
                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
