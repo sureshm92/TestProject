@@ -189,11 +189,6 @@
     <template if:true={isMobile}>
         <div class="document-box pir-parent">
             <!-- Uplaoded by picklist -->
-            <div if:true={isctpenableUpload} class="slds-col uploadfileBtncheck slds-m-top_large">
-                <button class="upload-newFile-btn" onclick={showfileUplaodSection}>
-                    <span class="upload-new-file-txt">Upload New Files</span>
-                </button>
-            </div>
             <div
                 class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large D"
             >
@@ -318,15 +313,6 @@
                     </div>
                 </div>
                 <!-- sort by picklist End-->
-                <div
-                    if:true={isctpenableUpload}
-                    class="slds-col uploadfileBtncheck slds-m-top_large"
-                >
-                    <button class="upload-newFile-btn" onclick={showfileUplaodSection}>
-                        <span class="upload-new-file-txt">Upload New Files</span>
-                    </button>
-                </div>
-                value >>>> {isctpenableUpload}
                 <div class="slds-grid">
                     <div class="slds-col slds-size_8-of-12 slds-p-left_medium slds-m-top_small">
                         <div class="upld-file-name">Note from Physician</div>
