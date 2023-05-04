@@ -131,7 +131,7 @@ Public without sharing Class PPTelevisitUpcomingTileController{
                     query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
                 }else{
                     //To Display Minor or Adult without email Participant's Televisit from Delegate view
-                    query += ' WHERE Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
+                    query += ' WHERE Attendee_Type__c = \'Participant Delegate\' AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
                 
                 }
             }else{
@@ -148,7 +148,7 @@ Public without sharing Class PPTelevisitUpcomingTileController{
                 }else{
                     //To Display Minor or Adult without email Alumni participant's Televisit from Delegate view
                     contactId = pstate.currentContactId;
-                    query += ' WHERE Televisit__r.Participant_Enrollment__r.Participant_Contact__c =:contactId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
+                    query += ' WHERE Attendee_Type__c = \'Participant Delegate\' AND Televisit__r.Participant_Enrollment__r.Participant_Contact__c =:contactId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
                 }    
             }else{
                 //To Display Delegate's self view Televisit
