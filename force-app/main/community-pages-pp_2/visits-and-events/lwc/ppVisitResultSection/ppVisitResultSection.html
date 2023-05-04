@@ -105,11 +105,11 @@
             <!--Vitals-->
             <template lwc:if={isVitalsSelected}>
                 <template lwc:if={isVitalsResultsAvailable}>
-                    <div class="slds-grid slds-wrap slds-gutters labs-subtype">
+                    <div class="slds-grid slds-wrap labs-subtype">
                         <template for:each={visitResultsVitals} for:item="result" for:index="index">
                             <div
                                 key={result}
-                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-left_none slds-p-bottom_small"
                             >
                                 <c-pp-visit-result-display-card
                                     visit-result={result}
@@ -141,11 +141,11 @@
             <!--Biomarker-->
             <template lwc:if={isBiomarkersSelected}>
                 <template lwc:if={isBioResultsAvailable}>
-                    <div class="slds-grid slds-wrap slds-gutters labs-subtype">
+                    <div class="slds-grid slds-wrap labs-subtype">
                         <template for:each={visitResultsBio} for:item="result" for:index="index">
                             <div
                                 key={result}
-                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-left_none slds-p-bottom_small"
                             >
                                 <c-pp-visit-result-display-card
                                     visit-result={result}
