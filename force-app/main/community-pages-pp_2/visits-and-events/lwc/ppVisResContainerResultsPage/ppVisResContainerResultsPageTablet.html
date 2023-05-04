@@ -31,7 +31,7 @@
                                         time-zone={userTimezone}
                                     ></lightning-formatted-date-time
                                 ></span>
-                            </div>                          
+                            </div>
                         </div>
                     </div>
                     <div class="slds-col slds-size_4-of-12 slds-p-horizontal_none">
@@ -55,12 +55,12 @@
                     </div>
                 </div>
 
-                <div class="slds-col slds-size_1-of-1  slds-p-horizontal_none">
+                <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none">
                     <div class="disclaimer slds-m-bottom_small">{resultTypeDisclaimer}</div>
                     <span class="horizontal-line"></span>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
-                    <div class="slds-align_absolute-center">
+                    <div class="slds-align_absolute-center visit-result-buttons">
                         <template lwc:if={showTabs}>
                             <template lwc:if={group2}>
                                 <button
@@ -127,14 +127,11 @@
                                         <span>{toggleLabel}</span>
                                     </div>
                                     <!--Toggle Helptext-->
-                                    <div class="slds-p-horizontal_x-small">
-                                        <span
-                                            ><lightning-helptext
-                                                content="This button will toggle the result data for all the visits."
-                                                class="show-result-tooltip"
-                                                icon-name="utility:info"
-                                            ></lightning-helptext
-                                        ></span>
+                                    <div class="slds-p-horizontal_x-small pp-tooltip">
+                                        <lightning-helptext
+                                            content={label.PP_Visit_Result_Toggle_Helptext}
+                                            icon-name="utility:info"
+                                        ></lightning-helptext>
                                     </div>
                                     <!--TOGGLE START-->
                                     <div class="slds-p-horizontal_small">

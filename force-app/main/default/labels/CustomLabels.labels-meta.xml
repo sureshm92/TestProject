@@ -31311,4 +31311,25 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>PP Televisit record canceled successfully</shortDescription>
         <value>Televisit record canceled successfully</value>
     </labels>
+    <labels>
+        <fullName>PP_Televisit_record_created_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Televisit record created successfully</shortDescription>
+        <value>Televisit record created successfully</value>
+    </labels>
+    <labels>
+        <fullName>PP_Televisit_record_updated_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Televisit record updated successfully</shortDescription>
+        <value>Televisit record updated successfully</value>
+    </labels>
+      <labels>
+        <fullName>PP_Visit_Result_Toggle_Helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Visit Result Toggle Helptext</shortDescription>
+        <value>This button will toggle the result data for all the visits.</value>
+    </labels>
 </CustomLabels>

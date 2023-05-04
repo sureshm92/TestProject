@@ -13,6 +13,7 @@ import BTN_Save from '@salesforce/label/c.BTN_Save';
 import Task_Subject_Select_COI_PP from '@salesforce/label/c.Task_Subject_Select_COI_PP';
 import BACK from '@salesforce/label/c.Back';
 import PP_Profile_Update_Success from '@salesforce/label/c.PP_Profile_Update_Success';
+import PP_Customize_Experience from '@salesforce/label/c.PP_Customize_Experience';
 
 import getInitData from '@salesforce/apex/SearchConditionsOfInterestRemote.getConditionOfInterest';
 import searchConditionOfInterest from '@salesforce/apex/SearchConditionsOfInterestRemote.searchConditionOfInterest';
@@ -43,7 +44,8 @@ export default class PpCustomizeExperience extends LightningElement {
         BTN_Save,
         BACK,
         PP_Profile_Update_Success,
-        Task_Subject_Select_COI_PP
+        Task_Subject_Select_COI_PP,
+        PP_Customize_Experience
     };
 
     itemshow = false;
