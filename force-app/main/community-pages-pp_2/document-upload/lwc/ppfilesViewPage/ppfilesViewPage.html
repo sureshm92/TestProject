@@ -170,8 +170,10 @@
                                         alternative-text='Cancel' size='xx-small'  onclick={removeFiles}></lightning-icon>
                                     </div>
                                     <span if:true={imgData.error}  class="slds-col slds-size_1-of-12 retryimageicon">
-                                        <img src={retry_icon} class="image-result crossicon" data-key={imgData.index} 
-                                        title='Retry' onclick={retryFiles} />  
+                                        <div class="image-result crossicon" >
+                                            <lightning-icon icon-name='utility:loop'  title="Retry"  data-key={imgData.index}
+                                            alternative-text='Retry' size='x-small'  onclick={retryFiles}></lightning-icon>
+                                        </div>
                                   </span>   
                                 </template>
 
@@ -291,7 +293,7 @@
                         Your wait time may vary based on the number of files uploaded
                     </div>
                     <!-- Mob upload progress bar start -->
-                    <div class="upload-progress-scroll">
+                    <div class="upload-progress-scroll filesspace">
                         <template for:each={filesData} for:item="imgData" for:index="index">
         
                             <div class="slds-grid slds-m-top_medium" key={imgData.index}>
