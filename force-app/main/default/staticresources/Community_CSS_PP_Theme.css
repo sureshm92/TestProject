@@ -1578,7 +1578,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .manage-del-continer {
     margin-left: 24px !important;
     margin-right: 24px !important;
-    margin-top: 10px !important;
+    margin-top: 16px !important;
 }
 .manage-delegate-acc-setting .manage-del-continer-mobile {
     margin-left: 16px !important;
@@ -1862,20 +1862,21 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 
 .manage-delegate-acc-setting .back-to-manage-del-btn {
-    width: auto !important;
+    /* width: auto !important; */
     background-color: transparent !important;
     color: #015ff1 !important;
 }
-@media (max-device-width: 767px) {
+/* @media (max-device-width: 767px) {
     .manage-delegate-acc-setting .back-to-manage-del-btn {
         width: 70% !important;
     }
-}
+} */
 .manage-delegate-acc-setting .profile-information-rectangle {
     background-color: transparent !important;
     width: auto !important;
     position: relative !important;
     width: 100% !important;
+    padding: 0px !important;
 }
 
 @media screen and (max-width: 768px) {

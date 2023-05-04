@@ -9,6 +9,16 @@
     padding-top: 4.5rem;
 }
 
+@media only screen and (min-width: 321px) and (orientation: landscape) {
+    .THIS.PHONE .rr-body-content {
+        padding-top: 0rem;
+    }    
+}
+
+.THIS.PHONE .rr-body-content-res {
+    margin-top: -26px;
+}
+
 /* login screen background */
 .THIS .mobile-content.cLofi_LoginThemeLayout {
     min-height: 101vh;

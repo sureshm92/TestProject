@@ -4,9 +4,24 @@ Public without sharing Class PPTelevisitUpcomingTileController{
         String userId = UserInfo.getUserId();
         List<User> lstUsr = [SELECT ContactId FROM User WHERE Id =:userId limit 1];
         Boolean televisitVendorAvailable = false;
+        Set<Id> participantIds = new Set<Id>();
+        Set<Id> ssIds = new Set<Id>();
+        Set<Id> actualSSIds = new Set<Id>();
         
-        for(Patient_Delegate__c pd : [SELECT Id,Contact__c,Name,Participant__c,Participant__r.Contact__r.LastName,Participant__r.Contact__r.Current_Participant_Enrollment__r.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c FROM Patient_Delegate__c WHERE Contact__c =:lstUsr[0].ContactId ]){
-            if(pd.Participant__r.Contact__r.Current_Participant_Enrollment__r.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c){
+        for(Patient_Delegate__c pd : [SELECT Participant__c FROM Patient_Delegate__c WHERE Contact__c =:lstUsr[0].ContactId ]){
+            participantIds.add(pd.Participant__c);
+        }  
+        
+        for(Participant_Enrollment__c pe : [SELECT Id,Name,Study_Site__c FROM Participant_Enrollment__c WHERE Participant__c IN :participantIds]){
+            ssIds.add(pe.Study_Site__c);
+        }
+        
+        for(TelevisitVendorSettings__c tvs :[SELECT Id,Study_Site__c FROM TelevisitVendorSettings__c  WHERE isEnable__c = TRUE AND Study_Site__r.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c = TRUE AND Study_Site__c IN:ssIds]){
+            actualSSIds.add(tvs.Study_Site__c);
+        }
+        
+        for(Participant_Enrollment__c pe : [SELECT Id,Name,Study_Site__c,Study_Site__r.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c FROM Participant_Enrollment__c WHERE Participant__c IN :participantIds]){
+            if(pe.Study_Site__r.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c && actualSSIds.contains(pe.Study_Site__c)){
                 televisitVendorAvailable = true;
                 break;
             }else{
@@ -15,7 +30,6 @@ Public without sharing Class PPTelevisitUpcomingTileController{
         }
         
         return televisitVendorAvailable;
-        
     }
     
     @auraEnabled
@@ -46,6 +60,7 @@ Public without sharing Class PPTelevisitUpcomingTileController{
         return televisitVendorAvailable;
         
     }
+    
     @auraEnabled
     Public Static List<TelevisitWrapper> fetchTelevisitAttendees(List<String> lstTelevisitIds){
         List<TelevisitWrapper> lstTelevisitWrapper = new List<TelevisitWrapper>();
@@ -71,7 +86,6 @@ Public without sharing Class PPTelevisitUpcomingTileController{
             wrap.relatedAttendees = lstTelevisitAttendeeWrapper;
             lstTelevisitWrapper.add(wrap);
         }
-        system.debug('lstTelevisitWrapper :'+lstTelevisitWrapper);
         return lstTelevisitWrapper;
     }
     
@@ -98,7 +112,6 @@ Public without sharing Class PPTelevisitUpcomingTileController{
         String userId = UserInfo.getUserId();
         participantservice.participantstate pstate = ((participantservice) classfactory.newinstance(participantservice.class)).getState(); 
         String ctpId = '';
-        
         if(pstate != null && pstate.pe != null){
             ctpId = pstate.pe.Clinical_Trial_Profile__c;
         }
@@ -108,14 +121,40 @@ Public without sharing Class PPTelevisitUpcomingTileController{
         String query = 'SELECT Televisit__r.Id,Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c,Televisit__r.Title__c,Televisit__r.Visit_Date_Time__c,Televisit__r.Visit_Link_Activation_End_Time__c,Televisit__r.Visit_Link_Activation_Start_Time__c,Televisit__r.Meeting_URL__c,Televisit__r.Participant_Enrollment__r.Participant_Name__c,Televisit__r.Duration__c,Televisit__r.Visit_End_Date_Time__c,Attendee_Type__c,Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c,Televisit__r.Participant_Enrollment__r.Participant__r.Full_Name__c,Televisit__r.Source_Community__c,Televisit__r.Participant_Enrollment__r.Study_Site__c FROM Televisit_Attendee__c';
         Boolean delegateOrAlumni = false;
         
+        String contactId;
         if(ctpId != ''){
             String peId = pstate.pe.Id;
-            query += ' WHERE Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
+            if(pstate.isDelegate){
+                if(ParticipantContext.getCurrentUser() != null){
+                    //To Display Participant's Televisit from Delegate view
+                    userId = ParticipantContext.getCurrentUser().Id;
+                    query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
+                }else{
+                    //To Display Minor or Adult without email Participant's Televisit from Delegate view
+                    query += ' WHERE Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
+                
+                }
+            }else{
+                //To Display Participant's Televisit 
+                query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
+            }
         }else{
             delegateOrAlumni = true;
-            query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
+            if(pstate.isDelegate){
+                if(ParticipantContext.getCurrentUser() != null){
+                    //To Display Alumni Participant's Televisit from Delegate view
+                    userId = ParticipantContext.getCurrentUser().Id;
+                    query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
+                }else{
+                    //To Display Minor or Adult without email Alumni participant's Televisit from Delegate view
+                    contactId = pstate.currentContactId;
+                    query += ' WHERE Televisit__r.Participant_Enrollment__r.Participant_Contact__c =:contactId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
+                }    
+            }else{
+                //To Display Delegate's self view Televisit
+                query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
+            }
         }
-        
         List<Televisit_Attendee__c> allVisitis = Database.query(query);
         
         if(delegateOrAlumni){
@@ -135,10 +174,16 @@ Public without sharing Class PPTelevisitUpcomingTileController{
                     filteredTelevisits.add(telattendeeObj);
                 }
             }
+            
             allVisitis.clear();
-            allVisitis.addAll(filteredTelevisits);
+            if(filteredTelevisits.size()>3){
+                for(Integer i=0; i<3; i++){
+                    allVisitis.add(filteredTelevisits[i]);
+                }
+            }else{
+                allVisitis.addAll(filteredTelevisits);
+            }
         }
-        
         
         List<Televisit_Attendee__c> visits = new List<Televisit_Attendee__c> ();
         for(Televisit_Attendee__c attendee : allVisitis){
@@ -151,4 +196,5 @@ Public without sharing Class PPTelevisitUpcomingTileController{
         }
         return JSON.serialize(visits);
     }
+    
 }
