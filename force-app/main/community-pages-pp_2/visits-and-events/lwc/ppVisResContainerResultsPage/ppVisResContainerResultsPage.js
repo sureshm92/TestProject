@@ -10,6 +10,7 @@ import Show_Biomarkers from '@salesforce/label/c.Show_Biomarkers';
 import Vitals_Toggle_Off from '@salesforce/label/c.Vitals_Toggle_Off';
 import Labs_Toggle_Off from '@salesforce/label/c.Labs_Toggle_Off';
 import Biomarkers_Toggle_Off from '@salesforce/label/c.Biomarkers_Toggle_Off';
+import PP_Visit_Result_Toggle_Helptext from '@salesforce/label/c.PP_Visit_Result_Toggle_Helptext';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import mobileTemplate from './ppVisResContainerResultsPageMobile.html';
@@ -30,7 +31,8 @@ export default class PpMyResultsContainer extends LightningElement {
         Vitals_Toggle_Off,
         Labs_Toggle_Off,
         Biomarkers_Toggle_Off,
-        Back
+        Back,
+        PP_Visit_Result_Toggle_Helptext
     };
     group2;
     group3;
@@ -228,32 +230,33 @@ export default class PpMyResultsContainer extends LightningElement {
     }
     get button1Group2Class() {
         return this.isButton1Group2
-            ? 'slds-button group-button1 active-btn'
-            : 'slds-button group-button1 inactive-btn';
+            ? 'slds-button group-button1 primaryBtn'
+            : 'slds-button group-button1 secondaryBtn';
     }
     get button2Group2Class() {
         return this.isButton2Group2
-            ? 'slds-button group-button3 active-btn'
-            : 'slds-button group-button3 inactive-btn';
+            ? 'slds-button group-button3 primaryBtn'
+            : 'slds-button group-button3 secondaryBtn';
     }
     get button1Group3Class() {
         return this.isButton1Group3
-            ? 'slds-button group-button1 active-btn'
-            : 'slds-button group-button1 inactive-btn';
+            ? 'slds-button group-button1 primaryBtn'
+            : 'slds-button group-button1 secondaryBtn';
     }
     get button2Group3Class() {
         return this.isButton2Group3
-            ? 'slds-button group-button2 active-btn'
-            : 'slds-button group-button2 inactive-btn';
+            ? 'slds-button group-button2 primaryBtn'
+            : 'slds-button group-button2 secondaryBtn';
     }
     get button3Group3Class() {
         return this.isButton3Group3
-            ? 'slds-button group-button3 active-btn'
-            : 'slds-button group-button3 inactive-btn';
+            ? 'slds-button group-button3 primaryBtn'
+            : 'slds-button group-button3 secondaryBtn';
     }
 
     handleVRToggle(event) {
         this.showToggleSpinner = true;
+        console.log('JJ' + this.showToggleSpinner);
         modifiedSwitchToggleRemote({
             visitResultsMode: this.selectedResultType,
             isToggleOn: event.target.checked
