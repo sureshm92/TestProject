@@ -2055,8 +2055,5 @@ user agent stylesheet svg:not(:root) {
 .container-visit-results .rr-spinner {
     background: #ffffff;
 }
-.visit-result-buttons .secondaryBtn {
-    color: #595959 !important;
-}
 
 /* Contact support Modal css- Ends */

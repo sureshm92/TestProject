@@ -112,3 +112,6 @@
     display: block;
     border: 1px solid #e9e9e9;
 }
+.visit-result-buttons .secondaryBtn {
+    color: #595959 !important;
+}
