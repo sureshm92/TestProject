@@ -539,6 +539,10 @@
                 <behavior>Edit</behavior>
                 <field>Verification_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>OrgID__c</field>
+            </layoutItems> 
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
