@@ -1416,7 +1416,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 
 .manage-delegate-acc-setting .save-button-aligment {
-    padding: 22px 0px 0px 12px;
+    padding: 38px 0px 0px 12px;
 }
 /* Delegate Redesing - Add New Delegate Page CSS  Override - Starts*/
 .manage-del-multi-picklist .multipicklist-box {
