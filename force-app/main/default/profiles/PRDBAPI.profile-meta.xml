@@ -2740,6 +2740,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.OrgID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Document_Upload_Is_Available__c</field>
         <readable>true</readable>
@@ -4602,7 +4607,11 @@
         <field>PreScreener_Survey__c.ProviderName__c</field>
         <readable>true</readable>
     </fieldPermissions>
-
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.PPM_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.IQVIA_Artificial_Voice_Consent_Time__c</field>
@@ -5741,6 +5750,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Patient_Delegate__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.PPM_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
      <fieldPermissions>
