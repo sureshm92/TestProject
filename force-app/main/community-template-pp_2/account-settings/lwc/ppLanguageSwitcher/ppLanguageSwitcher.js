@@ -107,6 +107,7 @@ export default class PpLanguageSwitcher extends LightningElement {
     }
 
     renderedCallback() {
+        this.saveButton = this.template.querySelector('button[data-id=saveBtn]');
         if (!this.isInitialized) {
             this.spinner = this.template.querySelector('c-web-spinner');
             this.spinner ? this.spinner.show() : '';
