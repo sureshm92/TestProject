@@ -98,7 +98,11 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                     updatedNotificationList.add(
                         new Notification__c(
                             Id = notificationObj.Id,
-                            Target_Record_Ids__c = notificationObj.Target_Record_Ids__c +
+                            Target_Record_Ids__c = notificationObj.Target_Record_Ids__c.contains(
+                                    attendeeTelevisitMap.get(conId).Televisit__c
+                                )
+                                ? notificationObj.Target_Record_Ids__c
+                                : notificationObj.Target_Record_Ids__c +
                                 ',' +
                                 attendeeTelevisitMap.get(conId).Televisit__c
                         )
@@ -112,7 +116,11 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                     updatedNotificationList.add(
                         new Notification__c(
                             Id = notificationObj.Id,
-                            Target_Record_Ids__c = notificationObj.Target_Record_Ids__c +
+                            Target_Record_Ids__c = notificationObj.Target_Record_Ids__c.contains(
+                                    attendeeTelevisitMap.get(conId).Televisit__c
+                                )
+                                ? notificationObj.Target_Record_Ids__c
+                                : notificationObj.Target_Record_Ids__c +
                                 ',' +
                                 attendeeTelevisitMap.get(conId).Televisit__c
                         )
