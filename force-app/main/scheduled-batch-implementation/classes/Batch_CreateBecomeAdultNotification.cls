@@ -43,6 +43,7 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
             mapUpcomingMinorBecomeAdult.put(pe.Participant__r.Id,pe.Participant__r);
         }
          participants = mapUpcomingMinorBecomeAdult.values(); 
+         //system.debug('participantsLST>>'+participants);
         List<Participant__c> nowAdultParticipantOrBecome = calculateParticipantsAgeOfMajority(
             participants
         );
