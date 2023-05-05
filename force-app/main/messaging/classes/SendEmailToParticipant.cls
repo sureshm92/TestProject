@@ -20,8 +20,18 @@ public without sharing class SendEmailToParticipant {
         Task task,
         Contact paCont,
         List<Contact> delegates,
-        List<Patient_Delegate_Enrollment__c> pdeList
+        List<Patient_Delegate_Enrollment__c> pdeList,
+        Boolean isDelegate
     ) {
+        System.debug('task: '+task);
+        System.debug('paCont: '+paCont);
+        System.debug('delegates: '+delegates);
+        System.debug('pdeList: '+pdeList);
+        System.debug('isDelegate: '+isDelegate);
+        Set<Id> dlegateContactIds = new Set<Id>();
+        /*for(Patient_Delegate_Enrollment__c pde:pdeList){
+            dlegateContactIds.add(pde.)
+        }*/
         List<Notification__c> notifications = new List<Notification__c>();
         if (task.Task_Type__c == null)
             return notifications;
@@ -72,7 +82,8 @@ public without sharing class SendEmailToParticipant {
             Notification__c objNotification = new Notification__c(
                 Recipient__c = paCont.Id,
                 WhatId__c = whatId,
-                Notification_Type__c = patientNotificationType
+                Notification_Type__c = patientNotificationType,
+                IsDelegate__c = isDelegate
             );
             if (
                 task.Remind_Using_Email__c ||
