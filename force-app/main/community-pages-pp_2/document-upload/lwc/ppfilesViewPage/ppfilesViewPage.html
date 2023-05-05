@@ -179,7 +179,7 @@
 
                                 <template if:true={imgData.UploadCompleted}>  
                                     <template lwc:if={imgData.isValid}> 
-                                        <div class="slds-col slds-size_1-of-12 slds-dropdown-trigger slds-dropdown-trigger_click D imagecss imagecssDesk"  onclick={showActionMenu}
+                                        <div class="slds-col slds-size_1-of-12 slds-dropdown-trigger imgcrossmbl slds-dropdown-trigger_click D imagecss imagecssDesk"  onclick={showActionMenu}
                                             tabindex="0"  onblur={closeMenu} data-key={imgData.index}>  
                                             <div aria-haspopup="true" aria-expanded="true"   tabindex="0" onblur={closeMenu} >
                                                 <img src={threedots_imgUrl} class="image-result" />
