@@ -374,8 +374,13 @@
             </template> -->
             <template lwc:if={ShowuploadSection}>
                 <lightning-layout-item size="12">
-                    <div class="backtofilecss slds-m-around_small linkLabelMyFiles" onclick={handlebacktoFile}> Back to
-                        My Files</div>
+                    <div class="backtoFile">
+                        <span class="slds-m-top_large center ">
+                            <img src={chevron_left} />
+                        </span>
+                      
+                        <span   class="backtofilecss slds-m-around_small linkLabelMyFiles" onclick={handlebacktoFile}> Back to My Files</span>     
+                    </div>
                     <div class="dis-block mob-upload-rectangle mbllightninglayout">
                         <input onchange={handleFilesChange} type="file" class="fileInputMobile"
                             title={displaytooltiptitle} multiple></input>
