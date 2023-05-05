@@ -21,12 +21,26 @@ public without sharing class ParticipantTelevisitRemote {
             }else{
                 delegatecheck = true;
                 String contactId;
+                //Added for PEH-13732
+                Boolean minorAlumni = false;
                 if(pstate.isDelegate){
                     contactId = ParticipantContext.getCurrentParticipant().Contact__c ;
+                    //Added for PEH-13732
+                    if(ParticipantContext.getCurrentUser() == null){
+                        contactId = pstate.currentContactId;
+                        minorAlumni = true;
+                    }
                 }else{
                     contactId = pstate.currentContactId;
                 }
-                query += '  where Contact__c =:contactId order by Televisit__r.Visit_Date_Time__c desc';
+                //query += '  where Contact__c =:contactId order by Televisit__r.Visit_Date_Time__c desc';
+                
+                //Added for PEH-13732
+                if(minorAlumni){
+                    query += '  where Televisit__r.Participant_Enrollment__r.Participant_Contact__c =:contactId order by Televisit__r.Visit_Date_Time__c desc';
+                }else{
+                    query += '  where Contact__c =:contactId order by Televisit__r.Visit_Date_Time__c desc';
+                }
             }
             List<Televisit_Attendee__c> televisitattendeesdata = Database.query(query);
             List<Televisit_Attendee__c> televisitattendeeList;
