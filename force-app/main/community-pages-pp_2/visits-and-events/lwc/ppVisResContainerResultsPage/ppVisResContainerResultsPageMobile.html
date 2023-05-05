@@ -33,35 +33,14 @@
                                 ></lightning-formatted-date-time
                             ></span>
                         </div>
-                        <!-- <div
-                            class="slds-col slds-grow-none slds-p-top_x-small slds-p-horizontal_none"
-                        >
-                            <div></div>
-                        </div> -->
                     </div>
                 </div>
-
-                <!-- <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none">
-                <div class="slds-float_left">
-                    <span class="visit-name slds-m-right_medium"
-                        >{currentVisit.Visit__r.Patient_Portal_Name__c}</span
-                    >
-                    <span style="border-left: 1px solid #444444"></span>
-                    <span class="slds-m-left_medium">
-                        <lightning-formatted-date-time
-                            value={currentVisit.Completed_Date__c}
-                            class="completed-date"
-                            time-zone={userTimezone}
-                        ></lightning-formatted-date-time>
-                    </span>
-                </div>
-            </div> -->
 
                 <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none">
                     <div class="disclaimer">{resultTypeDisclaimer}</div>
                 </div>
                 <div
-                    class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-border_bottom slds-p-vertical_small"
+                    class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_small"
                 >
                     <div>
                         <span>
@@ -76,11 +55,12 @@
                             >
                         </span>
                     </div>
+                    <span class="horizontal-line"></span>
                 </div>
                 <div
                     class="slds-col slds-size_1-of-1 slds-p-vertical_medium slds-p-horizontal_none"
                 >
-                    <div class="slds-align_absolute-center">
+                    <div class="slds-align_absolute-center visit-result-buttons">
                         <template lwc:if={showTabs}>
                             <template lwc:if={group2}>
                                 <button
@@ -141,20 +121,17 @@
                                     class="main-spinner"
                                     show-spinner={showToggleSpinner}
                                 ></c-web-spinner>
-                                <div class="slds-grid">
+                                <div class="slds-grid slds-p-top_xxx-small">
                                     <!--Toggle Label-->
                                     <div class="show-result-type-text">
                                         <span>{toggleLabel}</span>
                                     </div>
                                     <!--Toggle Helptext-->
-                                    <div class="slds-p-horizontal_x-small">
-                                        <span
-                                            ><lightning-helptext
-                                                content="This button will toggle the result data for all the visits."
-                                                class="show-result-tooltip"
-                                                icon-name="utility:info"
-                                            ></lightning-helptext
-                                        ></span>
+                                    <div class="slds-p-horizontal_x-small pp-tooltip">
+                                        <lightning-helptext
+                                            content={label.PP_Visit_Result_Toggle_Helptext}
+                                            icon-name="utility:info"
+                                        ></lightning-helptext>
                                     </div>
                                     <!--TOGGLE START-->
                                     <div class="slds-p-horizontal_small">
