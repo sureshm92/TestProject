@@ -175,6 +175,7 @@
     color: #595959;
     letter-spacing: 0px;
     font-family: 'Proxima Nova';
+    margin-top: 24px;
 }
 /* testing */
 .fileHolder {
@@ -321,6 +322,9 @@
 }
 .progressBar .slds-progress-bar__value {
     background-color: #0768fd;
+}
+.progressBarMbl .slds-progress-bar__value {
+    background-color: #0768Fd;
 }
 
 .button-uploadWarning {
@@ -578,17 +582,22 @@
     box-sizing: border-box;
     height: 188px;
     /* width: 382px; */
-    width: 100%;
+    width: 93%;
     border: 1px dashed #979797;
     border-radius: 8px;
     background-color: #f2f2f2;
     font-size: 14px;
     /* font-weight: 600; */
     position: relative;
+    margin-left: 14px;
 }
 .mbllightninglayout {
     padding-left: 11px;
     padding-right: 11px;
+}
+.imgcrossmbl{
+    text-align: right;
+    padding-right: 1.5rem;
 }
 .upload-rectangle {
     box-sizing: border-box;
@@ -607,6 +616,7 @@
     font-size: 13px;
     font-style: italic;
     font-weight: 600;
+    margin-bottom: 16px;
 }
 
 .cancel-btn {
@@ -645,9 +655,13 @@
     margin-left: 3.5rem;
     opacity: 0.4;
 }
+.filesspace{
+    background-color: white;
+}
 .upload-progress-scroll {
     overflow-y: auto;
     height: 360px;
+    margin-right: 8px;
 }
 .scrollableclass {
     /* height: 262px; */
@@ -662,7 +676,7 @@
     height: 32px;
     width: 382px;
     border-radius: 16px;
-    background-color: #0557d5;
+    background-color: #0768FD;
     /* box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 2px 8px 0 rgba(7, 104, 253, 0.32); */
     cursor: pointer;
     color: #ffffff;
