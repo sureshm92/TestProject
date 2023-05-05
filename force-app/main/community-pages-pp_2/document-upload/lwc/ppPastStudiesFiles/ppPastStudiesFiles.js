@@ -1,5 +1,6 @@
 import { LightningElement, api } from 'lwc';
-import getData from '@salesforce/apex/PpPastStudiesFilesController.getData';
+import getStudyList from '@salesforce/apex/PpPastStudiesFilesController.getStudyList';
+import fetchUploadedFiles from '@salesforce/apex/PpPastStudiesFilesController.fetchUploadedFiles';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import formFactor from '@salesforce/client/formFactor';
 
@@ -14,17 +15,21 @@ export default class PpPastStudiesFiles extends LightningElement {
     communityTemplate;
     showDropdown = true;
     @api dropDownLabel;
+    @api stopSpinnerChild;
     isMobile = false;
     isSaving = false;
     totalSize;
     curentSize;
+    selectedStudy = '';
+    studyListDropDown;
+    selectedStudyId;
+    isLoaded = false;
     connectedCallback() {
         if (formFactor === 'Small') {
             this.isMobile = true;
         } else {
             this.isMobile = false;
         }
-        console.log('>>isMobile>>' + this.isMobile + '>>formfactor>>' + formFactor);
         if (communityService.getCurrentCommunityMode().currentDelegateId) {
             this.isDelegate = true;
         }
@@ -37,22 +42,51 @@ export default class PpPastStudiesFiles extends LightningElement {
             }
         }
         this.isSaving = true;
-        getData({
+        this.fetchData();
+    }
+    renderOnce = false;
+    renderedCallback() {
+        if (!this.renderOnce) {
+            if (this.isMobile) {
+                this.template.querySelectorAll('.D').forEach(function (L) {
+                    L.classList.add('slds-size_12-of-12');
+                });
+                this.template.querySelectorAll('.D').forEach(function (L) {
+                    L.classList.remove('slds-size_4-of-12');
+                });
+            } else {
+                console.log('deks');
+                this.template.querySelectorAll('.D').forEach(function (L) {
+                    L.classList.remove('slds-size_12-of-12');
+                });
+                this.template.querySelectorAll('.D').forEach(function (L) {
+                    L.classList.add('slds-size_4-of-12');
+                });
+            }
+            this.renderOnce = true;
+        }
+    }
+    fetchData() {
+        this.isSaving = true;
+        getStudyList({
             contID: this.contID,
             isDelegate: this.isDelegate
         })
             .then((result) => {
                 this.isSaving = false;
-                this.studyList = result.perList;
-                this.totalSize = result.perList.length;
+                this.studyList = result;
+                this.totalSize = result.length;
                 this.curentSize = 0;
                 this.addMoreStudies();
-                this.dropDownLabel = result.perList[0].Clinical_Trial_Profile__r.Study_Code_Name__c;
-                if (result.perList.length > 1) {
+                this.dropDownLabel = result[0].Clinical_Trial_Profile__r.Study_Code_Name__c;
+                this.selectedStudyId = result[0].Clinical_Trial_Profile__c;
+                if (result.length > 1) {
                     this.showDropdown = true;
                 } else {
                     this.showDropdown = false;
                 }
+                this.isLoaded = true;
+                this.template.querySelector('c-pp-past-studies-file-table').getTableFiles();
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -82,25 +116,6 @@ export default class PpPastStudiesFiles extends LightningElement {
         }
     }
 
-    renderedCallback() {
-        if (this.isMobile) {
-            this.template.querySelectorAll('.D').forEach(function (L) {
-                L.classList.add('slds-size_12-of-12');
-            });
-            this.template.querySelectorAll('.D').forEach(function (L) {
-                L.classList.remove('slds-size_4-of-12');
-            });
-        } else {
-            console.log('deks');
-            this.template.querySelectorAll('.D').forEach(function (L) {
-                L.classList.remove('slds-size_12-of-12');
-            });
-            this.template.querySelectorAll('.D').forEach(function (L) {
-                L.classList.add('slds-size_4-of-12');
-            });
-        }
-    }
-
     showActionMenu(event) {
         this.template.querySelectorAll('.D').forEach(function (L) {
             L.classList.toggle('slds-is-open');
@@ -110,6 +125,16 @@ export default class PpPastStudiesFiles extends LightningElement {
     callMethod(event) {
         let index = event.target.dataset.id;
         this.dropDownLabel = this.studyList[index].Clinical_Trial_Profile__r.Study_Code_Name__c;
+        this.selectedStudyId = this.studyList[index].Clinical_Trial_Profile__c;
+        this.stopSpinnerChild = false;
+        this.template.querySelector('c-pp-past-studies-file-table').isInitial = true;
+        this.template.querySelector('c-pp-past-studies-file-table').stopSpinner = false;
+        this.template.querySelector('c-pp-past-studies-file-table').selectedStudyId =
+            this.selectedStudyId;
+        this.template.querySelector('c-pp-past-studies-file-table').pageNumber = 1;
+        this.template.querySelector('c-pp-past-studies-file-table').getTableFiles();
+        this.template.querySelector('c-pp-past-studies-file-table').resetPage();
+        this.template.querySelector('c-pp-past-studies-file-table').resetCSS();
     }
     closeMenu() {
         this.template.querySelectorAll('.D').forEach(function (L) {
@@ -118,20 +143,16 @@ export default class PpPastStudiesFiles extends LightningElement {
     }
 
     //pagination
-    totalRecord = 10;
-    noRecords = true;
+    totalRecord;
     showZeroErr = false;
     initialLoad = true;
     page;
     pageChanged(event) {
-        console.log('>>page changed called>>>');
         this.page = event.detail.page;
-        this.template.querySelector('c-ppview-files-page-new').pageNumber = this.page;
+        this.template.querySelector('c-pp-past-studies-file-table').pageNumber = this.page;
         if (!this.initialLoad) {
-            console.log('>>>fetch page called>>>');
-            //this.template.querySelector("c-ppview-files-page-new").stopSpinner=false;
-            //this.template.querySelector("c-ppview-files-page-new").updateInProgressOldData();
-            //this.template.querySelector("c-ppview-files-page-new").fetchData();
+            this.template.querySelector('c-pp-past-studies-file-table').stopSpinner = false;
+            this.template.querySelector('c-pp-past-studies-file-table').getTableFiles();
         }
         this.initialLoad = false;
     }
@@ -153,16 +174,17 @@ export default class PpPastStudiesFiles extends LightningElement {
     isResetOnUpdate = false;
     isResetPagination = false;
     handleresetpageonupdate() {
-        if (this.handleUpdate && !this.isResetPagination) {
-            this.initialLoad = true;
+        this.initialLoad = true;
+        if (this.totalRecord) {
             this.template.querySelector('c-pir_participant-pagination').totalRecords =
                 this.totalRecord;
-            //this.template.querySelector("c-pir_participant-pagination").updateInprogress();
+            this.template.querySelector('c-pir_participant-pagination').updateInprogress();
         }
         this.handleUpdate = false;
         this.initialLoad = false;
     }
     handleresetpagination(event) {
+        this.isResetPagination = true;
         if (this.isResetPagination) {
             this.initialLoad = true;
             this.template.querySelector('c-pir_participant-pagination').totalRecords =
@@ -170,5 +192,19 @@ export default class PpPastStudiesFiles extends LightningElement {
             this.template.querySelector('c-pir_participant-pagination').goToStart();
         }
         this.isResetPagination = false;
+    }
+    isDelete = false;
+    handleresetondelete(event) {
+        this.isDelete = true;
+        if (this.isDelete) {
+            this.initialLoad = true;
+            this.template.querySelector('c-pir_participant-pagination').totalRecords =
+                this.totalRecord;
+            this.template.querySelector('c-pir_participant-pagination').previousPage();
+            this.template.querySelector('c-pp-past-studies-file-table').pageNumber = this.page;
+            this.template.querySelector('c-pp-past-studies-file-table').stopSpinner = false;
+            this.template.querySelector('c-pp-past-studies-file-table').getTableFiles();
+        }
+        this.isDelete = false;
     }
 }

@@ -19466,7 +19466,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_acceptedformats</shortDescription>
-        <value>We accept the following file formats:</value>
+        <value>You may upload up to 10 files in the following file formats:</value>
     </labels>
     <labels>
         <fullName>PP_Account_Settings</fullName>

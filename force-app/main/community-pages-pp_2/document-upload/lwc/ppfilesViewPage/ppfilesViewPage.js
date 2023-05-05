@@ -5,6 +5,9 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 //import saveTheChunkFile from '@salesforce/apex/nonReferedBulkUpload.saveTheChunkFile';  //Need to change the method
 import saveTheChunkFile from '@salesforce/apex/ppFileUploadController.saveTheChunkFile'; //Need to change the method
 import isUplaodAvailable from '@salesforce/apex/ppFileUploadController.isUplaodAvailable';
+import DeleteAlldraftFiles from '@salesforce/apex/ppFileUploadController.DeleteAlldraftFiles';
+import uploadFiles from '@salesforce/apex/ppFileUploadController.uploadFiles';
+import deleteFile from '@salesforce/apex/ppFileUploadController.deleteFile';
 import PP_AcceptedFileformats from '@salesforce/label/c.PP_AcceptedFileformats';
 import PP_acceptedformats from '@salesforce/label/c.PP_acceptedformats';
 import PP_MaxFileSize from '@salesforce/label/c.PP_MaxFileSize';
@@ -60,6 +63,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     isFileNameNotvalid = false;
 
     cancelmodalisOpen = false;
+    displaytooltiptitle = 'browse files';
 
     progresBarClass = ' progressBar slds-col slds-size_5-of-12 ';
     // progresBarClass =' progressBarError slds-col slds-size_5-of-12 ';
@@ -95,7 +99,6 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         } else {
             this.isMobile = false;
         }
-        console.log('>>>connectedcallback>>');
         this.isSaving = true;
         if (!communityService.isDummy()) {
             this.getData = communityService.getParticipantData();
@@ -109,13 +112,10 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
             isUplaodAvailable({
                 perId: this.getData.pe.Id
             }).then((result) => {
-                console.log('>>>result is>>>' + JSON.stringify(result));
-
                 this.isCTPenableUpload = result.isUplaodAvailable;
                 if (this.isCTPenableUpload) {
                     this.getsize = 8;
                 }
-                console.log('>>>result.isUplaodAvailable>>' + this.isCTPenableUpload);
                 this.isSaving = false;
             });
         }
@@ -137,16 +137,24 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     pagemsg;
     issharedFilesTab = false;
     pageChanged(event) {
-        console.log('>>page changed called>>>');
-        this.page = event.detail.page;
-        this.template.querySelector('c-ppview-files-page-new').pageNumber = this.page;
-        if (!this.initialLoad) {
-            console.log('>>>fetch page called>>>');
-            //this.template.querySelector("c-ppview-files-page-new").stopSpinner=false;
-            //this.template.querySelector("c-ppview-files-page-new").updateInProgressOldData();
-            //this.template.querySelector("c-ppview-files-page-new").fetchData();
+        if (!this.issharedFilesTab) {
+            this.page = event.detail.page;
+            this.template.querySelector('c-ppdocment-view-page').pageNumber = this.page;
+            if (!this.initialLoad) {
+                this.template.querySelector('c-ppdocment-view-page').stopSpinner = false;
+                this.template.querySelector('c-ppdocment-view-page').getTableFilesData();
+            }
+            this.initialLoad = false;
+        } else {
+            this.pagemsg = event.detail.page;
+            this.template.querySelector('c-ppdocment-view-page').pageNumberMsg = this.pagemsg;
+            if (!this.initialLoadMsg) {
+                console.log('>>>fetch page called>>>');
+                this.template.querySelector('c-ppdocment-view-page').stopSpinner = false;
+                this.template.querySelector('c-ppdocment-view-page').getTableMsgFilesData();
+            }
+            this.initialLoadMsg = false;
         }
-        this.initialLoad = false;
     }
     changePage(event) {
         let dir = event.detail;
@@ -164,19 +172,42 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         this.handleUpdate = true;
         this.handleresetpageonupdate();
     }
+    handletotalrecordmsg(event) {
+        this.totalRecordMsg = event.detail;
+        this.handleUpdateMsg = true;
+        this.handleresetpageonupdatemsg();
+    }
+
+    handleTabChange(event) {
+        if (event.detail == 'sharetab') {
+            this.issharedFilesTab = true;
+        } else {
+            this.issharedFilesTab = false;
+        }
+    }
     isResetOnUpdate = false;
     isResetPagination = false;
     isResetPaginationMsg = false;
 
     handleresetpageonupdate() {
-        if (this.handleUpdate && !this.isResetPagination) {
-            this.initialLoad = true;
+        this.initialLoad = true;
+        if (this.totalRecord) {
             this.template.querySelector('c-pir_participant-pagination').totalRecords =
                 this.totalRecord;
-            //this.template.querySelector("c-pir_participant-pagination").updateInprogress();
+            this.template.querySelector('c-pir_participant-pagination').updateInprogress();
         }
         this.handleUpdate = false;
         this.initialLoad = false;
+    }
+    handleresetpageonupdatemsg() {
+        this.initialLoadMsg = true;
+        if (this.totalRecordMsg) {
+            this.template.querySelector('c-pir_participant-pagination').totalRecords =
+                this.totalRecordMsg;
+            this.template.querySelector('c-pir_participant-pagination').updateInprogress();
+        }
+        this.handleUpdateMsg = false;
+        this.initialLoadMsg = false;
     }
     handleresetpagination(event) {
         this.isResetPagination = true;
@@ -188,33 +219,109 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         }
         this.isResetPagination = false;
     }
+    handleresetpaginationmsg(event) {
+        this.isResetPaginationMsg = true;
+        if (this.isResetPaginationMsg) {
+            this.initialLoadMsg = true;
+            this.template.querySelector('c-pir_participant-pagination').totalRecords =
+                this.totalRecordMsg;
+            this.template.querySelector('c-pir_participant-pagination').goToStart();
+        }
+        this.isResetPaginationMsg = false;
+    }
+
+    isDelete = false;
+    handleresetondelete(event) {
+        this.isDelete = true;
+        if (this.isDelete) {
+            this.initialLoad = true;
+            this.template.querySelector('c-pir_participant-pagination').totalRecords =
+                this.totalRecord;
+            this.template.querySelector('c-pir_participant-pagination').previousPage();
+            this.template.querySelector('c-ppdocment-view-page').pageNumber = this.page;
+            this.template.querySelector('c-ppdocment-view-page').stopSpinner = false;
+            this.template.querySelector('c-ppdocment-view-page').getTableFilesData();
+        }
+        this.isDelete = false;
+    }
 
     showfileUplaodSection() {
-        console.log('>>>calling btuton>>');
         this.ShowuploadSection = true;
+    }
+    handlebacktoFile() {
+        this.ShowuploadSection = false;
     }
     totalfilesUploaded = 0;
     totalValidFile = 0;
     totalValidFileProcessed = 0;
     totalInvalidFile = 0;
+    lengthGreater = false;
 
     handleFilesChange(event) {
         if (event.target.files.length > 0) {
+            this.lengthGreater = false;
+
+            // Limit 10 starts here
+            if (event.target.files.length > 10) {
+                const evt = new ShowToastEvent({
+                    title: 'Please select only 10 files or less, and try to upload again.',
+                    message: '',
+                    variant: 'error',
+                    mode: 'dismissable'
+                });
+                this.dispatchEvent(evt);
+                event.target.value = null;
+                return;
+            }
+
+            if (this.totalfilesUploaded + event.target.files.length > 10) {
+                const evt = new ShowToastEvent({
+                    title: 'Please select only 10 files or less, and try to upload again.',
+                    message: '',
+                    variant: 'error',
+                    mode: 'dismissable'
+                });
+                this.dispatchEvent(evt);
+                event.target.value = null;
+                return;
+            }
+            if (this.totalfilesUploaded + event.target.files.length == 10) {
+                this.disableInput();
+            } else {
+                if (this.template.querySelector('[data-id="browsediv"]')) {
+                    let inputclassDivcss =
+                        this.template.querySelector('[data-id="browsediv"]').classList.value;
+                    if (inputclassDivcss.includes('disabledrag')) {
+                        this.template
+                            .querySelector('[data-id="browsediv"]')
+                            .classList.remove('disabledrag');
+                        this.template.querySelector('.fileInput').disabled = false;
+                    }
+                }
+            }
+            // Limit 10 End here
             this.Nofilesupload = false;
-            //  this.filesUploaded.push(event.target.files);
-            //  console.log('>>>>this.filesUploaded>>' + this.filesUploaded);
-            //   console.log('>>>>this.filesUploaded>>' + JSON.stringify(this.filesUploaded));
+            this.FileUploadPending = true;
             this.totalfilesUploaded = this.totalfilesUploaded + event.target.files.length;
-            console.log('>>>targetfilescon>>' + JSON.stringify(event.target.files[0]));
             for (var i = 0; i < event.target.files.length; i++) {
-                console.log('>>>name is>>' + event.target.files[i].name);
                 this.filesUploaded.push(event.target.files[i]);
             }
             this.progress = 0;
             this.progressWidth = 'width :0%';
             event.target.value = null;
+
             this.saveFile();
         }
+    }
+
+    //this method is also for limit 10
+    eventdisable;
+    disableInput() {
+        clearTimeout(this.eventdisable);
+        this.eventdisable = setTimeout(() => {
+            this.template.querySelector('[data-id="browsediv"]').classList.add('disabledrag');
+            this.template.querySelector('.fileInput').disabled = true;
+        }, 600);
     }
 
     saveFile() {
@@ -223,11 +330,11 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
         for (var i = 0; i < this.filesUploaded.length; i++) {
             let index = this.filesData.findIndex((x) => x.index === i);
-            console.log('>>>190>>?' + index);
             if (index != -1) continue;
             var fileCon = this.filesUploaded[i];
 
             this.base = Math.floor((CHUNK_SIZE / fileCon.size) * 100);
+
             let extension_index = fileCon.name.lastIndexOf('.');
             let extension = fileCon.name.slice(extension_index + 1);
             let filenamewitoutextension = fileCon.name.slice(0, extension_index);
@@ -369,9 +476,11 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         indexoffile
     ) {
         var chunk = fileContents.substring(fromPos, toPos);
+        //disableInput();
 
         try {
             let index = this.filesData.findIndex((x) => x.index == indexoffile);
+
             let shouldcallserver = true;
             if (this.filesData[index].isDeleted) {
                 shouldcallserver = this.filesData[index].fileContentVerId
@@ -381,7 +490,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                     : false;
             }
 
-            if (index >= 0 && shouldcallserver) {
+            if (index >= 0 && shouldcallserver && !this.iscancelButtonClick) {
                 saveTheChunkFile({
                     parentId: this.getData.pe.Id,
                     fileName: file.name,
@@ -392,65 +501,47 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                     strfileContentDocumentId: strfileContentDocumentId,
                     isDeleted: this.filesData[index].isDeleted,
                     isRetry: this.filesData[index].isRetry,
-                    Progress: this.filesData[index].progress
+                    Progress: this.filesData[index].progress,
+                    isCancelButtonClicked: this.iscancelButtonClick
                 })
                     .then((result) => {
                         let getresult = JSON.parse(result);
-                        console.log('FileContentDocId>>' + getresult.FileContentDocId);
-                        this.fileId = getresult.filecontentversion;
-                        if (!getresult.filecontentversion && this.filesData[index].isDeleted) {
-                            this.filesData[index].isSuccessfullyDeleted = true;
-                        }
-                        if (this.filesData[index].isRetry) {
-                            this.filesData[index].isRetry = false;
-                        }
-                        // this.filesData[index].fileContentVerId = getresult.FileContentDocId;
-                        this.filesData[index].fileContentVerId = getresult.filecontentversion;
-                        attachId = getresult.filecontentversion;
-                        strfileContentDocumentId = getresult.FileContentDocId;
-                        fromPos = toPos;
+                        if (!this.iscancelButtonClick) {
+                            this.fileId = getresult.filecontentversion;
+                            if (!getresult.filecontentversion && this.filesData[index].isDeleted) {
+                                this.filesData[index].isSuccessfullyDeleted = true;
+                            }
+                            if (this.filesData[index].isRetry) {
+                                this.filesData[index].isRetry = false;
+                            }
+                            // this.filesData[index].fileContentVerId = getresult.FileContentDocId;
+                            this.filesData[index].previewLinks = getresult.previewLinks;
+                            this.filesData[index].fileContentVerId = getresult.filecontentversion;
+                            attachId = getresult.filecontentversion;
+                            strfileContentDocumentId = getresult.FileContentDocId;
+                            fromPos = toPos;
 
+                            // this.showdata = false;
+                            if (index >= 0) {
+                                toPos = Math.min(fileContents.length, fromPos + CHUNK_SIZE);
+                                if (fromPos < toPos) {
+                                    var uploadedPercent =
+                                        (this.uploadedsize / (this.filesize + CHUNK_SIZE)) * 100;
+                                    this.filesData[index].progressMultiplier++;
 
-                        // this.showdata = false;
-                        if (index >= 0) {
-                            toPos = Math.min(fileContents.length, fromPos + CHUNK_SIZE);
-                            if (fromPos < toPos) {
-                                this.filesData[index].progressMultiplier++;
-
-                                if (
-                                    this.filesData[index].base *
-                                        this.filesData[index].progressMultiplier <
-                                    100
-                                ) {
-                                    this.filesData[index].progress =
+                                    if (
                                         this.filesData[index].base *
-                                        this.filesData[index].progressMultiplier;
-                                } else {
-                                    this.filesData[index].progress = 99;
-                                }
-                                this.filesData[index].progressWidth =
-                                    'width :' + this.filesData[index].progress + '%';
-                                // this.progressWidth = 'width :'+this.progress+'%';
-                                this.uploadChunk(
-                                    file,
-                                    fileContents,
-                                    fromPos,
-                                    toPos,
-                                    attachId,
-                                    strfileContentDocumentId,
-                                    indexoffile
-                                );
-                            } else {
-                                console.log('>>files succesfully added>>');
-                                //event call to child
-                                // this.progress = 100;
-                                this.filesData[index].progress = 100;
-                                this.filesData[index].progressWidth =
-                                    'width :' +
-                                    this.filesData[index].progress +
-                                    '%;background-color: #0768FD;'; //change 00C221 ths to 0768FD
-                                if (this.filesData[index].isDeleted) {
-                                    // this.progressWidth = 'width :'+this.progress+'%';
+                                            this.filesData[index].progressMultiplier <
+                                        100
+                                    ) {
+                                        this.filesData[index].progress =
+                                            this.filesData[index].base *
+                                            this.filesData[index].progressMultiplier;
+                                    } else {
+                                        this.filesData[index].progress = 99;
+                                    }
+                                    this.filesData[index].progressWidth =
+                                        'width :' + this.filesData[index].progress + '%';
                                     this.uploadChunk(
                                         file,
                                         fileContents,
@@ -460,9 +551,34 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                                         strfileContentDocumentId,
                                         indexoffile
                                     );
+                                    this.toggleUploadButton();
+                                } else {
+                                    console.log('>>files succesfully added>>');
+                                    //event call to child
+                                    // this.progress = 100;
+                                    this.filesData[index].progress = 100;
+                                    this.filesData[index].progressWidth =
+                                        'width :' +
+                                        this.filesData[index].progress +
+                                        '%;background-color: #0768FD;'; //change 00C221 ths to 0768FD
+                                    if (this.filesData[index].isDeleted) {
+                                        // this.progressWidth = 'width :'+this.progress+'%';
+                                        this.uploadChunk(
+                                            file,
+                                            fileContents,
+                                            fromPos,
+                                            toPos,
+                                            attachId,
+                                            strfileContentDocumentId,
+                                            indexoffile
+                                        );
+                                        this.totalValidFileProcessed =
+                                            this.totalValidFileProcessed - 1;
+                                    }
+                                    this.totalValidFileProcessed = this.totalValidFileProcessed + 1;
+                                    this.filesData[index].UploadCompleted = true;
+                                    this.toggleUploadButton();
                                 }
-                                this.totalValidFileProcessed = this.totalValidFileProcessed + 1;
-                                this.filesData[index].UploadCompleted = true;
                             }
                         }
                     })
@@ -474,6 +590,11 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                         this.filesData[index].error = true;
                         this.filesData[index].progresBarClass =
                             'progressBarError slds-col slds-size_5-of-12 ';
+                        let exceptionBody = error.body;
+
+                        this.totalValidFile = this.totalValidFile - 1;
+                        this.totalInvalidFile = this.totalInvalidFile + 1;
+                        this.toggleUploadButton();
                     })
                     .finally(() => {});
             }
@@ -492,43 +613,31 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     }
 
     showActionMenu(event) {
-        console.log('>>>method is getting called>>');
-       /* let index = event.currentTarget.dataset.key;
-        console.log('>>>index is>>' + index);
-        console.log('>>>tog>>' + this.template.querySelector("[data-key='" + index + "']"));
-        console.log(
-            '>>>tog>>' + this.template.querySelector("[data-key='" + index + "']").classList
-        );
-        this.template.querySelector("[data-key='" + index + "']").classList.add('slds-is-open'); */
-    }
+        let index = event.currentTarget.dataset.key;
+        // let indexcalled = this.template.querySelector("[data-key='" + index + "']");
+        let indexcalled = this.template.querySelector(".imagecssDesk[data-key='" + index + "']");
+        let classindexcalled = indexcalled.classList.value;
 
-    showfileOption(event) {
-        console.log('>>>click on11 dott>>');
-        // let index = event.currentTarget.dataset.key;
+        let actionmenuDiv = this.template.querySelector(".action-menu[data-key='" + index + "']");
+        let actionmenuDivCSSClass = actionmenuDiv.classList.value;
+        if (this.filesData[index].isNameEmptyorNotValid || this.filesData[index].fileNameTooLong) {
+            if (!actionmenuDivCSSClass.includes('addmarginwhenerror'))
+                actionmenuDiv.classList.add('addmarginwhenerror');
+        } else {
+            if (actionmenuDivCSSClass.includes('addmarginwhenerror'))
+                actionmenuDiv.classList.remove('addmarginwhenerror');
+        }
 
-        // console.log('>>index>>' + index);
-
-        // console.log('>>data set>>' + this.template.querySelector("[data-key='" + index + "']"));
+        if (!classindexcalled.includes('slds-is-open')) indexcalled.classList.add('slds-is-open');
+        if (classindexcalled.includes('slds-is-open')) indexcalled.classList.remove('slds-is-open');
 
         // this.template.querySelector("[data-key='" + index + "']").classList.add('slds-is-open');
-
-        // this.template.querySelectorAll(".D").forEach(function (L) {
-        //     L.classList.toggle("slds-is-open");
-        // });
-        // this.showactionmenu = !this.showactionmenu;
-    }
-
-    handleOnBlurIcon() {
-        this.template.querySelectorAll('.D').forEach(function (L) {
-            L.classList.remove('slds-is-open');
-        });
     }
 
     closeMenu() {
-        // console.log('>>>blue called>>');
-        // this.template.querySelectorAll('.D').forEach(function (L) {
-        //     L.classList.remove('slds-is-open');
-        // });
+        this.template.querySelectorAll('.D').forEach(function (L) {
+            L.classList.remove('slds-is-open');
+        });
     }
 
     isRenameOpen = false;
@@ -538,40 +647,115 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     indexatDeleteClick;
     deleteFileID;
     previewHeader;
+    modalHeaderFilePage = false;
     callMethod(event) {
-        console.log('>>>methdo called>>');
-
-      /*  let methodNameCalled = event.currentTarget.dataset.method;
+        let methodNameCalled = event.currentTarget.dataset.method;
         let indexcalled = event.currentTarget.dataset.key;
-        console.log('>>>called menu is>>' + methodNameCalled + '>>at index>>>' + indexcalled);
         if (methodNameCalled == 'Rename') {
-            console.log('>>coming inseide if>>');
+            let extension_index = this.filesData[indexcalled].fileName.lastIndexOf('.');
+            let extension = this.filesData[indexcalled].fileName.slice(extension_index + 1);
+            let filenamewitoutextension = this.filesData[indexcalled].fileName.slice(
+                0,
+                extension_index
+            );
+
+            let lightninginputatindex = this.template.querySelector(
+                ".imgNamedesk[data-key='" + indexcalled + "']"
+            );
+
+            lightninginputatindex.classList.add('renameinputclassdiv');
+
+            lightninginputatindex.classList.remove('imgname');
+
+            this.filesData[indexcalled].fileNameForEdit = filenamewitoutextension.trim();
             this.filesData[indexcalled].isNameReadOnly = false;
-            console.log('>>>filesdat>>' + JSON.stringify(this.filesData));
-        }
-        if (methodNameCalled == 'Preview') {
-            console.log('>>>fileconver>>' + this.filesData[indexcalled].fileContentVerId);
+            this.focusInput(indexcalled);
+            this.isRenameOpen = true;
+            this.toggleUploadButton();
+        } else if (methodNameCalled == 'Preview') {
+            let extension_index = this.filesData[indexcalled].fileName.lastIndexOf('.');
+            let extension = this.filesData[indexcalled].fileName.slice(extension_index + 1);
+            let filenamewitoutextension = this.filesData[indexcalled].fileName.slice(
+                0,
+                extension_index
+            );
+            this.previewHeader = filenamewitoutextension;
             this.openfileUrl =
                 '../apex/MedicalHistoryPreviewVF?resourceId=' +
                 this.filesData[indexcalled].fileContentVerId;
-            //    this.openfileUrl =  "/apex/MedicalHistoryPreviewVF?resourceId=0695E000004TP1m";
-            //    this.openfileUrl =  "/sfc/servlet.shepherd/document/download/0695E000004TP1m";
-            console.log('>>>openfileUrl>>' + this.openfileUrl);
             this.openmodel = true;
-            console.log('>>>filesdat>>' + JSON.stringify(this.filesData));
-        } */
+            this.modalHeaderFilePage = true;
+        } else if (methodNameCalled == 'Remove') {
+            let extension_index = this.filesData[indexcalled].fileName.lastIndexOf('.');
+            let extension = this.filesData[indexcalled].fileName.slice(extension_index + 1);
+            let filenamewitoutextension = this.filesData[indexcalled].fileName.slice(
+                0,
+                extension_index
+            );
+            let message = this.label.PP_RemoveFile;
+            this.fileRemoveMessage = message.replace('#fileName', filenamewitoutextension);
+            this.indexatDeleteClick = indexcalled;
+            this.deleteFileID = this.filesData[indexcalled].fileContentVerId;
+            // this.fileRemoveMessage = message;
+            this.removefilefromDraftmodel = true;
+            this.modalHeaderFilePage = false;
+        }
+    }
+    event1;
+    focusInput(indexcalled) {
+        clearTimeout(this.event1);
+        this.event1 = setTimeout(() => {
+            this.template.querySelector("lightning-input[data-key='" + indexcalled + "']").focus();
+        }, 600);
+    }
+
+    removeFileFromDraft() {
+        this.isSaving = true;
+        this.filesData[this.indexatDeleteClick].isDeleted = true;
+        this.removefilefromDraftmodel = false;
+        deleteFile({
+            fileId: this.deleteFileID
+        })
+            .then((result) => {
+                this.isSaving = false;
+
+                this.totalfilesUploaded = this.totalfilesUploaded - 1;
+                this.totalValidFile = this.totalValidFile - 1;
+                this.totalValidFileProcessed = this.totalValidFileProcessed - 1;
+
+                let inputclassDiv = this.template.querySelector('[data-id="browsediv"]');
+                let inputclassDivcss =
+                    this.template.querySelector('[data-id="browsediv"]').classList.value;
+                if (inputclassDivcss.includes('disabledrag')) {
+                    inputclassDiv.classList.remove('disabledrag');
+                    this.template.querySelector('.fileInput').disabled = false;
+                }
+
+                if (this.totalfilesUploaded == 0) {
+                    this.Nofilesupload = true;
+                }
+                this.toggleUploadButton();
+                //this.pageNumber=1;
+
+                communityService.showToast('', 'success', 'File removed succesfully', 100);
+            })
+            .catch((error) => {
+                this.isSaving = false;
+                console.error('Error:', error);
+            });
+    }
+
+    handleCancelModelRemove() {
+        this.removefilefromDraftmodel = false;
     }
 
     closeModal() {
         this.openmodel = false;
+        this.modalHeaderFilePage = false;
     }
 
     removeFiles(event) {
         let indexcalled = event.currentTarget.dataset.key;
-        console.log('>>total invalid files>>' + this.totalInvalidFile);
-        console.log(
-            '>>>filetype>>' + this.filesData[indexcalled].isValid + '>>at index>>' + indexcalled
-        );
         if (this.filesData[indexcalled].isValid) {
             this.totalValidFile = this.totalValidFile - 1;
         } else {
@@ -579,20 +763,25 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         }
         this.filesData[indexcalled].isDeleted = true;
         this.totalfilesUploaded = this.totalfilesUploaded - 1;
+
+        let inputclassDiv = this.template.querySelector('[data-id="browsediv"]');
+        let inputclassDivcss = this.template.querySelector('[data-id="browsediv"]').classList.value;
+        if (inputclassDivcss.includes('disabledrag')) {
+            inputclassDiv.classList.remove('disabledrag');
+            this.template.querySelector('.fileInput').disabled = false;
+        }
+
         if (this.totalfilesUploaded == 0) {
             this.Nofilesupload = true;
         }
+
+        this.toggleUploadButton();
     }
     retryFiles(event) {
-        console.log('>>retry called>>' + event.currentTarget.dataset.key);
-       /* let indexcalled = event.currentTarget.dataset.key;
+        let indexcalled = event.currentTarget.dataset.key;
         this.filesData[indexcalled].isRetry = true;
         try {
-            console.log(
-                '>>indexcalled find called>>' +
-                    this.filesData.findIndex((x) => x.index == indexcalled)
-            );
-            console.log('>>size>>' + this.filesData[indexcalled].file.size);
+            this.totalValidFile = this.totalValidFile + 1;
             this.filesData[indexcalled].progressWidth = 'width :10%';
             this.filesData[indexcalled].progress = 10;
             this.filesData[indexcalled].base = Math.floor(
@@ -607,7 +796,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 this.filesData[indexcalled].filecontentafterRead.length,
                 fromPos + CHUNK_SIZE
             );
-            console.log('>>>6688>>' + JSON.stringify(this.filesData[indexcalled]));
+            this.toggleUploadButton();
             this.uploadChunk(
                 this.filesData[indexcalled].file,
                 this.filesData[indexcalled].filecontentafterRead,
@@ -619,24 +808,218 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
             );
         } catch (error) {
             console.log('>>error>>' + error);
-        } */
+        }
     }
 
     stopBlurEvent(event) {
         event.preventDefault();
     }
-    validateandsaveFileName(event) {
-        console.log('>>>blurr called>>');
-        let indexcalled = event.currentTarget.dataset.key;
 
-        if (event.target.value) {
-            this.isNameEmpty = false;
+    fileNameTooLong = false;
+
+    totalfileNameerror = 0;
+    totalfileNameEmpty = 0;
+    previewLinks;
+
+    validateandsaveFileName(event) {
+        let indexcalled = event.currentTarget.dataset.key;
+        let fileNameUpdated = event.target.value;
+        this.fileNameTooLong = false;
+        if (fileNameUpdated.trim()) {
+            if (fileNameUpdated.trim().length > 250) {
+                if (!this.filesData[indexcalled].fileNameTooLong) {
+                    this.totalfileNameerror = this.totalfileNameerror + 1;
+                    this.filesData[indexcalled].fileNameTooLong = true;
+                }
+
+                this.isRenameOpen = true;
+                let lightninginputatindex = this.template.querySelector(
+                    "lightning-input[data-key='" + indexcalled + "']"
+                );
+                let lightningInputcss = lightninginputatindex.classList.value;
+
+                lightninginputatindex.classList.add('errornameboxred');
+                let imgnamediv = this.template.querySelector(
+                    ".imgNamedesk[data-key='" + indexcalled + "']"
+                );
+
+                imgnamediv.classList.add('renameinputclassdiv');
+                imgnamediv.classList.remove('imgname');
+
+                this.fileNameTooLong = true;
+                this.isNameEmptyorNotValid = false;
+                return;
+            }
+            if (this.filesData[indexcalled].fileNameTooLong) {
+                this.totalfileNameerror = this.totalfileNameerror - 1;
+                this.filesData[indexcalled].fileNameTooLong = false;
+            }
+            if (this.filesData[indexcalled].isNameEmptyorNotValid) {
+                this.totalfileNameEmpty = this.totalfileNameEmpty - 1;
+                this.filesData[indexcalled].isNameEmptyorNotValid = false;
+            }
+            let extension_index = this.filesData[indexcalled].fileName.lastIndexOf('.');
+            let extension = this.filesData[indexcalled].fileName.slice(extension_index + 1);
+            let filenamewitoutextension = this.filesData[indexcalled].fileName.slice(
+                0,
+                extension_index
+            );
+            if (filenamewitoutextension != fileNameUpdated) {
+                const evt = new ShowToastEvent({
+                    title: 'File renamed succesfully',
+                    message: '',
+                    variant: 'success',
+                    mode: 'dismissable'
+                });
+                this.dispatchEvent(evt);
+                this.filesData[indexcalled].fileName = fileNameUpdated.trim() + '.' + extension;
+            }
+            let imgnamediv = this.template.querySelector(
+                ".imgNamedesk[data-key='" + indexcalled + "']"
+            );
+
+            imgnamediv.classList.remove('renameinputclassdiv');
+            imgnamediv.classList.add('imgname');
             this.filesData[indexcalled].isNameReadOnly = true;
-            console.log('>>value available');
+            this.isRenameOpen = false;
+            this.filesData[indexcalled].isNameEmptyorNotValid = false;
         } else {
-            this.isNameEmpty = true;
+            if (!this.filesData[indexcalled].isNameEmptyorNotValid) {
+                this.totalfileNameEmpty = this.totalfileNameEmpty + 1;
+                this.filesData[indexcalled].isNameEmptyorNotValid = true;
+            }
+
+            let imgnamediv = this.template.querySelector(
+                ".imgNamedesk[data-key='" + indexcalled + "']"
+            );
+
+            imgnamediv.classList.add('renameinputclassdiv');
+            imgnamediv.classList.remove('imgname');
+            this.isRenameOpen = true;
+            this.isNameEmptyorNotValid = true;
+            let lightninginputatindex = this.template.querySelector(
+                "lightning-input[data-key='" + indexcalled + "']"
+            );
+
+            let lightningInputcss = lightninginputatindex.classList.value;
+
+            lightninginputatindex.classList.add('errornameboxred');
+
             this.filesData[indexcalled].isNameReadOnly = false;
-            console.log('>>emptyyyyyyyyyyyyyyyyyyyyy>>>');
+        }
+        this.toggleUploadButton();
+    }
+    displayErrorFilesPopupWarning = false;
+    iscancelButtonClick = false;
+    uploadFiles() {
+        if (this.totalInvalidFile > 0) {
+            this.displayErrorFilesPopupWarning = true;
+        } else {
+            this.uploadFilesToserver();
+        }
+    }
+    cancelFiles() {
+        this.cancelmodalisOpen = true;
+    }
+    backtoUploadClick() {
+        this.cancelmodalisOpen = false;
+        this.iscancelButtonClick = false;
+    }
+    ContinuetoDeleteFiles() {
+        this.isSaving = true;
+        this.cancelmodalisOpen = false;
+        this.iscancelButtonClick = true;
+        DeleteAlldraftFiles({
+            perId: this.getData.pe.Id
+        })
+            .then((result) => {
+                this.filesData = [];
+                this.filesUploaded = [];
+                this.totalfilesUploaded = 0;
+                this.totalValidFile = 0;
+                this.totalInvalidFile = 0;
+                this.totalValidFileProcessed = 0;
+                this.Nofilesupload = true;
+                this.isSaving = false;
+                this.iscancelButtonClick = false;
+            })
+            .catch((error) => {
+                this.isSaving = false;
+                this.cancelmodalisOpen = false;
+                this.Nofilesupload = true;
+                this.filesData = [];
+            });
+    }
+
+    uploadFilesToserver() {
+        this.isSaving = true;
+        this.Nofilesupload = true;
+        for (var i = 0; i < this.filesData.length; i++) {
+            this.filesData[i].filecontentafterRead = '';
+            this.filesData[i].file = '';
+            // this.filesData[i].fileSize = '';
+            // this.filesData[i].fileRemaining = '';
+            this.filesData[i].progressWidth = '';
+            this.filesData[i].progresBarClass = '';
+            this.filesData[i].progress = '';
+        }
+        uploadFiles({
+            strFileData: JSON.stringify(this.filesData),
+            perId: this.getData.pe.Id
+        })
+            .then((result) => {
+                this.filesData = [];
+                this.filesUploaded = [];
+                this.totalfilesUploaded = 0;
+                this.totalValidFile = 0;
+                this.totalInvalidFile = 0;
+                this.totalValidFileProcessed = 0;
+                this.Nofilesupload = true;
+                this.template.querySelector('c-ppdocment-view-page').stopSpinner = false;
+                this.template.querySelector('c-ppdocment-view-page').getTableFilesData();
+                this.isSaving = false;
+                this.displayErrorFilesPopupWarning = false;
+                this.iscancelButtonClick = false;
+                communityService.showToast('', 'success', this.label.PP_UploadSuccess, 100);
+            })
+            .catch((error) => {
+                this.isSaving = false;
+                this.displayErrorFilesPopupWarning = false;
+                // this.Nofilesupload = false;
+                console.log('>>exception is>>' + error.message);
+                console.log('>>exception is>>', error);
+                console.log('>>exception is>>' + JSON.stringify(error));
+            });
+    }
+
+    handleCancelwarning() {
+        this.displayErrorFilesPopupWarning = false;
+    }
+
+    toggleUploadButton() {
+        if (this.totalfileNameerror > 0 || this.totalfileNameEmpty > 0) {
+            this.FileUploadPending = true;
+            return;
+        }
+        if (this.totalValidFile > 0) {
+            if (this.totalValidFileProcessed == this.totalValidFile) {
+                this.FileUploadPending = false;
+            } else {
+                this.FileUploadPending = true;
+            }
+        } else {
+            this.FileUploadPending = true;
+        }
+    }
+    tooltip = false;
+    showToolTip(event) {
+        let indexCalled = event.currentTarget.dataset.key;
+        this.filesData[indexCalled].tooltip = true;
+        this.tooltip = true;
+    }
+    HideToolTip() {
+        for (var i = 0; i < this.filesData.length; i++) {
+            this.filesData[i].tooltip = false;
         }
     }
 }
