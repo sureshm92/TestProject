@@ -42,13 +42,16 @@ public without sharing class NotificationTriggerHandler {
             processUpdateNotification(newList);
         }
         public void processUpdateNotification(List<SObject> newList) {
-            List<Id> targetRecordIds = new List<Id>();
+            Set<Id> targetRecordIds = new Set<Id>();
+            List<Id> recipIds = new List<Id>();
+
             Map<String, String> mapwhatIdOfIds = new Map<String, String>();
             for (Notification__c notificationObj : [
                 SELECT Id, WhatId__c, Target_Record_Ids__c, Recipient__c
                 FROM Notification__c
                 WHERE Id = :newList AND Notification_Type__c = 'Update_to_PT_Televisit_Rescheduled'
             ]) {
+                recipIds.add(notificationObj.Recipient__c);
                 List<Id> targetIds = (List<Id>) notificationObj.Target_Record_Ids__c.split(',');
                 if (!targetIds.isEmpty()) {
                     targetRecordIds.addAll(targetIds);
@@ -61,21 +64,20 @@ public without sharing class NotificationTriggerHandler {
                 );
             }
             if (!targetRecordIds.isEmpty()) {
-                String query = 'Select Id,Target_Record_Ids__c,Recipient__c,WhatId__c from Notification__c  where  Notification_Type__c = \'Update_to_PT_Televisit_Scheduled\' and Status__c!=\'Processed\' ';
-
-                Integer counter = 0;
-                for (Id recordId : targetRecordIds) {
-                    query = query + 'AND Target_Record_Ids__c LIKE \'%' + recordId + '%\'';
-                    counter++;
-                    if (counter == targetRecordIds.size())
-                        break;
-                    else {
-                        query = query + ' ';
-                    }
+                List<String> likeIds = new List<String>();
+                for (Id lId : targetRecordIds) {
+                    likeIds.add('%' + lId + '%');
                 }
-                List<Notification__c> records = Database.query(query);
                 List<Notification__c> deleteNoti = new List<Notification__c>();
-                for (Notification__c notificationObj : records) {
+                for (Notification__c notificationObj : [
+                    SELECT Id, Target_Record_Ids__c, Recipient__c, WhatId__c
+                    FROM Notification__c
+                    WHERE
+                        Notification_Type__c = 'Update_to_PT_Televisit_Scheduled'
+                        AND Status__c != 'Processed'
+                        AND Recipient__c IN :recipIds
+                        AND Target_Record_Ids__c LIKE :likeIds
+                ]) {
                     Boolean toDelete = true;
 
                     List<Id> currenttargetRecordIds = notificationObj.Target_Record_Ids__c.split(
