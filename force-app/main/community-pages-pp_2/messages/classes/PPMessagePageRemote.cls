@@ -50,6 +50,10 @@ public without sharing class PPMessagePageRemote {
         public Boolean isLastMsgUnRead;
         @AuraEnabled
         public DateTime isLastMsgUnReadDtTime;
+        @AuraEnabled
+        public Integer peopleCount = 0;
+        @AuraEnabled
+        public Map<Id,String> nameList;
     }
 
     public class MessageWrapper {
@@ -320,13 +324,13 @@ public without sharing class PPMessagePageRemote {
     
             Set<Id> lstUserId = new Set<Id>();
             List<User> lstUser = new List<User>();
-            Map<Id,String> usrPic = new Map<Id,String>();
+            Map<Id,String> usrPic = new Map<Id,String>();    
             if (lstConversation != null) {
                  List<Message__c> lstMessage = new List<Message__c>();
-                 lstMessage = [Select Id,CreatedById,Conversation__c from Message__c where Conversation__c IN:lstConversation];
+                 lstMessage = [Select Id,CreatedById,Conversation__c,Sender_Name__c from Message__c where Conversation__c IN:lstConversation];
                  for(Message__c mes:lstMessage){
                      lstUserId.add(mes.CreatedById);
-                 }   
+                 }          
                  lstUserId.add(UserInfo.getUserId()); 
                  lstUser = [Select Id,SmallPhotoUrl,FullPhotoUrl  from User where Id IN:lstUserId];
                  for(User u:lstUser){
@@ -916,6 +920,14 @@ public without sharing class PPMessagePageRemote {
             List<MessageWrapper> messageWrappers = getMessageWrappers(messages, documentLinksMap);
             conWr.haveAttachment = messageWrappers.get(0).attachmentWrapper != null;
             conWr.messages = messageWrappers;
+            
+            Map<Id,String> nameList = new Map<Id,String>();
+            for(Message__c mes:messages){
+               nameList.put(mes.CreatedById,mes.Sender_Name__c);
+            }  
+            conWr.nameList = nameList;
+            conWr.peopleCount = nameList.size();
+             
         }
         return conWr;
     }

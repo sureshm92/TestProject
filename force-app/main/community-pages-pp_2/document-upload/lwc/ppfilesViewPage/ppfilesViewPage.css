@@ -275,6 +275,14 @@
     color: #0768fd;
     font-weight: 600;
 }
+.linkLabelMyFiles {
+    color: #0768fd;
+    font-weight: 600;
+}
+.linkLabelMyFiles:hover {
+    cursor: pointer;
+}
+
 .imgname {
     padding-left: 0.5rem;
     /* padding-top: 4px; */
@@ -296,7 +304,7 @@
     /* padding-top: 0.85rem; */
     /* padding-top: 0.75rem; */
 }
-.cancelBtnmbl{
+.cancelBtnmbl {
     padding-left: 8px;
 }
 .progressBarError {
@@ -323,6 +331,9 @@
 .progressBar .slds-progress-bar__value {
     background-color: #0768fd;
 }
+.progressBarMbl .slds-progress-bar__value {
+    background-color: #0768fd;
+}
 
 .button-uploadWarning {
     justify-content: center;
@@ -335,7 +346,7 @@
     line-height: 1.3125rem;
     text-align: center;
     border-radius: 1.25rem;
-    background-color:  #0768fd;
+    background-color: #0768fd;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(226, 0, 0, 0.16);
 }
 
@@ -349,10 +360,10 @@
     text-align: center;
 }
 
-.button-cancel .slds-button:active{
+.button-cancel .slds-button:active {
     border: transparent;
 }
-.button-continue{
+.button-continue {
     color: white;
     border: none;
 }
@@ -368,77 +379,77 @@
     line-height: 1.3125rem;
     text-align: center;
     border-radius: 1.25rem;
-    background-color:#e20000;
+    background-color: #e20000;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(226, 0, 0, 0.16);
 }
 
+.dividerfiles {
+    height: 1px;
 
-.dividerfiles{ 
-        height: 1px;
-        
-        border-bottom: 1px solid #f6f7fb;
-        /* border-bottom: 1px solid red; */
-        width: auto; 
-        display: block;
-        margin-right: 1rem;
-        margin-left: 1.5rem;
+    border-bottom: 1px solid #f6f7fb;
+    /* border-bottom: 1px solid red; */
+    width: auto;
+    display: block;
+    margin-right: 1rem;
+    margin-left: 1.5rem;
 }
-.popovercss{
+.popovercss {
     position: absolute;
     /* top: 29rem; */
     /* bottom: -8rem; */
     /* left: 45px; */
     right: 30px;
 }
-.info-tooltip_position{
-    position:absolute;
-    top:1.25rem;
-    right:0rem;
+.info-tooltip_position {
+    position: absolute;
+    top: 1.25rem;
+    right: 0rem;
 }
 
-.info-tooltip_position.slds-nubbin_top-right:before,.info-tooltip_position.slds-nubbin_top-right:after{
-    right:3.5rem;
+.info-tooltip_position.slds-nubbin_top-right:before,
+.info-tooltip_position.slds-nubbin_top-right:after {
+    right: 3.5rem;
 }
 .crossicon:hover {
     cursor: pointer;
 }
-.toastContainer > .forceToastMessage{
-    margin-top: 4.25rem!important;
+.toastContainer > .forceToastMessage {
+    margin-top: 4.25rem !important;
 }
 .errorMessage {
     font-size: 13px;
     padding-left: 1rem;
-    color: #E20000;
+    color: #e20000;
     font-style: italic;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
 }
 .errorMessageMbl {
     font-size: 13px;
     /* padding-left: 1rem; */
-    color: #E20000;
+    color: #e20000;
     font-style: italic;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
 }
 .errorMessageProgress {
     font-size: 13px;
     padding-left: 6px;
     font-style: italic;
-    color: #E20000;
-    font-family: "Proxima Nova";
+    color: #e20000;
+    font-family: 'Proxima Nova';
 }
-.errorFileNameEmpty{
+.errorFileNameEmpty {
     font-size: 13px;
     padding-left: 9px;
     font-style: italic;
-    color: #E20000;
-    font-family: "Proxima Nova";
+    color: #e20000;
+    font-family: 'Proxima Nova';
 }
-.errornameboxred{
-    border: 1px solid #E20000;
+.errornameboxred {
+    border: 1px solid #e20000;
     border-radius: 5px;
 }
- 
-.retryIcon{
+
+.retryIcon {
     float: right;
     padding-right: 2rem;
 }
@@ -459,7 +470,7 @@
 .imagecss {
     margin-bottom: 3px;
     /* padding-left: 0.5rem; */
-    padding-left: 0.5rem;
+    padding-left: 0.25rem;
 }
 .imagecsscrossicon {
     padding-top: 5px;
@@ -534,7 +545,7 @@
     font-size: 13px;
     font-style: italic;
 }
-.addmarginwhenerror{
+.addmarginwhenerror {
     margin-top: -40px;
 }
 .horizontal {
@@ -575,17 +586,23 @@
 .upld-can-btn {
     float: right;
 }
+.imgcrossmbl {
+    text-align: right;
+    padding-right: 1.5rem;
+}
 .mob-upload-rectangle {
     box-sizing: border-box;
     height: 188px;
     /* width: 382px; */
-    width: 100%;
+    /* width: 100%; */
+    width: 93%;
     border: 1px dashed #979797;
     border-radius: 8px;
     background-color: #f2f2f2;
     font-size: 14px;
     /* font-weight: 600; */
     position: relative;
+    margin-left: 14px;
 }
 .mbllightninglayout {
     padding-left: 11px;
@@ -616,12 +633,15 @@
     height: 32px;
     width: 157px;
     border: 1px solid #e9e9e9;
-    /* border: 1px solid #9797975c; */  
+    /* border: 1px solid #9797975c; */
     border-radius: 16px;
     color: #015ff1;
     cursor: pointer;
     /* border: none; */
     background: None;
+}
+.disabledrag {
+    opacity: 0.5;
 }
 .cancel-btnDesk {
     box-sizing: border-box;
@@ -645,14 +665,17 @@
     color: #ffffff;
     cursor: pointer;
     margin-left: 3.5rem;
-    opacity: 0.4;
 }
-.filesspace{
-    background-color: white;
+.opacityon {
+    opacity: 0.4;
 }
 .upload-progress-scroll {
     overflow-y: auto;
     height: 360px;
+    margin-right: 8px;
+}
+.filesspace {
+    background-color: white;
 }
 .scrollableclass {
     /* height: 262px; */
@@ -660,14 +683,14 @@
     overflow-y: auto;
     margin-right: 8px;
 }
-.uplaodfilesbutton{
+.uplaodfilesbutton {
     margin-top: 8px;
 }
 .upload-newFile-btn {
     height: 32px;
     width: 382px;
     border-radius: 16px;
-    background-color: #0557d5;
+    background-color: #0768fd;
     /* box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 2px 8px 0 rgba(7, 104, 253, 0.32); */
     cursor: pointer;
     color: #ffffff;
@@ -691,9 +714,8 @@
     .cancel-btn {
         width: 132px;
     }
-
 }
- 
+
 @media all and (min-width: 363px) and (max-width: 376px) {
     .upload-btn {
         margin-left: 2.5rem;
@@ -746,11 +768,11 @@
     }
 }
 
-@media all and (max-width: 394px){
+@media all and (max-width: 394px) {
     .upld-file-txt {
         padding-left: 0.5rem;
     }
-    .progressBarMbl{
+    .progressBarMbl {
         padding-left: 0.5rem;
     }
 }
@@ -825,12 +847,11 @@
         width: 98%;
     }
 }
-@media all and (min-width: 768px)   {
+@media all and (min-width: 768px) {
     .upload-progress-scroll {
-        height: 36rem; 
+        height: 36rem;
     }
 }
-
 
 @media all and (min-width: 658px) and (max-width: 1368px) {
     .cancel-btn {
@@ -843,10 +864,9 @@
     }
 }
 
-
 @media screen and (pointer: coarse) and (orientation: landscape) and (min-width: 600px) {
     .upload-progress-scroll {
-        height: 21rem; 
+        height: 21rem;
     }
 }
 
@@ -881,12 +901,12 @@
     }
 }
 
-@media screen and  (min-width: 767px) and (max-width: 819px){
+@media screen and (min-width: 767px) and (max-width: 819px) {
     .my-filesmbl {
         margin-top: -1rem;
     }
 }
-@media screen and  (min-width: 820px) and (max-width: 1180px){
+@media screen and (min-width: 820px) and (max-width: 1180px) {
     .my-filesmbl {
         margin-top: -4rem;
     }
