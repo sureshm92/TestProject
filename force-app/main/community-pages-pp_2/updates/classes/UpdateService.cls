@@ -31,6 +31,7 @@ public without sharing class UpdateService {
         List<String> notificationsTypeList = new List<String>();
         notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE);
         notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED);
+        notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED);
         DateTime initialDateTime = Datetime.valueOfGMT(initialLoadTime);
         ResourceFilter resFilter = getSendResultFilter();
         List<Send_Result__c> sendResults = [
@@ -209,6 +210,8 @@ public without sharing class UpdateService {
         if(sr.Notification__r.Notification_Type__c == NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED){
             wrp.televisitType = 'Scheduled';
         }
+        else if(sr.Notification__r.Notification_Type__c == NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED){
+            wrp.televisitType = 'Rescheduled'; }
         //add check to set televisit Type from notification type
     }
 

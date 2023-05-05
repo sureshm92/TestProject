@@ -293,7 +293,7 @@
                         Your wait time may vary based on the number of files uploaded
                     </div>
                     <!-- Mob upload progress bar start -->
-                    <div class="upload-progress-scroll">
+                    <div class="upload-progress-scroll filesspace">
                         <template for:each={filesData} for:item="imgData" for:index="index">
         
                             <div class="slds-grid slds-m-top_medium" key={imgData.index}>
@@ -325,7 +325,7 @@
         
                                 <template if:false={imgData.UploadCompleted}>
                                     <div class="slds-col center slds-align-middle slds-size_2-of-12">
-                                        <lightning-icon icon-name='utility:clear' data-key={imgData.index} alternative-text='Cancel' size='xx-small' title='Cancel' onclick={removeFiles}></lightning-icon>
+                                        <lightning-icon icon-name='utility:clear' data-key={imgData.index} alternative-text='Cancel' size='x-small' title='Cancel' onclick={removeFiles}></lightning-icon>
                                     </div>
                                 </template>
         

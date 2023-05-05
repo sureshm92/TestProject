@@ -314,6 +314,9 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         this.subscription = null;
     }
 
+    get deleteIconAalign() {
+        return this.isRTL ? 'delete-icon-left' : 'delete-icon-right';
+    }
     get getStudyEmailConsent() {
         return this.currentCommunity === 'Iqvia Patient Portal II'
             ? this.label.PP_Delegate_Email_Consent_1
