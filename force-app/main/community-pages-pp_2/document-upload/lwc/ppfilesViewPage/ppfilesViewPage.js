@@ -27,6 +27,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     uploadNewDocuments = pp_icons + '/' + 'uploadNewDocuments.svg';
     threedots_imgUrl = pp_icons + '/' + 'three_dots.png';
     retry_icon = pp_icons + '/' + 'retry_icon.svg';
+    chevron_left = pp_icons + '/' + 'chevron_left.svg';
 
     label = {
         PP_AcceptedFileformats,
@@ -250,6 +251,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     }
     handlebacktoFile() {
         this.ShowuploadSection = false;
+        this.ContinuetoDeleteFiles();
     }
     totalfilesUploaded = 0;
     totalValidFile = 0;
