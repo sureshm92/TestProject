@@ -313,6 +313,7 @@ public without sharing class PIR_ParticipantDetailController {
           insert pdToupdateAfterInsert;
           createPDE(parti[0].Contact__c,isNewDel,pdToupdateAfterInsert,perRecord,consentWrapper);
         }else if(delegateCriteria == 'insertDelegateSiteStaff'){
+          isNewDel = true;
           Participant__c piToInsertDelegate = new Participant__c();
           piToInsertDelegate = peDeligate.Participant_Delegate__r;
           piToInsertDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
