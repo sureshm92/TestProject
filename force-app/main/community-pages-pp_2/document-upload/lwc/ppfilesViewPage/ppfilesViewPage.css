@@ -608,6 +608,10 @@
     padding-left: 11px;
     padding-right: 11px;
 }
+.imgcrossmbl{
+    text-align: right;
+    padding-right: 1.5rem;
+}
 .upload-rectangle {
     box-sizing: border-box;
     height: 250px;
