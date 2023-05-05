@@ -42,10 +42,11 @@
                     </div>
                 </div>
 
-                <div class="slds-col slds-size_1-of-1 slds-border_bottom slds-p-horizontal_none">
+                <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none">
                     <div class="disclaimer slds-m-bottom_small">{resultTypeDisclaimer}</div>
+                    <span class="horizontal-line"></span>
                 </div>
-                <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
+                <div class="slds-col slds-size_1-of-1 slds-p-around_medium visit-result-buttons">
                     <div class="slds-align_absolute-center">
                         <template lwc:if={showTabs}>
                             <template lwc:if={group2}>
@@ -101,7 +102,7 @@
                     <div class="slds-col slds-size_1-of-1">
                         <div class="slds-grid slds-wrap slds-gutters">
                             <div
-                                class="slds-col slds-size_12-of-12 result-type-toggle slds-p-horizontal_none"
+                                class="slds-col slds-size_12-of-12 result-type-toggle slds-p-horizontal_none slds-p-top_xx-small"
                             >
                                 <c-web-spinner
                                     class="main-spinner"
@@ -113,14 +114,11 @@
                                         <span>{toggleLabel}</span>
                                     </div>
                                     <!--Toggle Helptext-->
-                                    <div class="slds-p-horizontal_x-small">
-                                        <span
-                                            ><lightning-helptext
-                                                content="This button will toggle the result data for all the visits."
-                                                class="show-result-tooltip"
-                                                icon-name="utility:info"
-                                            ></lightning-helptext
-                                        ></span>
+                                    <div class="slds-p-horizontal_x-small pp-tooltip">
+                                        <lightning-helptext
+                                            content={label.PP_Visit_Result_Toggle_Helptext}
+                                            icon-name="utility:info"
+                                        ></lightning-helptext>
                                     </div>
                                     <!--TOGGLE START-->
                                     <div class="slds-p-horizontal_small">

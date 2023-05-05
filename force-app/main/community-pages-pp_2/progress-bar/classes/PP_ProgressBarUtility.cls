@@ -210,4 +210,30 @@ public with sharing class PP_ProgressBarUtility {
             
         }
     }    
+    @AuraEnabled
+    public static boolean showProgress(String peId){
+        Participant_Enrollment__c pe = [select id,Participant_Status__c,Clinical_Trial_Profile__r.Is_Program__c,Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,
+                                        Clinical_Trial_Profile__r.Status_Milestone_Available__c FROM Participant_Enrollment__c where id=:peId];
+        List<Study_status_desc_and_motivational_msg__mdt> metadtaRec = [select id FROM Study_status_desc_and_motivational_msg__mdt where PER_Participant_Status__c =:pe.Participant_Status__c];
+        if(metadtaRec.isEmpty()){
+            return false;
+        }
+        else{
+            List<Patient_Visit__c> patientVisits = [select Id from Patient_Visit__c where Participant_Enrollment__c =:peId]; 
+            Boolean isProgram = pe.Clinical_Trial_Profile__r.Is_Program__c;
+            if((!isProgram) && pe.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c && pe.Clinical_Trial_Profile__r.Status_Milestone_Available__c){
+                if(patientVisits.isEmpty() && metadtaRec.isEmpty()){
+                return false;
+                }
+            }
+            else if(patientVisits.isEmpty()){
+                return false;
+            }
+        } 
+        if(!pe.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c && !pe.Clinical_Trial_Profile__r.Status_Milestone_Available__c){
+            return false;
+        }
+                    
+        return true;
+    } 
 }
