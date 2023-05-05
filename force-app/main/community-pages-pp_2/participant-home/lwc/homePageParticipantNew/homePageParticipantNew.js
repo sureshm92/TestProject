@@ -243,6 +243,9 @@ export default class HomePageParticipantNew extends LightningElement {
                         (this.participantState.hasPatientDelegates &&
                             !this.participantState.isDelegate &&
                             !this.participantState.pe);
+                    if( this.isDelegateSelfview){
+                        this.showBiggerUpdatesSection();
+                    }
                 }
                 this.isInitialized = true;        
                 if(!this.desktop && this.participantState.pe){
