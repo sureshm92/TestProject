@@ -19,40 +19,30 @@
                     <span class="back-text">{label.Back}</span>
                 </div>
                 <div class="slds-col slds-medium-size_1-of-1 slds-p-horizontal_none">
-                    <div class="slds-col slds-size_8-of-12 slds-float_left slds-p-horizontal_none">
-                        <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
-                            <div class="slds-col slds-p-horizontal_none">
-                                <span class="visit-name">{patientVisitName}</span>
-                                <span class="completed-date">
-                                    &nbsp;&nbsp;|
-                                    <lightning-formatted-date-time
-                                        value={completedDate}
-                                        class="completed-date slds-m-left_small"
-                                        time-zone={userTimezone}
-                                    ></lightning-formatted-date-time
-                                ></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slds-col slds-size_4-of-12 slds-p-horizontal_none">
-                        <div class="slds-float_right">
-                            <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
-                                <div class="slds-col">
-                                    <span class="download-section">
-                                        <lightning-icon
-                                            icon-name="utility:download"
-                                            size="xx-small"
-                                            class="download-icon"
-                                        >
-                                        </lightning-icon>
-                                        <span class="download-res-data slds-p-left_small">
-                                            {label.PP_Download_Results_Data}
-                                        </span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <lightning-layout class="slds-p-vertical_x-small"
+                        ><lightning-layout-item size="7">
+                            <span class="visit-name">{patientVisitName}</span>
+                            <span class="completed-date">
+                                &nbsp;&nbsp;|
+                                <lightning-formatted-date-time
+                                    value={completedDate}
+                                    class="completed-date slds-m-left_small"
+                                    time-zone={userTimezone}
+                                ></lightning-formatted-date-time></span></lightning-layout-item
+                        ><lightning-layout-item size="5" class="slds-align-middle download-section">
+                            <span>
+                                <lightning-icon
+                                    icon-name="utility:download"
+                                    size="xx-small"
+                                    class="download-icon"
+                                >
+                                </lightning-icon>
+                                <span class="download-res-data slds-p-left_small">
+                                    {label.PP_Download_Results_Data}
+                                </span>
+                            </span></lightning-layout-item
+                        ></lightning-layout
+                    >
                 </div>
 
                 <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none">
@@ -119,6 +109,7 @@
                             >
                                 <c-web-spinner
                                     class="main-spinner"
+                                    fixed="true"
                                     show-spinner={showToggleSpinner}
                                 ></c-web-spinner>
                                 <div class="slds-grid slds-p-top_xxx-small">

@@ -96,12 +96,12 @@
                 </lightning-layout-item>
                 <template if:true={showUpcomingSection}>
                     <lightning-layout-item size="4" class="around-small-custom around-right-zero">
-                        <c-pp-updates showvisitsection={showUpcomingSection} counter={counter}></c-pp-updates>
+                        <c-pp-updates showvisitsection={showUpcomingSection} initial-load-time={initialLoadTime} counter={counter}></c-pp-updates>
                     </lightning-layout-item>
                 </template>
                 <template if:false={showUpcomingSection}>
                     <lightning-layout-item size={updateCardLayoutSize} class={updateCardLayoutClass}>
-                        <c-pp-updates showvisitsection={updateCardLayoutSmall} counter={counter}></c-pp-updates>
+                        <c-pp-updates showvisitsection={updateCardLayoutSmall} initial-load-time={initialLoadTime} counter={counter}></c-pp-updates>
                     </lightning-layout-item>
                     <lightning-layout-item size="4" class={progressBarLayoutClass}>
                         <template if:true={participantState}>
@@ -396,7 +396,7 @@
                 </template>
             </template>
             <template if:true={updatesSection}>
-                <c-pp-updates counter={counter} desktop={desktop}></c-pp-updates>
+                <c-pp-updates counter={counter} initial-load-time={initialLoadTime} desktop={desktop}></c-pp-updates>
             </template>            
             <div if:true={showProgress}>
                 <div class="progressTab">
