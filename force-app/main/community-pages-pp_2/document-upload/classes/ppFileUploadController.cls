@@ -545,7 +545,6 @@ public without sharing class ppFileUploadController {
     @AuraEnabled 
     public static void uploadFiles(String strFileData, String perId){
         list<uploadFileWrapper> lstWrapper = (List<uploadFileWrapper>)JSON.deserialize(strFileData, list<uploadFileWrapper>.class);
-        SendEmailDebug.sendEmail('>>lstWrapper>>'+lstWrapper);
         List<ContentVersion> lstCV = new list<ContentVersion> ();
         List<string> lstCVToDelete = new list<string> ();
         
