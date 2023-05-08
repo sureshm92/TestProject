@@ -7,7 +7,10 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import No_Vitals_Available from '@salesforce/label/c.No_Vitals_Available';
 import No_Labs_Available from '@salesforce/label/c.No_Labs_Available';
 import No_Biomarkers_Available from '@salesforce/label/c.No_Biomarkers_Available';
-
+import FORM_FACTOR from '@salesforce/client/formFactor';
+import mobileTemplate from './ppVisitResultSectionMobile.html';
+import tabletTemplate from './ppVisitResultSectionTablet.html';
+import desktopTemplate from './ppVisitResultSection.html';
 import Visit_Results_Tab_Panel_Disclaimer from '@salesforce/label/c.Visit_Results_Tab_Panel_Disclaimer';
 
 export default class PpVisitResultSection extends LightningElement {
@@ -27,6 +30,7 @@ export default class PpVisitResultSection extends LightningElement {
     @track isLabsResultsAvailable = false;
     @track initialised = false;
     @track visResultsList;
+    loadData;
 
     label = {
         Visit_Result_Group_MetabolicPanel,
@@ -41,7 +45,7 @@ export default class PpVisitResultSection extends LightningElement {
     noVisitResultsAvailable = pp_icons + '/' + 'results_Illustration.svg';
 
     connectedCallback() {
-        this.getResultsData();
+        //this.getResultsData();
     }
     get isVitalsSelected() {
         return this.selectedResultType == 'Vitals';
@@ -64,6 +68,36 @@ export default class PpVisitResultSection extends LightningElement {
         this.getResultsData();
     }
 
+    get labsResultsAvailable() {
+        return this.isMetabolicPanel
+            ? true
+            : this.isHeamatology
+            ? true
+            : this.isFastLipProfile
+            ? true
+            : false;
+    }
+    render() {
+        if (this.isDesktop) {
+            return desktopTemplate;
+        } else if (this.isMobile) {
+            return mobileTemplate;
+        } else {
+            return tabletTemplate;
+        }
+    }
+    get isDesktop() {
+        return FORM_FACTOR == 'Large';
+    }
+
+    get isMobile() {
+        return FORM_FACTOR == 'Small';
+    }
+
+    get isTablet() {
+        return FORM_FACTOR == 'Medium';
+    }
+
     getResultsData() {
         console.log('JJ GGGG' + this.selectedResultType);
         this.showSpinner = true;
@@ -77,7 +111,6 @@ export default class PpVisitResultSection extends LightningElement {
             visitResultsMode: this.selectedResultType
         })
             .then((result) => {
-                console.log('JJ GGGG' + JSON.stringify(result));
                 let resultsWrapper = result;
                 this.visResultsList = result;
                 if (this.selectedResultType == 'Labs') {
@@ -96,7 +129,6 @@ export default class PpVisitResultSection extends LightningElement {
                             }
                         }
                     }
-                    this.isLabsResultsAvailable = resultsWrapper.length > 0 ? true : false;
                 } else if (this.selectedResultType == 'Vitals') {
                     for (let i = 0; i < resultsWrapper.length; i++) {
                         if (resultsWrapper[i].isResultsAvailable) {

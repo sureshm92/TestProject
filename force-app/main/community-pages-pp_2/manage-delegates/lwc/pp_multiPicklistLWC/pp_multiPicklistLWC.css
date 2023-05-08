@@ -131,11 +131,12 @@
     overflow: hidden;
     width: auto !important;
 }
-.std .study-thmore-add-newdel {
-    padding: 5px 0px 0px 550px;
+
+.std .study-more-class-p-left {
+    padding: 0px 0px 0px 16px;
 }
-.std .study-thmore-add-assignment {
-    padding: 5px 0px 0px 440px;
+.std .study-more-class-p-right {
+    padding: 0px 16px 0px 0px;
 }
 .std .slds-listbox__option-icon {
     width: 6px;
@@ -213,12 +214,6 @@
         margin-top: 2px;
         margin-bottom: 2px;
     }
-    .rtl .std .study-thmore-add-newdel {
-        padding: 5px 0px 0px 0px;
-    }
-    .rtl .std .study-thmore-add-assignment {
-        padding: 5px 0px 0px 0px;
-    }
     .rtl .w-date {
         width: 46%;
         padding-right: var(--lwc-spacingSmall, 0.75rem);
@@ -234,12 +229,6 @@
     }
     .rtl .rtl-width {
         right: -50%;
-    }
-    .std .study-thmore-add-newdel {
-        padding: 6px 0px 0px 175px;
-    }
-    .std .study-thmore-add-assignment {
-        padding: 6px 0px 0px 125px;
     }
 }
 

@@ -3,9 +3,11 @@
         if (communityService.isInitialized()) {
             component.set('v.communityServ', communityService);
             helper.init(component);
+            helper.handleOrientationInit(component);
+            helper.registerOrientationChange(component);
         } else {
             communityService.initialize(component);
-        }
+        }       
     },
 
     handleLoadTelevisitBanner: function (component, event, helper) {
@@ -52,12 +54,10 @@
 
     handleMessage: function (component, event, helper) {
         // Read the message argument to get the values in the message payload
-        alert("Handler: orientation change");
         if (event != null && event.getParams() != null) {
-            const message = event.getParam('hideFooter');
-            if (message) {
-                component.set('v.hideFooter', message);
-            }
+            const message = event.getParam('mediaContent');
+            component.set('v.mediaContent', message);
+            helper.handleOrientationInit(component);
         }
     }
 });

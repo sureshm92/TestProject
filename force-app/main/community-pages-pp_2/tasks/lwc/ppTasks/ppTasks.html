@@ -96,7 +96,11 @@
         <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-stretch">
             <div class="slds-col slds-size_1-of-1 task-panel_left">
                 <!-- Loading Spinner-->
-                <c-web-spinner class="main-spinner" fixed="true" show-spinner={showSpinner}></c-web-spinner>
+                <c-web-spinner
+                    class="main-spinner"
+                    fixed="true"
+                    show-spinner={showSpinner}
+                ></c-web-spinner>
                 <div class={cardRTL}>
                     <div>
                         <lightning-layout class="slds-align_absolute-center" multiple-rows="true">
@@ -276,11 +280,11 @@
                 </div>
             </div>
             <div class="slds-col slds-large-size--1-of-3 slds-size_1-of-1 task-panel_right">
-
-                <c-pp-medical-record-retrieval-panel onsuccessload={handleLoad}
-                                                     oncardremove={handleCardRemove}></c-pp-medical-record-retrieval-panel>
-      
-          </div>
+                <c-pp-medical-record-retrieval-panel
+                    onsuccessload={handleLoad}
+                    oncardremove={handleCardRemove}
+                ></c-pp-medical-record-retrieval-panel>
+            </div>
         </div>
     </template>
 </template>

@@ -18,7 +18,7 @@ body {
 
 .pref-container {
     height: 24px;
-    color: #0768fd;
+    color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 500;
@@ -230,7 +230,7 @@ p {
 
 .change-preferences {
     height: 24px;
-    color: #0768fd;
+    color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 600;

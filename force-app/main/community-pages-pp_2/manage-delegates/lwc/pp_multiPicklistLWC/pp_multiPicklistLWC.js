@@ -27,6 +27,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     @api isDesktop;
     @api addNewDelegate;
     @api picklistLabel;
+    @api isRTL;
 
     @track firstThreeselectedStudyies = [];
     subscription = null;
@@ -62,11 +63,10 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         }
         //If we recieved isDisabled flag from Parent component.
         if (message.isDisabled == true) {
-            
             this.template
                 .querySelector('.disable-dropdown')
                 ?.classList.add('std-multipicklist-disabled');
-                
+
             this.template
                 .querySelector('.disable-select-all')
                 ?.classList.add('std-disable-select-all');
@@ -193,12 +193,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
             : false;
     }
     get studyMoreClass() {
-        return this.addNewDelegate ? 'study-thmore-add-newdel' : 'study-thmore-add-assignment';
-        // if(this.addNewDelegate){
-        //     return 'study-thmore-add-newdel';
-        //   }else{
-        //     return 'study-thmore-add-assignment';
-        //   }
+        return this.isRTL ? 'study-more-class-p-right' : 'study-more-class-p-left';
     }
     // get manageMarginCustom() {
     //     return this.isDesktop ? 'manage-margin-custom-desktop' : 'manage-margin-custom-mobile';

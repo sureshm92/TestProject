@@ -12,6 +12,7 @@ import NOT_AVAILABLE from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Enter
 export default class PpMyVisitResultsList extends LightningElement {
     @track completedVisitsWithResults;
     showSpinner = true;
+    showResultSpinner;
     @api currentVisitId;
     urlString;
     patientVisitWrapper;
@@ -31,9 +32,14 @@ export default class PpMyVisitResultsList extends LightningElement {
         this.urlString = window.location.href;
         if (window.location.href.includes('pvId')) {
             this.currentVisitId = communityService.getUrlParameter('pvId');
+            if(!this.isDesktop){
+                const custEvent = new CustomEvent('visitclick', {
+                    detail: false
+                });
+                this.dispatchEvent(custEvent);
+            }
         }
         this.onLoad = true;
-        console.log('JJ' + JSON.stringify(this.currentVisit));
         this.initializeData();
     }
 
@@ -81,13 +87,22 @@ export default class PpMyVisitResultsList extends LightningElement {
             .then((patientVisitWrapper) => {
                 this.patientVisitWrapper = patientVisitWrapper;
                 this.completedVisitsWithResults = patientVisitWrapper.patientVisitsWithResultsList;
-                if (this.completedVisitsWithResults && !this.currentVisitId) {
+                if (this.completedVisitsWithResults && !this.currentVisitId && this.isDesktop) {
                     this.currentVisitId = this.completedVisitsWithResults[0]?.Id;
                     this.currentVisit = this.completedVisitsWithResults[0];
+                } else if (this.currentVisitId) {
+                    for (let i = 0; i < this.completedVisitsWithResults.length; i++) {
+                        if (this.completedVisitsWithResults[i].Id == this.currentVisitId) {
+                            this.currentVisit = this.completedVisitsWithResults[i];
+                            break;
+                        }
+                    }
                 }
 
-                //pass currentVisitId and patientVisitWrapper to jayashree component
                 if (this.onLoad) this.showSpinner = false;
+                if (this.showResultSpinner) {
+                    this.showResultSpinner = false;
+                }
                 this.showResults = true;
             })
             .catch((error) => {
@@ -113,6 +128,7 @@ export default class PpMyVisitResultsList extends LightningElement {
     onVisitSelect(event) {
         this.currentVisitId = event.currentTarget.dataset.id;
         this.onLoad = false;
+        this.showResultSpinner = true;
         this.initializeData();
         this.handleVisitChangeCSS();
         this.showResults = false;
@@ -120,21 +136,31 @@ export default class PpMyVisitResultsList extends LightningElement {
             //show user the results values if available
             window.history.replaceState(null, null, '?vrlist&pvId=' + this.currentVisitId);
             this.urlString = window.location.href;
+            const custEvent = new CustomEvent('visitclick', {
+                detail: false
+            });
+            this.dispatchEvent(custEvent);
         }
-
-        for (let i = 0; i < this.completedVisitsWithResults.length; i++) {
-            if (this.currentVisitId == this.completedVisitsWithResults[i].Id) {
-                this.currentVisit = this.completedVisitsWithResults[i];
-                break;
-            }
-        }
-        this.showResults = true;
     }
 
     handleBackToVisitList() {
         if (this.isMobile || this.isTablet) {
             window.history.replaceState(null, null, '?vrlistHome');
             this.urlString = window.location.href;
+            this.currentVisit = '';
+            this.currentVisitId = '';
+            if(window.location.href.includes('pvId')){
+                const custEvent = new CustomEvent('visitclick', {
+                    detail: false
+                });
+                this.dispatchEvent(custEvent);
+            }else{
+                const custEvent = new CustomEvent('visitclick', {
+                    detail: true
+                });
+                this.dispatchEvent(custEvent);
+            }
+           
         }
     }
 }

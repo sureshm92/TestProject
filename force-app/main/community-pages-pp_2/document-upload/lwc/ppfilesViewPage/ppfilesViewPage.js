@@ -9,22 +9,30 @@ import PP_AcceptedFileformats from '@salesforce/label/c.PP_AcceptedFileformats';
 import PP_acceptedformats from '@salesforce/label/c.PP_acceptedformats';
 import PP_MaxFileSize from '@salesforce/label/c.PP_MaxFileSize';
 import PP_FileFormatNotAccept from '@salesforce/label/c.PP_FileFormatNotAccept';
+import PP_RemoveFile from '@salesforce/label/c.PP_RemoveFile';
+import PP_CancelUpload from '@salesforce/label/c.PP_CancelUpload';
+import PP_UploadSuccess from '@salesforce/label/c.PP_UploadSuccess';
 import formFactor from '@salesforce/client/formFactor';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const MAX_FILE_SIZE = 4500000; //2621440;// 4500000; max file size prog can handle
-const CHUNK_SIZE = 750000; //9000;//750000; max chunk size prog can handle
+const CHUNK_SIZE = 750000; // 500000; //9000;//750000; max chunk size prog can handle 500000
 const MAX_FILE_SIZE_mb = 4;
 
 export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     noDocumentAvailable = pp_icons + '/' + 'noDocumentAvailable.svg';
     uploadNewDocuments = pp_icons + '/' + 'uploadNewDocuments.svg';
     threedots_imgUrl = pp_icons + '/' + 'three_dots.png';
+    retry_icon = pp_icons + '/' + 'retry_icon.svg';
 
     label = {
         PP_AcceptedFileformats,
         PP_acceptedformats,
         PP_MaxFileSize,
-        PP_FileFormatNotAccept
+        PP_FileFormatNotAccept,
+        PP_RemoveFile,
+        PP_CancelUpload,
+        PP_UploadSuccess
     };
 
     value = 'inProgress';
@@ -35,19 +43,8 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     isCTPenableUpload = false;
     getsize = 12;
 
-    fileName = '';
-    progress = 0;
     noRecords = true;
-    progressWidth = 'width :0%';
-    base = 1;
-    progressMultiplier = 0;
     filesUploaded = [];
-    fileSize;
-    fileId = '';
-    fileSize;
-    fileId = '';
-    csvData = '';
-    totalRecs = 0;
     isPart;
     getData;
     popupActionItems = [];
@@ -57,8 +54,12 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     isSaving = false;
     openmodel = false;
     openfileUrl;
-    isNameEmpty = false;
+    isNameEmptyorNotValid = false;
     isLoaded = false;
+    FileUploadPending = true;
+    isFileNameNotvalid = false;
+
+    cancelmodalisOpen = false;
 
     progresBarClass = ' progressBar slds-col slds-size_5-of-12 ';
     // progresBarClass =' progressBarError slds-col slds-size_5-of-12 ';
@@ -109,33 +110,32 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 perId: this.getData.pe.Id
             }).then((result) => {
                 console.log('>>>result is>>>' + JSON.stringify(result));
-                
 
                 this.isCTPenableUpload = result.isUplaodAvailable;
                 if (this.isCTPenableUpload) {
                     this.getsize = 8;
                 }
+                console.log('>>>result.isUplaodAvailable>>' + this.isCTPenableUpload);
                 this.isSaving = false;
             });
-
         }
-    }
-    disconnectedCallback(event) {
-        console.log('>>>disconnectedcallback>>');
-    }
-    beforeUnloadHandler(event) {
-        alert('before unload handler has been called.');
     }
 
     showUploadSectiontoUser(event) {
+        this.isSaving = true;
         this.ShowuploadSection = true;
+        this.isSaving = false;
     }
 
     //pagination
     totalRecord;
+    totalRecordMsg;
     showZeroErr = false;
     initialLoad = true;
+    initialLoadMsg = true;
     page;
+    pagemsg;
+    issharedFilesTab = false;
     pageChanged(event) {
         console.log('>>page changed called>>>');
         this.page = event.detail.page;
@@ -158,6 +158,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         }
     }
     handleUpdate = false;
+    handleUpdateMsg = false;
     handletotalrecord(event) {
         this.totalRecord = event.detail;
         this.handleUpdate = true;
@@ -165,6 +166,8 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     }
     isResetOnUpdate = false;
     isResetPagination = false;
+    isResetPaginationMsg = false;
+
     handleresetpageonupdate() {
         if (this.handleUpdate && !this.isResetPagination) {
             this.initialLoad = true;
@@ -176,6 +179,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         this.initialLoad = false;
     }
     handleresetpagination(event) {
+        this.isResetPagination = true;
         if (this.isResetPagination) {
             this.initialLoad = true;
             this.template.querySelector('c-pir_participant-pagination').totalRecords =
@@ -190,6 +194,10 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         this.ShowuploadSection = true;
     }
     totalfilesUploaded = 0;
+    totalValidFile = 0;
+    totalValidFileProcessed = 0;
+    totalInvalidFile = 0;
+
     handleFilesChange(event) {
         if (event.target.files.length > 0) {
             this.Nofilesupload = false;
@@ -213,27 +221,13 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         this.progressWidth = 'width :2%';
         this.progress = 2;
 
-
         for (var i = 0; i < this.filesUploaded.length; i++) {
-            console.log('>>>188');
             let index = this.filesData.findIndex((x) => x.index === i);
             console.log('>>>190>>?' + index);
             if (index != -1) continue;
             var fileCon = this.filesUploaded[i];
 
             this.base = Math.floor((CHUNK_SIZE / fileCon.size) * 100);
-            let fileSize = this.formatBytes(fileCon.size, 2);
-            console.log(
-                '>>>file at index>>' + fileCon.name + '>>index is>>' + i + '>>type>>' + fileCon.type
-            );
-            let fileRemaining = '';
-            var fs = fileSize.split(' ');
-            var fu = ((fs[0] * this.progress) / 100).toFixed(2);
-            if (fs[0] / fu == 1) {
-                fileRemaining = fileSize;
-            } else {
-                fileRemaining = fu + ' ' + fs[1] + ' of ' + fileSize;
-            }
             let extension_index = fileCon.name.lastIndexOf('.');
             let extension = fileCon.name.slice(extension_index + 1);
             let filenamewitoutextension = fileCon.name.slice(0, extension_index);
@@ -252,21 +246,26 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                     filecontentafterRead: '',
                     base: '',
                     progressMultiplier: '',
-                    fileSize: fileSize,
+                    // fileSize: fileSize,
                     progress: this.progress,
                     index: i,
                     isValid: false,
                     isNameReadOnly: true,
                     ErrorMessage: this.label.PP_FileFormatNotAccept,
-                    fileRemaining: fileRemaining,
+                    // fileRemaining: fileRemaining,
                     progressWidth: this.progressWidth,
                     UploadCompleted: true,
                     isDeleted: false,
                     isRetry: false,
                     isSuccessfullyDeleted: false,
                     fileContentVerId: '',
-                    error: false
+                    error: false,
+                    tooltip: false,
+                    isNameEmptyorNotValid: false,
+                    fileNameTooLong: false,
+                    fileNameForEdit: ''
                 });
+                this.totalInvalidFile = this.totalInvalidFile + 1;
                 continue;
             } else if (fileCon.size > MAX_FILE_SIZE) {
                 this.filesData.push({
@@ -276,21 +275,26 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                     filecontentafterRead: '',
                     base: '',
                     progressMultiplier: '',
-                    fileSize: fileSize,
+                    // fileSize: fileSize,
                     progress: this.progress,
                     index: i,
                     isValid: false,
                     isNameReadOnly: true,
                     ErrorMessage: this.label.PP_MaxFileSize,
-                    fileRemaining: fileRemaining,
+                    // fileRemaining: fileRemaining,
                     progressWidth: this.progressWidth,
                     UploadCompleted: true,
                     isDeleted: false,
                     isRetry: false,
                     isSuccessfullyDeleted: false,
                     fileContentVerId: '',
-                    error: false
+                    error: false,
+                    tooltip: false,
+                    isNameEmptyorNotValid: false,
+                    fileNameTooLong: false,
+                    fileNameForEdit: ''
                 });
+                this.totalInvalidFile = this.totalInvalidFile + 1;
                 continue;
             } else {
                 this.filesData.push({
@@ -300,24 +304,30 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                     filecontentafterRead: '',
                     base: '',
                     progressMultiplier: '',
-                    fileSize: fileSize,
+                    // fileSize: fileSize,
                     progress: this.progress,
                     index: i,
                     isValid: true,
                     isNameReadOnly: true,
                     ErrorMessage: '',
-                    fileRemaining: fileRemaining,
+                    // fileRemaining: fileRemaining,
                     progressWidth: this.progressWidth,
                     UploadCompleted: false,
                     isDeleted: false,
                     isRetry: false,
                     isSuccessfullyDeleted: false,
                     fileContentVerId: '',
-                    error: false
+                    error: false,
+                    tooltip: false,
+                    isNameEmptyorNotValid: false,
+                    fileNameTooLong: false,
+                    fileNameForEdit: ''
                 });
+                this.totalValidFile = this.totalValidFile + 1;
                 this.setupReader(fileCon, i);
             }
         }
+        this.toggleUploadButton();
     }
     setupReader(fileCon, indexoffile) {
         var reader = new FileReader();
@@ -337,24 +347,6 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
             self.filesData[index].filecontentafterRead = fileContents;
             self.filesData[index].base = Math.floor((CHUNK_SIZE / fileCon.size) * 100);
             self.filesData[index].progressMultiplier = 1;
-
-            //     let fileSize = self.formatBytes(fileCon.size, 2);
-            //     let fileRemaining = '';
-            //     var fs = fileSize.split(' ');
-            //     var fu = ((fs[0] * self.progress) / 100).toFixed(2);
-            //     if (fs[0] / fu == 1) {
-            //         fileRemaining = fileSize;
-            //     } else {
-            //         fileRemaining = fu + ' ' + fs[1] + ' of ' + fileSize;
-            //     }
-
-            //    self.filesData.push({'fileName':fileCon.name, 'fileSize': fileSize, 'progress':self.progress,'index':indexoffile,
-            //                             'fileRemaining' : fileRemaining, 'progressWidth' : self.progressWidth,'UploadCompleted' : false});
-            // self.showdata = true;
-            // self.filesData = JSON.stringify(self.filesData);
-
-            // console.log('>>>141>>' + JSON.stringify(self.filesData));
-            // this.upload(fileCon, fileContents);
 
             self.upload(fileCon, fileContents, indexoffile);
         };
@@ -380,7 +372,6 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
         try {
             let index = this.filesData.findIndex((x) => x.index == indexoffile);
-            console.log('>>>index inside upload>>' + index);
             let shouldcallserver = true;
             if (this.filesData[index].isDeleted) {
                 shouldcallserver = this.filesData[index].fileContentVerId
@@ -389,12 +380,8 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                         : true
                     : false;
             }
-            
-            if (index >= 0 && shouldcallserver) {
-                
 
-                console.log('>>inside> attachId' + attachId);
-                
+            if (index >= 0 && shouldcallserver) {
                 saveTheChunkFile({
                     parentId: this.getData.pe.Id,
                     fileName: file.name,
@@ -409,7 +396,6 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 })
                     .then((result) => {
                         let getresult = JSON.parse(result);
-                        console.log('filecontentversion>>' + getresult.filecontentversion);
                         console.log('FileContentDocId>>' + getresult.FileContentDocId);
                         this.fileId = getresult.filecontentversion;
                         if (!getresult.filecontentversion && this.filesData[index].isDeleted) {
@@ -422,31 +408,15 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                         this.filesData[index].fileContentVerId = getresult.filecontentversion;
                         attachId = getresult.filecontentversion;
                         strfileContentDocumentId = getresult.FileContentDocId;
-                        console.log('FileContentDocId>>' + getresult.FileContentDocId);
                         fromPos = toPos;
-                        console.log(
-                            '>>indexoffile>>' +
-                                indexoffile +
-                                '>>filedata is>>' +
-                                JSON.stringify(this.filesData)
-                        );
 
-                        console.log('>>index is>>' + index);
-                        console.log('>>filesfata at index is>>' + this.filesData[index]);
 
                         // this.showdata = false;
                         if (index >= 0) {
                             toPos = Math.min(fileContents.length, fromPos + CHUNK_SIZE);
                             if (fromPos < toPos) {
                                 this.filesData[index].progressMultiplier++;
-                                // this.progressMultiplier++;
-                                // if (this.base * this.progressMultiplier < 100) {
-                                //     this.filesData[index].progress =
-                                //         this.base * this.progressMultiplier;
-                                //     console.log('>>227>>' + this.filesData);
 
-                                //     // this.progress = this.base * this.progressMultiplier;
-                                // }
                                 if (
                                     this.filesData[index].base *
                                         this.filesData[index].progressMultiplier <
@@ -455,26 +425,11 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                                     this.filesData[index].progress =
                                         this.filesData[index].base *
                                         this.filesData[index].progressMultiplier;
-                                    console.log('>>227>>' + this.filesData);
-
-                                    // this.progress = this.base * this.progressMultiplier;
                                 } else {
                                     this.filesData[index].progress = 99;
-                                    // this.progress = 99;
                                 }
                                 this.filesData[index].progressWidth =
                                     'width :' + this.filesData[index].progress + '%';
-                                var fs = this.filesData[index].fileSize.split(' ');
-                                var fu = ((fs[0] * this.filesData[index].progress) / 100).toFixed(
-                                    2
-                                );
-                                if (fs[0] / fu == 1) {
-                                    this.filesData[index].fileRemaining =
-                                        this.filesData[index].fileSize;
-                                } else {
-                                    this.filesData[index].fileRemaining =
-                                        fu + ' ' + fs[1] + ' of ' + this.filesData[index].fileSize;
-                                }
                                 // this.progressWidth = 'width :'+this.progress+'%';
                                 this.uploadChunk(
                                     file,
@@ -494,17 +449,6 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                                     'width :' +
                                     this.filesData[index].progress +
                                     '%;background-color: #0768FD;'; //change 00C221 ths to 0768FD
-                                var fs = this.filesData[index].fileSize.split(' ');
-                                var fu = ((fs[0] * this.filesData[index].progress) / 100).toFixed(
-                                    2
-                                );
-                                if (fs[0] / fu == 1) {
-                                    this.filesData[index].fileRemaining =
-                                        this.filesData[index].fileSize;
-                                } else {
-                                    this.filesData[index].fileRemaining =
-                                        fu + ' ' + fs[1] + ' of ' + this.filesData[index].fileSize;
-                                }
                                 if (this.filesData[index].isDeleted) {
                                     // this.progressWidth = 'width :'+this.progress+'%';
                                     this.uploadChunk(
@@ -517,23 +461,19 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                                         indexoffile
                                     );
                                 }
+                                this.totalValidFileProcessed = this.totalValidFileProcessed + 1;
                                 this.filesData[index].UploadCompleted = true;
                             }
                         }
                     })
                     .catch((error) => {
-                        console.log('>>exception is>>' + error.message);
                         console.log('>>exception is>>', error);
-                        console.log('>>exception is>>' + JSON.stringify(error));
-                        let exceptionBody = error.body;
-                        if (exceptionBody.message.includes('Disconnected or Canceled')) {
-                            console.log('>>insdie if');
-                            this.filesData[index].error = true;
-                            this.filesData[index].progresBarClass =
-                                'progressBarError slds-col slds-size_5-of-12 ';
-                        }
-                        console.log('>>exception is>>' + error.message);
-                        console.log('>>exception is>>' + error);
+                        console.log(
+                            '>>exception is>>' + JSON.stringify(error) + '>>atindex>' + index
+                        );
+                        this.filesData[index].error = true;
+                        this.filesData[index].progresBarClass =
+                            'progressBarError slds-col slds-size_5-of-12 ';
                     })
                     .finally(() => {});
             }
@@ -579,15 +519,9 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     }
 
     handleOnBlurIcon() {
-        // console.log('>>>blue called>>');
-        // this.template.querySelectorAll('.D').forEach(function (L) {
-        //     L.classList.remove('slds-is-open');
-        // });
-    }
-    renameClick() {
-        // let index = this.filesData.findIndex((x) => x.index === indexoffile);
-
-        // console.log('>>rename click on file>>' + this.filesData[index].fileName);
+        this.template.querySelectorAll('.D').forEach(function (L) {
+            L.classList.remove('slds-is-open');
+        });
     }
 
     closeMenu() {
@@ -596,6 +530,14 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         //     L.classList.remove('slds-is-open');
         // });
     }
+
+    isRenameOpen = false;
+    fileNameForEdit = '';
+    fileRemoveMessage = '';
+    removefilefromDraftmodel = false;
+    indexatDeleteClick;
+    deleteFileID;
+    previewHeader;
     callMethod(event) {
         console.log('>>>methdo called>>');
 
@@ -619,17 +561,27 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
             console.log('>>>filesdat>>' + JSON.stringify(this.filesData));
         } */
     }
+
     closeModal() {
-        // this.openmodel = false;
+        this.openmodel = false;
     }
 
     removeFiles(event) {
         let indexcalled = event.currentTarget.dataset.key;
+        console.log('>>total invalid files>>' + this.totalInvalidFile);
+        console.log(
+            '>>>filetype>>' + this.filesData[indexcalled].isValid + '>>at index>>' + indexcalled
+        );
+        if (this.filesData[indexcalled].isValid) {
+            this.totalValidFile = this.totalValidFile - 1;
+        } else {
+            this.totalInvalidFile = this.totalInvalidFile - 1;
+        }
         this.filesData[indexcalled].isDeleted = true;
         this.totalfilesUploaded = this.totalfilesUploaded - 1;
         if (this.totalfilesUploaded == 0) {
             this.Nofilesupload = true;
-        } 
+        }
     }
     retryFiles(event) {
         console.log('>>retry called>>' + event.currentTarget.dataset.key);

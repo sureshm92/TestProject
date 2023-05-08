@@ -156,9 +156,8 @@ export default class ProfileHeaderIconInfo extends NavigationMixin(LightningElem
         let commModes = this.comModes.ppModeItems;
         for (let i = 0; i < commModes.length; i++) {
             for (let j = 0; j < commModes[i].subItems.length; j++) {
-                if (this.fullName == commModes[i].subItems[j].title) {
+                if (this.user.Contact.Current_Participant_Enrollment__c == commModes[i].subItems[j].peId) {
                     item = commModes[i].subItems[j];
-                    break;
                 }
             }
         }

@@ -1,10 +1,12 @@
 import { LightningElement, api, track } from 'lwc';
 import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitDataAndCount';
+import showProgress from '@salesforce/apex/PP_ProgressBarUtility.showProgress';
 import DEVICE from '@salesforce/client/formFactor';
 // importing Custom Label
 import PPWELCOME from '@salesforce/label/c.PP_Welcome';
 import VISITS from '@salesforce/label/c.PG_SW_Tab_Visits';
 import EVENTS from '@salesforce/label/c.PG_SW_Tab_Events';
+import TELEVISITS from '@salesforce/label/c.Televisits';
 import Upcoming from '@salesforce/label/c.Visits_Upcoming';
 import Upcoming_Caps from '@salesforce/label/c.PP_Upcoming_Caps';
 import Updates from '@salesforce/label/c.Updates_Label';
@@ -16,12 +18,15 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getVisitsPreviewAndCount from '@salesforce/apex/ParticipantVisitsRemote.getVisitsPreviewAndCount';
 import getVisits from '@salesforce/apex/PPTelevisitUpcomingTileController.getVisits';
 import getSendResultCount from '@salesforce/apex/PPUpdatesController.getSendResultCount';
+import CheckIfTelevisitToggleOnForDelegate from '@salesforce/apex/PPTelevisitUpcomingTileController.CheckIfTelevisitToggleOnForDelegate';
+import CheckIfTelevisitToggleOnForAlumni from '@salesforce/apex/PPTelevisitUpcomingTileController.CheckIfTelevisitToggleOnForAlumni';
 
 export default class HomePageParticipantNew extends LightningElement {
     label = {
         PPWELCOME,
         VISITS,
         EVENTS,
+        TELEVISITS,
         Upcoming,
         Updates,
         Tasks,
@@ -42,6 +47,8 @@ export default class HomePageParticipantNew extends LightningElement {
     showVisitCard = false;
     showProgress = false;
     showTelevisitCard = false;
+    @track showTelevisitCardDelegate = false;
+    @track showTelevisitCardAlumni = false;
     updatesSection = false;
     @track showVisitCardMobile = false;
     updateSize;
@@ -63,7 +70,7 @@ export default class HomePageParticipantNew extends LightningElement {
     updateCardLayoutClass = 'around-small-custom';
     updateCardLayoutSmall = true;
     progressBarLayoutClass = 'around-small-custom around-right-zero';
-
+    showProgressMobile = true;
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
     }
@@ -74,7 +81,7 @@ export default class HomePageParticipantNew extends LightningElement {
         this.spinner ? this.spinner.show() : '';
         this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
         this.getVisitsPreviewAndCount();
-        this.getVisits();
+        //this.getVisits();
         this.getUpdatesCount();
         this.initializeData();
     }
@@ -90,6 +97,7 @@ export default class HomePageParticipantNew extends LightningElement {
                     this.isUpcomingVisitDetails = false;
                 }
                 console.log('Visit :', this.isUpcomingVisitDetails);
+                this.getVisits();
             })
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
@@ -206,7 +214,16 @@ export default class HomePageParticipantNew extends LightningElement {
                         this.showTelevisitCard = true;
                         this.isTelevisits = true;
                         this.marginbottom = 'marginbottom';
+
+                        this.showSpinner = true;
+                        this.showUpcomingSection = false;
+
+                        if(this.participantState.hasPatientDelegates)
+                            this.CheckIfTelevisitToggleOnForDelegate();
+                        else    
+                            this.CheckIfTelevisitToggleOnForAlumni();
                     }
+                    
                     if (this.desktop != true) {
                         this.updatesSection = true;
                         // this.showVisitCardMobile = true;
@@ -226,8 +243,20 @@ export default class HomePageParticipantNew extends LightningElement {
                         (this.participantState.hasPatientDelegates &&
                             !this.participantState.isDelegate &&
                             !this.participantState.pe);
+                    if( this.isDelegateSelfview){
+                        this.showBiggerUpdatesSection();
+                    }
                 }
-                this.isInitialized = true;                
+                this.isInitialized = true;        
+                if(!this.desktop && this.participantState.pe){
+                    showProgress({ peId: this.participantState.pe.Id })
+                        .then(result => {
+                            this.showProgressMobile = result;
+                        })
+                        .catch(error => {
+                            this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
+                        });
+                }        
             })
             .catch((error) => {
                 this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
@@ -235,6 +264,48 @@ export default class HomePageParticipantNew extends LightningElement {
             });
         },40);
        
+    }
+
+    CheckIfTelevisitToggleOnForDelegate(){
+        this.showSpinner = true;
+        this.showUpcomingSection = false;
+        CheckIfTelevisitToggleOnForDelegate()
+        .then((result) => {
+            this.showSpinner = false;
+            this.showTelevisitCardDelegate = result;
+            if(this.isDelegateSelfview && !this.showTelevisitCardDelegate){
+                this.showUpcomingSection = false;
+                if (this.desktop != true) {
+                    this.showVisitCardMobile = false;
+                }
+            }else{
+                this.showUpcomingSection = true;
+            }
+        })
+        .catch((error) => {
+            console.log('Error :',error);
+        });
+    }
+
+    CheckIfTelevisitToggleOnForAlumni(){
+        this.showSpinner = true;
+        this.showUpcomingSection = false;
+        CheckIfTelevisitToggleOnForAlumni()
+        .then((result) => {
+            this.showSpinner = false;
+            this.showTelevisitCardAlumni = result;
+            if(this.isDelegateSelfview && !this.showTelevisitCardAlumni){
+                this.showUpcomingSection = false;
+                if (this.desktop != true) {
+                    this.showVisitCardMobile = false;
+                }
+            }else{
+                this.showUpcomingSection = true;
+            }
+        })
+        .catch((error) => {
+            console.log('Error :',error);
+        });
     }
 
     renderedCallback() {

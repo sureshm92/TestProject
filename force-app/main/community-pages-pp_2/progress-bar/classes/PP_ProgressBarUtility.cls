@@ -32,14 +32,14 @@ public with sharing class PP_ProgressBarUtility {
     public static parentWrapper generateProgressBar(String peId){
         parentWrapper pw = new parentWrapper();
         Participant_Enrollment__c pe = [select id,Participant_Status__c,Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,Clinical_Trial_Profile__r.Is_Program__c,
-                Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,Clinical_Trial_Profile__r.Status_Milestone_Available__c,Clinical_Trial_Profile__c,
+                Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,Clinical_Trial_Profile__r.Status_Milestone_Available__c,Clinical_Trial_Profile__r.Study_External_URL__c,Clinical_Trial_Profile__c,
                 (select id,Status__c, Date__c FROM Participant_Enrollment_Status_History__r order by Date__c asc) 
                 FROM Participant_Enrollment__c where id=:peId];
         if([select count() FROM Study_status_desc_and_motivational_msg__mdt where PER_Participant_Status__c =:pe.Participant_Status__c]==0){
             return null;
         }
         Boolean isProgram = pe.Clinical_Trial_Profile__r.Is_Program__c;
-
+        
         if(isProgram && pe.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c){
             pw =generateVisitData(peId,pw, isProgram,true,pe);
         }
@@ -56,6 +56,7 @@ public with sharing class PP_ProgressBarUtility {
         else{
             return null;
         }
+        pw.journeyLink = pe.Clinical_Trial_Profile__r.Study_External_URL__c;
         return pw;
     }
         
@@ -80,7 +81,6 @@ public with sharing class PP_ProgressBarUtility {
             pw.progressWrapperList.add(prW);
         }
         pw.message = 'This message of treatment period. Lorem Ipsum has been the industrys standard dummy. Characters: 100';
-        pw.journeyLink = 'test';
         pw.currentStatusVal = currentSt;
         return pw;
     }
@@ -180,7 +180,6 @@ public with sharing class PP_ProgressBarUtility {
             count++;                
             pw.progressWrapperList.add(prW);
         }
-        pw.journeyLink = ''; 
         return pw;
     }
 
@@ -211,4 +210,30 @@ public with sharing class PP_ProgressBarUtility {
             
         }
     }    
+    @AuraEnabled
+    public static boolean showProgress(String peId){
+        Participant_Enrollment__c pe = [select id,Participant_Status__c,Clinical_Trial_Profile__r.Is_Program__c,Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,
+                                        Clinical_Trial_Profile__r.Status_Milestone_Available__c FROM Participant_Enrollment__c where id=:peId];
+        List<Study_status_desc_and_motivational_msg__mdt> metadtaRec = [select id FROM Study_status_desc_and_motivational_msg__mdt where PER_Participant_Status__c =:pe.Participant_Status__c];
+        if(metadtaRec.isEmpty()){
+            return false;
+        }
+        else{
+            List<Patient_Visit__c> patientVisits = [select Id from Patient_Visit__c where Participant_Enrollment__c =:peId]; 
+            Boolean isProgram = pe.Clinical_Trial_Profile__r.Is_Program__c;
+            if((!isProgram) && pe.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c && pe.Clinical_Trial_Profile__r.Status_Milestone_Available__c){
+                if(patientVisits.isEmpty() && metadtaRec.isEmpty()){
+                return false;
+                }
+            }
+            else if(patientVisits.isEmpty()){
+                return false;
+            }
+        } 
+        if(!pe.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c && !pe.Clinical_Trial_Profile__r.Status_Milestone_Available__c){
+            return false;
+        }
+                    
+        return true;
+    } 
 }

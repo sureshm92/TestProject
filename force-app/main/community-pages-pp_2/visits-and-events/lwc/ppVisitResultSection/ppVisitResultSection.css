@@ -13,7 +13,7 @@
     line-height: 32px;
 }
 .labs-subtype {
-    margin-bottom: 2.625rem;
+    margin-bottom: 1.8rem;
 }
 .no-result-image {
     height: 4.84rem;
@@ -31,5 +31,36 @@
     border: 1px solid #e9e9e9;
     border-radius: 16px;
     background-color: #ffffff;
-    margin-bottom: 17.625rem;
+    /* margin-bottom: 17.625rem; */
+}
+.res-metric-card {
+    box-sizing: border-box;
+    min-height: 149px;
+    border: 1px solid #e9e9e9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+}
+.diastolic-blood-pres {
+    min-height: 48px;
+    color: #444444;
+    font-size: 16px;
+}
+.sugar-mg-dl {
+    height: auto;
+    color: #c42ea5;
+    font-size: 24px;
+    font-weight: 600;
+}
+.expected-range {
+    position: relative;
+    min-height: 42px;
+    width: -webkit-fill-available;
+    color: #6e6e6e;
+    font-size: 14px;
+    line-height: 17px;
+}
+.push-down-txt {
+    position: absolute;
+    bottom: 5px;
 }

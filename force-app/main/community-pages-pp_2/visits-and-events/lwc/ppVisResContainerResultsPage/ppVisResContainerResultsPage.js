@@ -10,8 +10,14 @@ import Show_Biomarkers from '@salesforce/label/c.Show_Biomarkers';
 import Vitals_Toggle_Off from '@salesforce/label/c.Vitals_Toggle_Off';
 import Labs_Toggle_Off from '@salesforce/label/c.Labs_Toggle_Off';
 import Biomarkers_Toggle_Off from '@salesforce/label/c.Biomarkers_Toggle_Off';
+import PP_Visit_Result_Toggle_Helptext from '@salesforce/label/c.PP_Visit_Result_Toggle_Helptext';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
+import mobileTemplate from './ppVisResContainerResultsPageMobile.html';
+import tabletTemplate from './ppVisResContainerResultsPageTablet.html';
+import desktopTemplate from './ppVisResContainerResultsPage.html';
+import FORM_FACTOR from '@salesforce/client/formFactor';
+import Back from '@salesforce/label/c.BTN_Back';
 
 export default class PpMyResultsContainer extends LightningElement {
     label = {
@@ -24,15 +30,17 @@ export default class PpMyResultsContainer extends LightningElement {
         Show_Biomarkers,
         Vitals_Toggle_Off,
         Labs_Toggle_Off,
-        Biomarkers_Toggle_Off
+        Biomarkers_Toggle_Off,
+        Back,
+        PP_Visit_Result_Toggle_Helptext
     };
     group2;
     group3;
-    isButton1Group2;
-    isButton2Group2;
-    isButton1Group3;
-    isButton2Group3;
-    isButton3Group3;
+    isButton1Group2 = false;
+    isButton2Group2 = false;
+    isButton1Group3 = false;
+    isButton2Group3 = false;
+    isButton3Group3 = false;
     Button1Label;
     Button2Label;
     Button3Label;
@@ -51,6 +59,9 @@ export default class PpMyResultsContainer extends LightningElement {
     resultsWrapper;
     initialised = false;
     @track showSpinnerResults;
+    showToggleSpinner = false;
+    showTabSpinner;
+    onLoad = true;
 
     toggleOffHeart = pp_icons + '/' + 'heart_Icon.svg';
 
@@ -60,6 +71,7 @@ export default class PpMyResultsContainer extends LightningElement {
     }
     set selectedVisit(value) {
         this.currentVisit = value;
+        this.showSpinner = true;
         this.initializeData();
     }
 
@@ -71,13 +83,55 @@ export default class PpMyResultsContainer extends LightningElement {
         this.patientVisitWrapper = value;
     }
     connectedCallback() {
-        this.showSpinner = true;
-        this.initializeData();
+        if (!this.isDesktop) {
+            //  this.showTabSpinner = true;
+            this.initializeData();
+        }
     }
 
     get showTabs() {
         return this.visResultTypeTabs.length > 1 ? true : false;
     }
+
+    render() {
+        if (this.isDesktop) {
+            return desktopTemplate;
+        } else if (this.isMobile) {
+            return mobileTemplate;
+        } else {
+            // if (this.onLoad) {
+            //     this.showTabSpinner = true;
+            //     this.onLoad = false;
+            // } else {
+            //     this.showTabSpinner = false;
+            // }
+            return tabletTemplate;
+        }
+    }
+    get isDesktop() {
+        return FORM_FACTOR == 'Large';
+    }
+
+    get isMobile() {
+        return FORM_FACTOR == 'Small';
+    }
+
+    get isTablet() {
+        return FORM_FACTOR == 'Medium';
+    }
+
+    get patientVisitName() {
+        return this.selectedVisit ? this.currentVisit.Visit__r.Patient_Portal_Name__c : '';
+    }
+
+    get completedDate() {
+        return this.selectedVisit ? this.currentVisit.Completed_Date__c : '';
+    }
+
+    get isInitialized() {
+        return this.patientVisitWrapper && this.currentVisit ? true : false;
+    }
+
     checkButtonClass() {
         if (this.visResultTypeTabs.length == 1) {
             this.selectedResultType = this.visResultTypeTabs[0];
@@ -93,9 +147,12 @@ export default class PpMyResultsContainer extends LightningElement {
                 this.selectedResultType = 'Labs';
             }
             this.isButton1Group2 = true;
+            this.isButton2Group2 = false;
         } else {
             this.group3 = true;
             this.isButton1Group3 = true;
+            this.isButton2Group3 = false;
+            this.isButton3Group3 = false;
             this.Button1Label = 'Vitals';
             this.Button2Label = 'Labs';
             this.Button3Label = 'Biomarkers';
@@ -173,32 +230,33 @@ export default class PpMyResultsContainer extends LightningElement {
     }
     get button1Group2Class() {
         return this.isButton1Group2
-            ? 'slds-button group-button1 active-btn'
-            : 'slds-button group-button1 inactive-btn';
+            ? 'slds-button group-button1 primaryBtn'
+            : 'slds-button group-button1 secondaryBtn';
     }
     get button2Group2Class() {
         return this.isButton2Group2
-            ? 'slds-button group-button3 active-btn'
-            : 'slds-button group-button3 inactive-btn';
+            ? 'slds-button group-button3 primaryBtn'
+            : 'slds-button group-button3 secondaryBtn';
     }
     get button1Group3Class() {
         return this.isButton1Group3
-            ? 'slds-button group-button1 active-btn'
-            : 'slds-button group-button1 inactive-btn';
+            ? 'slds-button group-button1 primaryBtn'
+            : 'slds-button group-button1 secondaryBtn';
     }
     get button2Group3Class() {
         return this.isButton2Group3
-            ? 'slds-button group-button2 active-btn'
-            : 'slds-button group-button2 inactive-btn';
+            ? 'slds-button group-button2 primaryBtn'
+            : 'slds-button group-button2 secondaryBtn';
     }
     get button3Group3Class() {
         return this.isButton3Group3
-            ? 'slds-button group-button3 active-btn'
-            : 'slds-button group-button3 inactive-btn';
+            ? 'slds-button group-button3 primaryBtn'
+            : 'slds-button group-button3 secondaryBtn';
     }
 
     handleVRToggle(event) {
-        this.showSpinner = true;
+        this.showToggleSpinner = true;
+        console.log('JJ' + this.showToggleSpinner);
         modifiedSwitchToggleRemote({
             visitResultsMode: this.selectedResultType,
             isToggleOn: event.target.checked
@@ -211,21 +269,22 @@ export default class PpMyResultsContainer extends LightningElement {
                 } else if (this.selectedResultType === 'Biomarkers') {
                     this.isBiomarkersToggleOn = !this.isBiomarkersToggleOn;
                 }
-                this.showSpinner = false;
+                this.showToggleSpinner = false;
                 this.initialised = true;
             })
             .catch((error) => {
                 console.error('Error occured here', error.message, 'error');
-                this.showSpinner = false;
+                this.showToggleSpinner = false;
                 this.initialised = true;
             });
     }
     initializeData() {
+        this.showSpinner = true;
         if (!communityService.isDummy()) {
             if (this.patientVisitWrapper) {
                 let result = this.patientVisitWrapper;
                 this.validVisitResults = result.isVisitResultsAvailable;
-                if (this.validVisitResults) {
+                if (this.validVisitResults == true) {
                     if (
                         result.visitResultsGroupNamesCTP &&
                         result.visitResultsGroupNamesCTP.length
@@ -243,11 +302,11 @@ export default class PpMyResultsContainer extends LightningElement {
                         ? result.toggleStateForBiomarkers
                         : false;
                     this.showSpinner = false;
-                    this.initialised = true;
+                    this.showTabSpinner = false;
                     this.visitResultTypeWithSubTypes = result.visitResultWithSubTypesCTP;
-                } else {
+                } else if (this.validVisitResults == false) {
                     this.showSpinner = false;
-                    this.initialised = true;
+                    this.showTabSpinner = false;
                 }
             }
         }
@@ -260,5 +319,12 @@ export default class PpMyResultsContainer extends LightningElement {
         } else if (this.selectedResultType === 'Biomarkers') {
             return this.label.Visit_Results_Tab_Bio_Disclaimer;
         }
+    }
+
+    handleNavigation() {
+        const custEvent = new CustomEvent('navigateback', {
+            detail: true
+        });
+        this.dispatchEvent(custEvent);
     }
 }
