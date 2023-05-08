@@ -160,23 +160,23 @@ public without sharing class ParametrizedMessageService {
                 if (paramName == 'SMSexpirationDate') {
                     String endDateVisibleField = paramsMap.get('endDateVisible');
                     Object endDateVisibleFieldValue = SObjectHelper.getSObjectFieldValue(
-                        sourceObject,
+                        sobj,
                         endDateVisibleField
                     );
                     if( (Boolean) endDateVisibleFieldValue == false ){
                         String participantExpdateField = paramsMap.get('participantExpdate');
                         value = SObjectHelper.getSObjectFieldValue(
-                            sourceObject,
+                            sobj,
                             participantExpdateField
                         );
                         if (value instanceof Datetime) {
                             if (userObj == null) {
-                                valueStr = UserService.formatDateTime((Datetime) value, userLanguage);
+                                valueStr = UserService.formatDateTime((Datetime) value, language);
                             } else {
                                 valueStr = UserService.formatDateTimebyZone(
                                     (Datetime) value,
-                                    userObj.LocaleSidKey,
-                                    userObj.TimeZoneSidKey
+                                    userObj[0].LocaleSidKey,
+                                    userObj[0].TimeZoneSidKey
                                 );
                             }
                         }
