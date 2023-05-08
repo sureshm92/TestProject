@@ -139,7 +139,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 mediaContent: this.mediaContent
             };
             publish(this.messageContext, messageChannel, returnPayload);
-            console.log("publishing media type True: " + returnPayload.mediaContent);
 
         }else if(this.resourceType != "Multimedia" || this.resourceType != "Video"){
             this.mediaContent = false;
@@ -147,7 +146,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 mediaContent: this.mediaContent
             };
             publish(this.messageContext, messageChannel, returnPayload);
-            console.log("publishing media type False: " + returnPayload.mediaContent);
         }
     }
 

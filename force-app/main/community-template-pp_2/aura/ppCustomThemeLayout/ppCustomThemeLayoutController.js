@@ -56,7 +56,6 @@
         // Read the message argument to get the values in the message payload
         if (event != null && event.getParams() != null) {
             const message = event.getParam('mediaContent');
-            console.log("Media Content:" + message);
             component.set('v.mediaContent', message);
             helper.handleOrientationInit(component);
         }
