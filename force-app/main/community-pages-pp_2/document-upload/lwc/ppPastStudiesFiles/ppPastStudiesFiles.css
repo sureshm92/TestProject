@@ -18,15 +18,15 @@
 }
 .tablePPn {
     position: relative;
-    /* margin-top: -10px; */
-    width: 1205px;
+    margin-top: -52px;
+    width: 100%;
     left: 1px;
 }
 .marginDoc {
     margin-top: 10px;
 }
 .tablePPn .pg {
-    width: 1205px;
+    width: 100%;
 }
 .notification-grid .slds-button:active {
     border-color: transparent;
@@ -224,7 +224,7 @@
     line-height: 26px;
 }
 .linkLabel {
-    color: #015ff1;
+    color: #0768fd;
 }
 .progressBar {
     /* width: 95%; */
@@ -235,7 +235,7 @@
     width: 81%;
 }
 .progressBar .slds-progress-bar__value {
-    background-color: #015ff1;
+    background-color: #0768fd;
 }
 .errorMessage {
     font-size: 12px;
@@ -453,6 +453,38 @@
     }
     .imagecss {
         margin-top: 8px;
+    }
+}
+@media all and (min-width: 363px) and (max-width: 376px) {
+    .tablePPn .pg{
+        width: 93%;
+    }
+}
+@media all and (min-width: 376px) and (max-width: 395px) {
+    
+    .tablePPn .pg{
+        width: 91%;
+        margin-left: -1px
+    }
+}
+@media all and (min-width: 321px) and (max-width: 362px) {
+    
+    .tablePPn .pg{
+        width: 93%;
+        margin-left: -1px
+    }
+}
+@media all and (min-width: 396px) and (max-width: 427px) {
+    
+    .tablePPn .pg{
+        width: 92.5%;
+    }
+}
+@media all and (min-width: 427px) and (max-width: 767px) {
+    .tablePPn .pg{
+        width: 82.5%;
+        /* right: 5px; */
+        margin-left: -50px;
     }
 }
 @media screen and (orientation: landscape) {
