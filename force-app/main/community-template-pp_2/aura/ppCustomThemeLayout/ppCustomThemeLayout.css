@@ -15,8 +15,22 @@
     }    
 } */
 
-.THIS.PHONE .rr-body-content-res {
-    margin-top: -26px;
+@media only screen and (min-height: 360px) and (max-height: 376px) and (orientation: landscape) {
+    .THIS.PHONE .rr-body-content-res {
+        margin-top: 72px;
+    }
+}
+
+@media only screen and (min-height: 377px) and (max-height: 414px) and (orientation: landscape) {
+    .THIS.PHONE .rr-body-content-res {
+        margin-top: 22px;
+    } 
+}
+
+@media only screen and (height: 412px) and (orientation: landscape) {
+    .THIS.PHONE .rr-body-content-res {
+        margin-top: -16px !important;
+    } 
 }
 
 /* login screen background */
