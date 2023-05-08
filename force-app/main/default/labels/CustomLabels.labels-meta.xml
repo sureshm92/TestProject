@@ -6522,6 +6522,25 @@ Sincerely,
 &lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Televisit_Day_Reminder_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Day Reminder PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a reminder of your upcoming televisit.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>PP_Reminder_Subject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Reminder Subject</shortDescription>
+        <value>You have an upcoming televisit</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Televisit_Day_Signature</fullName>
         <language>en_US</language>
         <protected>true</protected>
