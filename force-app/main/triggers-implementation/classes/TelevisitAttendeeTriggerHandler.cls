@@ -95,16 +95,22 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                     attendeeTelevisitMap.get(conId).Televisit__r.Participant_Enrollment__c
                 ) {
                     needtoCreate = false;
+                    if (
+                        !notificationObj.Target_Record_Ids__c.contains(
+                            attendeeTelevisitMap.get(conId).Televisit__c
+                        )
+                    ) {
+                        List<Id> targetIds = notificationObj.Target_Record_Ids__c.split(',');
+                        targetIds.add(attendeeTelevisitMap.get(conId).Televisit__c);
+                        if (targetIds.size() > 13) {
+                            targetIds.remove(0);
+                        }
+                            notificationObj.Target_Record_Ids__c = String.join(targetIds, ',');
+                        }
                     updatedNotificationList.add(
                         new Notification__c(
                             Id = notificationObj.Id,
-                            Target_Record_Ids__c = notificationObj.Target_Record_Ids__c.contains(
-                                    attendeeTelevisitMap.get(conId).Televisit__c
-                                )
-                                ? notificationObj.Target_Record_Ids__c
-                                : notificationObj.Target_Record_Ids__c +
-                                ',' +
-                                attendeeTelevisitMap.get(conId).Televisit__c
+                            Target_Record_Ids__c = notificationObj.Target_Record_Ids__c
                         )
                     );
                 }
