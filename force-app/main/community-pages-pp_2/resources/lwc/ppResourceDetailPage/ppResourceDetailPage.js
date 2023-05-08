@@ -20,13 +20,15 @@ import {
     publish,
     subscribe,
     unsubscribe,
-    MessageContext,
+    createMessageContext,
+    releaseMessageContext,
     APPLICATION_SCOPE
 } from 'lightning/messageService';
 
 export default class PpResourceDetailPage extends NavigationMixin(LightningElement) {
-    @wire(MessageContext)
-    messageContext;
+    // @wire(MessageContext)
+    // messageContext;
+    messageContext = createMessageContext();
 
     userTimezone = TIME_ZONE;
     isInitialized = false;
@@ -92,6 +94,10 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
     get linkLabel() {
         return this.showHomePage ? this.label.Back_To_Home : this.label.Back_To_Resources;
+    }
+
+    disconnectedCallback(){
+        this.publishResourceType(false);
     }
 
     /** Lifecycle hooks **/
