@@ -33,6 +33,9 @@
             if(!$A.util.isUndefined(component.get("v.paddingChange"))){
                 ((height < width) && mediaContent && pageName) ? component.set('v.paddingChange', true) : component.set('v.paddingChange', false);
             }
+            else{
+                component.set('v.paddingChange', false);
+            }
         }
     },
     
@@ -58,7 +61,7 @@
                         console.log("portrait");
                         component.set('v.paddingChange', false);
                         component.set('v.innerWidth', window.innerHeight);
-                        component.set('v.innerHeight', window.innerWidth);   
+                        component.set('v.innerHeight', window.innerWidth);
                     }
                 })
             );
