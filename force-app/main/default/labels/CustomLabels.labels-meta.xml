@@ -6370,6 +6370,24 @@ Due Date and Time: ##expirationDate</value>
 &lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##expirationOnlyDate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Complete_Baseline_Survey_New_PP_Participant_Exp_date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Complete Baseline Survey New PP Participant Exp date</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##SurveyName&lt;/span&gt;
+
+&lt;div&gt;&lt;span&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot;&gt; ##participantExpdate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+	<labels>
+        <fullName>Email_Body_Survey_New_Reminder_PP_ParticipantExp_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Survey New Reminder PP ParticipantExp Date</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;This is an email to remind you of your upcoming  task ##SurveyName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##participantExpdate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Survey_Reminder</fullName>
         <language>en_US</language>
         <protected>false</protected>
