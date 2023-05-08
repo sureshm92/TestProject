@@ -135,3 +135,9 @@
 .visit-result-buttons .secondaryBtn {
     color: #595959 !important;
 }
+
+@media (orientation: portrait) {
+    .top-padding {
+        padding-top: 0.5rem;
+    }
+}
