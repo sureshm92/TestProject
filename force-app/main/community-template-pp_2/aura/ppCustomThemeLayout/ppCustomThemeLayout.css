@@ -9,11 +9,11 @@
     padding-top: 4.5rem;
 }
 
-@media only screen and (min-width: 321px) and (orientation: landscape) {
+/* @media only screen and (min-width: 321px) and (orientation: landscape) {
     .THIS.PHONE .rr-body-content {
         padding-top: 0rem;
     }    
-}
+} */
 
 .THIS.PHONE .rr-body-content-res {
     margin-top: -26px;
