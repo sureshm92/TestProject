@@ -62,6 +62,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     @api participantState;
     @api isDesktop;
     @api consentPreferenceData;
+    @api personWrapper;
     @api userMode;
     @api isRTL;
 
@@ -182,7 +183,8 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                     });
                 }
 
-                this.isCountryUS = (this.consentPreferenceDataLocal.myContact.MailingCountry!= undefined &&  this.consentPreferenceDataLocal.myContact.MailingCountry == 'United States' ? true : false);
+                //this.isCountryUS = (this.consentPreferenceDataLocal.myContact.MailingCountry!= undefined &&  this.consentPreferenceDataLocal.myContact.MailingCountry == 'United States' ? true : false);
+                this.isCountryUS = (this.personWrapper.mailingCC != undefined && this.personWrapper.mailingCC == 'United States' ? true : false);
                 let conData = JSON.parse(result).myContact;
                 this.contactDataLocal.push(conData);
                 this.contactDataLocal.forEach(function (con) {
