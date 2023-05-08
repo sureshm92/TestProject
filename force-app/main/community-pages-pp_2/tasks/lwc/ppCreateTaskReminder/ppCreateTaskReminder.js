@@ -38,6 +38,8 @@ export default class PpCreateTaskReminder extends LightningElement {
     @api isRTL = false;
     @api isMobile = false;
     @api taskInfo;
+    @api maxReminderDate;
+    @api maxReminderTime;
 
     isInitialized = false;
     spinner;
@@ -126,6 +128,10 @@ export default class PpCreateTaskReminder extends LightningElement {
                             this.isSMSReminderDisabled = !this.initData.smsOptIn;
                             if (this.taskInfo) {
                                 this.taskInfo = JSON.parse(JSON.stringify(this.taskInfo));
+                                this.maxReminderDate =
+                                    this.maxReminderDate != null
+                                        ? this.maxReminderDate
+                                        : this.taskDueDate;
                                 this.taskId = this.taskInfo.Id;
                                 this.systemTask =
                                     this.taskInfo.Originator__c != 'Participant'
@@ -145,8 +151,7 @@ export default class PpCreateTaskReminder extends LightningElement {
                                         this.taskPlaceholder = this.labels.CUSTOM;
                                     } else {
                                         this.taskPlaceholder = this.labels.SELECT_REMINDER;
-                                        this.selectedReminderOption =
-                                            this.initData.task.Remind_Me__c;
+                                        this.selectedReminderOption = this.initData.task.Remind_Me__c;
                                     }
                                 } else {
                                     this.selectedReminderOption = this.initData.task.Remind_Me__c;
@@ -273,7 +278,7 @@ export default class PpCreateTaskReminder extends LightningElement {
     }
 
     get maximumReminderTime() {
-        let taskDueDateTime = new Date(this.taskDueDateTime).toLocaleString('en-US', {
+        let taskDueDateTime = new Date(this.maxReminderDate).toLocaleString('en-US', {
             timeZone: TIME_ZONE
         });
         let taskDueDateTimeObject = new Date(taskDueDateTime);
@@ -282,7 +287,11 @@ export default class PpCreateTaskReminder extends LightningElement {
             ('0' + (taskDueDateTimeObject.getMonth() + 1)).slice(-2),
             ('0' + taskDueDateTimeObject.getDate()).slice(-2)
         ].join('-');
-        return this.selectedReminderDate == taskDueDateTimeString ? this.taskDueTime : null;
+        if (this.maxReminderTime != null) {
+            return this.selectedReminderDate == taskDueDateTimeString ? this.maxReminderTime : null;
+        } else {
+            return this.selectedReminderDate == taskDueDateTimeString ? this.taskDueTime : null;
+        }
     }
 
     get isReminderOptionSelected() {
