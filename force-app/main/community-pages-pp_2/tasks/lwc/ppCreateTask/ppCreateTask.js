@@ -133,15 +133,15 @@ export default class PpCreateTask extends LightningElement {
                         this.taskDateTime = wrapper.task.Activity_Datetime__c;
                         this.taskDueDate = wrapper.task.Activity_Datetime__c;
                         this.participantDueDate =
-                            wrapper.task.Survey_Invitation__r.Participant_Due_Date__c != undefined
+                            wrapper.task.Survey_Invitation__r?.Participant_Due_Date__c != undefined
                                 ? wrapper.task.Survey_Invitation__r.Participant_Due_Date__c
                                 : null;
                         this.participantDateTime =
-                            wrapper.task.Survey_Invitation__r.Participant_Due_Date__c != undefined
+                            wrapper.task.Survey_Invitation__r?.Participant_Due_Date__c != undefined
                                 ? wrapper.task.Survey_Invitation__r.Participant_Due_Date__c
                                 : null;
                         this.participantDueTime =
-                            wrapper.task.Survey_Invitation__r.Participant_Due_Date__c != undefined
+                            wrapper.task.Survey_Invitation__r?.Participant_Due_Date__c != undefined
                                 ? wrapper.task.Survey_Invitation__r.Participant_Due_Date__c
                                 : null;
                         this.taskDueTime =
