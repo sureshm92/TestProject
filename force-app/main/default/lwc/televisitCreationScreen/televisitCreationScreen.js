@@ -52,6 +52,7 @@ const cbClass = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click
 const isMenuOpen = ' slds-is-open';
 
 export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
+    @api isrtl;
     @api peid;
     @api get peidnew() {
         return this.peid;
@@ -375,6 +376,10 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             { label: '10:30AM', value: '10:30AM' },
             { label: '11:00AM', value: '11:00AM' },
         ];
+    }
+
+    get cardRTL() {
+        return this.isrtl ? 'cardRTL' : '';
     }
 
     handleStartTimeChange(event) {
