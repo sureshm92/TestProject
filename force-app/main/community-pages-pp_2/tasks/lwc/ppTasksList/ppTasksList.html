@@ -108,7 +108,6 @@
                                 onclick={showTaskCompleteModal}
                                 data-index={item.task.Id}
                                 data-status={item.task.Status}
-                                tabindex="0"
                             >
                             </c-web-icon>
                         </template>
@@ -205,6 +204,26 @@
                                                                 </template>
                                                                 <template lwc:else>
                                                                     <!--PEH-11426: When it is unchecked-->
+                                                                    <template lwc:if={item.isCTPSurveyParticipantEndDate}>
+                                                                        {label.taskDue}:&nbsp;
+                                                                        <lightning-formatted-date-time
+                                                                            value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                            year="numeric"
+                                                                            month="short"
+                                                                            day="2-digit"
+                                                                            time-zone={userTimeZone}
+                                                                        ></lightning-formatted-date-time
+                                                                        ><template
+                                                                            if:false={item.isMCPTask}
+                                                                            >&nbsp;|&nbsp;
+                                                                            <lightning-formatted-date-time
+                                                                                value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                                hour="numeric"
+                                                                                minute="numeric"
+                                                                                time-zone={userTimeZone}
+                                                                            ></lightning-formatted-date-time>
+                                                                        </template>
+                                                                    </template>
                                                                 </template>
                                                             </template>
                                                             <template lwc:else>
@@ -385,6 +404,27 @@
                                                                     </template>
                                                                     <template lwc:else>
                                                                         <!--PEH-11426: When it is unchecked-->
+                                                                        <template lwc:if={item.isCTPSurveyParticipantEndDate}>
+                                                                            {label.taskDue}:&nbsp;
+                                                                            <lightning-formatted-date-time
+                                                                                value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                                year="numeric"
+                                                                                month="short"
+                                                                                day="2-digit"
+                                                                                time-zone={userTimeZone}
+                                                                            ></lightning-formatted-date-time
+                                                                            ><template
+                                                                                if:false={item.isMCPTask}
+                                                                                >&nbsp;|&nbsp;
+                                                                                <lightning-formatted-date-time
+                                                                                    value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                                    hour="numeric"
+                                                                                    minute="numeric"
+                                                                                    time-zone={userTimeZone}
+                                                                                ></lightning-formatted-date-time>
+                                                                            </template>
+                                                                        </template>
+                                                                        
                                                                     </template>
                                                                 </template>
                                                                 <template lwc:else>
@@ -515,6 +555,25 @@
                                                     </template>
                                                     <template lwc:else>
                                                         <!--PEH-11426: When it is unchecked-->
+                                                        <template lwc:if={item.isCTPSurveyParticipantEndDate}>
+                                                            {label.taskDue}:&nbsp;
+                                                            <lightning-formatted-date-time
+                                                                value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                year="numeric"
+                                                                month="short"
+                                                                day="2-digit"
+                                                                time-zone={userTimeZone}
+                                                            ></lightning-formatted-date-time
+                                                            ><template if:false={item.isMCPTask}
+                                                                >&nbsp;|&nbsp;
+                                                                <lightning-formatted-date-time
+                                                                    value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                    hour="numeric"
+                                                                    minute="numeric"
+                                                                    time-zone={userTimeZone}
+                                                                ></lightning-formatted-date-time>
+                                                            </template>
+                                                        </template>
                                                     </template>
                                                 </template>
                                                 <template lwc:else>
@@ -634,6 +693,25 @@
                                                         </template>
                                                         <template lwc:else>
                                                             <!--PEH-11426: When it is unchecked-->
+                                                            <template lwc:if={item.isCTPSurveyParticipantEndDate}>
+                                                                {label.taskDue}:&nbsp;
+                                                                <lightning-formatted-date-time
+                                                                    value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                    year="numeric"
+                                                                    month="short"
+                                                                    day="2-digit"
+                                                                    time-zone={userTimeZone}
+                                                                ></lightning-formatted-date-time
+                                                                ><template if:false={item.isMCPTask}
+                                                                    >&nbsp;|&nbsp;
+                                                                    <lightning-formatted-date-time
+                                                                        value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                        hour="numeric"
+                                                                        minute="numeric"
+                                                                        time-zone={userTimeZone}
+                                                                    ></lightning-formatted-date-time>
+                                                                </template>
+                                                            </template>
                                                         </template>
                                                     </template>
                                                     <template lwc:else>

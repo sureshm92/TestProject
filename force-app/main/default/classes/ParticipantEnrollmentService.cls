@@ -221,6 +221,27 @@ public without sharing class ParticipantEnrollmentService {
         );
     }
 
+    	
+    public List<Participant_Enrollment__c> getPendingParticipantEnrollmentsImpl(
+        Id trialId,
+        Id hcpEnrollmentId,
+        String delegateId,
+        List<String> customFields
+    ) {
+        return getPEnrolmentsCommon(
+            CommunityService.USER_MODE_HCP,
+            ' AND Clinical_Trial_Profile__c=\'' +
+            trialId +
+            '\'' +
+            (hcpEnrollmentId != null ? ' AND HCP__c =\'' + hcpEnrollmentId + '\'' : '') +
+            ' AND Participant_Status__c = \'' +
+            PART_STATUS_PENDING_REFERRAL +
+            '\'',
+            delegateId,
+            customFields
+        );
+    }
+
     // Static facade: --------------------------------------------------------------------------------------------------
 
     public static Participant_Enrollment__c findParticipantEnrollment(
@@ -292,6 +313,16 @@ public without sharing class ParticipantEnrollmentService {
     ) {
         return getInstance()
             .getPendingParticipantEnrollmentsImpl(trialId, hcpEnrollmentId, delegateId);
+    }
+
+    public static List<Participant_Enrollment__c> getPendingParticipantEnrollments(
+        Id trialId,
+        Id hcpEnrollmentId,
+        String delegateId,
+        List<String> customFields
+    ) {
+        return getInstance()
+            .getPendingParticipantEnrollmentsImpl(trialId, hcpEnrollmentId,delegateId,customFields);
     }
 
     public static Map<Id, Integer> getPreScreeningsAllByTrial(Id clinicId) {
@@ -855,6 +886,20 @@ public without sharing class ParticipantEnrollmentService {
         return getPEnrolmentsCommonCustomFieldsWithTranslation(
             userMode,
             PE_COMMON_FIELDS,
+            filter,
+            delegateId
+        );
+    }
+
+    public static List<Participant_Enrollment__c> getPEnrolmentsCommon(
+        String userMode,
+        String filter,
+        String delegateId,
+        List<String> customFields
+    ) {
+        return getPEnrolmentsCommonCustomFieldsWithTranslation(
+            userMode,
+            customFields,
             filter,
             delegateId
         );

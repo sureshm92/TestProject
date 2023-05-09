@@ -20,13 +20,15 @@ import {
     publish,
     subscribe,
     unsubscribe,
-    MessageContext,
+    createMessageContext,
+    releaseMessageContext,
     APPLICATION_SCOPE
 } from 'lightning/messageService';
 
 export default class PpResourceDetailPage extends NavigationMixin(LightningElement) {
-    @wire(MessageContext)
-    messageContext;
+    // @wire(MessageContext)
+    // messageContext;
+    messageContext = createMessageContext();
 
     userTimezone = TIME_ZONE;
     isInitialized = false;
@@ -94,6 +96,10 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         return this.showHomePage ? this.label.Back_To_Home : this.label.Back_To_Resources;
     }
 
+    disconnectedCallback(){
+        this.publishResourceType(false);
+    }
+
     /** Lifecycle hooks **/
     connectedCallback() {
         //get resource parameters from url
@@ -103,21 +109,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         this.resourceType = urlParams.get('resourcetype');
         this.showHomePage = urlParams.get('showHomePage');
 
-        if(this.resourceType == "Multimedia" || this.resourceType == "Video"){
-            this.mediaContent = true;
-            const returnPayload = {
-                mediaContent: true
-            };
-            publish(this.messageContext, messageChannel, returnPayload);
-            console.log("publishing media type True: " + returnPayload.mediaContent);
-        }else{
-            this.mediaContent = false;
-            const returnPayload = {
-                mediaContent: false
-            };
-            publish(this.messageContext, messageChannel, returnPayload);
-            console.log("publishing media type False: " + returnPayload.mediaContent);
-        }
+        this.publishResourceType(true);
 
         // Logic for portrait mode and landscape mode - hide content in case of mediaContent is true
  
@@ -144,6 +136,23 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         }
       
         this.initializeData();
+    }
+
+    publishResourceType(flag){
+        if(this.resourceType == "Multimedia" || this.resourceType == "Video"){
+            flag ? this.mediaContent = true : this.mediaContent = false;
+            const returnPayload = {
+                mediaContent: this.mediaContent
+            };
+            publish(this.messageContext, messageChannel, returnPayload);
+
+        }else if(this.resourceType != "Multimedia" || this.resourceType != "Video"){
+            this.mediaContent = false;
+            const returnPayload = {
+                mediaContent: this.mediaContent
+            };
+            publish(this.messageContext, messageChannel, returnPayload);
+        }
     }
 
     /** Methods **/
@@ -282,14 +291,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 attributes: {
                     pageName: 'home'
                 }
-            });
+            })
         } else if (FORM_FACTOR == 'Large') {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
                     pageName: 'resources'
                 }
-            });
+            })
         } else {
             let resType;
             if (this.isMultimedia) {
@@ -307,8 +316,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 state: {
                     resType: resType
                 }
-            });
+            })
         }
+        this.publishResourceType(false);
     }
 
     handleFavourite() {

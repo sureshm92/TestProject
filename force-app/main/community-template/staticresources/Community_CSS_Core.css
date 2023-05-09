@@ -371,7 +371,7 @@ input:focus {
     width: 9px;
     height: 5px;
     top: 6px;
-}
+} 
 
 .rr-form-element .slds-checkbox [type=checkbox]:checked + .slds-checkbox_faux,
 .rr-form-element .slds-checkbox [type=checkbox]:checked + .slds-checkbox--faux,

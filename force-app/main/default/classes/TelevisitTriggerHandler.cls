@@ -73,6 +73,7 @@ public without sharing class TelevisitTriggerHandler {
     @TestVisible
     public static void alertAttendees(List<Televisit__c> televisits, Map<Id, Televisit__c> oldMap) {
         List<Id> televisitRecordIdsSet = new List<Id>();
+        Map<Id, Televisit_Attendee__c> attendeeTelevisitMap = new Map<Id, Televisit_Attendee__c>();
         for (sObject televisitRecord : televisits) {
             Televisit__c teleVisObj = (Televisit__c) televisitRecord;
             televisitRecordIdsSet.add(teleVisObj.Id);
@@ -82,7 +83,18 @@ public without sharing class TelevisitTriggerHandler {
                 Id,
                 Status__c,
                 Visit_Date_Time__c,
-                (SELECT Id, Contact__c, Attendee_Type__c FROM Televisit_Attendee__r)
+                (
+                    SELECT
+                        Id,
+                        Contact__c,
+                        Televisit__c,
+                        Attendee_Type__c,
+                        Televisit__r.Participant_Enrollment__c,
+                        Televisit__r.Participant_Enrollment__r.Participant__c,
+                        Televisit__r.Participant_Enrollment__r.Participant__r.Contact__c,
+                        Televisit__r.Participant_Enrollment__r.Participant__r.Has_Studies_In_Progress__c
+                    FROM Televisit_Attendee__r
+                )
             FROM Televisit__c
             WHERE Id IN :televisitRecordIdsSet
         ];
@@ -141,6 +153,7 @@ public without sharing class TelevisitTriggerHandler {
                             if(teleAttendee.Attendee_Type__c == 'Participant Delegate'){
                                 isdelegate = true;
                             }
+                            attendeeTelevisitMap.put(teleAttendee.Contact__c, teleAttendee);
    
                         notificationsList.add(
                             new Notification__c(
@@ -169,6 +182,13 @@ public without sharing class TelevisitTriggerHandler {
             }
         }
     }
+        List<Notification__c> updateRescheduledNotificationsList = TelevisitAttendeeTriggerHandler.getUpdateNotifications(
+            NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED,
+            attendeeTelevisitMap
+        );
+        if (!updateRescheduledNotificationsList.isEmpty()) {
+            notificationsList.addAll(updateRescheduledNotificationsList);
+        }
         List<SObject> sObjectsList = new List<SObject>();
         if (!taList.isEmpty()) {
             sObjectsList.addAll(taList);
