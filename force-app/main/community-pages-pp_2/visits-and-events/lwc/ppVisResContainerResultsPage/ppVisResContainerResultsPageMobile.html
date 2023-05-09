@@ -5,7 +5,7 @@
                 class="slds-grid slds-wrap slds-grid_vertical-align-center slds-p-horizontal_large"
             >
                 <div
-                    class="slds-col slds-size_1-of-1 slds-p-horizontal_none slds-p-top_small"
+                    class="slds-col slds-size_1-of-1 slds-p-horizontal_none top-padding"
                     onclick={handleNavigation}
                 >
                     <span class="slds-p-right_small">
@@ -119,8 +119,10 @@
                             >
                                 <c-web-spinner
                                     class="main-spinner"
+                                    fixed="true"
                                     show-spinner={showToggleSpinner}
                                 ></c-web-spinner>
+
                                 <div class="slds-grid slds-p-top_xxx-small">
                                     <!--Toggle Label-->
                                     <div class="show-result-type-text">
