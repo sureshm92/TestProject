@@ -1,10 +1,7 @@
 <template>
     <template if:false={isMobile}>
         <div class="slds-grid">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="com-icon pointer slds-m-top_xxx-small"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" class="com-icon pointer slds-m-top_xxx-small">
                 <use xlink:href={homeSvg} onclick={handleHomePage}></use>
             </svg>
             <lightning-icon
@@ -18,21 +15,18 @@
         <div class="msg-txt slds-m-vertical_small">{labels.messagesLabel}</div>
         <div class="slds-grid rectangle-box slds-p-around--small">
             <img src={message_disclaimer} class="info-icon" />
-            <span class="slds-p-left_x-small msg-disclaimer-color"
-                >{labels.disclaimerLabel}</span
-            >
+            <span class="slds-p-left_x-small msg-disclaimer-color">{labels.disclaimerLabel}</span>
         </div>
         <lightning-layout class="layout-box slds-m-top_small">
             <template if:true={loaded}>
-                <lightning-spinner
-                    alternative-text="Loading"
-                    variant="brand"
-                ></lightning-spinner>
+                <c-web-spinner
+                    class="main-spinner"
+                    show-spinner={loaded}
+                    fixed="true"
+                ></c-web-spinner>
             </template>
             <lightning-layout-item size="4" class="divider">
-                <div class="border-btm slds-p-around_large">
-                    {labels.messagesLabel}
-                </div>
+                <div class="border-btm slds-p-around_large">{labels.messagesLabel}</div>
                 <template if:true={isInitialized}>
                     <c-pp-message-list
                         conversation-wrappers={conversationWrappers}
@@ -53,9 +47,33 @@
                     >
                         {studyName}</lightning-layout-item
                     >
-                    <lightning-layout-item size="2" class="slds-p-around_large">
-                        <img src={televisitAttendees_icon} class="group-icon" />
+                    <lightning-layout-item size="2" class={addPointer} style="text-align: center">
+                        <img
+                            src={televisitAttendees_icon}
+                            class="group-icon img-color"
+                            id="img-color"
+                            onclick={showParticipants}
+                        />
+                        <template if:true={showCount}>
+                            <span
+                                class="slds-p-left_x-small team-color team-count"
+                                onclick={showParticipants}
+                                >{peopleCount}</span
+                            >
+                        </template>
                     </lightning-layout-item>
+                    <div class="slds-p-horizontal_large box-container">
+                        <template if:true={nameList}>
+                            <template for:each={nameList} for:item="n">
+                                <c-pp-people-count
+                                    key={n.key}
+                                    userpic-id={n.key}
+                                    user-name={n.value}
+                                    usr-pic={usrPic}
+                                ></c-pp-people-count>
+                            </template>
+                        </template>
+                    </div>
                 </lightning-layout>
                 <template if:true={isMessageLoaded}>
                     <c-pp-message-board
@@ -89,10 +107,7 @@
             <lightning-layout-item size="12" class="">
                 <div class="mob-pp-message-txt">{labels.messagesLabel}</div>
             </lightning-layout-item>
-            <lightning-layout-item
-                size="12"
-                class="mob-rectangle-box slds-p-around--small"
-            >
+            <lightning-layout-item size="12" class="mob-rectangle-box slds-p-around--small">
                 <lightning-icon
                     icon-name="utility:info"
                     alternative-text="info"
