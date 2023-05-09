@@ -96,9 +96,9 @@
                         selected-study-id={selectedStudyId}
                     >
                     </c-pp-past-studies-file-table>
+                    <template if:true={totalRecord}>
                     <div class="tablePPn slds-col slds-large-size_12-of-12">
                         <div class="slds-align--absolute-center">
-                            <template if:true={totalRecord}>
                                 <c-pir_participant-pagination
                                     class="pg"
                                     total-records={totalRecord}
@@ -106,9 +106,9 @@
                                     is-file={isFile}
                                 >
                                 </c-pir_participant-pagination>
-                            </template>
                         </div>
                     </div>
+                    </template>
                 </template>
             </div>
         </lightning-layout-item>
