@@ -109,7 +109,6 @@ public without sharing class TasksRemote {
             for (Task task : sortedTaskList) {
                 OpenTask taskWrapper = new OpenTask();
                 taskWrapper.openTask = task;
-
                 if (task.Activity_Datetime__c != null)
                     taskWrapper.activityDate = task.Activity_Datetime__c.date();
                 if (task.ReminderDateTime != null)
@@ -259,6 +258,8 @@ public without sharing class TasksRemote {
     }
     public static List<Task> processSorting(List<Task> tasksList) {
         Map<Datetime, List<Task>> tasksWithDue = new Map<Datetime, List<Task>>();
+        Map<Datetime, List<Task>> tasksWithParticipantDue = new Map<Datetime, List<Task>>();
+        Map<Datetime, List<Task>> tasksWithParticipantDueCritical = new Map<Datetime, List<Task>>();
         Map<Datetime, List<Task>> taskswithStartDate = new Map<Datetime, List<Task>>();
         Map<Datetime, List<Task>> taskswithCreationDate = new Map<Datetime, List<Task>>();
         Map<Datetime, List<Task>> taskswithCriticalTaskswithDueDate = new Map<Datetime, List<Task>>();
@@ -274,6 +275,37 @@ public without sharing class TasksRemote {
         for (Task taskObj : tasksList) {
             if (taskCodeList.contains(taskObj.Task_Code__c)) {
                 taskObj.Priority = 'Normal';
+            }
+            if (taskObj.Survey_Invitation__r.Participant_Due_Date__c != null) {
+                if (
+                    (tasksWithParticipantDue.keySet()
+                        .contains(taskObj.Survey_Invitation__r.Participant_Due_Date__c) &&
+                    taskObj.Priority != 'Critical') ||
+                    (taskObj.Priority == 'Critical' &&
+                    tasksWithParticipantDueCritical.keySet()
+                        .contains(taskObj.Survey_Invitation__r.Participant_Due_Date__c))
+                ) {
+                    if (taskObj.Priority == 'Critical') {
+                        tasksWithParticipantDueCritical.get(
+                                taskObj.Survey_Invitation__r.Participant_Due_Date__c
+                            )
+                            .add(taskObj);
+                    } else {
+                        tasksWithParticipantDue.get(
+                                taskObj.Survey_Invitation__r.Participant_Due_Date__c
+                            )
+                            .add(taskObj);
+                    }
+                } else {
+                    if (taskObj.Priority == 'Critical') {
+                        tasksWithParticipantDueCritical.put(
+                            taskObj.Survey_Invitation__r.Participant_Due_Date__c,
+                            new List<Task>{ taskObj }
+                        );
+                    } else {
+                        tasksWithParticipantDue.put(taskObj.Survey_Invitation__r.Participant_Due_Date__c, new List<Task>{ taskObj });
+                    }
+                }
             }
             if (taskObj.Activity_Datetime__c != null) {
                 if (
@@ -352,10 +384,12 @@ public without sharing class TasksRemote {
                 }
             }
         }
-        List<Task> sortedTasksList = new List<Task>();
+        List<Task> sortedTasksList = new List<Task>();//
+        sortedTasksList.addAll(sortListOrderbyAsc(tasksWithParticipantDueCritical));
         sortedTasksList.addAll(sortListOrderbyAsc(taskswithCriticalTaskswithDueDate));
         sortedTasksList.addAll(sortListOrderbyAsc(taskswithCriticalTaskswithStartDate));
         sortedTasksList.addAll(sortListOrderbyDesc(taskswithCriticalTaskswithCreatedDate));
+        sortedTasksList.addAll(sortListOrderbyAsc(tasksWithParticipantDue));
         sortedTasksList.addAll(sortListOrderbyAsc(tasksWithDue));
         sortedTasksList.addAll(sortListOrderbyAsc(taskswithStartDate));
         sortedTasksList.addAll(sortListOrderbyDesc(taskswithCreationDate));

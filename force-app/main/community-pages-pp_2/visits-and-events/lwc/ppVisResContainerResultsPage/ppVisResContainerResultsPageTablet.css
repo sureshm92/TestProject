@@ -55,6 +55,7 @@
 }
 .download-section {
     /* padding-left: 335px;*/
+    text-align: end;
 }
 .active-btn {
     background-color: #015ff1;
