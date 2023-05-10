@@ -21,6 +21,8 @@ public without sharing class PPMessagePageRemote {
         public DateTime partTodayDate;
         @AuraEnabled
         public Map<Id,String> profilePicture;
+        @AuraEnabled
+        public Boolean isSecondary;
     }
 
     public class ConversationWrapper {
@@ -111,6 +113,7 @@ public without sharing class PPMessagePageRemote {
         try {
             MSPageData pageData = new MSPageData();
             pageData.userMode = UserContext.getCurrentUserMode().userMode;
+            pageData.isSecondary = false;
             String communityTemplate = UserContext.getCurrentCommunityTemplate().templateName;
             String piId = UserContext.getUserContactId();
             Map<Id,String> piContactNames = new Map<Id,String>();
@@ -208,6 +211,7 @@ public without sharing class PPMessagePageRemote {
 
                 //Collect Conversations
                  if (sharedConversations != null) {
+                    Boolean secondaryDelegate = false;
                     for (Conversation__c con : sharedConversations) {
                         if (availablePEIds.contains(con.Participant_Enrollment__c)){
                             //seggregation of conversation based on primary and secondary delegates
@@ -217,12 +221,14 @@ public without sharing class PPMessagePageRemote {
                                 }
                                 else{
                                     nonPrimaryConvs.add(con.id);
+                                    secondaryDelegate = true;
                                 }
                             }
                             conversations.add(con);
                             lstConversation.add(con.Id);
                         }
                     }
+                    pageData.isSecondary = secondaryDelegate;
                 }
 
                 //Message Variants
