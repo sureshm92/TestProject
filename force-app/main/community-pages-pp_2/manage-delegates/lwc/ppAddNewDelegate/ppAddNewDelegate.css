@@ -75,6 +75,9 @@
 
 .back-to-manage-del-btn {
     height: auto;
+    /* width: 191px; */
+    color: #3374ee;
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
     display: flex;

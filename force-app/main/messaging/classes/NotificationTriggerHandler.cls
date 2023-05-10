@@ -33,6 +33,85 @@ public without sharing class NotificationTriggerHandler {
         }
     }
 
+    public class UpdateNotificationHandler extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            processUpdateNotification(newList);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            processUpdateNotification(newList);
+        }
+        public void processUpdateNotification(List<SObject> newList) {
+            Set<Id> targetRecordIds = new Set<Id>();
+            List<Id> recipIds = new List<Id>();
+
+            Map<String, String> mapwhatIdOfIds = new Map<String, String>();
+            for (Notification__c notificationObj : [
+                SELECT Id, WhatId__c, Target_Record_Ids__c, Recipient__c
+                FROM Notification__c
+                WHERE Id = :newList AND Notification_Type__c = 'Update_to_PT_Televisit_Rescheduled'
+            ]) {
+                recipIds.add(notificationObj.Recipient__c);
+                List<Id> targetIds = (List<Id>) notificationObj.Target_Record_Ids__c.split(',');
+                if (!targetIds.isEmpty()) {
+                    targetRecordIds.addAll(targetIds);
+                }
+                mapwhatIdOfIds.put(
+                    notificationObj.WhatId__c +
+                    ':' +
+                    notificationObj.Recipient__c,
+                    notificationObj.Target_Record_Ids__c
+                );
+            }
+            if (!targetRecordIds.isEmpty()) {
+                List<String> likeIds = new List<String>();
+                for (Id lId : targetRecordIds) {
+                    likeIds.add('%' + lId + '%');
+                }
+                List<Notification__c> deleteNoti = new List<Notification__c>();
+                for (Notification__c notificationObj : [
+                    SELECT Id, Target_Record_Ids__c, Recipient__c, WhatId__c
+                    FROM Notification__c
+                    WHERE
+                        Notification_Type__c = 'Update_to_PT_Televisit_Scheduled'
+                        AND Status__c != 'Processed'
+                        AND Recipient__c IN :recipIds
+                        AND Target_Record_Ids__c LIKE :likeIds
+                ]) {
+                    Boolean toDelete = true;
+
+                    List<Id> currenttargetRecordIds = notificationObj.Target_Record_Ids__c.split(
+                        ','
+                    );
+                    for (Id rId : currenttargetRecordIds) {
+                        if (
+                            mapwhatIdOfIds.get(
+                                notificationObj.WhatId__c +
+                                ':' +
+                                notificationObj.Recipient__c
+                            ) != null &&
+                            !mapwhatIdOfIds.get(
+                                    notificationObj.WhatId__c +
+                                    ':' +
+                                    notificationObj.Recipient__c
+                                )
+                                .contains(rId)
+                        ) {
+                            toDelete = false;
+                        }
+                    }
+                    if (toDelete) {
+                        deleteNoti.add(notificationObj);
+                    }
+                }
+
+                if (!deleteNoti.isEmpty()) {
+                    delete deleteNoti;
+                }
+            }
+        }
+    }
+
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     private static void checkFieldsForNotification(List<Notification__c> newList) {
