@@ -211,9 +211,11 @@
                                         </lightning-layout>
                                     </div>
 
-                                    <div class="file-attach-info">
-                                        {labels.PP_Attachment_Saved_To_Files}
-                                    </div>
+                                    <template if:false={isSecondary}>
+                                        <div class="file-attach-info">
+                                            {labels.PP_Attachment_Saved_To_Files}
+                                        </div>
+                                  </template>
                                 </div>
                             </div>
                         </template>
@@ -269,9 +271,11 @@
                                         </lightning-layout>
                                     </div>
 
-                                    <div class="file-attach-info">
-                                        {labels.PP_Attachment_Saved_To_Files}
-                                    </div>
+                                    <template if:false={isSecondary}>
+                                        <div class="file-attach-info">
+                                            {labels.PP_Attachment_Saved_To_Files}
+                                        </div>
+                                  </template>
                                 </div>
                             </div>
                         </template>

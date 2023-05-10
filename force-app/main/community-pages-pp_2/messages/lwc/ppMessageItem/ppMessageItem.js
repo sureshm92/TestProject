@@ -13,6 +13,7 @@ export default class PpMessageItem extends LightningElement {
   @api msgIndex;
   @api message_attachment;
   @api file_default;
+  @api isSecondary;
   labels = {
     DRF_L_Today,
     PP_New_Message,
