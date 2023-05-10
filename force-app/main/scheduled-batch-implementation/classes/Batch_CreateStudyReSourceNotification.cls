@@ -114,19 +114,23 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
         List<Notification__c> notifications = new List<Notification__c>();
 
         List<Id> partContIds = new List<Id>();
+        List<Id> peIds = new List<Id>();
         for (Participant_Enrollment__c pe : pelist) {
             partContIds.add(pe.Participant_Contact__c);
+            peIds.add(pe.Id);
         }
-        Map<Id, List<Contact>> delContactsByParticipant = PatientDelegateEnrollmentService.getDelegatedCntsByParticipantCnt(
-            partContIds,
+
+        Map<Id, List<Contact>> delContactsByParticipant = PatientDelegateEnrollmentService.getDelegatedCntsByPe(
+            peIds,
             new List<String>{ 'Id', 'userCommunityMode__c', 'Resource_Notifications__c' }
+            
         );
 
         for (Participant_Enrollment__c pe : pelist) {
             List<Contact> peContacts = new List<Contact>();
             peContacts.add(pe.Participant_Contact__r);
-            if (delContactsByParticipant.containsKey(pe.Participant_Contact__c)) {
-                peContacts.addAll(delContactsByParticipant.get(pe.Participant_Contact__c));
+            if (delContactsByParticipant.containsKey(pe.Id)) {
+                peContacts.addAll(delContactsByParticipant.get(pe.Id));
             }
 
             for (Res_study__c res : studyResourcesList) {

@@ -757,6 +757,42 @@ public without sharing class PatientDelegateEnrollmentService {
 
         return delContactsByPartCnt;
     }
+    public static Map<Id, List<Contact>> getDelegatedCntsByPe(
+        List<Id> perIdlst,
+        List<String> delegatedCntFields
+    ) {
+        if (perIdlst.isEmpty()) {
+            return new Map<Id, List<Contact>>();
+        }
+        List<String> pdFields = new List<String>();
+        pdFields.add('Participant_Enrollment__c');
+        for (String cntField : delegatedCntFields)
+            pdFields.add('Patient_Delegate__r.Contact__r.' + cntField);
+
+        // Removing Active Status for Platform Level from Batch_MassEmailDelegate
+        List<Patient_Delegate_Enrollment__c> pdePatientDelegates = (List<Patient_Delegate_Enrollment__c>) DatabaseService.query(
+            pdFields,
+            Patient_Delegate_Enrollment__c.getSObjectType(),
+                ((perIdlst != null && !perIdlst.isEmpty())
+                    ? (DatabaseService.fieldInValues('Participant_Enrollment__c', perIdlst) +
+                      ' AND ')
+                    : '') +
+                DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
+        );
+
+        Map<Id, List<Contact>> delContactsByPartCnt = new Map<Id, List<Contact>>();
+        for (Patient_Delegate_Enrollment__c pd : pdePatientDelegates) {
+            Id partCntId = pd.Participant_Enrollment__c;
+            if (!delContactsByPartCnt.containsKey(partCntId)) {
+                delContactsByPartCnt.put(partCntId, new List<Contact>());
+            }
+            List<Contact> pdDelConLst = delContactsByPartCnt.get(partCntId);
+            if (!pdDelConLst.contains(pd.Patient_Delegate__r.Contact__r))
+                delContactsByPartCnt.get(partCntId).add(pd.Patient_Delegate__r.Contact__r);
+        }
+
+        return delContactsByPartCnt;
+    }
     /**
      * @param partContactsIds List with participant contact ids
      * @param delegatedCntFields List with required contact fields
