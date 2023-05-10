@@ -1000,7 +1000,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     }
 
     toggleUploadButton() {
-        if (this.totalfileNameerror > 0 || this.totalfileNameEmpty > 0) {
+        if (this.totalfileNameerror > 0 || this.totalfileNameEmpty > 0 || this.isRenameOpen) {
             this.FileUploadPending = true;
             return;
         }
