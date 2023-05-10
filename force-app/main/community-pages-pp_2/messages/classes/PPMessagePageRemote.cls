@@ -137,9 +137,7 @@ public without sharing class PPMessagePageRemote {
                 ? true
                 : CommunityFacadeRemote.getMessagesVisibility();
             pageData.isRTL = (System.Label.RTL_Languages).contains(UserInfo.getLanguage());
-            List<Conversation__c> sharedConversations = ConversationService.getSharedConversations(
-                UserInfo.getUserId()
-            ); //24
+            List<Conversation__c> sharedConversations = new  List<Conversation__c>();
             List<Conversation__c> conversations = new List<Conversation__c>();
             
             Boolean isDelegate = false;
@@ -190,18 +188,23 @@ public without sharing class PPMessagePageRemote {
                     participantEnrollments.addAll(pastEnrollments);
 
                 Set<Id> availablePEIds = new Set<Id>();
+                List<Id> peIds = new List<Id>();
                 pageData.enrollments = new List<Participant_Enrollment__c>();
                 pageData.statusByPeMap = new Map<Id, Boolean>();
                 for (Participant_Enrollment__c pe : participantEnrollments) {
                     availablePEIds.add(pe.Id);
                     if (pe.Study_Site__r.Messages_Are_Available__c) {
                         pageData.enrollments.add(pe);
+                        peIds.add(pe.Id);
                         pageData.statusByPeMap.put(
                             pe.Id,
                             PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)
                         );
                     }
                 }
+                sharedConversations = ConversationService.getPeSharedConversations(
+                peIds
+                ); //24
 
                 //Collect Conversations
                  if (sharedConversations != null) {
@@ -239,6 +242,9 @@ public without sharing class PPMessagePageRemote {
                     }
                 }
             } else if (pageData.userMode == CommunityService.USER_MODE_PI) {
+               sharedConversations = ConversationService.getSharedConversations(
+                UserInfo.getUserId()
+                ); 
                 //Collect Conversations
                 if (sharedConversations != null) {
                     for (Conversation__c conversation : sharedConversations) {
@@ -330,7 +336,7 @@ public without sharing class PPMessagePageRemote {
                  lstMessage = [Select Id,CreatedById,Conversation__c,Sender_Name__c from Message__c where Conversation__c IN:lstConversation];
                  for(Message__c mes:lstMessage){
                      lstUserId.add(mes.CreatedById);
-                 }          
+                 }      
                  lstUserId.add(UserInfo.getUserId()); 
                  lstUser = [Select Id,SmallPhotoUrl,FullPhotoUrl  from User where Id IN:lstUserId];
                  for(User u:lstUser){
