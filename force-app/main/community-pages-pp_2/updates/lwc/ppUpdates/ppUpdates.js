@@ -36,7 +36,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         load_more
     };
     timer;
-    initialLoadTime;
+    @api initialLoadTime;
     loadMoreValue;
     get showloadMore() {
         if (this.counter > 4 && this.loadMoreValue && this.counter > this.offset) {
@@ -75,7 +75,6 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     }
     renderedCallback() {
         if (!this.isRendered) {
-            this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
             this.isRendered = true;
             this.initializeData();
         }
