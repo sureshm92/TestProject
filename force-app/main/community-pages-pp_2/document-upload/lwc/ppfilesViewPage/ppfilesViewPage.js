@@ -850,6 +850,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
                 this.fileNameTooLong = true;
                 this.isNameEmptyorNotValid = false;
+                this.toggleUploadButton();  
                 return;
             }
             if (this.filesData[indexcalled].fileNameTooLong) {
