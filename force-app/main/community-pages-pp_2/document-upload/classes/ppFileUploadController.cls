@@ -128,7 +128,8 @@ public without sharing class ppFileUploadController {
         insert new ContentDistribution(
             ContentVersionId = contentToInsert.Id,
             Name = fileTitle,
-            PreferencesNotifyOnVisit = false
+            PreferencesNotifyOnVisit = false,
+            PreferencesAllowPDFDownload = false
         );
         ppFileUploadController.fileId objWrapper = new ppFileUploadController.fileId();
         objWrapper.filecontentversion = contentToInsert.Id;
