@@ -217,16 +217,16 @@
                             <template for:each={filesData} for:item="imgData" for:index="index">
                                 <div if:false={imgData.isDeleted} class="slds-grid slds-m-vertical--x-small filegrid  "
                                     key={imgData.index}>
-                                    <div class="slds-truncate imgname imgNamedesk slds-col slds-size_6-of-12"
+                                    <div class="slds-truncate imgname deskinput  imgNamedesk slds-col slds-size_6-of-12"
                                         data-key={imgData.index}>
                                         <template lwc:if={imgData.isNameReadOnly}>
-                                            <span class="upld-file-txt" title={imgData.fileName}>
+                                            <span class="upld-file-txt  " title={imgData.fileName}>
                                                 {imgData.fileName}
                                             </span>
                                         </template>
                                         <template lwc:else>
                                             <span class="pld-file-txtinput deskinput" title={imgData.fileName}>
-                                                <lightning-input tabindex="0" type="text" class=" "
+                                                <lightning-input tabindex="0" type="text" class="file-name-input"
                                                     variant="label-hidden" value={imgData.fileNameForEdit}
                                                     data-key={imgData.index} onblur={validateandsaveFileName}>
                                                 </lightning-input>
