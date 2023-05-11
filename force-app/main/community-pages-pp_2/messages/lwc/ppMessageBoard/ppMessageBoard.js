@@ -22,6 +22,7 @@ export default class PpMessageBoard extends LightningElement {
   @api deviceSize;
   @api isIE;
   @api piContactNames;
+  @api isSecondary;
   spinner;
   msgIllustration = pp_icons + "/" + "messages_Illustration.svg";
   message_attachment = pp_icons + "/" + "message_attachment.svg";
