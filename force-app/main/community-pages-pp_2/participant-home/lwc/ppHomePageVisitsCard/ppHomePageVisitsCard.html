@@ -232,12 +232,12 @@
                         <template if:true={isUpcomingDetails}>
                             <div style="margin-top: -40px; text-align: center;">
                                 <template if:true={isProgram}>
-                                    <a class="label" href="events" onclick={setSessionCookie}
+                                    <a class="label" data-name="events" onclick={navigateToVisit}
                                         >{labels.View_Event_Details}
                                     </a>
                                 </template>
                                 <template if:false={isProgram}>
-                                    <a class="label" href="visits" onclick={setSessionCookie}
+                                    <a class="label" data-name="visits" onclick={navigateToVisit}
                                         >{labels.View_Visit_Details}
                                     </a>
                                 </template> 
@@ -246,12 +246,12 @@
                         <template if:false={isUpcomingDetails}>
                             <div style="margin-top: -40px; text-align: center;">
                                 <template if:true={isProgram}>
-                                    <a class="label" href="events" onclick={setSessionCookie}
+                                    <a class="label" data-name="events" onclick={navigateToVisit}
                                         >{labels.View_All_Events}
                                     </a>
                                 </template>
                                 <template if:false={isProgram}>
-                                    <a class="label" href="visits" onclick={setSessionCookie}
+                                    <a class="label" data-name="visits" onclick={navigateToVisit}
                                         >{labels.View_All_Visits}
                                     </a>
                                 </template> 
@@ -452,13 +452,13 @@
                 <template if:true={isUpcomingDetails}>
                     <div style="margin-top: -40px; text-align: center;">
                         <template if:true={isProgram}>
-                            <a href="events" onclick={setSessionCookie}
+                            <a data-name="events" onclick={navigateToVisit}
                                 >{labels.View_Event_Details}
                                 <span class="slds-assistive-text">{labels.View_Event_Details}</span>
                             </a>
                         </template> 
                         <template if:false={isProgram}>
-                            <a href="visits" onclick={setSessionCookie}
+                            <a data-name="visits" onclick={navigateToVisit}
                                 >{labels.View_Visit_Details}
                                 <span class="slds-assistive-text">{labels.View_Visit_Details}</span>
                             </a>
@@ -468,13 +468,13 @@
                 <template if:false={isUpcomingDetails}>
                     <div style="margin-top: -40px; text-align: center;">
                         <template if:true={isProgram}>
-                            <a href="events" onclick={setSessionCookie}
+                            <a data-name="events" onclick={navigateToVisit}
                                 >{labels.View_All_Events}
                                 <span class="slds-assistive-text">{labels.View_All_Events}</span>
                             </a>
                         </template> 
                         <template if:false={isProgram}>
-                            <a href="visits" onclick={setSessionCookie}
+                            <a data-name="visits" onclick={navigateToVisit}
                                 >{labels.View_All_Visits}
                                 <span class="slds-assistive-text">{labels.View_All_Visits}</span>
                             </a>

@@ -97,6 +97,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
     @api nameList = [];
     @api usrList = [];
     @api showCount = false;
+    @api isSecondary = false;
     initializer() {
         this.creationMode = false;
         this.enrollments = null;
@@ -128,6 +129,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
                 context.isRTL = data.isRTL;
                 context.messageTemplates = data.messageTemplates;
                 context.partTodayDate = data.partTodayDate;
+                this.isSecondary = data.isSecondary;
 
                 if (data.profilePicture != undefined && data.profilePicture != null) {
                     this.usrPic = data.profilePicture;

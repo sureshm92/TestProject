@@ -850,6 +850,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
                 this.fileNameTooLong = true;
                 this.isNameEmptyorNotValid = false;
+                this.toggleUploadButton();  
                 return;
             }
             if (this.filesData[indexcalled].fileNameTooLong) {
@@ -999,7 +1000,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     }
 
     toggleUploadButton() {
-        if (this.totalfileNameerror > 0 || this.totalfileNameEmpty > 0) {
+        if (this.totalfileNameerror > 0 || this.totalfileNameEmpty > 0 || this.isRenameOpen) {
             this.FileUploadPending = true;
             return;
         }
