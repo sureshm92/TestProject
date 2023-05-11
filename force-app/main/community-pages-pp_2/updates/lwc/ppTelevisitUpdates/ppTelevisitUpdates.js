@@ -4,6 +4,8 @@ import { NavigationMixin } from 'lightning/navigation';
 import PP_View_Televisits from '@salesforce/label/c.PP_View_Televisits';
 import PP_Scheduled_Televisit from '@salesforce/label/c.PP_Scheduled_Televisit';
 import PP_Rescheduled_Televisit from '@salesforce/label/c.PP_Rescheduled_Televisit';
+import PP_Canceled_Televisit from '@salesforce/label/c.PP_Canceled_Televisit';
+import DEVICE from '@salesforce/client/formFactor';
 export default class PpTelevisitUpdates extends NavigationMixin(LightningElement) {
     @api televisitData;
     @api showVisitSection;
@@ -12,25 +14,54 @@ export default class PpTelevisitUpdates extends NavigationMixin(LightningElement
     label = {
         PP_View_Televisits,
         PP_Scheduled_Televisit,
-        PP_Rescheduled_Televisit
+        PP_Rescheduled_Televisit,
+        PP_Canceled_Televisit
     };
+    get cardElement() {
+        if (DEVICE == 'Medium') {
+            return 'slds-col slds-size_3-of-12 card-element';
+        } else {
+            return 'slds-col slds-size_2-of-6 card-element';
+        }
+    }
+    get cardDataElement() {
+        if (DEVICE == 'Medium') {
+            return 'slds-col slds-size_9-of-12';
+        } else {
+            return 'slds-col slds-size_4-of-6';
+        }
+    }
     get televisitTitle() {
         console.log('this.televisitData.televisitType : ' + this.televisitData.televisitType);
         if (this.televisitData.televisitType == 'Scheduled') {
             return this.label.PP_Scheduled_Televisit;
         } else if (this.televisitData.televisitType == 'Rescheduled') {
             return this.label.PP_Rescheduled_Televisit;
+        }else if (this.televisitData.televisitType == 'Canceled') {
+            return this.label.PP_Canceled_Televisit;
         }
     }
     openLink(event) {
         console.log('televisit clicked');
         this.removeCardHandler();
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
-            attributes: {
-                pageName: 'televisit'
-            }
-        });
+        if (this.televisitData.televisitType != 'Canceled') {
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'televisit'
+                }
+            });
+        }else {
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'televisit'
+                },
+                state: {
+                    ispast: true
+                }
+            });
+        }
     }
 
     removeCardHandler() {

@@ -46,6 +46,7 @@ public without sharing class RRChangePasswordController {
     public Boolean isAttested { get; set; }
     public Participant__c participant { get; set; }
     public Participant_Enrollment__c per { get; set; }
+    public Boolean isIQVIAOutreachToggleOnForParticipant { get; set; }
     public Boolean isIQVIAOutreachToggleOnForDelegate { get; set; }
     public Patient_Delegate_Enrollment__c pde { get; set; }
     public String tcLink { get; set; }
@@ -152,6 +153,7 @@ public without sharing class RRChangePasswordController {
     }
 
     private void init() {
+        isIQVIAOutreachToggleOnForParticipant = false;
         isIQVIAOutreachToggleOnForDelegate = false;
         showPassword = true;
         showNewPassword = true;
@@ -347,6 +349,11 @@ public without sharing class RRChangePasswordController {
                             Participant_Contact__c = :contact.Id
                             AND Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
                     ];
+                    for (Participant_Enrollment__c perOutreach : loginUserPEs) {
+                        if (perOutreach.Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
+                            isIQVIAOutreachToggleOnForParticipant = true;
+                        }
+                    }
                     if (loginUserPEs.size() > 0) {
                         per = loginUserPEs[0];
                     }
