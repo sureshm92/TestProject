@@ -117,6 +117,8 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
         }
     }
     redircttohomepage(){
-        window.open(window.location.origin + '/pp/s/',"_self");
+        this[NavigationMixin.Navigate]({ type: 'comm__namedPage',attributes: {
+            name: 'Home'
+        }});
     }
 }
