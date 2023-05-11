@@ -534,7 +534,7 @@ export default class ppdocmentViewPage extends NavigationMixin(LightningElement)
                 this.openmodel = false;
                 this.isPreview = false;
                 this.getTableFilesData();
-                communityService.showToast('', 'success', 'File deleted Successfully', 100);
+                communityService.showToast('', 'success', 'File deleted succesfully', 100);
             })
             .catch((error) => {
                 console.error('Error:', error);
