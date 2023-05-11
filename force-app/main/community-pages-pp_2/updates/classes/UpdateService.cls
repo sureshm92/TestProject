@@ -208,18 +208,21 @@ public without sharing class UpdateService {
 
     public void createTelevisitWrapper(UpdateWrapper wrp, Send_Result__c sr) {
         wrp.contentType = 'Televisit';
-        switch on sr.Notification__r.Notification_Type__c {
-            when NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED {
-                wrp.televisitType = 'Scheduled';
-            }
-            when NotificationCatalog.UPDATE_TO_PT_TELEVISIT_CANCELED {
-                wrp.televisitType = 'Canceled';
-            }
-            when NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED {
-                wrp.televisitType = 'Rescheduled';
-            }
-            when else {
-            }
+        if (
+            sr.Notification__r.Notification_Type__c ==
+            NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED
+        ) {
+            wrp.televisitType = 'Scheduled';
+        } else if (
+            sr.Notification__r.Notification_Type__c ==
+            NotificationCatalog.UPDATE_TO_PT_TELEVISIT_CANCELED
+        ) {
+            wrp.televisitType = 'Canceled';
+        } else if (
+            sr.Notification__r.Notification_Type__c ==
+            NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED
+        ) {
+            wrp.televisitType = 'Rescheduled';
         }
         //add check to set televisit Type from notification type
     }
