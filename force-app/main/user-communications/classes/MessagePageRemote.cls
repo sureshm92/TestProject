@@ -821,7 +821,8 @@ public without sharing class MessagePageRemote {
         insert new ContentDistribution(
             ContentVersionId = contentVersion.Id,
             Name = fileTitle,
-            PreferencesNotifyOnVisit = false
+            PreferencesNotifyOnVisit = false,
+            PreferencesAllowPDFDownload = false
         );
 
         return contentVersion.ContentDocumentId;

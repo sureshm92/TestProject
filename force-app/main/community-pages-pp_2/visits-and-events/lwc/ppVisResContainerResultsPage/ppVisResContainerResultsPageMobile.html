@@ -1,11 +1,9 @@
 <template>
     <template lwc:if={isMobile}>
         <template lwc:if={isInitialized}>
-            <div
-                class="slds-grid slds-wrap slds-grid_vertical-align-center slds-p-horizontal_large"
-            >
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-center horizontal-padding">
                 <div
-                    class="slds-col slds-size_1-of-1 slds-p-horizontal_none top-padding"
+                    class="slds-col slds-size_1-of-1 slds-p-horizontal_none vertical-padding"
                     onclick={handleNavigation}
                 >
                     <span class="slds-p-right_small">
@@ -40,7 +38,7 @@
                     <div class="disclaimer">{resultTypeDisclaimer}</div>
                 </div>
                 <div
-                    class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_small"
+                    class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_small horizontal-line"
                 >
                     <div>
                         <span>
@@ -55,7 +53,6 @@
                             >
                         </span>
                     </div>
-                    <span class="horizontal-line"></span>
                 </div>
                 <div
                     class="slds-col slds-size_1-of-1 slds-p-vertical_medium slds-p-horizontal_none"
