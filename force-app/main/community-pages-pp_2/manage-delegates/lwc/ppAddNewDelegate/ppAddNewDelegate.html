@@ -12,19 +12,19 @@
     </div>
     <template if:true={cmpinitialized}>
         <div class="profile-information-rectangle slds-p-around_large slds-m-bottom_small">
-            <div class="profile-information slds-m-bottom_medium">
-                <!--chevron Icon: Stats-->
-                <!-- <lightning-layout-item size="1">
-                    <span><img src={icon_url} class="icon-chevron-right" /></span>
-                </lightning-layout-item> -->
-                <!--chevron Icon: Ends-->
-                <button title="" onclick={goBackToManageDelegate} class="back-to-manage-del-btn">
-                    <span><img src={icon_url} class="icon-chevron-right" /></span>
-                    <div class="slds-p-around_xx-small inline">
-                        {label.Back_to_Manage_Delegates}
-                    </div>
-                </button>
-            </div>
+            <lightning-layout>
+                <lightning-layout-item size="12">
+                    <span
+                        onclick={goBackToManageDelegate}
+                        class="back-to-manage-del-btn slds-p-vertical_small"
+                    >
+                        <img
+                            src={icon_url}
+                            class="icon-chevron-right"
+                        />&nbsp;{label.Back_to_Manage_Delegates}
+                    </span>
+                </lightning-layout-item>
+            </lightning-layout>
             <div class="profile-information slds-m-bottom_medium">{label.Add_New_Delegate}</div>
             <div class="slds-grid slds-gutters slds-wrap add-delegate-input-container">
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 profile-info-input">
