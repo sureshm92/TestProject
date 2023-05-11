@@ -74,7 +74,13 @@ export default class HomePageParticipantNew extends LightningElement {
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
     }
-
+    get cardPadding() {
+        if (DEVICE == 'Medium') {
+            return 'slds-col slds-m-horizontal_x-small';
+        } else {
+            return 'slds-col slds-m-horizontal_xxx-small';
+        }
+    }
     connectedCallback() {
         DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
         this.spinner = this.template.querySelector('c-web-spinner');

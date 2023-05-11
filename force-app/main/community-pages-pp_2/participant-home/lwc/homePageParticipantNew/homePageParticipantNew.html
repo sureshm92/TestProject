@@ -160,7 +160,7 @@
             <div
                 class="slds-grid slds-grid_align-center slds-p-vertical_large slds-p-horizontal_small"
             >
-                <div class="slds-col slds-m-horizontal_xxx-small">
+                <div class={cardPadding}>
                     <div class="updates">
                         <template if:true={updatesSection}>
                             <template if:true={displayCounter}>
@@ -203,7 +203,7 @@
                     </div>
                 </div>
 
-                <div class="slds-col slds-m-horizontal_xxx-small">
+                <div class={cardPadding}>
                     <div class="tasks">
                         <template if:true={taskList}>
                             <div class="icon-updates taskIconPosition">
@@ -238,7 +238,7 @@
                 <template if:true={participantState}>
                     <template if:true={participantState.pe}>  
                         <template if:true={showProgressMobile}>                                  
-                            <div class="slds-col slds-m-horizontal_xxx-small">
+                            <div class={cardPadding}>
                                 <div class="progress">
                                     <div class={progressIcon}>
                                         <c-web-icon
@@ -260,7 +260,7 @@
                         </template>
                     </template>
                 </template>
-                <div class="slds-col slds-m-horizontal_xxx-small">
+                <div class={cardPadding}>
                     <!--<template if:true={showVisitCard}>-->
                     <template if:true={showUpcomingSection}>
                         <!--<template if:false={isDelegateSelfview}>-->
