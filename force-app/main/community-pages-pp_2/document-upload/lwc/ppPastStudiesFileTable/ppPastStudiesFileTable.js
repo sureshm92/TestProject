@@ -307,7 +307,7 @@ export default class PpPastStudiesFileTable extends LightningElement {
                 this.isPreview = false;
                 this.isDelete = true;
                 this.getTableFiles();
-                communityService.showToast('', 'success', 'File deleted Successfully', 100);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('success','File deleted succesfully' ,'utility:success',1000);
             })
             .catch((error) => {
                 console.error('Error:', error);

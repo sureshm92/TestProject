@@ -15,6 +15,35 @@ import PP_FileFormatNotAccept from '@salesforce/label/c.PP_FileFormatNotAccept';
 import PP_RemoveFile from '@salesforce/label/c.PP_RemoveFile';
 import PP_CancelUpload from '@salesforce/label/c.PP_CancelUpload';
 import PP_UploadSuccess from '@salesforce/label/c.PP_UploadSuccess';
+import PP_RemoveFileHeader from '@salesforce/label/c.PP_RemoveFileHeader';
+import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
+import Button_Remove from '@salesforce/label/c.Button_Remove';
+import PP_NeedHelp from '@salesforce/label/c.PP_NeedHelp';
+import PP_ReviewAcceptFile from '@salesforce/label/c.PP_ReviewAcceptFile';
+import PP_ReviewFiles from '@salesforce/label/c.PP_ReviewFiles';
+import RH_Upload_import from '@salesforce/label/c.RH_Upload_import';
+import PP_CancelUploadHeader from '@salesforce/label/c.PP_CancelUploadHeader';
+import PP_BacktoUpload from '@salesforce/label/c.PP_BacktoUpload';
+import Continue from '@salesforce/label/c.Continue';
+import PP_MyFiles from '@salesforce/label/c.PP_MyFiles';
+import PP_UploadNewDocument from '@salesforce/label/c.PP_UploadNewDocument';
+import PP_DragFiles from '@salesforce/label/c.PP_DragFiles';
+import PP_or_smallcase from '@salesforce/label/c.PP_or_smallcase';
+import PP_Browsefiles from '@salesforce/label/c.PP_Browsefiles';
+import PP_MaxiumumFileUpload from '@salesforce/label/c.PP_MaxiumumFileUpload';
+import PP_WaitTime from '@salesforce/label/c.PP_WaitTime';
+import PP_FileNameRequired from '@salesforce/label/c.PP_FileNameRequired';
+import PP_LimitCharacters from '@salesforce/label/c.PP_LimitCharacters';
+import PP_UploadFailed from '@salesforce/label/c.PP_UploadFailed';
+import RH_RP_Cancel from '@salesforce/label/c.RH_RP_Cancel';
+import PP_Retry from '@salesforce/label/c.PP_Retry';
+import PP_UploadedFilesShar from '@salesforce/label/c.PP_UploadedFilesShar';
+import PP_UploadNewFile from '@salesforce/label/c.PP_UploadNewFile';
+import PP_Backt_o_My_Files from '@salesforce/label/c.PP_Backt_o_My_Files';
+import PP_Filerenamedsuccesfully from '@salesforce/label/c.PP_Filerenamedsuccesfully';
+import PP_Limit10Files from '@salesforce/label/c.PP_Limit10Files';
+import PP_Fileremovedsuccesfully from '@salesforce/label/c.PP_Fileremovedsuccesfully';
+
 import formFactor from '@salesforce/client/formFactor';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
@@ -36,7 +65,35 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         PP_FileFormatNotAccept,
         PP_RemoveFile,
         PP_CancelUpload,
-        PP_UploadSuccess
+        PP_UploadSuccess,
+        PP_RemoveFileHeader,
+        BTN_Cancel,
+        Button_Remove,
+        PP_NeedHelp,
+        PP_ReviewAcceptFile,
+        PP_ReviewFiles,
+        RH_Upload_import,
+        PP_CancelUploadHeader,
+        PP_BacktoUpload,
+        Continue,
+        PP_MyFiles,
+        PP_UploadNewDocument,
+        PP_DragFiles,
+        PP_or_smallcase,
+        PP_Browsefiles,
+        PP_MaxiumumFileUpload,
+        PP_WaitTime,
+        PP_FileNameRequired,
+        PP_LimitCharacters,
+        PP_UploadFailed,
+        RH_RP_Cancel,
+        PP_Retry,
+        PP_UploadedFilesShar,
+        PP_UploadNewFile,
+        PP_Backt_o_My_Files,
+        PP_Filerenamedsuccesfully,
+        PP_Limit10Files,
+        PP_Fileremovedsuccesfully
     };
 
     value = 'inProgress';
@@ -265,25 +322,13 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
             // Limit 10 starts here
             if (event.target.files.length > 10) {
-                const evt = new ShowToastEvent({
-                    title: 'Please select only 10 files or less, and try to upload again.',
-                    message: '',
-                    variant: 'error',
-                    mode: 'dismissable'
-                });
-                this.dispatchEvent(evt);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('error',label.PP_Limit10Files,'utility:warning',1000);
                 event.target.value = null;
                 return;
             }
 
             if (this.totalfilesUploaded + event.target.files.length > 10) {
-                const evt = new ShowToastEvent({
-                    title: 'Please select only 10 files or less, and try to upload again.',
-                    message: '',
-                    variant: 'error',
-                    mode: 'dismissable'
-                });
-                this.dispatchEvent(evt);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('error',label.PP_Limit10Files,'utility:warning',1000);
                 event.target.value = null;
                 return;
             }
@@ -739,7 +784,8 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 this.toggleUploadButton();
                 //this.pageNumber=1;
 
-                communityService.showToast('', 'success', 'File removed succesfully', 100);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('success',label.PP_Fileremovedsuccesfully,'utility:success',1000);
+
             })
             .catch((error) => {
                 this.isSaving = false;
@@ -868,13 +914,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 extension_index
             );
             if (filenamewitoutextension != fileNameUpdated) {
-                const evt = new ShowToastEvent({
-                    title: 'File renamed succesfully',
-                    message: '',
-                    variant: 'success',
-                    mode: 'dismissable'
-                });
-                this.dispatchEvent(evt);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('success',label.PP_Filerenamedsuccesfully,'utility:success',1000);
                 this.filesData[indexcalled].fileName = fileNameUpdated.trim() + '.' + extension;
             }
             let imgnamediv = this.template.querySelector(
@@ -983,7 +1023,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 this.isSaving = false;
                 this.displayErrorFilesPopupWarning = false;
                 this.iscancelButtonClick = false;
-                communityService.showToast('', 'success', this.label.PP_UploadSuccess, 100);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('success', this.label.PP_UploadSuccess,'utility:success',1000);
             })
             .catch((error) => {
                 this.isSaving = false;

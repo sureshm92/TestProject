@@ -11,6 +11,7 @@
     <aura:attribute name="reset" type="Boolean" default="false" />
     <aura:attribute name="hasProfilePic" type="Boolean" />
     <aura:attribute name="templateName" type="String" />
+    <aura:attribute name="checkUpdatedData" type="Boolean" default="false"/>
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onModeChange" type="c:uiEvent" />
@@ -68,9 +69,11 @@
                 <aura:if isTrue="{!equals(v.communityModes.type, 'PP_Only')}">
                     <aura:if isTrue="{!equals(v.templateName, 'PatientPortal')}">
                         <c:patientPortalMenuItems
+                            aura:id="patientPortalMenuItemsCmp" 
                             allModes="{!v.communityModes}"
                             user="{!v.user}"
                             onitemselection="{!c.doSelectItem}"
+                            checkUpdatedData="{!v.checkUpdatedData}"
                         />
                     </aura:if>
                     <aura:if isTrue="{!notequals(v.templateName, 'PatientPortal')}">
