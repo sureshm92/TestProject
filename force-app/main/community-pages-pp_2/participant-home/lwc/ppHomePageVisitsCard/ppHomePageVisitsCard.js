@@ -1,5 +1,6 @@
 //Created by Chetna Chauhan Sep 9,2022
 import { LightningElement, api, track } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 import getVisitsPreviewAndCount from '@salesforce/apex/ParticipantVisitsRemote.getVisitsPreviewAndCount';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
@@ -24,7 +25,7 @@ import visit_calendar from '@salesforce/label/c.Upcoming_Visit_calendar';
 import Upcoming_Visit_Location from '@salesforce/label/c.Upcoming_Visit_Location';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 
-export default class HomePageVisitsCard extends LightningElement {
+export default class HomePageVisitsCard extends NavigationMixin(LightningElement) {
     planDateTime;
     siteLocation;
     siteTitle;
@@ -139,4 +140,14 @@ export default class HomePageVisitsCard extends LightningElement {
         sessionStorage.setItem('Cookies', 'Accepted');
         return true;
     }
+
+    navigateToVisit(event) {
+        var pagename = event.currentTarget.dataset.name;
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: pagename
+            }
+        });
+    }    
 }
