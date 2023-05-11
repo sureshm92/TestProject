@@ -15,6 +15,32 @@ import PP_FileFormatNotAccept from '@salesforce/label/c.PP_FileFormatNotAccept';
 import PP_RemoveFile from '@salesforce/label/c.PP_RemoveFile';
 import PP_CancelUpload from '@salesforce/label/c.PP_CancelUpload';
 import PP_UploadSuccess from '@salesforce/label/c.PP_UploadSuccess';
+import PP_RemoveFileHeader from '@salesforce/label/c.PP_RemoveFileHeader';
+import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
+import Button_Remove from '@salesforce/label/c.Button_Remove';
+import PP_NeedHelp from '@salesforce/label/c.PP_NeedHelp';
+import PP_ReviewAcceptFile from '@salesforce/label/c.PP_ReviewAcceptFile';
+import PP_ReviewFiles from '@salesforce/label/c.PP_ReviewFiles';
+import RH_Upload_import from '@salesforce/label/c.RH_Upload_import';
+import PP_CancelUploadHeader from '@salesforce/label/c.PP_CancelUploadHeader';
+import PP_BacktoUpload from '@salesforce/label/c.PP_BacktoUpload';
+import Continue from '@salesforce/label/c.Continue';
+import PP_MyFiles from '@salesforce/label/c.PP_MyFiles';
+import PP_UploadNewDocument from '@salesforce/label/c.PP_UploadNewDocument';
+import PP_DragFiles from '@salesforce/label/c.PP_DragFiles';
+import PP_or_smallcase from '@salesforce/label/c.PP_or_smallcase';
+import PP_Browsefiles from '@salesforce/label/c.PP_Browsefiles';
+import PP_MaxiumumFileUpload from '@salesforce/label/c.PP_MaxiumumFileUpload';
+import PP_WaitTime from '@salesforce/label/c.PP_WaitTime';
+import PP_FileNameRequired from '@salesforce/label/c.PP_FileNameRequired';
+import PP_LimitCharacters from '@salesforce/label/c.PP_LimitCharacters';
+import PP_UploadFailed from '@salesforce/label/c.PP_UploadFailed';
+import RH_RP_Cancel from '@salesforce/label/c.RH_RP_Cancel';
+import PP_Retry from '@salesforce/label/c.PP_Retry';
+import PP_UploadedFilesShar from '@salesforce/label/c.PP_UploadedFilesShar';
+import PP_UploadNewFile from '@salesforce/label/c.PP_UploadNewFile';
+import PP_Backt_o_My_Files from '@salesforce/label/c.PP_Backt_o_My_Files';
+
 import formFactor from '@salesforce/client/formFactor';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
@@ -36,7 +62,32 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         PP_FileFormatNotAccept,
         PP_RemoveFile,
         PP_CancelUpload,
-        PP_UploadSuccess
+        PP_UploadSuccess,
+        PP_RemoveFileHeader,
+        BTN_Cancel,
+        Button_Remove,
+        PP_NeedHelp,
+        PP_ReviewAcceptFile,
+        PP_ReviewFiles,
+        RH_Upload_import,
+        PP_CancelUploadHeader,
+        PP_BacktoUpload,
+        Continue,
+        PP_MyFiles,
+        PP_UploadNewDocument,
+        PP_DragFiles,
+        PP_or_smallcase,
+        PP_Browsefiles,
+        PP_MaxiumumFileUpload,
+        PP_WaitTime,
+        PP_FileNameRequired,
+        PP_LimitCharacters,
+        PP_UploadFailed,
+        RH_RP_Cancel,
+        PP_Retry,
+        PP_UploadedFilesShar,
+        PP_UploadNewFile,
+        PP_Backt_o_My_Files
     };
 
     value = 'inProgress';

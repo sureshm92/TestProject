@@ -19634,6 +19634,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Back to Log in</value>
     </labels>
     <labels>
+        <fullName>PP_Backt_o_My_Files</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Backt_o_My_Files</shortDescription>
+        <value>Back to My Files</value>
+    </labels>
+    <labels>
+        <fullName>PP_BacktoUpload</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ BacktoUpload</shortDescription>
+        <value>Back to Upload</value>
+    </labels>
+     <labels>
+        <fullName>PP_Browsefiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Browsefiles</shortDescription>
+        <value>Browse files</value>
+    </labels>
+    <labels>
         <fullName>PP_Can_t_rembeber_my_username</fullName>
         <categories>Opt Out And Technical Support</categories>
         <language>en_US</language>
@@ -19647,6 +19668,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_CancelUpload</shortDescription>
         <value>By continuing, your files will no longer be available for upload. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
+        <fullName>PP_CancelUploadHeader</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_CancelUploadHeader</shortDescription>
+        <value>Cancel Upload</value>
     </labels>
     <labels>
         <fullName>PP_CannotReuseOldPwd</fullName>
@@ -20255,6 +20283,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>What can your delegate see or do?</value>
     </labels>
     <labels>
+        <fullName>PP_DeleteConfirmation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_DeleteConfirmation</shortDescription>
+        <value>By deleting this file, the study/program team will no longer have access. Are you sure you would like to delete this file?</value>
+    </labels>
+    <labels>
+        <fullName>PP_DeleteFile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_DeleteFile</shortDescription>
+        <value>Delete File</value>
+    </labels>
+    <labels>
         <fullName>PP_Details</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20291,6 +20333,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Don&apos;t want to receive email</shortDescription>
         <value>I do not want to receive emails (not applicable to system emails or messages sent in response to specific user request, e.g.: password reset email) from IQVIA Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>PP_DragFiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_DragFiles</shortDescription>
+        <value>Drag and drop your files</value>
     </labels>
     <labels>
         <fullName>PP_DueDateandTime</fullName>
@@ -20503,6 +20552,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP_FileFormatNotAccept</shortDescription>
         <value>File format is not accepted</value>
+    </labels>
+     <labels>
+        <fullName>PP_FileNameRequired</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_FileNameRequired</shortDescription>
+        <value>File Name Required</value>
     </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
@@ -20758,6 +20814,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Last Name</value>
     </labels>
     <labels>
+        <fullName>PP_LimitCharacters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_LimitCharacters</shortDescription>
+        <value>Limit input to 250 characters</value>
+    </labels>
+    <labels>
         <fullName>PP_Locale_DateFmt</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20842,6 +20905,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>File size exceeds 4MB</value>
     </labels>
     <labels>
+        <fullName>PP_MaxiumumFileUpload</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_MaxiumumFileUpload</shortDescription>
+        <value>Maximum upload file size is  &lt;b&gt;4 MB&lt;/b&gt;</value>
+    </labels>
+    <labels>
         <fullName>PP_MeetingCriteria</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20918,6 +20988,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_MustInclude Atleast</shortDescription>
         <value>Your password must include at least:</value>
     </labels>
+     <labels>
+        <fullName>PP_MyFiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_MyFiles</shortDescription>
+        <value>My Files</value>
+    </labels>
     <labels>
         <fullName>PP_NO_Active_Delegate</fullName>
         <categories>PPCreateTask</categories>
@@ -20933,6 +21010,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP_NO_REMINDER</shortDescription>
         <value>No reminder</value>
+    </labels>
+     <labels>
+        <fullName>PP_NeedHelp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_NeedHelp</shortDescription>
+        <value>We Need Your Help</value>
     </labels>
     <labels>
         <fullName>PP_Need_Tech_Support</fullName>
@@ -21576,6 +21660,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_RemoveFile</shortDescription>
         <value>Are you sure you would like to remove "#fileName" file?</value>
     </labels>
+     <labels>
+        <fullName>PP_RemoveFileHeader</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_RemoveFileHeader</shortDescription>
+        <value>Remove File</value>
+    </labels>
     <labels>
         <fullName>PP_Remove_Photo</fullName>
         <language>en_US</language>
@@ -21674,6 +21765,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP Resources Contribute</shortDescription>
         <value>Contribute</value>
+    </labels>
+     <labels>
+        <fullName>PP_Retry</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Retry</shortDescription>
+        <value>Retry</value>
+    </labels>
+    <labels>
+        <fullName>PP_ReviewAcceptFile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ReviewAcceptFile</shortDescription>
+        <value>Please review the file error(s) or select Upload to discard the file(s) with errors and proceed with the accepted files.</value>
+    </labels>
+    <labels>
+        <fullName>PP_ReviewFiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ReviewFiles</shortDescription>
+        <value>Review Files</value>
     </labels>
     <labels>
         <fullName>PP_Review_and_Confirm</fullName>
@@ -21794,6 +21906,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Share Article</shortDescription>
         <value>Have an article or a video that you found supportive during your clinical trial experience? Share it with us!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Sort</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort</shortDescription>
+        <value>Sort</value>
     </labels>
     <labels>
         <fullName>PP_Site_And_Location_Caps</fullName>
@@ -22178,6 +22297,41 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_UpdateProfileResponse</shortDescription>
         <value>&gt; Profile Information &gt;  Save</value>
     </labels>
+     <labels>
+        <fullName>PP_UploadDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ UploadDate</shortDescription>
+        <value>Upload Date</value>
+    </labels>
+    <labels>
+        <fullName>PP_UploadFailed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ UploadFailed</shortDescription>
+        <value>Upload Failed</value>
+    </labels>
+    <labels>
+        <fullName>PP_UploadNewDocument</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_UploadNewDocument</shortDescription>
+        <value>Upload New Document(s)</value>
+    </labels>
+    <labels>
+        <fullName>PP_UploadNewFile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_UploadNewFile</shortDescription>
+        <value>Upload New File</value>
+    </labels>
+    <labels>
+        <fullName>PP_UploadSuccess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_UploadSuccess</shortDescription>
+        <value>File(s) uploaded succesfully</value>
+    </labels>
     <labels>
         <fullName>PP_Update_Refresh</fullName>
         <language>en_US</language>
@@ -22198,6 +22352,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Upload_Photo</shortDescription>
         <value>Upload Photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_UploadedFilesShar</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_UploadedFilesShar</shortDescription>
+        <value>Uploaded files may be shared with study/program team</value>
     </labels>
     <labels>
         <fullName>PP_UsefulInfo</fullName>
@@ -22333,6 +22494,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Visit_Time</shortDescription>
         <value>Visit Time</value>
     </labels>
+     <labels>
+        <fullName>PP_WaitTime</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_WaitTime</shortDescription>
+        <value>Your wait time may vary based on the number of files uploaded</value>
+    </labels>
     <labels>
         <fullName>PP_Warning</fullName>
         <language>en_US</language>
@@ -22440,6 +22608,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP_future_date_error_month</shortDescription>
         <value>Value must be current month or earlier</value>
+    </labels>
+     <labels>
+        <fullName>PP_or_smallcase</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_or_smallcase</shortDescription>
+        <value>or</value>
     </labels>
     <labels>
         <fullName>PP_required</fullName>
