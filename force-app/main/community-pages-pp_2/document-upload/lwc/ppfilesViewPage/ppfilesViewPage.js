@@ -40,6 +40,9 @@ import PP_Retry from '@salesforce/label/c.PP_Retry';
 import PP_UploadedFilesShar from '@salesforce/label/c.PP_UploadedFilesShar';
 import PP_UploadNewFile from '@salesforce/label/c.PP_UploadNewFile';
 import PP_Backt_o_My_Files from '@salesforce/label/c.PP_Backt_o_My_Files';
+import PP_Filerenamedsuccesfully from '@salesforce/label/c.PP_Filerenamedsuccesfully';
+import PP_Limit10Files from '@salesforce/label/c.PP_Limit10Files';
+import PP_Fileremovedsuccesfully from '@salesforce/label/c.PP_Fileremovedsuccesfully';
 
 import formFactor from '@salesforce/client/formFactor';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -87,7 +90,10 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         PP_Retry,
         PP_UploadedFilesShar,
         PP_UploadNewFile,
-        PP_Backt_o_My_Files
+        PP_Backt_o_My_Files,
+        PP_Filerenamedsuccesfully,
+        PP_Limit10Files,
+        PP_Fileremovedsuccesfully
     };
 
     value = 'inProgress';
@@ -316,25 +322,13 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
             // Limit 10 starts here
             if (event.target.files.length > 10) {
-                const evt = new ShowToastEvent({
-                    title: 'Please select only 10 files or less, and try to upload again.',
-                    message: '',
-                    variant: 'error',
-                    mode: 'dismissable'
-                });
-                this.dispatchEvent(evt);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('error',label.PP_Limit10Files,'utility:warning',1000);
                 event.target.value = null;
                 return;
             }
 
             if (this.totalfilesUploaded + event.target.files.length > 10) {
-                const evt = new ShowToastEvent({
-                    title: 'Please select only 10 files or less, and try to upload again.',
-                    message: '',
-                    variant: 'error',
-                    mode: 'dismissable'
-                });
-                this.dispatchEvent(evt);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('error',label.PP_Limit10Files,'utility:warning',1000);
                 event.target.value = null;
                 return;
             }
@@ -790,7 +784,8 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 this.toggleUploadButton();
                 //this.pageNumber=1;
 
-                communityService.showToast('', 'success', 'File removed succesfully', 100);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('success',label.PP_Fileremovedsuccesfully,'utility:success',1000);
+
             })
             .catch((error) => {
                 this.isSaving = false;
@@ -919,13 +914,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 extension_index
             );
             if (filenamewitoutextension != fileNameUpdated) {
-                const evt = new ShowToastEvent({
-                    title: 'File renamed succesfully',
-                    message: '',
-                    variant: 'success',
-                    mode: 'dismissable'
-                });
-                this.dispatchEvent(evt);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('success',label.PP_Filerenamedsuccesfully,'utility:success',1000);
                 this.filesData[indexcalled].fileName = fileNameUpdated.trim() + '.' + extension;
             }
             let imgnamediv = this.template.querySelector(
@@ -1034,7 +1023,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 this.isSaving = false;
                 this.displayErrorFilesPopupWarning = false;
                 this.iscancelButtonClick = false;
-                communityService.showToast('', 'success', this.label.PP_UploadSuccess, 100);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('success', this.label.PP_UploadSuccess,'utility:success',1000);
             })
             .catch((error) => {
                 this.isSaving = false;
