@@ -294,7 +294,7 @@ public without sharing class PreferenceManagementController {
                                                         WHERE Patient_Delegate__r.Contact__c = :contactId
                                                         AND Study_SMS_Consent__c =  true
                                                         ];
-        optOutSMSWhenMobileIsDeleted(PERList, PDEList, null);
+        optOutSMSWhenMobileIsDeleted(PERList, PDEList, contactId);
 
     }
     /**

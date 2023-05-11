@@ -18,7 +18,7 @@
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background-color: #ffffff;
-    color: #0768fd;
+    color: #015ff1;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     cursor: pointer;
 }
@@ -28,7 +28,7 @@
     width: 96px;
     border: 1px solid #d9d9d9;
     border-radius: 20px;
-    background-color: #0768fd;
+    background-color: #015ff1;
     color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     cursor: pointer;
@@ -40,7 +40,7 @@
     width: 96px;
     border: 1px solid #d9d9d9;
     border-radius: 20px;
-    background-color: #0768fd;
+    background-color: #015ff1;
     color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     pointer-events: none;

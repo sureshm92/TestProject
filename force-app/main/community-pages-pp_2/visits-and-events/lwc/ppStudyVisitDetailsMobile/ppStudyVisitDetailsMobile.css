@@ -35,7 +35,7 @@
 }
 
 .visit-date-time {
-    display: flex;
+  /*  display: flex;*/
     font-size: 1rem;
     font-weight: 500;
 }
@@ -89,4 +89,10 @@
         width: 52rem;
         margin-left: 10rem;
     }
+}
+
+.divider-line{
+    font-size: 1rem;    
+    font-weight: 600;
+    background-color: rgb(255 255 255);
 }

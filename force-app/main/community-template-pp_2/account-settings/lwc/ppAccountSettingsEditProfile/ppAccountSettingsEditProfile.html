@@ -385,12 +385,8 @@
                                     <label
                                         class="slds-form-element__label field-title"
                                         for="mobile-phone-input"
-                                        >{labels.MOBILE_PHONE}<abbr
-                                            class="slds-required required-icon"
-                                            title="required"
-                                            ><template if:true={isMobilePhoneRequired}>*</template>
-                                        </abbr></label
-                                    >
+                                        >{labels.MOBILE_PHONE}
+                                    </label>
                                     <div class="slds-form-element__control">
                                         <div class="slds-grid slds-wrap slds-gutters">
                                             <div class={mobilePhoneContainerClass}>
@@ -399,7 +395,6 @@
                                                     data-id="mobile-phone-input"
                                                     variant="label-hidden"
                                                     class="profile-info-input"
-                                                    required={isMobilePhoneRequired}
                                                     value={personWrapper.mobilePhone}
                                                     onkeyup={handleMobilePhoneChange}
                                                 ></lightning-input>

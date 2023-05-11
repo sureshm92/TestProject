@@ -5573,6 +5573,13 @@ Your username is ##UserName.</value>
             &lt;span style=&quot;color:#444444;&quot;&gt;Your username is ##UserName.&lt;/span&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_New_Assignment_Patient_Delegate_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body New Assignment Patient Delegate PP</shortDescription>
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies/programs that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_Patient_New</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5729,6 +5736,13 @@ Your username is ##UserName.</value>
         <value>You have a new message from your study center. Please login to the ##ShortCommunityName to view your messages.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_PA_New_Mess_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body PA New Mess PP</shortDescription>
+        <value>You have a new message from your study/program center. Please login to the ##ShortCommunityName to view your messages.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_PI1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5817,7 +5831,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Participant Delegate Reactivated pp</shortDescription>
-        <value>Your access as a participant delegate has changed for one or more studies or programs that are listed below</value>
+        <value>Your access as a participant delegate has changed for one or more studies/programs that are listed below</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Delegate_New_Study</fullName>
@@ -6427,6 +6441,39 @@ Due Date and Time: ##expirationDate</value>
 &lt;span style=&quot;color:#444444;&quot; &gt;Due Date:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##TaskOnlydate.&lt;/span&gt;
 
 &lt;span &gt;Please login to update the status of your task.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Cancelled_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Cancelled PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName scheduled for ##VisitDttime has been canceled.&lt;/span&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;Please contact the Study/Program Team for further updates or please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Rescheduled_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Rescheduled PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName has been rescheduled.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Scheduled_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Scheduled PP</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFullName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Televisit_Cancelled</fullName>
@@ -12428,7 +12475,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Non Attendee Message</shortDescription>
-        <value>You are not a designated Attendee for this Televisit. A Study Center member must add you as an Attendee.</value>
+        <value>You are not a designated attendee for this televisit. A Study/Program Team member must add you as an attendee.</value>
     </labels>
     <labels>
         <fullName>Non_Study_Specific</fullName>
@@ -19558,6 +19605,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I cannot remember my username</value>
     </labels>
     <labels>
+        <fullName>PP_CancelUpload</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_CancelUpload</shortDescription>
+        <value>By continuing, your files will no longer be available for upload. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
         <fullName>PP_CannotReuseOldPwd</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19654,6 +19708,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Communication_Del_Mobile_Upd_Success</shortDescription>
         <value>Delegate&apos;s mobile phone updated successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communication_Email_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Communication Email Text</shortDescription>
+        <value>If you have previously opted into any of the following contact methods, you can opt out of that method by checking the relevant box below.</value>
     </labels>
     <labels>
         <fullName>PP_Communication_Par_Mobile_Upd_Success</fullName>
@@ -20510,6 +20571,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP IQVIA Communication US</shortDescription>
         <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_IQVIA_Consent_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP IQVIA Consent US</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_IQVIA_Consent_ROW</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP IQVIA Consent ROW</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA’s Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Button_Review</fullName>
@@ -21458,6 +21533,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Remove</value>
     </labels>
     <labels>
+        <fullName>PP_RemoveFile</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_RemoveFile</shortDescription>
+        <value>Are you sure you would like to remove "#fileName" file?</value>
+    </labels>
+    <labels>
         <fullName>PP_Remove_Photo</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21519,6 +21601,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Explore</shortDescription>
         <value>Explore</value>
+    </labels>
+    <labels>
+        <fullName>PP_Resource_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Resource_Disclaimer</shortDescription>
+        <value>Links will open in new browser window. IQVIA Patient Portal
+            is not responsible for content provided in external websites.</value>
     </labels>
     <labels>
         <fullName>PP_Resource_Submit</fullName>
@@ -21767,6 +21857,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
+        <fullName>PP_Study_Consent_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Consent US</shortDescription>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Study_Consent_ROW</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Consent ROW</shortDescription>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
         <fullName>PP_Study_Overview</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21993,6 +22097,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_UPDATE_EMAIL_WARNING</shortDescription>
         <value>Updating your email address will not change your login credentials. You may submit a request to update your login credentials by submitting a ticket from the ##HELPLINK page.</value>
+    </labels>
+    <labels>
+        <fullName>PP_UploadSuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UploadSuccess</shortDescription>
+        <value>File(s) uploaded succesfully</value>
     </labels>
     <labels>
         <fullName>PP_URL_Error</fullName>
@@ -22300,7 +22411,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP required</shortDescription>
         <value>required</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_No_Messages</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -22328,21 +22439,21 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Select question ...</shortDescription>
         <value>Select question ...</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_New_Message</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>New Message</shortDescription>
         <value>New Message</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Time_At</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>at</shortDescription>
         <value>at</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Attachment_Saved_To_Files</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -22425,7 +22536,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PT_Session_Ended</shortDescription>
-        <value>This Televisit has ended. Contact your Study Center for further support.</value>
+        <value>This televisit has ended. You may contact the Study/Program Team for further support.</value>
     </labels>
     <labels>
         <fullName>PT_Televisit_Close</fullName>
@@ -24074,6 +24185,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>RH_PI</shortDescription>
         <value>PI</value>
+    </labels>
+    <labels>
+        <fullName>PP_Participant_Delegate</fullName>
+        <categories>PP</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Participant Delegate</shortDescription>
+        <value>Participant Delegate</value>
     </labels>
     <labels>
         <fullName>RH_PI_Site_staff_country_is_not_the_same</fullName>
@@ -31142,5 +31261,75 @@ The IQVIA Referral Hub Support Team</value>
         <protected>true</protected>
         <shortDescription>PP_More_Results</shortDescription>
         <value>more results</value>
+    </labels>
+    <labels>
+        <fullName>PP_Download_Results_Data</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Download_Results_Data</shortDescription>
+        <value>Download Results Data</value>
+    </labels>
+    <labels>
+        <fullName>PP_For_Participants_and_Caregivers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_For_Participants_and_Caregivers</shortDescription>
+        <value>For Participants and Caregivers</value>
+    </labels>
+    <labels>
+        <fullName>PP_Rescheduled_Televisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Rescheduled Televisit</shortDescription>
+        <value>A televisit has been rescheduled.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Scheduled_Televisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Scheduled Televisit</shortDescription>
+        <value>New televisit(s) has been scheduled!</value>
+    </labels>
+    <labels>
+        <fullName>PP_View_Televisits</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP View Televisits</shortDescription>
+        <value>View Televisits</value>
+    </labels>
+    <labels>
+        <fullName>PP_Connecting_professionals</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Connecting_professionals</shortDescription>
+        <value>Connecting professionals, patients and clinical researchers for better healthcare.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Televisit_record_canceled_successfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Televisit record canceled successfully</shortDescription>
+        <value>Televisit record canceled successfully</value>
+    </labels>
+    <labels>
+        <fullName>PP_Televisit_record_created_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Televisit record created successfully</shortDescription>
+        <value>Televisit record created successfully</value>
+    </labels>
+    <labels>
+        <fullName>PP_Televisit_record_updated_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Televisit record updated successfully</shortDescription>
+        <value>Televisit record updated successfully</value>
+    </labels>
+    <labels>
+        <fullName>PP_Visit_Result_Toggle_Helptext</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Visit Result Toggle Helptext</shortDescription>
+        <value>This button will toggle the result data for all the visits.</value>
     </labels>
 </CustomLabels>

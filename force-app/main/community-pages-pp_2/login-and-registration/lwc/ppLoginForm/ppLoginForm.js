@@ -15,6 +15,8 @@ import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordL
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import PP_Login_Form_Show from '@salesforce/label/c.PP_Login_Form_Show';
 import PP_Login_Form_Hide from '@salesforce/label/c.PP_Login_Form_Hide';
+import PP_For_Participants_and_Caregivers from '@salesforce/label/c.PP_For_Participants_and_Caregivers';
+import PP_Connecting_professionals from '@salesforce/label/c.PP_Connecting_professionals';
 
 export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @track inError;
@@ -47,7 +49,9 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         enterPasswordMsg,
         login,
         PP_Login_Form_Hide,
-        PP_Login_Form_Show
+        PP_Login_Form_Show,
+        PP_For_Participants_and_Caregivers,
+        PP_Connecting_professionals
     };
 
     currentPageReference;

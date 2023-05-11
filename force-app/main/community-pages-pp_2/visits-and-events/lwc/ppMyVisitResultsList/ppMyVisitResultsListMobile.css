@@ -6,7 +6,7 @@
 .active-custom-box {
     box-sizing: border-box;
     height: 80px;
-    width: 313px;
+    width: 96%;
     border: 1px solid #015ff1;
     border-radius: 16px;
     background-color: #ffffff;
@@ -18,7 +18,7 @@
 .inactive-custom-box {
     box-sizing: border-box;
     height: 80px;
-    width: 313px;
+    width: 96%;
     border: 1px solid #d9d9d9;
     border-radius: 1rem;
     background-color: #ffffff;

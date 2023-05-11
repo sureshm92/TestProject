@@ -20,14 +20,15 @@ import {
     publish,
     subscribe,
     unsubscribe,
-    MessageContext,
+    createMessageContext,
+    releaseMessageContext,
     APPLICATION_SCOPE
 } from 'lightning/messageService';
 
 export default class PpResourceDetailPage extends NavigationMixin(LightningElement) {
-
-    @wire(MessageContext)
-    messageContext;
+    // @wire(MessageContext)
+    // messageContext;
+    messageContext = createMessageContext();
 
     userTimezone = TIME_ZONE;
     isInitialized = false;
@@ -61,6 +62,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     resourcesData;
     suggestedArticlesData;
     isInvalidResource = false;
+    mediaContent = false;
+    displaySection = "";
+    backButtonLandscape = "";
 
     backToRes = pp_community_icons + '/' + 'back_to_resources.png';
 
@@ -92,6 +96,10 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         return this.showHomePage ? this.label.Back_To_Home : this.label.Back_To_Resources;
     }
 
+    disconnectedCallback(){
+        this.publishResourceType(false);
+    }
+
     /** Lifecycle hooks **/
     connectedCallback() {
         //get resource parameters from url
@@ -100,6 +108,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         this.resourceId = urlParams.get('resourceid');
         this.resourceType = urlParams.get('resourcetype');
         this.showHomePage = urlParams.get('showHomePage');
+
+        this.publishResourceType(true);
+
+        // Logic for portrait mode and landscape mode - hide content in case of mediaContent is true
+ 
+        (this.mediaContent == true) ? this.displaySection = "portrait-mode" :  this.displaySection = "";
+
+        (this.mediaContent == true) ? this.backButtonLandscape = "" : this.backButtonLandscape = "hidden";
 
         this.state = urlParams.get('state');
         if (this.resourceType == 'Study_Document') {
@@ -120,38 +136,23 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         }
       
         this.initializeData();
-
-        window.addEventListener("orientationchange", function() {
-            console.log(screen.orientation.angle);
-            if(screen.orientation.angle != 0){
-                console.log("changing orientation to landscape");
-                // this.fireFooterEvent(true);
-                console.log("after landscape publish");
-            }
-            else{
-                console.log("changing orientation to portrait");
-                // this.fireFooterEvent(false);
-                console.log("after portrait publish");
-            }
-          }, false);
-
     }
 
-    fireFooterEvent(value){
-        console.log("firing footer event now.....");
-        const returnPayload = {
-            hideFooter: value
-        };
-        publish(this.messageContext, messageChannel, returnPayload);
-    }
+    publishResourceType(flag){
+        if(this.resourceType == "Multimedia" || this.resourceType == "Video"){
+            flag ? this.mediaContent = true : this.mediaContent = false;
+            const returnPayload = {
+                mediaContent: this.mediaContent
+            };
+            publish(this.messageContext, messageChannel, returnPayload);
 
-    disconnectedCallback(){
-        // console.log("disconneting resource detail page");
-        // const returnPayload = {
-        //     hideFooter: false
-        // };
-        // publish(this.messageContext, messageChannel, returnPayload);
-        // console.log("after disconnected publish");
+        }else if(this.resourceType != "Multimedia" || this.resourceType != "Video"){
+            this.mediaContent = false;
+            const returnPayload = {
+                mediaContent: this.mediaContent
+            };
+            publish(this.messageContext, messageChannel, returnPayload);
+        }
     }
 
     /** Methods **/
@@ -290,14 +291,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 attributes: {
                     pageName: 'home'
                 }
-            });
+            })
         } else if (FORM_FACTOR == 'Large') {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
                     pageName: 'resources'
                 }
-            });
+            })
         } else {
             let resType;
             if (this.isMultimedia) {
@@ -315,8 +316,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 state: {
                     resType: resType
                 }
-            });
+            })
         }
+        this.publishResourceType(false);
     }
 
     handleFavourite() {
@@ -341,7 +343,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         );
     }
 
-    goBackToPrevPage(){
+    goBackToPrevPage() {
         window.history.back();
     }
 }

@@ -1,12 +1,14 @@
 <template>
+
+
+    
+
     <template if:false={isMobile}> 
     <div class="my-files">My Files</div>
     
     <lightning-layout   class="mob-upld-card-center">
-        <template if:true={isSaving}>
-            <lightning-spinner alternative-text="Loading..." variant="brand">
-            </lightning-spinner>
-        </template>
+       
+        <c-web-spinner class="main-spinner" fixed="true" show-spinner={isSaving}></c-web-spinner>
         <lightning-layout-item
             class="documentuploadempty"
             size={getsize}   >
@@ -40,9 +42,9 @@
             <span class="upload-new-document slds-show_medium">Upload New Document(s)</span>
            
             <div  if:true={Nofilesupload} class="uploadDivMain" >
-                <input onchange={handleFilesChange} type="file" class="fileInputclassEmptyouter" multiple></input>
+                <input onchange={handleFilesChange} type="file" title="browse files" class="fileInputclassEmptyouter" multiple></input>
                 <div class="upload-newdocument-boxNoFiles slds-align_absolute-center">
-                    <input onchange={handleFilesChange} type="file" class="fileInputclassEmptyinner" multiple></input>
+                    <input onchange={handleFilesChange} type="file" title="browse files" class="fileInputclassEmptyinner" multiple></input>
                     <div  class="dis-block">
                         <span class="center"
                             ><img src={uploadNewDocuments} class="upload-new-doc-img-size"
@@ -67,14 +69,49 @@
                     Your wait time may vary based on the number of files uploaded
                 </div>
             </div>
+
+            <!-- show modal popup preview-->
+            <template if:true={openmodel}>
+                <c-pp-modal
+                header-text={previewHeader}
+                size="default"
+                is-show="true"
+                onclose={closeModal}
+            >
+                <div slot="body">
+                    <div class="body-container">
+                        <span>
+                            <iframe
+                                style="
+                                    height: 400px;
+                                    width: 100%;
+                                    z-index: -999;
+                                "
+                                src={openfileUrl}
+                                frameborder="0"
+                            >
+                            </iframe>
+                        </span>
+                       
+                    </div>
+                </div>
+              
+            </c-pp-modal>
+
+              
+
+                <!-- pp modal -->
+              
+                    
+              </template> 
+
           <!-- Desktop upload View When files  available-->
             <div if:false={Nofilesupload} class="mainuploadclass">
-            <div class="upload-newdocument-boxfiles">
-
+             <div class="upload-newdocument-boxfiles">
                 <div class="fileHolder" data-id="browsediv">
-                    <input onchange={handleFilesChange} type="file" class="fileInput" multiple></input>
+                    <input onchange={handleFilesChange} type="file" title="browse files" class="fileInput" multiple></input>
                     <div class="fileBox slds-wrap">
-                       <div class="slds-size_full slds-m-top_large slds-align_absolute-center slds-p-top--small" > 
+                       <div class="slds-size_full slds-m-top--medium slds-align_absolute-center" > 
                         <img src={uploadNewDocuments} class="desk-upload-new-doc-img-size"/>
                        </div>
                        <div class="slds-size_full slds-m-top_small slds-align_absolute-center uploadLabeldrag">  
@@ -85,19 +122,20 @@
                        </div>
                         
                         <div class="center slds-m-left--medium slds-m-right--medium slds-m-top_medium uploadLabel">
-                            <span>{label.PP_acceptedformats}<b>{label.PP_AcceptedFileformats}</b></span>
+                            <span>{label.PP_acceptedformats}</span>
+                            <div><b>{label.PP_AcceptedFileformats}</b></div>
                         </div>
         
                         <div class="center uploadLabel">Maximum upload file size is <b>4MB</b></div> 
                        
                     </div>
-                </div>
+                  </div>
                 </div>
                         <div class="wait-time center">Your wait time may vary based on the number of files uploaded</div>
                         <div class="scrollableclass">
                         <template for:each={filesData} for:item="imgData" for:index="index">
-                            <div class="slds-grid slds-m-vertical_small filegrid" key={imgData.index}> 
-                                <div class="slds-truncate imgname slds-col slds-size_7-of-12" >
+                            <div if:false={imgData.isDeleted} class="slds-grid slds-m-vertical--x-small filegrid  " key={imgData.index}> 
+                                <div class="slds-truncate imgname imgNamedesk slds-col slds-size_6-of-12"  data-key={imgData.index}  >
                                    
                                         <template lwc:if={imgData.isNameReadOnly}>
                                             <span class="upld-file-txt" title={imgData.fileName}>
@@ -105,40 +143,49 @@
                                             </span>
                                         </template>
                                         <template lwc:else>
-                                            <span class="pld-file-txtinput" title={imgData.fileName}>
-                                            <lightning-input type="text" class="renameinputclass"  value={imgData.fileName} variant="label-hidden" data-key={imgData.index}
-                                            onblur={validateandsaveFileName}></lightning-input>
+                                            <span class="pld-file-txtinput deskinput" title={imgData.fileName}>
+                                            <lightning-input  tabindex="0" type="text" class=" " variant="label-hidden"  value={imgData.fileNameForEdit}  data-key={imgData.index}
+                                            onblur={validateandsaveFileName}> </lightning-input>
                                             </span>
+                                            <span if:true={imgData.isNameEmptyorNotValid} class="errorFileNameEmpty" >File name required </span>
+                                            <span if:true={imgData.fileNameTooLong} class="errorFileNameEmpty" > Limit input to 250 characters </span>
                                         </template> 
-
                                     <div if:false={imgData.isValid} class="errorMessage" title={imgData.ErrorMessage}>
                                         {imgData.ErrorMessage}
                                     </div>
                                 </div> 
-                                
-
-                                <div class="progressBar slds-col slds-size_4-of-12">
+                                <div class={imgData.progresBarClass}>
                                     <template lwc:if={imgData.isValid}> 
-                                        <div aria-valuemin="0" aria-valuemax="100" aria-valuenow={imgData.progress} aria-busy="true" role="progressbar" class="slds-progress-bar slds-progress-bar_large slds-progress-bar_circular">
+                                        <div if:false={imgData.error} class=" slds-progress-bar slds-progress-bar_large slds-progress-bar_circular " aria-valuemin="0" aria-valuemax="100" aria-valuenow={imgData.progress} aria-busy="true" role="progressbar"  >
                                         <span class="slds-progress-bar__value" style={imgData.progressWidth}></span> 
                                         </div> 
+                                        <div if:true={imgData.error} class="errorMessageProgress">
+                                            Upload Failed  
+                                        </div>
                                     </template>
                                  </div>
                                  <template if:false={imgData.UploadCompleted}>
-                                    <div class="slds-col slds-size_1-of-12 imagecss">
-                                        <lightning-icon icon-name='utility:clear' data-key={imgData.index} alternative-text='clear' size='xx-small' title='clear' onclick={removeFiles}></lightning-icon>
+                                    <div if:false={imgData.error} class="slds-col slds-size_1-of-12  imagecsscrossicon">
+                                        <lightning-icon icon-name='utility:clear'  title="Cancel" class="crossicon" data-key={imgData.index} aria-describedby="cancelbutton" 
+                                        alternative-text='Cancel' size='xx-small'  onclick={removeFiles}></lightning-icon>
                                     </div>
+                                    <span if:true={imgData.error}  class="slds-col slds-size_1-of-12 retryimageicon">
+                                        <div class="image-result crossicon" >
+                                            <lightning-icon icon-name='utility:loop'  title="Retry"  data-key={imgData.index}
+                                            alternative-text='Retry' size='x-small'  onclick={retryFiles}></lightning-icon>
+                                        </div>
+                                  </span>   
                                 </template>
 
                                 <template if:true={imgData.UploadCompleted}>  
                                     <template lwc:if={imgData.isValid}> 
-                                        <div class="slds-col slds-size_1-of-12 slds-dropdown-trigger slds-dropdown-trigger_click D imagecss"  onclick={showActionMenu}
+                                        <div class="slds-col slds-size_1-of-12 slds-dropdown-trigger imgcrossmbl slds-dropdown-trigger_click D imagecss imagecssDesk"  onclick={showActionMenu}
                                             tabindex="0"  onblur={closeMenu} data-key={imgData.index}>  
                                             <div aria-haspopup="true" aria-expanded="true"   tabindex="0" onblur={closeMenu} >
                                                 <img src={threedots_imgUrl} class="image-result" />
                                             </div> 
 
-                                            <div  class="slds-dropdown slds-dropdown_right  action-menu"  tabindex="0"  onblur={closeMenu}  >
+                                            <div  class="action-menu slds-dropdown slds-dropdown--x-small  slds-dropdown_right"  tabindex="0"  onblur={closeMenu} data-key={imgData.index} >
                                                 <ul class="slds-dropdown__list"  role="menu"  aria-label="Show More">
                                                     <template  for:each={popupActionItems}  for:item="citem" >
                                                     <li class="slds-dropdown__item popup-default"  role="presentation"  key={citem} >
@@ -154,27 +201,37 @@
                                         </div>
                                    </template>
                                    <template lwc:else>
-                                    <div class="slds-col slds-size_1-of-12 imagecss">
-                                        <lightning-icon icon-name='utility:clear' data-key={imgData.index} alternative-text='clear' size='xx-small' title='clear' onclick={removeFiles}></lightning-icon>
+                                  
+                                    <div class="slds-col slds-size_1-of-12 imagecsscrossiconinvalid"> 
+                                             
+                                                <lightning-icon icon-name='utility:clear' class="  crossicon" data-key={imgData.index}  
+                                                alternative-text='Cancel' size='xx-small'  title='Cancel' onclick={removeFiles}>
+                                                </lightning-icon>  
+                                       
                                     </div>
                                     </template>
                                 </template>
-                                  
+                                
                             </div>
+                             <span if:false={imgData.isDeleted} class="dividerfiles" key={imgData.index} ></span>
                          </template>
                         </div> 
-                       
+                       <div class="uplaodfilesbutton">
                         <div class="center uploadinfo slds-m-bottom_medium">Uploaded files may be shared with study team </div>
                         <span class="horizontal"></span>
                         <div class="upld-can-btn slds-m-around--medium">
-                            <span class="cancel-btn slds-m-right--small">
+                            <span class="cancel-btnDesk slds-m-right--small"  onclick={cancelFiles}>
                                 Cancel
-                            </span>
-                            <button class="std-upload-btn slds-m-horizontal_small">
-                            Upload
-                        </button>
+                            </span> 
+                            <button if:true={FileUploadPending} type="button" class="std-upload-btndisable slds-m-horizontal_small" disabled  >
+                                Upload
+                            </button>
+                            <button if:false={FileUploadPending} type="button" class="std-upload-btn slds-m-horizontal_small"  onclick={uploadFiles} >
+                                Upload
+                            </button>
+                        </div>
                     </div> 
-           
+                
             </div>
         </template>
     </lightning-layout-item>  
@@ -183,40 +240,51 @@
 
      <!-- Only Mob upload View -->
     <template if:true={isMobile}> 
-        <template if:true={isSaving}>
+        <!-- <template if:true={isSaving}>
             <lightning-spinner alternative-text="Loading..." variant="brand">
             </lightning-spinner>
-        </template>
-        <div class="my-filesmbl slds-m-around--small">My Files</div>
+        </template> -->
+        <c-web-spinner class="main-spinner" fixed="true" show-spinner={isSaving}></c-web-spinner>
+        <div  if:false={ShowuploadSection} class="my-filesmbl slds-m-around_small">My Files</div>
+          <template if:true={isCTPenableUpload}> 
+            <div if:false={ShowuploadSection} class="slds-col center uploadfileBtn slds-m-around_small  ">
+                    <button class="upload-newFile-btn" onclick={showfileUplaodSection}>
+                        <span class="upload-new-file-txt" >Upload New File</span>
+                    </button>
+            </div> 
+            </template>
         <lightning-layout multiple-rows class="mob-upld-card-center">
             <lightning-layout-item size="12" class="">
                 <div if:false={ShowuploadSection}>
-                    <c-ppdocment-view-page onreccountupdate={recCountUpdate} onpageswap={changePage} ongettotalrecord={handletotalrecord} onresetpagination={handleresetpagination} onresetpageonupdate={handleresetpageonupdate}   stop-spinner={stopSpinnerChild} >
+                    <c-ppdocment-view-page isctpenable-upload={isCTPenableUpload} onreccountupdate={recCountUpdate} onpageswap={changePage} 
+                    ongettotalrecord={handletotalrecord} onresetpagination={handleresetpagination} 
+                    onresetpageonupdate={handleresetpageonupdate}   stop-spinner={stopSpinnerChild} onshowuplaodsectionevent={showUploadSectiontoUser}>
                     
                     </c-ppdocment-view-page> 
                 </div>
             </lightning-layout-item>
-            <template if:true={isCTPenableUpload}> 
+            <!-- <template if:true={isCTPenableUpload}> 
             <div if:false={ShowuploadSection} class="slds-col center uploadfileBtn slds-m-top_large">
                     <button class="upload-newFile-btn" onclick={showfileUplaodSection}>
                         <span class="upload-new-file-txt" >Upload New Files</span>
                     </button>
             </div> 
-            </template>
+            </template> -->
             <template lwc:if={ShowuploadSection}> 
-                 <lightning-layout-item  size="12" class="mbllightninglayout">
+                 <lightning-layout-item  size="12"  >
         
-                 <div class="dis-block mob-upload-rectangle">
-                    <input onchange={handleFilesChange} type="file" class="fileInputMobile" multiple></input>
+                 <div class="dis-block mob-upload-rectangle mbllightninglayout">
+                    <input onchange={handleFilesChange} type="file"  title="browse files" class="fileInputMobile" multiple></input>
                     <span class="slds-m-top_large center">
                         <img src={uploadNewDocuments} class="mob-upload-new-doc-img-size"/>
                     </span>
                     <span class="center" >
-                        <span class="linkLabel"> <u>Browse files</u> </span>   
+                        <span class="linkLabelMbl"> <u>Browse files</u> </span>   
                     </span>
         
                     <div class="center slds-m-top--large  mob-margin">
-                        <span>{label.PP_acceptedformats} <b>{label.PP_AcceptedFileformats}</b></span>
+                        <span>{label.PP_acceptedformats} </span>
+                        <div><b>{label.PP_AcceptedFileformats}</b> </div>
                     </div>
         
                     <div class="center slds-m-bottom_small">Maximum upload file size is <b>4MB</b></div>
@@ -225,11 +293,11 @@
                         Your wait time may vary based on the number of files uploaded
                     </div>
                     <!-- Mob upload progress bar start -->
-                    <div class="upload-progress-scroll">
+                    <div class="upload-progress-scroll filesspace">
                         <template for:each={filesData} for:item="imgData" for:index="index">
         
                             <div class="slds-grid slds-m-top_medium" key={imgData.index}>
-                                <div class="slds-col slds-size_10-of-12 slds-p-left_medium">
+                                <div class="slds-col slds-size_10-of-12 slds-p-left--x-small">
                                     <template lwc:if={imgData.isNameReadOnly}>
                                         <div class="upld-file-txt slds-m-bottom_x-small">
                                             {imgData.fileName}
@@ -242,13 +310,13 @@
                                         </span>
                                     </template> 
                                     
-                                    <div class="progressBar  slds-col slds-size--1-of-1">
+                                    <div class="progressBarMbl  slds-col slds-size--1-of-1">
                                         <template lwc:if={imgData.isValid}> 
                                             <div aria-valuemin="0" aria-valuemax="100" aria-valuenow={imgData.progress} aria-busy="true" role="progressbar" class="slds-progress-bar slds-progress-bar_large slds-progress-bar_circular">
                                             <span class="slds-progress-bar__value" style={imgData.progressWidth}></span> 
                                             </div>
                                     </template>
-                                        <div if:false={imgData.isValid} class="errorMessage" title={imgData.ErrorMessage}>
+                                        <div if:false={imgData.isValid} class="errorMessageMbl" title={imgData.ErrorMessage}>
                                             {imgData.ErrorMessage}
                                         </div>
                                     </div>
@@ -256,8 +324,8 @@
                                 </div>
         
                                 <template if:false={imgData.UploadCompleted}>
-                                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
-                                        <lightning-icon icon-name='utility:clear' data-key={imgData.index} alternative-text='clear' size='xx-small' title='clear' onclick={removeFiles}></lightning-icon>
+                                    <div class="slds-col center slds-align-middle slds-size_2-of-12 imgcrossmbl">
+                                        <lightning-icon icon-name='utility:clear' data-key={imgData.index} alternative-text='Cancel' size='x-small' title='Cancel' onclick={removeFiles}></lightning-icon>
                                     </div>
                                 </template>
         
@@ -285,8 +353,8 @@
                                         </div>
                                    </template>
                                    <template lwc:else>
-                                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
-                                        <lightning-icon icon-name='utility:clear' data-key={imgData.index} alternative-text='clear' size='xx-small' title='clear' onclick={removeFiles}></lightning-icon>
+                                    <div class="slds-col center slds-align-middle slds-size_2-of-12 imgcrossmbl">
+                                        <lightning-icon icon-name='utility:clear' data-key={imgData.index} alternative-text='Cancel' size='x-small' title='Cancel' onclick={removeFiles}></lightning-icon>
                                     </div>
                                     </template>
                                 </template> 
@@ -307,12 +375,12 @@
                 </div>
                     <!-- Mob upload progress bar end -->
         
-                    <div class="slds-grid slds-wrap  btn-position">
+                    <div class="slds-grid slds-wrap  btn-position mbllightninglayout">
                         <div class="slds-col slds-size--1-of-1 uploadshare center slds-m-bottom--large" > 
-                            Upload may be share with study team 
+                            Uploaded files may be shared with study team 
                         </div>  
                         <div class="slds-col slds-size--4-of-12">
-                            <span><button class="cancel-btn">Cancel</button></span>
+                            <span class="cancelBtnmbl"><button class="cancel-btn">Cancel</button></span>
                         </div>
                         <div class="slds-col slds-size--8-of-12">
                             <span><button class="upload-btn">Upload</button></span>

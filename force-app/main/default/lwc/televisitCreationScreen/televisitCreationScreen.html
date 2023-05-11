@@ -316,7 +316,7 @@
                                                 <button title=""
                                                     class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn"
                                                     data-id="Update" onclick={submitDetails}
-                                                    disabled={disableSaveButton}> Update </button>
+                                                    disabled={disableSaveButton}> {label.Update} </button>
                                             </template>
                                         </div>
                                     </div>
@@ -363,12 +363,12 @@
                                         <lightning-layout-item>
                                             <lightning-button-menu onselect={handleOnselect} menu-alignment="auto">
                                                 <!--data-starttime={tv.startTime}-->
-                                                <lightning-menu-item value="Edit" label="Edit" data-id={tv.id}
+                                                <lightning-menu-item value={label.Edit} label={label.Edit} data-id={tv.id}
                                                     data-title={tv.title} data-visitdate={tv.visitDate}
                                                     data-starttime={tv.startTime} data-visitdatetime={tv.visitDateTime}
                                                     data-duration={tv.duration} data-attendeeslist={tv.attendeesList}
                                                     onclick={openModal}></lightning-menu-item>
-                                                <lightning-menu-item value="Cancel" label="Cancel" data-id={tv.id}
+                                                <lightning-menu-item value={label.Cancel} label={label.Cancel} data-id={tv.id}
                                                     onclick={openCancelModal}></lightning-menu-item>
                                             </lightning-button-menu>
                                         </lightning-layout-item>

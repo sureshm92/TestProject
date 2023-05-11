@@ -302,7 +302,7 @@ public inherited sharing class ModifiedVisitResultsService {
                 Status__c
             FROM Patient_Visit__c
             WHERE Participant_Enrollment__c = :ParticipantContext.getCurrentPEId()
-            ORDER BY Visit_Number__c, Completed_Date__c
+            ORDER BY Completed_Date__c NULLS FIRST, Visit_Number__c
         ];
     }
     public Boolean isOnStudy() {

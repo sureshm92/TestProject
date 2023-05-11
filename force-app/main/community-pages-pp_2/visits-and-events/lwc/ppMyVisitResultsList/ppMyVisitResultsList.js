@@ -7,26 +7,40 @@ import desktopTemplate from './ppMyVisitResultsList.html';
 import PP_ICONS from '@salesforce/resourceUrl/pp_community_icons';
 import getPatientVisitsWithResults from '@salesforce/apex/ModifiedVisitResultsRemote.getInitDataForVisitResultsModified';
 import NO_RESULTS_MESSAGE from '@salesforce/label/c.PG_VP_L_No_Items_display';
+import NOT_AVAILABLE from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
 
 export default class PpMyVisitResultsList extends LightningElement {
     @track completedVisitsWithResults;
     showSpinner = true;
+    showResultSpinner;
     @api currentVisitId;
     urlString;
+    patientVisitWrapper;
+    @track currentVisit;
+    @track showResults;
+    @track onLoad;
 
     NO_RESULTS_AVAILABLE = PP_ICONS + '/' + 'results_Illustration.svg';
     userTimezone = TIME_ZONE;
 
     labels = {
-        NO_RESULTS_MESSAGE
+        NO_RESULTS_MESSAGE,
+        NOT_AVAILABLE
     };
 
     connectedCallback() {
         this.urlString = window.location.href;
         if (window.location.href.includes('pvId')) {
             this.currentVisitId = communityService.getUrlParameter('pvId');
+            if(!this.isDesktop){
+                const custEvent = new CustomEvent('visitclick', {
+                    detail: false
+                });
+                this.dispatchEvent(custEvent);
+            }
         }
-        this.initiazeData();
+        this.onLoad = true;
+        this.initializeData();
     }
 
     get isDesktop() {
@@ -67,16 +81,29 @@ export default class PpMyVisitResultsList extends LightningElement {
         this.handleVisitChangeCSS();
     }
 
-    initiazeData() {
-        this.showSpinner = true;
+    initializeData() {
+        if (this.onLoad) this.showSpinner = true;
         getPatientVisitsWithResults()
             .then((patientVisitWrapper) => {
+                this.patientVisitWrapper = patientVisitWrapper;
                 this.completedVisitsWithResults = patientVisitWrapper.patientVisitsWithResultsList;
-                if (this.completedVisitsWithResults && !this.currentVisitId) {
+                if (this.completedVisitsWithResults && !this.currentVisitId && this.isDesktop) {
                     this.currentVisitId = this.completedVisitsWithResults[0]?.Id;
+                    this.currentVisit = this.completedVisitsWithResults[0];
+                } else if (this.currentVisitId) {
+                    for (let i = 0; i < this.completedVisitsWithResults.length; i++) {
+                        if (this.completedVisitsWithResults[i].Id == this.currentVisitId) {
+                            this.currentVisit = this.completedVisitsWithResults[i];
+                            break;
+                        }
+                    }
                 }
-                //pass currentVisitId and patientVisitWrapper to jayashree component
-                this.showSpinner = false;
+
+                if (this.onLoad) this.showSpinner = false;
+                if (this.showResultSpinner) {
+                    this.showResultSpinner = false;
+                }
+                this.showResults = true;
             })
             .catch((error) => {
                 console.error(error);
@@ -100,19 +127,40 @@ export default class PpMyVisitResultsList extends LightningElement {
 
     onVisitSelect(event) {
         this.currentVisitId = event.currentTarget.dataset.id;
+        this.onLoad = false;
+        this.showResultSpinner = true;
+        this.initializeData();
         this.handleVisitChangeCSS();
+        this.showResults = false;
         if (this.isMobile || this.isTablet) {
             //show user the results values if available
             window.history.replaceState(null, null, '?vrlist&pvId=' + this.currentVisitId);
             this.urlString = window.location.href;
+            const custEvent = new CustomEvent('visitclick', {
+                detail: false
+            });
+            this.dispatchEvent(custEvent);
         }
-        //pass info to jayashree's components to show visit results
     }
 
     handleBackToVisitList() {
         if (this.isMobile || this.isTablet) {
-            window.history.replaceState(null, null, '?vrlist');
+            window.history.replaceState(null, null, '?vrlistHome');
             this.urlString = window.location.href;
+            this.currentVisit = '';
+            this.currentVisitId = '';
+            if(window.location.href.includes('pvId')){
+                const custEvent = new CustomEvent('visitclick', {
+                    detail: false
+                });
+                this.dispatchEvent(custEvent);
+            }else{
+                const custEvent = new CustomEvent('visitclick', {
+                    detail: true
+                });
+                this.dispatchEvent(custEvent);
+            }
+           
         }
     }
 }

@@ -1,9 +1,20 @@
 <template>
     <!--Results Page Parent Container-->
-    <div class="my-results">{label.myResults}</div>
+    <template lwc:if={isDesktop}>
+        <div class={resultClassDesktop}>{label.myResults}</div>
+    </template>
+    <template lwc:elseif={isTablet}>
+        <div class={resultClassTablet}>{label.myResults}</div></template
+    >
+    <template lwc:elseif={isMobile}>
+        <div class={resultClassMobile}>{label.myResults}</div></template
+    >
+
     <div class="slds-grid slds-wrap slds-gutters">
         <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-2 slds-large-size_12-of-12">
-            <c-pp-my-visit-results-list></c-pp-my-visit-results-list>
+            <c-pp-my-visit-results-list
+                onvisitclick={handleShowResultsHeader}
+            ></c-pp-my-visit-results-list>
         </div>
     </div>
 </template>
