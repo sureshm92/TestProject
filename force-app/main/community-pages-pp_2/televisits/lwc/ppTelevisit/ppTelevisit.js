@@ -73,7 +73,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
             this.showupcomingtelevisits = true;
         }            
     }
-    gettelevisitdetails(){
+    gettelevisitdetails(isPast){
         getParticipantDetails({joinbuttonids : null})
         .then((result) => {
             if(result != undefined && result != '' &&
@@ -87,7 +87,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
                 if(this.upcomingTelevisitslist.length == 0){
                     this.showblankupcomingtelevisits = true;
                 }
-                if(result.showDefault == 'upcoming'){
+                if(result.showDefault == 'upcoming' && isPast !=true){
                     this.past = false;
                     this.showupcomingtelevisits = true; 
                 }else{
@@ -110,7 +110,11 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     }
     connectedCallback() {
         DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
-        this.gettelevisitdetails();
+        if (communityService.getUrlParameter('ispast') === 'true') {
+            this.gettelevisitdetails(true);
+        }else{
+            this.gettelevisitdetails();
+        }
     }
     redircttohomepage(){
         window.open(window.location.origin + '/pp/s/',"_self");
