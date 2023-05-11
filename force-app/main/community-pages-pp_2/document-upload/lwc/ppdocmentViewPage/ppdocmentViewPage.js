@@ -4,6 +4,18 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import fetchUploadedFiles from '@salesforce/apex/ppFileUploadController.fetchUploadedFiles';
 import fetchMessageFiles from '@salesforce/apex/ppFileUploadController.fetchMessageFiles';
 import deleteFile from '@salesforce/apex/ppFileUploadController.deleteFile';
+import PP_Resource_Documents from '@salesforce/label/c.PP_Resource_Documents';
+import Resource_Title from '@salesforce/label/c.Resource_Title';
+import PP_Sort from '@salesforce/label/c.PP_Sort';
+import File_Type from '@salesforce/label/c.File_Type';
+import PP_UploadDate from '@salesforce/label/c.PP_UploadDate';
+import TV_TH_Date from '@salesforce/label/c.TV_TH_Date';
+import PIR_Download from '@salesforce/label/c.PIR_Download';
+import pir_Delete_Btn from '@salesforce/label/c.pir_Delete_Btn';
+import PP_DeleteFile from '@salesforce/label/c.PP_DeleteFile';
+import PP_DeleteConfirmation from '@salesforce/label/c.PP_DeleteConfirmation';
+import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
+import No_Documents_Available from '@salesforce/label/c.No_Documents_Available';
 import formFactor from '@salesforce/client/formFactor';
 import profileTZ from '@salesforce/i18n/timeZone';
 
@@ -42,6 +54,23 @@ export default class ppdocmentViewPage extends NavigationMixin(LightningElement)
     resetPagination = false;
     filePreview = '../apex/MedicalHistoryPreviewVF?resourceId=+';
     sharedFiles = false;
+
+    label = {
+        PP_Resource_Documents,
+        Resource_Title,
+        PP_Sort,
+        File_Type,
+        PP_UploadDate,
+        TV_TH_Date,
+        PIR_Download,
+        pir_Delete_Btn,
+        PP_DeleteFile,
+        PP_DeleteConfirmation,
+        BTN_Cancel,
+        pir_Delete_Btn,
+        No_Documents_Available
+      }
+      
     get timeZone() {
         return profileTZ;
     }

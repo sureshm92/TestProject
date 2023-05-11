@@ -2,7 +2,7 @@
     <!-- Desktop table  Start here  -->
     <template if:false={isMobile}>
         <!-- <lightning-layout-item size="12" large-device-size="8" medium-device-size="12"> -->
-        <span class="document slds-show_medium">Documents</span>
+        <span class="document slds-show_medium">{label.PP_Resource_Documents}</span>
         <c-web-spinner class="main-spinner" fixed="true" show-spinner={isSaving}></c-web-spinner>
         <div class="document-boxDesk pir-parent pp-doc">
             <div class="section-padding all-tabs slds-show_medium">
@@ -72,11 +72,11 @@
                                                 >
                                                     <div
                                                         class="table-header-label slds-truncate pptablewidth cuPointer sort-onhover"
-                                                        title="Title"
+                                                        title={label.Resource_Title}
                                                         onclick={sortByTitle}
                                                         data-id="title"
                                                     >
-                                                        <span class="boldfont"> Title </span>
+                                                        <span class="boldfont"> {label.Resource_Title} </span>
                                                         <template if:true={showArrowTitle}>
                                                             <span class="bgc">
                                                                 <lightning-icon
@@ -93,7 +93,7 @@
                                                                 class="iconMargin"
                                                                 icon-name="utility:arrowup"
                                                                 size="xx-small"
-                                                                title="Sort"
+                                                                title={label.PP_Sort}
                                                             >
                                                             </lightning-icon>
                                                         </template>
@@ -102,7 +102,7 @@
                                                                 class="iconMargin"
                                                                 icon-name="utility:arrowdown"
                                                                 size="xx-small"
-                                                                title="Sort"
+                                                                title={label.PP_Sort}
                                                             >
                                                             </lightning-icon>
                                                         </template>
@@ -114,11 +114,11 @@
                                                 >
                                                     <div
                                                         class="table-header-label slds-truncate bgc cuPointer fileTypealign sort-onhover"
-                                                        title="File Type"
+                                                        title={label.File_Type}
                                                         onclick={sortByType}
                                                         data-id="fileType"
                                                     >
-                                                        <span class="boldfont"> File Type </span>
+                                                        <span class="boldfont"> {label.File_Type} </span>
                                                         <template if:true={showArrowType}>
                                                             <span class="bgc">
                                                                 <lightning-icon
@@ -136,7 +136,7 @@
                                                                     class="iconMargin"
                                                                     icon-name="utility:arrowup"
                                                                     size="xx-small"
-                                                                    title="Sort"
+                                                                    title={label.PP_Sort}
                                                                 >
                                                                 </lightning-icon>
                                                             </span>
@@ -148,7 +148,7 @@
                                                                     class="iconMargin"
                                                                     icon-name="utility:arrowdown"
                                                                     size="xx-small"
-                                                                    title="Sort"
+                                                                    title={label.PP_Sort}
                                                                 >
                                                                 </lightning-icon>
                                                             </span>
@@ -161,11 +161,11 @@
                                                 >
                                                     <div
                                                         class="table-header-label slds-truncate cuPointer UploadedDateAlign sort-onhover"
-                                                        title="Upload Date"
+                                                        title={label.PP_UploadDate}
                                                         onclick={sortByDate}
                                                         data-id="createdDate"
                                                     >
-                                                        <span class="boldfont"> Upload Date </span>
+                                                        <span class="boldfont"> {label.PP_UploadDate} </span>
                                                         <template if:true={showArrowDate}>
                                                             <span class="bgc">
                                                                 <lightning-icon
@@ -182,7 +182,7 @@
                                                                 class="iconMargin C"
                                                                 icon-name="utility:arrowup"
                                                                 size="xx-small"
-                                                                title="Sort"
+                                                                title={label.PP_Sort}
                                                             >
                                                             </lightning-icon>
                                                         </template>
@@ -191,7 +191,7 @@
                                                                 class="iconMargin C"
                                                                 icon-name="utility:arrowdown"
                                                                 size="xx-small"
-                                                                title="Sort"
+                                                                title={label.PP_Sort}
                                                             >
                                                             </lightning-icon>
                                                         </template>
@@ -279,8 +279,8 @@
                                                                     <lightning-icon
                                                                         icon-name="utility:download"
                                                                         size="x-small"
-                                                                        alternative-text="Download"
-                                                                        title="Download"
+                                                                        alternative-text={label.PIR_Download}
+                                                                        title={label.PIR_Download}
                                                                     >
                                                                     </lightning-icon>
                                                                 </a>
@@ -297,8 +297,8 @@
                                                                         data-id={b.Id}
                                                                         icon-name="utility:delete"
                                                                         size="x-small"
-                                                                        alternative-text="Delete"
-                                                                        title="Delete"
+                                                                        alternative-text={label.pir_Delete_Btn}
+                                                                        title={label.pir_Delete_Btn}
                                                                     >
                                                                     </lightning-icon>
                                                                 </div>
@@ -340,11 +340,11 @@
                                                 >
                                                     <div
                                                         class="table-header-label slds-truncate pptablewidth cuPointer sort-onhover"
-                                                        title="Title"
+                                                        title={label.Resource_Title}
                                                         onclick={sortByMsgTitle}
                                                         data-id="title"
                                                     >
-                                                        <span class="boldfont"> Title </span>
+                                                        <span class="boldfont"> {label.Resource_Title} </span>
                                                         <template if:true={showArrowTitleMsg}>
                                                             <span class="bgc-msg">
                                                                 <lightning-icon
@@ -361,7 +361,7 @@
                                                                 class="iconMargin"
                                                                 icon-name="utility:arrowup"
                                                                 size="xx-small"
-                                                                title="Sort"
+                                                                title={label.PP_Sort}
                                                             >
                                                             </lightning-icon>
                                                         </template>
@@ -370,7 +370,7 @@
                                                                 class="iconMargin"
                                                                 icon-name="utility:arrowdown"
                                                                 size="xx-small"
-                                                                title="Sort"
+                                                                title={label.PP_Sort}
                                                             >
                                                             </lightning-icon>
                                                         </template>
@@ -382,11 +382,11 @@
                                                 >
                                                     <div
                                                         class="table-header-label slds-truncate cuPointer sort-onhover"
-                                                        title="File Type"
+                                                        title={label.File_Type}
                                                         onclick={sortByMsgType}
                                                         data-id="fileType"
                                                     >
-                                                        <span class="boldfont"> File Type </span>
+                                                        <span class="boldfont"> {label.File_Type} </span>
                                                         <template if:true={showArrowTypeMsg}>
                                                             <span class="bgc-msg">
                                                                 <lightning-icon
@@ -404,7 +404,7 @@
                                                                     class="iconMargin"
                                                                     icon-name="utility:arrowup"
                                                                     size="xx-small"
-                                                                    title="Sort"
+                                                                    title={label.PP_Sort}
                                                                 >
                                                                 </lightning-icon>
                                                             </span>
@@ -416,7 +416,7 @@
                                                                     class="iconMargin"
                                                                     icon-name="utility:arrowdown"
                                                                     size="xx-small"
-                                                                    title="Sort"
+                                                                    title={label.PP_Sort}
                                                                 >
                                                                 </lightning-icon>
                                                             </span>
@@ -429,11 +429,11 @@
                                                 >
                                                     <div
                                                         class="table-header-label slds-truncate cuPointer sort-onhover"
-                                                        title="Date"
+                                                        title={label.TV_TH_Date}
                                                         onclick={sortByMsgDate}
                                                         data-id="createdDate"
                                                     >
-                                                        <span class="boldfont"> Date </span>
+                                                        <span class="boldfont">  {label.TV_TH_Date} </span>
                                                         <template if:true={showArrowDateMsg}>
                                                             <span class="bgc-msg">
                                                                 <lightning-icon
@@ -450,7 +450,7 @@
                                                                 class="iconMargin C"
                                                                 icon-name="utility:arrowup"
                                                                 size="xx-small"
-                                                                title="Sort"
+                                                                title={label.PP_Sort}
                                                             >
                                                             </lightning-icon>
                                                         </template>
@@ -459,7 +459,7 @@
                                                                 class="iconMargin C"
                                                                 icon-name="utility:arrowdown"
                                                                 size="xx-small"
-                                                                title="Sort"
+                                                                title={label.PP_Sort}
                                                             >
                                                             </lightning-icon>
                                                         </template>
@@ -536,8 +536,8 @@
                                                                     <lightning-icon
                                                                         icon-name="utility:download"
                                                                         size="x-small"
-                                                                        alternative-text="Download"
-                                                                        title="Download"
+                                                                        alternative-text={label.PIR_Download}
+                                                                        title={label.PIR_Download}
                                                                     >
                                                                     </lightning-icon>
                                                                 </a>
@@ -562,7 +562,7 @@
                         <span class="center"
                             ><img src={noDocumentAvailable} class="no-doc-img-size"
                         /></span>
-                        <span class="no-doc-txt slds-m-top_medium">No documents available</span>
+                        <span class="no-doc-txt slds-m-top_medium">{label.No_Documents_Available}</span>
                     </div>
                 </div>
             </template>
@@ -934,7 +934,7 @@
                         <span class="center"
                             ><img src={noDocumentAvailable} class="no-doc-img-size"
                         /></span>
-                        <span class="no-doc-txt slds-m-top_medium">No documents available</span>
+                        <span class="no-doc-txt slds-m-top_medium">{label.No_Documents_Available}</span>
                     </div>
                 </div>
             </template>
