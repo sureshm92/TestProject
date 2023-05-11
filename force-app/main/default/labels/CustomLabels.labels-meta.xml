@@ -20335,6 +20335,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I do not want to receive emails (not applicable to system emails or messages sent in response to specific user request, e.g.: password reset email) from IQVIA Patient Portal</value>
     </labels>
     <labels>
+        <fullName>PP_DragFiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_DragFiles</shortDescription>
+        <value>Drag and drop your files</value>
+    </labels>
+    <labels>
         <fullName>PP_DueDateandTime</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -22601,6 +22608,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP_future_date_error_month</shortDescription>
         <value>Value must be current month or earlier</value>
+    </labels>
+     <labels>
+        <fullName>PP_or_smallcase</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_or_smallcase</shortDescription>
+        <value>or</value>
     </labels>
     <labels>
         <fullName>PP_required</fullName>
