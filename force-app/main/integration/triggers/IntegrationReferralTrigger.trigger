@@ -8,5 +8,8 @@ trigger IntegrationReferralTrigger on Integration_Patient_Referral__c(
             //IntegrationPatientReferralTriggerHandler.CheckRequiredFieldsAndUpsertParticipantAndPEHandler.class
             IprEprTriggerHandler.CheckRequiredFieldsAndUpsertParticipantAndPEHandler.class
         );
+        TriggerHandlerExecutor.execute(
+            IprEprTriggerHandler.participantMinorCheck.class
+        );
     
 }
