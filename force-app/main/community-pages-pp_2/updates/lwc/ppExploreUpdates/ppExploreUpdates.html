@@ -1,7 +1,7 @@
 <template>
     <template if:false={desktop}>
         <div class="slds-grid slds-wrap card-border" onclick={navigateResourceDetail}>
-            <div class="slds-col slds-size_2-of-6 card-element">
+            <div class={cardElement}>
                 <template if:false={noExploreImage}>
                     <img
                         class="explore-image"
@@ -19,7 +19,7 @@
                 </div>
                 <div></div>
             </div>
-            <div class="slds-col slds-size_4-of-6 card-data-element">
+            <div class={cardDataElement}>
                 <div class="slds-grid slds-wrap title-section-mobile slds-truncate">
                     <p class="document-label" title={exploreData.title}>{exploreData.title}</p>
                 </div>
