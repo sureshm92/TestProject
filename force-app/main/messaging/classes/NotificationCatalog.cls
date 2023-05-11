@@ -158,4 +158,5 @@ public without sharing class NotificationCatalog {
     public static final String UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE = 'Update_to_PT_New_Visit_Result';
     public static final String UPDATE_TO_PT_TELEVISIT_SCHEDULED = 'Update_to_PT_Televisit_Scheduled';
     public static final String UPDATE_TO_PT_TELEVISIT_RESCHEDULED = 'Update_to_PT_Televisit_Rescheduled';
+    public static final String UPDATE_TO_PT_TELEVISIT_CANCELED = 'Update_to_PT_Televisit_Canceled';
 }
