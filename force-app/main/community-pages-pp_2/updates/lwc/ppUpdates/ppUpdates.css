@@ -1,6 +1,7 @@
 .position-container {
     position: relative;
     height: 100%;
+    margin: auto;
 }
 
 .card-wrap {
