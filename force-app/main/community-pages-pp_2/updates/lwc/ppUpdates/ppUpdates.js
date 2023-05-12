@@ -73,6 +73,13 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             return '99+';
         }
     }
+    get compContainer() {
+        if (DEVICE == 'Medium') {
+            return 'position-container update-container slds-size_4-of-6';
+        } else {
+            return 'position-container update-container';
+        }
+    }
     renderedCallback() {
         if (!this.isRendered) {
             this.isRendered = true;

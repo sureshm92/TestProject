@@ -92,21 +92,21 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
             }
         }
         if (!resIds.isEmpty()) {
-        List<ContentDocumentLink> contentDocumentLinks = [
-            SELECT
-                Id,
-                LinkedEntityId,
-                ContentDocument.Title,
-                ContentDocument.LatestPublishedVersion.LanguageCode__c
-            FROM ContentDocumentLink
-            WHERE LinkedEntityId IN :resIds
-        ];
-        for (ContentDocumentLink content : contentDocumentLinks) {
-            if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
-                contentLangByResId.put(content.LinkedEntityId, new List<String>());
-            }
-            contentLangByResId.get(content.LinkedEntityId)
-                .add(content.ContentDocument.LatestPublishedVersion.LanguageCode__c);
+            List<ContentDocumentLink> contentDocumentLinks = [
+                SELECT
+                    Id,
+                    LinkedEntityId,
+                    ContentDocument.Title,
+                    ContentDocument.LatestPublishedVersion.LanguageCode__c
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId IN :resIds
+            ];
+            for (ContentDocumentLink content : contentDocumentLinks) {
+                if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
+                    contentLangByResId.put(content.LinkedEntityId, new List<String>());
+                }
+                contentLangByResId.get(content.LinkedEntityId)
+                    .add(content.ContentDocument.LatestPublishedVersion.LanguageCode__c);
             }
         }
         Map<Id, List<String>> resIdsByContactId = new Map<Id, List<String>>();
@@ -123,7 +123,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
         Map<Id, List<Contact>> delContactsByParticipant = PatientDelegateEnrollmentService.getDelegatedCntsByPe(
             peIds,
             new List<String>{ 'Id', 'userCommunityMode__c', 'Resource_Notifications__c' }
-            
         );
 
         for (Participant_Enrollment__c pe : pelist) {
@@ -135,8 +134,8 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
 
             for (Res_study__c res : studyResourcesList) {
                 if (pe.Clinical_Trial_Profile__c == res.Clinical_Trial_Profile__c) {
-                for (Contact contact : peContacts) {
-                    Boolean isDelegate = pe.Participant_Contact__c != contact.Id;
+                    for (Contact contact : peContacts) {
+                        Boolean isDelegate = pe.Participant_Contact__c != contact.Id;
                         if (
                             (contact.userCommunityMode__c == null) ||
                             (!pe.Participant__r.Has_Studies_In_Progress__c &&
@@ -147,99 +146,100 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                         )
                             continue;
 
-                    if (
-                        StudyResourceVisibilityService.isResourceVisibleForPE(
-                            res,
-                            pe,
-                            contentLangByResId.get(res.Resource__c),
-                            contact.userCommunityMode__c,
-                            isDelegate
-                        )
-                    ) {
-                        if (needNotify(contact, res.Resource__c)) {
-                            contactToNotify.add(contact);
-                            if (
-                                res.Resource__r.document_type__c == 'Document' &&
-                                res.Notify_On_Availability__c
-                            ) {
-                                notifications.add(
-                                    new Notification__c(
-                                        Recipient__c = contact.Id,
-                                        WhatId__c = pe.Id,
-                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_TYPE,
-                                            Target_Record_Ids__c = '' + res.Id
-                                    )
-                                );
-                            }
+                        if (
+                            StudyResourceVisibilityService.isResourceVisibleForPE(
+                                res,
+                                pe,
+                                contentLangByResId.get(res.Resource__c),
+                                contact.userCommunityMode__c,
+                                isDelegate
+                            )
+                        ) {
+                            if (needNotify(contact, res.Resource__c)) {
+                                contactToNotify.add(contact);
+                                if (
+                                    res.Resource__r.document_type__c == 'Document' &&
+                                    res.Notify_On_Availability__c
+                                ) {
+                                    notifications.add(
+                                        new Notification__c(
+                                            Recipient__c = contact.Id,
+                                            WhatId__c = pe.Id,
+                                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_TYPE,
+                                            Target_Record_Ids__c = '' + res.Id,
+                                            IsDelegate__c = isdelegate
+                                        )
+                                    );
+                                }
 
                                 if (
                                     pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
                                     CommunityTemplateService.TEMPLATE_PP && !isDelegate
                                 ) {
-                            if (res.Resource__r.Content_Type__c == 'Study_Document') {
-                                notifications.add(
-                                    new Notification__c(
-                                        Recipient__c = contact.Id,
-                                        WhatId__c = pe.Id,
-                                        Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_DOC_TYPE,
-                                            Target_Record_Ids__c = '' + res.Id
-                                    )
-                                );
-                            }
-                            if (res.Resource__r.Content_Type__c == 'Article') {
-                                //Insert the notification for article
-                                notifications.add(
-                                    new Notification__c(
-                                        Recipient__c = contact.Id,
-                                        WhatId__c = pe.Id,
-                                        Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_ARTICLE_TYPE,
-                                            Target_Record_Ids__c = '' + res.Id
-                                    )
-                                );
-                            }
-                            if (res.Resource__r.Content_Type__c == 'Video') {
-                                //Insert the notification for article
-                                notifications.add(
-                                    new Notification__c(
-                                        Recipient__c = contact.Id,
-                                        WhatId__c = pe.Id,
-                                        Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_VIDEO_TYPE,
-                                            Target_Record_Ids__c = '' + res.Id
-                                    )
-                                );
-                            }
-                            if (res.Resource__r.Content_Type__c == 'Relevant_Link') {
-                                //insert the notification for relevant link
-                                notifications.add(
-                                    new Notification__c(
-                                        Recipient__c = contact.Id,
-                                        WhatId__c = pe.Id,
-                                        Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_LINK_TYPE,
-                                            Target_Record_Ids__c = '' + res.Id
-                                    )
-                                );
-                            }
-                            if (res.Resource__r.Content_Type__c == 'Multimedia') {
-                                //insert the notification for relevant link
-                                notifications.add(
-                                    new Notification__c(
-                                        Recipient__c = contact.Id,
-                                        WhatId__c = pe.Id,
-                                        Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_MULTIMEDIA_TYPE,
-                                            Target_Record_Ids__c = '' + res.Id
-                                    )
-                                );
-                            }
+                                    if (res.Resource__r.Content_Type__c == 'Study_Document') {
+                                        notifications.add(
+                                            new Notification__c(
+                                                Recipient__c = contact.Id,
+                                                WhatId__c = pe.Id,
+                                                Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_DOC_TYPE,
+                                                Target_Record_Ids__c = '' + res.Id
+                                            )
+                                        );
+                                    }
+                                    if (res.Resource__r.Content_Type__c == 'Article') {
+                                        //Insert the notification for article
+                                        notifications.add(
+                                            new Notification__c(
+                                                Recipient__c = contact.Id,
+                                                WhatId__c = pe.Id,
+                                                Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_ARTICLE_TYPE,
+                                                Target_Record_Ids__c = '' + res.Id
+                                            )
+                                        );
+                                    }
+                                    if (res.Resource__r.Content_Type__c == 'Video') {
+                                        //Insert the notification for article
+                                        notifications.add(
+                                            new Notification__c(
+                                                Recipient__c = contact.Id,
+                                                WhatId__c = pe.Id,
+                                                Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_VIDEO_TYPE,
+                                                Target_Record_Ids__c = '' + res.Id
+                                            )
+                                        );
+                                    }
+                                    if (res.Resource__r.Content_Type__c == 'Relevant_Link') {
+                                        //insert the notification for relevant link
+                                        notifications.add(
+                                            new Notification__c(
+                                                Recipient__c = contact.Id,
+                                                WhatId__c = pe.Id,
+                                                Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_LINK_TYPE,
+                                                Target_Record_Ids__c = '' + res.Id
+                                            )
+                                        );
+                                    }
+                                    if (res.Resource__r.Content_Type__c == 'Multimedia') {
+                                        //insert the notification for relevant link
+                                        notifications.add(
+                                            new Notification__c(
+                                                Recipient__c = contact.Id,
+                                                WhatId__c = pe.Id,
+                                                Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_MULTIMEDIA_TYPE,
+                                                Target_Record_Ids__c = '' + res.Id
+                                            )
+                                        );
+                                    }
                                 }
 
-                            if (!resIdsByContactId.containsKey(contact.Id)) {
-                                List<String> resNotificationIds = contact.Resource_Notifications__c !=
-                                    null
-                                    ? contact.Resource_Notifications__c.split(';')
-                                    : new List<String>();
-                                resIdsByContactId.put(contact.Id, resNotificationIds);
-                            }
-                            resIdsByContactId.get(contact.Id).add(res.Resource__c);
+                                if (!resIdsByContactId.containsKey(contact.Id)) {
+                                    List<String> resNotificationIds = contact.Resource_Notifications__c !=
+                                        null
+                                        ? contact.Resource_Notifications__c.split(';')
+                                        : new List<String>();
+                                    resIdsByContactId.put(contact.Id, resNotificationIds);
+                                }
+                                resIdsByContactId.get(contact.Id).add(res.Resource__c);
                             }
                         }
                     }
