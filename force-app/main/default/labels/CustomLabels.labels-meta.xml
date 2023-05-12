@@ -20297,6 +20297,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delete File</value>
     </labels>
     <labels>
+        <fullName>PP_DeletedSucesfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_DeletedSucesfully</shortDescription>
+        <value>File deleted succesfully</value>
+    </labels>
+    <labels>
         <fullName>PP_Details</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20567,6 +20574,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_File_Size_Exceeded</shortDescription>
         <value>File size cannot exceed 3MB.</value>
     </labels>
+     <labels>
+        <fullName>PP_Fileremovedsuccesfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Fileremovedsuccesfully</shortDescription>
+        <value>File removed succesfully</value>
+    </labels>
+    <labels>
+        <fullName>PP_Filerenamedsuccesfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Filerenamedsuccesfully</shortDescription>
+        <value>File renamed succesfully</value>
+    </labels>
     <labels>
         <fullName>PP_FirstName</fullName>
         <language>en_US</language>
@@ -20812,6 +20833,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_LastName</shortDescription>
         <value>Last Name</value>
+    </labels>
+    <labels>
+        <fullName>PP_Limit10Files</fullName> 
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Limit10Files</shortDescription>
+        <value>Please select only 10 files or less, and try to upload again</value>
     </labels>
     <labels>
         <fullName>PP_LimitCharacters</fullName>
@@ -22003,21 +22031,21 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Study Consent Adult ROW</shortDescription>
-        <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+        <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team for the purposes of keeping me updated with important study related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Study_Consent_Adult_US</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Study Consent Adult US</shortDescription>
-        <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study-related information, according to the terms of the Privacy Policy, by the following means:</value>
+        <value>I consent to the processing of my personal data by a study team, and to be contacted by the study team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Study_Consent_US</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Study Consent US</shortDescription>
-        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study/program related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Study_Consent_ROW</fullName>
