@@ -41,6 +41,7 @@ public without sharing class PPUpdatesController {
         notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE);
         notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED);
         notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED);
+        notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_CANCELED);
         DateTime initialDateTime = Datetime.valueOfGMT(initialLoadTime);
         UpdateService.ResourceFilter resFilter = UpdateService.getSendResultFilter();
         Integer updateCount = [

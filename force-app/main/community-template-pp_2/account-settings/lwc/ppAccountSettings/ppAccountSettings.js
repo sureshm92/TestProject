@@ -171,15 +171,15 @@ export default class PpAccountSettings extends LightningElement {
             .then((result) => {
                 let initialData = JSON.parse(result);
                 this.initData = initialData;
-                this.medicalRecordVendorToggle = communityService.getParticipantData().ctp
-                    ? communityService.getParticipantData().ctp.Medical_Vendor_is_Available__c
-                    : false;
-                if (this.medicalRecordVendorToggle) {
-                    this.navHeadersList.push({
-                        label: MEDICAL_RECORD_ACCESS,
-                        value: 'medRecAccess'
-                    });
-                }
+                // this.medicalRecordVendorToggle = communityService.getParticipantData().ctp
+                //     ? communityService.getParticipantData().ctp.Medical_Vendor_is_Available__c
+                //     : false;
+                // if (this.medicalRecordVendorToggle) {
+                //     this.navHeadersList.push({
+                //         label: MEDICAL_RECORD_ACCESS,
+                //         value: 'medRecAccess'
+                //     });
+                // }
                 this.displayManageDelegates();
                 initialData.password = {
                     old: '',
