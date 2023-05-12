@@ -4,6 +4,7 @@ import VERSION_DATE from '@salesforce/label/c.Version_date';
 import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import POSTING_DATE from '@salesforce/label/c.Posting_date';
 import VIEW_RESOURCE from '@salesforce/label/c.PP_View_Resource';
+import DEVICE from '@salesforce/client/formFactor';
 export default class PpExploreUpdates extends NavigationMixin(LightningElement) {
     @api exploreData;
     @api showVisitSection;
@@ -14,7 +15,20 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
         POSTING_DATE,
         VIEW_RESOURCE
     };
-
+    get cardElement() {
+        if (DEVICE == 'Medium') {
+            return 'slds-col slds-size_3-of-12 card-element';
+        } else {
+            return 'slds-col slds-size_2-of-6 card-element';
+        }
+    }
+    get cardDataElement() {
+        if (DEVICE == 'Medium') {
+            return 'slds-col slds-size_9-of-12 card-data-element';
+        } else {
+            return 'slds-col slds-size_4-of-6 card-data-element';
+        }
+    }
     connectedCallback() {
         this.noExploreImage = this.exploreData.thumbnailImage ? false : true;
     }
