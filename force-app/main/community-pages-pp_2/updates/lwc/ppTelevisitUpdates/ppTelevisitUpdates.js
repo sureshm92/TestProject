@@ -4,6 +4,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import PP_View_Televisits from '@salesforce/label/c.PP_View_Televisits';
 import PP_Scheduled_Televisit from '@salesforce/label/c.PP_Scheduled_Televisit';
 import PP_Rescheduled_Televisit from '@salesforce/label/c.PP_Rescheduled_Televisit';
+import DEVICE from '@salesforce/client/formFactor';
 export default class PpTelevisitUpdates extends NavigationMixin(LightningElement) {
     @api televisitData;
     @api showVisitSection;
@@ -14,6 +15,20 @@ export default class PpTelevisitUpdates extends NavigationMixin(LightningElement
         PP_Scheduled_Televisit,
         PP_Rescheduled_Televisit
     };
+    get cardElement() {
+        if (DEVICE == 'Medium') {
+            return 'slds-col slds-size_3-of-12 card-element';
+        } else {
+            return 'slds-col slds-size_2-of-6 card-element';
+        }
+    }
+    get cardDataElement() {
+        if (DEVICE == 'Medium') {
+            return 'slds-col slds-size_9-of-12';
+        } else {
+            return 'slds-col slds-size_4-of-6';
+        }
+    }
     get televisitTitle() {
         console.log('this.televisitData.televisitType : ' + this.televisitData.televisitType);
         if (this.televisitData.televisitType == 'Scheduled') {
