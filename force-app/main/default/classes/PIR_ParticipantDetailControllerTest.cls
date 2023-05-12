@@ -111,10 +111,7 @@ public with sharing class PIR_ParticipantDetailControllerTest {
             MRN_Id__c,
             Participant__r.Email__c,
             Participant__r.First_Name__c,
-            Participant__r.Last_Name__c,
-            Participant__r.Mailing_Zip_Postal_Code__c,
-            Participant__r.Mailing_State__c,
-            Participant__r.Mailing_Country__c
+            Participant__r.Last_Name__c
             FROM Participant_Enrollment__c
             WHERE Id = :testData.pe.Id
         ];
@@ -458,10 +455,7 @@ public with sharing class PIR_ParticipantDetailControllerTest {
             MRN_Id__c,
             Participant__r.Email__c,
             Participant__r.First_Name__c,
-            Participant__r.Last_Name__c,
-            Participant__r.Mailing_Zip_Postal_Code__c,
-            Participant__r.Mailing_State__c,
-            Participant__r.Mailing_Country__c
+            Participant__r.Last_Name__c
             FROM Participant_Enrollment__c
             LIMIT 1
         ];
