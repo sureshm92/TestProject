@@ -539,18 +539,28 @@ public without sharing class PatientDelegateEnrollmentService {
         List<String> pDEIdList
     ) {
         list<Patient_Delegate_Enrollment__c> pdeList = [
-            SELECT id, Status__c, isInviteToPP__c
+            SELECT id, Status__c, isInviteToPP__c,Patient_Delegate__r.Contact__c
             FROM Patient_Delegate_Enrollment__c
             WHERE id = :pDEIdList
         ];
+        Map<Id, Id> delegateContIdMap =  new Map<Id, Id>();
         for (Patient_Delegate_Enrollment__c pde : pdeList) {
             pde.Status__c = 'Active';
             if (!pde.isInviteToPP__c) {
                 pde.isInviteToPP__c = true;
+                delegateContIdMap.put(pde.Patient_Delegate__r.Contact__c,null);
             }
+        }
+        
+        for(user u: [Select Id,contactId from User where contactId IN :delegateContIdMap.keyset()]){
+            delegateContIdMap.remove(u.contactId);
         }
 
         try {
+            if(delegateContIdMap!=null) {
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                        .createParticipantUsers(delegateContIdMap);
+            }
             update pdeList;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
