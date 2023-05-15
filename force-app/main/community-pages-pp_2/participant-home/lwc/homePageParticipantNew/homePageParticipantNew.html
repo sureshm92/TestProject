@@ -96,12 +96,12 @@
                 </lightning-layout-item>
                 <template if:true={showUpcomingSection}>
                     <lightning-layout-item size="4" class="around-small-custom around-right-zero">
-                        <c-pp-updates showvisitsection={showUpcomingSection} counter={counter}></c-pp-updates>
+                        <c-pp-updates showvisitsection={showUpcomingSection} initial-load-time={initialLoadTime} counter={counter}></c-pp-updates>
                     </lightning-layout-item>
                 </template>
                 <template if:false={showUpcomingSection}>
                     <lightning-layout-item size={updateCardLayoutSize} class={updateCardLayoutClass}>
-                        <c-pp-updates showvisitsection={updateCardLayoutSmall} counter={counter}></c-pp-updates>
+                        <c-pp-updates showvisitsection={updateCardLayoutSmall} initial-load-time={initialLoadTime} counter={counter}></c-pp-updates>
                     </lightning-layout-item>
                     <lightning-layout-item size="4" class={progressBarLayoutClass}>
                         <template if:true={participantState}>
@@ -160,7 +160,7 @@
             <div
                 class="slds-grid slds-grid_align-center slds-p-vertical_large slds-p-horizontal_small"
             >
-                <div class="slds-col slds-m-horizontal_xxx-small">
+                <div class={cardPadding}>
                     <div class="updates">
                         <template if:true={updatesSection}>
                             <template if:true={displayCounter}>
@@ -203,7 +203,7 @@
                     </div>
                 </div>
 
-                <div class="slds-col slds-m-horizontal_xxx-small">
+                <div class={cardPadding}>
                     <div class="tasks">
                         <template if:true={taskList}>
                             <div class="icon-updates taskIconPosition">
@@ -238,7 +238,7 @@
                 <template if:true={participantState}>
                     <template if:true={participantState.pe}>  
                         <template if:true={showProgressMobile}>                                  
-                            <div class="slds-col slds-m-horizontal_xxx-small">
+                            <div class={cardPadding}>
                                 <div class="progress">
                                     <div class={progressIcon}>
                                         <c-web-icon
@@ -260,7 +260,7 @@
                         </template>
                     </template>
                 </template>
-                <div class="slds-col slds-m-horizontal_xxx-small">
+                <div class={cardPadding}>
                     <!--<template if:true={showVisitCard}>-->
                     <template if:true={showUpcomingSection}>
                         <!--<template if:false={isDelegateSelfview}>-->
@@ -293,6 +293,8 @@
                                         >
                                         </c-web-icon>
                                     </div>
+                                    <p class="p-text-televisit">{label.Upcoming}</p>
+                                    <!--
                                     <template if:true={isProgram}>
                                         <template if:true={isDelegateSelfview}>
                                             <p class="p-text-televisit">{label.TELEVISITS}</p>
@@ -309,6 +311,7 @@
                                             <p class="p-text">{label.VISITS}</p>
                                         </template>
                                     </template>
+                                    -->
                                 </div>
                             </template>
                         <!--</template>-->
@@ -396,7 +399,7 @@
                 </template>
             </template>
             <template if:true={updatesSection}>
-                <c-pp-updates counter={counter} desktop={desktop}></c-pp-updates>
+                <c-pp-updates counter={counter} initial-load-time={initialLoadTime} desktop={desktop}></c-pp-updates>
             </template>            
             <div if:true={showProgress}>
                 <div class="progressTab">

@@ -28,7 +28,7 @@ public without sharing class ModifiedVisitResultsRemote {
         return null;
     }
 
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static List<ModifiedVisitResultsService.ModifiedVisitResultsContainer> getVisitResultsWrapperModified(
         String ctpId,
         String patientVisitId,
