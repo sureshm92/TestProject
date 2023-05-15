@@ -84,7 +84,7 @@ public without sharing class IprEprTriggerHandler {
             for (PicklistEntry ple : Participant__c.Language_Preference_Code__c.getDescribe().getPicklistValues()) 
             {languageCodes.add(ple.getValue());}
             
-            Boolean isCheckCountryStateValid = false;
+            Boolean isCheckCountryStateInvalid = false;
             Boolean needsGuardian = false;
             Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
             Map<String, Age_of_Majority__mdt> mapAgeM = Age_of_Majority__mdt.getAll();
@@ -99,38 +99,35 @@ public without sharing class IprEprTriggerHandler {
             for (Integration_Patient_Referral__c ipr : newList) {
                 if(ipr.Error_Message__c == null || ipr.Error_Message__c == '' ){
                     List<String> errorsLog = new List<String>();
-                    
+                    Boolean isCheckCountryStateInvalid = false;
                      // check country    
                     if(String.isNotBlank(ipr.Address_Country__c)) {
                         String countryName = CountryStateUtil.getCountryName(ipr.Address_Country__c);
                         if(String.isBlank(countryName)){
                             errorsLog.add(err.get('country_invalid').Error_Message__c);
-                            isCheckCountryStateValid = true;
+                            isCheckCountryStateInvalid = true;
                         }
                     }   
-                    isCheckCountryStateValid = false;
                     // check state 
                     Map<String,String> states = CountryStateUtil.getStateCodeByNameMap(ipr.Address_Country__c);       
                     if(String.isNotBlank(ipr.address_state__c)) 
                         if(!states.containskey(ipr.address_state__c)){
                             errorsLog.add(err.get('state_invalid').Error_Message__c);
-                            isCheckCountryStateValid = true;   
+                            isCheckCountryStateInvalid = true;   
                         }
-                    isCheckCountryStateValid = false;
                     // check state 
                     if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
                         if(!states.containskey(ipr.Delegate_Mailing_State__c)){
                             errorsLog.add(err.get('state_invalid').Error_Message__c);
-                            isCheckCountryStateValid = true;  
+                            isCheckCountryStateInvalid = true;  
                         }
-                    isCheckCountryStateValid = false;
                     // check langauge  
                     if(String.isNotBlank(ipr.Language_Preference__c)) {                    
                         if(!languageCodes.contains(ipr.Language_Preference__c)) 
                             errorsLog.add(err.get('language_invalid').Error_Message__c);
                         
                     } 
-                    if(!isCheckCountryStateValid){
+                    if(!isCheckCountryStateInvalid){
                         Participant__c participant = new Participant__c(
                             Date_of_Birth__c = ipr.BirthDate__c,
                             Mailing_Country_Code__c = ipr.Address_Country__c,
