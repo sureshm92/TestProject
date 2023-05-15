@@ -84,7 +84,6 @@ public without sharing class IprEprTriggerHandler {
             for (PicklistEntry ple : Participant__c.Language_Preference_Code__c.getDescribe().getPicklistValues()) 
             {languageCodes.add(ple.getValue());}
             
-            Boolean isCheckCountryStateInvalid = false;
             Boolean needsGuardian = false;
             Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
             Map<String, Age_of_Majority__mdt> mapAgeM = Age_of_Majority__mdt.getAll();
