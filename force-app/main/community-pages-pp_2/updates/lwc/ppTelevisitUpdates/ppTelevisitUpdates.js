@@ -33,13 +33,14 @@ export default class PpTelevisitUpdates extends NavigationMixin(LightningElement
     }
     get televisitTitle() {
         console.log('this.televisitData.televisitType : ' + this.televisitData.televisitType);
-        if (this.televisitData.televisitType == 'Scheduled') {
-            return this.label.PP_Scheduled_Televisit;
-        } else if (this.televisitData.televisitType == 'Rescheduled') {
-            return this.label.PP_Rescheduled_Televisit;
-        }else if (this.televisitData.televisitType == 'Canceled') {
-            return this.label.PP_Canceled_Televisit;
-        }
+        switch(this.televisitData.televisitType) {
+            case 'Scheduled':
+                return this.label.PP_Scheduled_Televisit;
+            case 'Rescheduled':
+                return this.label.PP_Rescheduled_Televisit;
+            case 'Canceled':
+                return this.label.PP_Canceled_Televisit;
+          }
     }
     openLink(event) {
         console.log('televisit clicked');
