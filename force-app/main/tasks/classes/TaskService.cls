@@ -288,6 +288,10 @@ public without sharing class TaskService {
                     (!skipPEAlumnIds.contains(t.Survey_Invitation__r.Participant_Enrollment__c) && alumDlgtPtView) ||
                     (curPEId != null &&
                     t.Survey_Invitation__r.Participant_Enrollment__c != curPEId);
+                if(hasPastEnrollments && dntSkipHalfAlumPEIds.contains(t.Survey_Invitation__r.Participant_Enrollment__c) && (curPEId != null &&
+                    t.Survey_Invitation__r.Participant_Enrollment__c != curPEId)){
+                    skipTask = false;
+                }
             }
             if (!skipTask)
                 filteredList.add(t);
