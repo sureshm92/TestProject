@@ -1,4 +1,4 @@
-<apex:page
+<apex:page 
     controller="OpenTokClientController"
     showHeader="false"
     sidebar="false"
@@ -25,19 +25,19 @@
             action="{!rerenderControllerValues}"
             rerender="controller-values"
         />
-        <apex:actionFunction
+        <apex:actionFunction 
             name="updateSharingUserName"
             action="{!updateSharingUserName}"
             rerender="screen-sharing-username-text"
         />
-        <apex:actionFunction
+        <apex:actionFunction 
             name="updateAttendees"
             action="{!updateAttendees}"
             rerender="participant-list,attendee-list"
         >
             <apex:param name="attendeesJson" assignTo="{!attendeesJson}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction
+        <apex:actionFunction 
             name="validateAttendeeEmail"
             action="{!validateAttendeeEmail}"
             rerender="controller-values"
@@ -45,14 +45,14 @@
         >
             <apex:param name="attendeeEmailAddress" assignTo="{!attendeeEmailAddress}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction
+        <apex:actionFunction 
             name="extendedMeetingInterval"
             action="{!extendedMeetingInterval}"
             rerender="jspanel,televisitBanner,controller-values"
         >
             <apex:param name="meetingInterval" assignTo="{!meetingInterval}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction
+        <apex:actionFunction 
             name="fetchUpdatedTelevisitDetails"
             action="{!fetchUpdatedTelevisitDetails}"
             rerender="jspanel,televisitBanner,controller-values"
@@ -78,7 +78,7 @@
                     if(existingOption!=null && existingOption.text != 'Extend Call')
                     select.appendChild(option);
                     else
-                    	existingOption.selected = 'true';
+                        existingOption.selected = 'true';
                 }
 
                 var bc = new BroadcastChannel('{!sessionId}');
@@ -1484,10 +1484,10 @@
 
             .permission-error-message {
                 color: #e20000;
-                font-size: 16px;
+                font-size: 14px;
                 letter-spacing: 0;
                 line-height: 24px;
-                text-align: center;
+                /*text-align: center;*/
             }
 
             @media screen and (min-width: 48em) {
@@ -1530,7 +1530,7 @@
             
 
             .top-margin-container {
-                margin-top: 2.5em;
+                margin: 2.5em;
             }
 
             @media screen and (min-width: 48em) {
@@ -1881,11 +1881,11 @@
                 width: 100%;
                 height: 0.5em;
                 border-radius: 0.25em 0.25em 0 0;
-                background: rgb(0, 118, 174);
+                background: #005587;
                 background: linear-gradient(
-                    270deg,
-                    rgba(0, 118, 174, 1) 0%,
-                    rgba(37, 0, 86, 1) 100%
+                    90deg,
+                    #005587 0%,
+                    #008D9E 100%
                 );
             }
 
@@ -1917,6 +1917,7 @@
                 z-index: 90002 !important;
                 min-width: 25em !important;
                 padding: 1em !important;
+                padding-right: 3em !important;
             }
 
             .slds-popover__header {
@@ -1968,6 +1969,8 @@
 
             .in-meeting-device-settings .option-buttons {
                 display: block;
+                text-align: right;
+                margin-right: -20px;
             }
 
             .settings-icon-wrapper {
@@ -1986,6 +1989,7 @@
             .participant-item {
                 border-bottom: 1px solid #f6f7fb;
                 padding: 1em;
+                font-size:14px;
             }
 
             .participant-list {
@@ -2179,7 +2183,7 @@
             .join-button {
                 background-color: #0768fd !important;
                 border-color: #0768fd !important;
-                border-radius: 14px !important;
+                border-radius: 24px !important;
                 height: 42px;
                 width: 100%;
                 box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
@@ -2250,9 +2254,27 @@
                                                     class="slds-modal__content slds-p-around_medium height-full"
                                                 >
                                                     <div
-                                                        class="slds-col slds-text-heading--small slds-text-bold slds-text-align_left"
+                                                        class="slds-col slds-text-heading--small slds-text-align_left" style="font-weight:600"
                                                     >
                                                         {!$Label.Visit_Preview}
+                                                        
+                                                        <div
+                                                            id="permission-error"
+                                                            class="permission-error-message slds-p-top_small slds-hide"
+                                                        >
+                                                            <div
+                                                                class="slds-col slds-size_1-of-6"
+                                                            ></div>
+                                                            <div
+                                                                class="slds-col slds-size_6-of-6"
+                                                            >
+                                                                {!$Label.You_must_grant_microphone_permission_to_join_televisit}
+                                                            </div>
+                                                            <div
+                                                                class="slds-col slds-size_1-of-6"
+                                                            ></div>
+                                                        </div>
+                                                        
                                                     </div>
                                                     <div
                                                         class="slds-size_1-of-1 slds-m-top_small preview-container"
@@ -2439,7 +2461,7 @@
                                                                 class="slds-col slds-size_1-of-6"
                                                             ></div>
                                                             <div
-                                                                class="slds-col slds-size_4-of-6 slds-align_absolute-center"
+                                                                class="slds-col slds-size_6-of-6 slds-align_absolute-center"
                                                             >
                                                                 <button
                                                                     id="tv-join-button"
@@ -2454,6 +2476,7 @@
                                                                 class="slds-col slds-size_1-of-6"
                                                             ></div>
                                                         </div>
+                                                        <!--
                                                         <div
                                                             id="permission-error"
                                                             class="slds-align_absolute-center permission-error-message slds-p-top_small slds-hide"
@@ -2470,6 +2493,7 @@
                                                                 class="slds-col slds-size_1-of-6"
                                                             ></div>
                                                         </div>
+                                                        -->
                                                         <div
                                                             id="back-button"
                                                             class="slds-p-top_small slds-p-bottom_small"
@@ -2485,7 +2509,7 @@
                                                                     class="slds-button slds-col slds-align_absolute-center back-button"
                                                                     onclick="confirmCancel();"
                                                                 >
-                                                                    {!$Label.Back}
+                                                                    {!$Label.BTN_Close}
                                                                 </button>
                                                             </div>
                                                             <div
@@ -2503,8 +2527,9 @@
                     </apex:outputPanel>
                 </div>
             </div>
+            <!--class="slds-container_large slds-container_center top-margin-container slds-hide"-->
             <div
-                class="slds-container_large slds-container_center top-margin-container slds-hide"
+                class="top-margin-container slds-hide"
                 id="main"
             >
                 <div id="call-container" class="slds-grid slds-wrap">
@@ -2674,13 +2699,13 @@
                                                 </div>
                                                 <div class="option-buttons slds-m-top--large">
                                                     <button
-                                                        class="slds-button slds-button--neutral slds-col"
+                                                        class="slds-button slds-button--neutral slds-col" style="border-radius: 40px !important;height: 24px;width: 86px;font-weight: 600;color: #0768fd;"
                                                         onclick="toggleDeviceSettingsVisible();"
                                                     >
                                                         {!$Label.Cancel}
                                                     </button>
                                                     <button
-                                                        class="slds-button slds-button--brand slds-col"
+                                                        class="slds-button slds-button--brand slds-col" style="border-radius: 40px !important;height: 24px;width: 86px;background:#0768fd;"
                                                         onclick="applyDeviceSettings();"
                                                     >
                                                         {!$Label.Apply}
@@ -2771,7 +2796,7 @@
 
                                     <div id="screen-sharing-username-text">
                                         <apex:outputPanel id="screen-sharing-username-text">
-                                            <apex:outputText
+                                            <apex:outputText 
                                                 value="{!$Label.ScreenSharePublisherUsernameText}"
                                             >
                                                 <apex:param value="{!sharingUserName}" />
