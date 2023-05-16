@@ -4,7 +4,12 @@
 .THIS {
     font-family: 'Proxima Nova';
 }
-
+.THIS.DESKTOP .rr-body-content {
+    margin-top: 4rem;
+}
+.THIS.TABLET .rr-body-content {
+    margin-top: 4.5rem;
+}
 .THIS.PHONE .rr-body-content {
     padding-top: 4.5rem;
 }
