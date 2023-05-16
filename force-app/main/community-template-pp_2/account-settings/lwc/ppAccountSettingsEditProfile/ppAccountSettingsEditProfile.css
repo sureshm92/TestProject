@@ -192,3 +192,7 @@ a,
     float: right;
     text-align: right;
 }
+
+.customMargin{
+    margin-left: 14px !important;
+}
