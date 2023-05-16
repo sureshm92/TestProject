@@ -160,24 +160,26 @@ export default class PpLanguageSwitcher extends LightningElement {
                     this.thirdLangKey = 'none';
                 }
                 this.isInitialized = true;
-                if (this.statesLVList && this.statesLVList.length == 0) {
-                    this.stateComboboxEle = this.template.querySelector(
-                        '[data-id="lang-state-ele"]'
-                    );
+                setTimeout(() => {
                     this.disableStateCombobox();
-                }
+                }, 5);
                 this.spinner.hide();
             })
             .catch((error) => {
-                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                communityService.showToast('', 'error', error.message, 100);
                 this.spinner.hide();
             });
     }
 
     disableStateCombobox() {
-        this.statesLVList.length == 0
-            ? (this.stateComboboxEle.disabled = true)
-            : (this.stateComboboxEle.disabled = false);
+        this.stateComboboxEle = this.template.querySelector(
+            'lightning-combobox[data-id="lang-state-ele"]'
+        );
+        if (this.statesLVList && this.statesLVList.length == 0) {
+            this.stateComboboxEle.disabled = true;
+        } else {
+            this.stateComboboxEle.disabled = false;
+        }
     }
 
     doCheckFieldsValidity(event) {
@@ -199,10 +201,7 @@ export default class PpLanguageSwitcher extends LightningElement {
 
         this.isInputValid();
         // Disable state field if this.statesLVList is blank
-        let stateComboboxEle = this.template.querySelector('[data-id="lang-state-ele"]');
-        this.statesLVList.length == 0
-            ? (stateComboboxEle.disabled = true)
-            : (stateComboboxEle.disabled = false);
+        this.disableStateCombobox();
     }
 
     doPrefLangChange(event) {
@@ -296,7 +295,6 @@ export default class PpLanguageSwitcher extends LightningElement {
                         break;
                     }
                 }
-                console.log(index);
                 countryName = index >= 0 ? tempcountries[index].label : null;
             }
             let tempstates = this.statesLVList;
@@ -342,7 +340,7 @@ export default class PpLanguageSwitcher extends LightningElement {
                 }
             })
             .catch((error) => {
-                communityService.showToast('', 'error', 'Failed To save the Data...', 100);
+                communityService.showToast('', 'error', error.message, 100);
                 this.spinner.hide();
             });
     }
