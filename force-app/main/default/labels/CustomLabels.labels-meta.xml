@@ -21806,7 +21806,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_ReviewAcceptFile</shortDescription>
-        <value>Please review the file error(s) or select Upload to discard the file(s) with errors and proceed with the accepted files.</value>
+        <value>Please review the file error(s) or select Upload to discard the file(s) with errors and proceed with the other files.</value>
     </labels>
     <labels>
         <fullName>PP_ReviewFiles</fullName>
