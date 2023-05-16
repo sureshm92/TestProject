@@ -42,8 +42,4 @@ iframe {
         width:  100vw;
         margin-left: 0rem;
     }
-    iframe {
-        margin-left: -32px;
-        margin-top: -38px;
-    }
 }
