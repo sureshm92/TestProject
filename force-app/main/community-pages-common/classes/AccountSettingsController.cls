@@ -309,8 +309,7 @@ public without sharing class AccountSettingsController {
         List<Participant_Enrollment__c> perListForYOB = new List<Participant_Enrollment__c>();
         Set<Id> participantIdSet = new Set<Id>();
         allPdeList = PatientDelegateEnrollmentService.getPDEnrollmentforDelContact(
-            initData.myContact.Id,
-            (Id) initData.myContact.userCommunityDelegateId__c
+            initData.myContact.Id
         );
         participantIdSet.add(initData.participant.Id);
         perList = PatientDelegateService.getPerRecords(participantIdSet);
