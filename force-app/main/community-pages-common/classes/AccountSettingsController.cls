@@ -309,16 +309,11 @@ public without sharing class AccountSettingsController {
         List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
         List<Participant_Enrollment__c> perListForYOB = new List<Participant_Enrollment__c>();
         Set<Id> participantIdSet = new Set<Id>();
-        system.debug('initData.myContact.Id::'+ initData.myContact.Id);
-        system.debug('initData.myContact.userCommunityDelegateId__c'+ initData.myContact.userCommunityDelegateId__c);
         allPdeList = PatientDelegateEnrollmentService.getPDEnrollmentforDelContact(
             initData.myContact.Id
         );
-        system.debug('allPdeList:::'+allPdeList);
         participantIdSet.add(initData.participant.Id);
-        system.debug('participantIdSet:::'+participantIdSet);
         perList = PatientDelegateService.getPerRecords(participantIdSet);
-        system.debug('perList:::'+perList);
         //Del self view
         if(allPdeList != null  && allPdeList.size() >0  && perList.size() == 0){
             initData.consentPreferenceData.studySiteYOBFormat = 'YYYY';
