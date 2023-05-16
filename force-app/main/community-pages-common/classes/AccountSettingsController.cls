@@ -249,6 +249,7 @@ public without sharing class AccountSettingsController {
                         initData.participant.Mailing_Country_Code__c,
                         initData.participant.Mailing_State_Code__c
                     );
+                    initData = getleastYOBFormat(initData);
                 }
             }
             initData.contactSectionData.personWrapper = new PersonWrapper(
