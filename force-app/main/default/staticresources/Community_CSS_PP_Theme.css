@@ -261,6 +261,10 @@ input::placeholder {
     cursor: pointer !important;
 }
 
+.file-name-input .slds-input {
+    border-radius: 3px !important;
+}
+
 .time-input .slds-input:hover {
     border-color: #d9d9d9 !important;
     border-left: none !important;

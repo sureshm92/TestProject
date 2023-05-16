@@ -5,7 +5,7 @@
                 <div class="ms-board-body">
                     <template for:each={selectConWrap.messages} for:item="msWr" for:index="index">
                         <c-pp-message-item key={msWr.message.Id} msg-item={msWr} msg-index={index} user-id={userId}
-                            message_attachment={message_attachment} file_default={file_default}></c-pp-message-item>
+                            message_attachment={message_attachment} file_default={file_default} is-secondary={isSecondary}></c-pp-message-item>
                     </template>
                 </div>
             </template>
