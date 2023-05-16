@@ -14,9 +14,9 @@
 }
 
 @media only screen and (min-height: 321px) and (max-height: 376px) and (orientation: landscape) {
-    .THIS.PHONE .rr-body-content-res{
+    .THIS.PHONE .rr-body-content-res {
         padding-top: 4rem;
-    } 
+    }
 }
 
 /* login screen background */
@@ -627,5 +627,10 @@
     }
     .THIS .iqvia_logo {
         padding-right: 0px !important;
+    }
+}
+@media only screen and (min-width: 321px) and (orientation: landscape) {
+    .THIS .mob-logo-container-pp {
+        width: 75px;
     }
 }
