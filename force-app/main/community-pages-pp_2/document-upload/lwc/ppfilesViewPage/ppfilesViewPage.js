@@ -322,13 +322,13 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
             // Limit 10 starts here
             if (event.target.files.length > 10) {
-                this.template.querySelector('c-custom-toast-files-p-p').showToast('error',this.label.PP_Limit10Files,'utility:warning',1000);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('error',this.label.PP_Limit10Files,'utility:warning',2000);
                 event.target.value = null;
                 return;
             }
 
             if (this.totalfilesUploaded + event.target.files.length > 10) {
-                this.template.querySelector('c-custom-toast-files-p-p').showToast('error',this.label.PP_Limit10Files,'utility:warning',1000);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('error',this.label.PP_Limit10Files,'utility:warning',2000);
                 event.target.value = null;
                 return;
             }
@@ -784,7 +784,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 this.toggleUploadButton();
                 //this.pageNumber=1;
 
-                this.template.querySelector('c-custom-toast-files-p-p').showToast('success',this.label.PP_Fileremovedsuccesfully,'utility:success',1000);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('success',this.label.PP_Fileremovedsuccesfully,'utility:success',2000);
 
             })
             .catch((error) => {
@@ -914,7 +914,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 extension_index
             );
             if (filenamewitoutextension != fileNameUpdated) {
-                this.template.querySelector('c-custom-toast-files-p-p').showToast('success',this.label.PP_Filerenamedsuccesfully,'utility:success',1000);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('success',this.label.PP_Filerenamedsuccesfully,'utility:success',2000);
                 this.filesData[indexcalled].fileName = fileNameUpdated.trim() + '.' + extension;
             }
             let imgnamediv = this.template.querySelector(
@@ -1023,7 +1023,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 this.isSaving = false;
                 this.displayErrorFilesPopupWarning = false;
                 this.iscancelButtonClick = false;
-                this.template.querySelector('c-custom-toast-files-p-p').showToast('success', this.label.PP_UploadSuccess,'utility:success',1000);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('success', this.label.PP_UploadSuccess,'utility:success',2000);
             })
             .catch((error) => {
                 this.isSaving = false;
