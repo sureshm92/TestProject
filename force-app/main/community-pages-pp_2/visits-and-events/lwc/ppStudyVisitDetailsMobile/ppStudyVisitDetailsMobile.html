@@ -34,7 +34,8 @@
                     </div>
                 </h1>
                 <h1 if:true={past} class="visit3 slds-truncate" title={visitName}>
-                    {visitName}<span class="visit-date-time">{visitStatus}</span>
+                    {visitName}&nbsp;&nbsp;<span class="divider-line">|</span>&nbsp;
+                    <span class="visit-date-time">{visitStatus}</span>
                 </h1>
                 <h1 class="what-to-expect">{label.WTELabel}</h1>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont-mobile">
@@ -137,7 +138,9 @@
                     </div>
                 </h1>
                 <h1 if:true={past} class="visit3 slds-truncate" title={visitName}>
-                    {visitName}<span class="visit-date-time">{visitStatus}</span>
+                    {visitName}&nbsp;&nbsp;
+                    <span class="divider-line">|</span>&nbsp;
+                    <span class="visit-date-time">{visitStatus}</span>
                 </h1>
                 <h1 class="what-to-expect">{label.WTELabel}</h1>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont-mobile">

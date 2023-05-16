@@ -42,12 +42,17 @@ import Participants from '@salesforce/label/c.Participants';
 import Attendees_Place_Holder from '@salesforce/label/c.Attendees_Place_Holder';
 import Update from '@salesforce/label/c.PIR_Update';
 import Televisit_record_canceled_successfully from '@salesforce/label/c.PP_Televisit_record_canceled_successfully';
+import Televisit_record_created_successfully from '@salesforce/label/c.PP_Televisit_record_created_successfully';
+import Televisit_record_updated_successfully from '@salesforce/label/c.PP_Televisit_record_updated_successfully';
+import Edit from '@salesforce/label/c.SS_Btn_Edit';
+import Cancel from '@salesforce/label/c.Cancel';
 
 
 const cbClass = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click';
 const isMenuOpen = ' slds-is-open';
 
 export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
+    @api isrtl;
     @api peid;
     @api get peidnew() {
         return this.peid;
@@ -142,7 +147,11 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         Participants,
         Attendees_Place_Holder,
         Update,
-        Televisit_record_canceled_successfully
+        Televisit_record_canceled_successfully,
+        Televisit_record_created_successfully,
+        Televisit_record_updated_successfully,
+        Edit,
+        Cancel
     }
 
     //bishwa starts
@@ -369,6 +378,10 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         ];
     }
 
+    get cardRTL() {
+        return this.isrtl ? 'cardRTL' : '';
+    }
+
     handleStartTimeChange(event) {
         this.startTime = event.detail.value;
     }
@@ -485,9 +498,9 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     showToastSuccess() {
         var message;
         if (this.televisitEditView) {
-            message = 'Televisit record updated successfully'
+            message = Televisit_record_updated_successfully
         } else {
-            message = 'Televisit record created successfully';
+            message = Televisit_record_created_successfully;
         }
         const event = new ShowToastEvent({
             title: message,

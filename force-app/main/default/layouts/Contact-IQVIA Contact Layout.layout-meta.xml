@@ -280,6 +280,10 @@
                 <behavior>Readonly</behavior>
                 <field>IQVIA_Pre_recorded_Calls_Consent_Time__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>PPM_ID__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>

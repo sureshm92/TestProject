@@ -72,6 +72,14 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
                         }
                         task.isCTPSurveyEndDate = false;
                     }
+                    if (
+                        task.openTask.Survey_Invitation__r?.IsTrialSurvey__c &&
+                        task.openTask.Survey_Invitation__r?.Participant_Due_Date__c != null
+                    ) {
+                        task.isCTPSurvey = true;
+                        task.isCTPSurveyParticipantEndDate = true;
+                        task.isCTPSurveyEndDate = false;
+                    }
                     tempTaskList = [...tempTaskList, task];
                 });
                 if (tempTaskList) {

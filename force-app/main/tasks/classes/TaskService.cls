@@ -20,6 +20,7 @@ public without sharing class TaskService {
     public static final String TASK_VISIBILITY_ALL = 'Owner;Delegates';
     public static final String TASK_VISIBILITY_OWNER = 'Owner';
     public static final String TASK_VISIBILITY_DELEGATES = 'Delegates';
+    public static final String TASK_ORIGINATOR = 'Delegate';
 
     public static final String TASK_TYPE_ECOA = 'Ecoa';
     public static final String TASK_TYPE_MEDICATION = 'Medication';
@@ -115,6 +116,7 @@ public without sharing class TaskService {
             ' AND Visible_For__c INCLUDES (\'' +
             TASK_VISIBILITY_DELEGATES +
             '\') ';
+            String minorlDelFilter = ' AND (Originator__c != \'' + TASK_ORIGINATOR + '\'' + ')';
         if (!ParticipantContext.isCurrentDelegate() || (isDecoupled && !currentMode.isDelegate)) {
             // Owner or decoupled delegate in prospect view
             commonFilter =
@@ -123,6 +125,7 @@ public without sharing class TaskService {
                 ParticipantContext.getOwnUserId() +
                 '\'' +
                 ownerVisibility +
+                minorlDelFilter +
                 ')';
         } else if (isDecoupled) {
             // Decoupled delegate in patient view
@@ -169,9 +172,12 @@ public without sharing class TaskService {
         if (sortOrder != null)
             commonFilter += ' ' + sortOrder;
         List<Task> tasks;
-        List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
-            ParticipantContext.getCurrentContact().Id
-        );
+        List<Participant_Enrollment__c> pastEnrollments = new List<Participant_Enrollment__c>();
+        if (ParticipantContext.getCurrentContact() != null){
+            pastEnrollments = ContactService.getPastEnrollments(
+                ParticipantContext.getCurrentContact().Id
+            );
+        }
         if (pastEnrollments.size() > 0){
             hasPastEnrollments = true;
             for(Participant_Enrollment__c pe:pastEnrollments){
@@ -185,11 +191,6 @@ public without sharing class TaskService {
         ) {
             String alumniFilter;
             alumDlgtPtView = true;
-            /* alumniFilter = 'WhatId IN (Select Participant_Enrollment__c from Patient_Delegate_Enrollment__c Where Patient_Delegate__r.Contact__c = \''+
-            ParticipantContext.getOwnParticipant().Contact__c + '\'' +
-            ' AND Patient_Delegate__r.Participant__r.Contact__c = \''+
-            ParticipantContext.getCurrentContact().Id + '\'' +')';
-            commonFilter = alumniFilter +' AND ' + commonFilter;*/
         }
         if (isDecoupled && ParticipantContext.getCurrentUserId() == null) {
             //Added for Minor Participant's Delegates
@@ -287,6 +288,10 @@ public without sharing class TaskService {
                     (!skipPEAlumnIds.contains(t.Survey_Invitation__r.Participant_Enrollment__c) && alumDlgtPtView) ||
                     (curPEId != null &&
                     t.Survey_Invitation__r.Participant_Enrollment__c != curPEId);
+                if(hasPastEnrollments && dntSkipHalfAlumPEIds.contains(t.Survey_Invitation__r.Participant_Enrollment__c) && (curPEId != null &&
+                    t.Survey_Invitation__r.Participant_Enrollment__c != curPEId)){
+                    skipTask = false;
+                }
             }
             if (!skipTask)
                 filteredList.add(t);

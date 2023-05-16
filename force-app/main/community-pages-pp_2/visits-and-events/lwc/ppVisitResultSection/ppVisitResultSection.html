@@ -36,7 +36,7 @@
                                 <div class="labs-header slds-p-bottom_small">
                                     {label.Visit_Result_Group_Hematology}
                                 </div>
-                                <div class="slds-grid slds-wrap slds-gutters">
+                                <div class="slds-grid slds-wrap">
                                     <template
                                         for:each={visitResultsHematology}
                                         for:item="result"
@@ -62,7 +62,7 @@
                                     {label.Visit_Result_Group_FastingLipidProfile}
                                 </div>
 
-                                <div class="slds-grid slds-wrap slds-gutters">
+                                <div class="slds-grid slds-wrap">
                                     <template
                                         for:each={visitResultsFastingLipidProfile}
                                         for:item="result"
@@ -105,11 +105,11 @@
             <!--Vitals-->
             <template lwc:if={isVitalsSelected}>
                 <template lwc:if={isVitalsResultsAvailable}>
-                    <div class="slds-grid slds-wrap slds-gutters labs-subtype">
+                    <div class="slds-grid slds-wrap labs-subtype">
                         <template for:each={visitResultsVitals} for:item="result" for:index="index">
                             <div
                                 key={result}
-                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-left_none slds-p-bottom_small"
                             >
                                 <c-pp-visit-result-display-card
                                     visit-result={result}
@@ -141,11 +141,11 @@
             <!--Biomarker-->
             <template lwc:if={isBiomarkersSelected}>
                 <template lwc:if={isBioResultsAvailable}>
-                    <div class="slds-grid slds-wrap slds-gutters labs-subtype">
+                    <div class="slds-grid slds-wrap labs-subtype">
                         <template for:each={visitResultsBio} for:item="result" for:index="index">
                             <div
                                 key={result}
-                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-bottom_small"
+                                class="slds-col slds-size_4-of-12 slds-p-right_small slds-p-left_none slds-p-bottom_small"
                             >
                                 <c-pp-visit-result-display-card
                                     visit-result={result}
@@ -169,7 +169,7 @@
                         </div>
                     </div>
                 </template>
-                <div class="slds-align_absolute-center disclaimer labs">
+                <div class="slds-align_absolute-center disclaimer">
                     {label.Visit_Results_Tab_Panel_Disclaimer}
                 </div>
             </template>

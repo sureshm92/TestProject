@@ -1,15 +1,15 @@
 <template>
     <template if:false={desktop}>
         <div class="slds-grid slds-wrap card-border" onclick={openLink}>
-            <div class="slds-col slds-size_2-of-6 card-element">
+            <div class={cardElement}>
                 <div class="slds-align_absolute-center icon-container">
                     <div class="slds-align_absolute-center">
                         <img src={televisit_image} class="link-img" />
                     </div>
                 </div>
             </div>
-            <div class="slds-col slds-size_4-of-6">
-                <div class="slds-grid data-section">
+            <div class={cardDataElement}>
+                <div class="slds-grid data-section slds-grid_vertical-align-center">
                     <div class="slds-col">
                         <div>
                             <p class="televisits-title" title={televisitTitle}>{televisitTitle}</p>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="slds-col slds-size_4-of-6">
-                    <div class="slds-grid slds-wrap data-section">
+                    <div class="slds-grid slds-wrap data-section slds-grid_vertical-align-center">
                         <p class="televisits-title" title={televisitTitle}>{televisitTitle}</p>
                     </div>
                     <div class="slds-grid">

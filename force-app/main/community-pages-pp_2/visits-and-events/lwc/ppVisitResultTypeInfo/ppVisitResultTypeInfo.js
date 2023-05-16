@@ -22,6 +22,7 @@ import Labs_Toggle_Off from '@salesforce/label/c.Labs_Toggle_Off';
 import Biomarkers_Toggle_Off from '@salesforce/label/c.Biomarkers_Toggle_Off';
 import No_Visit_Results_Available from '@salesforce/label/c.No_Visit_Results_Available';
 import Visits_View_All_Results from '@salesforce/label/c.Visits_View_All_Results';
+import PP_Visit_Result_Toggle_Helptext from '@salesforce/label/c.PP_Visit_Result_Toggle_Helptext';
 
 export default class PpVisitResultTypeInfo extends NavigationMixin(LightningElement) {
     labels = {
@@ -38,7 +39,8 @@ export default class PpVisitResultTypeInfo extends NavigationMixin(LightningElem
         Labs_Toggle_Off,
         Biomarkers_Toggle_Off,
         No_Visit_Results_Available,
-        Visits_View_All_Results
+        Visits_View_All_Results,
+        PP_Visit_Result_Toggle_Helptext
     };
     visitResultTypeOptions = [];
 
@@ -232,7 +234,7 @@ export default class PpVisitResultTypeInfo extends NavigationMixin(LightningElem
             ? {
                   pvId: this.patientVisitId
               }
-            : { vrlistHome: null, pvId: this.patientVisitId };
+            : { vrlist: null, pvId: this.patientVisitId };
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {

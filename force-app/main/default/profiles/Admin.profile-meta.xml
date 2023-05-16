@@ -2316,6 +2316,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.OrgID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Is_Participant_DOB_Valid__c</field>
         <readable>true</readable>
@@ -2333,6 +2338,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Suppress_Physician_Outreach_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.PPM_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3495,6 +3505,17 @@
         <field>Completed_Incentive_Task__c.Points__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>ContentVersion.FileStatus__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>ContentVersion.progress__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+
     <fieldPermissions>
         <editable>true</editable>
         <field>E_Consent_Vendor__c.Vendor_URL__c</field>
@@ -7573,6 +7594,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.PPM_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Patient_Delegate_Enrollment__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8912,6 +8938,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>SurveyInvitation.Participant_Study_Enrollment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SurveyInvitation.Participant_Due_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

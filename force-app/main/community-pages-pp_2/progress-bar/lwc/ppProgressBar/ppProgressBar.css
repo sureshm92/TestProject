@@ -50,6 +50,9 @@
     width: 70%;
     vertical-align: bottom;
 }
+.rightTextLink{
+    cursor: pointer;
+}
 .rightImg {
     display: inline-block;
     width: 30%;
@@ -270,17 +273,35 @@
     .big .rightImg {
         text-align: right;
     }
+    .big .leftDescription {
+        padding-top: 16px;
+    }
 }
-@media all and (max-width: 420px) {
+@media all and (max-width: 450px) {
+    .big .rightText {
+        width: unset;
+        height: 40px;
+        line-height: 3.7;
+    }
+    .big .rightImg {
+        width: 75px;
+        float: right;
+    }
+    .big .rightImg img {
+        width: 75px;
+    }
+}
+@media all and (max-width: 395px) {
     .big .rightText {
         width: unset;
     }
     .big .rightImg {
         width: 100%;
         text-align: end;
+        padding-top: 8px;
     }
     .big .rightImg img {
-        width: 32%;
+        width: 75px;
     }
 }
 @media all and (max-width: 1055px) and (min-width: 1024px) {

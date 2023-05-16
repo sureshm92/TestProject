@@ -36,7 +36,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         load_more
     };
     timer;
-    initialLoadTime;
+    @api initialLoadTime;
     loadMoreValue;
     get showloadMore() {
         if (this.counter > 4 && this.loadMoreValue && this.counter > this.offset) {
@@ -73,9 +73,15 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             return '99+';
         }
     }
+    get compContainer() {
+        if (DEVICE == 'Medium') {
+            return 'position-container update-container slds-size_4-of-6';
+        } else {
+            return 'position-container update-container';
+        }
+    }
     renderedCallback() {
         if (!this.isRendered) {
-            this.initialLoadTime = new Date().toISOString().slice(0, -5).replace('T', ' ');
             this.isRendered = true;
             this.initializeData();
         }
