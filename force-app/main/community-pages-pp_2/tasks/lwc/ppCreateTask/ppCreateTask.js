@@ -117,8 +117,8 @@ export default class PpCreateTask extends LightningElement {
                                 ) {
                                     this.disbaleDateTime = true;
                                     if (
-                                        !wrapper.task.Survey_Invitation__r.Trial_Survey__r
-                                            .Display_in_UI__c
+                                        !wrapper?.task?.Survey_Invitation__r?.Trial_Survey__r
+                                            ?.Display_in_UI__c
                                     ) {
                                         this.displayDateInUi = false;
                                         wrapper.reminderDate = '';
@@ -511,6 +511,9 @@ export default class PpCreateTask extends LightningElement {
             if (this.subject && ((this.taskDueTime && this.taskDueDate) || this.disbaleDateTime)) {
                 if (!this.isReminderSelected && selectedTaskDueDateTime >= currentDateTimeObject) {
                     this.enableSave = true;
+                    if (!this.displayDateInUi && this.initData.participantDateTime == undefined) {
+                        this.enableSave = false;
+                    }
                 } else if (this.isReminderSelected) {
                     if (this.task.Remind_Me__c) {
                         if (
@@ -531,6 +534,9 @@ export default class PpCreateTask extends LightningElement {
                         } else {
                             this.enableSave = false;
                         }
+                    }
+                    if (!this.displayDateInUi && this.initData.participantDateTime == undefined) {
+                        this.enableSave = false;
                     }
                 } else {
                     if (

@@ -6,7 +6,7 @@
     <aura:attribute name="column1" type="Aura.Component[]" required="false" />
     <div
         class="rr-width-limiter-pp side-padding rr-min-body-height"
-        style="padding-top: 30px; font-size: 16px"
+        style="font-size: 16px"
     >
         {!v.column1}
     </div>
