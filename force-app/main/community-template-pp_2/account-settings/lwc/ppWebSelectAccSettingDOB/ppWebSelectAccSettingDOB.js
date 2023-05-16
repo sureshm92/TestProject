@@ -60,7 +60,7 @@ export default class PpWebSelect extends LightningElement {
     }
 
     get handleForDelegate(){
-        return this.isDisabled ? 'color: #757575;' : '';
+        return this.isDisabled ? 'background-color: #F2F2F2; color: #757575;' : '';
     }
     handleOptionSelect(event) {
         if (this.selectedValue != event.target.value) {
