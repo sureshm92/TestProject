@@ -193,14 +193,14 @@ hr {
     height: 35px;
     position: fixed;
     top: 76px;
-    left: 3%;
+    left: 22px;
 }
 
 .mobile-ladscape-back-button{
     display: none;
 }
 
-@media screen and (orientation: landscape) and (max-width: 896px) {
+@media screen and (orientation: landscape) and (max-width: 999px) {
     .mobile-ladscape-back-button{
         display: block;
         z-index: 10000;

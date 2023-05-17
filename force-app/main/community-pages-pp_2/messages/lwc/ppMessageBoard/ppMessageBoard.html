@@ -1,13 +1,15 @@
 <template>
     <lightning-layout multiple-rows="true">
-        <lightning-layout-item size="12" class="chat-item" id="messageBody">
+        <lightning-layout-item size="12" class="parent-chat-item-sec" id="messageBody">
             <template if:true={selectConWrap}>
-                <div class="ms-board-body">
+                <lightning-layout>
+                    <lightning-layout-item size="12" class="child-chat-item-sec">
                     <template for:each={selectConWrap.messages} for:item="msWr" for:index="index">
                         <c-pp-message-item key={msWr.message.Id} msg-item={msWr} msg-index={index} user-id={userId}
                             message_attachment={message_attachment} file_default={file_default} is-secondary={isSecondary}></c-pp-message-item>
                     </template>
-                </div>
+                </lightning-layout-item>
+            </lightning-layout> 
             </template>
             <template if:false={selectConWrap}>
                 <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-center medium">
