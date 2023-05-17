@@ -35,6 +35,7 @@ export default class HomePageParticipantNew extends LightningElement {
         MY_PROGRESS_Caps
     };
     counter;
+    enableCards = [];
     displayCounter = false;
     participantState;
     clinicalrecord;
@@ -233,6 +234,8 @@ export default class HomePageParticipantNew extends LightningElement {
                     if (this.desktop != true) {
                         this.updatesSection = true;
                         // this.showVisitCardMobile = true;
+                            this.enableCards.push('update-card');
+                            this.enableCards.push('task-card');
                     }
 
                     if (!this.showTelevisitCard && !this.showVisitCard) {
@@ -254,25 +257,59 @@ export default class HomePageParticipantNew extends LightningElement {
                     }
                 }
                 this.isInitialized = true;        
-                if(!this.desktop && this.participantState.pe){
+                    if (this.showUpcomingSection) {
+                        this.enableCards.push('visit-card');
+                    }
+                    if (!this.desktop && this.participantState.pe) {
                     showProgress({ peId: this.participantState.pe.Id })
-                        .then(result => {
+                            .then((result) => {
                             this.showProgressMobile = result;
+                                if (this.showProgressMobile) {
+                                    this.enableCards.push('progress-card');
+                                    this.cardNavigation();
+                                }
                         })
                         .catch(error => {
                             this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
                         });
                 }        
+                    this.cardNavigation();
             })
             .catch((error) => {
                 this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
                 this.spinner ? this.spinner.hide() : '';
             });
-        },40);
-       
+        }, 40);
     }
-
-    CheckIfTelevisitToggleOnForDelegate(){
+    cardNavigation() {
+        if (!this.desktop) {
+            console.log('this.enableCards:::', this.enableCards);
+            const queryString = window.location.href;
+            if (queryString.includes('visit-card') && this.enableCards.includes('visit-card')) {
+                this.showVisitCardOnMobile();
+            }
+            console.log(
+                'sssssss',
+                queryString,
+                queryString.includes('progress-card'),
+                this.enableCards.includes('progress-card')
+            );
+       
+            if (
+                queryString.includes('progress-card') &&
+                this.enableCards.includes('progress-card')
+            ) {
+                this.showProgressMob();
+    }
+            if (queryString.includes('task-card') && this.enableCards.includes('task-card')) {
+                this.showTaskList();
+            }
+            if (queryString.includes('update-card') && this.enableCards.includes('update-card')) {
+                this.showUpdatesOnMobile();
+            }
+        }
+    }
+    CheckIfTelevisitToggleOnForDelegate() {
         this.showSpinner = true;
         this.showUpcomingSection = false;
         CheckIfTelevisitToggleOnForDelegate()
@@ -284,8 +321,10 @@ export default class HomePageParticipantNew extends LightningElement {
                 if (this.desktop != true) {
                     this.showVisitCardMobile = false;
                 }
-            }else{
+                } else {
                 this.showUpcomingSection = true;
+                    this.enableCards.push('visit-card');
+                    this.cardNavigation();
             }
         })
         .catch((error) => {
@@ -305,8 +344,10 @@ export default class HomePageParticipantNew extends LightningElement {
                 if (this.desktop != true) {
                     this.showVisitCardMobile = false;
                 }
-            }else{
+                } else {
                 this.showUpcomingSection = true;
+                    this.enableCards.push('visit-card');
+                    this.cardNavigation();
             }
         })
         .catch((error) => {
@@ -321,6 +362,8 @@ export default class HomePageParticipantNew extends LightningElement {
     }
 
     showTaskList() {
+        window.history.replaceState(null, null, '?task-card');
+        const queryString = window.location.href;
         if (this.desktop != true) {
             this.showVisitCardMobile = false;
             this.updatesSection = false;
@@ -336,6 +379,7 @@ export default class HomePageParticipantNew extends LightningElement {
             this.showProgress = false;
         }
         this.taskList = false;
+        window.history.replaceState(null, null, '?visit-card');
     }
 
     showUpdatesOnMobile() {
@@ -345,6 +389,7 @@ export default class HomePageParticipantNew extends LightningElement {
         this.taskList = false;
         this.showVisitCardMobile = false;
         this.showProgress = false;
+        window.history.replaceState(null, null, '?update-card');
     }
 
     showProgressMob() {
@@ -354,6 +399,7 @@ export default class HomePageParticipantNew extends LightningElement {
             this.taskList = false;
         }
         this.showProgress = true;
+        window.history.replaceState(null, null, '?progress-card');
     }
     get progressIcon(){
         if(this.showProgress){
