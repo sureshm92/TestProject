@@ -2128,6 +2128,12 @@ user agent stylesheet svg:not(:root) {
 .update-container .rr-spinner {
     background-color: transparent;
 }
+.refresh-section:hover .refresh-text {
+    color: #0557d5;
+}
+.refresh-section:hover .refresh-icon svg.rr-icon_default {
+    fill: #0557d5 !important;
+}
 .result-container .rr-spinner {
     background: #ffffff;
 }
