@@ -1,7 +1,7 @@
 <template>
     <div class={comboboxClass}>
         <div id="dropdown" class={dropdownClass}>
-        <select id="select-01" onchange={handleOptionSelect} disabled={isSelectedDisplayed} class={hideDropdownForRTL} style={handleForDelegate}>
+        <select id="select-01" onchange={handleOptionSelect} disabled={isSelectedDisplayed} class={hideDropdownForRTL}>
             <template if:true={isPlaceHolderDisplayed}>
             <template for:each={options} for:item="option">
                 <template lwc:if={option.isSelected}>

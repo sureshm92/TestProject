@@ -14,10 +14,18 @@
                                 <span class="update-count">{counterLabel}</span>
                             </div>
                         </div>
-                        <div class="slds-col slds-align-bottom pointer-class" onclick={refresh}>
+                        <div
+                            class="slds-col slds-align-bottom pointer-class refresh-section"
+                            onclick={refresh}
+                        >
                             <span class="refresh-text">{label.refresh}</span>
                             <span class="refresh-icon">
-                                <img src={refresh_icon} class="refresh_icon" />
+                                <c-web-icon
+                                    icon-name="refresh_Icon"
+                                    icon-color="#015FF1"
+                                    icon-height="16"
+                                    icon-width="18"
+                                ></c-web-icon>
                             </span>
                         </div>
                     </div>
