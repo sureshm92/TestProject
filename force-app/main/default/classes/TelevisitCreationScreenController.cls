@@ -48,8 +48,21 @@ public without sharing class TelevisitCreationScreenController {
             TelevisitWrapper.class
         );
         Televisit__c televisitRecord = new Televisit__c();
+        Televisit__c televisit;
         if (wrapper.id != '') {
             televisitRecord.Id = wrapper.id;
+            Set<Id> existingconset = new Set<Id>();
+            Set<Id> newconset = new Set<Id>();
+            televisitRecord.Reshedule_Email_Notification_Check__c = '';
+            televisit = [Select id,Reshedule_Email_Notification_Check__c,Visit_Date_Time__c,(Select id,Contact__c from Televisit_Attendee__r),Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c from Televisit__c where ID =:wrapper.id];
+            for(Televisit_Attendee__c attendee :televisit.Televisit_Attendee__r){
+                existingconset.add(attendee.Contact__c);
+            }
+            for(AttendeesWrapper wrap : wrapper.attendeesList){
+                if(!existingconset.contains(wrap.id)){
+                    televisitRecord.Reshedule_Email_Notification_Check__c = televisitRecord.Reshedule_Email_Notification_Check__c + wrap.id + ';';
+                }
+            }
         }
         televisitRecord.Duration__c = wrapper.duration;
         String parseTime = wrapper.startTime;
@@ -73,11 +86,13 @@ public without sharing class TelevisitCreationScreenController {
         CommunityMode mode = UserContext.getCurrentUserMode();
         televisitRecord.Source_Community__c = mode.template.communityName;
         upsert televisitRecord;
-        Televisit__c televisit = [
+        if(televisit == null){
+            televisit = [
             SELECT id, Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
             FROM Televisit__c
             WHERE ID = :televisitRecord.Id
-        ];
+            ];
+        }
         if (wrapper.id == '') {
             List<AttendeesWrapper> attendeesWrapperList = wrapper.attendeesList;
             List<String> ids = new List<String>();
