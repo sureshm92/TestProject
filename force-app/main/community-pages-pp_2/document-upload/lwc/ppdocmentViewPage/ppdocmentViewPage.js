@@ -565,7 +565,7 @@ export default class ppdocmentViewPage extends NavigationMixin(LightningElement)
                 this.openmodel = false;
                 this.isPreview = false;
                 this.getTableFilesData();
-                this.template.querySelector('c-custom-toast-files-p-p').showToast('success',this.label.PP_DeletedSucesfully ,'utility:success',1000);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('success',this.label.PP_DeletedSucesfully ,'utility:success',3000);
             })
             .catch((error) => {
                 console.error('Error:', error);
