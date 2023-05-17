@@ -307,7 +307,7 @@ public without sharing class TasksRemote {
                     }
                 }
             }
-            if (taskObj.Activity_Datetime__c != null) {
+            else if (taskObj.Activity_Datetime__c != null) {
                 if (
                     (tasksWithDue.keySet().contains(taskObj.Activity_Datetime__c) &&
                     taskObj.Priority != 'Critical') ||

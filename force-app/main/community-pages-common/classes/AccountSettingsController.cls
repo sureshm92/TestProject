@@ -249,6 +249,7 @@ public without sharing class AccountSettingsController {
                         initData.participant.Mailing_Country_Code__c,
                         initData.participant.Mailing_State_Code__c
                     );
+                    initData = getleastYOBFormat(initData);
                 }
             }
             initData.contactSectionData.personWrapper = new PersonWrapper(
@@ -309,8 +310,7 @@ public without sharing class AccountSettingsController {
         List<Participant_Enrollment__c> perListForYOB = new List<Participant_Enrollment__c>();
         Set<Id> participantIdSet = new Set<Id>();
         allPdeList = PatientDelegateEnrollmentService.getPDEnrollmentforDelContact(
-            initData.myContact.Id,
-            (Id) initData.myContact.userCommunityDelegateId__c
+            initData.myContact.Id
         );
         participantIdSet.add(initData.participant.Id);
         perList = PatientDelegateService.getPerRecords(participantIdSet);

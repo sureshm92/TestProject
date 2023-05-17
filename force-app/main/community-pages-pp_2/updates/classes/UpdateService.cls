@@ -1,4 +1,6 @@
 public without sharing class UpdateService {
+    public class UpdateServiceException extends Exception {
+    }
     public static String OBJECT_TYPE_STD_RESOURCE = 'res_study__c';
     public static String OBJECT_TYPE_PT_RESOURCE = 'resource__c';
     public static String OBJECT_TYPE_TELEVISIT = 'televisit__c';
@@ -35,6 +37,7 @@ public without sharing class UpdateService {
         notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_CANCELED);
         DateTime initialDateTime = Datetime.valueOfGMT(initialLoadTime);
         ResourceFilter resFilter = getSendResultFilter();
+        
         List<Send_Result__c> sendResults = [
             SELECT
                 Id,
@@ -296,6 +299,7 @@ public without sharing class UpdateService {
         Id participantContact = ps.participant.Contact__c;
         Id currentParticipant = ps.participant.Id;
         Id currentContactId = CommunityService.getUserContact()?.Id;
+        CommunityMode currentMode = UserContext.getCurrentUserMode();
         List<Id> resStudyIdVisToPt = new List<Id>();
         List<Id> peList = new List<Id>();
         if (ps.pe != null) {
@@ -336,13 +340,28 @@ public without sharing class UpdateService {
             peList.add(currentPe);
         } else if (ps.pe == null) {
             List<Id> pastCtpIds = new List<Id>();
-            for (
-                Participant_Enrollment__c pastEnrollment : ContactService.getPastEnrollments(
-                    participantContact
-                )
-            ) {
-                pastCtpIds.add(pastEnrollment.Clinical_Trial_Profile__c);
-                peList.add(pastEnrollment.Id);
+            if(currentMode.isDelegate){
+                for (Patient_Delegate_Enrollment__c pde : [
+                    SELECT Participant_Enrollment__c,Participant_Enrollment__r.Clinical_Trial_Profile__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE
+                        Patient_Delegate__r.Contact__c = :ParticipantContext.getOwnParticipant()
+                            .Contact__c
+                        AND Patient_Delegate__r.Participant__r.Contact__c = :ParticipantContext.getCurrentContact()
+                            .Id
+                ]) {
+                    peList.add(pde.Participant_Enrollment__c);
+                    pastCtpIds.add(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c);
+                }
+            }else{
+                for (
+                    Participant_Enrollment__c pastEnrollment : ContactService.getPastEnrollments(
+                        participantContact
+                    )
+                ) {
+                    pastCtpIds.add(pastEnrollment.Clinical_Trial_Profile__c);
+                    peList.add(pastEnrollment.Id);
+                }
             }
             if (pastCtpIds.size() > 0) {
                 for (Res_study__c stdRes : [
@@ -370,6 +389,7 @@ public without sharing class UpdateService {
         resFilter.currentPe = ps?.pe?.Id;
         resFilter.peList = peList;
         resFilter.currentParticipantId = currentParticipant;
+        
         return resFilter;
     }
     public class ResourceFilter {

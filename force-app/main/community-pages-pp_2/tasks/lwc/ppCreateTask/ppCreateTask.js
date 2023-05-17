@@ -117,10 +117,17 @@ export default class PpCreateTask extends LightningElement {
                                 ) {
                                     this.disbaleDateTime = true;
                                     if (
-                                        !wrapper.task.Survey_Invitation__r.Trial_Survey__r
-                                            .Display_in_UI__c
+                                        !wrapper?.task?.Survey_Invitation__r?.Trial_Survey__r
+                                            ?.Display_in_UI__c &&
+                                        wrapper.task.Survey_Invitation__r.IsTrialSurvey__c
                                     ) {
                                         this.displayDateInUi = false;
+                                        if (
+                                            wrapper.task.Survey_Invitation__r
+                                                ?.Participant_Due_Date__c == undefined
+                                        ) {
+                                            wrapper.reminderDate = '';
+                                        }
                                     }
                                 }
                                 this.isSystemOrBusinessTask = true;
@@ -159,7 +166,12 @@ export default class PpCreateTask extends LightningElement {
                             remindSMS: this.task.Remind_Using_SMS__c
                                 ? this.task.Remind_Using_SMS__c
                                 : '',
-                            reminderDateTime: wrapper.reminderDate ? wrapper.reminderDate : ''
+                            reminderDateTime: wrapper.reminderDate ? wrapper.reminderDate : '',
+                            partDueDate:
+                                wrapper.task.Survey_Invitation__r?.Participant_Due_Date__c !=
+                                undefined
+                                    ? wrapper.task.Survey_Invitation__r.Participant_Due_Date__c
+                                    : ''
                         };
                     }
                     this.initData = wrapper;
@@ -271,7 +283,6 @@ export default class PpCreateTask extends LightningElement {
             this.initData.activityDate = this.taskDateTime;
         }
         /**Reset Reminder Values */
-        console.log('date change', this.taskDateTime, this.taskDueTime, this.taskDueDate);
         this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
         this.enableSave = true;
     }
@@ -425,6 +436,26 @@ export default class PpCreateTask extends LightningElement {
         return this.taskDueDate == this.todaydate ? this.todayTime : null;
     }
 
+    get currentTimeParticipant() {
+        let currentDateTime = new Date().toLocaleString('en-US', {
+            timeZone: TIME_ZONE
+        });
+        let currentDateTimeObject = new Date(currentDateTime);
+        let hh = String(
+            (currentDateTimeObject.getHours() < 10 ? '0' : '') + currentDateTimeObject.getHours()
+        );
+        let mm = String(
+            (currentDateTimeObject.getMinutes() < 10 ? '0' : '') +
+                currentDateTimeObject.getMinutes()
+        );
+        let ss = String(
+            (currentDateTimeObject.getSeconds() < 10 ? '0' : '') +
+                currentDateTimeObject.getSeconds()
+        );
+        this.todayTime = hh + ':' + mm + ':' + ss;
+        return this.participantDueDate == this.todaydate ? this.todayTime : null;
+    }
+
     get isDueDateTimeSelected() {
         let currentDateTime = new Date().toLocaleString('en-US', {
             timeZone: TIME_ZONE
@@ -472,7 +503,10 @@ export default class PpCreateTask extends LightningElement {
                 remindme: this.task.Remind_Me__c ? this.task.Remind_Me__c : '',
                 remindEmail: this.task.Remind_Using_Email__c ? this.task.Remind_Using_Email__c : '',
                 remindSMS: this.task.Remind_Using_SMS__c ? this.task.Remind_Using_SMS__c : '',
-                reminderDateTime: this.taskReminderDate ? this.taskReminderDate : ''
+                reminderDateTime: this.taskReminderDate ? this.taskReminderDate : '',
+                partDueDate: this.initData.participantDateTime
+                    ? this.initData.participantDateTime
+                    : ''
             };
         }
         if (this.initialRecord) {
@@ -482,8 +516,8 @@ export default class PpCreateTask extends LightningElement {
         }
         var upDateRequired =
             JSON.stringify(this.initialRecord) == JSON.stringify(this.updatedRecord);
-        this.enableSave = false;
 
+        this.enableSave = false;
         let currentDateTime = new Date().toLocaleString('en-US', {
             timeZone: TIME_ZONE
         });
@@ -503,6 +537,9 @@ export default class PpCreateTask extends LightningElement {
             if (this.subject && ((this.taskDueTime && this.taskDueDate) || this.disbaleDateTime)) {
                 if (!this.isReminderSelected && selectedTaskDueDateTime >= currentDateTimeObject) {
                     this.enableSave = true;
+                    if (!this.displayDateInUi && this.initData.participantDateTime == undefined) {
+                        this.enableSave = false;
+                    }
                 } else if (this.isReminderSelected) {
                     if (this.task.Remind_Me__c) {
                         if (
@@ -523,6 +560,13 @@ export default class PpCreateTask extends LightningElement {
                         } else {
                             this.enableSave = false;
                         }
+                    }
+                    if (
+                        !this.displayDateInUi &&
+                        this.initData.participantDateTime == undefined &&
+                        this.task?.Survey_Invitation__r?.Participant_Due_Date__c == null
+                    ) {
+                        this.enableSave = false;
                     }
                 } else {
                     if (

@@ -11000,7 +11000,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Join Visit</shortDescription>
-        <value>Join Visit</value>
+        <value>Join now</value>
     </labels>
     <labels>
         <fullName>July</fullName>
@@ -21806,7 +21806,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_ReviewAcceptFile</shortDescription>
-        <value>Please review the file error(s) or select Upload to discard the file(s) with errors and proceed with the accepted files.</value>
+        <value>Please review the file error(s) or select Upload to discard the file(s) with errors and proceed with the other files.</value>
     </labels>
     <labels>
         <fullName>PP_ReviewFiles</fullName>
@@ -22052,7 +22052,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Study Consent ROW</shortDescription>
-        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team for the purposes of keeping me updated with important study/program related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Study_Overview</fullName>
@@ -30529,7 +30529,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit_Preview</shortDescription>
-        <value>Visit Preview</value>
+        <value>Televisit Preview</value>
     </labels>
     <labels>
         <fullName>Visit_Result</fullName>
@@ -31035,14 +31035,14 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You can also adjust these options during the visit</shortDescription>
-        <value>You can also adjust these options during the visit.</value>
+        <value>You can also adjust these options during the televisit.</value>
     </labels>
     <labels>
         <fullName>You_must_grant_microphone_permission_to_join_televisit</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You must grant microphone permission to join televisit</shortDescription>
-        <value>You must grant microphone and camera permissions to join the Televisit. Please grant permissions and Join.</value>
+        <value>You must allow browser access to your microphone to join the televisit. Please grant permission in your browser settings.</value>
     </labels>
     <labels>
         <fullName>chatbot</fullName>
