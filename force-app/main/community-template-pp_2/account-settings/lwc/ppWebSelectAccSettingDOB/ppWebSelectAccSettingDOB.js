@@ -25,7 +25,7 @@ export default class PpWebSelect extends LightningElement {
         }
     }
     get isSelectedDisplayed(){
-        if(this.options != undefined && this.options != null && this.options != '') {
+        if(this.options != undefined && this.options != null && this.options != '' && !this.isDisabled) {
             return false;
         } 
         else {
