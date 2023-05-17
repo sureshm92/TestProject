@@ -117,18 +117,16 @@ export default class HomePageParticipantNew extends LightningElement {
         setTimeout(()=>{
             getVisits({communityMode : 'IQVIA Patient Portal', userMode : 'Participant'})
             .then((result) => {
-                console.log('result',result);
                 var televisitInformation = JSON.parse(result);
                 if (televisitInformation.length > 0) {
                     this.isUpcomingTelevisitVisitDetails = true;
                 }else{
                     this.isUpcomingTelevisitVisitDetails = false;
                 }
-                console.log('Televisit :',this.isUpcomingTelevisitVisitDetails);
-                if(!this.isUpcomingVisitDetails && this.isUpcomingTelevisitVisitDetails){
+                    if (!this.isUpcomingVisitDetails && this.isUpcomingTelevisitVisitDetails) {
                     this.isTelevisits = true;
                     this.marginbottom = 'marginbottom';
-                }else{
+                    } else {
                     //this.isTelevisits = false;
                 }
             })
@@ -204,11 +202,6 @@ export default class HomePageParticipantNew extends LightningElement {
                             this.isTelevisits = false;
                             this.marginbottom = '';
                         }
-                        console.log(
-                            'Televisit Toggle',
-                            this.clinicalrecord.Televisit_Vendor_is_Available__c
-                        );
-                        console.log('Televisit Vendor', res.televisitVendorAvailable);
                         if (this.showTelevisitCard && !this.showVisitCard) {
                             this.isTelevisits = true;
                             this.marginbottom = 'marginbottom';
@@ -234,8 +227,8 @@ export default class HomePageParticipantNew extends LightningElement {
                     if (this.desktop != true) {
                         this.updatesSection = true;
                         // this.showVisitCardMobile = true;
-                            this.enableCards.push('update-card');
-                            this.enableCards.push('task-card');
+                            this.enableCards.push('updates');
+                            this.enableCards.push('task');
                     }
 
                     if (!this.showTelevisitCard && !this.showVisitCard) {
@@ -258,14 +251,14 @@ export default class HomePageParticipantNew extends LightningElement {
                 }
                 this.isInitialized = true;        
                     if (this.showUpcomingSection) {
-                        this.enableCards.push('visit-card');
+                        this.enableCards.push('upcoming');
                     }
                     if (!this.desktop && this.participantState.pe) {
                     showProgress({ peId: this.participantState.pe.Id })
                             .then((result) => {
                             this.showProgressMobile = result;
                                 if (this.showProgressMobile) {
-                                    this.enableCards.push('progress-card');
+                                    this.enableCards.push('my-progress');
                                     this.cardNavigation();
                                 }
                         })
@@ -283,28 +276,18 @@ export default class HomePageParticipantNew extends LightningElement {
     }
     cardNavigation() {
         if (!this.desktop) {
-            console.log('this.enableCards:::', this.enableCards);
             const queryString = window.location.href;
-            if (queryString.includes('visit-card') && this.enableCards.includes('visit-card')) {
+            if (queryString.includes('upcoming') && this.enableCards.includes('upcoming')) {
                 this.showVisitCardOnMobile();
             }
-            console.log(
-                'sssssss',
-                queryString,
-                queryString.includes('progress-card'),
-                this.enableCards.includes('progress-card')
-            );
        
-            if (
-                queryString.includes('progress-card') &&
-                this.enableCards.includes('progress-card')
-            ) {
+            if (queryString.includes('my-progress') && this.enableCards.includes('my-progress')) {
                 this.showProgressMob();
     }
-            if (queryString.includes('task-card') && this.enableCards.includes('task-card')) {
+            if (queryString.includes('task') && this.enableCards.includes('task')) {
                 this.showTaskList();
             }
-            if (queryString.includes('update-card') && this.enableCards.includes('update-card')) {
+            if (queryString.includes('updates') && this.enableCards.includes('updates')) {
                 this.showUpdatesOnMobile();
             }
         }
@@ -323,7 +306,7 @@ export default class HomePageParticipantNew extends LightningElement {
                 }
                 } else {
                 this.showUpcomingSection = true;
-                    this.enableCards.push('visit-card');
+                    this.enableCards.push('upcoming');
                     this.cardNavigation();
             }
         })
@@ -346,7 +329,7 @@ export default class HomePageParticipantNew extends LightningElement {
                 }
                 } else {
                 this.showUpcomingSection = true;
-                    this.enableCards.push('visit-card');
+                    this.enableCards.push('upcoming');
                     this.cardNavigation();
             }
         })
@@ -362,7 +345,7 @@ export default class HomePageParticipantNew extends LightningElement {
     }
 
     showTaskList() {
-        window.history.replaceState(null, null, '?task-card');
+        window.history.replaceState(null, null, '?task');
         const queryString = window.location.href;
         if (this.desktop != true) {
             this.showVisitCardMobile = false;
@@ -379,7 +362,7 @@ export default class HomePageParticipantNew extends LightningElement {
             this.showProgress = false;
         }
         this.taskList = false;
-        window.history.replaceState(null, null, '?visit-card');
+        window.history.replaceState(null, null, '?upcoming');
     }
 
     showUpdatesOnMobile() {
@@ -389,7 +372,7 @@ export default class HomePageParticipantNew extends LightningElement {
         this.taskList = false;
         this.showVisitCardMobile = false;
         this.showProgress = false;
-        window.history.replaceState(null, null, '?update-card');
+        window.history.replaceState(null, null, '?updates');
     }
 
     showProgressMob() {
@@ -399,7 +382,7 @@ export default class HomePageParticipantNew extends LightningElement {
             this.taskList = false;
         }
         this.showProgress = true;
-        window.history.replaceState(null, null, '?progress-card');
+        window.history.replaceState(null, null, '?my-progress');
     }
     get progressIcon(){
         if(this.showProgress){
