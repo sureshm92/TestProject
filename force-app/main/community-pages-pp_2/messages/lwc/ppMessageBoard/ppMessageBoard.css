@@ -20,9 +20,14 @@
   color: #595959;
   font-family: "Proxima Nova";
 }
-.chat-item {
+.parent-chat-item-sec {
+  text-align: justify;
+  padding: 8px;
+}
+.child-chat-item-sec {
+  overflow-y: auto;
   height: 472px;
-  overflow-y: scroll;
+  padding-right: 8px;
 }
 .medium {
   height: 472px;
