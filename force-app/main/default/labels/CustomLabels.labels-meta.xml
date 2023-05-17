@@ -31035,7 +31035,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You can also adjust these options during the visit</shortDescription>
-        <value>You can also adjust these options during the visit.</value>
+        <value>You can also adjust these options during the televisit.</value>
     </labels>
     <labels>
         <fullName>You_must_grant_microphone_permission_to_join_televisit</fullName>
