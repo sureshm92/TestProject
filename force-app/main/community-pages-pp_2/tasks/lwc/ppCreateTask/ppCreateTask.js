@@ -118,7 +118,8 @@ export default class PpCreateTask extends LightningElement {
                                     this.disbaleDateTime = true;
                                     if (
                                         !wrapper?.task?.Survey_Invitation__r?.Trial_Survey__r
-                                            ?.Display_in_UI__c
+                                            ?.Display_in_UI__c &&
+                                        wrapper.task.Survey_Invitation__r.IsTrialSurvey__c
                                     ) {
                                         this.displayDateInUi = false;
                                         if (
