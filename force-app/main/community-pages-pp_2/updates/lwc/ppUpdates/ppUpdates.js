@@ -124,6 +124,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.resourcedData = [...this.resourcedData, ...returnValue];
                 if (this.resourcedData.length > 0) {
                     this.resourcePresent = true;
+                } else {
+                    this.resourcePresent = false;
                 }
                 this.offset += this.limit;
                 this.loadMoreValue = true;
