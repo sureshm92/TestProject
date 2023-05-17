@@ -19583,6 +19583,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>To withdraw as a primary delegate, you must contact the participant or study team.</value>
     </labels>
     <labels>
+        <fullName>PP_Assigned_As_Primary_Delegate_help_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assigned_As_Primary_Delegate_help_1</shortDescription>
+        <value>To withdraw as a primary delegate, you must contact the participant or study/program team.</value>
+    </labels>
+    <labels>
         <fullName>PP_Assignments</fullName>
         <language>en_US</language>
         <protected>true</protected>
