@@ -981,9 +981,11 @@ public without sharing class ParticipantEnrollmentService {
             }
             return '(' + '   HCP__r.HCP_Contact__c = \'' + contactId + '\'' + ') ';
         } else {
-            List<Id> delegatedParticipants = PatientDelegateService.getDelegatedParticipantIds(
+            PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedParticipantIdsMap(
                 CommunityService.getUserContact().Id
             );
+            List<Id> delegatedParticipants = pdewrapper.delParticipantIds.get(UserContext.getUserContactId());
+          
             if (delegatedParticipants != null && delegatedParticipants.size() > 0) {
                 delegatesFilter =
                     ' OR ' + DatabaseService.fieldInValues('Participant__c', delegatedParticipants);
