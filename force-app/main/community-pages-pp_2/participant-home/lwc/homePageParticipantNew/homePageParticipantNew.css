@@ -317,3 +317,10 @@
     padding-top: 7px !important;
     margin-left: 26px !important;
 }
+@media all and (max-width: 1180px) and (orientation: landscape) {
+    .progressTab,
+    .upcoming-card {
+        width: 66%;
+        margin: auto;
+    }
+}

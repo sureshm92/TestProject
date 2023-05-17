@@ -513,3 +513,9 @@
         margin-top: 50px;
     }
 }
+@media all and (max-width: 1180px) and (orientation: landscape) {
+    .container-card-mobile {
+        width: 66%;
+        margin: auto;
+    }
+}
