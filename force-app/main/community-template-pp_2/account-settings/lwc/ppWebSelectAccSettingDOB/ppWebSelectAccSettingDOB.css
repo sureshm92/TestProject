@@ -278,5 +278,6 @@ select:after {
     background-size: 16px 16px;
     background-color: #F2F2F2;
     border: 1px solid #D9D9D9;
+    padding-left: 0.5rem;
     opacity: 1;
 }
