@@ -119,7 +119,12 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                             attendeeTelevisitMap.get(conId).televisitAttendee.Televisit__c
                         );
                         if (targetIds.size() > 13) {
+                            Integer idLength = targetIds.size() - 13;
+                            if (idLength > 0) {
+                                for (Integer i = 0; i < idLength; i++) {
                             targetIds.remove(0);
+                        }
+                            }
                         }
                             notificationObj.Target_Record_Ids__c = String.join(targetIds, ',');
                         }
