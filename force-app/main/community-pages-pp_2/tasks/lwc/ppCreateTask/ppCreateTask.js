@@ -118,10 +118,16 @@ export default class PpCreateTask extends LightningElement {
                                     this.disbaleDateTime = true;
                                     if (
                                         !wrapper?.task?.Survey_Invitation__r?.Trial_Survey__r
-                                            ?.Display_in_UI__c
+                                            ?.Display_in_UI__c &&
+                                        wrapper.task.Survey_Invitation__r.IsTrialSurvey__c
                                     ) {
                                         this.displayDateInUi = false;
-                                        wrapper.reminderDate = '';
+                                        if (
+                                            wrapper.task.Survey_Invitation__r
+                                                ?.Participant_Due_Date__c == undefined
+                                        ) {
+                                            wrapper.reminderDate = '';
+                                        }
                                     }
                                 }
                                 this.isSystemOrBusinessTask = true;
@@ -430,6 +436,26 @@ export default class PpCreateTask extends LightningElement {
         return this.taskDueDate == this.todaydate ? this.todayTime : null;
     }
 
+    get currentTimeParticipant() {
+        let currentDateTime = new Date().toLocaleString('en-US', {
+            timeZone: TIME_ZONE
+        });
+        let currentDateTimeObject = new Date(currentDateTime);
+        let hh = String(
+            (currentDateTimeObject.getHours() < 10 ? '0' : '') + currentDateTimeObject.getHours()
+        );
+        let mm = String(
+            (currentDateTimeObject.getMinutes() < 10 ? '0' : '') +
+                currentDateTimeObject.getMinutes()
+        );
+        let ss = String(
+            (currentDateTimeObject.getSeconds() < 10 ? '0' : '') +
+                currentDateTimeObject.getSeconds()
+        );
+        this.todayTime = hh + ':' + mm + ':' + ss;
+        return this.participantDueDate == this.todaydate ? this.todayTime : null;
+    }
+
     get isDueDateTimeSelected() {
         let currentDateTime = new Date().toLocaleString('en-US', {
             timeZone: TIME_ZONE
@@ -535,7 +561,11 @@ export default class PpCreateTask extends LightningElement {
                             this.enableSave = false;
                         }
                     }
-                    if (!this.displayDateInUi && this.initData.participantDateTime == undefined) {
+                    if (
+                        !this.displayDateInUi &&
+                        this.initData.participantDateTime == undefined &&
+                        this.task?.Survey_Invitation__r?.Participant_Due_Date__c == null
+                    ) {
                         this.enableSave = false;
                     }
                 } else {
