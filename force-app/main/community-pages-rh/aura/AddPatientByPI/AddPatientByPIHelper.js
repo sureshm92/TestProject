@@ -233,6 +233,7 @@
            component.find('editForm').refreshEmailInput(); 
            component.find('editForm').refreshPartDobInput(); 
         }else{
+           console.clear(); 
            var urlEvent = $A.get("e.force:navigateToURL");
            urlEvent.setParams({ "url": "/my-referrals" });  
            urlEvent.fire(); 
