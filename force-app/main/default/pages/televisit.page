@@ -440,6 +440,8 @@
                 disconnectFromSession();
                 window.close();
             }
+            
+            
 
             function toggleDeviceSettingsVisible() {
                 let settingsContainerId = sessionJoined ? '#in-call-device-settings-container' : '#device-settings-container'
@@ -1437,10 +1439,11 @@
 
             .televisit-end {
                 color: #999999;
-                font-size: 24px;
+                font-size: 16px;
                 font-weight: 600;
                 letter-spacing: 0;
-                line-height: 37px;
+                line-height: 30px;
+                
             }
 
             .extendCallListUpdatedClass {
@@ -1471,18 +1474,19 @@
                 padding: 8px 12px;
                 background-color: #0768fd;
                 border: none;
-                border-radius: 4px;
-                font-size: 16px !important;
-                font-weight: 500 !important;
+                border-radius: 30px;
+                font-size: 14px !important;
+                font-weight: 600 !important;
                 margin-left: 10px !important;
+                
             }
 
             .close-tv-button {
                 background: transparent;
                 border: none;
-                font-size: 16px !important;
+                font-size: 14px !important;
                 color: #0768fd !important;
-                font-weight: 500 !important;
+                font-weight: 600 !important;
                 letter-spacing: 0;
                 line-height: 24px !important;
                 text-align: center;
@@ -2208,6 +2212,11 @@
             }
             .join-button-disabled {
                 opacity: 0.4;
+            }
+            .close-window-button{
+                background-color: #0768fd !important;
+                font-weight: 600 !important;
+                border-radius: 30px !important;
             }
             .back-button {
                 height: 40px;
@@ -3101,7 +3110,17 @@
                                             <div class="slds-col slds-medium-size_12-of-12">
                                                 <div class="televisit-end">
                                                     {!$Label.PT_Session_Ended}
+                                                    
+                                                    
                                                 </div>
+                                                <br/>
+                                                <button
+                                                        id="tv-back-button"
+                                                        class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button"
+                                                        onclick="confirmCancel();"
+                                                    >
+                                                        {!$Label.PP_Opt_Out_Close_window}
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
