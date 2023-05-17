@@ -42,25 +42,53 @@
     registerOrientationChange: function (component) {
         if(communityService.getCurrentCommunityName() == 'IQVIA Patient Portal')
         {
-            window.addEventListener(
-                "orientationchange", 
-                $A.getCallback(function(event) {
-                    // You can use component/helper here...
+            // window.addEventListener(
+            //     "orientationchange", 
+            //     $A.getCallback(function(event) {
+            //         // You can use component/helper here...
+            //         let mediaContent = component.get('v.mediaContent');
+            //         let pageName =  false; 
+            //         (communityService.getPageName() == "resource-detail") ? pageName = true : pageName = false;
+            //         if(screen.orientation.angle != 0 && mediaContent && pageName){
+            //             component.set('v.paddingChange', true); 
+            //             component.set('v.innerWidth', window.innerHeight);
+            //             component.set('v.innerHeight', window.innerWidth);
+            //         }
+            //         else if(screen.orientation.angle == 0 && mediaContent && pageName){
+            //             component.set('v.paddingChange', false);
+            //             component.set('v.innerWidth', window.innerHeight);
+            //             component.set('v.innerHeight', window.innerWidth);
+            //         }
+            //     })
+            // );
+
+            let portrait = window.matchMedia("(orientation: portrait)");
+
+            portrait.addEventListener("change", 
+                $A.getCallback(function(e) {
+
                     let mediaContent = component.get('v.mediaContent');
                     let pageName =  false; 
                     (communityService.getPageName() == "resource-detail") ? pageName = true : pageName = false;
-                    if(screen.orientation.angle != 0 && mediaContent && pageName){
-                        component.set('v.paddingChange', true); 
-                        component.set('v.innerWidth', window.innerHeight);
-                        component.set('v.innerHeight', window.innerWidth);
-                    }
-                    else if(screen.orientation.angle == 0 && mediaContent && pageName){
-                        component.set('v.paddingChange', false);
-                        component.set('v.innerWidth', window.innerHeight);
-                        component.set('v.innerHeight', window.innerWidth);
+
+                    if(e.matches) {
+                        // Portrait mode
+                        if(mediaContent && pageName){
+                            component.set('v.paddingChange', false);
+                            component.set('v.innerWidth', window.innerHeight);
+                            component.set('v.innerHeight', window.innerWidth);
+                        }
+                    } else {
+                        // Landscape mode
+                        if(mediaContent && pageName){
+                            component.set('v.paddingChange', true); 
+                            component.set('v.innerWidth', window.innerHeight);
+                            component.set('v.innerHeight', window.innerWidth);
+                        }
                     }
                 })
             );
+
         }     
     }
 });

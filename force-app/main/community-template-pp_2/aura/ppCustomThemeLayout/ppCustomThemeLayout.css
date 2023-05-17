@@ -9,34 +9,13 @@
     padding-top: 4.5rem;
 }
 
-@media only screen and (min-width: 321px) and (orientation: portrait) {
-    .THIS.PHONE .rr-body-content-res {
-        padding-top: 4.5rem;
-    } 
+.THIS.PHONE .rr-body-content-res {
+    padding-top: 4rem;
 }
 
-
-@media only screen and (min-width: 321px) and (orientation: landscape) {
-    .THIS.PHONE .rr-body-content {
-        padding-top: 0rem;
-    }    
-}
-
-@media only screen and (min-height: 360px) and (max-height: 376px) and (orientation: landscape) {
-    .THIS.PHONE .rr-body-content-res {
-        margin-top: 72px;
-    }
-}
-
-@media only screen and (min-height: 377px) and (max-height: 414px) and (orientation: landscape) {
-    .THIS.PHONE .rr-body-content-res {
-        margin-top: 22px;
-    } 
-}
-
-@media only screen and (height: 412px) and (orientation: landscape) {
-    .THIS.PHONE .rr-body-content-res {
-        margin-top: -16px !important;
+@media only screen and (min-height: 321px) and (max-height: 376px) and (orientation: landscape) {
+    .THIS.PHONE .rr-body-content-res{
+        padding-top: 4rem;
     } 
 }
 
