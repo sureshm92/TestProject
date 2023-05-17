@@ -59,7 +59,7 @@ export default class PpMessageBoard extends LightningElement {
       console.log("scroll down");
       let context = this;
       setTimeout(function () {
-        let boardBody = context.template.querySelector(".chat-item");
+        let boardBody = context.template.querySelector(".child-chat-item-sec");
         if (boardBody) boardBody.scrollTop = boardBody.scrollHeight;
       }, 50);
       console.log("scroll down end");
@@ -75,7 +75,7 @@ export default class PpMessageBoard extends LightningElement {
     console.log("scroll down");
     let context = this;
     setTimeout(function () {
-      let boardBody = context.template.querySelector(".chat-item");
+      let boardBody = context.template.querySelector(".child-chat-item-sec");
       if (boardBody) boardBody.scrollTop = boardBody.scrollHeight;
     }, 50);
     console.log("scroll down end");
