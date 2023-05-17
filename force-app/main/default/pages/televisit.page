@@ -440,6 +440,8 @@
                 disconnectFromSession();
                 window.close();
             }
+            
+            
 
             function toggleDeviceSettingsVisible() {
                 let settingsContainerId = sessionJoined ? '#in-call-device-settings-container' : '#device-settings-container'
@@ -2209,6 +2211,11 @@
             .join-button-disabled {
                 opacity: 0.4;
             }
+            .close-window-button{
+                background-color: #0768fd !important;
+                font-weight: 600 !important;
+                border-radius: 30px !important;
+            }
             .back-button {
                 height: 40px;
                 color: #0768fd !important;
@@ -3101,7 +3108,17 @@
                                             <div class="slds-col slds-medium-size_12-of-12">
                                                 <div class="televisit-end">
                                                     {!$Label.PT_Session_Ended}
+                                                    
+                                                    
                                                 </div>
+                                                <br/>
+                                                <button
+                                                        id="tv-back-button"
+                                                        class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button"
+                                                        onclick="confirmCancel();"
+                                                    >
+                                                        {!$Label.PP_Opt_Out_Close_window}
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
