@@ -35,6 +35,7 @@ export default class HomePageParticipantNew extends LightningElement {
         MY_PROGRESS_Caps
     };
     counter;
+    enableCards = [];
     displayCounter = false;
     participantState;
     clinicalrecord;
@@ -116,18 +117,16 @@ export default class HomePageParticipantNew extends LightningElement {
         setTimeout(()=>{
             getVisits({communityMode : 'IQVIA Patient Portal', userMode : 'Participant'})
             .then((result) => {
-                console.log('result',result);
                 var televisitInformation = JSON.parse(result);
                 if (televisitInformation.length > 0) {
                     this.isUpcomingTelevisitVisitDetails = true;
                 }else{
                     this.isUpcomingTelevisitVisitDetails = false;
                 }
-                console.log('Televisit :',this.isUpcomingTelevisitVisitDetails);
-                if(!this.isUpcomingVisitDetails && this.isUpcomingTelevisitVisitDetails){
+                    if (!this.isUpcomingVisitDetails && this.isUpcomingTelevisitVisitDetails) {
                     this.isTelevisits = true;
                     this.marginbottom = 'marginbottom';
-                }else{
+                    } else {
                     //this.isTelevisits = false;
                 }
             })
@@ -203,11 +202,6 @@ export default class HomePageParticipantNew extends LightningElement {
                             this.isTelevisits = false;
                             this.marginbottom = '';
                         }
-                        console.log(
-                            'Televisit Toggle',
-                            this.clinicalrecord.Televisit_Vendor_is_Available__c
-                        );
-                        console.log('Televisit Vendor', res.televisitVendorAvailable);
                         if (this.showTelevisitCard && !this.showVisitCard) {
                             this.isTelevisits = true;
                             this.marginbottom = 'marginbottom';
@@ -233,6 +227,8 @@ export default class HomePageParticipantNew extends LightningElement {
                     if (this.desktop != true) {
                         this.updatesSection = true;
                         // this.showVisitCardMobile = true;
+                            this.enableCards.push('updates');
+                            this.enableCards.push('task');
                     }
 
                     if (!this.showTelevisitCard && !this.showVisitCard) {
@@ -254,25 +250,49 @@ export default class HomePageParticipantNew extends LightningElement {
                     }
                 }
                 this.isInitialized = true;        
-                if(!this.desktop && this.participantState.pe){
+                    if (this.showUpcomingSection) {
+                        this.enableCards.push('upcoming');
+                    }
+                    if (!this.desktop && this.participantState.pe) {
                     showProgress({ peId: this.participantState.pe.Id })
-                        .then(result => {
+                            .then((result) => {
                             this.showProgressMobile = result;
+                                if (this.showProgressMobile) {
+                                    this.enableCards.push('my-progress');
+                                    this.cardNavigation();
+                                }
                         })
                         .catch(error => {
                             this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
                         });
                 }        
+                    this.cardNavigation();
             })
             .catch((error) => {
                 this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
                 this.spinner ? this.spinner.hide() : '';
             });
-        },40);
-       
+        }, 40);
     }
-
-    CheckIfTelevisitToggleOnForDelegate(){
+    cardNavigation() {
+        if (!this.desktop) {
+            const queryString = window.location.href;
+            if (queryString.includes('upcoming') && this.enableCards.includes('upcoming')) {
+                this.showVisitCardOnMobile();
+            }
+       
+            if (queryString.includes('my-progress') && this.enableCards.includes('my-progress')) {
+                this.showProgressMob();
+    }
+            if (queryString.includes('task') && this.enableCards.includes('task')) {
+                this.showTaskList();
+            }
+            if (queryString.includes('updates') && this.enableCards.includes('updates')) {
+                this.showUpdatesOnMobile();
+            }
+        }
+    }
+    CheckIfTelevisitToggleOnForDelegate() {
         this.showSpinner = true;
         this.showUpcomingSection = false;
         CheckIfTelevisitToggleOnForDelegate()
@@ -284,8 +304,10 @@ export default class HomePageParticipantNew extends LightningElement {
                 if (this.desktop != true) {
                     this.showVisitCardMobile = false;
                 }
-            }else{
+                } else {
                 this.showUpcomingSection = true;
+                    this.enableCards.push('upcoming');
+                    this.cardNavigation();
             }
         })
         .catch((error) => {
@@ -305,8 +327,10 @@ export default class HomePageParticipantNew extends LightningElement {
                 if (this.desktop != true) {
                     this.showVisitCardMobile = false;
                 }
-            }else{
+                } else {
                 this.showUpcomingSection = true;
+                    this.enableCards.push('upcoming');
+                    this.cardNavigation();
             }
         })
         .catch((error) => {
@@ -321,6 +345,8 @@ export default class HomePageParticipantNew extends LightningElement {
     }
 
     showTaskList() {
+        window.history.replaceState(null, null, '?task');
+        const queryString = window.location.href;
         if (this.desktop != true) {
             this.showVisitCardMobile = false;
             this.updatesSection = false;
@@ -336,6 +362,7 @@ export default class HomePageParticipantNew extends LightningElement {
             this.showProgress = false;
         }
         this.taskList = false;
+        window.history.replaceState(null, null, '?upcoming');
     }
 
     showUpdatesOnMobile() {
@@ -345,6 +372,7 @@ export default class HomePageParticipantNew extends LightningElement {
         this.taskList = false;
         this.showVisitCardMobile = false;
         this.showProgress = false;
+        window.history.replaceState(null, null, '?updates');
     }
 
     showProgressMob() {
@@ -354,6 +382,7 @@ export default class HomePageParticipantNew extends LightningElement {
             this.taskList = false;
         }
         this.showProgress = true;
+        window.history.replaceState(null, null, '?my-progress');
     }
     get progressIcon(){
         if(this.showProgress){
