@@ -1,5 +1,4 @@
-<apex:page 
-    controller="OpenTokClientController"
+<apex:page controller="OpenTokClientController"
     showHeader="false"
     sidebar="false"
     standardStylesheets="false"
@@ -18,42 +17,36 @@
     <apex:includeScript value="{!$Resource.jsonTV1}" />
     <apex:includeScript value="{!$Resource.jqueryCometdTV1}" />
     <link id="themeCSS" href="{!$Resource.Community_CSS_Stub}" rel="stylesheet" type="text/css" />
-    <apex:form>
+    <apex:form >
         <apex:actionPoller action="{!maintainSession}" interval="180" />
-        <apex:actionFunction
-            name="rerenderControllerValues"
+        <apex:actionFunction name="rerenderControllerValues"
             action="{!rerenderControllerValues}"
             rerender="controller-values"
         />
-        <apex:actionFunction 
-            name="updateSharingUserName"
+        <apex:actionFunction name="updateSharingUserName"
             action="{!updateSharingUserName}"
             rerender="screen-sharing-username-text"
         />
-        <apex:actionFunction 
-            name="updateAttendees"
+        <apex:actionFunction name="updateAttendees"
             action="{!updateAttendees}"
             rerender="participant-list,attendee-list"
         >
             <apex:param name="attendeesJson" assignTo="{!attendeesJson}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction 
-            name="validateAttendeeEmail"
+        <apex:actionFunction name="validateAttendeeEmail"
             action="{!validateAttendeeEmail}"
             rerender="controller-values"
             oncomplete="completeValidateAttendeeEmail();"
         >
             <apex:param name="attendeeEmailAddress" assignTo="{!attendeeEmailAddress}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction 
-            name="extendedMeetingInterval"
+        <apex:actionFunction name="extendedMeetingInterval"
             action="{!extendedMeetingInterval}"
             rerender="jspanel,televisitBanner,controller-values"
         >
             <apex:param name="meetingInterval" assignTo="{!meetingInterval}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction 
-            name="fetchUpdatedTelevisitDetails"
+        <apex:actionFunction name="fetchUpdatedTelevisitDetails"
             action="{!fetchUpdatedTelevisitDetails}"
             rerender="jspanel,televisitBanner,controller-values"
         />
@@ -747,14 +740,32 @@
                 toggle('.self-feed-container', 'slds-hide');
                 toggle('.video-container', 'slds-medium-size_3-of-4');
                 toggle('.controls', 'slds-size_3-of-4');
+                
+                
+                
 
                 toggle('.ctrls-feeds-action-bar', 'speaker-view');
                 toggle('.ctrls-feeds-action-bar', 'share-view');
 
                 if (isSubscribedScreenShare) {
                     addClass('.button--sharing', 'slds-hide');
+                    
+                    var myDiv = document.getElementsByClassName("OT_name");
+                    for (var i = 0; i < myDiv.length; i++) {
+                       myDiv[i].setAttribute("style", "visibility: hidden;");
+                    }
+                    
+                    
+                    
                 } else {
                     removeClass('.button--sharing', 'slds-hide');
+                    
+                    var myDiv = document.getElementsByClassName("OT_name");
+                    for (var i = 0; i < myDiv.length; i++) {
+                       myDiv[i].setAttribute("style", "visibility: none;");
+                    }
+                    
+                    
                 }
 
                 if (stream) {
@@ -1622,6 +1633,7 @@
 
             .participants h2 {
                 font-weight: bold;
+                font-size: 16px;
             }
 
             .OT_widget-container {
@@ -1641,12 +1653,14 @@
                 background-color: #df216d;
                 border-color: #df216d;
                 color: white;
+               
             }
 
             .slds-button-circle.button_white {
                 background-color: white;
                 border-color: #b5b5b5;
                 color: #0768fd;
+                margin-right:12px;
             }
 
             .slds-button-circle.button_white svg {
@@ -1657,6 +1671,7 @@
                 background-color: #0768fd;
                 border-color: #0768fd;
                 color: white;
+                margin-right:12px;
             }
 
             .slds-button-circle.button_blue svg {
@@ -1989,7 +2004,7 @@
             .participant-item {
                 border-bottom: 1px solid #f6f7fb;
                 padding: 1em;
-                font-size:14px;
+                font-size:16px;
             }
 
             .participant-list {
@@ -2080,6 +2095,9 @@
                 display: block !important;
                 opacity: 100 !important;
                 top: 0 !important;
+                
+                margin-top:45%;
+                margin-left:10px;
             }
              .OT_publisher .OT_name, .OT_name.OT_edge-bar-item.OT_mode-off {
                 background-color: white;
@@ -2204,7 +2222,10 @@
                 background-color: #00c221 !important;
                 border-color: #00c221 !important;
             }
+            
+            
         </style>
+        
     </head>
 
     <body
@@ -2234,7 +2255,7 @@
         </header>
 
         <!--Call Preview Screen -->
-        <apex:outputPanel rendered="{!isSessionJoinable == true}">
+        <apex:outputPanel rendered="{!isSessionJoinable == true}" >
             <div class="call-preview-screen slds-hide" id="call-preview-screen-container">
                 <div id="welcome-container">
                     <apex:outputPanel rendered="{!isSessionJoinable == true}">
@@ -2781,9 +2802,10 @@
                                                 ></use>
                                             </svg>
                                         </span>
+                                        <br/>
                                         <span
                                             class="slds-align_absolute-center slds-text-heading--small"
-                                            style="font-size: 13pt; color: #999999"
+                                            style="font-size: 20px; color: #999999;font-weight:600;"
                                         >
                                             {!$Label.First_Attendee}
                                         </span>
@@ -2796,8 +2818,7 @@
 
                                     <div id="screen-sharing-username-text">
                                         <apex:outputPanel id="screen-sharing-username-text">
-                                            <apex:outputText 
-                                                value="{!$Label.ScreenSharePublisherUsernameText}"
+                                            <apex:outputText value="{!$Label.ScreenSharePublisherUsernameText}"
                                             >
                                                 <apex:param value="{!sharingUserName}" />
                                             </apex:outputText>
