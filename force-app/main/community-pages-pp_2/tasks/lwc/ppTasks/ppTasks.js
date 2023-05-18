@@ -131,7 +131,13 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.initializeData();
     }
-
+    get containerTabletCard() {
+        if (formFactor === 'Medium') {
+            return 'slds-card slds-card_boundary container-card-mobile tablet-margin slds-size_4-of-6';
+        } else {
+            return 'slds-card slds-card_boundary container-card-mobile';
+        }
+    }
     initializeData() {
         try {
             this.showSpinner = true;
