@@ -13,10 +13,12 @@ export default class PpWebSelect extends LightningElement {
     @api hasError = false;
     @api isDisabled = false;
     @api isDisabledOptions = false;
-    showPlaceHolder = false
+    showPlaceHolder = false;
+    placeHolderCounter = 0; 
 
 
-    get isPlaceHolderDisplayed(){
+    get isDisplayDropDownBox(){
+        this.placeHolderCounter = 0;
         if(this.options != undefined && this.options != null && this.options != '') {
             return true;
         } 
@@ -24,8 +26,17 @@ export default class PpWebSelect extends LightningElement {
             return false;
         }
     }
-    get isSelectedDisplayed(){
-        if(this.options != undefined && this.options != null && this.options != '') {
+    get displayplaceHolderOneTime(){
+         if(this.selectedValue){
+            return false; 
+         }
+         else {
+            this.placeHolderCounter = this.placeHolderCounter + 1;
+            return this.placeHolderCounter == 1 ? true : false;
+         }
+    }
+    get disableIsSelect(){
+        if(this.options != undefined && this.options != null && this.options != '' && !this.isDisabled) {
             return false;
         } 
         else {

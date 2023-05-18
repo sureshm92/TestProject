@@ -12355,7 +12355,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>New_Visit_Results_Now_Available</shortDescription>
-        <value>New visit results now available.</value>
+        <value>New visit results now available</value>
     </labels>
     <labels>
         <fullName>New_York_carcinoma</fullName>
@@ -19593,6 +19593,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Assigned_As_Primary_Delegate_help</shortDescription>
         <value>To withdraw as a primary delegate, you must contact the participant or study team.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Assigned_As_Primary_Delegate_help_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assigned_As_Primary_Delegate_help_1</shortDescription>
+        <value>To withdraw as a primary delegate, you must contact the participant or study/program team.</value>
     </labels>
     <labels>
         <fullName>PP_Assignments</fullName>
@@ -31047,7 +31054,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You can also adjust these options during the visit</shortDescription>
-        <value>You can also adjust these options during the visit.</value>
+        <value>You can also adjust these options during the televisit.</value>
     </labels>
     <labels>
         <fullName>You_must_grant_microphone_permission_to_join_televisit</fullName>
@@ -31533,14 +31540,14 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Rescheduled Televisit</shortDescription>
-        <value>A televisit has been rescheduled.</value>
+        <value>A televisit has been rescheduled</value>
     </labels>
     <labels>
         <fullName>PP_Scheduled_Televisit</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Scheduled Televisit</shortDescription>
-        <value>New televisit(s) has been scheduled!</value>
+        <value>New televisit(s) has been scheduled</value>
     </labels>
     <labels>
         <fullName>PP_View_Televisits</fullName>
@@ -31554,7 +31561,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Canceled Televisit</shortDescription>
-        <value>A televisit has been canceled.</value>
+        <value>A televisit has been canceled</value>
     </labels>
     <labels>
         <fullName>PP_Connecting_professionals</fullName>
