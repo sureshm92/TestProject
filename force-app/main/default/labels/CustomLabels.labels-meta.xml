@@ -6552,6 +6552,18 @@ Sincerely,
 &lt;span style=&quot;color:#444444;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Televisit_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Reminder</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;This is a reminder of your upcoming televisit.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;If you are unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
         <fullName>PP_Reminder_Subject</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -19581,6 +19593,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Assigned_As_Primary_Delegate_help</shortDescription>
         <value>To withdraw as a primary delegate, you must contact the participant or study team.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Assigned_As_Primary_Delegate_help_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assigned_As_Primary_Delegate_help_1</shortDescription>
+        <value>To withdraw as a primary delegate, you must contact the participant or study/program team.</value>
     </labels>
     <labels>
         <fullName>PP_Assignments</fullName>
