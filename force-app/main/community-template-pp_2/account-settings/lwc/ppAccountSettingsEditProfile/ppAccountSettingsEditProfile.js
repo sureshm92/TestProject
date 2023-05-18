@@ -293,7 +293,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 }
             }
             if (partDOB && !partDOB.includes('--')) {
-                var dob = new Date(partDOB);
+                var dob = new Date(partDOB.replace(/-/g, "/"));
                 var month_diff = Date.now() - dob.getTime();
                 var age_dt = new Date(month_diff);
                 var year = age_dt.getUTCFullYear();
@@ -326,7 +326,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         for (var i = ageStart; i <= ageEnd; i++) {
             if(this.personWrapper && this.personWrapper.age && (this.personWrapper.age == ageStart || this.personWrapper.age == ageEnd)){
                 selectedAgeNotInOptions = true;
-                opt.push({ label: i.toString(), value: i.toString() ,isSelected : false});
+                opt.push({ label: i.toString(), value: i.toString() ,isSelected : true});
             }
             else{
                 opt.push({ label: i.toString(), value: i.toString() ,isSelected : false});
