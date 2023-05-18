@@ -537,7 +537,11 @@ export default class PpCreateTask extends LightningElement {
             if (this.subject && ((this.taskDueTime && this.taskDueDate) || this.disbaleDateTime)) {
                 if (!this.isReminderSelected && selectedTaskDueDateTime >= currentDateTimeObject) {
                     this.enableSave = true;
-                    if (!this.displayDateInUi && this.initData.participantDateTime == undefined) {
+                    if (
+                        !this.displayDateInUi &&
+                        this.initData.participantDateTime == undefined &&
+                        this.updatedRecord.reminderDateTime == this.initialRecord.reminderDateTime
+                    ) {
                         this.enableSave = false;
                     }
                 } else if (this.isReminderSelected) {
