@@ -50,7 +50,7 @@
                 </article>
             </template>
             <template if:false={desktop}>
-                <article class="slds-card slds-card_boundary container-card-mobile">
+                <article class={containerTabletCard}>
                     <p class="task-header">{label.tasksHeader}</p>
                     <div class="custom-padding">
                         <template if:true={taskOpenTab}>
