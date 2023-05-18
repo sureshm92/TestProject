@@ -34,15 +34,21 @@ public without sharing class TelevisitTriggerHandler {
     @TestVisible
     public static void checkForTelevisitreschedulenotify(List<Televisit__c> televisits, Map<Id, Televisit__c> oldMap) {
         List<Id> televisitRecordIdsSet = new List<Id>();
+        List<Id> execluderescheemailnotificons = new List<Id>();
         for (Televisit__c televisitRecord : televisits) {
             if(televisitRecord.Visit_Date_Time__c != oldMap.get(televisitRecord.id).Visit_Date_Time__c || televisitRecord.Duration__c != oldMap.get(televisitRecord.id).Duration__c ){
                 Televisit__c teleVisObj = (Televisit__c) televisitRecord;
                 televisitRecordIdsSet.add(teleVisObj.Id);
+                if(televisitRecord.Reshedule_Email_Notification_Check__c != null &&
+                   televisitRecord.Reshedule_Email_Notification_Check__c != '' &&
+                   televisitRecord.Reshedule_Email_Notification_Check__c.trim() != ''){
+                        execluderescheemailnotificons.addAll(televisitRecord.Reshedule_Email_Notification_Check__c.split(';'));
+                }
             }
             
         }
         List<Televisit_Attendee__c> listAttendee = [Select id,Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Contact__c,Attendee_Type__c from Televisit_Attendee__c 
-                                                    where Televisit__r.Status__c = 'Scheduled' AND Televisit__c IN:televisitRecordIdsSet AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff')];
+                                                    where Televisit__r.Status__c = 'Scheduled' AND Contact__c NOT IN:execluderescheemailnotificons AND Televisit__c IN:televisitRecordIdsSet AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff')];
         try{
             List<Notification__c> notifications = new List<Notification__c>();
             for(Televisit_Attendee__c attendee:listAttendee){
@@ -82,7 +88,7 @@ public without sharing class TelevisitTriggerHandler {
             SELECT
                 Id,
                 Status__c,
-                Visit_Date_Time__c,
+                Visit_Date_Time__c,Reshedule_Email_Notification_Check__c,
                 (
                     SELECT
                         Id,
@@ -114,6 +120,12 @@ public without sharing class TelevisitTriggerHandler {
         List<Notification__c> notificationsList = new List<Notification__c>();
         List<Televisit_Attendee__c> taList = new List<Televisit_Attendee__c>();
         for (Televisit__c teleObj : televisitsList) {
+            list<Id> consetnew ;
+            if(teleObj.Reshedule_Email_Notification_Check__c != null &&
+               teleObj.Reshedule_Email_Notification_Check__c != '' &&
+               teleObj.Reshedule_Email_Notification_Check__c.trim() != ''){
+                consetnew = teleObj.Reshedule_Email_Notification_Check__c.split(';');
+            }
             if (oldMap != null & oldMap.containsKey(teleObj.Id)) {
                 if (
                     oldMap.get(teleObj.Id).Status__c != teleObj.Status__c &
@@ -151,7 +163,8 @@ public without sharing class TelevisitTriggerHandler {
                     for (Televisit_Attendee__c teleAttendee : teleObj.Televisit_Attendee__r) {
                         if (
                             teleAttendee.Attendee_Type__c != 'Site Staff' &&
-                            teleAttendee.Attendee_Type__c != 'PI'
+                            teleAttendee.Attendee_Type__c != 'PI' &&
+                            (consetnew == null || (consetnew != null && !consetnew.contains(teleAttendee.Contact__c)))
                         ) {
                             Boolean isdelegate = false;
                             if(teleAttendee.Attendee_Type__c == 'Participant Delegate'){
