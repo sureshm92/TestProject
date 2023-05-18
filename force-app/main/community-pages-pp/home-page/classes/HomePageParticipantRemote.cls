@@ -96,9 +96,17 @@ public without sharing class HomePageParticipantRemote {
     public static String getStudyStaff(String studySiteId) {
         List<Site_Staff__c> siteStaffList = new List<Site_Staff__c>();
         siteStaffList = [
-            SELECT Id, Name, Site_Contact__c, Site_Contact__r.Name, Study_Site__c
+            SELECT
+                Id,
+                Name,
+                Site_Contact__c,
+                Site_Contact__r.Name,
+                Study_Site__c,
+                Site_Contact__r.Salutation,
+                Delegate_Level__c
             FROM Site_Staff__c
             WHERE Study_Site__c = :studySiteId
+            ORDER BY Delegate_Level__c ASC
         ];
 
         return JSON.serialize(siteStaffList);
