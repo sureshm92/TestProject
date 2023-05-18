@@ -291,8 +291,10 @@ public without sharing class AccountSettingsController {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
-            if (initData.myContact.userCommunityDelegateId__c != null) {
-                initData.myContact = ContactService.getContact(initData.myContact.userCommunityDelegateId__c);
+            if (initData?.myContact?.userCommunityDelegateId__c != null) {
+                initData.myContact = ContactService.getContact(
+                    initData.myContact.userCommunityDelegateId__c
+                );
             }
             initData.participant = getParticipantRecord(initData.myContact.Id);
             initData.contactSectionData.personWrapper = new PersonWrapper(
@@ -308,7 +310,9 @@ public without sharing class AccountSettingsController {
             return (String) AuraHelper.throwException(e);
         }
     }
-    public static AccountSettingsController.AccountData getleastYOBFormat(AccountSettingsController.AccountData initData) {
+    public static AccountSettingsController.AccountData getleastYOBFormat(
+        AccountSettingsController.AccountData initData
+    ) {
         List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
         List<Participant_Enrollment__c> perListForYOB = new List<Participant_Enrollment__c>();
         Set<Id> participantIdSet = new Set<Id>();
@@ -318,19 +322,16 @@ public without sharing class AccountSettingsController {
         participantIdSet.add(initData.participant.Id);
         perList = PatientDelegateService.getPerRecords(participantIdSet);
         //Del self view
-        if(allPdeList != null  && allPdeList.size() >0  && perList.size() == 0){
+        if (allPdeList != null && allPdeList.size() > 0 && perList.size() == 0) {
             initData.consentPreferenceData.studySiteYOBFormat = 'YYYY';
-        }
-        else {
+        } else {
             for (Patient_Delegate_Enrollment__c pde : allPdeList) {
                 perListForYOB.add(pde.Participant_Enrollment__r);
             }
             perListForYOB.addAll(perList);
         }
-        if(perListForYOB != null && perListForYOB.size() >0){
-             initData.consentPreferenceData.studySiteYOBFormat = leastYOBFormat(
-                perListForYOB
-            );
+        if (perListForYOB != null && perListForYOB.size() > 0) {
+            initData.consentPreferenceData.studySiteYOBFormat = leastYOBFormat(perListForYOB);
         }
         return initData;
     }
@@ -428,11 +429,7 @@ public without sharing class AccountSettingsController {
      * @return: Boolean
      **/
     public static Boolean checkIfMobilePhoneIsdeleted(Id contId, Id ParticipantId) {
-        Contact contact = [
-            SELECT Id, MobilePhone
-            FROM contact
-            WHERE Id = :contId
-        ][0];
+        Contact contact = [SELECT Id, MobilePhone FROM contact WHERE Id = :contId][0];
 
         Participant__c participant = [
             SELECT
@@ -510,7 +507,9 @@ public without sharing class AccountSettingsController {
                 ex.getMessage().contains(System.Label.Pswd_Val_strng2)
             ) {
                 throw new AuraHandledException(
-                    System.Label.Pswd_ValidationMsg3_1 + ' ' + System.Label.Pswd_ValidationMsg3_2
+                    System.Label.Pswd_ValidationMsg3_1 +
+                    ' ' +
+                    System.Label.Pswd_ValidationMsg3_2
                 );
             }
             if (ex.getMessage().contains(System.Label.Passwords_Do_Not_Match)) {
@@ -534,11 +533,15 @@ public without sharing class AccountSettingsController {
                         throw new AuraHandledException(System.Label.PP_CannotReuseOldPwd);
                     } else {
                         throw new AuraHandledException(
-                            ex.getMessage() + '\n' + ex.getStackTraceString()
+                            ex.getMessage() +
+                            '\n' +
+                            ex.getStackTraceString()
                         );
                     }
                     throw new AuraHandledException(
-                        ex.getMessage() + '\n' + ex.getStackTraceString()
+                        ex.getMessage() +
+                        '\n' +
+                        ex.getStackTraceString()
                     );
                 }
             }
@@ -1299,7 +1302,6 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             initData.consentPreferenceData.isIQIVAOutrechToggleOnAtCTP = isIQIVAOutrechToggleOnAtCTP;
         }
 
-        
         Boolean isParticipantLoggedInTemp = initData.consentPreferenceData.isParticipantLoggedIn;
         Boolean isDelegateSelfViewTemp = initData.consentPreferenceData.isDelegateSelfView;
         Participant__c currentParticipantTemp = new Participant__c();
