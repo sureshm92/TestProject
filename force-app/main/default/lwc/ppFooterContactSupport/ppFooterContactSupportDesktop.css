@@ -145,6 +145,27 @@
     color: #015ff1;
 }
 
+.plusMore {
+    height: 24px;
+    width: 79px;
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+
+.ph-notAvailable {
+    height: 17px;
+    width: 81px;
+    color: #999999;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+
 .marginLeft-16 {
     margin-left: 16px;
 }
