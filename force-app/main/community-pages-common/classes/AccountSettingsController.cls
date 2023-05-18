@@ -291,6 +291,9 @@ public without sharing class AccountSettingsController {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
+            if (initData.myContact.userCommunityDelegateId__c != null) {
+                initData.myContact = ContactService.getContact(initData.myContact.userCommunityDelegateId__c);
+            }
             initData.participant = getParticipantRecord(initData.myContact.Id);
             initData.contactSectionData.personWrapper = new PersonWrapper(
                 initData.myContact,
