@@ -1586,7 +1586,7 @@
                 }
 
                 .heading-container .slds-col:first-child {
-                    max-width: 250px;
+                    max-width: 1000px;
                 }
 
                 .speaker-container .speaker-feed,
