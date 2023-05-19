@@ -6,17 +6,18 @@ export default class PpMessageList extends LightningElement {
   @api enrollments;
   @api selectedIndex = -1;
   @api message_attachment;
+  @api isMobile;
 
   get timeZone() {
     return profileTZ;
   }
   handleMouseSelect(event) {
-    if (this.selectedIndex != event.currentTarget.dataset.id) {
+    if (this.selectedIndex != event.currentTarget.dataset.id || this.isMobile) {
       this.selectedIndex = event.currentTarget.dataset.id;
       this.changeSelected();
       let paramData = { indexvalue: this.selectedIndex };
       let ev = new CustomEvent("studyselected", { detail: paramData });
-      // this.dispatchEvent(ev);
+       this.dispatchEvent(ev);
     }
   }
   changeSelected() {
