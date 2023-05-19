@@ -318,15 +318,6 @@ public without sharing class IprEprTriggerHandler {
                         ipr.Phone_Type__c = '';
                     }
                 }
-                 if (errorsLog.size() > 0) {
-                  ipr.Error_Message__c = String.join(errorsLog, '\n');
-                   ipr.Is_retry_required__c = true;
-                   ipr.Batch_consideration__c = 'Processing';
-                   ipr.Retry_Count__c = 0;
-                  }else{
-                   ipr.Is_retry_required__c = false;
-                   ipr.Batch_consideration__c = 'Not completed';
-                 }
             }
         }
         
