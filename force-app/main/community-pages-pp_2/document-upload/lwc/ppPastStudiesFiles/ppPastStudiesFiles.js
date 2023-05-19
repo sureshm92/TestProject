@@ -2,6 +2,8 @@ import { LightningElement, api } from 'lwc';
 import getStudyList from '@salesforce/apex/PpPastStudiesFilesController.getStudyList';
 import fetchUploadedFiles from '@salesforce/apex/PpPastStudiesFilesController.fetchUploadedFiles';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
+import PP_MyFiles from '@salesforce/label/c.PP_MyFiles';
+import PP_SwitchStudyProgram from '@salesforce/label/c.PP_SwitchStudyProgram';
 import formFactor from '@salesforce/client/formFactor';
 
 export default class PpPastStudiesFiles extends LightningElement {
@@ -24,6 +26,11 @@ export default class PpPastStudiesFiles extends LightningElement {
     studyListDropDown;
     selectedStudyId;
     isLoaded = false;
+
+    label={PP_MyFiles,
+        PP_SwitchStudyProgram
+
+    };
     connectedCallback() {
         if (formFactor === 'Small') {
             this.isMobile = true;
