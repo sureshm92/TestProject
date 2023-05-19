@@ -1586,7 +1586,7 @@
                 }
 
                 .heading-container .slds-col:first-child {
-                    max-width: 250px;
+                    max-width: 1000px;
                 }
 
                 .speaker-container .speaker-feed,
@@ -2092,17 +2092,43 @@
                      width: 142px;
                      height: 36px !important;
                 }
+                .televisitleftcss{
+                    margin-left:50px;
+                }
+                
+                
                 
             }
 
             .OT_name.OT_mode-off {
                 display: block !important;
                 opacity: 100 !important;
-                top: 0 !important;
+                top: 75% !important;
+                bottom: 0;
+                margin-left: 10px;
+                margin-bottom: 10px;
                 
+                /*
+                top: 0 !important;
                 margin-top:45%;
-                margin-left:10px;
+                margin-left:10px;*/
+                
             }
+            
+             .speaker-feed .OT_name.OT_mode-off {
+                top: 92.5% !important;
+                bottom: 0;
+                margin-left: 10px;
+                margin-bottom: 10px;
+            
+            }
+            
+            .camera-screen .OT_name.OT_mode-off {
+                visibility:hidden;
+            }
+            
+            
+            
              .OT_publisher .OT_name, .OT_name.OT_edge-bar-item.OT_mode-off {
                 background-color: white;
                 color: #000;
@@ -2663,7 +2689,7 @@
                                         <div class="slds-popover slds-nubbin--top-right">
                                             <div class="slds-popover__header">
                                                 <span
-                                                    class="slds-text-heading--x-small slds-text-bold"
+                                                    class="slds-text-heading--x-small slds-text-bold" style="font-size:16px;font-weight:600;"
                                                 >
                                                     {!$Label.DeviceSettings_Header}
                                                 </span>
@@ -3063,10 +3089,10 @@
                                         </span>
                                         <div class="slds-grid">
                                             <div class="slds-col slds-medium-size_12-of-12">
-                                                <div class="televisit-end">
+                                                <div class="televisit-end" style="inline-size: 284px;margin-left: 50px;">
                                                     {!$Label.PT_Televisit_Left}
                                                 </div>
-                                                <div class="rejoin-buttons">
+                                                <div class="rejoin-buttons televisitleftcss">
                                                     <button
                                                         class="close-tv-button"
                                                         onclick="confirmCancelRejoin();"
