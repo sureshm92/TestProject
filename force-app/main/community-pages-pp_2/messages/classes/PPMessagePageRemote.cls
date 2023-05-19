@@ -23,6 +23,9 @@ public without sharing class PPMessagePageRemote {
         public Map<Id,String> profilePicture;
         @AuraEnabled
         public Boolean isSecondary;
+         @AuraEnabled
+        public string usrcontid;
+       
     }
 
     public class ConversationWrapper {
@@ -303,6 +306,30 @@ public without sharing class PPMessagePageRemote {
                     }
                  }
                 }
+                
+                List<Id> peId = new List<Id>();
+                List<Id> secDelpeIds = new List<Id>();
+                List<Conversation__c> lstConversations = new List<Conversation__c>();
+                List<Patient_Delegate_Enrollment__c> lstPDERs = new List<Patient_Delegate_Enrollment__c>();
+                Map<Id,Message__c> confidentialMsg = new Map<Id,Message__c>();
+                lstConversations =[Select Id,Participant_Enrollment__c from Conversation__c where Id IN:messagesByConversation.keySet()];
+                for(Conversation__c  c: lstConversations) {
+                    peId.add(c.Participant_Enrollment__c);
+                }
+                lstPDERs = [Select Id,Participant_Enrollment__c,Primary_Delegate__c,Patient_Delegate__c,Patient_Delegate__r.Contact__c from Patient_Delegate_Enrollment__c where Participant_Enrollment__c IN:peId
+                             and Primary_Delegate__c=false and Patient_Delegate__r.Contact__c =:piId];
+                for(Patient_Delegate_Enrollment__c pd: lstPDERs ) {
+                    secDelpeIds.add(pd.Participant_Enrollment__c); //study which current usr is sec delegate
+                }
+                for(Conversation__c cn:[Select Id,Participant_Enrollment__c,(Select Id,Conversation__c,Is_Confidential__c from Messages__r ORDER BY LastModifiedDate  DESC LIMIT 1)
+                                        from Conversation__c where Participant_Enrollment__c IN:secDelpeIds]){
+                       for(Message__c m:cn.Messages__r){
+                             if(m.Is_Confidential__c){
+                                    confidentialMsg.put(cn.Id,cn.Messages__r);
+                              }
+                       }
+                }
+                
                 pageData.conversationWrappers = new List<ConversationWrapper>();
                 for (Id conId : messagesByConversation.keySet()) {
                     Conversation__c conversation = conversationsByIds.get(conId);
@@ -319,25 +346,18 @@ public without sharing class PPMessagePageRemote {
                             pageData.userMode.equals(CommunityService.USER_MODE_PARTICIPANT) &&
                             conversation.haveUnreadForParticipant__c
                         ) {
-                            if(!pageData.isSecondary){
+                            if(confidentialMsg.get(conId) == null){
                                 conversation.haveUnreadForParticipant__c = false;
                                 lastUnRead = true;
                                 isLastMsgUnReadDtTime = conversation.FirstUnreadDate__c;
                                 update conversation;
-                            }else{
-                                 if(!isConfidential ){
-                                   conversation.haveUnreadForParticipant__c = false;
-                                   lastUnRead = true;
-                                   isLastMsgUnReadDtTime = conversation.FirstUnreadDate__c;
-                                   update conversation;
-                                 }
                             }
                             
                         }
                     }
                     Map<Id, List<String>> namesMap = peDelegateNamesMap.containsKey(conversation.Participant_Enrollment__c) ? peDelegateNamesMap.get(conversation.Participant_Enrollment__c) : new  Map<Id, List<String>>();
                     pageData.conversationWrappers.add(
-                        getConversationWrapper(
+                        getConversationWrapperNew(
                             pageData.userMode,
                             conversation,
                             messagesByConversation.get(conversation.Id),
@@ -346,13 +366,17 @@ public without sharing class PPMessagePageRemote {
                             namesMap,
                             pageData.piContactNames,
                             lastUnRead,
-                            isLastMsgUnReadDtTime  
+                            isLastMsgUnReadDtTime,
+                            formFactor,
+                            firstConId,
+                            confidentialMsg  
                         )
                     );
                 }
                }
             }
             pageData.partTodayDate = DateTime.now();
+            pageData.usrcontid = piId;
     
             Set<Id> lstUserId = new Set<Id>();
             List<User> lstUser = new List<User>();
@@ -362,7 +386,7 @@ public without sharing class PPMessagePageRemote {
                  lstMessage = [Select Id,CreatedById,Conversation__c,Sender_Name__c from Message__c where Conversation__c IN:lstConversation];
                  for(Message__c mes:lstMessage){
                      lstUserId.add(mes.CreatedById);
-                 }  
+                 }        
                  lstUserId.add(UserInfo.getUserId()); 
                  lstUser = [Select Id,SmallPhotoUrl,FullPhotoUrl  from User where Id IN:lstUserId];
                  for(User u:lstUser){
@@ -392,6 +416,127 @@ public without sharing class PPMessagePageRemote {
         } catch (Exception e) {
             return (MSPageData) AuraHelper.throwException(e);
         }
+    }
+    
+    private static ConversationWrapper getConversationWrapperNew(
+        String userMode,
+        Conversation__c conversation,
+        List<Message__c> messages,
+        Map<Id, ContentDocumentLink> documentLinksMap,
+        Boolean ascendingOrder,
+        Map<Id, List<String>> delegateNamesByParticipant,
+        Map<Id,String> piContactNames,
+        Boolean lastUnRead,
+        DateTime isLastMsgUnReadDtTime,
+        String formFactor,
+        String firstConId,
+        Map<Id,Message__c> confidentialMsg 
+    ) {
+        ConversationWrapper conWr = new ConversationWrapper();
+        conWr.conversation = conversation;
+
+        String conTitle;    
+        String conFullName;
+        String conDescription;
+        if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
+            conWr.unread = conversation.haveUnreadForParticipant__c;
+            if(lastUnRead){
+             conWr.isLastMsgUnRead = lastUnRead;
+             conWr.isLastMsgUnReadDtTime = isLastMsgUnReadDtTime;
+            }else{
+                if(formFactor != 'Small'){
+                     if(String.valueOf(conversation.Id).equals(firstConId)){
+                          conWr.isLastMsgUnRead = false;
+                          conWr.isLastMsgUnReadDtTime = conversation.FirstUnreadDate__c;
+                     }else{
+                            if(confidentialMsg.get(conversation.Id) == null){
+                                 conWr.isLastMsgUnRead = conversation.haveUnreadForParticipant__c;
+                                 conWr.isLastMsgUnReadDtTime = conversation.FirstUnreadDate__c;
+                            }else{
+                                 conWr.isLastMsgUnRead = false;
+                                 conWr.isLastMsgUnReadDtTime = conversation.FirstUnreadDate__c;
+                            }  
+                     }
+                }else{
+                     
+                           if(confidentialMsg.get(conversation.Id) == null){
+                                 conWr.isLastMsgUnRead = conversation.haveUnreadForParticipant__c;
+                                 conWr.isLastMsgUnReadDtTime = conversation.FirstUnreadDate__c;
+                            }else{
+                                 conWr.isLastMsgUnRead = false;
+                                 conWr.isLastMsgUnReadDtTime = conversation.FirstUnreadDate__c;
+                            }  
+                     
+                }
+             
+            }
+            Contact piContact = conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r;
+            conTitle = Label.Study_Team;
+            if(piContactNames!=null && piContactNames.containsKey(conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c)){
+                conFullName = piContactNames.get(conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c);
+            }else{
+                 conFullName = piContact.Name;
+            }  
+
+            if (
+                PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(
+                    conversation.Participant_Enrollment__r.Participant_Status__c
+                )
+            ) {
+                conWr.isPastStudy = true;
+                conDescription = conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
+            } else {
+                conDescription =
+                    Label.PI_Colon +
+                    ' ' +
+                    (String.isNotBlank(piContact.Title) ? piContact.Title + ' ' : '') +
+                    conFullName;
+            }
+        } else if (userMode == CommunityService.USER_MODE_PI) {
+            conWr.unread = conversation.haveUnreadForPI__c;
+            Participant__c participant = conversation.Participant_Enrollment__r.Participant__r;
+            conTitle = participant.Full_Name__c;
+            if(delegateNamesByParticipant.containsKey(conversation.Participant_Enrollment__c)){
+                conWr.patientDelegates = String.join(
+                    delegateNamesByParticipant.get(conversation.Participant_Enrollment__c),
+                    ', '
+                );
+                conTitle += ', ' + conWr.patientDelegates;
+            }
+            else if (delegateNamesByParticipant.containsKey(participant.Id)) {
+                conWr.patientDelegates = String.join(
+                    delegateNamesByParticipant.get(participant.Id),
+                    ', '
+                );
+                conTitle += ', ' + conWr.patientDelegates;
+            }
+            conFullName = participant.Full_Name__c;
+            conDescription = conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
+        }
+        conWr.title = conTitle;
+        conWr.fullName = conFullName;
+        conWr.description = conDescription;
+
+        if (!messages.isEmpty()) {
+            Message__c lastMessage = messages.get(0);
+            conWr.lastUpdate = lastMessage.CreatedDate.date();
+            conWr.lastMessagePart = lastMessage.Message_Content__c;
+
+            if (ascendingOrder)
+                CollectionUtil.sortByField(messages, 'CreatedDate', false);
+            List<MessageWrapper> messageWrappers = getMessageWrappers(messages, documentLinksMap);
+            conWr.haveAttachment = messageWrappers.get(0).attachmentWrapper != null;
+            conWr.messages = messageWrappers;
+            
+            Map<Id,String> nameList = new Map<Id,String>();
+            for(Message__c mes:messages){
+               nameList.put(mes.CreatedById,mes.Sender_Name__c);
+            }  
+            conWr.nameList = nameList;
+            conWr.peopleCount = nameList.size();
+             
+        }
+        return conWr;
     }
     
     //Method to fetch messages based on delegate is primary or secondary 
@@ -752,44 +897,18 @@ public without sharing class PPMessagePageRemote {
     }
     
     @AuraEnabled
-    public static ConversationWrapper markConversationAsRead(
-        Conversation__c conversation,
-        Boolean isIE,
-        Map<Id,String> piContactNames
+    public static void markConversationAsRead(
+        String convId
     ) {
         try {
             update new Conversation__c(
-                Id = conversation.Id,
+                Id = convId,
                 haveUnreadForParticipant__c = false,
                 haveUnreadForPI__c = false
             );
-            conversation.haveUnreadForParticipant__c = false;
-            conversation.haveUnreadForPI__c = false;
-
-            List<Message__c> messages = MessageService.getMessages(conversation.Id);
-
-            Map<Id, List<String>> participantsDelegateNames;
-            if (
-                CommunityService.getUserContact().userCommunityMode__c ==
-                CommunityService.USER_MODE_PI
-            ) {
-                participantsDelegateNames = ConversationService.getYourParticipantsDelegateNames(
-                    conversation.Participant_Enrollment__c
-                );
-            }
-
-            return getConversationWrapper(
-                CommunityService.getUserContact().userCommunityMode__c,
-                conversation,
-                messages,
-                MessageService.getAttachments(conversation.Id),
-                isIE,
-                participantsDelegateNames,
-                piContactNames,
-                false,null
-            );
+          
         } catch (Exception e) {
-            return (ConversationWrapper) AuraHelper.throwException(e);
+            AuraHelper.throwException(e);
         }
     }
 
