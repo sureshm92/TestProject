@@ -17,6 +17,14 @@
             component.find('spinner').hide();
         }
     },
+    handleMessageNotification: function (component, event, helper) {
+        let messages = event.getParam('message');
+        if(messages != null){
+            component.set('v.hasMessage',true);
+        }else{
+            component.set('v.hasMessage',false);
+        }
+    },
     doRefresh: function (component, event, helper) {
         helper.init(component);
         if (component.find('ppMenu')) component.find('ppMenu').forceRefresh();
