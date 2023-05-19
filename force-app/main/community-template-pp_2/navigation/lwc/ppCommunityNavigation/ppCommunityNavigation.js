@@ -228,7 +228,7 @@ export default class PpCommunityNavigation extends LightningElement {
             messages: {
                 page: 'messages',
                 label: navigationMessages,
-                icon: 'icon-envelope',
+                icon: 'message_menu_icon',
                 ismsg: true
             },
             'e-diaries': {
@@ -335,7 +335,15 @@ export default class PpCommunityNavigation extends LightningElement {
         });
         this.dispatchEvent(valueChangeEvent);
     }
-
+    handleMessageNotification(event){
+        if (!this.desktop) {
+            this.dispatchEvent(new CustomEvent('msgnotify', {
+                detail: {
+                    message: event.detail.message
+                } 
+            }));
+        }
+    }
     handleNavigation(event) {
         if (!this.desktop) {
             let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);

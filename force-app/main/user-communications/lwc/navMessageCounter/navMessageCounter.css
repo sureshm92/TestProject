@@ -30,3 +30,11 @@
 .nav-item:nth-child(5) {
     padding: 0px 10px !important;
 }
+@media (max-width: 768px) {
+    .new-msg-outer {
+        margin: 0.2rem 0 0 0.8rem;
+    }
+    .new-message {
+        bottom: 1px !important;
+    }
+}
