@@ -29,6 +29,12 @@
     height: 472px;
     padding-right: 8px;
 }
+.ms-send-button{
+    height: 35px;
+    width: 96px; 
+    border: none;
+    border-radius: 1rem;
+}
 .mob-parent-chat-item-sec {
     text-align: justify;
     padding: 8px 8px 20px 8px;
