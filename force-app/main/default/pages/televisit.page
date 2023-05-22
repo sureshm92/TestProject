@@ -1586,7 +1586,7 @@
                 }
 
                 .heading-container .slds-col:first-child {
-                    max-width: 250px;
+                    max-width: 1000px;
                 }
 
                 .speaker-container .speaker-feed,
@@ -2689,7 +2689,7 @@
                                         <div class="slds-popover slds-nubbin--top-right">
                                             <div class="slds-popover__header">
                                                 <span
-                                                    class="slds-text-heading--x-small slds-text-bold" style="font-size:16px;font-weight:600;"
+                                                    class="slds-text-heading--x-small slds-text-bold" style="font-size:16px;font-weight:600 !important;"
                                                 >
                                                     {!$Label.DeviceSettings_Header}
                                                 </span>
