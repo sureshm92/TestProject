@@ -275,6 +275,8 @@
 }
 .upcoming-card {
     /*background: rgb(248, 249, 251);*/
+    max-width: 468px;
+    margin: auto;
     height: auto;
     /*border: 1px solid lightgrey;*/
     border-top-left-radius: 16px;
@@ -296,6 +298,8 @@
     color: #ffffff;
 }
 .progressTab {
+    max-width: 468px;
+    margin: auto !important;
     height: 32px;
     margin: 0px 10px;
     margin-top: 13px;
@@ -316,4 +320,11 @@
 .progressIconPosition {
     padding-top: 7px !important;
     margin-left: 26px !important;
+}
+.tablet-margin {
+    margin: auto !important;
+}
+.ipad-width {
+    max-width: 468px;
+    margin: auto;
 }

@@ -1174,12 +1174,17 @@
                                     large-device-size="12"
                                 >
                                     <div class={getStudyConsentMargin}>
-                                        {label.PP_Communication_Pref_Outreach_consentA}&nbsp;
+                                        {label.PP_Outreach_Communication_Pref_A}&nbsp;
+                                        <template if:true={isCountryUS}
+                                            >{label.PP_Outreach_Communication_Pref_B}&nbsp;</template
+                                        >
+                                        {label.PP_Outreach_Communication_Pref_C}&nbsp;
                                         <span
                                             class="blue-highlight-text-color"
                                             onclick={openPrivacyPolicy}
-                                            >{label.PP_Communication_Pref_Outreach_consentB}</span
-                                        >{label.PP_Communication_Pref_Outreach_consentC}
+                                            >{label.PP_Communication_Pref_Outreach_consentB}
+                                        </span>
+                                        {label.PP_Outreach_Communication_Pref_D}
                                     </div>
                                 </lightning-layout-item>
                             </lightning-layout>

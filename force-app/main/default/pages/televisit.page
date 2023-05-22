@@ -1,5 +1,4 @@
-<apex:page 
-    controller="OpenTokClientController"
+<apex:page controller="OpenTokClientController"
     showHeader="false"
     sidebar="false"
     standardStylesheets="false"
@@ -18,42 +17,36 @@
     <apex:includeScript value="{!$Resource.jsonTV1}" />
     <apex:includeScript value="{!$Resource.jqueryCometdTV1}" />
     <link id="themeCSS" href="{!$Resource.Community_CSS_Stub}" rel="stylesheet" type="text/css" />
-    <apex:form>
+    <apex:form >
         <apex:actionPoller action="{!maintainSession}" interval="180" />
-        <apex:actionFunction
-            name="rerenderControllerValues"
+        <apex:actionFunction name="rerenderControllerValues"
             action="{!rerenderControllerValues}"
             rerender="controller-values"
         />
-        <apex:actionFunction 
-            name="updateSharingUserName"
+        <apex:actionFunction name="updateSharingUserName"
             action="{!updateSharingUserName}"
             rerender="screen-sharing-username-text"
         />
-        <apex:actionFunction 
-            name="updateAttendees"
+        <apex:actionFunction name="updateAttendees"
             action="{!updateAttendees}"
             rerender="participant-list,attendee-list"
         >
             <apex:param name="attendeesJson" assignTo="{!attendeesJson}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction 
-            name="validateAttendeeEmail"
+        <apex:actionFunction name="validateAttendeeEmail"
             action="{!validateAttendeeEmail}"
             rerender="controller-values"
             oncomplete="completeValidateAttendeeEmail();"
         >
             <apex:param name="attendeeEmailAddress" assignTo="{!attendeeEmailAddress}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction 
-            name="extendedMeetingInterval"
+        <apex:actionFunction name="extendedMeetingInterval"
             action="{!extendedMeetingInterval}"
             rerender="jspanel,televisitBanner,controller-values"
         >
             <apex:param name="meetingInterval" assignTo="{!meetingInterval}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction 
-            name="fetchUpdatedTelevisitDetails"
+        <apex:actionFunction name="fetchUpdatedTelevisitDetails"
             action="{!fetchUpdatedTelevisitDetails}"
             rerender="jspanel,televisitBanner,controller-values"
         />
@@ -447,6 +440,8 @@
                 disconnectFromSession();
                 window.close();
             }
+            
+            
 
             function toggleDeviceSettingsVisible() {
                 let settingsContainerId = sessionJoined ? '#in-call-device-settings-container' : '#device-settings-container'
@@ -747,14 +742,32 @@
                 toggle('.self-feed-container', 'slds-hide');
                 toggle('.video-container', 'slds-medium-size_3-of-4');
                 toggle('.controls', 'slds-size_3-of-4');
+                
+                
+                
 
                 toggle('.ctrls-feeds-action-bar', 'speaker-view');
                 toggle('.ctrls-feeds-action-bar', 'share-view');
 
                 if (isSubscribedScreenShare) {
                     addClass('.button--sharing', 'slds-hide');
+                    
+                    var myDiv = document.getElementsByClassName("OT_name");
+                    for (var i = 0; i < myDiv.length; i++) {
+                       myDiv[i].setAttribute("style", "visibility: hidden;");
+                    }
+                    
+                    
+                    
                 } else {
                     removeClass('.button--sharing', 'slds-hide');
+                    
+                    var myDiv = document.getElementsByClassName("OT_name");
+                    for (var i = 0; i < myDiv.length; i++) {
+                       myDiv[i].setAttribute("style", "visibility: none;");
+                    }
+                    
+                    
                 }
 
                 if (stream) {
@@ -1426,10 +1439,11 @@
 
             .televisit-end {
                 color: #999999;
-                font-size: 24px;
+                font-size: 16px;
                 font-weight: 600;
                 letter-spacing: 0;
-                line-height: 37px;
+                line-height: 30px;
+                
             }
 
             .extendCallListUpdatedClass {
@@ -1460,18 +1474,19 @@
                 padding: 8px 12px;
                 background-color: #0768fd;
                 border: none;
-                border-radius: 4px;
-                font-size: 16px !important;
-                font-weight: 500 !important;
+                border-radius: 30px;
+                font-size: 14px !important;
+                font-weight: 600 !important;
                 margin-left: 10px !important;
+                
             }
 
             .close-tv-button {
                 background: transparent;
                 border: none;
-                font-size: 16px !important;
+                font-size: 14px !important;
                 color: #0768fd !important;
-                font-weight: 500 !important;
+                font-weight: 600 !important;
                 letter-spacing: 0;
                 line-height: 24px !important;
                 text-align: center;
@@ -1571,7 +1586,7 @@
                 }
 
                 .heading-container .slds-col:first-child {
-                    max-width: 250px;
+                    max-width: 1000px;
                 }
 
                 .speaker-container .speaker-feed,
@@ -1622,6 +1637,7 @@
 
             .participants h2 {
                 font-weight: bold;
+                font-size: 16px;
             }
 
             .OT_widget-container {
@@ -1641,12 +1657,14 @@
                 background-color: #df216d;
                 border-color: #df216d;
                 color: white;
+               
             }
 
             .slds-button-circle.button_white {
                 background-color: white;
                 border-color: #b5b5b5;
                 color: #0768fd;
+                margin-right:12px;
             }
 
             .slds-button-circle.button_white svg {
@@ -1657,6 +1675,7 @@
                 background-color: #0768fd;
                 border-color: #0768fd;
                 color: white;
+                margin-right:12px;
             }
 
             .slds-button-circle.button_blue svg {
@@ -1989,7 +2008,7 @@
             .participant-item {
                 border-bottom: 1px solid #f6f7fb;
                 padding: 1em;
-                font-size:14px;
+                font-size:16px;
             }
 
             .participant-list {
@@ -2073,14 +2092,43 @@
                      width: 142px;
                      height: 36px !important;
                 }
+                .televisitleftcss{
+                    margin-left:50px;
+                }
+                
+                
                 
             }
 
             .OT_name.OT_mode-off {
                 display: block !important;
                 opacity: 100 !important;
+                top: 75% !important;
+                bottom: 0;
+                margin-left: 10px;
+                margin-bottom: 10px;
+                
+                /*
                 top: 0 !important;
+                margin-top:45%;
+                margin-left:10px;*/
+                
             }
+            
+             .speaker-feed .OT_name.OT_mode-off {
+                top: 92.5% !important;
+                bottom: 0;
+                margin-left: 10px;
+                margin-bottom: 10px;
+            
+            }
+            
+            .camera-screen .OT_name.OT_mode-off {
+                visibility:hidden;
+            }
+            
+            
+            
              .OT_publisher .OT_name, .OT_name.OT_edge-bar-item.OT_mode-off {
                 background-color: white;
                 color: #000;
@@ -2191,6 +2239,11 @@
             .join-button-disabled {
                 opacity: 0.4;
             }
+            .close-window-button{
+                background-color: #0768fd !important;
+                font-weight: 600 !important;
+                border-radius: 30px !important;
+            }
             .back-button {
                 height: 40px;
                 color: #0768fd !important;
@@ -2204,7 +2257,10 @@
                 background-color: #00c221 !important;
                 border-color: #00c221 !important;
             }
+            
+            
         </style>
+        
     </head>
 
     <body
@@ -2234,7 +2290,7 @@
         </header>
 
         <!--Call Preview Screen -->
-        <apex:outputPanel rendered="{!isSessionJoinable == true}">
+        <apex:outputPanel rendered="{!isSessionJoinable == true}" >
             <div class="call-preview-screen slds-hide" id="call-preview-screen-container">
                 <div id="welcome-container">
                     <apex:outputPanel rendered="{!isSessionJoinable == true}">
@@ -2633,7 +2689,7 @@
                                         <div class="slds-popover slds-nubbin--top-right">
                                             <div class="slds-popover__header">
                                                 <span
-                                                    class="slds-text-heading--x-small slds-text-bold"
+                                                    class="slds-text-heading--x-small slds-text-bold" style="font-size:16px;font-weight:600 !important;"
                                                 >
                                                     {!$Label.DeviceSettings_Header}
                                                 </span>
@@ -2781,9 +2837,10 @@
                                                 ></use>
                                             </svg>
                                         </span>
+                                        <br/>
                                         <span
                                             class="slds-align_absolute-center slds-text-heading--small"
-                                            style="font-size: 13pt; color: #999999"
+                                            style="font-size: 20px; color: #999999;font-weight:600;"
                                         >
                                             {!$Label.First_Attendee}
                                         </span>
@@ -2796,8 +2853,7 @@
 
                                     <div id="screen-sharing-username-text">
                                         <apex:outputPanel id="screen-sharing-username-text">
-                                            <apex:outputText 
-                                                value="{!$Label.ScreenSharePublisherUsernameText}"
+                                            <apex:outputText value="{!$Label.ScreenSharePublisherUsernameText}"
                                             >
                                                 <apex:param value="{!sharingUserName}" />
                                             </apex:outputText>
@@ -3033,10 +3089,10 @@
                                         </span>
                                         <div class="slds-grid">
                                             <div class="slds-col slds-medium-size_12-of-12">
-                                                <div class="televisit-end">
+                                                <div class="televisit-end" style="inline-size: 284px;margin-left: 50px;">
                                                     {!$Label.PT_Televisit_Left}
                                                 </div>
-                                                <div class="rejoin-buttons">
+                                                <div class="rejoin-buttons televisitleftcss">
                                                     <button
                                                         class="close-tv-button"
                                                         onclick="confirmCancelRejoin();"
@@ -3080,7 +3136,17 @@
                                             <div class="slds-col slds-medium-size_12-of-12">
                                                 <div class="televisit-end">
                                                     {!$Label.PT_Session_Ended}
+                                                    
+                                                    
                                                 </div>
+                                                <br/>
+                                                <button
+                                                        id="tv-back-button"
+                                                        class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button"
+                                                        onclick="confirmCancel();"
+                                                    >
+                                                        {!$Label.PP_Opt_Out_Close_window}
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>

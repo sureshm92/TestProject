@@ -1327,7 +1327,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 .selection .slds-dropdown-trigger_click .slds-dropdown,
 .selection .slds-dropdown-trigger_click:hover {
-    border-radius: 16px !important;
+    border-radius: 4px !important;
     background-color: #ffffff !important;
     margin-bottom: 10px !important;
 }
@@ -1335,6 +1335,19 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     width: 0px !important;
     display: none !important;
 }
+.selection .slds-listbox__option .slds-media__body{
+    font-size: 1rem; 
+}
+.selection .slds-input_faux{
+    height:35px !important;
+    padding-top: 2px;
+}
+.selection .slds-combobox__input .slds-input_faux{
+    padding-right: 10px;
+}
+.selection .slds-input__icon-group_right {
+    right: 10px !important;
+  }
 /* Date Time Dropdown Alignment */
 
 .slds-listbox.slds-dropdown {
@@ -2130,6 +2143,12 @@ user agent stylesheet svg:not(:root) {
 }
 .update-container .rr-spinner {
     background-color: transparent;
+}
+.refresh-section:hover .refresh-text {
+    color: #0557d5;
+}
+.refresh-section:hover .refresh-icon svg.rr-icon_default {
+    fill: #0557d5 !important;
 }
 .result-container .rr-spinner {
     background: #ffffff;

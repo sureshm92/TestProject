@@ -118,10 +118,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                         targetIds.add(
                             attendeeTelevisitMap.get(conId).televisitAttendee.Televisit__c
                         );
-                        if (targetIds.size() > 13) {
-                            targetIds.remove(0);
-                        }
-                            notificationObj.Target_Record_Ids__c = String.join(targetIds, ',');
+                        notificationObj.Target_Record_Ids__c = gettrimmedTargetRecordIds(targetIds);
                         }
                     updatedNotificationList.add(
                         new Notification__c(
@@ -137,16 +134,19 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                     attendeeTelevisitMap.get(conId).notificationType
                 ) {
                     needtoCreate = false;
-                    updatedNotificationList.add(
-                        new Notification__c(
-                            Id = notificationObj.Id,
-                            Target_Record_Ids__c = notificationObj.Target_Record_Ids__c.contains(
+                    String targetRecordIdStr = notificationObj.Target_Record_Ids__c.contains(
                                     attendeeTelevisitMap.get(conId).televisitAttendee.Televisit__c
                                 )
                                 ? notificationObj.Target_Record_Ids__c
                                 : notificationObj.Target_Record_Ids__c +
                                 ',' +
-                                  attendeeTelevisitMap.get(conId).televisitAttendee.Televisit__c
+                          attendeeTelevisitMap.get(conId).televisitAttendee.Televisit__c;
+                    List<Id> targetIds = targetRecordIdStr.split(',');
+
+                    updatedNotificationList.add(
+                        new Notification__c(
+                            Id = notificationObj.Id,
+                            Target_Record_Ids__c = gettrimmedTargetRecordIds(targetIds)
                         )
                     );
                 }
@@ -232,6 +232,19 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             notifications.addAll(updateNotifications);
         }
         Database.upsert(notifications);
+    }
+    @TestVisible
+    private static String gettrimmedTargetRecordIds(List<Id> targetIds) {
+        Integer idLength = targetIds.size() - 13;
+        if (targetIds.size() > 13 && idLength > 0) {
+            for (Integer i = 0; i < idLength; i++) {
+                targetIds.remove(0);
+            }
+        }
+        if (!targetIds.isEmpty()) {
+            return String.join(targetIds, ',');
+        }
+        return '';
     }
 
     @TestVisible
