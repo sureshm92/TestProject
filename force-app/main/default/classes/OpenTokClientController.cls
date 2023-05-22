@@ -63,7 +63,7 @@ public without sharing class OpenTokClientController {
             appNamestr = 'IQVIA';
         }*/
         appNamestr = 'IQVIA Referral Hub'; //Added by RAviteja
-        headerbg = 'headerbg-rh';
+        //headerbg = 'headerbg-rh';
         meetingInterval = '';
         //OMSF-5206 Ends
 

@@ -11,9 +11,7 @@
                                 {label.Visit_Result_Group_MetabolicPanel}
                             </div>
 
-                            <div
-                                class="slds-grid slds-wrap slds-gutters slds-p-horizontal_xx-large"
-                            >
+                            <div class="slds-grid slds-wrap slds-gutters visit-result-section">
                                 <template
                                     for:each={visitResultsMetabolicPanel}
                                     for:item="result"
@@ -38,9 +36,7 @@
                             <div class="labs-header slds-p-bottom_small">
                                 {label.Visit_Result_Group_Hematology}
                             </div>
-                            <div
-                                class="slds-grid slds-wrap slds-gutters slds-p-horizontal_xx-large"
-                            >
+                            <div class="slds-grid slds-wrap slds-gutters visit-result-section">
                                 <template
                                     for:each={visitResultsHematology}
                                     for:item="result"
@@ -66,9 +62,7 @@
                                 {label.Visit_Result_Group_FastingLipidProfile}
                             </div>
 
-                            <div
-                                class="slds-grid slds-wrap slds-gutters slds-p-horizontal_xx-large"
-                            >
+                            <div class="slds-grid slds-wrap slds-gutters visit-result-section">
                                 <template
                                     for:each={visitResultsFastingLipidProfile}
                                     for:item="result"
@@ -110,9 +104,7 @@
             <!--Vitals-->
             <template lwc:if={isVitalsSelected}>
                 <template lwc:if={isVitalsResultsAvailable}>
-                    <div
-                        class="slds-grid slds-wrap slds-gutters slds-p-horizontal_xx-large labs-subtype"
-                    >
+                    <div class="slds-grid slds-wrap slds-gutters visit-result-section labs-subtype">
                         <template for:each={visitResultsVitals} for:item="result" for:index="index">
                             <div
                                 key={result}
@@ -148,9 +140,7 @@
             <!--Biomarker-->
             <template lwc:if={isBiomarkersSelected}>
                 <template lwc:if={isBioResultsAvailable}>
-                    <div
-                        class="slds-grid slds-wrap slds-gutters slds-p-horizontal_xx-large labs-subtype"
-                    >
+                    <div class="slds-grid slds-wrap slds-gutters visit-result-section labs-subtype">
                         <template for:each={visitResultsBio} for:item="result" for:index="index">
                             <div
                                 key={result}

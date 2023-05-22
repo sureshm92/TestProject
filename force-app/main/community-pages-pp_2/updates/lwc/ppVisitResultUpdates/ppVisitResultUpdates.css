@@ -192,31 +192,22 @@
     letter-spacing: 0;
     cursor: pointer;
 }
-.link-title {
-    width: 100%;
-    height: 30px;
-}
 .icon-style {
     margin-top: 5px;
 }
-.helpful-link-title {
-    color: #757575;
-    font-size: 13px;
-    letter-spacing: 0.1px;
-    line-height: 14px;
-    margin-left: 10px;
-    margin-top: 10px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    text-transform: uppercase;
+
+.visitresult-title {
+    width:100%;
+    height: 51px;
 }
 
-.helpful-link-horizontal {
-    width: 100%;
-    height: 16px;
+.visitresult-title-horizontal {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 10px 10px 0 10px;
+    cursor: pointer;
 }
 
 .link-image {
