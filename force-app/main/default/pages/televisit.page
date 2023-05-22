@@ -1724,6 +1724,7 @@
                 .people-icon-wrapper {
                     display: inline-block;
                     padding: 10px;
+                    margin-right: -10px;
                 }
                 .televisitBanner {
                     margin-top: 55px;
@@ -2150,6 +2151,12 @@
                 .icon-settings{
                     padding-left:6px;
                     margin-top:0px !important;
+                }
+                .video-container{
+                    padding:8px 0px !important;
+                }
+                .top-margin-container{
+                    margin:1.5em;
                 }
                 
                 
