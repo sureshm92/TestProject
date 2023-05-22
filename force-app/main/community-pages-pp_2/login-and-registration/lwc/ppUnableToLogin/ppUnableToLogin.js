@@ -15,7 +15,6 @@ import unableToLogin9 from '@salesforce/label/c.PG_Unable_To_Login_L9';
 import unableToLogin10 from '@salesforce/label/c.PG_Unable_To_Login_L10';
 import loginLinkForgot from '@salesforce/label/c.Lofi_Forgot_Password';
 import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
-import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 
 export default class PpUnableToLogin extends NavigationMixin(LightningElement) {
     labels = {
@@ -34,15 +33,6 @@ export default class PpUnableToLogin extends NavigationMixin(LightningElement) {
     };
     @api isRTLLanguage = false;
     @api userId;
-    renderedCallback() {
-        Promise.all([loadStyle(this, communityPPTheme)])
-            .then(() => {
-                console.log('Files loaded');
-            })
-            .catch((error) => {
-                console.log(error.body.message);
-            });
-    }
 
     redirectToForgotPassword() {
         if (this.userId) {

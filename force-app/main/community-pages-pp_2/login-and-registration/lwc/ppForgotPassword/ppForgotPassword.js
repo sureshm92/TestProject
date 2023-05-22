@@ -9,8 +9,6 @@ import emailSentToUser from '@salesforce/label/c.PP_Email_Sent_To_User';
 import emailSent from '@salesforce/label/c.PP_Email_Sent';
 import backToLogin from '@salesforce/label/c.PP_BTN_Back_To_Log_in';
 import sendEmailLabel from '@salesforce/label/c.PP_SendBtn';
-import communityResource from '@salesforce/resourceUrl/rr_community_js';
-import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import rtlLanguageLabel from '@salesforce/label/c.RTL_Languages';
 import footer1 from '@salesforce/label/c.PP_Forgot_Password_Footer1';
 import footer2 from '@salesforce/label/c.PP_Forgot_Password_Footer2';
@@ -42,31 +40,14 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
     @track btnClassName = 'slds-button btn-sendEmail';
 
     connectedCallback() {
-        Promise.all([loadScript(this, communityResource)])
-            .then(() => {
-                console.log('RR_COMMUNITY_JS loaded');
-                let language = communityService.getUrlParameter('language');
-                let label = this.labels;
-                this.isRTL = label.rtlLanguageLabel.includes(language);
-                console.log('this.isRTL' + this.isRTL);
-            })
-            .catch((error) => {
-                console.log(error.body.message);
-            });
+        let language = communityService.getUrlParameter('language');
+        let label = this.labels;
+        this.isRTL = label.rtlLanguageLabel.includes(language);
         if (!this.usrnameval) {
             this.usrnameval = '';
         }
     }
 
-    renderedCallback() {
-        Promise.all([loadStyle(this, communityPPTheme)])
-            .then(() => {
-                console.log('Files loaded');
-            })
-            .catch((error) => {
-                console.log(error.body.message);
-            });
-    }
     get inputClass() {
         return this.showError
             ? 'slds-input input-field-container-error'
