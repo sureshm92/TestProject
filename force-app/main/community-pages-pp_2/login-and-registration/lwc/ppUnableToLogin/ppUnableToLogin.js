@@ -38,7 +38,6 @@ export default class PpUnableToLogin extends NavigationMixin(LightningElement) {
         if (this.userId) {
             isUserPasswordLocked({ userName: this.userId })
                 .then((result) => {
-                    console.log('##result: ' + JSON.stringify(result));
                     if (result.TimeDifference) {
                         const unableToLoginEvent = new CustomEvent('modalclose', {
                             detail: {

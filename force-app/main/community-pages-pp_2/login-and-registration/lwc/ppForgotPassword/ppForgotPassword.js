@@ -37,7 +37,7 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
         unableToLogin6,
         backButton
     };
-    @track btnClassName = 'slds-button btn-sendEmail';
+    @track btnClassName = 'primaryBtn slds-button btn-sendEmail';
 
     connectedCallback() {
         let language = communityService.getUrlParameter('language');
