@@ -423,7 +423,7 @@ export default class HomePageParticipantNew extends LightningElement {
         if (this.showProgress) {
             return 'xlarge';
         }
-        return 'medium';
+        return 'progress';
     }
 
     updateCounter(event) {
