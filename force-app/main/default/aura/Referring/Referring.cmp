@@ -1172,7 +1172,7 @@
                                                         <div  >
                                                         <lightning:fileUpload 
                                                             name="fileUploader" multiple="false"
-                                                            disabled="{!v.disableFile}" accept=".pdf"
+                                                            disabled="{!v.disableFile}"
                                                             onuploadfinished="{!c.handleUploadFinished}" />
                                                         <div class="slds-grid slds-gutters slds-wrap"
                                                             style="padding-top: 10px">
@@ -1798,7 +1798,7 @@
                                                             <div>
                                                                <lightning:fileUpload 
                                                                     name="fileUploader" multiple="false"
-                                                                    disabled="{!v.disableFile}" accept=".pdf"
+                                                                    disabled="{!v.disableFile}"
                                                                     onuploadfinished="{!c.handleUploadFinished}" />
                                                                 <div class="slds-grid slds-gutters slds-wrap"
                                                                     style="padding-top: 10px">
