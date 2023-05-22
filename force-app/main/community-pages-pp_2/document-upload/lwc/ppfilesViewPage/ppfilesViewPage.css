@@ -183,10 +183,6 @@
     position: relative;
     width: 100%;
 }
-.backtoFile{
-    margin-left: 14px;
-    margin-bottom: 11px;
-}
 .fileInput {
     width: 100%;
     /* height: 280px; */
@@ -308,7 +304,7 @@
     /* padding-top: 0.85rem; */
     /* padding-top: 0.75rem; */
 }
-.cancelBtnmbl {
+.cancelBtnmbl{
     padding-left: 8px;
 }
 .progressBarError {
@@ -338,7 +334,9 @@
 .progressBarMbl .slds-progress-bar__value {
     background-color: #0768fd;
 }
-
+.deskinput .slds-input{
+    border-radius: none;
+}
 .button-uploadWarning {
     justify-content: center;
     width: 107px;
@@ -350,7 +348,7 @@
     line-height: 1.3125rem;
     text-align: center;
     border-radius: 1.25rem;
-    background-color: #0768fd;
+    background-color:  #0768fd;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(226, 0, 0, 0.16);
 }
 
@@ -364,12 +362,27 @@
     text-align: center;
 }
 
-.button-cancel .slds-button:active {
+.button-cancel .slds-button:active{
     border: transparent;
 }
-.button-continue {
+.button-continue{
     color: white;
     border: none;
+}
+.button-upload-mobile{
+    justify-content: center;
+    width: 100%;
+    height: 2rem;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.3125rem;
+    text-align: center;
+    border-radius: 1.25rem;
+    background-color:#015FF1;
+    box-shadow: 0 4px 8px 0 rgba(7,104,253,0.25);
+    
 }
 
 .button-delete {
@@ -383,77 +396,103 @@
     line-height: 1.3125rem;
     text-align: center;
     border-radius: 1.25rem;
-    background-color: #e20000;
+    background-color:#e20000;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(226, 0, 0, 0.16);
 }
-
-.dividerfiles {
-    height: 1px;
-
-    border-bottom: 1px solid #f6f7fb;
-    /* border-bottom: 1px solid red; */
-    width: auto;
-    display: block;
-    margin-right: 1rem;
-    margin-left: 1.5rem;
+.button-delete-mobile {
+    justify-content: center;
+    width: 100%;
+    height: 2rem;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.3125rem;
+    text-align: center;
+    border-radius: 1.25rem;
+    background-color:#e20000;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(226, 0, 0, 0.16);
+    margin-bottom: 16px;
 }
-.popovercss {
+
+.previewCss{
+    width:100%;
+    z-index: -999;
+    min-height:400px ;
+    /* overflow-y: auto; */
+}
+.previewCssMobile{
+    width:100%;
+    z-index: -999;
+}
+.dividerfiles{ 
+        height: 1px;
+        
+        border-bottom: 1px solid #f6f7fb;
+        /* border-bottom: 1px solid red; */
+        width: auto; 
+        display: block;
+        margin-right: 1rem;
+        margin-left: 1.5rem;
+}
+.popovercss{
     position: absolute;
     /* top: 29rem; */
     /* bottom: -8rem; */
     /* left: 45px; */
     right: 30px;
 }
-.info-tooltip_position {
-    position: absolute;
-    top: 1.25rem;
-    right: 0rem;
+.info-tooltip_position{
+    position:absolute;
+    top:1.25rem;
+    right:0rem;
 }
 
-.info-tooltip_position.slds-nubbin_top-right:before,
-.info-tooltip_position.slds-nubbin_top-right:after {
-    right: 3.5rem;
+.info-tooltip_position.slds-nubbin_top-right:before,.info-tooltip_position.slds-nubbin_top-right:after{
+    right:3.5rem;
 }
 .crossicon:hover {
     cursor: pointer;
 }
-.toastContainer > .forceToastMessage {
-    margin-top: 4.25rem !important;
+.toastContainer > .forceToastMessage{
+    margin-top: 4.25rem!important;
 }
 .errorMessage {
     font-size: 13px;
     padding-left: 1rem;
-    color: #e20000;
+    color: #E20000;
     font-style: italic;
-    font-family: 'Proxima Nova';
+    font-family: "Proxima Nova";
 }
 .errorMessageMbl {
     font-size: 13px;
     /* padding-left: 1rem; */
-    color: #e20000;
+    color: #E20000;
     font-style: italic;
-    font-family: 'Proxima Nova';
+    font-family: "Proxima Nova";
 }
 .errorMessageProgress {
     font-size: 13px;
     padding-left: 6px;
     font-style: italic;
-    color: #e20000;
-    font-family: 'Proxima Nova';
+    color: #E20000;
+    font-family: "Proxima Nova";
 }
-.errorFileNameEmpty {
+.errorFileNameEmpty{
     font-size: 13px;
     padding-left: 9px;
     font-style: italic;
-    color: #e20000;
-    font-family: 'Proxima Nova';
+    color: #E20000;
+    font-family: "Proxima Nova";
 }
-.errornameboxred {
-    border: 1px solid #e20000;
+.errornameboxred{
+    border: 1px solid #E20000;
     border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
 }
-
-.retryIcon {
+ 
+.retryIcon{
     float: right;
     padding-right: 2rem;
 }
@@ -549,7 +588,7 @@
     font-size: 13px;
     font-style: italic;
 }
-.addmarginwhenerror {
+.addmarginwhenerror{
     margin-top: -40px;
 }
 .horizontal {
@@ -590,7 +629,7 @@
 .upld-can-btn {
     float: right;
 }
-.imgcrossmbl {
+.imgcrossmbl{
     text-align: right;
     padding-right: 1.5rem;
 }
@@ -611,10 +650,6 @@
 .mbllightninglayout {
     padding-left: 11px;
     padding-right: 11px;
-}
-.imgcrossmbl{
-    text-align: right;
-    padding-right: 1.5rem;
 }
 .upload-rectangle {
     box-sizing: border-box;
@@ -641,15 +676,19 @@
     height: 32px;
     width: 157px;
     border: 1px solid #e9e9e9;
-    /* border: 1px solid #9797975c; */
+    /* border: 1px solid #9797975c; */  
     border-radius: 16px;
     color: #015ff1;
     cursor: pointer;
     /* border: none; */
     background: None;
 }
-.disabledrag {
+.disabledrag{
     opacity: 0.5;
+}
+.backtoFile{
+    margin-left: 14px;
+    margin-bottom: 11px;
 }
 .cancel-btnDesk {
     box-sizing: border-box;
@@ -673,8 +712,12 @@
     color: #ffffff;
     cursor: pointer;
     margin-left: 3.5rem;
+   
 }
-.opacityon {
+.overFlowTitle{
+    overflow-wrap:anywhere;
+}
+.opacityon{
     opacity: 0.4;
 }
 .upload-progress-scroll {
@@ -682,7 +725,7 @@
     height: 360px;
     margin-right: 8px;
 }
-.filesspace {
+.filesspace{
     background-color: white;
 }
 .scrollableclass {
@@ -691,14 +734,14 @@
     overflow-y: auto;
     margin-right: 8px;
 }
-.uplaodfilesbutton {
+.uplaodfilesbutton{
     margin-top: 8px;
 }
 .upload-newFile-btn {
     height: 32px;
     width: 382px;
     border-radius: 16px;
-    background-color: #0768fd;
+    background-color: #0768FD;
     /* box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 2px 8px 0 rgba(7, 104, 253, 0.32); */
     cursor: pointer;
     color: #ffffff;
@@ -722,8 +765,9 @@
     .cancel-btn {
         width: 132px;
     }
-}
 
+}
+ 
 @media all and (min-width: 363px) and (max-width: 376px) {
     .upload-btn {
         margin-left: 2.5rem;
@@ -776,11 +820,11 @@
     }
 }
 
-@media all and (max-width: 394px) {
+@media all and (max-width: 394px){
     .upld-file-txt {
         padding-left: 0.5rem;
     }
-    .progressBarMbl {
+    .progressBarMbl{
         padding-left: 0.5rem;
     }
 }
@@ -843,11 +887,17 @@
         /* margin-top: 13rem !important; */
         position: unset;
     }
+    .upload-progress-scroll {
+        height: 36rem; 
+    }
 }
 @media all and (min-width: 822px) and (max-width: 1024px) {
     .btn-position {
         /* margin-top: 24rem !important; */
         position: unset;
+    }
+    .upload-progress-scroll {
+        height: 45rem; 
     }
 }
 @media all and (min-width: 768px) and (max-width: 1368px) {
@@ -855,11 +905,44 @@
         width: 98%;
     }
 }
-@media all and (min-width: 768px) {
+@media all and  (min-width: 740px) and (max-width: 768px)   {
     .upload-progress-scroll {
-        height: 36rem;
+        height: 33rem; 
     }
 }
+@media all  and (max-width: 359px){
+    .upload-progress-scroll {
+        height: 10rem; 
+    }
+}
+
+@media all and  (min-width: 360px)  and (max-width: 389px) {
+    .upload-progress-scroll {
+        height: 10rem; 
+    }   
+}
+@media all and  (min-width: 390px)  and (max-width: 411px){
+    .upload-progress-scroll {
+        /* height: 21rem;  */
+        height: 17rem; 
+    }
+}
+
+@media all and  (min-width: 412px) and (max-width: 767px) {
+    .upload-progress-scroll {
+        /* height: 22rem;  */
+        height: 20rem; 
+    }
+}
+
+
+@media all and (min-width: 768px) and (max-width: 819px) {
+    .upload-progress-scroll {
+        height: 33rem; 
+    }
+}
+
+
 
 @media all and (min-width: 658px) and (max-width: 1368px) {
     .cancel-btn {
@@ -872,9 +955,17 @@
     }
 }
 
+
 @media screen and (pointer: coarse) and (orientation: landscape) and (min-width: 600px) {
     .upload-progress-scroll {
         height: 21rem;
+    }
+}
+@media screen and (pointer: coarse) and (orientation:landscape){
+    .previewCss{
+        width:100%;
+        z-index: -999;
+        min-height:150px ;
     }
 }
 
