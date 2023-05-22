@@ -85,6 +85,13 @@
     width: 25px;
     height: 25px;
 }
+.icon-progress {
+    margin-left: 31px !important;
+    margin-top: 11px !important;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+}
 .icon-update-section-small {
     margin-left: 32px !important;
     margin-top: 11px !important;
