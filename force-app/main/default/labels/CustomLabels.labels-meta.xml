@@ -20253,7 +20253,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don&apos;t want to receive email</shortDescription>
-        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to specific user request, e.g.: password reset email) from IQVIA Patient Portal</value>
+        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to specific user request, e.g. password reset email) from IQVIA Patient Portal</value>
     </labels>
     <labels>
         <fullName>PP_DueDateandTime</fullName>
