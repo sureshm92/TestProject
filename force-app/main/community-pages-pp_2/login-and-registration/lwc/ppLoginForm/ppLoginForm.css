@@ -42,11 +42,7 @@
 .btn-login {
     width: 318px;
     color: #ffffff;
-    border-radius: 16px;
-    background-color: #015ff1;
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
     margin: 22px 0 0 0;
-    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
     display: inline-block;
