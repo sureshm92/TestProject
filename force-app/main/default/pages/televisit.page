@@ -7,6 +7,47 @@
     applyHtmlTag="False"
     docType="html-5.0"
 >
+    <style>
+        span#audio-toggle-background::after {
+            background-color:white;
+            margin-top: 2px;
+            margin-left: 2px;
+            height:16px;
+            width:16px;
+        }
+        span#audio-toggle-background::before {
+            background-color:white;
+            margin-top: 2px;
+            margin-right: 2px;
+            height:16px;
+            width:16px;
+        }
+        span#audio-toggle-background{
+            height:24px;
+            width:48px;  
+        }
+        span#video-toggle-background::after {
+            background-color:white;
+            margin-top: 2px;
+            margin-left: 2px;
+            height:16px;
+            width:16px;
+        }
+        span#video-toggle-background::before {
+            background-color:white;
+            margin-top: 2px;
+            margin-right: 2px;
+            height:16px;
+            width:16px;
+        }
+        span#video-toggle-background{
+            height:24px;
+            width:48px;  
+        }
+        .all-button-disabled{
+            opacity: 0.5;
+        }
+    </style>
     <apex:stylesheet value="{!$Resource.proximanova}/proximanova.css" />
     <apex:stylesheet value="{!$Resource.Community_CSS_Core}" />
     <apex:includeScript value="{!$Resource.svg4everybody}" />
@@ -1214,6 +1255,7 @@
                         document.getElementById("microphone-toggle").disabled = false;
                         document.getElementById("camera-toggle").disabled = false;
                         document.getElementById("tv-join-button").disabled = false;
+                    	document.getElementById("preview-buttons").classList.remove("all-button-disabled");
                         document.getElementById("tv-join-button").classList.remove("join-button-disabled");
                         previewPublisher.on('streamCreated', function(event) {
 
@@ -2409,7 +2451,7 @@
                                                         </div>
                                                         <div
                                                             id="preview-buttons"
-                                                            class="preview-buttons"
+                                                            class="preview-buttons all-button-disabled"
                                                         >
                                                             <div
                                                                 class="slds-grid preview-buttons-container"
