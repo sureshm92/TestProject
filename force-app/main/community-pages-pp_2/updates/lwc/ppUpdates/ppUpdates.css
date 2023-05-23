@@ -1,4 +1,5 @@
 .position-container {
+    max-width: 468px;
     position: relative;
     height: 100%;
     margin: auto;

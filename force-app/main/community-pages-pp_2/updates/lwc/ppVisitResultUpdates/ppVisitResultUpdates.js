@@ -31,19 +31,15 @@ export default class PPVisitResultUpdates extends NavigationMixin(LightningEleme
     }
     openLink(event) {
         this.removeCardHandler();
-        let participantState;
-        if (communityService.isInitialized()) {
-            participantState = communityService.getCurrentCommunityMode().participantState;
-        }
-        let visitresultdetailpageurl = window.location.origin + basePathName + '/results';
-        const config = {
-            type: 'standard__webPage',
+        let stateParameters = this.desktop
+            ? {} //{ pvId: this.linkData.recId }
+            : { vrlist: null, pvId: this.linkData.recId };
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: visitresultdetailpageurl
-            }
-        };
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            window.open(url, '_self');
+                pageName: 'results'
+            },
+            state: stateParameters
         });
     }
     removeCardHandler() {
