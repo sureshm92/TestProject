@@ -63,7 +63,7 @@ public without sharing class OpenTokClientController {
             appNamestr = 'IQVIA';
         }*/
         appNamestr = 'IQVIA Referral Hub'; //Added by RAviteja
-        headerbg = 'headerbg-rh';
+        //headerbg = 'headerbg-rh';
         meetingInterval = '';
         //OMSF-5206 Ends
 
@@ -106,7 +106,7 @@ public without sharing class OpenTokClientController {
                     WHERE User__c = :currentUserId
                 )
             FROM Televisit__c
-            WHERE Session_Id__c = :sessionId
+            WHERE Session_Id__c = :sessionId AND Status__c != 'Cancelled'
             ORDER BY CreatedDate DESC
             LIMIT 1
         ];
