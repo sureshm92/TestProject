@@ -99,7 +99,6 @@ export default class PpVisitResultSection extends LightningElement {
     }
 
     getResultsData() {
-        console.log('JJ GGGG' + this.selectedResultType);
         this.showSpinner = true;
         this.participantMailingCC = communityService.getParticipantData().pe.Participant__r.Mailing_Country_Code__c;
         this.ctpId = communityService.getParticipantData().pe.Clinical_Trial_Profile__c;
