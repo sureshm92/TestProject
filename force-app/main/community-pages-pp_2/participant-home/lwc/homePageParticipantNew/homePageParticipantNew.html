@@ -478,8 +478,13 @@
             <div if:true={showProgress}>
                 <div class={tabletProgressTab}>{label.MY_PROGRESS_Caps}</div>
                 <template if:true={participantState}>
-                    <template if:true={participantState.pe}>
-                        <c-pp-progress-bar perid={participantState.pe.Id}></c-pp-progress-bar>
+                    <template if:true={participantState.pe}
+                        ><lightning-layout class="ipad-width"
+                            ><lightning-layout-item
+                                ><c-pp-progress-bar
+                                    perid={participantState.pe.Id}
+                                ></c-pp-progress-bar></lightning-layout-item
+                        ></lightning-layout>
                     </template>
                 </template>
             </div>

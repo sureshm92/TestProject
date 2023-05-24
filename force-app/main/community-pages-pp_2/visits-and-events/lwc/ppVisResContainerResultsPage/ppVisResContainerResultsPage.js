@@ -84,7 +84,6 @@ export default class PpMyResultsContainer extends LightningElement {
     }
     connectedCallback() {
         if (!this.isDesktop) {
-            //  this.showTabSpinner = true;
             this.initializeData();
         }
     }
@@ -99,12 +98,6 @@ export default class PpMyResultsContainer extends LightningElement {
         } else if (this.isMobile) {
             return mobileTemplate;
         } else {
-            // if (this.onLoad) {
-            //     this.showTabSpinner = true;
-            //     this.onLoad = false;
-            // } else {
-            //     this.showTabSpinner = false;
-            // }
             return tabletTemplate;
         }
     }
@@ -256,7 +249,6 @@ export default class PpMyResultsContainer extends LightningElement {
 
     handleVRToggle(event) {
         this.showToggleSpinner = true;
-        console.log('JJ' + this.showToggleSpinner);
         modifiedSwitchToggleRemote({
             visitResultsMode: this.selectedResultType,
             isToggleOn: event.target.checked
