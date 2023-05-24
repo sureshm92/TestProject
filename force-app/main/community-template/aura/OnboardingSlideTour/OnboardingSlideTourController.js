@@ -16,7 +16,7 @@
 
     doInit: function (component, event, helper) {
         component.set('v.showAfterInit', false);
-        component.set('v.isInitialized', false);
+        component.set('v.isInitialized', 'false');
         window.addEventListener(
             'resize',
             $A.getCallback(function () {
