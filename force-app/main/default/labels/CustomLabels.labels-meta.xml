@@ -6465,7 +6465,7 @@ Due Date and Time: ##expirationDate</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Televisit Cancelled PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your ##VisitName televisit with ##PIFullName scheduled for ##VisitDttime has been canceled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your ##VisitName televisit with ##PIFullName, scheduled for ##VisitDttime has been canceled.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Please contact the Study/Program Team for further updates or please login for additional details.&lt;/span&gt;</value>
     </labels>
