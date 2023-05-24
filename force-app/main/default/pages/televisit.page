@@ -47,6 +47,54 @@
         .all-button-disabled{
             opacity: 0.5;
         }
+        .backdrop{
+            visibility: visible;
+            opacity: 1;
+            transition: opacity .4s linear;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0,0,0,0.56) !important;
+        }
+        .titleT {
+            color: #000000;
+            font-family: "Proxima Nova";
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 0;
+            line-height: 20px;
+        }
+        .subTextT{
+                height: 14px;
+                width: 373px;
+                color: #444444;
+                font-family: "Proxima Nova";
+                font-size: 14px;
+                letter-spacing: 0;
+                line-height: 14px;
+                text-align: center;
+                padding-top: 10px;
+                padding-bottom: 12px;
+        }
+        .join-button {
+            font-size: 16px !important;
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32) !important;
+        }
+        .back-button {
+            font-size: 18px !important;
+        }
+        @media all and (max-width: 446px) {
+            .subTextT{
+                margin-bottom: 16px;
+            }
+            .preview-tv{
+                height: 670px;
+            }
+        }
     </style>
     <apex:stylesheet value="{!$Resource.proximanova}/proximanova.css" />
     <apex:stylesheet value="{!$Resource.Community_CSS_Core}" />
@@ -1467,7 +1515,7 @@
 
             .preview-tv {
                 justify-content: center;
-                height: 650px;
+                height: 660px;
             }
 
             .preview-tv-error {
@@ -2383,13 +2431,14 @@
                                             id="preview-screen"
                                             class="slds-text-align_center preview-tv"
                                         >
+                                            <div class="backdrop" role="presentation"></div>
                                             <div class="slds-modal__container visit-preview">
                                                 <div class="gradient"></div>
                                                 <div
                                                     class="slds-modal__content slds-p-around_medium height-full"
                                                 >
                                                     <div
-                                                        class="slds-col slds-text-heading--small slds-text-align_left" style="font-weight:600"
+                                                        class="slds-col titleT slds-text-align_left"
                                                     >
                                                         {!$Label.Visit_Preview}
                                                         
@@ -2580,7 +2629,7 @@
                                                                 class="slds-col slds-size_1-of-6"
                                                             ></div>
                                                             <div
-                                                                class="slds-col slds-size_6-of-6 slds-align_absolute-center slds-text-body_small slds-text-align_center"
+                                                                class="slds-col slds-size_6-of-6 subTextT"
                                                             >
                                                                 {!$Label.You_can_also_adjust_these_options_during_the_visit}
                                                             </div>
