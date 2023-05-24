@@ -12,6 +12,7 @@ import mobileTemplate from './ppVisitResultSectionMobile.html';
 import tabletTemplate from './ppVisitResultSectionTablet.html';
 import desktopTemplate from './ppVisitResultSection.html';
 import Visit_Results_Tab_Panel_Disclaimer from '@salesforce/label/c.Visit_Results_Tab_Panel_Disclaimer';
+import removeUpdateCardForVisitResult from '@salesforce/apex/PPUpdatesController.removeUpdateCardForVisitResult';
 
 export default class PpVisitResultSection extends LightningElement {
     @api selectedResultType;
@@ -30,7 +31,6 @@ export default class PpVisitResultSection extends LightningElement {
     @track isLabsResultsAvailable = false;
     @track initialised = false;
     @track visResultsList;
-    loadData;
 
     label = {
         Visit_Result_Group_MetabolicPanel,
@@ -46,6 +46,7 @@ export default class PpVisitResultSection extends LightningElement {
 
     connectedCallback() {
         //this.getResultsData();
+        this.removeUpdatesCardForVisitResult();
     }
     get isVitalsSelected() {
         return this.selectedResultType == 'Vitals';
@@ -97,9 +98,20 @@ export default class PpVisitResultSection extends LightningElement {
     get isTablet() {
         return FORM_FACTOR == 'Medium';
     }
-
+    removeUpdatesCardForVisitResult() {
+        let participantContactId = communityService.getParticipantData().pe.Participant_Contact__c;
+        let partEnrollemntId = communityService.getParticipantData().pe.Id;
+        removeUpdateCardForVisitResult({
+            contactId: participantContactId,
+            peId: partEnrollemntId,
+            patientVisitId: this.patientVisit.Id
+        })
+            .then((result) => {})
+            .catch((error) => {
+                console.error('Error when updating send results' + error + JSON.stringify(error));
+            });
+    }
     getResultsData() {
-        console.log('JJ GGGG' + this.selectedResultType);
         this.showSpinner = true;
         this.participantMailingCC = communityService.getParticipantData().pe.Participant__r.Mailing_Country_Code__c;
         this.ctpId = communityService.getParticipantData().pe.Clinical_Trial_Profile__c;

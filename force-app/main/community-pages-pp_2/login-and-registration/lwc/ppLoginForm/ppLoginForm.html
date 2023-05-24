@@ -3,9 +3,7 @@
         <div class="slds-grid slds-grid_align-center">
             <div class="slds-col">
                 <div class="patient-care-txt">{label.PP_For_Participants_and_Caregivers}</div>
-                <div class="prof-clinical-txt">
-                    {label.PP_Connecting_professionals}
-                </div>
+                <div class="prof-clinical-txt">{label.PP_Connecting_professionals}</div>
                 <template if:true={inError}>
                     <div class="login-validation" style="margin-top: -1em; margin-bottom: 0.5em">
                         <img style={errorIconPosition} src={exclamation} />
@@ -36,11 +34,14 @@
                             class={className}
                             onkeyup={handlepasswordChange}
                         />
-                        <button class="slds-button slds-button_icon eye-icon" onclick={changeImgSrc}>
-                            <img class="" src={eyeHidden} style="" title={PasswordEyeIconTitle}/>
+                        <button
+                            class="slds-button slds-button_icon eye-icon"
+                            onclick={changeImgSrc}
+                        >
+                            <img class="" src={eyeHidden} style="" title={PasswordEyeIconTitle} />
                         </button>
                     </div>
-                    <button class="slds-button btn-login" onclick={handleLogin}>
+                    <button class="primaryBtn slds-button btn-login" onclick={handleLogin}>
                         {label.login}
                     </button>
                     <div class="slds-grid forgot-unable-link">

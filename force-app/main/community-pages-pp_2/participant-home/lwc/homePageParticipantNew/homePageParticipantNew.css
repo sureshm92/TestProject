@@ -283,7 +283,7 @@
 .upcoming-card {
     /*background: rgb(248, 249, 251);*/
     max-width: 468px;
-    margin: auto;
+    margin: 10px auto 0 auto;
     height: auto;
     /*border: 1px solid lightgrey;*/
     border-top-left-radius: 16px;
@@ -306,9 +306,8 @@
 }
 .progressTab {
     max-width: 468px;
-    margin: auto !important;
+    margin: 10px auto 0px auto;
     height: 32px;
-    margin: 0px 10px;
     margin-top: 13px;
     border-radius: 20.5px 20.5px 0 0;
     background-color: #044b51;
@@ -329,9 +328,17 @@
     margin-left: 26px !important;
 }
 .tablet-margin {
-    margin: auto !important;
+    margin: 10px auto 0 auto !important;
 }
 .ipad-width {
     max-width: 468px;
     margin: auto;
+}
+@media (max-width: 500px) {
+    .progressTab {
+        margin: 10px 10px 0px 10px;
+    }
+    .upcoming-card {
+        margin: 10px 10px 0px 10px;
+    }
 }
