@@ -125,9 +125,17 @@ public without sharing class ppFileUploadController {
         string fileNamewoExt = contentToInsert.Title;
         Integer intIndex = fileNamewoExt.lastindexOf('.');
         String fileTitle = fileNamewoExt.left(intIndex);
+        
+        String sizeStringFileName = fileTitle;
+        Integer maxSize = 96;
+        if(sizeStringFileName.length() > maxSize ){
+        sizeStringFileName = sizeStringFileName.substring(0, maxSize);
+        sizeStringFileName = sizeStringFileName+'...'; 
+        }
+        
         insert new ContentDistribution(
             ContentVersionId = contentToInsert.Id,
-            Name = fileTitle,
+            Name = sizeStringFileName,
             PreferencesNotifyOnVisit = false,
             PreferencesAllowPDFDownload = false
         );
