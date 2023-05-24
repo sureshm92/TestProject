@@ -92,7 +92,7 @@
                 margin-bottom: 16px;
             }
             .preview-tv{
-                height: 670px;
+                height: 670px !important;
             }
         }
     </style>
@@ -1503,7 +1503,7 @@
             }
 
             .rejoin-container {
-                height: 800px;
+                height: 650px;
                 background: #f5f6fa;
             }
 
