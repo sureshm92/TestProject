@@ -820,9 +820,10 @@ public without sharing class MessagePageRemote {
         String fileTitle = fileName.left(intIndex);
         
         String sizeStringFileName = fileTitle;
-        Integer maxSize = 100;
+        Integer maxSize = 96;
         if(sizeStringFileName.length() > maxSize ){
         sizeStringFileName = sizeStringFileName.substring(0, maxSize);
+        sizeStringFileName = sizeStringFileName+'...'; 
         }
         
         insert new ContentDistribution(
