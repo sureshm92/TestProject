@@ -159,9 +159,6 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
                         var newMsg;
                         var allCreatedDtTm = [];
 
-                        var dtList = new Map();
-                        var sameTimeList = [];
-
                         var grpMsg = new Map();
 
                         for (var i = 0; i < conWrap.length; i++) {
@@ -177,13 +174,13 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
                                 }
                             }
                             if (d1.toDateString() === d2.toDateString()) {
-                                msgwrap = i;
+                                msgwrap = i; 
                             } else {
                                 if (mymap.has(d2.toDateString())) {
                                     mymap.delete(d2.toDateString());
-                                    mymap.set(d2.toDateString(), i);
+                                    mymap.set(d2.toDateString(), i+1);
                                 } else {
-                                    mymap.set(d2.toDateString(), i);
+                                    mymap.set(d2.toDateString(), i+1);
                                 }
                             }
                             allCreatedDtTm.push(createdDate);
@@ -213,7 +210,9 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
                             let d3 = new Date(conWrap[i].message.CreatedDate);
 
                             if (mymap.get(d3.toDateString())) {
-                                conWrapModified[mymap.get(d3.toDateString())].message.newDay =
+                                let k = mymap.get(d3.toDateString());
+                                k = k-1;
+                                conWrapModified[k].message.newDay =
                                     'true';
                                 mymap.delete(d3.toDateString());
                             }
@@ -238,7 +237,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
                     this.selectConWrap = JSON.parse(
                         JSON.stringify(context.conversationWrappers[0])
                     );
-                   
+
                     this.studyName =
                         context.conversationWrappers[0].conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
                     this.firstEnrollments = null;
@@ -300,11 +299,31 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
         }
     }
     handleBack() {
+        if (this.showParticipantsList) {
+            this.template.querySelector('.box-container').style.display = 'none';
+            this.showParticipantsList = false;
+            if (this.isMobile) {
+                this.template.querySelector('.img-color').src = this.televisitAttendees_icon;
+            } else {
+                this.template.querySelector('.img-color').src = this.televisitAttendees_icon;
+            }
+            this.template.querySelector('.team-color').style.color = 'unset';
+        }
         this.curentMobileView = 'list';
         this.template.querySelector('.L').classList.remove('hideMobile');
         this.template.querySelector('.conversations').classList.add('hideMobile');
     }
     changeStudyConversation(event) {
+        if(this.showParticipantsList){
+            this.template.querySelector('.box-container').style.display = 'none';
+            this.showParticipantsList = false;
+            if (this.isMobile) {
+                this.template.querySelector('.img-color').src = this.televisitAttendees_icon;
+            } else {
+                this.template.querySelector('.img-color').src = this.televisitAttendees_icon;
+            }
+            this.template.querySelector('.team-color').style.color = 'unset';
+        }
         if (this.isMobile) {
             this.curentMobileView = 'detail';
             this.template.querySelector('.conversations').classList.remove('hideMobile');
@@ -350,9 +369,9 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
                     } else {
                         if (mymap.has(d2.toDateString())) {
                             mymap.delete(d2.toDateString());
-                            mymap.set(d2.toDateString(), i);
+                            mymap.set(d2.toDateString(), i+1);
                         } else {
-                            mymap.set(d2.toDateString(), i);
+                            mymap.set(d2.toDateString(), i+1);
                         }
                     }
                     allCreatedDtTm.push(createdDate);
@@ -380,7 +399,9 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
                     let d3 = new Date(conWrap[i].message.CreatedDate);
 
                     if (mymap.get(d3.toDateString())) {
-                        conWrapModified[mymap.get(d3.toDateString())].message.newDay = 'true';
+                        let k = mymap.get(d3.toDateString());
+                        k = k-1;
+                        conWrapModified[k].message.newDay ='true';
                         mymap.delete(d3.toDateString());
                     }
 
@@ -435,6 +456,16 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
             });
     }
     refreshConversation(conversation) {
+        if (this.showParticipantsList) {
+            this.template.querySelector('.box-container').style.display = 'none';
+            this.showParticipantsList = false;
+            if (this.isMobile) {
+                this.template.querySelector('.img-color').src = this.televisitAttendees_icon;
+            } else {
+                this.template.querySelector('.img-color').src = this.televisitAttendees_icon;
+            }
+            this.template.querySelector('.team-color').style.color = 'unset';
+        }
         if (this.firstEnrollments != null) {
             this.firstEnrollments = null;
             this.enrollments = null;
@@ -477,9 +508,9 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
                 } else {
                     if (mymap.has(d2.toDateString())) {
                         mymap.delete(d2.toDateString());
-                        mymap.set(d2.toDateString(), i);
+                        mymap.set(d2.toDateString(), i+1);
                     } else {
-                        mymap.set(d2.toDateString(), i);
+                        mymap.set(d2.toDateString(), i+1);
                     }
                 }
                 allCreatedDtTm.push(createdDate);
@@ -508,7 +539,9 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
                 let d3 = new Date(conWrap[i].message.CreatedDate);
 
                 if (mymap.get(d3.toDateString())) {
-                    conWrapModified[mymap.get(d3.toDateString())].message.newDay = 'true';
+                    let k = mymap.get(d3.toDateString());
+                    k = k-1;
+                    conWrapModified[k].message.newDay ='true';
                     mymap.delete(d3.toDateString());
                 }
 
