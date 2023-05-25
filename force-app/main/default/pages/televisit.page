@@ -2396,6 +2396,11 @@
                 border-color: #00c221 !important;
             }
             
+            @media screen and (orientation: landscape) and (hover: none) and (pointer: coarse) {
+                .button--sharing{
+                    display:none;
+                }
+            }
             
         </style>
         
