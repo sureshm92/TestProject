@@ -191,8 +191,16 @@ hr {
 .back-to-res{
     width: 35px;
     height: 35px;
-    position: fixed;
+    position: absolute;
     top: 76px;
+    left: 22px;
+}
+
+.back-to-res-televisit{
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    top: 134px;
     left: 22px;
 }
 
@@ -204,5 +212,8 @@ hr {
     .mobile-ladscape-back-button{
         display: block;
         z-index: 10000;
+    }
+    .mt-8{
+        margin-top: -8px;
     }
 }
