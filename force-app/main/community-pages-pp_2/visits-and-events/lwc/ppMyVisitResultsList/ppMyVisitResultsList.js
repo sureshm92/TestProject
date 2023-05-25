@@ -63,6 +63,12 @@ export default class PpMyVisitResultsList extends LightningElement {
         );
     }
 
+    get visitResultContainerClass() {
+        return this.isInitiliazed || this.showSpinner
+            ? 'slds-col slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_8-of-12 result-container slds-border_left'
+            : 'slds-col slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_8-of-12 result-container slds-border_left slds-m-top_medium';
+    }
+
     get isPatientVisitNotSelected() {
         return this.urlString.includes('vrlist&pvId') ? false : true;
     }
