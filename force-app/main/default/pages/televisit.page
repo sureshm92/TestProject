@@ -2172,6 +2172,12 @@
             
             }
             
+            .last-active-feed .OT_name.OT_mode-off {
+                top: 75% !important;
+                bottom: 0;
+                margin-left: 10px;
+                margin-bottom: 10px;
+            }
             .camera-screen .OT_name.OT_mode-off {
                 visibility:hidden;
             }
@@ -2390,6 +2396,11 @@
                 border-color: #00c221 !important;
             }
             
+            @media screen and (orientation: landscape) and (hover: none) and (pointer: coarse) {
+                .button--sharing{
+                    display:none;
+                }
+            }
             
         </style>
         
