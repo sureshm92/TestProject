@@ -98,6 +98,10 @@ export default class PpMessageBoard extends LightningElement {
   handleChange(event) {
     this.messageValue = event.detail.value;
   }
+  handleChanges(){
+    const focusEventHeader = new CustomEvent("messagetemplateselection", {});
+    this.dispatchEvent(focusEventHeader);
+  }
   get isPastStudy(){
      if(this.selectConWrap){
         if(this.selectConWrap.isPastStudy){
@@ -118,6 +122,7 @@ export default class PpMessageBoard extends LightningElement {
   }
   loaded = true;
   handleSendClick() {
+    this.handleChanges();
     if (this.selectConWrap != null) {
       let addspinner = new CustomEvent("savemessage");
       this.dispatchEvent(addspinner);
