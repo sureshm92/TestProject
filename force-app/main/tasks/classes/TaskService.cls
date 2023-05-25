@@ -56,6 +56,7 @@ public without sharing class TaskService {
         'ReminderDateTime',
         'Reminder_Date__c',
         'Originator__c',
+        'Owner_Contact__c',
         'Patient_Visit__c',
         'Remind_Me__c',
         'Reminder_Schedule__c',
@@ -125,7 +126,6 @@ public without sharing class TaskService {
                 ParticipantContext.getOwnUserId() +
                 '\'' +
                 ownerVisibility +
-                minorlDelFilter +
                 ')';
         } else if (isDecoupled) {
             // Decoupled delegate in patient view
@@ -272,8 +272,8 @@ public without sharing class TaskService {
                 t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()
             ) {
                 //Visit Task to be displayed in Task Tab panel
-                
                 skipTask =
+                    (t.Owner_Contact__c != null && t.Owner_Contact__c != ParticipantContext.getCurrentContact().Id ) ||
                     (skipPEIds.contains(t.WhatId) && t.Task_Type__c != 'Visit') ||
                     (!skipPEAlumnIds.contains(t.WhatId) && alumDlgtPtView) ||
                     (curPEId != null &&
