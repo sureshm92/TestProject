@@ -172,6 +172,15 @@ export default class PpPastStudiesFileTable extends LightningElement {
         this.firstClick = false;
         
     }
+    @api resetPageMsg() { 
+        this.arrowDownDateMsg = true; //desc
+        this.arrowUpDateMsg = false;
+        this.arrowDownTitleMsg = false; //desc
+        this.arrowUpTitleMsg = false;
+        this.arrowDownTypeMsg = false; //desc
+        this.arrowUpTypeMsg = false;
+        this.firstClickMsg = false;
+    }
 
     @api getTableFiles() {
         this.sharedFiles = false;
