@@ -85,8 +85,20 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
     disconnectedCallback() {
         document.removeEventListener('click', this._handler);
     }
-    refreshPage(event) {
+    refreshPage(event){
         this.refreshConversation(event.detail);
+    }
+    handleGroupMenu(){
+        if (this.showParticipantsList) {
+            this.template.querySelector('.box-container').style.display = 'none';
+            this.showParticipantsList = false;
+            if (this.isMobile) {
+                this.template.querySelector('.img-color').src = this.televisitAttendees_icon;
+            } else {
+                this.template.querySelector('.img-color').src = this.televisitAttendees_icon;
+            }
+            this.template.querySelector('.team-color').style.color = 'unset';
+        }
     }
     handleSpinner(event) {
         this.loaded = true;

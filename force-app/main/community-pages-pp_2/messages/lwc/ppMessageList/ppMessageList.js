@@ -19,6 +19,8 @@ export default class PpMessageList extends LightningElement {
       let ev = new CustomEvent("studyselected", { detail: paramData });
        this.dispatchEvent(ev);
     }
+    let sc = new CustomEvent("changeevents", {});
+    this.dispatchEvent(sc);
   }
   changeSelected() {
     if (this.selectedIndex != -1) {
