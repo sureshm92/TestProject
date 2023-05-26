@@ -566,11 +566,6 @@ export default class PpCreateTask extends LightningElement {
                         }
                     }
                     if (
-                        this.updatedRecord.reminderDateTime == this.initialRecord.reminderDateTime
-                    ) {
-                        this.enableSave = false;
-                    }
-                    if (
                         !this.displayDateInUi &&
                         this.initData.participantDateTime == undefined &&
                         this.task?.Survey_Invitation__r?.Participant_Due_Date__c == null
