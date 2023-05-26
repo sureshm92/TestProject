@@ -9,6 +9,7 @@ import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { NavigationMixin } from 'lightning/navigation';
 import DEVICE from '@salesforce/client/formFactor';
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import removeCancelledUpdateNotifications from '@salesforce/apex/PPUpdatesController.removeCancelledUpdateNotifications';
 export default class PpTelevisit extends NavigationMixin(LightningElement) {
     @track contentLoaded = false;
@@ -76,6 +77,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
             this.showupcomingtelevisits = true;
         }            
     }
+
     removeCancelledUpdateNotifications() {
         let participantContactId = communityService.getParticipantData().pe.Participant_Contact__c;
         let partEnrollemntId = communityService.getParticipantData().pe.Id;
@@ -87,7 +89,8 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
         })
             .then((result) => {})
             .catch((error) => {
-                console.error('Error when updating send results' + error + JSON.stringify(error));
+               this.ShowToastEvent('', 'Error when updating send results','error');
+                //console.error('Error when updating send results' + error + JSON.stringify(error));
             });
     }
     gettelevisitdetails(isPast){

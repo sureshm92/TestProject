@@ -143,7 +143,8 @@ public without sharing class PPUpdatesController {
             update sendResultList;
             UpdateService.getInstance().updateNotificationsStatus(notificationIds);
         } catch (Exception e) {
-            System.debug('error while updating send result:' + e.getMessage());
+            throw new AuraHandledException(e.getMessage());
+           // System.debug('error while updating send result:' + e.getMessage());
         }
     }
 }
