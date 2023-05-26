@@ -140,9 +140,9 @@ hr {
     .resource-container1 {
         min-height: auto;
     }
-    .resource-container {
+    /* .resource-container {
         padding-top: 0%;
-    }
+    } */
 
     .forceOrientation-mobile {
         width: auto;
