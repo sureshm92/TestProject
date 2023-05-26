@@ -22,12 +22,12 @@
 }
 .parent-chat-item-sec {
     text-align: justify;
-    padding: 8px;
+    padding: 0px 8px 0px 8px;
 }
 .child-chat-item-sec {
     overflow-y: auto;
     height: 472px;
-    padding-right: 8px;
+    padding: 0px 8px 0px 8px;
 }
 .ms-send-button{
     height: 35px;
