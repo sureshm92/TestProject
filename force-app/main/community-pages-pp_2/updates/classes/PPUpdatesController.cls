@@ -144,7 +144,6 @@ public without sharing class PPUpdatesController {
             UpdateService.getInstance().updateNotificationsStatus(notificationIds);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
-           // System.debug('error while updating send result:' + e.getMessage());
         }
     }
 }

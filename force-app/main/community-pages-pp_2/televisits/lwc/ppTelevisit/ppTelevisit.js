@@ -89,8 +89,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
         })
             .then((result) => {})
             .catch((error) => {
-               this.ShowToastEvent('', 'Error when updating send results','error');
-                //console.error('Error when updating send results' + error + JSON.stringify(error));
+                this.ShowToastEvent('', error.message,'error');
             });
     }
     gettelevisitdetails(isPast){
