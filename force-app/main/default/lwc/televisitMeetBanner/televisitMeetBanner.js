@@ -200,6 +200,10 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         }
         if (activeVisits.length > 0) {
             this.hasActiveVisits = true;
+            window.sessionStorage.setItem("televistActive", 'true');       
+        }
+        else{
+            window.sessionStorage.setItem("televistActive", 'false');
         }
         if (activeVisits.length === 1) {
             this.singleMeetDetail = activeVisits[0];
