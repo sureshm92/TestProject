@@ -29,6 +29,12 @@
   height: 472px;
   padding-right: 8px;
 }
+.ms-send-button{
+  height: 35px;
+  width: 96px; 
+  border: none;
+  border-radius: 1rem;
+}
 .medium {
   height: 472px;
   text-align: center;

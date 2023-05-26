@@ -1,8 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
 import formFactor from '@salesforce/client/formFactor';
-import Community_CSS_PP_Theme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
-import Community_CSS_Core from "@salesforce/resourceUrl/Community_CSS_Core";
-import { loadStyle } from 'lightning/platformResourceLoader';
 import { NavigationMixin } from 'lightning/navigation';
 import getInit from '@salesforce/apex/PPMessagePageRemote.getInitData';
 import Id from '@salesforce/user/Id';
@@ -72,8 +69,6 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
         } else {
             this.isMobile = false;
         }
-        loadStyle(this, Community_CSS_PP_Theme);
-        loadStyle(this, Community_CSS_Core);
         this.initializer();
         document.addEventListener('click', (this._handler = this.listener.bind(this)));
     }
