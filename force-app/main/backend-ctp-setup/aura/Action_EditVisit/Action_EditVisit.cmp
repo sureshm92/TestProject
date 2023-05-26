@@ -4,15 +4,23 @@
 
 <aura:component description="Action_EditVisit">
     <aura:attribute name="visit" type="Object" default="{}" />
+    <aura:attribute name="oldVisit" type="String"  />
     <aura:attribute name="isValid" type="Boolean" />
     <aura:attribute name="icons" type="List" />
     <aura:attribute name="mode" type="String" />
     <aura:attribute name="callback" type="Object" />
     <aura:attribute name="cancelCallback" type="Object" />
+    <aura:attribute name="showMotivHelpTxt" type="Boolean" default="true"/>
+    <aura:attribute name="showDesriptionHelpTxt" type="Boolean" default="true"/>
+    
+
+    <aura:attribute name="communitytemplate" type="String"  />
 
     <aura:handler name="change" value="{!v.visit.Name}" action="{!c.checkValidity}" />
     <aura:handler name="change" value="{!v.visit.Icons__c}" action="{!c.checkValidity}" />
     <aura:handler name="change" value="{!v.visit.Visit_Number__c}" action="{!c.checkValidity}" />
+    <aura:handler name="change" value="{!v.visit.Visit_Description__c}" action="{!c.checkValidity}" />
+    <aura:handler name="change" value="{!v.visit.Motivational_Message__c}" action="{!c.checkValidity}" />
 
     <aura:method name="execute" action="{!c.doExecute}">
         <aura:attribute name="visit" type="Object" />
@@ -20,10 +28,13 @@
         <aura:attribute name="cancelCallback" type="Function" />
     </aura:method>
 
+    <aura:method name="validateInputs" action="{!c.checkValidity}"
+      description="validate function" />
+
     <c:uiModal
         aura:id="modal"
         size="medium"
-        headerText="{!if(v.mode == 'new', 'Add Visit/Event', 'Edit Visit')}"
+        headerText="{!if(v.mode == 'new', 'Add Visit/Event', 'Edit Visit/Event')}"
     >
         <div class="form-container">
             <div class="slds-grid slds-gutters">
@@ -59,6 +70,39 @@
                     />
                 </div>
             </div>
+            <!-- new fields -->
+            <aura:if isTrue="{!v.communitytemplate == 'PatientPortal'}">
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size--1-of-2">
+                        <span>
+                            <lightning:input aura:id="descriptionMsg"
+                            type="text"
+                            label="Visit/Event Description"
+                            value="{!v.visit.Visit_Description__c}"
+                                messageWhenPatternMismatch="Limits input to 200 characters" 
+                            pattern=".{0,200}" 
+                        />
+                            <aura:if isTrue="{!v.showDesriptionHelpTxt}">
+                                <div class="info-text">Maximum 200 characters</div>
+                            </aura:if>
+                        </span>
+                    </div>
+                    <div class="slds-col slds-size--1-of-2">
+                        <span>
+                            <lightning:input aura:id="motivationalMsg"
+                            type="text"
+                            label="Visit/Event Motivational Message"
+                            value="{!v.visit.Motivational_Message__c}"
+                                messageWhenPatternMismatch="Limits input to 100 characters"
+                            pattern=".{0,100}" 
+                        />
+                            <aura:if isTrue="{!v.showMotivHelpTxt}">
+                                <div class="info-text">Maximum 100 characters</div>
+                            </aura:if> 
+                        </span>
+                    </div>
+                </div>
+            </aura:if>
             <c:VisitIconsSection aura:id="iconsSet" icons="{!v.icons}" visit="{!v.visit}" />
         </div>
         <aura:set attribute="footer">
@@ -71,7 +115,7 @@
             <lightning:button
                 variant="brand"
                 type="button"
-                label="{!if(v.mode == 'new', 'Add Visit/Event', 'Save Visit')}"
+                label="{!if(v.mode == 'new', 'Add Visit/Event', 'Save Visit/Event')}"
                 disabled="{!v.isValid}"
                 onclick="{!c.saveVisit}"
             />

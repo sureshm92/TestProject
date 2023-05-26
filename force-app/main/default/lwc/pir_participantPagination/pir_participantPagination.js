@@ -19,6 +19,7 @@ export default class Pir_participantPagination extends LightningElement {
     totalPages= 0; 
     pageNumber = 0;
     @api isTable;
+    @api isFile;
     @api totalRecords = 0;//push from parent
     first_page_arrow = community_icon + '/left-arrow.svg';
     right_arrow = community_icon + '/first-page-arrow.svg';
@@ -27,6 +28,9 @@ export default class Pir_participantPagination extends LightningElement {
     @api maindivcls;
     connectedCallback(){
         if(this.isTable==true){
+            this.calculate();
+        }
+        if(this.isFile==true){
             this.calculate();
         }
     }
@@ -46,8 +50,11 @@ export default class Pir_participantPagination extends LightningElement {
           
             
         }
-        
-        
+        if(this.isFile==true){
+            this.template.querySelectorAll(".page").forEach(function (L) {
+                L.classList.add("pg-file");
+            });
+        }
     }
 
     @api updateInprogress(){
@@ -59,7 +66,7 @@ export default class Pir_participantPagination extends LightningElement {
             this.totalRecords = 45000;
         }
         if(this.pageNumber>0){
-            this.startRecord = 1 + ((this.pageNumber-1)*10);        
+            this.startRecord = 1 + ((this.pageNumber-1)*10);    
             this.totalPages =  Math.ceil(this.totalRecords / 10);
             if(this.pageNumber == this.totalPages && this.totalRecords%10 != 0){
                 this.endRecord = this.startRecord + this.totalRecords%10 -1 ;

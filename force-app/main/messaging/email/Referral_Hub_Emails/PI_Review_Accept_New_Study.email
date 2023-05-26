@@ -10,7 +10,7 @@
                           greeting="{!$Label.Email_User_Greeting}"
                           signature="{!$Label.Email_Signature_RH}"
                           communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK',
-                                                 'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
+                                                 'Default',IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal', 'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c))}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_PI1}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
                               buttonURL="/s/"/>
@@ -24,7 +24,7 @@
                               greeting="{!$Label.Email_User_Greeting}"
                               signature="{!$Label.Email_Signature_RH}"
                               communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK',
-                                                                                                    'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
+                                                                                                    'Default',IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal', 'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c))}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_PI1}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
                                   buttonURL="/s/"/>

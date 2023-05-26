@@ -38,8 +38,15 @@
     ]"
     />
     <aura:method name="doSave" action="{!c.doSaveAndUpdate}" access="public" />
+    <aura:attribute name="studyData" type="Clinical_Trial_Profile__c"/>
 
     <!-- component body: -->
+    <force:recordData aura:id="clinicalRecordData"
+                      fields="CommunityTemplate__c"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.studyData}"
+                      recordUpdated="{!c.handleRecordUpdate}"/>
+
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <aura:if isTrue="{!notequals(v.viewModePage, 'Disabled')}">
         <aura:set attribute="else">
@@ -203,7 +210,7 @@
                 </aura:if>
             </aura:if>
         </div>
-        <c:Action_EditVisitPlan aura:id="actionVP" />
+        <c:Action_EditVisitPlan aura:id="actionVP" communitytemplate="{!v.studyData.CommunityTemplate__c}" />
     </aura:if>
     <aura:if isTrue="{!v.isModalOpen}">
         <div

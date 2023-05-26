@@ -26,7 +26,7 @@
     width: 360px;
     color: #ffffff;
     border-radius: 16px;
-    background-color: #0768fd;
+    background-color: #015ff1;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
     font-size: 14px;
     font-weight: 500;
@@ -103,7 +103,7 @@
         font-size: 24px;
         font-weight: 600;
         color: #444444;
-        font-family: "Proxima Nova";
+        font-family: 'Proxima Nova';
         font-size: 24px;
         font-weight: 600;
         letter-spacing: 0;

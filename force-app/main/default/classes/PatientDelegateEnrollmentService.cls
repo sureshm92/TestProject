@@ -35,6 +35,14 @@ public without sharing class PatientDelegateEnrollmentService {
         }
         return peIdSet;
     }
+    public static List<Patient_Delegate_Enrollment__c> getPatientDelegateEnrollments(Id participantConId, Id delContactId){
+        List<Patient_Delegate_Enrollment__c> pdEnrollments = [SELECT Id, Participant_Enrollment__c,Primary_Delegate__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE
+                Participant_Enrollment__r.Participant_Contact__c = :participantConId
+                AND Patient_Delegate__r.Contact__c = :delContactId];
+        return pdEnrollments;
+    }
     public static List<Participant_Enrollment__c> getPEList(Id participantConId, Id delContactId) {
         Set<Id> peIdSet = new Set<Id>();
         List<Id> peIdList = new List<Id>();
@@ -345,12 +353,58 @@ public without sharing class PatientDelegateEnrollmentService {
                 Status__c,
                 Participant_Enrollment__c,
                 Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                Participant_Enrollment__r.Study_Site__r.Participant_DOB_format__c,
                 Participant_Enrollment__r.Name,
                 Participant_Enrollment__r.Clinical_Trial_Profile__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 Primary_Delegate__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Patient_Delegate__r.Contact__c = :pdContactId AND Status__c = 'Active'
+        ];
+        return pdeList;
+    }
+    public static List<Patient_Delegate_Enrollment__c> getPDEnrollmentforDelContact(
+        Id pdContactId,
+        Id parContactId
+    ) {
+        List<Patient_Delegate_Enrollment__c> pdeList = new List<Patient_Delegate_Enrollment__c>();
+        pdeList = [
+            SELECT
+                Id,
+                Patient_Delegate__c,
+                Welcome_Message_Sent__c,
+                Study_Email_Consent__c,
+                Study_SMS_Consent__c,
+                Study_Direct_Mail_Consent__c,
+                Study_Phone_Consent__c,
+                Welcome_Message_Delivered__c,
+                Patient_Delegate__r.Participant__r.Contact__c,
+                Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                Patient_Delegate__r.Participant__r.First_Name__c,
+                Patient_Delegate__r.Participant__r.Last_Name__c,
+                Patient_Delegate__r.Participant__r.Email__c,
+                Patient_Delegate__r.Contact__c,
+                Patient_Delegate__r.Participant__c,
+                Patient_Delegate__r.Participant_Delegate__r.Id,
+                Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
+                Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
+                Patient_Delegate__r.Participant_Delegate__r.Email__c,
+                Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                Status__c,
+                Participant_Enrollment__c,
+                Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                Participant_Enrollment__r.Study_Site__r.Participant_DOB_format__c,
+                Participant_Enrollment__r.Name,
+                Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                Primary_Delegate__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE
+                Patient_Delegate__r.Contact__c = :pdContactId
+                AND Patient_Delegate__r.Participant__r.Contact__c = :parContactId
+                AND Status__c = 'Active'
         ];
         return pdeList;
     }
@@ -485,18 +539,28 @@ public without sharing class PatientDelegateEnrollmentService {
         List<String> pDEIdList
     ) {
         list<Patient_Delegate_Enrollment__c> pdeList = [
-            SELECT id, Status__c, isInviteToPP__c
+            SELECT id, Status__c, isInviteToPP__c,Patient_Delegate__r.Contact__c
             FROM Patient_Delegate_Enrollment__c
             WHERE id = :pDEIdList
         ];
+        Map<Id, Id> delegateContIdMap =  new Map<Id, Id>();
         for (Patient_Delegate_Enrollment__c pde : pdeList) {
             pde.Status__c = 'Active';
             if (!pde.isInviteToPP__c) {
                 pde.isInviteToPP__c = true;
+                delegateContIdMap.put(pde.Patient_Delegate__r.Contact__c,null);
             }
+        }
+        
+        for(user u: [Select Id,contactId from User where contactId IN :delegateContIdMap.keyset()]){
+            delegateContIdMap.remove(u.contactId);
         }
 
         try {
+            if(delegateContIdMap!=null) {
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                        .createParticipantUsers(delegateContIdMap);
+            }
             update pdeList;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -547,10 +611,9 @@ public without sharing class PatientDelegateEnrollmentService {
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain removeAssignment(String pDEId) {
         list<Patient_Delegate_Enrollment__c> lst = [
-            SELECT Id, Status__c,Patient_Delegate__r.Contact__c
+            SELECT Id, Status__c, Patient_Delegate__r.Contact__c
             FROM Patient_Delegate_Enrollment__c
-            WHERE Id = :pDEId
-            AND Status__c = 'Active'
+            WHERE Id = :pDEId AND Status__c = 'Active'
         ];
         if (lst.size() > 0) {
             Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
@@ -680,19 +743,56 @@ public without sharing class PatientDelegateEnrollmentService {
             pdFields,
             Patient_Delegate_Enrollment__c.getSObjectType(),
             DatabaseService.fieldInValues(
-                'Patient_Delegate__r.Participant__r.Contact__c',
-                partContactsIds
-            ) +
-            ' AND ' +
-            ((perIdlst != null && !perIdlst.isEmpty())
-                ? (DatabaseService.fieldInValues('Participant_Enrollment__c', perIdlst) + ' AND ')
-                : '') +
-            DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
+                    'Patient_Delegate__r.Participant__r.Contact__c',
+                    partContactsIds
+                ) +
+                ' AND ' +
+                ((perIdlst != null && !perIdlst.isEmpty())
+                    ? (DatabaseService.fieldInValues('Participant_Enrollment__c', perIdlst) +
+                      ' AND ')
+                    : '') +
+                DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
         );
 
         Map<Id, List<Contact>> delContactsByPartCnt = new Map<Id, List<Contact>>();
         for (Patient_Delegate_Enrollment__c pd : pdePatientDelegates) {
             Id partCntId = pd.Patient_Delegate__r.Participant__r.Contact__c;
+            if (!delContactsByPartCnt.containsKey(partCntId)) {
+                delContactsByPartCnt.put(partCntId, new List<Contact>());
+            }
+            List<Contact> pdDelConLst = delContactsByPartCnt.get(partCntId);
+            if (!pdDelConLst.contains(pd.Patient_Delegate__r.Contact__r))
+                delContactsByPartCnt.get(partCntId).add(pd.Patient_Delegate__r.Contact__r);
+        }
+
+        return delContactsByPartCnt;
+    }
+    public static Map<Id, List<Contact>> getDelegatedCntsByPe(
+        List<Id> perIdlst,
+        List<String> delegatedCntFields
+    ) {
+        if (perIdlst.isEmpty()) {
+            return new Map<Id, List<Contact>>();
+        }
+        List<String> pdFields = new List<String>();
+        pdFields.add('Participant_Enrollment__c');
+        for (String cntField : delegatedCntFields)
+            pdFields.add('Patient_Delegate__r.Contact__r.' + cntField);
+
+        // Removing Active Status for Platform Level from Batch_MassEmailDelegate
+        List<Patient_Delegate_Enrollment__c> pdePatientDelegates = (List<Patient_Delegate_Enrollment__c>) DatabaseService.query(
+            pdFields,
+            Patient_Delegate_Enrollment__c.getSObjectType(),
+                ((perIdlst != null && !perIdlst.isEmpty())
+                    ? (DatabaseService.fieldInValues('Participant_Enrollment__c', perIdlst) +
+                      ' AND ')
+                    : '') +
+                DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
+        );
+
+        Map<Id, List<Contact>> delContactsByPartCnt = new Map<Id, List<Contact>>();
+        for (Patient_Delegate_Enrollment__c pd : pdePatientDelegates) {
+            Id partCntId = pd.Participant_Enrollment__c;
             if (!delContactsByPartCnt.containsKey(partCntId)) {
                 delContactsByPartCnt.put(partCntId, new List<Contact>());
             }
@@ -813,6 +913,9 @@ public without sharing class PatientDelegateEnrollmentService {
             }
         }
         return delConMap;
+    }
+    public static list<Id> getDelegatedParticipantIds(Id contactId) {
+        return getDelegatedParticipantIdsMap(contactId).delParticipantIds.get(contactId);
     }
     public static PDEWrapper getDelegatedParticipantIdsMap(Id contactId) {
         List<Patient_Delegate_Enrollment__c> pdeList = new List<Patient_Delegate_Enrollment__c>();

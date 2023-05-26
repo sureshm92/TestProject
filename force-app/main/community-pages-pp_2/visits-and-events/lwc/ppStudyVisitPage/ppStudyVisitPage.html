@@ -69,7 +69,6 @@
                         <div class={iconContainerCss}>
                             <div class="slds-clearfix">
                                 <template if:false={isError}>
-                                    <!--<template if:true={contentLoaded}>-->
                                     <div class="rem-border">
                                         <c-pp-r-r-icon-splitter
                                             icons={icondetails}
@@ -79,7 +78,6 @@
                                         ></c-pp-r-r-icon-splitter>
                                     </div>
                                 </template>
-                                <!--</template>-->
                                 <template if:true={isError}>
                                     <div>
                                         <div
@@ -135,10 +133,11 @@
                 >
                     <img src={visitimage2} class="image-result-visit" />
                     <template if:true={isResultsCard}>
-                        <h1 class="what-to-expect">{label.results}</h1>
-                        <div class="icon-cont1 slds-align_absolute-center">
-                            <c-pp-study-visit-result-card></c-pp-study-visit-result-card>
-                        </div>
+                        <c-pp-study-visit-result-card
+                            is-past-visit={past}
+                            patient-visit-id={visitid}
+                            ctp-sharing-timing={ctpSharingTiming}
+                        ></c-pp-study-visit-result-card>
                     </template>
                 </div>
             </div>
