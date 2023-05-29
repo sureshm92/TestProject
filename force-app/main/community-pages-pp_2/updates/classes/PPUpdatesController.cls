@@ -119,15 +119,15 @@ public without sharing class PPUpdatesController {
         String currentPe,
         String participantContact
     ) {
-        try{
-        UpdateService instanceObj = UpdateService.getInstance();
-        instanceObj.removeUpdateCardForResourceHandler(
-            targetRecId,
-            currentParticipant,
-            currentPe,
-            participantContact
-        );
-        }catch (Exception e) {
+        try {
+            UpdateService instanceObj = UpdateService.getInstance();
+            instanceObj.removeUpdateCardForResourceHandler(
+                targetRecId,
+                currentParticipant,
+                currentPe,
+                participantContact
+            );
+        } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
