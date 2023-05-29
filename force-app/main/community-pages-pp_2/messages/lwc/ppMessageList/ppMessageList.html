@@ -87,14 +87,14 @@
     <template if:true={isMobile}>
         <template for:each={conversationWrappers} for:item="conWr" for:index="index">
             <div
-                class="slds-p-vertical_xxx-small list-border-btm slds-p-horizontal_large"
+                class="slds-p-vertical_xxx-small list-border-btm slds-p-left_small slds-p-right_large"
                 onclick={handleMouseSelect}
                 key={conWr.conversation.Id}
                 data-id={index}
                 tabindex="0"
             >
-                <lightning-layout size="12" class="slds-p-vertical_x-small slds-p-left_x-large"
-                    ><div class="study-time">
+                <lightning-layout size="12" class="slds-p-vertical_x-small"
+                    ><div class="mob-study-time">
                         <lightning-formatted-date-time
                             value={conWr.lastUpdate}
                             year="numeric"
@@ -105,7 +105,7 @@
                         </lightning-formatted-date-time></div
                 ></lightning-layout>
                 <lightning-layout>
-                    <lightning-layout-item size="1" class="slds-align-middle"
+                    <lightning-layout-item size="1" class="slds-align-middle slds-p-left_xx-small"
                         ><template if:true={conWr.isLastMsgUnRead}
                             ><span class="oval"></span></template></lightning-layout-item
                     ><lightning-layout-item size="11"
@@ -120,7 +120,7 @@
 
                 <lightning-layout>
                     <lightning-layout-item size="1"></lightning-layout-item>
-                    <lightning-layout-item size="9" class="slds-m-bottom_small">
+                    <lightning-layout-item size="10" class="slds-m-bottom_small">
                         <template if:true={conWr.isLastMsgUnRead}>
                             <div class="txt-ellipsis" title={conWr.lastMessagePart}>
                                 {conWr.lastMessagePart}
@@ -132,14 +132,14 @@
                             </div>
                         </template>
                     </lightning-layout-item>
-                    <lightning-layout-item size="2" class="slds-m-bottom_small">
+                    <lightning-layout-item size="1" class="slds-m-bottom_small">
                         <template if:true={conWr.haveAttachment}>
-                            <img src={message_attachment} class="attachment slds-p-left_x-large" />
+                            <img src={message_attachment} class="attachment slds-p-left_small" />
                         </template>
                     </lightning-layout-item>
                 </lightning-layout>
             </div>
-        </template> 
+        </template>
         <template if:false={conversationWrappers}>
             <template for:each={enrollments} for:item="enroll" for:index="index">
                 <div
