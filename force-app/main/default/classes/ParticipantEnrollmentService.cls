@@ -293,7 +293,6 @@ public without sharing class ParticipantEnrollmentService {
         return getInstance()
             .getPendingParticipantEnrollmentsImpl(trialId, hcpEnrollmentId, delegateId);
     }
-    
 
     public static Map<Id, Integer> getPreScreeningsAllByTrial(Id clinicId) {
         return getPECountMapByTrialsForPI(
@@ -733,6 +732,8 @@ public without sharing class ParticipantEnrollmentService {
         'Study_Site__r.Site__r.Name',
         'Study_Site__r.Site__r.Phone',
         'Study_Site__r.Site__r.BillingStreet',
+        'Study_Site__r.Site__r.BillingCity',
+        'Study_Site__r.Site__r.BillingState',
         'Study_Site__r.Site__r.BillingPostalCode',
         'Study_Site__r.Site__r.BillingCountryCode',
         'Study_Site__r.Principal_Investigator__c',

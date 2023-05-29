@@ -11,6 +11,7 @@ import PT_TV_MEET_INFO from '@salesforce/label/c.PT_Televisit_Meet_Info';
 import PI_TV_MEET_INFO from '@salesforce/label/c.PI_Televisit_Meet_Info';
 import JOIN_MEET from '@salesforce/label/c.WelcomeModal_Join';
 import UPCOMING_VISIT from '@salesforce/label/c.Televisit_Upcoming_Meet';
+import FORM_FACTOR from '@salesforce/client/formFactor';
 
 export default class TelevisitMeetBanner extends NavigationMixin(LightningElement) {
     @api channel = '/event/Televisit_Event__e';
@@ -33,7 +34,14 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     hasActiveVisits = false;
     UPCOMING_VISIT = UPCOMING_VISIT;
     showTelevisitCameraAndMicrophoneAccessPopup = false;
-
+    bgCss;
+    multipleJoinCss;
+    singleJoinCss;
+    allVisitCss;
+    isPP2View = false;
+    _handler;
+    deviceSize = 10;
+    isMobileDevice;
     @track labels = {
         UPCOMING_VISIT,
         PT_TV_MEET_INFO,
@@ -43,9 +51,11 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     // Initializes the component
     connectedCallback() {
+        this.getCommunintyTemplateName();
         this.getVisits();
         this.loadCometdScript();
         this.timeInterval();
+        document.addEventListener('click', this._handler = this.close.bind(this));
     }
 
     loadCometdScript() {
@@ -82,10 +92,8 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                     if (status.successful) {
                         this.subscription = this.cometd.subscribe(this.channel, (message) => {
                             let reLoadRequired = message.data.payload.Payload__c.includes(USER_ID);
-                            console.log('Televisit event Fired on banner');
                             //TODO check update banner cases
                             if (reLoadRequired) {
-                                console.log('Televisit event Fired on banner : reload requested');
                                 this.getVisits();
                             }
                         });
@@ -101,8 +109,40 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 //TODO
             });
     }
+    getCommunintyTemplateName() {
+        if(this._currentMode.template.communityName === 'IQVIA Patient Portal'){
+            this.isPP2View = true;
+            this.allVisitCss = 'allVisitsPP2';
+            if(FORM_FACTOR == 'Large'){
+                this.bgCss = 'divBodyPP2 slds-p-around_medium slds-text-color_inverse';
+                this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2';
+                this.singleJoinCss = 'slds-text-color_inverse join singleJoinPP2';
+                this.deviceSize = 10;
+                this.isMobileDevice = false;
+            }else{
+                this.bgCss = 'divBodyPP2Mobile slds-p-around_medium slds-text-color_inverse';
+                this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2Mobile';
+                this.singleJoinCss = 'slds-text-color_inverse join singleJoinPP2Mobile';
+                this.deviceSize = 10;
+                this.isMobileDevice = true;
+            }
+            
+        }else{
+            this.bgCss = 'divBody slds-p-around_medium slds-text-color_inverse';
+            this.isPP2View = false;
+            this.allVisitCss = 'allVisits';
+            
+            if(FORM_FACTOR == 'Large'){
+                this.isMobileDevice = false;
+                this.deviceSize = 10;
+            }else{
+                this.isMobileDevice = true;
+                this.deviceSize = 10;
+            }
+        } 
+    }
+
     getVisits() {
-        console.log('Televisit Get visits called');
         this.hasVisits = true;
         this.showMoreVisits = false;
         getVisits({
@@ -143,11 +183,21 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 activeVisits.push(visitDetail);
             }
         });
+        /*
+        if(this.allActiveVisits.length != activeVisits.length){
+            this.moreVisitIconName = 'utility:chevrondown';
+        }*/
+        
+
         this.allActiveVisits = activeVisits;
         this.showMoreVisits =
             this.showMoreVisits && (activeVisits.length === 0 || activeVisits.length === 1)
                 ? false
                 : this.showMoreVisits;
+
+        if(!this.showMoreVisits){
+            this.moreVisitIconName = 'utility:chevrondown';
+        }
         if (activeVisits.length > 0) {
             this.hasActiveVisits = true;
         }
@@ -167,10 +217,10 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
 
     @api
     get currentMode() {
-        return this._currentMode;
+        return this._currentMode;        
     }
-    set currentMode(value) {
-        this._currentMode = value;
+    set currentMode(value) {  
+        this._currentMode = value;        
         if (this._currentMode) {
             this.getVisits();
         }
@@ -182,8 +232,10 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         window.open(url, '_blank');
     }
     handleSingleMeetJoin(event) {
+        event.target.style.color = 'white';
         let url = this.urlPathPrefix.replace('/s', '') + this.meetLinkUrl;
         window.open(url, '_blank');
+        
     }
     handleOpenCloseVisits() {
         this.showMoreVisits = !this.showMoreVisits;
@@ -191,6 +243,18 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             this.moreVisitIconName === 'utility:chevrondown'
                 ? 'utility:chevronup'
                 : 'utility:chevrondown';
+    }
+
+    ignore(event) {
+        event.stopPropagation();
+        return false;
+    }
+    disconnectedCallback() {
+        document.removeEventListener('click', this._handler);
+    }
+    close() { 
+        this.showMoreVisits = false;
+        this.moreVisitIconName = 'utility:chevrondown';
     }
 
     handleCloseAccessPopup(event) {
@@ -209,7 +273,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
             timeZone: USER_TIME_ZONE,
             hour: '2-digit',
             minute: '2-digit',
-            hour12: true
+            //hour12: true
         });
     }
 
@@ -251,4 +315,7 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         );
         return teleMeetMainInfo;
     }
+
+    
+    
 }

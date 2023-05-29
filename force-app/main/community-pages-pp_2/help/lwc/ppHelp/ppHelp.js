@@ -16,6 +16,7 @@ import accountSettings from '@salesforce/label/c.PP_Account_Settings';
 import updateProfileResponse from '@salesforce/label/c.PP_UpdateProfileResponse';
 import helpFAQlabel from '@salesforce/label/c.Help_FAQ';
 import helpEmergencyLabel from '@salesforce/label/c.Help_Emergency_Contact';
+import helpLabel from '@salesforce/label/c.Navigation_Help';
 
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
@@ -43,7 +44,8 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
         accountSettings,
         updateProfileResponse,
         helpFAQlabel,
-        helpEmergencyLabel
+        helpEmergencyLabel,
+        helpLabel
     };
 
     //exclamation_green = rr_community_icons + '/' + 'status-exclamation.svg';

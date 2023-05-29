@@ -309,18 +309,6 @@
                     </div>
                 </div>
             </div>
-
-            <!--Delegate Withdraw Consent Section Yet to Design-->
-            <template if:true={isDelegate}>
-                <div class="delegate-info slds-p-vertical_medium">
-                    <c-pp-delegate-information
-                        user-mode="Participant"
-                        delegate-contact={delegateContact}
-                        is-mobile={isMobile}
-                        is-r-t-l={isRTL}
-                    ></c-pp-delegate-information>
-                </div>
-            </template>
             <!--Contact Information Section-->
             <template if:true={initData.participant.Adult__c}>
                 <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
@@ -397,12 +385,8 @@
                                     <label
                                         class="slds-form-element__label field-title"
                                         for="mobile-phone-input"
-                                        >{labels.MOBILE_PHONE}<abbr
-                                            class="slds-required required-icon"
-                                            title="required"
-                                            ><template if:true={isMobilePhoneRequired}>*</template>
-                                        </abbr></label
-                                    >
+                                        >{labels.MOBILE_PHONE}
+                                    </label>
                                     <div class="slds-form-element__control">
                                         <div class="slds-grid slds-wrap slds-gutters">
                                             <div class={mobilePhoneContainerClass}>
@@ -411,7 +395,6 @@
                                                     data-id="mobile-phone-input"
                                                     variant="label-hidden"
                                                     class="profile-info-input"
-                                                    required={isMobilePhoneRequired}
                                                     value={personWrapper.mobilePhone}
                                                     onkeyup={handleMobilePhoneChange}
                                                 ></lightning-input>

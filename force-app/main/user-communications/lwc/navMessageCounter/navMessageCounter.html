@@ -4,7 +4,14 @@
 
 <!-- Nav Message Counter -->
 <template>
-    <template if:true={counter}>
-        <span class="message-counter"></span>
+    <template if:false={isMessagePage}>
+        <template if:true={counter}>
+            <span class="message-counter"></span>
+        </template>
+    </template>
+    <template if:true={isMessagePage}>
+        <template if:true={counter}>
+            <div class="new-msg-outer slds-m-left_xx-small"><span class="new-message">{labels.New}</span></div>
+        </template>
     </template>
 </template>

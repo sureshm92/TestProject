@@ -63,7 +63,7 @@ private class Test_MessagePageRemote {
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', null, false, null);
+            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', false, null, false, null);
         }
         Test.stopTest();
     }
@@ -77,10 +77,10 @@ private class Test_MessagePageRemote {
         ctpList[0].CommunityTemplate__c='Janssen';
         update ctpList;
         System.runAs(testData.piUser) {
-            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', null, false, null);
+            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', false, null, false, null);
             MessagePageRemote.sendMultipleMessage(
                 new List<String>{ testData.pe.Id },
-                'Hi Participant!',
+                'Hi Participant!', false,
                 null,
                 null
             );

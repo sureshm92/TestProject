@@ -550,6 +550,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Document_Upload_Is_Available__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.ECOA_Is_Avaialble__c</field>
         <readable>false</readable>
     </fieldPermissions>
