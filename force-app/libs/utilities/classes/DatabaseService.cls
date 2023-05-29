@@ -139,7 +139,9 @@ public without sharing class DatabaseService {
     }
 
     public static String listToString(List<SObject> sObjects) {
-        Map<Id, SObject> sObjectMap = new Map<Id, SObject>(sObjects);
+        //Map<Id, SObject> sObjectMap = new Map<Id, SObject>(sObjects);
+        Map<Id, SObject> sObjectMap = new Map<Id, SObject>();
+        sObjectMap.putAll(sObjects);
         List<Id> idsList = new List<Id>(sObjectMap.keySet());
         return '(\'' + String.join(idsList, '\',\'') + '\')';
     }

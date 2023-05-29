@@ -20,9 +20,20 @@
   color: #595959;
   font-family: "Proxima Nova";
 }
-.chat-item {
+.parent-chat-item-sec {
+  text-align: justify;
+  padding: 8px;
+}
+.child-chat-item-sec {
+  overflow-y: auto;
   height: 472px;
-  overflow-y: scroll;
+  padding-right: 8px;
+}
+.ms-send-button{
+  height: 35px;
+  width: 96px; 
+  border: none;
+  border-radius: 1rem;
 }
 .medium {
   height: 472px;
@@ -38,14 +49,14 @@
   box-sizing: border-box;
   --sds-c-input-radius-border: 20px;
   height: 40px;
-  margin: 1.5rem 0 0 2rem;
+  margin: 1.2rem 0 0 2rem;
   background-color: #ffffff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
 }
 .send-button {
-  height: 40px;
+  height: 35px;
   width: 96px;
-  margin: 1.5rem 0 0 4rem;
+  margin: 1.2rem 0 0 4rem;
 }
 .send-message {
   border-radius: 20px;

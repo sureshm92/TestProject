@@ -1,7 +1,9 @@
 <template>
+    <c-custom-toast-files-p-p is-mobile={isMobile}></c-custom-toast-files-p-p>
     <template if:false={isMobile}>
         <span class="document">Documents</span>
-        <div class="document-box pir-parent pp-doc">
+        <div class="document-box-desk pir-parent pp-doc">
+            <c-web-spinner class="main-spinner" fixed="true" show-spinner={saving}></c-web-spinner>
             <div class="section-padding all-tabs slds-show_medium">
                 <lightning-tabset active-tab-value="">
                     <lightning-tab label="Uploaded">
@@ -25,14 +27,35 @@
                                         <thead>
                                             <tr class="slds-line-height_reset">
                                                 <th
-                                                    class="table-header slds-large-size_5-of-12"
+                                                    class="table-header slds-large-size_7-of-12"
                                                     scope="col"
                                                 >
                                                     <div
-                                                        class="table-header-label slds-truncate pptablewidth"
+                                                        class="table-header-label slds-truncate pptablewidth sort-onhover cuPointer"
                                                         title="Title"
+                                                        onclick={sortByTitle}
+                                                        data-id="title"
                                                     >
-                                                        Title
+                                                        <span class="boldfont">Title</span>
+
+                                                        <template if:true={arrowUpTitle}>
+                                                            <lightning-icon
+                                                                class="iconMargin"
+                                                                icon-name="utility:arrowup"
+                                                                size="xx-small"
+                                                                title="Sort"
+                                                            >
+                                                            </lightning-icon>
+                                                        </template>
+                                                        <template if:true={arrowDownTitle}>
+                                                            <lightning-icon
+                                                                class="iconMargin"
+                                                                icon-name="utility:arrowdown"
+                                                                size="xx-small"
+                                                                title="Sort"
+                                                            >
+                                                            </lightning-icon>
+                                                        </template>
                                                     </div>
                                                 </th>
                                                 <th
@@ -40,10 +63,35 @@
                                                     scope="col"
                                                 >
                                                     <div
-                                                        class="table-header-label slds-truncate"
+                                                        class="table-header-label slds-truncate sort-onhover cuPointer"
                                                         title="File Type"
+                                                        onclick={sortByType}
+                                                        data-id="fileType"
                                                     >
-                                                        File Type
+                                                        <span class="boldfont"> File Type</span>
+                                                        <template if:true={arrowUpType}>
+                                                            <span>
+                                                                <lightning-icon
+                                                                    class="iconMargin"
+                                                                    icon-name="utility:arrowup"
+                                                                    size="xx-small"
+                                                                    title="Sort"
+                                                                >
+                                                                </lightning-icon>
+                                                            </span>
+                                                        </template>
+
+                                                        <template if:true={arrowDownType}>
+                                                            <span>
+                                                                <lightning-icon
+                                                                    class="iconMargin"
+                                                                    icon-name="utility:arrowdown"
+                                                                    size="xx-small"
+                                                                    title="Sort"
+                                                                >
+                                                                </lightning-icon>
+                                                            </span>
+                                                        </template>
                                                     </div>
                                                 </th>
                                                 <th
@@ -51,10 +99,31 @@
                                                     scope="col"
                                                 >
                                                     <div
-                                                        class="table-header-label slds-truncate"
+                                                        class="table-header-label slds-truncate sort-onhover cuPointer"
                                                         title="Upload Date"
+                                                        onclick={sortByDate}
+                                                        data-id="createdDate"
                                                     >
-                                                        Upload Date
+                                                        <span class="boldfont"> Upload Date</span>
+
+                                                        <template if:true={arrowUpDate}>
+                                                            <lightning-icon
+                                                                class="iconMargin C"
+                                                                icon-name="utility:arrowup"
+                                                                size="xx-small"
+                                                                title="Sort"
+                                                            >
+                                                            </lightning-icon>
+                                                        </template>
+                                                        <template if:true={arrowDownDate}>
+                                                            <lightning-icon
+                                                                class="iconMargin C"
+                                                                icon-name="utility:arrowdown"
+                                                                size="xx-small"
+                                                                title="Sort"
+                                                            >
+                                                            </lightning-icon>
+                                                        </template>
                                                     </div>
                                                 </th>
                                                 <th
@@ -73,74 +142,98 @@
                                                         class="table-header-label slds-truncate"
                                                     ></div>
                                                 </th>
-
-                                                <!---  <th class="table-header slds-text-align_center" scope="col">
-                                                    <div class="table-header-label slds-truncate" title="Status">Status</div>
-                                                </th>-->
                                             </tr>
                                         </thead>
-                                        <!-- <template if:true={cvList}>-->
-                                        <tbody>
-                                            <tr class="slds-hint-parent table-row divider">
-                                                <td data-label="ftitle">
-                                                    <div class="slds-truncate" title="Title">
-                                                        <a href="" target="_blank">Title </a>
-                                                    </div>
-                                                </td>
-                                                <td
-                                                    data-label="ffiletype"
-                                                    class="slds-text-align_center"
-                                                >
-                                                    <div class="slds-truncate" title="FileType">
-                                                        FileType
-                                                    </div>
-                                                </td>
-                                                <td
-                                                    data-label="fuploaddate"
-                                                    class="slds-text-align_center"
-                                                >
-                                                    <div class="slds-truncate">
-                                                        22/09/2022
-                                                        <!-- <lightning-formatted-date-time
+
+                                        <template if:true={fileList}>
+                                            <template
+                                                for:each={fileList}
+                                                for:item="b"
+                                                for:index="index"
+                                            >
+                                                <tbody key={b.Id}>
+                                                    <tr class="slds-hint-parent table-row divider">
+                                                        <td data-label="ftitle">
+                                                            <div
+                                                                class="slds-truncate titleLink"
+                                                                title={b.Title}
+                                                                onclick={onPreview}
+                                                                data-id={b.previewUrl}
+                                                                data-title={b.Title}
+                                                                data-label={b.ContentDocumentId}
+                                                            >
+                                                                <a
+                                                                    data-id={b.previewUrl}
+                                                                    data-title={b.Title}
+                                                                    data-label={b.ContentDocumentId}
+                                                                >
+                                                                    {b.Title}
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            data-label="ffiletype"
+                                                            class="slds-text-align_center"
+                                                        >
+                                                            <div
+                                                                class="slds-truncate"
+                                                                title={b.FileType}
+                                                            >
+                                                                {b.FileType}
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            data-label="fuploaddate"
+                                                            class="slds-text-align_center"
+                                                        >
+                                                            <div class="slds-truncate">
+                                                                <lightning-formatted-date-time
                                                                     year="numeric"
                                                                     month="short"
                                                                     day="2-digit"
-                                                                    value="CreatedDate"
-                                                                ></lightning-formatted-date-time> -->
-                                                    </div>
-                                                </td>
-                                                <td
-                                                    data-label="action"
-                                                    class="slds-text-align_center"
-                                                >
-                                                    <div class="slds-truncate" title="">
-                                                        <a href="" target="_blank">
-                                                            <lightning-icon
-                                                                icon-name="utility:download"
-                                                                size="x-small"
-                                                                alternative-text="Download"
-                                                                title="Download"
-                                                            >
-                                                            </lightning-icon>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                                <td data-label="action" class="">
-                                                    <div class="slds-truncate" title="">
-                                                        <a href="" target="_blank">
-                                                            <lightning-icon
-                                                                icon-name="utility:delete"
-                                                                size="x-small"
-                                                                alternative-text="Delete"
-                                                                title="Delete"
-                                                            >
-                                                            </lightning-icon>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <!--  </template>-->
+                                                                    value={b.CreatedDate}
+                                                                    time-zone={timeZone}
+                                                                ></lightning-formatted-date-time>
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            data-label="action"
+                                                            class="slds-text-align_center"
+                                                        >
+                                                            <div class="slds-truncate" title="">
+                                                                <a href={b.ContentUrl}>
+                                                                    <lightning-icon
+                                                                        icon-name="utility:download"
+                                                                        size="x-small"
+                                                                        alternative-text="Download"
+                                                                        title="Download"
+                                                                    >
+                                                                    </lightning-icon>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                        <td data-label="action" class="">
+                                                            <div class="slds-truncate" title="">
+                                                                <div
+                                                                    class="cuPointer"
+                                                                    onclick={onDelete}
+                                                                    data-id={b.Id}
+                                                                >
+                                                                    <lightning-icon
+                                                                        data-id={b.Id}
+                                                                        icon-name="utility:delete"
+                                                                        size="x-small"
+                                                                        alternative-text="Delete"
+                                                                        title="Delete"
+                                                                    >
+                                                                    </lightning-icon>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </template>
+                                        </template>
                                     </table>
                                 </div>
                             </div>
@@ -160,22 +253,45 @@
                     </div>
                 </div>
             </template>
-            <!-- <div class="tablePPn slds-col slds-large-size_12-of-12">
-                    <div class="slds-align--absolute-center">
-                        <c-pir_participant-pagination
-                            class="pg"
-                            total-records={totalRecord}
-                            onpagechange={pageChanged}
-                            is-file={isFile}
-                        >
-                        </c-pir_participant-pagination>
-                    </div>
-                </div> -->
         </div>
+    </template>
+
+    <template if:true={openDeleteModel}>
+        <c-pp-modal
+            header-text="Delete File"
+            size="small"
+            is-show="true"
+            onclose={handleCancelModel}
+        >
+            <div slot="body">
+                <div class="body-container">
+                    <lightning-formatted-rich-text
+                        value="By deleting this file, the study team will no longer have access.
+                     Are you sure you would like to delete this file?"
+                    ></lightning-formatted-rich-text>
+                </div>
+            </div>
+            <div slot="footer">
+                <div class="slds-grid slds-gutters slds-grid_align-end">
+                    <!--<div class="slds-grid slds-gutters slds-grid_align-end">-->
+                    <div class="slds-col button-cancel">
+                        <button class="slds-button button-continue" onclick={handleCancelModel}>
+                            Cancel
+                        </button>
+                    </div>
+                    <div class="slds-col button-delete">
+                        <button class="slds-button button-continue" onclick={handleContinueModel}>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </c-pp-modal>
     </template>
     <!-- only for mobile table data start here -->
     <template if:true={isMobile}>
         <div class="document-box pir-parent">
+            <c-web-spinner class="main-spinner" fixed="true" show-spinner={saving}></c-web-spinner>
             <div
                 class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large D"
             >
@@ -299,30 +415,62 @@
                     </div>
                 </div>
 
-                <div class="slds-grid m-grid">
-                    <div class="slds-col slds-size_8-of-12 slds-p-left_medium">
-                        <div class="upld-file-name">Note from Physician</div>
-                        <div class="pdf">PDF</div>
-                        <div class="file-upld-date">September 19, 2022</div>
-                    </div>
-                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
-                        <lightning-icon
-                            icon-name="utility:download"
-                            alternative-text="download"
-                            size="x-small"
-                            title="download"
-                        ></lightning-icon>
-                    </div>
-                    <div class="slds-col center slds-align-middle slds-size_2-of-12">
-                        <lightning-icon
-                            icon-name="utility:delete"
-                            alternative-text="delete"
-                            size="x-small"
-                            title="delete"
-                        ></lightning-icon>
-                    </div>
+                <div>
+                    <template if:true={fileList}>
+                        <template for:each={fileList} for:item="b" for:index="index">
+                            <div class="slds-grid m-grid" key={b.Id}>
+                                <!-- <span key={b.Id}> -->
+                                <div class="slds-col slds-size_8-of-12 slds-p-left_medium">
+                                    <div
+                                        class="upld-file-name"
+                                        title={b.Title}
+                                        onclick={onPreview}
+                                        data-id={b.previewUrl}
+                                        data-title={b.Title}
+                                        data-label={b.ContentDocumentId}
+                                    >
+                                        {b.Title}
+                                    </div>
+                                    <div class="pdf">{b.FileType}</div>
+                                    <div class="file-upld-date">
+                                        <lightning-formatted-date-time
+                                            year="numeric"
+                                            month="short"
+                                            day="2-digit"
+                                            time-zone={timeZone}
+                                            value={b.CreatedDate}
+                                        ></lightning-formatted-date-time>
+                                    </div>
+                                </div>
+                                <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                                    <a href={b.ContentUrl} target="_blank">
+                                        <lightning-icon
+                                            icon-name="utility:download"
+                                            alternative-text="download"
+                                            size="small"
+                                            title="download"
+                                        ></lightning-icon>
+                                    </a>
+                                </div>
+                                <div
+                                    class="slds-col center slds-align-middle slds-size_2-of-12"
+                                    onclick={onDelete}
+                                    data-id={b.Id}
+                                >
+                                    <lightning-icon
+                                        icon-name="utility:delete"
+                                        alternative-text="delete"
+                                        size="small"
+                                        title="delete"
+                                        data-id={b.Id}
+                                    ></lightning-icon>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
                 </div>
             </template>
+
             <template if:true={noRecords}>
                 <div class="slds-align_absolute-center top-center">
                     <div class="dis-block">

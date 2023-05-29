@@ -50,6 +50,9 @@
     width: 70%;
     vertical-align: bottom;
 }
+.rightTextLink{
+    cursor: pointer;
+}
 .rightImg {
     display: inline-block;
     width: 30%;
@@ -272,7 +275,7 @@
     }
     .big .leftDescription {
         padding-top: 16px;
-}
+    }
 }
 @media all and (max-width: 450px) {
     .big .rightText {

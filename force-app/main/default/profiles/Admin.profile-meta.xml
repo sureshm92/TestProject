@@ -3505,6 +3505,17 @@
         <field>Completed_Incentive_Task__c.Points__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>ContentVersion.FileStatus__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>ContentVersion.progress__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+
     <fieldPermissions>
         <editable>true</editable>
         <field>E_Consent_Vendor__c.Vendor_URL__c</field>
@@ -8931,6 +8942,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>SurveyInvitation.Participant_Due_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>SurveyInvitation.Reminder_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9860,6 +9876,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Televisit__c.Visit_Link_Activation_Start_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Televisit__c.Reshedule_Email_Notification_Check__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

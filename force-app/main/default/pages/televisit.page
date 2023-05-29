@@ -1290,11 +1290,16 @@
                 var mm = String(today.getMonth() + 1).padStart(2, '0'); 
                 var yyyy = today.getFullYear();
                 today = yyyy +'-'+ mm +'-'+ dd;
-                    
+                  
+                
+                var statusCanceled = '{!statusCanceled}';
+                   
                 if(visitDate < today){
                    toggle('#tv-end-screen-container', 'slds-hide');
                 }else if(currTime > jsAutoDisconnectMeetingTime){
                    toggle('#tv-end-screen-container', 'slds-hide');
+                }else if(statusCanceled == 'true'){
+                    toggle('#tv-end-screen-container', 'slds-hide');
                 }else{
                     toggle('#call-preview-screen-container', 'slds-hide');
                     OT.getUserMedia().then(() => {
@@ -2167,6 +2172,12 @@
             
             }
             
+            .last-active-feed .OT_name.OT_mode-off {
+                top: 75% !important;
+                bottom: 0;
+                margin-left: 10px;
+                margin-bottom: 10px;
+            }
             .camera-screen .OT_name.OT_mode-off {
                 visibility:hidden;
             }
@@ -2385,6 +2396,11 @@
                 border-color: #00c221 !important;
             }
             
+            @media screen and (orientation: landscape) and (hover: none) and (pointer: coarse) {
+                .button--sharing{
+                    display:none;
+                }
+            }
             
         </style>
         

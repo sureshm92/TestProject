@@ -23,17 +23,28 @@ public with sharing class  MedicalPreviewController {
         String resourceId = parameters.get('resourceId');
         String language = parameters.get('language');
         
-        List<ContentDocument> cdlList = [ SELECT
+        List<ContentDocument> cdlList = new List<ContentDocument> ();
+                            cdlList =   [ SELECT
                                          ContentDocument.LatestPublishedVersion.Title,
                                          ContentDocument.LatestPublishedVersion.VersionData,
                                          ContentDocument.LatestPublishedVersion.LanguageCode__c,
                                          ContentDocument.LatestPublishedVersion.fileType
                                          FROM ContentDocument WHERE ID = :resourceId];
+        if(cdlList.isEmpty()){
+            List<ContentVersion> lstContentVersion = [SELECT FileType,ContentDocumentId FROM ContentVersion where ID = :resourceId];
+             cdlList = [ SELECT
+                                         ContentDocument.LatestPublishedVersion.Title,
+                                         ContentDocument.LatestPublishedVersion.VersionData,
+                                         ContentDocument.LatestPublishedVersion.LanguageCode__c,
+                                         ContentDocument.LatestPublishedVersion.fileType
+                                         FROM ContentDocument WHERE ID = :lstContentVersion[0].ContentDocumentId];
+        }
+        
         this.pdfBlobDataInBase64StringFormat = EncodingUtil.base64Encode(
             cdlList[0].LatestPublishedVersion.VersionData
         );
         this.fileType = cdlList[0].LatestPublishedVersion.fileType;
-        
+    
         this.executeJS = true;
         }
 }
