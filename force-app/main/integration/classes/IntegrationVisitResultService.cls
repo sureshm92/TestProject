@@ -84,7 +84,7 @@ public with sharing class IntegrationVisitResultService {
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c
             FROM Patient_Visit__c
             WHERE Participant_Enrollment__c IN :participantEnrollmentIds AND Status__c = 'Completed'
-            ORDER BY Completed_Date__c DESC
+            ORDER BY Completed_Date__c DESC, Visit_Number__c DESC
         ]) {
             Integer sharebackAvailabilityTiming = pv.Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c !=
                 null
@@ -100,12 +100,6 @@ public with sharing class IntegrationVisitResultService {
                     ) {
                         peAndPVsDetails.get(pv.Participant_Enrollment__c).add(pv.Id);
                     }
-                } else {
-                    peAndPVsDetails.put(pv.Participant_Enrollment__c, new List<Id>{ pv.Id });
-                }
-            } else {
-                if (peAndPVsDetails.containsKey(pv.Participant_Enrollment__c)) {
-                    peAndPVsDetails.get(pv.Participant_Enrollment__c).add(pv.Id);
                 } else {
                     peAndPVsDetails.put(pv.Participant_Enrollment__c, new List<Id>{ pv.Id });
                 }
@@ -132,12 +126,7 @@ public with sharing class IntegrationVisitResultService {
                 updateNotificationsForNewVResults.add(
                     new Notification__c(
                         Id = sr.Notification__c,
-                        Target_Record_Ids__c = sr.Notification__r.Target_Record_Ids__c.length() >
-                            240
-                            ? '' + peAndPv.get(sr.Notification__r.whatId__c).Id
-                            : sr.Notification__r.Target_Record_Ids__c +
-                              ',' +
-                              peAndPv.get(sr.Notification__r.whatId__c).Id
+                        Target_Record_Ids__c = '' + peAndPv.get(sr.Notification__r.whatId__c).Id
                     )
                 );
                 alreadyNotifiedPEs.add(sr.Notification__r.WhatId__c);
@@ -146,9 +135,10 @@ public with sharing class IntegrationVisitResultService {
         for (Id peId : peAndPv.keySet()) {
             if (
                 !alreadyNotifiedPEs.contains(peId) &&
-                peAndPVsDetails.containsKey(peId) &&
                 peAndPv.containsKey(peId) &&
-                peAndPVsDetails.get(peId).contains(peAndPv.get(peId).Id) &&
+                (!peAndPVsDetails.containsKey(peId) ||
+                (peAndPVsDetails.containsKey(peId) &&
+                !peAndPVsDetails.get(peId).contains(peAndPv.get(peId).Id))) &&
                 peAndPv.get(peId)
                     .Participant_Enrollment__r.Clinical_Trial_Profile__r.Visits_are_Available__c
             ) {
