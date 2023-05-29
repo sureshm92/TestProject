@@ -208,9 +208,9 @@ public without sharing class PPMessagePageRemote {
                         );
                     }
                 }
-                sharedConversations = ConversationService.getPeSharedConversations(
-                peIds
-                ); //24
+                sharedConversations = ConversationService.getSharedConversations(
+                  UserInfo.getUserId()
+                );
 
                 //Collect Conversations
                  if (sharedConversations != null) {
@@ -250,25 +250,7 @@ public without sharing class PPMessagePageRemote {
                         );
                     }
                 }
-            } else if (pageData.userMode == CommunityService.USER_MODE_PI) {
-               sharedConversations = ConversationService.getSharedConversations(
-                UserInfo.getUserId()
-                ); 
-                //Collect Conversations
-                if (sharedConversations != null) {
-                    for (Conversation__c conversation : sharedConversations) {
-                        if (
-                            conversation.Participant_Enrollment__r.Participant_Contact__c !=
-                            UserContext.getUserContactId()
-                        ) {
-                            conversations.add(conversation);
-                        }
-                    }
-                }
-
-                //Collect Enrollments
-                pageData.enrollments = getEnrollmentsForPI(null);
-            }
+            } 
             Set<Id> allPeIds = new Set<Id>();
             if(pageData.enrollments!=null){
                 for(Participant_Enrollment__c pe : pageData.enrollments){
