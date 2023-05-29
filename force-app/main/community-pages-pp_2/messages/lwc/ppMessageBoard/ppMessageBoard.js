@@ -86,9 +86,11 @@ export default class PpMessageBoard extends LightningElement {
       if (boardBody) boardBody.scrollTop = boardBody.scrollHeight;
     }, 50);
     if(this.selectConWrap.isPastStudy){
-        this.template.querySelector(".child-chat-item-sec").style.height = '536px';
+        this.template.querySelector(".child-chat-item-sec").style.height = '554px';
+        this.template.querySelector(".mob-parent-chat-item-sec").style.padding = '0px 8px 0px 8px';
     }else{
         this.template.querySelector(".child-chat-item-sec").style.height = '472px';
+        this.template.querySelector(".mob-parent-chat-item-sec").style.padding = '0px 8px 21px 8px';
     }
   }
   mobileViewToggle() {
