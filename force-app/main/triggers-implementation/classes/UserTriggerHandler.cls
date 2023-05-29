@@ -97,6 +97,7 @@ public without sharing class UserTriggerHandler {
     @TestVisible
     private static void updateEmailOnRelatedContacts(List<User> newList, Map<Id, User> oldMap) {
         List<Contact> changeEmailContacts = new List<Contact>();
+        Map<Id, User> contactUserMap = new Map<Id,User>();
         for (User user : newList) {
             if (user.ContactId == null)
                 continue;
@@ -105,9 +106,26 @@ public without sharing class UserTriggerHandler {
                     changeEmailContacts.add(new Contact(Id = user.ContactId, Email = user.Email));
                 }
             }
+            
+            //update names on related televisit Attendees
+            if (user.contactId!=null && (oldMap.get(user.Id).FirstName != user.FirstName || oldMap.get(user.Id).LastName != user.LastName)) {
+                contactUserMap.put(user.ContactId, user);
+            }
         }
-        if (changeEmailContacts.size() > 0)
+        if (changeEmailContacts.size() > 0){
             update changeEmailContacts;
+        }
+        
+        if(!contactUserMap.isEmpty()){
+            List<Televisit_Attendee__c> allAttendees = [select Id, Firstname__c, Lastname__c,Contact__c   from Televisit_Attendee__c where Contact__c IN:contactUserMap.keySet()];
+            for(Televisit_Attendee__c televisit : allAttendees){
+                televisit.Firstname__c = contactUserMap.get(televisit.Contact__c).FirstName;
+                televisit.Lastname__c = contactUserMap.get(televisit.Contact__c).LastName;
+            }
+            if(!allAttendees.isEmpty()){
+            update allAttendees;
+            }
+        }
     }
 	
 

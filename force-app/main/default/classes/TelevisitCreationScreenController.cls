@@ -48,8 +48,21 @@ public without sharing class TelevisitCreationScreenController {
             TelevisitWrapper.class
         );
         Televisit__c televisitRecord = new Televisit__c();
+        Televisit__c televisit;
         if (wrapper.id != '') {
             televisitRecord.Id = wrapper.id;
+            Set<Id> existingconset = new Set<Id>();
+            Set<Id> newconset = new Set<Id>();
+            televisitRecord.Reshedule_Email_Notification_Check__c = '';
+            televisit = [Select id,Reshedule_Email_Notification_Check__c,Visit_Date_Time__c,(Select id,Contact__c from Televisit_Attendee__r),Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c from Televisit__c where ID =:wrapper.id];
+            for(Televisit_Attendee__c attendee :televisit.Televisit_Attendee__r){
+                existingconset.add(attendee.Contact__c);
+            }
+            for(AttendeesWrapper wrap : wrapper.attendeesList){
+                if(!existingconset.contains(wrap.id)){
+                    televisitRecord.Reshedule_Email_Notification_Check__c = televisitRecord.Reshedule_Email_Notification_Check__c + wrap.id + ';';
+                }
+            }
         }
         televisitRecord.Duration__c = wrapper.duration;
         String parseTime = wrapper.startTime;
@@ -73,11 +86,13 @@ public without sharing class TelevisitCreationScreenController {
         CommunityMode mode = UserContext.getCurrentUserMode();
         televisitRecord.Source_Community__c = mode.template.communityName;
         upsert televisitRecord;
-        Televisit__c televisit = [
+        if(televisit == null){
+            televisit = [
             SELECT id, Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
             FROM Televisit__c
             WHERE ID = :televisitRecord.Id
-        ];
+            ];
+        }
         if (wrapper.id == '') {
             List<AttendeesWrapper> attendeesWrapperList = wrapper.attendeesList;
             List<String> ids = new List<String>();
@@ -369,7 +384,7 @@ public without sharing class TelevisitCreationScreenController {
             AttendeesWrapper wrap3 = new AttendeesWrapper();
             wrap3.firstName = per.Participant__r.First_Name__c;
             wrap3.lastName = per.Participant__r.Last_Name__c;
-            wrap3.attendeeType = 'Participant';
+            wrap3.attendeeType = System.Label.PP_Participant;
             wrap3.contactId = per.Participant_Contact__c;
             lstAttendeesWrapper.add(wrap3);
         }
@@ -385,7 +400,7 @@ public without sharing class TelevisitCreationScreenController {
                 wrap.firstName = mapUserRecord.get(siteStaff.Site_Contact__c).FirstName;
                 wrap.lastName = mapUserRecord.get(siteStaff.Site_Contact__c).LastName;
             }
-            wrap.attendeeType = 'Site Staff';
+            wrap.attendeeType = System.Label.PG_SST_L_Site_Staff;
             wrap.contactId = siteStaff.Site_Contact__c;
             lstAttendeesWrapper.add(wrap);
         }
@@ -400,7 +415,7 @@ public without sharing class TelevisitCreationScreenController {
             wrap1.firstName = mapUserRecord.get(per.PI_Contact__c).FirstName;
             wrap1.lastName = mapUserRecord.get(per.PI_Contact__c).LastName;
         }
-        wrap1.attendeeType = 'PI';
+        wrap1.attendeeType = System.Label.RH_PI;
         wrap1.contactId = per.PI_Contact__c;
         lstAttendeesWrapper.add(wrap1);
 
@@ -423,7 +438,6 @@ public without sharing class TelevisitCreationScreenController {
             WHERE
                 Participant_Enrollment__c = :per.id
                 AND Patient_Delegate__r.Participant__c = :per.Participant__c
-                AND Status__c = 'Active'
             ORDER BY Primary_Delegate__c DESC
         ]) {
             if (preventDuplicate.add(participantDelegate.Patient_Delegate__r.Contact__c)) {
@@ -435,7 +449,7 @@ public without sharing class TelevisitCreationScreenController {
                     wrap2.firstName = participantDelegate.Patient_Delegate__r.Contact__r.FirstName;
                     wrap2.lastName = participantDelegate.Patient_Delegate__r.contact__r.LastName;
                 }
-                wrap2.attendeeType = 'Participant Delegate';
+                wrap2.attendeeType = System.Label.PP_Participant_Delegate;
                 wrap2.contactId = participantDelegate.Patient_Delegate__r.Contact__c;
                 wrap2.participantAdult = participantDelegate.Patient_Delegate__r.Participant__r.Adult__c;
                 if (participantDelegate.Patient_Delegate__r.Participant__r.Email__c != null) {

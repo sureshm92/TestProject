@@ -14,20 +14,11 @@ export default class PpResourceMultimedia extends LightningElement {
         }
     }
     navigateResources() {
-        let subDomain = communityService.getSubDomain();
-        let detailLink = window.location.origin + subDomain + '/s/resources';
-
-        const config = {
-            type: 'standard__webPage',
-
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: detailLink
+                pageName: 'resources'
             }
-        };
-
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
         });
     }
 }

@@ -371,7 +371,7 @@ input:focus {
     width: 9px;
     height: 5px;
     top: 6px;
-}
+} 
 
 .rr-form-element .slds-checkbox [type=checkbox]:checked + .slds-checkbox_faux,
 .rr-form-element .slds-checkbox [type=checkbox]:checked + .slds-checkbox--faux,
@@ -1663,6 +1663,11 @@ input[type=password]::-ms-clear
         margin-left: 52px !important;
     }
 }
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .logo-container-pp {
+        margin-left: 12rem !important;
+    }
+}
 
 
 
@@ -1902,10 +1907,10 @@ border: 1px solid #00c221 !important;
 outline: none !important;
 }
 /* Delegate redesing - Chages-  Starts */
-.add-delegate-input-container .slds-input{
+.manage-delegate-acc-setting-old .add-delegate-input-container .slds-input{
     height: 40px !important;
 }
-.add-delegate-input-container .slds-input[disabled]{
+.manage-delegate-acc-setting-old .add-delegate-input-container .slds-input[disabled]{
     /* opacity: .4; */
     cursor: not-allowed;
     pointer-events: none;
@@ -1925,15 +1930,12 @@ outline: none !important;
     display: flex;
 }
 
-.add-del-fn-ln-cls input:disabled{
-    /* color: #747474;
-    background-color: #f2f2f2; */
-    color: red;
-    background-color: magenta;
-
-}
 .std .text-checked-bold .slds-checkbox .slds-checkbox__label .slds-form-element__label{
     font-weight: 600 !important;
+}
+.manage-delegate-acc-setting-old .manage-del-multi-picklist .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    font-size:14px !important;
+    white-space: normal !important;
 }
 .adn-multi-picklist .slds-media__body {
     height: 30px !important;
@@ -1964,6 +1966,26 @@ outline: none !important;
     height: 56px;
     padding: 16px 11px 16px 11px;
     width: 100%
+}
+
+.manage-delegate-acc-setting-old .manage-del-continer .slds-checkbox__label {
+    display: flex !important;
+}
+.manage-delegate-acc-setting-old .manage-del-continer .slds-form-element__label {
+    padding: 0 0 0 5px !important;
+    text-align: left !important;
+    margin-top: -4px !important;
+    line-height: 22px !important;
+}
+
+.manage-delegate-acc-setting-old .manage-del-continer-mobile .slds-checkbox__label {
+    display: flex !important;
+}
+.manage-delegate-acc-setting-old .manage-del-continer-mobile .slds-form-element__label {
+    padding: 0 0 0 5px !important;
+    text-align: left !important;
+    margin-top: -4px !important;
+    line-height: 22px !important;
 }
 
 
@@ -2007,5 +2029,54 @@ outline: none !important;
     width: 20px;
     height: 20px;
 }
+.manage-delegate-acc-setting-old .study-box{
+    height: 40px !important;
+}
+.manage-delegate-acc-setting-old .check-box-label-class input:focus {
+    box-shadow: none !important
+}
+/* This is for Add New Delegate Page */
+.manage-delegate-acc-setting-old .md-check-box-layout-item{
+    height: auto !important;
+    width: 100% !important;
+    padding-top: 10px !important;
+    padding-left: 10px !important;
+    font-size: 16px !important;
+    font-family: 'Proxima Nova' !important;
+    cursor: pointer !important;
+}
 
+.manage-delegate-acc-setting-old .md-check-box-layout-item:hover{  
+    background: #ecf3ff !important;
+}
+/* This is for manage Assignment  Page */
+.manage-delegate-acc-setting-old .manage-del-continer .md-check-box-layout-item{
+    height: auto !important;
+    width: 100% !important;
+    padding-top: 10px !important;
+    padding-left: 10px !important;
+    font-size: 16px !important;
+    font-family: 'Proxima Nova' !important;
+    cursor: pointer !important;
+}
+
+.manage-delegate-acc-setting-old .manage-del-continer .md-check-box-layout-item:hover{  
+    background: #ecf3ff !important;
+}
+.manage-delegate-acc-setting-old .noclk .slds-checkbox_faux{
+            margin-top: -2px;
+}
+.manage-delegate-acc-setting-old .manage-del-continer-mobile .md-check-box-layout-item{
+    height: auto !important;
+    width: 100% !important;
+    padding-top: 10px !important;
+    padding-left: 10px !important;
+    font-size: 16px !important;
+    font-family: 'Proxima Nova' !important;
+    cursor: pointer !important;
+}
+
+.manage-delegate-acc-setting-old .manage-del-continer-mobile .md-check-box-layout-item:hover{  
+    background: #ecf3ff !important;
+}
 /* Delegate redesing - Chages-  Ends */

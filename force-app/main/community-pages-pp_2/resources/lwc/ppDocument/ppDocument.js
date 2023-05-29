@@ -46,34 +46,32 @@ export default class Documents extends NavigationMixin(LightningElement) {
     }
 
     handleNavigateDefault() {
-        sessionStorage.setItem('Cookies', 'Accepted');		
         this[NavigationMixin.Navigate]({
-        type: 'comm__namedPage',
-        attributes: {
-            pageName: 'resource-detail'
-        },
-        state: {
-            resourceid : this.id,
-            resourcetype : this.document.resource.RecordType.DeveloperName,
-            state : this.state
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'resource-detail'
+            },
+            state: {
+                resourceid: this.id,
+                resourcetype: this.document.resource.RecordType.DeveloperName,
+                state: this.state
             }
-        });	
+        });
     }
 
     doMenuItemSelected(event) {
         let translationItem = event.target.dataset.itemvalue;
         let langCode = event.target.dataset.langcode;
         let contentId = event.target.dataset.contentid;
-        sessionStorage.setItem('Cookies', 'Accepted');		
         this[NavigationMixin.Navigate]({
-        type: 'comm__namedPage',
-        attributes: {
-            pageName: 'resource-detail'
-        },
-        state: {
-            resourceid : this.id,
-            resourcetype : this.document.resource.RecordType.DeveloperName,
-            lang : langCode
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'resource-detail'
+            },
+            state: {
+                resourceid: this.id,
+                resourcetype: this.document.resource.RecordType.DeveloperName,
+                lang: langCode
             }
         });
     }

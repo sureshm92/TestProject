@@ -2,6 +2,7 @@ import { LightningElement, api } from 'lwc';
 import DEVICE from '@salesforce/client/formFactor';
 import IQVIA_Logo from '@salesforce/resourceUrl/IQVIA_Logo';
 import GSK_Logo from '@salesforce/resourceUrl/GSK_Logos';
+import contact_support_icons from '@salesforce/resourceUrl/contact_support_icons';
 import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
 
@@ -11,6 +12,7 @@ import PPLEARNMOREDESKTOPLabel from '@salesforce/label/c.PP_ProgramOverview_Lear
 import When_a_program_is_active_you_will_find_a_brief_overview_about_it_here from '@salesforce/label/c.When_a_program_is_active_you_will_find_a_brief_overview_about_it_here';
 import You_are_not_enrolled_in_any_program_at_the_moment from '@salesforce/label/c.You_are_not_enrolled_in_any_program_at_the_moment';
 import No_active_program from '@salesforce/label/c.No_active_program';
+import PI_Post_Fix from '@salesforce/label/c.PP_PI_Post_Fix';
 
 
 export default class ProgramOverview extends LightningElement {
@@ -19,14 +21,20 @@ export default class ProgramOverview extends LightningElement {
         PPLEARNMOREDESKTOPLabel,
         When_a_program_is_active_you_will_find_a_brief_overview_about_it_here,
         You_are_not_enrolled_in_any_program_at_the_moment,
-        No_active_program
+        No_active_program,
+        PI_Post_Fix
     };
 
     iqviaLogoUrl = IQVIA_Logo+'/IQVIALogo.png';
     gskLogoUrl = GSK_Logo+'/gsk-full.png';
+    phone_Icon = contact_support_icons+'/phone_Icon.svg';
+    pi_Icon = contact_support_icons+'/PI_icon.svg';
     
     @api clinicalrecord;
     shortOverview;
+    @api studysite;
+    piName;
+    studySitePhone;
 
     desktop = true;
     isRTL = false;
@@ -78,6 +86,13 @@ export default class ProgramOverview extends LightningElement {
             }
         }
 
+        if(this.studysite){
+            this.piName = this.studysite.Principal_Investigator__r.Name;
+            console.log('piName---->'+this.piName);
+            this.studySitePhone = this.studysite.Study_Site_Phone__c;
+            console.log('studySitePhone---->'+this.studySitePhone);
+        }
+        
         getisRTL()
             .then((data) => {
                 this.isRTL = data;

@@ -583,7 +583,10 @@ public without sharing class PIR_ParticipantDetailController {
         con.id =delcon;
         con.AccountId = [Select Id,Participant__c,Participant__r.Contact__r.AccountId from Participant_Enrollment__c where Id=:perRecord.Id].Participant__r.Contact__r.AccountId;
         if(con.AccountId != null){
-        con.userCommunityIsDelegate__c = true;  
+        con.userCommunityIsDelegate__c = true; 
+        con.MailingPostalCode = perRecord.Participant__r.Mailing_Zip_Postal_Code__c;
+        con.MailingState = perRecord.Participant__r.Mailing_State__c;
+        con.MailingCountry = perRecord.Participant__r.Mailing_Country__c;  
         update con;
         }
         else {
