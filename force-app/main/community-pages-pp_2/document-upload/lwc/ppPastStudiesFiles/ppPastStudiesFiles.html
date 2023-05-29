@@ -1,5 +1,5 @@
 <template>
-    <div class="my-files">My Files</div>
+    <div class="my-files">{label.PP_MyFiles}</div>
     <lightning-layout multiple-rows>
         <lightning-layout-item size="12">
             <div class="slds-col slds-size_12-of-12 marMobile" onscroll={handleLazyLoading}>
@@ -26,7 +26,7 @@
                             class="pcolor"
                         >
                             <span onclick={showActionMenu} class="pointercss"
-                                >Switch Study/Program
+                                >{label.PP_SwitchStudyProgram}
                                 <span class="marIcon">
                                     <img src={sycnDropDown} class="no-doc-img-size" />
                                 </span>
@@ -94,20 +94,41 @@
                         onresetpageonupdate={handleresetpageonupdate}
                         stop-spinner={stopSpinnerChild}
                         selected-study-id={selectedStudyId}
-                    >
+                        pe-id={perId}
+                        ongettotalrecordmsg={handletotalrecordmsg}
+                        onresetpaginationmsg={handleresetpaginationmsg}
+                        ontabchange={handleTabChange}
+                    > 
                     </c-pp-past-studies-file-table>
-                    <template if:true={totalRecord}>
-                    <div class="tablePPn slds-col slds-large-size_12-of-12">
-                        <div class="slds-align--absolute-center">
-                                <c-pir_participant-pagination
-                                    class="pg"
-                                    total-records={totalRecord}
-                                    onpagechange={pageChanged}
-                                    is-file={isFile}
-                                >
-                                </c-pir_participant-pagination>
-                        </div>
-                    </div>
+                    <template if:false={issharedFilesTab}>
+                        <template if:true={totalRecord}>
+                            <div class="tablePPn slds-col slds-large-size_12-of-12">
+                                <div class="slds-align--absolute-center">
+                                        <c-pir_participant-pagination
+                                            class="pg"
+                                            total-records={totalRecord}
+                                            onpagechange={pageChanged}
+                                            is-file={isFile}
+                                        >
+                                        </c-pir_participant-pagination>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:true={issharedFilesTab}>
+                        <template if:true={totalRecordMsg}>
+                            <div class="tablePPn slds-col slds-large-size_12-of-12">
+                                <div class="slds-align--absolute-center">
+                                        <c-pir_participant-pagination
+                                            class="pg"
+                                            total-records={totalRecordMsg}
+                                            onpagechange={pageChanged}
+                                            is-file={isFile}
+                                        >
+                                        </c-pir_participant-pagination>
+                                </div>
+                            </div>
+                        </template>
                     </template>
                 </template>
             </div>

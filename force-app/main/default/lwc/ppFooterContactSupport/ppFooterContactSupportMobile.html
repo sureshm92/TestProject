@@ -46,10 +46,17 @@
                                                         <lightning-layout-item size="12" class="subHeaders marginBottom-4">
                                                             {label.Phone_In_Caps}
                                                         </lightning-layout-item>
-                                                        <lightning-layout-item size="12" class="mob-ph-content1" >
-                                                        <div class="param">{studySitePhone}</div>
-                                                        <textarea class="phone-value-ele textarea-style">{studySitePhone}</textarea>
-                                                        </lightning-layout-item>
+                                                        <!-- <template if:true={phoneNotAvailable}>
+                                                            <lightning-layout-item size="12" class="mob-ph-notAvailable" >
+                                                                {label.Not_Available}
+                                                            </lightning-layout-item>
+                                                        </template>
+                                                        <template if:false={phoneNotAvailable}> -->
+                                                            <lightning-layout-item size="12" class="mob-ph-content1" >
+                                                                <div class="param">{studySitePhone}</div>
+                                                                <!-- <textarea class="phone-value-ele textarea-style">{studySitePhone}</textarea> -->
+                                                            </lightning-layout-item>
+                                                        <!-- </template> -->
                                                     </lightning-layout>
                                                 </lightning-layout-item>
                                                 <!-- </lightning-layout> -->
@@ -73,7 +80,7 @@
                                                         </lightning-layout-item>
                                                         <lightning-layout-item size="12" class="addressContent" onclick={copyAddressToClipboard}>
                                                             <div class="param2">{siteAddress}</div>
-                                                            <textarea class="address-value-ele textarea-style">{siteAddress}</textarea>
+                                                            <!-- <textarea class="address-value-ele textarea-style">{siteAddress}</textarea> -->
                                                         </lightning-layout-item>
                                                     </lightning-layout>
                                                 </lightning-layout-item>
@@ -91,7 +98,7 @@
                                                         {label.Care_Team_Caps}
                                                     </lightning-layout-item>
                                                     <lightning-layout-item size="12" class="mob-ss-content1 marginBottom-12">
-                                                        {piName}&nbsp;{label.PI_Post_Fix}
+                                                        {piSalutation} {piName} <!-- &nbsp;{label.PI_Post_Fix} -->
                                                     </lightning-layout-item>
                                                     <!-- Site Staff -->
                                                     <lightning-layout multiple-rows="true" class="site-staff-container">
@@ -100,7 +107,12 @@
                                                                 for:item="ssName"
                                                             >
                                                             <lightning-layout-item size="12" key={ssName} class="mob-ss-content1 marginBottom-12">
-                                                                {ssName.Site_Contact__r.Name}&nbsp;{label.Site_Staff_Post_Fix}
+                                                                {ssName.Site_Contact__r.Salutation} {ssName.Site_Contact__r.Name} <!-- &nbsp;{label.Site_Staff_Post_Fix} -->
+                                                            </lightning-layout-item>
+                                                        </template>
+                                                        <template if:true={displaypluscount}>
+                                                            <lightning-layout-item size="12" class="mob-plusMore marginBottom-12">
+                                                                + {pluscount} {label.PIR_more}
                                                             </lightning-layout-item>
                                                         </template>
                                                     </lightning-layout>

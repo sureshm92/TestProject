@@ -86,13 +86,15 @@ export default class PpCookiesBanner extends LightningElement {
                     this.setRRCookie();
                 }
                 data = 'Agreed';
+                setTimeout(() => {
                 updateTheRegCookieAcceptance()
-                    .then(() => {
+                        .then((res) => {
                         communityService.setCookiesAgreedonReg(false);
                     })
                     .catch((error) => {
-                        communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                            communityService.showToast('', 'error', error.message, 100);
                     });
+                }, 12);
             }
         }
         if (!this.loginPage && data) {

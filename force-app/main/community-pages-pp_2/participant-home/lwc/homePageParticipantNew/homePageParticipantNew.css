@@ -85,6 +85,13 @@
     width: 25px;
     height: 25px;
 }
+.icon-progress {
+    margin-left: 31px !important;
+    margin-top: 11px !important;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+}
 .icon-update-section-small {
     margin-left: 32px !important;
     margin-top: 11px !important;
@@ -100,10 +107,9 @@
 }
 
 .p-text {
-    margin-left: 10px;
     margin-top: 10px;
     height: 24px;
-    width: 68.74px;
+    width: 100%;
     color: #ffffff;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -114,10 +120,9 @@
 }
 
 .p-text-televisit {
-    margin-left: 6px;
     margin-top: 10px;
     height: 24px;
-    width: 68.74px;
+    width: 100%;
     color: #ffffff;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -289,13 +294,15 @@
 
 .uc-text-mobile {
     /*margin-top: 6px;*/
-    padding: 6px 0;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: bold;
-    letter-spacing: 0;
+    letter-spacing: 0.5;
     text-align: center;
     color: #ffffff;
+    height: 32px;
+    letter-spacing: 0.5px;
+    line-height: 32px;
 }
 .progressTab {
     max-width: 468px;
@@ -318,7 +325,7 @@
 }
 .progressIconPosition {
     padding-top: 7px !important;
-    margin-left: 26px !important;
+    margin-left: 24px !important;
 }
 .tablet-margin {
     margin: 10px auto 0 auto !important;

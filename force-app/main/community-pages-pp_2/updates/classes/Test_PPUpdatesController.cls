@@ -167,7 +167,7 @@ public class Test_PPUpdatesController {
             Completed_Date__c = Date.newInstance(2019, 12, 17)
         );
         insert patientVisit;
-        Notification__c nt9 = new Notification__c(Target_Record_Ids__c=patientVisit.Id,Recipient__c=conId,Notification_Type__c=NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE,WhatId__c=pt.Id);
+        Notification__c nt9 = new Notification__c(Target_Record_Ids__c=patientVisit.Id,Recipient__c=conId,Notification_Type__c=NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE,WhatId__c=enroll.Id);
         insert nt9;
         Send_Result__c sr9 = new Send_Result__c(Target_Type__c = 'Updates',Status__c = 'In Progress',Notification__c = nt9.Id);
         insert sr9;
@@ -175,6 +175,7 @@ public class Test_PPUpdatesController {
             PPUpdatesController.getSendResultCount('2099-05-09 07:06:11');
             PPUpdatesController.getSendResultUpdates(0, 10, '2099-05-09 07:06:11');
             PPUpdatesController.removeUpdateCard(sr1.Id);
+            PPUpdatesController.removeUpdateCardForVisitResult(conId,enroll.Id,patientVisit.Id);
         }
     }  
     @isTest

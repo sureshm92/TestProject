@@ -25,6 +25,11 @@ export default class NavMessageCounter extends LightningElement {
                         } else {
                             this.counter = unread < 10 ? unread : '9+';
                         }
+                        this.dispatchEvent(new CustomEvent('msgnotify', {
+                            detail: {
+                                message:  this.counter
+                            }
+                        }));
                     })
                     .catch((error) => {
                         console.error('Error in getCounter():' + JSON.stringify(error));
