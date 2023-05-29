@@ -46,7 +46,6 @@ export default class Documents extends NavigationMixin(LightningElement) {
     }
 
     handleNavigateDefault() {
-        console.log('document or cert clicked ' + this.id);
         const clickResource = new CustomEvent('resourceclick', {
             detail: { resourceId: this.id },
             bubbles: true,

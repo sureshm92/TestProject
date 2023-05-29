@@ -15,9 +15,8 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
     }
 
     navigateResourceDetail() {
-        console.log('multimedia clicked');
         const clickResource = new CustomEvent('resourceclick', {
-            detail: { resourceId: this.id },
+            detail: { resourceId: this.exploreData.resource.Id },
             bubbles: true,
             composed: true
         });

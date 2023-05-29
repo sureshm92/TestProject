@@ -450,4 +450,52 @@ public without sharing class UpdateService {
         }
         update notifications;
     }
+    public void removeUpdateCardForResourceHandler(String targetRecId,String currentParticipant,String currentPe,String participantContact){
+        List<Id> notificationIds = new List<Id>();
+        List<String> targetIdList = new List<String>();
+        List<Id> peList = new List<Id>();
+        CommunityMode currentMode = UserContext.getCurrentUserMode();
+        if (currentPe!=null) {
+            peList.add(currentPe);
+        }else{
+            if(currentMode.isDelegate){
+                for (Patient_Delegate_Enrollment__c pde : [
+                    SELECT Participant_Enrollment__c,Participant_Enrollment__r.Clinical_Trial_Profile__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE
+                        Patient_Delegate__r.Contact__c = :ParticipantContext.getOwnParticipant()
+                            .Contact__c
+                        AND Patient_Delegate__r.Participant__r.Contact__c = :ParticipantContext.getCurrentContact()
+                            .Id
+                ]) {
+                    peList.add(pde.Participant_Enrollment__c);
+                }
+            }else{
+                for (
+                    Participant_Enrollment__c pastEnrollment : ContactService.getPastEnrollments(
+                        participantContact
+                    )
+                ) {
+                    peList.add(pastEnrollment.Id);
+                }
+            } 
+        }
+        targetIdList.add(targetRecId);
+        for(Res_study__c stdRes : [SELECT Id,Resource__c FROM Res_study__c WHERE Resource__c=:targetRecId]){
+            targetIdList.add(stdRes.Id);
+        }
+        List<Send_Result__c> sendResults = [SELECT id,Status__c,Notification__c FROM Send_Result__c WHERE Notification__r.Recipient__c=:participantContact AND Notification__r.WhatId__c!=null AND Notification__r.Status__c=:UpdateService.SR_STATUS_IN_PROGRESS AND Notification__r.Target_Record_Ids__c in: targetIdList and (Notification__r.WhatId__c=:currentParticipant OR Notification__r.WhatId__c in:peList)];
+        for(Send_Result__c sr : sendResults){ 
+            sr.Status__c='Sent'; 
+            if(!notificationIds.contains(sr.Notification__c)){
+                notificationIds.add(sr.Notification__c);
+            }
+        } 
+        if(sendResults.size()>0){
+            update sendResults;
+        }
+        if(notificationIds.size()>0){
+            UpdateService.getInstance().updateNotificationsStatus(notificationIds);
+        }
+    }
 }

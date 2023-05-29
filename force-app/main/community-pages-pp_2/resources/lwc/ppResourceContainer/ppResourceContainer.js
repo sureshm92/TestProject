@@ -38,9 +38,8 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
         }
     }
     handleNavigate() {
-        console.log('Video or article clicked');
         const clickResource = new CustomEvent('resourceclick', {
-            detail: { resourceId: this.id },
+            detail: { resourceId: this.resourceId },
             bubbles: true,
             composed: true
         });

@@ -113,22 +113,22 @@ public without sharing class PPUpdatesController {
         }
     }
     @AuraEnabled
-    public static void processResUpdateNotification(String targetRecId,String currentParticipant,String currentPe,String participantContact){
-        ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
-        List<Id> notificationIds = new List<Id>();
-        List<String> targetIdList = new List<String>();
-        targetIdList.add(targetRecId);
-        for(Res_study__c stdRes : [select Id,Resource__c from Res_study__c where Resource__c=:targetRecId]){
-            targetIdList.add(stdRes.Id);
+    public static void removeUpdateCardForResource(
+        String targetRecId,
+        String currentParticipant,
+        String currentPe,
+        String participantContact
+    ) {
+        try{
+        UpdateService instanceObj = UpdateService.getInstance();
+        instanceObj.removeUpdateCardForResourceHandler(
+            targetRecId,
+            currentParticipant,
+            currentPe,
+            participantContact
+        );
+        }catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
         }
-        List<Send_Result__c> sendResults = [select id,Status__c,Notification__c from Send_Result__c where Notification__r.Recipient__c=:participantContact AND Notification__r.WhatId__c!=null AND Notification__r.Status__c='In Progress' AND Notification__r.Target_Record_Ids__c in: targetIdList and (Notification__r.WhatId__c=:currentParticipant OR Notification__r.WhatId__c=:currentPe)];
-        for(Send_Result__c sr : sendResults){
-            sr.Status__c='Sent';
-            if(notificationIds.contains(sr.Notification__c)){
-                notificationIds.add(sr.Notification__c);
-            }
-        }
-        update sendResults;
-        UpdateService.getInstance().updateNotificationsStatus(notificationIds);
     }
 }
