@@ -94,20 +94,41 @@
                         onresetpageonupdate={handleresetpageonupdate}
                         stop-spinner={stopSpinnerChild}
                         selected-study-id={selectedStudyId}
-                    >
+                        pe-id={perId}
+                        ongettotalrecordmsg={handletotalrecordmsg}
+                        onresetpaginationmsg={handleresetpaginationmsg}
+                        ontabchange={handleTabChange}
+                    > 
                     </c-pp-past-studies-file-table>
-                    <template if:true={totalRecord}>
-                    <div class="tablePPn slds-col slds-large-size_12-of-12">
-                        <div class="slds-align--absolute-center">
-                                <c-pir_participant-pagination
-                                    class="pg"
-                                    total-records={totalRecord}
-                                    onpagechange={pageChanged}
-                                    is-file={isFile}
-                                >
-                                </c-pir_participant-pagination>
-                        </div>
-                    </div>
+                    <template if:false={issharedFilesTab}>
+                        <template if:true={totalRecord}>
+                            <div class="tablePPn slds-col slds-large-size_12-of-12">
+                                <div class="slds-align--absolute-center">
+                                        <c-pir_participant-pagination
+                                            class="pg"
+                                            total-records={totalRecord}
+                                            onpagechange={pageChanged}
+                                            is-file={isFile}
+                                        >
+                                        </c-pir_participant-pagination>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:true={issharedFilesTab}>
+                        <template if:true={totalRecordMsg}>
+                            <div class="tablePPn slds-col slds-large-size_12-of-12">
+                                <div class="slds-align--absolute-center">
+                                        <c-pir_participant-pagination
+                                            class="pg"
+                                            total-records={totalRecordMsg}
+                                            onpagechange={pageChanged}
+                                            is-file={isFile}
+                                        >
+                                        </c-pir_participant-pagination>
+                                </div>
+                            </div>
+                        </template>
                     </template>
                 </template>
             </div>

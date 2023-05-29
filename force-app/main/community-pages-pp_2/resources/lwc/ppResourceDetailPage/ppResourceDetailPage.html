@@ -209,7 +209,7 @@
 
                             <div class={backButtonLandscape}>
                                 <div class="mobile-ladscape-back-button">
-                                    <img src={backToRes} alt="Back to resoruces" onclick={handleBackClick} class="back-to-res"/>
+                                    <img src={backToRes} alt="Back to resoruces" onclick={handleBackClick} class={backButtonLandscapeTop}/>
                                 </div>
                             </div>
 
@@ -217,7 +217,7 @@
                                 <!-- Insert PP detail page resource item for portrait as well as desktop -->
                                 <template if:false={isDocument}>
                                     <lightning-layout multiple-rows="true">
-                                        <lightning-layout-item size="12">
+                                        <lightning-layout-item size="12" class={iframeAdjustTop}>
                                             <c-pp-detail-page-resource-item
                                                 resource-link={resourceLink}
                                                 resource-type={resourceType}

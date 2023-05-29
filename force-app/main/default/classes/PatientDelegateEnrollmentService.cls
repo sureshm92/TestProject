@@ -261,7 +261,7 @@ public without sharing class PatientDelegateEnrollmentService {
     public static List<parAndStdAssociatedListWrapper> WithdrawAssignment(String pdeId) {
         try {
             Patient_Delegate_Enrollment__c pde = [
-                SELECT id, Status__c
+                SELECT id, Status__c, Patient_Delegate__r.Contact__c, Participant_Enrollment__c
                 FROM Patient_Delegate_Enrollment__c
                 WHERE Id = :pdeId
             ][0];
@@ -269,6 +269,18 @@ public without sharing class PatientDelegateEnrollmentService {
                 pde.Status__c = 'Withdrawn';
                 update pde;
             }
+            
+            List<User> delegateUsers = [SELECT Id FROM User WHERE ContactId =:pde.Patient_Delegate__r.Contact__c];
+            Map<Id, Conversation__c> conversationMap = new Map<Id, Conversation__c>(
+            [SELECT Id FROM Conversation__c WHERE Participant_Enrollment__c =:pde.Participant_Enrollment__c]
+            );
+            List<Conversation__Share> conversationShares = [
+            SELECT Id
+            FROM Conversation__Share
+            WHERE ParentId IN :conversationMap.keySet() AND UserOrGroupId IN :delegateUsers 
+            ];
+            if (!conversationShares.isEmpty())
+            delete conversationShares;
 
             return getParAndStdAssociatedList();
         } catch (Exception e) {
@@ -538,8 +550,10 @@ public without sharing class PatientDelegateEnrollmentService {
     public static PatientDelegateEnrollmentsWrapperMain reActivateAssignment(
         List<String> pDEIdList
     ) {
+         List<Id> lstContDelegate = new List<Id>();
+         List<Id> lstPER = new List<Id>();
         list<Patient_Delegate_Enrollment__c> pdeList = [
-            SELECT id, Status__c, isInviteToPP__c,Patient_Delegate__r.Contact__c
+            SELECT id, Status__c, isInviteToPP__c,Patient_Delegate__r.Contact__c,Participant_Enrollment__c
             FROM Patient_Delegate_Enrollment__c
             WHERE id = :pDEIdList
         ];
@@ -550,6 +564,8 @@ public without sharing class PatientDelegateEnrollmentService {
                 pde.isInviteToPP__c = true;
                 delegateContIdMap.put(pde.Patient_Delegate__r.Contact__c,null);
             }
+            lstContDelegate.add(pde.Patient_Delegate__r.Contact__c);
+            lstPER.add(pde.Participant_Enrollment__c);
         }
         
         for(user u: [Select Id,contactId from User where contactId IN :delegateContIdMap.keyset()]){
@@ -562,6 +578,30 @@ public without sharing class PatientDelegateEnrollmentService {
                         .createParticipantUsers(delegateContIdMap);
             }
             update pdeList;
+            
+            List<User> delegateUsers = new  List<User>();
+            Id delegateUserId;
+            List<Conversation__c> lstConversations = new  List<Conversation__c>();
+            delegateUsers = [SELECT Id FROM User WHERE ContactId IN:lstContDelegate];
+           
+            if(!delegateUsers.isEmpty() && delegateUsers !=null){
+                delegateUserId = delegateUsers[0].Id;
+                lstConversations =  [SELECT Id FROM Conversation__c WHERE Participant_Enrollment__c IN:lstPER];
+                if(!lstConversations.isEmpty() && lstConversations !=null){
+                   List<Conversation__Share> shares = new List<Conversation__Share>();
+                    for (Conversation__c  conId : lstConversations) {
+                        shares.add(
+                            new Conversation__Share(
+                                AccessLevel = 'Edit',
+                                ParentId = conId.Id,
+                                UserOrGroupId = delegateUserId
+                            )
+                        );
+                    }
+                    Insert shares;
+                 }
+            }
+            
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -574,8 +614,9 @@ public without sharing class PatientDelegateEnrollmentService {
         Patient_Delegate__c newDelegate,
         List<Id> perIDList
     ) {
+        List<Id> lstContDelegate = new List<Id>();
         list<Patient_Delegate_Enrollment__c> pdeList = [
-            SELECT id, Status__c, Participant_Enrollment__c, isInviteToPP__c
+            SELECT id, Status__c, Participant_Enrollment__c, isInviteToPP__c,Patient_Delegate__r.Contact__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Participant_Enrollment__c = :perIDList AND Patient_Delegate__c = :newDelegate.Id
         ];
@@ -586,6 +627,7 @@ public without sharing class PatientDelegateEnrollmentService {
                 pde.isInviteToPP__c = true;
             }
             perIdSetForExistingPDE.add(pde.Participant_Enrollment__c);
+            lstContDelegate.add(pde.Patient_Delegate__r.Contact__c); 
         }
         for (Id perId : perIDList) {
             //When PDE record is not existing, create new PDE record for that study.
@@ -602,6 +644,33 @@ public without sharing class PatientDelegateEnrollmentService {
 
         try {
             upsert pdeList;
+            
+            
+            List<User> delegateUsers = new  List<User>();
+            Id delegateUserId;
+            List<Conversation__c> lstConversations = new  List<Conversation__c>();
+            delegateUsers = [SELECT Id FROM User WHERE ContactId IN:lstContDelegate];
+           
+            if(!delegateUsers.isEmpty() && delegateUsers !=null){
+             delegateUserId = delegateUsers[0].Id;
+                lstConversations =  [SELECT Id FROM Conversation__c WHERE Participant_Enrollment__c IN:perIDList];
+                if(!lstConversations.isEmpty() && lstConversations !=null){
+                   List<Conversation__Share> shares = new List<Conversation__Share>();
+                    for (Conversation__c  conId : lstConversations) {
+                        shares.add(
+                            new Conversation__Share(
+                                AccessLevel = 'Edit',
+                                ParentId = conId.Id,
+                                UserOrGroupId = delegateUserId
+                            )
+                        );
+                    }
+                    Insert shares;
+                 }
+            }
+            
+           
+           
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -611,7 +680,7 @@ public without sharing class PatientDelegateEnrollmentService {
     @AuraEnabled
     public static PatientDelegateEnrollmentsWrapperMain removeAssignment(String pDEId) {
         list<Patient_Delegate_Enrollment__c> lst = [
-            SELECT Id, Status__c, Patient_Delegate__r.Contact__c
+            SELECT Id, Status__c, Patient_Delegate__r.Contact__c,Participant_Enrollment__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Id = :pDEId AND Status__c = 'Active'
         ];
@@ -626,6 +695,19 @@ public without sharing class PatientDelegateEnrollmentService {
                 WHERE Contact__c = :pde.Patient_Delegate__r.Contact__c AND Viewed__c = FALSE
             ];
             delete alertlst;
+            
+            List<User> delegateUsers = [SELECT Id FROM User WHERE ContactId =:lst[0].Patient_Delegate__r.Contact__c];
+            Map<Id, Conversation__c> conversationMap = new Map<Id, Conversation__c>(
+            [SELECT Id FROM Conversation__c WHERE Participant_Enrollment__c =:lst[0].Participant_Enrollment__c]
+            );
+            List<Conversation__Share> conversationShares = [
+            SELECT Id
+            FROM Conversation__Share
+            WHERE ParentId IN :conversationMap.keySet() AND UserOrGroupId IN :delegateUsers 
+            ];
+            if (!conversationShares.isEmpty())
+            delete conversationShares;
+            
             return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
         }
         return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
@@ -636,7 +718,7 @@ public without sharing class PatientDelegateEnrollmentService {
         try {
             Set<Id> delConIdslt = new Set<Id>();
             list<Patient_Delegate_Enrollment__c> pdeList = [
-                SELECT id, Status__c, Patient_Delegate__r.Contact__c
+                SELECT id, Status__c, Patient_Delegate__r.Contact__c,Participant_Enrollment__c
                 FROM Patient_Delegate_Enrollment__c
                 WHERE Patient_Delegate__c = :pdId
             ];
@@ -652,7 +734,20 @@ public without sharing class PatientDelegateEnrollmentService {
                     WHERE Contact__c = :delConIdslt AND Viewed__c = FALSE
                 ];
                 delete alertlst;
-
+                
+                List<User> delegateUsers = [SELECT Id FROM User WHERE ContactId =:pdeList[0].Patient_Delegate__r.Contact__c];
+                Map<Id, Conversation__c> conversationMap = new Map<Id, Conversation__c>(
+                [SELECT Id FROM Conversation__c WHERE Participant_Enrollment__c =:pdeList[0].Participant_Enrollment__c]
+                );
+                List<Conversation__Share> conversationShares = [
+                SELECT Id
+                FROM Conversation__Share
+                WHERE ParentId IN :conversationMap.keySet() AND UserOrGroupId IN :delegateUsers 
+                ];
+                if (!conversationShares.isEmpty())
+                delete conversationShares;
+                
+                
                 return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
             }
             return PatientDelegateEnrollmentService.getInstance().pdeWrapperMain;
