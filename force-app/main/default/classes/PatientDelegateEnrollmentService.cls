@@ -1009,6 +1009,63 @@ public without sharing class PatientDelegateEnrollmentService {
         }
         return delConMap;
     }
+    public static Map<Id,Patient_Delegate_Enrollment__c> getPrimaryPatientDelEnrollmentList(
+        List<Id> participantIdlst,
+        List<Id> perIdlst
+    ) {
+        List<Patient_Delegate_Enrollment__c> pdedelegatesList = new List<Patient_Delegate_Enrollment__c>();
+        Map<Id,Patient_Delegate_Enrollment__c> pdedelegatesrecrdList = new Map<Id,Patient_Delegate_Enrollment__c>();
+        if (participantIdlst != null) {
+            String baseFilter =
+                DatabaseService.fieldInValues(
+                    'Patient_Delegate__r.Participant__c',
+                    participantIdlst
+                ) +
+                ' AND Primary_Delegate__c = true ' +
+                ' AND' +
+                DatabaseService.fieldEqual('Status__c', 'Active') +
+                (!perIdlst.isEmpty()
+                    ? (' AND ' +
+                      DatabaseService.fieldInValues('Participant_Enrollment__c', perIdlst))
+                    : '');
+
+            pdedelegatesList = DatabaseService.query(
+                new List<String>{
+                    'Id',
+                    'Primary_Delegate__c',
+                    'Patient_Delegate__r.Participant__r.Full_Name__c',
+                    'Patient_Delegate__r.Id',
+                    'Welcome_Message_Sent__c',
+                    'Welcome_Message_Delivered__c',
+                    'Patient_Delegate__r.Participant__r.Contact__c',
+                    'Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c',
+                    'Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c',
+                    'Patient_Delegate__r.Participant__r.First_Name__c',
+                    'Patient_Delegate__r.Participant__r.Last_Name__c',
+                    'Patient_Delegate__r.Contact__c',
+                    'Patient_Delegate__r.Participant__c',
+                    'Patient_Delegate__r.Participant_Delegate__r.Id',
+                    'Patient_Delegate__r.Participant_Delegate__r.First_Name__c',
+                    'Patient_Delegate__r.Participant_Delegate__r.Last_Name__c',
+                    'Patient_Delegate__r.Participant_Delegate__r.Email__c',
+                    'Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c',
+                    'Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c',
+                    'Status__c',
+                    'Participant_Enrollment__c',
+                    'Participant_Enrollment__r.Name',
+                    'Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c'
+                },
+                Patient_Delegate_Enrollment__c.getSObjectType(),
+                baseFilter
+            );
+            for(Patient_Delegate_Enrollment__c pde : pdedelegatesList){
+                pdedelegatesrecrdList.put(
+                    pde.Patient_Delegate__r.Participant__r.Contact__c,pde 
+                );
+            }
+        }
+        return pdedelegatesrecrdList;
+    }
     public static list<Id> getDelegatedParticipantIds(Id contactId) {
         return getDelegatedParticipantIdsMap(contactId).delParticipantIds.get(contactId);
     }
