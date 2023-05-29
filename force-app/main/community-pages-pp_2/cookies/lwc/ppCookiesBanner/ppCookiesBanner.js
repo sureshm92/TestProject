@@ -146,6 +146,13 @@ export default class PpCookiesBanner extends LightningElement {
             localStorage.removeItem('CookiesOnTC');
         }
         let accList = this.template.querySelectorAll('accordion');
+        updateTheRegCookieAcceptance()
+            .then(() => {
+                communityService.setCookiesAgreedonReg(false);
+            })
+            .catch((error) => {
+                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+            });
     }
     blockBackGroundEvents() {
         document.body.addEventListener('keypress', this.bodyBlock);
