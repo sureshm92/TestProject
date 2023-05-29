@@ -91,7 +91,7 @@ export default class PpCookiesBanner extends LightningElement {
                         communityService.setCookiesAgreedonReg(false);
                     })
                     .catch((error) => {
-                        communityService.showToast('', 'error', error.message, 100);
+                        communityService.showToast('', 'error', 'Failed To read the Data...', 100);
                     });
             }
         }
