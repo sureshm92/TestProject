@@ -1,6 +1,7 @@
 .list-border-btm {
     border-bottom: 1px solid #d9d9d9;
     height: auto;
+    cursor: pointer;
 }
 .list-border-btm:hover {
     background-color: #f2f2f2;
@@ -18,6 +19,11 @@
     width: 374px;
 }
 .study-time {
+    color: #595959;
+    font-size: 12px;
+}
+.mob-study-time {
+    padding-left: 1.9rem;
     color: #595959;
     font-size: 12px;
 }

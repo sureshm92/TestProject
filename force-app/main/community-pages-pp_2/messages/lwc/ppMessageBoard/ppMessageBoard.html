@@ -47,6 +47,7 @@
                                 options={options}
                                 onchange={handleChange}
                                 class="selection"
+                                onfocus={handleChanges}
                                 dropdown-alignment="bottom-left"
                             >
                             </lightning-combobox>
@@ -112,7 +113,12 @@
                     </lightning-layout>
                 </template>
                 <template if:false={isPastStudy}>
-                    <lightning-layout class="slds-m-horizontal_small mob-text-wrap"
+                    <lightning-layout
+                        class="slds-m-bottom_small mob-question-item"
+                    ></lightning-layout>
+                </template>
+                <template if:false={isPastStudy}>
+                    <lightning-layout class="slds-m-horizontal_small"
                         ><lightning-layout-item size="12"
                             ><lightning-combobox
                                 name="message"
@@ -120,7 +126,8 @@
                                 placeholder={labels.PP_Select_Question}
                                 options={options}
                                 onchange={handleChange}
-                                class="mob-selection"
+                                onfocus={handleChanges}
+                                class="mob-selection selection"
                                 dropdown-alignment="bottom-left"
                             >
                             </lightning-combobox></lightning-layout-item

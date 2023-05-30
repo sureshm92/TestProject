@@ -58,50 +58,6 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     erroContainerPosition = 'margin-left: 13px';
     errorIconPosition = 'margin-left: 8px';
 
-    renderedCallback() {
-        Promise.all([loadStyle(this, communityPPTheme)])
-            .then(() => {
-                console.log('Files loaded');
-            })
-            .catch((error) => {
-                console.log(error.body.message);
-            });
-    }
-
-    adjustWindowHeight() {
-        if (this.inError) {
-            switch (window.innerHeight) {
-                case 609:
-                case 577:
-                    document.querySelectorAll(
-                        '.slds-col.slds-large-size_4-of-7'
-                    )[0].style.maxHeight = '115vh';
-                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
-                        '115vh';
-                    break;
-                case 554:
-                case 525:
-                    document.querySelectorAll(
-                        '.slds-col.slds-large-size_4-of-7'
-                    )[0].style.maxHeight = '130vh';
-                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
-                        '130vh';
-                    break;
-                case 487:
-                case 462:
-                    document.querySelectorAll(
-                        '.slds-col.slds-large-size_4-of-7'
-                    )[0].style.maxHeight = '150vh';
-                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
-                        '145vh';
-                    document.querySelectorAll(
-                        '.slds-col.slds-large-size_4-of-7 img'
-                    )[0].style.marginTop = '-25px';
-                    break;
-            }
-        }
-    }
-
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
         this.currentPageReference = currentPageReference;
@@ -270,7 +226,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         return this.btnclassName;
     }
 
-    get PasswordEyeIconTitle(){
+    get PasswordEyeIconTitle() {
         return this.isEyeHidden ? this.label.PP_Login_Form_Show : this.label.PP_Login_Form_Hide;
     }
 

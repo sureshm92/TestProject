@@ -818,9 +818,17 @@ public without sharing class MessagePageRemote {
         string fileName = newVersion.Title;
         Integer intIndex = fileName.lastindexOf('.');
         String fileTitle = fileName.left(intIndex);
+        
+        String sizeStringFileName = fileTitle;
+        Integer maxSize = 96;
+        if(sizeStringFileName.length() > maxSize ){
+        sizeStringFileName = sizeStringFileName.substring(0, maxSize);
+        sizeStringFileName = sizeStringFileName+'...'; 
+        }
+        
         insert new ContentDistribution(
             ContentVersionId = contentVersion.Id,
-            Name = fileTitle,
+            Name = sizeStringFileName,
             PreferencesNotifyOnVisit = false,
             PreferencesAllowPDFDownload = false
         );

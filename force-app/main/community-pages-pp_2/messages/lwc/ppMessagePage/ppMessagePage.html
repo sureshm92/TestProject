@@ -34,6 +34,7 @@
                         onstudyselected={changeStudyConversation}
                         onmtoggle={mobileViewToggle}
                         message_attachment={message_attachment}
+                        onchangeevents={handleGroupMenu}
                         is-mobile={isMobile}
                     ></c-pp-message-list>
                 </template>
@@ -84,6 +85,7 @@
                         first-enrollments={firstEnrollments}
                         oncalltoparent={mobileViewToggle}
                         onmessageboardcmp={refreshPage}
+                        onmessagetemplateselection={handleGroupMenu}
                         device-size={deviceSize}
                         is-i-e={isIE}
                         pi-contact-names={piContactNames}
@@ -156,6 +158,7 @@
                             onstudyselected={changeStudyConversation}
                             onmtoggle={mobileViewToggle}
                             message_attachment={message_attachment}
+                            onchangeevents={handleGroupMenu}
                             is-mobile={isMobile}
                         ></c-pp-message-list> </template
                 ></lightning-layout>
@@ -218,6 +221,7 @@
                             first-enrollments={firstEnrollments}
                             oncalltoparent={mobileViewToggle}
                             onmessageboardcmp={refreshPage}
+                            onmessagetemplateselection={handleGroupMenu}
                             device-size={deviceSize}
                             is-i-e={isIE}
                             pi-contact-names={piContactNames}
