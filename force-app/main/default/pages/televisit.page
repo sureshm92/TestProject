@@ -138,6 +138,14 @@
                 height: 785px !important;
             }
         }
+        @media screen and (max-width: 768px) and (orientation: landscape){
+            .speaker-feed .OT_edge-bar-item.OT_mode-off {
+                min-height: 21px;
+            }
+        }
+        .speaker-feed .OT_edge-bar-item.OT_mode-off{
+            top:unset !important;
+        }
     </style>
     <apex:stylesheet value="{!$Resource.proximanova}/proximanova.css" />
     <apex:stylesheet value="{!$Resource.Community_CSS_Core}" />
@@ -1110,7 +1118,9 @@
                 let headerHeight = document.getElementsByClassName('page-header')[0].clientHeight;
 
                 let activeSpeakerTileHeight = (window.innerHeight) - inCallHeaderHeight - actionBarHeight - headerHeight - 76;
-
+                if(window.innerHeight<=480 && window.innerWidth<=766){
+                    activeSpeakerTileHeight = 225;
+                }
                 document.getElementsByClassName('speaker-feed')[0].style.height = activeSpeakerTileHeight + 'px';
                 document.getElementsByClassName('screen-sharing-feed')[0].style.height = activeSpeakerTileHeight + 'px';
             }
