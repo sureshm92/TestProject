@@ -1853,7 +1853,7 @@
                 }
             }
 
-            @media screen and (min-width: 576px) {
+            @media screen and (min-width: 767px) {
                 .people-icon-wrapper {
                     display: none;
                 }
@@ -1861,13 +1861,15 @@
                     display: none;
                 }
             }
-
-            @media screen and (max-width: 576px) {
-                .people-icon-wrapper {
+			@media (max-width: 767px){
+            	.people-icon-wrapper {
                     display: inline-block;
                     padding: 10px;
                     margin-right: -10px;
                 }
+            }
+
+            @media screen and (max-width: 576px) {
                 .televisitBanner {
                     margin-top: 55px;
                     padding: 0px;
@@ -2443,7 +2445,7 @@
                 border-color: #00c221 !important;
             }
             
-            @media screen and (orientation: landscape) and (hover: none) and (pointer: coarse) {
+            @media all and (orientation: landscape) and (max-width: 1024px) {
                 .button--sharing{
                     display:none;
                 }
