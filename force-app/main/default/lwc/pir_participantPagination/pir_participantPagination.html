@@ -8,8 +8,8 @@
                 <span class="items"> {label.RH_RP_Items} {startRecord}-{endRecord} {label.of} {totalRecords}</span>
             </div>
             <div class="rightShift slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_7-of-12 slds-large-order_2 slds-medium-order_2 slds-order_1">
-                <span class="slds-p-right--medium pre " if:true={isFile}>   
-                    <img src={right_arrow} class="slds-icon--xx-small" alt="First Page"  onclick={goToStart}>
+                <span class="slds-p-right--medium pref " if:true={isFile}>   
+                    <img src={right_arrow} class="slds-icon--xxx-small firstpage" alt="First Page"  onclick={goToStart}>
                 </span>
                 <span class="slds-p-right--x-small pre disabled" if:false={isRTLPg}>   
                     <lightning-icon  icon-name="utility:chevronleft" size="xx-small" alternative-text="Previous Page" onclick={previousPage}></lightning-icon>
