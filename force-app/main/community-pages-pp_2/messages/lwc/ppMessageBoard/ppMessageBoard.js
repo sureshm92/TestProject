@@ -11,7 +11,7 @@ import PP_Select_Questions from "@salesforce/label/c.PP_Select_Questions";
 
 export default class PpMessageBoard extends LightningElement {
   value = "inProgress";
-  @api selectConWrap; 
+  @api selectConWrap;
   @api msgWrapper;
   @api userId = Id;
   @api messageTemplates;
@@ -35,7 +35,7 @@ export default class PpMessageBoard extends LightningElement {
     PP_Select_Question,
     PP_Select_Questions
   };
-  get options() { 
+  get options() {
     this.messageTemplatesOption = [];
     this.messageTemplatesOption.push({
       label: this.labels.PP_Select_Questions,
@@ -49,14 +49,16 @@ export default class PpMessageBoard extends LightningElement {
     }
     return this.messageTemplatesOption;
   }
-  
+
   connectedCallback() {
     if (this.selectConWrap != null) {
-      this.msgWrapper = this.selectConWrap.messages;
+      if (!this.selectConWrap.noConversation) {
+        this.msgWrapper = this.selectConWrap.messages;
+      }
       this.messageValue = "";
       this.isLoaded = true;
       let context = this;
-      setTimeout(function () { 
+      setTimeout(function () {
         let boardBody = context.template.querySelector(".child-chat-item-sec");
         if (boardBody) boardBody.scrollTop = boardBody.scrollHeight;
       }, 50);
@@ -66,18 +68,6 @@ export default class PpMessageBoard extends LightningElement {
     }
   }
   @api isRendered = false;
-  renderedCallback() {
-    if(!this.isRendered){
-        if(this.selectConWrap){
-              if(this.selectConWrap.isPastStudy){
-              this.template.querySelector(".child-chat-item-sec").style.height = '536px';
-              }else{
-              this.template.querySelector(".child-chat-item-sec").style.height = '472px';
-              }
-              this.isRendered = true;
-      }
-    }
- }
   @api
   scrollDown() {
     let context = this;
@@ -85,13 +75,6 @@ export default class PpMessageBoard extends LightningElement {
       let boardBody = context.template.querySelector(".child-chat-item-sec");
       if (boardBody) boardBody.scrollTop = boardBody.scrollHeight;
     }, 50);
-    if(this.selectConWrap.isPastStudy){
-        this.template.querySelector(".child-chat-item-sec").style.height = '554px';
-        this.template.querySelector(".mob-parent-chat-item-sec").style.padding = '0px 8px 0px 8px';
-    }else{
-        this.template.querySelector(".child-chat-item-sec").style.height = '472px';
-        this.template.querySelector(".mob-parent-chat-item-sec").style.padding = '0px 8px 21px 8px';
-    }
   }
   mobileViewToggle() {
     const custEvent = new CustomEvent("calltoparent", {});
@@ -100,20 +83,20 @@ export default class PpMessageBoard extends LightningElement {
   handleChange(event) {
     this.messageValue = event.detail.value;
   }
-  handleChanges(){
+  handleChanges() {
     const focusEventHeader = new CustomEvent("messagetemplateselection", {});
     this.dispatchEvent(focusEventHeader);
   }
-  get isPastStudy(){
-     if(this.selectConWrap){
-        if(this.selectConWrap.isPastStudy){
-            return true;
-        }else{
-            return false;
-        }
-     }else{
+  get isPastStudy() {
+    if (this.selectConWrap) {
+      if (this.selectConWrap.isPastStudy) {
+        return true;
+      } else {
         return false;
-     }
+      }
+    } else {
+      return false;
+    }
   }
   get handleValidation() {
     if (this.messageValue != "Select question" && this.messageValue != "") {
@@ -126,38 +109,59 @@ export default class PpMessageBoard extends LightningElement {
   handleSendClick() {
     this.handleChanges();
     if (this.selectConWrap != null) {
-      let addspinner = new CustomEvent("savemessage");
-      this.dispatchEvent(addspinner);
-     
-      sendMessages({
-        conversation: this.selectConWrap.conversation,
-        messageText: this.messageValue,
-        deviceSize: this.deviceSize,
-        isIE: this.isIE,
-        piContactNames: this.piContactNames
-      })
-        .then((result) => {
-          this.messageValue = "Select question";
-          const selectEventHeader = new CustomEvent("messageboardcmp", {
-            detail: result
-          });
-          this.dispatchEvent(selectEventHeader);
+      if (!this.selectConWrap.noConversation) {
+        let addspinner = new CustomEvent("savemessage");
+        this.dispatchEvent(addspinner);
+
+        sendMessages({
+          conversation: this.selectConWrap.conversation,
+          messageText: this.messageValue,
+          deviceSize: this.deviceSize,
+          isIE: this.isIE,
+          piContactNames: this.piContactNames
         })
-        .catch((error) => {
-          console.error(
-            "Error in sendMessage():" +
-              error.message +
-              " " +
-              JSON.stringify(error)
-          );
-        });
-    } else {
-      
+          .then((result) => {
+            this.messageValue = "Select question";
+            const selectEventHeader = new CustomEvent("messageboardcmp", {
+              detail: result
+            });
+            this.dispatchEvent(selectEventHeader);
+          })
+          .catch((error) => {
+            console.error(
+              "Error in sendMessage():" +
+                error.message +
+                " " +
+                JSON.stringify(error)
+            );
+          });
+      } else {
 
+        let addspinner = new CustomEvent("savemessage");
+        this.dispatchEvent(addspinner);
+
+        createConversations({
+          enrollment: this.selectConWrap.firstEnrollments,
+          messageText: this.messageValue,
+          deviceSize: this.deviceSize,
+          isIE: this.isIE,
+          piContactNames: this.piContactNames
+        })
+          .then((result) => {
+            this.messageValue = "Select question";
+            const selectEventHeader = new CustomEvent("messageboardcmp", {
+              detail: result
+            });
+            this.dispatchEvent(selectEventHeader);
+          })
+          .catch((error) => {
+            console.error("Error in sendMessage():" + error.message);
+          });
+      }
+    } else {
       let addspinner = new CustomEvent("savemessage");
       this.dispatchEvent(addspinner);
 
-    
       createConversations({
         enrollment: this.firstEnrollments,
         messageText: this.messageValue,
@@ -166,7 +170,6 @@ export default class PpMessageBoard extends LightningElement {
         piContactNames: this.piContactNames
       })
         .then((result) => {
-        
           this.messageValue = "Select question";
           const selectEventHeader = new CustomEvent("messageboardcmp", {
             detail: result
