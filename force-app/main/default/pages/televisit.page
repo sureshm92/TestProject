@@ -144,7 +144,7 @@
             }
         }
         .speaker-feed .OT_edge-bar-item.OT_mode-off{
-            top:unset !imporatnt;
+            top:unset !important;
         }
     </style>
     <apex:stylesheet value="{!$Resource.proximanova}/proximanova.css" />
