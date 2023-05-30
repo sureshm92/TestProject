@@ -1343,12 +1343,23 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .selection .slds-input_faux {
     height: 35px !important;
     padding-top: 2px;
+    overflow: hidden;
 }
 .selection .slds-combobox__input .slds-input_faux {
     padding-right: 10px;
 }
 .selection .slds-input__icon-group_right {
     right: 10px !important;
+}
+.selection .slds-truncate {
+    max-width: 100%;
+    overflow: visible;
+    white-space: normal;
+}
+.mob-selection .slds-truncate {
+    max-width: 100%;
+    overflow: visible;
+    white-space: normal;
 }
 /* Date Time Dropdown Alignment */
 
