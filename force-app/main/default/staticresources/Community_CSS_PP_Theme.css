@@ -21,6 +21,7 @@ h6 {
 body {
     font-size: 13px;
     overflow: visible !important;
+    font-family: 'Proxima Nova';
 }
 a,
 .slds-button {
@@ -30,7 +31,8 @@ a,
     color: #0557d5;
     box-shadow: none;
 }
-.forgot-unable-pwd-txt .slds-button:hover {
+.forgot-unable-pwd-txt .slds-button:hover,
+.forgot-unable-pwd-txt .slds-button:focus {
     color: #0557d5;
     box-shadow: none;
     font-weight: 600;

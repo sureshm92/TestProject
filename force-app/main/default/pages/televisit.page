@@ -87,12 +87,55 @@
         .back-button {
             font-size: 18px !important;
         }
-        @media all and (max-width: 446px) {
+        @media all and (max-width: 430px) {
             .subTextT{
-                margin-bottom: 16px;
+                margin-bottom: 24px;
+                line-height: 21px;
+                padding-bottom: 16px;
             }
             .preview-tv{
-                height: 670px !important;
+                height: 680px !important;
+            }
+        }
+        .slds-scope .slds-modal__container {
+			margin: 0 24px;
+        }
+       	@media (orientation: portrait) {
+            .previewContainerFull{
+                height: 95vh !important;
+            } 
+        }
+        @media all and (max-width: 900px) {
+            .preview-tv-error .height-full {
+                height: 580px !important;
+            }
+        }
+        @media all and (max-width: 492px) {
+            .previewContainer{
+               padding-top: 24px;
+            }
+            .preview-tv-error{
+                height: 740px !important;
+            }
+            .preview-tv-error .height-full {
+                height: 650px !important;
+            }
+        }
+        @media all and (max-width: 430px) {
+            .previewContainer{
+               padding-top: 32px;
+             }
+            .preview-tv-error{
+                height: 760px !important;
+            }
+        }
+        
+        @media all and (max-width: 388px) {
+            .previewContainer{
+               padding-top: 62px;
+          }
+            .preview-tv-error{
+                height: 785px !important;
             }
         }
     </style>
@@ -1316,10 +1359,14 @@
                     }).catch((error) => {
                         if(error.name == 'OT_USER_MEDIA_ACCESS_DENIED'){
                             let previewScreen = document.getElementById("preview-screen");
+                        	let previewCont = document.getElementById("previewContainer");
                             if(previewScreen!= null && previewScreen.classList.contains('preview-tv')){
                                 previewScreen.classList.remove('preview-tv');
                                 previewScreen.classList.add('preview-tv-error');
                             }
+                            if(previewCont){
+                        		previewCont.classList.add('previewContainer');
+                    		}
                             toggle('#permission-error', 'slds-hide');
                         }
                     });
@@ -1596,7 +1643,7 @@
                 color: #e20000;
                 font-size: 14px;
                 letter-spacing: 0;
-                line-height: 24px;
+                line-height: 21px;
                 /*text-align: center;*/
             }
 
@@ -2438,7 +2485,8 @@
                 <div id="welcome-container">
                     <apex:outputPanel rendered="{!isSessionJoinable == true}">
                         <div
-                            class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container"
+                            class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container previewContainerFull"
+                        	id="previewContainer" 
                         >
                             <div class="slds-col">
                                 <div class="slds-grid">
