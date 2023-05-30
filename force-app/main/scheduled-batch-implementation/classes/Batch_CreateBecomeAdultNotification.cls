@@ -29,18 +29,20 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
         List<Participant_Enrollment__c> participantEnrollments
     ) {
         List<Participant__c> participants = new List<Participant__c>();
+        Map<Id,Participant__c>mapUpcomingMinorBecomeAdult = new Map<Id,Participant__c>();
         List<Id> participantIds = new List<Id>();
         List<Id> perIdLst = new List<Id>();
 
         System.debug('>>>> Participants enrollment' + JSON.serializePretty(participantEnrollments));
         Map<Id, Participant_Enrollment__c> prtByPEs = new Map<Id, Participant_Enrollment__c>();
         for (Participant_Enrollment__c pe : participantEnrollments) {
-            participants.add(pe.Participant__r);
+            //participants.add(pe.Participant__r);
             participantIds.add(pe.Participant__c);
             prtByPEs.put(pe.Participant__r.Id, pe);
             perIdLst.add(pe.Id);
+            mapUpcomingMinorBecomeAdult.put(pe.Participant__r.Id,pe.Participant__r);
         }
-
+         participants = mapUpcomingMinorBecomeAdult.values(); 
         List<Participant__c> nowAdultParticipantOrBecome = calculateParticipantsAgeOfMajority(
             participants
         );

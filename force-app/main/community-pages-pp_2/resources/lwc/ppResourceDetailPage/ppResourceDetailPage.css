@@ -140,9 +140,9 @@ hr {
     .resource-container1 {
         min-height: auto;
     }
-    .resource-container {
+    /* .resource-container {
         padding-top: 0%;
-    }
+    } */
 
     .forceOrientation-mobile {
         width: auto;
@@ -191,18 +191,29 @@ hr {
 .back-to-res{
     width: 35px;
     height: 35px;
-    position: fixed;
-    top: 19%;
-    left: 1%;
+    position: absolute;
+    top: 76px;
+    left: 22px;
+}
+
+.back-to-res-televisit{
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    top: 134px;
+    left: 22px;
 }
 
 .mobile-ladscape-back-button{
     display: none;
 }
 
-@media screen and (orientation: landscape) and (max-width: 896px) {
+@media screen and (orientation: landscape) and (max-width: 999px) {
     .mobile-ladscape-back-button{
         display: block;
         z-index: 10000;
+    }
+    .mt-8{
+        margin-top: -8px;
     }
 }

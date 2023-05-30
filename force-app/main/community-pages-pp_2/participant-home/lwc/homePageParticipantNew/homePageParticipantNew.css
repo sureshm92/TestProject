@@ -85,6 +85,13 @@
     width: 25px;
     height: 25px;
 }
+.icon-progress {
+    margin-left: 31px !important;
+    margin-top: 11px !important;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+}
 .icon-update-section-small {
     margin-left: 32px !important;
     margin-top: 11px !important;
@@ -100,10 +107,9 @@
 }
 
 .p-text {
-    margin-left: 10px;
     margin-top: 10px;
     height: 24px;
-    width: 68.74px;
+    width: 100%;
     color: #ffffff;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -114,10 +120,9 @@
 }
 
 .p-text-televisit {
-    margin-left: 6px;
     margin-top: 10px;
     height: 24px;
-    width: 68.74px;
+    width: 100%;
     color: #ffffff;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -275,6 +280,8 @@
 }
 .upcoming-card {
     /*background: rgb(248, 249, 251);*/
+    max-width: 468px;
+    margin: 10px auto 0 auto;
     height: auto;
     /*border: 1px solid lightgrey;*/
     border-top-left-radius: 16px;
@@ -287,17 +294,20 @@
 
 .uc-text-mobile {
     /*margin-top: 6px;*/
-    padding: 6px 0;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: bold;
-    letter-spacing: 0;
+    letter-spacing: 0.5;
     text-align: center;
     color: #ffffff;
+    height: 32px;
+    letter-spacing: 0.5px;
+    line-height: 32px;
 }
 .progressTab {
+    max-width: 468px;
+    margin: 10px auto 0px auto;
     height: 32px;
-    margin: 0px 10px;
     margin-top: 13px;
     border-radius: 20.5px 20.5px 0 0;
     background-color: #044b51;
@@ -315,5 +325,56 @@
 }
 .progressIconPosition {
     padding-top: 7px !important;
-    margin-left: 26px !important;
+    margin-left: 24px !important;
+}
+.tablet-margin {
+    margin: 10px auto 0 auto !important;
+}
+.ipad-width {
+    max-width: 468px;
+    margin: auto;
+}
+@media (max-width: 500px) {
+    .progressTab {
+        margin: 10px 10px 0px 10px;
+    }
+    .upcoming-card {
+        margin: 10px 10px 0px 10px;
+    }
+}
+
+@media all and (max-width: 380px) {
+	.mobileSet {
+		zoom: 0.97;
+	}
+}
+@media all and (max-width: 372px) {
+	.mobileSet {
+		zoom: 0.95;
+	}
+}
+@media all and (max-width: 362px) {
+	.mobileSet {
+		zoom: 0.93;
+	}
+}
+@media all and (max-width: 350px) {
+	.mobileSet {
+		zoom: 0.91;
+	}
+}
+@media all and (max-width: 342px) {
+	.mobileSet {
+		zoom: 0.89;
+	}
+}
+@media all and (max-width: 332px) {
+	.mobileSet {
+		zoom: 0.87;
+	}
+}
+@media all and (max-width: 326px) {
+	.mobileSet {
+		zoom: 0.85;
+	}
 }

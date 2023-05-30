@@ -65,6 +65,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     mediaContent = false;
     displaySection = "";
     backButtonLandscape = "";
+    televisit = false;
 
     backToRes = pp_community_icons + '/' + 'back_to_resources.png';
 
@@ -94,7 +95,30 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
     get linkLabel() {
         return this.showHomePage ? this.label.Back_To_Home : this.label.Back_To_Resources;
+    } 
+
+    timeInterval() {
+        setInterval(() => {
+            this.televisit = sessionStorage.getItem("televistActive");
+            console.log("TELEVISIT ACTIVE: " + this.televisit);
+        }, 1000);
     }
+
+    get backButtonLandscapeTop(){
+        if(this.televisit == "true"){
+            return "back-to-res-televisit";
+        }
+        else{
+            return "back-to-res";
+        }
+    }
+
+    get iframeAdjustTop(){
+        if(this.televisit == "true"){
+            return "mt-8";
+        }
+    }
+
 
     disconnectedCallback(){
         this.publishResourceType(false);
@@ -103,6 +127,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     /** Lifecycle hooks **/
     connectedCallback() {
         //get resource parameters from url
+        this.timeInterval();
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         this.resourceId = urlParams.get('resourceid');

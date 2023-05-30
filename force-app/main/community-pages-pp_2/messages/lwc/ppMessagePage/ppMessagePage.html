@@ -34,6 +34,8 @@
                         onstudyselected={changeStudyConversation}
                         onmtoggle={mobileViewToggle}
                         message_attachment={message_attachment}
+                        onchangeevents={handleGroupMenu}
+                        is-mobile={isMobile}
                     ></c-pp-message-list>
                 </template>
             </lightning-layout-item>
@@ -83,41 +85,151 @@
                         first-enrollments={firstEnrollments}
                         oncalltoparent={mobileViewToggle}
                         onmessageboardcmp={refreshPage}
+                        onmessagetemplateselection={handleGroupMenu}
                         device-size={deviceSize}
                         is-i-e={isIE}
                         pi-contact-names={piContactNames}
                         is-secondary={isSecondary}
+                        is-mobile={isMobile}
                     ></c-pp-message-board>
                 </template>
             </lightning-layout-item>
         </lightning-layout>
     </template>
     <template if:true={isMobile}>
-        <lightning-layout multiple-rows class="slds-m-around_medium">
-            <lightning-layout-item size="12">
-                <span class="">
+        <lightning-layout multiple-rows class="slds-m-around_medium ipad-wdth">
+            <template if:true={showBack}>
+                <lightning-layout-item size="12" class="back-txt-center">
+                    <span class="" onclick={handleBack}>
+                        <lightning-icon
+                            icon-name="utility:chevronleft"
+                            alternative-text="chevronleft"
+                            size="x-small"
+                            title="chevronleft"
+                            class="left-chevro my-icon"
+                        ></lightning-icon> </span
+                    ><span class="back">Back</span>
+                </lightning-layout-item>
+            </template>
+            <template if:false={showBack}>
+                <div class="slds-grid">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="com-icon pointer slds-m-top_xxx-small">
+                        <use xlink:href={homeSvg} onclick={handleHomePage}></use>
+                    </svg>
                     <lightning-icon
-                        icon-name="utility:chevronleft"
-                        alternative-text="chevronleft"
-                        size="x-small"
-                        title="chevronleft"
-                        class="left-chevron"
-                    ></lightning-icon> </span
-                ><span class="back">Back</span>
-            </lightning-layout-item>
+                        icon-name="utility:chevronright"
+                        size="xx-small"
+                        class="slds-m-top_xxx-small slds-m-horizontal_xx-small"
+                    >
+                    </lightning-icon>
+                    <div class="pp-message-txt">{labels.messagesLabel}</div>
+                </div>
+            </template>
             <lightning-layout-item size="12" class="">
                 <div class="mob-pp-message-txt">{labels.messagesLabel}</div>
             </lightning-layout-item>
             <lightning-layout-item size="12" class="mob-rectangle-box slds-p-around--small">
-                <lightning-icon
-                    icon-name="utility:info"
-                    alternative-text="info"
-                    size="small"
-                    title="info"
-                    class="info-icon"
-                ></lightning-icon
-                ><span>{labels.disclaimerLabel}</span>
+                <lightning-layout>
+                    <lightning-layout-item size="2" class="slds-align-middle slds-p-left_small"
+                        ><img src={message_disclaimer} class=""
+                    /></lightning-layout-item>
+                    <lightning-layout-item size="10"
+                        >{labels.disclaimerLabel}</lightning-layout-item
+                    ></lightning-layout
+                >
             </lightning-layout-item>
+            <template if:true={loaded}>
+                <c-web-spinner
+                    class="main-spinner"
+                    show-spinner={loaded}
+                    fixed="true"
+                ></c-web-spinner>
+            </template>
+            <lightning-layout-item size="12" class="mob-msg-list-box slds-m-top_small L">
+                <lightning-layout class="border-btm slds-p-around--large"
+                    >{labels.messagesLabel}</lightning-layout
+                >
+                <lightning-layout
+                    class="slds-p-horizontal--large1 slds-grid_vertical list-border-btm1"
+                    ><template if:true={isInitialized}>
+                        <c-pp-message-list
+                            conversation-wrappers={conversationWrappers}
+                            enrollments={enrollments}
+                            onstudyselected={changeStudyConversation}
+                            onmtoggle={mobileViewToggle}
+                            message_attachment={message_attachment}
+                            onchangeevents={handleGroupMenu}
+                            is-mobile={isMobile}
+                        ></c-pp-message-list> </template
+                ></lightning-layout>
+            </lightning-layout-item>
+            <lightning-layout-item
+                size="12"
+                class="mob-msg-box slds-m-top_small hideMobile conversations"
+            >
+                <lightning-layout class="slds-grid_align-space border-btm">
+                    <lightning-layout-item size="2" class="slds-align-middle slds-p-left_large"
+                        ><lightning-icon
+                            icon-name="utility:chevronleft"
+                            alternative-text="chevronleft"
+                            size="x-small"
+                            title="chevronleft"
+                            onclick={handleBack}
+                        ></lightning-icon
+                    ></lightning-layout-item>
+                    <lightning-layout-item
+                        size="8"
+                        class="slds-p-vertical_large study-txt-ellipse"
+                        title={studyName}
+                    >
+                        {studyName}</lightning-layout-item
+                    >
+                    <lightning-layout-item size="2" class={addPointer}>
+                        <img
+                            src={televisitAttendees_icon}
+                            class="group-icon img-color"
+                            id="img-color-m"
+                            onclick={showParticipants}
+                        />
+                        <template if:true={showCount}>
+                            <span
+                                class="slds-p-left_x-small team-color team-count"
+                                onclick={showParticipants}
+                                >{peopleCount}</span
+                            >
+                        </template>
+                    </lightning-layout-item>
+                    <div class="slds-p-horizontal_large box-container mob-box-container">
+                        <template if:true={nameList}>
+                            <template for:each={nameList} for:item="n">
+                                <c-pp-people-count
+                                    key={n.key}
+                                    userpic-id={n.key}
+                                    user-name={n.value}
+                                    usr-pic={usrPic}
+                                ></c-pp-people-count>
+                            </template>
+                        </template>
+                    </div>
+                </lightning-layout>
+                <lightning-layout class="slds-align--absolute-center"
+                    ><template if:true={isMessageLoaded}>
+                        <c-pp-message-board
+                            onsavemessage={handleSpinner}
+                            message-templates={messageTemplates}
+                            select-con-wrap={selectConWrap}
+                            first-enrollments={firstEnrollments}
+                            oncalltoparent={mobileViewToggle}
+                            onmessageboardcmp={refreshPage}
+                            onmessagetemplateselection={handleGroupMenu}
+                            device-size={deviceSize}
+                            is-i-e={isIE}
+                            pi-contact-names={piContactNames}
+                            is-secondary={isSecondary}
+                            is-mobile={isMobile}
+                            class="mob-msg-board"
+                        ></c-pp-message-board> </template></lightning-layout
+            ></lightning-layout-item>
         </lightning-layout>
     </template>
 </template>

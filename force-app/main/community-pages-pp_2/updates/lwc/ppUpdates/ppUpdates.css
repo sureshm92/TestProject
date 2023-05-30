@@ -3,7 +3,9 @@
     height: 100%;
     margin: auto;
 }
-
+.tab-mob-maxWidth {
+    max-width: 468px;
+}
 .card-wrap {
     padding: 0;
 }
@@ -60,7 +62,7 @@
 .container-card-mobile {
     background-color: #f6f7fb;
     border-top-color: #003346;
-    border-top-width: 38px;
+    border-top-width: 32px;
     padding: 0;
     border-radius: 25px;
     min-height: 416px;
@@ -146,14 +148,16 @@
 }
 
 .task-header-mobile {
-    margin-top: -29px;
+    margin-top: -31px;
     text-align: center;
     font-size: 14px;
     color: #fff;
-    font-weight: 600;
+    font-weight: bold;
     font-family: 'Proxima Nova';
     text-transform: uppercase;
     height: 32px;
+    letter-spacing: 0.5px;
+    line-height: 32px;
 }
 
 .container-card-mobile-empty {

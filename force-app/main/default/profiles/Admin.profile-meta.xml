@@ -9880,6 +9880,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Televisit__c.Reshedule_Email_Notification_Check__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Televisit_Attendee__c.Attendee_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
