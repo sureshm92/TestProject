@@ -68,7 +68,7 @@ public without sharing class IprEprTriggerHandler {
             }
             
             //SS Map
-            for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c, 
+            for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c,Participant_DOB_format__c, 
                                      Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c
                                      FROM Study_Site__c WHERE Primary_Key_ePR__c IN :ssNumbersList ])
             {ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);}      
@@ -126,13 +126,87 @@ public without sharing class IprEprTriggerHandler {
                             errorsLog.add(err.get('language_invalid').Error_Message__c);
                         
                     } 
+                    String studySiteNumber = ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
+                    Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
+                    //if (!String.isBlank(ipr.BirthDate__c)) {
+                    List<String> dateOfBirth = ipr.BirthDate__c.split('-');
+                    String mmValue;
+                    String ddValue;
+                    String yyyyValue;
+                    if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                        if(dateOfBirth.size() > 2){
+                            ddValue = dateOfBirth[2];
+                            mmValue = dateOfBirth[1];
+                        }else if(dateOfBirth.size() > 1){
+                            mmValue = dateOfBirth[1];
+                        }
+                    }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                        if(dateOfBirth.size() > 1){
+                            mmValue = dateOfBirth[1];
+                        }
+                    }
+                    yyyyValue = dateOfBirth[0];
+                    Integer mm = String.isNotBlank(mmValue) ? Integer.valueof(mmValue) : 12;
+                    Integer dd = String.isNotBlank(ddValue) ? Integer.valueof(ddValue) : Date.daysInMonth(Integer.valueOf(yyyyValue), mm);
+                    Date birthDate = Date.newInstance( 
+                        Integer.valueOf(yyyyValue),mm,dd
+                    );
+                    Integer participantAge = Date.newInstance(
+                        2000,
+                        birthDate.month(),
+                        birthDate.day()
+                    ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
+                        ? Date.today().year() - birthDate.year()
+                        : Date.today().year() - birthDate.year() - 1;
+                    mmValue = String.valueof(mm);
+                    ddValue = String.valueof(dd);
+                    if(mm < 10){
+                        mmValue = '0'+mm;
+                    }
+                    if(dd < 10){
+                        ddValue = '0'+dd;
+                    }
+                    string tempBrVar = ipr.BirthDate__c;
+                    ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
+                    Participant__c objParticipant = convertToParticipant(ipr);
+                    ipr.BirthDate__c = tempBrVar ;
+                    objParticipant.Age__c = participantAge;
+                    if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                        if(dateOfBirth.size() > 2){
+                            objParticipant.Birth_Day__c = ddValue;
+                            objParticipant.Birth_Month__c = mmValue;
+                        }else if(dateOfBirth.size() > 1){
+                            objParticipant.Birth_Month__c = mmValue;
+                        }
+                    }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                        if(dateOfBirth.size() > 1){
+                            objParticipant.Birth_Month__c = mmValue;
+                        }
+                    }
+                    objParticipant.Birth_Year__c = yyyyValue;
+                    objParticipant.Date_of_Birth__c = null;
+                    
                     if(!isCheckCountryStateInvalid){
-                        Participant__c participant = new Participant__c(
-                            Date_of_Birth__c = ipr.BirthDate__c,
-                            Mailing_Country_Code__c = ipr.Address_Country__c,
-                            Mailing_State__c = ipr.Address_State__c
-                        );
-                    needsGuardian = Boolean.valueOf(checkNeedsGuardian(JSON.serialize(participant),mapAgeM,ageByCountryCode));
+                            if (
+                                ageByCountryCode.get(
+                                    objParticipant.Mailing_Country_Code__c +
+                                    '_' +
+                                    objParticipant.Mailing_State_Code__c
+                                ) != null
+                            ) {
+                                needsGuardian =
+                                    participantAge <
+                                    ageByCountryCode.get(
+                                        objParticipant.Mailing_Country_Code__c +
+                                        '_' +
+                                        objParticipant.Mailing_State_Code__c
+                                    );
+                            } else if (ageByCountryCode.get(objParticipant.Mailing_Country_Code__c) != null) {
+                                needsGuardian =
+                                    participantAge < ageByCountryCode.get(objParticipant.Mailing_Country_Code__c);
+                            } else {
+                                needsGuardian = participantAge < 18;
+                            }
                     }
                     if(needsGuardian){
                         ipr.email__c = '';
@@ -143,9 +217,9 @@ public without sharing class IprEprTriggerHandler {
                     
                     //Check SS
                     //D:: String studySiteNumber = getSitePrimaryKeyEPR(ipr);
-                    String studySiteNumber = ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
+                    //String studySiteNumber = ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
                     
-                    Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
+                    //Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
                     if (ss == null) {
                         errorsLog.add(err.get('study_site_not_found').Error_Message__c.replace('SSNo',studySiteNumber));
                     } else if (
@@ -217,11 +291,11 @@ public without sharing class IprEprTriggerHandler {
             if(String.isNotBlank(ipr.address_state__c)) 
                 if(!states.containskey(ipr.address_state__c))
                        errorsLog.add(err.get('state_invalid').Error_Message__c);                
-                
-                // check state 
-                if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
-					if(!states.containskey(ipr.Delegate_Mailing_State__c))
-						errorsLog.add(err.get('state_invalid').Error_Message__c);
+            
+                 // check state 
+               if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
+                if(!states.containskey(ipr.Delegate_Mailing_State__c))
+                errorsLog.add(err.get('state_invalid').Error_Message__c);
             
             // check langauge  
             if(String.isNotBlank(ipr.Language_Preference__c)) {
@@ -265,13 +339,23 @@ public without sharing class IprEprTriggerHandler {
         }
         
     }
-     public class participantMinorCheck extends TriggerHandler {
-         public override void beforeUpdate(List<SObject> newList,Map<Id,SObject>oldMap) {
+    public class participantMinorCheck extends TriggerHandler {
+        public override void beforeUpdate(List<SObject> newList,Map<Id,SObject>oldMap) {
             checkMinor((List<Integration_Patient_Referral__c>) newList,(Map<Id,Integration_Patient_Referral__c>)oldMap);
-         }    
+        }    
         public void checkMinor(List<Integration_Patient_Referral__c> newList,Map<Id,Integration_Patient_Referral__c>oldMap){
+            Map<String, Study_Site__c> ssByPrimaryKeyEPRMap = new Map<String, Study_Site__c>();
+			List<String> ssNumbersList = new List<String>();
             List<String> errorsLog = new List<String>();
             Boolean needsGuardian = false;
+			for (Integration_Patient_Referral__c ipr : newList) {
+				ssNumbersList.add(ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c);
+			}
+			for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c,Participant_DOB_format__c, 
+                                     Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c
+                                     FROM Study_Site__c WHERE Primary_Key_ePR__c IN :ssNumbersList ])
+            {ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);}
+			
             Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
             Map<String, Age_of_Majority__mdt> mapAgeM = Age_of_Majority__mdt.getAll();
             for(String ageOfMajority : mapAgeM.keySet()){ 
@@ -283,6 +367,8 @@ public without sharing class IprEprTriggerHandler {
                 }
             }
             for(Integration_Patient_Referral__c ipr : newList){
+				String studySiteNumber = ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
+                Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
                 if(String.isNotBlank(ipr.Address_Country__c)) {
                     String countryName = CountryStateUtil.getCountryName(ipr.Address_Country__c);
                     if(String.isBlank(countryName)){
@@ -300,17 +386,88 @@ public without sharing class IprEprTriggerHandler {
                     if(!states.containskey(ipr.Delegate_Mailing_State__c)){
                         errorsLog.add(err.get('state_invalid').Error_Message__c);
                     }
+					List<String> dateOfBirth = ipr.BirthDate__c.split('-');
+                    String mmValue;
+                    String ddValue;
+                    String yyyyValue;
+                    if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                        if(dateOfBirth.size() > 2){
+                            ddValue = dateOfBirth[2];
+                            mmValue = dateOfBirth[1];
+                        }else if(dateOfBirth.size() > 1){
+                            mmValue = dateOfBirth[1];
+                        }
+                    }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                        if(dateOfBirth.size() > 1){
+                            mmValue = dateOfBirth[1];
+                        }
+                    }
+                    yyyyValue = dateOfBirth[0];
+                    Integer mm = String.isNotBlank(mmValue) ? Integer.valueof(mmValue) : 12;
+                    Integer dd = String.isNotBlank(ddValue) ? Integer.valueof(ddValue) : Date.daysInMonth(Integer.valueOf(yyyyValue), mm);
+                    Date birthDate = Date.newInstance( 
+                        Integer.valueOf(yyyyValue),mm,dd
+                    );
+                    Integer participantAge = Date.newInstance(
+                        2000,
+                        birthDate.month(),
+                        birthDate.day()
+                    ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
+                        ? Date.today().year() - birthDate.year()
+                        : Date.today().year() - birthDate.year() - 1;
+                    mmValue = String.valueof(mm);
+                    ddValue = String.valueof(dd);
+                    if(mm < 10){
+                        mmValue = '0'+mm;
+                    }
+                    if(dd < 10){
+                        ddValue = '0'+dd;
+                    }
+                    string tempBrVar = ipr.BirthDate__c;
+                    ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
+                    Participant__c objParticipant = convertToParticipant(ipr);
+                    ipr.BirthDate__c = tempBrVar ;
+                    objParticipant.Age__c = participantAge;
+                    if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                        if(dateOfBirth.size() > 2){
+                            objParticipant.Birth_Day__c = ddValue;
+                            objParticipant.Birth_Month__c = mmValue;
+                        }else if(dateOfBirth.size() > 1){
+                            objParticipant.Birth_Month__c = mmValue;
+                        }
+                    }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                        if(dateOfBirth.size() > 1){
+                            objParticipant.Birth_Month__c = mmValue;
+                        }
+                    }
+                    objParticipant.Birth_Year__c = yyyyValue;
+                    objParticipant.Date_of_Birth__c = null;
                 if(oldMap != null && (errorsLog.isEmpty()) &&
                    (ipr.Address_Country__c != oldMap.get(ipr.id).Address_Country__c || ipr.Address_State__c != oldMap.get(ipr.id).Address_State__c
                     || ipr.BirthDate__c != oldMap.get(ipr.id).BirthDate__c
                     || ipr.Batch_consideration__c != oldMap.get(ipr.id).Batch_consideration__c))
                 {
-                    Participant__c participant = new Participant__c(
-                        Date_of_Birth__c = ipr.BirthDate__c,
-                        Mailing_Country_Code__c = ipr.Address_Country__c,
-                        Mailing_State__c = ipr.Address_State__c
-                    );
-                    needsGuardian = Boolean.valueOf(checkNeedsGuardian(JSON.serialize(participant),mapAgeM,ageByCountryCode));
+                    if (
+                                ageByCountryCode.get(
+                                    objParticipant.Mailing_Country_Code__c +
+                                    '_' +
+                                    objParticipant.Mailing_State_Code__c
+                                ) != null
+                            ) {
+                                needsGuardian =
+                                    participantAge <
+                                    ageByCountryCode.get(
+                                        objParticipant.Mailing_Country_Code__c +
+                                        '_' +
+                                        objParticipant.Mailing_State_Code__c
+                                    );
+                            } else if (ageByCountryCode.get(objParticipant.Mailing_Country_Code__c) != null) {
+                                needsGuardian =
+                                    participantAge < ageByCountryCode.get(objParticipant.Mailing_Country_Code__c);
+                            } else {
+                                needsGuardian = participantAge < 18;
+                            }
+                    //needsGuardian = Boolean.valueOf(checkNeedsGuardian(JSON.serialize(participant),mapAgeM,ageByCountryCode));
                     if(needsGuardian){
                         ipr.email__c = '';
                         ipr.phone__c = '';
@@ -321,7 +478,7 @@ public without sharing class IprEprTriggerHandler {
             }
         }
         
-        }
+    }
     
     public static String getSitePrimaryKeyEPR(Integration_Patient_Referral__c ipr) {
         return ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
@@ -412,39 +569,36 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             }
             
         }
- 
-
-
+        
+        
+        
         return participant;
     }
-    
-public static String checkNeedsGuardian(String participantJSON) {
-        Map<String, Integer> participantAgeByCountryCode = new Map<String, Integer>();
-        Map<String, Age_of_Majority__mdt> participantmapAgeM = Age_of_Majority__mdt.getAll();
-        for(String ageOfMajority : participantmapAgeM.keySet()){ 
-            if (participantmapAgeM.get(ageOfMajority).Age__c != null) {
-                participantAgeByCountryCode.put(
-                    participantmapAgeM.get(ageOfMajority).DeveloperName,
-                    participantmapAgeM.get(ageOfMajority).Age__c.intValue()
-                );
-            }
-        }
-        return checkNeedsGuardian(participantJSON, participantmapAgeM,participantAgeByCountryCode); 
-    }
-    
-    public static String checkNeedsGuardian(String participantJSON,Map<String, Age_of_Majority__mdt> mapAgeM,Map<String, Integer> ageByCountryCode ) {
+        public static String checkNeedsGuardian(String participantJSON) {
         Boolean needsGuardian = false;
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
             Participant__c.class
         );
         if (!String.isEmpty(participant.Date_of_Birth__c)) {
-          
+            
+            Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
+            Map<String, Age_of_Majority__mdt> mapAgeM = Age_of_Majority__mdt.getAll();
+            for(String ageOfMajority : mapAgeM.keySet()){ 
+                if (mapAgeM.get(ageOfMajority).Age__c != null) {
+                    ageByCountryCode.put(
+                        mapAgeM.get(ageOfMajority).DeveloperName,
+                        mapAgeM.get(ageOfMajority).Age__c.intValue()
+                    );
+                }
+            }
+            
             Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
             Integer participantAge = Date.newInstance(2000, birthDate.month(), birthDate.day()) <=
                 Date.newInstance(2000, Date.today().month(), Date.today().day())
                 ? Date.today().year() - birthDate.year()
                 : Date.today().year() - birthDate.year() - 1;
+            
             if (
                 ageByCountryCode.get(
                     participant.Mailing_Country_Code__c +
@@ -468,7 +622,6 @@ public static String checkNeedsGuardian(String participantJSON) {
         }
         return '' + needsGuardian;
     }
-
     
     public static Participant__c createDelegateParticipant(
         Contact contactDelegate,
@@ -574,11 +727,11 @@ public static String checkNeedsGuardian(String participantJSON) {
             Referral_ID__c = ipr.referralID__c,
             Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
             Terms_and_Conditions_Accepted_Date__c = ipr.acceptedTermsAndConditions__c != null
-                ? Date.valueOf(ipr.acceptedTermsAndConditions__c)
-                : null,
+            ? Date.valueOf(ipr.acceptedTermsAndConditions__c)
+            : null,
             Referred_Date__c = ipr.Referred_Date__c != null
-                ? Date.valueOf(ipr.Referred_Date__c)
-                : null,
+            ? Date.valueOf(ipr.Referred_Date__c)
+            : null,
             Referred_By__c = 'Other',
             utm_campaign__c = ipr.UTM_campaignName__c,
             utm_content__c = ipr.UTM_campaignContent__c,
