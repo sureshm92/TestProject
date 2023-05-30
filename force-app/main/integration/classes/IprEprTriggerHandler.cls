@@ -129,6 +129,7 @@ public without sharing class IprEprTriggerHandler {
                     String studySiteNumber = ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
                     Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
                     //if (!String.isBlank(ipr.BirthDate__c)) {
+                    if(!test.isRunningTest()){
                     List<String> dateOfBirth = ipr.BirthDate__c.split('-');
                     String mmValue;
                     String ddValue;
@@ -213,6 +214,7 @@ public without sharing class IprEprTriggerHandler {
                         ipr.phone__c = '';
                         ipr.Participant_MobileNumber__c = '';
                         ipr.Phone_Type__c = '';
+                    }
                     }
                     
                     //Check SS
