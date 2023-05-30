@@ -1358,8 +1358,8 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 .mob-selection .slds-truncate {
     max-width: 100%;
-    overflow: visible !important;
-    white-space: normal !important;
+    overflow: visible;
+    white-space: normal;
 }
 /* Date Time Dropdown Alignment */
 
