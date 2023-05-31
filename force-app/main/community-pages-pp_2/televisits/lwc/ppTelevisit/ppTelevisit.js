@@ -9,6 +9,8 @@ import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { NavigationMixin } from 'lightning/navigation';
 import DEVICE from '@salesforce/client/formFactor';
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import removeCancelledUpdateNotifications from '@salesforce/apex/PPUpdatesController.removeCancelledUpdateNotifications';
 export default class PpTelevisit extends NavigationMixin(LightningElement) {
     @track contentLoaded = false;
     @track upcomingTelevisitslist = [];
@@ -25,7 +27,8 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
         upcoming,
         Televisits,
         No_upcoming_televisits,
-        No_past_televisits
+        No_past_televisits,
+        removeCancelledUpdateNotifications
     };
     past = false;
     timechanges ;
@@ -63,6 +66,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
         this.showupcomingtelevisits = false;
         if(!this.showblankpasttelsvisits){
             this.showuppasttelevisits = true;
+            this.removeCancelledUpdateNotifications();
         }
     }
     onUpcomingClick (){  
@@ -72,6 +76,21 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
         if(!this.showblankupcomingtelevisits){
             this.showupcomingtelevisits = true;
         }            
+    }
+
+    removeCancelledUpdateNotifications() {
+        let participantContactId = communityService.getParticipantData().participant.Contact__c;
+        let partEnrollemntId = communityService.getParticipantData()?.pe?.Id;
+        let currentParticipant = communityService.getParticipantData().participant.Id;
+        removeCancelledUpdateNotifications({
+            contactId: participantContactId,
+            peId: partEnrollemntId,
+            participantId: currentParticipant
+        })
+            .then((result) => {})
+            .catch((error) => {
+                this.ShowToastEvent('', error.message,'error');
+            });
     }
     gettelevisitdetails(isPast){
         getParticipantDetails({joinbuttonids : null})

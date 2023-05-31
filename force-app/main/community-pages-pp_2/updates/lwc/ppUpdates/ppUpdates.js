@@ -75,7 +75,9 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     }
     get compContainer() {
         if (DEVICE == 'Medium') {
-            return 'position-container update-container slds-size_4-of-6';
+            return 'tab-mob-maxWidth position-container update-container slds-size_4-of-6';
+        } else if (DEVICE == 'Small') {
+            return 'tab-mob-maxWidth position-container update-container';
         } else {
             return 'position-container update-container';
         }

@@ -5304,6 +5304,15 @@ By using our website, you are accepting our use of cookies.</value>
             Please login to the ##ShortCommunityName to view the latest visit data.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Available_for_Del</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Available for Del</shortDescription>
+        <value>New visit data is available for ##ParticipantFirstName.
+
+            Please login to the ##ShortCommunityName to view the latest visit data.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_By_PI_RP1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6561,7 +6570,7 @@ Sincerely,
 &lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
 &lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;If you are unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:#444444;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>PP_Reminder_Subject</fullName>
@@ -7849,6 +7858,17 @@ Sincerely,
         <protected>false</protected>
         <shortDescription>Email Signature Plain Summary Available</shortDescription>
         <value>We are excited to continue this journey with you.
+
+            Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Plain_Summary_Available_For_Del</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Plain Summary Available For Del</shortDescription>
+        <value>We are excited to continue this journey with you and ##ParticipantFirstName.
 
             Sincerely,
 
