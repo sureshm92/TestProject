@@ -38,7 +38,7 @@
                                 <lightning-layout-item size="12" class="">
                                     <!-- Phone -->
                                         <lightning-layout class="mob-phoneContainer" onclick={copyPhoneToClipboard}>
-                                                <lightning-layout-item size="2" class="marginTop-16 marginLeft-16">
+                                                <lightning-layout-item size="2" class="marginTop-16 paddingLeft-16">
                                                     <img src={phone_Icon} />
                                                 </lightning-layout-item>
                                                 <lightning-layout-item size="8" class="marginTop-16">
@@ -46,31 +46,40 @@
                                                         <lightning-layout-item size="12" class="subHeaders marginBottom-4">
                                                             {label.Phone_In_Caps}
                                                         </lightning-layout-item>
-                                                        <!-- <template if:true={phoneNotAvailable}>
+                                                        <template if:true={phoneNotAvailable}>
                                                             <lightning-layout-item size="12" class="mob-ph-notAvailable" >
                                                                 {label.Not_Available}
                                                             </lightning-layout-item>
                                                         </template>
-                                                        <template if:false={phoneNotAvailable}> -->
+                                                        <template if:false={phoneNotAvailable}>
                                                             <lightning-layout-item size="12" class="mob-ph-content1" >
                                                                 <div class="param">{studySitePhone}</div>
-                                                                <!-- <textarea class="phone-value-ele textarea-style">{studySitePhone}</textarea> -->
+                                                                <textarea class="phone-value-ele textarea-style">{studySitePhone}</textarea>
                                                             </lightning-layout-item>
-                                                        <!-- </template> -->
+                                                        </template>
                                                     </lightning-layout>
                                                 </lightning-layout-item>
-                                                <!-- </lightning-layout> -->
-                                                <!-- <lightning-layout-item size="2" class="marginTop-16">
-                                                    <img src={copy_Icon} class="copyIcon"/>
-                                                </lightning-layout-item> -->
+                                                <!-- </lightning-layout>  -->
+                                                <lightning-layout-item size="2" class="marginTop-16 padding-top-16">
+                                                    <template lwc:if={phoneNotAvailable}>
+                                                    </template>
+                                                    <template lwc:else>
+                                                        <template lwc:if={phoneCopied}>
+                                                            <img src={copied} title={phoneTitle} class={copyIconStyle} onmouseout={onPhonehoverOut}/>
+                                                        </template>
+                                                        <template lwc:else>
+                                                            <img src={copy_Icon} title={phoneTitle} onclick={copyPhoneToClipboard} class={copyIconStyle} onmouseover={phoneHoverHandler}/>
+                                                        </template>
+                                                    </template>
+                                                </lightning-layout-item>
                                         </lightning-layout>
 
                                         <!-- Address -->
                                         <lightning-layout multiple-rows="false" class="mob-addressContainer">
-                                                <lightning-layout-item size="2" class="marginTop-16 marginLeft-16">
+                                                <lightning-layout-item size="2" class="marginTop-16 paddingLeft-16">
                                                     <img src={address_Icon} />
                                                 </lightning-layout-item>
-                                                <lightning-layout-item size="9" class="marginTop-16">
+                                                <lightning-layout-item size="8" class="marginTop-16">
                                                     <lightning-layout multiple-rows="true">
                                                         <lightning-layout-item size="12" class="subHeaders marginBottom-8">
                                                             {label.Site_And_Location_Caps}
@@ -80,9 +89,17 @@
                                                         </lightning-layout-item>
                                                         <lightning-layout-item size="12" class="addressContent" onclick={copyAddressToClipboard}>
                                                             <div class="param2">{siteAddress}</div>
-                                                            <!-- <textarea class="address-value-ele textarea-style">{siteAddress}</textarea> -->
+                                                            <textarea class="address-value-ele textarea-style">{siteAddress}</textarea>
                                                         </lightning-layout-item>
                                                     </lightning-layout>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="2" class="marginTop-16 padding-top-25">
+                                                    <template lwc:if={addressCopied}>
+                                                        <img src={copied} title={addressTitle} class={copyIconStyle} onmouseout={onAddresshoverOut}/>
+                                                    </template>
+                                                    <template lwc:else>
+                                                        <img src={copy_Icon} title={addressTitle} onclick={copyAddressToClipboard} class={copyIconStyle} onmouseover={addressHoverHandler}/>
+                                                    </template>
                                                 </lightning-layout-item>
 
                                         </lightning-layout>
@@ -106,7 +123,7 @@
                                                                 for:each={siteStaffParticipantList}
                                                                 for:item="ssName"
                                                             >
-                                                            <lightning-layout-item size="12" key={ssName} class="mob-ss-content1 marginBottom-12">
+                                                            <lightning-layout-item size="12" key={ssName.Id} class="mob-ss-content1 marginBottom-12">
                                                                 {ssName.Site_Contact__r.Salutation} {ssName.Site_Contact__r.Name} <!-- &nbsp;{label.Site_Staff_Post_Fix} -->
                                                             </lightning-layout-item>
                                                         </template>

@@ -38,6 +38,7 @@ select {
     background-repeat: no-repeat;
     background-size: 16px 16px;
     background-position: 90%;
+    background-color: #fff;
 }
 
 /*.dropdown-rtl {

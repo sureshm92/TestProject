@@ -170,6 +170,10 @@
     margin-left: 16px;
 }
 
+.paddingLeft-16 {
+    padding-left: 16px;
+}
+
 .marginTop-16 {
     margin-top: 16px;
 }
@@ -227,3 +231,16 @@
     overflow-y: auto;
     width: 100%;
 } */
+
+
+.copyIcon{
+    cursor: pointer;
+}
+
+.padding-top-18{
+    padding-top: 18px;
+}
+
+.padding-top-8{
+    padding-top: 8px;
+}

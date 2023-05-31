@@ -146,4 +146,23 @@ public without sharing class PPUpdatesController {
             throw new AuraHandledException(e.getMessage());
         }
     }
+    @AuraEnabled
+    public static void removeUpdateCardForResource(
+        String targetRecId,
+        String currentParticipant,
+        String currentPe,
+        String participantContact
+    ) {
+        try {
+            UpdateService instanceObj = UpdateService.getInstance();
+            instanceObj.removeUpdateCardForResourceHandler(
+                targetRecId,
+                currentParticipant,
+                currentPe,
+                participantContact
+            );
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 }
