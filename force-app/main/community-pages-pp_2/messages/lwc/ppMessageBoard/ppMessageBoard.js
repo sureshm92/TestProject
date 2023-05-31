@@ -24,6 +24,7 @@ export default class PpMessageBoard extends LightningElement {
   @api piContactNames;
   @api isSecondary;
   @api isMobile;
+  @api isSinglePartAlumni = false;
   spinner;
   msgIllustration = pp_icons + "/" + "messages_Illustration.svg";
   message_attachment = pp_icons + "/" + "message_attachment.svg";
@@ -95,7 +96,26 @@ export default class PpMessageBoard extends LightningElement {
         return false;
       }
     } else {
-      return false;
+      if(!this.isSinglePartAlumni){
+        return false;
+      }else{
+        return true;
+      }
+    }
+  }
+  get handlePadding(){
+    if (this.selectConWrap) {
+      if (this.selectConWrap.isPastStudy) {
+        return 'mob-parent-chat-item-sec-past';
+      } else {
+        return 'mob-parent-chat-item-sec';
+      }
+    } else {
+      if(!this.isSinglePartAlumni){
+        return 'mob-parent-chat-item-sec';
+      }else{
+        return 'mob-parent-chat-item-sec-past';
+      }
     }
   }
   get handleValidation() {
