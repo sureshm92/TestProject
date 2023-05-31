@@ -106,12 +106,12 @@ private class Test_AccountSettingsController {
                 personWrapper.isOptInSMS(),
                 CommunityService.USER_MODE_PARTICIPANT
             );
+            Test.stopTest();
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
             personWrapper = new AccountSettingsController.PersonWrapper(initData.myContact, null);
            // AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
            
         }
-        Test.stopTest();
         List<Contact> contacts = [
             SELECT
                 Id,
@@ -127,6 +127,8 @@ private class Test_AccountSettingsController {
             FROM Contact
             WHERE Email = 'aaa@bbb.com'
         ];
+        contacts[0].Participant_Opt_In_Status_SMS__c=true;
+        update contacts[0];
         Participant__c participant = [
             SELECT Id, First_Name__c, Last_Name__c
             FROM Participant__c
