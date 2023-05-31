@@ -272,7 +272,7 @@ select:after {
 }
 
 .disabled-dropdown select:disabled{
-    color: #757575;
+    color: #747474;
     background: url(/resource/1657782419000/SelectMenuTriangleDownGray);
     background-repeat: no-repeat;
     background-position: 90%;
