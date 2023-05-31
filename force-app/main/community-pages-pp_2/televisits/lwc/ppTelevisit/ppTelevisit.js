@@ -79,8 +79,8 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     }
 
     removeCancelledUpdateNotifications() {
-        let participantContactId = communityService.getParticipantData().pe.Participant_Contact__c;
-        let partEnrollemntId = communityService.getParticipantData().pe.Id;
+        let participantContactId = communityService.getParticipantData().participant.Contact__c;
+        let partEnrollemntId = communityService.getParticipantData()?.pe?.Id;
         let currentParticipant = communityService.getParticipantData().participant.Id;
         removeCancelledUpdateNotifications({
             contactId: participantContactId,
