@@ -119,6 +119,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
   @api showCount = false;
   @api selectedStudy = 0;
   @api isSecondary = false;
+  @api isSinglePartAlumni = false;
   initializer() {
     this.creationMode = false;
     this.enrollments = null;
@@ -383,6 +384,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
             this.studyName =
               this.enrollments[0].Clinical_Trial_Profile__r.Study_Code_Name__c;
             this.peopleCount = 0;
+            this.isSinglePartAlumni =  this.checkAlumniStudy(this.enrollments[0].Participant_Status__c);
           }
           this.loaded = false;
         }
