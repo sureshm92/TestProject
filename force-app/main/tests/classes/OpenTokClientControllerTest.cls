@@ -35,7 +35,7 @@ public with sharing class OpenTokClientControllerTest {
         insert testSession;
             contact con = new contact();
             con.lastname = 'TestLN';
-            con.Email = 'testmail@cartoon-network.com';
+            con.Email = 'test@abcdghh.com';
             insert con;
         
             Participant__c participant = new Participant__c();
