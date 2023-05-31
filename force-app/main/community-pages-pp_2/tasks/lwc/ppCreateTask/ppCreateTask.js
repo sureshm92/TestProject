@@ -566,7 +566,10 @@ export default class PpCreateTask extends LightningElement {
                         }
                     }
                     if (
-                        this.updatedRecord.reminderDateTime == this.initialRecord.reminderDateTime
+                        this.updatedRecord.reminderDateTime ==
+                            this.initialRecord.reminderDateTime &&
+                        this.updatedRecord.remindSMS == this.initialRecord.remindSMS &&
+                        this.updatedRecord.remindEmail == this.initialRecord.remindEmail
                     ) {
                         this.enableSave = false;
                     }
