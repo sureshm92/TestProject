@@ -125,7 +125,7 @@ export default class PpFooterContactSupport extends LightningElement {
                 this.pluscount = length > 3 ? length - 3 : 0;
                 this.displaypluscount = this.pluscount > 0 ? true : false;
                 this.siteStaffParticipantList = res.slice(0, 3);
-                this.siteStaffParticipantListTooltip = res.slice(4, res.length);
+                this.siteStaffParticipantListTooltip = res.slice(3, res.length);
                 
             }
         })
