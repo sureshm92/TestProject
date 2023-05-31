@@ -119,6 +119,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
   @api showCount = false;
   @api selectedStudy = 0;
   @api isSecondary = false;
+  @api isSinglePartAlumni = false;
   initializer() {
     this.creationMode = false;
     this.enrollments = null;
@@ -142,7 +143,6 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
             }
           });
         }
-
         context.userMode = data.userMode;
         context.enrollments = data.enrollments;
         context.statusByPeMap = data.statusByPeMap;
@@ -294,27 +294,131 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
           }
           var usrlst = context.conversationWrappers[0].nameList;
           for (var key in usrlst) {
-            this.nameList.push({ value: usrlst[key], key: key });
+            this.nameList.push({
+              value: usrlst[key],
+              key: key
+            });
           }
           if (isLastMsgUnRead && !this.isMobile) {
             this.convWrapp[0].isLastMsgUnRead = false;
           }
+
+          var enrollmentLst = [];
+          var convLst = [];
+          this.enrollments.forEach(
+            (e) => enrollmentLst.push(e.Clinical_Trial_Profile__c)
+          );
+          this.convWrapp.forEach((c) =>
+            convLst.push(
+              c.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r
+                .Id
+            )
+          );
+          let alumniLst = [].concat(
+            enrollmentLst.filter((obj1) =>
+              convLst.every((obj2) => obj1 !== obj2)
+            ),
+            convLst.filter((obj2) =>
+              enrollmentLst.every((obj1) => obj2 !== obj1)
+            )
+          );
+          if (alumniLst.length != 0) {
+            for (var h = 0; h < this.enrollments.length; h++) {
+              for (var c = 0; c < alumniLst.length; c++) {
+                if (
+                  this.enrollments[h].Clinical_Trial_Profile__c == alumniLst[c]
+                ) {
+                  let con = {
+                    conversation: null,
+                    noConversation: true,
+                    isPastStudy: this.checkAlumniStudy(
+                      this.enrollments[h].Participant_Status__c
+                    ),
+                    studyName:
+                      this.enrollments[h].Clinical_Trial_Profile__r
+                        .Study_Code_Name__c,
+                    firstEnrollments: this.enrollments[h],
+                    peopleCount: 0
+                  };
+                  this.conversationWrappers.push(con);
+                  this.convWrapp.push(con);
+                }
+              }
+            }
+          }
+
           this.loaded = false;
         } else {
-          this.conversationWrappers = null;
-          this.selectConWrap = null;
+          if (this.enrollments.length > 1) {
+            this.conversationWrappers = [];
+            this.convWrapp = [];
+            this.firstEnrollments = null;
+            for (var h = 0; h < this.enrollments.length; h++) {
+              let con = {
+                conversation: null,
+                noConversation: true,
+                isPastStudy: this.checkAlumniStudy(
+                  this.enrollments[h].Participant_Status__c
+                ),
+                studyName:
+                  this.enrollments[h].Clinical_Trial_Profile__r
+                    .Study_Code_Name__c,
+                firstEnrollments: this.enrollments[h],
+                peopleCount: 0
+              };
+              this.conversationWrappers.push(con);
+              this.convWrapp.push(con);
+            }
+            this.selectConWrap = JSON.parse(
+              JSON.stringify(context.conversationWrappers[0])
+            );
+            this.studyName = this.conversationWrappers[0].studyName;
+            this.peopleCount = 0;
 
-          this.firstEnrollments = this.enrollments[0];
+            this.showCount = false;
+          } else {
+            this.conversationWrappers = null;
+            this.selectConWrap = null;
 
-          this.studyName =
-            this.enrollments[0].Clinical_Trial_Profile__r.Study_Code_Name__c;
-          this.peopleCount = 0;
+            this.firstEnrollments = this.enrollments[0];
+            this.studyName =
+              this.enrollments[0].Clinical_Trial_Profile__r.Study_Code_Name__c;
+            this.peopleCount = 0;
+            this.isSinglePartAlumni =  this.checkAlumniStudy(this.enrollments[0].Participant_Status__c);
+          }
           this.loaded = false;
         }
       })
       .catch((error) => {
         console.error("Error in getInit():" + error);
       });
+  }
+  alumniGroups = [
+    "Failed Review",
+    "Failed Referral",
+    "Pre-review Failed",
+    "Contacted - Not Suitable",
+    "Excluded from Referring",
+    "Referral Declined",
+    "Unable to Reach",
+    "Eligibility Failed",
+    "Declined Consent",
+    "Withdrew Consent",
+    "Screening Failed",
+    "Unable to Screen",
+    "Enrollment Failed",
+    "Randomization Failed",
+    "Withdrew Consent After Screening",
+    "Drop Out",
+    "Participation Complete",
+    "Trial Complete"
+  ];
+  checkAlumniStudy(status) {
+    if (this.alumniGroups.includes(status)) {
+      return true;
+    } else {
+      return false;
+    }
   }
   get isInitialized() {
     if (this.conversationWrappers != null || this.enrollments != null) {
@@ -393,133 +497,147 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
           picMap.set(key, this.usrPic[key]);
         }
       }
-      var conWrap = selectedCon.messages;
-      var conWrapModified = [];
-      conWrapModified = conWrap;
-      var isLastMsgUnRead = false;
+      if (!selectedCon.noConversation) {
+        var conWrap = selectedCon.messages;
+        var conWrapModified = [];
+        conWrapModified = conWrap;
+        var isLastMsgUnRead = false;
 
-      if (selectedCon.isLastMsgUnRead) {
-        isLastMsgUnRead = true;
-        this.hasReadConversation();
-      }
-      if (conWrap != undefined) {
-        var partDate = this.partTodayDate;
-        var d1 = new Date(partDate);
-        d1 = d1.toLocaleDateString("en-US", {
-          timeZone: profileTZ
-        });
-        const mymap = new Map();
-        var msgwrap;
-        var newMsg;
-
-        var grpMsg = new Map();
-
-        for (var i = 0; i < conWrap.length; i++) {
-          let createdDate = new Date(conWrap[i].message.CreatedDate);
-          createdDate = createdDate.toLocaleString("en-US", {
+        if (selectedCon.isLastMsgUnRead) {
+          isLastMsgUnRead = true;
+          this.hasReadConversation();
+        }
+        if (conWrap != undefined) {
+          var partDate = this.partTodayDate;
+          var d1 = new Date(partDate);
+          d1 = d1.toLocaleDateString("en-US", {
             timeZone: profileTZ
           });
+          const mymap = new Map();
+          var msgwrap;
+          var newMsg;
 
-          let d2 = new Date(conWrap[i].message.CreatedDate);
-          d2 = d2.toLocaleDateString("en-US", {
-            timeZone: profileTZ
-          });
-          if (isLastMsgUnRead) {
-            let a = new Date(conWrap[i].message.CreatedDate);
-            a = a.toLocaleString("en-US", {
+          var grpMsg = new Map();
+
+          for (var i = 0; i < conWrap.length; i++) {
+            let createdDate = new Date(conWrap[i].message.CreatedDate);
+            createdDate = createdDate.toLocaleString("en-US", {
               timeZone: profileTZ
             });
-            let b = new Date(selectedCon.isLastMsgUnReadDtTime);
-            b = b.toLocaleString("en-US", {
+
+            let d2 = new Date(conWrap[i].message.CreatedDate);
+            d2 = d2.toLocaleDateString("en-US", {
               timeZone: profileTZ
             });
-            if (new Date(a) >= new Date(b)) {
-              newMsg = i;
+            if (isLastMsgUnRead) {
+              let a = new Date(conWrap[i].message.CreatedDate);
+              a = a.toLocaleString("en-US", {
+                timeZone: profileTZ
+              });
+              let b = new Date(selectedCon.isLastMsgUnReadDtTime);
+              b = b.toLocaleString("en-US", {
+                timeZone: profileTZ
+              });
+              if (new Date(a) >= new Date(b)) {
+                newMsg = i;
+              }
             }
-          }
-          if (d1 === d2) {
-            msgwrap = i;
-          } else {
-            if (mymap.has(d2)) {
-              mymap.delete(d2);
-              mymap.set(d2, i + 1);
+            if (d1 === d2) {
+              msgwrap = i;
             } else {
-              mymap.set(d2, i + 1);
+              if (mymap.has(d2)) {
+                mymap.delete(d2);
+                mymap.set(d2, i + 1);
+              } else {
+                mymap.set(d2, i + 1);
+              }
+            }
+
+            createdDate = createdDate.substring(0, createdDate.length - 6);
+
+            let grpIdDate = conWrap[i].message.CreatedById + createdDate;
+
+            if (grpMsg.has(grpIdDate)) {
+              grpMsg.get(grpIdDate).push(i);
+            } else {
+              grpMsg.set(grpIdDate, [i]);
             }
           }
 
-          createdDate = createdDate.substring(0, createdDate.length - 6);
+          for (var i = 0; i < conWrap.length; i++) {
+            if (picMap.has(conWrap[i].message.CreatedById)) {
+              conWrapModified[i].message.pic = picMap.get(
+                conWrap[i].message.CreatedById
+              );
+            }
+            if (i == msgwrap) {
+              conWrapModified[i].message.isToday = "true";
+            }
+            if (i == newMsg) {
+              conWrapModified[i].message.isNewMsg = "true";
+            }
+            let d3 = new Date(conWrap[i].message.CreatedDate);
 
-          let grpIdDate = conWrap[i].message.CreatedById + createdDate;
+            d3 = d3.toLocaleDateString("en-US", {
+              timeZone: profileTZ
+            });
 
-          if (grpMsg.has(grpIdDate)) {
-            grpMsg.get(grpIdDate).push(i);
-          } else {
-            grpMsg.set(grpIdDate, [i]);
+            if (mymap.get(d3)) {
+              let k = mymap.get(d3);
+              k = k - 1;
+              conWrapModified[k].message.newDay = "true";
+              mymap.delete(d3);
+            }
+
+            let createdDT = new Date(conWrap[i].message.CreatedDate);
+
+            createdDT = createdDT.toLocaleString("en-US", {
+              timeZone: profileTZ
+            });
+
+            createdDT = createdDT.substring(0, createdDT.length - 6);
+            let grpIdDate = conWrap[i].message.CreatedById + createdDT;
+            var sameMsg;
+            sameMsg = grpMsg.get(grpIdDate);
+            let sameMsgs = Math.max(...sameMsg);
+            if (sameMsgs != i) {
+              conWrapModified[i].message.isSameTime = "true";
+            }
+            if (conWrap.length - 1 == i) {
+              conWrapModified[i].message.isFirstMsg = "true";
+            }
           }
+          selectedCon.messages = conWrapModified.reverse();
         }
 
-        for (var i = 0; i < conWrap.length; i++) {
-          if (picMap.has(conWrap[i].message.CreatedById)) {
-            conWrapModified[i].message.pic = picMap.get(
-              conWrap[i].message.CreatedById
-            );
-          }
-          if (i == msgwrap) {
-            conWrapModified[i].message.isToday = "true";
-          }
-          if (i == newMsg) {
-            conWrapModified[i].message.isNewMsg = "true";
-          }
-          let d3 = new Date(conWrap[i].message.CreatedDate);
+        this.template.querySelector("c-pp-message-board").selectConWrap =
+          selectedCon;
+        this.studyName =
+          selectedCon.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
 
-          d3 = d3.toLocaleDateString("en-US", {
-            timeZone: profileTZ
+        this.peopleCount = selectedCon.peopleCount;
+        this.showCount = true;
+        var usrlst = selectedCon.nameList;
+        this.nameList = [];
+        for (var key in usrlst) {
+          this.nameList.push({
+            value: usrlst[key],
+            key: key
           });
-
-          if (mymap.get(d3)) {
-            let k = mymap.get(d3);
-            k = k - 1;
-            conWrapModified[k].message.newDay = "true";
-            mymap.delete(d3);
-          }
-
-          let createdDT = new Date(conWrap[i].message.CreatedDate);
-
-          createdDT = createdDT.toLocaleString("en-US", {
-            timeZone: profileTZ
-          });
-
-          createdDT = createdDT.substring(0, createdDT.length - 6);
-          let grpIdDate = conWrap[i].message.CreatedById + createdDT;
-          var sameMsg;
-          sameMsg = grpMsg.get(grpIdDate);
-          let sameMsgs = Math.max(...sameMsg);
-          if (sameMsgs != i) {
-            conWrapModified[i].message.isSameTime = "true";
-          }
-          if (conWrap.length - 1 == i) {
-            conWrapModified[i].message.isFirstMsg = "true";
-          }
         }
-        selectedCon.messages = conWrapModified.reverse();
+        this.template.querySelector("c-pp-message-board").messageValue =
+          "Select question";
+        this.template.querySelector("c-pp-message-board").scrollDown();
+      } else {
+        this.template.querySelector("c-pp-message-board").selectConWrap =
+          selectedCon;
+        this.studyName = selectedCon.studyName;
+        this.peopleCount = selectedCon.peopleCount;
+        this.showCount = false;
+        this.template.querySelector("c-pp-message-board").messageValue =
+          "Select question";
+        this.template.querySelector("c-pp-message-board").scrollDown();
       }
-
-      this.template.querySelector("c-pp-message-board").selectConWrap =
-        selectedCon;
-      this.studyName =
-        selectedCon.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
-
-      this.peopleCount = selectedCon.peopleCount;
-      this.showCount = true;
-      var usrlst = selectedCon.nameList;
-      this.nameList = [];
-      for (var key in usrlst) {
-        this.nameList.push({ value: usrlst[key], key: key });
-      }
-      this.template.querySelector("c-pp-message-board").messageValue =
-        "Select question";
-      this.template.querySelector("c-pp-message-board").scrollDown();
     }
   }
   hasReadConversation() {
@@ -683,7 +801,10 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
     var usrlst = selectedCon.nameList;
     this.nameList = [];
     for (var key in usrlst) {
-      this.nameList.push({ value: usrlst[key], key: key });
+      this.nameList.push({
+        value: usrlst[key],
+        key: key
+      });
     }
     if (this.conversationWrappers != null) {
       this.conversationWrappers[this.selectedStudy] = JSON.parse(

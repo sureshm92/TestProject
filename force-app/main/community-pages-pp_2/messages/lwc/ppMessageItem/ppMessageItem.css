@@ -205,7 +205,7 @@
     max-width: auto;
     height: auto;
     background: #ecf3ff;
-    padding: 12px 31px;
+    padding: 12px 20px;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
     border-top-right-radius: 12px;
@@ -220,7 +220,8 @@
     border-bottom-left-radius: 50%;
 }
 .mob-left-ms-item-txt-pp:before {
-    box-shadow: 0 12px 0 0 #ecf3ff;
+  /**  box-shadow: 0 12px 0 0 #ecf3ff; **/
+  box-shadow: 0 13px 0 0 #ecf3ff;
 }
 
 .mob-attachment-icon {
@@ -232,7 +233,7 @@
     max-width: 630px;
     height: auto;
     background: #015ff1;
-    padding: 12px 22px;
+    padding: 12px 20px;
     color: #ffffff;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
@@ -241,12 +242,13 @@
 .mob-right-ms-item-txt-pp:before {
     content: '';
     position: absolute;
-    top: -16px;
-    right: 3px;
-    height: 16px;
+    top: -40px;
+    right: 0px;
+    height: 40px;
     width: 40px;
     border-bottom-right-radius: 50%;
 }
 .mob-right-ms-item-txt-pp:before {
-    box-shadow: 3px 9px 0px 0px #015ff1;
+  /*  box-shadow: 3px 9px 0px 0px #015ff1; */
+  box-shadow: 0px 18px 0px 0px #015ff1;
 }
