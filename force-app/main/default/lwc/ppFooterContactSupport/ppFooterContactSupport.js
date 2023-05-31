@@ -60,6 +60,7 @@ export default class PpFooterContactSupport extends LightningElement {
     siteName;
     siteAddress;
     siteStaffParticipantList;
+    siteStaffParticipantListTooltip;
     pluscount;
     displaypluscount;
     leftHeight;
@@ -80,6 +81,8 @@ export default class PpFooterContactSupport extends LightningElement {
     phoneCopyHoverd = false;
     phoneTitle = "Copy";
 
+    siteStaffTooltip;
+
     get copyIconStyle(){
          return this.isRTL ? "copyIconRTL" : "copyIcon";
     }
@@ -94,6 +97,7 @@ export default class PpFooterContactSupport extends LightningElement {
         }
         this.phoneNumberValueEle = this.template.querySelectorAll('.phone-value-ele');
         this.addressNumberValueEle = this.template.querySelectorAll('.address-value-ele');
+        this.siteStaffTooltip = this.template.querySelectorAll('.siteStaffTooltip');
     }
 
     connectedCallback() {
@@ -102,18 +106,14 @@ export default class PpFooterContactSupport extends LightningElement {
 
         this.piSalutation = this.studysite.Principal_Investigator__r.Salutation;
         this.piName = this.studysite.Principal_Investigator__r.Name;
-        console.log('piName--->'+this.piName);
         this.phoneNotAvailable = this.studysite.Study_Site_Phone__c ? false : true;
         this.studySitePhone = this.studysite.Study_Site_Phone__c;
-        console.log('studySitePhone--->'+this.studySitePhone);
         this.siteName = this.studysite.Site__r.Name;
-        console.log('siteName--->'+this.siteName);
         this.siteAddress = this.studysite.Site__r.BillingStreet + 
                             ', ' + this.studysite.Site__r.BillingCity +
                             ', ' + this.studysite.Site__r.BillingState +
                             ', ' + this.studysite.Site__r.BillingCountryCode +
                             ' ' + this.studysite.Site__r.BillingPostalCode;
-        console.log('siteAddress--->'+this.siteAddress);
 
         getStudyStaff({ 
             studySiteId : this.studysite.Id
@@ -121,14 +121,11 @@ export default class PpFooterContactSupport extends LightningElement {
         .then((result) => {
             if (result) {
                 let res = JSON.parse(result);
-                console.log(res);
-                console.log(JSON.stringify(res));
                 let length = res.length;
-                console.log('length---->'+length);
                 this.pluscount = length > 3 ? length - 3 : 0;
-                console.log('pluscount---->'+this.pluscount);
                 this.displaypluscount = this.pluscount > 0 ? true : false;
                 this.siteStaffParticipantList = res.slice(0, 3);
+                this.siteStaffParticipantListTooltip = res.slice(3, res.length);
                 
             }
         })
@@ -149,26 +146,7 @@ export default class PpFooterContactSupport extends LightningElement {
         this.dispatchEvent(selectedEvent);
     }
 
-//     openPhoneDialer(event){
-//         alert("openphonedialer called;")
-//         let mobileNo = event.currentTarget.getAttribute('data-phone');
-//         alert(mobileNo);
-//         alert(event.currentTarget.dataset.phone);
-//       // let mobNo = tel: + value
-//        document.location.href = "tel:" + mobileNo;
-//    }
-   
-
-    // handleCopy() {
-    //     let copyMe = this.template.querySelector('.phoneNumber');
-
-    //     copyMe.select();
-    //     copyMe.setSelectionRange(start:0, end:999);
-
-    //     document.execCommand(commandId: 'copy');
-    // }
-
-     copyPhoneToClipboard(){
+    copyPhoneToClipboard(){
          this.phoneNumberValueEle[0]?.select();
          document.queryCommandSupported('copy');
          document.execCommand('copy');
@@ -221,6 +199,14 @@ export default class PpFooterContactSupport extends LightningElement {
     onPhoneMouseOut(){
         this.phoneCopyHoverd = false;
         this.phoneTitle = "Copy"
+    }
+
+    showMoreSiteStaff(){
+        this.siteStaffTooltip[0].classList.toggle("slds-hide");
+    }
+
+    hideMoreSiteStaff(){
+        this.siteStaffTooltip[0].classList.toggle("slds-hide");
     }
     
 }

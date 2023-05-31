@@ -35,12 +35,34 @@ public without sharing class PatientDelegateEnrollmentService {
         }
         return peIdSet;
     }
+    public static Set<Id> getPEIdSetActive(Id participantConId, Id delContactId) {
+        Set<Id> peIdSet = new Set<Id>();
+        for (Patient_Delegate_Enrollment__c pde : [
+            SELECT Id, Participant_Enrollment__c,Status__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE
+                Participant_Enrollment__r.Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_ALUMNI
+                AND Participant_Enrollment__r.Participant_Contact__c = :participantConId
+                AND Patient_Delegate__r.Contact__c = :delContactId AND Status__c='Active'
+        ]) {
+            peIdSet.add(pde.Participant_Enrollment__c);
+        }
+        return peIdSet;
+    }
     public static List<Patient_Delegate_Enrollment__c> getPatientDelegateEnrollments(Id participantConId, Id delContactId){
         List<Patient_Delegate_Enrollment__c> pdEnrollments = [SELECT Id, Participant_Enrollment__c,Primary_Delegate__c
             FROM Patient_Delegate_Enrollment__c
             WHERE
                 Participant_Enrollment__r.Participant_Contact__c = :participantConId
                 AND Patient_Delegate__r.Contact__c = :delContactId];
+        return pdEnrollments;
+    }
+    public static List<Patient_Delegate_Enrollment__c> getPatientDelegateEnrollmentsActive(Id participantConId, Id delContactId){
+        List<Patient_Delegate_Enrollment__c> pdEnrollments = [SELECT Id, Participant_Enrollment__c,Primary_Delegate__c,Status__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE
+                Participant_Enrollment__r.Participant_Contact__c = :participantConId
+                AND Patient_Delegate__r.Contact__c = :delContactId AND Status__c='Active'];
         return pdEnrollments;
     }
     public static List<Participant_Enrollment__c> getPEList(Id participantConId, Id delContactId) {
