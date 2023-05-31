@@ -116,7 +116,6 @@ export default class HomePageParticipantNew extends LightningElement {
                     } else {
                         this.isUpcomingVisitDetails = false;
                     }
-                    console.log('Visit :', this.isUpcomingVisitDetails);
                     this.getVisits();
                 })
                 .catch((error) => {
@@ -197,8 +196,7 @@ export default class HomePageParticipantNew extends LightningElement {
                         if (this.participantState.pe) {
                             if (this.participantState.pe.Clinical_Trial_Profile__r) {
                                 this.studysite = this.participantState.pe.Study_Site__r;
-                                this.clinicalrecord =
-                                    this.participantState.pe.Clinical_Trial_Profile__r;
+                                this.clinicalrecord = this.participantState.pe.Clinical_Trial_Profile__r;
                                 // Check if Program toggle is or study workspcae on ctp
                                 this.isProgram = this.clinicalrecord.Is_Program__c;
 
