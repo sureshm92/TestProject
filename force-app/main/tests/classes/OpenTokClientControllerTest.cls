@@ -35,14 +35,14 @@ public with sharing class OpenTokClientControllerTest {
         insert testSession;
             contact con = new contact();
             con.lastname = 'TestLN';
-            con.Email = 'test@gmail.com';
+            con.Email = 'testmail@cartoon-network.com';
             insert con;
         
             Participant__c participant = new Participant__c();
             participant.Contact__c = con.id;
             insert participant;
         
-        insert new Televisit_Attendee__c(Contact__c = con.id,Televisit__c = testSession.Id, Attendee_Email__c = 'testEmailAddress@mail.com', User__c = UserInfo.getUserId()); //UserInfo.getUserId()
+        insert new Televisit_Attendee__c(Contact__c = con.id,Televisit__c = testSession.Id, Attendee_Email__c = testEmailAddress.toLowerCase(), User__c = UserInfo.getUserId());
     }
 
     @isTest
@@ -62,13 +62,13 @@ public with sharing class OpenTokClientControllerTest {
                                 TelevisitTriggerHandler.NotifyAttendees.class
                             );
             insert session;
-            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id limit 1];
+            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id];
            
             Contact con = [select Id from Contact limit 1];
             Participant__c participant = new Participant__c(id=enroll.Participant__c);
             participant.Contact__c = con.id;
             update participant;
-            insert new Televisit_Attendee__c(Contact__c = con.id,Televisit__c = session.Id, User__c = adminUser.Id,Attendee_Email__c = 'test@gmail.com');
+            insert new Televisit_Attendee__c(Contact__c = con.id,Televisit__c = session.Id, User__c = adminUser.Id,Attendee_Email__c = testEmailAddress.toLowerCase());
 
             PageReference pageRef = Page.televisit;
             pageRef.getParameters().put(OpenTokClientController.SESSION_ID_PARAMETER, OpenTokTestFactory.SESSION_ID);
@@ -150,7 +150,7 @@ public with sharing class OpenTokClientControllerTest {
                                 TelevisitTriggerHandler.NotifyAttendees.class
                             );
             insert testSession;
-            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id limit 1];
+            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id];
             
             Contact con = [select Id from Contact limit 1];
             Participant__c participant = new Participant__c(id=enroll.Participant__c);
@@ -187,13 +187,13 @@ public with sharing class OpenTokClientControllerTest {
             insert new List<Televisit__c>{
                     testSession, otherSession
             };
-            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id limit 1];
+            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id];
            
             Contact con = [select Id from Contact limit 1];
             Participant__c participant = new Participant__c(id=enroll.Participant__c);
             participant.Contact__c = con.id;
             update participant;
-            Televisit_Attendee__c testAttendee = new Televisit_Attendee__c(Attendee_Type__c='Participant',contact__c = con.id,Televisit__c = otherSession.Id, Attendee_Email__c = testEmailAddress, User__c = UserInfo.getUserId());
+            Televisit_Attendee__c testAttendee = new Televisit_Attendee__c(Attendee_Type__c='Participant',contact__c = con.id,Televisit__c = otherSession.Id, Attendee_Email__c = testEmailAddress.toLowerCase(), User__c = UserInfo.getUserId());
             insert testAttendee;
 
             Test.startTest();
@@ -241,7 +241,7 @@ public with sharing class OpenTokClientControllerTest {
             TriggerHandlerExecutor.bypassHandler(
                                 TelevisitTriggerHandler.NotifyAttendees.class
                             );
-            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id limit 1];
+            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id];
             
             Contact con = [select Id from Contact limit 1];
             Participant__c participant = new Participant__c(id=enroll.Participant__c);
@@ -281,7 +281,7 @@ public with sharing class OpenTokClientControllerTest {
             TriggerHandlerExecutor.bypassHandler(
                                 TelevisitTriggerHandler.NotifyAttendees.class
                             );
-            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id limit 1];
+            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id];
 
             Contact con = [select Id from Contact limit 1];
             Participant__c participant = new Participant__c(id=enroll.Participant__c);
@@ -320,7 +320,7 @@ public with sharing class OpenTokClientControllerTest {
             TriggerHandlerExecutor.bypassHandler(
                                 TelevisitTriggerHandler.NotifyAttendees.class
                             );
-            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id limit 1];
+            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id];
             
             Contact con = [select Id from Contact limit 1];
             Participant__c participant = new Participant__c(id=enroll.Participant__c);
@@ -432,7 +432,7 @@ public with sharing class OpenTokClientControllerTest {
             TriggerHandlerExecutor.bypassHandler(
                                 TelevisitTriggerHandler.NotifyAttendees.class
                             );
-            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id limit 1];
+            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id];
             
             Contact con = [select Id from Contact limit 1];
             Participant__c participant = new Participant__c(id=enroll.Participant__c);
@@ -471,7 +471,7 @@ public with sharing class OpenTokClientControllerTest {
             TriggerHandlerExecutor.bypassHandler(
                                 TelevisitTriggerHandler.NotifyAttendees.class
                             );
-            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id limit 1];
+            Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c where id =: td.pe.id];
             
             Contact con = [select Id from Contact limit 1];
             Participant__c participant = new Participant__c(id=enroll.Participant__c);
