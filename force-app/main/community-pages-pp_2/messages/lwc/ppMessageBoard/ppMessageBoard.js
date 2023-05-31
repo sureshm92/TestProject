@@ -118,6 +118,21 @@ export default class PpMessageBoard extends LightningElement {
       }
     }
   }
+  get headerHandlePadding(){
+    if (this.selectConWrap) {
+      if (this.selectConWrap.isPastStudy) {
+        return 'mob-parent-chat-item-sec-past';
+      } else {
+        return 'mob-parent-chat-item-header-sec';
+      }
+    } else {
+      if(!this.isSinglePartAlumni){
+        return 'mob-parent-chat-item-header-sec';
+      }else{
+        return 'mob-parent-chat-item-sec-past';
+      }
+    }
+  }
   get handleValidation() {
     if (this.messageValue != "Select question" && this.messageValue != "") {
       return false;
