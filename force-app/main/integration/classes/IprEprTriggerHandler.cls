@@ -84,35 +84,62 @@ public without sharing class IprEprTriggerHandler {
             for (PicklistEntry ple : Participant__c.Language_Preference_Code__c.getDescribe().getPicklistValues()) 
             {languageCodes.add(ple.getValue());}
             
-            
+            Boolean needsGuardian = false;
+            Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
+            Map<String, Age_of_Majority__mdt> mapAgeM = Age_of_Majority__mdt.getAll();
+            for(String ageOfMajority : mapAgeM.keySet()){ 
+                if (mapAgeM.get(ageOfMajority).Age__c != null) {
+                    ageByCountryCode.put(
+                        mapAgeM.get(ageOfMajority).DeveloperName,
+                        mapAgeM.get(ageOfMajority).Age__c.intValue()
+                    );
+                }
+            }
             for (Integration_Patient_Referral__c ipr : newList) {
                 if(ipr.Error_Message__c == null || ipr.Error_Message__c == '' ){
                     List<String> errorsLog = new List<String>();
-                    
-                    // check country    
+                    Boolean isCheckCountryStateInvalid = false;
+                     // check country    
                     if(String.isNotBlank(ipr.Address_Country__c)) {
                         String countryName = CountryStateUtil.getCountryName(ipr.Address_Country__c);
-                        if(String.isBlank(countryName))
+                        if(String.isBlank(countryName)){
                             errorsLog.add(err.get('country_invalid').Error_Message__c);
+                            isCheckCountryStateInvalid = true;
+                        }
                     }   
-                    
                     // check state 
                     Map<String,String> states = CountryStateUtil.getStateCodeByNameMap(ipr.Address_Country__c);       
                     if(String.isNotBlank(ipr.address_state__c)) 
-                        if(!states.containskey(ipr.address_state__c))
-                        errorsLog.add(err.get('state_invalid').Error_Message__c);
-                    
+                        if(!states.containskey(ipr.address_state__c)){
+                            errorsLog.add(err.get('state_invalid').Error_Message__c);
+                            isCheckCountryStateInvalid = true;   
+                        }
                     // check state 
                     if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
-                        if(!states.containskey(ipr.Delegate_Mailing_State__c))
-                        errorsLog.add(err.get('state_invalid').Error_Message__c);
-                    
+                        if(!states.containskey(ipr.Delegate_Mailing_State__c)){
+                            errorsLog.add(err.get('state_invalid').Error_Message__c);
+                            isCheckCountryStateInvalid = true;  
+                        }
                     // check langauge  
                     if(String.isNotBlank(ipr.Language_Preference__c)) {                    
                         if(!languageCodes.contains(ipr.Language_Preference__c)) 
                             errorsLog.add(err.get('language_invalid').Error_Message__c);
                         
                     } 
+                    if(!isCheckCountryStateInvalid){
+                        Participant__c participant = new Participant__c(
+                            Date_of_Birth__c = ipr.BirthDate__c,
+                            Mailing_Country_Code__c = ipr.Address_Country__c,
+                            Mailing_State__c = ipr.Address_State__c
+                        );
+                    needsGuardian = Boolean.valueOf(checkNeedsGuardian(JSON.serialize(participant),mapAgeM,ageByCountryCode));
+                    }
+                    if(needsGuardian){
+                        ipr.email__c = '';
+                        ipr.phone__c = '';
+                        ipr.Participant_MobileNumber__c = '';
+                        ipr.Phone_Type__c = '';
+                    }
                     
                     //Check SS
                     //D:: String studySiteNumber = getSitePrimaryKeyEPR(ipr);
@@ -238,7 +265,63 @@ public without sharing class IprEprTriggerHandler {
         }
         
     }
-    
+     public class participantMinorCheck extends TriggerHandler {
+         public override void beforeUpdate(List<SObject> newList,Map<Id,SObject>oldMap) {
+            checkMinor((List<Integration_Patient_Referral__c>) newList,(Map<Id,Integration_Patient_Referral__c>)oldMap);
+         }    
+        public void checkMinor(List<Integration_Patient_Referral__c> newList,Map<Id,Integration_Patient_Referral__c>oldMap){
+            List<String> errorsLog = new List<String>();
+            Boolean needsGuardian = false;
+            Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
+            Map<String, Age_of_Majority__mdt> mapAgeM = Age_of_Majority__mdt.getAll();
+            for(String ageOfMajority : mapAgeM.keySet()){ 
+                if (mapAgeM.get(ageOfMajority).Age__c != null) {
+                    ageByCountryCode.put(
+                        mapAgeM.get(ageOfMajority).DeveloperName,
+                        mapAgeM.get(ageOfMajority).Age__c.intValue()
+                    );
+                }
+            }
+            for(Integration_Patient_Referral__c ipr : newList){
+                if(String.isNotBlank(ipr.Address_Country__c)) {
+                    String countryName = CountryStateUtil.getCountryName(ipr.Address_Country__c);
+                    if(String.isBlank(countryName)){
+                        errorsLog.add(err.get('country_invalid').Error_Message__c);
+                    }
+                }  
+                // check state 
+                Map<String,String> states = CountryStateUtil.getStateCodeByNameMap(ipr.Address_Country__c);       
+                if(String.isNotBlank(ipr.address_state__c)) 
+                    if(!states.containskey(ipr.address_state__c)){
+                        errorsLog.add(err.get('state_invalid').Error_Message__c);  
+                    }
+                // check state 
+                if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
+                    if(!states.containskey(ipr.Delegate_Mailing_State__c)){
+                        errorsLog.add(err.get('state_invalid').Error_Message__c);
+                    }
+                if(oldMap != null && (errorsLog.isEmpty()) &&
+                   (ipr.Address_Country__c != oldMap.get(ipr.id).Address_Country__c || ipr.Address_State__c != oldMap.get(ipr.id).Address_State__c
+                    || ipr.BirthDate__c != oldMap.get(ipr.id).BirthDate__c
+                    || ipr.Batch_consideration__c != oldMap.get(ipr.id).Batch_consideration__c))
+                {
+                    Participant__c participant = new Participant__c(
+                        Date_of_Birth__c = ipr.BirthDate__c,
+                        Mailing_Country_Code__c = ipr.Address_Country__c,
+                        Mailing_State__c = ipr.Address_State__c
+                    );
+                    needsGuardian = Boolean.valueOf(checkNeedsGuardian(JSON.serialize(participant),mapAgeM,ageByCountryCode));
+                    if(needsGuardian){
+                        ipr.email__c = '';
+                        ipr.phone__c = '';
+                        ipr.Participant_MobileNumber__c = '';
+                        ipr.Phone_Type__c = '';
+                    }
+                }
+            }
+        }
+        
+        }
     
     public static String getSitePrimaryKeyEPR(Integration_Patient_Referral__c ipr) {
         return ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
@@ -302,15 +385,15 @@ objMT.Ethnicity_Description__c
             participant.Ethnicity__c = strEthnicityDescr;
         }
         
-        if (ipr.Participant_MobileNumber__c != null)
+        participant.Adult__c = !Boolean.valueOf(checkNeedsGuardian(JSON.serialize(participant))); 
+        if (ipr.Participant_MobileNumber__c != null && participant.Adult__c){
             participant.Alternative_Phone_Type__c = 'Mobile';
+        }else{
+            participant.Alternative_Phone_Type__c = '';
+        }
         /*participant.Adult__c = !Boolean.valueOf(
 ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
 );*/
-        
-        participant.Adult__c = !Boolean.valueOf(checkNeedsGuardian(JSON.serialize(participant)));   
-        
-
         //map participants country and state code
         String countryName = null;
         String countryCode = participant.Mailing_Country_Code__c;
@@ -335,31 +418,33 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         return participant;
     }
     
-    public static String checkNeedsGuardian(String participantJSON) {
+public static String checkNeedsGuardian(String participantJSON) {
+        Map<String, Integer> participantAgeByCountryCode = new Map<String, Integer>();
+        Map<String, Age_of_Majority__mdt> participantmapAgeM = Age_of_Majority__mdt.getAll();
+        for(String ageOfMajority : participantmapAgeM.keySet()){ 
+            if (participantmapAgeM.get(ageOfMajority).Age__c != null) {
+                participantAgeByCountryCode.put(
+                    participantmapAgeM.get(ageOfMajority).DeveloperName,
+                    participantmapAgeM.get(ageOfMajority).Age__c.intValue()
+                );
+            }
+        }
+        return checkNeedsGuardian(participantJSON, participantmapAgeM,participantAgeByCountryCode); 
+    }
+    
+    public static String checkNeedsGuardian(String participantJSON,Map<String, Age_of_Majority__mdt> mapAgeM,Map<String, Integer> ageByCountryCode ) {
         Boolean needsGuardian = false;
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
             Participant__c.class
         );
         if (!String.isEmpty(participant.Date_of_Birth__c)) {
-            
-            Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
-            Map<String, Age_of_Majority__mdt> mapAgeM = Age_of_Majority__mdt.getAll();
-            for(String ageOfMajority : mapAgeM.keySet()){ 
-                if (mapAgeM.get(ageOfMajority).Age__c != null) {
-                    ageByCountryCode.put(
-                        mapAgeM.get(ageOfMajority).DeveloperName,
-                        mapAgeM.get(ageOfMajority).Age__c.intValue()
-                    );
-                }
-            }
-            
+          
             Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
             Integer participantAge = Date.newInstance(2000, birthDate.month(), birthDate.day()) <=
                 Date.newInstance(2000, Date.today().month(), Date.today().day())
                 ? Date.today().year() - birthDate.year()
                 : Date.today().year() - birthDate.year() - 1;
-            
             if (
                 ageByCountryCode.get(
                     participant.Mailing_Country_Code__c +
@@ -383,6 +468,7 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         }
         return '' + needsGuardian;
     }
+
     
     public static Participant__c createDelegateParticipant(
         Contact contactDelegate,

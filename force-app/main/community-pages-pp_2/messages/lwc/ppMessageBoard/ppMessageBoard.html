@@ -113,7 +113,12 @@
                     </lightning-layout>
                 </template>
                 <template if:false={isPastStudy}>
-                    <lightning-layout class="slds-m-horizontal_small mob-text-wrap"
+                    <lightning-layout
+                        class="slds-m-bottom_small mob-question-item"
+                    ></lightning-layout>
+                </template>
+                <template if:false={isPastStudy}>
+                    <lightning-layout class="slds-m-horizontal_small"
                         ><lightning-layout-item size="12"
                             ><lightning-combobox
                                 name="message"
@@ -122,7 +127,7 @@
                                 options={options}
                                 onchange={handleChange}
                                 onfocus={handleChanges}
-                                class="mob-selection"
+                                class="mob-selection selection"
                                 dropdown-alignment="bottom-left"
                             >
                             </lightning-combobox></lightning-layout-item
