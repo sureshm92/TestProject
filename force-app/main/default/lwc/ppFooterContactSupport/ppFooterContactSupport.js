@@ -42,14 +42,17 @@ export default class PpFooterContactSupport extends LightningElement {
     address_Icon = contact_support_icons+'/pin_Icon.svg';
     site_Icon = contact_support_icons+'/site_Icon.svg';
     copy_Icon = contact_support_icons+'/copy_Icon.svg';
+    copied = contact_support_icons+'/copied.svg';
+    copy_hover = contact_support_icons+'/copy-hover.svg';
 
     @api tittext;
     @api contact;
     @api usermode;
     @api isDelegate = false;
     @api studysite;
+    @api isRTL;
 
-		desktop = true;
+	desktop = true;
     piName;
     piSalutation;
     studySitePhone;
@@ -70,6 +73,17 @@ export default class PpFooterContactSupport extends LightningElement {
     phoneNumberValueEle = "";
     addressNumberValueEle = "";
 
+    addressCopied = false;
+    addressCopyHoverd = false;
+    addressTitle = "Copy";
+    phoneCopied = false;
+    phoneCopyHoverd = false;
+    phoneTitle = "Copy";
+
+    get copyIconStyle(){
+         return this.isRTL ? "copyIconRTL" : "copyIcon";
+    }
+
     renderedCallback(){
         if(this.desktop){
             let phoneContainerHeight = this.template.querySelectorAll('.phoneContainer');
@@ -89,7 +103,7 @@ export default class PpFooterContactSupport extends LightningElement {
         this.piSalutation = this.studysite.Principal_Investigator__r.Salutation;
         this.piName = this.studysite.Principal_Investigator__r.Name;
         console.log('piName--->'+this.piName);
-        this.phoneNotAvailable = this.studysite.Study_Site_Phone__c != null ? false : true;
+        this.phoneNotAvailable = this.studysite.Study_Site_Phone__c ? false : true;
         this.studySitePhone = this.studysite.Study_Site_Phone__c;
         console.log('studySitePhone--->'+this.studySitePhone);
         this.siteName = this.studysite.Site__r.Name;
@@ -155,14 +169,58 @@ export default class PpFooterContactSupport extends LightningElement {
     // }
 
      copyPhoneToClipboard(){
-         this.phoneNumberValueEle[0].select();
+         this.phoneNumberValueEle[0]?.select();
          document.queryCommandSupported('copy');
          document.execCommand('copy');
+         this.phoneCopied = true;
+         this.phoneCopyHoverd = false;
+         this.phoneTitle = "Copied";
+
+         setTimeout(() => {
+            this.onPhonehoverOut();
+        }, 2000);
      }
 
      copyAddressToClipboard(){
-        this.addressNumberValueEle[0].select();
+        this.addressNumberValueEle[0]?.select();
         document.queryCommandSupported('copy');
         document.execCommand('copy');
+        this.addressCopied = true;
+        this.addressCopyHoverd = false;
+        this.addressTitle = "Copied";
+
+        setTimeout(() => {
+            this.onAddresshoverOut();
+        }, 2000);
     }
+
+    addressHoverHandler(){
+        this.addressCopyHoverd = true;
+    }
+
+    onAddresshoverOut(){
+        this.addressCopyHoverd = false;
+        this.addressCopied = false;
+        this.addressTitle = "Copy"
+    }
+
+    onAddressMouseOut(){
+        this.addressCopyHoverd = false;
+        this.addressTitle = "Copy"
+    }
+
+    phoneHoverHandler(){
+        this.phoneCopyHoverd = true;
+    }
+    onPhonehoverOut(){
+        this.phoneCopyHoverd = false;
+        this.phoneCopied = false;
+        this.phoneTitle = "Copy"
+    }
+
+    onPhoneMouseOut(){
+        this.phoneCopyHoverd = false;
+        this.phoneTitle = "Copy"
+    }
+    
 }
