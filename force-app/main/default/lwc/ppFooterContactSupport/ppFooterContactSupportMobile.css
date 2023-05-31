@@ -45,6 +45,11 @@
     margin-left: 16px;
 }
 
+.paddingLeft-16 {
+    padding-left: 16px;
+}
+
+
 .marginTop-16 {
     margin-top: 16px;
 }
@@ -201,4 +206,25 @@
     height: 116px; */
     width: 100%;
     padding-right: 10px;
+}
+
+
+.copyIcon{
+    cursor: pointer;
+    float: right;
+    padding-right: 20px;
+}
+
+.copyIconRTL{
+    cursor: pointer;
+    float: left;
+    padding-left: 20px;
+}
+
+.padding-top-25{
+    padding-top: 25px;
+}
+
+.padding-top-16{
+    padding-top: 16px;
 }
