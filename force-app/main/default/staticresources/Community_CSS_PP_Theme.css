@@ -2174,3 +2174,9 @@ user agent stylesheet svg:not(:root) {
 }
 
 /* Contact support Modal css- Ends */
+
+
+.support-container button{
+    height: 40px;
+    line-height: 40px;
+}
