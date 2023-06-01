@@ -1502,7 +1502,11 @@
               function onlineCall(){
                   if(isOffline){
                       isOffline = false;
-                      manageCall();
+                      disconnectFromSession();
+                      toggle('#main', 'slds-hide');
+                      toggle('#call-end-screen-container', 'slds-hide');
+                      //removeParticipant(publisher);
+                      
                   }else{
                       clearTimeout(myTimeout);
                   }
