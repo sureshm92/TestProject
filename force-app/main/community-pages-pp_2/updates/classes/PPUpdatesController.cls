@@ -49,8 +49,10 @@ public without sharing class PPUpdatesController {
             FROM Send_Result__c
             WHERE
                 Notification__r.Target_Record_Ids__c != NULL
+                AND CreatedDate <= :initialDateTime 
                 AND Target_Type__c = :UpdateService.SR_TARGET_TYPE_UPDATES
                 AND Status__c = :UpdateService.SR_STATUS_IN_PROGRESS
+                AND Notification__r.Status__c = :UpdateService.SR_STATUS_IN_PROGRESS
                 AND Notification__r.Recipient__c = :resFilter.participantContactId
                 AND ((Notification__r.whatId__c IN :resFilter.peList
                 AND Notification__r.Target_Record_Ids__c IN :resFilter.resStudyIdVisToPt)
