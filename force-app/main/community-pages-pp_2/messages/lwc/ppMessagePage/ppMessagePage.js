@@ -104,7 +104,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
         this.template.querySelector(".img-color").src =
           this.televisitAttendees_icon;
       }
-      this.template.querySelector(".team-color").style.color = "unset";
+      this.template.querySelector(".team-color").style.color = "#595959";
     }
   }
   handleSpinner(event) {
@@ -460,7 +460,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
         this.template.querySelector(".img-color").src =
           this.televisitAttendees_icon;
       }
-      this.template.querySelector(".team-color").style.color = "unset";
+      this.template.querySelector(".team-color").style.color = "#595959";
     }
     this.curentMobileView = "list";
     this.template.querySelector(".L").classList.remove("hideMobile");
@@ -477,7 +477,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
         this.template.querySelector(".img-color").src =
           this.televisitAttendees_icon;
       }
-      this.template.querySelector(".team-color").style.color = "unset";
+      this.template.querySelector(".team-color").style.color = "#595959";
     }
     if (this.isMobile) {
       this.curentMobileView = "detail";
@@ -667,7 +667,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
         this.template.querySelector(".img-color").src =
           this.televisitAttendees_icon;
       }
-      this.template.querySelector(".team-color").style.color = "unset";
+      this.template.querySelector(".team-color").style.color = "#595959";
     }
     if (this.firstEnrollments != null) {
       this.firstEnrollments = null;
@@ -835,7 +835,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
           this.template.querySelector(".img-color").src =
             this.televisitAttendees_icon;
         }
-        this.template.querySelector(".team-color").style.color = "unset";
+        this.template.querySelector(".team-color").style.color = "#595959";
       } else {
         this.template.querySelector(".box-container").style.display = "block";
         this.showParticipantsList = true;
