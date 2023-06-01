@@ -1941,6 +1941,9 @@
                     height: 24px;
                     width: 24px;
                 }
+            	.share-container {
+                width: 100% !important;
+                }
             }
 
             @media screen and (max-width: 576px) {
@@ -3160,7 +3163,7 @@
                                     <div
                                         id="controls"
                                         class="controls slds-col slds-align-bottom"
-                                        style="padding-left: 0"
+                                        style="padding-left: 0;min-height: 117px;padding-top: 67px;" 
                                     >
                                         <div class="slds-grid slds-float_right">
                                             <button
