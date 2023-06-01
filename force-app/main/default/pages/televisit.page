@@ -184,7 +184,7 @@
         	height: 96vh;
         }
         @media screen and (max-width: 401px){
-            .televisit-rejoin{
+            .non-attendee-screen .televisit-rejoin{
             	width: unset !important;
             }
         }
