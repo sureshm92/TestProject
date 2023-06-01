@@ -27,7 +27,6 @@
 .child-chat-item-sec {
     overflow-y: auto;
     overflow-x: hidden;
-    height: 472px;
     padding: 0px 8px 0px 8px;
 }
 .ms-send-button {
@@ -39,22 +38,44 @@
 .mob-parent-chat-item-sec {
     padding: 0px 8px 21px 8px;
 }
+.mob-parent-chat-item-header-sec{
+    padding: 0px 8px 0px 8px;
+}
+.mob-parent-chat-item-sec-past {
+    padding: 0px 8px 0px 8px;
+}
 .mob-child-chat-item-sec {
     overflow-y: auto;
     height: 290px;
     padding-right: 8px;
-}
-.ms-send-button{
-  height: 35px;
-  width: 96px; 
-  border: none;
-  border-radius: 1rem;
 }
 .medium {
     height: 472px;
     text-align: center;
     color: #595959;
     font-size: 16px;
+}
+.mob-medium {
+    height: 220px;
+    text-align: center;
+    color: #595959;
+    font-size: 16px;
+}
+
+.active-study {
+    height: 472px !important;
+}
+.old-study {
+    height: 554px !important;
+}
+.active-study-mob {
+    height: 290px !important;
+}
+.old-study-mob {
+    height: 290px !important;
+}
+.study-mob-no-msg {
+    height: 200px !important;
 }
 .question-item {
     height: 88px;
@@ -91,6 +112,7 @@
 .mob-selection {
     --sds-c-input-radius-border: 20px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+    margin: 0;
 }
 
 .mob-send-button {
