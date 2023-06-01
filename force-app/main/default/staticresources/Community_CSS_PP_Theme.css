@@ -21,6 +21,7 @@ h6 {
 body {
     font-size: 13px;
     overflow: visible !important;
+    font-family: 'Proxima Nova';
 }
 a,
 .slds-button {
@@ -30,7 +31,8 @@ a,
     color: #0557d5;
     box-shadow: none;
 }
-.forgot-unable-pwd-txt .slds-button:hover {
+.forgot-unable-pwd-txt .slds-button:hover,
+.forgot-unable-pwd-txt .slds-button:focus {
     color: #0557d5;
     box-shadow: none;
     font-weight: 600;
@@ -1335,19 +1337,30 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     width: 0px !important;
     display: none !important;
 }
-.selection .slds-listbox__option .slds-media__body{
-    font-size: 1rem; 
+.selection .slds-listbox__option .slds-media__body {
+    font-size: 1rem;
 }
-.selection .slds-input_faux{
-    height:35px !important;
+.selection .slds-input_faux {
+    height: 35px !important;
     padding-top: 2px;
+    overflow: hidden;
 }
-.selection .slds-combobox__input .slds-input_faux{
+.selection .slds-combobox__input .slds-input_faux {
     padding-right: 10px;
 }
 .selection .slds-input__icon-group_right {
     right: 10px !important;
-  }
+}
+.selection .slds-truncate {
+    max-width: 100%;
+    overflow: visible;
+    white-space: normal;
+}
+.mob-selection .slds-truncate {
+    max-width: 100%;
+    overflow: visible;
+    white-space: normal;
+}
 /* Date Time Dropdown Alignment */
 
 .slds-listbox.slds-dropdown {

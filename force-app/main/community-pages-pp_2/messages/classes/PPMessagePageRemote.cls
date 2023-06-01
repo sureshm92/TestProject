@@ -190,8 +190,30 @@ public without sharing class PPMessagePageRemote {
                 /*List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
                     ParticipantContext.getCurrentContactId()
                 );*/
-                if (!pastEnrollments.isEmpty())
-                    participantEnrollments.addAll(pastEnrollments);
+                List<Patient_Delegate_Enrollment__c> pdenrollment = new List<Patient_Delegate_Enrollment__c>();
+                List<Id> partEnroll = new List<Id>();
+                List<Participant_Enrollment__c> lstpdEnrollment = new List<Participant_Enrollment__c>();
+                pdenrollment = [Select Id,Participant_Enrollment__c,Status__c,Patient_Delegate__c,Patient_Delegate__r.Contact__c from Patient_Delegate_Enrollment__c
+                                 where Patient_Delegate__r.Contact__c=:piId limit 2999];    
+                if(!pdenrollment.isEmpty() && pdenrollment != null){
+                    for(Patient_Delegate_Enrollment__c p:pdenrollment){
+                            if(p.Status__c != 'Active' ){
+                                partEnroll.add(p.Participant_Enrollment__c);
+                            }
+                    } 
+                   
+                }              
+                if(!pastEnrollments.isEmpty()){
+                     if(!partEnroll.isEmpty() && partEnroll!=null){
+                         for(Participant_Enrollment__c per:pastEnrollments){
+                             if(!partEnroll.contains(per.Id)){
+                                 participantEnrollments.add(per);
+                             }
+                         }
+                     }else{
+                      participantEnrollments.addAll(pastEnrollments);
+                     }
+                }
 
                 Set<Id> availablePEIds = new Set<Id>();
                 List<Id> peIds = new List<Id>();
@@ -208,9 +230,9 @@ public without sharing class PPMessagePageRemote {
                         );
                     }
                 }
-                sharedConversations = ConversationService.getPeSharedConversations(
-                peIds
-                ); //24
+                sharedConversations = ConversationService.getSharedConversations(
+                  UserInfo.getUserId()
+                );
 
                 //Collect Conversations
                  if (sharedConversations != null) {
@@ -250,25 +272,7 @@ public without sharing class PPMessagePageRemote {
                         );
                     }
                 }
-            } else if (pageData.userMode == CommunityService.USER_MODE_PI) {
-               sharedConversations = ConversationService.getSharedConversations(
-                UserInfo.getUserId()
-                ); 
-                //Collect Conversations
-                if (sharedConversations != null) {
-                    for (Conversation__c conversation : sharedConversations) {
-                        if (
-                            conversation.Participant_Enrollment__r.Participant_Contact__c !=
-                            UserContext.getUserContactId()
-                        ) {
-                            conversations.add(conversation);
-                        }
-                    }
-                }
-
-                //Collect Enrollments
-                pageData.enrollments = getEnrollmentsForPI(null);
-            }
+            } 
             Set<Id> allPeIds = new Set<Id>();
             if(pageData.enrollments!=null){
                 for(Participant_Enrollment__c pe : pageData.enrollments){

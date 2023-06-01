@@ -853,12 +853,24 @@ global without sharing class ReferHealthcareProviderRemote {
             update newHP;
         } else {
             Patient_Delegate_Enrollment__c pder = 
-                    [Select Id ,Status__c, Patient_Delegate__c
+                    [Select Id ,Status__c, Patient_Delegate__c, Patient_Delegate__r.Contact__c,Participant_Enrollment__c
                     FROM Patient_Delegate_Enrollment__c
                     WHERE id=:delegateId ];
                     pder.Status__c = DEL_ON_DISCONNECTED;
                     update pder;
             update new Patient_Delegate__c(Id = pder.Patient_Delegate__c, Status__c = DEL_ON_DISCONNECTED);
+            List<User> delegateUsers = [SELECT Id FROM User WHERE ContactId =:pder.Patient_Delegate__r.Contact__c];
+            Map<Id, Conversation__c> conversationMap = new Map<Id, Conversation__c>(
+            [SELECT Id FROM Conversation__c WHERE Participant_Enrollment__c =:pder.Participant_Enrollment__c]
+            );
+            List<Conversation__Share> conversationShares = [
+            SELECT Id
+            FROM Conversation__Share
+            WHERE ParentId IN :conversationMap.keySet() AND UserOrGroupId IN :delegateUsers 
+            ];
+            if (!conversationShares.isEmpty())
+            delete conversationShares;
+        
         }
     }
 

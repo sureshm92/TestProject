@@ -33,7 +33,15 @@
     display: inline-block;
 }
 .text-justify {
-    text-align: justify;
+    text-align: left;
+}
+
+.slds-icon-utility-close:hover {
+    cursor: pointer;
+}
+
+.slds-icon-utility-close .slds-icon_x-small:hover {
+    fill: #015ff1;
 }
 
 @media all and (max-width: 768px) {

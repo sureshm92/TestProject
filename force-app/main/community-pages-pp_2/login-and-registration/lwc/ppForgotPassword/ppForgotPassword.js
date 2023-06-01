@@ -14,6 +14,7 @@ import footer1 from '@salesforce/label/c.PP_Forgot_Password_Footer1';
 import footer2 from '@salesforce/label/c.PP_Forgot_Password_Footer2';
 import unableToLogin6 from '@salesforce/label/c.PG_Unable_To_Login_L6';
 import backButton from '@salesforce/label/c.BTN_Back';
+import PP_Email_Error from '@salesforce/label/c.PP_Email_Error';
 
 export default class PpForgotPassword extends NavigationMixin(LightningElement) {
     @track showEmailSent = false;
@@ -35,9 +36,11 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
         footer1,
         footer2,
         unableToLogin6,
-        backButton
+        backButton,
+        PP_Email_Error
     };
     @track btnClassName = 'primaryBtn slds-button btn-sendEmail';
+    _patten = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     connectedCallback() {
         let language = communityService.getUrlParameter('language');
@@ -61,6 +64,11 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
         let spinner = this.template.querySelector('c-web-spinner');
         spinner.show();
         this.usrnameval = this.template.querySelector('input').value;
+        if (!this.usrnameval || !this.usrnameval.match(this._patten)) {
+            this.handleError(this.labels.PP_Email_Error);
+            spinner.hide();
+            return;
+        }
         forgotPassword({ username: this.usrnameval, checkEmailUrl: this.checkEmailUrl })
             .then((result) => {
                 if (result.includes('./CheckPasswordResetEmail')) {
@@ -84,9 +92,7 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
                             }
                         });
                     }
-                    this.errorMessage = returnValue['invalidEmail'];
-                    this.showError = true;
-                    this.btnClassName = 'slds-button btn-sendEmail btn-disable';
+                    this.handleError(returnValue['invalidEmail']);
                 }
                 spinner.hide();
             })
@@ -99,11 +105,19 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
         if (event.target.value !== '') {
             this.usrnameval = event.target.value;
         }
-        this.btnClassName = 'slds-button btn-sendEmail';
+        this.btnClassName = 'primaryBtn slds-button btn-sendEmail';
         this.showError = false;
+        this.template.querySelector('.btn-sendEmail').disabled = false;
         //checks for "enter" key
         if (event.which === 13) {
             this.handleForgotPassword();
+        }
+    }
+
+    handleKeyDown(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            this.goBack();
         }
     }
 
@@ -114,5 +128,12 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
                 name: 'Login'
             }
         });
+    }
+
+    handleError(message) {
+        this.errorMessage = message;
+        this.showError = true;
+        this.btnClassName = 'primaryBtn slds-button btn-sendEmail btn-disable';
+        this.template.querySelector('.btn-sendEmail').disabled = true;
     }
 }
