@@ -1518,6 +1518,33 @@
                 }
             }
         </script>
+        <script>
+           window.onload = function checkInternetDisconnect() {
+              
+              window.addEventListener('online', () => onlineCall());
+              window.addEventListener('offline', () => offlineCall());
+              var isOffline = false;
+              var myTimeout;
+              function offlineCall(){
+                 myTimeout  = setTimeout(checkTimer, 10000);
+              }
+              
+              function checkTimer() {
+                  isOffline = true;
+              }
+              
+              
+              function onlineCall(){
+                  if(isOffline){
+                      isOffline = false;
+                      manageCall();
+                  }else{
+                      clearTimeout(myTimeout);
+                  }
+              }
+            }
+            
+        </script>
 
         <apex:outputPanel layout="none" rendered="{!isSessionJoinable == true}">
             <script type="text/javascript">
