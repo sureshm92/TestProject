@@ -102,7 +102,7 @@
         }
        	@media (orientation: portrait) {
             .previewContainerFull{
-                height: 95vh !important;
+                height: calc(100vh - 62px) !important;
             } 
         }
         @media all and (max-width: 900px) {
@@ -112,7 +112,7 @@
         }
         @media all and (max-width: 492px) {
             .previewContainer{
-               padding-top: 24px;
+        		/* padding-top: 24px; */
             }
             .preview-tv-error{
                 height: 740px !important;
@@ -123,7 +123,7 @@
         }
         @media all and (max-width: 430px) {
             .previewContainer{
-               padding-top: 32px;
+        		/* padding-top: 32px; */
              }
             .preview-tv-error{
                 height: 760px !important;
@@ -132,7 +132,7 @@
         
         @media all and (max-width: 388px) {
             .previewContainer{
-               padding-top: 62px;
+               padding-top: 90px;
           }
             .preview-tv-error{
                 height: 785px !important;
@@ -169,7 +169,13 @@
             .televisit-end {
                 line-height: 24px !important;
             }
-
+	     }
+        .firstAttendeeText{
+        	width: 262px;
+            color: #999999;
+            font-size: 24px !important;
+            font-weight: 600;
+            line-height: 37px;
         }
     </style>
     <apex:stylesheet value="{!$Resource.proximanova}/proximanova.css" />
@@ -3118,8 +3124,7 @@
                                         </span>
                                         <br/>
                                         <span
-                                            class="slds-align_absolute-center slds-text-heading--small"
-                                            style="color: #999999;font-weight:600;font-size: 16px !important;line-height: 24px;"
+                                            class="slds-align_absolute-center firstAttendeeText"
                                         >
                                             {!$Label.First_Attendee}
                                         </span>
@@ -3413,7 +3418,7 @@
                                         </span>
                                         <div class="slds-grid">
                                             <div class="slds-col slds-medium-size_12-of-12">
-                                                <div class="televisit-end" style="inline-size: 400px;">
+                                                <div class="televisit-end" style="inline-size: 400px;padding: 0px 24px;">
                                                     {!$Label.PT_Session_Ended}
                                                     
                                                     
