@@ -574,11 +574,7 @@ public without sharing class UpdateService {
             }
         }
         List<Send_Result__c> sendResultList = (List<Send_Result__c>) DatabaseService.query(
-            new List<String>{
-                'Id',
-                'Status__c',
-                'Notification__c'
-            },
+            new List<String>{ 'Id', 'Status__c', 'Notification__c' },
             Send_Result__c.getSObjectType(),
             baseFilter
         );
@@ -588,7 +584,7 @@ public without sharing class UpdateService {
         }
         try {
             update sendResultList;
-            UpdateService.getInstance().updateNotificationsStatus(notificationIds);
+            updateNotificationsStatus(notificationIds);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
