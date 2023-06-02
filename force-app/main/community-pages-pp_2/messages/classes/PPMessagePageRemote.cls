@@ -40,7 +40,7 @@ public without sharing class PPMessagePageRemote {
         @AuraEnabled
         public String title;
         @AuraEnabled
-        public Date lastUpdate;
+        public DateTime lastUpdate;
         @AuraEnabled
         public String description;
         @AuraEnabled
@@ -190,8 +190,30 @@ public without sharing class PPMessagePageRemote {
                 /*List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
                     ParticipantContext.getCurrentContactId()
                 );*/
-                if (!pastEnrollments.isEmpty())
-                    participantEnrollments.addAll(pastEnrollments);
+                List<Patient_Delegate_Enrollment__c> pdenrollment = new List<Patient_Delegate_Enrollment__c>();
+                List<Id> partEnroll = new List<Id>();
+                List<Participant_Enrollment__c> lstpdEnrollment = new List<Participant_Enrollment__c>();
+                pdenrollment = [Select Id,Participant_Enrollment__c,Status__c,Patient_Delegate__c,Patient_Delegate__r.Contact__c from Patient_Delegate_Enrollment__c
+                                 where Patient_Delegate__r.Contact__c=:piId limit 2999];    
+                if(!pdenrollment.isEmpty() && pdenrollment != null){
+                    for(Patient_Delegate_Enrollment__c p:pdenrollment){
+                            if(p.Status__c != 'Active' ){
+                                partEnroll.add(p.Participant_Enrollment__c);
+                            }
+                    } 
+                   
+                }              
+                if(!pastEnrollments.isEmpty()){
+                     if(!partEnroll.isEmpty() && partEnroll!=null){
+                         for(Participant_Enrollment__c per:pastEnrollments){
+                             if(!partEnroll.contains(per.Id)){
+                                 participantEnrollments.add(per);
+                             }
+                         }
+                     }else{
+                      participantEnrollments.addAll(pastEnrollments);
+                     }
+                }
 
                 Set<Id> availablePEIds = new Set<Id>();
                 List<Id> peIds = new List<Id>();
@@ -208,9 +230,9 @@ public without sharing class PPMessagePageRemote {
                         );
                     }
                 }
-                sharedConversations = ConversationService.getPeSharedConversations(
-                peIds
-                ); //24
+                sharedConversations = ConversationService.getSharedConversations(
+                  UserInfo.getUserId()
+                );
 
                 //Collect Conversations
                  if (sharedConversations != null) {
@@ -250,25 +272,7 @@ public without sharing class PPMessagePageRemote {
                         );
                     }
                 }
-            } else if (pageData.userMode == CommunityService.USER_MODE_PI) {
-               sharedConversations = ConversationService.getSharedConversations(
-                UserInfo.getUserId()
-                ); 
-                //Collect Conversations
-                if (sharedConversations != null) {
-                    for (Conversation__c conversation : sharedConversations) {
-                        if (
-                            conversation.Participant_Enrollment__r.Participant_Contact__c !=
-                            UserContext.getUserContactId()
-                        ) {
-                            conversations.add(conversation);
-                        }
-                    }
-                }
-
-                //Collect Enrollments
-                pageData.enrollments = getEnrollmentsForPI(null);
-            }
+            } 
             Set<Id> allPeIds = new Set<Id>();
             if(pageData.enrollments!=null){
                 for(Participant_Enrollment__c pe : pageData.enrollments){
@@ -519,7 +523,7 @@ public without sharing class PPMessagePageRemote {
 
         if (!messages.isEmpty()) {
             Message__c lastMessage = messages.get(0);
-            conWr.lastUpdate = lastMessage.CreatedDate.date();
+            conWr.lastUpdate = lastMessage.CreatedDate;
             conWr.lastMessagePart = lastMessage.Message_Content__c;
 
             if (ascendingOrder)
@@ -572,55 +576,7 @@ public without sharing class PPMessagePageRemote {
         }
     }
 
-    @AuraEnabled
-    public static void sendMultipleMessage(
-        List<String> peIds,
-        String messageText,
-        String fileJSON,
-        Map<Id,String> piContactNames
-    ) {
-        try {
-            List<Participant_Enrollment__c> participantEnrollments = (List<Participant_Enrollment__c>) DatabaseService.query(
-                ParticipantEnrollmentService.PE_COMMON_FIELDS,
-                Participant_Enrollment__c.getSObjectType(),
-                DatabaseService.fieldInValues('Id', peIds)
-            );
-            Map<String, Participant_Enrollment__c> enrollmentMap = new Map<String, Participant_Enrollment__c>();
-            for (Participant_Enrollment__c pe : participantEnrollments)
-                enrollmentMap.put(pe.Id, pe);
-
-            List<Conversation__c> existingConversations = [
-                SELECT Id, Participant_Enrollment__c
-                FROM Conversation__c
-                WHERE Participant_Enrollment__c IN :peIds
-            ];
-
-            List<String> peIdsWithoutConversation = new List<String>(peIds);
-            if (!existingConversations.isEmpty()) {
-                List<Id> conIds = new List<Id>();
-                for (Conversation__c con : existingConversations) {
-                    conIds.add(con.Id);
-                    Integer index = peIdsWithoutConversation.indexOf(
-                        String.valueOf(con.Participant_Enrollment__c)
-                    );
-                    if (index >= 0)
-                        peIdsWithoutConversation.remove(index);
-                }
-                for (Conversation__c exCon : ConversationService.getConversations(conIds)) {
-                    sendMessage(exCon, messageText, fileJSON, null, piContactNames);
-                }
-            }
-
-            if (!peIdsWithoutConversation.isEmpty()) {
-                for (String peId : peIdsWithoutConversation) {
-                    createConversation(enrollmentMap.get(peId), messageText, fileJSON, null, piContactNames);
-                }
-            }
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
-        }
-    }
-
+    
     @AuraEnabled
     public static ConversationWrapper sendMessage(
         Conversation__c conversation,
@@ -746,55 +702,6 @@ public without sharing class PPMessagePageRemote {
             newConversation.Participant_Enrollment__r = enrollment;
             return sendMessages(newConversation, messageText,deviceSize,isIE,piContactNames);
             
-            
-        
-          /**  Conversation__c newConversation = new Conversation__c(
-                Participant_Enrollment__c = enrollment.Id
-            );
-            insert newConversation;
-
-            ConversationService.createConversationSharesForMembers(newConversation.Id, enrollment);
-            newConversation.Participant_Enrollment__r = enrollment;
-           
-            return sendMessages(newConversation, messageText,deviceSize,isIE,piContactNames);
-            
-            Contact userContact = UserContext.getUserContact();
-
-            String senderName;
-            Boolean needUpdate = false;
-            if (
-                UserContext.getCurrentUserMode().userMode == CommunityService.USER_MODE_PARTICIPANT
-            ) {
-                List<Participant__c> participant = [
-                    SELECT Id, Full_Name__c
-                    FROM Participant__c
-                    WHERE Contact__c = :userContact.Id
-                ];
-                if (!participant.isEmpty()) {
-                    senderName = participant.get(0).Full_Name__c;
-                } else {
-                    senderName = userContact.UserCommunityIsDelegate__c
-                        ? userContact.Full_Name__c
-                        : enrollment.Participant__r.Full_Name__c;
-                }
-                
-                    newConversation.haveUnreadForPI__c = true;
-                    needUpdate = true;
-               
-            } 
-
-            if (needUpdate) {
-                newConversation.FirstUnreadDate__c = Datetime.now();
-                update newConversation;
-            }
-
-            Message__c message = new Message__c(
-                Conversation__c = newConversation.Id,
-                Message_Content__c = messageText,
-                Sender_Name__c = senderName
-            );
-            
-            insert message; **/
             
         } catch (Exception e) {
             return (ConversationWrapper) AuraHelper.throwException(e);
@@ -923,47 +830,6 @@ public without sharing class PPMessagePageRemote {
             return (Integer) AuraHelper.throwException(e);
         }
     }
-
-    @AuraEnabled(Cacheable=true)
-    public static List<LookupSearchResult> searchParticipant(
-        String searchTerm,
-        List<String> selectedIds
-    ) {
-        try {
-            List<LookupSearchResult> results = new List<LookupSearchResult>();
-            List<Participant_Enrollment__c> enrollments = getEnrollmentsForPI(
-                DatabaseService.fieldNotInValues('Id', selectedIds)
-            );
-            List<Id> piContactIds = new List<Id>();
-            if (enrollments == null || enrollments.isEmpty())
-                return results;
-
-            List<Participant_Enrollment__c> matchingEnrollments = new List<Participant_Enrollment__c>();
-            for (Participant_Enrollment__c pe : enrollments) {
-                piContactIds.add(pe.Study_Site__r.Principal_Investigator__c);
-                if (pe.Participant__r == null || pe.Participant__r.Full_Name__c == null)
-                    continue;
-                if (pe.Participant__r.Full_Name__c.containsIgnoreCase(searchTerm))
-                    matchingEnrollments.add(pe);
-            }
-                        
-            for (Participant_Enrollment__c pe : matchingEnrollments) {
-                results.add(
-                    new LookupSearchResult(
-                        pe.Id,
-                        'Participant_Enrollment__c',
-                        'standard:avatar',
-                        pe.Participant__r.Full_Name__c,
-                        'Study • ' + pe.Clinical_Trial_Profile__r.Study_Code_Name__c
-                    )
-                );
-            }
-
-            return results;
-        } catch (Exception e) {
-            return (List<LookupSearchResult>) AuraHelper.throwException(e);
-        }
-    }
     
     public static Map<Id,String> getPIContactFullNames(List<Id> piContacts){
         Map<Id,String> pIContactFullNames = new Map<Id,String>();
@@ -1066,7 +932,7 @@ public without sharing class PPMessagePageRemote {
 
         if (!messages.isEmpty()) {
             Message__c lastMessage = messages.get(0);
-            conWr.lastUpdate = lastMessage.CreatedDate.date();
+            conWr.lastUpdate = lastMessage.CreatedDate;
             conWr.lastMessagePart = lastMessage.Message_Content__c;
 
             if (ascendingOrder)

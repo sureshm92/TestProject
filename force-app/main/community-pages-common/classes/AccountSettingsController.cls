@@ -767,6 +767,18 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             if (con.Cookies_Agreed_on_Reg__c) {
                 con.Cookies_Agreed_on_Reg__c = false;
             }
+            TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.CreateUserForCCContactHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.UpdateParticipantDetailsHandler.class
+            );
             update con;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());

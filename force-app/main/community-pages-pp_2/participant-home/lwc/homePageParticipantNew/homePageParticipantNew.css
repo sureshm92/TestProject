@@ -107,10 +107,9 @@
 }
 
 .p-text {
-    margin-left: 10px;
     margin-top: 10px;
     height: 24px;
-    width: 68.74px;
+    width: 100%;
     color: #ffffff;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -121,10 +120,9 @@
 }
 
 .p-text-televisit {
-    margin-left: 6px;
     margin-top: 10px;
     height: 24px;
-    width: 68.74px;
+    width: 100%;
     color: #ffffff;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -296,13 +294,15 @@
 
 .uc-text-mobile {
     /*margin-top: 6px;*/
-    padding: 6px 0;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: bold;
-    letter-spacing: 0;
+    letter-spacing: 0.5;
     text-align: center;
     color: #ffffff;
+    height: 32px;
+    letter-spacing: 0.5px;
+    line-height: 32px;
 }
 .progressTab {
     max-width: 468px;
@@ -325,7 +325,7 @@
 }
 .progressIconPosition {
     padding-top: 7px !important;
-    margin-left: 26px !important;
+    margin-left: 24px !important;
 }
 .tablet-margin {
     margin: 10px auto 0 auto !important;
@@ -341,4 +341,40 @@
     .upcoming-card {
         margin: 10px 10px 0px 10px;
     }
+}
+
+@media all and (max-width: 380px) {
+	.mobileSet {
+		zoom: 0.97;
+	}
+}
+@media all and (max-width: 372px) {
+	.mobileSet {
+		zoom: 0.95;
+	}
+}
+@media all and (max-width: 362px) {
+	.mobileSet {
+		zoom: 0.93;
+	}
+}
+@media all and (max-width: 350px) {
+	.mobileSet {
+		zoom: 0.91;
+	}
+}
+@media all and (max-width: 342px) {
+	.mobileSet {
+		zoom: 0.89;
+	}
+}
+@media all and (max-width: 332px) {
+	.mobileSet {
+		zoom: 0.87;
+	}
+}
+@media all and (max-width: 326px) {
+	.mobileSet {
+		zoom: 0.85;
+	}
 }

@@ -49,8 +49,10 @@ public without sharing class PPUpdatesController {
             FROM Send_Result__c
             WHERE
                 Notification__r.Target_Record_Ids__c != NULL
+                AND CreatedDate <= :initialDateTime 
                 AND Target_Type__c = :UpdateService.SR_TARGET_TYPE_UPDATES
                 AND Status__c = :UpdateService.SR_STATUS_IN_PROGRESS
+                AND Notification__r.Status__c = :UpdateService.SR_STATUS_IN_PROGRESS
                 AND Notification__r.Recipient__c = :resFilter.participantContactId
                 AND ((Notification__r.whatId__c IN :resFilter.peList
                 AND Notification__r.Target_Record_Ids__c IN :resFilter.resStudyIdVisToPt)
@@ -74,5 +76,42 @@ public without sharing class PPUpdatesController {
         }
         update sendResultList;
         UpdateService.getInstance().updateNotificationsStatus(notificationIds);
+    }
+
+    @AuraEnabled
+    public static void removeUpdateCardForVisitResult(
+        String contactId,
+        String peId,
+        Id patientVisitId
+    ) {
+        List<Id> notificationIds = new List<Id>();
+        List<Send_Result__c> sendResultList = [
+            SELECT
+                Id,
+                Status__c,
+                Notification__r.Recipient__c,
+                Notification__r.Status__c,
+                Notification__r.Notification_Type__c,
+                Notification__r.WhatId__c,
+                Notification__r.Target_Record_Ids__c
+            FROM Send_Result__c
+            WHERE
+                Status__c = :UpdateService.SR_STATUS_IN_PROGRESS
+                AND Notification__r.Status__c = :UpdateService.SR_STATUS_IN_PROGRESS
+                AND Notification__r.Notification_Type__c = :NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE
+                AND Notification__r.Recipient__c = :contactId
+                AND Notification__r.WhatId__c = :peId
+                AND Notification__r.Target_Record_Ids__c = :patientVisitId
+        ];
+        for (Send_Result__c sr : sendResultList) {
+            sr.Status__c = 'Sent';
+            notificationIds.add(sr.Notification__c);
+        }
+        try {
+            update sendResultList;
+            UpdateService.getInstance().updateNotificationsStatus(notificationIds);
+        } catch (Exception e) {
+            System.debug('error while updating send result:' + e.getMessage());
+        }
     }
 }
