@@ -102,7 +102,7 @@
         }
        	@media (orientation: portrait) {
             .previewContainerFull{
-                height: 95vh !important;
+                height: calc(100vh - 62px) !important;
             } 
         }
         @media all and (max-width: 900px) {
@@ -112,7 +112,7 @@
         }
         @media all and (max-width: 492px) {
             .previewContainer{
-               padding-top: 24px;
+        		/* padding-top: 24px; */
             }
             .preview-tv-error{
                 height: 740px !important;
@@ -123,7 +123,7 @@
         }
         @media all and (max-width: 430px) {
             .previewContainer{
-               padding-top: 32px;
+        		/* padding-top: 32px; */
              }
             .preview-tv-error{
                 height: 760px !important;
@@ -132,7 +132,7 @@
         
         @media all and (max-width: 388px) {
             .previewContainer{
-               padding-top: 62px;
+               padding-top: 90px;
           }
             .preview-tv-error{
                 height: 785px !important;
@@ -169,7 +169,24 @@
             .televisit-end {
                 line-height: 24px !important;
             }
-
+	     }
+        .firstAttendeeText{
+        	width: 262px;
+            color: #999999;
+            font-size: 24px !important;
+            font-weight: 600;
+            line-height: 37px;
+        }        
+        .non-attendee-screen .televisit-end{
+        	padding: 0px 24px;
+        }
+        .non-attendee-screen .rejoin-container{
+        	height: 96vh;
+        }
+        @media screen and (max-width: 401px){
+            .non-attendee-screen .televisit-rejoin{
+            	width: unset !important;
+            }
         }
     </style>
     <apex:stylesheet value="{!$Resource.proximanova}/proximanova.css" />
@@ -1518,6 +1535,37 @@
                 }
             }
         </script>
+        <script>
+           window.onload = function checkInternetDisconnect() {
+              
+              window.addEventListener('online', () => onlineCall());
+              window.addEventListener('offline', () => offlineCall());
+              var isOffline = false;
+              var myTimeout;
+              function offlineCall(){
+                 myTimeout  = setTimeout(checkTimer, 10000);
+              }
+              
+              function checkTimer() {
+                  isOffline = true;
+              }
+              
+              
+              function onlineCall(){
+                  if(isOffline){
+                      isOffline = false;
+                      disconnectFromSession();
+                      toggle('#main', 'slds-hide');
+                      toggle('#call-end-screen-container', 'slds-hide');
+                      //removeParticipant(publisher);
+                      
+                  }else{
+                      clearTimeout(myTimeout);
+                  }
+              }
+            }
+            
+        </script>
 
         <apex:outputPanel layout="none" rendered="{!isSessionJoinable == true}">
             <script type="text/javascript">
@@ -1907,6 +1955,9 @@
                 .people-button {
                     height: 24px;
                     width: 24px;
+                }
+            	.share-container {
+                width: 100% !important;
                 }
             }
 
@@ -3091,8 +3142,7 @@
                                         </span>
                                         <br/>
                                         <span
-                                            class="slds-align_absolute-center slds-text-heading--small"
-                                            style="color: #999999;font-weight:600;font-size: 16px !important;line-height: 24px;"
+                                            class="slds-align_absolute-center firstAttendeeText"
                                         >
                                             {!$Label.First_Attendee}
                                         </span>
@@ -3128,7 +3178,7 @@
                                     <div
                                         id="controls"
                                         class="controls slds-col slds-align-bottom"
-                                        style="padding-left: 0"
+                                        style="padding-left: 0;min-height: 117px;padding-top: 67px;" 
                                     >
                                         <div class="slds-grid slds-float_right">
                                             <button
@@ -3386,7 +3436,7 @@
                                         </span>
                                         <div class="slds-grid">
                                             <div class="slds-col slds-medium-size_12-of-12">
-                                                <div class="televisit-end" style="inline-size: 400px;">
+                                                <div class="televisit-end" style="inline-size: 400px;padding: 0px 24px;">
                                                     {!$Label.PT_Session_Ended}
                                                     
                                                     
