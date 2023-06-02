@@ -2180,3 +2180,8 @@ user agent stylesheet svg:not(:root) {
     height: 40px;
     line-height: 40px;
 }
+
+.support-container lightning-base-combobox-item span.slds-media__body span{
+    font-size: 14px;
+    margin-left: -20px;
+}
