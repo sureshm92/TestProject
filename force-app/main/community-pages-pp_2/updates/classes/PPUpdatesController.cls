@@ -112,6 +112,47 @@ public without sharing class PPUpdatesController {
             System.debug('error while updating send result:' + e.getMessage());
         }
     }
+
+    @AuraEnabled
+    public static void removeScheduledAndRescheduledUpdateNotifications(
+        String contactId,
+        String peId,
+        string participantId
+    ) {
+        List<String> scheduledAndRescheduled = new List<String>{
+            NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED,
+            NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED
+        };
+        List<Id> notificationIds = new List<Id>();
+        List<Send_Result__c> sendResultList = [
+            SELECT
+                Id,
+                Status__c,
+                Notification__r.Recipient__c,
+                Notification__r.Status__c,
+                Notification__r.Notification_Type__c,
+                Notification__r.WhatId__c
+            FROM Send_Result__c
+            WHERE
+                Status__c = :UpdateService.SR_STATUS_IN_PROGRESS
+                AND Notification__r.Status__c = :UpdateService.SR_STATUS_IN_PROGRESS
+                AND Notification__r.Notification_Type__c IN :scheduledAndRescheduled
+                AND Notification__r.Recipient__c = :contactId
+                AND (Notification__r.WhatId__c = :peId
+                OR Notification__r.WhatId__c = :participantId)
+        ];
+        for (Send_Result__c sr : sendResultList) {
+            sr.Status__c = 'Sent';
+            notificationIds.add(sr.Notification__c);
+        }
+        try {
+            update sendResultList;
+            UpdateService.getInstance().updateNotificationsStatus(notificationIds);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
     @AuraEnabled
     public static void removeCancelledUpdateNotifications(
         String contactId,
@@ -133,7 +174,8 @@ public without sharing class PPUpdatesController {
                 AND Notification__r.Status__c = :UpdateService.SR_STATUS_IN_PROGRESS
                 AND Notification__r.Notification_Type__c = :NotificationCatalog.UPDATE_TO_PT_TELEVISIT_CANCELED
                 AND Notification__r.Recipient__c = :contactId
-                AND (Notification__r.WhatId__c = :peId OR Notification__r.WhatId__c = :participantId)
+                AND (Notification__r.WhatId__c = :peId
+                OR Notification__r.WhatId__c = :participantId)
         ];
         for (Send_Result__c sr : sendResultList) {
             sr.Status__c = 'Sent';
@@ -146,6 +188,7 @@ public without sharing class PPUpdatesController {
             throw new AuraHandledException(e.getMessage());
         }
     }
+
     @AuraEnabled
     public static void removeUpdateCardForResource(
         String targetRecId,
