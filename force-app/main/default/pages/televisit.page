@@ -176,6 +176,17 @@
             font-size: 24px !important;
             font-weight: 600;
             line-height: 37px;
+        }        
+        .non-attendee-screen .televisit-end{
+        	padding: 0px 24px;
+        }
+        .non-attendee-screen .rejoin-container{
+        	height: 96vh;
+        }
+        @media screen and (max-width: 401px){
+            .non-attendee-screen .televisit-rejoin{
+            	width: unset !important;
+            }
         }
     </style>
     <apex:stylesheet value="{!$Resource.proximanova}/proximanova.css" />
@@ -1543,7 +1554,11 @@
               function onlineCall(){
                   if(isOffline){
                       isOffline = false;
-                      manageCall();
+                      disconnectFromSession();
+                      toggle('#main', 'slds-hide');
+                      toggle('#call-end-screen-container', 'slds-hide');
+                      //removeParticipant(publisher);
+                      
                   }else{
                       clearTimeout(myTimeout);
                   }
