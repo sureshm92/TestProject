@@ -104,7 +104,7 @@
     border-bottom-left-radius: 50%;
 }
 .left-ms-item-txt-pp:before {
-    box-shadow: 0 12px 0 0 #ecf3ff;
+    box-shadow: 0 14px 0 0 #ecf3ff;
 }
 .left-ms-item-sec-txt-pp {
     position: relative;
@@ -221,7 +221,7 @@
 }
 .mob-left-ms-item-txt-pp:before {
   /**  box-shadow: 0 12px 0 0 #ecf3ff; **/
-  box-shadow: 0 13px 0 0 #ecf3ff;
+  box-shadow: 0 16px 0 0 #ecf3ff;
 }
 
 .mob-attachment-icon {
@@ -250,5 +250,5 @@
 }
 .mob-right-ms-item-txt-pp:before {
   /*  box-shadow: 3px 9px 0px 0px #015ff1; */
-  box-shadow: 0px 18px 0px 0px #015ff1;
+  box-shadow: 0px 16px 0px 0px #015ff1;
 }
