@@ -496,27 +496,7 @@ public without sharing class PPMessagePageRemote {
                     (String.isNotBlank(piContact.Title) ? piContact.Title + ' ' : '') +
                     conFullName;
             }
-        } else if (userMode == CommunityService.USER_MODE_PI) {
-            conWr.unread = conversation.haveUnreadForPI__c;
-            Participant__c participant = conversation.Participant_Enrollment__r.Participant__r;
-            conTitle = participant.Full_Name__c;
-            if(delegateNamesByParticipant.containsKey(conversation.Participant_Enrollment__c)){
-                conWr.patientDelegates = String.join(
-                    delegateNamesByParticipant.get(conversation.Participant_Enrollment__c),
-                    ', '
-                );
-                conTitle += ', ' + conWr.patientDelegates;
-            }
-            else if (delegateNamesByParticipant.containsKey(participant.Id)) {
-                conWr.patientDelegates = String.join(
-                    delegateNamesByParticipant.get(participant.Id),
-                    ', '
-                );
-                conTitle += ', ' + conWr.patientDelegates;
-            }
-            conFullName = participant.Full_Name__c;
-            conDescription = conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
-        }
+        } 
         conWr.title = conTitle;
         conWr.fullName = conFullName;
         conWr.description = conDescription;
@@ -950,43 +930,6 @@ public without sharing class PPMessagePageRemote {
              
         }
         return conWr;
-    }
-
-    //Service Logic:----------------------------------------------------------------------------------------------------
-    @TestVisible
-    private static List<Participant_Enrollment__c> getEnrollmentsForPI(String additionalFiler) {
-        Id currentContactId = CommunityService.getInstance().getCurrentContactId();
-        String filter =
-            'Study_Site__r.Messages_Are_Available__c = TRUE AND (' +
-            DatabaseService.fieldEqual('Study_Site__r.Principal_Investigator__c', currentContactId);
-
-        List<Site_Staff__c> siteStaffs = [
-            SELECT Id, Study_Site__c
-            FROM Site_Staff__c
-            WHERE Site_Contact__c = :currentContactId
-        ];
-        if (!siteStaffs.isEmpty()) {
-            List<String> ssIds = new List<String>();
-            for (Site_Staff__c staff : siteStaffs)
-                ssIds.add(staff.Study_Site__c);
-            filter += 'OR' + DatabaseService.fieldInValues('Study_Site__c', ssIds);
-        }
-
-        filter += ')';
-        if (String.isNotEmpty(additionalFiler))
-            filter += ' AND' + additionalFiler;
-
-        return (List<Participant_Enrollment__c>) DatabaseService.query(
-            new List<String>{
-                'Id',
-                'Clinical_Trial_Profile__r.Study_Code_Name__c',
-                'Participant__r.Full_Name__c',
-                'Participant_Contact__c',
-                'Study_Site__r.Principal_Investigator__c'    
-            },
-            Participant_Enrollment__c.getSObjectType(),
-            filter
-        );
     }
 
     @TestVisible
