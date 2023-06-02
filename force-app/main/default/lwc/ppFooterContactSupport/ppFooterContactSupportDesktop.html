@@ -157,7 +157,20 @@
                                                         </template>
                                                         <template if:true={displaypluscount}>
                                                             <lightning-layout-item size="12" class="plusMore marginBottom-12">
-                                                                + {pluscount} {label.PIR_more}
+                                                                <!-- + {pluscount} {label.PIR_more} -->
+                                                                <div style="position:relative">
+                                                                    <span class="plus-more" aria-describedby="help" aria-disabled="true" onmouseover={showMoreSiteStaff} onmouseout={hideMoreSiteStaff}>+ {pluscount} {label.PIR_more}</span>
+                                                                    <div class="slds-popover slds-popover_tooltip nubbin-center slds-hide siteStaffTooltip" role="tooltip" id="help">
+                                                                      <div class="slds-popover__body">
+                                                                        <template
+                                                                        for:each={siteStaffParticipantListTooltip}
+                                                                        for:item="siteStaff"
+                                                                    >
+                                                                            <p key={siteStaff.Id} class="ss-name">{siteStaff.Site_Contact__r.Name}</p>
+                                                                        </template>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </lightning-layout-item>
                                                         </template>
                                                     </div>

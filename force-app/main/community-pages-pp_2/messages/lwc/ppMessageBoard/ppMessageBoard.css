@@ -38,6 +38,9 @@
 .mob-parent-chat-item-sec {
     padding: 0px 8px 21px 8px;
 }
+.mob-parent-chat-item-header-sec{
+    padding: 0px 8px 0px 8px;
+}
 .mob-parent-chat-item-sec-past {
     padding: 0px 8px 0px 8px;
 }
@@ -63,7 +66,7 @@
     height: 472px !important;
 }
 .old-study {
-    height: 554px !important;
+    height: 560px !important;
 }
 .active-study-mob {
     height: 290px !important;
