@@ -924,7 +924,7 @@
                 toggle('.self-feed-container', 'slds-hide');
                 toggle('.video-container', 'slds-medium-size_3-of-4');
                 toggle('.controls', 'slds-size_4-of-4');
-                
+                toggle('.callbuttons', 'shareWidth');
                 
                 
 
@@ -2455,6 +2455,9 @@
             .share-container {
                 width: 76%;
             }
+            .shareWidth {
+                width: 76%;
+            }
             
             /*
             .OT_subscriber .OT_video-element{
@@ -3173,7 +3176,7 @@
                                 </div>
 
                                 <div
-                                    class="ctrls-feeds-action-bar speaker-view slds-grid slds-clearfix callButtonsContainer"
+                                    class="callbuttons ctrls-feeds-action-bar speaker-view slds-grid slds-clearfix callButtonsContainer"
                                 >
                                     <div
                                         id="last-active-feed"
