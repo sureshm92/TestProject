@@ -503,7 +503,8 @@ public without sharing class UpdateService {
             WHERE
                 Notification__r.Recipient__c = :participantContact
                 AND Notification__r.WhatId__c != NULL
-                AND Notification__r.Status__c = :UpdateService.SR_STATUS_IN_PROGRESS
+                AND Notification__r.Status__c = :SR_STATUS_IN_PROGRESS
+                AND Status__c = :SR_STATUS_IN_PROGRESS
                 AND Notification__r.Target_Record_Ids__c IN :targetIdList
                 AND (Notification__r.WhatId__c = :currentParticipant
                 OR Notification__r.WhatId__c IN :peList)
