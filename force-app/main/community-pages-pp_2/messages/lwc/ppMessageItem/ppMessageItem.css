@@ -233,7 +233,7 @@
     max-width: 630px;
     height: auto;
     background: #015ff1;
-    padding: 12px 20px;
+    padding: 13px 20px 12px 20px;
     color: #ffffff;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
@@ -250,5 +250,5 @@
 }
 .mob-right-ms-item-txt-pp:before {
   /*  box-shadow: 3px 9px 0px 0px #015ff1; */
-  box-shadow: 0px 16px 0px 0px #015ff1;
+  box-shadow: 0px 17px 0px 0px #015ff1;
 }
