@@ -85,7 +85,7 @@
             box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32) !important;
         }
         .back-button {
-            font-size: 18px !important;
+            font-size: 16px !important;
         }
         @media all and (max-width: 430px) {
             .subTextT{
@@ -2540,6 +2540,7 @@
                 height: 42px;
                 width: 100%;
                 box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+            	font-weight: 600 !important;
             }
             .join-button-disabled {
                 opacity: 0.4;
