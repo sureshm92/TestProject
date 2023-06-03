@@ -530,11 +530,12 @@ public without sharing class UpdateService {
         String peId,
         String participantId,
         Id patientVisitId,
-        String sendResultId
+        String sendResultId,
+        String sourceMethod
     ) {
         List<Id> notificationIds = new List<Id>();
         String baseFilter = '';
-        if (sendResultId != null) {
+        if (sourceMethod == 'removeUpdateCard') {
             baseFilter = DatabaseService.fieldEqual('Id', sendResultId);
         } else {
             baseFilter =
@@ -552,7 +553,7 @@ public without sharing class UpdateService {
                 'AND ' +
                 DatabaseService.fieldEqual('Notification__r.Recipient__c', contactId);
 
-            if (participantId != null) {
+            if (sourceMethod == 'removeUpdateCardForTelevisit') {
                 baseFilter =
                     baseFilter +
                     'AND (' +
@@ -561,7 +562,7 @@ public without sharing class UpdateService {
                     DatabaseService.fieldEqual('Notification__r.WhatId__c', participantId) +
                     ')';
             }
-            if (patientVisitId != null) {
+            if (sourceMethod == 'removeUpdateCardForVisitResult') {
                 baseFilter =
                     baseFilter +
                     'AND ' +

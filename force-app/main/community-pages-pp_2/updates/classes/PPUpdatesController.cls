@@ -71,7 +71,8 @@ public without sharing class PPUpdatesController {
                 null,
                 null,
                 null,
-                sendResultId
+                sendResultId,
+                'removeUpdateCard'
             );
     }
 
@@ -91,7 +92,8 @@ public without sharing class PPUpdatesController {
                 peId,
                 null,
                 patientVisitId,
-                null
+                null,
+                'removeUpdateCardForVisitResult'
             );
     }
 
@@ -112,7 +114,8 @@ public without sharing class PPUpdatesController {
                 peId,
                 participantId,
                 null,
-                null
+                null,
+                'removeUpdateCardForTelevisit'
             );
     }
 
@@ -132,7 +135,8 @@ public without sharing class PPUpdatesController {
                 peId,
                 participantId,
                 null,
-                null
+                null,
+                'removeUpdateCardForTelevisit'
             );
     }
 
