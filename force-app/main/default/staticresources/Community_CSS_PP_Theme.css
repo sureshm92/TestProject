@@ -2174,3 +2174,14 @@ user agent stylesheet svg:not(:root) {
 }
 
 /* Contact support Modal css- Ends */
+
+
+.support-container button{
+    height: 40px;
+    line-height: 40px;
+}
+
+.support-container lightning-base-combobox-item span.slds-media__body span{
+    font-size: 14px;
+    margin-left: -20px;
+}
