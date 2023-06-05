@@ -252,7 +252,7 @@
 [contentEditable='false']:empty:before {
     content: attr(placeholder);
     color: #999999;
-    font-size: 14px;
+    font-size: 16px !important;
 }
 .padding-placeholder {
     padding: 4px 0px 0px 22px;

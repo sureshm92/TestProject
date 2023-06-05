@@ -578,17 +578,6 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 }
 
 
-[c-ppaddnewdelegate_ppaddnewdelegate] .slds-form-element__label {
-    padding: 0 0 0 5px;
-    text-align: left;
-    font-size: 14px !important;
-    margin-top: -4px;
-    line-height: 22px !important;
-}
-
-[c-ppaddnewdelegate_ppaddnewdelegate] .slds-checkbox__label {
-    display: flex;
-}
 
 .mr_left_5 > .slds-col {
     padding: .25rem;
@@ -1933,6 +1922,25 @@ outline: none !important;
 .std .text-checked-bold .slds-checkbox .slds-checkbox__label .slds-form-element__label{
     font-weight: 600 !important;
 }
+.manage-delegate-acc-setting-old .slds-form-element__label {
+    /* padding: 0 0 0 5px; */
+    text-align: left;
+    font-size: 14px !important;
+    margin-top: -4px;
+    line-height: 22px !important;
+}
+.manage-delegate-acc-setting-old .slds-checkbox__label {
+    display: flex;
+}
+
+.manage-delegate-acc-setting-old .std .study-more-class-p-left{
+    padding: 5px 0px 0px 16px !important;
+    display: inline-block !important;
+}
+
+.manage-delegate-acc-setting-old .std .selectedValue{
+    margin-top: 4.5px !important;
+}
 .manage-delegate-acc-setting-old .manage-del-multi-picklist .slds-checkbox .slds-checkbox__label .slds-form-element__label {
     font-size:14px !important;
     white-space: normal !important;
@@ -1942,7 +1950,7 @@ outline: none !important;
     line-height: 42px !important;
 }
 .adn-multi-picklist .slds-truncate{
-	line-height: 35px !important;
+	line-height: 30px !important;
     height: 30px !important;
 }
 .ma-what-I-can-see-button .apollo-btn{
@@ -1972,7 +1980,7 @@ outline: none !important;
     display: flex !important;
 }
 .manage-delegate-acc-setting-old .manage-del-continer .slds-form-element__label {
-    padding: 0 0 0 5px !important;
+    /* padding: 0 0 0 5px !important; */
     text-align: left !important;
     margin-top: -4px !important;
     line-height: 22px !important;
@@ -1982,7 +1990,7 @@ outline: none !important;
     display: flex !important;
 }
 .manage-delegate-acc-setting-old .manage-del-continer-mobile .slds-form-element__label {
-    padding: 0 0 0 5px !important;
+    /* padding: 0 0 0 5px !important; */
     text-align: left !important;
     margin-top: -4px !important;
     line-height: 22px !important;
