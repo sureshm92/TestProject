@@ -1075,7 +1075,8 @@ public without sharing class PatientDelegateEnrollmentService {
                     'Status__c',
                     'Participant_Enrollment__c',
                     'Participant_Enrollment__r.Name',
-                    'Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c'
+                    'Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
+                    'Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c'
                 },
                 Patient_Delegate_Enrollment__c.getSObjectType(),
                 baseFilter
