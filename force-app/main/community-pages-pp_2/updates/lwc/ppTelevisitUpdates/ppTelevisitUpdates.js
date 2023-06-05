@@ -33,18 +33,17 @@ export default class PpTelevisitUpdates extends NavigationMixin(LightningElement
     }
     get televisitTitle() {
         console.log('this.televisitData.televisitType : ' + this.televisitData.televisitType);
-        switch(this.televisitData.televisitType) {
+        switch (this.televisitData.televisitType) {
             case 'Scheduled':
                 return this.label.PP_Scheduled_Televisit;
             case 'Rescheduled':
                 return this.label.PP_Rescheduled_Televisit;
             case 'Canceled':
                 return this.label.PP_Canceled_Televisit;
-          }
+        }
     }
     openLink(event) {
         console.log('televisit clicked');
-        this.removeCardHandler();
         if (this.televisitData.televisitType != 'Canceled') {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
@@ -52,7 +51,8 @@ export default class PpTelevisitUpdates extends NavigationMixin(LightningElement
                     pageName: 'televisit'
                 }
             });
-        }else {
+        } else {
+            this.removeCardHandler();
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
