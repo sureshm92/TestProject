@@ -42,14 +42,17 @@ export default class PpFooterContactSupport extends LightningElement {
     address_Icon = contact_support_icons+'/pin_Icon.svg';
     site_Icon = contact_support_icons+'/site_Icon.svg';
     copy_Icon = contact_support_icons+'/copy_Icon.svg';
+    copied = contact_support_icons+'/copied.svg';
+    copy_hover = contact_support_icons+'/copy-hover.svg';
 
     @api tittext;
     @api contact;
     @api usermode;
     @api isDelegate = false;
     @api studysite;
+    @api isRTL;
 
-		desktop = true;
+	desktop = true;
     piName;
     piSalutation;
     studySitePhone;
@@ -57,6 +60,7 @@ export default class PpFooterContactSupport extends LightningElement {
     siteName;
     siteAddress;
     siteStaffParticipantList;
+    siteStaffParticipantListTooltip;
     pluscount;
     displaypluscount;
     leftHeight;
@@ -70,6 +74,19 @@ export default class PpFooterContactSupport extends LightningElement {
     phoneNumberValueEle = "";
     addressNumberValueEle = "";
 
+    addressCopied = false;
+    addressCopyHoverd = false;
+    addressTitle = "Copy";
+    phoneCopied = false;
+    phoneCopyHoverd = false;
+    phoneTitle = "Copy";
+
+    siteStaffTooltip;
+
+    get copyIconStyle(){
+         return this.isRTL ? "copyIconRTL" : "copyIcon";
+    }
+
     renderedCallback(){
         if(this.desktop){
             let phoneContainerHeight = this.template.querySelectorAll('.phoneContainer');
@@ -80,6 +97,7 @@ export default class PpFooterContactSupport extends LightningElement {
         }
         this.phoneNumberValueEle = this.template.querySelectorAll('.phone-value-ele');
         this.addressNumberValueEle = this.template.querySelectorAll('.address-value-ele');
+        this.siteStaffTooltip = this.template.querySelectorAll('.siteStaffTooltip');
     }
 
     connectedCallback() {
@@ -88,18 +106,14 @@ export default class PpFooterContactSupport extends LightningElement {
 
         this.piSalutation = this.studysite.Principal_Investigator__r.Salutation;
         this.piName = this.studysite.Principal_Investigator__r.Name;
-        console.log('piName--->'+this.piName);
-        this.phoneNotAvailable = this.studysite.Study_Site_Phone__c != null ? false : true;
+        this.phoneNotAvailable = this.studysite.Study_Site_Phone__c ? false : true;
         this.studySitePhone = this.studysite.Study_Site_Phone__c;
-        console.log('studySitePhone--->'+this.studySitePhone);
         this.siteName = this.studysite.Site__r.Name;
-        console.log('siteName--->'+this.siteName);
         this.siteAddress = this.studysite.Site__r.BillingStreet + 
                             ', ' + this.studysite.Site__r.BillingCity +
                             ', ' + this.studysite.Site__r.BillingState +
                             ', ' + this.studysite.Site__r.BillingCountryCode +
                             ' ' + this.studysite.Site__r.BillingPostalCode;
-        console.log('siteAddress--->'+this.siteAddress);
 
         getStudyStaff({ 
             studySiteId : this.studysite.Id
@@ -107,14 +121,11 @@ export default class PpFooterContactSupport extends LightningElement {
         .then((result) => {
             if (result) {
                 let res = JSON.parse(result);
-                console.log(res);
-                console.log(JSON.stringify(res));
                 let length = res.length;
-                console.log('length---->'+length);
                 this.pluscount = length > 3 ? length - 3 : 0;
-                console.log('pluscount---->'+this.pluscount);
                 this.displaypluscount = this.pluscount > 0 ? true : false;
                 this.siteStaffParticipantList = res.slice(0, 3);
+                this.siteStaffParticipantListTooltip = res.slice(3, res.length);
                 
             }
         })
@@ -135,34 +146,67 @@ export default class PpFooterContactSupport extends LightningElement {
         this.dispatchEvent(selectedEvent);
     }
 
-//     openPhoneDialer(event){
-//         alert("openphonedialer called;")
-//         let mobileNo = event.currentTarget.getAttribute('data-phone');
-//         alert(mobileNo);
-//         alert(event.currentTarget.dataset.phone);
-//       // let mobNo = tel: + value
-//        document.location.href = "tel:" + mobileNo;
-//    }
-   
-
-    // handleCopy() {
-    //     let copyMe = this.template.querySelector('.phoneNumber');
-
-    //     copyMe.select();
-    //     copyMe.setSelectionRange(start:0, end:999);
-
-    //     document.execCommand(commandId: 'copy');
-    // }
-
-     copyPhoneToClipboard(){
-         this.phoneNumberValueEle[0].select();
+    copyPhoneToClipboard(){
+         this.phoneNumberValueEle[0]?.select();
          document.queryCommandSupported('copy');
          document.execCommand('copy');
+         this.phoneCopied = true;
+         this.phoneCopyHoverd = false;
+         this.phoneTitle = "Copied";
+
+         setTimeout(() => {
+            this.onPhonehoverOut();
+        }, 2000);
      }
 
      copyAddressToClipboard(){
-        this.addressNumberValueEle[0].select();
+        this.addressNumberValueEle[0]?.select();
         document.queryCommandSupported('copy');
         document.execCommand('copy');
+        this.addressCopied = true;
+        this.addressCopyHoverd = false;
+        this.addressTitle = "Copied";
+
+        setTimeout(() => {
+            this.onAddresshoverOut();
+        }, 2000);
     }
+
+    addressHoverHandler(){
+        this.addressCopyHoverd = true;
+    }
+
+    onAddresshoverOut(){
+        this.addressCopyHoverd = false;
+        this.addressCopied = false;
+        this.addressTitle = "Copy"
+    }
+
+    onAddressMouseOut(){
+        this.addressCopyHoverd = false;
+        this.addressTitle = "Copy"
+    }
+
+    phoneHoverHandler(){
+        this.phoneCopyHoverd = true;
+    }
+    onPhonehoverOut(){
+        this.phoneCopyHoverd = false;
+        this.phoneCopied = false;
+        this.phoneTitle = "Copy"
+    }
+
+    onPhoneMouseOut(){
+        this.phoneCopyHoverd = false;
+        this.phoneTitle = "Copy"
+    }
+
+    showMoreSiteStaff(){
+        this.siteStaffTooltip[0].classList.toggle("slds-hide");
+    }
+
+    hideMoreSiteStaff(){
+        this.siteStaffTooltip[0].classList.toggle("slds-hide");
+    }
+    
 }

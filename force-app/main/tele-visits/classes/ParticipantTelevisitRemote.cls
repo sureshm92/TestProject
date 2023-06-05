@@ -17,7 +17,14 @@ public without sharing class ParticipantTelevisitRemote {
             String query = 'Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c,Televisit__r.Visit_End_Date_Time__c,Televisit__r.Participant_Enrollment__r.Study_Site__c from Televisit_Attendee__c';
             if(ctpId != null && ctpId != ''){
                 String peId = pstate.pe.Id;
+                //query += '  where Televisit__r.Participant_Enrollment__c = :peId order by Televisit__r.Visit_Date_Time__c desc';
+                String contact_Id ;
+                if(pstate.isDelegate && ParticipantContext.getCurrentUser() == null){
+                    contact_Id = u.contactId ;
+                    query += '  where Contact__c =:contact_Id AND Televisit__r.Participant_Enrollment__c = :peId order by Televisit__r.Visit_Date_Time__c desc';
+                }else{
                 query += '  where Televisit__r.Participant_Enrollment__c = :peId order by Televisit__r.Visit_Date_Time__c desc';
+                }
             }else{
                 delegatecheck = true;
                 String contactId;
