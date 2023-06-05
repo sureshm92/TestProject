@@ -54,7 +54,7 @@
                                                         <template if:false={phoneNotAvailable}>
                                                             <lightning-layout-item size="12" class="mob-ph-content1" >
                                                                 <div class="param">{studySitePhone}</div>
-                                                                <textarea class="phone-value-ele textarea-style">{studySitePhone}</textarea>
+                                                                <textarea class="phone-value-ele textarea-style" readonly>{studySitePhone}</textarea>
                                                             </lightning-layout-item>
                                                         </template>
                                                     </lightning-layout>
@@ -89,7 +89,7 @@
                                                         </lightning-layout-item>
                                                         <lightning-layout-item size="12" class="addressContent" onclick={copyAddressToClipboard}>
                                                             <div class="param2">{siteAddress}</div>
-                                                            <textarea class="address-value-ele textarea-style">{siteAddress}</textarea>
+                                                            <textarea class="address-value-ele textarea-style" readonly>{siteAddress}</textarea>
                                                         </lightning-layout-item>
                                                     </lightning-layout>
                                                 </lightning-layout-item>
