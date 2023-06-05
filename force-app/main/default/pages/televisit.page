@@ -85,7 +85,7 @@
             box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32) !important;
         }
         .back-button {
-            font-size: 18px !important;
+            font-size: 16px !important;
         }
         @media all and (max-width: 430px) {
             .subTextT{
@@ -923,8 +923,8 @@
                 toggle('.last-active-feed', 'slds-hide');
                 toggle('.self-feed-container', 'slds-hide');
                 toggle('.video-container', 'slds-medium-size_3-of-4');
-                toggle('.controls', 'slds-size_3-of-4');
-                
+                toggle('.controls', 'slds-size_4-of-4');
+                toggle('.callbuttons', 'shareWidth');
                 
                 
 
@@ -1841,7 +1841,10 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
             }
-
+			.callButtonsContainer{
+            	max-width: 960px;
+            	width: 100%;
+            }
             .video-container {
                 background: #f6f7fb;
             }
@@ -1957,8 +1960,11 @@
                     width: 24px;
                 }
             	.share-container {
-                width: 100% !important;
+                	width: 100% !important;
                 }
+            	.callButtonsContainer{
+            		width: 100% !important;
+            	}
             }
 
             @media screen and (max-width: 576px) {
@@ -2280,8 +2286,11 @@
                 color: #f6f7fb;
                 background: black;
                 padding: 0 0.5em 0 0.5em;
-                top: -19px;
-                border-radius: 0.125em;
+                top: -31px;
+                border-radius: 3px;
+                border: 1px solid #ccc;
+                margin-left: 10px;
+            	font-size: 12px;
             }
 
             .OT_video-poster {
@@ -2446,6 +2455,9 @@
             .share-container {
                 width: 76%;
             }
+            .shareWidth {
+                width: 76%;
+            }
             
             /*
             .OT_subscriber .OT_video-element{
@@ -2528,6 +2540,7 @@
                 height: 42px;
                 width: 100%;
                 box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+            	font-weight: 600 !important;
             }
             .join-button-disabled {
                 opacity: 0.4;
@@ -3164,11 +3177,11 @@
                                 </div>
 
                                 <div
-                                    class="ctrls-feeds-action-bar speaker-view slds-grid slds-gutters slds-grid_align-spread slds-clearfix"
+                                    class="callbuttons ctrls-feeds-action-bar speaker-view slds-grid slds-clearfix callButtonsContainer"
                                 >
                                     <div
                                         id="last-active-feed"
-                                        class="last-active-feed slds-col slds-size_1-of-4 slds-show_small"
+                                        class="last-active-feed slds-col slds-size_1-of-4 slds-show_small slds-m-right--large"
                                     ></div>
                                     <div
                                         id="self-feed-container"
