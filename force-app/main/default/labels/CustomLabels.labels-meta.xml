@@ -5525,6 +5525,16 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
             &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient_Created_By_PI_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Patient Created By PI PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
+
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;
+            
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
