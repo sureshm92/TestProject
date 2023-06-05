@@ -93,7 +93,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
         })
             .then((result) => {})
             .catch((error) => {
-                this.ShowToastEvent('', error.message, 'error');
+                this.showToast('', error.message, 'error');
             });
     }
 
@@ -108,7 +108,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
         })
             .then((result) => {})
             .catch((error) => {
-                this.ShowToastEvent('', error.message, 'error');
+                this.showToast('', error.message, 'error');
             });
     }
 
@@ -167,5 +167,15 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
                 name: 'Home'
             }
         });
+    }
+
+    showToast(titleText, messageText, variantType) {
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: titleText,
+                message: '',
+                variant: variantType
+            })
+        );
     }
 }

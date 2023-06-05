@@ -62,6 +62,7 @@ public without sharing class PPUpdatesController {
         ];
         return updateCount;
     }
+    /* Process Resource Updates when clicked */
     @AuraEnabled
     public static void removeUpdateCard(String sendResultId) {
         UpdateService.getInstance()
@@ -139,7 +140,7 @@ public without sharing class PPUpdatesController {
                 'removeUpdateCardForTelevisit'
             );
     }
-
+    /* Process Notifications from Resource Page */
     @AuraEnabled
     public static void removeUpdateCardForResource(
         String targetRecId,
