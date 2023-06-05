@@ -11,6 +11,7 @@ import PP_Withdraw from '@salesforce/label/c.PP_Withdraw';
 import PP_What_can_I_see_Or_Do from '@salesforce/label/c.PP_What_can_I_see_Or_Do';
 import PP_Assigned_As_Primary_Delegate from '@salesforce/label/c.PP_Assigned_As_Primary_Delegate';
 import PP_Assigned_As_Primary_Delegate_help from '@salesforce/label/c.PP_Assigned_As_Primary_Delegate_help';
+import PP_Assigned_As_Primary_Delegate_help_1 from '@salesforce/label/c.PP_Assigned_As_Primary_Delegate_help_1';
 
 //import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 // import { loadScript } from 'lightning/platformResourceLoader';
@@ -89,6 +90,7 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
         PP_What_can_I_see_Or_Do,
         PP_Assigned_As_Primary_Delegate,
         PP_Assigned_As_Primary_Delegate_help,
+        PP_Assigned_As_Primary_Delegate_help_1,
         Withdrew_Assignment,
         Withdrew_Assignment_Consent,
         PP_AS_RECEIVE_EMAIL_STUDY_PROG,
@@ -245,6 +247,11 @@ export default class ManageAssignment extends NavigationMixin(LightningElement) 
         return this.isRTL
             ? 'con-chevronle-down conChevronle-float-left'
             : 'con-chevronle-down conChevronle-float-right';
+    }
+    get getPrimaryDelegateHelpText() {
+        return this.currentCommunity === 'Iqvia Patient Portal II'
+            ? this.label.PP_Assigned_As_Primary_Delegate_help_1
+            : this.label.PP_Assigned_As_Primary_Delegate_help;
     }
     get getEmailHelpText() {
         return this.currentCommunity === 'Iqvia Patient Portal II'

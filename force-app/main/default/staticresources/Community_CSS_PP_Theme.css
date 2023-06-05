@@ -21,6 +21,7 @@ h6 {
 body {
     font-size: 13px;
     overflow: visible !important;
+    font-family: 'Proxima Nova';
 }
 a,
 .slds-button {
@@ -29,6 +30,12 @@ a,
 .slds-button:focus {
     color: #0557d5;
     box-shadow: none;
+}
+.forgot-unable-pwd-txt .slds-button:hover,
+.forgot-unable-pwd-txt .slds-button:focus {
+    color: #0557d5;
+    box-shadow: none;
+    font-weight: 600;
 }
 
 a:hover {
@@ -261,6 +268,10 @@ input::placeholder {
     cursor: pointer !important;
 }
 
+.file-name-input .slds-input {
+    border-radius: 3px !important;
+}
+
 .time-input .slds-input:hover {
     border-color: #d9d9d9 !important;
     border-left: none !important;
@@ -317,9 +328,6 @@ input::placeholder {
 .mobile-menu-background {
     background: linear-gradient(to bottom, #00839a 0%, #005587 100%);
     border-bottom-right-radius: 20px;
-}
-.font-thickness {
-    font-weight: 500;
 }
 
 .profileIcon .rr-icon_default {
@@ -1321,13 +1329,37 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 .selection .slds-dropdown-trigger_click .slds-dropdown,
 .selection .slds-dropdown-trigger_click:hover {
-    border-radius: 16px !important;
+    border-radius: 4px !important;
     background-color: #ffffff !important;
     margin-bottom: 10px !important;
 }
 .selection .slds-listbox__option-icon {
     width: 0px !important;
     display: none !important;
+}
+.selection .slds-listbox__option .slds-media__body {
+    font-size: 1rem;
+}
+.selection .slds-input_faux {
+    height: 35px !important;
+    padding-top: 2px;
+    overflow: hidden;
+}
+.selection .slds-combobox__input .slds-input_faux {
+    padding-right: 10px;
+}
+.selection .slds-input__icon-group_right {
+    right: 10px !important;
+}
+.selection .slds-truncate {
+    max-width: 100%;
+    overflow: visible;
+    white-space: normal;
+}
+.mob-selection .slds-truncate {
+    max-width: 100%;
+    overflow: visible;
+    white-space: normal;
 }
 /* Date Time Dropdown Alignment */
 
@@ -2125,6 +2157,12 @@ user agent stylesheet svg:not(:root) {
 .update-container .rr-spinner {
     background-color: transparent;
 }
+.refresh-section:hover .refresh-text {
+    color: #0557d5;
+}
+.refresh-section:hover .refresh-icon svg.rr-icon_default {
+    fill: #0557d5 !important;
+}
 .result-container .rr-spinner {
     background: #ffffff;
 }
@@ -2136,3 +2174,14 @@ user agent stylesheet svg:not(:root) {
 }
 
 /* Contact support Modal css- Ends */
+
+
+.support-container button{
+    height: 40px;
+    line-height: 40px;
+}
+
+.support-container lightning-base-combobox-item span.slds-media__body span{
+    font-size: 14px;
+    margin-left: -20px;
+}

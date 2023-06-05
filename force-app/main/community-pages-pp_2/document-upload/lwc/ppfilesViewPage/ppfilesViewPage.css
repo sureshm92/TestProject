@@ -274,7 +274,16 @@
 .linkLabelMbl {
     color: #0768fd;
     font-weight: 600;
+    font-size: 16px;
 }
+.linkLabelMyFiles {
+    color: #0768fd;
+    font-weight: 600;
+}
+.linkLabelMyFiles:hover {
+    cursor: pointer;
+}
+
 .imgname {
     padding-left: 0.5rem;
     /* padding-top: 4px; */
@@ -324,9 +333,11 @@
     background-color: #0768fd;
 }
 .progressBarMbl .slds-progress-bar__value {
-    background-color: #0768Fd;
+    background-color: #0768fd;
 }
-
+.deskinput .slds-input{
+    border-radius: none;
+}
 .button-uploadWarning {
     justify-content: center;
     width: 107px;
@@ -359,6 +370,21 @@
     color: white;
     border: none;
 }
+.button-upload-mobile{
+    justify-content: center;
+    width: 100%;
+    height: 2rem;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.3125rem;
+    text-align: center;
+    border-radius: 1.25rem;
+    background-color:#015FF1;
+    box-shadow: 0 4px 8px 0 rgba(7,104,253,0.25);
+    
+}
 
 .button-delete {
     justify-content: center;
@@ -374,8 +400,32 @@
     background-color:#e20000;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(226, 0, 0, 0.16);
 }
+.button-delete-mobile {
+    justify-content: center;
+    width: 100%;
+    height: 2rem;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.3125rem;
+    text-align: center;
+    border-radius: 1.25rem;
+    background-color:#e20000;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(226, 0, 0, 0.16);
+    margin-bottom: 16px;
+}
 
-
+.previewCss{
+    width:100%;
+    z-index: -999;
+    min-height:400px ;
+    /* overflow-y: auto; */
+}
+.previewCssMobile{
+    width:100%;
+    z-index: -999;
+}
 .dividerfiles{ 
         height: 1px;
         
@@ -385,6 +435,24 @@
         display: block;
         margin-right: 1rem;
         margin-left: 1.5rem;
+}
+.dividerfilesMbl {
+    height: 1px;
+    border-bottom: 1px solid #f6f7fb;
+    /* border-bottom: 1px solid red; */
+    width: auto;
+    display: block;
+    margin-right: 1rem;
+    margin-left: 1.5rem;
+    margin-top: .5rem;   
+}
+.backBoarder{
+    width: 93%;
+    border-top: 1px solid #E9E9E9;
+    position: relative;
+    margin-left: 14px;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
 }
 .popovercss{
     position: absolute;
@@ -439,6 +507,8 @@
 .errornameboxred{
     border: 1px solid #E20000;
     border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
 }
  
 .retryIcon{
@@ -462,7 +532,7 @@
 .imagecss {
     margin-bottom: 3px;
     /* padding-left: 0.5rem; */
-    padding-left: 0.5rem;
+    padding-left: 0.25rem;
 }
 .imagecsscrossicon {
     padding-top: 5px;
@@ -578,10 +648,15 @@
 .upld-can-btn {
     float: right;
 }
+.imgcrossmbl{
+    text-align: right;
+    padding-right: 1.5rem;
+}
 .mob-upload-rectangle {
     box-sizing: border-box;
     height: 188px;
     /* width: 382px; */
+    /* width: 100%; */
     width: 93%;
     border: 1px dashed #979797;
     border-radius: 8px;
@@ -594,10 +669,6 @@
 .mbllightninglayout {
     padding-left: 11px;
     padding-right: 11px;
-}
-.imgcrossmbl{
-    text-align: right;
-    padding-right: 1.5rem;
 }
 .upload-rectangle {
     box-sizing: border-box;
@@ -631,6 +702,14 @@
     /* border: none; */
     background: None;
 }
+.disabledrag{
+    opacity: 0.5;
+}
+.backtoFile{
+    margin-left: 14px;
+    margin-bottom: 11px;
+    margin-top: 6px;
+}
 .cancel-btnDesk {
     box-sizing: border-box;
     height: 32px;
@@ -653,15 +732,21 @@
     color: #ffffff;
     cursor: pointer;
     margin-left: 3.5rem;
-    opacity: 0.4;
+   
 }
-.filesspace{
-    background-color: white;
+.overFlowTitle{
+    overflow-wrap:anywhere;
+}
+.opacityon{
+    opacity: 0.4;
 }
 .upload-progress-scroll {
     overflow-y: auto;
     height: 360px;
     margin-right: 8px;
+}
+.filesspace{
+    background-color: white;
 }
 .scrollableclass {
     /* height: 262px; */
@@ -822,11 +907,17 @@
         /* margin-top: 13rem !important; */
         position: unset;
     }
+    .upload-progress-scroll {
+        height: 36rem; 
+    }
 }
 @media all and (min-width: 822px) and (max-width: 1024px) {
     .btn-position {
         /* margin-top: 24rem !important; */
         position: unset;
+    }
+    .upload-progress-scroll {
+        height: 45rem; 
     }
 }
 @media all and (min-width: 768px) and (max-width: 1368px) {
@@ -834,11 +925,43 @@
         width: 98%;
     }
 }
-@media all and (min-width: 768px)   {
+@media all and  (min-width: 740px) and (max-width: 768px)   {
     .upload-progress-scroll {
-        height: 36rem; 
+        height: 33rem; 
     }
 }
+@media all  and (max-width: 359px){
+    .upload-progress-scroll {
+        height: 10rem; 
+    }
+}
+
+@media all and  (min-width: 360px)  and (max-width: 389px) {
+    .upload-progress-scroll {
+        height: 10rem; 
+    }   
+}
+@media all and  (min-width: 390px)  and (max-width: 411px){
+    .upload-progress-scroll {
+        /* height: 21rem;  */
+        height: 17rem; 
+    }
+}
+
+@media all and  (min-width: 412px) and (max-width: 767px) {
+    .upload-progress-scroll {
+        /* height: 22rem;  */
+        height: 20rem; 
+    }
+}
+
+
+@media all and (min-width: 768px) and (max-width: 819px) {
+    .upload-progress-scroll {
+        height: 33rem; 
+    }
+}
+
 
 
 @media all and (min-width: 658px) and (max-width: 1368px) {
@@ -855,7 +978,14 @@
 
 @media screen and (pointer: coarse) and (orientation: landscape) and (min-width: 600px) {
     .upload-progress-scroll {
-        height: 21rem; 
+        height: 21rem;
+    }
+}
+@media screen and (pointer: coarse) and (orientation:landscape){
+    .previewCss{
+        width:100%;
+        z-index: -999;
+        min-height:150px ;
     }
 }
 
@@ -890,12 +1020,12 @@
     }
 }
 
-@media screen and  (min-width: 767px) and (max-width: 819px){
+@media screen and (min-width: 767px) and (max-width: 819px) {
     .my-filesmbl {
         margin-top: -1rem;
     }
 }
-@media screen and  (min-width: 820px) and (max-width: 1180px){
+@media screen and (min-width: 820px) and (max-width: 1180px) {
     .my-filesmbl {
         margin-top: -4rem;
     }

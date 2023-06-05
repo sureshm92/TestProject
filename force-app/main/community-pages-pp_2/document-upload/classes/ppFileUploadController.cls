@@ -1,11 +1,11 @@
-public with sharing class ppFileUploadController {
+public without sharing class ppFileUploadController {
     public ppFileUploadController() {
     }
 
     public class fileId{
         public string filecontentversion;
         public string FileContentDocId;
-        
+
     }
 
     @AuraEnabled
@@ -19,14 +19,30 @@ public with sharing class ppFileUploadController {
         String strfileContentDocumentId,
         Boolean isDeleted,
         Boolean isRetry,
-        String Progress
+        String Progress,
+        Boolean isCancelButtonClicked
     ) {
+
+        ppFileUploadController.fileId objWrapper = new ppFileUploadController.fileId();
+        objWrapper.filecontentversion = fileId;
+        objWrapper.FileContentDocId = strfileContentDocumentId;
+
+        if(isCancelButtonClicked)
+        {
+            objWrapper.filecontentversion = '';
+            objWrapper.FileContentDocId = '';
+            return JSON.serialize(objWrapper);
+        }
+
+
         if(isDeleted)
         {
             if(String.isNotBlank(fileId)){
                 deleteFile(fileId);
             }
-            return null;
+            objWrapper.filecontentversion = '';
+            objWrapper.FileContentDocId = '';
+            return JSON.serialize(objWrapper);
 
         }
         system.debug('>>isRetry>>'+isRetry);
@@ -39,10 +55,6 @@ public with sharing class ppFileUploadController {
         }
 
         
-        system.debug('fileId>>>'+fileId+'>>Progress>>'+Progress);
-        ppFileUploadController.fileId objWrapper = new ppFileUploadController.fileId();
-        objWrapper.filecontentversion = fileId;
-        objWrapper.FileContentDocId = strfileContentDocumentId;
         base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
         // base64Data = EncodingUtil.urlDecode(completeFile, 'UTF-8');
         if (String.isBlank(fileId)) {
@@ -95,11 +107,12 @@ public with sharing class ppFileUploadController {
         contentToInsert.VersionData = EncodingUtil.base64Decode(base64Data);
         contentToInsert.PathOnClient = '/' + fileName;
         contentToInsert.IsMajorVersion = false;
-        // contentToInsert.FileStatus__c = 'Draft';         
+        contentToInsert.FileStatus__c = 'Draft';
+        contentToInsert.progress__c = Progress;
         insert contentToInsert;
         system.debug('>>contentToInsert>>'+contentToInsert);
         contentToInsert = [
-            SELECT id, ContentDocumentId
+            SELECT id, ContentDocumentId, Title
             FROM ContentVersion
             WHERE Id = :contentToInsert.Id
         ];
@@ -109,6 +122,23 @@ public with sharing class ppFileUploadController {
         cl.ShareType = 'I';
         cl.Visibility = 'AllUsers';
         insert cl;
+        string fileNamewoExt = contentToInsert.Title;
+        Integer intIndex = fileNamewoExt.lastindexOf('.');
+        String fileTitle = fileNamewoExt.left(intIndex);
+        
+        String sizeStringFileName = fileTitle;
+        Integer maxSize = 96;
+        if(sizeStringFileName.length() > maxSize ){
+        sizeStringFileName = sizeStringFileName.substring(0, maxSize);
+        sizeStringFileName = sizeStringFileName+'...'; 
+        }
+        
+        insert new ContentDistribution(
+            ContentVersionId = contentToInsert.Id,
+            Name = sizeStringFileName,
+            PreferencesNotifyOnVisit = false,
+            PreferencesAllowPDFDownload = false
+        );
         ppFileUploadController.fileId objWrapper = new ppFileUploadController.fileId();
         objWrapper.filecontentversion = contentToInsert.Id;
         objWrapper.FileContentDocId = contentToInsert.ContentDocumentId;
@@ -128,6 +158,7 @@ public with sharing class ppFileUploadController {
 
         String existingBody = EncodingUtil.base64Encode(versionData.VersionData);
         versionData.VersionData = EncodingUtil.base64Decode(existingBody + base64Data);
+        versionData.progress__c = Progress;
         system.debug('>>progress>>'+versionData);
         update versionData;
     }
@@ -198,7 +229,11 @@ public with sharing class ppFileUploadController {
     public static fileUploadedWrapper fetchUploadedFiles(
         string perId,
         Integer pageNumber,
-        Boolean isDelegate
+        Boolean isDelegate,
+        String sortOn, 
+        String sortType, 
+        Boolean isInitial, 
+        Boolean firstClick
     ) {
         try {
             Set<Id> cntDocumentIds = new Set<Id>();
@@ -270,26 +305,49 @@ public with sharing class ppFileUploadController {
                 'FileType,' +
                 'PathOnClient ' +
                 ' FROM ContentVersion WHERE ' +
-                'ContentDocumentId IN : cntDocumentIds';
+                'ContentDocumentId IN : cntDocumentIds '+
+                'AND FileStatus__c = \'Uploaded\'';
 
-            String qCountString = 'SELECT COUNT() FROM ContentVersion WHERE ContentDocumentId = :cntDocumentIds ';
+            String qCountString = 'SELECT COUNT() FROM ContentVersion WHERE ContentDocumentId = :cntDocumentIds AND FileStatus__c = \'Uploaded\'';
             System.debug('pageNumber' + pageNumber);
             Integer offsetLimit = (pageNumber - 1) * 10;
-            System.debug('offsetLimit' + offsetLimit);
-            String orderByString =
-                ' ORDER BY CreatedDate DESC ' +
-                'LIMIT 10 ' +
-                ' OFFSET :offsetLimit ';
+            String orderByString;
+            if(isInitial){
+                orderByString =
+                    ' ORDER BY CreatedDate DESC ' +
+                    'LIMIT 10 ' +
+                    ' OFFSET :offsetLimit ';
+            }
+            else{
+                sortType= firstClick ? 'ASC' : 'DESC';
+                orderByString = ' ORDER BY ' + sortOn +' '+ sortType + ' LIMIT 10 '+  ' OFFSET :offsetLimit ';
+            }
 
             queryString = queryString + orderByString;
             cvList = Database.query(queryString);
 
             if (!cvList.isEmpty()) {
+                Map<Id,String> conDistLink = new Map<Id,String>();
+                List<Id> cdId = new List<Id>();
+              
                 for (ContentVersion cv : cvList) {
                     cv.ContentUrl =
                         '../sfc/servlet.shepherd/document/download/' + cv.ContentDocumentId;
-                    cv.Title = cv.Title.split('\\.')[0];
+                    //String test=cv.Title.lastIndexOf('.');
+                    integer index = cv.Title.lastIndexOf('.');
+                    List<string> res = new List<String>();
+                    res.add(cv.Title.substring(0, index));
+                    res.add(cv.Title.substring(++index));
+                    cv.Title =res[0];
+                    cdId.add(cv.ContentDocumentId);
                 }
+                List<ContentDistribution> lstContDist = new List<ContentDistribution>();
+                lstContDist = [Select ContentDocumentId,DistributionPublicUrl from ContentDistribution where ContentDocumentId IN:cdId];   
+                for(ContentDistribution cd:lstContDist){
+                      conDistLink.put(cd.ContentDocumentId,cd.DistributionPublicUrl);
+                }
+                wrap.previewLinks = conDistLink;
+               
             }
             qCountString = qCountString;
             Integer totalCount = Database.countQuery(qCountString);
@@ -304,6 +362,103 @@ public with sharing class ppFileUploadController {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
+    //method to fetch message files
+    @AuraEnabled(cacheable=false)
+    public static fileMessageWrapper fetchMessageFiles(
+        string perId,
+        Integer pageNumber,
+        String sortOn, 
+        String sortType, 
+        Boolean isInitial, 
+        Boolean firstClick
+    ) {
+        try {
+            Set<Id> cntDocumentIds = new Set<Id>();
+            List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>();
+            fileMessageWrapper wrap = new fileMessageWrapper();
+            String filterString;
+
+            List<String> uploadedByContact = new List<String>();
+            String fileName;
+            String[] splittedName;
+            
+         List<Conversation__c> conv = new  List<Conversation__c>();
+         List<Conversation__c> sharedConversations = ConversationService.getSharedConversations(
+                UserInfo.getUserId()
+            );
+          if (sharedConversations != null) {
+                    for (Conversation__c con : sharedConversations) {
+                        if (perId.contains(con.Participant_Enrollment__c)){
+                            conv.add(con);
+                        }
+                    }
+           }
+            if(!conv.isEmpty() && conv !=null){
+                String convId = conv[0].Id;  
+            
+                   String queryString =
+                    'SELECT ' +
+                    'id,' +
+                    'ContentDocumentId,' +
+                    'ContentDocument.CreatedDate,' +
+                    'ContentDocument.CreatedById,' +
+                    'ContentDocument.Title,' +
+                    'ContentDocument.FileExtension,' +
+                    'ContentDocument.LatestPublishedVersionId,' +
+                    'LinkedEntityId ' +
+                    ' FROM ContentDocumentLink WHERE ' +
+                    'LinkedEntityId =: convId';
+                    
+                 
+                String qCountString = 'SELECT COUNT() FROM ContentDocumentLink WHERE LinkedEntityId = :convId ';
+                System.debug('pageNumber' + pageNumber);
+                Integer offsetLimit = (pageNumber - 1) * 10;
+                String orderByString;
+                if(isInitial){
+                    orderByString =
+                        ' ORDER BY ContentDocument.CreatedDate DESC ' +
+                        'LIMIT 10 ' +
+                        ' OFFSET :offsetLimit ';
+                }
+                else{
+                    sortType= firstClick ? 'ASC' : 'DESC';
+                    orderByString = ' ORDER BY ' + sortOn +' '+ sortType + ' LIMIT 10 '+  ' OFFSET :offsetLimit ';
+                }
+    
+                queryString = queryString + orderByString;
+                cdlList = Database.query(queryString);
+    
+                
+                qCountString = qCountString;
+                Integer totalCount = Database.countQuery(qCountString);
+                
+                if(!cdlList.isEmpty()){
+                 Map<Id,String> conDistLink = new Map<Id,String>();
+                 List<Id> cdId = new List<Id>();
+                 for(ContentDocumentLink cdl:cdlList){
+                        cdId.add(cdl.ContentDocumentId);
+                 }
+                 List<ContentDistribution> lstContDist = new List<ContentDistribution>();
+                 lstContDist = [Select ContentDocumentId,DistributionPublicUrl from ContentDistribution where ContentDocumentId IN:cdId];   
+                 for(ContentDistribution cd:lstContDist){
+                       conDistLink.put(cd.ContentDocumentId,cd.DistributionPublicUrl);
+                 }
+                  wrap.previewLinks = conDistLink;
+                }
+                wrap.totalCount = totalCount;
+                wrap.cdlList = cdlList; 
+            }else{
+                wrap.totalCount = 0;
+                wrap.cdlList = null; 
+            } 
+           
+
+            return wrap;
+          
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
     public class fileUploadedWrapper {
         @AuraEnabled
         public Integer totalCount;
@@ -311,6 +466,18 @@ public with sharing class ppFileUploadController {
         public List<ContentVersion> cvList;
         @AuraEnabled
         public String fileName;
+        @AuraEnabled
+        public Map<Id,String> previewLinks;
+    }
+     public class fileMessageWrapper {
+        @AuraEnabled
+        public Integer totalCount;
+        @AuraEnabled
+        public List<ContentDocumentLink> cdlList;
+        @AuraEnabled
+        public String fileName;
+        @AuraEnabled
+        public Map<Id,String> previewLinks;
     }
     @AuraEnabled
     public static DraftFileWrapper isUplaodAvailable(string perId) {
@@ -334,10 +501,10 @@ public with sharing class ppFileUploadController {
                 cntDocumentIds.add(cdlink.ContentDocumentId);
             }
             Set<id> draftDocumnetIds=new  Set<id>();
-            // for( ContentVersion lstConversationDraft : [SELECT Id,OwnerId, Title,ContentSize,ContentDocumentId, CreatedDate, FileExtension, ContentModifiedDate FROM ContentVersion
-            //                                     WHERE ContentDocumentId IN : cntDocumentIds AND FileStatus__c = 'Draft']) {
-            //     draftDocumnetIds.add(lstConversationDraft.ContentDocumentId);
-            // }
+            for( ContentVersion lstConversationDraft : [SELECT Id,OwnerId, Title,ContentSize,ContentDocumentId, CreatedDate, FileExtension, ContentModifiedDate FROM ContentVersion
+                                                WHERE ContentDocumentId IN : cntDocumentIds AND FileStatus__c = 'Draft']) {
+                draftDocumnetIds.add(lstConversationDraft.ContentDocumentId);
+            }
 
             isUplaodAvailable = per[0].Clinical_Trial_Profile__r.Document_Upload_Is_Available__c;
             DraftFileWrapper objWrapper = new DraftFileWrapper();
@@ -348,9 +515,9 @@ public with sharing class ppFileUploadController {
 
             
 
-            // if( !draftDocumnetIds.isEmpty()){
-            //     deletDraftFiles(draftDocumnetIds);
-            // }
+            if( !draftDocumnetIds.isEmpty()){
+                deletDraftFiles(draftDocumnetIds);
+            }
 
 
             return objWrapper;
@@ -381,5 +548,84 @@ public with sharing class ppFileUploadController {
         public List<ContentVersion> lstContentVersion;
         @AuraEnabled
         public Boolean isUplaodAvailable;
+    }
+
+
+    @AuraEnabled 
+    public static void uploadFiles(String strFileData, String perId){
+        list<uploadFileWrapper> lstWrapper = (List<uploadFileWrapper>)JSON.deserialize(strFileData, list<uploadFileWrapper>.class);
+        List<ContentVersion> lstCV = new list<ContentVersion> ();
+        List<string> lstCVToDelete = new list<string> ();
+        
+        for(uploadFileWrapper objWrapper : lstWrapper){
+            if(!objWrapper.error && !objWrapper.isDeleted && String.isNotBlank(objWrapper.fileContentVerId)){
+               ContentVersion objCv = new ContentVersion();
+               objCv.FileStatus__c = 'Uploaded';
+               objCv.Id=objWrapper.fileContentVerId;
+               objCv.Title = objWrapper.fileName;
+               lstCV.add(objCv);
+            }
+            if(String.isNotBlank(objWrapper.fileContentVerId) && (objWrapper.error || objWrapper.isDeleted))
+            {
+                lstCVToDelete.add(objWrapper.fileContentVerId);
+            }    
+            
+        }
+        update lstCV;
+        deleteFilewithlist(lstCVToDelete,perId);
+
+    }
+    @AuraEnabled
+    public static void deleteFilewithlist(list<string>  lstCVToDelete,String perId) {
+        list<contentdocument> lstContentDocId = new list<contentdocument> ();
+        set<Id> cntDocumentIds = new set<Id> ();
+        for (ContentDocumentLink cdlink : [  SELECT Id, LinkedEntityId, ContentDocument.CreatedById, ContentDocumentId
+                                                 FROM ContentDocumentLink   WHERE LinkedEntityId = :perId  
+                                                 AND ContentDocument.CreatedById =: userinfo.getUserId()]) {
+                cntDocumentIds.add(cdlink.ContentDocumentId);
+            }
+           
+        for(ContentVersion cv : [SELECT ContentDocumentId FROM ContentVersion WHERE (ContentDocumentId IN : cntDocumentIds or id IN: lstCVToDelete) 
+                                 AND FileStatus__c = 'Draft'])
+        {
+            contentdocument cd = new contentdocument(id = cv.contentDocumentId);
+            lstContentDocId.add(cd);
+        }
+        database.delete(lstContentDocId, false);
+        
+    }
+
+    @AuraEnabled 
+   @Future
+    public static void DeleteAlldraftFiles(String perId)
+    {
+       try{
+            set<Id> cntDocumentIds = new set<Id> ();
+            list<contentdocument> lstContentDocId = new list<contentdocument> ();
+            for (ContentDocumentLink cdlink : [SELECT Id, LinkedEntityId, ContentDocument.CreatedById, ContentDocumentId
+                                            FROM ContentDocumentLink   WHERE LinkedEntityId = :perId  
+                                            AND ContentDocument.CreatedById =: userinfo.getUserId()]) {
+                    cntDocumentIds.add(cdlink.ContentDocumentId);
+            }
+            for(ContentVersion cv : [SELECT ContentDocumentId FROM ContentVersion WHERE ContentDocumentId IN : cntDocumentIds 
+                                    AND FileStatus__c = 'Draft'])
+            {
+                contentdocument cd = new contentdocument(id = cv.contentDocumentId);
+                lstContentDocId.add(cd);
+            }
+            database.delete(lstContentDocId, false);
+        }  
+        catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+
+    }
+
+    public class uploadFileWrapper{
+        public Integer index;
+        public string fileContentVerId;
+        public Boolean isDeleted;
+        public Boolean error;
+        public string fileName;
     }
 }

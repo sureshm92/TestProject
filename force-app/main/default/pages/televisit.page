@@ -87,12 +87,105 @@
         .back-button {
             font-size: 18px !important;
         }
-        @media all and (max-width: 446px) {
+        @media all and (max-width: 430px) {
             .subTextT{
-                margin-bottom: 16px;
+                margin-bottom: 24px;
+                line-height: 21px;
+                padding-bottom: 16px;
             }
             .preview-tv{
-                height: 670px !important;
+                height: 680px !important;
+            }
+        }
+        .slds-scope .slds-modal__container {
+			margin: 0 24px;
+        }
+       	@media (orientation: portrait) {
+            .previewContainerFull{
+                height: calc(100vh - 62px) !important;
+            } 
+        }
+        @media all and (max-width: 900px) {
+            .preview-tv-error .height-full {
+                height: 580px !important;
+            }
+        }
+        @media all and (max-width: 492px) {
+            .previewContainer{
+        		/* padding-top: 24px; */
+            }
+            .preview-tv-error{
+                height: 740px !important;
+            }
+            .preview-tv-error .height-full {
+                height: 650px !important;
+            }
+        }
+        @media all and (max-width: 430px) {
+            .previewContainer{
+        		/* padding-top: 32px; */
+             }
+            .preview-tv-error{
+                height: 760px !important;
+            }
+        }
+        
+        @media all and (max-width: 388px) {
+            .previewContainer{
+               padding-top: 90px;
+          }
+            .preview-tv-error{
+                height: 785px !important;
+            }
+        }
+        @media screen and (max-width: 768px) and (orientation: landscape){
+            .speaker-feed .OT_edge-bar-item.OT_mode-off {
+                min-height: 21px;
+            }
+        }
+        .speaker-feed .OT_edge-bar-item.OT_mode-off{
+            top:unset !important;
+        }
+        .people-container-heading{
+            color: #444444;
+            font-weight: 600;
+            line-height: 32px !important;
+        }
+        .people-container-heading img{
+            margin-right: 16px;
+            margin-left: 8px;
+        }
+        .top-margin-rejoin{
+            align-items: center;
+        }
+        @media screen and (max-width: 1024px){
+            .top-margin-rejoin{
+                align-items: unset;
+                margin-top: 156px;
+            }
+            .top-margin-rejoin.rejoin-container {
+                height: 75vh !important;
+            }
+            .televisit-end {
+                line-height: 24px !important;
+            }
+	     }
+        .firstAttendeeText{
+        	width: 262px;
+            color: #999999;
+            font-size: 24px !important;
+            font-weight: 600;
+            line-height: 37px;
+        }        
+        .non-attendee-screen .televisit-end{
+        	padding: 0px 24px;
+        }
+        .non-attendee-screen .rejoin-container{
+        	height: 96vh;
+        }
+        @media screen and (max-width: 401px){
+            .non-attendee-screen .televisit-rejoin{
+            	width: unset !important;
             }
         }
     </style>
@@ -830,8 +923,8 @@
                 toggle('.last-active-feed', 'slds-hide');
                 toggle('.self-feed-container', 'slds-hide');
                 toggle('.video-container', 'slds-medium-size_3-of-4');
-                toggle('.controls', 'slds-size_3-of-4');
-                
+                toggle('.controls', 'slds-size_4-of-4');
+                toggle('.callbuttons', 'shareWidth');
                 
                 
 
@@ -1067,7 +1160,9 @@
                 let headerHeight = document.getElementsByClassName('page-header')[0].clientHeight;
 
                 let activeSpeakerTileHeight = (window.innerHeight) - inCallHeaderHeight - actionBarHeight - headerHeight - 76;
-
+                if(window.innerHeight<=480 && window.innerWidth<=766){
+                    activeSpeakerTileHeight = 225;
+                }
                 document.getElementsByClassName('speaker-feed')[0].style.height = activeSpeakerTileHeight + 'px';
                 document.getElementsByClassName('screen-sharing-feed')[0].style.height = activeSpeakerTileHeight + 'px';
             }
@@ -1290,11 +1385,16 @@
                 var mm = String(today.getMonth() + 1).padStart(2, '0'); 
                 var yyyy = today.getFullYear();
                 today = yyyy +'-'+ mm +'-'+ dd;
-                    
+                  
+                
+                var statusCanceled = '{!statusCanceled}';
+                   
                 if(visitDate < today){
                    toggle('#tv-end-screen-container', 'slds-hide');
                 }else if(currTime > jsAutoDisconnectMeetingTime){
                    toggle('#tv-end-screen-container', 'slds-hide');
+                }else if(statusCanceled == 'true'){
+                    toggle('#tv-end-screen-container', 'slds-hide');
                 }else{
                     toggle('#call-preview-screen-container', 'slds-hide');
                     OT.getUserMedia().then(() => {
@@ -1311,10 +1411,14 @@
                     }).catch((error) => {
                         if(error.name == 'OT_USER_MEDIA_ACCESS_DENIED'){
                             let previewScreen = document.getElementById("preview-screen");
+                        	let previewCont = document.getElementById("previewContainer");
                             if(previewScreen!= null && previewScreen.classList.contains('preview-tv')){
                                 previewScreen.classList.remove('preview-tv');
                                 previewScreen.classList.add('preview-tv-error');
                             }
+                            if(previewCont){
+                        		previewCont.classList.add('previewContainer');
+                    		}
                             toggle('#permission-error', 'slds-hide');
                         }
                     });
@@ -1430,6 +1534,37 @@
                     return array;
                 }
             }
+        </script>
+        <script>
+           window.onload = function checkInternetDisconnect() {
+              
+              window.addEventListener('online', () => onlineCall());
+              window.addEventListener('offline', () => offlineCall());
+              var isOffline = false;
+              var myTimeout;
+              function offlineCall(){
+                 myTimeout  = setTimeout(checkTimer, 10000);
+              }
+              
+              function checkTimer() {
+                  isOffline = true;
+              }
+              
+              
+              function onlineCall(){
+                  if(isOffline){
+                      isOffline = false;
+                      disconnectFromSession();
+                      toggle('#main', 'slds-hide');
+                      toggle('#call-end-screen-container', 'slds-hide');
+                      //removeParticipant(publisher);
+                      
+                  }else{
+                      clearTimeout(myTimeout);
+                  }
+              }
+            }
+            
         </script>
 
         <apex:outputPanel layout="none" rendered="{!isSessionJoinable == true}">
@@ -1591,7 +1726,7 @@
                 color: #e20000;
                 font-size: 14px;
                 letter-spacing: 0;
-                line-height: 24px;
+                line-height: 21px;
                 /*text-align: center;*/
             }
 
@@ -1706,7 +1841,10 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
             }
-
+			.callButtonsContainer{
+            	max-width: 960px;
+            	width: 100%;
+            }
             .video-container {
                 background: #f6f7fb;
             }
@@ -1801,7 +1939,7 @@
                 }
             }
 
-            @media screen and (min-width: 576px) {
+            @media screen and (min-width: 767px) {
                 .people-icon-wrapper {
                     display: none;
                 }
@@ -1809,13 +1947,27 @@
                     display: none;
                 }
             }
-
-            @media screen and (max-width: 576px) {
-                .people-icon-wrapper {
+			@media (max-width: 767px){
+            	.people-icon-wrapper {
                     display: inline-block;
                     padding: 10px;
                     margin-right: -10px;
+                    padding-left: 17px;
+                    padding-top: 8px;
+                }                
+                .people-button {
+                    height: 24px;
+                    width: 24px;
                 }
+            	.share-container {
+                	width: 100% !important;
+                }
+            	.callButtonsContainer{
+            		width: 100% !important;
+            	}
+            }
+
+            @media screen and (max-width: 576px) {
                 .televisitBanner {
                     margin-top: 55px;
                     padding: 0px;
@@ -2098,8 +2250,12 @@
 
             .participant-item {
                 border-bottom: 1px solid #f6f7fb;
-                padding: 1em;
-                font-size:16px;
+                color: #444444;
+                font-size: 16px;
+                font-weight: 500;
+                letter-spacing: 0;
+                line-height: 27px;
+                padding: 11px 0px 11px 18px;
             }
 
             .participant-list {
@@ -2130,8 +2286,11 @@
                 color: #f6f7fb;
                 background: black;
                 padding: 0 0.5em 0 0.5em;
-                top: -19px;
-                border-radius: 0.125em;
+                top: -31px;
+                border-radius: 3px;
+                border: 1px solid #ccc;
+                margin-left: 10px;
+            	font-size: 12px;
             }
 
             .OT_video-poster {
@@ -2167,6 +2326,12 @@
             
             }
             
+            .last-active-feed .OT_name.OT_mode-off {
+                top: 75% !important;
+                bottom: 0;
+                margin-left: 10px;
+                margin-bottom: 10px;
+            }
             .camera-screen .OT_name.OT_mode-off {
                 visibility:hidden;
             }
@@ -2186,21 +2351,25 @@
 
             @media screen and (max-width: 768px) {
                 .mob-timer {
-                    /*position: absolute;
-                    bottom: 6rem;
-                    left: 18.7rem;
-                    z-index: 999;*/
-                    height:26px;
-                    margin-top:6px;
+                    height: 20px;
+                    width: 48px;
+                    margin-top: 9px;
+                    padding: 1px;
                 }
                 .setting-icon-show {
                     display: block;
                 }
                 .settings-icon-wrapper {
-                    display: inline-block;
-                    padding: 0 0.5em;
-                    position: relative;
-                    top: 6px;
+                    margin-top: 11px;
+                    padding: unset;
+                    height: 24px;
+                    width: 24px;
+                    margin-left: 17px;
+                }
+                .settings-button {
+                    width: 24px;
+                    height: 24px;
+                    padding: 2px !important;
                 }
                 .slds-button-circle {
                     width: 50px;
@@ -2239,8 +2408,14 @@
                     right: -22px !important; 
                 }
                 .icon-settings{
-                    padding-left:6px;
-                    margin-top:0px !important;
+                    margin-top: 0px !important;
+                    height: 20px;
+                    width: 20px;
+                    padding: 0px;
+                }
+                .icon-settings svg{ 
+                    width: 20px;
+                    height: 20px;
                 }
                 .video-container{
                     padding:8px 0px !important;
@@ -2271,13 +2446,16 @@
                 left: 0;
                 right: auto;
                 height: auto;
-                max-width: 90%;
+                max-width: 80%;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
             
             .share-container {
+                width: 76%;
+            }
+            .shareWidth {
                 width: 76%;
             }
             
@@ -2385,6 +2563,11 @@
                 border-color: #00c221 !important;
             }
             
+            @media all and (orientation: landscape) and (max-width: 1024px) {
+                .button--sharing{
+                    display:none;
+                }
+            }
             
         </style>
         
@@ -2422,7 +2605,8 @@
                 <div id="welcome-container">
                     <apex:outputPanel rendered="{!isSessionJoinable == true}">
                         <div
-                            class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container"
+                            class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container previewContainerFull"
+                        	id="previewContainer" 
                         >
                             <div class="slds-col">
                                 <div class="slds-grid">
@@ -2970,8 +3154,7 @@
                                         </span>
                                         <br/>
                                         <span
-                                            class="slds-align_absolute-center slds-text-heading--small"
-                                            style="font-size: 20px; color: #999999;font-weight:600;"
+                                            class="slds-align_absolute-center firstAttendeeText"
                                         >
                                             {!$Label.First_Attendee}
                                         </span>
@@ -2993,11 +3176,11 @@
                                 </div>
 
                                 <div
-                                    class="ctrls-feeds-action-bar speaker-view slds-grid slds-gutters slds-grid_align-spread slds-clearfix"
+                                    class="callbuttons ctrls-feeds-action-bar speaker-view slds-grid slds-clearfix callButtonsContainer"
                                 >
                                     <div
                                         id="last-active-feed"
-                                        class="last-active-feed slds-col slds-size_1-of-4 slds-show_small"
+                                        class="last-active-feed slds-col slds-size_1-of-4 slds-show_small slds-m-right--large"
                                     ></div>
                                     <div
                                         id="self-feed-container"
@@ -3007,7 +3190,7 @@
                                     <div
                                         id="controls"
                                         class="controls slds-col slds-align-bottom"
-                                        style="padding-left: 0"
+                                        style="padding-left: 0;min-height: 117px;padding-top: 67px;" 
                                     >
                                         <div class="slds-grid slds-float_right">
                                             <button
@@ -3204,7 +3387,7 @@
             <div class="call-end-screen slds-hide" id="call-end-screen-container">
                 <div id="rejoin-call-container">
                     <div
-                        class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container"
+                        class="slds-grid slds-grid_align-center rejoin-container top-margin-rejoin"
                     >
                         <div class="slds-col">
                             <div class="slds-grid">
@@ -3265,7 +3448,7 @@
                                         </span>
                                         <div class="slds-grid">
                                             <div class="slds-col slds-medium-size_12-of-12">
-                                                <div class="televisit-end">
+                                                <div class="televisit-end" style="inline-size: 400px;padding: 0px 24px;">
                                                     {!$Label.PT_Session_Ended}
                                                     
                                                     
@@ -3347,8 +3530,8 @@
         <div class="participant-wrapper">
             <div id="in-call-device-people-container" class="people-container">
                 <div class="participant-header">
-                    <span class="slds-text-heading--medium slds-text">
-                        {!$Label.Participants}
+                    <span class="slds-text-heading--medium slds-text people-container-heading">
+                        <apex:image height="21px" width="21px" url="{! URLFOR($Resource.TelevisitParticipantIcon)}"/>{!$Label.Participants}
                     </span>
                     <button
                         class="slds-button slds-button_icon slds-button_icon-small closebtn"

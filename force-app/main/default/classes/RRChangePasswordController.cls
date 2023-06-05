@@ -46,6 +46,7 @@ public without sharing class RRChangePasswordController {
     public Boolean isAttested { get; set; }
     public Participant__c participant { get; set; }
     public Participant_Enrollment__c per { get; set; }
+    public Boolean isIQVIAOutreachToggleOnForParticipant { get; set; }
     public Boolean isIQVIAOutreachToggleOnForDelegate { get; set; }
     public Patient_Delegate_Enrollment__c pde { get; set; }
     public String tcLink { get; set; }
@@ -152,6 +153,7 @@ public without sharing class RRChangePasswordController {
     }
 
     private void init() {
+        isIQVIAOutreachToggleOnForParticipant = false;
         isIQVIAOutreachToggleOnForDelegate = false;
         showPassword = true;
         showNewPassword = true;
@@ -328,62 +330,68 @@ public without sharing class RRChangePasswordController {
 
             /* Communitcation preference*/
             if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal && contact.Is_First_Logon__c) {
-                //participant Consent Logic
-                if (!isDelegate) {
-                    List<Participant_Enrollment__c> loginUserPEs = [
-                        SELECT
-                            Id,
-                            Clinical_Trial_Profile__r.IQVIA_Outreach__c,
-                            Permit_Mail_Email_contact_for_this_study__c,
-                            Permit_SMS_Text_for_this_study__c,
-                            Permit_Voice_Text_contact_for_this_study__c,
-                            Study_Direct_Mail_Consent__c,
-                            Clinical_Trial_Profile__r.CommunityTemplate__c,
-                            Clinical_Trial_Profile__c,
-                            Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
-                            Clinical_Trial_Profile__r.Privacy_Policy_ID__c
-                        FROM Participant_Enrollment__c
-                        WHERE
-                            Participant_Contact__c = :contact.Id
-                            AND Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
-                    ];
-                    if (loginUserPEs.size() > 0) {
+                List<Participant_Enrollment__c> loginUserPEs = [
+                    SELECT
+                        Id,
+                        CreatedDate,
+                        Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        Permit_Mail_Email_contact_for_this_study__c,
+                        Permit_SMS_Text_for_this_study__c,
+                        Permit_Voice_Text_contact_for_this_study__c,
+                        Study_Direct_Mail_Consent__c,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Clinical_Trial_Profile__c,
+                        Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                        Clinical_Trial_Profile__r.Privacy_Policy_ID__c
+                    FROM Participant_Enrollment__c
+                    WHERE
+                        Participant_Contact__c = :contact.Id
+                        AND Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
+                ];
+                List<Patient_Delegate_Enrollment__c> delegateContactUserPDEs = [
+                    SELECT
+                        Id,
+                        CreatedDate,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        Study_Phone_Consent__c,
+                        Study_SMS_Consent__c,
+                        Study_Email_Consent__c,
+                        Study_Direct_Mail_Consent__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Privacy_Policy_ID__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE
+                        Patient_Delegate__r.Contact__c = :contact.Id
+                        AND Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
+                ];
+                if (loginUserPEs.size() != 0 && delegateContactUserPDEs.size() != 0) {
+                    //Multi ROle
+                    if (loginUserPEs[0].CreatedDate < delegateContactUserPDEs[0].CreatedDate) {
                         per = loginUserPEs[0];
-                    }
-                } else {
-                    //Delegate Logic shoule be here
-                    List<Patient_Delegate_Enrollment__c> delegateContactUserPDEs = [
-                        SELECT
-                            Id,
-                            Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
-                            Study_Phone_Consent__c,
-                            Study_SMS_Consent__c,
-                            Study_Email_Consent__c,
-                            Study_Direct_Mail_Consent__c,
-                            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-                            Participant_Enrollment__r.Clinical_Trial_Profile__c,
-                            Participant_Enrollment__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
-                            Participant_Enrollment__r.Clinical_Trial_Profile__r.Privacy_Policy_ID__c
-                        FROM Patient_Delegate_Enrollment__c
-                        WHERE
-                            Patient_Delegate__r.Contact__c = :contact.Id
-                            AND Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
-                    ];
-                    for (Patient_Delegate_Enrollment__c pdeOutreach : delegateContactUserPDEs) {
-                        if (
-                            pdeOutreach.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c
-                        ) {
-                            isIQVIAOutreachToggleOnForDelegate = true;
-                        }
-                    }
-                    if (delegateContactUserPDEs.size() > 0) {
+                        isDelegate = false;
+                        setPartIQVIAOurtreachToggle(loginUserPEs);
+                    } else {
                         pde = delegateContactUserPDEs[0];
+                        isDelegate = true;
+                        setDelIQVIAOurtreachToggle(delegateContactUserPDEs);
                     }
+                } else if (loginUserPEs.size() != 0 && delegateContactUserPDEs.size() == 0) {
+                    //pure participant
+                    per = loginUserPEs[0];
+                    isDelegate = false;
+                    setPartIQVIAOurtreachToggle(loginUserPEs);
+                } else if (delegateContactUserPDEs.size() != 0 && loginUserPEs.size() == 0) {
+                    //pure Delegate
+                    pde = delegateContactUserPDEs[0];
+                    isDelegate = true;
+                    setDelIQVIAOurtreachToggle(delegateContactUserPDEs);
                 }
             }
             /** Communication preference */
         }
-        if (contact.UserCommunityIsDelegate__c && isParticipant) {
+        if (isDelegate && isParticipant) {
             Integer currentYear = Date.Today().Year();
             for (Integer i = currentYear; i > currentYear - 150; i--) {
                 years.add(new SelectOption(String.valueof(i), String.valueof(i)));
@@ -1303,6 +1311,20 @@ public without sharing class RRChangePasswordController {
         } else {
             if (String.isNotBlank(participant.Birth_Year__c) && isAttested && !passwordValidation) {
                 isSaveButtonDisabled = false;
+            }
+        }
+    }
+    public void setPartIQVIAOurtreachToggle(List<Participant_Enrollment__c> perRecords) {
+        for (Participant_Enrollment__c perOutreach : perRecords) {
+            if (perOutreach.Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
+                isIQVIAOutreachToggleOnForParticipant = true;
+            }
+        }
+    }
+    public void setDelIQVIAOurtreachToggle(List<Patient_Delegate_Enrollment__c> pdeRecords) {
+        for (Patient_Delegate_Enrollment__c pdeOutreach : pdeRecords) {
+            if (pdeOutreach.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
+                isIQVIAOutreachToggleOnForDelegate = true;
             }
         }
     }

@@ -6370,6 +6370,24 @@ Due Date and Time: ##expirationDate</value>
 &lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##expirationOnlyDate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Complete_Baseline_Survey_New_PP_Participant_Exp_date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Complete Baseline Survey New PP Participant Exp date</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##SurveyName&lt;/span&gt;
+
+&lt;div&gt;&lt;span&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot;&gt; ##participantExpdate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+	<labels>
+        <fullName>Email_Body_Survey_New_Reminder_PP_ParticipantExp_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Survey New Reminder PP ParticipantExp Date</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;This is an email to remind you of your upcoming  task ##SurveyName.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##participantExpdate. &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Survey_Reminder</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6447,33 +6465,33 @@ Due Date and Time: ##expirationDate</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Televisit Cancelled PP</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName scheduled for ##VisitDttime has been canceled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your ##VisitName televisit with ##PIFullName, scheduled for ##VisitDttime has been canceled.&lt;/span&gt;
 
-&lt;span style=&quot;color:black;&quot;&gt;Please contact the Study/Program Team for further updates or please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:#444444;&quot;&gt;Please contact the Study/Program Team for further updates or please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Televisit_Rescheduled_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Televisit Rescheduled PP</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;Your ##VisitName televisit with ##PIFullName has been rescheduled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your ##VisitName televisit with ##PIFullName has been rescheduled.&lt;/span&gt;
 
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Televisit revised date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
 
-&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:#444444;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Televisit_Scheduled_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Televisit Scheduled PP</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFullName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have been invited for a ##VisitName televisit with ##PIFullName.&lt;/span&gt;
 
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitDttime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
 
-&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:#444444;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Televisit_Cancelled</fullName>
@@ -6520,6 +6538,37 @@ Sincerely,
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Day_Reminder_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Day Reminder PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;This is a reminder of your upcoming televisit.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Reminder</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;This is a reminder of your upcoming televisit.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>PP_Reminder_Subject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Reminder Subject</shortDescription>
+        <value>You have an upcoming televisit</value>
     </labels>
     <labels>
         <fullName>Email_Body_Televisit_Day_Signature</fullName>
@@ -12306,7 +12355,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>New_Visit_Results_Now_Available</shortDescription>
-        <value>New visit results now available.</value>
+        <value>New visit results now available</value>
     </labels>
     <labels>
         <fullName>New_York_carcinoma</fullName>
@@ -19466,7 +19515,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_acceptedformats</shortDescription>
-        <value>We accept the following file formats:</value>
+        <value>You may upload up to 10 files in the following file formats:</value>
     </labels>
     <labels>
         <fullName>PP_Account_Settings</fullName>
@@ -19546,6 +19595,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>To withdraw as a primary delegate, you must contact the participant or study team.</value>
     </labels>
     <labels>
+        <fullName>PP_Assigned_As_Primary_Delegate_help_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assigned_As_Primary_Delegate_help_1</shortDescription>
+        <value>To withdraw as a primary delegate, you must contact the participant or study/program team.</value>
+    </labels>
+    <labels>
         <fullName>PP_Assignments</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19597,6 +19653,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Back to Log in</value>
     </labels>
     <labels>
+        <fullName>PP_Backt_o_My_Files</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Backt_o_My_Files</shortDescription>
+        <value>Back to My Files</value>
+    </labels>
+    <labels>
+        <fullName>PP_BacktoUpload</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ BacktoUpload</shortDescription>
+        <value>Back to Upload</value>
+    </labels>
+     <labels>
+        <fullName>PP_Browsefiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Browsefiles</shortDescription>
+        <value>Browse files</value>
+    </labels>
+    <labels>
         <fullName>PP_Can_t_rembeber_my_username</fullName>
         <categories>Opt Out And Technical Support</categories>
         <language>en_US</language>
@@ -19610,6 +19687,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_CancelUpload</shortDescription>
         <value>By continuing, your files will no longer be available for upload. Are you sure you would like to continue?</value>
+    </labels>
+    <labels>
+        <fullName>PP_CancelUploadHeader</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_CancelUploadHeader</shortDescription>
+        <value>Cancel Upload</value>
     </labels>
     <labels>
         <fullName>PP_CannotReuseOldPwd</fullName>
@@ -20218,6 +20302,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>What can your delegate see or do?</value>
     </labels>
     <labels>
+        <fullName>PP_DeleteConfirmation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_DeleteConfirmation</shortDescription>
+        <value>By deleting this file, the study/program team will no longer have access. Are you sure you would like to delete this file?</value>
+    </labels>
+    <labels>
+        <fullName>PP_DeleteFile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_DeleteFile</shortDescription>
+        <value>Delete File</value>
+    </labels>
+    <labels>
+        <fullName>PP_DeletedSucesfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_DeletedSucesfully</shortDescription>
+        <value>File deleted succesfully</value>
+    </labels>
+    <labels>
         <fullName>PP_Details</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20254,6 +20359,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Don&apos;t want to receive email</shortDescription>
         <value>I do not want to receive emails (not applicable to system emails or messages sent in response to specific user request, e.g. password reset email) from IQVIA Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>PP_DragFiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_DragFiles</shortDescription>
+        <value>Drag and drop your files</value>
     </labels>
     <labels>
         <fullName>PP_DueDateandTime</fullName>
@@ -20467,12 +20579,33 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_FileFormatNotAccept</shortDescription>
         <value>File format is not accepted</value>
     </labels>
+     <labels>
+        <fullName>PP_FileNameRequired</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_FileNameRequired</shortDescription>
+        <value>File Name Required</value>
+    </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_File_Size_Exceeded</shortDescription>
         <value>File size cannot exceed 3MB.</value>
+    </labels>
+     <labels>
+        <fullName>PP_Fileremovedsuccesfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Fileremovedsuccesfully</shortDescription>
+        <value>File removed succesfully</value>
+    </labels>
+    <labels>
+        <fullName>PP_Filerenamedsuccesfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Filerenamedsuccesfully</shortDescription>
+        <value>File renamed succesfully</value>
     </labels>
     <labels>
         <fullName>PP_FirstName</fullName>
@@ -20721,6 +20854,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Last Name</value>
     </labels>
     <labels>
+        <fullName>PP_Limit10Files</fullName> 
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Limit10Files</shortDescription>
+        <value>Please select only 10 files or less, and try to upload again</value>
+    </labels>
+    <labels>
+        <fullName>PP_LimitCharacters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_LimitCharacters</shortDescription>
+        <value>Limit input to 250 characters</value>
+    </labels>
+    <labels>
         <fullName>PP_Locale_DateFmt</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20805,6 +20952,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>File size exceeds 4MB</value>
     </labels>
     <labels>
+        <fullName>PP_MaxiumumFileUpload</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_MaxiumumFileUpload</shortDescription>
+        <value>Maximum upload file size is  &lt;b&gt;4 MB&lt;/b&gt;</value>
+    </labels>
+    <labels>
         <fullName>PP_MeetingCriteria</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20881,6 +21035,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_MustInclude Atleast</shortDescription>
         <value>Your password must include at least:</value>
     </labels>
+     <labels>
+        <fullName>PP_MyFiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_MyFiles</shortDescription>
+        <value>My Files</value>
+    </labels>
     <labels>
         <fullName>PP_NO_Active_Delegate</fullName>
         <categories>PPCreateTask</categories>
@@ -20896,6 +21057,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP_NO_REMINDER</shortDescription>
         <value>No reminder</value>
+    </labels>
+     <labels>
+        <fullName>PP_NeedHelp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_NeedHelp</shortDescription>
+        <value>We Need Your Help</value>
     </labels>
     <labels>
         <fullName>PP_Need_Tech_Support</fullName>
@@ -21539,6 +21707,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_RemoveFile</shortDescription>
         <value>Are you sure you would like to remove "#fileName" file?</value>
     </labels>
+     <labels>
+        <fullName>PP_RemoveFileHeader</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_RemoveFileHeader</shortDescription>
+        <value>Remove File</value>
+    </labels>
     <labels>
         <fullName>PP_Remove_Photo</fullName>
         <language>en_US</language>
@@ -21637,6 +21812,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP Resources Contribute</shortDescription>
         <value>Contribute</value>
+    </labels>
+     <labels>
+        <fullName>PP_Retry</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Retry</shortDescription>
+        <value>Retry</value>
+    </labels>
+    <labels>
+        <fullName>PP_ReviewAcceptFile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ReviewAcceptFile</shortDescription>
+        <value>Please review the file error(s) or select Upload to discard the file(s) with errors and proceed with the other files.</value>
+    </labels>
+    <labels>
+        <fullName>PP_ReviewFiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ReviewFiles</shortDescription>
+        <value>Review Files</value>
     </labels>
     <labels>
         <fullName>PP_Review_and_Confirm</fullName>
@@ -21757,6 +21953,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Share Article</shortDescription>
         <value>Have an article or a video that you found supportive during your clinical trial experience? Share it with us!</value>
+    </labels>
+    <labels>
+        <fullName>PP_Sort</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort</shortDescription>
+        <value>Sort</value>
     </labels>
     <labels>
         <fullName>PP_Site_And_Location_Caps</fullName>
@@ -21897,6 +22100,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Submit Video</shortDescription>
         <value>Please submit your article or video as a website link.</value>
+    </labels>
+    <labels>
+        <fullName>PP_SwitchStudyProgram</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_SwitchStudyProgram</shortDescription>
+        <value>Switch Study/Program</value>
     </labels>
     <labels>
         <fullName>PP_TASK_COMM_PREF</fullName>
@@ -22141,6 +22351,41 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_UpdateProfileResponse</shortDescription>
         <value>&gt; Profile Information &gt;  Save</value>
     </labels>
+     <labels>
+        <fullName>PP_UploadDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ UploadDate</shortDescription>
+        <value>Upload Date</value>
+    </labels>
+    <labels>
+        <fullName>PP_UploadFailed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ UploadFailed</shortDescription>
+        <value>Upload Failed</value>
+    </labels>
+    <labels>
+        <fullName>PP_UploadNewDocument</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_UploadNewDocument</shortDescription>
+        <value>Upload New Document(s)</value>
+    </labels>
+    <labels>
+        <fullName>PP_UploadNewFile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_UploadNewFile</shortDescription>
+        <value>Upload New File</value>
+    </labels>
+    <labels>
+        <fullName>PP_UploadSuccess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_UploadSuccess</shortDescription>
+        <value>File(s) uploaded succesfully</value>
+    </labels>
     <labels>
         <fullName>PP_Update_Refresh</fullName>
         <language>en_US</language>
@@ -22161,6 +22406,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Upload_Photo</shortDescription>
         <value>Upload Photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_UploadedFilesShar</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_UploadedFilesShar</shortDescription>
+        <value>Uploaded files may be shared with study/program team</value>
     </labels>
     <labels>
         <fullName>PP_UsefulInfo</fullName>
@@ -22296,6 +22548,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Visit_Time</shortDescription>
         <value>Visit Time</value>
     </labels>
+     <labels>
+        <fullName>PP_WaitTime</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_WaitTime</shortDescription>
+        <value>Your wait time may vary based on the number of files uploaded</value>
+    </labels>
     <labels>
         <fullName>PP_Warning</fullName>
         <language>en_US</language>
@@ -22403,6 +22662,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP_future_date_error_month</shortDescription>
         <value>Value must be current month or earlier</value>
+    </labels>
+     <labels>
+        <fullName>PP_or_smallcase</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_or_smallcase</shortDescription>
+        <value>or</value>
     </labels>
     <labels>
         <fullName>PP_required</fullName>
@@ -31281,14 +31547,14 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Rescheduled Televisit</shortDescription>
-        <value>A televisit has been rescheduled.</value>
+        <value>A televisit has been rescheduled</value>
     </labels>
     <labels>
         <fullName>PP_Scheduled_Televisit</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Scheduled Televisit</shortDescription>
-        <value>New televisit(s) has been scheduled!</value>
+        <value>New televisit(s) has been scheduled</value>
     </labels>
     <labels>
         <fullName>PP_View_Televisits</fullName>
@@ -31296,6 +31562,13 @@ The IQVIA Referral Hub Support Team</value>
         <protected>true</protected>
         <shortDescription>PP View Televisits</shortDescription>
         <value>View Televisits</value>
+    </labels>
+    <labels>
+        <fullName>PP_Canceled_Televisit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Canceled Televisit</shortDescription>
+        <value>A televisit has been canceled</value>
     </labels>
     <labels>
         <fullName>PP_Connecting_professionals</fullName>

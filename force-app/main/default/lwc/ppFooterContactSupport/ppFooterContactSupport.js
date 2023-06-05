@@ -13,6 +13,8 @@ import Site_Staff_Post_Fix from '@salesforce/label/c.PP_Site_Staff_Post_Fix';
 import Need_Tech_Support from '@salesforce/label/c.PP_Need_Tech_Support';
 import If_You_Exp_Issue from '@salesforce/label/c.PP_If_You_Exp_Issue';
 import supportEmail from '@salesforce/label/c.PG_Unable_To_Login_L6';
+import PIR_more from '@salesforce/label/c.PIR_more';
+import Not_Available from '@salesforce/label/c.PP_Visit_Result_Value_Not_Available';
 
 import DesktopTemplate from './ppFooterContactSupportDesktop.html';
 import MobileTemplate from './ppFooterContactSupportMobile.html';
@@ -29,7 +31,9 @@ export default class PpFooterContactSupport extends LightningElement {
         Site_Staff_Post_Fix,
         Need_Tech_Support,
         If_You_Exp_Issue,
-        supportEmail
+        supportEmail,
+        PIR_more,
+        Not_Available
     };
 
 
@@ -47,10 +51,14 @@ export default class PpFooterContactSupport extends LightningElement {
 
 		desktop = true;
     piName;
+    piSalutation;
     studySitePhone;
+    phoneNotAvailable;
     siteName;
     siteAddress;
     siteStaffParticipantList;
+    pluscount;
+    displaypluscount;
     leftHeight;
 
     customHeightMatch = 0;
@@ -78,8 +86,10 @@ export default class PpFooterContactSupport extends LightningElement {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
         this.showmodal = true;
 
+        this.piSalutation = this.studysite.Principal_Investigator__r.Salutation;
         this.piName = this.studysite.Principal_Investigator__r.Name;
         console.log('piName--->'+this.piName);
+        this.phoneNotAvailable = this.studysite.Study_Site_Phone__c != null ? false : true;
         this.studySitePhone = this.studysite.Study_Site_Phone__c;
         console.log('studySitePhone--->'+this.studySitePhone);
         this.siteName = this.studysite.Site__r.Name;
@@ -99,7 +109,13 @@ export default class PpFooterContactSupport extends LightningElement {
                 let res = JSON.parse(result);
                 console.log(res);
                 console.log(JSON.stringify(res));
-                this.siteStaffParticipantList = res;
+                let length = res.length;
+                console.log('length---->'+length);
+                this.pluscount = length > 3 ? length - 3 : 0;
+                console.log('pluscount---->'+this.pluscount);
+                this.displaypluscount = this.pluscount > 0 ? true : false;
+                this.siteStaffParticipantList = res.slice(0, 3);
+                
             }
         })
         .catch((error) => {

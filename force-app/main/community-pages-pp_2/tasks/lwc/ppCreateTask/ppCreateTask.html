@@ -49,27 +49,53 @@
                                             size="12"
                                             class="slds-m-top_medium create-task-input-container"
                                         >
-                                            <c-pp-date-time-combo
-                                                reminder={notReminder}
-                                                mindate={currentDate}
-                                                mintime={currentTime}
-                                                create-task={createTask}
-                                                ondatechange={handleDate}
-                                                ontimechange={handleTime}
-                                                compdate={taskDueDate}
-                                                comptime={taskDueTime}
-                                                ondate={handleOnlyDate}
-                                                ontime={handleOnlyTime}
-                                                onnulldatetime={handleNullDateTime}
-                                                oninitialdateload={handleInitialDateLoad}
-                                                oninitialtimeload={handleInitialTimeLoad}
-                                                icon-size="small"
-                                                icon-color="#C42EA5"
-                                                edit-mode={editMode}
-                                                read-only-mode={readOnlyMode}
-                                                show-date-time={disbaleDateTime}
-                                                hide-time-input={isSystemOrBusinessTask}
-                                            ></c-pp-date-time-combo>
+                                            <template if:true={displayDateInUi}>
+                                                <c-pp-date-time-combo
+                                                    reminder={notReminder}
+                                                    mindate={currentDate}
+                                                    mintime={currentTime}
+                                                    create-task={createTask}
+                                                    ondatechange={handleDate}
+                                                    ontimechange={handleTime}
+                                                    compdate={taskDueDate}
+                                                    comptime={taskDueTime}
+                                                    ondate={handleOnlyDate}
+                                                    ontime={handleOnlyTime}
+                                                    onnulldatetime={handleNullDateTime}
+                                                    oninitialdateload={handleInitialDateLoad}
+                                                    oninitialtimeload={handleInitialTimeLoad}
+                                                    icon-size="small"
+                                                    icon-color="#C42EA5"
+                                                    edit-mode={editMode}
+                                                    read-only-mode={readOnlyMode}
+                                                    show-date-time={disbaleDateTime}
+                                                    hide-time-input={isSystemOrBusinessTask}
+                                                ></c-pp-date-time-combo>
+                                            </template>
+                                            <template if:false={displayDateInUi}>
+                                                <c-pp-date-time-combo
+                                                    reminder={notReminder}
+                                                    mindate={currentDate}
+                                                    mintime={currentTimeParticipant}
+                                                    maxdate={taskDueDate}
+                                                    maxtime={taskDueTime}
+                                                    ondatechange={handleDate}
+                                                    ontimechange={handleTime}
+                                                    compdate={participantDueDate}
+                                                    comptime={participantDueTime}
+                                                    ondate={handleOnlyDate}
+                                                    ontime={handleOnlyTime}
+                                                    onnulldatetime={handleNullDateTime}
+                                                    icon-size="small"
+                                                    icon-color="#C42EA5"
+                                                    edit-mode="true"
+                                                    read-only-mode={displayDateInUi}
+                                                    show-date-time={displayDateInUi}
+                                                    is-visit-event-task="task"
+                                                    hide-time-input={displayDateInUi}
+                                                    display-date-in-ui={displayDateInUi}
+                                                ></c-pp-date-time-combo>
+                                            </template>
                                             <!--Task Reminder Section-->
                                             <template if:true={taskInitData}
                                                 ><c-pp-create-task-reminder
@@ -84,6 +110,8 @@
                                                     oncustomreminderdata={handleCustomReminder}
                                                     onreminderdata={handleReminder}
                                                     edit-mode={editMode}
+                                                    max-reminder-date={participantDueDate}
+                                                    max-reminder-time={participantDueTime}
                                                 ></c-pp-create-task-reminder
                                             ></template>
                                         </lightning-layout-item>
@@ -152,28 +180,55 @@
                                             class="slds-m-top_medium create-task-input-container"
                                             style="padding-inline: 0"
                                         >
-                                            <c-pp-date-time-combo
-                                                reminder={notReminder}
-                                                mindate={currentDate}
-                                                mintime={currentTime}
-                                                create-task={createTask}
-                                                ondatechange={handleDate}
-                                                ontimechange={handleTime}
-                                                compdate={taskDueDate}
-                                                comptime={taskDueTime}
-                                                ondate={handleOnlyDate}
-                                                ontime={handleOnlyTime}
-                                                onnulldatetime={handleNullDateTime}
-                                                oninitialdateload={handleInitialDateLoad}
-                                                oninitialtimeload={handleInitialTimeLoad}
-                                                icon-size="small"
-                                                icon-color="#C42EA5"
-                                                edit-mode={editMode}
-                                                read-only-mode={readOnlyMode}
-                                                show-date-time={disbaleDateTime}
-                                                is-visit-event-task="task"
-                                                hide-time-input={isSystemOrBusinessTask}
-                                            ></c-pp-date-time-combo>
+                                            <template if:true={displayDateInUi}>
+                                                <c-pp-date-time-combo
+                                                    reminder={notReminder}
+                                                    mindate={currentDate}
+                                                    mintime={currentTime}
+                                                    create-task={createTask}
+                                                    ondatechange={handleDate}
+                                                    ontimechange={handleTime}
+                                                    compdate={taskDueDate}
+                                                    comptime={taskDueTime}
+                                                    ondate={handleOnlyDate}
+                                                    ontime={handleOnlyTime}
+                                                    onnulldatetime={handleNullDateTime}
+                                                    oninitialdateload={handleInitialDateLoad}
+                                                    oninitialtimeload={handleInitialTimeLoad}
+                                                    icon-size="small"
+                                                    icon-color="#C42EA5"
+                                                    edit-mode={editMode}
+                                                    read-only-mode={readOnlyMode}
+                                                    show-date-time={disbaleDateTime}
+                                                    is-visit-event-task="task"
+                                                    hide-time-input={isSystemOrBusinessTask}
+                                                ></c-pp-date-time-combo>
+                                            </template>
+                                            <!--Display date in UI unchecked-->
+                                            <template if:false={displayDateInUi}>
+                                                <c-pp-date-time-combo
+                                                    reminder={notReminder}
+                                                    mindate={currentDate}
+                                                    mintime={currentTimeParticipant}
+                                                    maxdate={taskDueDate}
+                                                    maxtime={taskDueTime}
+                                                    ondatechange={handleDate}
+                                                    ontimechange={handleTime}
+                                                    compdate={participantDueDate}
+                                                    comptime={participantDueTime}
+                                                    ondate={handleOnlyDate}
+                                                    ontime={handleOnlyTime}
+                                                    onnulldatetime={handleNullDateTime}
+                                                    icon-size="small"
+                                                    icon-color="#C42EA5"
+                                                    edit-mode="true"
+                                                    read-only-mode={displayDateInUi}
+                                                    show-date-time={displayDateInUi}
+                                                    is-visit-event-task="task"
+                                                    hide-time-input={displayDateInUi}
+                                                    display-date-in-ui={displayDateInUi}
+                                                ></c-pp-date-time-combo>
+                                            </template>
                                             <!--Task Reminder Section-->
                                             <template if:true={taskInitData}
                                                 ><c-pp-create-task-reminder

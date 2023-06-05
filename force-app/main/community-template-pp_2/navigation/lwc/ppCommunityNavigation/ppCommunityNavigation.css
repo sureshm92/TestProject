@@ -81,6 +81,9 @@ img {
     justify-content: center;
     cursor: pointer;
 }
+.mainNav div.nav-item:nth-child(12) {
+    width: 135px !important;
+}
 .mainNav div.nav-item:nth-child(10) {
     width: 135px !important;
 }

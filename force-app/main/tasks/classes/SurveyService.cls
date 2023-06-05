@@ -184,7 +184,7 @@ public without sharing class SurveyService {
 
     public Map<Id, Boolean> isInvitationsExpired(List<Id> invitationIds) {
         List<SurveyInvitation> invitations = [
-            SELECT ExpireDateTime__c, Is_Expired__c
+            SELECT ExpireDateTime__c, Is_Expired__c,Participant_Due_Date__c
             FROM SurveyInvitation
             WHERE Id IN :invitationIds
         ];
@@ -192,7 +192,7 @@ public without sharing class SurveyService {
         for (SurveyInvitation inv : invitations) {
             invitationStateById.put(
                 inv.Id,
-                (inv.Is_Expired__c || inv.ExpireDateTime__c <= Datetime.now())
+                (inv.Is_Expired__c || inv.ExpireDateTime__c <= Datetime.now() || (inv?.Participant_Due_Date__c != null && inv?.Participant_Due_Date__c <= Datetime.now()))
             );
         }
         return invitationStateById;

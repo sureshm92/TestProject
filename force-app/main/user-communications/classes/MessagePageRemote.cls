@@ -806,7 +806,7 @@ public without sharing class MessagePageRemote {
         insert newVersion;
 
         ContentVersion contentVersion = [
-            SELECT ContentDocumentId
+            SELECT ContentDocumentId,Id
             FROM ContentVersion
             WHERE Id = :newVersion.Id
         ];
@@ -814,6 +814,23 @@ public without sharing class MessagePageRemote {
             ContentDocumentId = contentVersion.ContentDocumentId,
             LinkedEntityId = parentId,
             ShareType = 'V'
+        );
+        string fileName = newVersion.Title;
+        Integer intIndex = fileName.lastindexOf('.');
+        String fileTitle = fileName.left(intIndex);
+        
+        String sizeStringFileName = fileTitle;
+        Integer maxSize = 96;
+        if(sizeStringFileName.length() > maxSize ){
+        sizeStringFileName = sizeStringFileName.substring(0, maxSize);
+        sizeStringFileName = sizeStringFileName+'...'; 
+        }
+        
+        insert new ContentDistribution(
+            ContentVersionId = contentVersion.Id,
+            Name = sizeStringFileName,
+            PreferencesNotifyOnVisit = false,
+            PreferencesAllowPDFDownload = false
         );
 
         return contentVersion.ContentDocumentId;

@@ -285,6 +285,10 @@ textdecoration {
     width: 38px !important;
 }
 
+.rtl-slds-dropdown{
+    right: -50% !important;
+}
+
 @media only screen and (min-width: 768px) and (max-width: 920px){
     .notify-img{
         width: 16px !important;
