@@ -102,9 +102,7 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
             });
     }
     onKeyUp(event) {
-        if (event.target.value !== '') {
-            this.usrnameval = event.target.value;
-        }
+        this.usrnameval = event.target.value;
         this.btnClassName = 'primaryBtn slds-button btn-sendEmail';
         this.showError = false;
         this.template.querySelector('.btn-sendEmail').disabled = false;
