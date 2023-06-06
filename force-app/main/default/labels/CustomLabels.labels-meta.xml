@@ -5533,6 +5533,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
             
             &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;</value>
     </labels>
+   
     <labels>
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
         <language>en_US</language>
@@ -8763,7 +8764,7 @@ Release 4.0 includes additional details around the screening process, which has 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Summary Certificate pp</shortDescription>
-        <value>A new reward certificate for ##StudyName ##isStudyorProgram is  now available on the ##ShortCommunityName.   
+        <value>A new reward certificate for ##StudyName  is  now available on the ##ShortCommunityName.   
 
             Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
@@ -12017,6 +12018,20 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Message_For_Providers</shortDescription>
         <value>You should only invite a participant&apos;s provider with the participant&apos;s explicit permission. Upon registration, the provider will be able to track a participant&apos;s status.</value>
+    </labels>
+    <labels>
+        <fullName>Message_MinTime_DoNotTranslate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_MinTime_DoNotTranslate</shortDescription>
+        <value>1000</value>
+    </labels>
+    <labels>
+        <fullName>Message_MaxTime_DoNotTranslate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_MaxTime_DoNotTranslate</shortDescription>
+        <value>5000</value>
     </labels>
     <labels>
         <fullName>Message_PT_Survey_Final_Reminder_SMS</fullName>
@@ -31639,5 +31654,15 @@ The IQVIA Referral Hub Support Team</value>
         <protected>true</protected>
         <shortDescription>PP Visit Result Toggle Helptext</shortDescription>
         <value>This button will toggle the result data for all the visits.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient_New_Study_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Patient New Study PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
+
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;
+            
     </labels>
 </CustomLabels>

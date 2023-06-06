@@ -56,7 +56,8 @@ private class Test_Batch_CreateSummaryNotifications {
             Description__c = 'testBehavior',
             Title__c = 'TestRes',
             Content_Class__c = 'Study-Specific',
-            Resource_Type__c = 'Study Document'
+            Resource_Type__c = 'Study Document',
+            Language__c = 'en_US'
         );
         insert videoResource;
 
@@ -166,11 +167,7 @@ private class Test_Batch_CreateSummaryNotifications {
         ];
 
         System.assertEquals(
-            resource.Id +
-            ';' +
-            linkResource.Id +
-            ';' +
-            videoResource.Id,
+            resource.Id + ';' + linkResource.Id + ';' + videoResource.Id,
             updatedContact.Resource_Notifications__c
         );
     }
