@@ -65,9 +65,12 @@
                                     ></c-web-icon>
                                 </lightning-pill>
                                 </div>
-                                <div class="slds-col slds-large-size_1-of-5 slds-size_1-of-2">
-                                    <lightning-input class="slds-float--right slds-p-top--small" type="checkbox" label={labels.isConfidentialLabel} onchange={handleConfidential} > </lightning-input>
-                                </div>
+                                 <!-- conditional rendering for flag-->
+                                <template if:true={showIsconfidential}>
+                                    <div class="slds-col slds-large-size_1-of-5 slds-size_1-of-2">
+                                        <lightning-input class="slds-float--right slds-p-top--small" type="checkbox" label={labels.isConfidentialLabel} onchange={handleConfidential} > </lightning-input>
+                                    </div>
+                                </template>
                             </div></template>
                         </div>
                     </div>
