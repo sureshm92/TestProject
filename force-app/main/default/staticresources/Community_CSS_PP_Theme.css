@@ -1615,7 +1615,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .manage-del-continer {
     margin-left: 24px !important;
     margin-right: 24px !important;
-    margin-top: 47px !important;
 }
 .manage-delegate-acc-setting .manage-del-continer-mobile {
     margin-left: 16px !important;
@@ -1902,6 +1901,8 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     /* width: auto !important; */
     background-color: transparent !important;
     color: #015ff1 !important;
+    display: block !important;
+    padding-top: 41px !important;
 }
 /* @media (max-device-width: 767px) {
     .manage-delegate-acc-setting .back-to-manage-del-btn {
