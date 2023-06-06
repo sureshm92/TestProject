@@ -9,6 +9,7 @@
     line-height: 1.5rem;
     font-size: 1rem;
     font-weight: 500;
+    border: 1px solid #d9d9d9;
 }
 
 .completed-task {
