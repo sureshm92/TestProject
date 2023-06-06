@@ -1,8 +1,8 @@
 public without sharing class TelevisitAttendeeTriggerHandler {
     public class ManageAttendees extends TriggerHandler {
-        /*public override void afterDelete(List<SObject> oldList) {
+        public override void afterDelete(List<SObject> oldList) {
             notifyAttendeesRemoved(oldList);
-        }*/
+        }
         public override void afterInsert(List<SObject> newList) {
             notifyNewAttendees(newList);
             sendBellNotificationToNewAttendees(newList);
@@ -199,12 +199,34 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             }
         }
         if (!delConTeleMap.isEmpty()) {
-            createAttendeeNotifications(
-                delConTeleMap,
-                NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE,
-                new List<Notification__c>{}
-            );
+            List<String> notificationsTypeList = new List<String>();
+            List<Id> scheduledCons = new List<Id>();
+            List<Id> delcontactsList = new List<Id>();
+            notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED);
+            notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED);
+            for (Televisit_Attendee__c attendee : [
+                SELECT Id, Televisit__c, Contact__r.Id, Contact__c
+                FROM Televisit_Attendee__c
+                WHERE Televisit__r.Status__c = 'Scheduled' AND Contact__c IN :delConTeleMap.keySet()
+            ]) {
+                scheduledCons.add(attendee.Contact__c);
+            }
+            for (Id keyId : delConTeleMap.keySet()) {
+                if (!scheduledCons.contains(keyId)) {
+                    delcontactsList.add(keyId);
+                }
+            }
+            List<Notification__c> notificationsList = [
+                SELECT Id
+                FROM Notification__c
+                WHERE
+                    Recipient__c IN :delcontactsList
+                    AND Notification_Type__c IN :notificationsTypeList
+            ];
+            if (!notificationsList.isEmpty()) {
+            delete notificationsList;
         }
+    }
     }
 
     @TestVisible
