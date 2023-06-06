@@ -12000,6 +12000,20 @@ The expected format is REF##### to REF########</value>
         <value>You should only invite a participant&apos;s provider with the participant&apos;s explicit permission. Upon registration, the provider will be able to track a participant&apos;s status.</value>
     </labels>
     <labels>
+        <fullName>Message_MinTime_DoNotTranslate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_MinTime_DoNotTranslate</shortDescription>
+        <value>1000</value>
+    </labels>
+    <labels>
+        <fullName>Message_MaxTime_DoNotTranslate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_MaxTime_DoNotTranslate</shortDescription>
+        <value>5000</value>
+    </labels>
+    <labels>
         <fullName>Message_PT_Survey_Final_Reminder_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
