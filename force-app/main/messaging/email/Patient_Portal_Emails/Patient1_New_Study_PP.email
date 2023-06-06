@@ -12,7 +12,7 @@
                         title="##EmailTemplateTitleNewTM"
                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                         signature="{!$Label.Email_Signature_Patient_New_PP}">
-        <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Patient_New_PP}"/>
+        <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Patient_New_Study_PP}"/>
         <c:ParticipantParagraph learnmoreLabel="{!$Label.Learn_more_about_study_PP}"   
                             discoverLabel="{!$Label.Discover_future_Clinical_New_PP}"
                             trackLabel="{!$Label.Track_your_study_PP}" 
@@ -27,7 +27,7 @@
                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                         signature="{!$Label.Email_Signature_Patient_New_PP}"
                         communityTemplate="PatientPortal">
-        <c:Paragraph emailLabel="{!$Label.Email_Body_Patient_New_PP}"/>
+        <c:Paragraph emailLabel="{!$Label.Email_Body_Patient_New_Study_PP}"/>
         <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/> 
     <c:ParticipantParagraph learnmoreLabel="{!$Label.Learn_more_about_study_PP}"   
                             discoverLabel="{!$Label.Discover_future_Clinical_New_PP}"
