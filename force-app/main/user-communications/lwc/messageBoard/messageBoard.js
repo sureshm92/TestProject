@@ -436,4 +436,7 @@ export default class MessageBoard extends LightningElement {
     notifyUser(title, message, variant) {
         this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
     }
+    get showIsconfidential(){
+        return (this.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c && this.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal');
+    }
 }

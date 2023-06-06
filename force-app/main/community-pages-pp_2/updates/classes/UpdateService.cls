@@ -523,4 +523,71 @@ public without sharing class UpdateService {
             UpdateService.getInstance().updateNotificationsStatus(notificationIds);
         }
     }
+
+    public void processUpdateNotifications(
+        List<String> notificationTypes,
+        String contactId,
+        String peId,
+        String participantId,
+        Id patientVisitId,
+        String sendResultId,
+        String sourceMethod
+    ) {
+        List<Id> notificationIds = new List<Id>();
+        String baseFilter = '';
+        if (sourceMethod == 'removeUpdateCard') {
+            baseFilter = DatabaseService.fieldEqual('Id', sendResultId);
+        } else {
+            baseFilter =
+                DatabaseService.fieldEqual('Status__c', UpdateService.SR_STATUS_IN_PROGRESS) +
+                'AND ' +
+                DatabaseService.fieldEqual(
+                    'Notification__r.Status__c',
+                    UpdateService.SR_STATUS_IN_PROGRESS
+                ) +
+                'AND ' +
+                DatabaseService.fieldInValues(
+                    'Notification__r.Notification_Type__c',
+                    notificationTypes
+                ) +
+                'AND ' +
+                DatabaseService.fieldEqual('Notification__r.Recipient__c', contactId);
+
+            if (sourceMethod == 'removeUpdateCardForTelevisit') {
+                baseFilter =
+                    baseFilter +
+                    'AND (' +
+                    DatabaseService.fieldEqual('Notification__r.WhatId__c', peId) +
+                    'OR ' +
+                    DatabaseService.fieldEqual('Notification__r.WhatId__c', participantId) +
+                    ')';
+            }
+            if (sourceMethod == 'removeUpdateCardForVisitResult') {
+                baseFilter =
+                    baseFilter +
+                    'AND ' +
+                    DatabaseService.fieldEqual('Notification__r.WhatId__c', peId) +
+                    'AND ' +
+                    DatabaseService.fieldEqual(
+                        'Notification__r.Target_Record_Ids__c',
+                        patientVisitId
+                    );
+            }
+        }
+        List<Send_Result__c> sendResultList = (List<Send_Result__c>) DatabaseService.query(
+            new List<String>{ 'Id', 'Status__c', 'Notification__c' },
+            Send_Result__c.getSObjectType(),
+            baseFilter
+        );
+        for (Send_Result__c sr : sendResultList) {
+            sr.Status__c = 'Sent';
+            notificationIds.add(sr.Notification__c);
+        }
+        try {
+            update sendResultList;
+            updateNotificationsStatus(notificationIds);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 }
