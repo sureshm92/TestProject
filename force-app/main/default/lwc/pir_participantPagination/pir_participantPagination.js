@@ -1,5 +1,6 @@
 import { LightningElement , api } from 'lwc';
 import community_icon from '@salesforce/resourceUrl/rr_community_icons';
+import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import RH_RP_Items from '@salesforce/label/c.RH_RP_Items';
 import RH_RP_of from '@salesforce/label/c.RH_RP_of';
 import RH_RP_Page from '@salesforce/label/c.RH_RP_Page';
@@ -22,7 +23,7 @@ export default class Pir_participantPagination extends LightningElement {
     @api isFile;
     @api totalRecords = 0;//push from parent
     first_page_arrow = community_icon + '/left-arrow.svg';
-    right_arrow = community_icon + '/first-page-arrow.svg';
+    right_arrow = pp_icons + '/first-page-arrow_enabled.svg';
     isRendered = false;
     @api isRTLPg;
     @api maindivcls;
@@ -76,9 +77,17 @@ export default class Pir_participantPagination extends LightningElement {
             }
             if(this.pageNumber == 1){
                 this.template.querySelector('.pre').classList.add("disabled");
+                if(this.template.querySelector('.pref')){
+                    this.template.querySelector('.pref').classList.add("disabledfilecursor");
+                    this.template.querySelector('.pref').classList.remove("enablefilecursor");
+                }
             }
             else{            
                 this.template.querySelector('.pre').classList.remove("disabled");
+                if(this.template.querySelector('.pref')){
+                    this.template.querySelector('.pref').classList.remove("disabledfilecursor");
+                    this.template.querySelector('.pref').classList.add("enablefilecursor");
+                }
             }
             if(this.pageNumber == this.totalPages){
                 this.template.querySelector('.nxt').classList.add("disabled");
@@ -131,6 +140,10 @@ export default class Pir_participantPagination extends LightningElement {
         }
     }
     @api goToStart(){
+        if(this.pageNumber == 1 && this.isFile)
+        {
+            return;
+        }
         this.pageNumber= 1;        
         this.calculate();        
     }

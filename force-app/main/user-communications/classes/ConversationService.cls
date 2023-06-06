@@ -87,7 +87,7 @@ public without sharing class ConversationService {
         Boolean hasPe = true;
         Set<Id> nonPrimaryconvId = new Set<Id>();
         Boolean isDelegate = false;
-		Map<Id,List<Message__c>> convVsmsg;
+        Map<Id,List<Message__c>> convVsmsg;
         if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             pState = ParticipantService.getInstance().getState();
             //System.debug('pState: '+pState.value);
@@ -96,19 +96,26 @@ public without sharing class ConversationService {
                 hasPe = false;
                 if(pState.isDelegate){
                     isDelegate = true;
-                    peSet = PatientDelegateEnrollmentService.getPEIdSet(
+                    /**peSet = PatientDelegateEnrollmentService.getPEIdSet(
                                 ParticipantContext.getCurrentContactId(),
                                 UserContext.getUserContactId()
-                            ) ;
-                     List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollments(
-                    																		      ParticipantContext.getCurrentContactId(),
-                                        														  UserContext.getUserContactId());
-                    
-                    // validate PDE and seprate nonprimary conversations			
+                            ) ;**/
+                     peSet = PatientDelegateEnrollmentService.getPEIdSetActive(
+                                ParticipantContext.getCurrentContactId(),
+                                UserContext.getUserContactId()
+                            ) ;      
+                     /**List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollments(
+                                                                                                  ParticipantContext.getCurrentContactId(),
+                                                                                                  UserContext.getUserContactId());**/
+                                                                                                  
+                     List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollmentsActive(
+                                                                                                  ParticipantContext.getCurrentContactId(),
+                                                                                                  UserContext.getUserContactId());
+                    // validate PDE and seprate nonprimary conversations            
                     if(!pdes.isEmpty()){
                         Set<Id> nonPrimayEnrollments = new Set<Id>();
                         for(Patient_Delegate_Enrollment__c pde : pdes){
-                     		if(!pde.Primary_Delegate__c)  nonPrimayEnrollments.add(pde.Participant_Enrollment__c);    
+                            if(!pde.Primary_Delegate__c)  nonPrimayEnrollments.add(pde.Participant_Enrollment__c);    
                         }
                         if(!nonPrimayEnrollments.isEmpty()){
                              List<Conversation__c> conversations = getPeSharedConversations(new List<Id>(nonPrimayEnrollments));
@@ -136,15 +143,19 @@ public without sharing class ConversationService {
                     }
                 }else{// delegate active
                     isDelegate = true;
-                    List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollments(
-                    																		      ParticipantContext.getCurrentContactId(),
-                                        														  UserContext.getUserContactId()
-                    																			 );
+                    /**List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollments(
+                                                                                                  ParticipantContext.getCurrentContactId(),
+                                                                                                  UserContext.getUserContactId()
+                                                                                                 );**/
+                    List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollmentsActive(
+                                                                                                  ParticipantContext.getCurrentContactId(),
+                                                                                                  UserContext.getUserContactId()
+                                                                                                 );                                                                             
                     // validate PDE and seprate nonprimary conversations
                     if(!pdes.isEmpty()){
                         Set<Id> nonPrimayEnrollments = new Set<Id>();
                         for(Patient_Delegate_Enrollment__c pde : pdes){
-                     		if(!pde.Primary_Delegate__c)  nonPrimayEnrollments.add(pde.Participant_Enrollment__c);    
+                            if(!pde.Primary_Delegate__c)  nonPrimayEnrollments.add(pde.Participant_Enrollment__c);    
                         }
                         if(!nonPrimayEnrollments.isEmpty()){
                              List<Conversation__c> conversations = getPeSharedConversations(new List<Id>(nonPrimayEnrollments));
@@ -156,10 +167,14 @@ public without sharing class ConversationService {
                         }
                             
                      } 
-                    Set<Id> peIdSet = PatientDelegateEnrollmentService.getPEIdSet(
+                    /**Set<Id> peIdSet = PatientDelegateEnrollmentService.getPEIdSet(
                                         ParticipantContext.getCurrentContactId(),
                                         UserContext.getUserContactId()
-                                    ) ;
+                                    ) ;**/
+                    Set<Id> peIdSet = PatientDelegateEnrollmentService.getPEIdSetActive(
+                                        ParticipantContext.getCurrentContactId(),
+                                        UserContext.getUserContactId()
+                                    ) ;                
                     if(!peIdSet.isEmpty()){
                         peSet.addAll(peIdSet);
                     }

@@ -364,7 +364,7 @@
                                 </div>
                             </div>
                             <div class="slds-grid slds-grid_align-end">
-                                <div class="mob-right-ms-item-txt-pp slds-m-top_medium">
+                                <div class="mob-right-ms-item-txt-pp slds-m-top_x-small ">
                                     {msgItem.message.Message_Content__c}
                                 </div>
                             </div> </template
@@ -434,22 +434,21 @@
                             </div>
                             <template if:false={msgItem.attachmentWrapper}>
                                 <div class="slds-grid">
-                                    <div class="mob-left-ms-item-txt-pp slds-m-top_medium">
+                                    <div class="mob-left-ms-item-txt-pp slds-m-top_x-small">
                                         {msgItem.message.Message_Content__c}
                                     </div>
                                 </div>
                             </template>
                             <template if:true={msgItem.attachmentWrapper}>
                                 <div class="slds-grid">
-                                    <div class="mob-left-ms-item-txt-pp slds-m-top_medium">
+                                    <div class="mob-left-ms-item-txt-pp slds-m-top_x-small">
                                         {msgItem.message.Message_Content__c}
                                         <div
                                             class="chat-iframe slds-p-around_small slds-m-vertical_x-small"
                                         >
                                             <lightning-layout>
                                                 <lightning-layout-item
-                                                    size="12"
-                                                    class="slds-p-left_medium"
+                                                    size="12"                 
                                                 >
                                                     <div class="mob-complete-consent">
                                                         <a
@@ -501,8 +500,7 @@
                                         >
                                             <lightning-layout>
                                                 <lightning-layout-item
-                                                    size="12"
-                                                    class="slds-p-left_medium"
+                                                    size="12"                                                
                                                 >
                                                     <div class="mob-complete-consent">
                                                         <a
@@ -521,13 +519,10 @@
                                                             >
                                                         </lightning-layout-item>
                                                         <lightning-layout-item size="1">
-                                                            <lightning-icon
-                                                                icon-name="utility:attach"
-                                                                alternative-text="attach"
-                                                                size="x-small"
-                                                                title="attach"
-                                                            >
-                                                            </lightning-icon>
+                                                            <img
+                                                            src={message_attachment}
+                                                            class="mob-attachment-icon"
+                                                        />
                                                         </lightning-layout-item>
                                                     </lightning-layout>
                                                 </lightning-layout-item>

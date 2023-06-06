@@ -51,6 +51,19 @@
   .pg .disabled .slds-icon_container{
     cursor: unset;
   }
+  .disabledfilecursor {
+    cursor: unset;
+    opacity: 0.5;
+    margin-top: 2px
+  }
+  .enablefilecursor  {
+    cursor: pointer;
+    opacity: unset;
+    margin-top: 2px
+  }
+  .firstpage{
+    height: 12.5px;
+  }
   .totalpages{
     color: #0768FD;
     font-weight: 600;
