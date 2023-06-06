@@ -1917,7 +1917,7 @@ outline: none !important;
 }
 .manage-delegate-acc-setting-old .back-to-manage-del-btn {
     display: block !important;
-    padding-top : 32px !important;
+    /* padding-top : 32px !important; */
     padding-bottom: 16px !important;
 }
 .e-consent-aligment .slds-checkbox .slds-checkbox__label .slds-form-element__label {
