@@ -8744,7 +8744,7 @@ Release 4.0 includes additional details around the screening process, which has 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Summary Certificate pp</shortDescription>
-        <value>A new reward certificate for ##StudyName ##isStudyorProgram is  now available on the ##ShortCommunityName.   
+        <value>A new reward certificate for ##StudyName  is  now available on the ##ShortCommunityName.   
 
             Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
