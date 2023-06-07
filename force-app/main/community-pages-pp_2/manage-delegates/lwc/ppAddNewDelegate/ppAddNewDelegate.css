@@ -86,7 +86,8 @@
     align-items: center;
     cursor: pointer;
     color: #3374ee;
-    width: fit-content;
+    width: auto;
+    min-width: 205px;
 }
 
 .inline {
