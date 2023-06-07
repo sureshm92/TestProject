@@ -20,8 +20,9 @@
     letter-spacing: 0;
     line-height: 1.5rem;
     font-size: 1rem;
-    color: #595959;
+    /* color: #595959; */
     font-weight: 500;
+    border: 1px solid #d9d9d9;
 }
 .create-task {
     border-radius: 2rem;
