@@ -1,4 +1,4 @@
-public inherited sharing class ModifiedVisitResultsService {
+=public inherited sharing class ModifiedVisitResultsService {
     private final String BIOMARKER_VISIT_RESULT_GROUP = 'Biomarkers';
     private final String VITALS_VISIT_RESULT_GROUP = 'Vitals';
     private final String LABS_VISIT_RESULT_GROUP = 'Labs';
@@ -299,7 +299,8 @@ public inherited sharing class ModifiedVisitResultsService {
                 Visit__r.Patient_Portal_Name__c,
                 Completed_Date__c,
                 Visit_Number__c,
-                Status__c
+                Status__c,
+                Is_Adhoc__c
             FROM Patient_Visit__c
             WHERE Participant_Enrollment__c = :ParticipantContext.getCurrentPEId()
             ORDER BY Completed_Date__c NULLS FIRST, Visit_Number__c
