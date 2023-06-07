@@ -1898,7 +1898,14 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .add-new-del-input-padding {
     padding: 0px !important;
 }
-
+.manage-delegate-acc-setting
+    .std
+    .text-checked-bold
+    .slds-checkbox
+    .slds-checkbox__label
+    .slds-form-element__label {
+    font-weight: 600 !important;
+}
 .manage-delegate-acc-setting .back-to-manage-del-btn {
     /* width: auto !important; */
     background-color: transparent !important;
