@@ -220,7 +220,7 @@ hr {
     color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
@@ -237,6 +237,10 @@ hr {
 
 .info-icon-mobile {
     padding-left: 10px;
+}
+
+.slds-media__figure.icon {
+    padding-bottom: 3px;
 }
 
 .padding-top {
@@ -321,8 +325,4 @@ hr {
     .label {
         margin-top: 1rem;
     }
-}
-
-a:hover {
-    text-decoration: none !important;
 }
