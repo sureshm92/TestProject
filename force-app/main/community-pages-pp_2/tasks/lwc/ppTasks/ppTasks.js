@@ -189,7 +189,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     get taskButtonClass() {
         return this.isCreateTask
             ? 'primaryBtn slds-button create-task after-create-task'
-            : 'primaryBtn create-task';
+            : 'primaryBtn slds-button create-task';
     }
     handleTaskClose(event) {
         this.isCreateTask = event.detail.isClose;
