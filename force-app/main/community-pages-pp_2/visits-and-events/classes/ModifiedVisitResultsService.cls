@@ -1,4 +1,4 @@
-=public inherited sharing class ModifiedVisitResultsService {
+public inherited sharing class ModifiedVisitResultsService {
     private final String BIOMARKER_VISIT_RESULT_GROUP = 'Biomarkers';
     private final String VITALS_VISIT_RESULT_GROUP = 'Vitals';
     private final String LABS_VISIT_RESULT_GROUP = 'Labs';
