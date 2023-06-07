@@ -128,20 +128,19 @@ public without sharing class IprEprTriggerHandler {
                     } 
                     String studySiteNumber = ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
                     Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
-                    //if (!String.isBlank(ipr.BirthDate__c)) {
-                    if(!test.isRunningTest()){
+                    if (!String.isBlank(ipr.BirthDate__c)) {
                     List<String> dateOfBirth = ipr.BirthDate__c.split('-');
                     String mmValue;
                     String ddValue;
                     String yyyyValue;
-                    if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                    if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
                         if(dateOfBirth.size() > 2){
                             ddValue = dateOfBirth[2];
                             mmValue = dateOfBirth[1];
                         }else if(dateOfBirth.size() > 1){
                             mmValue = dateOfBirth[1];
                         }
-                    }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                    }else if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
                         if(dateOfBirth.size() > 1){
                             mmValue = dateOfBirth[1];
                         }
@@ -172,14 +171,14 @@ public without sharing class IprEprTriggerHandler {
                     Participant__c objParticipant = convertToParticipant(ipr);
                     ipr.BirthDate__c = tempBrVar ;
                     objParticipant.Age__c = participantAge;
-                    if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                    if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
                         if(dateOfBirth.size() > 2){
                             objParticipant.Birth_Day__c = ddValue;
                             objParticipant.Birth_Month__c = mmValue;
                         }else if(dateOfBirth.size() > 1){
                             objParticipant.Birth_Month__c = mmValue;
                         }
-                    }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                    }else if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
                         if(dateOfBirth.size() > 1){
                             objParticipant.Birth_Month__c = mmValue;
                         }
@@ -392,14 +391,14 @@ public without sharing class IprEprTriggerHandler {
                     String mmValue;
                     String ddValue;
                     String yyyyValue;
-                    if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                    if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
                         if(dateOfBirth.size() > 2){
                             ddValue = dateOfBirth[2];
                             mmValue = dateOfBirth[1];
                         }else if(dateOfBirth.size() > 1){
                             mmValue = dateOfBirth[1];
                         }
-                    }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                    }else if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
                         if(dateOfBirth.size() > 1){
                             mmValue = dateOfBirth[1];
                         }
@@ -430,14 +429,14 @@ public without sharing class IprEprTriggerHandler {
                     Participant__c objParticipant = convertToParticipant(ipr);
                     ipr.BirthDate__c = tempBrVar ;
                     objParticipant.Age__c = participantAge;
-                    if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                    if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
                         if(dateOfBirth.size() > 2){
                             objParticipant.Birth_Day__c = ddValue;
                             objParticipant.Birth_Month__c = mmValue;
                         }else if(dateOfBirth.size() > 1){
                             objParticipant.Birth_Month__c = mmValue;
                         }
-                    }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                    }else if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
                         if(dateOfBirth.size() > 1){
                             objParticipant.Birth_Month__c = mmValue;
                         }
