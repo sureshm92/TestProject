@@ -61,7 +61,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         PP_Open
     };
     taskSelectionMode = 'Open';
-    taskBtnOpenClass = 'open-task primaryBtn slds-button';
+    taskBtnOpenClass = 'open-task primaryBtn';
+    // taskBtnOpenClass = 'open-task primaryBtn slds-button';
     taskBtnCompleteClass = 'completed-task secondaryBtn slds-button';
     taskOpenTab = true;
     isEnrolled;
@@ -188,7 +189,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     get taskButtonClass() {
         return this.isCreateTask
             ? 'primaryBtn slds-button create-task after-create-task'
-            : 'primaryBtn slds-button create-task create-task';
+            : 'primaryBtn create-task';
     }
     handleTaskClose(event) {
         this.isCreateTask = event.detail.isClose;
@@ -322,7 +323,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     navigateToOpen() {
         this.taskSelectionMode = 'Open';
         this.taskOpenTab = this.taskSelectionMode == 'Open';
-        this.taskBtnOpenClass = 'open-task primaryBtn slds-button';
+        this.taskBtnOpenClass = 'open-task primaryBtn';
+        // this.taskBtnOpenClass = 'open-task primaryBtn slds-button';
         this.taskBtnCompleteClass = 'completed-task secondaryBtn slds-button';
         this.initializeData();
     }
