@@ -14,8 +14,16 @@
     <aura:attribute name="user_has_permission" type="String" default="Edit" />
     <aura:attribute name="noVisitPlansMessage" type="Boolean" default="true" />
 
+    <!-- dependency -->
+    <aura:dependency resource="markup://force:editRecord" type="EVENT" />
+
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+
+    <!-- messageChannel -->
+    <lightning:messageChannel type="rhrefresh__c" aura:id="sampleMessageChannel" />
+    <lightning:messageChannel type="ppStudyUpdates__c" aura:id="ctpUpdatesChannel" />
 
     <!-- application events: -->
     <aura:registerEvent name="appEvent" type="c:TaskToggleEvent" />
@@ -149,7 +157,7 @@
                             <div style="margin-left: 10px">Visit/Event Details</div>
                         </div>
                         <div class="global-element">
-                            <lightning:input type="toggle" label="Tasks" name="tasksToggle" onchange="{!c.saveCTP}"
+                            <lightning:input aura:id="tasksToggle" type="toggle" label="Tasks" name="tasksToggle" onchange="{!c.saveCTP}"
                                 checked="{!v.ctp.Tasks_Are_Available__c}" variant="label-hidden" />
                             <div style="margin-left: 10px">Tasks</div>
                         </div>
@@ -258,10 +266,5 @@
             </div>
         </div>
     </aura:if>
-
-    <lightning:messageChannel type="rhrefresh__c" aura:id="sampleMessageChannel" />
-    <lightning:messageChannel type="ppStudyUpdates__c" aura:id="ctpUpdatesChannel" />
-    <aura:dependency resource="markup://force:editRecord" type="EVENT" />
-    <aura:handler event="force:refreshView" action="{!c.doInit}" />
 
 </aura:component>
