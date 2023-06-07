@@ -199,10 +199,11 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                     pastWithDate = pastWithDate.sort(function (visit1, visit2) {
                         // Turn your strings into dates, and then subtract them
                         // to get a value that is either negative, positive, or zero.
-                        return (
-                            new Date(visit2.visit.Completed_Date__c) -
-                            new Date(visit1.visit.Completed_Date__c)
-                        );
+                        return visit2.visit.Completed_Date__c === visit1.visit.Completed_Date__c
+                            ? (visit2.visit.Visit_Number__c ? visit2.visit.Visit_Number__c : 0) -
+                                  (visit1.visit.Visit_Number__c ? visit1.visit.Visit_Number__c : 0)
+                            : new Date(visit2.visit.Completed_Date__c) -
+                                  new Date(visit1.visit.Completed_Date__c);
                     });
                     pastWithoutDate = pastWithoutDate.reverse();
                     this.pastVisits = [...pastWithDate, ...pastWithoutDate];
