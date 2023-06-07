@@ -1776,6 +1776,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     margin-top: -4px !important;
     line-height: 22px !important;
 }
+.manage-delegate-acc-setting-old .add-delegate-input-container .slds-form-element__label {
+    padding: 0 !important;
+}
 
 .manage-delegate-acc-setting .manage-del-continer-mobile .slds-checkbox__label {
     display: flex !important;
@@ -1895,13 +1898,20 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .add-new-del-input-padding {
     padding: 0px !important;
 }
-
+.manage-delegate-acc-setting
+    .std
+    .text-checked-bold
+    .slds-checkbox
+    .slds-checkbox__label
+    .slds-form-element__label {
+    font-weight: 600 !important;
+}
 .manage-delegate-acc-setting .back-to-manage-del-btn {
     /* width: auto !important; */
     background-color: transparent !important;
     color: #015ff1 !important;
     display: block !important;
-    padding-top: 41px !important;
+    /* padding-top: 41px !important; */
 }
 /* @media (max-device-width: 767px) {
     .manage-delegate-acc-setting .back-to-manage-del-btn {
