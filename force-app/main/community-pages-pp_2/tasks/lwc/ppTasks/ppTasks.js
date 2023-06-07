@@ -316,7 +316,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     navigateToCompleted() {
         this.taskSelectionMode = 'Complete';
         this.taskBtnOpenClass = 'open-task secondaryBtn slds-button';
-        this.taskBtnCompleteClass = 'completed-task primaryBtn slds-button';
+        this.taskBtnCompleteClass = 'completed-task primaryBtn';
+        // this.taskBtnCompleteClass = 'completed-task primaryBtn slds-button';
         this.taskOpenTab = this.taskSelectionMode == 'Open';
         this.initializeData();
     }
