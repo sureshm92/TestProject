@@ -53,6 +53,7 @@
     cursor: pointer;
     /*PEH-11588*/
     padding-top: 10px;
+    max-width: 185px;
 }
 
 .po-more-text {
