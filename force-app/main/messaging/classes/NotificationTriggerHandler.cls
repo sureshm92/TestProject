@@ -33,7 +33,178 @@ public without sharing class NotificationTriggerHandler {
         }
     }
 
-    // Logic: ----------------------------------------------------------------------------------------------------------
+    public class UpdateNotificationHandler extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            processUpdateNotification(newList);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            processUpdateNotification(newList);
+        }
+        public void processUpdateNotification(List<SObject> newList) {
+            List<Id> recipIds = new List<Id>();
+            List<Id> whatIds = new List<Id>();
+            Map<String, Notification__c> mapwhatIdOfIds = new Map<String, Notification__c>();
+            List<String> notificationsTypeList = new List<String>();
+            notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED);
+            notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_CANCELED);
+            for (Notification__c notificationObj : [
+                SELECT Id, WhatId__c, Target_Record_Ids__c, Recipient__c, Notification_Type__c
+                FROM Notification__c
+                WHERE
+                    Id = :newList
+                    AND Notification_Type__c IN :notificationsTypeList
+                    AND Status__c != 'Processed'
+            ]) {
+                recipIds.add(notificationObj.Recipient__c);
+                whatIds.add(notificationObj.WhatId__c);
+            }
+            List<Notification__c> deleteNoti = new List<Notification__c>();
+            notificationsTypeList.clear();
+            notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED);
+            notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED);
+            notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_CANCELED);
+
+            for (Notification__c notificationObj : [
+                SELECT Id, Target_Record_Ids__c, Recipient__c, WhatId__c, Notification_Type__c
+                FROM Notification__c
+                WHERE
+                    Notification_Type__c IN :notificationsTypeList
+                    AND Status__c != 'Processed'
+                    AND Recipient__c IN :recipIds
+                    AND WhatId__c IN :whatIds
+            ]) {
+                String notifyType = '';
+                if (
+                    notificationObj.Notification_Type__c ==
+                    NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED
+                ) {
+                    notifyType = 'Rescheduled';
+                }
+                if (
+                    notificationObj.Notification_Type__c ==
+                    NotificationCatalog.UPDATE_TO_PT_TELEVISIT_CANCELED
+                ) {
+                    notifyType = 'Canceled';
+                }
+                if (
+                    notificationObj.Notification_Type__c ==
+                    NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED
+                ) {
+                    notifyType = 'Scheduled';
+                }
+                mapwhatIdOfIds.put(
+                    notificationObj.WhatId__c +
+                    ':' +
+                    notificationObj.Recipient__c +
+                    ':' +
+                    notifyType,
+                    notificationObj
+                );
+            }
+            notificationsTypeList.clear();
+            notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED);
+            notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_CANCELED);
+            for (Notification__c notificationObj : [
+                SELECT Id, WhatId__c, Target_Record_Ids__c, Recipient__c, Notification_Type__c
+                FROM Notification__c
+                WHERE
+                    Id = :newList
+                    AND Notification_Type__c IN :notificationsTypeList
+                    AND Status__c != 'Processed'
+            ]) {
+                Boolean toDelete = true;
+                List<Id> newtargetRecordIds = notificationObj.Target_Record_Ids__c.split(',');
+                Set<Id> newtargetRecordIdSet = new Set<Id>(newtargetRecordIds);
+                Set<Id> oldNotificationTargetSet = new Set<Id>();
+                Notification__c scheduledObj = mapwhatIdOfIds.get(
+                    notificationObj.WhatId__c +
+                    ':' +
+                    notificationObj.Recipient__c +
+                    ':Scheduled'
+                );
+                Notification__c canceledObj = mapwhatIdOfIds.get(
+                    notificationObj.WhatId__c +
+                    ':' +
+                    notificationObj.Recipient__c +
+                    ':Canceled'
+                );
+
+                Notification__c rescheduledObj = mapwhatIdOfIds.get(
+                    notificationObj.WhatId__c +
+                    ':' +
+                    notificationObj.Recipient__c +
+                    ':Rescheduled'
+                );
+                if (
+                    notificationObj.Notification_Type__c ==
+                    NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED
+                ) {
+                    Set<Id> rescheduledNotificationTargetSet = new Set<Id>(
+                        (List<Id>) (notificationObj.Target_Record_Ids__c.split(','))
+                    );
+
+                    oldNotificationTargetSet = scheduledObj != null
+                        ? new Set<Id>((List<Id>) scheduledObj.Target_Record_Ids__c.split(','))
+                        : new Set<Id>();
+                    Set<Id> oldCanceledTargetSet = canceledObj != null
+                        ? new Set<Id>((List<Id>) canceledObj.Target_Record_Ids__c.split(','))
+                        : new Set<Id>();
+                    newtargetRecordIdSet.addAll(oldCanceledTargetSet);
+                    if (newtargetRecordIdSet.containsAll(oldNotificationTargetSet)) {
+                        if (scheduledObj != null) {
+                            scheduledObj.Status__c = 'Processed';
+                            deleteNoti.add(scheduledObj);
+                        }
+                    }
+                }
+
+                if (
+                    notificationObj.Notification_Type__c ==
+                    NotificationCatalog.UPDATE_TO_PT_TELEVISIT_CANCELED
+                ) {
+                    Set<Id> canceledNotificationTargetSet = new Set<Id>(
+                        (List<Id>) (notificationObj.Target_Record_Ids__c.split(','))
+                    );
+
+                    oldNotificationTargetSet = rescheduledObj != null
+                        ? new Set<Id>((List<Id>) rescheduledObj.Target_Record_Ids__c.split(','))
+                        : new Set<Id>();
+
+                    if (canceledNotificationTargetSet.containsAll(oldNotificationTargetSet)) {
+                        if (rescheduledObj != null) {
+                            rescheduledObj.Status__c = 'Processed';
+                            deleteNoti.add(rescheduledObj);
+                        }
+                    }
+
+                    Set<Id> scheduledTargetIdslist = scheduledObj != null
+                        ? new Set<Id>((List<Id>) scheduledObj.Target_Record_Ids__c.split(','))
+                        : new Set<Id>();
+
+                    Set<Id> rescheduledTargetIdslist = rescheduledObj != null
+                        ? new Set<Id>((List<Id>) rescheduledObj.Target_Record_Ids__c.split(','))
+                        : new Set<Id>();
+
+                    Set<Id> canceledRescheduledId = new Set<Id>();
+                    canceledRescheduledId.addAll(canceledNotificationTargetSet);
+                    canceledRescheduledId.addAll(rescheduledTargetIdslist);
+                    if (canceledRescheduledId.containsAll(scheduledTargetIdslist)) {
+                        if (scheduledObj != null) {
+                            scheduledObj.Status__c = 'Processed';
+                            deleteNoti.add(scheduledObj);
+                        }
+                    }
+                }
+            }
+
+            if (!deleteNoti.isEmpty()) {
+                update deleteNoti;
+            }
+        }
+    }
+
+    // Logic: -----------------------------------------------------------------------------------------------------------
 
     private static void checkFieldsForNotification(List<Notification__c> newList) {
         for (Notification__c n : newList) {
