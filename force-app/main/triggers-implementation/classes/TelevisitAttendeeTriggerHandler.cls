@@ -217,14 +217,17 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                 }
             }
             List<Notification__c> notificationsList = [
-                SELECT Id
+                SELECT Id, Status__c
                 FROM Notification__c
                 WHERE
                     Recipient__c IN :delcontactsList
                     AND Notification_Type__c IN :notificationsTypeList
             ];
             if (!notificationsList.isEmpty()) {
-            delete notificationsList;
+                for (Notification__c notificationObj : notificationsList) {
+                    notificationObj.Status__c = 'Processed';
+                }
+                update notificationsList;
         }
     }
     }
