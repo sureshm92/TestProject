@@ -2,7 +2,7 @@
 html {
     height: 100%;
     background-color: #f2f2f2;
-    font-family: 'Proxima Nova' !important;
+    font-family: 'Proxima Nova';
     transition: 100ms;
 }
 
@@ -12,16 +12,15 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Proxima Nova' !important;
+    font-family: 'Proxima Nova';
 }
 
 .toastMessage.forceActionsText {
-    font-family: 'Proxima Nova' !important;
+    font-family: 'Proxima Nova';
 }
 body {
     font-size: 13px;
     overflow: visible !important;
-    font-family: 'Proxima Nova';
 }
 a,
 .slds-button {
@@ -1615,12 +1614,11 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .manage-del-continer {
     margin-left: 24px !important;
     margin-right: 24px !important;
-    margin-top: 16px !important;
 }
 .manage-delegate-acc-setting .manage-del-continer-mobile {
     margin-left: 16px !important;
     margin-right: 16px !important;
-    margin-top: 0px !important;
+    margin-top: 30px !important;
 }
 .manage-delegate-acc-setting .manage-delegates-header {
     font-size: 24px !important;
@@ -1773,10 +1771,13 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     display: flex !important;
 }
 .manage-delegate-acc-setting .manage-del-continer .slds-form-element__label {
-    padding: 0 0 0 5px !important;
+    padding: 0 0 0 5px;
     text-align: left !important;
     margin-top: -4px !important;
     line-height: 22px !important;
+}
+.manage-delegate-acc-setting-old .add-delegate-input-container .slds-form-element__label {
+    padding: 0 !important;
 }
 
 .manage-delegate-acc-setting .manage-del-continer-mobile .slds-checkbox__label {
@@ -1897,17 +1898,26 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .add-new-del-input-padding {
     padding: 0px !important;
 }
-
+.manage-delegate-acc-setting
+    .std
+    .text-checked-bold
+    .slds-checkbox
+    .slds-checkbox__label
+    .slds-form-element__label {
+    font-weight: 600 !important;
+}
 .manage-delegate-acc-setting .back-to-manage-del-btn {
     /* width: auto !important; */
     background-color: transparent !important;
     color: #015ff1 !important;
+    display: block !important;
+    padding-top: 41px !important;
 }
-/* @media (max-device-width: 767px) {
+@media (max-device-width: 767px) {
     .manage-delegate-acc-setting .back-to-manage-del-btn {
-        width: 70% !important;
+        padding-top: 0.75rem !important;
     }
-} */
+}
 .manage-delegate-acc-setting .profile-information-rectangle {
     background-color: transparent !important;
     width: auto !important;
@@ -2175,13 +2185,12 @@ user agent stylesheet svg:not(:root) {
 
 /* Contact support Modal css- Ends */
 
-
-.support-container button{
+.support-container button {
     height: 40px;
     line-height: 40px;
 }
 
-.support-container lightning-base-combobox-item span.slds-media__body span{
+.support-container lightning-base-combobox-item span.slds-media__body span {
     font-size: 14px;
     margin-left: -20px;
 }

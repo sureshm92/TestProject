@@ -98,8 +98,10 @@
             //  communityService.showToast('Error', 'error', 'The incentive program already exists');
         }
         if (source === 'tasksToggle') {
-            $A.get('e.force:refreshView').fire();
-            appEvent.fire();
+            // $A.get('e.force:refreshView').fire();
+            // appEvent.fire();
+            let stValue = component.find('tasksToggle').get('v.checked');
+            component.find('tasksToggle').set('v.checked', stValue);
         }
         
     },
