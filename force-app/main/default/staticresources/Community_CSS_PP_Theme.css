@@ -2194,3 +2194,8 @@ user agent stylesheet svg:not(:root) {
     font-size: 14px;
     margin-left: -20px;
 }
+
+.show-more-or-less-container svg{
+    fill: #015ff1;
+    height: 15px;
+}

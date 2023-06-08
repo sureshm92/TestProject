@@ -15,9 +15,13 @@ import If_You_Exp_Issue from '@salesforce/label/c.PP_If_You_Exp_Issue';
 import supportEmail from '@salesforce/label/c.PG_Unable_To_Login_L6';
 import PIR_more from '@salesforce/label/c.PIR_more';
 import Not_Available from '@salesforce/label/c.PP_Visit_Result_Value_Not_Available';
+// import PP_Contact_Support_Show_More from '@salesforce/label/c.PP_Contact_Support_Show_More';
+// import PP_Contact_Support_Show_Less from '@salesforce/label/c.PP_Contact_Support_Show_Less';
+
 
 import DesktopTemplate from './ppFooterContactSupportDesktop.html';
 import MobileTemplate from './ppFooterContactSupportMobile.html';
+import MS_Show_More from '@salesforce/label/c.MS_Show_More';
 
 export default class PpFooterContactSupport extends LightningElement {
     label = {
@@ -34,6 +38,8 @@ export default class PpFooterContactSupport extends LightningElement {
         supportEmail,
         PIR_more,
         Not_Available
+        // PP_Contact_Support_Show_More,
+        // PP_Contact_Support_Show_Less
     };
 
 
@@ -68,11 +74,13 @@ export default class PpFooterContactSupport extends LightningElement {
     customHeightMatch = 0;
     customHeightStyle = "";
     customHeightMatchForSiteStaff = "";
+    showMoreLableState = true;
 
     showmodal = false;
 
     phoneNumberValueEle = "";
     addressNumberValueEle = "";
+    siteStaffContainerEle = "";
 
     addressCopied = false;
     addressCopyHoverd = false;
@@ -87,6 +95,16 @@ export default class PpFooterContactSupport extends LightningElement {
          return this.isRTL ? "copyIconRTL" : "copyIcon";
     }
 
+    get getShowLabel(){
+        // return "Show More";
+        //return this.showMoreLableState ? this.label.PP_Contact_Support_Show_More : this.label.PP_Contact_Support_Show_Less;
+        return this.showMoreLableState ? "Show More" : "Show Less";
+    }
+
+    get getShowIcon(){
+        return this.showMoreLableState ? "utility:chevrondown" : "utility:chevronup";
+    }
+
     renderedCallback(){
         if(this.desktop){
             let phoneContainerHeight = this.template.querySelectorAll('.phoneContainer');
@@ -98,6 +116,7 @@ export default class PpFooterContactSupport extends LightningElement {
         this.phoneNumberValueEle = this.template.querySelectorAll('.phone-value-ele');
         this.addressNumberValueEle = this.template.querySelectorAll('.address-value-ele');
         this.siteStaffTooltip = this.template.querySelectorAll('.siteStaffTooltip');
+        this.siteStaffContainerEle = this.template.querySelectorAll('.site-staff-container');
     }
 
     connectedCallback() {
@@ -124,7 +143,8 @@ export default class PpFooterContactSupport extends LightningElement {
                 let length = res.length;
                 this.pluscount = length > 3 ? length - 3 : 0;
                 this.displaypluscount = this.pluscount > 0 ? true : false;
-                this.siteStaffParticipantList = res.slice(0, 3);
+                //this.siteStaffParticipantList = res.slice(0, 3);
+                this.siteStaffParticipantList = res;
                 this.siteStaffParticipantListTooltip = res.slice(3, res.length);
                 
             }
@@ -207,6 +227,11 @@ export default class PpFooterContactSupport extends LightningElement {
 
     hideMoreSiteStaff(){
         this.siteStaffTooltip[0].classList.toggle("slds-hide");
+    }
+
+    showHideSiteStaff(){
+        this.siteStaffContainerEle[0].classList.toggle("toggle-height");
+        this.showMoreLableState = !this.showMoreLableState;
     }
     
 }
