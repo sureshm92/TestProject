@@ -45,6 +45,11 @@
     margin-left: 16px;
 }
 
+.paddingLeft-16 {
+    padding-left: 16px;
+}
+
+
 .marginTop-16 {
     margin-top: 16px;
 }
@@ -206,3 +211,81 @@
 .pl-15{
     padding-left: 15px;
 }
+
+.copyIcon{
+    cursor: pointer;
+    float: right;
+    padding-right: 20px;
+}
+
+.copyIconRTL{
+    cursor: pointer;
+    float: left;
+    padding-left: 20px;
+}
+
+.padding-top-25{
+    padding-top: 25px;
+}
+
+.padding-top-16{
+    padding-top: 16px;
+}
+
+.plus-more{
+    height: 24px; 
+    color: #6E6E6E;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 32px;
+    padding: 3px;
+    border-radius: 5px;
+  }
+  
+  .plus-more:hover{
+      cursor: pointer;
+      color: #2978F3;
+      background-color: #ECF3FF;
+  }
+  
+  .ss-name{
+      font-size: 12px;
+      line-height: 24px;
+      font-family: 'Proxima Nova';
+  }
+  
+  .siteStaffTooltip{
+    position: absolute;
+    top: -5px;
+    left: 78px;
+    width: 134px;
+  }
+
+  @media only screen and (min-width: 376px) and (max-width: 394px) and (orientation: portrait) {
+    .siteStaffTooltip{
+        width: 157px;
+    }
+  }
+
+  @media only screen and (min-width: 394px) and (orientation: portrait) {
+    .siteStaffTooltip{
+        width: 177px;
+    }
+  }
+
+
+  
+  .nubbin-center:before{
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    transform: rotate(45deg);
+    content: '';
+    background-color: inherit;
+    left: 0%;
+    bottom: -0.5rem;
+    margin-left: -0.5rem;
+    top: 23%;
+  }

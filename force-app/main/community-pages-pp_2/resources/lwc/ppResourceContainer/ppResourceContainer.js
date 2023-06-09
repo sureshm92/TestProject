@@ -38,6 +38,12 @@ export default class PpResourceContainer extends NavigationMixin(LightningElemen
         }
     }
     handleNavigate() {
+        const clickResource = new CustomEvent('resourceclick', {
+            detail: { resourceId: this.resourceId },
+            bubbles: true,
+            composed: true
+        });
+        this.dispatchEvent(clickResource);
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
