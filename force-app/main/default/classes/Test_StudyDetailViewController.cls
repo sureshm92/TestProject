@@ -1,5 +1,5 @@
 @isTest
-public class StudyDetailViewControllerTest {
+public class Test_StudyDetailViewController {
 	@TestSetup
     static void init() {
         Test.startTest();

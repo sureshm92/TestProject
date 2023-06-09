@@ -1,5 +1,5 @@
 @IsTest
-public class PP_ProgressBarUtilityTest {
+public class Test_PP_ProgressBarUtility {
     @TestSetup
     static void init() {
         Test.startTest();

@@ -1,5 +1,5 @@
 @IsTest
-public class ResStudyTriggerHandlerTest {
+public class Test_ResStudyTriggerHandler {
     @TestSetup
     static void init() {
         Test.startTest();
