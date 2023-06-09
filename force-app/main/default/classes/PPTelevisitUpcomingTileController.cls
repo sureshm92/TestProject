@@ -131,8 +131,16 @@ Public without sharing Class PPTelevisitUpcomingTileController{
                     query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
                 }else{
                     //To Display Minor or Adult without email Participant's Televisit from Delegate view
+                    //query += ' WHERE User__c = :userId AND Attendee_Type__c = \'Participant Delegate\' AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
+                    List<Patient_Delegate_Enrollment__c> pdeList = [Select Id,Patient_Delegate__r.Participant_Delegate__r.Contact__c from Patient_Delegate_Enrollment__c where Primary_Delegate__c = true and Participant_Enrollment__c =: peId LIMIT 1];
+                    List<User> userList = [SELECT Id From User WHERE ContactId =: pdeList[0].Patient_Delegate__r.Participant_Delegate__r.Contact__c Limit 1];
+                    String primaryDelegateUserId = userList[0].Id;
+                    if(primaryDelegateUserId != userId){
+                        //secondary delegate can view Minor Participant televisit scheduled with Primary Delegate
+                        query += ' WHERE User__c = :primaryDelegateUserId AND Attendee_Type__c = \'Participant Delegate\' AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
+                    }else{
                     query += ' WHERE User__c = :userId AND Attendee_Type__c = \'Participant Delegate\' AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
-                
+                    }
                 }
             }else{
                 //To Display Participant's Televisit 

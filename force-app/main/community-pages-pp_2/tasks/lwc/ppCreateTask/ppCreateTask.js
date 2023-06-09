@@ -566,16 +566,16 @@ export default class PpCreateTask extends LightningElement {
                         }
                     }
                     if (
-                        this.updatedRecord.reminderDateTime ==
-                            this.initialRecord.reminderDateTime &&
-                        this.updatedRecord.remindSMS == this.initialRecord.remindSMS &&
-                        this.updatedRecord.remindEmail == this.initialRecord.remindEmail
+                        this.updatedRecord?.reminderDateTime ==
+                            this.initialRecord?.reminderDateTime &&
+                        this.updatedRecord?.remindSMS == this.initialRecord?.remindSMS &&
+                        this.updatedRecord?.remindEmail == this.initialRecord?.remindEmail
                     ) {
                         this.enableSave = false;
                     }
                     if (
                         !this.displayDateInUi &&
-                        this.initData.participantDateTime == undefined &&
+                        this.initData?.participantDateTime == undefined &&
                         this.task?.Survey_Invitation__r?.Participant_Due_Date__c == null
                     ) {
                         this.enableSave = false;

@@ -7,6 +7,7 @@ import desktopTemplate from './ppMyVisitResultsList.html';
 import PP_ICONS from '@salesforce/resourceUrl/pp_community_icons';
 import getPatientVisitsWithResults from '@salesforce/apex/ModifiedVisitResultsRemote.getInitDataForVisitResultsModified';
 import NO_RESULTS_MESSAGE from '@salesforce/label/c.PG_VP_L_No_Items_display';
+import UNSCHEDULED_VISIT from '@salesforce/label/c.StudyVisit_Unscheduled_Visit';
 import NOT_AVAILABLE from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
 
 export default class PpMyVisitResultsList extends LightningElement {
@@ -25,14 +26,15 @@ export default class PpMyVisitResultsList extends LightningElement {
 
     labels = {
         NO_RESULTS_MESSAGE,
-        NOT_AVAILABLE
+        NOT_AVAILABLE,
+        UNSCHEDULED_VISIT
     };
 
     connectedCallback() {
         this.urlString = window.location.href;
         if (window.location.href.includes('pvId')) {
             this.currentVisitId = communityService.getUrlParameter('pvId');
-            if(!this.isDesktop){
+            if (!this.isDesktop) {
                 const custEvent = new CustomEvent('visitclick', {
                     detail: false
                 });
@@ -155,18 +157,17 @@ export default class PpMyVisitResultsList extends LightningElement {
             this.urlString = window.location.href;
             this.currentVisit = '';
             this.currentVisitId = '';
-            if(window.location.href.includes('pvId')){
+            if (window.location.href.includes('pvId')) {
                 const custEvent = new CustomEvent('visitclick', {
                     detail: false
                 });
                 this.dispatchEvent(custEvent);
-            }else{
+            } else {
                 const custEvent = new CustomEvent('visitclick', {
                     detail: true
                 });
                 this.dispatchEvent(custEvent);
             }
-           
         }
     }
 }
