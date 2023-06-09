@@ -81,6 +81,10 @@ export default class PpFooterContactSupport extends LightningElement {
     phoneNumberValueEle = "";
     addressNumberValueEle = "";
     siteStaffContainerEle = "";
+    careTeamContainerEle = "";
+    adjustHeight = "";
+    phoneContainerEle = "";
+    addressContainerEle = "";
 
     addressCopied = false;
     addressCopyHoverd = false;
@@ -104,19 +108,33 @@ export default class PpFooterContactSupport extends LightningElement {
     get getShowIcon(){
         return this.showMoreLableState ? "utility:chevrondown" : "utility:chevronup";
     }
-
+   
     renderedCallback(){
         if(this.desktop){
-            let phoneContainerHeight = this.template.querySelectorAll('.phoneContainer');
-            let addressContainerHeight = this.template.querySelectorAll('.addressContainer');
-            this.customHeightMatch = phoneContainerHeight[0].offsetHeight + addressContainerHeight[0].offsetHeight + 8;
-            this.customHeightStyle = "height:" + this.customHeightMatch + "px";
-            this.customHeightMatchForSiteStaff = "height:" + (this.customHeightMatch - 102) + "px";
+            //this.setHeight();
+            this.careTeamContainerEle = this.template.querySelectorAll('.careTeamContainer');
+            this.phoneContainerEle = this.template.querySelectorAll('.phoneContainer');
+            this.addressContainerEle = this.template.querySelectorAll('.addressContainer');
+
+            if(this.showMoreLableState == false){
+                this.customHeightStyle = "height:auto; min-height: 100%";
+                this.customHeightMatchForSiteStaff = "height: auto;"
+                this.adjustHeight = "height:" + (this.careTeamContainerEle[0].offsetHeight - (this.phoneContainerEle[0].offsetHeight + 8)) + "px";
+            }else{
+                    this.setHeight();
+                    this.adjustHeight = "";
+            }
         }
         this.phoneNumberValueEle = this.template.querySelectorAll('.phone-value-ele');
         this.addressNumberValueEle = this.template.querySelectorAll('.address-value-ele');
         this.siteStaffTooltip = this.template.querySelectorAll('.siteStaffTooltip');
         this.siteStaffContainerEle = this.template.querySelectorAll('.site-staff-container');
+    }
+
+    setHeight(){
+        this.customHeightMatch = this.phoneContainerEle[0].offsetHeight + this.addressContainerEle[0].offsetHeight + 8;
+        this.customHeightStyle = "height:" + this.customHeightMatch + "px";
+        this.customHeightMatchForSiteStaff = "height:" + (this.customHeightMatch - 102) + "px";
     }
 
     connectedCallback() {
