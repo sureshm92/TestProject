@@ -104,12 +104,7 @@ public class Test_PPUpdatesController {
         Id conId = TestData.participant.Contact__c;
         Participant__c pt = TestData.participant;
         //DOC
-        Notification__c nt1 = new Notification__c(
-            Target_Record_Ids__c = resDocStudy.Id,
-            Recipient__c = conId,
-            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
-            WhatId__c = pt.Id
-        );
+        Notification__c nt1 = new Notification__c(Target_Record_Ids__c=resDocStudy.Id,Recipient__c=conId,Notification_Type__c=NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,WhatId__c=pt.Id,Status__c = 'In Progress');
         insert nt1;
         Send_Result__c sr1 = new Send_Result__c(
             Target_Type__c = 'Updates',
@@ -117,13 +112,8 @@ public class Test_PPUpdatesController {
             Notification__c = nt1.Id
         );
         insert sr1;
-
-        Notification__c nt3 = new Notification__c(
-            Target_Record_Ids__c = docPtRes.Id,
-            Recipient__c = conId,
-            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
-            WhatId__c = pt.Id
-        );
+        
+        Notification__c nt3 = new Notification__c(Target_Record_Ids__c=docPtRes.Id,Recipient__c=conId,Notification_Type__c=NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,WhatId__c=pt.Id,Status__c = 'In Progress');
         insert nt3;
         Send_Result__c sr3 = new Send_Result__c(
             Target_Type__c = 'Updates',
@@ -132,12 +122,7 @@ public class Test_PPUpdatesController {
         );
         insert sr3;
         //VIDEO
-        Notification__c nt2 = new Notification__c(
-            Target_Record_Ids__c = vedioPtRes.Id,
-            Recipient__c = conId,
-            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
-            WhatId__c = pt.Id
-        );
+        Notification__c nt2 = new Notification__c(Target_Record_Ids__c=vedioPtRes.Id,Recipient__c=conId,Notification_Type__c=NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,WhatId__c=pt.Id,Status__c = 'In Progress');
         insert nt2;
         Send_Result__c sr2 = new Send_Result__c(
             Target_Type__c = 'Updates',
@@ -145,12 +130,7 @@ public class Test_PPUpdatesController {
             Notification__c = nt2.Id
         );
         insert sr2;
-        Notification__c nt4 = new Notification__c(
-            Target_Record_Ids__c = resVideoStudy.Id,
-            Recipient__c = conId,
-            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
-            WhatId__c = pt.Id
-        );
+        Notification__c nt4 = new Notification__c(Target_Record_Ids__c=resVideoStudy.Id,Recipient__c=conId,Notification_Type__c=NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,WhatId__c=pt.Id,Status__c = 'In Progress');
         insert nt4;
         Send_Result__c sr4 = new Send_Result__c(
             Target_Type__c = 'Updates',
@@ -159,13 +139,8 @@ public class Test_PPUpdatesController {
         );
         insert sr4;
         //Link
-
-        Notification__c nt5 = new Notification__c(
-            Target_Record_Ids__c = linkPtRes.Id,
-            Recipient__c = conId,
-            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
-            WhatId__c = pt.Id
-        );
+        
+        Notification__c nt5 = new Notification__c(Target_Record_Ids__c=linkPtRes.Id,Recipient__c=conId,Notification_Type__c=NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,WhatId__c=pt.Id,Status__c = 'In Progress');
         insert nt5;
         Send_Result__c sr5 = new Send_Result__c(
             Target_Type__c = 'Updates',
@@ -173,12 +148,7 @@ public class Test_PPUpdatesController {
             Notification__c = nt5.Id
         );
         insert sr5;
-        Notification__c nt6 = new Notification__c(
-            Target_Record_Ids__c = resLinkStudy.Id,
-            Recipient__c = conId,
-            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
-            WhatId__c = pt.Id
-        );
+        Notification__c nt6 = new Notification__c(Target_Record_Ids__c=resLinkStudy.Id,Recipient__c=conId,Notification_Type__c=NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,WhatId__c=pt.Id,Status__c = 'In Progress');
         insert nt6;
         Send_Result__c sr6 = new Send_Result__c(
             Target_Type__c = 'Updates',
@@ -195,12 +165,7 @@ public class Test_PPUpdatesController {
         tv.Participant_Enrollment__c = enroll.Id;
         tv.Status__c = 'Scheduled';
         insert tv;
-        Notification__c nt7 = new Notification__c(
-            Target_Record_Ids__c = tv.Id,
-            Recipient__c = conId,
-            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED,
-            WhatId__c = pt.Id
-        );
+        Notification__c nt7 = new Notification__c(Target_Record_Ids__c=tv.Id,Recipient__c=conId,Notification_Type__c=NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED,WhatId__c=pt.Id,Status__c = 'In Progress');
         insert nt7;
         Send_Result__c sr7 = new Send_Result__c(
             Target_Type__c = 'Updates',
@@ -208,12 +173,7 @@ public class Test_PPUpdatesController {
             Notification__c = nt7.Id
         );
         insert sr7;
-        Notification__c nt8 = new Notification__c(
-            Target_Record_Ids__c = tv.Id,
-            Recipient__c = conId,
-            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED,
-            WhatId__c = pt.Id
-        );
+        Notification__c nt8 = new Notification__c(Target_Record_Ids__c=tv.Id,Recipient__c=conId,Notification_Type__c=NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED,WhatId__c=pt.Id,Status__c = 'In Progress');
         insert nt8;
         Send_Result__c sr8 = new Send_Result__c(
             Target_Type__c = 'Updates',
@@ -235,12 +195,7 @@ public class Test_PPUpdatesController {
             Completed_Date__c = Date.newInstance(2019, 12, 17)
         );
         insert patientVisit;
-        Notification__c nt9 = new Notification__c(
-            Target_Record_Ids__c = patientVisit.Id,
-            Recipient__c = conId,
-            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE,
-            WhatId__c = enroll.Id
-        );
+        Notification__c nt9 = new Notification__c(Target_Record_Ids__c=patientVisit.Id,Recipient__c=conId,Notification_Type__c=NotificationCatalog.UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE,WhatId__c=enroll.Id,Status__c = 'In Progress');
         insert nt9;
         Send_Result__c sr9 = new Send_Result__c(
             Target_Type__c = 'Updates',
