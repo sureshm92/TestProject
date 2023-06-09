@@ -415,7 +415,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.startTime = val;
             this.errorTime = false;
 
-            if (val < this.defaultTime) {
+            if (val < this.defaultTime && this.visitDate === this.today) {
                 this.errorTime = true;
                 dom.setCustomValidity('Enter Current or Future Time');
             }
