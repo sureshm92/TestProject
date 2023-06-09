@@ -2145,6 +2145,10 @@ user agent stylesheet svg:not(:root) {
     .contact-support-popup .slds-modal_medium .slds-modal__container {
         width: 720px !important;
     }
+    .cRRTopBar .tb-back-title,
+    .header {
+        padding-left: 2rem;
+    }
 }
 
 .contact-support-popup .slds-icon_x-small {
