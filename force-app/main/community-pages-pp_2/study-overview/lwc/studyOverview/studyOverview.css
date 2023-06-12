@@ -12,6 +12,7 @@
 
 .po-custom-card-mobile {
     height: auto; /* 64px */
+    min-height: 114px;
     max-height: 120px;
     padding: 8px 0px;
     background-color: #fff;
