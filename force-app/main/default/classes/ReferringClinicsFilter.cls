@@ -19,6 +19,7 @@ public without sharing class ReferringClinicsFilter implements SearchFilter {
         this.sortData = sortData;
     }
 
+    @TestVisible
     private static final List<String> REFERRING_CLINICS_COMMON_FIELDS = new List<String>{
         'Id',
         'Name',
