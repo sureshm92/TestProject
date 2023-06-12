@@ -6,14 +6,6 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { NavigationMixin } from 'lightning/navigation';
 import formFactor from '@salesforce/client/formFactor';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import {
-    subscribe,
-    unsubscribe,
-    APPLICATION_SCOPE,
-    MessageContext
-} from 'lightning/messageService';
-
-import messagingChannel from '@salesforce/messageChannel/ppVisResults__c';
 
 export default class PpStudyVisitResultCard extends NavigationMixin(LightningElement) {
     label = {
@@ -35,8 +27,6 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
     @api patientVisitId;
     @api ctpSharingTiming;
     @api isPastVisit = false;
-    @wire(MessageContext)
-    messageContext;
 
     connectedCallback() {
         if (formFactor === 'Small') {
@@ -56,41 +46,11 @@ export default class PpStudyVisitResultCard extends NavigationMixin(LightningEle
     }
     initializeData() {
         if (!communityService.isDummy()) {
-            if (this.isDesktop) {
-                this.showVisResults = communityService.getVisResultsAvailable();
-            } else {
-                this.handleSubscribe();
-            }
+            this.showVisResults = communityService.getVisResultsAvailable();
         }
     }
     get isMobileOrTablet() {
         return this.isDesktop ? false : true;
-    }
-    handleSubscribe() {
-        if (this.subscription) {
-            return;
-        }
-        this.subscription = subscribe(
-            this.messageContext,
-            messagingChannel,
-            (message) => this.handleMessage(message),
-            { scope: APPLICATION_SCOPE }
-        );
-    }
-
-    unsubscribeToMessageChannel() {
-        unsubscribe(this.subscription);
-        this.subscription = null;
-    }
-
-    handleMessage(message) {
-        if (message) {
-            this.showVisResults = message.isVisResultsAvailable;
-        }
-    }
-
-    disconnectedCallback() {
-        //this.unsubscribeToMessageChannel();
     }
 
     navigateToMyResults() {

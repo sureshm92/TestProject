@@ -5,6 +5,13 @@
 
 .mVisitContent {
     padding: 0 0.75rem;
+    max-width: 468px;
+    margin: 0 auto;
+}
+.tabletVisitContent {
+    padding: 0 0.75rem;
+    max-width: 468px;
+    margin: 0 auto;
 }
 
 .visit3-mobile {
@@ -35,7 +42,7 @@
 }
 
 .visit-date-time {
-  /*  display: flex;*/
+    /*  display: flex;*/
     font-size: 1rem;
     font-weight: 500;
 }
@@ -81,7 +88,7 @@
     width: 128px;
     margin: 1rem 1rem 0 1rem;
 }
-@media only screen and (min-width: 768px) and (max-width: 1024px) {
+/* @media only screen and (min-width: 768px) and (max-width: 1024px) {
     .mBackButton {
         margin-left: 10rem;
     }
@@ -89,10 +96,10 @@
         width: 52rem;
         margin-left: 10rem;
     }
-}
+} */
 
-.divider-line{
-    font-size: 1rem;    
+.divider-line {
+    font-size: 1rem;
     font-weight: 600;
     background-color: rgb(255 255 255);
 }
