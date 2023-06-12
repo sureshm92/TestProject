@@ -11,7 +11,9 @@
 }
 
 .po-custom-card-mobile {
-    height: 114px; /* 64px */
+    height: auto; /* 64px */
+    max-height: 120px;
+    padding: 8px 0px;
     background-color: #fff;
     font-family: Proxima Nova Medium;
 }
@@ -80,7 +82,7 @@
 
 .po-more {
     min-height: 24px;
-    width: 199px;
+    width: 100%;
     color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 14px;
@@ -89,6 +91,13 @@
     line-height: 24px;
     /*PEH-11588*/
     padding-top: 10px;
+    max-width: 188px;
+}
+
+@media only screen and (min-width: 360px) and (max-width: 375px) {
+    .po-more {
+       max-width: 170px;
+    }    
 }
 
 .po-more-text {
