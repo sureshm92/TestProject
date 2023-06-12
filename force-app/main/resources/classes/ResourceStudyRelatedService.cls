@@ -36,7 +36,7 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
         return this;
     }
 
-    protected virtual override List<Id> getResourcesIds() {
+    @TestVisible protected virtual override List<Id> getResourcesIds() {
         if (resourceId != null)
             return new List<Id>{ resourceId };
             List<String> listResourceType= new List<String>();
@@ -157,15 +157,15 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
         return resourcesIds;
     }
 
-    protected override ResourceService.ResourceWrapperContainer getErrorNoObjectsToFilter() {
+    @TestVisible protected override ResourceService.ResourceWrapperContainer getErrorNoObjectsToFilter() {
         return ResourceService.getErrorMissingStudy();
     }
 
-    protected override Boolean isObjectsToFilterMissing() {
+    @TestVisible protected override Boolean isObjectsToFilterMissing() {
         return (resourceId == null && pState.value == ParticipantService.ParticipantStates.ALUMNI);
     }
 
-    protected Id getCTPId() {
+    @TestVisible protected Id getCTPId() {
         if (ctpId == null && pState.ctp != null)
             ctpId = pState.ctp.Id;
         return ctpId;
