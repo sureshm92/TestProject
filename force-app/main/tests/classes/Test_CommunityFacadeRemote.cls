@@ -242,10 +242,25 @@ private class Test_CommunityFacadeRemote {
             );
             try {
                 CommunityFacadeRemote.getPreferredLanguageCode('us');
-            } catch (Exception ex) {
+                CommunityFacadeRemote.getSessionId();
+                CommunityFacadeRemote.getSendResults(conCase.id,'true');
+                CommunityFacadeRemote.isActivate(conCase.Id);
+                CommunityFacadeRemote.updateReadNotification(conCase.Id);
+             } catch (Exception ex) {
             }
 
             Test.stopTest();
         }
+    }
+
+    static testMethod void testException(){
+        test.startTest();
+        try{
+            CommunityFacadeRemote.changeMode('PI',userInfo.getUserId(),null,null);
+        }
+        catch(Exception ex){
+            
+        }
+        test.stopTest();
     }
 }

@@ -229,6 +229,7 @@ public with sharing class LightningSelfRegisterControllerTest {
         paramsMap.put('accountId', accountId);
         paramsMap.put('regConfirmUrl', regConfirmUrl);
         paramsMap.put('startUrl', startUrl);
+        LightningSelfRegisterController.setExperienceId('dummyId');
         return paramsMap;
     }
 }
