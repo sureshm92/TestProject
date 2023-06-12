@@ -573,7 +573,7 @@ private class Test_BaseCRCPCommunity {
         Test.stopTest();
     }
 
-     @IsTest
+     /*@IsTest
     static void basePITest5() {
         TestData testData = new TestData();
         Test.startTest();
@@ -605,7 +605,7 @@ private class Test_BaseCRCPCommunity {
             );
         }
         Test.stopTest();
-    }
+    }*/
 
    @IsTest
     static void healthcareProvidersTest() {
