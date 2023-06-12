@@ -336,8 +336,9 @@ a {
 
     .active-custom-box,
     .inactive-custom-box {
-        min-width: 75%;
+        /* max-width: 468px; */
         margin-inline: auto;
+        width: 340px;
     }
 
     .upcomingButton {
