@@ -76,5 +76,10 @@ public class Test_ParticipantParagraphController {
         controller.getTrackValue();
         controller.getCommunityHelpValue();
         controller.getisRTL();
+
+        ParagraphController controller1 = new ParagraphController();
+        controller1.labelName = System.Label.AL_Body_PRT_Become_Adult_Delegate;
+        controller1.outputMode = 'HTML';
+        controller1.getLabelValue();
     }
 }
