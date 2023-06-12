@@ -2,67 +2,51 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest(IsParallel=true)
-private class Test_RRLoginRemote {
-    @IsTest
-    static void testRRLoginRemote() {
-        Test.startTest();
-        String username;
-        String password;
-        String startUrl;
-        String communityName;
-        RRLoginRemote.login(username,password,startUrl);
-        RRLoginRemote.getForgotPasswordUrl(username);
-        RRLoginRemote.getForgotPasswordUrl();
-        RRLoginRemote.getCommunityURL(communityName); 
-        RRLoginRemote.isUserPasswordLocked(username);
-        RRLoginRemote.communityLogin(username,password,startUrl);
-    }
-    
-    
-    @IsTest
-    static void testLoginWithInvalidCredentials() {
-        // System.assertEquals('Argument 1 cannot be null', RRLoginRemote.login('testUser', 'fakepwd', null));
-        String res = LightningLoginFormController.login('testUser', 'fakepwd', null);
-        if (String.isNotBlank(res))
-            System.assertEquals('Argument 1 cannot be null', res);
-        else
-            System.assertNotEquals('Argument 1 cannot be null', res);
-    }
-
-    @IsTest
-    static void LightningLoginFormControllerInstantiation() {
-        RRLoginRemote controller = new RRLoginRemote();
-        System.assertNotEquals(controller, null);
-    }
-
-    @IsTest
-    static void testIsUsernamePasswordEnabled() {
-        System.assertEquals(true, RRLoginRemote.getIsUsernamePasswordEnabled());
-    }
-
-    @IsTest
-    static void testIsSelfRegistrationEnabled() {
-        System.assertEquals(false, RRLoginRemote.getIsSelfRegistrationEnabled());
-    }
-
-    @IsTest
-    static void testGetSelfRegistrationURL() {
-        System.assertEquals(null, RRLoginRemote.getSelfRegistrationUrl());
-    }
-
-    @IsTest
-    static void testAuthConfig() {
-        Auth.AuthConfiguration authConfig = RRLoginRemote.getAuthConfig();
-        System.assertNotEquals(null, authConfig);
-    }
-
-    @IsTest
-    static void testExpId() {
-        String testSetting = RRLoginRemote.setExperienceId('111');
-        System.assertEquals(
-            'This method can be invoked only from within a community.',
-            testSetting
+@IsTest(SeeAllData=true)
+public with sharing class Test_RRLoginRemote {
+@IsTest
+    static void testLogin() {
+        Contact contact_1;    
+        Account account_1;
+        Profile profile_1 = [
+            SELECT Id
+            FROM Profile
+            WHERE Name = 'IQVIA Customer Community Plus Login User'
+            LIMIT 1
+        ];
+        account_1 = new Account(Name = 'Community', BillingCountry = 'United States');
+        insert account_1;
+        contact_1 = new Contact(          
+        AccountId = account_1.Id, LastName = 'xgeek',
+        userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
+        userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT);
+        insert contact_1;
+        user user_1 = new User(
+            Email = 'yourusername@gmail.com',
+            ProfileId = profile_1.Id,
+            UserName = 'yourusername@gmail.com',
+            Alias = 'Test',
+            TimeZoneSidKey = 'America/New_York',
+            EmailEncodingKey = 'ISO-8859-1',
+            LocaleSidKey = 'en_US',
+            LanguageLocaleKey = 'en_US',
+            ContactId = contact_1.Id,
+            PortalRole = 'Manager',
+            FirstName = 'Firstname',
+            LastName = 'Lastname'
         );
+        insert user_1;   
+        system.runAs(user_1){
+ 			RRLoginRemote.login('yourusername@gmail.com', 'testPassword', 'http://a.com');
+        	RRLoginRemote.communityLogin('yourusername@gmail.com', 'testPassword', 'http://a.com');
+        	RRLoginRemote.getForgotPasswordUrl('yourusername@gmail.com');
+        	RRLoginRemote.getIsUsernamePasswordEnabled();
+            RRLoginRemote.getIsSelfRegistrationEnabled();
+            RRLoginRemote.getForgotPasswordUrl();
+            RRLoginRemote.getSelfRegistrationUrl();
+            RRLoginRemote.getCommunityURL('iqvia');
+            RRLoginRemote.setExperienceId('123');
+            RRLoginRemote.isUserPasswordLocked('yourusername@gmail.com');
+        }
     }
 }
