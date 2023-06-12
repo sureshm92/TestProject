@@ -246,8 +246,7 @@ private class Test_CommunityFacadeRemote {
                 CommunityFacadeRemote.getSendResults(conCase.id,'true');
                 CommunityFacadeRemote.isActivate(conCase.Id);
                 CommunityFacadeRemote.updateReadNotification(conCase.Id);
-                CommunityFacadeRemote.changeOptInCookies(false);
-            } catch (Exception ex) {
+             } catch (Exception ex) {
             }
 
             Test.stopTest();
