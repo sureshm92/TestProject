@@ -99,9 +99,10 @@ public class Test_UserTriggerHandler {
         Contact usrcontact = new Contact(AccountId = usraccount.Id, LastName = 'xgeek2');
         insert usrcontact;
         
+      
         Task task = new Task();
         task.Owner_Contact__c = usrcontact.Id;
-        task.Task_Type__c = TaskService.TASK_TYPE_SURVEY;
+        
         insert task;
         
         User user_1 = new User(
@@ -122,33 +123,4 @@ public class Test_UserTriggerHandler {
         
     }
     
-    @IsTest
-    static void userTrigger3() {
-      
-        Profile profile_1 = [
-            SELECT Id
-            FROM Profile
-            WHERE Name = 'IQVIA Customer Community Plus Login User'
-            LIMIT 1
-        ];
-        
-        Contact con = [select Id from contact where Email = 'pi@emil.com' limit 1];
-        
-        User user_1 = new User(
-                Email = 'testi@test.com.invalid',
-                ProfileId = profile_1.Id,
-                UserName = 'testi@test.com.invalid',
-                Alias = 'Test',
-                TimeZoneSidKey = 'America/New_York',
-                EmailEncodingKey = 'ISO-8859-1',
-                LocaleSidKey = 'en_US',
-                LanguageLocaleKey = 'en_US',
-                ContactId = con.Id,
-                PortalRole = 'Manager',
-                FirstName = 'Firstname',
-                LastName = 'Lastname'
-            );
-        insert user_1;
-        
-    }
 }
