@@ -110,8 +110,8 @@
                                                     oncustomreminderdata={handleCustomReminder}
                                                     onreminderdata={handleReminder}
                                                     edit-mode={editMode}
-                                                    max-reminder-date={participantDueDate}
-                                                    max-reminder-time={participantDueTime}
+                                                    max-reminder-date={maxremdate}
+                                                    max-reminder-time={maxremtime}
                                                 ></c-pp-create-task-reminder
                                             ></template>
                                         </lightning-layout-item>
@@ -243,6 +243,8 @@
                                                     onreminderdata={handleReminder}
                                                     task-info={task}
                                                     edit-mode={editMode}
+                                                    max-reminder-date={maxremdate}
+                                                    max-reminder-time={maxremtime}
                                                 ></c-pp-create-task-reminder
                                             ></template>
                                         </lightning-layout-item>
