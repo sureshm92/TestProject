@@ -1,3 +1,4 @@
+/*test class covered in Test_BaseCRCPCommunity */
 public without sharing class ScreenerResponseTriggerHandler {
     
     public class CheckReimbursableActivities extends TriggerHandler {
