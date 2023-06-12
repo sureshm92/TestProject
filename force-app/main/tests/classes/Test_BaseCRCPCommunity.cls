@@ -1271,7 +1271,7 @@ private class Test_BaseCRCPCommunity {
                 testData.hcpEnrollment.Id,
                 false,
                 CommunityService.USER_MODE_HCP,
-                null,null
+                '',''
             );
             ReferringRemote.InitData refInitData = (ReferringRemote.InitData) JSON.deserialize(
                 refInitDataJSON,

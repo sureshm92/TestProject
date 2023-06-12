@@ -567,6 +567,16 @@ a,
     margin-top: 7rem;
   }
 }
+@media all and (min-width: 769px) and (max-width: 821px) {
+    .document-box{
+        min-height: 820px;
+      }
+}
+@media all and (min-width: 822px) and (max-width: 913px) {
+    .document-box{
+        min-height: 996px;
+      }
+}
 @media screen and (orientation: landscape) and (max-width: 740px) {
   .document-box {
     width: 94%;
