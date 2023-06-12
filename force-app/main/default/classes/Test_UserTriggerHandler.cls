@@ -122,5 +122,49 @@ public class Test_UserTriggerHandler {
         insert user_1;
         
     }
+    @IsTest
+    static void userTrigger3() {
+        Profile profile_1 = [
+            SELECT Id
+            FROM Profile
+            WHERE Name = 'IQVIA Customer Community Plus Login User'
+            LIMIT 1
+        ];
+        
+        Study_Site__c studySite = [
+            SELECT Id
+            FROM Study_Site__c
+            WHERE Study_Site_Number__c = 'SS1'
+            LIMIT 1
+        ];
+        
+        Account piAccount = [select Id from account where name ='PI Account' limit 1];
+        Contact piContact = new Contact(
+                FirstName = 'PITD',
+                LastName = 'PITD',
+                Email = 'pi2@emil.com.invalid',
+                MailingCountry = 'United States',
+                AccountId = piAccount.Id,
+                userCommunytyType__c = 'PI'
+            );
+		insert piContact;
+        
+        User user_1 = new User(
+                Email = 'testi@test.com.invalid',
+                ProfileId = profile_1.Id,
+                UserName = 'testi@test.com.invalid',
+                Alias = 'Test',
+                TimeZoneSidKey = 'America/New_York',
+                EmailEncodingKey = 'ISO-8859-1',
+                LocaleSidKey = 'en_US',
+                LanguageLocaleKey = 'en_US',
+                ContactId = piContact.Id,
+                PortalRole = 'Manager',
+                FirstName = 'Firstname',
+                LastName = 'Lastname'
+            );
+        insert user_1;
+        
+    }
     
 }

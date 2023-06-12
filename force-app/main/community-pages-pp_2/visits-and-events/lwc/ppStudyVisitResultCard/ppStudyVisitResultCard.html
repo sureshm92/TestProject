@@ -34,8 +34,8 @@
             </template>
         </template>
     </template>
-    <!--Mobile/Tablet-->
-    <template if:true={isMobileOrTablet}>
+    <!--Tablet-->
+    <template if:true={isTablet}>
         <template if:true={showVisResults}>
             <div class="slds-p-top_medium">
                 <h1 class="what-to-expect">{label.results}</h1>
@@ -46,23 +46,51 @@
                     ></c-pp-visit-result-type-info>
                 </template>
                 <template lwc:else>
-                    <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 icon-cont1-mobile"
-                    >
-                        <div class="slds-grid slds-wrap">
-                            <div class="slds-col center slds-p-around_large">
-                                <img src={visitimage1} class="image-result-mobile" />
+                    <div class="slds-col slds-size_1-of-1 icon-cont1-mobile">
+                        <div
+                            class="slds-grid slds-grid_vertical-align-center slds-grid_align-center medium"
+                        >
+                            <div class="slds-col">
+                                <p><img src={visitimage1} class="image-result-mobile" /></p>
+                                <p class="slds-m-vertical_large empty-msg">{label.resultsCheck}</p>
+                                <p
+                                    class="view-result view-result-mob"
+                                    onclick={navigateToMyResults}
+                                >
+                                    {label.viewAllResults}
+                                </p>
                             </div>
-                            <div
-                                class="slds-col center slds-p-bottom_xx-large check-for-results-on"
-                            >
-                                {label.resultsCheck}
-                            </div>
-                            <div
-                                onclick={navigateToMyResults}
-                                class="slds-col center view-result view-result-mob"
-                            >
-                                {label.viewAllResults}
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </template>
+    <!--Mobile-->
+    <template if:true={isMobile}>
+        <template if:true={showVisResults}>
+            <div class="slds-p-top_medium">
+                <h1 class="what-to-expect">{label.results}</h1>
+                <template lwc:if={isPastVisit}>
+                    <c-pp-visit-result-type-info
+                        patient-visit-id={patientVisitId}
+                        ctp-sharing-timing={ctpSharingTiming}
+                    ></c-pp-visit-result-type-info>
+                </template>
+                <template lwc:else>
+                    <div class="slds-col slds-size_1-of-1 icon-cont1-mobile">
+                        <div
+                            class="slds-grid slds-grid_vertical-align-center slds-grid_align-center medium"
+                        >
+                            <div class="slds-col">
+                                <p><img src={visitimage1} class="image-result-mobile" /></p>
+                                <p class="slds-m-vertical_large empty-msg">{label.resultsCheck}</p>
+                                <p
+                                    class="view-result view-result-mob"
+                                    onclick={navigateToMyResults}
+                                >
+                                    {label.viewAllResults}
+                                </p>
                             </div>
                         </div>
                     </div>
