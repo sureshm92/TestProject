@@ -149,15 +149,7 @@ public class Test_ResStudyTriggerHandler {
     @IsTest
     static void baseHCPTest2() {
         List<Resource__c> resources = new List<Resource__c>();
-        
-        
-        Clinical_Trial_Profile__c t1 = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(
-            Clinical_Trial_Profile__c.getSObjectType()
-        );
-        t1.NCT_Number__c = 'NCT00000000';
-        t1.Protocol_ID__c = 'NCT00000000';
-        t1.Study_Documents_Are_Available__c = true;
-        
+
         Account piAccount = new Account(
             Name = 'PI Account'
         );
@@ -169,6 +161,15 @@ public class Test_ResStudyTriggerHandler {
             Email = 'pi@emil.com',
             AccountId = piAccount.Id
         );
+        insert piContact;
+        
+        Contact rpContact = new Contact(
+            FirstName = 'RP',
+            LastName = 'RP',
+            Email = 'rp@emil.com.invalid',
+            AccountId = piAccount.Id
+        );
+        insert rpContact;
         
         Account studySiteAccount = new Account(
             Name = 'Study Site Account',
@@ -178,12 +179,14 @@ public class Test_ResStudyTriggerHandler {
         );
         insert studySiteAccount;
         
-       
-        
-        
-
         List<Clinical_Trial_Profile__c> profiles = new List<Clinical_Trial_Profile__c>();
-
+		Clinical_Trial_Profile__c t1 = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(
+            Clinical_Trial_Profile__c.getSObjectType()
+        );
+        t1.NCT_Number__c = 'NCT00000000';
+        t1.Protocol_ID__c = 'NCT00000000';
+        t1.Study_Documents_Are_Available__c = true;
+        
         profiles.add(t1);
         insert profiles;
         
@@ -198,6 +201,15 @@ public class Test_ResStudyTriggerHandler {
             Study_Site_Number__c = '123'
         );
         insert studySite;
+        
+        Site_Staff__c siteStaffPi = new Site_Staff__c(
+            Site_Contact__c = piContact.Id,
+            Delegate_Level__c = DelegateService.DELEGATE_LEVEL_2,
+            Study_Site__c = studySite.Id,
+            is_Invited__c = true
+        );
+        insert siteStaffPi;
+        
         Resource__c r1StudyDoc = (Resource__c) TestDataFactory.getSObject(
             Resource__c.getSObjectType()
         );
