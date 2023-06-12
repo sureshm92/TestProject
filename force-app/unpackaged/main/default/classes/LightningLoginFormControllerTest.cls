@@ -2,12 +2,7 @@
 public with sharing class LightningLoginFormControllerTest {
     @IsTest
     static void testLoginWithInvalidCredentials() {
-        //System.assertEquals('Argument 1 cannot be null', RRLoginRemote.login('testUser', 'fakepwd', null));
-        String res = LightningLoginFormController.login('testUser', 'fakepwd', null);
-        if (String.isNotBlank(res))
-            System.assertEquals('Argument 1 cannot be null', res);
-        else
-            System.assertNotEquals('Argument 1 cannot be null', res);
+        System.assertEquals(null, LightningLoginFormController.login('testUser', 'fakepwd', null));
     }
 
     @IsTest
@@ -35,5 +30,10 @@ public with sharing class LightningLoginFormControllerTest {
     static void testAuthConfig() {
         Auth.AuthConfiguration authConfig = LightningLoginFormController.getAuthConfig();
         System.assertNotEquals(null, authConfig);
+    }
+    @IsTest
+    static void testForgotPassword() {
+        LightningLoginFormController.getForgotPasswordUrl();
+        LightningLoginFormController.setExperienceId('expId');
     }
 }
