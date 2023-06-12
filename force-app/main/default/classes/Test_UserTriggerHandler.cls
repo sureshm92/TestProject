@@ -4,7 +4,29 @@ public class Test_UserTriggerHandler {
     static void init() {
         Test.startTest();
         TestData.loadTestData();
-        Test.stopTest();
+        
+        TestData testData = new TestData();
+        List<Survey> survey = [SELECT Id, Name FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
+        if (!survey.isEmpty()){
+            Id communityId = CommunityService.getCommunityId(null);
+            List<SurveyInvitation> invitations = new List<SurveyInvitation>();
+            invitations.add(
+                SurveyService.getInstance()
+                    .generateInvitation(survey.get(0), null, 5, false, testData.pe.Id, communityId)
+            );
+            invitations.add(
+                SurveyService.getInstance()
+                    .generateInvitation(survey.get(0), null, 10, false, testData.pe.Id, communityId)
+            );
+            invitations.add(
+                SurveyService.getInstance()
+                    .generateInvitation(survey.get(0), null, 15, false, testData.pe.Id, communityId)
+            );
+            insert invitations;
+        }
+            
+
+                
         
         Profile profile_1 = [
             SELECT Id
@@ -34,6 +56,7 @@ public class Test_UserTriggerHandler {
                 LastName = 'Lastname'
             );
         insert user_1;
+        Test.stopTest();
         
     }
     
@@ -91,6 +114,36 @@ public class Test_UserTriggerHandler {
                 LocaleSidKey = 'en_US',
                 LanguageLocaleKey = 'en_US',
                 ContactId = usrcontact.Id,
+                PortalRole = 'Manager',
+                FirstName = 'Firstname',
+                LastName = 'Lastname'
+            );
+        insert user_1;
+        
+    }
+    
+    @IsTest
+    static void userTrigger3() {
+      
+        Profile profile_1 = [
+            SELECT Id
+            FROM Profile
+            WHERE Name = 'IQVIA Customer Community Plus Login User'
+            LIMIT 1
+        ];
+        
+        Contact con = [select Id from contact where Email = 'pi@emil.com' limit 1];
+        
+        User user_1 = new User(
+                Email = 'testi@test.com.invalid',
+                ProfileId = profile_1.Id,
+                UserName = 'testi@test.com.invalid',
+                Alias = 'Test',
+                TimeZoneSidKey = 'America/New_York',
+                EmailEncodingKey = 'ISO-8859-1',
+                LocaleSidKey = 'en_US',
+                LanguageLocaleKey = 'en_US',
+                ContactId = con.Id,
                 PortalRole = 'Manager',
                 FirstName = 'Firstname',
                 LastName = 'Lastname'
