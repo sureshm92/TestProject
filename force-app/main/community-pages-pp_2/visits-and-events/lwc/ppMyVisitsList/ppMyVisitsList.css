@@ -327,18 +327,19 @@ a {
     font-weight: 400;
 }
 
+@media all and (min-width: 768px) {
+    .active-custom-box,
+    .inactive-custom-box {
+        margin-inline: auto;
+        max-width: 340px;
+    }
+}
+
 @media all and (max-width: 1200px) {
     .col3 {
         min-width: 50%;
         margin-top: 2rem;
         margin-left: auto;
-    }
-
-    .active-custom-box,
-    .inactive-custom-box {
-        /* max-width: 468px; */
-        margin-inline: auto;
-        width: 340px;
     }
 
     .upcomingButton {
