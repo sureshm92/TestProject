@@ -43,26 +43,27 @@ public with sharing class Batch_RemoveExpiredResourceNotifications extends Batch
                 peIds.add(sr.Notification__r.WhatId__c);
                 stdResIds.add(sr.Notification__r.Target_Record_Ids__c);
             }else if(platformResUpdateNotificationType.contains(sr.Notification__r.Notification_Type__c)){
-                platformResIds.add(sr.Notification__r.WhatId__c);
+                platformResIds.add(sr.Notification__r.Target_Record_Ids__c);
             }
         }
         Map<Id,Participant_Enrollment__c> peMap = new Map<Id,Participant_Enrollment__c>([SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Id IN:peIds]);
-        Map<Id,Res_study__c> stdResMap = new Map<Id,Res_study__c>([SELECT Id,Expires_On_Status__c FROM Res_study__c WHERE Id IN:stdResIds AND Expires_On_Status__c!=Null]);
-        Map<Id,Resource__c> platformResMap = new Map<Id,Resource__c>([SELECT Id,Expiration_Date__c FROM Resource__c WHERE Id IN:platformResIds AND Expiration_Date__c!=Null]);
+        Map<Id,Res_study__c> stdResMap = new Map<Id,Res_study__c>([SELECT Id,Expires_On_Status__c,resource__r.Expiration_Date__c FROM Res_study__c WHERE Id IN:stdResIds AND (Expires_On_Status__c!=Null OR resource__r.Expiration_Date__c <=:Date.today())]);
+        Map<Id,Resource__c> platformResMap = new Map<Id,Resource__c>([SELECT Id,Expiration_Date__c FROM Resource__c WHERE Id IN:platformResIds AND Expiration_Date__c<=: Date.today()]);
         for(Send_Result__c sr : sendResults){
             if(stdResMap.containsKey(sr.Notification__r.Target_Record_Ids__c) && peMap.containsKey(sr.Notification__r.WhatId__c)){
-                if(PEStatusState.PE_ORDERED_STATUSES.get(stdResMap.get(sr.Notification__r.Target_Record_Ids__c).Expires_On_Status__c) 
-                   >= PEStatusState.PE_ORDERED_STATUSES.get(peMap.get(sr.Notification__r.WhatId__c).Participant_Status__c)){
-                       sr.Status__c = 'Sent';
-                       sendResultToUpdate.add(sr);
-                       notificationIds.add(sr.Notification__c);
-                   }
+                if((String.isNotBlank(stdResMap.get(sr.Notification__r.Target_Record_Ids__c).Expires_On_Status__c) 
+                    && (PEStatusState.PE_ORDERED_STATUSES.get(stdResMap.get(sr.Notification__r.Target_Record_Ids__c).Expires_On_Status__c) 
+                        <= PEStatusState.PE_ORDERED_STATUSES.get(peMap.get(sr.Notification__r.WhatId__c).Participant_Status__c)))
+                   ||(stdResMap.get(sr.Notification__r.Target_Record_Ids__c).resource__r.Expiration_Date__c!=Null)
+                  ){
+                      sr.Status__c = 'Sent';
+                      sendResultToUpdate.add(sr);
+                      notificationIds.add(sr.Notification__c);
+                  }
             }else if(platformResMap.containsKey(sr.Notification__r.Target_Record_Ids__c)){
-                if(platformResMap.get(sr.Notification__r.Target_Record_Ids__c).Expiration_Date__c <=Date.TODAY()){
-                    sr.Status__c = 'Sent';
-                    sendResultToUpdate.add(sr);
-                    notificationIds.add(sr.Notification__c);
-                }
+                sr.Status__c = 'Sent';
+                sendResultToUpdate.add(sr);
+                notificationIds.add(sr.Notification__c);
             }
         }
         if (!sendResultToUpdate.isEmpty()) {
