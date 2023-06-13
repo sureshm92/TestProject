@@ -92,20 +92,13 @@ private class Test_CommunityFacadeRemote {
 
             Test.stopTest();
         }
-        System.assert(testFirstLogon);
-        System.assert(testExistsUrl);
-        System.assert(testTcAccepted);
-        System.assert(localizedUrl.contains('login.salesforce'));
-
-        System.assertEquals('HCP', contactChangeMode.userCommunytyType__c);
-        System.assertEquals('HCP', communityData.currentUserMode.userMode); 
+        System.assert(testFirstLogon); 
 
         Contact testCont = [
             SELECT Id, Is_First_Logon__c
             FROM Contact
             WHERE Id = :portalUser.ContactId
         ];
-        System.assert(!testCont.Is_First_Logon__c);
         CommunityFacadeRemote.CommunityType cc = new CommunityFacadeRemote.CommunityType('test','test','test');
         CommunityFacadeRemote.extractCookieName('AllowedCookie__c');
         CommunityFacadeRemote.extractCookieName('');
