@@ -35,6 +35,8 @@ export default class PpCreateTask extends LightningElement {
     participantDateTime = null;
     participantDueDate = null;
     participantDueTime = null;
+    maxremdate;
+    maxremtime;
     displayDateInUi = true;
     @track initData;
     subject;
@@ -155,6 +157,14 @@ export default class PpCreateTask extends LightningElement {
                             wrapper.task.Activity_Datetime__c != undefined
                                 ? wrapper.task.Activity_Datetime__c
                                 : false;
+                        this.maxremdate =
+                            this.participantDueDate != undefined
+                                ? this.participantDueDate
+                                : this.taskDueDate;
+                        this.maxremtime =
+                            this.participantDueTime != undefined
+                                ? this.participantDueTime
+                                : this.taskDueTime;
                         const date = new Date(this.taskDueTime);
                         this.initialRecord = {
                             subject: this.subject,
@@ -282,6 +292,10 @@ export default class PpCreateTask extends LightningElement {
             this.taskDueDate = event.detail.compdate;
             this.initData.activityDate = this.taskDateTime;
         }
+        this.maxremdate =
+            this.participantDueDate != undefined ? this.participantDueDate : this.taskDueDate;
+        this.maxremtime =
+            this.participantDueTime != undefined ? this.participantDueTime : this.taskDueTime;
         /**Reset Reminder Values */
         this.template.querySelector('c-pp-create-task-reminder').handleDueDateChange();
         this.enableSave = true;
@@ -302,6 +316,10 @@ export default class PpCreateTask extends LightningElement {
             this.taskDueTime = event.detail.comptime;
             this.initData.activityDate = this.taskDateTime;
         }
+        this.maxremdate =
+            this.participantDueDate != undefined ? this.participantDueDate : this.taskDueDate;
+        this.maxremtime =
+            this.participantDueTime != undefined ? this.participantDueTime : this.taskDueTime;
         this.isReminderSelected = false;
         this.taskReminderDate = null;
         /**Reset Reminder Values */
