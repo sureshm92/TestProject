@@ -183,9 +183,9 @@ public class Test_PatientDelegateEnrollmentService {
            PatientDelegateEnrollmentService.getPEIdSet(patientDelegates[0].Participant__r.Contact__c, patientDelegates[0].Contact__c);
            PatientDelegateEnrollmentService.reActivateAssignment(idList);
            PatientDelegateEnrollmentService.reActivateAssignmentForDeletedOrWithDrawnDel(patientDelegates[0],new List<Id>{testData.pe.id});
-           PatientDelegateEnrollmentService.removeAssignment(pdeList[0].Id);
-           PatientDelegateEnrollmentService.WithdrawAssignment(pdeList[0].Id);
-           PatientDelegateEnrollmentService.deleteDelegates(patientDelegates[0].Id);
+        //    PatientDelegateEnrollmentService.removeAssignment(pdeList[0].Id);
+        //    PatientDelegateEnrollmentService.WithdrawAssignment(pdeList[0].Id);
+        //    PatientDelegateEnrollmentService.deleteDelegates(patientDelegates[0].Id);
 
         }
        Test.stopTest();
@@ -247,6 +247,9 @@ public class Test_PatientDelegateEnrollmentService {
             PatientDelegateEnrollmentService.getPatientDelegateEnrollments(patientDelegates[0].Participant__r.Contact__c, patientDelegates[0].Contact__c);
                  PatientDelegateEnrollmentService.getPEList(patientDelegates[0].Participant__r.Contact__c, patientDelegates[0].Contact__c);
                  PatientDelegateEnrollmentService.getInstance();
+                 PatientDelegateEnrollmentService.removeAssignment(pdeList[0].Id);
+                 PatientDelegateEnrollmentService.WithdrawAssignment(pdeList[0].Id);
+                 PatientDelegateEnrollmentService.deleteDelegates(patientDelegates[0].Id);
              }
             Test.stopTest();
          
