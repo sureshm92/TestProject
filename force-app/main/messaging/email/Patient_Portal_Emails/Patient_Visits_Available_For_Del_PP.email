@@ -1,11 +1,11 @@
 <messaging:emailTemplate subject="{!$Label.Participant_Visits_Available}"
                          recipientType="Contact"
-                         relatedToType="Patient_Delegate_Enrollment__c"
+                         relatedToType="Participant_Enrollment__c"
                          language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody>
         <c:PP_EmailWireframe recipientId="{!recipient.Id}"
-                          sourceId="{!relatedTo.Participant_Enrollment__c}"
+                          sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Available}"
                             isPreBodyButton="true"
                              preBodyButtonName="{!$Label.Email_Action_Login_now}"

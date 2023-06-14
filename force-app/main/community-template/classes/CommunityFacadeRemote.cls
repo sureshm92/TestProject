@@ -368,8 +368,6 @@
 
     public static Boolean urlExists(String url) {
         try {
-            if (Test.isRunningTest())
-                return true;
             HttpRequest req = new HttpRequest();
             req.setEndpoint(url);
             req.setMethod('GET');

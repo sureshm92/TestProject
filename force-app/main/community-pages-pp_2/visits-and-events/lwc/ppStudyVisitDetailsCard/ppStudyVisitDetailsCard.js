@@ -755,7 +755,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             new Date(reminderDateTime) < new Date(currentUserTime) ||
             event.detail.error == true
         ) {
-            this.disableButtonSaveCancel = updateRequired ? false : true;
+            this.disableButtonSaveCancel = true;
         } else {
             if (this.sms || this.email) {
                 this.disableButtonSaveCancel = updateRequired ? false : true;

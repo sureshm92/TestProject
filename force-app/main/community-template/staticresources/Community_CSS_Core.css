@@ -1909,17 +1909,20 @@ outline: none !important;
     -webkit-text-fill-color: #747474;
     opacity: 1; /* required on iOS */
 }
+
 @media screen and (max-width: 768px){
     .manage-delegate-acc-setting-old .profile-information-rectangle{
         width: 100% !important;
         padding-right: 0px !important;
     }
+    .manage-delegate-acc-setting-old .back-to-manage-del-btn {
+        display: block !important;
+        margin-top : 24px !important;
+        padding-bottom: 16px !important;
+    }
+
 }
-.manage-delegate-acc-setting-old .back-to-manage-del-btn {
-    display: block !important;
-    margin-top : 24px !important;
-    padding-bottom: 16px !important;
-}
+
 .e-consent-aligment .slds-checkbox .slds-checkbox__label .slds-form-element__label {
     font-size: 14px !important;
     padding: 0 5px 0 5px;
@@ -2003,7 +2006,7 @@ outline: none !important;
     display: flex !important;
 }
 .manage-delegate-acc-setting-old .manage-del-continer-mobile .slds-form-element__label {
-    /* padding: 0 0 0 5px !important; */
+    padding: 0 0 0 5px;
     text-align: left !important;
     margin-top: -4px !important;
     line-height: 22px !important;
