@@ -40,7 +40,7 @@ a,
 a:hover {
     text-decoration: underline;
     text-decoration-style: dashed;
-    color: #015ff1;
+    color: #0557d5;
 }
 .rr-header-content {
     position: fixed;
@@ -285,23 +285,28 @@ input::placeholder {
 
 .profile-info-btn .slds-button {
     color: #ffffff;
-    height: 2rem !important;
-    width: 6rem !important;
-    border-radius: 16px !important;
-    background-color: #015ff1 !important;
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32) !important;
+    width: 6rem;
+    border-radius: 16px;
+    background-color: #015ff1;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
 }
 
 .profile-info-btn-mobile .slds-button {
     color: #ffffff;
-    height: 2rem !important;
-    border-radius: 16px !important;
-    background-color: #015ff1 !important;
-    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%), 0 4px 8px 0 rgb(7 104 253 / 32%) !important;
+    height: 2rem;
+    border-radius: 16px;
+    background-color: #015ff1;
+    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%), 0 4px 8px 0 rgb(7 104 253 / 32%);
+}
+
+.profile-info-btn .slds-button:hover,
+.profile-info-btn .slds-button:focus,
+.profile-info-btn-mobile .slds-button:focus {
+    background-color: #0557d5;
 }
 
 .profile-info-error-input .slds-input {
-    border: 1px solid rgba(226, 0, 0, 1) !important;
+    border: 1px solid rgba(226, 0, 0, 1);
 }
 
 .round-combobox .slds-dropdown_fluid {
