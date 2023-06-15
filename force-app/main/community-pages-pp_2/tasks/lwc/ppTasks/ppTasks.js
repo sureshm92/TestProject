@@ -61,9 +61,9 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         PP_Open
     };
     taskSelectionMode = 'Open';
-    taskBtnOpenClass = 'open-task primaryBtn';
+    taskBtnOpenClass = 'slds-button slds-button_neutral open-task active-button-background';
     // taskBtnOpenClass = 'open-task primaryBtn slds-button';
-    taskBtnCompleteClass = 'completed-task secondaryBtn slds-button';
+    taskBtnCompleteClass = 'slds-button slds-button_brand completed-task inactive-button-background';
     taskOpenTab = true;
     isEnrolled;
     emailOptIn;
@@ -189,7 +189,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     get taskButtonClass() {
         return this.isCreateTask
             ? 'primaryBtn slds-button create-task after-create-task'
-            : 'primaryBtn create-task';
+            : 'primaryBtn slds-button create-task';
     }
     handleTaskClose(event) {
         this.isCreateTask = event.detail.isClose;
@@ -315,17 +315,18 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     }
     navigateToCompleted() {
         this.taskSelectionMode = 'Complete';
-        this.taskBtnOpenClass = 'open-task secondaryBtn slds-button';
-        this.taskBtnCompleteClass = 'completed-task primaryBtn slds-button';
+        this.taskBtnOpenClass = 'slds-button slds-button_neutral open-task inactive-button-background';
+        this.taskBtnCompleteClass = 'slds-button slds-button_brand completed-task active-button-background';
+        // this.taskBtnCompleteClass = 'completed-task primaryBtn slds-button';
         this.taskOpenTab = this.taskSelectionMode == 'Open';
         this.initializeData();
     }
     navigateToOpen() {
         this.taskSelectionMode = 'Open';
         this.taskOpenTab = this.taskSelectionMode == 'Open';
-        this.taskBtnOpenClass = 'open-task primaryBtn';
+        this.taskBtnOpenClass = 'slds-button slds-button_neutral open-task active-button-background';
         // this.taskBtnOpenClass = 'open-task primaryBtn slds-button';
-        this.taskBtnCompleteClass = 'completed-task secondaryBtn slds-button';
+        this.taskBtnCompleteClass = 'slds-button slds-button_brand completed-task inactive-button-background';
         this.initializeData();
     }
     closeTheTask() {

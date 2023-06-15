@@ -3,20 +3,6 @@
  */
 @IsTest
 public with sharing class Test_ConditionOfInterestRemote {
-    //    @IsTest
-    //    public static void getConditionOfInterest_Test() {
-    //        ClassFactory.clearStubTypesByClassNamesMap();
-    //        ClassFactory.putStubTypeByClassName(TherapeuticAreaService.class, StubBuilder.newInstance(TherapeuticAreaService.class)
-    //                .when('getParticipant')
-    //                .then(Test_ConditionOfInterestRemote.getParticipant())
-    //                .build()
-    //       );
-    //        Test.startTest();
-    //        List<TherapeuticAreaService.CAWrapper> caWrappers = ConditionOfInterestRemote.getConditionOfInterest();
-    //        Test.stopTest();
-    //        System.assert(!caWrappers.isEmpty());
-    //    }
-
     @IsTest
     public static void getConditionOfInterest_Exception_Test() {
         ClassFactory.clearStubTypesByClassNamesMap();
@@ -118,6 +104,24 @@ public with sharing class Test_ConditionOfInterestRemote {
     }
 
     @IsTest
+    public static void createSubscribeConnection_Test() {
+        Therapeutic_Area_Patient__c tap = (Therapeutic_Area_Patient__c) TestDataFactory.getSObject(
+            Therapeutic_Area_Patient__c.getSObjectType(),
+            new Map<String, Object>{
+                'Id' => TestDataFactory.getFakeId(Therapeutic_Area_Patient__c.getSObjectType())
+            }
+        );
+        List<Therapeutic_Area_Patient__c> lis = new List<Therapeutic_Area_Patient__c>();
+        lis.add(tap);
+        Test.startTest();
+        try {
+            ConditionOfInterestRemote.createSubscribeConnection(lis);
+            ConditionOfInterestRemote.getConditionOfInterest();
+        } catch (Exception e) {
+        }
+        Test.stopTest();
+    }
+    @IsTest
     public static void deleteCOI_Exception_Test() {
         Therapeutic_Area_Patient__c tap = (Therapeutic_Area_Patient__c) TestDataFactory.getSObject(
             Therapeutic_Area_Patient__c.getSObjectType(),
@@ -136,16 +140,16 @@ public with sharing class Test_ConditionOfInterestRemote {
         System.assert(isExceptionThrown);
     }
 
-    //    private static Participant__c getParticipant() {
-    //        Participant__c participant = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType(), new Map<String, Object>{
-    //                'Id' => TestDataFactory.getFakeId(Participant__c.SObjectType)
-    //        });
-    //        ParticipantDecoupler.therapeuticAreaPatientsByParticipantIds.put(
-    //                participant.Id,
-    //                new List<Therapeutic_Area_Patient__c>{
-    //                        (Therapeutic_Area_Patient__c) TestDataFactory.getSObject(Therapeutic_Area_Patient__c.getSObjectType())
-    //                }
-    //        );
-    //        return participant;
-    //    }
+    /*   private static Participant__c getParticipant() {
+          Participant__c participant = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType(), new Map<String, Object>{
+                   'Id' => TestDataFactory.getFakeId(Participant__c.SObjectType)
+           });
+           ParticipantDecoupler.therapeuticAreaPatientsByParticipantIds.put(
+                   participant.Id,
+                   new List<Therapeutic_Area_Patient__c>{
+                           (Therapeutic_Area_Patient__c) TestDataFactory.getSObject(Therapeutic_Area_Patient__c.getSObjectType())
+                   }
+          );
+            return participant;
+       }*/
 }

@@ -125,7 +125,9 @@ export default class PpCookiesBanner extends LightningElement {
                 localStorage.setItem('CookiesOnTC', 'Accepted');
             }
 
+            if (this.showBanner) {
             this.blockBackGroundEvents();
+            }
             if (this.communityName == 'Default' || this.communityName == 'IQVIA Referral Hub') {
                 this.containerClassCss = this.containerClassCss + ' rh-cookies-banner';
                 //  this.containerClassCss = this.containerClassCss + ' rh-border-radius';
