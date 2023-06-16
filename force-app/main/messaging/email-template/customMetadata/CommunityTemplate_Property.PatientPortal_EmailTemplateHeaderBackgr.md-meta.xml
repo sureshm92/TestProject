@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Value__c</field>
-        <value xsi:type="xsd:string">background-color: #250056; color: #FFFFFF; /*padding: 20px;*/</value>
+        <value xsi:type="xsd:string">/**background-color: #250056;**/ color: #FFFFFF; padding: 20px; background-image: url(https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMN&amp;oid=00D1I000001V1t1&amp;lastMod=1607836850000);background-size: auto;height: 163px;padding: 25px 0 0 25px;</value>
     </values>
 </CustomMetadata>

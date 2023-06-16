@@ -121,6 +121,10 @@ Public Class TeleVisitRemoteTest{
         List<String> participantEnrollmentId = new List<String>();
         participantEnrollmentId.add(testData.pe.Id);
         
+        Participant__c  participant = new Participant__c(id=testData.participant.id);
+        participant.Contact__c = testdata.piContact.id;
+        update participant;
+            
         Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c();
         ctp = testData.ctp;
         ctp.Televisit_Vendor_is_Available__c = true;
@@ -157,7 +161,8 @@ Public Class TeleVisitRemoteTest{
         ta.Televisit__c = tv.id;
         ta.Contact__c = testData.piDelegateContact.Id;
         insert ta;  
-        
+
+		        
         Televisit_Attendee__c ta1 = new Televisit_Attendee__c();
         ta1.Firstname__c = 'test';
         ta1.Lastname__c = 'test';

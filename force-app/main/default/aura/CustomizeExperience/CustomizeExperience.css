@@ -163,7 +163,8 @@
 
 @media all and (max-width: 768px) {
     .THIS {
-        padding: 14px 1.5rem 1.5rem;
+        /* padding: 14px 1.5rem 1.5rem; */
+        padding: 0 1.5rem 0rem;
     }
 
     .THIS .as-title {

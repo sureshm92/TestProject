@@ -11,7 +11,7 @@ public without sharing class PatientDelegateTriggerHandler {
 
     public class SetDefaultPatientDelegateStatusHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
-            setDefaultPatientStatus(newList);
+           // setDefaultPatientStatus(newList);
         }
     }
 
@@ -48,12 +48,12 @@ public without sharing class PatientDelegateTriggerHandler {
 
     public class CreatePrimaryDelegateForMinor extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
-            checkPrimaryDelegate(newList);
+            //checkPrimaryDelegate(newList);
             updateDelegateParticipant(newList, null);
         }
 
         public override void beforeDelete(List<SObject> newList) {
-            notDeletePrimaryDelegate(newList);
+            //notDeletePrimaryDelegate(newList);
         }
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
