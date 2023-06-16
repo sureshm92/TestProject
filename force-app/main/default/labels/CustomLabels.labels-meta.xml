@@ -21457,13 +21457,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>registerpage platform privacy note2</shortDescription>
         <value>, using the telephone number(s) and/or email you have provided, by the following means:</value>
     </labels>
+
     <labels>
         <fullName>PP_Powered_by_Footer</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Footer T Copyright</shortDescription>
         <value>Powered by</value>
-    </labels>
+    </labels> 
     <labels>
         <fullName>PP_Preferred_Lang</fullName>
         <language>en_US</language>
@@ -21542,6 +21543,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Privacypolicy</shortDescription>
         <value>Powered by IQVIA © 2023. All rights reserved.</value>
     </labels>
+
     <labels>
         <fullName>PP_ProfileInformation</fullName>
         <language>en_US</language>
@@ -21549,6 +21551,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_ProfileInformation</shortDescription>
         <value>Profile Information</value>
     </labels>
+    
     <labels>
         <fullName>PP_Profile_Information</fullName>
         <language>en_US</language>
