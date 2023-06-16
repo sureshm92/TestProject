@@ -2,11 +2,11 @@
 
 <apex:page controller="MedicalPreviewController" showHeader="false" sideBar="false" action="{!initData}">
    
-    <embed width="100%" style="height: 100vh;" name="jpg" id="jpg" src=""/> 
+    <embed width="100%" style="height: 100vh; object-fit:contain;" name="jpg" id="jpg" src=""/> 
     <embed width="100%" style="height: 100vh;" name="pdf" id="pdf" src=""/> 
-    <embed width="100%" style="height: 100vh;" name="jpeg" id="jpeg" src=""/> 
-    <embed width="100%" style="height: 100vh;" name="gif" id="gif" src=""/> 
-    <embed width="100%" style="height: 100vh;" name="png" id="png" src=""/> 
+    <embed width="100%" style="height: 100vh; object-fit:contain;" name="jpeg" id="jpeg" src=""/> 
+    <embed width="100%" style="height: 100vh; object-fit:contain;" name="gif" id="gif" src=""/> 
+    <embed width="100%" style="height: 100vh; object-fit:contain;" name="png" id="png" src=""/> 
 
     <apex:outputPanel rendered="{!executeJS}">
         <script>

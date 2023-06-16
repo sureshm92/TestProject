@@ -214,7 +214,7 @@ public without sharing class IprEprTriggerHandler {
                         ipr.Participant_MobileNumber__c = '';
                         ipr.Phone_Type__c = '';
                     }
-                    }
+                }
                     
                     //Check SS
                     //D:: String studySiteNumber = getSitePrimaryKeyEPR(ipr);

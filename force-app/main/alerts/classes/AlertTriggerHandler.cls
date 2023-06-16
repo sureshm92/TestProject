@@ -79,7 +79,7 @@ public without sharing class AlertTriggerHandler {
                 );
                 break;
             }
-            if (alert.Record_ID__c == null && card.Parameters__c != null) {
+            if (alert.Record_ID__c == null && card.Parameters__c != null && !alert.Is_Platform_Level__c) {
                 alert.Record_ID__c.addError('Record Id can not be null');
                 break;
             }
