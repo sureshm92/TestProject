@@ -206,6 +206,12 @@
     height: 116px; */
     width: 100%;
     padding-right: 10px;
+    max-height: 82px;
+    overflow: hidden;
+}
+
+.toggle-height{
+    max-height: 100% !important;
 }
 
 .pl-15{
@@ -288,4 +294,14 @@
     bottom: -0.5rem;
     margin-left: -0.5rem;
     top: 23%;
+  }
+
+  .cfs-footer_btn{
+      width: 100%;
+      background-color: #fff;
+      border: 1px solid #d9d9d9;
+  }
+
+  .pd-10{
+      padding: 10px;
   }
