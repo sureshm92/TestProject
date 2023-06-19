@@ -47,12 +47,12 @@
     background-color: #ffffff;
 }
 
-.active-button-background:hover, 
+.active-button-background:hover,
 .active-button-background:focus {
     background-color: #0557d5;
 }
 
-.inactive-button-background:hover, 
+.inactive-button-background:hover,
 .inactive-button-background:focus {
     background-color: #ecf3ff;
     border-color: #0557d5;
@@ -425,7 +425,7 @@
     padding: 0;
 }
 .container-card {
-    background-color: rgb(246, 247, 249);
+    background-color: #f6f7fb;
     border-top-color: #c42ea5;
     border-top-width: 8px;
     padding: 0;
@@ -437,7 +437,7 @@
 .container-card-mobile {
     max-width: 468px;
     margin: 10px auto 0px auto !important;
-    background-color: rgb(246, 247, 249);
+    background-color: #f6f7fb;
     border-top-color: #c627a6;
     border-top-width: 32px;
     padding: 0;
