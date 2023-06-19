@@ -93,7 +93,7 @@
                                             </lightning-layout>
 
                                             <!-- Address -->
-                                            <lightning-layout class="addressContainer">
+                                            <lightning-layout class="addressContainer" style={adjustHeight}>
                                                 <lightning-layout multiple-rows="false" class="marginTop-16">
                                                     <lightning-layout-item size="2" class="paddingLeft-16">
                                                         <img src={address_Icon} />
@@ -132,7 +132,7 @@
                                         <lightning-layout-item size="6" class="right-item">
                                             <!-- PI -->
                                             <lightning-layout multiple-rows="false" class="careTeamContainer" style={customHeightStyle}>
-                                                <lightning-layout-item class="marginTop-16 marginRight-15 marginLeft-19">
+                                                <lightning-layout-item size="1" class="marginTop-16 marginRight-15 marginLeft-19">
                                                     <img src={pi_Icon} />
                                                 </lightning-layout-item>
                                                 <lightning-layout-item size="8" class="marginTop-16">
@@ -155,9 +155,8 @@
                                                                 </lightning-layout-item>
                                                             </lightning-layout>                                                        
                                                         </template>
-                                                        <template if:true={displaypluscount}>
+                                                        <!-- <template if:true={displaypluscount}>
                                                             <lightning-layout-item size="12" class="plusMore marginBottom-12">
-                                                                <!-- + {pluscount} {label.PIR_more} -->
                                                                 <div style="position:relative">
                                                                     <span class="plus-more" aria-describedby="help" aria-disabled="true" onmouseover={showMoreSiteStaff} onmouseout={hideMoreSiteStaff}>+ {pluscount} {label.PIR_more}</span>
                                                                     <div class="slds-popover slds-popover_tooltip nubbin-center slds-hide siteStaffTooltip" role="tooltip" id="help">
@@ -172,10 +171,21 @@
                                                                     </div>
                                                                 </div>
                                                             </lightning-layout-item>
-                                                        </template>
+                                                        </template> -->
                                                     </div>
                                                     </lightning-layout>
                                                 </lightning-layout-item>
+                                                <template if:true={displaypluscount} >
+                                                    <lightning-layout-item size="12" class="pd-10 show-more-or-less-container">
+                                                        <button
+                                                        class="secondaryBtn slds-button cfs-footer_btn"
+                                                        onclick={showHideSiteStaff}
+                                                    >
+                                                    <div>{getShowLabel}</div>
+                                                    <lightning-icon icon-name={getShowIcon}></lightning-icon>
+                                                    </button>
+                                                    </lightning-layout-item>
+                                                </template>
                                             </lightning-layout>
                                             
                                         </lightning-layout-item>
