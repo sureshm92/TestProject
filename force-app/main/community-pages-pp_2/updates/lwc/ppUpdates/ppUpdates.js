@@ -173,6 +173,12 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             }, 1000);
         }
     }
+    handleKeyDown(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            this.refresh();
+        }
+    }
     refresh() {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
