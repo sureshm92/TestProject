@@ -227,10 +227,12 @@
     position: absolute;
 }
 
-/* .site-staff-container {
-    overflow-y: auto;
+.site-staff-container {
     width: 100%;
-} */
+    padding-right: 10px;
+    max-height: 82px;
+    overflow: hidden;
+}
 
 
 .copyIcon{
@@ -288,3 +290,18 @@
     margin-left: -0.5rem;
     top: -9%;
 }
+
+.cfs-footer_btn{
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+}
+
+.pd-10{
+    padding: 10px;
+}
+
+.toggle-height{
+    max-height: 100% !important;
+}
+
