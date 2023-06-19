@@ -116,5 +116,6 @@
     .THIS .ctp-study-code-name {
         width: 82% !important;
         line-break: anywhere;
+        padding-right: 2.3rem;
     }
 }
