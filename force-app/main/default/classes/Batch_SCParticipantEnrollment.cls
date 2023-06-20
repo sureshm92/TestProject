@@ -267,7 +267,7 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
             For(Study_Site__c piUser:[
                 SELECT Id, Principal_Investigator__c 
                 FROM Study_Site__c 
-                WHERE (Principal_Investigator__c IN :participantContactIds OR Principal_Investigator__c IN :patientDelegateContactIds)    
+                WHERE (Principal_Investigator__c IN :participantContactIds OR Principal_Investigator__c IN :patientDelegateContactIds)              
             ]){
             
                 if(participantContactIds.contains(piUser.Principal_Investigator__c)){
@@ -289,7 +289,7 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
             for(Site_Staff__c ssorRPUser:[
                 SELECT Id, Site_Contact__c 
                 FROM Site_Staff__c 
-                WHERE (Site_Contact__c IN :participantContactIds OR Site_Contact__c IN :patientDelegateContactIds)                
+                WHERE (Site_Contact__c IN :participantContactIds OR Site_Contact__c IN :patientDelegateContactIds)        
             ]){
                 if(participantContactIds.contains(ssorRPUser.Site_Contact__c)){
                     participantContactIds.remove(ssorRPUser.Site_Contact__c);

@@ -1250,15 +1250,6 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
       }
     }
 
-    //7.
-    if (this.participantrecord.Initial_visit_scheduled_time__c <= '04:59:00.000' || this.participantrecord.Initial_visit_scheduled_time__c >= '23:46:00.000') {
-      btnValidationSuccess = false;
-      validationList.push(btnValidationSuccess);
-    } else {
-      btnValidationSuccess = true;
-      validationList.push(btnValidationSuccess);
-    }
-
     //8.
     if (this.selectedOutcome == "Pre_review_Failed" ||
       this.selectedOutcome == "Screening_Failed" ||

@@ -88,7 +88,7 @@
     color: #ffffff;
     box-shadow: none;
     font-weight: bold;
-    background: #0768fd;
+    background: #015ff1;
     width: 295px;
 }
 .slds-nav-vertical__item {
@@ -103,7 +103,7 @@
 .slds-nav-vertical__item.slds-is-active .slds-nav-vertical__action {
     color: #ffffff;
     box-shadow: none;
-    background: #0768fd;
+    background: #015ff1;
     border-bottom: none;
     font-weight: bold;
 }

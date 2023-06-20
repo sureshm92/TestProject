@@ -113,6 +113,19 @@ public without sharing class ParametrizedMessageService {
                         }
                     }
                 }
+                // PEH-11426
+                if (paramName == 'participantExpdate') {
+                    if (valueStr == '') {
+                        valueStr = System.Label.Not_Available;
+                    } else {
+                        if (value instanceof Datetime) {
+                            DateTime tempDateTime = (DateTime) value;
+                            valueStr = UserService.formatDatebyLocale(tempDateTime.date(), language);
+                        } else if (value instanceof Date) {
+                            valueStr = UserService.formatDatebyLocale((Date) value, language);
+                        }
+                    }
+                }
 
                 /**PEH-11453*/
                 if (paramName == 'SMSTaskdate') {
@@ -145,25 +158,41 @@ public without sharing class ParametrizedMessageService {
 
                 /**For Survey SMS, we will always consider only date*/
                 if (paramName == 'SMSexpirationDate') {
+                    String endDateVisibleField = paramsMap.get('endDateVisible');
+                    Object endDateVisibleFieldValue = SObjectHelper.getSObjectFieldValue(
+                        sobj,
+                        endDateVisibleField
+                    );
+                    if( (Boolean) endDateVisibleFieldValue == false ){
+                        String participantExpdateField = paramsMap.get('participantExpdate');
+                        value = SObjectHelper.getSObjectFieldValue(
+                            sobj,
+                            participantExpdateField
+                        );
+                        if (value instanceof Datetime) {
+                            if (userObj == null) {
+                                valueStr = UserService.formatDateTime((Datetime) value, language);
+                            } else {
+                                valueStr = UserService.formatDateTimebyZone(
+                                    (Datetime) value,
+                                    userObj[0].LocaleSidKey,
+                                    userObj[0].TimeZoneSidKey
+                                );
+                            }
+                        }
+                    }
                     if (valueStr == '') {
                         valueStr = System.Label.Not_Available;
                     } else {
-                        //get endDateVisible field values
-                        String endDateVisibleField = paramsMap.get('endDateVisible');
-                        Object endDateVisibleFieldValue = SObjectHelper.getSObjectFieldValue(
-                            sobj,
-                            endDateVisibleField
-                        );
                         if (value instanceof Datetime) {
                             DateTime tempDateTime = (DateTime) value;
-                            valueStr = UserService.formatDatebyLocale(
-                                tempDateTime.date(),
-                                language
-                            );
+                            valueStr = UserService.formatDatebyLocale(tempDateTime.date(), language);
                         } else if (value instanceof Date) {
                             valueStr = UserService.formatDatebyLocale((Date) value, language);
                         }
                     }
+                    
+                    
                 }
 
                 if (paramName == 'STUDYorPROGRAM') {

@@ -383,7 +383,8 @@ export default class Medicalinformation extends LightningElement {
     this.isFilesRetrieved = false;
     deleteFileAttachment({
       contentDocumentToDeleteId : event.detail.docid,
-      participantId: this.returnpervalue.selectedPER.Participant__c
+      participantId: this.returnpervalue.selectedPER.Participant__c,
+      perid: this.selectedPe 
     })
       .then((result) => {
         this.medicalHistoryRecord = result;
