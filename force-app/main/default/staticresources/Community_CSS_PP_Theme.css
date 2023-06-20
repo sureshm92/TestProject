@@ -2196,3 +2196,13 @@ user agent stylesheet svg:not(:root) {
     fill: #015ff1;
     height: 15px;
 }
+
+.contact-support-popup .modal-header-text{
+    height: 32px !important;
+    color: #444444 !important;
+    font-family: "Proxima Nova" !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    line-height: 29px !important;
+}
