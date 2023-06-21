@@ -4,6 +4,7 @@ import Visit_Results_Tab_Lab_Disclaimer from '@salesforce/label/c.Visit_Results_
 import Visit_Results_Tab_Bio_Disclaimer from '@salesforce/label/c.Visit_Results_Tab_Bio_Disclaimer';
 import PP_Download_Results_Data from '@salesforce/label/c.PP_Download_Results_Data';
 import modifiedSwitchToggleRemote from '@salesforce/apex/ModifiedVisitResultsRemote.modifiedSwitchToggleRemote';
+import getBase64fromVisitSummaryReportPage_Modified from '@salesforce/apex/VisitReportContainerRemote.getBase64fromVisitSummaryReportPage_Modified';
 import Show_Vitals from '@salesforce/label/c.Show_Vitals';
 import Show_Labs from '@salesforce/label/c.Show_Labs';
 import Show_Biomarkers from '@salesforce/label/c.Show_Biomarkers';
@@ -19,7 +20,7 @@ import desktopTemplate from './ppVisResContainerResultsPage.html';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import Back from '@salesforce/label/c.BTN_Back';
 import UNSCHEDULED_VISIT from '@salesforce/label/c.StudyVisit_Unscheduled_Visit';
-
+import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 export default class PpMyResultsContainer extends LightningElement {
     label = {
         PP_Download_Results_Data,
@@ -64,8 +65,37 @@ export default class PpMyResultsContainer extends LightningElement {
     showToggleSpinner = false;
     showTabSpinner;
     onLoad = true;
+    patientVisitNam;
+    isRTL = false;
 
     toggleOffHeart = pp_icons + '/' + 'heart_Icon.svg';
+
+    generateReport() {
+        if (!this.isDesktop) {
+            getBase64fromVisitSummaryReportPage_Modified({
+                peId: this.peId,
+                isRTL: this.isRTL,
+                patientVisitNam: this.patientVisitNam,
+                patientVisId: this.currentVisit.Id
+            })
+                .then((returnValue) => {
+                    communityService.navigateToPage('mobile-pdf-viewer?pdfData=' + returnValue);
+                })
+                .catch((error) => {
+                    console.error('Error occured during report generation', error.message, 'error');
+                });
+        }
+        window.open(
+            '/pp/apex/PatientVisitReportPage?peId=' +
+                this.peId +
+                '&isRTL=' +
+                this.isRTL +
+                '&patientVisitNam=' +
+                this.patientVisitNam +
+                '&patientVisitId=' +
+                this.currentVisit.Id
+        );
+    }
 
     @api
     get selectedVisit() {
@@ -85,6 +115,8 @@ export default class PpMyResultsContainer extends LightningElement {
         this.patientVisitWrapper = value;
     }
     connectedCallback() {
+        this.peId = communityService.getParticipantData().pe.Id;
+        this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
         if (!this.isDesktop) {
             this.initializeData();
         }
@@ -121,6 +153,7 @@ export default class PpMyResultsContainer extends LightningElement {
             if (this.currentVisit.Is_Adhoc__c) name = this.label.UNSCHEDULED_VISIT;
             else name = this.currentVisit.Visit__r.Patient_Portal_Name__c;
         }
+        this.patientVisitNam = name;
         return name;
     }
 
