@@ -108,19 +108,19 @@
 }
 .up-button {
     border-radius: 16px 0 0 16px;
-    border: 1px solid #d9d9d9 !important;
     width: 109px;
 }
 .active-button-background {
-    color: white !important;
+    color: white;
     background-color: #015ff1;
+    border-color: #015ff1;
     font-size: 16px;
     font-weight: 600;
 }
 
 .inactive-button-background {
-    color: #595959 !important;
-    background-color: #ffffff !important;
+    color: #595959;
+    background-color: #ffffff;
     font-size: 16px;
     font-weight: 600;
 }
@@ -128,7 +128,7 @@
 .past-button {
     box-sizing: border-box;
     border: 1px solid #d9d9d9;
-    border-radius: 0 16px 16px 0 !important;
+    border-radius: 0 16px 16px 0;
     font-family: 'Proxima Nova';
     font-weight: 600;
     letter-spacing: 0;
@@ -138,6 +138,18 @@
     width: 109px;
     margin-left: -1px;
 }
+
+.active-button-background:hover,
+.active-button-background:focus {
+    background-color: #0557d5;
+}
+
+.inactive-button-background:hover,
+.inactive-button-background:focus {
+    background-color: #ecf3ff;
+    border-color: #0557d5;
+}
+
 .list-selection,
 .list-align-mob {
     display: flex;
