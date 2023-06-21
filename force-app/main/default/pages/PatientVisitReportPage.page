@@ -1,4 +1,4 @@
-<apex:page standardStylesheets="false" applyBodyTag="false" renderAs="pdf" controller="ModifiedVisitSummaryReportPageCtlr"
+<apex:page standardStylesheets="false" applyBodyTag="false" renderAs="pdf" controller="PatientVisitReportPageController"
     applyHtmlTag="false" showHeader="false" readOnly="true">
     <html>
 

@@ -1,4 +1,4 @@
-public without sharing class ModifiedVisitSummaryReportPageCtlr {
+public without sharing class PatientVisitReportPageController {
     public String peId { get; set; }
     public VisitReportContainerRemote.ReportDataWrapper reportDataObj { get; set; }
     public String imgUrl { get; set; }
@@ -53,7 +53,7 @@ public without sharing class ModifiedVisitSummaryReportPageCtlr {
         public String measurement { get; set; }
     }
 
-    public ModifiedVisitSummaryReportPageCtlr() {
+    public PatientVisitReportPageController() {
         peId = System.currentPagereference().getParameters().get('peId');
         isRTL = Boolean.valueOf(System.currentPagereference().getParameters().get('isRTL'));
         patientVisitName = System.currentPagereference().getParameters().get('patientVisitNam');
