@@ -1,0 +1,13 @@
+<apex:page standardStylesheets="false" applyBodyTag="false" renderAs="pdf" controller="PatientVisitReportPageController"
+    applyHtmlTag="false" showHeader="false" readOnly="true">
+    <html>
+
+    <body>
+        <apex:form>
+            <apex:outputText value="{!studyCodeName}"></apex:outputText>
+            {!$CurrentPage.parameters.patientVisitNam}
+        </apex:form>
+    </body>
+
+    </html>
+</apex:page>

@@ -154,17 +154,14 @@
 }
 
 .addressContent {
-    /* height: 48px; */
     height: auto;
-    /* width: 222px; */
+    width: 98%;
     color: #6e6e6e;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0;
     line-height: 21px;
-    /* overflow-y: auto; */
-    width: 100%;
 }
 
 .mob-support-Email {
@@ -300,6 +297,14 @@
       width: 100%;
       background-color: #fff;
       border: 1px solid #d9d9d9;
+      height: 24px;
+        color: #015FF1;
+        font-family: "Proxima Nova";
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 16px;
+        text-align: center;
   }
 
   .pd-10{
