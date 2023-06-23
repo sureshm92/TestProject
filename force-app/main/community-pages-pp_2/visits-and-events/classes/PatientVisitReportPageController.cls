@@ -16,6 +16,7 @@ public without sharing class PatientVisitReportPageController {
     public String footerText { get; set; }
     public String patientVisitName { get; set; }
     public Id patientVisitId { get; set; }
+    public Date patVisitCompleted { get; set; }
 
     public class ReportDataWrapper {
         public List<ReportDataTableWrapper> dataTables { get; set; }
@@ -98,6 +99,22 @@ public without sharing class PatientVisitReportPageController {
                 if (UserInfo.getLanguage().contains(st)) {
                     fontFamily = 'sans-serif';
                     break;
+                }
+            }
+            List<ReportDataTableWrapper> dataTablesContainer = reportWrapperFinalObj.dataTables;
+            if (dataTablesContainer != null) {
+                for (ReportDataTableWrapper dattable : dataTablesContainer) {
+                    if (dattable != null) {
+                        List<List<VisitDataWrapper>> visitResultsWrapper = dattable.visitResultsWrapper;
+                        for (List<VisitDataWrapper> wrapper : visitResultsWrapper) {
+                            for (VisitDataWrapper visData : wrapper) {
+                                String completedDate = visData.value;
+                                if (String.isNotEmpty(completedDate))
+                                    patVisitCompleted = Date.parse(completedDate);
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 
