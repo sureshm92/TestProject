@@ -12,16 +12,20 @@
     <!-- top page bar -->
     <div class="top-bar rr-all-content" style="{!if(v.isRTL == true, 'direction:rtl;', '')}">
         <div class="navigation-bar">
-            <div class="rr-width-limiter side-padding tb-back-title">
+            <div class="rr-width-limiter side-padding tb-back-title survey-back-title">
                 <aura:if isTrue="{!v.isRTL}">
-                        <c:RRLink page="{!v.backPage}"> <c:RRIcon iconName="icon-arrow-right" />{!v.backLabelname}</c:RRLink>
+                    <c:RRLink page="{!v.backPage}">
+                        <c:RRIcon iconName="icon-arrow-right" />{!v.backLabelname}</c:RRLink
+                    >
                     <aura:set attribute="else">
-                        <c:RRLink page="{!v.backPage}"><c:RRIcon iconName="icon-arrow-left" />{!v.backLabelname}</c:RRLink>
+                        <c:RRLink page="{!v.backPage}"
+                            ><c:RRIcon iconName="icon-arrow-left" />{!v.backLabelname}</c:RRLink
+                        >
                     </aura:set>
                 </aura:if>
             </div>
         </div>
-        <div class="header">
+        <div class="header survey-header-title">
             <div class="rr-width-limiter side-padding fieldsDiv" tabindex="0">
                 <div class="sub-title">{!v.smallTitle}</div>
                 <div class="title">{!v.bigTitle}</div>

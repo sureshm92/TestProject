@@ -9,8 +9,13 @@ public class Test_TelevisitBatchDeletion {
     @IsTest
     static void testTelevisitBatchDel_false() {
         Test.startTest();
-        Participant_Enrollment__c  enroll = [select Id,Clinical_Trial_Profile__c from Participant_Enrollment__c limit 1];
+        Participant_Enrollment__c  enroll = [select Id,Clinical_Trial_Profile__c,Participant__c from Participant_Enrollment__c limit 1];
         Contact con = [select Id from Contact limit 1];
+        
+        Participant__c participant = new Participant__c(id= enroll.Participant__c);
+        participant.Contact__c = con.id;
+        update participant;
+        
         Study_Closure__c studClTest= new Study_Closure__c(Clinical_Trial_Profile_Id__c=enroll.Clinical_Trial_Profile__c,Clinical_Trial_Profile_Name__c='test booking');
         insert studClTest;
         TriggerHandlerExecutor.bypassHandler(
@@ -59,8 +64,13 @@ public class Test_TelevisitBatchDeletion {
     @IsTest
     static void testTelevisitBatchDel_True() {
         Test.startTest();
-        Participant_Enrollment__c  enroll = [select Id,Clinical_Trial_Profile__c from Participant_Enrollment__c limit 1];
+        Participant_Enrollment__c  enroll = [select Id,Clinical_Trial_Profile__c,Participant__c from Participant_Enrollment__c limit 1];
         Contact con = [select Id from Contact limit 1];
+        
+        Participant__c participant = new Participant__c(id= enroll.Participant__c);
+        participant.Contact__c = con.id;
+        update participant;
+        
         TriggerHandlerExecutor.bypassHandler(
                                 TelevisitTriggerHandler.TelevisitEventTrigger.class
                             );

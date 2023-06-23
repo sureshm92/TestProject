@@ -85,7 +85,7 @@
             box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32) !important;
         }
         .back-button {
-            font-size: 18px !important;
+            font-size: 16px !important;
         }
         @media all and (max-width: 430px) {
             .subTextT{
@@ -102,7 +102,7 @@
         }
        	@media (orientation: portrait) {
             .previewContainerFull{
-                height: 95vh !important;
+                height: calc(100vh - 62px) !important;
             } 
         }
         @media all and (max-width: 900px) {
@@ -112,7 +112,7 @@
         }
         @media all and (max-width: 492px) {
             .previewContainer{
-               padding-top: 24px;
+        		/* padding-top: 24px; */
             }
             .preview-tv-error{
                 height: 740px !important;
@@ -123,7 +123,7 @@
         }
         @media all and (max-width: 430px) {
             .previewContainer{
-               padding-top: 32px;
+        		/* padding-top: 32px; */
              }
             .preview-tv-error{
                 height: 760px !important;
@@ -132,7 +132,7 @@
         
         @media all and (max-width: 388px) {
             .previewContainer{
-               padding-top: 62px;
+               padding-top: 90px;
           }
             .preview-tv-error{
                 height: 785px !important;
@@ -169,7 +169,24 @@
             .televisit-end {
                 line-height: 24px !important;
             }
-
+	     }
+        .firstAttendeeText{
+        	width: 262px;
+            color: #999999;
+            font-size: 24px !important;
+            font-weight: 600;
+            line-height: 37px;
+        }        
+        .non-attendee-screen .televisit-end{
+        	padding: 0px 24px;
+        }
+        .non-attendee-screen .rejoin-container{
+        	height: 96vh;
+        }
+        @media screen and (max-width: 401px){
+            .non-attendee-screen .televisit-rejoin{
+            	width: unset !important;
+            }
         }
     </style>
     <apex:stylesheet value="{!$Resource.proximanova}/proximanova.css" />
@@ -906,8 +923,8 @@
                 toggle('.last-active-feed', 'slds-hide');
                 toggle('.self-feed-container', 'slds-hide');
                 toggle('.video-container', 'slds-medium-size_3-of-4');
-                toggle('.controls', 'slds-size_3-of-4');
-                
+                toggle('.controls', 'slds-size_4-of-4');
+                toggle('.callbuttons', 'shareWidth');
                 
                 
 
@@ -1518,6 +1535,37 @@
                 }
             }
         </script>
+        <script>
+           window.onload = function checkInternetDisconnect() {
+              
+              window.addEventListener('online', () => onlineCall());
+              window.addEventListener('offline', () => offlineCall());
+              var isOffline = false;
+              var myTimeout;
+              function offlineCall(){
+                 myTimeout  = setTimeout(checkTimer, 10000);
+              }
+              
+              function checkTimer() {
+                  isOffline = true;
+              }
+              
+              
+              function onlineCall(){
+                  if(isOffline){
+                      isOffline = false;
+                      disconnectFromSession();
+                      toggle('#main', 'slds-hide');
+                      toggle('#call-end-screen-container', 'slds-hide');
+                      //removeParticipant(publisher);
+                      
+                  }else{
+                      clearTimeout(myTimeout);
+                  }
+              }
+            }
+            
+        </script>
 
         <apex:outputPanel layout="none" rendered="{!isSessionJoinable == true}">
             <script type="text/javascript">
@@ -1793,7 +1841,10 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
             }
-
+			.callButtonsContainer{
+            	max-width: 960px;
+            	width: 100%;
+            }
             .video-container {
                 background: #f6f7fb;
             }
@@ -1908,6 +1959,12 @@
                     height: 24px;
                     width: 24px;
                 }
+            	.share-container {
+                	width: 100% !important;
+                }
+            	.callButtonsContainer{
+            		width: 100% !important;
+            	}
             }
 
             @media screen and (max-width: 576px) {
@@ -2229,8 +2286,11 @@
                 color: #f6f7fb;
                 background: black;
                 padding: 0 0.5em 0 0.5em;
-                top: -19px;
-                border-radius: 0.125em;
+                top: -31px;
+                border-radius: 3px;
+                border: 1px solid #ccc;
+                margin-left: 10px;
+            	font-size: 12px;
             }
 
             .OT_video-poster {
@@ -2395,6 +2455,9 @@
             .share-container {
                 width: 76%;
             }
+            .shareWidth {
+                width: 76%;
+            }
             
             /*
             .OT_subscriber .OT_video-element{
@@ -2477,6 +2540,7 @@
                 height: 42px;
                 width: 100%;
                 box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+            	font-weight: 600 !important;
             }
             .join-button-disabled {
                 opacity: 0.4;
@@ -3091,8 +3155,7 @@
                                         </span>
                                         <br/>
                                         <span
-                                            class="slds-align_absolute-center slds-text-heading--small"
-                                            style="color: #999999;font-weight:600;font-size: 16px !important;line-height: 24px;"
+                                            class="slds-align_absolute-center firstAttendeeText"
                                         >
                                             {!$Label.First_Attendee}
                                         </span>
@@ -3114,11 +3177,11 @@
                                 </div>
 
                                 <div
-                                    class="ctrls-feeds-action-bar speaker-view slds-grid slds-gutters slds-grid_align-spread slds-clearfix"
+                                    class="callbuttons ctrls-feeds-action-bar speaker-view slds-grid slds-clearfix callButtonsContainer"
                                 >
                                     <div
                                         id="last-active-feed"
-                                        class="last-active-feed slds-col slds-size_1-of-4 slds-show_small"
+                                        class="last-active-feed slds-col slds-size_1-of-4 slds-show_small slds-m-right--large"
                                     ></div>
                                     <div
                                         id="self-feed-container"
@@ -3128,7 +3191,7 @@
                                     <div
                                         id="controls"
                                         class="controls slds-col slds-align-bottom"
-                                        style="padding-left: 0"
+                                        style="padding-left: 0;min-height: 117px;padding-top: 67px;" 
                                     >
                                         <div class="slds-grid slds-float_right">
                                             <button
@@ -3386,7 +3449,7 @@
                                         </span>
                                         <div class="slds-grid">
                                             <div class="slds-col slds-medium-size_12-of-12">
-                                                <div class="televisit-end" style="inline-size: 400px;">
+                                                <div class="televisit-end" style="inline-size: 400px;padding: 0px 24px;">
                                                     {!$Label.PT_Session_Ended}
                                                     
                                                     

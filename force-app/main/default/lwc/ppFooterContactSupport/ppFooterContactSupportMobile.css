@@ -118,7 +118,7 @@
 .mob-ph-content1 {
     height: 19px;
     /* width: 109px; */
-    color: #015ff1;
+    color: #444444;
     font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
@@ -140,12 +140,12 @@
 .mob-addr-content1 {
     height: auto;
     /* width: 222px; */
+    color: #444444;
     font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 21px;
-    color: #015ff1;
 }
 
 .addressContent {
@@ -201,4 +201,8 @@
     height: 116px; */
     width: 100%;
     padding-right: 10px;
+}
+
+.pl-15{
+    padding-left: 15px;
 }

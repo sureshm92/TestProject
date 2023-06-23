@@ -47,7 +47,7 @@
                                 class="slds-card slds-card_boundary container-card slds-scrollable_y"
                             >
                                 <div class="slds-card__body slds-card__body_inner">
-                                    <div style="text-align: center; padding-bottom: 10px">
+                                    <div style="text-align: center;">
                                         <template if:true={showTelevisitCard}>
                                             <template if:true={showVisitCard}>
                                                 <template if:true={isTelevisits}>
@@ -479,9 +479,10 @@
                 <div class={tabletProgressTab}>{label.MY_PROGRESS_Caps}</div>
                 <template if:true={participantState}>
                     <template if:true={participantState.pe}
-                        ><lightning-layout class="ipad-width"
+                        ><lightning-layout class="ipad-width progress-container"
                             ><lightning-layout-item
                                 ><c-pp-progress-bar
+                                    parent-class="mobile"
                                     perid={participantState.pe.Id}
                                 ></c-pp-progress-bar></lightning-layout-item
                         ></lightning-layout>

@@ -37,6 +37,7 @@ public without sharing class TemplatePropertiesService {
         return communityName;
     }
 
+    @TestVisible
     private String defineTemplateName(Id whatId, String userMode) {
         if (userMode != CommunityModeService.USER_MODE_PARTICIPANT)
             return CommunityTemplateService.TEMPLATE_DEFAULT;
