@@ -7,14 +7,9 @@
     height: 2rem;
     letter-spacing: 0;
     line-height: 1.5rem;
-}
-
-.active-btn {
-    background: rgba(7, 104, 253, 1);
-    color: #ffffff;
     font-size: 1rem;
-    font-weight: 600;
-    border: none;
+    font-weight: 500;
+    border: 1px solid #d9d9d9;
 }
 
 .completed-task {
@@ -24,20 +19,13 @@
     margin-left: 0rem;
     letter-spacing: 0;
     line-height: 1.5rem;
-}
-
-.inactive-btn {
-    --slds-c-button-brand-color-background: #ffffff;
-    color: #595959;
     font-size: 1rem;
+    /* color: #595959; */
     font-weight: 500;
     border: 1px solid #d9d9d9;
-    background: #ffffff;
 }
 .create-task {
-    background: rgba(7, 104, 253, 1);
     border-radius: 2rem;
-    color: #ffffff;
     width: 510px;
     height: 40px;
     font-size: 1rem;
@@ -48,14 +36,10 @@
 }
 .plus-icon {
     --sds-c-icon-color-foreground-default: #ffffff;
-    padding-right: 16px;
+    padding-right: 1rem;
 }
-.before-create-task {
-    background: rgba(7, 104, 253, 1);
-    cursor: pointer;
-}
+
 .after-create-task {
-    background: rgba(7, 104, 253, 1);
     opacity: 0.4;
     pointer-events: none;
 }
@@ -401,6 +385,9 @@
     line-height: 24px;
     text-align: center;
 }
+.comm-link:hover {
+    cursor: pointer;
+}
 .taskHeader {
     height: 3.14%;
     color: #444444;
@@ -424,9 +411,11 @@
 }
 
 .container-card-mobile {
+    max-width: 468px;
+    margin: 10px auto 0px auto !important;
     background-color: rgb(246, 247, 249);
     border-top-color: #c627a6;
-    border-top-width: 38px;
+    border-top-width: 32px;
     padding: 0;
     border-radius: 25px;
     height: 457px;
@@ -440,11 +429,14 @@
     position: relative;
     margin-top: -31px;
     text-align: center;
-    font-size: 20px;
+    font-size: 14px;
     color: #fff;
-    font-weight: 600;
+    font-weight: bold;
     font-family: 'Proxima Nova';
     text-transform: uppercase;
+    height: 32px;
+    letter-spacing: 0.5px;
+    line-height: 32px;
 }
 
 .custom-padding {
@@ -515,5 +507,22 @@
         font-weight: 600;
         letter-spacing: 0;
         line-height: 48px;
+    }
+    .container-card-mobile {
+        margin: 0px 10px !important;
+    }
+}
+.divider {
+    border-left: 1px solid #d3d3d3;
+}
+.tablet-margin {
+    margin: auto !important;
+}
+@media all and (max-width: 1023px) {
+    .divider {
+        border-left: none;
+        border-top: 1px solid #d3d3d3;
+        margin: inherit;
+        margin-top: 50px;
     }
 }

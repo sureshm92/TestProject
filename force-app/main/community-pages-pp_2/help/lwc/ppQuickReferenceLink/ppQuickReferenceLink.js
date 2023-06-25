@@ -8,6 +8,7 @@ import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import quickRefernceCard from '@salesforce/label/c.Quick_Reference_Card';
 import getResourceURL from '@salesforce/apex/HelpController.getResourceURL';
+import Quick_Reference_Guide from '@salesforce/label/c.PG_AH_H_Quick_Reference_Guide';
 
 export default class PpQuickReferenceLink extends LightningElement {
     videoLink;
@@ -22,6 +23,11 @@ export default class PpQuickReferenceLink extends LightningElement {
     isDuplicate;
     showUserMatch;
     @api showGetSupport;
+
+    label = {
+        Quick_Reference_Guide
+    }
+
     renderedCallback() {}
     connectedCallback() {
         this.initializeData();

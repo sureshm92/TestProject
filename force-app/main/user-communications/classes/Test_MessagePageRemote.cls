@@ -58,12 +58,154 @@ private class Test_MessagePageRemote {
     }
 
     @IsTest
+    static void getAlumniInitDataTest() {
+        TestData testData = new TestData();
+        Test.startTest();
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_TRIAL_COMPLETE;
+        testData.pe.Participant_Contact__r.Visit_Results_OptIn__c = 'Vitals;Labs;Biomarkers';
+        update testData.pe;
+        Conversation__c conversation = new Conversation__c(
+            Participant_Enrollment__c = testData.pe.Id,
+            haveUnreadForParticipant__c = true
+        );
+        insert conversation;
+        insert ConversationService.createConversationSharesForUser(
+            new List<Id>{ conversation.Id },
+            testData.participantUser.Id
+        );
+        insert new Message__c(
+            Conversation__c = conversation.Id,
+            Message_Content__c = 'Why???',
+            Sender_Name__c = 'Morgan Stark'
+        );
+
+        
+        System.runAs(testData.participantUser) {
+            //MessagePageRemote.getInitData('Large', false);
+            MessagePageRemote.getUnreadCount();
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getAlumniDelInitDataTest() {
+        TestData testData = new TestData();
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_TRIAL_COMPLETE;
+        testData.pe.Participant_Contact__r.Visit_Results_OptIn__c = 'Vitals;Labs;Biomarkers';
+        update testData.pe;
+        
+        Test.startTest();
+        Conversation__c conversation = new Conversation__c(
+            Participant_Enrollment__c = testData.pe.Id,
+            haveUnreadForParticipant__c = true
+        );
+        insert conversation;
+        insert ConversationService.createConversationSharesForUser(
+            new List<Id>{ conversation.Id },
+            testData.participantUser.Id
+        );
+        insert new Message__c(
+            Conversation__c = conversation.Id,
+            Message_Content__c = 'Why???',
+            Sender_Name__c = 'Morgan Stark'
+        );
+        Contact delegatecontact = new Contact(
+            FirstName = 'Joy',
+            LastName = 'JoyDad',
+            Email = 'Joypatient@somemail.com',
+            AccountId = testData.participant.Contact__r.AccountId,
+            Current_Participant_Enrollment__c = testData.pe.Id,
+            userCommunityMode__c = CommunityService.USER_MODE_PI,
+            userCommunytyType__c = CommunityService.USER_MODE_PI,
+            UserCommunityIsDelegate__c = true
+        );
+        insert delegatecontact;
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+            Contact__c = delegatecontact.Id,
+            Contact__r = delegatecontact,
+            Participant__c = testData.participant.Id,
+            Participant__r = testData.participant
+        );
+        insert patientDelegate;
+        Patient_delegate_enrollment__c patientEnrollment =new Patient_delegate_enrollment__c(
+            Participant_Enrollment__c = testData.pe.Id,
+            Patient_Delegate__c= patientDelegate.id,
+            Study_Email_Consent__c=true,
+            Study_SMS_Consent__c=true,
+            Study_Phone_Consent__c=true,
+            Study_Direct_Mail_Consent__c=true
+        ); 
+        insert patientEnrollment;
+        
+        User delegateUser = CommunityService.createUser(delegatecontact, null, 'en_US', null);
+        System.runAs(delegateUser) {
+            MessagePageRemote.getInitData('Large', false);
+            MessagePageRemote.getUnreadCount();
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getDelegateInitDataTest() {
+        TestData testData = new TestData();
+        Test.startTest();
+        Conversation__c conversation = new Conversation__c(
+            Participant_Enrollment__c = testData.pe.Id,
+            haveUnreadForParticipant__c = true
+        );
+        insert conversation;
+        insert ConversationService.createConversationSharesForUser(
+            new List<Id>{ conversation.Id },
+            testData.participantUser.Id
+        );
+        insert new Message__c(
+            Conversation__c = conversation.Id,
+            Message_Content__c = 'Why???',
+            Sender_Name__c = 'Morgan Stark'
+        );
+        Contact delegatecontact = new Contact(
+            FirstName = 'Joy',
+            LastName = 'JoyDad',
+            Email = 'Joypatient@somemail.com',
+            AccountId = testData.participant.Contact__r.AccountId,
+            Current_Participant_Enrollment__c = testData.pe.Id,
+            userCommunityMode__c = CommunityService.USER_MODE_PI,
+            userCommunytyType__c = CommunityService.USER_MODE_PI,
+            UserCommunityIsDelegate__c = true
+        );
+        insert delegatecontact;
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+            Contact__c = delegatecontact.Id,
+            Contact__r = delegatecontact,
+            Participant__c = testData.participant.Id,
+            Participant__r = testData.participant
+        );
+        insert patientDelegate;
+        Patient_delegate_enrollment__c patientEnrollment =new Patient_delegate_enrollment__c(
+            Participant_Enrollment__c = testData.pe.Id,
+            Patient_Delegate__c= patientDelegate.id,
+            Study_Email_Consent__c=true,
+            Study_SMS_Consent__c=true,
+            Study_Phone_Consent__c=true,
+            Study_Direct_Mail_Consent__c=true
+        ); 
+        insert patientEnrollment;
+        
+        User delegateUser = CommunityService.createUser(delegatecontact, null, 'en_US', null);
+        System.runAs(delegateUser) {
+            //MessagePageRemote.getInitData('Large', false);
+            MessagePageRemote.getUnreadCount();
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
     static void createConversationTest() {
         TestData testData = new TestData();
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', null, false, null);
+            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', false, null, false, null);
         }
         Test.stopTest();
     }
@@ -77,10 +219,10 @@ private class Test_MessagePageRemote {
         ctpList[0].CommunityTemplate__c='Janssen';
         update ctpList;
         System.runAs(testData.piUser) {
-            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', null, false, null);
+            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', false, null, false, null);
             MessagePageRemote.sendMultipleMessage(
                 new List<String>{ testData.pe.Id },
-                'Hi Participant!',
+                'Hi Participant!', false,
                 null,
                 null
             );

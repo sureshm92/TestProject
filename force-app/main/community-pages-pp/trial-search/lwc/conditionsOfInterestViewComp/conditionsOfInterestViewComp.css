@@ -60,3 +60,8 @@
     /* @noflip */
     right: unset !important;
 }
+@media (max-width: 768px) {
+    .search-input {
+        width: auto !important;
+    }
+}

@@ -66,6 +66,10 @@
     background: transparent;
 }
 
+.custom-no-border-large .dropdown:after {
+    background: transparent;
+}
+
 .custom-no-border .dropdown-span {
     width: 95%;
 }
@@ -186,6 +190,16 @@
     padding-right: unset;
 }
 
+.custom-no-border-large {
+    border: none !important;
+    text-align: left;
+}
+
+.custom-no-border-large .dropdown-span {
+    padding-left: 1.25rem;
+    padding-right: unset;
+}
+
 .rtl {
     text-align: right;
     float: right;
@@ -211,5 +225,8 @@
 @media all and (max-width: 486px) {
     .dropdown-menu {
         max-height: 15rem !important;
+    }
+    .custom-no-border .dropdown-span {
+        width: 80%;
     }
 }
