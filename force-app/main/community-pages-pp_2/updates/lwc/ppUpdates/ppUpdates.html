@@ -15,7 +15,11 @@
                             </div>
                         </div>
                         <div
-                            class="slds-col slds-align-bottom pointer-class refresh-section"
+                            role="button"
+                            aria-pressed="false"
+                            tabindex="0"
+                            class="slds-col slds-align-bottom refresh-section"
+                            onkeydown={handleKeyDown}
                             onclick={refresh}
                         >
                             <span class="refresh-text">{label.refresh}</span>

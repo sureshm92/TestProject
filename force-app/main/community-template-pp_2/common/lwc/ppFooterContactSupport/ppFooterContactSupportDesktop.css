@@ -42,7 +42,8 @@
 
 .container2 {
     min-height: 207.37px;
-    margin-bottom: 27.32px;
+    margin-bottom: 24.32px;
+    padding: 0px 26px;
 }
 
 .phoneContainer {
@@ -102,33 +103,29 @@
 }
 
 .content1 {
-    /* height: 19px; */
-    height: auto;
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 17px;
+  height: 19px; 
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 19px;
 }
 
 .content2 {
-    /* height: 24px; */
-    height: auto;
-    width: 222px;
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 21px;
-    /* cursor: pointer; */
+  height: 24px;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 21px;
 }
 
 .addressContent {
     /* height: 42px; */
     height: auto;
-    width: 222px;
+    width: 98%;
     color: #6e6e6e;
     font-family: 'Proxima Nova';
     font-size: 14px;
@@ -168,6 +165,10 @@
 
 .marginLeft-16 {
     margin-left: 16px;
+}
+
+.paddingLeft-16 {
+    padding-left: 16px;
 }
 
 .marginTop-16 {
@@ -223,7 +224,90 @@
     position: absolute;
 }
 
-/* .site-staff-container {
-    overflow-y: auto;
+.site-staff-container {
     width: 100%;
-} */
+    padding-right: 10px;
+    max-height: 82px;
+    overflow: hidden;
+}
+
+
+.copyIcon{
+    cursor: pointer;
+}
+
+.padding-top-18{
+    padding-top: 18px;
+}
+
+.padding-top-8{
+    padding-top: 8px;
+}
+
+.plus-more{
+  height: 24px; 
+  color: #6E6E6E;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 32px;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.plus-more:hover{
+    cursor: pointer;
+    color: #2978F3;
+    background-color: #ECF3FF;
+}
+
+.ss-name{
+    font-size: 14px;
+    line-height: 24px;
+    font-family: 'Proxima Nova';
+}
+
+.siteStaffTooltip{
+    position: absolute;
+    top: 37px;
+    left: -92px;
+    width: 250px;
+}
+
+.nubbin-center:before{
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    transform: rotate(45deg);
+    content: '';
+    background-color: inherit;
+    left: 51%;
+    bottom: -0.5rem;
+    margin-left: -0.5rem;
+    top: -9%;
+}
+
+.cfs-footer_btn{
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    height: 24px;
+    color: #015FF1;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 16px;
+    text-align: center;
+    height: 32px;
+}
+
+.pd-10{
+    padding: 7px 10px 10px 10px;
+}
+
+.toggle-height{
+    max-height: 100% !important;
+}
+

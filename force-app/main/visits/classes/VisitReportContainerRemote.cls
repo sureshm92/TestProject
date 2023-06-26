@@ -36,6 +36,18 @@ public inherited sharing class VisitReportContainerRemote {
         }
     }
 
+    @AuraEnabled
+    public static ReportDataWrapper getReportDataWrappers_Modified(Id peId, Id patientVisitId) {
+        try {
+            ModifiedVisitReportService visitReportService = ((ModifiedVisitReportService) ClassFactory.newInstance(
+                ModifiedVisitReportService.class
+            ));
+            return visitReportService.getReportDataWrapper(peId, patientVisitId);
+        } catch (Exception e) {
+            return (ReportDataWrapper) AuraHelper.throwException(e);
+        }
+    }
+
     public class ReportDataWrapper {
         @AuraEnabled
         public List<ReportDataTableWrapper> dataTables;
@@ -136,9 +148,13 @@ public inherited sharing class VisitReportContainerRemote {
 
     public class VisitDateColumnWrapper extends VisitDataWrapper {
         public VisitDateColumnWrapper(Date resultDate) {
-             DateTime dt = DateTime.newInstance(resultDate.year(), resultDate.month(),resultDate.day());
-             // this.value = resultDate.format();
-             this.value =UserService.formatDatebyLocale(dt,UserContext.getUser().LocaleSidKey);
+            DateTime dt = DateTime.newInstance(
+                resultDate.year(),
+                resultDate.month(),
+                resultDate.day()
+            );
+            // this.value = resultDate.format();
+            this.value = UserService.formatDatebyLocale(dt, UserContext.getUser().LocaleSidKey);
         }
         public VisitDateColumnWrapper(String value) {
             this.value = value;
@@ -159,12 +175,28 @@ public inherited sharing class VisitReportContainerRemote {
     }
 
     @AuraEnabled
-    public static String getBase64fromVisitSummaryReportPage(String peId,String isRTL)
-    {
+    public static String getBase64fromVisitSummaryReportPage(String peId, String isRTL) {
+        PageReference page = Page.VisitSummaryReportPage;
+        page.getParameters().put('peId', peId);
+        page.getParameters().put('isRTL', isRTL);
 
-      PageReference page = Page.VisitSummaryReportPage;
-        page.getParameters().put('peId',peId);
-        page.getParameters().put('isRTL',isRTL);
+        Blob content = page.getContent();
+        String encoded = EncodingUtil.base64Encode(content);
+        return encoded;
+    }
+
+    @AuraEnabled
+    public static String getBase64fromVisitSummaryReportPage_Modified(
+        String peId,
+        String isRTL,
+        String patientVisitNam,
+        Id patientVisId
+    ) {
+        PageReference page = Page.PatientVisitReportPage;
+        page.getParameters().put('peId', peId);
+        page.getParameters().put('isRTL', isRTL);
+        page.getParameters().put('patientVisitNam', patientVisitNam);
+        page.getParameters().put('patientVisitId', patientVisId);
 
         Blob content = page.getContent();
         String encoded = EncodingUtil.base64Encode(content);
