@@ -123,7 +123,7 @@
         var id = component.get('v.compId');
 
         if (device == 'PHONE' || device == 'TABLET') {
-            for (var i = 1; i < 7; i++) {
+            for (var i = 1; i < 10; i++) {
                 var x = document.getElementById(i);
                 if(x != null && x != "" && x != undefined){
                     if (id != i) {
@@ -149,7 +149,7 @@
         var compId = component.get('v.compId');
 
         if (device == 'PHONE' || device == 'TABLET') {
-            for (var i = 1; i < 7; i++) {
+            for (var i = 1; i < 10; i++) {
                 var x = document.getElementById(i);
                 if(x != null && x != "" && x != undefined){
                     if (id != i && !toglNavg) {
