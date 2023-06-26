@@ -86,13 +86,15 @@ export default class PpCookiesBanner extends LightningElement {
                     this.setRRCookie();
                 }
                 data = 'Agreed';
+                setTimeout(() => {
                 updateTheRegCookieAcceptance()
-                    .then(() => {
+                        .then((res) => {
                         communityService.setCookiesAgreedonReg(false);
                     })
                     .catch((error) => {
-                        communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                            communityService.showToast('', 'error', error.message, 100);
                     });
+                }, 12);
             }
         }
         if (!this.loginPage && data) {
@@ -123,7 +125,9 @@ export default class PpCookiesBanner extends LightningElement {
                 localStorage.setItem('CookiesOnTC', 'Accepted');
             }
 
+            if (this.showBanner) {
             this.blockBackGroundEvents();
+            }
             if (this.communityName == 'Default' || this.communityName == 'IQVIA Referral Hub') {
                 this.containerClassCss = this.containerClassCss + ' rh-cookies-banner';
                 //  this.containerClassCss = this.containerClassCss + ' rh-border-radius';

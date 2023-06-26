@@ -8,8 +8,13 @@ public class Test_TelevisitMeetBannerController {
     }
     @IsTest
     static void testTelevisitBanner() {
-        Participant_Enrollment__c  enroll = [select Id from Participant_Enrollment__c limit 1];
+        Participant_Enrollment__c  enroll = [select Id,Participant__c from Participant_Enrollment__c limit 1];
         Contact con = [select Id from Contact limit 1];
+        
+        Participant__c participant = new Participant__c(id=enroll.Participant__c);
+        participant.Contact__c = con.id;
+        update participant;
+        
         TriggerHandlerExecutor.bypassHandler(
                                 TelevisitTriggerHandler.TelevisitEventTrigger.class
                             );
@@ -40,6 +45,7 @@ public class Test_TelevisitMeetBannerController {
         attendeeLst.add(attendee);
         attendeeLst.add(attendee2);
         insert attendeeLst;
+        TelevisitMeetBannerController.getSessionId();
         TelevisitMeetBannerController.getVisits('IQVIA Referral Hub','PI');
     }
 }

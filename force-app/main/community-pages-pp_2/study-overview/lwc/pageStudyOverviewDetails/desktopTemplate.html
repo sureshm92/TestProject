@@ -49,7 +49,48 @@
                                 value="overview"
                                 style={handleDynamicCSS}
                             >
-                                <div class="po-tab-overview">
+                                <div class="contact-detail-tab">
+                                    <lightning-layout multiple-rows="true">
+                                        <lightning-layout-item size="3" class="piPhone">
+                                            <lightning-layout size="12">
+                                                <lightning-layout-item size="2">
+                                                    <img src={phone_Icon} class="phoneIcon"/>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="10" class="marginLeft-12">
+                                                    {studySitePhone}
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="5" class="piAddr border-left border-right">
+                                            <lightning-layout size="12">
+                                                <lightning-layout-item size="2" class="tdpiIcon">
+                                                    <img src={address_Icon} class="pinIcon"/>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="10" class="site-Name-Addr">
+                                                    <lightning-layout size="12" multiple-rows="true">
+                                                        <lightning-layout-item size="12" class="site-Name">
+                                                            {siteName}
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="12" class="site-addr">
+                                                            {siteAddress}
+                                                        </lightning-layout-item>
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="4" class="piName">
+                                            <lightning-layout size="12">
+                                                <lightning-layout-item size="">
+                                                    <img src={pi_Icon} class="piIcon"/>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="" class="piName-text">
+                                                    {piName}&nbsp;{label.PI_Post_Fix}
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </div>
+                                <div class="po-tab-overview po-mt-10">
                                     <p class="po-pb-10">
                                         <lightning-formatted-text
                                             value={label.PPOBJECTIVE}

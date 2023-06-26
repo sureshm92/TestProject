@@ -103,10 +103,8 @@ public without sharing class ParticipantService {
     public ParticipantService() {
         participantState = new ParticipantState();
         Contact userContact = CommunityService.getUserContact();
-        if(userContact != null || userContact.userCommunityDelegateId__c != null){
-            participantState.currentContactId = userContact.userCommunityDelegateId__c;
-        }
-        if (participantState.currentContactId == null || userContact!= null)
+        participantState.currentContactId = userContact.userCommunityDelegateId__c;
+        if (participantState.currentContactId == null)
             participantState.currentContactId = userContact.Id;
         participantState.isDelegate = userContact.userCommunityDelegateId__c != null;
         participantState.cookiesAgreedonRegPage = userContact.Cookies_Agreed_on_Reg__c;

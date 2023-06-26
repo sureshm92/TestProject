@@ -683,6 +683,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         TriggerHandlerExecutor.bypassHandler(
         PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
         );
+        TriggerHandlerExecutor.bypassHandler( 
+        PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+        );
         
         List<Id> petoUpdate = new List<Id>();
         List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();

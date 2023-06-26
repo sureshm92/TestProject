@@ -35,7 +35,7 @@
         <template if:true={isReminderOptionSelected}>
             <!--Custom Reminder Option Date Time-->
             <template if:true={isCustomReminderOptionSelected}>
-                <div class="slds-col slds-size_1-of-1 slds-m-top_medium task-reminder">
+                <div class="slds-size_1-of-1 slds-m-top_medium task-reminder">
                     <c-pp-date-time-combo
                         data-id="reminderDateTime"
                         create-task={isCustomReminderOptionSelected}
@@ -43,7 +43,7 @@
                         compdate={dbreminderdate}
                         comptime={dbremindertime}
                         mindate={currentDate}
-                        maxdate={taskDueDate}
+                        maxdate={maxReminderDate}
                         mintime={minimumReminderTime}
                         maxtime={maximumReminderTime}
                         icon-size="small"
