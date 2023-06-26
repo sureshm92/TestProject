@@ -15,17 +15,6 @@
 .border-class {
     border-left: 6px solid black;
 }
-.download-res-data {
-    color: #0768fd;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.download-res-data:hover {
-    text-decoration: underline;
-    text-decoration-style: dashed;
-    color: #0557d5;
-}
 
 /* .active-btn {
     background: rgba(7, 104, 253, 1);
@@ -44,9 +33,6 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 1.5rem;
-}
-.download-icon {
-    --slds-c-icon-color-foreground-default: #0768fd;
 }
 
 /* .active-btn {
