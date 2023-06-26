@@ -26,17 +26,12 @@
                     <div class="slds-float_right">
                         <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
                             <div class="slds-col">
-                                <span class="download-section">
-                                    <lightning-icon
-                                        icon-name="utility:download"
-                                        size="xx-small"
-                                        class="download-icon"
-                                    >
-                                    </lightning-icon>
-                                    <span class="download-res-data slds-p-left_small">
-                                        {label.PP_Download_Results_Data}
-                                    </span>
-                                </span>
+                                <c-pp-download-results-data
+                                    pe-id={peId}
+                                    is-r-t-l={isRTL}
+                                    patient-visit-nam={patientVisitName}
+                                    patient-visit-id={currentVisitId}
+                                ></c-pp-download-results-data>
                             </div>
                         </div>
                     </div>

@@ -70,6 +70,22 @@ public class Test_PP_ProgressBarUtility {
         insert parList;
        	parList.Participant_Status__c = 'Enrollment Success';
         update parList;
+        
+        Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan HCP');
+        insert vp;
+        
+        List<Visit__c> visits = new List<Visit__c>();
+        visits.add(new Visit__c(Visit_Plan__c = vp.Id));
+        insert visits;
+        
+        Patient_Visit__c pt = new Patient_Visit__c(
+                Participant_Enrollment__c = parList.Id,
+                Status__c = 'Completed',
+                Visit__c = visits.get(0).Id,
+                Visit_Number__c = 1
+            );
+        insert pt;
+
         PP_ProgressBarUtility.generateProgressBar(parList.Id);
     }
     
