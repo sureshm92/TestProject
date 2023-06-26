@@ -31698,6 +31698,13 @@ The IQVIA Referral Hub Support Team</value>
         <value>This button will toggle the result data for all the visits.</value>
     </labels>
     <labels>
+        <fullName>Study_Data_Report</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study Data Report</shortDescription>
+        <value>Study Data Report</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient_New_Study_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -31706,13 +31713,6 @@ The IQVIA Referral Hub Support Team</value>
 
             &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;
             
-    </labels>
-    <labels>
-        <fullName>Study_Data_Report</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Study Data Report</shortDescription>
-        <value>Study Data Report</value>
     </labels>
     
 </CustomLabels>
