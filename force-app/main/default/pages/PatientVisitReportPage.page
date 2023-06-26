@@ -22,7 +22,7 @@
                 </div>
                 <div class="footer_text">{!footerText} </div>
             </div>
-            <div class="footer_otherpages">
+            <div class="footer_otherpages" >
                 <div class="peInfo">
                     <div class="float-left">
                         {!participantFullName}
@@ -59,7 +59,7 @@
                     </apex:outputText>
                 </div>                   
             </div>
-            <div class="content" style="display:block;">
+            <div class="content">
                 <div  class="datatab">
                     <apex:repeat value="{!reportWrapperFinalObj.dataTables}" var="line"> 
                         <div style="page-break-before:always;">
@@ -97,10 +97,10 @@
                                     </tbody>
                                 </table>  
                             </div>
-                            <div style="padding-top:25px;">
-                                <apex:repeat value="{!line.labsDescription}" var="labdesc">
-                                    <div style="font-size:15px;padding-top:10px;color:#000000;"> <apex:outputText value="{!labdesc.nameLabs}" /></div>
-                                    <div style="font-size:13px;padding-top:8px;color: #444444;"><apex:outputText value="{!labdesc.descriptionLab}" /> </div>
+                            <div style="padding-top:20px;"> 
+                                <apex:repeat value="{!line.labsDescription}" var="labdesc">  
+                                    <div style="font-size:15px;padding-top:10px;color:#000000;margin-top:5px;"> <apex:outputText value="{!labdesc.nameLabs}" /></div>
+                                    <div style="font-size:13px;padding-top:8px;color: #444444;margin-bottom:-5px;"><apex:outputText value="{!labdesc.descriptionLab}" /> </div>
                                 </apex:repeat>
                             </div>
                         </div>
