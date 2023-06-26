@@ -118,6 +118,24 @@
         var y = document.getElementById('selectOption');
         y.style.boxShadow = 'none';
         component.set('v.toglNavg', false);
+        
+        var device = $A.get('$Browser.formFactor');
+        var id = component.get('v.compId');
+
+        if (device == 'PHONE' || device == 'TABLET') {
+            for (var i = 1; i < 7; i++) {
+                var x = document.getElementById(i);
+                if(x != null && x != "" && x != undefined){
+                    if (id != i) {
+                        x.style.display = 'none';
+                        y.style.boxShadow = 'none';
+                        y.style.background = 'Transparent';
+                    } else{
+                        x.style.display = 'block';
+                    }
+                }
+            }
+        }
     },
     // Added for REF-2736 bug fixing
     onClick: function (component, event, helper) {
@@ -133,16 +151,18 @@
         if (device == 'PHONE' || device == 'TABLET') {
             for (var i = 1; i < 7; i++) {
                 var x = document.getElementById(i);
-                if (id != i && !toglNavg) {
-                    // x.style.visibility = 'hidden';
-                    x.style.display = 'none';
-                    y.style.boxShadow = 'none';
-                    y.style.background = 'Transparent';
-                } else if (toglNavg) {
-                    // x.style.visibility = 'visible';
-                    x.style.display = 'block';
-                    y.style.boxShadow = '0 4px 24px 0 rgba(0, 0, 0, 0.16)';
-                    y.style.background = '#fff';
+                if(x != null && x != "" && x != undefined){
+                    if (id != i && !toglNavg) {
+                        // x.style.visibility = 'hidden';
+                        x.style.display = 'none';
+                        y.style.boxShadow = 'none';
+                        y.style.background = 'Transparent';
+                    } else if (toglNavg) {
+                        // x.style.visibility = 'visible';
+                        x.style.display = 'block';
+                        y.style.boxShadow = '0 4px 24px 0 rgba(0, 0, 0, 0.16)';
+                        y.style.background = '#fff';
+                    }
                 }
             }
         }
