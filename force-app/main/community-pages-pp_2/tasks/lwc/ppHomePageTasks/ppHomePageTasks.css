@@ -258,6 +258,21 @@
     border-radius: 5px;
 }
 
-.height-style{
+.height-style {
     height: 416px;
+}
+
+.comm-link {
+    height: 24px;
+    width: auto;
+    color: #015ff1;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+.comm-link:hover {
+    cursor: pointer;
 }

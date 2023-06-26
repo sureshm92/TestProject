@@ -1,0 +1,67 @@
+.PP-Mot-Message-Toast{
+    background-color: #C42EA5;
+    width: 620px;
+    padding: 8px;
+}
+.slds-text-heading_small{
+    color: #F0F8FF;
+}
+.slds-notify_container{
+    border-radius: 8px;
+    width:50% !important;
+    position: fixed;
+    left: 26%;
+    top: 48px;
+}
+.slds-notify__content{
+    width: 508px;
+    font-weight: 600;
+}
+.custom-icon{
+    margin-right: 15px;
+    text-align: right;
+    margin-top: 2px
+}
+.custom-icon-mobile{
+   margin-right: 10px;
+    text-align: right;
+}
+/* .slds-notify_container_mobile{
+    height:80px;
+    border-radius: 8px;
+    margin-top: 18px;
+    width: 366px; 
+} */
+.PP-Mot-Message-Toast_mobile{
+    background-color: #C42EA5;
+    padding: 8px;
+    /* width: 366px; */
+    margin-top: 16px
+}
+.slds-notify__content_mobile{
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.custom-notify-container-mobile{
+    position: fixed;
+    top: 25px;
+    background-color: #C42EA5;
+    padding: 8px;
+    margin: 20px;
+    border-radius: 8px;
+    z-index: 10000000;
+    margin-top: 27px;
+    width: 90%;
+}
+
+.mt-0{
+    position: absolute;
+    top: 20px;
+}
+
+.slds-notify__close{
+    width: 24px;
+    height: 24px;
+    right: 1%;
+}

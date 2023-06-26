@@ -64,7 +64,7 @@
     color: blue;
 }
 .profile-label {
-    color: #0768fd;
+    color: #015ff1;
     font-size: 1rem;
     font-weight: 500;
     letter-spacing: 0;
@@ -93,7 +93,7 @@
     bottom: 0;
 }
 .divider-vertical-standard-line {
-    color: #0768fd;
+    color: #015ff1;
     font-size: 1rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -102,7 +102,7 @@
 }
 .remove-photo {
     font-size: 16px;
-    color: #0768fd;
+    color: #015ff1;
     font-family: 'Proxima Nova';
     letter-spacing: 0;
     line-height: 24px;

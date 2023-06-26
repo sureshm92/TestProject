@@ -560,6 +560,9 @@ public without sharing class ParticipantInformationRemote {
             TriggerHandlerExecutor.bypassHandler(
             PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
             );
+            TriggerHandlerExecutor.bypassHandler( 
+            PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+            );
             ReferHealthcareProviderRemote.HealthcareProvider ddi = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(
                 duplicateDelegateInfo,
                 ReferHealthcareProviderRemote.HealthcareProvider.class
@@ -745,6 +748,9 @@ public without sharing class ParticipantInformationRemote {
             );
         TriggerHandlerExecutor.bypassHandler(
             PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+            );
+        TriggerHandlerExecutor.bypassHandler( 
+            PatientDelegateTriggerHandler.CreateReactivatedNotification.class
             );
             
         try {

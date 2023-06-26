@@ -20,6 +20,7 @@ public without sharing class TaskService {
     public static final String TASK_VISIBILITY_ALL = 'Owner;Delegates';
     public static final String TASK_VISIBILITY_OWNER = 'Owner';
     public static final String TASK_VISIBILITY_DELEGATES = 'Delegates';
+    public static final String TASK_ORIGINATOR = 'Delegate';
 
     public static final String TASK_TYPE_ECOA = 'Ecoa';
     public static final String TASK_TYPE_MEDICATION = 'Medication';
@@ -55,6 +56,7 @@ public without sharing class TaskService {
         'ReminderDateTime',
         'Reminder_Date__c',
         'Originator__c',
+        'Owner_Contact__c',
         'Patient_Visit__c',
         'Remind_Me__c',
         'Reminder_Schedule__c',
@@ -65,6 +67,8 @@ public without sharing class TaskService {
         'Survey_Invitation__r.Is_Expired__c',
         'Survey_Invitation__r.Participant_Enrollment__c',
         'Survey_Invitation__r.IsTrialSurvey__c',
+        'Survey_Invitation__r.Trial_Survey__r.Display_in_UI__c',
+        'Survey_Invitation__r.Participant_Due_Date__c',
         'Start_Date__c',
         'Survey_Invitation__r.ExpireDateTime__c',
         'Survey_Invitation__r.Is_End_Date_Visible__c'
@@ -101,6 +105,8 @@ public without sharing class TaskService {
         CommunityMode currentMode = UserContext.getCurrentUserMode();
         Boolean isDecoupled = (ParticipantContext.getOwnParticipant() != null);
         Boolean alumDlgtPtView = false;
+        Boolean hasPastEnrollments = false;
+        Set<Id> dntSkipHalfAlumPEIds = new Set<Id>();
 
         String commonFilter = '';
         String ownerVisibility =
@@ -111,6 +117,7 @@ public without sharing class TaskService {
             ' AND Visible_For__c INCLUDES (\'' +
             TASK_VISIBILITY_DELEGATES +
             '\') ';
+            String minorlDelFilter = ' AND (Originator__c != \'' + TASK_ORIGINATOR + '\'' + ')';
         if (!ParticipantContext.isCurrentDelegate() || (isDecoupled && !currentMode.isDelegate)) {
             // Owner or decoupled delegate in prospect view
             commonFilter =
@@ -165,6 +172,18 @@ public without sharing class TaskService {
         if (sortOrder != null)
             commonFilter += ' ' + sortOrder;
         List<Task> tasks;
+        List<Participant_Enrollment__c> pastEnrollments = new List<Participant_Enrollment__c>();
+        if (ParticipantContext.getCurrentContact() != null){
+            pastEnrollments = ContactService.getPastEnrollments(
+                ParticipantContext.getCurrentContact().Id
+            );
+        }
+        if (pastEnrollments.size() > 0){
+            hasPastEnrollments = true;
+            for(Participant_Enrollment__c pe:pastEnrollments){
+                dntSkipHalfAlumPEIds.add(pe.Id);
+            }
+        }
         if (
             currentMode.participantState == 'ALUMNI' &&
             currentMode.isDelegate &&
@@ -172,11 +191,6 @@ public without sharing class TaskService {
         ) {
             String alumniFilter;
             alumDlgtPtView = true;
-            /* alumniFilter = 'WhatId IN (Select Participant_Enrollment__c from Patient_Delegate_Enrollment__c Where Patient_Delegate__r.Contact__c = \''+
-            ParticipantContext.getOwnParticipant().Contact__c + '\'' +
-            ' AND Patient_Delegate__r.Participant__r.Contact__c = \''+
-            ParticipantContext.getCurrentContact().Id + '\'' +')';
-            commonFilter = alumniFilter +' AND ' + commonFilter;*/
         }
         if (isDecoupled && ParticipantContext.getCurrentUserId() == null) {
             //Added for Minor Participant's Delegates
@@ -194,13 +208,15 @@ public without sharing class TaskService {
         }
         //send task list after filtering delegate tasks in patient view only
         TaskTriggerHandler.processDefaultFieldValues(tasks);
-        return filterTasks(tasks, currentMode, alumDlgtPtView);
+        return filterTasks(tasks, currentMode, alumDlgtPtView,dntSkipHalfAlumPEIds,hasPastEnrollments);
     }
 
     private List<Task> filterTasks(
         List<Task> tasks,
         CommunityMode currentMode,
-        Boolean alumDlgtPtView
+        Boolean alumDlgtPtView,
+        Set<Id> dntSkipHalfAlumPEIds,
+        Boolean hasPastEnrollments
     ) {
         List<Task> filteredList = new List<Task>();
         Set<Id> skipPEIds = new Set<Id>();
@@ -257,16 +273,25 @@ public without sharing class TaskService {
             ) {
                 //Visit Task to be displayed in Task Tab panel
                 skipTask =
+                    (t.Owner_Contact__c != null && t.Owner_Contact__c != ParticipantContext.getCurrentContact().Id ) ||
                     (skipPEIds.contains(t.WhatId) && t.Task_Type__c != 'Visit') ||
                     (!skipPEAlumnIds.contains(t.WhatId) && alumDlgtPtView) ||
                     (curPEId != null &&
                     t.WhatId != curPEId);
+                if(hasPastEnrollments && dntSkipHalfAlumPEIds.contains(t.whatId) && (curPEId != null &&
+                    t.WhatId != curPEId)){
+                    skipTask = false;
+                }
             } else if (t.Survey_Invitation__c != null) {
                 skipTask =
                     skipSurveyInvIds.contains(t.Survey_Invitation__c) ||
                     (!skipPEAlumnIds.contains(t.Survey_Invitation__r.Participant_Enrollment__c) && alumDlgtPtView) ||
                     (curPEId != null &&
                     t.Survey_Invitation__r.Participant_Enrollment__c != curPEId);
+                if(hasPastEnrollments && dntSkipHalfAlumPEIds.contains(t.Survey_Invitation__r.Participant_Enrollment__c) && (curPEId != null &&
+                    t.Survey_Invitation__r.Participant_Enrollment__c != curPEId)){
+                    skipTask = false;
+                }
             }
             if (!skipTask)
                 filteredList.add(t);

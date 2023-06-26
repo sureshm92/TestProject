@@ -16,6 +16,7 @@ public class Test_AlertsRemote {
     @IsTest
     public static void testRun() {
         List<Alert> alerts = new List<Alert>();
+        List<Alert> ppAlerts =new List<Alert>();
         List<Terms_And_Conditions__c> tcList = new List<Terms_And_Conditions__c>();
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(Active__c = true);
         //tcList.add(portalTC);
@@ -159,14 +160,25 @@ public class Test_AlertsRemote {
         insert pe;
  
         //TestData testDataInstance = new TestData();
-        User participantUser = [SELECT ID FROM User WHERE ContactId IN(SELECT Contact__c FROM Participant__c WHERE Id =: participant.Id) ];
+        User participantUser = [SELECT ID,ContactId FROM User WHERE ContactId IN(SELECT Contact__c FROM Participant__c WHERE Id =: participant.Id) ];
 
+        Alert__c  partAlerts=new Alert__c (
+        Alert_Code__c='Welcome_To_The_PH',
+        Viewed__c=false,
+        Contact__c=participantUser.ContactId
+        );
+        insert partAlerts;
+        
         System.runAs(participantUser) {
             alerts = (List<Alert>) JSON.deserialize(
                 AlertsRemote.getAlerts(CommunityService.USER_MODE_PARTICIPANT),
                 List<Alert>.class
             );
             AlertsRemote.setAlertViewed(alerts[0].id);
+            ppAlerts = (List<Alert>) JSON.deserialize(
+                AlertsRemote.getPPAlerts(CommunityService.USER_MODE_PARTICIPANT),
+                List<Alert>.class
+            );
         }
         Test.stopTest();
 
@@ -179,6 +191,18 @@ public class Test_AlertsRemote {
         Test.startTest();
         try {
             AlertsRemote.setAlertViewed(null);
+        } catch (Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        System.assertEquals(true, isExceptionThrown);
+    }
+    @IsTest
+    public static void testAlertException() {
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            AlertsRemote.getPPAlerts('alert');
         } catch (Exception e) {
             isExceptionThrown = true;
         }

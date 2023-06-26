@@ -225,12 +225,12 @@
                         </template>
                     </lightning-layout-item>
                     <div class="slds-align_absolute-center">
-                        <a class="comm-link" href={sfdcBaseURL} target="_blank">
+                        <div class="comm-link" onclick={navigateToTasks}>
                             <span>{label.viewAllTasks}</span>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </lightning-layout>
         </div>
     </div>
-</template> 
+</template>

@@ -28,6 +28,7 @@ export default class PpDateTimeCombo extends LightningElement {
     @api iconColor = '#00A3E0';
     @api createTask;
     @api taskReminder = false;
+    @api displayDateInUi;
     @api editMode = false;
     @api readOnlyMode = false;
     @track compDateTime;
@@ -212,7 +213,20 @@ export default class PpDateTimeCombo extends LightningElement {
             return comptime;
         }
     }
+    currentDate() {
+        let currentDateTime = new Date().toLocaleString('en-US', {
+            timeZone: TIME_ZONE
+        });
+        let currentDateTimeObject = new Date(currentDateTime);
 
+        let dd = String(currentDateTimeObject.getDate()).padStart(2, '0');
+        let mm = String(currentDateTimeObject.getMonth() + 1).padStart(2, '0');
+        let yyyy = currentDateTimeObject.getFullYear();
+        let today = yyyy + '-' + mm + '-' + dd;
+        this.todaydate = today;
+        this.calculatedDate = today;
+        return today;
+    }
     get dateInputClass() {
         this.createTask = true ? 'task-due-date-time' : 'curve-input';
     }
