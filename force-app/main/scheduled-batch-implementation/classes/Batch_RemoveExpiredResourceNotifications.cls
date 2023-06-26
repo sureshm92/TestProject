@@ -110,6 +110,15 @@ public with sharing class Batch_RemoveExpiredResourceNotifications extends Batch
                 sendResultToUpdate.add(sr);
                 notificationIds.add(sr.Notification__c);
             }
+
+            if (
+                !platformResMap.containsKey(sr.Notification__r.Target_Record_Ids__c) &&
+                !stdResMap.containsKey(sr.Notification__r.Target_Record_Ids__c)
+            ) {
+                sr.Status__c = 'Sent';
+                sendResultToUpdate.add(sr);
+                notificationIds.add(sr.Notification__c);
+            }
         }
         if (!sendResultToUpdate.isEmpty()) {
             update sendResultToUpdate;
