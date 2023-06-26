@@ -134,7 +134,7 @@ public without sharing class ModifiedVisitReportService {
                         List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription = new List<VisitReportContainerRemote.LabsNameDescriptionWrapper>();
                         //PEH-2374: Added logic to avoid null pointer exception
                         reportHeaderWrappers.add(
-                            new VisitReportContainerRemote.VisitHeaderWrapper('Report_Dates')
+                            new VisitReportContainerRemote.VisitHeaderWrapper('Report_Date_PP')
                         );
                         //Adds completed dates
                         reportRowWrappers.add(
@@ -349,7 +349,7 @@ public without sharing class ModifiedVisitReportService {
         reportDataTableWrapper.tableName = TranslateHelper.getLabelValue(
             'Report_' +
             visitResultGroupM.DeveloperName +
-            '_header',
+            '_header_PP',
             ModifiedVisitReportService.userLanguage
         );
         reportDataTableWrapper.tableApiName = visitResultGroupM.DeveloperName;
@@ -408,7 +408,6 @@ public without sharing class ModifiedVisitReportService {
                 )
             );
         }
-        system.debug('**JJ' + reportRowWrappers);
     }
 
     private List<VisitReportContainerRemote.ReportDataTableWrapper> getSortedReportDataTableWrappers(
