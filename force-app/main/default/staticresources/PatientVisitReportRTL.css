@@ -5,10 +5,10 @@
     margin-right: -8px;
     
     @top-right {
-    content: element(top-right-header);
+    content: element(top-left-header);
     }
     @top-left {
-    content: element(top-left-header);
+    content: element(top-right-header);
     }
     @bottom-left { 
     padding-bottom:300px;
@@ -19,7 +19,7 @@
     padding-top:0px;
     margin-left:-5px;
     margin-top:-5px;
-    margin-right:-5px;
+    margin-right:-20px; 
     @top-right {
     /**/
     }
@@ -34,24 +34,23 @@
     }
     }
     div.top-left-header {
-    text-align: left;
+    text-align: right;
     color: #005587;
     font-family: "Arial Unicode MS";
     font-size: 25px; 
     padding-top:40px;
     border-bottom:3px solid #F2F2F2;
-    padding-bottom:5px;
-    margin-left:6px;
+    padding-bottom:5px; 
+    margin-right:60px; 
     position: running(top-left-header);
     }
     div.top-right-header {
-    text-align:right;
+    text-align:left;
     color: #005587;
     padding-top:50px;
-    padding-bottom:11px;  
+    padding-bottom:9px;  
     font-size: 15px;
-    margin-right:60px;
-    padding-right:0px;
+    margin-left:6px;
     border-bottom:3px solid #F2F2F2;
     position: running(top-right-header);
     }
@@ -69,6 +68,7 @@
     font-family: Arial Unicode MS;
     margin-bottom:30px;
     padding-bottom:30px;
+    margin-right:10px;
     position: running(footer);
     }
     .footer_otherpages{
@@ -96,13 +96,13 @@
     }
     .float-left{
     float:left;
-    padding:10px; 0 0 20px;
+    padding:10px 0 0 20px;
     color: #000000;
     font-size: 14px;
     }
     .float-right{
     float:right;
-    padding:12px; 0 0 20px;
+    padding:12px 0 0 20px;
     font-size: 12px;
     color: #444444;
     }
