@@ -439,7 +439,7 @@ public without sharing class PIR_ParticipantDetailController {
                 createPDE(contactId,pdToupdateAfterInsertDuplicate,perRecord,consentWrapper);
                  
               }
-          }else{
+          }else{ 
             Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
               Primary_Delegate__c = true,
               Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
@@ -583,7 +583,7 @@ public without sharing class PIR_ParticipantDetailController {
         con.id =delcon;
         con.AccountId = [Select Id,Participant__c,Participant__r.Contact__r.AccountId from Participant_Enrollment__c where Id=:perRecord.Id].Participant__r.Contact__r.AccountId;
         if(con.AccountId != null){
-        con.userCommunityIsDelegate__c = true;  
+        con.userCommunityIsDelegate__c = true; 
         update con;
         }
         else {

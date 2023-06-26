@@ -8,8 +8,8 @@
     </values>
     <values>
         <field>Parameters__c</field>
-        <value xsi:type="xsd:string">UserName = Participant__r.Full_Name__c
-StudyName = Clinical_Trial_Profile__r.Study_Title__c
+        <value xsi:type="xsd:string">UserName = Participant__r.First_Name__c
+StudyName = Clinical_Trial_Profile__r.Study_Code_Name__c
 Logo = Clinical_Trial_Profile__r.Profile_Picture__c
 LogoText = Clinical_Trial_Profile__r.Study_Code_Name__c</value>
     </values>

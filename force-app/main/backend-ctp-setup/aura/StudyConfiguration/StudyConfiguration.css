@@ -68,3 +68,7 @@
     bottom: 0;
     pointer-events: unset;
 }
+
+.THIS .helpTxt {
+    display: table-caption;
+}

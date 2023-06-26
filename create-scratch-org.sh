@@ -1,5 +1,5 @@
 #!/bin/sh
-#v2.8 PP-13.0 RH-15.0
+#v2.9 PP-14.0 RH-16.0
 echo "Clean up previous scratch org"
 sfdx force:org:delete -p
 
@@ -20,6 +20,9 @@ mv ./force-app/communities/community-iqvia/experiences ./scratch-org-files/origi
 mv ./force-app/communities/community-gsk/sites/GSK_Community.site-meta.xml ./scratch-org-files/original-files
 mv ./force-app/communities/community-iqvia/sites/IQVIA_Referral_Hub.site-meta.xml ./scratch-org-files/original-files
 mv ./force-app/communities/community-janssen/sites/Janssen_Community.site-meta.xml ./scratch-org-files/original-files
+mv ./force-app/communities/community-pp/sites/IQVIA_Patient_Portal.site-meta.xml ./scratch-org-files/original-files
+mv ./force-app/communities/community-policies/sites/Policies_and_Terms.site-meta.xml ./scratch-org-files/original-files
+
 mv ./force-app/main/default/profiles/Business\ Administrator.profile-meta.xml ./scratch-org-files/original-files
 mv ./force-app/main/default/profiles/Business\ Lead.profile-meta.xml ./scratch-org-files/original-files
 mv ./force-app/main/default/profiles/IQVIA\ Customer\ Community\ Plus\ Login\ User.profile-meta.xml ./scratch-org-files/original-files
@@ -32,6 +35,8 @@ mv ./scratch-org-files/experiences ./force-app/communities/community-iqvia
 mv ./scratch-org-files/GSK_Community.site-meta.xml ./force-app/communities/community-gsk/sites
 mv ./scratch-org-files/IQVIA_Referral_Hub.site-meta.xml ./force-app/communities/community-iqvia/sites
 mv ./scratch-org-files/Janssen_Community.site-meta.xml ./force-app/communities/community-janssen/sites
+mv ./scratch-org-files/IQVIA_Patient_Portal.site-meta.xml ./force-app/communities/community-pp/sites
+mv ./scratch-org-files/Policies_and_Terms.site-meta.xml ./force-app/communities/community-policies/sites
 mv ./scratch-org-files/Business\ Administrator.profile-meta.xml ./force-app/main/default/profiles
 mv ./scratch-org-files/Business\ Lead.profile-meta.xml ./force-app/main/default/profiles
 mv ./scratch-org-files/IQVIA\ Customer\ Community\ Plus\ Login\ User.profile-meta.xml ./force-app/main/default/profiles

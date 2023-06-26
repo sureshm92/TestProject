@@ -14,16 +14,12 @@ import notAvailable from '@salesforce/label/c.Not_Available';
 import taskMarkCompleteHeader from '@salesforce/label/c.Task_Mark_Complete';
 import taskReminder from '@salesforce/label/c.Task_Reminder';
 import noOpenTasks from '@salesforce/label/c.No_Open_Tasks';
-
-import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import getPPParticipantTasks from '@salesforce/apex/TasksRemote.getPPParticipantTasks';
 import markAsCompleted from '@salesforce/apex/TaskEditRemote.markAsCompleted';
 import { NavigationMixin } from 'lightning/navigation';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
-import basePathName from '@salesforce/community/basePath';
 import viewAllTasks from '@salesforce/label/c.View_All_Tasks';
 
 export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
@@ -58,7 +54,6 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
     jsonState;
     showCreateTaskButton;
     @track openTasks;
-    @track sfdcBaseURL;
     completedTasks;
     spinner;
     taskCodeList = [
@@ -90,20 +85,12 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
     emptyOpenTasks;
 
     connectedCallback() {
-        this.sfdcBaseURL = window.location.origin + basePathName + '/tasks';
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                console.log('NEW RR_COMMUNITY_JS loaded');
-                this.spinner = this.template.querySelector('c-web-spinner');
-                this.initializeData();
-            })
-            .catch((error) => {
-                console.error('Error in loading RR Community JS: ' + JSON.stringify(error));
-            });
-            console.log('openTasks:',this.openTasks);
+        this.initializeData();
     }
-    initializeData() {
-        this.spinner.show();
+    async nitializeData() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        if (this.spinner) this.spinner.show();
+
         getPPParticipantTasks()
             .then((participantTasks) => {
                 this.showCreateTaskButton = participantTasks.showCreateTaskButton;
@@ -165,8 +152,6 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
         }
     }
     taskOpen(event) {
-        let selectedTask;
-        var taskId = event.currentTarget.dataset.index;
         if (event.currentTarget.dataset.actionurl != undefined) {
             communityService.navigateToPage(event.currentTarget.dataset.actionurl);
         }
@@ -200,7 +185,6 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
     closeTheTask() {
         this.hideModalBox();
         this.spinner.show();
-        let radioTask = this.template.querySelector('[data-index="' + this.selectedTaskId + '"]');
         markAsCompleted({ taskId: this.selectedTaskId })
             .then(() => {
                 for (let i = 0; i < this.openTasks.length; i++) {
@@ -265,7 +249,6 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
         }
     }
     closeModel() {
-        let radioTask = this.template.querySelector('[data-modalpopup="' + this.popUpTaskId + '"]');
         this.isShowModal = false;
         let radioTask2 = this.template.querySelector(
             '[data-parentdiv="' + this.selectedTaskId + '"]'
@@ -294,26 +277,25 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
     }
     handleonclick(event) {
         var taskId = event.currentTarget.dataset.index;
-        console.log('taskId:',taskId);
         this.redirectPage(taskId);
     }
     redirectPage(taskId) {
-        console.log('redirectPage:',window.location.origin);
-        console.log('basePathName:',basePathName);
-
-        this.taskurl = window.location.origin + basePathName + '/tasks'+ '?taskId=' + taskId;
-        console.log('taskurl:', this.taskurl);
-
-        const config = {
-            type: 'standard__webPage',
-
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: this.taskurl
+                pageName: 'tasks'
+            },
+            state: {
+                taskId: taskId
             }
-        };
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
+        });
+    }
+    navigateToTasks() {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'tasks'
+            }
         });
     }
 }

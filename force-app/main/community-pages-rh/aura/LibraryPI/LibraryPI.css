@@ -150,6 +150,11 @@
     title: 'download';
 }
 
+.THIS .download-action {
+    cursor: pointer;
+    title: 'download';
+}
+
 .THIS .downloadBtnCSS:hover {
     cursor: pointer;
 }

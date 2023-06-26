@@ -1,22 +1,10 @@
 ({
     doInit: function (component, event, helper) {
-        communityService.executeAction(component, 'getSwitcherInitData', null, function (
-            returnValue
-        ) {
-            const userData = JSON.parse(returnValue);
-            component.set('v.user', userData.user);
-            component.set('v.hasProfilePic', userData.hasProfilePic);
-            component.set('v.communityModes', userData.communityModes);
-            component.set(
-                'v.initialCommunityModes',
-                JSON.parse(JSON.stringify(component.get('v.communityModes')))
-            );
-            component.set('v.currentMode', communityService.getCurrentCommunityMode());
-        });
+        helper.doInit(component, event, helper);
     },
-    doSelectItem: function (component, event, helper) {    
-           let itemValue = event.getParam('itemValue');
-           let navigateTo = event.getParam('navigateTo');        
+    doSelectItem: function (component, event, helper) {
+        let itemValue = event.getParam('itemValue');
+        let navigateTo = event.getParam('navigateTo');
         var comModes = component.get('v.communityModes');
         let reloadRequired = false;
         let oldCommunityMode = communityService.getCurrentCommunityMode();
@@ -87,12 +75,12 @@
                         component.set('v.reset', true);
                         component.set('v.reset', false);
 
-                                if (
-                                    (reloadRequired && navigateTo == 'account-settings') ||
-                                    navigateTo != 'account-settings'
-                                ) {
-                                communityService.reloadPage();
-                                }
+                        if (
+                            (reloadRequired && navigateTo == 'account-settings') ||
+                            navigateTo != 'account-settings'
+                        ) {
+                            communityService.reloadPage();
+                        }
                     }
                 );
             }
@@ -106,5 +94,15 @@
     handleCardVisiblity: function (component, event, helper) {
         component.set('v.reset', true);
         component.set('v.reset', false);
+    },
+    //Reset the menue items.
+    handleMessage: function (component, event, helper) {
+        // Read the message argument to get the values in the message payload
+        if (event != null && event.getParams() != null) {
+            const message = event.getParam('reset_PP_Menue_Items');
+            if (message) {
+                helper.doInit(component, event, helper);
+            }
+        }
     }
 });

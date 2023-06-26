@@ -1,0 +1,48 @@
+<template>
+    <template lwc:if={isMobile}>
+        <!--Biomarker Visit Results-->
+        <template lwc:if={isBiomarkersResult}>
+            <div class="result-card slds-p-vertical_small slds-p-horizontal_small">
+                <div class="slds-grid">
+                    <span class={resultNameClass}>
+                        {header}&nbsp;
+                        <lightning-helptext content={toolTipText}></lightning-helptext
+                    ></span>
+                </div>
+
+                <template lwc:if={ICOSRelatedResults}>
+                    <div class={actualValueClass}>{actualResultValue}</div>
+                </template>
+                <template if:false={ICOSRelatedResults}>
+                    <div class={actualValueClass}>{biomarkerResult}</div>
+                    <template lwc:if={showExpectedRange}>
+                        <div class="expected-range">
+                            <span class="push-down-txt">
+                                {expectedRange}&nbsp;{ label.Biomarkers_Expected_Range}
+                            </span>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </template>
+        <!--Vitals/Lab Visit Results-->
+        <template lwc:else>
+            <div class="result-card slds-p-vertical_small slds-p-horizontal_small">
+                <div class="slds-grid">
+                    <span class={resultNameClass}>
+                        {header}&nbsp;
+                        <lightning-helptext content={toolTipText}></lightning-helptext
+                    ></span>
+                </div>
+                <div class={actualValueClass}>{actualResultValue}</div>
+                <template lwc:if={showExpectedRange}>
+                    <div class="expected-range">
+                        <span class="push-down-txt">{expectedRangeLabel}&nbsp;{expectedRange}</span>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
+    </template>
+</template>

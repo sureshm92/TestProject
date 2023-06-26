@@ -30,7 +30,7 @@
                 charSize = referralIdSize + 3;
         }
             if(charSize > 30 && charSize <=50){
-            //var charSize = component.get('v.pe.MRN_Id__c').length;
+           
        		document.getElementsByClassName('customWidth')[0].style.width = charSize+'%';
         }
             else if(charSize > 50){
@@ -70,8 +70,6 @@
     },
     
     doClearValidity: function (component, event, hepler) {
-        console.log('clearValidity start');
-
         let needsGuardian = component.get('v.needsGuardian');
         if (needsGuardian) {
             component.get('v.parentComponent').find('spinner').show();
@@ -79,14 +77,10 @@
             component.set('v.isRefreshPediatric', false);
             component.get('v.parentComponent').find('spinner').hide();
         }
-
-        console.log('clearValidity end');
     },
 
      doCheckFields: function (component, event, helper) {
-         console.log('pe', JSON.parse(JSON.stringify(component.get('v.pe'))));
-         console.log('part', JSON.parse(JSON.stringify(component.get('v.participant'))));
-         console.log('doCheckFields');
+       
          var formData = component.get('v.formData');
          if(formData.visitPlansLVList.length ===1 && component.get('v.pe').Visit_Plan__c && component.get('v.isVisitPlanAssigned')!= true){
              component.set('v.isOneVisitPlanAvailableAndSelected',true);
@@ -96,7 +90,7 @@
          if( component.get('v.needsGuardian') && participant.Adult__c && (participant.email__c ==''|| !participant.email__c) ){
              component.set('v.createUsers',false);
          }
-         // var participantDelegate = component.get('v.participantDelegate');
+       
          var statesByCountryMap = component.get('v.formData.statesByCountryMap');
          var states = statesByCountryMap[participant.Mailing_Country_Code__c];
          component.set('v.statesLVList', states);
@@ -105,7 +99,7 @@
          var isFinalUpdate = component.get('v.isFinalUpdate');
          var stateRequired = component.get('v.statesLVList')[0];
          var stateCmp = component.find('stateField');
-         //var stateVaild = stateCmp && stateCmp.get('v.validity') && stateCmp.get('v.validity').valid;
+        
          var dataStamp = component.get('v.dataStamp');
          var isValid = false;
          const screeningIdRequiredStatuses =
@@ -129,8 +123,6 @@
          									? emailParticipantReapetCmpArray[0] : emailParticipantReapetCmpArray;
          let emailParticipantCmp = Array.isArray(emailParticipantCmpArray)
          									? emailParticipantCmpArray[0] : emailParticipantCmpArray;
-         //let emailParticipantReapetCmp = component.find('emailParticipantRepeatField');
-         //let emailParticipantCmp = component.find('emailInput');
          let emailValueFirst = emailParticipantCmp ? emailParticipantCmp.get('v.value') : null;
          let emailValueRepeat = emailParticipantReapetCmp
          ? emailParticipantReapetCmp.get('v.value')
@@ -153,17 +145,13 @@
          helper.checkValidEmail(emailParticipantReapetCmp, emailValueRepeat);
          var participantDelegateOld = component.get('v.participantDelegate');
          let checkDuplicateDelegate;
-         console.log('>>participantDelegateOld>>'+JSON.stringify(participantDelegateOld));
          
          if(participantDelegateOld && participantDelegateOld.First_Name__c &&
             participantDelegateOld.Last_Name__c &&
             participantDelegateOld.Email__c)
          {
-             console.log('>>coming inside>>');
              if(event){
-                 console.log('>>coming inside>>'+event.getSource().getLocalId());
                  var getAuraFromCalled = event.getSource();
-                 console.log('>>>getAuraFromCalled>>'+getAuraFromCalled.getLocalId());
                  if(getAuraFromCalled.getLocalId() == 'DelegateEmail' || 
                     getAuraFromCalled.getLocalId() == 'DelegateFirstName' ||
                     getAuraFromCalled.getLocalId() == 'DelegateLastName')
@@ -189,11 +177,9 @@
              helper.checkExistingValidDelegateEmail(component, event,DelegateEmail
                                                     ,DelegateEmailValue,participantDelegateOld);
          }
-         console.log('>>participantDelegateOld>>'+participantDelegateOld);
-         //console.log('>>participantDelegateOld brtchyear>>'+participantDelegateOld.Birth_Year__c);
+      
          if(component.get('v.fromActionParticipant') ){
              if(!$A.util.isEmpty(participantDelegateOld.Birth_Year__c)) {
-                 console.log('>>coming YOB>>');
                  checkDuplicateDelegate = true;
                  helper.checkDelegateAge(component,participant,participantDelegateOld);
              } 
@@ -232,12 +218,6 @@
                      (oldPE.Participant__r.Last_Name__c.trim() && !participant.Last_Name__c.trim()) ||
                      (oldPE.Participant__r.Date_of_Birth__c && !participant.Date_of_Birth__c) ||
                      (oldPE.Participant__r.Gender__c && !participant.Gender__c) ||
-                     //needsGuardian ||
-                     /*(oldPE.Participant__r.Phone__c && !participant.Phone__c.trim())  || */
-                     //needsGuardian ||
-                     //(participant.Adult__c && oldPE.Participant__r.Phone_Type__c && !participant.Phone_Type__c.trim()) ||
-                     //needsGuardian ||
-                     /*  (oldPE.Participant__r.Email__c && !participant.Email__c)  || */
                      (oldPE.Participant__r.Mailing_Country_Code__c &&
                       !participant.Mailing_Country_Code__c) ||
                      (stateRequired &&
@@ -248,21 +228,14 @@
                      (oldPE.Screening_ID__c && !pe.Screening_ID__c) ||
                      (oldPE.Referred_By__c && !pe.Referred_By__c) ||
                      (oldPE.MRN_Id__c && !pe.MRN_Id__c);
-                 console.log('IsRemovedValue', isRemovedValue);
                  isValid = !isRemovedValue;
                  if (component.get('v.fromActionParticipant') && !isRemovedValue) { 
-                     console.log('>>ParticipantEmail>>' +!participant.Email__c);
                      //checking the id of participant because from Apex controller we are sending an instance if Delegatenot found 
                      if (
                          !participantDelegate.Id &&
                          (!participant.Phone__c || !participant.Phone_Type__c || !participant.Email__c)
                      ) {
                          
-                         console.log('CHECK00>>', participantDelegate);
-                         console.log(
-                             'CHECK000>>',
-                             !participant.Phone__c && !participant.Phone_Type__c && !participant.Email__c
-                         );
                          if(!participantDelegate.Email__c.trim() || 
                             !(component.find('DelegateEmail').get('v.validity').valid) ||
                             !participantDelegate.Phone__c.trim())
@@ -288,7 +261,6 @@
                                     component.find('emailInput').get('v.validity').valid)) &&
                                   participant.Mailing_Zip_Postal_Code__c.trim() !== '');
                          } else {
-                             console.log('CHECK2');
                              isValid = false;
                          }
                      }
@@ -300,9 +272,7 @@
                          )
                      ) {
                          isValid = false;
-                         console.log('isValid22>>' + isValid);
                      }
-                     console.log('isValid1>>?' + isValid);
                  }
              } else if (updateMode && isFinalUpdate) {
                  isValid =
@@ -328,9 +298,7 @@
                       pe.Screening_ID__c &&
                       (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)));
                  //stateVaild;
-                 console.log('isValid2' + isValid);
                  if (component.get('v.fromActionParticipant') && !isRemovedValue) {
-                     console.log("component.get('v.fromActionParticipant') && !isRemovedValue");
                      if (
                          participant.First_Name__c.trim() &&
                          participant.Last_Name__c.trim() &&
@@ -351,12 +319,8 @@
                      } else {
                          isValid = false;
                      }
-                     console.log('isValid3' + isValid);
                  }
-                 
-                 //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
              } else if (!updateMode) {
-                 //  debugger;
                  isValid =
                      helper.checkValidEmail(emailParticipantCmp, participant.Email__c) &&
                      helper.checkValidEmail(emailParticipantReapetCmp, emailParticipantRepeat);
@@ -388,10 +352,9 @@
                      }
                  }
                  if (!participantDelegate) {
-                     console.log('++++');
                      component.set('v.isValid', false);
                  }
-                 //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
+              
                  if (needsGuardian || participantDelegate || participant.Phone__c) {
                     let reqFieldsFilled;
                     let allValid;
@@ -432,15 +395,14 @@
                           //stateVaild &&
                           (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                           pe.Referred_By__c);
-                     console.log('isValid4' + isValid);
                  } else {
                      isValid = false;
                  }
              }
-             console.log('>>isvalid before>>'+isValid)  ;  
+         
              var ParticipantEmailField = component.find('emailInputParticipant');
              var ParticipantPhoneField = component.find("phoneInputParticipant");
-             console.log('>>>participant>>>'+JSON.stringify(participant)); 
+           
              var completeInfoField = $A.get("$Label.c.Complete_field_Info");
              
              if(participant.Adult__c && !$A.util.isEmpty(ParticipantPhoneField)
@@ -448,7 +410,7 @@
                  if((!participant.Email__c || (!participant.Email__c && !participant.Email__c.trim())) 
                     && (participantDelegate && (!participantDelegate.Email__c.trim() || 
                                                 !(component.find('DelegateEmail').get('v.validity').valid)))){
-                     console.log('>>coming in 373>>');
+                   
                      isValid = false;
                      ParticipantEmailField.setCustomValidity(completeInfoField);
                  }
@@ -458,7 +420,6 @@
                  if((!participant.Phone__c || (!participant.Phone__c && !participant.Phone__c.trim()))
                     && (participantDelegate &&
                         !participantDelegate.Phone__c.trim())){
-                     console.log('>>coming in 383>>');
                      isValid = false;
                      ParticipantPhoneField.setCustomValidity(completeInfoField);
                  }
@@ -469,10 +430,6 @@
                  ParticipantPhoneField.reportValidity(); 
              } 
              
-             /* if (!component.find('emailInput').get('v.validity').valid) {
-            console.log('EMAILAIF');
-            isValid = false;
-        } */
              if (participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c) {
                  isValid = false;
              }
@@ -482,8 +439,7 @@
              if (participant.Phone__c && !participant.Phone_Type__c) {
             isValid = false;
         } 
-             console.log('>>>participantDelegate>>>'+JSON.stringify(participantDelegate));
-             // console.log('>>>delegate phone>>>'+participantDelegate.Phone__c.trim());
+           
            var isAllFieldsDeleted = false;
              if(component.get('v.fromActionParticipant')){
                  
@@ -498,7 +454,6 @@
                         !participantDelegate.Last_Name__c.trim() ||
                         !participantDelegate.Email__c.trim() || 
                         !(component.find('DelegateEmail').get('v.validity').valid)){
-                         console.log('>>coming in 419>>');
                          isValid = false;
                      }
                  }
@@ -513,7 +468,6 @@
                             ($A.util.isEmpty(participantDelegate.Phone__c.trim())))
                          {
                              DelegatePhoneField.setCustomValidity(completeInfoField);
-                             console.log('>>coming in 433>>');
                              isValid = false;
                          }
                          else{
@@ -594,7 +548,6 @@
                 }
             }
              component.set('v.isValid', isValid);
-             console.log('isValid5' + isValid);
              
              let parentComponent = component.get('v.parentComponent');
              if (parentComponent && parentComponent.refreshParticipant) {

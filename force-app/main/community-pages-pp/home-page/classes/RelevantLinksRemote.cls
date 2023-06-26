@@ -10,7 +10,7 @@ public without sharing class RelevantLinksRemote {
         public List<LinksWrapper> linksWrappers = new List<LinksWrapper>();
     }
 
-    public class InitDataNew {
+    public class DataWrapper {
         @AuraEnabled
         public Boolean linksAvailable = false;
 
@@ -107,22 +107,22 @@ public without sharing class RelevantLinksRemote {
     }
 
     @AuraEnabled
-    public static InitDataNew getInitDataNew() {
+    public static DataWrapper getDataWrapper(Boolean sortByCOI) {
         try {
             String contentType = ResourceService.RESOURCE_TYPE_RELEVANT_LINK;
             List<Id> COIsOfParticipant = new List<Id>();
-            InitDataNew initDataNew = new InitDataNew();
+            DataWrapper DataWrapper = new DataWrapper();
 
             ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
             List<Participant_Enrollment__c> enrollments = getEnrollments(ps);
             List<String> preferredLanguages = ContactService.getPreferredLanguages();
 
             //getting ctp value from ParticipantState for ctp toggles
-            initDataNew.relevantLinksAreAvailable = ps.ctp.Relevant_Links_Are_Available__c;
-            initDataNew.studyDocumentsAreAvailable = ps.ctp.Study_Documents_Are_Available__c;
-            initDataNew.videoAndArticlesAreAvailable = ps.ctp.Video_And_Articles_Are_Available__c;
-            initDataNew.isDelegate = ps.isDelegate;
-            initDataNew.participantStateValue = String.valueOf(ps.value);
+            DataWrapper.relevantLinksAreAvailable = ps.ctp.Relevant_Links_Are_Available__c;
+            DataWrapper.studyDocumentsAreAvailable = ps.ctp.Study_Documents_Are_Available__c;
+            DataWrapper.videoAndArticlesAreAvailable = ps.ctp.Video_And_Articles_Are_Available__c;
+            DataWrapper.isDelegate = ps.isDelegate;
+            DataWrapper.participantStateValue = String.valueOf(ps.value);
 
             List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = [
                 SELECT Id, Therapeutic_Area__c
@@ -135,7 +135,7 @@ public without sharing class RelevantLinksRemote {
             List<Resource__c> resourcesVisibleForParticipant = new List<Resource__c>();
             List<Resource__c> platformResourcesVisibleForParticipant = new List<Resource__c>();
             if (
-                initDataNew.relevantLinksAreAvailable ||
+                DataWrapper.relevantLinksAreAvailable ||
                 ps.value == ParticipantService.ParticipantStates.ALUMNI
             ) {
                 //study specific relevant links
@@ -154,10 +154,10 @@ public without sharing class RelevantLinksRemote {
                     getCOIResources(contentType, COIsOfParticipant, preferredLanguages)
                 );
                 if (!platformResourcesVisibleForParticipant.isEmpty())
-                    initDataNew.linksAvailable = true;
+                    DataWrapper.linksAvailable = true;
             } else {
                 if (enrollments.size() > 0)
-                    initDataNew.linksAvailable = true;
+                    DataWrapper.linksAvailable = true;
             }
 
             TranslateHelper.translate(resourcesVisibleForParticipant);
@@ -179,14 +179,18 @@ public without sharing class RelevantLinksRemote {
                 ResourceService.ResourceWrapper rw = new ResourceService.ResourceWrapper(res);
                 platformResourceWrapper.add(rw);
             }
+            if (sortByCOI) {
+                studyResourceWrapper = ResourceService.sortResourcesByCOI(studyResourceWrapper);
+                platformResourceWrapper = ResourceService.sortResourcesByCOI(
+                    platformResourceWrapper
+                );
+            }
 
-            studyResourceWrapper = ResourceService.sortResourcesByCOI(studyResourceWrapper);
-            platformResourceWrapper = ResourceService.sortResourcesByCOI(platformResourceWrapper);
-            initDataNew.resources.addAll(studyResourceWrapper);
-            initDataNew.resources.addAll(platformResourceWrapper);
-            return initDataNew;
+            DataWrapper.resources.addAll(studyResourceWrapper);
+            DataWrapper.resources.addAll(platformResourceWrapper);
+            return DataWrapper;
         } catch (Exception e) {
-            return (InitDataNew) AuraHelper.throwException(e);
+            return (DataWrapper) AuraHelper.throwException(e);
         }
     }
 

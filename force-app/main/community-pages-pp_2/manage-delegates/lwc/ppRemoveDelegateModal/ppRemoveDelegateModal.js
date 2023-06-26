@@ -1,8 +1,8 @@
 import { LightningElement, api } from 'lwc';
-import BTN_Confirm from '@salesforce/label/c.BTN_Confirm';
+import BTN_Continue from '@salesforce/label/c.Continue';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 
-export default class PpRemoveDelegateModal extends LightningElement {
+export default class PpRemoveDelegateModalOld extends LightningElement {
     @api callback;
     @api messtext;
     @api tittext;
@@ -10,10 +10,13 @@ export default class PpRemoveDelegateModal extends LightningElement {
     @api usermode;
     @api selectedparent;
     @api isDelegate = false;
+    @api pdenrollmentid;
+    @api isDesktop;
+    @api isHeaderImage;
     isLoading = false;
 
     label = {
-        BTN_Confirm,
+        BTN_Continue,
         BTN_Cancel
     };
 
@@ -21,6 +24,16 @@ export default class PpRemoveDelegateModal extends LightningElement {
 
     connectedCallback() {
         this.showmodal = true;
+    }
+    initialRender = true;
+    renderedCallback() {
+        if (!this.initialRender) {
+            return;
+        }
+        if (this.template.querySelector('.slds-icon-utility-close ')) {
+            this.template.querySelector('.slds-icon-utility-close ').classList.add('slds-hide');
+            this.initialRender = false;
+        }
     }
 
     handleModalClose() {
@@ -32,9 +45,7 @@ export default class PpRemoveDelegateModal extends LightningElement {
     confirmModal() {
         const selectedEvent = new CustomEvent('confirmmodal', {
             detail: {
-                contact: this.contact,
-                usermode: this.usermode,
-                selectedparent: this.selectedparent
+                pdenrollmentid: this.pdenrollmentid
             }
         });
 
