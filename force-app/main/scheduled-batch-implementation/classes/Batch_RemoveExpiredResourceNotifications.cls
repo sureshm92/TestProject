@@ -30,6 +30,8 @@ public with sharing class Batch_RemoveExpiredResourceNotifications extends Batch
                     Status__c,
                     Notification__r.Notification_Type__c,
                     Notification__r.Target_Record_Ids__c,
+                    Notification__r.Recipient__r.Resource_Notifications__c,
+                    Notification__r.Recipient__c,
                     Notification__r.WhatId__c,
                     Notification__r.Status__c
                 FROM Send_Result__c
@@ -49,8 +51,11 @@ public with sharing class Batch_RemoveExpiredResourceNotifications extends Batch
         Set<Id> stdResIds = new Set<Id>();
         Set<Id> platformResIds = new Set<Id>();
         List<Id> notificationIds = new List<Id>();
+        Set<Id> delStdyResIds = new Set<Id>();
+        Map<Id, Contact> conMap = new Map<Id, Contact>();
         List<Send_Result__c> sendResultToUpdate = new List<Send_Result__c>();
         for (Send_Result__c sr : sendResults) {
+            conMap.put(sr.Notification__r.Recipient__c, sr.Notification__r.Recipient__r);
             if (stdResUpdateNotificationType.contains(sr.Notification__r.Notification_Type__c)) {
                 peIds.add(sr.Notification__r.WhatId__c);
                 stdResIds.add(sr.Notification__r.Target_Record_Ids__c);
@@ -118,11 +123,53 @@ public with sharing class Batch_RemoveExpiredResourceNotifications extends Batch
                 sr.Status__c = 'Sent';
                 sendResultToUpdate.add(sr);
                 notificationIds.add(sr.Notification__c);
+                Id sObjId = Id.valueOf(sr.Notification__r.Target_Record_Ids__c);
+                String objType = String.valueOf(sObjId.getSobjectType());
+                if (objType == 'Res_study__c') {
+                    delStdyResIds.add(sObjId);
+                }
+                if (
+                    conMap.get(sr.Notification__r.Recipient__c) != null &&
+                    conMap.get(sr.Notification__r.Recipient__c).Resource_Notifications__c != null
+                ) {
+                    String resNotificationStr = conMap.get(sr.Notification__r.Recipient__c)
+                        .Resource_Notifications__c;
+                    if (objType == 'Resource__c' && resNotificationStr.contains(sObjId)) {
+                        resNotificationStr = resNotificationStr.replace(sObjId + ';', '')
+                            .replace('' + sObjId, '')
+                            .removeEnd(';');
+
+                        conMap.get(sr.Notification__r.Recipient__c)
+                            .Resource_Notifications__c = resNotificationStr;
+                    }
+                }
             }
         }
+        Map<Id, Res_study__c> studyResources = new Map<Id, Res_study__c>(
+            [
+                SELECT Resource__c
+                FROM Res_study__c
+                WHERE Id IN :delStdyResIds
+                ALL ROWS
+            ]
+        );
+        for (Id conId : conMap.keySet()) {
+            for (Id resStdyId : studyResources.keySet()) {
+                String resNotificationStr = conMap.get(conId).Resource_Notifications__c;
+                String resourceId = studyResources.get(resStdyId).Resource__c;
+                if (resNotificationStr.contains(resourceId)) {
+                    resNotificationStr = resNotificationStr.replace('' + resourceId + ';', '')
+                        .replace('' + resourceId, '')
+                        .removeEnd(';');
+                    conMap.get(conId).Resource_Notifications__c = resNotificationStr;
+                }
+            }
+        }
+
         if (!sendResultToUpdate.isEmpty()) {
             update sendResultToUpdate;
         }
+        update conMap.values();
         if (!notificationIds.isEmpty()) {
             UpdateService.getInstance().updateNotificationsStatus(notificationIds);
         }
