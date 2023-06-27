@@ -5,14 +5,20 @@ import FORM_FACTOR from '@salesforce/client/formFactor';
 import mobileTemplate from './ppDownloadResultsDataMobile.html';
 import tabletTemplate from './ppDownloadResultsDataTablet.html';
 import desktopTemplate from './ppDownloadResultsData.html';
+import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 export default class PpDownloadResultsData extends LightningElement {
-    @api peId;
-    @api isRTL;
+    peId;
+    isRTL;
     @api patientVisitNam;
     @api patientVisitId;
     label = {
         PP_Download_Results_Data
     };
+
+    connectedCallback() {
+        this.peId = communityService.getParticipantData().pe.Id;
+        this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
+    }
     render() {
         if (this.isDesktop) {
             return desktopTemplate;
