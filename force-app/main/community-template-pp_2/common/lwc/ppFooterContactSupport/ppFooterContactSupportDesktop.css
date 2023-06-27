@@ -42,7 +42,8 @@
 
 .container2 {
     min-height: 207.37px;
-    margin-bottom: 27.32px;
+    margin-bottom: 24.32px;
+    padding: 0px 26px;
 }
 
 .phoneContainer {
@@ -102,33 +103,29 @@
 }
 
 .content1 {
-    /* height: 19px; */
-    height: auto;
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 17px;
+  height: 19px; 
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 19px;
 }
 
 .content2 {
-    /* height: 24px; */
-    height: auto;
-    width: 222px;
-    color: #444444;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 21px;
-    /* cursor: pointer; */
+  height: 24px;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 21px;
 }
 
 .addressContent {
     /* height: 42px; */
     height: auto;
-    width: 222px;
+    width: 98%;
     color: #6e6e6e;
     font-family: 'Proxima Nova';
     font-size: 14px;
@@ -295,10 +292,19 @@
     width: 100%;
     background-color: #fff;
     border: 1px solid #d9d9d9;
+    height: 24px;
+    color: #015FF1;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 16px;
+    text-align: center;
+    height: 32px;
 }
 
 .pd-10{
-    padding: 10px;
+    padding: 7px 10px 10px 10px;
 }
 
 .toggle-height{

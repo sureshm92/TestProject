@@ -70,6 +70,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     minorUserName = '';
     hasProfilePic = false;
     isInitialized = false;
+    loadOnce = false;
     @api isDelegate = false;
     contactChanged = false;
     optInEmail = false;
@@ -143,7 +144,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     daytimePhoneFieldError = this.labels.INVALID_PHONE_FORMAT;
 
     dobConfigFormat = '';
-    selectedAge = '';
+    selectedAge = null;
     lastDay = 31;
     @track optionsDDList = [];
     @track optionsMMList = [];
@@ -343,8 +344,8 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         }
         this.ageOpt = opt;
         if (!selectedAgeNotInOptions) {
-            this.personWrapper.age = '';
-            this.selectedAge = '';
+            this.personWrapper.age = null;
+            this.selectedAge = null;
             this.handleAgeErrorMessage();
         }
     }
@@ -367,7 +368,13 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             });
     }
 
-    renderedCallback() {}
+    renderedCallback() {
+        if (!this.loadOnce) {
+            this.template.querySelector('c-web-spinner')?.show();
+            this.initializeData();
+            this.loadOnce = true;
+        }
+    }
     initializeData() {
         getInitData({ userMode: this.userMode })
             .then((result) => {
@@ -764,8 +771,8 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 this.participantAge();
                 this.handleDOBErrorMessage();
             } else {
-                this.personWrapper.age = '';
-                this.selectedAge = '';
+                this.personWrapper.age = null;
+                this.selectedAge = null;
                 this.setMinMaxAge();
                 this.handleDOBErrorMessage();
                 this.handleAgeErrorMessage();
@@ -793,8 +800,8 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 this.participantAge();
                 this.handleDOBErrorMessage();
             } else {
-                this.personWrapper.age = '';
-                this.selectedAge = '';
+                this.personWrapper.age = null;
+                this.selectedAge = null;
                 this.setMinMaxAge();
                 this.handleDOBErrorMessage();
                 this.handleAgeErrorMessage();
@@ -834,34 +841,37 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         }
     }
     handleAgeErrorMessage() {
-        if (
-            this.dobConfigFormat == 'MM-YYYY' &&
-            this.personWrapper.birthYear &&
-            this.personWrapper.birthMonth
-        ) {
+        let delSelfView = !this.isDelegate && !this.personWrapper.showBirthDate ? true : false;
+        if (!delSelfView) {
             if (
-                this.selectedAge == null ||
-                this.selectedAge == undefined ||
-                this.selectedAge == ''
+                this.dobConfigFormat == 'MM-YYYY' &&
+                this.personWrapper.birthYear &&
+                this.personWrapper.birthMonth
             ) {
-                this.hasFieldError.isFieldChanged = true;
-                this.hasFieldError.isAgeHasError = true;
-            } else {
-                this.hasFieldError.isFieldChanged = true;
-                this.hasFieldError.isAgeHasError = false;
+                if (
+                    this.selectedAge == null ||
+                    this.selectedAge == undefined ||
+                    this.selectedAge == ''
+                ) {
+                    this.hasFieldError.isFieldChanged = true;
+                    this.hasFieldError.isAgeHasError = true;
+                } else {
+                    this.hasFieldError.isFieldChanged = true;
+                    this.hasFieldError.isAgeHasError = false;
+                }
             }
-        }
-        if (this.dobConfigFormat == 'YYYY' && this.personWrapper.birthYear) {
-            if (
-                this.selectedAge == null ||
-                this.selectedAge == undefined ||
-                this.selectedAge == ''
-            ) {
-                this.hasFieldError.isFieldChanged = true;
-                this.hasFieldError.isAgeHasError = true;
-            } else {
-                this.hasFieldError.isFieldChanged = true;
-                this.hasFieldError.isAgeHasError = false;
+            if (this.dobConfigFormat == 'YYYY' && this.personWrapper.birthYear) {
+                if (
+                    this.selectedAge == null ||
+                    this.selectedAge == undefined ||
+                    this.selectedAge == ''
+                ) {
+                    this.hasFieldError.isFieldChanged = true;
+                    this.hasFieldError.isAgeHasError = true;
+                } else {
+                    this.hasFieldError.isFieldChanged = true;
+                    this.hasFieldError.isAgeHasError = false;
+                }
             }
         }
     }

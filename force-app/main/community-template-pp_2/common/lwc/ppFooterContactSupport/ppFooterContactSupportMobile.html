@@ -89,7 +89,7 @@
                                                         </lightning-layout-item>
                                                         <lightning-layout-item size="12" class="addressContent" onclick={copyAddressToClipboard}>
                                                             <div class="param2">{siteAddress}</div>
-                                                            <textarea class="address-value-ele textarea-style" readonly>{siteAddress}</textarea>
+                                                            <textarea class="address-value-ele textarea-style" readonly>{siteName}&nbsp;{siteAddress}</textarea>
                                                         </lightning-layout-item>
                                                     </lightning-layout>
                                                 </lightning-layout-item>
@@ -106,7 +106,7 @@
 
                                         <!-- PI -->
                                         <lightning-layout multiple-rows="true" class="mob-careTeamContainer">
-                                            <lightning-layout-item size="2" class="marginTop-16 marginLeft-16">
+                                            <lightning-layout-item size="2" class="marginTop-16 paddingLeft-16">
                                                 <img src={pi_Icon} />
                                             </lightning-layout-item>
                                             <lightning-layout-item size="9" class="marginTop-16">
