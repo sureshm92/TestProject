@@ -1,9 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import LOCALE from '@salesforce/i18n/locale';
-import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import JANUARY from '@salesforce/label/c.January';
@@ -348,24 +345,6 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             this.selectedAge = null;
             this.handleAgeErrorMessage();
         }
-    }
-
-    connectedCallback() {
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                Promise.all([loadStyle(this, communityPPTheme)])
-                    .then(() => {
-                        this.spinner = this.template.querySelector('c-web-spinner');
-                        this.spinner.show();
-                        this.initializeData();
-                    })
-                    .catch((error) => {
-                        console.log(error.body.message);
-                    });
-            })
-            .catch((error) => {
-                this.showToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-            });
     }
 
     renderedCallback() {
