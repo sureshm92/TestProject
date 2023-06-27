@@ -10,11 +10,6 @@
 .border-class {
     border-left: 6px solid black;
 }
-.download-res-data {
-    color: #0768fd;
-    font-size: 14px;
-    font-weight: 600;
-}
 
 .active-btn {
     background: rgba(7, 104, 253, 1);
@@ -50,13 +45,7 @@
     letter-spacing: 0;
     line-height: 1.5rem;
 }
-.download-icon {
-    --slds-c-icon-color-foreground-default: #0768fd;
-}
-.download-section {
-    /* padding-left: 335px;*/
-    text-align: end;
-}
+
 .active-btn {
     background-color: #015ff1;
     color: #ffffff;
