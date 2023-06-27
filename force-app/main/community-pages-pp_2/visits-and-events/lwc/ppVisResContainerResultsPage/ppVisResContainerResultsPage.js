@@ -19,7 +19,7 @@ import desktopTemplate from './ppVisResContainerResultsPage.html';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import Back from '@salesforce/label/c.BTN_Back';
 import UNSCHEDULED_VISIT from '@salesforce/label/c.StudyVisit_Unscheduled_Visit';
-
+import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 export default class PpMyResultsContainer extends LightningElement {
     label = {
         PP_Download_Results_Data,
@@ -64,6 +64,8 @@ export default class PpMyResultsContainer extends LightningElement {
     showToggleSpinner = false;
     showTabSpinner;
     onLoad = true;
+    patientVisitNam;
+    isRTL = false;
 
     toggleOffHeart = pp_icons + '/' + 'heart_Icon.svg';
 
@@ -85,6 +87,8 @@ export default class PpMyResultsContainer extends LightningElement {
         this.patientVisitWrapper = value;
     }
     connectedCallback() {
+        this.peId = communityService.getParticipantData().pe.Id;
+        this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
         if (!this.isDesktop) {
             this.initializeData();
         }
@@ -121,6 +125,7 @@ export default class PpMyResultsContainer extends LightningElement {
             if (this.currentVisit.Is_Adhoc__c) name = this.label.UNSCHEDULED_VISIT;
             else name = this.currentVisit.Visit__r.Patient_Portal_Name__c;
         }
+        this.patientVisitNam = name;
         return name;
     }
 
@@ -227,6 +232,9 @@ export default class PpMyResultsContainer extends LightningElement {
             this.isButton3Group3 = true;
         }
         this.showSpinnerResults = false;
+    }
+    get currentVisitId() {
+        return this.currentVisit.Id;
     }
     get button1Group2Class() {
         return this.isButton1Group2

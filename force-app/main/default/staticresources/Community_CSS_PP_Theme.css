@@ -79,7 +79,7 @@ a:hover {
     min-height: 90vh;
 }
 .rr-body-content {
-    background-color: #f8f9fb;
+    background-color: #f6f7fb;
     vertical-align: top;
 }
 /* SLDS overrides */
@@ -783,7 +783,7 @@ input::placeholder {
     border-radius: 1rem;
     color: #ffffff;
     background: #015ff1;
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
     cursor: pointer;
     text-decoration: none;
     justify-content: center;
@@ -793,7 +793,7 @@ input::placeholder {
 .secondaryBtn {
     justify-content: center;
     border: 1px solid #d9d9d9;
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     border-radius: 1rem;
     color: #015ff1;
     cursor: pointer;
@@ -807,7 +807,7 @@ input::placeholder {
     background: #0557d5;
     transition: 0.25s;
     text-decoration: none;
-    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04), 0 4px 8px 0 rgba(7,104,253,0.32);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
 }
 
 .slds-button.secondaryBtn:hover,
@@ -2091,20 +2091,20 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .slds-checkbox_toggle .slds-checkbox--faux::after,
 .slds-checkbox--toggle .slds-checkbox_faux::after,
 .slds-checkbox--toggle .slds-checkbox--faux::after {
-    width: 1rem;
-    height: 1rem;
-    top: 3.5px;
-    left: 4px;
+    width: 1.25rem;
+    height: 1.25rem;
+    top: 1px;
+    left: 1px;
 }
 .result-type-toggle
     .slds-checkbox_toggle
     [type='checkbox']:checked
     + .slds-checkbox_faux_container
     .slds-checkbox_faux::before {
-    width: 1rem;
-    height: 1rem;
-    top: 3.5px;
-    right: 4px;
+    width: 1.25rem;
+    height: 1.25rem;
+    top: 1px;
+    right: 1px;
 }
 
 element.style {
@@ -2170,12 +2170,6 @@ user agent stylesheet svg:not(:root) {
 .update-container .rr-spinner {
     background-color: transparent;
 }
-.refresh-section:hover .refresh-text {
-    color: #0557d5;
-}
-.refresh-section:hover .refresh-icon svg.rr-icon_default {
-    fill: #0557d5 !important;
-}
 .result-container .rr-spinner {
     background: #ffffff;
 }
@@ -2196,4 +2190,19 @@ user agent stylesheet svg:not(:root) {
 .support-container lightning-base-combobox-item span.slds-media__body span {
     font-size: 14px;
     margin-left: -20px;
+}
+
+.show-more-or-less-container svg{
+    fill: #015ff1;
+    height: 15px;
+}
+
+.contact-support-popup .modal-header-text{
+    height: 32px !important;
+    color: #444444 !important;
+    font-family: "Proxima Nova" !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    line-height: 29px !important;
 }
