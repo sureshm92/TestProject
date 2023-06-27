@@ -1,5 +1,5 @@
 <apex:page standardController="Terms_And_Conditions__c" renderAs="PDF" showHeader="false" sidebar="false" standardStylesheets="true"
-    applyBodyTag="false" applyHtmlTag="false">
+    applyBodyTag="false" applyHtmlTag="false" contentType="charset=UTF-8" language="{!Terms_And_Conditions__c.Language__c}">
     <html>
 
     <head>
@@ -45,10 +45,10 @@
             </div>
             <div style="text-align: left;display: inline-block;vertical-align: top;padding-top: 13px;}">
                 <div class="hdrCls" style="text-align: left">
-                    <p style="margin: 0px 0px 0px 0px;">{!$Label.Email_Footer_Privacy_Policy}</p>
+                    <p style="font-family: 'Arial Unicode MS';margin: 0px 0px 0px 0px;">{!$Label.Email_Footer_Privacy_Policy}</p>
                 </div>
                 <div style="text-align: left;min-width: max-content;white-space: nowrap;" class="dateText">
-                    <p style="margin: 0px;">{!$Label.Last_Updated_pp_text} {!Terms_And_Conditions__c.Last_Updated_on__c}</p>
+                    <p style="font-family: 'Arial Unicode MS';margin: 0px;">{!$Label.Last_Updated_pp_text} {!Terms_And_Conditions__c.Last_Updated_on__c}</p>
                 </div>
             </div>
             <div Class="richText">
