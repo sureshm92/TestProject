@@ -2,14 +2,42 @@
  * Created by Igor Malyuta on 25.12.2019.
  */
 
-public without sharing class ConversationService {
-    public static List<Conversation__c> getSharedConversations(Id userId) {
-        List<Conversation__Share> conversationShares = (List<Conversation__Share>) DatabaseService.query(
+public without sharing class ConversationService {  
+    public class applicationException extends Exception {}
+    public static List<Conversation__c> getPeSharedConversations(List<Id> peIds) {
+        List<Conversation__Share> conversationShares = new List<Conversation__Share>();
+        conversationShares = (List<Conversation__Share>) DatabaseService.query(
             new List<String>{ 'Id', 'ParentID' },
             Conversation__Share.getSObjectType(),
-            DatabaseService.fieldEqual('UserOrGroupId', userId)
+            DatabaseService.fieldInValues('Parent.Participant_Enrollment__c', peIds)
         );
+        Set<String> conversationIds = new Set<String>();
+        for (Conversation__Share conShare : conversationShares)
+            conversationIds.add(conShare.ParentId);
+        if (conversationIds.isEmpty())
+            return null;
 
+        List<String> conIds = new List<String>();
+        conIds.addAll(conversationIds);
+
+        return getConversations(conIds);
+    }
+    public static List<Conversation__c> getSharedConversations(Id userId) {
+        List<Conversation__Share> conversationShares = new List<Conversation__Share>();
+        if(userId.getSObjectType().getDescribe().getName()== 'Participant_Enrollment__c'){
+            conversationShares = (List<Conversation__Share>) DatabaseService.query(
+                new List<String>{ 'Id', 'ParentID' },
+                Conversation__Share.getSObjectType(),
+                DatabaseService.fieldEqual('Parent.Participant_Enrollment__c', userId)
+            );
+        }else{
+            conversationShares = (List<Conversation__Share>) DatabaseService.query(
+                new List<String>{ 'Id', 'ParentID' },
+                Conversation__Share.getSObjectType(),
+                DatabaseService.fieldEqual('UserOrGroupId', userId)
+            );
+        }
+        
         Set<String> conversationIds = new Set<String>();
         for (Conversation__Share conShare : conversationShares)
             conversationIds.add(conShare.ParentId);
@@ -31,6 +59,7 @@ public without sharing class ConversationService {
                 'OwnerId',
                 'Participant_Enrollment__c',
                 'Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
+                'Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c',
                 'Participant_Enrollment__r.Participant__c',
                 'Participant_Enrollment__r.Participant__r.Full_Name__c',
                 'Participant_Enrollment__r.Participant_Contact__c',
@@ -39,7 +68,8 @@ public without sharing class ConversationService {
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c',    
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Name',
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Title',
-                'Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c'
+                'Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c',
+                'FirstUnreadDate__c'
             },
             Conversation__c.getSObjectType(),
             DatabaseService.fieldInValues('Id', conIds),
@@ -49,8 +79,124 @@ public without sharing class ConversationService {
     }
 
     public static Integer getUnreadConversationCount(Id userId, String userMode) {
+        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
+        Set<Id> peSet = new Set<Id>();
+        List<Id> peList = new List<Id>();
+        List<Id> peIdList = new List<Id>();
         Integer unreadCount = 0;
-        List<Conversation__c> sharedConversations = getSharedConversations(userId);
+        Boolean hasPe = true;
+        Set<Id> nonPrimaryconvId = new Set<Id>();
+        Boolean isDelegate = false;
+        Map<Id,List<Message__c>> convVsmsg;
+        if(userMode == CommunityService.USER_MODE_PARTICIPANT){
+            pState = ParticipantService.getInstance().getState();
+            //System.debug('pState: '+pState.value);
+            //System.debug('UserContext.getUserContact() :'+UserContext.getUserContact());
+            if(UserContext.getUserContact().Current_Participant_Enrollment__c == null){// alumni pt and delegate
+                hasPe = false;
+                if(pState.isDelegate){
+                    isDelegate = true;
+                    /**peSet = PatientDelegateEnrollmentService.getPEIdSet(
+                                ParticipantContext.getCurrentContactId(),
+                                UserContext.getUserContactId()
+                            ) ;**/
+                     peSet = PatientDelegateEnrollmentService.getPEIdSetActive(
+                                ParticipantContext.getCurrentContactId(),
+                                UserContext.getUserContactId()
+                            ) ;      
+                     /**List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollments(
+                                                                                                  ParticipantContext.getCurrentContactId(),
+                                                                                                  UserContext.getUserContactId());**/
+                                                                                                  
+                     List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollmentsActive(
+                                                                                                  ParticipantContext.getCurrentContactId(),
+                                                                                                  UserContext.getUserContactId());
+                    // validate PDE and seprate nonprimary conversations            
+                    if(!pdes.isEmpty()){
+                        Set<Id> nonPrimayEnrollments = new Set<Id>();
+                        for(Patient_Delegate_Enrollment__c pde : pdes){
+                            if(!pde.Primary_Delegate__c)  nonPrimayEnrollments.add(pde.Participant_Enrollment__c);    
+                        }
+                        if(!nonPrimayEnrollments.isEmpty()){
+                             List<Conversation__c> conversations = getPeSharedConversations(new List<Id>(nonPrimayEnrollments));
+                             
+                             for(Conversation__c con : conversations){
+                                nonPrimaryconvId.add(con.id);
+                            }
+                             convVsmsg = MessageService.getMessagesByConversations(new List<Id>(nonPrimaryconvId));
+                        }
+                     } 
+                    
+                }else{
+                    peSet = new Map<Id,Participant_Enrollment__c>([SELECT Id FROM Participant_Enrollment__c Where Participant_Contact__c =:ParticipantContext.getCurrentContactId()]).keyset();
+                }
+            }else{// active pt and delegate in half alumni
+                if(!pState.isDelegate){
+                    List<Participant_Enrollment__c> pastEnrollments = ContactService.getPastEnrollments(
+                        pState.participant.Contact__c
+                    );
+                    if(!pastEnrollments.isEmpty()){
+                        for(Participant_Enrollment__c pe: pastEnrollments){
+                            peSet.add(pe.Id); 
+                        }
+                        peSet.add(pState.pe.Id);
+                    }
+                }else{// delegate active
+                    isDelegate = true;
+                    /**List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollments(
+                                                                                                  ParticipantContext.getCurrentContactId(),
+                                                                                                  UserContext.getUserContactId()
+                                                                                                 );**/
+                    List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollmentsActive(
+                                                                                                  ParticipantContext.getCurrentContactId(),
+                                                                                                  UserContext.getUserContactId()
+                                                                                                 );                                                                             
+                    // validate PDE and seprate nonprimary conversations
+                    if(!pdes.isEmpty()){
+                        Set<Id> nonPrimayEnrollments = new Set<Id>();
+                        for(Patient_Delegate_Enrollment__c pde : pdes){
+                            if(!pde.Primary_Delegate__c)  nonPrimayEnrollments.add(pde.Participant_Enrollment__c);    
+                        }
+                        if(!nonPrimayEnrollments.isEmpty()){
+                             List<Conversation__c> conversations = getPeSharedConversations(new List<Id>(nonPrimayEnrollments));
+                             
+                             for(Conversation__c con : conversations){
+                                nonPrimaryconvId.add(con.id);
+                            }
+                             convVsmsg = MessageService.getMessagesByConversations(new List<Id>(nonPrimaryconvId));
+                        }
+                            
+                     } 
+                    /**Set<Id> peIdSet = PatientDelegateEnrollmentService.getPEIdSet(
+                                        ParticipantContext.getCurrentContactId(),
+                                        UserContext.getUserContactId()
+                                    ) ;**/
+                    Set<Id> peIdSet = PatientDelegateEnrollmentService.getPEIdSetActive(
+                                        ParticipantContext.getCurrentContactId(),
+                                        UserContext.getUserContactId()
+                                    ) ;                
+                    if(!peIdSet.isEmpty()){
+                        peSet.addAll(peIdSet);
+                    }
+                    peSet.add(pState.pe.Id);
+                }
+            }
+        }
+        //if(userMode != null)
+        //throw new applicationException('Counter Error');
+        
+        Id useThisId = userMode.equals(CommunityService.USER_MODE_PI) || !hasPe ? userId : pState.pe.Id;
+        if(useThisId != null){
+            peIdList.add(useThisId);
+        }
+        List<Conversation__c> sharedConversations = new List<Conversation__c>();
+        if(!peSet.isEmpty()){
+            peList.addAll(peSet);
+            sharedConversations = getPeSharedConversations(peList);
+            peIdList.addAll(peSet);
+        }else{
+            sharedConversations = getSharedConversations(useThisId);
+        }
         if (sharedConversations == null || sharedConversations.isEmpty())
             return unreadCount;
 
@@ -61,14 +207,26 @@ public without sharing class ConversationService {
                 conversation.haveUnreadForParticipant__c &&
                 userMode.equals(CommunityService.USER_MODE_PARTICIPANT)
             ) {
-                List<Participant_Enrollment__c> enrollments = [
+                //increase count only if message is non confidential
+                if(isDelegate && nonPrimaryconvId.contains(conversation.id) && convVsmsg.containsKey(conversation.id)){
+                        List<Message__c> messages = convVsmsg.get(conversation.id);
+                        if(!messages.isEmpty()){
+                           Message__c  message = messages[0];
+                            if(!message.Is_Confidential__c) {
+                                unreadCount++;
+                            }
+                        }                       
+                }
+                else{
+                  List<Participant_Enrollment__c> enrollments = [
                     SELECT Id
                     FROM Participant_Enrollment__c
-                    WHERE Participant__c = :ParticipantContext.getCurrentParticipantId()
-                ];
-                for (Participant_Enrollment__c enrollment : enrollments) {
-                    if (conversation.Participant_Enrollment__c == enrollment.Id)
-                        unreadCount++;
+                    WHERE Id IN :peIdList
+                    ];
+                    for (Participant_Enrollment__c enrollment : enrollments) {
+                        if (conversation.Participant_Enrollment__c == enrollment.Id)
+                            unreadCount++;
+                    }  
                 }
             }
         }
@@ -122,19 +280,21 @@ public without sharing class ConversationService {
 
         List<Conversation__Share> conversationShares = new List<Conversation__Share>();
         List<User> usersForSharing = [
-            SELECT Id
+            SELECT Id,Name,ContactId
             FROM User
             WHERE ContactId IN :contactsForSharing AND IsActive = TRUE
         ];
         if (!usersForSharing.isEmpty()) {
             for (User user : usersForSharing) {
-                conversationShares.add(
-                    new Conversation__Share(
-                        AccessLevel = 'Edit',
-                        ParentId = conversationId,
-                        UserOrGroupId = user.Id
-                    )
-                );
+                if (user.ContactId != userContact.Id){ 
+                    conversationShares.add(
+                        new Conversation__Share(
+                            AccessLevel = 'Edit',
+                            ParentId = conversationId,
+                            UserOrGroupId = user.Id
+                        )
+                    );
+                }
             }
 
             insert conversationShares;
@@ -167,23 +327,90 @@ public without sharing class ConversationService {
         if (!shares.isEmpty())
             delete shares;
     }
-
+    public static Map<Id,Map<Id, List<String>>> peParticipantDelegateNameMap(Set<Id> peIds) {
+        List<Patient_Delegate_Enrollment__c> pdeList = [    
+                                                            SELECT
+                                                            Id,
+                                                            Participant_Enrollment__c,
+                                                            Patient_Delegate__c,
+                                                            Patient_Delegate__r.Contact__c,
+                                                            Patient_Delegate__r.Contact__r.Full_Name__c,
+                                                            Patient_Delegate__r.Participant__c,
+                                                            Patient_Delegate__r.Participant__r.Contact__c,
+                                                            Name,
+                                                            Status__c,
+                                                            Welcome_Message_Sent__c,
+                                                            Welcome_Message_Delivered__c,
+                                                            Participant_Enrollment__r.study__c
+                                                            FROM Patient_Delegate_Enrollment__c
+                                                            WHERE Participant_Enrollment__c IN :peIds AND
+                                                            Status__c = 'Active'
+                                                        ];
+        List<Id> delegateContactIds = new List<Id>();
+        for (Patient_Delegate_Enrollment__c pd : pdeList)
+            delegateContactIds.add(pd.Patient_Delegate__r.Contact__c);
+        List<Participant__c> decoupledParticipants = [
+            SELECT Id, Contact__c, Full_Name__c
+            FROM Participant__c
+            WHERE Contact__c IN :delegateContactIds
+        ];
+         Map<String, SObject> decoupledParticipantsMap;
+        if (!decoupledParticipants.isEmpty()) {
+            decoupledParticipantsMap = CollectionUtil.getSObjectMap(
+                decoupledParticipants,
+                'Contact__c'
+            );
+        }
+        Map<Id, List<String>> delegateNamesByParticipant = new Map<Id, List<String>>();
+        Map<Id,Map<Id, List<String>>> peDelegateNamesMap = new Map<Id,Map<Id, List<String>>>();
+        for (Patient_Delegate_Enrollment__c pd : pdeList) {
+            if(!peDelegateNamesMap.containsKey(pd.Participant_Enrollment__c)){
+                peDelegateNamesMap.put(pd.Participant_Enrollment__c,new Map<Id, List<String>>());
+            }
+            if (!delegateNamesByParticipant.containsKey(pd.Participant_Enrollment__c)) {
+                delegateNamesByParticipant.put(pd.Participant_Enrollment__c, new List<String>());
+            }
+            Id delConId = pd.Patient_Delegate__r.Contact__c;
+            String delegateName = decoupledParticipantsMap != null &&
+                decoupledParticipantsMap.containsKey(delConId)
+                ? ((Participant__c) decoupledParticipantsMap.get(delConId)).Full_Name__c
+                : pd.Patient_Delegate__r.Contact__r.Full_Name__c;
+            delegateNamesByParticipant.get(pd.Participant_Enrollment__c).add(delegateName);
+        }
+        for (Patient_Delegate_Enrollment__c pd : pdeList) {
+            peDelegateNamesMap.get(pd.Participant_Enrollment__c).put(pd.Participant_Enrollment__c,delegateNamesByParticipant.get(pd.Participant_Enrollment__c));
+        }
+        return peDelegateNamesMap;
+    }
     public static Map<Id, List<String>> getYourParticipantsDelegateNames(Id piUserId) {
         List<Conversation__c> sharedConversations = getSharedConversations(piUserId);
         List<Id> participantIds = new List<Id>();
+        List<Id> peIds = new List<Id>();
         for (Conversation__c conversation : sharedConversations) {
             participantIds.add(conversation.Participant_Enrollment__r.Participant__c);
+            peIds.add(conversation.Participant_Enrollment__c);
         }
-
-        List<Patient_Delegate__c> patientDelegates = [
-            SELECT Id, Contact__c, Contact__r.Full_Name__c, Participant__c
-            FROM Patient_Delegate__c
-            WHERE Participant__c IN :participantIds
-            ORDER BY Participant__c
-        ];
+        List<Patient_Delegate_Enrollment__c> pdeList = [    
+                                                            SELECT
+                                                            Id,
+                                                            Participant_Enrollment__c,
+                                                            Patient_Delegate__c,
+                                                            Patient_Delegate__r.Contact__c,
+                                                            Patient_Delegate__r.Contact__r.Full_Name__c,
+                                                            Patient_Delegate__r.Participant__c,
+                                                            Patient_Delegate__r.Participant__r.Contact__c,
+                                                            Name,
+                                                            Status__c,
+                                                            Welcome_Message_Sent__c,
+                                                            Welcome_Message_Delivered__c,
+                                                            Participant_Enrollment__r.study__c
+                                                            FROM Patient_Delegate_Enrollment__c
+                                                            WHERE Participant_Enrollment__c IN :peIds AND
+                                                            Status__c = 'Active'
+                                                        ]; 
         List<Id> delegateContactIds = new List<Id>();
-        for (Patient_Delegate__c pd : patientDelegates)
-            delegateContactIds.add(pd.Contact__c);
+        for (Patient_Delegate_Enrollment__c pd : pdeList)
+            delegateContactIds.add(pd.Patient_Delegate__r.Contact__c);
 
         List<Participant__c> decoupledParticipants = [
             SELECT Id, Contact__c, Full_Name__c
@@ -199,18 +426,17 @@ public without sharing class ConversationService {
         }
 
         Map<Id, List<String>> delegateNamesByParticipant = new Map<Id, List<String>>();
-        for (Patient_Delegate__c pd : patientDelegates) {
-            if (!delegateNamesByParticipant.containsKey(pd.Participant__c)) {
-                delegateNamesByParticipant.put(pd.Participant__c, new List<String>());
+        for (Patient_Delegate_Enrollment__c pd : pdeList) {
+            if (!delegateNamesByParticipant.containsKey(pd.Patient_Delegate__r.Participant__c)) {
+                delegateNamesByParticipant.put(pd.Patient_Delegate__r.Participant__c, new List<String>());
             }
-            Id delConId = pd.Contact__c;
+            Id delConId = pd.Patient_Delegate__r.Contact__c;
             String delegateName = decoupledParticipantsMap != null &&
                 decoupledParticipantsMap.containsKey(delConId)
                 ? ((Participant__c) decoupledParticipantsMap.get(delConId)).Full_Name__c
-                : pd.Contact__r.Full_Name__c;
-            delegateNamesByParticipant.get(pd.Participant__c).add(delegateName);
+                : pd.Patient_Delegate__r.Contact__r.Full_Name__c;
+            delegateNamesByParticipant.get(pd.Patient_Delegate__r.Participant__c).add(delegateName);
         }
-
         return delegateNamesByParticipant;
     }
 }

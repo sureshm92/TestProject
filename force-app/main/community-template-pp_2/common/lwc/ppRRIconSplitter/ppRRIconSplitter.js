@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+import DEVICE from '@salesforce/client/formFactor';
 
 export default class PpRRIconSplitter extends LightningElement {
     @api icons = '';
@@ -12,13 +13,29 @@ export default class PpRRIconSplitter extends LightningElement {
     @api ismobile=false;
     isloaded = false;
     showRight=false;
-    scrollby = 160;
+    scrollby = 156;
+    desktop = true;
     @api
     resetValues() {
         this.name = '';
         this.description = '';
         this.label = '';
         this.icons = '';
+    }
+    
+    connectedCallback(){
+        //DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        switch(DEVICE) {
+            case "Small":
+                this.desktop = false;
+                break;
+            case "Medium":
+                this.desktop = true;
+                break;
+            case "Large":
+                this.desktop = true;
+                break;
+          }
     }
 
     renderedCallback() {
@@ -72,10 +89,10 @@ get mobileOrDesktopSizeRight(){
             if(this.template.querySelector(".chevronR")){
                 this.template.querySelector(".chevronR").className="chevronR";
                 }
-            if(contents.scrollLeft<=this.scrollby){
+            if(contents.scrollLeft<=0){
                 if(this.template.querySelector(".chevronL")){
                 this.template.querySelector(".chevronL").className="chevronL disableCursor";
-                }         
+                }
                 if(this.template.querySelector(".chevronR")){
                     this.template.querySelector(".chevronR").className="chevronR";
                     }     
@@ -97,7 +114,7 @@ get mobileOrDesktopSizeRight(){
             var newScrollLeft=contents.scrollLeft;
             var divWidth = contents.offsetWidth;
             var scrollwidth =contents.scrollWidth;
-            if(scrollwidth - divWidth - newScrollLeft < this.scrollby){
+            if(scrollwidth - divWidth - newScrollLeft <=0){
                 if(this.template.querySelector(".chevronR")){
                     this.template.querySelector(".chevronR").className="chevronR disableCursor"; 
                 }
@@ -151,6 +168,6 @@ get mobileOrDesktopSizeRight(){
             ele.classList.remove('active');
         });
         webIcons[index].classList.add('active');
-        this.template.querySelector('.before-your-visits').scrollTop = 0;
+        this.template.querySelector('.scrollbar').scrollTop = 0;
     }
 }

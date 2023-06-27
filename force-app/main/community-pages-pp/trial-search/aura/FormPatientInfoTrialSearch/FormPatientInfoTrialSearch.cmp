@@ -23,7 +23,7 @@
     <aura:attribute name="dataStamp" type="String" />
     <aura:attribute name="isDisclaimer" type="Boolean" />
     <aura:attribute name="sendForList" type="List" />
-    <aura:attribute name="sendFor" type="String" />
+    <aura:attribute name="sendFor" type="String" default="Me"/>
     <aura:attribute name="isStorage" type="Boolean" default="false" />
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private" />
 
@@ -82,7 +82,7 @@
                 {!$Label.c.Trail_Search_Update_Account_Setting}&nbsp;<span class="fpi-as" onclick="{!c.navigateToAccoutSettingsPage}">{!$Label.c.OT_H_Account_Settings}.</span>
             </div>
             <div class="slds-grid slds-gutters slds-wrap">
-                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                <!--div class="rr-form-element slds-col slds-size-1-of-1 slds-large-size-1-of-3">
                     <div class="label">
                         <abbr title="required" class="slds-required">*</abbr
                         >{!$Label.c.Send_info_for}
@@ -94,6 +94,18 @@
                         useSentenceFont="false"
                         required="true"
                         onchange="{!c.changeFor}"
+                    />
+                </div-->
+                <div
+                    class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3 disablediv"
+                >
+                    <div class="label">{!$Label.c.Send_info_for}</div>
+                    <lightning:input
+                        type="text"
+                        value="{!v.sendFor}"
+                        required="false"
+                        onblur="{!c.doCheckFields}"
+                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                     />
                 </div>
                 <div
@@ -258,11 +270,8 @@
                     value="/privacy-policy?ret"
                 />
                 {!$Label.c.TS_Disclaimer1} -->
-                {!$Label.c.PP_Communication_Pref_Outreach_consentA}&nbsp;
-                <span class="blue-highlight-text-color" onclick="{!c.OpenPPPopup}">
-                    {!$Label.c.PP_Communication_Pref_Outreach_consentB}
-                </span>
-                {!$Label.c.PP_Communication_Pref_Outreach_consentC}
+                {!$Label.c.PP_Outreach_Communication_Pref_A}&nbsp;{!$Label.c.PP_Outreach_Communication_Pref_B}&nbsp;{!$Label.c.PP_Outreach_Communication_Pref_C}&nbsp;<span class="blue-highlight-text-color" onclick="{!c.OpenPPPopup}">{!$Label.c.PP_Communication_Pref_Outreach_consentB}</span>{!$Label.c.PP_Outreach_Communication_Pref_D}
+                
             </div>
         </div>
 
@@ -410,5 +419,11 @@
                 </div>
             </aura:set>
         </aura:if>
+        <div class="disclaimer-box">
+            <div class="{!if(v.isRTL , 'disclaimerRTL' , 'disclaimer')}" style="max-width: 750px">
+                {!$Label.c.PP_Communication_Purchase_Pref_V2}&nbsp; 
+                
+            </div>
+        </div>
     </div>
 </aura:component>

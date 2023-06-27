@@ -77,3 +77,15 @@
         margin-bottom: 3px;
     }  
 }
+/** landscape changes**/
+@media screen and (orientation:landscape)
+and (max-device-width: 898px) 
+{
+    .text-wrap-btn{
+        white-space: normal; 
+        width: 100px; 
+        overflow: hidden;
+        text-overflow: ellipsis; 
+      }
+
+}

@@ -28,6 +28,7 @@ export default class PpDateTimeCombo extends LightningElement {
     @api iconColor = '#00A3E0';
     @api createTask;
     @api taskReminder = false;
+    @api displayDateInUi;
     @api editMode = false;
     @api readOnlyMode = false;
     @track compDateTime;
@@ -41,6 +42,7 @@ export default class PpDateTimeCombo extends LightningElement {
     @track errorPriorDueDT;
     @api showDateTime;
     @api isVisitEventTask = 'task';
+    @api hideTimeInput;
     label = {
         date,
         time,
@@ -56,6 +58,15 @@ export default class PpDateTimeCombo extends LightningElement {
         FUTURE_DATETIME_ERROR_FOR_REMINDER_VISIT,
         FUTURE_DATETIME_ERROR_FOR_REMINDER_TASK
     };
+
+    get maxOnlyDate() {
+        //need to add this
+        let processlocaltimezonedate = new Date(this.maxdate);
+        let dd = String(processlocaltimezonedate.getDate()).padStart(2, '0');
+        let mm = String(processlocaltimezonedate.getMonth() + 1).padStart(2, '0');
+        let yyyy = processlocaltimezonedate.getFullYear();
+        return yyyy + '-' + mm + '-' + dd;
+    }
 
     @api
     callFromParent() {
@@ -202,7 +213,20 @@ export default class PpDateTimeCombo extends LightningElement {
             return comptime;
         }
     }
+    currentDate() {
+        let currentDateTime = new Date().toLocaleString('en-US', {
+            timeZone: TIME_ZONE
+        });
+        let currentDateTimeObject = new Date(currentDateTime);
 
+        let dd = String(currentDateTimeObject.getDate()).padStart(2, '0');
+        let mm = String(currentDateTimeObject.getMonth() + 1).padStart(2, '0');
+        let yyyy = currentDateTimeObject.getFullYear();
+        let today = yyyy + '-' + mm + '-' + dd;
+        this.todaydate = today;
+        this.calculatedDate = today;
+        return today;
+    }
     get dateInputClass() {
         this.createTask = true ? 'task-due-date-time' : 'curve-input';
     }
@@ -210,7 +234,9 @@ export default class PpDateTimeCombo extends LightningElement {
         return 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
     }
     get timeClass() {
-        return 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small';
+        return this.hideTimeInput
+            ? 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small slds-hide'
+            : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small';
     }
     get gridClass() {
         return this.createTask == true

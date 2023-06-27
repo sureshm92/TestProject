@@ -288,9 +288,10 @@ public without sharing class CommunityService {
 
     public void createParticipantUsersAsync(
         Map<Id, Id> contactIdsMap,
-        Set<Id> participantContactIds
+        Set<Id> participantContactIds,
+        Set<Id> peIds
     ) {
-        System.enqueueJob(new CreateParticipantUsersAsync(contactIdsMap, participantContactIds));
+        System.enqueueJob(new CreateParticipantUsersAsync(contactIdsMap, participantContactIds, peIds));
     }
 
     public static User createUser(Contact cont, String locale, String language, String timeZone) {
@@ -617,13 +618,16 @@ public without sharing class CommunityService {
     public class CreateParticipantUsersAsync implements Queueable {
         Set<Id> participantContactIds;
         Map<Id, Id> contactIdsMap = new Map<Id, Id>();
+        Set<Id> peIds;
 
         public CreateParticipantUsersAsync(
             Map<Id, Id> contactIdsMap,
-            Set<Id> participantContactIds
+            Set<Id> participantContactIds,
+            Set<Id> peIds
         ) {
             this.contactIdsMap = contactIdsMap;
             this.participantContactIds = participantContactIds;
+            this.peIds= peIds;
         }
 
         public void execute(QueueableContext context) {
@@ -632,9 +636,8 @@ public without sharing class CommunityService {
                     .createParticipantUsers(contactIdsMap);
 
                 if (participantContactIds != null && !participantContactIds.isEmpty()) {
-                    Map<Id, List<Id>> delegatesByParticipant = PatientDelegateService.getDelegateContactIdsByPAContactIs(
-                        new List<Id>(participantContactIds)
-                    );
+                    Map<Id, List<Id>> delegatesByParticipant = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
+                        new List<Id>(peIds), true);
                     Set<Id> allContactIds = new Set<Id>(participantContactIds);
                     for (Id partKey : delegatesByParticipant.keySet()) {
                         for (Id delConId : delegatesByParticipant.get(partKey)) {

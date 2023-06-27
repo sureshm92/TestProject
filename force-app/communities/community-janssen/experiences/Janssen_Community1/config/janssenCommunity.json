@@ -7,5 +7,12 @@
   "mainAppPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
   "preferredDomain" : "none",
   "selfRegistrationRouteId" : "dd1f33a0-3024-4028-b0d5-71ad490ac459",
+  "trustedSitesForScript" : [ {
+    "id" : "595ecffd-8dd6-4e55-8a31-b7ce71847270",
+    "isActive" : true,
+    "trustedSiteName" : "CDN_WALKME",
+    "trustedSiteUrl" : "https://*.walkme.com",
+    "type" : "trustedSitesForScripts"
+  } ],
   "type" : "site"
 }

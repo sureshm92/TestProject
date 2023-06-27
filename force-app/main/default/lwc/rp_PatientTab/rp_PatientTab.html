@@ -226,12 +226,14 @@
                     </lightning-layout>
                 </lightning-layout-item>
             </lightning-layout>
+            <template if:true={issavesuccess}>
             <div key={pe.peRecord.Id} style="margin-top: 10px;">
                 <c-consent-manager isaccesslevelthree={isaccesslevelthree} onconsentchange={handleConsentUpdate}
-                    pe-updation="true" participant-enrollment={pe.peRecord}
-                    participant-country={pe.peRecord.Mailing_Country_Code__c} call-source="ReferParticipantRP" is-study-consent-required="true">
+                    call-source="NotReferParticipantTab" pe-updation="true" participant-enrollment={pe.peRecord}
+                    participant-country={pe.peRecord.Mailing_Country_Code__c}  is-study-consent-required="true">
                 </c-consent-manager>
             </div>
+            </template>
         </template>
         <div class="topIcon-control slds-hide_medium">
             <img src={topIcon} class="topIcon" onclick={goTop}>

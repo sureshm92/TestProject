@@ -21,8 +21,8 @@ public without sharing class SendEmailTemplate {
     }
 
     public static void sendEmailNotification(String templateName, Map<Id, String> whatIdMap) {
-        if (Test.isRunningTest())
-            return;
+        // if (Test.isRunningTest())
+        //     return;
         //prepare emails list:
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
         Map<Id, Boolean> contactsOptedOutEmailMap = getContactsOptedOutEmailMap(whatIdMap.values());
@@ -46,8 +46,8 @@ public without sharing class SendEmailTemplate {
         String templateName,
         Map<Id, Set<Id>> contactIdToWhatIdSet
     ) {
-        if (Test.isRunningTest())
-            return;
+        // if (Test.isRunningTest())
+        //     return;
         //prepare emails list:
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
 

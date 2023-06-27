@@ -37,6 +37,7 @@ public without sharing class ReferringRemote {
         Id trialId,
         Id peId,
         Id hcpeId,
+		Boolean patientDoesNotExist,
         String userMode,
         String delegateId,
         String language
@@ -70,11 +71,96 @@ public without sharing class ReferringRemote {
             );
         }
         if (initData.mrrSurvey != null) {
-            initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(
-                trialId,
-                null,
-                delegateId
-            );
+		List<String> customFields = new List<String>{
+            'Id',
+            'isAuthorized__c',
+            'Participant_Surname__c',
+            'Permit_SMS_Text_for_this_study__c',
+            'Participant__r.Adult__c',
+            'Participant__r.Mailing_Country_Code__c',
+            'Mailing_Country_Code__c',
+            'Clinical_Trial_Profile__r.Study_Code_Name__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
+            'Participant_Name__c',
+            'Study_Site__r.Is_Virtual_Study_Site__c',
+            'Study_Site__c',
+            'Participant__c',
+            'Is_Virtual_Study_Site__c',
+            'HCP__r.Study_Site__c',
+            'Participant__r.Middle_Name__c',
+            'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
+            'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
+            'Study_Site__r.Principal_Investigator__r.Salutation',
+            'Study_Site__r.Principal_Investigator__r.Name',
+            'HCP__r.HCP_Contact__r.Salutation',
+            'Participant__r.Mailing_State_Code__c',
+            'Permit_Voice_Text_contact_for_this_study__c',
+            'Permit_Mail_Email_contact_for_this_study__c',
+            'Delegate_Consent__c',
+            'Delegate_SMS_Consent__c',
+            'Mailing_State_Code__c',
+            'Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c',
+            'HCP__r.HCP_Contact__r.Name',
+            'Study_Site__r.Participant_DOB_format__c',
+            'Study_Site__r.Site__r.BillingStreet',
+            'Participant__r.Mailing_Zip_Postal_Code__c',
+            'HCP__r.HCP_Contact__r.Account.BillingCountryCode',
+            'HCP__r.HCP_Contact__r.Account.BillingStateCode',
+            'Study_Site__r.Site__r.BillingPostalCode',
+            'Study_Site__r.Site__r.BillingCountryCode',
+            'Enrolled_Date__c',
+            'Enrolled_DateTime__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
+            'HCP__r.Status__c',
+            'HCP__r.HCP_Contact__r.FirstName',
+            'HCP__r.HCP_Contact__r.LastName',
+            'Patient_ID__c',
+            'Phone__c',
+            'Is_Phone__c',
+            'Participant_Alternative_Phone__c',
+            'Participant__r.First_Name__c',
+            'Participant__r.Last_Name__c',
+            'Participant__r.Email__c',
+            'Participant__r.Phone__c',
+            'Study_Site__r.Study_Site_Phone__c',
+            'Participant_Phone_Opt_In_Permit_Phone__c',
+            'Participant__r.Phone_Type__c',
+            'Participant_Alt_Phone_Type__c',
+            'Patient_Phone_Type__c',
+            'Participant__r.Alternative_Phone_Type__c',
+            'Participant__r.Date_of_Birth__c',
+            'Patient_Middle_Name_Initial__c',
+            'Patient_Sex__c',
+            'Participant__r.Birth_Year__c',
+            'Participant__r.Gender__c',
+            'Is_Email__c',
+            'Email__c',
+            'Primary_Delegate_First_Name__c',
+            'Primary_Delegate_Last_Name__c',
+            'Primary_Delegate_Email__c',
+            'Primary_Delegate_Phone_Number__c',
+            'Primary_Delegate_Phone_Type__c',
+            'Primary_Delegate_YOB__c',
+            'Is_Delegate_Certify__c',
+            'Birth_Month__c',
+            'YOB__c',
+            'Medical_Record_Review_Status__c',
+            'Pre_screening_Status__c',
+            'Participant_Opt_In_Status_Emails__c',
+            'Participant_Opt_In_Status_SMS__c',
+            'IQVIA_Direct_Mail_Consent__c',
+            'Study_Site__r.Name',
+            'Postal_Code__c'
+                };
+            if(patientDoesNotExist != true){
+                initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(
+                    trialId,
+                    null,
+                    delegateId,
+                    customFields
+                );
+		    }	
             if(initData.pendingPEnrollments != null && !initData.pendingPEnrollments.isEmpty()) {
                 Map<Id, List<Participant_PrescreenerResponse__c>> peIdResponseMap = new Map<Id, List<Participant_PrescreenerResponse__c>>();
                 for(Participant_PrescreenerResponse__c response : [
@@ -99,7 +185,7 @@ public without sharing class ReferringRemote {
                     } 
                 }
             }
-        }
+    }
         StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance()
             .getSiteFilterDataImpl(trialId, 'HCP');
 
@@ -931,6 +1017,16 @@ return String.join(addressList, ', ');
         String contentDocId
     ) {
         try {
+             //Bypaass old methods from Patient Delegate Trigger       
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+                            );
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                            );  
+             TriggerHandlerExecutor.bypassHandler( 
+                                PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+                                );  
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
@@ -1078,6 +1174,16 @@ return String.join(addressList, ', ');
         String contentDocId
     ) {
         try {
+             //Bypaass old methods from Patient Delegate Trigger       
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+                            );
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                            );  
+             TriggerHandlerExecutor.bypassHandler( 
+                                PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+                                );  
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
@@ -1322,31 +1428,7 @@ FOR UPDATE
                     newContact.MailingCountry = participant.Mailing_Country__c;
                     newContact.MailingState = participant.Mailing_State__c;
                     newContact.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;
-                        newContact.IQVIA_Contact_info_storage_consent__c =true;
-                        newContact.Participant_Phone_Opt_In_Permit_Phone__c =true;
-                        newContact.IQVIA_Assisted_Dialing_Consent__c =true;
-                        newContact.Participant_Opt_In_Status_Emails__c =true;
-                        newContact.IQVIA_Artificial_Voice_Consent__c =true;
-                        newContact.IQVIA_Pre_recorded_Voice_Consent__c =true;
-                        if(participant.Mailing_Country_Code__c=='US'){
-                            newContact.Participant_Opt_In_Status_SMS__c=true;
-                            newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
-                        }
-                        else{
-                            if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c)
-                            {
-                                newContact.Participant_Opt_In_Status_SMS__c=true;
-                            }
-                            if(newContact.Participant_Opt_In_Status_SMS__c){
-                                newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
-                            }
-                        }
-                        newContact.IQVIA_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_PI_Storage_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Phone_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Email_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Assisted_Dialing_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Artificial_Voice_Consent_Time__c = Datetime.now();
+                    
                         
                     
                     if ('Home' == participantDelegate.Phone_Type__c) {
@@ -1386,40 +1468,7 @@ FOR UPDATE
                         FROM Contact
                         WHERE Id = :delegateDuplicateInfo.contactId
                     ];
-                        Boolean getSms=newContact.Participant_Opt_In_Status_SMS__c;
-                        newContact.IQVIA_Contact_info_storage_consent__c =true;
-                        newContact.Participant_Phone_Opt_In_Permit_Phone__c =true;
-                        newContact.IQVIA_Assisted_Dialing_Consent__c =true;
-                        newContact.Participant_Opt_In_Status_Emails__c =true;
-                        newContact.IQVIA_Artificial_Voice_Consent__c =true;
-                        newContact.IQVIA_Pre_recorded_Voice_Consent__c =true;
-                        if(participant.Mailing_Country_Code__c=='US'){
-                            newContact.Participant_Opt_In_Status_SMS__c=true;
-                            newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
-                        }
-                        else{
-                            if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c)
-                            {
-                                newContact.Participant_Opt_In_Status_SMS__c=true;
-                            }
-                            else{
-                                newContact.Participant_Opt_In_Status_SMS__c=false;
-                            }
-                            if(newContact.Participant_Opt_In_Status_SMS__c){
-                                newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
-                               }
-                              else if(getSms!=newContact.Participant_Opt_In_Status_SMS__c){
-                                newContact.IQVIA_SMS_Consent_Time__c = Datetime.now();
-                            }
-                            
-                        }
-                        newContact.IQVIA_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_PI_Storage_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Phone_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Email_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Assisted_Dialing_Consent_Time__c = Datetime.now();
-                        newContact.IQVIA_Artificial_Voice_Consent_Time__c = Datetime.now();
-                        update newContact;
+                     
                     createDelegateuser = false;
                 }
                 if (delegateDuplicateInfo == null || delegateDuplicateInfo.participantId == null) {
@@ -1447,6 +1496,7 @@ FOR UPDATE
                 }
                 //if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {
                 List<Patient_Delegate__c> checkPDel;
+                List<Patient_Delegate_Enrollment__c> lstPatientDelEnrollForDup= new List<Patient_Delegate_Enrollment__c> ();
                 List<Id> lstPrimaryDelegate = new List<Id> ();
                 List<Id> lstNonPrimaryDelegtae = new list<Id> ();
                 if (participantId != null && newContact.Id != null) {
@@ -1462,6 +1512,23 @@ FOR UPDATE
                             pDel.Primary_Delegate__c = True;
                             checkPDel.add(pDel);  
                             lstPrimaryDelegate.add(pDel.Id); 
+                            Patient_Delegate_Enrollment__c objPDPER = new Patient_Delegate_Enrollment__c ();
+                        objPDPER.Participant_Enrollment__c = enrollment.Id;
+                        objPDPER.Patient_Delegate__c = pDel.Id;
+                        if(participant.Mailing_Country_Code__c=='US'){
+                            objPDPER.Study_SMS_Consent__c=true;
+                        }
+                        else{
+                            if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c){
+                                objPDPER.Study_SMS_Consent__c=true;
+                            }
+                        }
+                        objPDPER.Study_Phone_Consent__c = true;
+                        objPDPER.Study_info_storage_consent__c = true;
+                        objPDPER.Study_Email_Consent__c = true;
+                        objPDPER.Status__c = 'Disconnected';
+                        objPDPER.Primary_Delegate__c = true;
+                        lstPatientDelEnrollForDup.add(objPDPER);
                            }else {
                             pDel.Primary_Delegate__c = false;
                             lstNonPrimaryDelegtae.add(pDel.Id);
@@ -1470,6 +1537,8 @@ FOR UPDATE
                      if(!lstPrimaryDelegate.isEmpty()  || !lstNonPrimaryDelegtae.isEmpty())
                         updatePatientDelegateExisting(lstPrimaryDelegate,lstNonPrimaryDelegtae);
                      //update allPDelList;
+                     if(!lstPatientDelEnrollForDup.isEmpty())
+                        insert lstPatientDelEnrollForDup;
 
                     List<Participant_Enrollment__c> particpantEnrollList = [
                         SELECT
@@ -1509,6 +1578,25 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                         }
                         
                         insert ptDelegateRef;
+
+                        Patient_Delegate_Enrollment__c objPDPER = new Patient_Delegate_Enrollment__c ();
+                        objPDPER.Participant_Enrollment__c = enrollment.Id;
+                        objPDPER.Patient_Delegate__c = ptDelegateRef.Id;
+                        if(participant.Mailing_Country_Code__c=='US'){
+                            objPDPER.Study_SMS_Consent__c=true;
+                        }
+                        else{
+                            if (enrollment.Delegate_SMS_Consent__c || enrollment.Permit_SMS_Text_for_this_study__c){
+                                objPDPER.Study_SMS_Consent__c=true;
+                            }
+                        }
+                        objPDPER.Study_Phone_Consent__c = true;
+                        objPDPER.Study_info_storage_consent__c = true;
+                        objPDPER.Study_Email_Consent__c = true;
+                        objPDPER.Status__c = 'Disconnected';
+                        objPDPER.Primary_Delegate__c = true;
+
+                        insert objPDPER;
                     }
                 }                
                 if(enrollment != null && (enrollment.Clinical_Trial_Profile__r.IQVIA_Outreach__c || (hcpEnrollment!=null && hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c) )   
@@ -1520,31 +1608,20 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                       Contact getCon=[Select id, Participant_Opt_In_Status_Emails__c, Participant_Opt_In_Status_SMS__c,
                                         Participant_Phone_Opt_In_Permit_Phone__c,IQVIA_Artificial_Voice_Consent__c,
                                         IQVIA_Pre_recorded_Voice_Consent__c, IQVIA_Assisted_Dialing_Consent__c from Contact where id=:con.id];
-                    if(!getCon.Participant_Opt_In_Status_Emails__c){
+
                         con.Participant_Opt_In_Status_Emails__c =enrollment.Participant_Opt_In_Status_Emails__c;
-                    }                 
-                    if(!getCon.Participant_Phone_Opt_In_Permit_Phone__c){
+                             
                       con.Participant_Phone_Opt_In_Permit_Phone__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
-                    }
-                    if(!getCon.IQVIA_Artificial_Voice_Consent__c){
                       con.IQVIA_Artificial_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
-                    }
-                    if(!getCon.IQVIA_Assisted_Dialing_Consent__c){
                       con.IQVIA_Assisted_Dialing_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c;
-                    }
-                    if(!getCon.IQVIA_Pre_recorded_Voice_Consent__c){
                       con.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c; 
-                    }
-                    if(!getCon.Participant_Opt_In_Status_SMS__c){
                       con.Participant_Opt_In_Status_SMS__c = enrollment.Participant_Opt_In_Status_SMS__c;
-                    }
                       con.IQVIA_Direct_Mail_Consent__c = enrollment.IQVIA_Direct_Mail_Consent__c;
                       
                       //update con; moved to future method
                       String objJSONStr = Json.serialize(con);
                       updateParticipantContact(objJSONStr);
                   }
-                //}
                 if (createDelegateuser) {
                     createParticipantUsers(
                         new Map<Id, Id>{ newContact.Id => null },
@@ -1638,6 +1715,16 @@ update objConVersion;*/
 
     @Future
     public static void updatePatientDelegateNew(List<Id> lstPatientDelegtaeId){
+             //Bypaass old methods from Patient Delegate Trigger       
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+                            );
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                            );  
+             TriggerHandlerExecutor.bypassHandler( 
+                                PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+                                ); 
             List<Patient_Delegate__c> lstPTUpdate = new List<Patient_Delegate__c> ();
              for(Patient_Delegate__c objPT : [ SELECT Id, Primary_Delegate__c FROM Patient_Delegate__c 
                                                 Where ID IN:lstPatientDelegtaeId and Primary_Delegate__c = True])
@@ -1650,6 +1737,17 @@ update objConVersion;*/
 
     @Future
     public static void updatePatientDelegateExisting(List<Id> lstPrimaryDelegate, List<Id> lstNonPrimaryDelegtae){
+            //Bypaass old methods from Patient Delegate Trigger       
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+                            );
+             TriggerHandlerExecutor.bypassHandler(
+                                PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                            );               
+             TriggerHandlerExecutor.bypassHandler( 
+                                PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+                                );              
+            
             List<Patient_Delegate__c> lstPTUpdate = new List<Patient_Delegate__c> ();
 
             for(ID lstprimaryId : lstPrimaryDelegate)
@@ -1665,5 +1763,12 @@ update objConVersion;*/
             }
             
         update lstPTUpdate;
+    }
+    @AuraEnabled
+    public static string getContentVersion(String contDocId) {
+        String versionData;
+        ContentVersion cv = [SELECT Id, VersionData,ContentDocumentId FROM ContentVersion where ContentDocumentId=:contDocId LIMIT 1];       
+        versionData = EncodingUtil.base64Encode(cv.VersionData);
+        return versionData;
     }
 }

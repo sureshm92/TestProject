@@ -4,10 +4,8 @@ import resourcesMobile from './ppResourceMobilePage.html';
 import DEVICE from '@salesforce/client/formFactor';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
-import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialDetail';
-import getLinksData from '@salesforce/apex/RelevantLinksRemote.getInitData';
-import getInitDataNew from '@salesforce/apex/RelevantLinksRemote.getInitDataNew';
-import getUpdateResources from '@salesforce/apex/ResourceRemote.getUpdateResource';
+import getDataWrapper from '@salesforce/apex/RelevantLinksRemote.getDataWrapper';
+import getMultimediaResources from '@salesforce/apex/ResourceRemote.getMultimediaResources';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import RELEVANT_LINKS from '@salesforce/label/c.Home_Page_RelevantLinks_Title';
 import DISCOVER_TITLE from '@salesforce/label/c.Discover_Title';
@@ -17,7 +15,7 @@ import DOCUMENTS from '@salesforce/label/c.PP_Resource_Documents';
 import FIND_ANSWERS from '@salesforce/label/c.PP_Resource_Answers';
 import RESOURCES from '@salesforce/label/c.PG_SW_Tab_Resources';
 import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
-import basePathName from '@salesforce/community/basePath';
+import DISCLAIMER from '@salesforce/label/c.PP_Resource_Disclaimer';
 import { NavigationMixin } from 'lightning/navigation';
 
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
@@ -27,6 +25,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     desktop = true;
     isRTL = false;
     isInitialized = false;
+    isDOMInitialized = false;
     toggleExplore = false;
     toggleLinks = false;
     toggleDocs = false;
@@ -49,7 +48,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         DOCUMENTS,
         FIND_ANSWERS,
         DISCOVER_TITLE,
-        CHANGE_PREFERENCES
+        CHANGE_PREFERENCES,
+        DISCLAIMER
     };
     @track linksData;
     @track trialdata;
@@ -101,23 +101,24 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             this.selectedOptions = this.labels.ENGAGE;
             this.selectedResourceType = 'engage';
         }
-        this.initializeData();
     }
-    // renderedCallback(){
-    //     window.addEventListener('click', this.closeOptions);
-    // }
-    //template toggle
+    renderedCallback() {
+        if (!this.isDOMInitialized) {
+            this.initializeData();
+            this.isDOMInitialized = true;
+        }
+    }
+
     render() {
         return this.desktop ? resourcesDesktop : resourcesMobile;
     }
-    async initializeData() {
+
+    initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
             this.spinner.show();
         }
         if (communityService.isInitialized()) {
-            var recId = communityService.getUrlParameter('id');
-            var userMode = communityService.getUserMode();
             //language support
             let paramLanguage = communityService.getUrlParameter('language');
             let lanCode = communityService.getUrlParameter('lanCode');
@@ -129,28 +130,13 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             ) {
                 this.isRTL = true;
             }
-            let result = await getTrialDetail({ trialId: recId, userMode: userMode }).catch(
-                (error) => {
-                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-                }
-            );
-            this.linksData = await getLinksData({}).catch((error) => {
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-            });
-
-            this.trialdata = JSON.parse(result);
             //cards toggle logic
             if (communityService.getCurrentCommunityMode().participantState != 'ALUMNI') {
-                this.toggleExplore = this.trialdata?.trial?.Video_And_Articles_Are_Available__c;
-                this.toggleDocs = this.trialdata?.trial?.Study_Documents_Are_Available__c;
-                this.toggleLinks = this.linksData?.linksAvailable;
             } else {
                 this.toggleExplore = true;
                 this.toggleLinks = true;
             }
-            this.isInitialized = true;
-            this.createoptions();
-            getInitDataNew()
+            getDataWrapper({ sortByCOI: true })
                 .then((returnValue) => {
                     let initData = JSON.parse(JSON.stringify(returnValue));
                     let therapeuticAssignmentsList = [];
@@ -159,6 +145,13 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                         id: '',
                         therapeuticArea: ''
                     };
+                    if (communityService.getCurrentCommunityMode().participantState != 'ALUMNI') {
+                        this.toggleExplore = initData.videoAndArticlesAreAvailable;
+                        this.toggleDocs = initData.studyDocumentsAreAvailable;
+                        this.toggleLinks = initData.linksAvailable;
+                    }
+
+                    this.createoptions();
 
                     initData.resources.forEach((resObj) => {
                         this.linksWrappers.push(resObj.resource);
@@ -177,44 +170,28 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                         delete resObj.resource.Therapeutic_Area_Assignments__r;
                     });
                     this.linksWrappers.length == 0
-                    ? (this.discoverEmptyState = true)
-                    : (this.discoverEmptyState = false);
+                        ? (this.discoverEmptyState = true)
+                        : (this.discoverEmptyState = false);
                     this.getUpdates(JSON.stringify(initData));
                 })
                 .catch((error) => {
                     this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                    this.showSpinner = false;
                 });
-        }
-
-        if (this.spinner) {
-            this.spinner.hide();
         }
     }
     async getUpdates(returnValue) {
-        let state;
         if (communityService.isInitialized()) {
-            state = communityService.getCurrentCommunityMode().participantState;
             this.pData = communityService.getParticipantData();
             let data = JSON.stringify(this.pData);
 
-            await getUpdateResources({ linkWrapperText: returnValue, participantData: data })
+            await getMultimediaResources({ linkWrapperText: returnValue, participantData: data })
                 .then((result) => {
                     this.resourcesData = result.wrappers;
                     this.resourcesData.forEach((resObj) => {
-                        if (
-                            resObj.resource.Content_Type__c == 'Article' ||
-                            resObj.resource.Content_Type__c == 'Video'
-                        ) {
-                            resObj.isExplore = true;
-                        } else if (resObj.resource.Content_Type__c == 'Study_Document') {
-                            resObj.isDoc = true;
-                        } else if (resObj.resource.Content_Type__c == 'Multimedia') {
-                            resObj.isMultimedia = true;
-                            if (!this.multimedia) {
-                                this.multimedia = true;
-                            }
-                        } else {
-                            resObj.isLink = true;
+                        resObj.isMultimedia = true;
+                        if (!this.multimedia) {
+                            this.multimedia = true;
                         }
                     });
                     this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;
@@ -224,6 +201,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
                 })
                 .catch((error) => {
                     this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                    this.showSpinner = false;
                 });
         }
     }
@@ -237,16 +215,14 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         );
     }
     handleChangePreference() {
-        this.redirecturl = window.location.origin + basePathName + '/account-settings?changePref';
-        const config = {
-            type: 'standard__webPage',
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: this.redirecturl
+                pageName: 'account-settings'
+            },
+            state: {
+                changePref: null
             }
-        };
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
         });
     }
     updateResources(event) {

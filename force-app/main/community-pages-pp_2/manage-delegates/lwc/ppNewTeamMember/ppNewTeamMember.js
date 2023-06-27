@@ -360,9 +360,8 @@ export default class PpNewTeamMember extends LightningElement {
                     trialName: this.label.PG_NTM_L_Permission_level_will_apply_to_all_studies
                 };
                 this.allTrialLevel = allTrialLevel;
-                let studyDelegateLavelItems = this.template.querySelector(
-                    '[data-id="study-level"]'
-                );
+                let studyDelegateLavelItems =
+                    this.template.querySelector('[data-id="study-level"]');
                 if (studyDelegateLavelItems) {
                     for (let i = 0; i < studyDelegateLavelItems.length; i++) {
                         studyDelegateLavelItems[i].refresh();

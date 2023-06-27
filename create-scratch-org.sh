@@ -1,5 +1,5 @@
 #!/bin/sh
-#v2.8 PP-R12.0 RH-14.0
+#v2.9 PP-14.0 RH-16.0
 echo "Clean up previous scratch org"
 sfdx force:org:delete -p
 
@@ -20,6 +20,9 @@ mv ./force-app/communities/community-iqvia/experiences ./scratch-org-files/origi
 mv ./force-app/communities/community-gsk/sites/GSK_Community.site-meta.xml ./scratch-org-files/original-files
 mv ./force-app/communities/community-iqvia/sites/IQVIA_Referral_Hub.site-meta.xml ./scratch-org-files/original-files
 mv ./force-app/communities/community-janssen/sites/Janssen_Community.site-meta.xml ./scratch-org-files/original-files
+mv ./force-app/communities/community-pp/sites/IQVIA_Patient_Portal.site-meta.xml ./scratch-org-files/original-files
+mv ./force-app/communities/community-policies/sites/Policies_and_Terms.site-meta.xml ./scratch-org-files/original-files
+
 mv ./force-app/main/default/profiles/Business\ Administrator.profile-meta.xml ./scratch-org-files/original-files
 mv ./force-app/main/default/profiles/Business\ Lead.profile-meta.xml ./scratch-org-files/original-files
 mv ./force-app/main/default/profiles/IQVIA\ Customer\ Community\ Plus\ Login\ User.profile-meta.xml ./scratch-org-files/original-files
@@ -32,6 +35,8 @@ mv ./scratch-org-files/experiences ./force-app/communities/community-iqvia
 mv ./scratch-org-files/GSK_Community.site-meta.xml ./force-app/communities/community-gsk/sites
 mv ./scratch-org-files/IQVIA_Referral_Hub.site-meta.xml ./force-app/communities/community-iqvia/sites
 mv ./scratch-org-files/Janssen_Community.site-meta.xml ./force-app/communities/community-janssen/sites
+mv ./scratch-org-files/IQVIA_Patient_Portal.site-meta.xml ./force-app/communities/community-pp/sites
+mv ./scratch-org-files/Policies_and_Terms.site-meta.xml ./force-app/communities/community-policies/sites
 mv ./scratch-org-files/Business\ Administrator.profile-meta.xml ./force-app/main/default/profiles
 mv ./scratch-org-files/Business\ Lead.profile-meta.xml ./force-app/main/default/profiles
 mv ./scratch-org-files/IQVIA\ Customer\ Community\ Plus\ Login\ User.profile-meta.xml ./force-app/main/default/profiles
@@ -51,7 +56,8 @@ sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
 #Reduce component size
 echo "Deploying static files..."
 sfdx force:org:open -p 'lightning/setup/DeployStatus/home'
-sfdx force:source:deploy -p "force-app/main/onboarding-tour,force-app/main/default/staticresources,force-app/unpackaged/main/default/staticresources,force-app/main/default/namedCredentials,force-app/main/default/remoteSiteSettings,force-app/main/default/cspTrustedSites,force-app/main/default/labels" --tracksource
+sfdx force:source:deploy -p "force-app/main/onboarding-tour,force-app/main/default/staticresources" --tracksource
+sfdx force:source:deploy -p "force-app/unpackaged/main/default/staticresources,force-app/main/default/namedCredentials,force-app/main/default/remoteSiteSettings,force-app/main/default/cspTrustedSites,force-app/main/default/labels" --tracksource
 
 if [ $? = 0 ]; 
 then

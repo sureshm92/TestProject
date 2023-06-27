@@ -254,6 +254,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
       Set<String> duplicateRowCheckSet = new Set<String>();
 
+      Map<Id,Boolean> mapParticipantToDelegate = new Map<Id,Boolean> ();
+
+
       for (List<String> csvRecordData : csvChunkLines) {
         if (csvRecordData == null || csvRecordData.isEmpty()) {
           continue;
@@ -1651,6 +1654,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             if (countIndexParticipant == d.totalRecordCount) {
               d.mainparticipant = mapParticipant.get(countIndexParticipant);
               delegateWithpartList.add(d);
+              mapParticipantToDelegate.put(mapParticipant.get(countIndexParticipant).Id,true);
             }
           }
         }
@@ -1951,6 +1955,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 trackIndex.get(i)
               );
               delegateWithpartList.add(d);
+              mapParticipantToDelegate.put(mapDuplicateParticipant.get(trackIndex.get(i)).id,true);
             }
           }
         } else {
@@ -1971,6 +1976,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
       Integer countIndexPER;
       Set<Id> newlyCreatedPER = new Set<Id>();
       Database.SaveResult[] perSR = Database.insert(mapPER.values(), false);
+      List<Patient_Delegate_Enrollment__c> patientDelEnrollList = new List<Patient_Delegate_Enrollment__c>();
 
       for (Integer k = 0; k < perSR.size(); k++) {
         List<Integer> setToList = new List<Integer>(mapPER.keySet());
@@ -2013,8 +2019,26 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             mapPER.get(countIndexPER).Participant_Contact__c,
             permissionSetName
           );
+          if(mapParticipantToDelegate.containsKey(mapPER.get(countIndexPER).Participant__c)){
+            patientDelEnrollList.add(
+              new Patient_Delegate_Enrollment__c(
+                  Status__c = 'Disconnected',
+                  Participant_Enrollment__c = perSR[k].getId(),
+                  Primary_Delegate__c = true,
+                  Is_Created_by_Bulk_Import__c = true,
+                  Study_Artificial_Voice_Consent__c=allowPhone,
+                  Study_Assisted_Dialing_Consent__c = allowPhone,
+                  Study_Email_Consent__c = allowEmail,
+                  Study_info_storage_consent__c = doContact, 
+                  Study_Phone_Consent__c = allowPhone, 
+                  Study_Pre_recorded_Voice_Consent__c = allowPhone,
+                  Study_SMS_Consent__c = allowSMS 
+              )
+            );
+          }
         }
       }
+      Database.insert(patientDelEnrollList, false);
       //Participant Enrollment insertion ends.
       //Delete the contacts which were newly created but their participant/enrollment were not created.
       List<Contact> conDelete = new List<Contact>();

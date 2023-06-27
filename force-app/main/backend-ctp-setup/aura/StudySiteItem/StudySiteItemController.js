@@ -164,9 +164,21 @@
                     ctpId:item.ss.Clinical_Trial_Profile__c
                 },
                 function (initData) {
-                    component.set('v.popupMessage',$A.get("$Label.c.TOTAL_PE_WITHOUT_VP").replace('##PEs',initData));
+                    if(initData.isProgram === true){
+                        var options = [];
+                        options.push({'label':' ' + $A.get("$Label.c.ASSOCIATE_EVENT_PLAN_TO_PE_AND_STUDY_SITE"), 'value': 'option1'});
+                        options.push({'label':' ' + $A.get("$Label.c.ASSOCIATE_EVENT_PLAN_TO_STUDY_SITE_ONLY"), 'value': 'option2'});
+                        component.set('v.options',options);
+                        component.set('v.popupMessage',$A.get("$Label.c.TOTAL_PE_WITHOUT_EP").replace('##PEs',initData.count));
+                    }else{
+                        component.set('v.popupMessage',$A.get("$Label.c.TOTAL_PE_WITHOUT_VP").replace('##PEs',initData.count));
+                        var options = [];
+                        options.push({'label':' ' + $A.get("$Label.c.ASSOCIATE_VISIT_PLAN_TO_PE_AND_STUDY_SITE"), 'value': 'option1'});
+                        options.push({'label':' ' + $A.get("$Label.c.ASSOCIATE_VISIT_PLAN_TO_STUDY_SITE_ONLY"), 'value': 'option2'});
+                        component.set('v.options',options);
+                    }
                     //component.set('v.totalPEs',initData);
-                    if(initData === undefined || initData<1){
+                    if(initData === undefined || initData.count === undefined || initData.count<1){
                         component.find('spinner').hide();
                         for (var j = 0; j < assignments.length; j++) {                
                             if (assignments[j].state) asgCount++;

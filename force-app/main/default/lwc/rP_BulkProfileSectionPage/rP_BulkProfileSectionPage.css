@@ -91,3 +91,11 @@
     bottom: 0;
   }
 }
+@media screen and (orientation:landscape)
+and (max-device-width: 898px) 
+{
+    .hide_landscape{
+     display: none;
+    }
+    
+}

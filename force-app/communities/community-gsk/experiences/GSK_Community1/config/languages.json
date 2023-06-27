@@ -2,5 +2,1262 @@
   "defaultCode" : "en_US",
   "defaultLabel" : "English (US)",
   "id" : "10926c30-f4f6-472e-aa7d-9e175e9d347a",
+  "languages" : [ {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "97d04755-ac3f-49fc-9420-498827646f2d",
+    "isActive" : true,
+    "label" : "Afrikaans",
+    "languageCode" : "af",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "0a5dd249-e5c6-4bf9-b88d-071d0df8d2bc",
+    "isActive" : true,
+    "label" : "Albanian",
+    "languageCode" : "sq",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "c44e38f1-b66d-4517-9c48-66faf3919357",
+    "isActive" : true,
+    "label" : "Amharic",
+    "languageCode" : "am",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "cfa74c4a-b3eb-46e6-bc22-c25fc6f16e42",
+    "isActive" : true,
+    "label" : "Arabic",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "DZ",
+    "fallbackLanguageId" : null,
+    "id" : "64186d50-3271-4edf-91f2-e292ae881b22",
+    "isActive" : true,
+    "label" : "Arabic (Algeria) (DZ)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "BH",
+    "fallbackLanguageId" : null,
+    "id" : "f2941994-4540-4ffa-bd38-67eda78e79be",
+    "isActive" : true,
+    "label" : "Arabic (Bahrain) (BH)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "EG",
+    "fallbackLanguageId" : null,
+    "id" : "a21ca645-fbda-415c-beb6-fca79dca98c4",
+    "isActive" : true,
+    "label" : "Arabic (Egypt) (EG)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "IQ",
+    "fallbackLanguageId" : null,
+    "id" : "8d5287a3-b93c-41a0-8f2d-293af857f5c4",
+    "isActive" : true,
+    "label" : "Arabic (Iraq) (IQ)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "JO",
+    "fallbackLanguageId" : null,
+    "id" : "8d5661e3-86cc-465e-a91a-1b118123c37e",
+    "isActive" : true,
+    "label" : "Arabic (Jordan) (JO)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "KW",
+    "fallbackLanguageId" : null,
+    "id" : "fd89fac0-5b8c-4786-8c30-758274a6c89f",
+    "isActive" : true,
+    "label" : "Arabic (Kuwait) (KW)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "LB",
+    "fallbackLanguageId" : null,
+    "id" : "3e64a161-7bd8-40be-bfeb-c52f9548ae1c",
+    "isActive" : true,
+    "label" : "Arabic (Lebanon) (LB)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "LY",
+    "fallbackLanguageId" : null,
+    "id" : "9b686ba2-b1c6-43df-92c0-69e4e890a03c",
+    "isActive" : true,
+    "label" : "Arabic (Libya) (LY)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "MA",
+    "fallbackLanguageId" : null,
+    "id" : "80288a56-432b-4e6b-aef1-1efc0f14919e",
+    "isActive" : true,
+    "label" : "Arabic (Morocco) (MA)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "OM",
+    "fallbackLanguageId" : null,
+    "id" : "ed77d49b-70d6-4d06-a6b4-63cf0394cdf8",
+    "isActive" : true,
+    "label" : "Arabic (Oman) (OM)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "QA",
+    "fallbackLanguageId" : null,
+    "id" : "49480202-d2ab-4c82-bb6d-c1444ef0f9b7",
+    "isActive" : true,
+    "label" : "Arabic (Qatar) (QA)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "SA",
+    "fallbackLanguageId" : null,
+    "id" : "afa63283-d75a-47ec-a237-12195211d39c",
+    "isActive" : true,
+    "label" : "Arabic (Saudi Arabia) (SA)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "SD",
+    "fallbackLanguageId" : null,
+    "id" : "b1d41bd8-b41f-43cc-adda-c5c588565304",
+    "isActive" : true,
+    "label" : "Arabic (Sudan) (SD)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "SY",
+    "fallbackLanguageId" : null,
+    "id" : "80689370-97f8-41c5-9133-83b11c45b0fa",
+    "isActive" : true,
+    "label" : "Arabic (Syria) (SY)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "TN",
+    "fallbackLanguageId" : null,
+    "id" : "b96d8031-bd9b-4d51-9812-475db6eb43b2",
+    "isActive" : true,
+    "label" : "Arabic (Tunisia) (TN)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "AE",
+    "fallbackLanguageId" : null,
+    "id" : "ee2dbb07-a8c4-4e97-80ff-2997a9e4f6c4",
+    "isActive" : true,
+    "label" : "Arabic (United Arab Emirates) (AE)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "YE",
+    "fallbackLanguageId" : null,
+    "id" : "717c5cc0-9784-474d-9a1b-4858b265f44a",
+    "isActive" : true,
+    "label" : "Arabic (Yemen) (YE)",
+    "languageCode" : "ar",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "a03f8068-c790-4bae-986b-81f16a9242fb",
+    "isActive" : true,
+    "label" : "Armenian",
+    "languageCode" : "hy",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "d1d37594-b3cb-4517-978e-84cb4b3f6166",
+    "isActive" : true,
+    "label" : "Basque",
+    "languageCode" : "eu",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "d4415607-55f5-40c4-bf52-2daf779ea5a3",
+    "isActive" : true,
+    "label" : "Bengali",
+    "languageCode" : "bn",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "fa83453d-c047-494a-bb60-d966289d155e",
+    "isActive" : true,
+    "label" : "Bosnian",
+    "languageCode" : "bs",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "5b181cb2-e233-4419-99a5-3173075b752e",
+    "isActive" : true,
+    "label" : "Bulgarian",
+    "languageCode" : "bg",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "45fc66e9-cf9f-4ea7-8551-acc22f504fae",
+    "isActive" : true,
+    "label" : "Burmese",
+    "languageCode" : "my",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "67c087a3-36af-43da-b1f4-b96289fa6355",
+    "isActive" : true,
+    "label" : "Catalan",
+    "languageCode" : "ca",
+    "type" : "language"
+  }, {
+    "countryCode" : "HK",
+    "fallbackLanguageId" : null,
+    "id" : "020db6b4-8eb5-424c-b152-2dc87dc72e57",
+    "isActive" : true,
+    "label" : "Chinese (Hong Kong) (HK)",
+    "languageCode" : "zh",
+    "type" : "language"
+  }, {
+    "countryCode" : "MY",
+    "fallbackLanguageId" : null,
+    "id" : "98713e81-589f-42b1-b20d-f9ec568687d9",
+    "isActive" : true,
+    "label" : "Chinese (Malaysia) (MY)",
+    "languageCode" : "zh",
+    "type" : "language"
+  }, {
+    "countryCode" : "CN",
+    "fallbackLanguageId" : null,
+    "id" : "82d66ea9-6e40-4e32-9465-08aacaf83db0",
+    "isActive" : true,
+    "label" : "Chinese (Simplified) (CN)",
+    "languageCode" : "zh",
+    "type" : "language"
+  }, {
+    "countryCode" : "SG",
+    "fallbackLanguageId" : null,
+    "id" : "986a5a29-f9ed-474c-8ab0-074bff242087",
+    "isActive" : true,
+    "label" : "Chinese (Singapore) (SG)",
+    "languageCode" : "zh",
+    "type" : "language"
+  }, {
+    "countryCode" : "TW",
+    "fallbackLanguageId" : null,
+    "id" : "9fb9a202-3c1d-4277-9ba2-972d9fb46d61",
+    "isActive" : true,
+    "label" : "Chinese (Traditional) (TW)",
+    "languageCode" : "zh",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "91b18597-e7ad-4280-acd2-8bac377d4c68",
+    "isActive" : true,
+    "label" : "Croatian",
+    "languageCode" : "hr",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "565d965b-61eb-49e4-82f2-1443d8de4032",
+    "isActive" : true,
+    "label" : "Czech",
+    "languageCode" : "cs",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "e744ea7a-356c-4842-bd46-28662db5bf15",
+    "isActive" : true,
+    "label" : "Danish",
+    "languageCode" : "da",
+    "type" : "language"
+  }, {
+    "countryCode" : "NL",
+    "fallbackLanguageId" : null,
+    "id" : "c8709dc2-2579-4aea-b60c-53ca70acc29a",
+    "isActive" : true,
+    "label" : "Dutch (NL)",
+    "languageCode" : "nl",
+    "type" : "language"
+  }, {
+    "countryCode" : "BE",
+    "fallbackLanguageId" : null,
+    "id" : "38221b94-17b8-47af-bb9f-bcafb827ca61",
+    "isActive" : true,
+    "label" : "Dutch (Belgium) (BE)",
+    "languageCode" : "nl",
+    "type" : "language"
+  }, {
+    "countryCode" : "AU",
+    "fallbackLanguageId" : null,
+    "id" : "86a5d064-179a-4cef-a61f-b9dd8fedb4e6",
+    "isActive" : true,
+    "label" : "English (Australian) (AU)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "BE",
+    "fallbackLanguageId" : null,
+    "id" : "803f5dff-2072-417c-884c-016bf8a84dfd",
+    "isActive" : true,
+    "label" : "English (Belgium) (BE)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "CA",
+    "fallbackLanguageId" : null,
+    "id" : "cd0a6469-af5d-45e2-94ef-4c0a8da280e0",
+    "isActive" : true,
+    "label" : "English (Canadian) (CA)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "CY",
+    "fallbackLanguageId" : null,
+    "id" : "ead79fc0-672b-496d-b1e2-b70ca8c73cfc",
+    "isActive" : true,
+    "label" : "English (Cyprus) (CY)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "DE",
+    "fallbackLanguageId" : null,
+    "id" : "1284485f-dff7-4bd9-8c16-dd3f3de3d303",
+    "isActive" : true,
+    "label" : "English (Germany) (DE)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "HK",
+    "fallbackLanguageId" : null,
+    "id" : "0be1125a-7d7a-4c17-b586-773df13a10e2",
+    "isActive" : true,
+    "label" : "English (Hong Kong) (HK)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "IN",
+    "fallbackLanguageId" : null,
+    "id" : "332551a8-007b-4951-be28-89249ba4512c",
+    "isActive" : true,
+    "label" : "English (Indian) (IN)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "IE",
+    "fallbackLanguageId" : null,
+    "id" : "42c471c8-c049-4ea7-b3e5-11f45108a710",
+    "isActive" : true,
+    "label" : "English (Ireland) (IE)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "IL",
+    "fallbackLanguageId" : null,
+    "id" : "d8ee1a3e-c9e5-4060-9cd9-a706be1874b6",
+    "isActive" : true,
+    "label" : "English (Israel) (IL)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "MY",
+    "fallbackLanguageId" : null,
+    "id" : "8a63fea4-5572-4ada-b9a0-e6902d77b4fb",
+    "isActive" : true,
+    "label" : "English (Malaysian) (MY)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "MT",
+    "fallbackLanguageId" : null,
+    "id" : "50004056-5c8e-4cce-b9b0-402676323f1b",
+    "isActive" : true,
+    "label" : "English (Malta) (MT)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "NL",
+    "fallbackLanguageId" : null,
+    "id" : "2c6140b0-2883-4f7d-a870-adf5c79ca998",
+    "isActive" : true,
+    "label" : "English (Netherlands) (NL)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "NZ",
+    "fallbackLanguageId" : null,
+    "id" : "efd6b30f-e89c-49e4-afe8-2399a5c01b0a",
+    "isActive" : true,
+    "label" : "English (New Zealand) (NZ)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "PH",
+    "fallbackLanguageId" : null,
+    "id" : "159e0250-0a24-4fc4-82cd-97c2ec59ec63",
+    "isActive" : true,
+    "label" : "English (Phillipines) (PH)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "SG",
+    "fallbackLanguageId" : null,
+    "id" : "14b1a18b-31b0-4a42-9ae0-d7b4ade38a26",
+    "isActive" : true,
+    "label" : "English (Singapore) (SG)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "ZA",
+    "fallbackLanguageId" : null,
+    "id" : "f4db6c17-b240-41b3-afdd-b8b812faa18a",
+    "isActive" : true,
+    "label" : "English (South Africa) (ZA)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "GB",
+    "fallbackLanguageId" : null,
+    "id" : "e7a173bb-4a54-474d-97bb-edfb0d776be8",
+    "isActive" : true,
+    "label" : "English (UK) (GB)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "AE",
+    "fallbackLanguageId" : null,
+    "id" : "6526fbc0-bf38-448e-b55f-9aec701b50c7",
+    "isActive" : true,
+    "label" : "English (United Arab Emirates) (AE)",
+    "languageCode" : "en",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "c113a55e-6668-42e5-94bd-ea628a599315",
+    "isActive" : true,
+    "label" : "Estonian",
+    "languageCode" : "et",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "2965c9a7-689d-4a50-bd3d-161535723b2a",
+    "isActive" : true,
+    "label" : "Farsi",
+    "languageCode" : "fa",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "2f294461-4f69-4264-afa6-480321b18d7c",
+    "isActive" : true,
+    "label" : "Finnish",
+    "languageCode" : "fi",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "3577c2a7-d312-4126-8e73-fdb6866fbd39",
+    "isActive" : true,
+    "label" : "French",
+    "languageCode" : "fr",
+    "type" : "language"
+  }, {
+    "countryCode" : "BE",
+    "fallbackLanguageId" : null,
+    "id" : "83bb6631-b387-4150-ad9d-bdc61df90120",
+    "isActive" : true,
+    "label" : "French (Belgium) (BE)",
+    "languageCode" : "fr",
+    "type" : "language"
+  }, {
+    "countryCode" : "CA",
+    "fallbackLanguageId" : null,
+    "id" : "eba00362-5027-4bed-a224-42fd64b34314",
+    "isActive" : true,
+    "label" : "French (Canadian) (CA)",
+    "languageCode" : "fr",
+    "type" : "language"
+  }, {
+    "countryCode" : "LU",
+    "fallbackLanguageId" : null,
+    "id" : "5e747312-4bd9-47ee-921f-5192e78c1898",
+    "isActive" : true,
+    "label" : "French (Luxembourg) (LU)",
+    "languageCode" : "fr",
+    "type" : "language"
+  }, {
+    "countryCode" : "MA",
+    "fallbackLanguageId" : null,
+    "id" : "62d126c3-5fc2-4369-9e1c-40a0e8827b22",
+    "isActive" : true,
+    "label" : "French (Morocco) (MA)",
+    "languageCode" : "fr",
+    "type" : "language"
+  }, {
+    "countryCode" : "CH",
+    "fallbackLanguageId" : null,
+    "id" : "7cb17a78-4a1a-4568-93a4-57687318d5bf",
+    "isActive" : true,
+    "label" : "French (Switzerland) (CH)",
+    "languageCode" : "fr",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "5f3c5cdf-5c8b-46e2-8a44-d0ff48f9eb64",
+    "isActive" : true,
+    "label" : "Georgian",
+    "languageCode" : "ka",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "a445d97a-fda3-485a-9279-f287011e13f4",
+    "isActive" : true,
+    "label" : "German",
+    "languageCode" : "de",
+    "type" : "language"
+  }, {
+    "countryCode" : "AT",
+    "fallbackLanguageId" : null,
+    "id" : "265fb8f2-c7e2-4635-88af-8ef91cc66593",
+    "isActive" : true,
+    "label" : "German (Austria) (AT)",
+    "languageCode" : "de",
+    "type" : "language"
+  }, {
+    "countryCode" : "BE",
+    "fallbackLanguageId" : null,
+    "id" : "66e83759-5dbc-42fd-9c47-3369e70b4a8d",
+    "isActive" : true,
+    "label" : "German (Belgium) (BE)",
+    "languageCode" : "de",
+    "type" : "language"
+  }, {
+    "countryCode" : "LU",
+    "fallbackLanguageId" : null,
+    "id" : "d4448631-8748-4e1d-a38f-948fe0ccf938",
+    "isActive" : true,
+    "label" : "German (Luxembourg) (LU)",
+    "languageCode" : "de",
+    "type" : "language"
+  }, {
+    "countryCode" : "CH",
+    "fallbackLanguageId" : null,
+    "id" : "1c2d3b8f-fd8a-4f10-ba2f-5368a1049806",
+    "isActive" : true,
+    "label" : "German (Switzerland) (CH)",
+    "languageCode" : "de",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "8f9c9387-bfd6-4b2a-96d7-f47317ee1aa6",
+    "isActive" : true,
+    "label" : "Greek",
+    "languageCode" : "el",
+    "type" : "language"
+  }, {
+    "countryCode" : "CY",
+    "fallbackLanguageId" : null,
+    "id" : "d6649205-968c-4085-a209-4583b48685b7",
+    "isActive" : true,
+    "label" : "Greek (Cyprus) (CY)",
+    "languageCode" : "el",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "8d6d6fbf-c62a-40ed-af66-d1fae53004eb",
+    "isActive" : true,
+    "label" : "Greenlandic",
+    "languageCode" : "kl",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "1ad899f4-5868-40a8-a370-b7f5dda6f605",
+    "isActive" : true,
+    "label" : "Gujarati",
+    "languageCode" : "gu",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "33f70270-480e-4edf-ba86-7ae83ef7c0be",
+    "isActive" : true,
+    "label" : "Haitian Creole",
+    "languageCode" : "ht",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "93048269-b741-4e6b-a3c0-667ff56e4380",
+    "isActive" : true,
+    "label" : "Hawaiian",
+    "languageCode" : "haw",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "71f7a7ea-4f77-4c89-8e22-6d81b7fd52ae",
+    "isActive" : true,
+    "label" : "Hebrew",
+    "languageCode" : "iw",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "5ebc2133-8eb5-4db2-afaa-953989f1241f",
+    "isActive" : true,
+    "label" : "Hindi",
+    "languageCode" : "hi",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "dba2d50f-e438-40dd-b8fd-40697fd9287b",
+    "isActive" : true,
+    "label" : "Hmong",
+    "languageCode" : "hmn",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "d147860b-617e-4216-9033-f2c101a490af",
+    "isActive" : true,
+    "label" : "Hungarian",
+    "languageCode" : "hu",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "96be03eb-e05d-4a59-b940-1e6297b01af1",
+    "isActive" : true,
+    "label" : "Icelandic",
+    "languageCode" : "is",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "11ca7bc3-35bd-463a-b15a-4e3250a5a631",
+    "isActive" : true,
+    "label" : "Indonesian",
+    "languageCode" : "in",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "76c3e690-0786-4f04-9cbd-d37973d77b5f",
+    "isActive" : true,
+    "label" : "Irish",
+    "languageCode" : "ga",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "87465e11-8a25-4b26-9179-74e6bbe1b7f9",
+    "isActive" : true,
+    "label" : "Italian",
+    "languageCode" : "it",
+    "type" : "language"
+  }, {
+    "countryCode" : "CH",
+    "fallbackLanguageId" : null,
+    "id" : "62d7f815-4bf2-4bce-8128-0b0bc352e015",
+    "isActive" : true,
+    "label" : "Italian (Switzerland) (CH)",
+    "languageCode" : "it",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "cc6ae13a-a182-484c-b75b-72954aaf024d",
+    "isActive" : true,
+    "label" : "Japanese",
+    "languageCode" : "ja",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "80f669df-7f49-4640-b048-df29c12c1d3c",
+    "isActive" : true,
+    "label" : "Kannada",
+    "languageCode" : "kn",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "0237848b-1978-4376-85d7-efa7e205990a",
+    "isActive" : true,
+    "label" : "Kazakh",
+    "languageCode" : "kk",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "d3baefdc-4ce0-489b-9469-b8cabfdee97f",
+    "isActive" : true,
+    "label" : "Khmer",
+    "languageCode" : "km",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "0eb10489-68a5-4034-b2e8-24be787b2a84",
+    "isActive" : true,
+    "label" : "Korean",
+    "languageCode" : "ko",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "573324f5-a1a1-46ef-809a-78ae4ec909e4",
+    "isActive" : true,
+    "label" : "Latvian",
+    "languageCode" : "lv",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "3fe06ec2-41ad-43da-aa0d-ace3ae461a19",
+    "isActive" : true,
+    "label" : "Lithuanian",
+    "languageCode" : "lt",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "fda9c33d-aafc-4454-a0f1-6dbdd95ed1a6",
+    "isActive" : true,
+    "label" : "Luxembourgish",
+    "languageCode" : "lb",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "3bff02ed-6e5e-4d8c-9bbd-77a8f2986049",
+    "isActive" : true,
+    "label" : "Macedonian",
+    "languageCode" : "mk",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "3606ec71-b1ec-45ed-9312-4ef76733e685",
+    "isActive" : true,
+    "label" : "Malay",
+    "languageCode" : "ms",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "add4c8f6-9f09-4295-a164-df9b6162d98b",
+    "isActive" : true,
+    "label" : "Malayalam",
+    "languageCode" : "ml",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "3bac40cf-50df-4f59-8a91-6213ccb0a2e8",
+    "isActive" : true,
+    "label" : "Maltese",
+    "languageCode" : "mt",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "798bcdc9-b9ed-48b8-88c2-117e04782f76",
+    "isActive" : true,
+    "label" : "Marathi",
+    "languageCode" : "mr",
+    "type" : "language"
+  }, {
+    "countryCode" : "ME",
+    "fallbackLanguageId" : null,
+    "id" : "45c74e9e-913d-452e-86b5-4cde1e502b45",
+    "isActive" : true,
+    "label" : "Montenegrin (ME)",
+    "languageCode" : "sh",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "e92fb1a5-35a7-4408-abb3-d8e2b737fb43",
+    "isActive" : true,
+    "label" : "Norwegian",
+    "languageCode" : "no",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "c9c9906a-c494-4356-ab18-987f392169e2",
+    "isActive" : true,
+    "label" : "Polish",
+    "languageCode" : "pl",
+    "type" : "language"
+  }, {
+    "countryCode" : "BR",
+    "fallbackLanguageId" : null,
+    "id" : "e9282e0b-05ed-45b4-9aff-4ab54621f7c0",
+    "isActive" : true,
+    "label" : "Portuguese (Brazil) (BR)",
+    "languageCode" : "pt",
+    "type" : "language"
+  }, {
+    "countryCode" : "PT",
+    "fallbackLanguageId" : null,
+    "id" : "8fea5eb0-1fc7-4906-af5f-9b6f2758a7bf",
+    "isActive" : true,
+    "label" : "Portuguese (European) (PT)",
+    "languageCode" : "pt",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "dc140e7f-fa58-4d25-a680-f266d0062ed7",
+    "isActive" : true,
+    "label" : "Punjabi",
+    "languageCode" : "pa",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "d11c8b1f-894f-4a03-87ea-d5807675979f",
+    "isActive" : true,
+    "label" : "Romanian",
+    "languageCode" : "ro",
+    "type" : "language"
+  }, {
+    "countryCode" : "MD",
+    "fallbackLanguageId" : null,
+    "id" : "ff36590a-a526-4882-adc3-d7cfffbfe48a",
+    "isActive" : true,
+    "label" : "Romanian (Moldova) (MD)",
+    "languageCode" : "ro",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "309dd348-04ab-4b00-9ed1-7c78cadad931",
+    "isActive" : true,
+    "label" : "Romansh",
+    "languageCode" : "rm",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "ba200e12-8616-4ad6-b430-699b3560f07b",
+    "isActive" : true,
+    "label" : "Russian",
+    "languageCode" : "ru",
+    "type" : "language"
+  }, {
+    "countryCode" : "AM",
+    "fallbackLanguageId" : null,
+    "id" : "10b99839-c73f-4d40-8ebd-e0cf6125e814",
+    "isActive" : true,
+    "label" : "Russian (Armenia) (AM)",
+    "languageCode" : "ru",
+    "type" : "language"
+  }, {
+    "countryCode" : "BY",
+    "fallbackLanguageId" : null,
+    "id" : "8420a03a-09d2-4ea5-98d5-cb851b43a6a5",
+    "isActive" : true,
+    "label" : "Russian (Belarus) (BY)",
+    "languageCode" : "ru",
+    "type" : "language"
+  }, {
+    "countryCode" : "KZ",
+    "fallbackLanguageId" : null,
+    "id" : "d970eb3d-d1f9-47c2-b989-da427812c853",
+    "isActive" : true,
+    "label" : "Russian (Kazakhstan) (KZ)",
+    "languageCode" : "ru",
+    "type" : "language"
+  }, {
+    "countryCode" : "KG",
+    "fallbackLanguageId" : null,
+    "id" : "5b11f325-eb2b-472e-a034-41665753b9e2",
+    "isActive" : true,
+    "label" : "Russian (Kyrgyzstan) (KG)",
+    "languageCode" : "ru",
+    "type" : "language"
+  }, {
+    "countryCode" : "LT",
+    "fallbackLanguageId" : null,
+    "id" : "b36d648b-6955-4ac7-a2b1-e53c5fa0f262",
+    "isActive" : true,
+    "label" : "Russian (Lithuania) (LT)",
+    "languageCode" : "ru",
+    "type" : "language"
+  }, {
+    "countryCode" : "MD",
+    "fallbackLanguageId" : null,
+    "id" : "c05c31e8-f5a3-4ae6-8f23-ef0118687c00",
+    "isActive" : true,
+    "label" : "Russian (Moldova) (MD)",
+    "languageCode" : "ru",
+    "type" : "language"
+  }, {
+    "countryCode" : "PL",
+    "fallbackLanguageId" : null,
+    "id" : "830cfc11-b97f-4b39-b59e-d731e3e85d71",
+    "isActive" : true,
+    "label" : "Russian (Poland) (PL)",
+    "languageCode" : "ru",
+    "type" : "language"
+  }, {
+    "countryCode" : "UA",
+    "fallbackLanguageId" : null,
+    "id" : "4f218245-f976-4e15-aaaf-5e44f7d1b1ca",
+    "isActive" : true,
+    "label" : "Russian (Ukraine) (UA)",
+    "languageCode" : "ru",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "0174716e-28ca-47b4-8310-96cf57d1833e",
+    "isActive" : true,
+    "label" : "Samoan",
+    "languageCode" : "sm",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "7ed7e79f-e32b-438d-9274-34e7a48dfca6",
+    "isActive" : true,
+    "label" : "Serbian (Cyrillic)",
+    "languageCode" : "sr",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "2680882b-fa80-4831-bc7b-f7562a1d9c9f",
+    "isActive" : true,
+    "label" : "Serbian (Latin)",
+    "languageCode" : "sh",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "8ae2aa96-bf98-4079-9d6d-900f325b9ac0",
+    "isActive" : true,
+    "label" : "Slovak",
+    "languageCode" : "sk",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "439d1b2e-03d4-4080-b5b2-14e7a2417077",
+    "isActive" : true,
+    "label" : "Slovene",
+    "languageCode" : "sl",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "84eacc56-e5d6-4cb7-9676-afc0e9c7990a",
+    "isActive" : true,
+    "label" : "Spanish",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "AR",
+    "fallbackLanguageId" : null,
+    "id" : "4d479f91-19e5-4862-a1c1-04685b727638",
+    "isActive" : true,
+    "label" : "Spanish (Argentina) (AR)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "BO",
+    "fallbackLanguageId" : null,
+    "id" : "b0260e2e-37e5-46ee-ae0a-acf51344e9e4",
+    "isActive" : true,
+    "label" : "Spanish (Bolivia) (BO)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "CL",
+    "fallbackLanguageId" : null,
+    "id" : "f48d4b49-e7f3-47d9-9a52-1ffe4c0ab158",
+    "isActive" : true,
+    "label" : "Spanish (Chile) (CL)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "CO",
+    "fallbackLanguageId" : null,
+    "id" : "c196324f-1b95-41f1-b936-a6bf9aed163e",
+    "isActive" : true,
+    "label" : "Spanish (Colombia) (CO)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "CR",
+    "fallbackLanguageId" : null,
+    "id" : "7cc355c8-7ae2-49b0-bb4b-7310ca6e3ca7",
+    "isActive" : true,
+    "label" : "Spanish (Costa Rica) (CR)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "DO",
+    "fallbackLanguageId" : null,
+    "id" : "98b20759-ffca-4dc2-8c13-a0ed75c8fb78",
+    "isActive" : true,
+    "label" : "Spanish (Dominican Republic) (DO)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "EC",
+    "fallbackLanguageId" : null,
+    "id" : "757baadb-0635-4900-8f5a-c2b22a25e2c1",
+    "isActive" : true,
+    "label" : "Spanish (Ecuador) (EC)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "SV",
+    "fallbackLanguageId" : null,
+    "id" : "542a7db2-978e-43ea-8a6d-14b1c044aa50",
+    "isActive" : true,
+    "label" : "Spanish (El Salvador) (SV)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "GT",
+    "fallbackLanguageId" : null,
+    "id" : "0b5afdef-4b40-4cb4-8ae0-cc83e1d21211",
+    "isActive" : true,
+    "label" : "Spanish (Guatemala) (GT)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "HN",
+    "fallbackLanguageId" : null,
+    "id" : "793e2a08-f283-4304-8685-2d47d679cb9b",
+    "isActive" : true,
+    "label" : "Spanish (Honduras) (HN)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "MX",
+    "fallbackLanguageId" : null,
+    "id" : "0aae3c15-22f1-4302-9d02-5aa7c31404ee",
+    "isActive" : true,
+    "label" : "Spanish (Mexico) (MX)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "NI",
+    "fallbackLanguageId" : null,
+    "id" : "2d120376-cdcb-4d0c-87a6-98f179450f67",
+    "isActive" : true,
+    "label" : "Spanish (Nicaragua) (NI)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "PA",
+    "fallbackLanguageId" : null,
+    "id" : "97d35754-aa53-442a-a290-72d1d19bde19",
+    "isActive" : true,
+    "label" : "Spanish (Panama) (PA)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "PY",
+    "fallbackLanguageId" : null,
+    "id" : "af4c9c09-339c-4e14-accf-e68a6e9b7d50",
+    "isActive" : true,
+    "label" : "Spanish (Paraguay) (PY)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "PE",
+    "fallbackLanguageId" : null,
+    "id" : "e01a7f7b-297c-429c-ad8f-81fc3d297e27",
+    "isActive" : true,
+    "label" : "Spanish (Peru) (PE)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "PR",
+    "fallbackLanguageId" : null,
+    "id" : "8a4234b9-e7c4-4696-8006-4774486ee2a1",
+    "isActive" : true,
+    "label" : "Spanish (Puerto Rico) (PR)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "US",
+    "fallbackLanguageId" : null,
+    "id" : "aec29b2d-76b6-4761-a4aa-2659d71c363a",
+    "isActive" : true,
+    "label" : "Spanish (United States) (US)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "UY",
+    "fallbackLanguageId" : null,
+    "id" : "0745b4b1-845b-4759-a68b-e254cfff16db",
+    "isActive" : true,
+    "label" : "Spanish (Uruguay) (UY)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "VE",
+    "fallbackLanguageId" : null,
+    "id" : "229b6e6f-4947-4113-b034-2752f6b77679",
+    "isActive" : true,
+    "label" : "Spanish (Venezuela) (VE)",
+    "languageCode" : "es",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "7a45eba3-ae3d-47ce-ad34-909c6c9575f5",
+    "isActive" : true,
+    "label" : "Swahili",
+    "languageCode" : "sw",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "460bc2b8-49c7-4b06-834f-30b404286a7f",
+    "isActive" : true,
+    "label" : "Swedish",
+    "languageCode" : "sv",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "ee91cc80-7fc3-4c77-9c5b-f04c49e4b1f4",
+    "isActive" : true,
+    "label" : "Tagalog",
+    "languageCode" : "tl",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "e8d8ffee-acfb-4022-802b-2ad7f0ce4c61",
+    "isActive" : true,
+    "label" : "Tamil",
+    "languageCode" : "ta",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "d306c0db-40e1-4cc9-b262-4b8ce54ef373",
+    "isActive" : true,
+    "label" : "Te reo",
+    "languageCode" : "mi",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "13e22b64-4a22-46f5-8074-f9e8d0f00b83",
+    "isActive" : true,
+    "label" : "Telugu",
+    "languageCode" : "te",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "a6cb9038-65b7-4c38-b6fe-4c0a76b31a01",
+    "isActive" : true,
+    "label" : "Thai",
+    "languageCode" : "th",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "eca93c47-566c-41e7-ad06-7935bbf36b9f",
+    "isActive" : true,
+    "label" : "Turkish",
+    "languageCode" : "tr",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "d15ad15e-fdd4-4b84-a3a1-ae069af5657f",
+    "isActive" : true,
+    "label" : "Ukrainian",
+    "languageCode" : "uk",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "65359220-97be-40fb-b6e3-4b0b4d82f5c3",
+    "isActive" : true,
+    "label" : "Urdu",
+    "languageCode" : "ur",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "39b2088b-83d7-4857-a95c-952287cb1836",
+    "isActive" : true,
+    "label" : "Vietnamese",
+    "languageCode" : "vi",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "06af6fa3-589a-4c91-a9ae-07f35a307f7c",
+    "isActive" : true,
+    "label" : "Welsh",
+    "languageCode" : "cy",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "8d075812-8a3c-41f2-afe2-47394a31e55e",
+    "isActive" : true,
+    "label" : "Xhosa",
+    "languageCode" : "xh",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "6a976ac1-04b1-46db-8680-a12c3e5a5588",
+    "isActive" : true,
+    "label" : "Yiddish",
+    "languageCode" : "ji",
+    "type" : "language"
+  }, {
+    "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "09ec640b-40d0-4aea-a7cc-f7f76bd54055",
+    "isActive" : true,
+    "label" : "Zulu",
+    "languageCode" : "zu",
+    "type" : "language"
+  } ],
   "type" : "languageContainer"
 }

@@ -44,6 +44,7 @@ public without sharing class StudySiteTriggerHandler {
 
         //START INC9339329 14/02/2020 Sumit S
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            studySiteIntegration(newList, (Map<Id, Study_Site__c>) oldMap); 
             piDoesNotReimburse(newList);
         }
         //END INC9339329
@@ -85,6 +86,7 @@ public without sharing class StudySiteTriggerHandler {
         Map<Id, Study_Site__c> oldMap
     ) {
         List<ID> participantids = new List<ID>();
+        List<Id> perIdlst = new List<Id>();
         Map<Id, List<Id>> partPerDelegateIds = new Map<Id, List<Id>>();
         List<Notification__c> welcomemsgnotifications = new List<Notification__c>();
         Map<Id, Study_Site__c> welcomesmsIDS = new Map<Id, Study_Site__c>(); //Added by Anitha
@@ -170,23 +172,31 @@ public without sharing class StudySiteTriggerHandler {
                             ContactService.addwelcomeNotifications(
                                 per.Participant_Contact__c,
                                 per.Id,
-                                NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG
+                                NotificationCatalog.MESSAGE_TO_PT_STUDY_LEVEL_WELCOME_MSG,
+                                false
                             )
                         );
                     }
                     //Added for Delegate
                     if (!per.Welcome_Message_Sent__c && !String.isBlank(per.Participant__c)) {
                         participantids.add(per.Participant__c);
+                        perIdlst.add(per.Id);
                     }
                 }
             }
+    
             //Added for Delegate
-            if (participantids.size() > 0) {
-                partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
+            if (participantids.size() > 0 && perIdlst.size()> 0 ) {
+            PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedContactIdsByParticipantIdMap(
+                participantIds,perIdlst
+            );
+            partPerDelegateIds = pdewrapper.delParticipantIds; // Actual participant with list of delegate contact IDs
+
+                /*partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(
                     participantIds
-                );
+                );*/
             }
-            List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = new List<ParticipantEnrollmentPatientDelJunction__c>();
+            //List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = new List<ParticipantEnrollmentPatientDelJunction__c>();
             if (!peIdMap.isEmpty()) {
                 for (Participant_Enrollment__c pe : peIdMap.values()) {
                     if (
@@ -198,21 +208,22 @@ public without sharing class StudySiteTriggerHandler {
                                 ContactService.addwelcomeNotifications(
                                     delegateId,
                                     pe.Id,
-                                    NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                                    NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+                                    true
                                 )
                             );
                             //Create jonction object record between PER and Patient Delegate contact records
-                            ParticipantEnrollmentPatientDelJunction__c perPDJunObj = new ParticipantEnrollmentPatientDelJunction__c();
+                           /* ParticipantEnrollmentPatientDelJunction__c perPDJunObj = new ParticipantEnrollmentPatientDelJunction__c();
                             perPDJunObj.Participant_Enrollment__c = pe.Id;
                             perPDJunObj.Patient_Delegate_Contact__c = delegateId;
                             perPDJunObj.Process_Type__c = 'Welcome Message';
-                            perDelJunctionRecList.Add(perPDJunObj);
+                            perDelJunctionRecList.Add(perPDJunObj);*/
                         }
                     }
                 }
-                if (perDelJunctionRecList != null && !perDelJunctionRecList.isEmpty()) {
+                /*if (perDelJunctionRecList != null && !perDelJunctionRecList.isEmpty()) {
                     insert perDelJunctionRecList;
-                }
+                }*/
             }
         }
         return welcomemsgnotifications;
@@ -428,6 +439,38 @@ public without sharing class StudySiteTriggerHandler {
                     pi.Investigator_Key__c +
                     '_' +
                     ctp.Protocol_ID__c;
+            }
+        }
+    }
+    @TestVisible
+    private static void studySiteIntegration(
+        List<Study_Site__c> newList,
+        Map<Id, Study_Site__c> oldMap) {
+        Set<Id> siteIds = new Set<Id>();
+        Map<Id,Study_Site__c> siteMapDetails = new Map<Id,Study_Site__c>();
+        Profile profile = [SELECT Name FROM Profile WHERE Id = :UserInfo.getProfileId()];
+        String profileName = profile.Name;
+         if(oldMap != null && profileName == 'API Only'){
+        for (Study_Site__c site : newList) {
+            if(oldMap.get(site.Id).Site__c != null && oldMap.get(site.Id).Site__c != site.Site__c){
+            siteIds.add(site.Id);
+        }
+            }
+             if(!siteIds.isEmpty()){
+         siteMapDetails = new Map<Id,Study_Site__c>([
+            SELECT
+            Id,
+            Site__c,
+            Site__r.Org_Key__c
+            FROM Study_Site__c
+            WHERE Id IN :siteIds
+        ]);
+            }
+             }
+        Study_Site__c studysite = new Study_Site__c();
+        for (Study_Site__c site : newList) {
+            if(oldMap != null && profileName == 'API Only' && oldMap.get(site.Id).Site__c != site.Site__c && siteMapDetails.get(site.Id) != null && siteMapDetails.get(site.Id).Site__r.Org_Key__c == null){
+                site.Site__c = oldMap.get(site.Id).Site__c;
             }
         }
     }

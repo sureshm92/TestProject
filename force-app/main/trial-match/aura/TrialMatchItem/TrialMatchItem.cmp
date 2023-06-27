@@ -33,7 +33,7 @@
         <div class="seperator"></div>
         <div class="ctp-info-block ctp-padding">
             <div class="ctp-study-code-name">
-                {!v.trialMatch.StudyCodeName}
+                <p class="study-code-name-container">{!v.trialMatch.StudyCodeName}</p>
                 <br />
                 <div class="{!v.isRTL? 'slds-grid nctId-rtl':'nctId'}">
                     <div class="{!v.trialMatch.NCTId!=null?'slds-show ctp-nct-Id':'slds-hide'}">

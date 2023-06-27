@@ -1,6 +1,6 @@
 public  without sharing class StudySiteItemRemote {
     @AuraEnabled
-    public static Integer totalPEs(Id ssId, Id ctpId){
+    public static CountAndProgram totalPEs(Id ssId, Id ctpId){
         Integer count = 0;
         if(ssId!=null && ctpId!=null){
             List<AggregateResult> totalParticipants = new List<AggregateResult>();
@@ -13,7 +13,24 @@ public  without sharing class StudySiteItemRemote {
                 count = Integer.valueOf(totalParticipants[0].get('expr0'));
             }
         }
-        return count;
+        Boolean isProgram = false;
+        if(ctpId!=null){
+            List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,Is_Program__c FROM Clinical_Trial_Profile__c WHERE id=:ctpId];
+            if(ctpList.size()>0){
+                isProgram =  ctpList[0].Is_Program__c;
+            }
+        }
+        CountAndProgram cnl = new CountAndProgram();
+        cnl.count = count;
+        cnl.isProgram = isProgram;
+        return cnl;
+    }
+    @TestVisible
+    class CountAndProgram {
+        @AuraEnabled
+        public Integer count;
+        @AuraEnabled
+        public Boolean isProgram;
     }
     
     @AuraEnabled

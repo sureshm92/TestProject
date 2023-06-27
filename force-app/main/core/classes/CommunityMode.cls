@@ -94,11 +94,13 @@ public without sharing class CommunityMode {
     }
 
     public void addSubMode(CommunityMode subMode) {
+        system.debug('subMode::' + subMode);
         isGroup = true;
         subModes.add(subMode);
         subMode.groupLabel = label;
         subMode.groupKey = key;
         subMode.hasPastStudies = hasPastStudies;
+        system.debug('subMode final::' + subMode);
     }
 
     public void setAsCurrentMode(Contact userContact) {

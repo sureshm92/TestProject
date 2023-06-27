@@ -11,7 +11,7 @@ public without sharing class PatientDelegateTriggerHandler {
 
     public class SetDefaultPatientDelegateStatusHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
-            setDefaultPatientStatus(newList);
+           // setDefaultPatientStatus(newList);
         }
     }
 
@@ -48,12 +48,12 @@ public without sharing class PatientDelegateTriggerHandler {
 
     public class CreatePrimaryDelegateForMinor extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
-            checkPrimaryDelegate(newList);
+            //checkPrimaryDelegate(newList);
             updateDelegateParticipant(newList, null);
         }
 
         public override void beforeDelete(List<SObject> newList) {
-            notDeletePrimaryDelegate(newList);
+            //notDeletePrimaryDelegate(newList);
         }
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -84,7 +84,12 @@ public without sharing class PatientDelegateTriggerHandler {
         for (Patient_Delegate__c pd : changedPDList)
             contactIds.add(pd.Contact__c);
         System.debug('CONTACTS FOR UPDATE PERMISSIONS:' + contactIds);
-        PatientDelegateService.updatePermissionSets(contactIds);
+        if(!System.isBatch() && !System.isFuture()){
+            PatientDelegateService.updatePermissionSetsAsync(contactIds);
+        }else{
+           PatientDelegateService.updatePermissionSets(contactIds); 
+        }
+        
     }
 
     @TestVisible
@@ -200,7 +205,8 @@ public without sharing class PatientDelegateTriggerHandler {
                                             ContactService.addwelcomeNotifications(
                                                 conId,
                                                 per.Id,
-                                                NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                                                NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+                                                true
                                             )
                                         );
                                         //Create jonction object record between PER and Patient Delegate contact records
@@ -228,7 +234,8 @@ public without sharing class PatientDelegateTriggerHandler {
                         ContactService.addwelcomeNotifications(
                             per.Patient_Delegate_Contact__c,
                             per.Participant_Enrollment__c,
-                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG
+                            NotificationCatalog.MSG_TO_DELEGATE_STUDY_LEVEL_WELCOME_MSG,
+                            true
                         )
                     );
                 }
@@ -259,11 +266,13 @@ public without sharing class PatientDelegateTriggerHandler {
                             !(ContactService.patientdelList.get(delCont)
                                 .Contact__r.Welcome_Message_Sent__c);
                         if (isDelegateActiveNotification) {
+                            //changes as part of PEH-7633
                             welcomemsgnotifications.addAll(
                                 ContactService.addwelcomeNotifications(
                                     delCont,
                                     parId,
-                                    NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG
+                                    NotificationCatalog.MSG_TO_DELEGATE_PLATFORM_LVL_WELCME_MSG,
+                                    true
                                 )
                             );
                         }

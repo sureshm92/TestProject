@@ -2,7 +2,8 @@
     scroll-behavior: smooth;
 }
 .ppLabel {
-    color: #000000;
+    color: #0768fd;
+    /* color: #000000; */
     font-size: 14px;
     font-weight: 500;
 }
@@ -266,5 +267,16 @@
 
     .closeIcon1 {
         margin: 10px 1rem 0 auto;
+    }
+}
+@media (max-device-width: 767px) { 
+
+    .ppLabel {
+        display: inline-block;
+        font-family: 'Proxima Nova';
+        font-size: 14px!important;
+        font-weight: 500;
+        line-height: 16px;
+        padding-left: 9px;
     }
 }

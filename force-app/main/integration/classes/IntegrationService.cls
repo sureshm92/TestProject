@@ -59,7 +59,8 @@ public without sharing class IntegrationService {
         public Contact Contact;
         public String DateOfBirth;
         public String Gender;
-    }
+        public Boolean Adult; 
+    } 
 
     public class AuditLog {
         public String UserId;
@@ -301,6 +302,7 @@ public without sharing class IntegrationService {
                 Participant__r.Birth_Month__c,
                 Participant__r.Birth_Year__c,
                 Participant__r.Gender__c,
+                Participant__r.Adult__c,
                 Referral_ID__c,
                 Referred_Date__c,
                 High_Priority__c,
@@ -319,18 +321,30 @@ public without sharing class IntegrationService {
         ];
 		
         // START REF-2882
-       List<Patient_Delegate__c> lstpatientDel = [
+        //Commented as part of PD redesign 
+       /*List<Patient_Delegate__c> lstpatientDel = [
             SELECT
                 Id,
             	Contact__c
             	FROM Patient_Delegate__c 
             	WHERE Participant__c =: pe.Participant__r.Id
             	AND Primary_Delegate__c = True ORDER BY CreatedDate ASC LIMIT 1               
-        ]; //END
+       ]; */
+        
+       List<Patient_Delegate_Enrollment__c> lstpatientDel = [
+            SELECT
+                Id,
+                Patient_Delegate__c,
+            	Patient_Delegate__r.Contact__c
+            	FROM Patient_Delegate_Enrollment__c 
+            	WHERE Patient_Delegate__r.Participant__c =: pe.Participant__r.Id
+                AND Participant_Enrollment__c =: pe.Id
+            	AND Primary_Delegate__c = True ORDER BY CreatedDate ASC LIMIT 1               
+        ];//END
         
         List<Participant__c> lstParticipant = new List<Participant__c>();
         if(!lstpatientDel.isEmpty()){
-			lstParticipant = [Select Id, First_Name__c, Last_Name__c, Email__c, Phone__c, Mailing_State__c, Mailing_Country__c FROM Participant__c where Contact__c =: lstpatientDel[0].Contact__c LIMIT 1];
+			lstParticipant = [Select Id, First_Name__c, Last_Name__c, Email__c, Phone__c, Mailing_State__c, Mailing_Country__c FROM Participant__c where Contact__c =: lstpatientDel[0].Patient_Delegate__r.Contact__c LIMIT 1];
 		}
         
         if (!StudySiteService.SS_TYPE_VT_INTEGRATION.contains(pe.Study_Site__r.Study_Site_Type__c))
@@ -397,6 +411,7 @@ public without sharing class IntegrationService {
             subjectDetails.DateOfBirth = pe.Participant__r.Birth_Year__c; 
         }
         subjectDetails.Gender = pe.Participant__r.Gender__c;
+        subjectDetails.Adult = pe.Participant__r.Adult__c;
 
         AuditLog auditLog = new AuditLog();
         auditLog.UserId = UserInfo.getUserId();

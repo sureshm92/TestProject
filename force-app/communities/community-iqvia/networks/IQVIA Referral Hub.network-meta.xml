@@ -5,7 +5,7 @@
     <changePasswordTemplate>Referral_Hub_Emails/Forgot_Password_Email</changePasswordTemplate>
     <communityRoles/>
     <disableReputationRecordConversations>true</disableReputationRecordConversations>
-    <emailSenderAddress>updates@cp.clinicalresearch.com</emailSenderAddress>
+    <emailSenderAddress>updates@mail.clinicalresearch.com</emailSenderAddress>
     <emailSenderName>IQVIA Referral Hub and Patient Portal</emailSenderName>
     <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
     <enableDirectMessages>true</enableDirectMessages>
@@ -39,7 +39,6 @@
         <loginPageOverrideSetting>Designer</loginPageOverrideSetting>
         <selfRegProfilePageOverrideSetting>Designer</selfRegProfilePageOverrideSetting>
     </networkPageOverrides>
-    <newSenderAddress>patientupdates@mail.clinicalreserach.com</newSenderAddress>
     <picassoSite>IQVIA_Referral_Hub_C</picassoSite>
     <selfRegistration>false</selfRegistration>
     <sendWelcomeEmail>true</sendWelcomeEmail>

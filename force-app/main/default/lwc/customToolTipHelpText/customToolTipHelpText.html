@@ -1,0 +1,31 @@
+<template>
+    <div class="slds-float_right">
+        <div class="slds-form-element">
+            <div class="slds-form-element__icon">
+                <button
+                    class="slds-button slds-button_icon ma-help-text"
+                    onmouseover={toggleHelpText}
+                    onmouseout={toggleHelpText}
+                    onclick={onClickToggleHelpText}
+                    onmouseleave={onMouseLeaveToggleHelpText}
+                >
+                    <lightning-icon
+                        icon-name="utility:info"
+                        alternative-text="Info"
+                        size="small"
+                        title=""
+                        class="ma-icon-color"
+                    >
+                    </lightning-icon>
+                </button>
+                <div class={helpTextClassLocal} role="tooltip" id="help">
+                    <div class="slds-popover__body">
+                        <span class="help-text-header-class">{helpTextHeadervalue}</span>
+                        <br />
+                        <span>{helpTextValue}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

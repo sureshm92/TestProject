@@ -12,7 +12,7 @@
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
                           signature="{!$Label.Email_Signature_PT}"
                           communityTemplate="PatientPortal">
-            <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP}"/>
+            <c:PP_Paragraph emailLabel="{!IF(AND(relatedTo.Originator__c != 'Participant', relatedTo.Originator__c != 'Delegate'),$Label.Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP_OnlyDate, $Label.Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP)}"/>
         </c:PP_EmailWireframe>
     </messaging:htmlEmailBody>
 
@@ -22,7 +22,7 @@
                               header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
                               greeting="{!$Label.Email_User_Greeting_FirstName}"
                               signature="{!$Label.Email_Signature_PT}">
-            <c:ParagraphText emailLabel="{!$Label.Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP}"/>
+            <c:ParagraphText emailLabel="{!IF(AND(relatedTo.Originator__c != 'Participant', relatedTo.Originator__c != 'Delegate'),$Label.Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP_OnlyDate, $Label.Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected_PP)}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:PP_EmailWireframeText>
     </messaging:plainTextEmailBody>

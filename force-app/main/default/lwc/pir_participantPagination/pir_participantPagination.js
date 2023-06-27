@@ -1,5 +1,6 @@
 import { LightningElement , api } from 'lwc';
 import community_icon from '@salesforce/resourceUrl/rr_community_icons';
+import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import RH_RP_Items from '@salesforce/label/c.RH_RP_Items';
 import RH_RP_of from '@salesforce/label/c.RH_RP_of';
 import RH_RP_Page from '@salesforce/label/c.RH_RP_Page';
@@ -19,14 +20,18 @@ export default class Pir_participantPagination extends LightningElement {
     totalPages= 0; 
     pageNumber = 0;
     @api isTable;
+    @api isFile;
     @api totalRecords = 0;//push from parent
     first_page_arrow = community_icon + '/left-arrow.svg';
-    right_arrow = community_icon + '/first-page-arrow.svg';
+    right_arrow = pp_icons + '/first-page-arrow_enabled.svg';
     isRendered = false;
     @api isRTLPg;
     @api maindivcls;
     connectedCallback(){
         if(this.isTable==true){
+            this.calculate();
+        }
+        if(this.isFile==true){
             this.calculate();
         }
     }
@@ -46,8 +51,11 @@ export default class Pir_participantPagination extends LightningElement {
           
             
         }
-        
-        
+        if(this.isFile==true){
+            this.template.querySelectorAll(".page").forEach(function (L) {
+                L.classList.add("pg-file");
+            });
+        }
     }
 
     @api updateInprogress(){
@@ -59,7 +67,7 @@ export default class Pir_participantPagination extends LightningElement {
             this.totalRecords = 45000;
         }
         if(this.pageNumber>0){
-            this.startRecord = 1 + ((this.pageNumber-1)*10);        
+            this.startRecord = 1 + ((this.pageNumber-1)*10);    
             this.totalPages =  Math.ceil(this.totalRecords / 10);
             if(this.pageNumber == this.totalPages && this.totalRecords%10 != 0){
                 this.endRecord = this.startRecord + this.totalRecords%10 -1 ;
@@ -69,9 +77,17 @@ export default class Pir_participantPagination extends LightningElement {
             }
             if(this.pageNumber == 1){
                 this.template.querySelector('.pre').classList.add("disabled");
+                if(this.template.querySelector('.pref')){
+                    this.template.querySelector('.pref').classList.add("disabledfilecursor");
+                    this.template.querySelector('.pref').classList.remove("enablefilecursor");
+                }
             }
             else{            
                 this.template.querySelector('.pre').classList.remove("disabled");
+                if(this.template.querySelector('.pref')){
+                    this.template.querySelector('.pref').classList.remove("disabledfilecursor");
+                    this.template.querySelector('.pref').classList.add("enablefilecursor");
+                }
             }
             if(this.pageNumber == this.totalPages){
                 this.template.querySelector('.nxt').classList.add("disabled");
@@ -124,6 +140,10 @@ export default class Pir_participantPagination extends LightningElement {
         }
     }
     @api goToStart(){
+        if(this.pageNumber == 1 && this.isFile)
+        {
+            return;
+        }
         this.pageNumber= 1;        
         this.calculate();        
     }

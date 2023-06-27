@@ -741,6 +741,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Trial_Survey__c.Display_in_UI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Trial_Survey__c.Is_Midpoint__c</field>
         <readable>true</readable>
     </fieldPermissions>

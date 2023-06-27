@@ -9,9 +9,9 @@ public class Test_Batch_SendPIEmailForNewReferrals {
     }
 
     private static void initData() {
-        delete [SELECT Id FROM Participant__c];
-        delete [SELECT Id FROM Resource__c];
-        delete [SELECT Id FROM Resource_Action__c];
+       // delete [SELECT Id FROM Participant__c];
+     //   delete [SELECT Id FROM Resource__c];
+      //  delete [SELECT Id FROM Resource_Action__c];
 
         ClassFactory.clearStubTypesByClassNamesMap();
         Id cOIRecordTypeId = SchemaUtil.getRecordTypeIdByName(
@@ -37,18 +37,6 @@ public class Test_Batch_SendPIEmailForNewReferrals {
         );
 
         Map<String, Account> accountsByTypes = new Map<String, Account>();
-        accountsByTypes.put(
-            'Common',
-            (Account) TestDataFactory.getSObject(Account.getSObjectType())
-        );
-        accountsByTypes.put(
-            'Participant',
-            (Account) TestDataFactory.getSObject(
-                Account.getSObjectType(),
-                new Map<String, Object>{ 'Name' => 'Participant' }
-            )
-        );
-        insert accountsByTypes.values();
        List<Participant__c>participantLst = new List<Participant__c>();
        UserRole userRole_1 = [SELECT Id FROM UserRole WHERE Name = 'View All' LIMIT 1];
         Profile profile_1 = [
@@ -66,17 +54,24 @@ public class Test_Batch_SendPIEmailForNewReferrals {
                 AND IsActive = TRUE
             LIMIT 1
         ];
+        
         User user_1;
-        Contact piContact = (Contact) TestDataFactory.getSObject(
-            Contact.getSObjectType(),
-            new Map<String, Object>{
-                'AccountId' => accountsByTypes.get('Common').Id,
-                'FirstName' => 'ParticipantTD11',
-                'LastName' => 'ParticipantTD12',
-                'Email' => 'someexample@gmail.com'
-            }
+        Contact piContact;
+         System.runAs(admin) {
+            accountsByTypes.put(
+            'Common',
+            (Account) TestDataFactory.getSObject(Account.getSObjectType())
         );
-        insert piContact;
+        accountsByTypes.put(
+            'Participant',
+            (Account) TestDataFactory.getSObject(
+                Account.getSObjectType(),
+                new Map<String, Object>{ 'Name' => 'Participant' }
+            )
+        );
+        insert accountsByTypes.values();
+            piContact = new Contact(AccountId = accountsByTypes.get('Common').Id, LastName = 'ParticipantTD12', FirstName = 'ParticipantTD11', Email = 'someexample@gmail.com');
+            insert piContact;
          user_1 = new User(
                 Email = 'someexample@gmail.com',
                 ProfileId = profile_1.Id,
@@ -92,7 +87,7 @@ public class Test_Batch_SendPIEmailForNewReferrals {
                 LastName = 'ParticipantTD12'
             );
             insert user_1;
-        
+         }
         Participant__c singleParticipant = (Participant__c) TestDataFactory.getSObject(
             Participant__c.getSObjectType(),
             new Map<String, Object>{

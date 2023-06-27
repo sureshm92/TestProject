@@ -37,6 +37,7 @@ import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import Log_in_and_sign from '@salesforce/label/c.Log_in_and_sign';
 import RH_Pir_Add_Televisit from '@salesforce/label/c.RH_Pir_Add_Televisit';
 import { NavigationMixin } from "lightning/navigation";
+import RH_Pir_Add_Televisit_ForScreeningVisit from '@salesforce/label/c.RH_Pir_Add_Televisit_ForScreeningVisit';
 export default class Pir_participantSubStatusFields extends NavigationMixin(LightningElement) {
   @api index = "";
   @api outcomeToReasonMap = {};
@@ -73,6 +74,7 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
   @api currentuserdate = "";
   @api latestStatusGrp = '';
   @api isrtl = false;
+  @api isDisableButton = false;
   @api addTelevisitForInitialVisit = false;
   @track disableTelevisitCheckbox = true;
   @track disableTelevisitCheckbox2 = true;
@@ -107,9 +109,11 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
     RH_TV_Confirm,
     BTN_Cancel,
     RH_Pir_Add_Televisit,
-    Log_in_and_sign
+    Log_in_and_sign,
+    RH_Pir_Add_Televisit_ForScreeningVisit
   };
   connectedCallback() {
+    this.participantrecord.Participant_Status__c == "Declined Final Consent" ? (this.isDisableButton = true) : (this.isDisableButton = false);
     if (this.isrtl) {
       this.maindivcls = 'rtl';
     } else {
@@ -837,6 +841,12 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
       } else {
         this.participantrecord.Participant_Status__c = this.outcomeValues[event.detail.value];
       }
+        if( this.outcomeValues[event.detail.value]=='Declined Final Consent' ){
+          this.isDisableButton = true;
+        }else{
+          this.isDisableButton = false;
+          this.assignedConsentChecked = false;
+        }
     }
     this.statusChanged = true;
     let reasonopts = this.createopts(
@@ -1238,15 +1248,6 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
         btnValidationSuccess = false;
         validationList.push(btnValidationSuccess);
       }
-    }
-
-    //7.
-    if (this.participantrecord.Initial_visit_scheduled_time__c <= '04:59:00.000' || this.participantrecord.Initial_visit_scheduled_time__c >= '23:46:00.000') {
-      btnValidationSuccess = false;
-      validationList.push(btnValidationSuccess);
-    } else {
-      btnValidationSuccess = true;
-      validationList.push(btnValidationSuccess);
     }
 
     //8.

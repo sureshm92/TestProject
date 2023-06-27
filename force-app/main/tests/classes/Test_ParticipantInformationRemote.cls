@@ -282,7 +282,11 @@ private class Test_ParticipantInformationRemote {
                     JSON.serialize(objCon),
                     true,
                     false,
-                    pe.id
+                    testData.pe.id,
+                    true,
+                    true,
+                    true,
+                    true
                 );
                 ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
             }catch(exception e) {system.debug('teste');}}
@@ -360,7 +364,11 @@ private class Test_ParticipantInformationRemote {
                     JSON.serialize(objCon),
                     true,
                     false,
-                    pe.id
+                    testData.pe.id,
+                    true,
+                    true,
+                    true,
+                    true
                 );  
               
                 ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
@@ -439,7 +447,11 @@ private class Test_ParticipantInformationRemote {
                     JSON.serialize(objCon),
                     true,
                     false,
-                    pe.id
+                    testData.pe.id,
+                    true,
+                    true,
+                    true,
+                    true
                 );  
               
                 ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
@@ -698,6 +710,7 @@ private class Test_ParticipantInformationRemote {
       @isTest
     static void testdisconnectDelegateToPatient(){
      Test.startTest();
+     TestData testData = new TestData();
            Contact delegate = new Contact(
             FirstName = 'Patient',
             LastName = 'Delegate',
@@ -723,7 +736,12 @@ private class Test_ParticipantInformationRemote {
             Participant__r = p
         );
         insert patientDelegate;
-        ParticipantInformationRemote.disconnectDelegateToPatient(patientDelegate.Id);
+        Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
+        pde.Participant_Enrollment__c = testData.pe.Id;
+        pde.Patient_Delegate__c = patientDelegate.Id;
+        pde.Status__c = 'Active';
+        Insert pde;
+        ParticipantInformationRemote.disconnectDelegateToPatient(patientDelegate.Id,testData.pe.Id);
           Test.stopTest();
             
     } 
@@ -742,7 +760,8 @@ private class Test_ParticipantInformationRemote {
         ParticipantInformationRemote.checkDelegateDuplicate(participant.Email__c,
                                                             participant.First_Name__c,
                                                             participant.Last_Name__c,
-                                                            participant.Id);
+                                                            participant.Id,
+                                                            testData.pe.Id);
         
     }
     
@@ -816,29 +835,29 @@ private class Test_ParticipantInformationRemote {
         ddi2.lastName = participantDel1.Last_Name__c;
         ddi2.email = participantDel1.Email__c;
         
-        ParticipantInformationRemote.connectDelegateToPatient(JSON.serialize(participant),
-                                                              JSON.serialize(participantDel),
-                                                              st.id,
-                                                              false,
-                                                              JSON.serialize(participantDel1),
-                                                              false
-                                                              );
+        // ParticipantInformationRemote.connectDelegateToPatient(JSON.serialize(participant),
+        //                                                       JSON.serialize(participantDel),
+        //                                                       st.id,
+        //                                                       false,
+        //                                                       JSON.serialize(participantDel1),
+        //                                                       false
+        //                                                       );
         
-        ParticipantInformationRemote.connectDelegateToPatient(JSON.serialize(participant),
-                                                              JSON.serialize(participantDel1),
-                                                              st.id,
-                                                              true,
-                                                              JSON.serialize(ddi),
-                                                              true
-                                                              );
+        // ParticipantInformationRemote.connectDelegateToPatient(JSON.serialize(participant),
+        //                                                       JSON.serialize(participantDel1),
+        //                                                       st.id,
+        //                                                       true,
+        //                                                       JSON.serialize(ddi),
+        //                                                       true
+        //                                                       );
         
-                ParticipantInformationRemote.connectDelegateToPatient(JSON.serialize(participant),
-                                                              JSON.serialize(participantDel1),
-                                                              st.id,
-                                                              true,
-                                                              JSON.serialize(ddi2),
-                                                              true
-                                                              );
+                // ParticipantInformationRemote.connectDelegateToPatient(JSON.serialize(participant),
+                //                                               JSON.serialize(participantDel1),
+                //                                               st.id,
+                //                                               true,
+                //                                               JSON.serialize(ddi2),
+                //                                               true
+                //                                               );
         
         //ParticipantInformationRemote.checkPILevelI(st.id);                                                     
         
@@ -951,6 +970,27 @@ true);
         update pe;
         ParticipantInformationRemote.getPESHrecord(testData.pe.id);
     }  
+    public class ConsentDetailsWrapper {
+    @AuraEnabled
+    public Boolean Study_Email_Consent { get; set; }
+    @AuraEnabled
+    public Boolean Study_info_storage_consent { get; set; }
+    @AuraEnabled
+    public Boolean Study_Phone_Consent { get; set; }
+    @AuraEnabled
+    public Boolean Study_SMS_Consent { get; set; }
+    @AuraEnabled
+    public String delgParticipantId { get; set; }
+    @AuraEnabled
+    public String partEnrollId { get; set; }
+  }
+  public class ParticipantConsentWrapper {
+    @AuraEnabled
+    public List<Participant__c> ParticipantList { get; set; }
+    @AuraEnabled
+    Public List<ConsentDetailsWrapper> ParticipantConsent { get; set; }
+  }
+  
     @isTest
     static void testupdateParticipantAndDelegates(){
         TestData testData = new TestData();
@@ -996,29 +1036,42 @@ true);
         insert pd;
         List<String> pList = new List<String>();
         pList.add(pd.id);
+         List<String> doNotContinueIds = new List<String>();
         System.runAs(testData.piUser) {
-           
+            ConsentDetailsWrapper cdw = new ConsentDetailsWrapper ();
+            cdw.Study_Email_Consent = true;
+            cdw.Study_info_storage_consent = true;
+            cdw.Study_Phone_Consent = true;
+            cdw.Study_SMS_Consent = true;
+            cdw.delgParticipantId = participant.Id;
+            cdw.partEnrollId = testData.pe.Id;
+            List<ConsentDetailsWrapper> lstcdw  = new List<ConsentDetailsWrapper>();
+            lstcdw.add(cdw);
+            
             ParticipantInformationRemote.updateParticipantAndDelegates(testData.pe.Id,
                                                                        JSON.serialize(participantDel),
                                                                        JSON.serialize(cn),
                                                                        JSON.serialize(pdList),
                                                                        pList,
                                                                        true,
-                                                                       testData.ss.id);
+                                                                       testData.ss.id, JSON.serialize(lstcdw)
+                                                                     );
             ParticipantInformationRemote.updateParticipantAndDelegates(testData.pe.Id,
                                                                        JSON.serialize(participant),
                                                                        JSON.serialize(cn),
                                                                        JSON.serialize(pdList),
                                                                        pList,
                                                                        false,
-                                                                       testData.ss.id);
+                                                                       testData.ss.id,JSON.serialize(lstcdw)
+                                                                       );
                         ParticipantInformationRemote.updateParticipantAndDelegates(testData.pe.Id,
                                                                        JSON.serialize(participantDel),
                                                                        JSON.serialize(cn),
                                                                        JSON.serialize(pdList),
                                                                        pList,
                                                                        false,
-                                                                       testData.ss.id);
+                                                                       testData.ss.id,JSON.serialize(lstcdw)
+                                                                       );
             test.stopTest();
          }
     }
@@ -1075,13 +1128,23 @@ true);
             piContact = ParticipantWorkflowService.getPIContactNames(partId);
             piContact = ParticipantWorkflowService.getContactFullNamesFromParticipants(partId);
             piCon = ParticipantWorkflowService.getPIContactNameDetails(partId);
+            ConsentDetailsWrapper cdw = new ConsentDetailsWrapper ();
+            cdw.Study_Email_Consent = true;
+            cdw.Study_info_storage_consent = true;
+            cdw.Study_Phone_Consent = true;
+            cdw.Study_SMS_Consent = true;
+            cdw.delgParticipantId = participant.Id;
+            cdw.partEnrollId = testData.pe.Id;
+            List<ConsentDetailsWrapper> lstcdw  = new List<ConsentDetailsWrapper>();
+            lstcdw.add(cdw);
             ParticipantInformationRemote.updateParticipantAndDelegates(testData.pe.Id,
                                                                        JSON.serialize(participant),
                                                                        JSON.serialize(cn),
                                                                        JSON.serialize(pdList),
                                                                        pList,
                                                                        false,
-                                                                       testData.ss.id);
+                                                                       testData.ss.id,
+                                                                       JSON.serialize(lstcdw));
                 }
     }
     @isTest

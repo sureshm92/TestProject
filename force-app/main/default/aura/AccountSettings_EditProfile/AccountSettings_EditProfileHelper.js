@@ -24,12 +24,12 @@
         if (!personWrapper.birthMonth) personWrapper.birthMonth = '';
         if (!personWrapper.birthYear) personWrapper.birthYear = '';
         if (!personWrapper.age) personWrapper.age = '';
-        
+
         component.set('v.personSnapshot', JSON.stringify(personWrapper));
         component.set('v.isStateChanged', false);
     },
     //DOB
-    setDD: function (component, event, helper) {
+    setDD: function (component, event, helper, onchange) {
         var opt = [];
         var lastDay = component.get('v.lastDay');
         for (var i = 1; i <= lastDay; i++) {
@@ -38,6 +38,10 @@
             opt.push({ label: x, value: x });
         }
         component.set('v.optionsDD', opt);
+        if (onchange == 'onchange') {
+            component.set('v.showDay', !component.get('v.showDay'));
+            component.set('v.showDay', !component.get('v.showDay'));
+        }
     },
     setMM: function (component, event, helper) {
         var opt = [];
@@ -68,7 +72,7 @@
             component.set('v.showMonth', format.includes('MM'));
         }
         helper.setLastDay(component, event, helper);
-        
+
         if (!component.get('v.showDay')) {
             helper.setMinMaxAge(component, event, helper);
         }
@@ -79,7 +83,7 @@
         //helper.setDD(component, event, helper);
         helper.setLastDay(component, event, helper);
         var studyDobFormat = component.get('v.dobConfig');
-        
+
         if (studyDobFormat == 'DD-MM-YYYY') {
             helper.participantAge(component, event, helper);
         } else {
@@ -108,7 +112,7 @@
     MMChange: function (component, event, helper) {
         var personWrapper = component.get('v.personWrapper');
         component.set('v.valueAge', null);
-        
+
         var maxDayMonths = ['01', '03', '05', '07', '08', '10', '12'];
         var minDayMonths = ['04', '06', '09', '11'];
         component.set('v.lastDay', 31);
@@ -120,7 +124,7 @@
         //helper.setDD(component, event, helper);
         helper.setLastDay(component, event, helper);
         var studyDobFormat = component.get('v.dobConfig');
-        
+
         if (studyDobFormat == 'DD-MM-YYYY') {
             helper.participantAge(component, event, helper);
         } else {
@@ -149,6 +153,8 @@
             personWrapper.birthDay = component.get('v.lastDay').toString();
             component.set('v.personWrapper', personWrapper);
         }
+        var onchange = 'onchange';
+        helper.setDD(component, event, helper, onchange);
     },
     setMinMaxAge: function (component, event, helper) {
         var personWrapper = component.get('v.personWrapper');
@@ -176,7 +182,7 @@
                     var endAge = age;
                     if (
                         (dob.getMonth() == new Date().getMonth() &&
-                         dob.getDate() != new Date().getDate()) ||
+                            dob.getDate() != new Date().getDate()) ||
                         format == 'YYYY'
                     ) {
                         endAge++;
@@ -195,7 +201,7 @@
         var opt = [];
         var ageStart = parseInt(component.get('v.ageStart'));
         var ageEnd = parseInt(component.get('v.ageEnd'));
-        
+
         for (var i = ageStart; i <= ageEnd; i++) {
             opt.push({ label: i.toString(), value: i.toString() });
         }
@@ -212,50 +218,54 @@
         component.set('v.personWrapper', personWrapper);
         helper.doCheckDOB(component, event, helper);
     },
-    validateDOB: function (component, event, helper){
-        var format = component.get("v.dobConfig");
-        component.set("v.futureDate",false);
-        var personWrapper = component.get("v.personWrapper");
-        
-        if(format == 'DD-MM-YYYY'  || format == 'MM-YYYY'){
-            let dt ;
-            if(format == 'DD-MM-YYYY'){
-                dt= personWrapper.birthYear + '-' + personWrapper.birthMonth + '-' + personWrapper.birthDay;
-            }
-            else {
-                dt= personWrapper.birthYear + '-' + personWrapper.birthMonth + '01';
+    validateDOB: function (component, event, helper) {
+        var format = component.get('v.dobConfig');
+        component.set('v.futureDate', false);
+        var personWrapper = component.get('v.personWrapper');
+
+        if (format == 'DD-MM-YYYY' || format == 'MM-YYYY') {
+            let dt;
+            if (format == 'DD-MM-YYYY') {
+                dt =
+                    personWrapper.birthYear +
+                    '-' +
+                    personWrapper.birthMonth +
+                    '-' +
+                    personWrapper.birthDay;
+            } else {
+                dt = personWrapper.birthYear + '-' + personWrapper.birthMonth + '01';
             }
             var today = new Date();
-            var dd= 1;
-            if(format == 'DD-MM-YYYY') { 
-                dd=String(today.getDate()).padStart(2, "0");
+            var dd = 1;
+            if (format == 'DD-MM-YYYY') {
+                dd = String(today.getDate()).padStart(2, '0');
             }
-            var mm = String(today.getMonth() + 1).padStart(2, "0");
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
             var yyyy = today.getFullYear();
-            today = yyyy + "-" + mm + "-" + dd;
-            if(dt>today && format == 'DD-MM-YYYY'){
-                component.set("v.futureDate",true);
-                if(new Date().getMonth()<new Date(dt).getMonth()){
-                    component.set('v.invalidDOB',true);
-                    component.set("v.futureDateMMErr","Value must be current month or earlier");
+            today = yyyy + '-' + mm + '-' + dd;
+            if (dt > today && format == 'DD-MM-YYYY') {
+                component.set('v.futureDate', true);
+                if (new Date().getMonth() < new Date(dt).getMonth()) {
+                    component.set('v.invalidDOB', true);
+                    var DateMMErr = $A.get("$Label.c.PP_future_date_error_month");
+                    component.set('v.futureDateMMErr', DateMMErr);
                 }
-                component.set("v.futureDateDDErr","Value must be current date or earlier "); 
+                var DateDDErr = $A.get("$Label.c.PP_future_date_error_day");
+                component.set('v.futureDateDDErr', DateDDErr);
+            } else if (dt > today && format == 'MM-YYYY') {
+                component.set('v.futureDate', true);
+                component.set('v.invalidDOB', true);
+                var DateMMErr = $A.get("$Label.c.PP_future_date_error_month");
+                component.set('v.futureDateMMErr', DateMMErr);
+            } else {
+                component.set('v.invalidDOB', false);
+                component.set('v.futureDate', false);
+                component.set('v.futureDateDDErr', '');
+                component.set('v.futureDateMMErr', '');
             }
-            else if(dt>today && format == 'MM-YYYY'){
-                component.set("v.futureDate",true);
-                component.set('v.invalidDOB',true);
-                component.set("v.futureDateMMErr","Value must be current month or earlier");
-            }
-                else{
-                    component.set('v.invalidDOB',false);
-                    component.set("v.futureDate",false);
-                    component.set("v.futureDateDDErr",""); 
-                    component.set("v.futureDateMMErr","");    
-                    
-                }
         }
     },
-    
+
     splitAddress: function (component, address) {
         var addLst = address.split('\n');
         var add1 = '';
@@ -282,12 +292,16 @@
             );
     },
     doCheckDOB: function (component, event, helper) {
-        var invalidDOB = component.get('v.invalidDOB') ;
+        var invalidDOB = component.get('v.invalidDOB');
         if (component.get('v.dobConfig') == 'DD-MM-YYYY') {
             if (
-                component.get('v.personWrapper.birthYear') === null || component.get('v.personWrapper.birthYear') == '' ||
-                component.get('v.personWrapper.birthMonth') === null || component.get('v.personWrapper.birthMonth') == '' ||
-                component.get('v.personWrapper.birthDay') === null || component.get('v.personWrapper.birthDay') == '' || invalidDOB
+                component.get('v.personWrapper.birthYear') === null ||
+                component.get('v.personWrapper.birthYear') == '' ||
+                component.get('v.personWrapper.birthMonth') === null ||
+                component.get('v.personWrapper.birthMonth') == '' ||
+                component.get('v.personWrapper.birthDay') === null ||
+                component.get('v.personWrapper.birthDay') == '' ||
+                invalidDOB
             ) {
                 component.set('v.disableSave', true);
             } else {
@@ -295,38 +309,40 @@
             }
         } else if (component.get('v.dobConfig') == 'MM-YYYY') {
             if (
-                component.get('v.personWrapper.birthYear') === null || component.get('v.personWrapper.birthYear') == '' ||
-                component.get('v.personWrapper.birthMonth') === null || component.get('v.personWrapper.birthMonth') == '' ||
-                component.get('v.valueAge') === null || component.get('v.valueAge') === '' || invalidDOB
+                component.get('v.personWrapper.birthYear') === null ||
+                component.get('v.personWrapper.birthYear') == '' ||
+                component.get('v.personWrapper.birthMonth') === null ||
+                component.get('v.personWrapper.birthMonth') == '' ||
+                component.get('v.valueAge') === null ||
+                component.get('v.valueAge') === '' ||
+                invalidDOB
             ) {
                 component.set('v.disableSave', true);
             } else {
                 component.set('v.disableSave', false);
             }
         } else if (component.get('v.dobConfig') == 'YYYY') {
-            if(!component.get('v.isDelegate') && !component.get('v.personWrapper.showBirthDate')){
+            if (!component.get('v.isDelegate') && !component.get('v.personWrapper.showBirthDate')) {
                 if (
-                    component.get('v.personWrapper.birthYear') === null || component.get('v.personWrapper.birthYear') === '' 
-                    
+                    component.get('v.personWrapper.birthYear') === null ||
+                    component.get('v.personWrapper.birthYear') === ''
                 ) {
                     component.set('v.disableSave', true);
                 } else {
                     component.set('v.disableSave', false);
-                }  
-            }
-            else if (
-                    component.get('v.personWrapper.birthYear') === null || component.get('v.personWrapper.birthYear') === '' ||
-                    component.get('v.valueAge') === null || component.get('v.valueAge') === ''
-                ) {
-                    component.set('v.disableSave', true);
-                } 
-                else {
-                    component.set('v.disableSave', false);
                 }
-        }
-        else{
+            } else if (
+                component.get('v.personWrapper.birthYear') === null ||
+                component.get('v.personWrapper.birthYear') === '' ||
+                component.get('v.valueAge') === null ||
+                component.get('v.valueAge') === ''
+            ) {
+                component.set('v.disableSave', true);
+            } else {
+                component.set('v.disableSave', false);
+            }
+        } else {
             component.set('v.disableSave', false);
-            
         }
     },
     setPlaceHolder: function (component, event, helper) {
@@ -425,7 +441,7 @@
             component.set('v.personWrapper', personWrapper);
         }
     },
-    
+
     checkValidEmail: function (email, emailValue) {
         debugger;
         var isValid = false;
@@ -447,7 +463,7 @@
         email.reportValidity();
         return isValid;
     },
-    
+
     setFieldsValidity: function (component, event) {
         event.preventDefault();
         let fieldsGroup = 'pField';
@@ -457,12 +473,12 @@
         console.log('allValid--->' + allValid);
         component.set('v.isAllFieldsValid', allValid);
     },
-    
+
     loadMMLeapYear: function (component, event, helper) {
         var maxDayMonths = ['01', '03', '05', '07', '08', '10', '12'];
         var minDayMonths = ['04', '06', '09', '11'];
         var personWrapper = component.get('v.personWrapper');
-        
+
         if (maxDayMonths.includes(personWrapper.birthMonth)) {
             component.set('v.lastDay', 31);
         } else if (minDayMonths.includes(personWrapper.birthMonth)) {
@@ -476,10 +492,10 @@
         var personWrapperDob = component.get('v.personWrapper');
         console.log(
             personWrapperDob.birthYear +
-            '-' +
-            personWrapperDob.birthMonth +
-            '-' +
-            personWrapperDob.birthDay
+                '-' +
+                personWrapperDob.birthMonth +
+                '-' +
+                personWrapperDob.birthDay
         );
         if (
             studyDobFormat == 'DD-MM-YYYY' &&
@@ -495,10 +511,10 @@
         ) {
             var dob = new Date(
                 personWrapperDob.birthYear +
-                '-' +
-                personWrapperDob.birthMonth +
-                '-' +
-                personWrapperDob.birthDay
+                    '-' +
+                    personWrapperDob.birthMonth +
+                    '-' +
+                    personWrapperDob.birthDay
             );
             //calculate month difference from current date in time
             var month_diff = Date.now() - dob.getTime();

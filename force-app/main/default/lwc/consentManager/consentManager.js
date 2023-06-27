@@ -108,6 +108,14 @@ export default class ConsentManager extends LightningElement {
                 this.EMAIL_ROW_CONSENT = this.SS_RH_ROW_Consent_Email; 
                 this.PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US = this.SS_RH_ROW_Consent_SMS;
                 this.getStudySite();
+                break;
+            case 'NotReferParticipantTab':
+                this.PG_Ref_L_Permit_IQVIA_Outreach_Consent_ROW = this.IQ_RH_ROW_Consent;       
+                this.PG_Ref_L_Permit_IQVIA_Outreach_Consent_US =  this.IQ_RH_US_Consent;
+                this.CONSENT_TO_STORE_AND_CONTACT = this.SS_RH_US_Consent
+                this.EMAIL_ROW_CONSENT = this.SS_RH_ROW_Consent_Email; 
+                this.PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US = this.SS_RH_ROW_Consent_SMS;
+                this.getStudySite();
             break;
         }
     }

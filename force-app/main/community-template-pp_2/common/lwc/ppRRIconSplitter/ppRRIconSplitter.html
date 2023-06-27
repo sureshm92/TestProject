@@ -27,14 +27,30 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <span>
-                    <span class="iconBold"> {label}</span>
-                </span>
-                <div class="scrollbar">
-                <p class="before-your-visits">{description}</p>
+            <template if:true={desktop}>
+                <div class="pad-r-8">
+                    <div class="scrollbar">
+                        <div>
+                            <div class="iconBold"> {label}</div>
+                        </div>
+                        <div>
+                        <p class="before-your-visits">{description}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </template>
+            <template if:false={desktop}>
+                <div class="pad-r-8">
+                    <div class="">
+                        <div>
+                            <div class="iconBold"> {label}</div>
+                        </div>
+                        <div>
+                        <p class="before-your-visits-mobile">{description}</p>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </template>
         <template if:false={morethan7or8}>
         <div>
@@ -58,14 +74,30 @@
                     </lightning-layout-item>
                 </template>
             </lightning-layout>
-            <div>
-                <span>
-                    <span class="iconBold"> {label}</span>
-                </span>
-                <div class="scrollbar">
-                <p class="before-your-visits">{description}</p>
+            <template if:true={desktop}>
+                <div class="pad-r-8">
+                    <div class="scrollbar">
+                        <div>
+                            <div class="iconBold"> {label}</div>
+                        </div>
+                        <div>
+                        <p class="before-your-visits">{description}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </template>
+            <template if:false={desktop}>
+                <div class="pad-r-8">
+                    <div class="">
+                        <div>
+                            <div class="iconBold"> {label}</div>
+                        </div>
+                        <div>
+                        <p class="before-your-visits-mobile">{description}</p>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </div>
         </template>
     </div>

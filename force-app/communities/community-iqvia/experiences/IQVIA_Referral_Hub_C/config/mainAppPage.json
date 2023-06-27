@@ -1,8 +1,9 @@
 {
   "cmsSettings" : { },
   "currentThemeId" : "e6ed3ca7-a219-4650-90ae-a1c84b0cc76a",
-  "headMarkup" : "<link rel=\"shortcut icon\" href=\"/favicon.ico?v=2\" type=\"image/icon\"/>",
+  "headMarkup" : "<link rel=\"shortcut icon\" href=\"/favicon.ico?v=2\" type=\"image/icon\"/>\n<script src=\"/resource/WalkMeCommunity\"></script>",
   "id" : "30d802f4-fe26-4457-bc3a-0a4489a05620",
+  "isLockerServiceEnabled" : true,
   "isRelaxedCSPLevel" : true,
   "label" : "main",
   "templateName" : "Starter Template",

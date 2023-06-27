@@ -22,17 +22,17 @@ public without sharing class Batch_MassEmailDelegate implements Database.Batchab
     }
 
     public void execute(Database.BatchableContext bc, List<SObject> sObjects) {
-        Map<Id, List<Contact>> delegatesContactById = PatientDelegateService.getDelegatedCntsByParticipantCnt(
+        Map<Id, List<Contact>> delegatesContactById = PatientDelegateEnrollmentService.getDelegatedCntsByParticipantCnt(
             processedContacts,
             new List<String>{ 'Email', 'Participant_Opt_In_Status_Emails__c' }
-        );
-
+        ); 
         List<Notification__c> notificationsForMassEmailDelegate = new List<Notification__c>();
         for (Id delId : delegatesContactById.keySet()) {
             notificationsForMassEmailDelegate.add(
                 new Notification__c(
                     WhatId__c = notification.WhatId__c,
                     Recipient__c = delId,
+                    IsDelegate__c = true,
                     Notification_Type__c = notification.Notification_Type__c,
                     Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                 )

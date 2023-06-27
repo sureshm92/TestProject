@@ -8,7 +8,8 @@
          sharing-object = {delegate}
          is-adult-delegate = "true"
          is-valid="true"
-         delegate-level={delegateLevel}>
+         delegate-level={delegateLevel}
+         selected-per={selectedPer}>
       </c-pir_sharing-form-fields>
    </template>
    <template for:each={addDelegateList} for:item="delegate" if:true={isAddRp}>
@@ -20,7 +21,8 @@
          sharing-object = {delegate}
          is-adult-delegate = "true"
          is-valid="true"
-         delegate-level={delegateLevel}>
+         delegate-level={delegateLevel}
+         selected-per={selectedPer}>
       </c-pir_sharing-form-fields>
    </template>
    <template for:each={addDelegateList} for:item="delegate" if:true={isAddHcp}>
@@ -32,7 +34,8 @@
          sharing-object = {delegate}
          is-adult-delegate = "true"
          is-valid="true"
-         delegate-level={delegateLevel}>
+         delegate-level={delegateLevel}
+         selected-per={selectedPer}>
       </c-pir_sharing-form-fields>
    </template>
   

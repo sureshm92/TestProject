@@ -5,6 +5,7 @@
 <apex:component id="EmailTemplateDelegateParticipant" controller="EmailTemplateDelegatePartController" access="global">
     <!-- attributes: -->
     <apex:attribute name="sourceId" type="Id" assignTo="{!sourceIdValue}" description="" access="global" />
+    <apex:attribute name="recipientId" type="Id" assignTo="{!delegateId}" description="" access="global" />
     <apex:attribute name="communityTemplate" type="String" description="Community Template" access="global" />
     <apex:attribute name="userId" type="Id" description="DEPRECATED" access="global" />
     <apex:attribute name="afterText" type="String" description="DEPRECATED" access="global" />

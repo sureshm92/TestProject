@@ -210,7 +210,7 @@
                         <aura:if isTrue="{!v.showMonth}">
                             <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}" >
                                 <div class="label">
-                                    <abbr title="required" class="slds-required">*</abbr>Month of Birth
+                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.RH_MOB}
                                 </div>
                                 <!-- <lightning:select label="MM" aura:id="mm" value="{!v.valueMM}" onchange="{!c.MMChange}">
                                     <aura:iteration items="{!v.optionsMM}" var="option">
@@ -231,7 +231,7 @@
                         <aura:if isTrue="{!v.showDay}">                
                             <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}" >
                                 <div class="label">
-                                    <abbr title="required" class="slds-required">*</abbr>Day of Birth
+                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.RH_DOB}
                                 </div>
                                 <!-- <lightning:select label="DD" aura:id="dd" value="{!v.valueDD}" onchange="{!c.DDChange}">
                                     <aura:iteration items="{!v.optionsDD}" var="option">
@@ -251,7 +251,7 @@
                         </aura:if>
                         <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}" >
                             <div class="label">
-                                <abbr title="required" class="slds-required">*</abbr>Year of Birth
+                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.RH_YearofBirth}
                             </div>
                             <!-- <lightning:select label="YYYY" aura:id="yyyy" value="{!v.valueYYYY}" onchange="{!c.YYYYChange}">
                                 <aura:iteration items="{!v.optionsYYYY}" var="option">

@@ -11,7 +11,10 @@ import LANG_LOCATION from '@salesforce/label/c.PP_Language_and_Location';
 import CUSTOMIZE_EXP from '@salesforce/label/c.PP_Customize_Experience';
 import COOKIE_SETTINGS from '@salesforce/label/c.PP_Cookie_Settings';
 import MEDICAL_RECORD_ACCESS from '@salesforce/label/c.Medical_Record_Access';
-import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
+import getInitData from '@salesforce/apex/AccountSettingsController.getInitDataforAccPage';
+import MANAGE_DELEGATES from '@salesforce/label/c.PP_ManageDelegates';
+import MANAGE_ASSIGNMENTS from '@salesforce/label/c.PP_Assignments';
+import STUDIES_AND_PROGRAM_PP from '@salesforce/label/c.Studies_And_Program_PP';
 export default class PpAccountSettings extends LightningElement {
     @api userMode;
     @api isRTL = false;
@@ -21,14 +24,8 @@ export default class PpAccountSettings extends LightningElement {
     @track initData;
     @track personWrapper;
     @track contactSectionData;
-    @track contact;
     componentId = 'asHome';
     partipantStateInfo;
-    userType = '';
-    currentEmail = '';
-    optInEmail = false;
-    optInSMS = false;
-    contactChanged = false;
     showMobileNavComponent = false;
     spinner;
     participantState;
@@ -44,7 +41,10 @@ export default class PpAccountSettings extends LightningElement {
         CUSTOMIZE_EXP,
         COOKIE_SETTINGS,
         MEDICAL_RECORD_ACCESS,
-        ERROR_MESSAGE
+        ERROR_MESSAGE,
+        MANAGE_DELEGATES,
+        MANAGE_ASSIGNMENTS,
+        STUDIES_AND_PROGRAM_PP
     };
 
     navHeadersList = [
@@ -160,21 +160,27 @@ export default class PpAccountSettings extends LightningElement {
     get showMedicalRecordAccess() {
         return this.componentId === 'medRecAccess' ? true : false;
     }
-
+    get showManageDelegates() {
+        return this.componentId === 'manage-delegates' ? true : false;
+    }
+    get showManageAssignments() {
+        return this.componentId === 'manage-assignmens' ? true : false;
+    }
     initializeData() {
-        getInitData({ userMode: this.userMode })
+        getInitData()
             .then((result) => {
                 let initialData = JSON.parse(result);
-                this.medicalRecordVendorToggle = initialData.participantState.pe
-                    ? initialData.participantState.pe.Clinical_Trial_Profile__r
-                          .Medical_Vendor_is_Available__c
-                    : false;
-                if (this.medicalRecordVendorToggle) {
-                    this.navHeadersList.push({
-                        label: MEDICAL_RECORD_ACCESS,
-                        value: 'medRecAccess'
-                    });
-                }
+                this.initData = initialData;
+                // this.medicalRecordVendorToggle = communityService.getParticipantData().ctp
+                //     ? communityService.getParticipantData().ctp.Medical_Vendor_is_Available__c
+                //     : false;
+                // if (this.medicalRecordVendorToggle) {
+                //     this.navHeadersList.push({
+                //         label: MEDICAL_RECORD_ACCESS,
+                //         value: 'medRecAccess'
+                //     });
+                // }
+                this.displayManageDelegates();
                 initialData.password = {
                     old: '',
                     new: '',
@@ -183,24 +189,84 @@ export default class PpAccountSettings extends LightningElement {
 
                 const queryString = window.location.href;
 
-                this.initData = initialData;
-                this.contactChanged = initialData.contactChanged;
                 this.personWrapper = initialData.contactSectionData.personWrapper;
                 this.contactSectionData = initialData.contactSectionData;
-                this.optInEmail = initialData.contactSectionData.personWrapper.optInEmail;
-                this.optInSMS = initialData.contactSectionData.personWrapper.optInSMS;
-                this.userType = initialData.myContact.UserCommunytyType__c;
-                this.contact = initialData.myContact;
-                this.currentEmail = initialData.myContact.Email;
-                this.consentPreferenceData = initialData.consentPreferenceData;
+
                 this.isInitialized = true;
-                this.partipantStateInfo = initialData.participantState;
                 this.setComponentId(queryString);
                 this.spinner.hide();
             })
             .catch((error) => {
                 this.showToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
+    }
+    displayManageDelegates() {
+        let isDelegateSwitchingToParView = false;
+        let showManageDelegateTab = false;
+        let showMamanageAssignmentTab = false;
+        let isDelSelfView =
+            communityService.getParticipantData().value == 'ALUMNI' ||
+            (communityService.getParticipantData().hasPatientDelegates &&
+                !communityService.getParticipantData().isDelegate &&
+                !communityService.getParticipantData().pe);
+        let allUserModes = communityService.getAllUserModes();
+        //Delegate switched to Par View
+        if (communityService.getCurrentCommunityMode().currentDelegateId) {
+            isDelegateSwitchingToParView = true;
+            showMamanageAssignmentTab = false;
+            showManageDelegateTab = false;
+        }
+        //Del Self View
+        else if (isDelSelfView && !communityService.getCurrentCommunityMode().hasPastStudies) {
+            showMamanageAssignmentTab = this.initData.isActiveDelegate ? true : false;
+            showManageDelegateTab = false;
+        }
+        //Pure Participant Login
+        else if (
+            !isDelegateSwitchingToParView &&
+            !communityService.getParticipantData().hasPatientDelegates
+        ) {
+            showMamanageAssignmentTab = false;
+            showManageDelegateTab = true;
+        }
+        //Multi Role
+        else if (
+            !isDelegateSwitchingToParView &&
+            communityService.getParticipantData().hasPatientDelegates &&
+            allUserModes
+        ) {
+            let isActiveDelegate = this.initData.isActiveDelegate;
+            // For Participant also same JSON make sure it shouldnt execute for Participnat
+            allUserModes.forEach(function (item) {
+                if (item.userMode == 'Participant') {
+                    if (item.subModes != undefined && item.subModes.length > 0) {
+                        item.subModes.forEach(function (subModeitem) {
+                            if (subModeitem.currentDelegateId == null) {
+                                showMamanageAssignmentTab = isActiveDelegate ? true : false;
+                                showManageDelegateTab = true;
+                            }
+                        });
+                    } else if (item.subModes.length == 0) {
+                        if (item.hasPastStudies && item.currentDelegateId == null) {
+                            showMamanageAssignmentTab = isActiveDelegate ? true : false;
+                            showManageDelegateTab = true;
+                        }
+                    }
+                }
+            });
+        }
+        if (showManageDelegateTab) {
+            this.navHeadersList.push({
+                label: MANAGE_DELEGATES,
+                value: 'manage-delegates'
+            });
+        }
+        if (showMamanageAssignmentTab) {
+            this.navHeadersList.push({
+                label: MANAGE_ASSIGNMENTS,
+                value: 'manage-assignmens'
+            });
+        }
     }
 
     setComponentId(queryString) {
@@ -229,6 +295,12 @@ export default class PpAccountSettings extends LightningElement {
         } else if (queryString.includes('medRecAccess')) {
             this.componentId = 'medRecAccess';
             window.history.replaceState(null, null, '?medRecAccess');
+        } else if (queryString.includes('manage-delegates')) {
+            this.componentId = 'manage-delegates';
+            window.history.replaceState(null, null, '?manage-delegates');
+        } else if (queryString.includes('manage-assignmens')) {
+            this.componentId = 'manage-assignmens';
+            window.history.replaceState(null, null, '?manage-assignmens');
         } else {
             if (!this.isMobile) {
                 this.componentId = 'profileInformation';
@@ -277,12 +349,12 @@ export default class PpAccountSettings extends LightningElement {
     handleActiveNavigationClass(selectedHeader) {
         this.template.querySelector('.slds-is-active')
             ? this.template.querySelector('.slds-is-active').classList.remove('slds-is-active')
-            : 'I am Iron Man!!';
+            : '';
         this.template.querySelector(`[data-header="${selectedHeader}"]`)
             ? this.template
                   .querySelector(`[data-header="${selectedHeader}"]`)
                   .classList.add('slds-is-active')
-            : 'Avengers Assemble!!';
+            : '';
     }
 
     /**Reusable Methods END*/

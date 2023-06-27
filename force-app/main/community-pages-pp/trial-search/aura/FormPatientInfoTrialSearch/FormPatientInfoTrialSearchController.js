@@ -48,6 +48,8 @@
                 component.find('spinner').hide();
             }
         );
+        let copyParticipant = JSON.parse(JSON.stringify(component.get('v.participant')));
+        component.set('v.participantInfo', copyParticipant);
     },
 
     doCheckFields: function (component, event, hepler) {

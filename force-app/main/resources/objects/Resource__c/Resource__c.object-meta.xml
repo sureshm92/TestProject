@@ -157,14 +157,14 @@
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Resource</label>
+    <label>Platform Resource</label>
     <nameField>
         <displayFormat>R-{000000}</displayFormat>
         <label>Resources Name</label>
         <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Resources</pluralLabel>
+    <pluralLabel>Platform Resources</pluralLabel>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
         <searchResultsAdditionalFields>Title__c</searchResultsAdditionalFields>

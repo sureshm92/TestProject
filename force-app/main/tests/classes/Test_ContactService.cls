@@ -271,7 +271,7 @@ CommunityFacadeRemote.getCommunityData();
         CommunityTemplate communityTemplate = CommunityTemplateService.getTemplate('Default');
         ContactService.updateVisitedCommunity(delegateContact,communityTemplate);
         ContactService.checkVisitedCommunity(piContact.Id);
-        ContactService.addwelcomeNotifications(string.valueof(participantPeList[0].Participant_Contact__c),string.valueof(participantupdate.Id),'Message_to_HCP_Patient_Accepted_Type');
+        ContactService.addwelcomeNotifications(string.valueof(participantPeList[0].Participant_Contact__c),string.valueof(participantupdate.Id),'Message_to_HCP_Patient_Accepted_Type',true);
         System.assertEquals(communityTemplate, CommunityTemplateService.getTemplate('Default'));
         System.assertEquals(delegateParticipant.Site__c, pianotherconatctAccount.Id);
         System.assertNotEquals(delegateParticipant.Site__c, participantupdate.Site__c);

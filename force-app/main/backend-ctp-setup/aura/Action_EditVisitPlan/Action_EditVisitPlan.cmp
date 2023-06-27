@@ -9,6 +9,8 @@
     <aura:attribute name="icons" type="List" />
     <aura:attribute name="iconDetails" type="List" />
 
+    <aura:attribute name="communitytemplate" type="String"  />
+
     <aura:attribute name="callback" type="Object" access="private" />
     <aura:attribute name="mode" type="String" access="private" />
 
@@ -26,7 +28,7 @@
     <c:uiModal
         aura:id="createVisitPlan"
         size="medium"
-        headerText="{!if(v.mode == 'edit','Edit Visit Plan',
+        headerText="{!if(v.mode == 'edit','Edit Visit/Event Plan',
                                                                      if(v.mode == 'clone', 'Clone Visit Plan',
                                                                      if(v.mode == 'view', 'View Visit Plan', 'Create Visit/Event Plan')))}"
     >
@@ -35,7 +37,7 @@
             <div>
                 <div class="toolbar">
                     <lightning:input
-                        class="inline-input"
+                        class="inline-input sprint23-visit-fix"
                         type="text"
                         label="Visit/Event Plan Name"
                         value="{!v.plan.Name}"
@@ -51,7 +53,7 @@
                 </div>
                 <div class="toolbar">
                     <lightning:input
-                        class="inline-input"
+                        class="inline-input sprint23-visit-fix"
                         type="text"
                         label="Version"
                         value="{!v.plan.Version__c}"
@@ -141,7 +143,7 @@
         planId="{!v.plan.Id}"
         isDisabled="{!equals(v.mode,'view')}"
     />
-    <c:Action_EditVisit aura:id="actionVisit" icons="{!v.icons}" />
+    <c:Action_EditVisit aura:id="actionVisit" icons="{!v.icons}"  communitytemplate="{!v.communitytemplate}"/>
 
     <c:IconsStaticResourceService
         aura:id="iconsService"

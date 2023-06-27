@@ -360,6 +360,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         list<Integration_Patient_Referral__c> iprListToUpdate = new list<Integration_Patient_Referral__c>();
         list<contact> contactsToDelete = new list<contact>();
         List<Participant_PrescreenerResponse__c> screenerResponseList = new List<Participant_PrescreenerResponse__c>();
+        List<Patient_Delegate_Enrollment__c> patientDelEnrollList = new List<Patient_Delegate_Enrollment__c>();
         for (Integer i = 0; i < saveResults.size(); i++) {
             Participant_Enrollment__c pe = peList[i];	
             Database.SaveResult sr = saveResults[i];
@@ -391,6 +392,21 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                             )
                         );
                     }
+                   if( !String.isBlank(ipr.Delegate_First_Name__c) &&
+                       !String.isBlank(ipr.Delegate_Last_Name__c) &&
+                       !String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c) &&
+                       !String.isEmpty(ipr.Delegate_Email_Address__c))
+                    {
+                    patientDelEnrollList.add(
+                        new Patient_Delegate_Enrollment__c(
+                            Status__c = 'Disconnected',
+                            Participant_Enrollment__c = sr.getId(),
+                            Primary_Delegate__c = true,
+                            Study_info_storage_consent__c=true,
+                            Study_Storage_Consent_Time__c = Datetime.now()
+                        )
+                    );
+                }
 
                 } else {
                     ipr.Batch_consideration__c = 'Completed';
@@ -409,6 +425,10 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         update iprListToUpdate;
 
         insert screenerResponseList;
+        
+        if(!patientDelEnrollList.isEmpty()){
+            insert patientDelEnrollList;
+        }
         //REF-4741
         if(!dupPartToUpdateList.isEmpty())
             update dupPartToUpdateList;
@@ -585,6 +605,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         List<Patient_Delegate__c> ptDelegateList = new List<Patient_Delegate__c>();
         List<Patient_Delegate__c> ptDelegateRefs = new List<Patient_Delegate__c>();        
         Map<Id, Id> existingPdMap = new Map<Id, Id>();
+        List<String> pdDuplicate = new List<String>();
         
         //If existing participant entering into system without delegate and different study
         if(!duplicatePatientsSet.isEmpty()){    
@@ -598,6 +619,8 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                                         AND Participant__c IN: duplicatePatientsSet
                                        ])
             {
+                string pddupid = String.ValueOf(pd.Participant__c) + String.ValueOf(pd.Contact__c);
+                pdDuplicate.add(pddupid);
                 if(pd.Primary_Delegate__c == True && 
                    !(participantIdByParticipantDelegateContactId.values().contains(pd.Participant__r.Id))){
                        pd.Primary_Delegate__c = False;
@@ -608,6 +631,13 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         }             
         
         //Create Patient delegate
+        //Bypaass old methods from Patient Delegate Trigger
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+            );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+            );
         if (!delegateIds.isEmpty()) {
             Set<Id> ptDelegateContSet = new Set<Id>();
             Set<Id> participantSet = new Set<Id>();
@@ -626,7 +656,10 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                 ptDelegateRef.Primary_Delegate__c = True;
                 ptDelegateRef.Status__c = 'Disconnected';
                 if(!duplicatePatientsSet.contains(ptDelegateRef.Participant__c) || participantsWithoutErrors.contains(ptDelegateRef.Participant__c)){
-                    ptDelegateRefs.add(ptDelegateRef);
+                    string partCont = String.ValueOf(ptDelegateRef.Participant__c) + String.ValueOf(cntId);
+                    if(!pdDuplicate.contains(partCont)){
+                        ptDelegateRefs.add(ptDelegateRef);
+                    }
                 }    
                 
                 ptDelegateContSet.add(ptDelegateRef.Contact__r.Id); 
@@ -673,6 +706,34 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             }
             
             insert ptDelegateRefs;
+            Map<id,id> participantToPatientDelMap = new map<id,id>();
+            if (!participantsWithoutErrors.isEmpty()) {
+
+            for(Patient_Delegate__c getPatientDelegate : [Select id, Participant__c from
+                        Patient_Delegate__c where 
+                        Participant__c IN :participantsWithoutErrors  and Primary_Delegate__c=true] ){
+
+                         participantToPatientDelMap.put(getPatientDelegate.Participant__c,getPatientDelegate.id);
+                        }
+            
+            List<Patient_Delegate_Enrollment__c> updatePatientDelEnroll= new List<Patient_Delegate_Enrollment__c> ();
+            for( Patient_Delegate_Enrollment__c pder: [select id,Participant_Enrollment__c,Participant_Enrollment__r.Participant__c ,Patient_Delegate__c
+                                                    from Patient_Delegate_Enrollment__c where 
+                                                    Participant_Enrollment__r.Participant__c in : participantsWithoutErrors 
+                                                    and Patient_Delegate__c=null]){
+                                                        if(participantToPatientDelMap.containsKey(pder.Participant_Enrollment__r.Participant__c))
+                                                        {
+                                                            pder.Patient_Delegate__c=ParticipantToPatientDelMap.get(pder.Participant_Enrollment__r.Participant__c);
+                                                            updatePatientDelEnroll.add(pder);
+                                                        }
+                                                        
+            }
+            if(!updatePatientDelEnroll.isEmpty()){
+                update updatePatientDelEnroll;
+            }
+         }
+            
+            
         }
         
         Map <Id,Contact> contactsToUpdateMap = new Map <Id,Contact>();
@@ -713,8 +774,11 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             system.debug('ERROR during deleting records: ' + exp.getMessage());
         }
         finally {
+            Id ApexClassId = [Select Id from ApexClass where Name = 'Batch_UpsertEprParticipantAndPE'].Id;
+            List<String> lstPendingJobStatus = new List<String>{'Holding','Preparing','Processing','Queued'};
+            List<AsyncApexJob> lstbatchCurrentlyRunning = [Select Id, Status from AsyncApexJob where ApexClassId = :ApexClassId AND Status IN:lstPendingJobStatus];
 			String isAbortJob =Label.Abort_Batch_UpsertEprParticipantAndPE;
-           if(!test.isRunningTest() && isAbortJob!='True')
+           if(!test.isRunningTest() && isAbortJob!='True' && lstbatchCurrentlyRunning.isEmpty())
             	Database.executeBatch(new Batch_UpsertEprParticipantAndPE(), 7);
         }
         

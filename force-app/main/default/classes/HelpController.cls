@@ -244,6 +244,7 @@ public without sharing class HelpController {
         List<String> communityNames = new List<String>(); 
         if(communityName  == CommunityTemplateService.TEMPLATE_DEFAULT){
             communityNames.add(CommunityTemplateService.TEMPLATE_GSK);
+            communityNames.add(CommunityTemplateService.TEMPLATE_PP);
         }
         communityNames.add(communityName);
         List<Study_Site__c> ssList = [

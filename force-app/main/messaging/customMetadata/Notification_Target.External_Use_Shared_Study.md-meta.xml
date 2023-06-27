@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Email_Template_Delegate__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Share_Study_From_HCPE_Template</value>
     </values>
     <values>
         <field>Email_Template__c</field>

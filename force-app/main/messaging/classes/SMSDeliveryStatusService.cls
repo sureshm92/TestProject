@@ -1,7 +1,7 @@
 public with sharing class SMSDeliveryStatusService {
     public static Map<Id, Id> StudyLevelnotIdPEIdMap = new Map<Id, Id>();
     /**
-     * @description: This method will update the invalid Number global flag to true at contact.
+     * @description: This method will update the invalid Number global flag to true at contact..
      * @author: Krishna Mahto
      * @param: contactIdSet
      * @return:
@@ -196,12 +196,12 @@ public with sharing class SMSDeliveryStatusService {
         Map<Id, Boolean> studyLevelSMSPERIdDelStatusForPDMap
     ) {
         //Get list of ParticipantEnrollmentPatientDelJunction records
-        List<ParticipantEnrollmentPatientDelJunction__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
+        List<Patient_Delegate_Enrollment__c> perDelJunctionRecList = Action_SendSMS.getPERPatientDelJunctionRecords(
             perIdSetForDel,
             recipientIdSetForDel
         );
 
-        for (ParticipantEnrollmentPatientDelJunction__c perPDJunRec : perDelJunctionRecList) {
+        for (Patient_Delegate_Enrollment__c perPDJunRec : perDelJunctionRecList) {
             Boolean smsDeliveryFlag = studyLevelSMSPERIdDelStatusForPDMap.get(
                 perPDJunRec.Participant_Enrollment__c
             );

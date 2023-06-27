@@ -2,43 +2,45 @@
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
     <!-- ****************  ARTICLE  ********************  -->
-    <template if:true={showArticle}>
-        <template if:true={isThumbnailPresent}>
-            <img
-                src={resourceLink}
-                class="slds-align--absolute-center"
-                alt="Image is not available"
-                onerror={handleError}
-            />
-        </template>
-        <template if:false={isThumbnailPresent}>
-            <div class="icon-container">
-                <div class="icon-center">
-                    <template if:true={desktop}>
-                        <c-web-icon
-                            icon-color="#b5b5b5"
-                            icon-width="300"
-                            icon-height="400"
-                            icon-name="empty-thumbnail"
-                        ></c-web-icon>
-                    </template>
-                    <template if:false={desktop}>
-                        <c-web-icon
-                            icon-color="#b5b5b5"
-                            icon-width="150"
-                            icon-height="100"
-                            icon-name="empty-thumbnail"
-                        ></c-web-icon>
-                    </template>
+    <template if:false={landscape}>
+        <template if:true={showArticle}>
+            <template if:true={isThumbnailPresent}>
+                <img
+                    src={resourceLink}
+                    class="slds-align--absolute-center"
+                    alt="Image is not available"
+                    onerror={handleError}
+                />
+            </template>
+            <template if:false={isThumbnailPresent}>
+                <div class="icon-container">
+                    <div class="icon-center">
+                        <template if:true={desktop}>
+                            <c-web-icon
+                                icon-color="#b5b5b5"
+                                icon-width="300"
+                                icon-height="400"
+                                icon-name="empty-thumbnail"
+                            ></c-web-icon>
+                        </template>
+                        <template if:false={desktop}>
+                            <c-web-icon
+                                icon-color="#b5b5b5"
+                                icon-width="150"
+                                icon-height="100"
+                                icon-name="empty-thumbnail"
+                            ></c-web-icon>
+                        </template>
+                    </div>
                 </div>
-            </div>
+            </template>
         </template>
     </template>
     <!-- ****************  VIDEO  ********************  -->
     <template if:true={showVideo}>
         <div class="ah-video-iframe">
             <iframe
-                class="my_iframe"
+                class={modeOfIframeStyle}
                 frameborder="0"
                 src={resourceLink}
                 webkitallowfullscreen

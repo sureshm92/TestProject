@@ -81,7 +81,8 @@ public without sharing class SurveyService {
             SurveyId = ts.Survey__c,
             Survey__c = ts.Survey__c,
             Trial_Survey__c = ts.Id,
-            IsTrialSurvey__c = true
+            IsTrialSurvey__c = true,
+            Is_End_Date_Visible__c = ts.Display_in_UI__c
         );
 
         Date today;
@@ -183,7 +184,7 @@ public without sharing class SurveyService {
 
     public Map<Id, Boolean> isInvitationsExpired(List<Id> invitationIds) {
         List<SurveyInvitation> invitations = [
-            SELECT ExpireDateTime__c, Is_Expired__c
+            SELECT ExpireDateTime__c, Is_Expired__c,Participant_Due_Date__c
             FROM SurveyInvitation
             WHERE Id IN :invitationIds
         ];
@@ -191,7 +192,7 @@ public without sharing class SurveyService {
         for (SurveyInvitation inv : invitations) {
             invitationStateById.put(
                 inv.Id,
-                (inv.Is_Expired__c || inv.ExpireDateTime__c <= Datetime.now())
+                (inv.Is_Expired__c || inv.ExpireDateTime__c <= Datetime.now() || (inv?.Participant_Due_Date__c != null && inv?.Participant_Due_Date__c <= Datetime.now()))
             );
         }
         return invitationStateById;

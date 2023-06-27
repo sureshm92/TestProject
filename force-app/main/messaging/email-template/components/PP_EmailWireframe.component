@@ -21,6 +21,10 @@
     <apex:attribute name="preBodyButtonURL" assignTo="{!preBodyButtonURLValue}" type="String" description="Pass Register URL From Initial Email"
     />
 
+    <!-- Initial Email -->
+    <apex:attribute name="isInitialEmail" assignTo="{!isInitialEmailValue}" type="Boolean" default="false" description="to check whether it is a registration email"
+    />
+
     <!-- Other -->
     <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML" />
     <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" description="Community template name"
@@ -114,6 +118,14 @@
             <apex:outputPanel style="display:block; color: #444444 !important;" rendered="{!preSignatureText != null}">
                 <apex:outputText value="{!preSignatureText}" escape="false" />
             </apex:outputPanel>
+
+            <!-- Image for initial email -->
+            <apex:outputPanel rendered="{!isInitialEmail=true}">
+                <img style="margin-left: -32px !important;
+                margin-right: -32px !important;
+                width: -webkit-fill-available;" src="{!$Label.ImgPathRegistrationEmail}" />
+            </apex:outputPanel>
+
             <!-- Signature-->
             <table style="border-spacing: 0;">
                 <tr>
@@ -149,12 +161,12 @@
                         border-top: 1px solid #D9D9D9;
                         border-bottom: 1px solid #D9D9D9;
                         padding: 0.5rem 0 0.5rem 0;">
-                <div style="{!IF(isRTL=true,'display:block', 'display:none')}">
+                <div style="{!IF(isRTL,'display:block;', 'display:none;')}">
                     <a style="color: #015FF1;
                             text-decoration: none;
                             font-weight: 600;" href="{!emailCommunityURL + '/s/privacy-policy'}">{!$Label.Email_Footer_Privacy_Policy}</a>&nbsp;&nbsp;|&nbsp;&nbsp;{!$Label.Email_Footer_Address}
                 </div>
-                <div style="{!IF(isRTL=false,'display:block;', 'display:none;')}">
+                <div style="{!IF(!isRTL,'display:block;', 'display:none;')}">
                     {!$Label.Email_Footer_Address}&nbsp;&nbsp;|&nbsp;
                     <a style="color: #015FF1;
                             text-decoration: none;

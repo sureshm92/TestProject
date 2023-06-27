@@ -13,6 +13,11 @@
     <cachePublicVisualforcePagesInProxyServers>true</cachePublicVisualforcePagesInProxyServers>
     <clickjackProtectionLevel>SameOriginOnly</clickjackProtectionLevel>
     <contentSniffingProtection>true</contentSniffingProtection>
+    <customWebAddresses>
+        <certificate>clinicalresearch_com</certificate>
+        <domainName>policies.clinicalresearch.com</domainName>
+        <primary>false</primary>
+    </customWebAddresses>
     <enableAuraRequests>true</enableAuraRequests>
     <fileNotFoundPage>FileNotFound</fileNotFoundPage>
     <genericErrorPage>Exception</genericErrorPage>

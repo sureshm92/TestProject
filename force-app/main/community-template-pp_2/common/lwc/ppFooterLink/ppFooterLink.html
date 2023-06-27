@@ -1,5 +1,8 @@
 <template>
-     <!-- Loading Spinner-->
-     <c-web-spinner class="main-spinner"></c-web-spinner>
-    <div class="pagelink" onclick={onClick}>{label}</div>
+    <button class="pagelink" onclick={onClick}>
+        {label}
+        <template if:true={iscpraAvailable}>
+            <img src={CCPA_icon} class="imgclass" />
+        </template>
+    </button>
 </template>

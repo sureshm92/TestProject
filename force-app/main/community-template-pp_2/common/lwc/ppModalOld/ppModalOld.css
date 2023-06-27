@@ -1,0 +1,47 @@
+.modal-header-text {
+    color: #000000;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 2rem;
+    padding: 0px;
+}
+
+.web-modal-window .slds-modal__container {
+    width: 28%;
+    min-width: 21rem;
+}
+
+.slds-modal__content {
+    overflow: initial;
+}
+
+.card-top-bg {
+    height: 0.25rem;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    background: linear-gradient(270deg, #0076ae 0%, #250056 100%);
+}
+
+.close-cursor {
+    cursor: pointer;
+}
+
+.footer-container {
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    background-color: #ffffff;
+    padding-bottom: 1.5rem;
+    margin-top: -0.75rem;
+    border-top: none;
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
+}
+
+@media screen and (max-width: 768px) {
+    .web-modal-window .slds-modal__container {
+        min-width: 80%;
+    }
+}
+/* .slds-backdrop {
+    background-color: rgba(0, 0, 0, 0.1);
+} */

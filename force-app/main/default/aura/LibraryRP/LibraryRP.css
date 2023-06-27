@@ -17,6 +17,11 @@
     border-radius: 0 5px 5px 0;
 }
 
+.THIS .download-action {
+    cursor: pointer;
+    title: 'download';
+}
+
 .THIS .RTL {
     /* @noflip */  direction: rtl;
 }

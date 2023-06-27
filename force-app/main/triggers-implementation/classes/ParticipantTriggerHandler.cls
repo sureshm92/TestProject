@@ -736,8 +736,8 @@ public without sharing class ParticipantTriggerHandler {
                 }
             }
         }
-
-        List<Patient_Delegate__c> patientDelegatesToUpdate = new List<Patient_Delegate__c>();
+        // commented as part of new PD redesign 
+       /* List<Patient_Delegate__c> patientDelegatesToUpdate = new List<Patient_Delegate__c>();
         List<Patient_Delegate__c> patientDelegates = PatientDelegateService.getPDelegates(
             new List<Id>(patientIsAdult)
         );
@@ -753,7 +753,25 @@ public without sharing class ParticipantTriggerHandler {
         }
         if (!patientDelegatesToUpdate.isEmpty()) {
             update patientDelegatesToUpdate;
+        }*/
+
+        //update PDER only if changed to adult
+        if (!participantsByContactId.isEmpty()) {
+             List<Patient_Delegate_Enrollment__c> pdersToUpdate = new List<Patient_Delegate_Enrollment__c>();
+             List<Patient_Delegate_Enrollment__c> lstPDER = new List<Patient_Delegate_Enrollment__c>();
+             lstPDER = [Select Id,Status__c,Patient_Delegate__c,Patient_Delegate__r.Participant__c from Patient_Delegate_Enrollment__c where Status__c ='Active' and
+                         Patient_Delegate__r.Participant__c=:participantsByContactId.values()];
+             if(!lstPDER.isEmpty()){
+                 for(Patient_Delegate_Enrollment__c pder:lstPDER){
+                     pder.Status__c = 'On Hold';
+                     pdersToUpdate.add(pder);
+                 }
+             } 
+             if (!pdersToUpdate.isEmpty()) {
+               update pdersToUpdate;
+             }           
         }
+        
     }
 
     @TestVisible

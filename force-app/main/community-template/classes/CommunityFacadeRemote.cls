@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public without sharing class CommunityFacadeRemote {
+ public without sharing class CommunityFacadeRemote {
     public static final String COOKIE_FIELD_MARK = 'AllowedCookie__c';  
     
 
@@ -368,8 +368,6 @@ public without sharing class CommunityFacadeRemote {
 
     public static Boolean urlExists(String url) {
         try {
-            if (Test.isRunningTest())
-                return true;
             HttpRequest req = new HttpRequest();
             req.setEndpoint(url);
             req.setMethod('GET');
@@ -532,9 +530,21 @@ public without sharing class CommunityFacadeRemote {
                 }
 
                 for(String eachRec : mapOfStudyVsSite.keySet()){
-                    mapOfStudyVsStringSite.put(eachRec, String.join(new List<String>(mapOfStudyVsSite.get(eachRec)), '+'));
-                }
-
+                    List<String> siteList = new List<String>(mapOfStudyVsSite.get(eachRec));
+                    if(siteList.size() > 3){
+                        String Sites='';
+                        Sites = siteList[0];
+                        Sites=Sites+'+';
+                        Sites=Sites+siteList[1] ;
+                        Sites=Sites+'+';
+                        Sites=Sites+siteList[2] ;
+                        mapOfStudyVsStringSite.put(eachRec, Sites);
+                    }else{
+                        mapOfStudyVsStringSite.put(eachRec, String.join(new List<String>(mapOfStudyVsSite.get(eachRec)), '+'));
+                    }
+                    siteList.clear();   
+               }
+                
                 sendResultWrap.mapOfProtocolVsEnrollment = mapOfProtocolVsEnrollment;
                 for (String eachProtocol : mapOfProtocolVsEnrollment.keySet()) {                
                     Notification__c notificationRec = BellNotificationsHelper.createNotification('BELL_Message_on_New_Referrals', contactId, userRole, mapOfStudyVsComm.get(eachProtocol), false);       

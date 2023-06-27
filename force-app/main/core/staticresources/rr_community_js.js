@@ -35,6 +35,7 @@ window.communityService = (function () {
     let hasIQVIAStudiesPI;
     let communityName;
     let participantData;
+    let visResultAvailable = false;
     const pagesWithSharedPrivacyPolicy = new Set([
         'my-team',
         'new-team-member',
@@ -150,6 +151,7 @@ window.communityService = (function () {
                         if (finalCallback) finalCallback();
                     }
                 });
+                action.setBackground();
                 $A.enqueueAction(action);
             });
         },
@@ -524,8 +526,7 @@ window.communityService = (function () {
             participantData.cookiesAgreedonRegPage = val;
         },
         isValidEmail: function (email) {
-            let re =
-                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
         },
 
@@ -613,6 +614,12 @@ window.communityService = (function () {
                 url: redirectUrl
             });
             urlEvent.fire();
+        },
+        setVisResultsAvailable: function (val) {
+            visResultAvailable = val;
+        },
+        getVisResultsAvailable: function () {
+            return visResultAvailable;
         }
     };
 

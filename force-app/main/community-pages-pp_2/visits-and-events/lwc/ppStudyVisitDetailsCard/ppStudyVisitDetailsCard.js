@@ -30,7 +30,7 @@ import none from '@salesforce/label/c.PP_None';
 import custom from '@salesforce/label/c.PP_Custom';
 import visitdetailsupdated from '@salesforce/label/c.Visit_details_updated_successfully';
 import eventdetailsupdated from '@salesforce/label/c.Event_details_updated_successfully';
-
+import nodateavailable from '@salesforce/label/c.No_date_available';
 export default class PpStudyVisitDetailsCard extends LightningElement {
     label = {
         date,
@@ -50,7 +50,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         visitdetailsupdated,
         eventdetailsupdated,
         none,
-        REMIND_ME
+        REMIND_ME,
+        nodateavailable
     };
 
     @api visitid;
@@ -87,6 +88,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     @track diffInMinutes;
     @track currentBrowserTime;
     @track communicationChanged = false;
+    showSpinner = true;
     @track initData = {
         reminderDate: null,
         emailOptIn: false,
@@ -113,6 +115,21 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     spinner;
     desktop = true;
     communicationTab = '_blank';
+
+    initialRecord = {
+        Planned_Date__c: '',
+        Remind_Me__c: '',
+        Remind_Using_Email__c: '',
+        Remind_Using_SMS__c: '',
+        ReminderDateTime: ''
+    };
+    updatedRecord = {
+        Planned_Date__c: '',
+        Remind_Me__c: '',
+        Remind_Using_Email__c: '',
+        Remind_Using_SMS__c: '',
+        ReminderDateTime: ''
+    };
 
     /**Platform Event */
     cometd;
@@ -194,10 +211,26 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 if (isInitial) {
                     this.loadSessionId();
                 }
+                this.showSpinner = false;
             })
             .catch((error) => {
                 this.showToast('', error.body.message, 'error');
             });
+
+        this.initialRecord = {
+            Planned_Date__c: this.visitdata.visitDate ? this.visitdata.visitDate : '',
+            Remind_Me__c: this.visitdata.task.Remind_Me__c ? this.visitdata.task.Remind_Me__c : '',
+            Remind_Using_Email__c: this.visitdata.task.Remind_Using_Email__c
+                ? this.visitdata.task.Remind_Using_Email__c
+                : '',
+            Remind_Using_SMS__c: this.visitdata.task.Remind_Using_SMS__c
+                ? this.visitdata.task.Remind_Using_SMS__c
+                : '',
+            ReminderDateTime:
+                this.visitdata.task.Remind_Me__c && this.visitdata.task.Remind_Me__c == 'Custom'
+                    ? this.visitdata.task.ReminderDateTime
+                    : ''
+        };
     }
     @api
     callFromParent() {
@@ -262,6 +295,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         } else if (this.visitDateTime) {
             return this.visitDateTime;
         } else {
+            if (!this.handleVisitEventDataChange()) {
+                this.disableButtonSaveCancel = true;
+            } else {
+                this.disableButtonSaveCancel = false;
+            }
             return null;
         }
     }
@@ -526,8 +564,10 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
 
     setAttributeValueEmail(event) {
         this.reminderChanged = true;
+        this.email = event.target.checked;
+        let updateRequired = this.handleVisitEventDataChange();
         if ((event.target.checked || this.sms) && this.remindmepub !== this.label.custom) {
-            this.disableButtonSaveCancel = false;
+            this.disableButtonSaveCancel = updateRequired ? false : true;
         } else if (
             (event.target.checked || this.sms) &&
             this.selectedReminderDateTime &&
@@ -536,10 +576,14 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             let currentDateTime = new Date().toLocaleString('en-US', {
                 timeZone: TIME_ZONE
             });
-            let timezoneReminderDateTime =  new Date(this.selectedReminderDateTime).toLocaleString('en-US', {
-                timeZone: TIME_ZONE
-            });
+            let timezoneReminderDateTime = new Date(this.selectedReminderDateTime).toLocaleString(
+                'en-US',
+                {
+                    timeZone: TIME_ZONE
+                }
+            );
             this.disableButtonSaveCancel =
+                updateRequired &&
                 new Date(timezoneReminderDateTime) >= new Date(currentDateTime) &&
                 new Date(this.selectedReminderDateTime) <= new Date(this.visitDateTime)
                     ? false
@@ -547,13 +591,14 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         } else {
             this.disableButtonSaveCancel = true;
         }
-        this.email = event.target.checked;
     }
 
     setAttributeValueSms(event) {
         this.reminderChanged = true;
+        this.sms = event.target.checked;
+        let updateRequired = this.handleVisitEventDataChange();
         if ((event.target.checked || this.email) && this.remindmepub !== this.label.custom) {
-            this.disableButtonSaveCancel = false;
+            this.disableButtonSaveCancel = updateRequired ? false : true;
         } else if (
             (event.target.checked || this.email) &&
             this.selectedReminderDateTime &&
@@ -562,10 +607,14 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             let currentDateTime = new Date().toLocaleString('en-US', {
                 timeZone: TIME_ZONE
             });
-            let timezoneReminderDateTime =  new Date(this.selectedReminderDateTime).toLocaleString('en-US', {
-                timeZone: TIME_ZONE
-            });
+            let timezoneReminderDateTime = new Date(this.selectedReminderDateTime).toLocaleString(
+                'en-US',
+                {
+                    timeZone: TIME_ZONE
+                }
+            );
             this.disableButtonSaveCancel =
+                updateRequired &&
                 new Date(timezoneReminderDateTime) >= new Date(currentDateTime) &&
                 new Date(this.selectedReminderDateTime) <= new Date(this.visitDateTime)
                     ? false
@@ -573,7 +622,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         } else {
             this.disableButtonSaveCancel = true;
         }
-        this.sms = event.target.checked;
     }
 
     doValidateFields(event) {
@@ -587,8 +635,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.selectedReminderDate = '';
         this.selectedReminderTime = '';
         this.reminderDateChanged = true;
+        let updateRequired = this.handleVisitEventDataChange();
         if (this.sms || this.email) {
-            this.disableButtonSaveCancel = false;
+            this.disableButtonSaveCancel = updateRequired ? false : true;
         } else {
             this.disableButtonSaveCancel = true;
         }
@@ -617,7 +666,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             this.selectedReminderTime = '';
             this.showreminderdatepicker = false;
             this.reminderChanged = true;
-            this.disableButtonSaveCancel = false;
+            this.disableButtonSaveCancel = updateRequired ? false : true;
             if (this.emailOptIn) {
                 this.email = false;
             } else {
@@ -679,6 +728,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.selectedReminderDate = event.detail.compdate;
         this.selectedReminderDateTime = event.detail.compdate;
         this.selectedReminderTime = event.detail.comptime;
+        this.selectedReminderTime = '';
         if ((this.sms || this.email) && this.selectedReminderTime) {
             this.disableButtonSaveCancel = false;
         } else {
@@ -699,6 +749,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             timeZone: TIME_ZONE
         });
         let currentUserTime = new Date().toLocaleString('en-US', { timeZone: TIME_ZONE });
+        let updateRequired = this.handleVisitEventDataChange();
         if (
             new Date(visitDateTime) < new Date(reminderDateTime) ||
             new Date(reminderDateTime) < new Date(currentUserTime) ||
@@ -707,7 +758,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             this.disableButtonSaveCancel = true;
         } else {
             if (this.sms || this.email) {
-                this.disableButtonSaveCancel = false;
+                this.disableButtonSaveCancel = updateRequired ? false : true;
             } else {
                 this.disableButtonSaveCancel = true;
             }
@@ -717,8 +768,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     handleReminderTime(event) {
         this.reminderDateChanged = true;
         this.reminderChanged = true;
+        let updateRequired = this.handleVisitEventDataChange();
         if (this.sms || this.email) {
-            this.disableButtonSaveCancel = false;
+            this.disableButtonSaveCancel = updateRequired ? false : true;
         } else {
             this.disableButtonSaveCancel = true;
         }
@@ -737,7 +789,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         this.visitDate = event.detail.compdate;
         this.remindmepub = '';
         this.showreminderdatepicker = false;
-        if (this.visitDate && this.visitTime) {
+        if (this.visitDate && this.visitTime && this.handleVisitEventDataChange()) {
             this.disableButtonSaveCancel = false;
         } else {
             this.disableButtonSaveCancel = true;
@@ -764,10 +816,11 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             let visitDueDateTime = new Date(this.visitDateTime).toLocaleString('en-US', {
                 timeZone: TIME_ZONE
             });
-            if (new Date(visitDueDateTime) < new Date(currentUserTime)) {
+            let updateRequired = this.handleVisitEventDataChange();
+            if (new Date(visitDueDateTime) < new Date(currentUserTime) || !updateRequired) {
                 this.disableButtonSaveCancel = true;
             } else {
-                this.disableButtonSaveCancel = false;
+                this.disableButtonSaveCancel = updateRequired ? false : true;
             }
         } else {
             this.disableButtonSaveCancel = true;
@@ -965,6 +1018,35 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     doCancel() {
         const discardEvent = new CustomEvent('discard');
         this.dispatchEvent(discardEvent);
+    }
+
+    //returns false if data is same as previous
+    handleVisitEventDataChange() {
+        this.updatedRecord = {
+            Planned_Date__c: this.visitDateTime ? this.visitDateTime : '',
+            Remind_Me__c:
+                this.dbReminderOption && this.dbReminderOption !== 'No reminder'
+                    ? this.dbReminderOption
+                    : '',
+            Remind_Using_Email__c:
+                this.dbReminderOption !== 'No reminder' && this.email && this.visitDateTime
+                    ? this.email
+                    : '',
+            Remind_Using_SMS__c:
+                this.dbReminderOption !== 'No reminder' && this.sms && this.visitDateTime
+                    ? this.sms
+                    : '',
+            ReminderDateTime:
+                this.dbReminderOption && this.dbReminderOption == 'Custom' && this.visitDateTime
+                    ? this.selectedReminderDateTime
+                    : ''
+        };
+
+        if (JSON.stringify(this.initialRecord) == JSON.stringify(this.updatedRecord)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     showErrorToast(titleText, messageText, variantType) {

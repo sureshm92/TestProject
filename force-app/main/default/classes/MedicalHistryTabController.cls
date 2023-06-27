@@ -69,7 +69,7 @@ public without sharing class MedicalHistryTabController {
             Boolean isSiteEnabledforHAPI = false;  
             medicalHistryWrapper objWrapper = new medicalHistryWrapper();
 
-            Participant_Enrollment__c objPer = [SELECT ID,Participant__r.BMI__c,Comorbidities__c,HighRisk_Indicator__c,High_Priority__c,Referral_Source__c,Participant__c
+            Participant_Enrollment__c objPer = [SELECT ID,Participant__r.BMI__c,Comorbidities__c,HighRisk_Indicator__c,High_Priority__c,Referral_Source__c,Participant__c,Participant_Contact__c
                                                 ,Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,Study_Site__c,Study_Site__r.Medical_Record_Upload__c,Unique_HumanId__c
                                                 from Participant_Enrollment__c where id=:peid] ;
 
@@ -91,10 +91,40 @@ public without sharing class MedicalHistryTabController {
             objWrapper.booliqviaregistry = objPer.Referral_Source__c == 'IQVIA registry' ? true : false;
             
             //Citizen Requirement
-            List<ContentDocumentLink> cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =:objPer.Participant__c ];
+            
 
-            if(!cdls.isEmpty()){
-                objWrapper.citizenRecords  = getMedicalHistory(cdls,objPer.Participant__c);
+            List<String> uploadedByContact = new List<String>();
+            List<Patient_Delegate_Enrollment__c> pder = [
+                SELECT
+                    id,
+                    Patient_Delegate__r.Contact__c,
+                    Participant_Enrollment__r.Participant_Contact__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Participant_Enrollment__c = :objPer.Id AND Primary_Delegate__c = TRUE
+                LIMIT 1
+            ];
+                uploadedByContact.add(objPer.Participant_Contact__c);
+            if (!pder.isEmpty()) {
+                uploadedByContact.add(pder[0].Patient_Delegate__r.Contact__c);
+            }
+            List<User> uploadedUser = [
+                SELECT id, contactId
+                FROM user
+                WHERE contactId IN :uploadedByContact
+            ];
+            List<id> useriDs = new List<id>();
+            for (User u : uploadedUser) {
+                useriDs.add(u.id);
+            }
+            
+
+            List<ContentDocumentLink> cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE (LinkedEntityId =:objPer.Participant__c 
+                                                OR ( LinkedEntityId = :objPer.Id AND ContentDocument.CreatedById IN :useriDs) )];
+            
+              
+
+            if(!cdls.isEmpty() ){
+                objWrapper.citizenRecords  = getMedicalHistory(cdls,objPer.Participant__c,objPer.Id);
                 objWrapper.isContainsFile = true;
             }
              // Human Api Check
@@ -127,18 +157,24 @@ public without sharing class MedicalHistryTabController {
                     objWrapper.lstbioMarkerMediaFiles  = BioMarkerRecordController.getRelatedMediaFiles(objPer.Id,objWrapper.biomarkerdata.InitialValue);
                 }
             }
-
+            String strParticipantId = objPer.Participant__c;
             if(String.isNotBlank(peid)) {
 
-                objWrapper.surveyResponses = [
-                    SELECT Id, Completed_Date__c, Screener_Response__c, PreScreener_Survey__c, PreScreener_Survey__r.MRR__c, 
-                        PreScreener_Survey__r.Survey_Name__c, Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        MRR_EPR__c, MRR__c, Prescreener__c 
-                    FROM Participant_PrescreenerResponse__c 
-                    WHERE (Participant_enrollment__c = :peid OR Participant__c = :objPer.Participant__c)
-                        AND (PreScreener_Survey__c != null OR Participant_enrollment__c != null)
-                    ORDER BY Completed_Date__c DESC
-                ];
+                String strQuerySurveyResponse = '  SELECT Id, Completed_Date__c, Screener_Response__c, PreScreener_Survey__c, PreScreener_Survey__r.MRR__c,PreScreener_Survey__r.Survey_Name__c ';
+                strQuerySurveyResponse += ' ,Participant_enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,MRR_EPR__c, MRR__c, Prescreener__c FROM Participant_PrescreenerResponse__c ';
+                strQuerySurveyResponse += ' WHERE (Participant_enrollment__c = :peid ';
+                if(string.isNotBlank(objPer.Participant__c))
+                {
+                    strQuerySurveyResponse += ' OR Participant__c = :strParticipantId' ;
+                }
+                strQuerySurveyResponse += ') AND (PreScreener_Survey__c != null OR Participant_enrollment__c != null) ';
+                strQuerySurveyResponse += ' ORDER BY Completed_Date__c DESC LIMIT 30000';
+
+                
+                 
+
+                objWrapper.surveyResponses =  Database.query(strQuerySurveyResponse);
+              
             }
         return  objWrapper;
     }
@@ -157,12 +193,40 @@ public without sharing class MedicalHistryTabController {
 
     //citizen requirement
     @AuraEnabled
-    public static MedicalHistryTabController.MedicalHistoryWrapper getMedicalHistory(List<ContentDocumentLink> cdls , Id participantId){
+    public static MedicalHistryTabController.MedicalHistoryWrapper getMedicalHistory(List<ContentDocumentLink> cdls , Id participantId, String perid){
         
         //If this method is called for refresh the list after add file, so they will pass participantid
         if(cdls == null || cdls.isEmpty())
         {
-             cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =:participantId ];
+
+            List<String> uploadedByContact = new List<String>();
+            List<Patient_Delegate_Enrollment__c> pder = [
+                SELECT
+                    id,
+                    Patient_Delegate__r.Contact__c,
+                    Participant_Enrollment__r.Participant_Contact__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Participant_Enrollment__c = :perid AND Primary_Delegate__c = TRUE
+                LIMIT 1
+            ];
+            Participant_Enrollment__c objPER = [SELECT ID,Participant_Contact__c FROM Participant_Enrollment__c where id=:perid];
+                uploadedByContact.add(objPer.Participant_Contact__c);
+            if (!pder.isEmpty()) {
+                uploadedByContact.add(pder[0].Patient_Delegate__r.Contact__c);
+            }
+            List<User> uploadedUser = [
+                SELECT id, contactId
+                FROM user
+                WHERE contactId IN :uploadedByContact
+            ];
+            List<id> useriDs = new List<id>();
+            for (User u : uploadedUser) {
+                useriDs.add(u.id);
+            }
+            
+
+             cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE (LinkedEntityId =:participantId 
+                                                OR ( LinkedEntityId = :perid AND ContentDocument.CreatedById IN :useriDs) )];  
         }
         
         List<ContentDocument> entries = new List<ContentDocument>(); 
@@ -188,11 +252,11 @@ public without sharing class MedicalHistryTabController {
     }
 
     @AuraEnabled
-    public static MedicalHistryTabController.MedicalHistoryWrapper deleteFileAttachment(Id contentDocumentToDeleteId,Id participantId){
+    public static MedicalHistryTabController.MedicalHistoryWrapper deleteFileAttachment(Id contentDocumentToDeleteId,Id participantId, String perid){
         ContentDocument contentDocumentToDelete = new ContentDocument();
         contentDocumentToDelete.Id = contentDocumentToDeleteId;
         delete contentDocumentToDelete;
-        return getMedicalHistory(new List<ContentDocumentLink>(), participantId);
+        return getMedicalHistory(new List<ContentDocumentLink>(), participantId,perid);
     }
 
     @AuraEnabled 

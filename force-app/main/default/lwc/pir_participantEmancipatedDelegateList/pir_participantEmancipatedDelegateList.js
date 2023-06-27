@@ -16,6 +16,15 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
     @api continuedelegate; 
     @api maindivcls;
     @api iscountryus;
+    @api studyemailconsent;
+    @api studyinfostorageconsent;
+    @api studyphoneconsent;
+    @api studysmsconsent;
+
+    //newchange
+    @api alreadyconsent;
+    @api alreadyconsentedrow;
+
     consentValue=false;
     @api
     get options() {
@@ -26,6 +35,7 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
     }
     
     checkFields(event){
+       var smsconsent;
         if(event.target.dataset.value === "TelephoneNumber") {
             this.phoneNumber = event.target.value;
           }else if(event.target.dataset.value === "TelephoneType"){
@@ -37,14 +47,22 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
             this.consentsms =false;
             this.consentrow=false;
             this.consent = this.template.querySelector('[data-name="consentCheckbox"]').checked;
+            this.studyemailconsent=this.template.querySelector('[data-name="consentCheckbox"]').checked;
+            this.studyinfostorageconsent=this.template.querySelector('[data-name="consentCheckbox"]').checked;
+            this.studyphoneconsent=this.template.querySelector('[data-name="consentCheckbox"]').checked;
+            this.studysmsconsent=this.template.querySelector('[data-name="consentCheckbox"]').checked;
           }
           else if(event.target.dataset.value === "consentCheckboxROW"){
             this.consent =false;
             this.consentrow = this.template.querySelector('[data-name="consentCheckboxROW"]').checked;
+            this.studyemailconsent=this.template.querySelector('[data-name="consentCheckboxROW"]').checked;
+            this.studyinfostorageconsent=this.template.querySelector('[data-name="consentCheckboxROW"]').checked;
+            this.studyphoneconsent=this.template.querySelector('[data-name="consentCheckboxROW"]').checked;
           }
           else if(event.target.dataset.value === "consentCheckboxSMS"){
             this.consent =false;
             this.consentsms = this.template.querySelector('[data-name="consentCheckboxSMS"]').checked;
+            this.studysmsconsent=this.template.querySelector('[data-name="consentCheckboxSMS"]').checked
           }
           var delegcont = '';
           if(this.continuedelegate == "true"){
@@ -62,7 +80,11 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
                 consent:this.consent,
                 consentrow:this.consentrow,
                 consentsms:this.consentsms,
-                indexvalue:this.indexvalue
+                indexvalue:this.indexvalue,
+                studyemailconsent:this.studyemailconsent,
+                studyinfostorageconsent:this.studyinfostorageconsent,
+                studyphoneconsent:this.studyphoneconsent,
+                studysmsconsent:this.studysmsconsent
             }
           }); 
           this.dispatchEvent(selectedEvent);
@@ -85,7 +107,11 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
                 consent:this.consent,
                 consentrow:this.consentrow,
                 consentsms:this.consentsms,
-                indexvalue:this.indexvalue
+                indexvalue:this.indexvalue,
+                studyemailconsent:this.studyemailconsent,
+                studyinfostorageconsent:this.studyinfostorageconsent,
+                studyphoneconsent:this.studyphoneconsent,
+                studysmsconsent:this.studysmsconsent
             }
           });  
           this.dispatchEvent(selectedEvent);
@@ -102,7 +128,25 @@ export default class Pir_participantEmancipatedDelegateList extends LightningEle
           if (this.continuedelegate ==='false') {
               return false;
             } else {
-              return true;
+              if(this.iscountryus == true){
+                 if(this.studyemailconsent == true && this.studyinfostorageconsent == true && this.studyphoneconsent == true && this.studysmsconsent == true){
+                    this.consent = true; console.log('thisconsent-->'+this.consent);
+                                     if(this.alreadyconsent && !this.alreadyconsentedrow){
+                                      return false; 
+                                     }else{ return true; }
+                                    
+                 }else{ return true;}
+              }else{
+                if(this.studyemailconsent == true && this.studyinfostorageconsent == true && this.studyphoneconsent == true){
+                       this.consentrow = true;
+                       if(this.studysmsconsent == true){
+                          this.consentsms = true;
+                       }
+                        if(this.alreadyconsent){
+                          return false; 
+                         }else{ return true; }
+               }else{ return true;} 
+              } 
             }
           }
         

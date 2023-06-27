@@ -1,3 +1,6 @@
+.position-container {
+    position: relative;
+}
 .resource-gutter {
     margin: 24px 24px 0px 24px;
 }

@@ -24,6 +24,12 @@
 .THIS .wave {
     height: 5rem;
 }
+.THIS .imgclass{
+    margin-left: 3px;
+}
+.THIS .cpracss { 
+    padding-right: 16px;
+}
 
 .THIS .login-form-layout {
     width: 318px;
@@ -51,7 +57,9 @@
     text-align: center;
 }
 .THIS .footer {
-    margin: 5.5rem 0 1rem 0;
+    /* margin: 5.5rem 0 1rem 0; */
+    position: absolute;
+    bottom: 1.2rem;;
 }
 .THIS .body-content {
     width: 20rem;
@@ -62,6 +70,12 @@
 }
 .THIS .slds-col--padded {
     padding: 0;
+}
+.THIS .pagelinkcss {
+    font-size: 14px;
+    color: #015FF1; 
+    cursor: pointer;
+    font-weight: 500;
 }
 @media (max-width: 500px) {
     .THIS .body-img {
@@ -84,6 +98,37 @@
         min-height: 960px;
     }
 }
+
+@media all  and (orientation: landscape)  and (max-width: 759px) {
+    .THIS .footer {
+         
+        position: absolute!important;
+        left: 6%;
+        bottom: 2rem!important;
+        top: unset!important;
+    }
+    .THIS .footer-powered {
+        text-align: center!important;
+    }
+    .THIS .footerorientimage{
+        /* padding-left: 3rem; */
+        text-align: right!important;
+    }
+    .THIS .footerOrientPrivacy{
+        /* margin-left: -5rem!important; */
+        text-align: left!important;
+    }
+    .THIS .footer-logo {
+        /* flex: 1; */
+        /* text-align: left; */
+        margin-left: unset!important;
+    }
+    .THIS .footerorientpadding{
+        padding-right: 5rem;
+    }
+     
+}
+
 /* Tablet media query end here */
 @media (min-width: 501px) and (max-width: 759px) {
     .THIS .login-form-layout {

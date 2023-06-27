@@ -359,7 +359,6 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
             this.toggleUIFeatures(true);
             this.totalRecordCount =-1;
             this.isResetPagination = true;
-            this.fetchList();
             const selectEvent = new CustomEvent('resetparent', {
                 detail: ''
             });
@@ -1180,7 +1179,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                         csvStringResult += '" "' + ',';
                     }
                 } else {
-                    if ( partList[i]['Patient_ID__c'] !== undefined) {
+                    if (partList[i]['Patient_ID__c'] !== undefined) {
                         csvStringResult += '"' + partList[i]['Patient_ID__c'] + '"' + ',';
                     } else {
                         csvStringResult += '" "' + ',';
@@ -1308,7 +1307,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
                 if (partList[i] ['HighRisk_Indicator__c'] !== undefined) {
                     var lowerCaseHI=partList[i] ['HighRisk_Indicator__c'].toLowerCase();
                     if (partList[i]['HighRisk_Indicator__c'] == '1' || lowerCaseHI == 'yes')
-                    {
+                      {
                         csvStringResult += '"' + 'Yes'+ '"' + ',';
                     }
                     else if (lowerCaseHI == 'no'){
@@ -1893,6 +1892,7 @@ export default class Pir_participantList extends NavigationMixin(LightningElemen
     }
     setDefaultFilter(event){
         this.filterWrapper= event.detail;
+        this.fetchList();
     }
     get filterCount(){
         if(!(Object.keys(this.filterWrapper).length === 0)){

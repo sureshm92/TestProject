@@ -31,7 +31,6 @@
                         component.set('v.createUserForDelegate', true);
                     }
 
-                    console.log('LANGUAGE', component.get('v.userLanguage'));
                     window.setTimeout(
                         $A.getCallback(function () {
                             helper.initData(component);
@@ -92,9 +91,15 @@
         helper.checkGuardianAge(component, event, helper);
     },
 
-    doCancel: function (component) {
+    doCancel: function(component){ 
+        if(communityService.getUrlParameter('participantVeiwRedirection')=='true'){
+        var urlEvent = $A.get("e.force:navigateToURL");
+        urlEvent.setParams({ "url": "/my-referrals" });
+        urlEvent.fire();
+        }else{
         communityService.navigateToHome();
-    },
+        }
+        },
 
     doSaveAndExit: function (component, event, helper) {
         /**  helper.createParticipant(component, function () {
@@ -104,7 +109,7 @@
               urlEvent.fire(); 
           }); **/
           component.set('v.doSaveNew',false);
-           helper.createParticipants(component);console.log('dosaveandexit'); 
+           helper.createParticipants(component);
     },
   
     doSaveAndNew: function (component, event, helper) {
@@ -116,7 +121,7 @@
               component.find('editForm').refreshEmailInput();
           });**/
            component.set('v.doSaveNew',true);
-           helper.createParticipants(component);console.log('dosaveandnew'); 
+           helper.createParticipants(component);
     },
 
     doCheckfields: function (component, event, helper) {
@@ -129,8 +134,6 @@
         $A.enqueueAction(component.get('c.doCheckfields'));
         var participant = component.get('v.participant');
         component.set('v.participant', participant);
-        console.log('EMEil', participant.Email__c);
-        console.log('ADult', participant.Adult__c);
     },
 
     doNeedsGuardian: function (component, event, helper) {
@@ -151,7 +154,6 @@
 
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component);
-            console.log('editForm checkFields');
         } else {
             component.set('v.isDelegateValid', false);
             component.set('v.useThisDelegate', true);

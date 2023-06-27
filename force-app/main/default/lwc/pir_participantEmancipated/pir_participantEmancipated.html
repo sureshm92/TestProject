@@ -286,8 +286,14 @@
                                                                          consentsms={delegateItem.consentsms}
                                                                          continuedelegate={delegateItem.isCont}
                                                                          iscountryus={iscountryus}
+                                                                         studyemailconsent={delegateItem.Study_Email_Consent}
+                                                                         studyinfostorageconsent={delegateItem.Study_info_storage_consent}
+                                                                         studyphoneconsent={delegateItem.Study_Phone_Consent}
+                                                                         studysmsconsent={delegateItem.Study_SMS_Consent}
                                                                          ondatavaluechange={handleDataChangeOfDelegates}
-                              ></c-pir_participant-emancipated-delegate-list> 
+                                                                         alreadyconsent={delegateItem.alreadyConsented}
+                                                                         alreadyconsentedrow={delegateItem.alreadyconsentedrow}
+                              ></c-pir_participant-emancipated-delegate-list>  
                        </template> 
                         <!-- bg-delegate participant end-->
                         <template for:each={addDelegateListNew} for:item="delegatenew" for:index="index">
@@ -314,6 +320,7 @@
                                                                     is-connected ={delegatenew.isConnected}
                                                                     is-disconnected ={delegatenew.isDisconnected}
                                                                     onprogressvaluechange={hanldeProgressValueChangeDelegates}
+                                                                    per-id={selectedPE.id}
                                                                      > </c-pir_participant-emancipated-delegate>
                         </template>
                         <!-- bg-delegate contact info ENd -->

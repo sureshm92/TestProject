@@ -9,20 +9,19 @@
                 communityService.navigateToHome();
 
             component.set('v.userMode', userMode);
-             var fields = ["FirstName","LastName"];
-        var sObj = {'sobjectType':'Contact'};
-        communityService.executeAction(
-            component,
-            'getMaxLength',
-            {
-                so:JSON.stringify(sObj),
-                fieldNames: fields
-            },
-            function (returnValue) {
-                component.set('v.maxLengthData',returnValue);
-                
-                });
-
+            var fields = ['FirstName', 'LastName'];
+            var sObj = { sobjectType: 'Contact' };
+            communityService.executeAction(
+                component,
+                'getMaxLength',
+                {
+                    so: JSON.stringify(sObj),
+                    fieldNames: fields
+                },
+                function (returnValue) {
+                    component.set('v.maxLengthData', returnValue);
+                }
+            );
 
             if (userMode === 'PI' || userMode === 'HCP') component.set('v.isStaff', true);
             else component.set('v.isStaff', false);
@@ -193,8 +192,12 @@
         }
 
         component.find('mainSpinner').show();
+        if(delegate.delegateContact.FirstName){
         delegate.delegateContact.FirstName = delegate.delegateContact.FirstName.trim();
+        } 
+        if(delegate.delegateContact.LastName){
         delegate.delegateContact.LastName = delegate.delegateContact.LastName.trim();
+        }
 
         if (component.get('v.userMode') === 'Participant') {
             console.log(
@@ -281,8 +284,8 @@
         let delegate = component.get('v.delegate');
         component.set(
             'v.isCorrectContactData',
-            delegate.delegateContact.FirstName.trim() !== '' &&
-                delegate.delegateContact.LastName.trim() !== ''
+            ((delegate.delegateContact.FirstName  &&  delegate.delegateContact.FirstName.trim() !== '') &&
+           ( delegate.delegateContact.LastName  &&   delegate.delegateContact.LastName.trim() !== ''))
         );
     }
 });
