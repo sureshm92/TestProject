@@ -3,7 +3,7 @@
  */
 
 .rrc-footer {
-    margin: 25px 0;
+    margin: 14px 0;
     overflow: hidden;
 }
 
@@ -16,13 +16,12 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin: -10px;
 }
 .cf-copyright {
     display: inline-block;
     white-space: nowrap;
-    color: #6b6b6b;
-    font-size: 0.8rem;
+    color: #999999;
+    font-size: 12px;
 }
 
 .cf-links {
@@ -40,7 +39,12 @@
 }
 
 .contact-support-btn {
-    color: #297dfd;
+    display: inline-block;
+    color: #015ff1;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0;
+    font-weight: 500;
     background: transparent;
     border: none;
 }
@@ -75,12 +79,4 @@
         margin: unset;
         justify-content: space-evenly;
     }
-
-    /* .cf-links {
-       
-        width: 100%;
-        
-        text-align: center;
-      
-    } */
 }

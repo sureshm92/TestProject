@@ -15,11 +15,6 @@
 .border-class {
     border-left: 6px solid black;
 }
-.download-res-data {
-    color: #0768fd;
-    font-size: 14px;
-    font-weight: 600;
-}
 
 /* .active-btn {
     background: rgba(7, 104, 253, 1);
@@ -27,6 +22,7 @@
     font-size: 1rem;
     font-weight: 600;
     border: none;
+    
 } 
 
 */
@@ -37,9 +33,6 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 1.5rem;
-}
-.download-icon {
-    --slds-c-icon-color-foreground-default: #0768fd;
 }
 
 /* .active-btn {
@@ -77,6 +70,7 @@
     border-radius: 0 16px 16px 0;
     margin-left: 0px;
     justify-content: center;
+    border-left-color: transparent;
 }
 .container-visit-results {
     position: relative;
