@@ -36,6 +36,7 @@ window.communityService = (function () {
     let communityName;
     let participantData;
     let visResultAvailable = false;
+    let loggedInUserInfo;
     const pagesWithSharedPrivacyPolicy = new Set([
         'my-team',
         'new-team-member',
@@ -620,6 +621,12 @@ window.communityService = (function () {
         },
         getVisResultsAvailable: function () {
             return visResultAvailable;
+        },
+        setLoggedInUserData: function (userDetails) {
+            loggedInUserInfo = userDetails;
+        },
+        getLoggedInUserData: function () {
+            return loggedInUserInfo;
         }
     };
 
