@@ -1,19 +1,20 @@
 <!--created by  ->Jayshree
     modified by ->chetna PEH-7098-->
 <template>
-    <div class="mainNav">
+    <div class="mainNav" role="menubar">
         <template if:true={desktop}>
             <c-web-spinner class="main-spinner"></c-web-spinner>
             <template if:true={isInitialized}>
                 <template for:each={participantTabs} for:item="item">
-                    <div class="nav-item" key={item.label}>
+                    <div class="nav-item" key={item.label} role="menu">
+                        <!--Home Page Tab-->
                         <template if:true={item.displayIcon}>
                             <div
                                 tabindex="0"
-                                role="button"
-                                aria-pressed="false"
+                                role="menuitem"
                                 data-page-name={item.page}
                                 onclick={handleNavigation}
+                                onkeydown={handleKeyDown}
                             >
                                 <c-web-icon
                                     icon-name={item.icon}
@@ -24,9 +25,15 @@
                         </template>
                         <template if:false={item.displayIcon}>
                             <template if:false={item.expand}>
-                                <div data-page-name={item.page} onclick={handleNavigation}>
+                                <div
+                                    data-page-name={item.page}
+                                    tabindex="0"
+                                    role="menuitem"
+                                    onclick={handleNavigation}
+                                    onkeydown={handleNavKeyDown}
+                                >
                                     <ul>
-                                        <li tabindex="0">
+                                        <li>
                                             {item.label}
                                             <template if:true={item.ismsg}>
                                                 <c-nav-message-counter
@@ -43,10 +50,11 @@
                             <div
                                 class="slds-dropdown-trigger slds-dropdown-trigger_click my-menu my-submenuopen"
                                 data-key={item.label}
+                                role="menuitem"
+                                aria-haspopup="true"
                             >
                                 <a
                                     href="javascript:void(0);"
-                                    aria-haspopup="true"
                                     onclick={dropdownMenu}
                                     onblur={removeElementFocus}
                                     data-tagname="myprogram"
@@ -72,9 +80,8 @@
                                             <template if:true={subItem.visible}>
                                                 <li
                                                     class="slds-dropdown__item"
-                                                    role="presentation"
+                                                    role="menuitem"
                                                     key={subItem.label}
-                                                    tabindex="0"
                                                 >
                                                     <a
                                                         onclick={handleNavigationSubMenu}
