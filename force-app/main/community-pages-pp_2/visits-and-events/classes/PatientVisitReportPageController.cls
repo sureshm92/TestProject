@@ -7,7 +7,7 @@ public without sharing class PatientVisitReportPageController {
     public String str { get; set; }
     public String studyCodeName { get; set; }
     public String participantFullName { get; set; }
-    public String enrollmentDate { get; set; }
+    public Date enrollmentDate { get; set; }
     public String studySiteName { get; set; }
     public String participantStatus { get; set; }
     public String pdfStudyHeaderName { get; set; }
@@ -16,7 +16,11 @@ public without sharing class PatientVisitReportPageController {
     public String footerText { get; set; }
     public String patientVisitName { get; set; }
     public Id patientVisitId { get; set; }
-
+    public Date patVisitCompleted { get; set; }
+	public String pdfFooterptFullName { get; set; }
+    public String pdfFooterstudySiteName { get; set; }
+    public String pdfHeaderVisitName { get; set; }
+    public String pdfFooterptStatus { get; set; }
     public class ReportDataWrapper {
         public List<ReportDataTableWrapper> dataTables { get; set; }
         public String studyCodeName { get; set; }
@@ -72,14 +76,17 @@ public without sharing class PatientVisitReportPageController {
             imgUrl = reportDataObj.communityTemplate + '.png';
             studyTitle = reportDataObj.studyTitle;
             studyCodeName = reportDataObj.studyCodeName;
-            pdfStudyHeaderName = reportDataObj.studyCodeName;
             participantFullName = reportDataObj.participantFullName;
-            enrollmentDate = reportDataObj.enrollmentDate;
+            if(String.isNotBlank(reportDataObj.enrollmentDate)){
+                enrollmentDate = Date.parse(reportDataObj.enrollmentDate);
+            }
             participantStatus = reportDataObj.participantStatus;
             studySiteName = reportDataObj.studySiteName;
-            if (studyCodeName.length() > 58) {
-                pdfStudyHeaderName = pdfStudyHeaderName.substring(0, 58) + '...';
-            }
+            pdfStudyHeaderName = studyCodeName.length() > 75 ? studyCodeName.substring(0, 75)+ '...':studyCodeName;
+            pdfFooterptFullName = participantFullName.length() > 35 ? participantFullName.substring(0, 35)+ '...':participantFullName;
+            pdfFooterstudySiteName = studySiteName.length() > 40 ? studySiteName.substring(0, 40)+ '...':studySiteName;
+            pdfHeaderVisitName = patientVisitName.length() > 10 ? patientVisitName.substring(0, 10)+ '...':patientVisitName;
+        	pdfFooterptStatus = participantStatus.length()>32?participantStatus.substring(0, 32)+'...':participantStatus;
             fontFamily = 'Arial Unicode MS';
             Set<String> latinIso = new Set<String>{
                 'it',
@@ -98,6 +105,22 @@ public without sharing class PatientVisitReportPageController {
                 if (UserInfo.getLanguage().contains(st)) {
                     fontFamily = 'sans-serif';
                     break;
+                }
+            }
+            List<ReportDataTableWrapper> dataTablesContainer = reportWrapperFinalObj.dataTables;
+            if (dataTablesContainer != null) {
+                for (ReportDataTableWrapper dattable : dataTablesContainer) {
+                    if (dattable != null) {
+                        List<List<VisitDataWrapper>> visitResultsWrapper = dattable.visitResultsWrapper;
+                        for (List<VisitDataWrapper> wrapper : visitResultsWrapper) {
+                            for (VisitDataWrapper visData : wrapper) {
+                                String completedDate = visData.value;
+                                if (String.isNotEmpty(completedDate))
+                                    patVisitCompleted = Date.parse(completedDate);
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 

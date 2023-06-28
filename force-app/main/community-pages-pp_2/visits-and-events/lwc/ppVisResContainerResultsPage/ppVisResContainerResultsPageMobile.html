@@ -41,19 +41,10 @@
                     class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_small horizontal-line"
                 >
                     <div>
-                        <a target="_blank" onclick={generateReport}>
-                            <span>
-                                <lightning-icon
-                                    icon-name="utility:download"
-                                    size="xx-small"
-                                    class="download-icon"
-                                >
-                                </lightning-icon>
-                                <span class="download-res-data slds-p-left_small"
-                                    >{label.PP_Download_Results_Data}</span
-                                >
-                            </span>
-                        </a>
+                        <c-pp-download-results-data
+                            patient-visit-nam={patientVisitName}
+                            patient-visit-id={currentVisitId}
+                        ></c-pp-download-results-data>
                     </div>
                 </div>
                 <div

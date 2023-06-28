@@ -111,10 +111,6 @@ export default class PpCommunityNavigation extends LightningElement {
         }
     }
     initializeData() {
-        // this.spinner = this.template.querySelector('c-web-spinner');
-        // if (this.spinner) {
-        //     this.spinner.show();
-        // }
         if (communityService.isInitialized()) {
             var recId = communityService.getUrlParameter('id');
             var userMode = communityService.getUserMode();
@@ -147,7 +143,7 @@ export default class PpCommunityNavigation extends LightningElement {
                                 td.pe &&
                                 td.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c
                             ) {
-                                this.gettelevisitDetails(td.pe.Study_Site__c);
+                                this.getTelevisitDetails(td.pe.Study_Site__c);
                             } else {
                                 this.showAboutTelevisit = false;
                                 if (this.participantTabs.length < 1) {
@@ -167,7 +163,7 @@ export default class PpCommunityNavigation extends LightningElement {
         //     this.spinner.hide();
         // }
     }
-    gettelevisitDetails(studysiteId) {
+    getTelevisitDetails(studysiteId) {
         gettelevisitData({ siteId: studysiteId })
             .then((result) => {
                 this.showAboutTelevisit = result;
@@ -360,7 +356,12 @@ export default class PpCommunityNavigation extends LightningElement {
             console.error(e);
         }
     }
-
+    handleNavKeyDown(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            this.handleNavigation(event);
+        }
+    }
     updateCurrentPage(pageNam) {
         let pageDetails;
         if (pageNam) {
