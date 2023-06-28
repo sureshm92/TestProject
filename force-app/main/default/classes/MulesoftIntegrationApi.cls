@@ -1,5 +1,4 @@
 /**
- * Author : Govind Kumar Jha
  * purpose : to integrate with Mulesoft system to get Access token
  * Initial Release : 10th May 2023
  * */

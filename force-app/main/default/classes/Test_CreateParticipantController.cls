@@ -81,7 +81,6 @@ public class Test_CreateParticipantController {
         CreateConsentIntegration.documentCollectionResponse(ctpList[0].StudyGUID__c,ssList[0].SiteGuid__c,accessToken);
         CreateParticipantController.getDocumentCollections(peList[0].Id, accessToken);
         Test.stopTest();
-        //System.assertEquals(mockDocumentCollections.size(), result.size(), 'The size of the returned list should match the mock document collections');
     }
     
     @isTest
@@ -179,13 +178,7 @@ public class Test_CreateParticipantController {
                   FROM Participant_Enrollment__c WHERE Id = :td.pe.Id];
         
         CreateParticipantController.Consentdetails result = CreateParticipantController.getCreateConsentParams(peList[0].Id);
-        Test.stopTest();
-        
-        //System.assertNotEquals(true, result.isEnabled);
-        //System.assertEquals(false, result.isDisabled);
-        //System.assertEquals(peList[0].SenttoCompleteConsent__c, result.consentDate);
-        //System.assertEquals(null, result, 'The consented date should be null when SenttoCompleteConsent__c is null');
-        
+        Test.stopTest();        
     }
     
    @isTest
@@ -195,45 +188,6 @@ public class Test_CreateParticipantController {
         
         TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.class);
         CreateConsentIntegration.bypassParticipantEnrollmentTrigger();
-        
-       /* List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
-        
-        Account piAccount = new Account(
-            Name = 'PI Account'
-        );
-        insert piAccount;
-        
-        Contact piContact = new Contact(
-            FirstName = 'PI',
-            LastName = 'PI',
-            Email = '04ipremail@gmtesstail.com',
-            AccountId = piAccount.Id,
-            Birthdate = Date.valueOf('1987-03-01')
-        );
-        insert piContact;
-        
-        Study_Site__c studySite = [select Id,Principal_Investigator__c,Site__c from Study_Site__c limit 1];
-        Participant__c participant4 = new Participant__c(
-            First_Name__c = 'PI',
-            Last_Name__c = 'PI',
-            Phone__c = '8343212',
-            Email__c = '04ipremail@gmtesstail.com',
-            Mailing_Country_Code__c = 'US',
-            Mailing_State_Code__c = 'AL',
-            Adult__c = true,
-            Site__c = studySite.Site__c,
-            Date_of_Birth__c = '1987-03-01',
-            Contact__c = piContact.Id,
-            Mailing_Zip_Postal_Code__c = '12345'
-        );
-        insert participant4;
-        
-        List<Participant_Enrollment__c> peList = [SELECT Id, Name, Participant_Contact__c FROM Participant_Enrollment__c WHERE Id = :td.pe.Id];
-        for (Participant_Enrollment__c pe : peList) {
-            pe.Participant__c = participant4.id;
-            pe.Participant_Contact__c = piContact.Id;
-        }
-        update peList;   */  
         
         CompleteConsent__c config = new CompleteConsent__c();
         config.Base_Url__c = 'https://uat1-aacens-na.completeconsent.iqvia.com';

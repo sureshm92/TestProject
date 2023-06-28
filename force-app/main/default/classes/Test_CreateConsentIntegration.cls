@@ -91,15 +91,6 @@ public class Test_CreateConsentIntegration {
         String accessToken = MulesoftIntegrationApi.getAccessToken('Test');
         Map<String, CreateConsentIntegration.statusInfo> result = CreateConsentIntegration.createParticipant(peList, accessToken);
         Test.stopTest();
-        
-        //System.assertEquals(enrollmentList.size(), result.size(), 'The size of the returned map should be equal to the size of the input enrollmentList');
-        
-        /*for (String key : result.keySet()) {
-            CreateConsentIntegration.statusInfo infos = result.get(key);
-            System.assertEquals(true, infos.isSuccess, 'isSuccess should be true for all records in the input enrollmentList');
-            System.assertEquals(null, infos.errorCode, 'errorCode should be null for all records in the input enrollmentList');
-            System.assertEquals(null, infos.errorMessage, 'errorMessage should be null for all records in the input enrollmentList');
-        }*/
     }
     
     static testMethod void testCreateParticipantWithError() {
@@ -115,15 +106,7 @@ public class Test_CreateConsentIntegration {
         String accessToken = MulesoftIntegrationApi.getAccessToken('Test');
         Map<String, CreateConsentIntegration.statusInfo> result = CreateConsentIntegration.createParticipant(enrollmentList, accessToken);
         
-        Test.stopTest();
-        
-        // Assert the behavior when receiving an error response
-       /* CreateConsentIntegration.statusInfo info = result.get('StatusFailed');
-        System.assertEquals(false, info.isSuccess);
-        System.assertEquals('500', info.errorCode);
-        System.assertEquals('Internal Server Error: Some error message', info.errorMessage);
-        System.assertEquals('E_CONSENT_TECHNICAL_EROROR', info.UI_MESSAGE);*/
-        
+        Test.stopTest();        
     }
     
     @isTest

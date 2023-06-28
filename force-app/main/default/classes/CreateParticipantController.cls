@@ -1,5 +1,4 @@
 /**
- * Author : Mohit Gupta
  * purpose : provide econsent related dependency and data
  * Initial Release : 10th May 2023
  * */

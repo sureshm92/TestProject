@@ -1,5 +1,4 @@
 /**
- * Author : Mohit Gupta
  * purpose : to integrate with econsent system for various operations
  * Initial Release : 10th May 2023
  * */
