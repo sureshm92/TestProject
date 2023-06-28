@@ -1,13 +1,19 @@
 <template>
-    <template lwc:if={isDesktop}>
-        <a target="_blank" onclick={generateReport}>
-            <span class="download-section">
-                <lightning-icon icon-name="utility:download" size="xx-small" class="download-icon">
-                </lightning-icon>
-                <span class="download-res-data slds-p-left_small"
-                    >{label.PP_Download_Results_Data}
+    <template lwc:if={showDownloadResults}>
+        <template lwc:if={isDesktop}>
+            <a target="_blank" onclick={generateReport}>
+                <span class="download-section">
+                    <lightning-icon
+                        icon-name="utility:download"
+                        size="xx-small"
+                        class="download-icon"
+                    >
+                    </lightning-icon>
+                    <span class="download-res-data slds-p-left_small"
+                        >{label.PP_Download_Results_Data}
+                    </span>
                 </span>
-            </span>
-        </a>
+            </a>
+        </template>
     </template>
 </template>
