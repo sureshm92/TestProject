@@ -6,11 +6,13 @@ import mobileTemplate from './ppDownloadResultsDataMobile.html';
 import tabletTemplate from './ppDownloadResultsDataTablet.html';
 import desktopTemplate from './ppDownloadResultsData.html';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+import checkifPrimary from '@salesforce/apex/ppFileUploadController.checkifPrimary';
 export default class PpDownloadResultsData extends LightningElement {
     peId;
     isRTL;
     @api patientVisitNam;
     @api patientVisitId;
+    showDownloadResults;
     label = {
         PP_Download_Results_Data
     };
@@ -18,6 +20,26 @@ export default class PpDownloadResultsData extends LightningElement {
     connectedCallback() {
         this.peId = communityService.getParticipantData().pe.Id;
         this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
+
+        if (communityService.isDelegate()) {
+            this.checkifPrimaryDelegate();
+        } else {
+            this.showDownloadResults = true;
+        }
+    }
+
+    checkifPrimaryDelegate() {
+        let user = communityService.getLoggedInUserData();
+        checkifPrimary({
+            perID: this.peId,
+            currentContactId: user.ContactId
+        })
+            .then((result) => {
+                this.showDownloadResults = result != null ? true : false;
+            })
+            .catch((error) => {
+                console.error('Error: in checkifPrimary', error);
+            });
     }
     render() {
         if (this.isDesktop) {
