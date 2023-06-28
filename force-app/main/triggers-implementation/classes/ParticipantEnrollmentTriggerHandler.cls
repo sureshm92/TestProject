@@ -196,6 +196,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             );
         }
     }
+    public class PatientVisitsDeletion extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            deleteOldPatientVisits(
+                (List<Participant_Enrollment__c>) newList,
+                (Map<Id, Participant_Enrollment__c>) oldMap
+            );
+        }
+    }
 
     public class UpdatePatientConsent extends TriggerHandler {
         Boolean isPortalUser = checkCurrentusrProfile();
@@ -948,13 +956,18 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         List<Patient_Visit__c> dupCheckpatientVisits = new List<Patient_Visit__c>();
+        List<id> allVisitsofVPList = new  List<id>();
+        List<Patient_Visit__c> patientVisitstoInsert = new List<Patient_Visit__c>();
         Map<Id, List<Patient_Visit__c>> mapVisit = new Map<Id, List<Patient_Visit__c>>();
+        Map<Id,  List<id>> mapVisitDuplicate = new Map<Id, List<id>>();
         Map<Id, Id> enrollmentPlandId = new Map<Id, Id>();
         set<Id> visitPlanId = new Set<Id>();
         set<Id> participantEnrollmentId = new Set<Id>();
+       // Map<Id, Patient_Visit__c> test = new Map<Id, Visit_Plan__c>
         for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating) {
             Clinical_Trial_Profile__c ctp = ctpMap.get(pe.Clinical_Trial_Profile__c);
             participantEnrollmentId.add(pe.Id);
+            
             Id vpId = pe.Visit_Plan__c;
             if (vpId == null)
                 vpId = ctp.Visit_Plan__c;
@@ -980,7 +993,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         if (participantEnrollmentId != null && visitPlanId != null) {
             dupCheckpatientVisits = [
-                SELECT Participant_Enrollment__c, Visit__r.Visit_Plan__r.Id
+                SELECT Participant_Enrollment__c, Visit__r.Visit_Plan__r.Id, Visit__r.Id,Visit__c
                 FROM Patient_Visit__c
                 WHERE
                     Participant_Enrollment__c IN :participantEnrollmentId
@@ -989,18 +1002,31 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         for (Patient_Visit__c pv : dupCheckpatientVisits) {
             if (
-                enrollmentPlandId.get(pv.Participant_Enrollment__c) == pv.Visit__r.Visit_Plan__r.Id
+                mapVisitDuplicate.containsKey(pv.Participant_Enrollment__c)
             ) {
-                participantEnrollmentId.remove(pv.Participant_Enrollment__c);
+                mapVisitDuplicate.get(pv.Participant_Enrollment__c).add(pv.Visit__c); 
+            }
+            else{
+                mapVisitDuplicate.put(pv.Participant_Enrollment__c,
+                new List<id>{pv.Visit__c});
             }
         }
-        for (Id peId : mapVisit.Keyset()) {
-            if (participantEnrollmentId.contains(peId)) {
+        for (Id peId : mapVisit.Keyset()) { 
+            allVisitsofVPList= mapVisitDuplicate.get(peId);
+                if(!mapVisitDuplicate.isEmpty()){
+                    for (Patient_Visit__c pv :mapVisit.get(peId)) {// list of pv to insert
+                        if(!allVisitsofVPList.contains(pv.Visit__c)){
+                            patientVisits.add(pv);
+                        }
+                    }
+                }
+            else{
                 patientVisits.addAll(mapVisit.get(peId));
             }
         }
-        if (patientVisits.size() > 0)
+        if (patientVisits.size() > 0){
             insert patientVisits;
+        }
 
         //Create Pre Enrollment patient Visit for the Participant on Pre Enrollment Status.
         if (
@@ -1512,6 +1538,44 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         if (!taskList.isEmpty())
             insert taskList;
+    }
+    public static void deleteOldPatientVisits(
+        List<Participant_Enrollment__c> newList,
+        Map<Id, Participant_Enrollment__c> oldMap
+    ) {
+        Set<Id> peVpIds = new Set<Id>();
+        Set<Id> perIds = new Set<Id>();
+        List<Patient_Visit__c> initialVisits;
+        if (newList != null) {
+            for (Participant_Enrollment__c per : newList) {
+                if (
+                    oldMap.get(per.Id).Visit_Plan__c != per.Visit_Plan__c
+                ) {
+                    peVpIds.add(per.Visit_Plan__c);
+                    perIds.add(per.Id);
+                }
+            }
+        }
+        if (!peVpIds.isEmpty()) {
+            initialVisits = [
+                SELECT
+                    Id,
+                    Participant_Enrollment__c,
+                    Status__c,
+                    Visit__c,
+                    Visit__r.Visit_Plan__r.Id
+                FROM Patient_Visit__c
+                WHERE
+                    Visit__r.Visit_Plan__r.Id NOT IN :peVpIds
+                    AND Participant_Enrollment__c IN :perIds
+                    AND Status__c=:'Pending'
+                    AND Is_Pre_Enrollment_Patient_Visit__c = FALSE
+                    AND Is_Adhoc__c = FALSE
+            ];
+            if (!initialVisits.isEmpty()) {
+                delete initialVisits;
+            }
+        }   
     }
     public static void CreateEcoaEvents(
         List<Participant_Enrollment__c> newList,
