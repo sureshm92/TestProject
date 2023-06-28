@@ -348,6 +348,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     renderedCallback() {
+        this.spinner =  this.template.querySelector('c-web-spinner');
         if (!this.loadOnce) {
             this.template.querySelector('c-web-spinner')?.show();
             this.initializeData();
