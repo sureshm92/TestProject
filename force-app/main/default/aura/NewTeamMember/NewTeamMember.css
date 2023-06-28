@@ -1,7 +1,9 @@
 /**
  * Created by Kryvolap on 16.09.2018.
  */
-
+ .THIS.rr-spinner {
+    position: fixed;
+}
 .THIS .personal-info-panel,
 .THIS .button-panel,
 .THIS .permissions-panel {
