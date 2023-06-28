@@ -216,9 +216,15 @@ public inherited sharing class PatientVisitService {
     }
 
     public static List<Patient_Visit__c> getPatientCardVisits(Id peId) {
+        Participant_Enrollment__c per= [SELECT Id, Visit_Plan__c FROM Participant_Enrollment__c
+                                        WHERE Id=:peId ];
+        id vp=per.Visit_Plan__c;
         String filter =
             DatabaseService.fieldEqual('Participant_Enrollment__c', peId) +
-            'AND Is_Adhoc__c = FALSE ';
+            'AND Is_Adhoc__c = FALSE '+ 
+            'AND (' +
+            DatabaseService.fieldEqual('Visit__r.Visit_Plan__c', vp) +
+            'OR Is_Pre_Enrollment_Patient_Visit__c = TRUE )';
         String order = 'Visit_Number__c ASC NULLS LAST';
         List<Patient_Visit__c> patientVisits = (List<Patient_Visit__c>) DatabaseService.query(
             new List<String>{
@@ -229,7 +235,9 @@ public inherited sharing class PatientVisitService {
                 'Planned_Date__c',
                 'Portal_Name__c',
                 'Visit_Number__c',
-                'Visit__c'
+                'Visit__c',
+                'Visit__r.Visit_Plan__c',
+                'Is_Pre_Enrollment_Patient_Visit__c'
             },
             Patient_Visit__c.getSObjectType(),
             filter,
