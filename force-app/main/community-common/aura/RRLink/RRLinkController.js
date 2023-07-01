@@ -22,7 +22,6 @@
         } else if (participantVeiwRedirection) {
             event.preventDefault();
             communityService.navigateToPage('my-referrals');
-            communityService.reloadPage();
         } else {
                 if (component.get('v.identifier')) {
                 sessionStorage.setItem('Cookies', 'Accepted');
