@@ -3394,6 +3394,11 @@
         <field>Clinical_Trial_Profile__c.StudyGUID__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.PPTemplate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment_Status_History__c.Disabled_PESH__c</field>
