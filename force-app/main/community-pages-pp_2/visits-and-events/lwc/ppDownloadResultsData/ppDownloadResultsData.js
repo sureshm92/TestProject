@@ -1,15 +1,19 @@
 import { LightningElement, api } from 'lwc';
 import PP_Download_Results_Data from '@salesforce/label/c.PP_Download_Results_Data';
-import getBase64fromVisitSummaryReportPage_Modified from '@salesforce/apex/VisitReportContainerRemote.getBase64fromVisitSummaryReportPage_Modified';
+import getBase64fromVisitSummaryReportPage_Modified from '@salesforce/apex/ModifiedVisitReportContainerRemote.getBase64fromVisitSummaryReportPage_Modified';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import mobileTemplate from './ppDownloadResultsDataMobile.html';
 import tabletTemplate from './ppDownloadResultsDataTablet.html';
 import desktopTemplate from './ppDownloadResultsData.html';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import checkifPrimary from '@salesforce/apex/ppFileUploadController.checkifPrimary';
+
 export default class PpDownloadResultsData extends LightningElement {
+
     peId;
     isRTL;
+    userDetails;
+    @api peIdAlumni;
     @api patientVisitNam;
     @api patientVisitId;
     showDownloadResults;
@@ -18,21 +22,25 @@ export default class PpDownloadResultsData extends LightningElement {
     };
 
     connectedCallback() {
+        /*  if (this.peIdAlumni != null) {
+            this.peId = this.peIdAlumni;
+        } else {
+            this.peId = communityService.getParticipantData().pe.Id;
+        }*/
         this.peId = communityService.getParticipantData().pe.Id;
-        this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
-
-        if (communityService.isDelegate()) {
+        this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;      
+        this.userDetails= communityService.getLoggedInUserData();
+        if (this.userDetails.Contact.userCommunityDelegateId__c != null) {
             this.checkifPrimaryDelegate();
         } else {
             this.showDownloadResults = true;
         }
     }
 
-    checkifPrimaryDelegate() {
-        let user = communityService.getLoggedInUserData();
+    checkifPrimaryDelegate() {       
         checkifPrimary({
             perID: this.peId,
-            currentContactId: user.ContactId
+            currentContactId: this.userDetails.ContactId
         })
             .then((result) => {
                 this.showDownloadResults = result != null ? true : false;
@@ -86,5 +94,6 @@ export default class PpDownloadResultsData extends LightningElement {
                 '&patientVisitId=' +
                 this.patientVisitId
         );
+        //  window.open('https://www.w3schools.com');
     }
 }
