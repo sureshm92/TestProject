@@ -15,6 +15,12 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
     }
 
     navigateResourceDetail() {
+        const clickResource = new CustomEvent('resourceclick', {
+            detail: { resourceId: this.exploreData.resource.Id },
+            bubbles: true,
+            composed: true
+        });
+        this.dispatchEvent(clickResource);
         let state;
         if (communityService.isInitialized()) {
             state = communityService.getCurrentCommunityMode().participantState;

@@ -30,19 +30,11 @@
                                     time-zone={userTimezone}
                                 ></lightning-formatted-date-time></span></lightning-layout-item
                         ><lightning-layout-item size="5" class="slds-align-middle download-section">
-                            <span>
-                                <lightning-icon
-                                    icon-name="utility:download"
-                                    size="xx-small"
-                                    class="download-icon"
-                                >
-                                </lightning-icon>
-                                <span class="download-res-data slds-p-left_small">
-                                    {label.PP_Download_Results_Data}
-                                </span>
-                            </span></lightning-layout-item
-                        ></lightning-layout
-                    >
+                            <c-pp-download-results-data
+                                patient-visit-nam={patientVisitName}
+                                patient-visit-id={currentVisitId}
+                            ></c-pp-download-results-data></lightning-layout-item
+                    ></lightning-layout>
                 </div>
 
                 <div class="slds-col slds-size_1-of-1 slds-p-horizontal_none">

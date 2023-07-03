@@ -1,6 +1,5 @@
 import { LightningElement, api } from 'lwc';
 import versionDate from '@salesforce/label/c.Version_date';
-import removeCard from '@salesforce/apex/PPUpdatesController.removeUpdateCard';
 import { NavigationMixin } from 'lightning/navigation';
 import VIEW_RESOURCE from '@salesforce/label/c.PP_View_Resource';
 import DEVICE from '@salesforce/client/formFactor';
