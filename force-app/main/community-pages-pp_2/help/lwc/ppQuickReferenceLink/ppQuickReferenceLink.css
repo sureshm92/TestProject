@@ -8,6 +8,15 @@
     line-height: 24px;
 }
 
+.custom-btn:hover  {
+    border-color: #015ff1;
+    background-color: #ecf3ff;
+    color: #015ff1;
+    transition: 0.25s;
+    text-decoration: none;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
+}
+
 .arrow {
     color: blue;
     text-align: right;
