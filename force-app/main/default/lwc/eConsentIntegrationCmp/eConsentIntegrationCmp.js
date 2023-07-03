@@ -58,7 +58,7 @@ export default class EConsentIntegrationCmp extends LightningElement {
     };
     @api recordId;   
     venders; 
-    eConsentdetails = [];
+    @track eConsentdetails = [];
     totalstudysitelist = [];
     isModalOpen = false;
     vendername;
