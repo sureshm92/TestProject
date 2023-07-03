@@ -2272,6 +2272,10 @@
         <apexClass>ModifiedVisitReportService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+      <classAccesses>
+        <apexClass>ModifiedVisitReportContainerRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses> 
      <classAccesses>
         <apexClass>PatientVisitReportPageController</apexClass>
         <enabled>true</enabled>
