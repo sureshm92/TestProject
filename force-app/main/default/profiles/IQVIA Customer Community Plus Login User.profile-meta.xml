@@ -4,6 +4,10 @@
         <apexClass>PPTelevisitUpcomingTileController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>CreateParticipantController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>SiteCalendarController</apexClass>
         <enabled>true</enabled>
@@ -6385,6 +6389,36 @@
         <field>Participant_Enrollment__c.Is_Participant_Contact_Opt_in_SMS__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.DocumentCollectionId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.DocumentCollectionName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.DocumentCollectionTitle__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Participantavailableincompleteconsen__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.ParticipantGUID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.SenttoCompleteConsent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Status_Integration__mdt.ApiFieldNames__c</field>
@@ -8796,6 +8830,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Study_External_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.StudyGUID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
