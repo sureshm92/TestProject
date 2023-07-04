@@ -87,7 +87,7 @@
                                                 <apex:repeat value="{!rows}" var="row">
                                                     
                                                     <apex:outputText rendered="{!row.value!='______'}"> 
-                                                        <td style="font-size: 15px;color:#C42EA5;padding-top:15px;padding-bottom:15px;text-align:center;" >{!row.value}&nbsp;{!row.measurement}</td>
+                                                        <td style="font-size: 15px;color:#C42EA5;padding-top:15px;padding-bottom:15px;text-align:center;" ><span>{!row.value}&nbsp;</span><span>{!row.measurement}</span></td>
                                                     </apex:outputText>
                                                     <apex:outputText rendered="{!row.value=='______'}">
                                                         <td style="font-size: 15px;text-align:center;color:#999999;padding-top:4px;padding-bottom:15px;" >{!row.value}</td></apex:outputText>
