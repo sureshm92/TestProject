@@ -62,6 +62,11 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
         return this.communityName == 'GSK Community' ? true : false;
     }
 
+
+    get piUserIcon(){
+        return this.isRTL ? 'piIcon-Rtl' : 'piIcon-NonRtl';
+    }
+
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
 
