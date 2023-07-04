@@ -12,4 +12,5 @@ trigger NotificationTrigger on Notification__c(
     after undelete
 ) {
     TriggerHandlerExecutor.execute(NotificationTriggerHandler.CheckFieldsHandler.class);
+    TriggerHandlerExecutor.execute(NotificationTriggerHandler.UpdateNotificationHandler.class);
 }

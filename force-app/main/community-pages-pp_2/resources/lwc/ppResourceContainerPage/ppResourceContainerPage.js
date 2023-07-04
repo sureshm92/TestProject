@@ -17,9 +17,8 @@ import RESOURCES from '@salesforce/label/c.PG_SW_Tab_Resources';
 import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
 import DISCLAIMER from '@salesforce/label/c.PP_Resource_Disclaimer';
 import { NavigationMixin } from 'lightning/navigation';
-
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
-
+import removeUpdateCardForResource from '@salesforce/apex/PPUpdatesController.removeUpdateCardForResource';
 export default class PpResourceContainerPage extends NavigationMixin(LightningElement) {
     //boolean var
     desktop = true;
@@ -329,9 +328,21 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         this.containerElement = this.template.querySelectorAll('.res-options');
         this.containerElement[0].classList.toggle('hidden');
     }
-
-    // closeOptions(event){
-    //     if(this.containerElement[0])
-    //         this.containerElement[0].classList.add('hidden');
-    // }
+    handleResourceClick(event) {
+        const targetRecId = event.detail.resourceId;
+        var currentParticipant = communityService.getParticipantData().participant.Id;
+        var currentPe = communityService.getParticipantData()?.pe?.Id;
+        var participantContact = communityService.getParticipantData().participant.Contact__c;
+        removeUpdateCardForResource({
+            targetRecId: targetRecId,
+            currentParticipant: currentParticipant,
+            currentPe: currentPe,
+            participantContact: participantContact
+        })
+            .then((returnValue) => {})
+            .catch((error) => {
+                console.log('error message ' + JSON.stringify(error));
+                this.showErrorToast('', error.body.message, 'error');
+            });
+    }
 }

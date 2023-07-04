@@ -274,7 +274,7 @@
     padding: 0;
 }
 .container-card {
-    background-color: rgb(246, 247, 249);
+    background-color: #f6f7fb;
     border-top-color: #00a3e0;
     border-top-width: 8px;
     padding: 0;
@@ -352,40 +352,43 @@
     .upcoming-card {
         margin: 10px 10px 0px 10px;
     }
+    .progress-container {
+        margin: 0px 10px 0px 10px !important;
+    }
 }
 
 @media all and (max-width: 380px) {
-	.mobileSet {
-		zoom: 0.97;
-	}
+    .mobileSet {
+        zoom: 0.97;
+    }
 }
 @media all and (max-width: 372px) {
-	.mobileSet {
-		zoom: 0.95;
-	}
+    .mobileSet {
+        zoom: 0.95;
+    }
 }
 @media all and (max-width: 362px) {
-	.mobileSet {
-		zoom: 0.93;
-	}
+    .mobileSet {
+        zoom: 0.93;
+    }
 }
 @media all and (max-width: 350px) {
-	.mobileSet {
-		zoom: 0.91;
-	}
+    .mobileSet {
+        zoom: 0.91;
+    }
 }
 @media all and (max-width: 342px) {
-	.mobileSet {
-		zoom: 0.89;
-	}
+    .mobileSet {
+        zoom: 0.89;
+    }
 }
 @media all and (max-width: 332px) {
-	.mobileSet {
-		zoom: 0.87;
-	}
+    .mobileSet {
+        zoom: 0.87;
+    }
 }
 @media all and (max-width: 326px) {
-	.mobileSet {
-		zoom: 0.85;
-	}
+    .mobileSet {
+        zoom: 0.85;
+    }
 }

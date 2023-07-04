@@ -1,9 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import LOCALE from '@salesforce/i18n/locale';
-import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import JANUARY from '@salesforce/label/c.January';
@@ -70,6 +67,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     minorUserName = '';
     hasProfilePic = false;
     isInitialized = false;
+    loadOnce = false;
     @api isDelegate = false;
     contactChanged = false;
     optInEmail = false;
@@ -142,21 +140,20 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     mobilePhoneFieldError = this.labels.INVALID_PHONE_FORMAT;
     daytimePhoneFieldError = this.labels.INVALID_PHONE_FORMAT;
 
-    dobConfigFormat ='';
-    selectedAge = '';
-    lastDay =31;
-    @track optionsDDList =[];
-    @track optionsMMList =[];
+    dobConfigFormat = '';
+    selectedAge = null;
+    lastDay = 31;
+    @track optionsDDList = [];
+    @track optionsMMList = [];
     @track optionsYYYY = [];
     @track ageOpt = [];
     showDay = false;
     showMonth = true;
     ageInputDisabled = false;
-    ageStart = "0";
-    ageEnd = "150";
+    ageStart = '0';
+    ageEnd = '150';
 
     daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
 
     optiondateList() {
         var opt = [];
@@ -164,37 +161,40 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         for (var i = 1; i <= lastDay; i++) {
             var x = i.toString();
             if (i < 10) x = '0' + x;
-            opt.push({ label: x, value: x ,isSelected: false });
-            if(this.personWrapper && this.personWrapper.birthDay && this.personWrapper.birthDay == x){
-                opt[x-1].isSelected = true;
+            opt.push({ label: x, value: x, isSelected: false });
+            if (
+                this.personWrapper &&
+                this.personWrapper.birthDay &&
+                this.personWrapper.birthDay == x
+            ) {
+                opt[x - 1].isSelected = true;
             }
         }
         this.optionsDDList = opt;
         if (onchange == 'onchange') {
             this.showDay = !this.showDay;
         }
-        
     }
-    monthsList(){
-       var monthsList = [
-            { label: JANUARY, value: '01' ,isSelected : false },
-            { label: FEBRUARY, value: '02' ,isSelected : false},
-            { label: MARCH, value: '03',isSelected : false },
-            { label: APRIL, value: '04' ,isSelected : false},
-            { label: MAY, value: '05' ,isSelected : false},
-            { label: JUNE, value: '06',isSelected : false },
-            { label: JULY, value: '07' ,isSelected : false},
-            { label: AUGUST, value: '08' ,isSelected : false},
-            { label: SEPTEMBER, value: '09' ,isSelected : false},
-            { label: OCTOBER, value: '10' ,isSelected : false},
-            { label: NOVEMBER, value: '11',isSelected : false },
-            { label: DECEMBER, value: '12' ,isSelected : false}
+    monthsList() {
+        var monthsList = [
+            { label: JANUARY, value: '01', isSelected: false },
+            { label: FEBRUARY, value: '02', isSelected: false },
+            { label: MARCH, value: '03', isSelected: false },
+            { label: APRIL, value: '04', isSelected: false },
+            { label: MAY, value: '05', isSelected: false },
+            { label: JUNE, value: '06', isSelected: false },
+            { label: JULY, value: '07', isSelected: false },
+            { label: AUGUST, value: '08', isSelected: false },
+            { label: SEPTEMBER, value: '09', isSelected: false },
+            { label: OCTOBER, value: '10', isSelected: false },
+            { label: NOVEMBER, value: '11', isSelected: false },
+            { label: DECEMBER, value: '12', isSelected: false }
         ];
-        if(this.personWrapper && this.personWrapper.birthMonth){
-            monthsList.forEach((item,index) => {
-              if(this.personWrapper.birthMonth == item.value){
-                 item.isSelected = true;
-              }
+        if (this.personWrapper && this.personWrapper.birthMonth) {
+            monthsList.forEach((item, index) => {
+                if (this.personWrapper.birthMonth == item.value) {
+                    item.isSelected = true;
+                }
             });
         }
         this.optionsMMList = monthsList;
@@ -205,11 +205,14 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         let currentYear = parseInt(new Date().getFullYear());
         let earliestYear = 1900;
         for (var i = currentYear; i >= earliestYear; i--) {
-            if(this.personWrapper && this.personWrapper.birthYear && this.personWrapper.birthYear == i.toString()){
-                yearsOptions.push({ label: i.toString(), value: i.toString() ,isSelected:true});
-            }
-            else{
-                yearsOptions.push({ label: i.toString(), value: i.toString() ,isSelected:false});
+            if (
+                this.personWrapper &&
+                this.personWrapper.birthYear &&
+                this.personWrapper.birthYear == i.toString()
+            ) {
+                yearsOptions.push({ label: i.toString(), value: i.toString(), isSelected: true });
+            } else {
+                yearsOptions.push({ label: i.toString(), value: i.toString(), isSelected: false });
             }
         }
         this.optionsYYYY = yearsOptions;
@@ -219,19 +222,20 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             this.showMonth = format.includes('MM') ? true : false;
         }
         //Onload of any othe DOB fields are Empty and onchange of other fields with DOB empty disable the save btn
-        if(this.dobConfigFormat == 'DD-MM-YYYY'){
-            if(!this.personWrapper.birthDay || !this.personWrapper.birthMonth  || !this.personWrapper.birthYear){
-                this.hasFieldError.isDOBHasError = true;
-    
-            }
-        }
-        else if(this.dobConfigFormat == 'MM-YYYY'){
-            if(!this.personWrapper.birthYear || !this.personWrapper.birthMonth){
+        if (this.dobConfigFormat == 'DD-MM-YYYY') {
+            if (
+                !this.personWrapper.birthDay ||
+                !this.personWrapper.birthMonth ||
+                !this.personWrapper.birthYear
+            ) {
                 this.hasFieldError.isDOBHasError = true;
             }
-        }
-        else if(this.dobConfigFormat == 'YYYY'){
-            if(!this.personWrapper.birthYear){
+        } else if (this.dobConfigFormat == 'MM-YYYY') {
+            if (!this.personWrapper.birthYear || !this.personWrapper.birthMonth) {
+                this.hasFieldError.isDOBHasError = true;
+            }
+        } else if (this.dobConfigFormat == 'YYYY') {
+            if (!this.personWrapper.birthYear) {
                 this.hasFieldError.isDOBHasError = true;
             }
         }
@@ -279,21 +283,21 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         var partDOB = '';
         if (format != 'DD-MM-YYYY') {
             if (format == 'MM-YYYY') {
-                if(personWrapper.birthYear && personWrapper.birthMonth){
+                if (personWrapper.birthYear && personWrapper.birthMonth) {
                     partDOB =
-                    personWrapper.birthYear +
-                    '-' +
-                    personWrapper.birthMonth +
-                    '-' +
-                    this.lastDay;
-                } 
+                        personWrapper.birthYear +
+                        '-' +
+                        personWrapper.birthMonth +
+                        '-' +
+                        this.lastDay;
+                }
             } else if (format == 'YYYY') {
-                if(personWrapper.birthYear){
+                if (personWrapper.birthYear) {
                     partDOB = personWrapper.birthYear + '-12-31';
                 }
             }
             if (partDOB && !partDOB.includes('--')) {
-                var dob = new Date(partDOB.replace(/-/g, "/"));
+                var dob = new Date(partDOB.replace(/-/g, '/'));
                 var month_diff = Date.now() - dob.getTime();
                 var age_dt = new Date(month_diff);
                 var year = age_dt.getUTCFullYear();
@@ -308,7 +312,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                     ) {
                         endAge++;
                     }
-                    this.ageEnd =  endAge;
+                    this.ageEnd = endAge;
                     this.setAge();
                 } else {
                     this.ageStart = '0';
@@ -324,41 +328,33 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         var ageEnd = parseInt(this.ageEnd);
         var selectedAgeNotInOptions = false;
         for (var i = ageStart; i <= ageEnd; i++) {
-            if(this.personWrapper && this.personWrapper.age && (this.personWrapper.age == ageStart || this.personWrapper.age == ageEnd)){
+            if (
+                this.personWrapper &&
+                this.personWrapper.age &&
+                (this.personWrapper.age == ageStart || this.personWrapper.age == ageEnd)
+            ) {
                 selectedAgeNotInOptions = true;
-                opt.push({ label: i.toString(), value: i.toString() ,isSelected : true});
-            }
-            else{
-                opt.push({ label: i.toString(), value: i.toString() ,isSelected : false});
+                opt.push({ label: i.toString(), value: i.toString(), isSelected: true });
+            } else {
+                opt.push({ label: i.toString(), value: i.toString(), isSelected: false });
             }
         }
         this.ageOpt = opt;
-        if(!selectedAgeNotInOptions){
-            this.personWrapper.age = '';
-            this.selectedAge = '';
+        if (!selectedAgeNotInOptions) {
+            this.personWrapper.age = null;
+            this.selectedAge = null;
             this.handleAgeErrorMessage();
         }
     }
 
-    connectedCallback() {
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                Promise.all([loadStyle(this, communityPPTheme)])
-                    .then(() => {
-                        this.spinner = this.template.querySelector('c-web-spinner');
-                        this.spinner.show();
-                        this.initializeData();
-                    })
-                    .catch((error) => {
-                        console.log(error.body.message);
-                    });
-            })
-            .catch((error) => {
-                this.showToast(this.labels.ERROR_MESSAGE, error.message, 'error');
-            });
+    renderedCallback() {
+        this.spinner =  this.template.querySelector('c-web-spinner');
+        if (!this.loadOnce) {
+            this.template.querySelector('c-web-spinner')?.show();
+            this.initializeData();
+            this.loadOnce = true;
+        }
     }
-
-    renderedCallback() {}
     initializeData() {
         getInitData({ userMode: this.userMode })
             .then((result) => {
@@ -374,14 +370,14 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 this.delegateContact = initialData.delegateContact;
                 this.hasProfilePic = initialData.hasProfilePic;
                 this.dobConfigFormat = this.initData.consentPreferenceData.studySiteYOBFormat;
-                var participantselectedage = this.personWrapper.age !=undefined ? ((this.personWrapper.age).toString()) : '';
-                if(this.dobConfigFormat == 'DD-MM-YYYY'){
+                var participantselectedage =
+                    this.personWrapper.age != undefined ? this.personWrapper.age.toString() : '';
+                if (this.dobConfigFormat == 'DD-MM-YYYY') {
                     this.ageInputDisabled = true;
+                } else {
+                    this.ageInputDisabled = false;
                 }
-                else{
-                    this.ageInputDisabled = false;                    
-                }
-                this.selectedAge = participantselectedage; 
+                this.selectedAge = participantselectedage;
                 if (this.userMode === 'Participant') {
                     this.isAdult = initialData.participant.Adult__c;
                 }
@@ -420,7 +416,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 this.yearsList();
                 this.monthsList();
                 this.optiondateList();
-                if(this.dobConfigFormat == 'DD-MM-YYYY'){
+                if (this.dobConfigFormat == 'DD-MM-YYYY') {
                     this.participantAge();
                 }
                 this.isInitialized = true;
@@ -449,7 +445,6 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 '##HELPLINK',
                 `<a href="./help" style="font-weight:600;">${this.labels.HELP}</a>`
             );
-
     }
 
     /**CSS Getters START */
@@ -519,15 +514,14 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             : 'slds-col slds-size_1-of-3 slds-p-left_none slds-p-right_x-small';
     }
 
-    get doGetAgeClass(){
-         return this.isMobile
+    get doGetAgeClass() {
+        return this.isMobile
             ? this.isRTL
                 ? 'slds-col slds-size_1-of-3 slds-p-right_none slds-p-left_x-small'
                 : 'slds-col slds-size_1-of-3 slds-p-left_none slds-p-right_x-small'
             : this.isRTL
             ? 'slds-col slds-size_1-of-3 slds-p-right_none slds-p-left_x-small'
             : 'slds-col slds-size_1-of-3 slds-p-left_none slds-p-right_x-small customMargin';
-
     }
 
     get dobInputClass() {
@@ -619,11 +613,11 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     get saveButtonClass() {
         return this.isMobile
             ? this.isSaveDisabled
-                ? 'slds-button slds-button_brand save-button save-button-disabled full-width'
-                : 'slds-button slds-button_brand save-button full-width'
+                ? 'primaryBtn slds-button slds-button_brand save-button save-button-disabled full-width'
+                : 'primaryBtn slds-button slds-button_brand save-button full-width'
             : this.isSaveDisabled
-            ? 'slds-button slds-button_brand save-button save-button-disabled'
-            : 'slds-button slds-button_brand save-button';
+            ? 'primaryBtn slds-button slds-button_brand save-button save-button-disabled'
+            : 'primaryBtn slds-button slds-button_brand save-button';
     }
 
     /**CSS Getters END */
@@ -640,14 +634,14 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             : false;
     }
     get delSelfView() {
-        if(this.isDelegate || (!this.isDelegate && !this.personWrapper.showBirthDate)){
+        if (this.isDelegate || (!this.isDelegate && !this.personWrapper.showBirthDate)) {
             return false;
         }
     }
-    get dobForDelegate(){
+    get dobForDelegate() {
         return !this.isDelegate && !this.personWrapper.showBirthDate ? true : false;
     }
-    get dobForParticipant(){
+    get dobForParticipant() {
         return !this.isDelegate && this.personWrapper.showBirthDate ? true : false;
     }
 
@@ -757,8 +751,8 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 this.participantAge();
                 this.handleDOBErrorMessage();
             } else {
-                this.personWrapper.age ='';
-                this.selectedAge = '';
+                this.personWrapper.age = null;
+                this.selectedAge = null;
                 this.setMinMaxAge();
                 this.handleDOBErrorMessage();
                 this.handleAgeErrorMessage();
@@ -786,8 +780,8 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 this.participantAge();
                 this.handleDOBErrorMessage();
             } else {
-                this.personWrapper.age ='';
-                this.selectedAge = '';
+                this.personWrapper.age = null;
+                this.selectedAge = null;
                 this.setMinMaxAge();
                 this.handleDOBErrorMessage();
                 this.handleAgeErrorMessage();
@@ -796,79 +790,90 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     handleDOBErrorMessage() {
-         if(this.dobConfigFormat == 'YYYY'){
-            if(this.personWrapper.birthYear){
-            this.hasFieldError.isFieldChanged = true;
-            this.hasFieldError.isDOBHasError = false;
-            }
-         else{
-            this.hasFieldError.isFieldChanged = true;
-            this.hasFieldError.isDOBHasError = true;
-         }
-        }
-        else if(this.dobConfigFormat == 'MM-YYYY'){
-            if(this.personWrapper.birthYear && this.personWrapper.birthMonth){
+        if (this.dobConfigFormat == 'YYYY') {
+            if (this.personWrapper.birthYear) {
                 this.hasFieldError.isFieldChanged = true;
                 this.hasFieldError.isDOBHasError = false;
-            }
-             else{
+            } else {
                 this.hasFieldError.isFieldChanged = true;
                 this.hasFieldError.isDOBHasError = true;
-             }
-        }
-        else if(this.dobConfigFormat == 'DD-MM-YYYY'){
-            if(this.personWrapper.birthYear && this.personWrapper.birthMonth && this.personWrapper.birthDay){
+            }
+        } else if (this.dobConfigFormat == 'MM-YYYY') {
+            if (this.personWrapper.birthYear && this.personWrapper.birthMonth) {
                 this.hasFieldError.isFieldChanged = true;
                 this.hasFieldError.isDOBHasError = false;
-            }
-             else{
+            } else {
                 this.hasFieldError.isFieldChanged = true;
                 this.hasFieldError.isDOBHasError = true;
-             }
+            }
+        } else if (this.dobConfigFormat == 'DD-MM-YYYY') {
+            if (
+                this.personWrapper.birthYear &&
+                this.personWrapper.birthMonth &&
+                this.personWrapper.birthDay
+            ) {
+                this.hasFieldError.isFieldChanged = true;
+                this.hasFieldError.isDOBHasError = false;
+            } else {
+                this.hasFieldError.isFieldChanged = true;
+                this.hasFieldError.isDOBHasError = true;
+            }
         }
-
     }
-    handleAgeErrorMessage(){
-        if(this.dobConfigFormat == 'MM-YYYY' && this.personWrapper.birthYear && this.personWrapper.birthMonth) {
-            if(this.selectedAge == null || this.selectedAge == undefined || this.selectedAge == ''){
-                this.hasFieldError.isFieldChanged = true;
-                this.hasFieldError.isAgeHasError = true;
+    handleAgeErrorMessage() {
+        let delSelfView = !this.isDelegate && !this.personWrapper.showBirthDate ? true : false;
+        if (!delSelfView) {
+            if (
+                this.dobConfigFormat == 'MM-YYYY' &&
+                this.personWrapper.birthYear &&
+                this.personWrapper.birthMonth
+            ) {
+                if (
+                    this.selectedAge == null ||
+                    this.selectedAge == undefined ||
+                    this.selectedAge == ''
+                ) {
+                    this.hasFieldError.isFieldChanged = true;
+                    this.hasFieldError.isAgeHasError = true;
+                } else {
+                    this.hasFieldError.isFieldChanged = true;
+                    this.hasFieldError.isAgeHasError = false;
+                }
             }
-             else{
-                this.hasFieldError.isFieldChanged = true;
-                this.hasFieldError.isAgeHasError = false;
+            if (this.dobConfigFormat == 'YYYY' && this.personWrapper.birthYear) {
+                if (
+                    this.selectedAge == null ||
+                    this.selectedAge == undefined ||
+                    this.selectedAge == ''
+                ) {
+                    this.hasFieldError.isFieldChanged = true;
+                    this.hasFieldError.isAgeHasError = true;
+                } else {
+                    this.hasFieldError.isFieldChanged = true;
+                    this.hasFieldError.isAgeHasError = false;
+                }
             }
-            
         }
-        if(this.dobConfigFormat == 'YYYY' && this.personWrapper.birthYear) {
-            if(this.selectedAge == null || this.selectedAge == undefined || this.selectedAge == ''){
-                this.hasFieldError.isFieldChanged = true;
-                this.hasFieldError.isAgeHasError = true;
-            }
-             else{
-                this.hasFieldError.isFieldChanged = true;
-                this.hasFieldError.isAgeHasError = false;
-            }
-        }
-
     }
     handleAgeChange(event) {
-        let ageVal = event.detail ;
-        this.selectedAge = event.detail ;
+        let ageVal = event.detail;
+        this.selectedAge = event.detail;
         var num = parseFloat(this.selectedAge).toFixed(2);
         var personWrapper = this.personWrapper;
         personWrapper.age = num;
         this.personWrapper = personWrapper;
         let ageOptions = this.ageOpt;
         let ageOptSelected = [];
-        if(this.ageOpt){
-            ageOptions.forEach((item,index) => {
-                if(personWrapper && personWrapper.age && item.value == personWrapper.age){
-                    ageOptSelected.push({ label: item.label, value: item.value ,isSelected : true});
-  
-                }
-                else{
-                    ageOptSelected.push({ label: item.label, value: item.value ,isSelected : false});
+        if (this.ageOpt) {
+            ageOptions.forEach((item, index) => {
+                if (personWrapper && personWrapper.age && item.value == personWrapper.age) {
+                    ageOptSelected.push({ label: item.label, value: item.value, isSelected: true });
+                } else {
+                    ageOptSelected.push({
+                        label: item.label,
+                        value: item.value,
+                        isSelected: false
+                    });
                 }
             });
             this.ageOpt = ageOptSelected;
@@ -1016,32 +1021,34 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         let year = currentDate.getFullYear();
         let month = currentDate.getMonth() + 1;
         let allowedDays;
-        if(this.personWrapper.birthYear == year && monthInput == month){
+        if (this.personWrapper.birthYear == year && monthInput == month) {
             allowedDays = date;
-        }
-        else
-        {
+        } else {
             allowedDays =
-                    monthInput !== '02'
-                        ? this.daysInMonth[parseInt(monthInput) - 1]
-                        : this.isLeapYear(this.personWrapper.birthYear)
-                        ? this.daysInMonth[parseInt(monthInput) - 1] + 1
-                        : this.daysInMonth[parseInt(monthInput) - 1];
-        } 
+                monthInput !== '02'
+                    ? this.daysInMonth[parseInt(monthInput) - 1]
+                    : this.isLeapYear(this.personWrapper.birthYear)
+                    ? this.daysInMonth[parseInt(monthInput) - 1] + 1
+                    : this.daysInMonth[parseInt(monthInput) - 1];
+        }
         for (let dayNumber = 1; dayNumber <= allowedDays; dayNumber++) {
             let formattedDayNumber = ('0' + dayNumber).slice(-2).toString();
             let daySelected = false;
-            if(this.personWrapper && this.personWrapper.birthDay && this.personWrapper.birthDay ==formattedDayNumber){
+            if (
+                this.personWrapper &&
+                this.personWrapper.birthDay &&
+                this.personWrapper.birthDay == formattedDayNumber
+            ) {
                 daySelected = true;
             }
             let dayOption = {
                 label: formattedDayNumber,
                 value: formattedDayNumber,
-                isSelected : daySelected
+                isSelected: daySelected
             };
             daysOptions = [...daysOptions, dayOption];
         }
-        
+
         this.optionsDDList = daysOptions;
         this.lastDay = allowedDays;
         if (parseInt(this.personWrapper.birthDay) > this.lastDay) {
@@ -1049,39 +1056,37 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         }
     }
     setAllowedMonths(yearInput) {
-        let optionsMMList1=[];
+        let optionsMMList1 = [];
         const currentDate = new Date();
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth() + 1;
         let monthInSelectedOptions = false;
         let currentMonth = this.personWrapper.birthMonth;
-       if(yearInput == year){
+        if (yearInput == year) {
             for (let monthNumber = 1; monthNumber <= month; monthNumber++) {
-                for (var i =monthNumber-1; i < this.optionsMMList.length; i++) {
-                let monthOption = {
-                    label: this.optionsMMList[i].label,
-                    value: this.optionsMMList[i].value,
-                    isSelected : this.optionsMMList[i].isSelected,
-                };
-                if(currentMonth && currentMonth == monthOption.value){
-                    monthInSelectedOptions = true;
+                for (var i = monthNumber - 1; i < this.optionsMMList.length; i++) {
+                    let monthOption = {
+                        label: this.optionsMMList[i].label,
+                        value: this.optionsMMList[i].value,
+                        isSelected: this.optionsMMList[i].isSelected
+                    };
+                    if (currentMonth && currentMonth == monthOption.value) {
+                        monthInSelectedOptions = true;
+                    }
+                    optionsMMList1 = [...optionsMMList1, monthOption];
+                    break;
                 }
-                optionsMMList1 = [...optionsMMList1, monthOption];
-                break;
-              }
             }
-            if(!monthInSelectedOptions){ //if current Month is May and previous one / backend one is future month
+            if (!monthInSelectedOptions) {
+                //if current Month is May and previous one / backend one is future month
                 this.personWrapper.birthMonth = '';
                 this.personWrapper.birthDay = '';
-                this.ageOpt =[];
-
+                this.ageOpt = [];
             }
             this.optionsMMList = optionsMMList1;
-       } 
-       else{
-        this.monthsList();
-       }  
-     
+        } else {
+            this.monthsList();
+        }
     }
     validatePhoneFormat(phoneInput) {
         let validFormat = /^[0-9]*$/;
@@ -1166,28 +1171,40 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     handleUpdatePerson() {
         this.personWrapper.dateBirth = '';
         // Participnat part of Multiple studies (DD-MM-YYYY and MM-YYYY) and select the future day nullify the future dates at backend
-        if(this.dobConfigFormat == 'MM-YYYY'){
+        if (this.dobConfigFormat == 'MM-YYYY') {
             var personWrapper = this.personWrapper;
             const currentDate = new Date();
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth() + 1;
             const day = currentDate.getDate();
-            if(personWrapper.birthYear == year && personWrapper.birthMonth == month && this.personWrapper.birthDay > day){
-               this.personWrapper.birthDay = '';
+            if (
+                personWrapper.birthYear == year &&
+                personWrapper.birthMonth == month &&
+                this.personWrapper.birthDay > day
+            ) {
+                this.personWrapper.birthDay = '';
             }
-        }
-        else if(this.dobConfigFormat == 'YYYY'){
+        } else if (this.dobConfigFormat == 'YYYY') {
             var personWrapper = this.personWrapper;
             const currentDate = new Date();
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth() + 1;
             const day = currentDate.getDate();
-            if(personWrapper.birthYear == year && personWrapper.birthMonth && personWrapper.birthMonth == month &&  personWrapper.birthDay && this.personWrapper.birthDay > day){
-               this.personWrapper.birthDay = '';
-            }
-            else if(personWrapper.birthYear == year && personWrapper.birthMonth && personWrapper.birthMonth > month){
-               this.personWrapper.birthMonth = '';
-               this.personWrapper.birthDay = '';
+            if (
+                personWrapper.birthYear == year &&
+                personWrapper.birthMonth &&
+                personWrapper.birthMonth == month &&
+                personWrapper.birthDay &&
+                this.personWrapper.birthDay > day
+            ) {
+                this.personWrapper.birthDay = '';
+            } else if (
+                personWrapper.birthYear == year &&
+                personWrapper.birthMonth &&
+                personWrapper.birthMonth > month
+            ) {
+                this.personWrapper.birthMonth = '';
+                this.personWrapper.birthDay = '';
             }
         }
         updatePerson({ wrapperJSON: JSON.stringify(this.personWrapper) })
@@ -1278,10 +1295,10 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             var age = Math.abs(year - 1970);
             var num = parseFloat(age).toFixed(2);
             personWrapperDob.age = num;
-            this.selectedAge =  age.toString();
+            this.selectedAge = age.toString();
             this.personWrapper = personWrapperDob;
         } else {
-            this.selectedAge  = null;
+            this.selectedAge = null;
             personWrapperDob.age = null;
             this.personWrapper = personWrapper;
         }
