@@ -21,6 +21,8 @@ public without sharing class PatientVisitReportPageController {
     public String pdfFooterstudySiteName { get; set; }
     public String pdfHeaderVisitName { get; set; }
     public String pdfFooterptStatus { get; set; }
+    public String headerName { get; set; }
+    public String dateLabel { get; set; }
     public class ReportDataWrapper {
         public List<ReportDataTableWrapper> dataTables { get; set; }
         public String studyCodeName { get; set; }
@@ -61,8 +63,14 @@ public without sharing class PatientVisitReportPageController {
     public PatientVisitReportPageController() {
         peId = System.currentPagereference().getParameters().get('peId');
         isRTL = Boolean.valueOf(System.currentPagereference().getParameters().get('isRTL'));
-        patientVisitName = System.currentPagereference().getParameters().get('patientVisitNam');
-        patientVisitId = System.currentPagereference().getParameters().get('patientVisitId');
+
+        if (System.currentPagereference().getParameters().containsKey('patientVisitNam')) {
+            patientVisitName = System.currentPagereference().getParameters().get('patientVisitNam');
+        }
+        if (System.currentPagereference().getParameters().containsKey('patientVisitId')) {
+            patientVisitId = System.currentPagereference().getParameters().get('patientVisitId');
+        }
+
         if (String.IsNotBlank(peId)) {
             reportDataObj = ModifiedVisitReportContainerRemote.getReportDataWrappers_Modified(
                 peId,
@@ -92,12 +100,30 @@ public without sharing class PatientVisitReportPageController {
             pdfFooterstudySiteName = studySiteName.length() > 40
                 ? studySiteName.substring(0, 40) + '...'
                 : studySiteName;
-            pdfHeaderVisitName = patientVisitName.length() > 10
-                ? patientVisitName.substring(0, 10) + '...'
-                : patientVisitName;
-            pdfFooterptStatus = participantStatus.length() > 32
-                ? participantStatus.substring(0, 32) + '...'
-                : participantStatus;
+            if (patientVisitName != null) {
+                pdfHeaderVisitName = patientVisitName.length() > 10
+                    ? patientVisitName.substring(0, 10) + '...'
+                    : patientVisitName;
+            } else {
+                pdfHeaderVisitName = System.Label.Cumulative_Study_Data_Report;
+            }
+            if (participantStatus != null) {
+                pdfFooterptStatus = participantStatus.length() > 32
+                    ? participantStatus.substring(0, 32) + '...'
+                    : participantStatus;
+            }
+            if (patientVisitName != null) {
+                headerName = System.Label.Study_Data_Report;
+            } else {
+                headerName = System.Label.Cumulative_Study_Data_Report;
+            }
+
+            if (participantStatus == 'Randomization Success') {
+                dateLabel = System.Label.Report_Randomization_Date;
+            } else {
+                dateLabel = System.Label.Report_Enrollment_Date;
+            }
+
             fontFamily = 'Arial Unicode MS';
             Set<String> latinIso = new Set<String>{
                 'it',
