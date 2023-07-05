@@ -1,5 +1,7 @@
 <template>
-    <!-- <c-pp-download-results-data pe-id-alumni={peId}></c-pp-download-results-data> -->
+    <template if:true={loadResults}>
+        <c-pp-download-results-data alumni-pe-id={enrollId}></c-pp-download-results-data>
+    </template>
     <div class="my-files">{label.PP_MyFiles}</div>
     <lightning-layout multiple-rows>
         <lightning-layout-item size="12">
