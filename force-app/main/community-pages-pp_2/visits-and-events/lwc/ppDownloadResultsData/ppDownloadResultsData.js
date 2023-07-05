@@ -9,11 +9,10 @@ import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import checkifPrimary from '@salesforce/apex/ppFileUploadController.checkifPrimary';
 
 export default class PpDownloadResultsData extends LightningElement {
-
     peId;
     isRTL;
     userDetails;
-    @api peIdAlumni;
+    @api alumniPeId;
     @api patientVisitNam;
     @api patientVisitId;
     showDownloadResults;
@@ -22,22 +21,31 @@ export default class PpDownloadResultsData extends LightningElement {
     };
 
     connectedCallback() {
-        /*  if (this.peIdAlumni != null) {
-            this.peId = this.peIdAlumni;
+        this.userDetails = communityService.getLoggedInUserData();
+        if (this.alumniPeId != null) {
+            this.peId = this.alumniPeId;
         } else {
             this.peId = communityService.getParticipantData().pe.Id;
-        }*/
-        this.peId = communityService.getParticipantData().pe.Id;
-        this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;      
-        this.userDetails= communityService.getLoggedInUserData();
+        }
+        this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
         if (this.userDetails.Contact.userCommunityDelegateId__c != null) {
             this.checkifPrimaryDelegate();
         } else {
             this.showDownloadResults = true;
         }
     }
+    renderedCallback() {
+        if (this.alumniPeId != null) {
+            this.peId = this.alumniPeId;
+            if (this.userDetails.Contact.userCommunityDelegateId__c != null) {
+                this.checkifPrimaryDelegate();
+            } else {
+                this.showDownloadResults = true;
+            }
+        }
+    }
 
-    checkifPrimaryDelegate() {       
+    checkifPrimaryDelegate() {
         checkifPrimary({
             perID: this.peId,
             currentContactId: this.userDetails.ContactId
@@ -84,16 +92,22 @@ export default class PpDownloadResultsData extends LightningElement {
                     console.error('Error occured during report generation', error.message, 'error');
                 });
         }
-        window.open(
-            '/pp/apex/PatientVisitReportPage?peId=' +
-                this.peId +
-                '&isRTL=' +
-                this.isRTL +
-                '&patientVisitNam=' +
-                this.patientVisitNam +
-                '&patientVisitId=' +
-                this.patientVisitId
-        );
-        //  window.open('https://www.w3schools.com');
+
+        if (this.patientVisitId != null) {
+            window.open(
+                '/pp/apex/PatientVisitReportPage?peId=' +
+                    this.peId +
+                    '&isRTL=' +
+                    this.isRTL +
+                    '&patientVisitNam=' +
+                    this.patientVisitNam +
+                    '&patientVisitId=' +
+                    this.patientVisitId
+            );
+        } else {
+            window.open(
+                '/pp/apex/PatientVisitReportPage?peId=' + this.peId + '&isRTL=' + this.isRTL
+            );
+        }
     }
 }

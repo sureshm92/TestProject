@@ -17,7 +17,7 @@
                         {!pdfFooterptFullName}
                     </div>
                     <div class="float-right">
-                        <span style="color:#000000;">{!$Label.Report_Enrollment_Date}</span> <apex:outputText rendered="{!(!ISBLANK(enrollmentDate))}" value="{0, date, dd MMMM  yyyy}"><apex:param value="{!enrollmentDate}" /></apex:outputText>&nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!pdfFooterptStatus}&nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Study_Site}:</span> {!pdfFooterstudySiteName}
+                        <span style="color:#000000;">{!dateLabel}</span> <apex:outputText rendered="{!(!ISBLANK(enrollmentDate))}" value="{0, date, dd MMMM  yyyy}"><apex:param value="{!enrollmentDate}" /></apex:outputText>&nbsp;&nbsp;&nbsp;&mdash;<apex:outputText rendered="{!!ISBLANK(pdfFooterptStatus)}">&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!pdfFooterptStatus}&nbsp;&nbsp;&nbsp;&mdash;</apex:outputText>&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Study_Site}:</span> {!pdfFooterstudySiteName}
                     </div>
                 </div>
                 <div class="footer_text">{!footerText} </div>
@@ -28,7 +28,7 @@
                         {!pdfFooterptFullName}
                     </div>
                     <div class="float-right">
-                        <span style="color:#000000;">{!$Label.Report_Enrollment_Date}</span> <apex:outputText rendered="{!(!ISBLANK(enrollmentDate))}" value="{0, date, dd MMMM  yyyy}"><apex:param value="{!enrollmentDate}" /></apex:outputText>&nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!pdfFooterptStatus}&nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Study_Site}:</span> {!pdfFooterstudySiteName}
+                        <span style="color:#000000;">{!dateLabel}</span> <apex:outputText rendered="{!(!ISBLANK(enrollmentDate))}" value="{0, date, dd MMMM  yyyy}"><apex:param value="{!enrollmentDate}" /></apex:outputText>&nbsp;&nbsp;&nbsp;&mdash;<apex:outputText rendered="{!!ISBLANK(pdfFooterptStatus)}">&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!pdfFooterptStatus}&nbsp;&nbsp;&nbsp;&mdash;</apex:outputText>&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Study_Site}:</span> {!pdfFooterstudySiteName}
                     </div>
                 </div>
                 <div class="footer_text">{!footerText} </div>
@@ -50,14 +50,14 @@
             </div>
             <div class= "visit-date">
                 <div>
-                    {!$Label.Study_Data_Report}
+                    {!headerName}
                 </div>
-                <div style="margin-top:10px;">
+                <apex:outputPanel style="margin-top:10px;" rendered="{!(!ISBLANK(participantStatus))}">
                     {!$CurrentPage.parameters.patientVisitNam} | 
                     <apex:outputText value="{0, date, MMMM d','  yyyy}"> 
                         <apex:param value="{!patVisitCompleted}" />
                     </apex:outputText>
-                </div>                   
+               </apex:outputPanel>                   
             </div>
             <div class="content">
                 <div  class="datatab">
@@ -87,7 +87,7 @@
                                                 <apex:repeat value="{!rows}" var="row">
                                                     
                                                     <apex:outputText rendered="{!row.value!='______'}"> 
-                                                        <td style="font-size: 15px;color:#C42EA5;padding-top:15px;padding-bottom:15px;text-align:center;" >{!row.value}&nbsp;{!row.measurement}</td>
+                                                        <td style="font-size: 15px;color:#C42EA5;padding-top:15px;padding-bottom:15px;text-align:center;" ><span>{!row.value}&nbsp;</span><span>{!row.measurement}</span></td>
                                                     </apex:outputText>
                                                     <apex:outputText rendered="{!row.value=='______'}">
                                                         <td style="font-size: 15px;text-align:center;color:#999999;padding-top:4px;padding-bottom:15px;" >{!row.value}</td></apex:outputText>
