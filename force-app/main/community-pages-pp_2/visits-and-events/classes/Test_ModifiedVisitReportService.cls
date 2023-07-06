@@ -11,7 +11,7 @@ private class Test_ModifiedVisitReportService {
     }
 
     @IsTest
-    static void integrationTest() {
+    static void getReportWrapperTest() {
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;
