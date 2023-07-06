@@ -31704,6 +31704,20 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Study Data Report</shortDescription>
         <value>Study Data Report</value>
     </labels>
+      <labels>
+        <fullName>Cumulative_Study_Data_Report</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cumulative Study Data Report</shortDescription>
+        <value>Cumulative Study Data Report</value>
+    </labels>
+      <labels>
+        <fullName>Report_Randomization_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Randomization Date</shortDescription>
+        <value>Randomization Date</value>
+    </labels>
     <labels>
         <fullName>Email_Body_Patient_New_Study_PP</fullName>
         <language>en_US</language>
