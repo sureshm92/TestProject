@@ -2272,6 +2272,10 @@
         <apexClass>ModifiedVisitReportService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+      <classAccesses>
+        <apexClass>ModifiedVisitReportContainerRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses> 
      <classAccesses>
         <apexClass>PatientVisitReportPageController</apexClass>
         <enabled>true</enabled>
@@ -8835,6 +8839,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.StudyGUID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.PPTemplate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
