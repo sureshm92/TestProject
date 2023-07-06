@@ -136,6 +136,7 @@ export default class PpPastStudiesFiles extends LightningElement {
         this.selectedStudyId = this.studyList[index].Clinical_Trial_Profile__c;
         this.enrollId = this.studyList[index].Id;
         this.loadResults = true;
+        this.template.querySelector('c-pp-download-results-data').loadData();
         this.template.querySelector('c-pp-past-studies-file-table').peId = this.studyList[index].Id;
         this.stopSpinnerChild = false;
         if (!this.issharedFilesTab) {
@@ -156,7 +157,6 @@ export default class PpPastStudiesFiles extends LightningElement {
             this.template.querySelector('c-pp-past-studies-file-table').getTableMsgFiles();
             this.template.querySelector('c-pp-past-studies-file-table').resetPageMsg();
         }
-
         this.template.querySelector('c-pp-past-studies-file-table').resetCSS();
     }
     closeMenu() {
