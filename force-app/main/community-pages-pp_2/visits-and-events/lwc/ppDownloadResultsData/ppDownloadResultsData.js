@@ -44,6 +44,17 @@ export default class PpDownloadResultsData extends LightningElement {
             }
         }
     }
+    @api
+    loadData() {
+        if (this.alumniPeId != null) {
+            this.peId = this.alumniPeId;
+            if (this.userDetails.Contact.userCommunityDelegateId__c != null) {
+                this.checkifPrimaryDelegate();
+            } else {
+                this.showDownloadResults = true;
+            }
+        }
+    }
 
     checkifPrimaryDelegate() {
         checkifPrimary({
@@ -106,7 +117,7 @@ export default class PpDownloadResultsData extends LightningElement {
             );
         } else {
             window.open(
-                '/pp/apex/PatientVisitReportPage?peId=' + this.peId + '&isRTL=' + this.isRTL
+                '/pp/apex/PatientVisitReportPage?peId=' + this.alumniPeId + '&isRTL=' + this.isRTL
             );
         }
     }
