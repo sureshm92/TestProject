@@ -29,7 +29,6 @@ public with sharing class PpPastStudiesFilesController {
             alumiPerList.add(objPER);
         }
        
-        //logged in contact ka per alumi more thn 1 meaning ki multiple studies alumi hai.
         if (isDelegate) {
         for(Patient_Delegate_Enrollment__c objPDER : [SELECT id, Participant_Enrollment__c
             FROM Patient_Delegate_Enrollment__c
