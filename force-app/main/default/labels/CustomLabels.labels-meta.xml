@@ -31716,7 +31716,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Report Randomization Date</shortDescription>
-        <value>Randomization Date</value>
+        <value>Randomization Date:</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_New_Study_PP</fullName>
@@ -31725,7 +31725,6 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Email Body Patient New Study PP</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
 
-            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;
-            
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;</value>        
     </labels>    
 </CustomLabels>
