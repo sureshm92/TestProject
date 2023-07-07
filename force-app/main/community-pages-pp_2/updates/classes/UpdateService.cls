@@ -58,7 +58,10 @@ public without sharing class UpdateService {
                 AND Notification__r.Target_Record_Ids__c IN :resFilter.resStudyIdVisToPt)
                 OR (Notification__r.whatId__c = :resFilter.currentPe
                 AND Notification__r.Notification_Type__c IN :notificationsTypeList)
-                OR Notification__r.whatId__c = :resFilter.currentParticipantId)
+                OR (Notification__r.whatId__c = :resFilter.currentParticipantId 
+                AND Notification__r.Target_Record_Ids__c IN :resFilter.resPlatformIdVisToPt)
+                OR (Notification__r.whatId__c = :resFilter.currentParticipantId
+                AND Notification__r.Notification_Type__c IN :notificationsTypeList))
             ORDER BY Notification__r.lastModifiedDate DESC
             LIMIT :limits
             OFFSET :offsets
@@ -304,10 +307,29 @@ public without sharing class UpdateService {
         Id currentContactId = CommunityService.getUserContact()?.Id;
         CommunityMode currentMode = UserContext.getCurrentUserMode();
         List<Id> resStudyIdVisToPt = new List<Id>();
+        List<Id> resPlatformIdVisToPt = new List<Id>();
         List<Id> peList = new List<Id>();
         if (ps.pe != null) {
             Id currentStudy = ps.ctp.Id;
             Id currentPe = ps.pe.Id;
+            List<Clinical_Trial_Profile__c> ctpValue = [select id,Relevant_Links_Are_Available__c,Study_Documents_Are_Available__c,Video_And_Articles_Are_Available__c from Clinical_Trial_Profile__c where id=:currentStudy];
+            Boolean RelevantLinksAvailable = ctpValue.get(0).Relevant_Links_Are_Available__c;
+            Boolean StudyDocumentsAvailable = ctpValue.get(0).Study_Documents_Are_Available__c;
+            Boolean VideoAndArticlesAvailable = ctpValue.get(0).Video_And_Articles_Are_Available__c;
+            
+            //For Platform
+                for(Resource__c platformRes : [select id,Content_Type__c from Resource__c where Content_Class__c ='Platform-TA' OR Content_Class__c ='3rd Party' OR Content_Type__c='Relevant_Link']){
+                    if( String.isNotBlank(platformRes.Content_Type__c) &&
+                       (platformRes.Content_Type__c=='Study_Document' &&
+                        StudyDocumentsAvailable) || 
+                       (platformRes.Content_Type__c=='Relevant_Link' &&
+                        RelevantLinksAvailable) ||
+                       ('Video;Article;Multimedia'.contains(platformRes.Content_Type__c)  &&
+                        VideoAndArticlesAvailable) ){
+                            resPlatformIdVisToPt.add(platformRes.Id);
+                        }
+                }
+            
             if (currentContactId == participantContact) {
                 for (Res_study__c stdRes : [
                     SELECT
@@ -315,14 +337,27 @@ public without sharing class UpdateService {
                         Id,
                         Visible_In_Alumni__c,
                         Visible_To_Delegates__c,
-                        Visible_To_Participant__c
+                        Visible_To_Participant__c,
+                    	Clinical_Trial_Profile__r.Study_Documents_Are_Available__c,
+                    	Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c,
+                    	Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c,
+                    	Resource__r.Content_Type__c
                     FROM Res_study__c
                     WHERE
                         Clinical_Trial_Profile__c = :currentStudy
                         AND Visible_To_Participant__c = TRUE
                 ]) {
-                    resStudyIdVisToPt.add(stdRes.Id);
+                    if( String.isNotBlank(stdRes.Resource__r.Content_Type__c) &&
+                       (stdRes.Resource__r.Content_Type__c=='Study_Document' &&
+                        stdRes.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c) || 
+                       (stdRes.Resource__r.Content_Type__c=='Relevant_Link' &&
+                        stdRes.Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c) ||
+                       ('Video;Article;Multimedia'.contains(stdRes.Resource__r.Content_Type__c)  &&
+                        stdRes.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) ){
+                            resStudyIdVisToPt.add(stdRes.Id);
+                        }
                 }
+                
             } else if (currentContactId != participantContact) {
                 for (Res_study__c stdRes : [
                     SELECT
@@ -330,18 +365,36 @@ public without sharing class UpdateService {
                         Id,
                         Visible_In_Alumni__c,
                         Visible_To_Delegates__c,
-                        Visible_To_Participant__c
+                        Visible_To_Participant__c,
+                    	Clinical_Trial_Profile__r.Study_Documents_Are_Available__c,
+                    	Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c,
+                    	Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c,
+                    	Resource__r.Content_Type__c
                     FROM Res_study__c
                     WHERE
                         Clinical_Trial_Profile__c = :currentStudy
                         AND Visible_To_Participant__c = TRUE
                         AND Visible_To_Delegates__c = TRUE
                 ]) {
-                    resStudyIdVisToPt.add(stdRes.Id);
+                    if( String.isNotBlank(stdRes.Resource__r.Content_Type__c) &&
+                       (stdRes.Resource__r.Content_Type__c=='Study_Document' &&
+                        stdRes.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c) || 
+                       (stdRes.Resource__r.Content_Type__c=='Relevant_Link' &&
+                        stdRes.Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c) ||
+                       ('Video;Article;Multimedia'.contains(stdRes.Resource__r.Content_Type__c)  &&
+                        stdRes.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) ){
+                            resStudyIdVisToPt.add(stdRes.Id);
+                        }
                 }
+                //For Platform
             }
             peList.add(currentPe);
         } else if (ps.pe == null) {
+            
+            for(Resource__c platformRes : [select id,Content_Type__c from Resource__c where Content_Class__c ='3rd Party' OR Content_Type__c='Relevant_Link']){
+                            resPlatformIdVisToPt.add(platformRes.Id);
+                }
+            
             List<Id> pastCtpIds = new List<Id>();
             if (currentMode.isDelegate) {
                 for (Patient_Delegate_Enrollment__c pde : [
@@ -375,7 +428,11 @@ public without sharing class UpdateService {
                         Id,
                         Visible_In_Alumni__c,
                         Visible_To_Delegates__c,
-                        Visible_To_Participant__c
+                        Visible_To_Participant__c,
+                    	Clinical_Trial_Profile__r.Study_Documents_Are_Available__c,
+                    	Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c,
+                    	Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c,
+                    	Resource__r.Content_Type__c
                     FROM Res_study__c
                     WHERE
                         Resource__r.Content_Type__c != 'Study_Document'
@@ -383,7 +440,15 @@ public without sharing class UpdateService {
                         AND Visible_In_Alumni__c = TRUE
                         AND Visible_To_Participant__c = TRUE
                 ]) {
-                    resStudyIdVisToPt.add(stdRes.Id);
+                    if( String.isNotBlank(stdRes.Resource__r.Content_Type__c) &&
+                       (stdRes.Resource__r.Content_Type__c=='Study_Document' &&
+                        stdRes.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c) || 
+                       (stdRes.Resource__r.Content_Type__c=='Relevant_Link' &&
+                        stdRes.Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c) ||
+                       ('Video;Article;Multimedia'.contains(stdRes.Resource__r.Content_Type__c)  &&
+                        stdRes.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) ){
+                            resStudyIdVisToPt.add(stdRes.Id);
+                        }
                 }
             }
         }
@@ -394,7 +459,7 @@ public without sharing class UpdateService {
         resFilter.currentPe = ps?.pe?.Id;
         resFilter.peList = peList;
         resFilter.currentParticipantId = currentParticipant;
-
+	    resFilter.resPlatformIdVisToPt = resPlatformIdVisToPt;
         return resFilter;
     }
     public class ResourceFilter {
@@ -404,6 +469,7 @@ public without sharing class UpdateService {
         public List<Id> peList;
         public Id currentContactId;
         public Id currentPe;
+        public List<Id> resPlatformIdVisToPt;
     }
 
     public class UpdateWrapper {
