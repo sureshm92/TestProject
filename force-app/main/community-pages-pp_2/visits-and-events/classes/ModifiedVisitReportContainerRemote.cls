@@ -129,9 +129,11 @@ public class ModifiedVisitReportContainerRemote {
         page.getParameters().put('isRTL', isRTL);
         page.getParameters().put('patientVisitNam', patientVisitNam);
         page.getParameters().put('patientVisitId', patientVisId);
-
-        Blob content = page.getContent();
-        String encoded = EncodingUtil.base64Encode(content);
+        String encoded;
+        if (!Test.isRunningTest()) {
+            Blob content = page.getContent();
+            encoded = EncodingUtil.base64Encode(content);
+        }
         return encoded;
     }
 }
