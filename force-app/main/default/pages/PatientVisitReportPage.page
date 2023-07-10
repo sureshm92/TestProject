@@ -49,7 +49,7 @@
                 {!studyTitle}                  
             </div>
             <div class= "visit-date">
-                <div>
+                <div style="margin-bottom:10px;">
                     {!headerName}
                 </div>
                 <apex:outputPanel style="margin-top:10px;" rendered="{!(!ISBLANK(participantStatus))}">
