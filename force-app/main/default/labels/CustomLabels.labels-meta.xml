@@ -31749,7 +31749,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Create Participant Technical Error</shortDescription>
-        <value>A technical error has occured. Please try again later.</value>
+        <value>A technical error has occured, Please try again later.</value>
     </labels>
     
     <labels>
