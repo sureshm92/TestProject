@@ -7,7 +7,7 @@ public without sharing class PatientVisitReportPageController {
     public String str { get; set; }
     public String studyCodeName { get; set; }
     public String participantFullName { get; set; }
-    public Date enrollmentDate { get; set; }
+    public String enrollmentDate { get; set; }
     public String studySiteName { get; set; }
     public String participantStatus { get; set; }
     public String pdfStudyHeaderName { get; set; }
@@ -16,7 +16,7 @@ public without sharing class PatientVisitReportPageController {
     public String footerText { get; set; }
     public String patientVisitName { get; set; }
     public Id patientVisitId { get; set; }
-    public Date patVisitCompleted { get; set; }
+    public String patVisitCompleted { get; set; }
     public String pdfFooterptFullName { get; set; }
     public String pdfFooterstudySiteName { get; set; }
     public String pdfHeaderVisitName { get; set; }
@@ -86,9 +86,7 @@ public without sharing class PatientVisitReportPageController {
             studyTitle = reportDataObj.studyTitle;
             studyCodeName = reportDataObj.studyCodeName;
             participantFullName = reportDataObj.participantFullName;
-            if (String.isNotBlank(reportDataObj.enrollmentDate)) {
-                enrollmentDate = Date.parse(reportDataObj.enrollmentDate);
-            }
+            enrollmentDate = reportDataObj.enrollmentDate;
             participantStatus = reportDataObj.participantStatus;
             studySiteName = reportDataObj.studySiteName;
             pdfStudyHeaderName = studyCodeName.length() > 75
@@ -123,7 +121,14 @@ public without sharing class PatientVisitReportPageController {
             } else {
                 dateLabel = System.Label.Report_Enrollment_Date;
             }
-
+            String file_Name='';
+            if(String.isNotBlank(patientVisitName)){ 
+                file_Name=System.Label.MyResultsData+'_'+studyCodeName+'_'+patientVisitName;
+            }else{
+                file_Name=System.Label.MyCumulativeResultsData+'_'+studyCodeName;
+            }
+            file_Name = file_Name.replace(' ','');
+            Apexpages.currentPage().getHeaders().put('content-disposition', 'inline; filename='+file_Name+'.pdf');
             fontFamily = 'Arial Unicode MS';
             Set<String> latinIso = new Set<String>{
                 'it',
@@ -153,7 +158,7 @@ public without sharing class PatientVisitReportPageController {
                             for (VisitDataWrapper visData : wrapper) {
                                 String completedDate = visData.value;
                                 if (String.isNotEmpty(completedDate))
-                                    patVisitCompleted = Date.parse(completedDate);
+                                    patVisitCompleted = completedDate;
                                 break;
                             }
                         }
@@ -190,7 +195,7 @@ public without sharing class PatientVisitReportPageController {
 
             if (UserInfo.getLanguage() == 'ja') {
                 List<ReportDataTableWrapper> datatablesLists = reportWrapperFinalObj.dataTables;
-                footerText = addBreakLines(Label.Report_Visits_Result_Text_Footer, 95);
+                footerText = addBreakLines(Label.Visit_Results_Report_Footer_2, 95);
                 Integer i = 0;
                 for (ReportDataTableWrapper dattable : datatablesLists) {
                     List<LabsNameDescriptionWrapper> labDescription = dattable.labsDescription;
@@ -206,7 +211,7 @@ public without sharing class PatientVisitReportPageController {
                     i++;
                 }
             } else {
-                footerText = Label.Report_Visits_Result_Text_Footer;
+                footerText = Label.Visit_Results_Report_Footer_2;
             }
         }
     }
