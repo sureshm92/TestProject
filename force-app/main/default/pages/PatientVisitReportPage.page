@@ -1,4 +1,4 @@
-<apex:page standardStylesheets="false" applyBodyTag="false" renderAs="pdf" controller="PatientVisitReportPageController"
+<apex:page standardStylesheets="false" applyBodyTag="false" renderAs="pdf" controller="PatientVisitReportPageController" 
            applyHtmlTag="false" showHeader="false" readOnly="true">
     <html>
         <head>
@@ -17,7 +17,7 @@
                         {!pdfFooterptFullName}
                     </div>
                     <div class="float-right">
-                        <span style="color:#000000;">{!dateLabel}</span> <apex:outputText rendered="{!(!ISBLANK(enrollmentDate))}" value="{0, date, dd MMMM  yyyy}"><apex:param value="{!enrollmentDate}" /></apex:outputText>&nbsp;&nbsp;&nbsp;&mdash;<apex:outputText rendered="{!!ISBLANK(pdfFooterptStatus)}">&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!pdfFooterptStatus}&nbsp;&nbsp;&nbsp;&mdash;</apex:outputText>&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Study_Site}:</span> {!pdfFooterstudySiteName}
+                        <span style="color:#000000;">{!dateLabel}</span> <apex:outputText rendered="{!(!ISBLANK(enrollmentDate))}"> {!enrollmentDate}</apex:outputText>&nbsp;&nbsp;&nbsp;&mdash;<apex:outputText rendered="{!!ISBLANK(pdfFooterptStatus)}">&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!pdfFooterptStatus}&nbsp;&nbsp;&nbsp;&mdash;</apex:outputText>&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Care_Center}:</span> {!pdfFooterstudySiteName}
                     </div>
                 </div>
                 <div class="footer_text">{!footerText} </div>
@@ -28,7 +28,7 @@
                         {!pdfFooterptFullName}
                     </div>
                     <div class="float-right">
-                        <span style="color:#000000;">{!dateLabel}</span> <apex:outputText rendered="{!(!ISBLANK(enrollmentDate))}" value="{0, date, dd MMMM  yyyy}"><apex:param value="{!enrollmentDate}" /></apex:outputText>&nbsp;&nbsp;&nbsp;&mdash;<apex:outputText rendered="{!!ISBLANK(pdfFooterptStatus)}">&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!pdfFooterptStatus}&nbsp;&nbsp;&nbsp;&mdash;</apex:outputText>&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Study_Site}:</span> {!pdfFooterstudySiteName}
+                        <span style="color:#000000;">{!dateLabel}</span> <apex:outputText rendered="{!(!ISBLANK(enrollmentDate))}" > {!enrollmentDate}</apex:outputText>&nbsp;&nbsp;&nbsp;&mdash;<apex:outputText rendered="{!!ISBLANK(pdfFooterptStatus)}">&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!pdfFooterptStatus}&nbsp;&nbsp;&nbsp;&mdash;</apex:outputText>&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Care_Center}:</span> {!pdfFooterstudySiteName}
                     </div>
                 </div>
                 <div class="footer_text">{!footerText} </div>
@@ -54,8 +54,8 @@
                 </div>
                 <apex:outputPanel style="margin-top:10px;" rendered="{!(!ISBLANK(participantStatus))}">
                     {!$CurrentPage.parameters.patientVisitNam} | 
-                    <apex:outputText value="{0, date, MMMM d','  yyyy}"> 
-                        <apex:param value="{!patVisitCompleted}" />
+                    <apex:outputText > 
+                        {!patVisitCompleted}
                     </apex:outputText>
                </apex:outputPanel>                   
             </div>
