@@ -31,6 +31,7 @@ global without sharing class Batch_CreatePreEnrollVistsForExtngPERs implements D
             'Study_Site__c, ' +
             'Initial_Visit_Scheduled_DateTime__c,' +
             'Initial_visit_occurred_flag__c,'+
+            'Initial_visit_occurred_date__c,'+
             'Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c, ' +
             'Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c, ' +
             'Clinical_Trial_Profile__r.CommunityTemplate__c ' +
