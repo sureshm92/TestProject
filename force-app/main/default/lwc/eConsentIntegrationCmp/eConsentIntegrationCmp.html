@@ -151,7 +151,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template for:each={eConsentdetails} for:item="row">
+                    <template for:each={eConsentdetails} for:item="row" for:index="index">
                         <tr key={row.studysiteid}>
                             <td class="">{row.studysitecountry}</td>
                             <td class="fix">
