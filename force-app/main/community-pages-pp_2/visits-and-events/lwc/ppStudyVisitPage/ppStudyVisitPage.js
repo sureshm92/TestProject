@@ -192,6 +192,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                         if (result[i]?.visit?.Visit__r?.Patient_Portal_Name__c) {
                             result[i].ppVisitName =
                                 result[i]?.visit?.Visit__r?.Patient_Portal_Name__c;
+                        } else if(result[i]?.visit?.Portal_Name__c) {
+                            result[i].ppVisitName = 
+                                result[i]?.visit?.Portal_Name__c;
                         } else {
                             result[i].ppVisitName = '';
                         }

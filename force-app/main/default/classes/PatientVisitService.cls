@@ -120,6 +120,7 @@ public inherited sharing class PatientVisitService {
             'Status__c',
             'Visit__r.Visit_Schedule__c',
             'Visit__r.Patient_Portal_Name__c',
+            'Portal_Name__c',
             'Visit__r.Icons__c',
             'Visit__r.Visit_Plan__c',
             'Planned_Date__c',
