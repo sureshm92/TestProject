@@ -246,6 +246,12 @@ export default class PpAccountSettings extends NavigationMixin(LightningElement)
             isDelegateSwitchingToParView = true;
             showMamanageAssignmentTab = false;
             showManageDelegateTab = false;
+            const indexOfCookieTab = this.navHeadersList.findIndex((object) => {
+                return object.label === COOKIE_SETTINGS;
+            });
+            if (indexOfCookieTab >= 0) {
+                this.navHeadersList.splice(indexOfCookieTab, 1);
+            }
         }
         //Del Self View
         else if (isDelSelfView && !communityService.getCurrentCommunityMode().hasPastStudies) {

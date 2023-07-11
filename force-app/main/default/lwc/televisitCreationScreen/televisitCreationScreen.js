@@ -869,7 +869,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         this.noResultsFound = false;
         if (searchKey) {
             this.isSearchMode = true;
-            this.televisitAttendeesList = this.televisitAttendeesListTemp.filter(obj => obj.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
+            this.televisitAttendeesList = this.televisitAttendeesListTemp.filter(obj => (obj.firstName != undefined) ? obj.firstName.toLowerCase().includes(searchKey.toLowerCase()) : '' ||
                 obj.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
                 obj.attendeeType.toLowerCase().includes(searchKey.toLowerCase()));
             if (this.televisitAttendeesList.length === 0) this.noResultsFound = true;

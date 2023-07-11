@@ -13,6 +13,8 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                     Days_After_Enrolled__c,
                     Participant_Contact__c,
                     Participant_Contact__r.Language__c,
+                    Participant_Contact__r.Second_Choice_Language__c,
+                    Participant_Contact__r.Third_Choice_Language__c,
                     Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                     Participant_Contact__r.Resource_Notifications__c,
                     Participant_Contact__r.userCommunityMode__c,
@@ -122,7 +124,14 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
 
         Map<Id, List<Contact>> delContactsByParticipant = PatientDelegateEnrollmentService.getDelegatedCntsByPe(
             peIds,
-            new List<String>{ 'Id', 'userCommunityMode__c', 'Resource_Notifications__c' }
+            new List<String>{
+                'Id',
+                'userCommunityMode__c',
+                'Resource_Notifications__c',
+                'Language__c',
+                'Second_Choice_Language__c',
+                'Third_Choice_Language__c'
+            }
         );
 
         for (Participant_Enrollment__c pe : pelist) {
@@ -133,7 +142,35 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
             }
 
             for (Res_study__c res : studyResourcesList) {
-                if (pe.Clinical_Trial_Profile__c == res.Clinical_Trial_Profile__c) {
+                Set<String> langSet = new Set<String>();
+                if (
+                    res.Resource__r.Languages__c != null &&
+                    res.Resource__r.Languages__c.contains(';')
+                ) {
+                    langSet.addAll(res.Resource__r.Languages__c.split(';'));
+                }
+                if (res.Resource__r.Language__c != null) {
+                    langSet.add(res.Resource__r.Language__c);
+                }
+                Boolean langAvailable = false;
+
+                List<String> preferredLaguages = new List<String>();
+                preferredLaguages.add(pe.Participant_Contact__r.Language__c);
+                if (!String.isEmpty(pe.Participant_Contact__r.Second_Choice_Language__c))
+                    preferredLaguages.add(pe.Participant_Contact__r.Second_Choice_Language__c);
+                if (!String.isEmpty(pe.Participant_Contact__r.Third_Choice_Language__c))
+                    preferredLaguages.add(pe.Participant_Contact__r.Third_Choice_Language__c);
+
+                for (String langCode : langSet) {
+                    if (preferredLaguages.contains(langCode)) {
+                        langAvailable = true;
+                        break;
+                    }
+                }
+                if (
+                    pe.Clinical_Trial_Profile__c == res.Clinical_Trial_Profile__c &&
+                    (langSet.isEmpty() || langAvailable)
+                ) {
                     for (Contact contact : peContacts) {
                         Boolean isDelegate = pe.Participant_Contact__c != contact.Id;
                         if (

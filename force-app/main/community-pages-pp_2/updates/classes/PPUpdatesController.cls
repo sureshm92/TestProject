@@ -58,7 +58,10 @@ public without sharing class PPUpdatesController {
                 AND Notification__r.Target_Record_Ids__c IN :resFilter.resStudyIdVisToPt)
                 OR (Notification__r.whatId__c = :resFilter.currentPe
                 AND Notification__r.Notification_Type__c IN :notificationsTypeList)
-                OR Notification__r.whatId__c = :resFilter.currentParticipantId)
+                OR (Notification__r.whatId__c = :resFilter.currentParticipantId 
+                AND Notification__r.Target_Record_Ids__c IN :resFilter.resPlatformIdVisToPt)
+                OR (Notification__r.whatId__c = :resFilter.currentParticipantId
+                AND Notification__r.Notification_Type__c IN :notificationsTypeList))
         ];
         return updateCount;
     }
