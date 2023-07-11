@@ -53,7 +53,7 @@
                     {!headerName}
                 </div>
                 <apex:outputPanel style="margin-top:10px;" rendered="{!(!ISBLANK(participantStatus))}">
-                    {!$CurrentPage.parameters.patientVisitNam} | 
+                    {!$CurrentPage.parameters.patientVisitNam} &nbsp; | &nbsp;
                     <apex:outputText > 
                         {!patVisitCompleted}
                     </apex:outputText>
