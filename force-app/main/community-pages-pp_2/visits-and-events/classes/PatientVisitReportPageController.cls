@@ -89,8 +89,8 @@ public without sharing class PatientVisitReportPageController {
             enrollmentDate = reportDataObj.enrollmentDate;
             participantStatus = reportDataObj.participantStatus;
             studySiteName = reportDataObj.studySiteName;
-            pdfStudyHeaderName = studyCodeName.length() > 75
-                ? studyCodeName.substring(0, 75) + '...'
+            pdfStudyHeaderName = studyCodeName.length() > 70
+                ? studyCodeName.substring(0, 70) + '...'
                 : studyCodeName;
             pdfFooterptFullName = participantFullName.length() > 35
                 ? participantFullName.substring(0, 35) + '...'
@@ -99,8 +99,8 @@ public without sharing class PatientVisitReportPageController {
                 ? studySiteName.substring(0, 40) + '...'
                 : studySiteName;
             if (patientVisitName != null) {
-                pdfHeaderVisitName = patientVisitName.length() > 10
-                    ? patientVisitName.substring(0, 10) + '...'
+                pdfHeaderVisitName = patientVisitName.length() > 20
+                    ? patientVisitName.substring(0, 20) + '...'
                     : patientVisitName;
             } else {
                 pdfHeaderVisitName = System.Label.Cumulative_Study_Data_Report;
