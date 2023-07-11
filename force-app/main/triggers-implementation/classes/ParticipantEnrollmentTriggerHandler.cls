@@ -900,8 +900,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 pe.Visit_Plan__c != null)
             ) {
                 if (
-                    (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS ||
-                    pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) &&
+                     PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(
+                     pe.Participant_Status__c) &&
                     ((Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(
                             pe.Clinical_Trial_Profile__c
                         ))
