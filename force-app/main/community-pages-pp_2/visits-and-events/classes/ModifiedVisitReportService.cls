@@ -4,7 +4,7 @@ public without sharing class ModifiedVisitReportService {
     public static final String VISIT_RES_BIOMARKER_TYPE = 'Biomarkers';
     public static String userLanguage;
 
-    public VisitReportContainerRemote.ReportDataWrapper getReportDataWrapper(
+    public ModifiedVisitReportContainerRemote.ReportDataWrapper getReportDataWrapper(
         Id peId,
         Id patientVisitId
     ) {
@@ -32,7 +32,7 @@ public without sharing class ModifiedVisitReportService {
             true,
             null
         );
-        Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap = getDataTableWrappersByGroupName(
+        Map<String, ModifiedVisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap = getDataTableWrappersByGroupName(
             pe,
             patientVisits,
             visitResultGroupMS
@@ -50,7 +50,7 @@ public without sharing class ModifiedVisitReportService {
     }
 
     @TestVisible
-    private Map<String, VisitReportContainerRemote.ReportDataTableWrapper> getDataTableWrappersByGroupName(
+    private Map<String, ModifiedVisitReportContainerRemote.ReportDataTableWrapper> getDataTableWrappersByGroupName(
         Participant_Enrollment__c pe,
         List<Patient_Visit__c> patientVisits,
         List<Visit_Result_GroupM__mdt> visitResultGroupMS
@@ -58,7 +58,7 @@ public without sharing class ModifiedVisitReportService {
         VisitResultSharingService visitResultSharingServiceInt = ((VisitResultSharingService) ClassFactory.newInstance(
             VisitResultSharingService.class
         ));
-        Map<String, VisitReportContainerRemote.ReportDataTableWrapper> result = new Map<String, VisitReportContainerRemote.ReportDataTableWrapper>();
+        Map<String, ModifiedVisitReportContainerRemote.ReportDataTableWrapper> result = new Map<String, ModifiedVisitReportContainerRemote.ReportDataTableWrapper>();
         //Fetches available Visit result sharing types on CTP for PE
         Map<Id, List<VisitReportService.VisitResultWrapper>> availableVisitResultTypeMSByGroupIds = visitResultSharingServiceInt.geAvailableVisitResultTypeMSByGroupIds(
             pe,
@@ -129,20 +129,22 @@ public without sharing class ModifiedVisitReportService {
                         List<VisitReportService.VisitResultWrapper> availableVisitResultSortWrappers = availableVisitResultTypeMSByGroupIds.get(
                             visitResultGroupM.Id
                         );
-                        List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
-                        List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
-                        List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription = new List<VisitReportContainerRemote.LabsNameDescriptionWrapper>();
+                        List<ModifiedVisitReportContainerRemote.VisitValueWrapper> reportRowWrappers = new List<ModifiedVisitReportContainerRemote.VisitValueWrapper>();
+                        List<ModifiedVisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers = new List<ModifiedVisitReportContainerRemote.VisitDataWrapper>();
+                        List<ModifiedVisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription = new List<ModifiedVisitReportContainerRemote.LabsNameDescriptionWrapper>();
                         //PEH-2374: Added logic to avoid null pointer exception
                         reportHeaderWrappers.add(
-                            new VisitReportContainerRemote.VisitHeaderWrapper('Report_Date_PP')
+                            new ModifiedVisitReportContainerRemote.VisitHeaderWrapper(
+                                'Report_Date_PP'
+                            )
                         );
                         //Adds completed dates
                         reportRowWrappers.add(
                             patientVisit.Completed_Date__c != null
-                                ? new VisitReportContainerRemote.VisitDateColumnWrapper(
+                                ? new ModifiedVisitReportContainerRemote.VisitValueWrapper(
                                       patientVisit.Completed_Date__c
                                   )
-                                : new VisitReportContainerRemote.VisitDateColumnWrapper('______')
+                                : new ModifiedVisitReportContainerRemote.VisitValueWrapper('______')
                         );
                         Boolean isResult = false;
                         for (
@@ -189,21 +191,20 @@ public without sharing class ModifiedVisitReportService {
                                                 )
                                             ) {
                                                 reportHeaderWrappers.add(
-                                                    new VisitReportContainerRemote.VisitHeaderWrapper(
+                                                    new ModifiedVisitReportContainerRemote.VisitHeaderWrapper(
                                                         objVisitRes
                                                     )
                                                 );
                                             } else {
                                                 reportHeaderWrappers.add(
-                                                    new VisitReportContainerRemote.VisitHeaderWrapper(
-                                                        objVisitRes.Result_Type__c,
-                                                        objVisitRes.Measurement__c
+                                                    new ModifiedVisitReportContainerRemote.VisitHeaderWrapper(
+                                                        objVisitRes.Result_Type__c
                                                     )
                                                 );
                                             }
                                         } else {
                                             reportHeaderWrappers.add(
-                                                new VisitReportContainerRemote.VisitHeaderWrapper(
+                                                new ModifiedVisitReportContainerRemote.VisitHeaderWrapper(
                                                     visitResultWrapper.visitResultTypeM.DeveloperName
                                                 )
                                             );
@@ -213,13 +214,15 @@ public without sharing class ModifiedVisitReportService {
                                             VISIT_RES_BIOMARKER_TYPE
                                         ) {
                                             reportRowWrappers.add(
-                                                new VisitReportContainerRemote.VisitValueWrapper(
+                                                new ModifiedVisitReportContainerRemote.VisitValueWrapper(
                                                     '______'
                                                 )
                                             );
                                         } else {
                                             reportRowWrappers.add(
-                                                new VisitReportContainerRemote.VisitValueWrapper('')
+                                                new ModifiedVisitReportContainerRemote.VisitValueWrapper(
+                                                    ''
+                                                )
                                             );
                                         }
                                     }
@@ -241,7 +244,7 @@ public without sharing class ModifiedVisitReportService {
                                         VISIT_RES_BIOMARKER_TYPE
                                     ) {
                                         labsDescription.add(
-                                            new VisitReportContainerRemote.LabsNameDescriptionWrapper(
+                                            new ModifiedVisitReportContainerRemote.LabsNameDescriptionWrapper(
                                                 visitResultWrapper.visitResultTypeM,
                                                 ModifiedVisitReportService.userLanguage,
                                                 visitResultTypeSharingWithDesMap.containsKey(
@@ -274,7 +277,7 @@ public without sharing class ModifiedVisitReportService {
                                         .labsDescription.addAll(labsDescription);
                                 }
                             } else {
-                                VisitReportContainerRemote.ReportDataTableWrapper reportDataTableWrapper = this.getReportDataTableWrapper(
+                                ModifiedVisitReportContainerRemote.ReportDataTableWrapper reportDataTableWrapper = this.getReportDataTableWrapper(
                                     reportHeaderWrappers,
                                     reportRowWrappers,
                                     visitResultGroupM,
@@ -292,13 +295,13 @@ public without sharing class ModifiedVisitReportService {
     }
 
     @TestVisible
-    private VisitReportContainerRemote.ReportDataWrapper getFillReportData(
-        Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap,
+    private ModifiedVisitReportContainerRemote.ReportDataWrapper getFillReportData(
+        Map<String, ModifiedVisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap,
         List<Visit_Result_GroupM__mdt> visitResultGroupMS,
         Participant_Enrollment__c pe
     ) {
-        VisitReportContainerRemote.ReportDataWrapper result = new VisitReportContainerRemote.ReportDataWrapper();
-        List<VisitReportContainerRemote.ReportDataTableWrapper> sortReportDataTableWrappers = this.getSortedReportDataTableWrappers(
+        ModifiedVisitReportContainerRemote.ReportDataWrapper result = new ModifiedVisitReportContainerRemote.ReportDataWrapper();
+        List<ModifiedVisitReportContainerRemote.ReportDataTableWrapper> sortReportDataTableWrappers = this.getSortedReportDataTableWrappers(
             reportDataWrapperMap,
             visitResultGroupMS
         );
@@ -334,16 +337,16 @@ public without sharing class ModifiedVisitReportService {
         return result;
     }
 
-    private VisitReportContainerRemote.ReportDataTableWrapper getReportDataTableWrapper(
-        List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers,
-        List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers,
+    private ModifiedVisitReportContainerRemote.ReportDataTableWrapper getReportDataTableWrapper(
+        List<ModifiedVisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers,
+        List<ModifiedVisitReportContainerRemote.VisitValueWrapper> reportRowWrappers,
         Visit_Result_GroupM__mdt visitResultGroupM,
-        List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription,
+        List<ModifiedVisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription,
         Id peId
     ) {
-        VisitReportContainerRemote.ReportDataTableWrapper reportDataTableWrapper = new VisitReportContainerRemote.ReportDataTableWrapper();
+        ModifiedVisitReportContainerRemote.ReportDataTableWrapper reportDataTableWrapper = new ModifiedVisitReportContainerRemote.ReportDataTableWrapper();
         reportDataTableWrapper.tHead = reportHeaderWrappers;
-        reportDataTableWrapper.visitResultsWrapper = new List<List<VisitReportContainerRemote.VisitDataWrapper>>{
+        reportDataTableWrapper.visitResultsWrapper = new List<List<ModifiedVisitReportContainerRemote.VisitValueWrapper>>{
             reportRowWrappers
         };
         reportDataTableWrapper.tableName = TranslateHelper.getLabelValue(
@@ -360,9 +363,9 @@ public without sharing class ModifiedVisitReportService {
 
     private void fillDataFromExistingVisit(
         Visit_Result_GroupM__mdt visitResultGroupM,
-        List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers,
+        List<ModifiedVisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers,
         Visit_Result__c visitResult,
-        List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers
+        List<ModifiedVisitReportContainerRemote.VisitValueWrapper> reportRowWrappers
     ) {
         if (
             VisitReportService.VISIT_RECORD_TYPE_LABS.equalsIgnoreCase(
@@ -370,13 +373,12 @@ public without sharing class ModifiedVisitReportService {
             )
         ) {
             reportHeaderWrappers.add(
-                new VisitReportContainerRemote.VisitHeaderWrapper(visitResult)
+                new ModifiedVisitReportContainerRemote.VisitHeaderWrapper(visitResult)
             );
         } else {
             reportHeaderWrappers.add(
-                new VisitReportContainerRemote.VisitHeaderWrapper(
-                    visitResult.Result_Type__c,
-                    visitResult.Measurement__c
+                new ModifiedVisitReportContainerRemote.VisitHeaderWrapper(
+                    visitResult.Result_Type__c
                 )
             );
         }
@@ -399,10 +401,12 @@ public without sharing class ModifiedVisitReportService {
                     biomarkerValue = System.Label.Biomarkers_Unknown;
                 }
             }
-            reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper(biomarkerValue));
+            reportRowWrappers.add(
+                new ModifiedVisitReportContainerRemote.VisitValueWrapper(biomarkerValue)
+            );
         } else {
             reportRowWrappers.add(
-                new VisitReportContainerRemote.VisitValueWrapper(
+                new ModifiedVisitReportContainerRemote.VisitValueWrapper(
                     visitResult.Actual_Value__c,
                     visitResult.Measurement__c
                 )
@@ -410,11 +414,11 @@ public without sharing class ModifiedVisitReportService {
         }
     }
 
-    private List<VisitReportContainerRemote.ReportDataTableWrapper> getSortedReportDataTableWrappers(
-        Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap,
+    private List<ModifiedVisitReportContainerRemote.ReportDataTableWrapper> getSortedReportDataTableWrappers(
+        Map<String, ModifiedVisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap,
         List<Visit_Result_GroupM__mdt> visitResultGroupMS
     ) {
-        List<VisitReportContainerRemote.ReportDataTableWrapper> result = new List<VisitReportContainerRemote.ReportDataTableWrapper>();
+        List<ModifiedVisitReportContainerRemote.ReportDataTableWrapper> result = new List<ModifiedVisitReportContainerRemote.ReportDataTableWrapper>();
         for (Visit_Result_GroupM__mdt visitResultGroupM : visitResultGroupMS) {
             if (reportDataWrapperMap.containsKey(visitResultGroupM.DeveloperName)) {
                 result.add(reportDataWrapperMap.get(visitResultGroupM.DeveloperName));
@@ -422,29 +426,6 @@ public without sharing class ModifiedVisitReportService {
         }
         return result;
     }
-
-    public Map<Id, List<VisitReportService.VisitResultWrapper>> geAvailableVisitResultTypeMSByGroupIds(
-        Participant_Enrollment__c pe,
-        List<Visit_Result_GroupM__mdt> visitResultGroupMs,
-        Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType
-    ) {
-        Map<Id, List<VisitReportService.VisitResultWrapper>> visitResultTypeMSByGroupIds = new Map<Id, List<VisitReportService.VisitResultWrapper>>();
-        for (Visit_Result_GroupM__mdt groupM : visitResultGroupMs) {
-            List<VisitReportService.VisitResultWrapper> visitResultWrappers = new List<VisitReportService.VisitResultWrapper>();
-            for (Visit_Result_TypeM__mdt visitResultTypeM : groupM.Visit_Result_Types__r) {
-                if (visitResultTypeSharingByType.containsKey(visitResultTypeM.DeveloperName)) {
-                    visitResultWrappers.add(
-                        new VisitReportService.VisitResultWrapper(visitResultTypeM)
-                    );
-                }
-            }
-            visitResultWrappers.sort();
-            visitResultTypeMSByGroupIds.put(groupM.Id, visitResultWrappers);
-        }
-
-        return visitResultTypeMSByGroupIds;
-    }
-
     public class VisitResultWrapper implements Comparable {
         public Visit_Result_TypeM__mdt visitResultTypeM;
 

@@ -14,10 +14,10 @@
             <div class="footer">
                 <div class="peInfo">
                     <div class="float-left">
-                        {!participantFullName}
+                        {!pdfFooterptFullName}
                     </div>
                     <div class="float-right">
-                        <span style="color:#000000;">{!$Label.Report_Enrollment_Date}</span> {!enrollmentDate}&nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!participantStatus}&nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Study_Site}:</span> {!studySiteName}
+                        <span style="color:#000000;">{!dateLabel}</span> <apex:outputText rendered="{!(!ISBLANK(enrollmentDate))}" value="{0, date, dd MMMM  yyyy}"><apex:param value="{!enrollmentDate}" /></apex:outputText>&nbsp;&nbsp;&nbsp;&mdash;<apex:outputText rendered="{!!ISBLANK(pdfFooterptStatus)}">&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!pdfFooterptStatus}&nbsp;&nbsp;&nbsp;&mdash;</apex:outputText>&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Study_Site}:</span> {!pdfFooterstudySiteName}
                     </div>
                 </div>
                 <div class="footer_text">{!footerText} </div>
@@ -25,10 +25,10 @@
             <div class="footer_otherpages" >
                 <div class="peInfo">
                     <div class="float-left">
-                        {!participantFullName}
+                        {!pdfFooterptFullName}
                     </div>
                     <div class="float-right">
-                        <span style="color:#000000;">{!$Label.Report_Enrollment_Date}</span> {!enrollmentDate}&nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!participantStatus}&nbsp;&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Study_Site}:</span> {!studySiteName}
+                        <span style="color:#000000;">{!dateLabel}</span> <apex:outputText rendered="{!(!ISBLANK(enrollmentDate))}" value="{0, date, dd MMMM  yyyy}"><apex:param value="{!enrollmentDate}" /></apex:outputText>&nbsp;&nbsp;&nbsp;&mdash;<apex:outputText rendered="{!!ISBLANK(pdfFooterptStatus)}">&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!pdfFooterptStatus}&nbsp;&nbsp;&nbsp;&mdash;</apex:outputText>&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Study_Site}:</span> {!pdfFooterstudySiteName}
                     </div>
                 </div>
                 <div class="footer_text">{!footerText} </div>
@@ -36,8 +36,8 @@
             <div class="top-left-header">
                 {!$Label.IQVIA_Patient_Portal}
             </div>
-            <div class="top-right-header">
-                <div >{!studyCodeName} | {!$CurrentPage.parameters.patientVisitNam} |&nbsp;<span class="pagenumber"/> / <span class="pagecount"/></div>
+            <div class="top-right-header"> 
+                <div >{!pdfStudyHeaderName} | {!pdfHeaderVisitName} |&nbsp;<span class="pagenumber"/> / <span class="pagecount"/></div>
             </div>
             <div class= "patient-portal">
                 {!$Label.IQVIA_Patient_Portal}                    
@@ -50,14 +50,14 @@
             </div>
             <div class= "visit-date">
                 <div>
-                    {!$Label.Study_Data_Report}
+                    {!headerName}
                 </div>
-                <div style="margin-top:10px;">
+                <apex:outputPanel style="margin-top:10px;" rendered="{!(!ISBLANK(participantStatus))}">
                     {!$CurrentPage.parameters.patientVisitNam} | 
                     <apex:outputText value="{0, date, MMMM d','  yyyy}"> 
                         <apex:param value="{!patVisitCompleted}" />
                     </apex:outputText>
-                </div>                   
+               </apex:outputPanel>                   
             </div>
             <div class="content">
                 <div  class="datatab">
@@ -87,7 +87,7 @@
                                                 <apex:repeat value="{!rows}" var="row">
                                                     
                                                     <apex:outputText rendered="{!row.value!='______'}"> 
-                                                        <td style="font-size: 15px;color:#C42EA5;padding-top:15px;padding-bottom:15px;text-align:center;" >{!row.value}</td>
+                                                        <td style="font-size: 15px;color:#C42EA5;padding-top:15px;padding-bottom:15px;text-align:center;" ><span><span>{!row.value}&nbsp;</span><span></span><span>{!row.measurement}</span></span></td>
                                                     </apex:outputText>
                                                     <apex:outputText rendered="{!row.value=='______'}">
                                                         <td style="font-size: 15px;text-align:center;color:#999999;padding-top:4px;padding-bottom:15px;" >{!row.value}</td></apex:outputText>

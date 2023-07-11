@@ -94,6 +94,7 @@ public without sharing class UpdateService {
                 Resource__r.Type__c
             FROM Res_study__c
             WHERE Resource__c != NULL AND id IN :resStudyIds
+            ALL ROWS
         ];
         for (Res_study__c res : studyResources) {
             resStudyMap.put(res.Id, res);
@@ -115,6 +116,7 @@ public without sharing class UpdateService {
                 Type__c
             FROM Resource__c
             WHERE Id IN :resPlatformIds
+            ALL ROWS
         ];
         Map<Id, Resource__c> resPlatformMap = new Map<Id, Resource__c>();
         for (Resource__c res : platformResources) {

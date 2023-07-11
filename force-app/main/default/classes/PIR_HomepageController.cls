@@ -409,7 +409,7 @@ public without sharing class PIR_HomepageController {
       if (!String.isBlank(ageStart)) {
         filterString =
           filterString +
-          ' AND Participant__r.Present_Age__c >=  ' +
+          ' AND Participant__r.Age__c >=  ' +
           ageStart +
           ' ';
       }
@@ -417,7 +417,7 @@ public without sharing class PIR_HomepageController {
       if (!String.isBlank(ageEnd)) {
         filterString =
           filterString +
-          ' AND Participant__r.Present_Age__c <=  ' +
+          ' AND Participant__r.Age__c <=  ' +
           ageEnd +
           ' ';
       }

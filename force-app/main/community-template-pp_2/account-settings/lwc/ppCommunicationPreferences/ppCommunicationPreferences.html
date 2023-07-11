@@ -154,164 +154,185 @@
                                 for:item="study"
                                 for:index="index"
                             >
-                                <lightning-layout
-                                    key={study.Id}
-                                    multiple-rows="true"
-                                    class="study-card"
-                                    vertical-align="center"
-                                >
-                                    <lightning-layout-item size="4" class={StudyConsentClass}>
-                                        <span class="study-header"
-                                            >{study.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
-                                        >
-                                    </lightning-layout-item>
+                                <template if:true={study.ppEnabledAndInvitedPER}>
+                                    <lightning-layout
+                                        key={study.Id}
+                                        multiple-rows="true"
+                                        class="study-card"
+                                        vertical-align="center"
+                                    >
+                                        <lightning-layout-item size="4" class={StudyConsentClass}>
+                                            <span class="study-header"
+                                                >{study.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
+                                            >
+                                        </lightning-layout-item>
 
-                                    <lightning-layout-item size="8" class="study-content">
-                                        <lightning-layout
-                                            key={study.Id}
-                                            multiple-rows="true"
-                                            class=""
-                                            vertical-align="center"
-                                        >
-                                            <lightning-layout-item size="2" class="study-paramters">
-                                            </lightning-layout-item>
-                                            <lightning-layout-item size="2" class="study-paramters">
-                                                <div class="mb-child-div-10">
-                                                    <div>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            class="com-icon"
-                                                        >
-                                                            <use xlink:href={phoneSvg}></use>
-                                                        </svg>
-                                                    </div>
-                                                    <div>{label.PP_Communication_Pref_Phone}</div>
-                                                    <div class="ml-5">
-                                                        <lightning-input
-                                                            type="checkbox"
-                                                            label="Phone"
-                                                            name={study.Id}
-                                                            data-objname="PER"
-                                                            variant="label-hidden"
-                                                            checked={study.Permit_Voice_Text_contact_for_this_study__c}
-                                                            onchange={selectIndividualOptions}
-                                                            disabled={disableConsentsForDelInParView}
-                                                        ></lightning-input>
-                                                    </div>
-                                                </div>
-                                            </lightning-layout-item>
-                                            <lightning-layout-item size="2" class="study-paramters">
-                                                <div class="mb-child-div-10">
-                                                    <div>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            class="com-icon"
-                                                        >
-                                                            <use xlink:href={emailSvg}></use>
-                                                        </svg>
-                                                    </div>
-                                                    <div>{label.PP_Communication_Pref_Email}</div>
-                                                    <div class="ml-5">
-                                                        <lightning-input
-                                                            type="checkbox"
-                                                            label="Email"
-                                                            name={study.Id}
-                                                            data-objname="PER"
-                                                            variant="label-hidden"
-                                                            checked={study.Permit_Mail_Email_contact_for_this_study__c}
-                                                            onchange={selectIndividualOptions}
-                                                            disabled={disableConsentsForDelInParView}
-                                                        ></lightning-input>
-                                                    </div>
-                                                </div>
-                                            </lightning-layout-item>
-                                            <lightning-layout-item size="2" class="study-paramters">
-                                                <div class="mb-child-div-10">
-                                                    <div>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            class="com-icon"
-                                                        >
-                                                            <use xlink:href={smsSvg}></use>
-                                                        </svg>
-                                                    </div>
-                                                    <div>{label.PP_Communication_Pref_SMS}</div>
-                                                    <div class="ml-5">
-                                                        <lightning-input
-                                                            type="checkbox"
-                                                            label="SMS"
-                                                            name={study.Id}
-                                                            data-objname="PER"
-                                                            variant="label-hidden"
-                                                            checked={study.Permit_SMS_Text_for_this_study__c}
-                                                            onchange={selectIndividualOptions}
-                                                            disabled={disableConsentsForDelInParView}
-                                                            class="smsElements"
-                                                            data-label="SMS_STUDY"
-                                                            data-id={study.Id}
-                                                        ></lightning-input>
-                                                    </div>
-                                                </div>
-                                            </lightning-layout-item>
-                                            <lightning-layout-item size="2" class={borderStyle}>
-                                                <div class="mb-child-div-10">
-                                                    <div>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            class="com-icon"
-                                                        >
-                                                            <use xlink:href={dmailSvg}></use>
-                                                        </svg>
-                                                    </div>
-                                                    <div>
+                                        <lightning-layout-item size="8" class="study-content">
+                                            <lightning-layout
+                                                key={study.Id}
+                                                multiple-rows="true"
+                                                class=""
+                                                vertical-align="center"
+                                            >
+                                                <lightning-layout-item
+                                                    size="2"
+                                                    class="study-paramters"
+                                                >
+                                                </lightning-layout-item>
+                                                <lightning-layout-item
+                                                    size="2"
+                                                    class="study-paramters"
+                                                >
+                                                    <div class="mb-child-div-10">
                                                         <div>
-                                                            {label.PP_Communication_Pref_Dmail}
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={phoneSvg}></use>
+                                                            </svg>
+                                                        </div>
+                                                        <div>
+                                                            {label.PP_Communication_Pref_Phone}
+                                                        </div>
+                                                        <div class="ml-5">
+                                                            <lightning-input
+                                                                type="checkbox"
+                                                                label="Phone"
+                                                                name={study.Id}
+                                                                data-objname="PER"
+                                                                variant="label-hidden"
+                                                                checked={study.Permit_Voice_Text_contact_for_this_study__c}
+                                                                onchange={selectIndividualOptions}
+                                                                disabled={disableConsentsForDelInParView}
+                                                            ></lightning-input>
                                                         </div>
                                                     </div>
-                                                    <div class="ml-5">
-                                                        <lightning-input
-                                                            type="checkbox"
-                                                            label="DMail"
-                                                            name={study.Id}
-                                                            data-objname="PER"
-                                                            variant="label-hidden"
-                                                            checked={study.Study_Direct_Mail_Consent__c}
-                                                            onchange={selectIndividualOptions}
-                                                            disabled={disableConsentsForDelInParView}
-                                                        ></lightning-input>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item
+                                                    size="2"
+                                                    class="study-paramters"
+                                                >
+                                                    <div class="mb-child-div-10">
+                                                        <div>
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={emailSvg}></use>
+                                                            </svg>
+                                                        </div>
+                                                        <div>
+                                                            {label.PP_Communication_Pref_Email}
+                                                        </div>
+                                                        <div class="ml-5">
+                                                            <lightning-input
+                                                                type="checkbox"
+                                                                label="Email"
+                                                                name={study.Id}
+                                                                data-objname="PER"
+                                                                variant="label-hidden"
+                                                                checked={study.Permit_Mail_Email_contact_for_this_study__c}
+                                                                onchange={selectIndividualOptions}
+                                                                disabled={disableConsentsForDelInParView}
+                                                            ></lightning-input>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </lightning-layout-item>
-                                            <lightning-layout-item size="2" class="study-paramters">
-                                                <div class="mb-child-div-10">
-                                                    <div>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            class="com-icon"
-                                                        >
-                                                            <use xlink:href={allSvg}></use>
-                                                        </svg>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item
+                                                    size="2"
+                                                    class="study-paramters"
+                                                >
+                                                    <div class="mb-child-div-10">
+                                                        <div>
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={smsSvg}></use>
+                                                            </svg>
+                                                        </div>
+                                                        <div>{label.PP_Communication_Pref_SMS}</div>
+                                                        <div class="ml-5">
+                                                            <lightning-input
+                                                                type="checkbox"
+                                                                label="SMS"
+                                                                name={study.Id}
+                                                                data-objname="PER"
+                                                                variant="label-hidden"
+                                                                checked={study.Permit_SMS_Text_for_this_study__c}
+                                                                onchange={selectIndividualOptions}
+                                                                disabled={disableConsentsForDelInParView}
+                                                                class="smsElements"
+                                                                data-label="SMS_STUDY"
+                                                                data-id={study.Id}
+                                                            ></lightning-input>
+                                                        </div>
                                                     </div>
-                                                    <div>{label.PP_Communication_Pref_All}</div>
-                                                    <div class="ml-5">
-                                                        <lightning-input
-                                                            type="checkbox"
-                                                            label="All"
-                                                            name={study.Id}
-                                                            data-objname="PER"
-                                                            variant="label-hidden"
-                                                            checked={study.all}
-                                                            onchange={selectAllOptions}
-                                                            disabled={disableConsentsForDelInParView}
-                                                            data-id={study.Id}
-                                                            data-label="All"
-                                                        ></lightning-input>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="2" class={borderStyle}>
+                                                    <div class="mb-child-div-10">
+                                                        <div>
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={dmailSvg}></use>
+                                                            </svg>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                {label.PP_Communication_Pref_Dmail}
+                                                            </div>
+                                                        </div>
+                                                        <div class="ml-5">
+                                                            <lightning-input
+                                                                type="checkbox"
+                                                                label="DMail"
+                                                                name={study.Id}
+                                                                data-objname="PER"
+                                                                variant="label-hidden"
+                                                                checked={study.Study_Direct_Mail_Consent__c}
+                                                                onchange={selectIndividualOptions}
+                                                                disabled={disableConsentsForDelInParView}
+                                                            ></lightning-input>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </lightning-layout-item>
-                                        </lightning-layout>
-                                    </lightning-layout-item>
-                                </lightning-layout>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item
+                                                    size="2"
+                                                    class="study-paramters"
+                                                >
+                                                    <div class="mb-child-div-10">
+                                                        <div>
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={allSvg}></use>
+                                                            </svg>
+                                                        </div>
+                                                        <div>{label.PP_Communication_Pref_All}</div>
+                                                        <div class="ml-5">
+                                                            <lightning-input
+                                                                type="checkbox"
+                                                                label="All"
+                                                                name={study.Id}
+                                                                data-objname="PER"
+                                                                variant="label-hidden"
+                                                                checked={study.all}
+                                                                onchange={selectAllOptions}
+                                                                disabled={disableConsentsForDelInParView}
+                                                                data-id={study.Id}
+                                                                data-label="All"
+                                                            ></lightning-input>
+                                                        </div>
+                                                    </div>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </template>
                             </template>
                             <template
                                 if:true={ShowPDEConsents}
@@ -319,164 +340,185 @@
                                 for:item="pde"
                                 for:index="index"
                             >
-                                <lightning-layout
-                                    key={pde.Id}
-                                    multiple-rows="true"
-                                    class="study-card"
-                                    vertical-align="center"
-                                >
-                                    <lightning-layout-item size="4" class={StudyConsentClass}>
-                                        <span class="study-header"
-                                            >{pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
-                                        >
-                                        <p class="part-name">
-                                            assigned by
-                                            {pde.Patient_Delegate__r.Participant__r.First_Name__c}
-                                            {pde.parLastNameInitial}.
-                                        </p>
-                                    </lightning-layout-item>
+                                <template if:true={pde.ppEnabledPDE}>
+                                    <lightning-layout
+                                        key={pde.Id}
+                                        multiple-rows="true"
+                                        class="study-card"
+                                        vertical-align="center"
+                                    >
+                                        <lightning-layout-item size="4" class={StudyConsentClass}>
+                                            <span class="study-header"
+                                                >{pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
+                                            >
+                                            <p class="part-name">
+                                                assigned by
+                                                {pde.Patient_Delegate__r.Participant__r.First_Name__c}
+                                                {pde.parLastNameInitial}.
+                                            </p>
+                                        </lightning-layout-item>
 
-                                    <lightning-layout-item size="8" class="study-content">
-                                        <lightning-layout
-                                            key={pde.Id}
-                                            multiple-rows="true"
-                                            class=""
-                                            vertical-align="center"
-                                        >
-                                            <lightning-layout-item size="2" class="study-paramters">
-                                            </lightning-layout-item>
-                                            <lightning-layout-item size="2" class="study-paramters">
-                                                <div class="mb-child-div-10">
-                                                    <div>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            class="com-icon"
-                                                        >
-                                                            <use xlink:href={phoneSvg}></use>
-                                                        </svg>
-                                                    </div>
-                                                    <div>{label.PP_Communication_Pref_Phone}</div>
-                                                    <div class="ml-5">
-                                                        <lightning-input
-                                                            type="checkbox"
-                                                            label="Phone"
-                                                            name={pde.Id}
-                                                            data-objname="PDE"
-                                                            variant="label-hidden"
-                                                            checked={pde.Study_Phone_Consent__c}
-                                                            onchange={selectIndividualOptions}
-                                                        ></lightning-input>
-                                                    </div>
-                                                </div>
-                                            </lightning-layout-item>
-                                            <lightning-layout-item size="2" class="study-paramters">
-                                                <div class="mb-child-div-10">
-                                                    <div>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            class="com-icon"
-                                                        >
-                                                            <use xlink:href={emailSvg}></use>
-                                                        </svg>
-                                                    </div>
-                                                    <div>{label.PP_Communication_Pref_Email}</div>
-                                                    <div class="ml-5">
-                                                        <lightning-input
-                                                            type="checkbox"
-                                                            label="Email"
-                                                            name={pde.Id}
-                                                            data-objname="PDE"
-                                                            variant="label-hidden"
-                                                            checked={pde.Study_Email_Consent__c}
-                                                            onchange={selectIndividualOptions}
-                                                        ></lightning-input>
-                                                    </div>
-                                                </div>
-                                            </lightning-layout-item>
-                                            <lightning-layout-item size="2" class="study-paramters">
-                                                <div class="mb-child-div-10">
-                                                    <div>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            class="com-icon"
-                                                        >
-                                                            <use xlink:href={smsSvg}></use>
-                                                        </svg>
-                                                    </div>
-                                                    <div>{label.PP_Communication_Pref_SMS}</div>
-                                                    <div class="ml-5">
-                                                        <lightning-input
-                                                            type="checkbox"
-                                                            label="SMS"
-                                                            name={pde.Id}
-                                                            data-objname="PDE"
-                                                            variant="label-hidden"
-                                                            checked={pde.Study_SMS_Consent__c}
-                                                            onchange={selectIndividualOptions}
-                                                            class="smsElements"
-                                                            data-label="SMS_PDE"
-                                                            data-id={pde.Id}
-                                                        ></lightning-input>
-                                                    </div>
-                                                </div>
-                                            </lightning-layout-item>
-                                            <lightning-layout-item size="2" class={borderStyle}>
-                                                <div class="mb-child-div-10">
-                                                    <div>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            class="com-icon"
-                                                        >
-                                                            <use xlink:href={dmailSvg}></use>
-                                                        </svg>
-                                                    </div>
-                                                    <div>
+                                        <lightning-layout-item size="8" class="study-content">
+                                            <lightning-layout
+                                                key={pde.Id}
+                                                multiple-rows="true"
+                                                class=""
+                                                vertical-align="center"
+                                            >
+                                                <lightning-layout-item
+                                                    size="2"
+                                                    class="study-paramters"
+                                                >
+                                                </lightning-layout-item>
+                                                <lightning-layout-item
+                                                    size="2"
+                                                    class="study-paramters"
+                                                >
+                                                    <div class="mb-child-div-10">
                                                         <div>
-                                                            {label.PP_Communication_Pref_Dmail}
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={phoneSvg}></use>
+                                                            </svg>
+                                                        </div>
+                                                        <div>
+                                                            {label.PP_Communication_Pref_Phone}
+                                                        </div>
+                                                        <div class="ml-5">
+                                                            <lightning-input
+                                                                type="checkbox"
+                                                                label="Phone"
+                                                                name={pde.Id}
+                                                                data-objname="PDE"
+                                                                variant="label-hidden"
+                                                                checked={pde.Study_Phone_Consent__c}
+                                                                onchange={selectIndividualOptions}
+                                                            ></lightning-input>
                                                         </div>
                                                     </div>
-                                                    <div class="ml-5">
-                                                        <lightning-input
-                                                            type="checkbox"
-                                                            label="DMail"
-                                                            name={pde.Id}
-                                                            data-objname="PDE"
-                                                            variant="label-hidden"
-                                                            checked={pde.Study_Direct_Mail_Consent__c}
-                                                            onchange={selectIndividualOptions}
-                                                        ></lightning-input>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item
+                                                    size="2"
+                                                    class="study-paramters"
+                                                >
+                                                    <div class="mb-child-div-10">
+                                                        <div>
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={emailSvg}></use>
+                                                            </svg>
+                                                        </div>
+                                                        <div>
+                                                            {label.PP_Communication_Pref_Email}
+                                                        </div>
+                                                        <div class="ml-5">
+                                                            <lightning-input
+                                                                type="checkbox"
+                                                                label="Email"
+                                                                name={pde.Id}
+                                                                data-objname="PDE"
+                                                                variant="label-hidden"
+                                                                checked={pde.Study_Email_Consent__c}
+                                                                onchange={selectIndividualOptions}
+                                                            ></lightning-input>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </lightning-layout-item>
-                                            <lightning-layout-item size="2" class="study-paramters">
-                                                <div class="mb-child-div-10">
-                                                    <div>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            class="com-icon"
-                                                        >
-                                                            <use xlink:href={allSvg}></use>
-                                                        </svg>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item
+                                                    size="2"
+                                                    class="study-paramters"
+                                                >
+                                                    <div class="mb-child-div-10">
+                                                        <div>
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={smsSvg}></use>
+                                                            </svg>
+                                                        </div>
+                                                        <div>{label.PP_Communication_Pref_SMS}</div>
+                                                        <div class="ml-5">
+                                                            <lightning-input
+                                                                type="checkbox"
+                                                                label="SMS"
+                                                                name={pde.Id}
+                                                                data-objname="PDE"
+                                                                variant="label-hidden"
+                                                                checked={pde.Study_SMS_Consent__c}
+                                                                onchange={selectIndividualOptions}
+                                                                class="smsElements"
+                                                                data-label="SMS_PDE"
+                                                                data-id={pde.Id}
+                                                            ></lightning-input>
+                                                        </div>
                                                     </div>
-                                                    <div>{label.PP_Communication_Pref_All}</div>
-                                                    <div class="ml-5">
-                                                        <lightning-input
-                                                            type="checkbox"
-                                                            label="All"
-                                                            name={pde.Id}
-                                                            data-objname="PDE"
-                                                            variant="label-hidden"
-                                                            checked={pde.all}
-                                                            onchange={selectAllOptions}
-                                                            data-id={pde.Id}
-                                                            data-label="All_PDE"
-                                                        ></lightning-input>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="2" class={borderStyle}>
+                                                    <div class="mb-child-div-10">
+                                                        <div>
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={dmailSvg}></use>
+                                                            </svg>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                {label.PP_Communication_Pref_Dmail}
+                                                            </div>
+                                                        </div>
+                                                        <div class="ml-5">
+                                                            <lightning-input
+                                                                type="checkbox"
+                                                                label="DMail"
+                                                                name={pde.Id}
+                                                                data-objname="PDE"
+                                                                variant="label-hidden"
+                                                                checked={pde.Study_Direct_Mail_Consent__c}
+                                                                onchange={selectIndividualOptions}
+                                                            ></lightning-input>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </lightning-layout-item>
-                                        </lightning-layout>
-                                    </lightning-layout-item>
-                                </lightning-layout>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item
+                                                    size="2"
+                                                    class="study-paramters"
+                                                >
+                                                    <div class="mb-child-div-10">
+                                                        <div>
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={allSvg}></use>
+                                                            </svg>
+                                                        </div>
+                                                        <div>{label.PP_Communication_Pref_All}</div>
+                                                        <div class="ml-5">
+                                                            <lightning-input
+                                                                type="checkbox"
+                                                                label="All"
+                                                                name={pde.Id}
+                                                                data-objname="PDE"
+                                                                variant="label-hidden"
+                                                                checked={pde.all}
+                                                                onchange={selectAllOptions}
+                                                                data-id={pde.Id}
+                                                                data-label="All_PDE"
+                                                            ></lightning-input>
+                                                        </div>
+                                                    </div>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </template>
                             </template>
                             <!-- <div class={getStudyConsentMargin}> -->
                             <div class={getPurchaseProptyTxt}>
@@ -683,28 +725,26 @@
     </template>
 
     <template if:false={isDesktop}>
-        <template if:false={showBackButton}>
-            <div class="slds-grid slds-wrap slds-gutters">
-                <div class="slds-col slds-size_1-of-1">
-                    <div class="back-button">
-                        <template if:false={isRTL}>
-                            <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
-                            </c-web-icon>
-                        </template>
-                        <span
-                            class="slds-p-left_x-small slds-p-right_x-small"
-                            onclick={showMenuBar}
-                            data-header="comm-pref"
-                            >{label.BACK}</span
-                        >
-                        <template if:true={isRTL}>
-                            <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
-                            </c-web-icon>
-                        </template>
-                    </div>
+        <div class="slds-grid slds-wrap slds-gutters">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="back-button">
+                    <template if:false={isRTL}>
+                        <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
+                        </c-web-icon>
+                    </template>
+                    <span
+                        class="slds-p-left_x-small slds-p-right_x-small"
+                        onclick={showMenuBar}
+                        data-header="comm-pref"
+                        >{label.BACK}</span
+                    >
+                    <template if:true={isRTL}>
+                        <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
+                        </c-web-icon>
+                    </template>
                 </div>
             </div>
-        </template>
+        </div>
 
         <div class={cardRTL}>
             <div class="communication-pref">
@@ -846,156 +886,161 @@
                                 for:item="study"
                                 for:index="index"
                             >
-                                <div key={study.study_id} class="mobile">
-                                    <lightning-layout
-                                        key={study.Id}
-                                        multiple-rows="true"
-                                        class="study-card-study-name"
-                                        vertical-align="center"
-                                    >
-                                        <lightning-layout-item size="12" class={StudyConsentClass}>
-                                            <span class="study-header"
-                                                >{study.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
+                                <template if:true={study.ppEnabledAndInvitedPER}>
+                                    <div key={study.study_id} class="mobile">
+                                        <lightning-layout
+                                            key={study.Id}
+                                            multiple-rows="true"
+                                            class="study-card-study-name"
+                                            vertical-align="center"
+                                        >
+                                            <lightning-layout-item
+                                                size="12"
+                                                class={StudyConsentClass}
                                             >
-                                        </lightning-layout-item>
-                                    </lightning-layout>
-                                    <div class="slds-grid study-card-mobile study-paramters">
-                                        <div class="slds-col slds-size-custom_2-of-10">
-                                            <div class="mb-child-div-10">
-                                                <div>
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        class="com-icon"
-                                                    >
-                                                        <use xlink:href={phoneSvg}></use>
-                                                    </svg>
-                                                </div>
-                                                <div>{label.PP_Communication_Pref_Phone}</div>
-                                                <div class="ml-5">
-                                                    <lightning-input
-                                                        type="checkbox"
-                                                        label="Phone"
-                                                        name={study.Id}
-                                                        data-objname="PER"
-                                                        variant="label-hidden"
-                                                        checked={study.Permit_Voice_Text_contact_for_this_study__c}
-                                                        onchange={selectIndividualOptions}
-                                                        disabled={disableConsentsForDelInParView}
-                                                    ></lightning-input>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="slds-col slds-size-custom_2-of-10">
-                                            <div class="mb-child-div-10">
-                                                <div>
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        class="com-icon"
-                                                    >
-                                                        <use xlink:href={emailSvg}></use>
-                                                    </svg>
-                                                </div>
-                                                <div>{label.PP_Communication_Pref_Email}</div>
-                                                <div class="ml-5">
-                                                    <lightning-input
-                                                        type="checkbox"
-                                                        label="Email"
-                                                        name={study.Id}
-                                                        data-objname="PER"
-                                                        variant="label-hidden"
-                                                        checked={study.Permit_Mail_Email_contact_for_this_study__c}
-                                                        onchange={selectIndividualOptions}
-                                                        disabled={disableConsentsForDelInParView}
-                                                    ></lightning-input>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="slds-col slds-size-custom_2-of-10">
-                                            <div class="mb-child-div-10">
-                                                <div>
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        class="com-icon"
-                                                    >
-                                                        <use xlink:href={smsSvg}></use>
-                                                    </svg>
-                                                </div>
-                                                <div>{label.PP_Communication_Pref_SMS}</div>
-                                                <div class="ml-5">
-                                                    <lightning-input
-                                                        type="checkbox"
-                                                        label="SMS"
-                                                        name={study.Id}
-                                                        data-objname="PER"
-                                                        variant="label-hidden"
-                                                        checked={study.Permit_SMS_Text_for_this_study__c}
-                                                        onchange={selectIndividualOptions}
-                                                        disabled={disableConsentsForDelInParView}
-                                                        class="smsElements"
-                                                        data-label="SMS_STUDY"
-                                                        data-id={study.Id}
-                                                    ></lightning-input>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class={borderStyleMobile}>
-                                            <div class="mb-child-div-10">
-                                                <div>
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        class="com-icon"
-                                                    >
-                                                        <use xlink:href={dmailSvg}></use>
-                                                    </svg>
-                                                </div>
-                                                <div class="po-mobile-text">
-                                                    {label.PP_Communication_Pref_Dmail}
-                                                </div>
-                                                <div class="ml-5">
-                                                    <lightning-input
-                                                        type="checkbox"
-                                                        label="DMail"
-                                                        name={study.Id}
-                                                        data-objname="PER"
-                                                        variant="label-hidden"
-                                                        checked={study.Study_Direct_Mail_Consent__c}
-                                                        onchange={selectIndividualOptions}
-                                                        disabled={disableConsentsForDelInParView}
-                                                    ></lightning-input>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="slds-col slds-size-custom_1-of-10">
-                                            <div class="mb-child-div-10">
-                                                <div>
+                                                <span class="study-header"
+                                                    >{study.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
+                                                >
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                        <div class="slds-grid study-card-mobile study-paramters">
+                                            <div class="slds-col slds-size-custom_2-of-10">
+                                                <div class="mb-child-div-10">
                                                     <div>
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             class="com-icon"
                                                         >
-                                                            <use xlink:href={allSvg}></use>
+                                                            <use xlink:href={phoneSvg}></use>
                                                         </svg>
                                                     </div>
+                                                    <div>{label.PP_Communication_Pref_Phone}</div>
+                                                    <div class="ml-5">
+                                                        <lightning-input
+                                                            type="checkbox"
+                                                            label="Phone"
+                                                            name={study.Id}
+                                                            data-objname="PER"
+                                                            variant="label-hidden"
+                                                            checked={study.Permit_Voice_Text_contact_for_this_study__c}
+                                                            onchange={selectIndividualOptions}
+                                                            disabled={disableConsentsForDelInParView}
+                                                        ></lightning-input>
+                                                    </div>
                                                 </div>
-                                                <div>{label.PP_Communication_Pref_All}</div>
-                                                <div class="ml-5">
-                                                    <lightning-input
-                                                        type="checkbox"
-                                                        label="All"
-                                                        name={study.Id}
-                                                        data-objname="PER"
-                                                        variant="label-hidden"
-                                                        checked={study.all}
-                                                        onchange={selectAllOptions}
-                                                        disabled={disableConsentsForDelInParView}
-                                                        data-id={study.Id}
-                                                        data-label="All"
-                                                    ></lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-size-custom_2-of-10">
+                                                <div class="mb-child-div-10">
+                                                    <div>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            class="com-icon"
+                                                        >
+                                                            <use xlink:href={emailSvg}></use>
+                                                        </svg>
+                                                    </div>
+                                                    <div>{label.PP_Communication_Pref_Email}</div>
+                                                    <div class="ml-5">
+                                                        <lightning-input
+                                                            type="checkbox"
+                                                            label="Email"
+                                                            name={study.Id}
+                                                            data-objname="PER"
+                                                            variant="label-hidden"
+                                                            checked={study.Permit_Mail_Email_contact_for_this_study__c}
+                                                            onchange={selectIndividualOptions}
+                                                            disabled={disableConsentsForDelInParView}
+                                                        ></lightning-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size-custom_2-of-10">
+                                                <div class="mb-child-div-10">
+                                                    <div>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            class="com-icon"
+                                                        >
+                                                            <use xlink:href={smsSvg}></use>
+                                                        </svg>
+                                                    </div>
+                                                    <div>{label.PP_Communication_Pref_SMS}</div>
+                                                    <div class="ml-5">
+                                                        <lightning-input
+                                                            type="checkbox"
+                                                            label="SMS"
+                                                            name={study.Id}
+                                                            data-objname="PER"
+                                                            variant="label-hidden"
+                                                            checked={study.Permit_SMS_Text_for_this_study__c}
+                                                            onchange={selectIndividualOptions}
+                                                            disabled={disableConsentsForDelInParView}
+                                                            class="smsElements"
+                                                            data-label="SMS_STUDY"
+                                                            data-id={study.Id}
+                                                        ></lightning-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class={borderStyleMobile}>
+                                                <div class="mb-child-div-10">
+                                                    <div>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            class="com-icon"
+                                                        >
+                                                            <use xlink:href={dmailSvg}></use>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="po-mobile-text">
+                                                        {label.PP_Communication_Pref_Dmail}
+                                                    </div>
+                                                    <div class="ml-5">
+                                                        <lightning-input
+                                                            type="checkbox"
+                                                            label="DMail"
+                                                            name={study.Id}
+                                                            data-objname="PER"
+                                                            variant="label-hidden"
+                                                            checked={study.Study_Direct_Mail_Consent__c}
+                                                            onchange={selectIndividualOptions}
+                                                            disabled={disableConsentsForDelInParView}
+                                                        ></lightning-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size-custom_1-of-10">
+                                                <div class="mb-child-div-10">
+                                                    <div>
+                                                        <div>
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={allSvg}></use>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                    <div>{label.PP_Communication_Pref_All}</div>
+                                                    <div class="ml-5">
+                                                        <lightning-input
+                                                            type="checkbox"
+                                                            label="All"
+                                                            name={study.Id}
+                                                            data-objname="PER"
+                                                            variant="label-hidden"
+                                                            checked={study.all}
+                                                            onchange={selectAllOptions}
+                                                            disabled={disableConsentsForDelInParView}
+                                                            data-id={study.Id}
+                                                            data-label="All"
+                                                        ></lightning-input>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </template>
                             </template>
                             <template
                                 if:true={ShowPDEConsents}
@@ -1003,156 +1048,247 @@
                                 for:item="pde"
                                 for:index="index"
                             >
-                                <div key={pde.pde_id} class="mobile">
-                                    <lightning-layout
-                                        key={pde.Id}
-                                        multiple-rows="true"
-                                        class="study-card-study-name"
-                                        vertical-align="center"
-                                    >
-                                        <lightning-layout-item size="12" class={StudyConsentClass}>
-                                            <span class="study-header"
-                                                >{pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
+                                <template if:true={pde.ppEnabledPDE}>
+                                    <div key={pde.pde_id} class="mobile">
+                                        <lightning-layout
+                                            key={pde.Id}
+                                            multiple-rows="true"
+                                            class="study-card-study-name"
+                                            vertical-align="center"
+                                        >
+                                            <lightning-layout-item
+                                                size="12"
+                                                class={StudyConsentClass}
                                             >
-                                            <p class="part-name">
-                                                assigned by
-                                                {pde.Patient_Delegate__r.Participant__r.First_Name__c}
-                                                {pde.parLastNameInitial}.
-                                            </p>
-                                        </lightning-layout-item>
-                                    </lightning-layout>
-                                    <div class="slds-grid study-card-mobile study-paramters">
-                                        <div class="slds-col slds-size-custom_2-of-10">
-                                            <div class="mb-child-div-10">
-                                                <div>
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        class="com-icon"
-                                                    >
-                                                        <use xlink:href={phoneSvg}></use>
-                                                    </svg>
-                                                </div>
-                                                <div>{label.PP_Communication_Pref_Phone}</div>
-                                                <div class="ml-5">
-                                                    <lightning-input
-                                                        type="checkbox"
-                                                        label="Phone"
-                                                        name={pde.Id}
-                                                        data-objname="PDE"
-                                                        variant="label-hidden"
-                                                        checked={pde.Study_Phone_Consent__c}
-                                                        onchange={selectIndividualOptions}
-                                                    ></lightning-input>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="slds-col slds-size-custom_2-of-10">
-                                            <div class="mb-child-div-10">
-                                                <div>
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        class="com-icon"
-                                                    >
-                                                        <use xlink:href={emailSvg}></use>
-                                                    </svg>
-                                                </div>
-                                                <div>{label.PP_Communication_Pref_Email}</div>
-                                                <div class="ml-5">
-                                                    <lightning-input
-                                                        type="checkbox"
-                                                        label="Email"
-                                                        name={pde.Id}
-                                                        data-objname="PDE"
-                                                        variant="label-hidden"
-                                                        checked={pde.Study_Email_Consent__c}
-                                                        onchange={selectIndividualOptions}
-                                                    ></lightning-input>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="slds-col slds-size-custom_2-of-10">
-                                            <div class="mb-child-div-10">
-                                                <div>
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        class="com-icon"
-                                                    >
-                                                        <use xlink:href={smsSvg}></use>
-                                                    </svg>
-                                                </div>
-                                                <div>{label.PP_Communication_Pref_SMS}</div>
-                                                <div class="ml-5">
-                                                    <lightning-input
-                                                        type="checkbox"
-                                                        label="SMS"
-                                                        name={pde.Id}
-                                                        data-objname="PDE"
-                                                        variant="label-hidden"
-                                                        checked={pde.Study_SMS_Consent__c}
-                                                        onchange={selectIndividualOptions}
-                                                        class="smsElements"
-                                                        data-label="SMS_PDE"
-                                                        data-id={pde.Id}
-                                                    ></lightning-input>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class={borderStyleMobile}>
-                                            <div class="mb-child-div-10">
-                                                <div>
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        class="com-icon"
-                                                    >
-                                                        <use xlink:href={dmailSvg}></use>
-                                                    </svg>
-                                                </div>
-                                                <div class="po-mobile-text">
-                                                    {label.PP_Communication_Pref_Dmail}
-                                                </div>
-                                                <div class="ml-5">
-                                                    <lightning-input
-                                                        type="checkbox"
-                                                        label="DMail"
-                                                        name={pde.Id}
-                                                        data-objname="PDE"
-                                                        variant="label-hidden"
-                                                        checked={pde.Study_Direct_Mail_Consent__c}
-                                                        onchange={selectIndividualOptions}
-                                                    ></lightning-input>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="slds-col slds-size-custom_1-of-10">
-                                            <div class="mb-child-div-10">
-                                                <div>
+                                                <span class="study-header"
+                                                    >{pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
+                                                >
+                                                <p class="part-name">
+                                                    assigned by
+                                                    {pde.Patient_Delegate__r.Participant__r.First_Name__c}
+                                                    {pde.parLastNameInitial}.
+                                                </p>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                        <div class="slds-grid study-card-mobile study-paramters">
+                                            <div class="slds-col slds-size-custom_2-of-10">
+                                                <div class="mb-child-div-10">
                                                     <div>
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             class="com-icon"
                                                         >
-                                                            <use xlink:href={allSvg}></use>
+                                                            <use xlink:href={phoneSvg}></use>
                                                         </svg>
                                                     </div>
-                                                </div>
-                                                <div>{label.PP_Communication_Pref_All}</div>
-                                                <div class="ml-5">
-                                                    <lightning-input
-                                                        type="checkbox"
-                                                        label="All"
-                                                        name={pde.Id}
-                                                        data-objname="PDE"
-                                                        variant="label-hidden"
-                                                        checked={pde.all}
-                                                        onchange={selectAllOptions}
-                                                        data-id={pde.Id}
-                                                        data-label="All_PDE"
-                                                    ></lightning-input>
+                                                    <div>{label.PP_Communication_Pref_Phone}</div>
+                                                    <div class="ml-5">
+                                                        <lightning-input
+                                                            type="checkbox"
+                                                            label="Phone"
+                                                            name={pde.Id}
+                                                            data-objname="PDE"
+                                                            variant="label-hidden"
+                                                            checked={pde.Study_Phone_Consent__c}
+                                                            onchange={selectIndividualOptions}
+                                                        ></lightning-input>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="slds-col slds-size-custom_2-of-10">
+                                                <div class="mb-child-div-10">
+                                                    <div>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            class="com-icon"
+                                                        >
+                                                            <use xlink:href={emailSvg}></use>
+                                                        </svg>
+                                                    </div>
+                                                    <div>{label.PP_Communication_Pref_Email}</div>
+                                                    <div class="ml-5">
+                                                        <lightning-input
+                                                            type="checkbox"
+                                                            label="Email"
+                                                            name={pde.Id}
+                                                            data-objname="PDE"
+                                                            variant="label-hidden"
+                                                            checked={pde.Study_Email_Consent__c}
+                                                            onchange={selectIndividualOptions}
+                                                        ></lightning-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size-custom_2-of-10">
+                                                <div class="mb-child-div-10">
+                                                    <div>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            class="com-icon"
+                                                        >
+                                                            <use xlink:href={smsSvg}></use>
+                                                        </svg>
+                                                    </div>
+                                                    <div>{label.PP_Communication_Pref_SMS}</div>
+                                                    <div class="ml-5">
+                                                        <lightning-input
+                                                            type="checkbox"
+                                                            label="SMS"
+                                                            name={pde.Id}
+                                                            data-objname="PDE"
+                                                            variant="label-hidden"
+                                                            checked={pde.Study_SMS_Consent__c}
+                                                            onchange={selectIndividualOptions}
+                                                            class="smsElements"
+                                                            data-label="SMS_PDE"
+                                                            data-id={pde.Id}
+                                                        ></lightning-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class={borderStyleMobile}>
+                                                <div class="mb-child-div-10">
+                                                    <div>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            class="com-icon"
+                                                        >
+                                                            <use xlink:href={dmailSvg}></use>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="po-mobile-text">
+                                                        {label.PP_Communication_Pref_Dmail}
+                                                    </div>
+                                                    <div class="ml-5">
+                                                        <lightning-input
+                                                            type="checkbox"
+                                                            label="DMail"
+                                                            name={pde.Id}
+                                                            data-objname="PDE"
+                                                            variant="label-hidden"
+                                                            checked={pde.Study_Direct_Mail_Consent__c}
+                                                            onchange={selectIndividualOptions}
+                                                        ></lightning-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size-custom_1-of-10">
+                                                <div class="mb-child-div-10">
+                                                    <div>
+                                                        <div>
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="com-icon"
+                                                            >
+                                                                <use xlink:href={allSvg}></use>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                    <div>{label.PP_Communication_Pref_All}</div>
+                                                    <div class="ml-5">
+                                                        <lightning-input
+                                                            type="checkbox"
+                                                            label="All"
+                                                            name={pde.Id}
+                                                            data-objname="PDE"
+                                                            variant="label-hidden"
+                                                            checked={pde.all}
+                                                            onchange={selectAllOptions}
+                                                            data-id={pde.Id}
+                                                            data-label="All_PDE"
+                                                        ></lightning-input>
+                                                    </div>
+                                                </div>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </template>
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12">
+                                    <div class={getPurchaseProptyTxt}>
+                                        <template if:true={isCountryUS}>
+                                            {label.PP_Communication_Purchase_Pref_V2}
+                                        </template>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                    </div>
+                </Template>
+            </div>
+        </div>
+    </template>
+
+    <template if:false={isDesktop}>
+        <template if:false={showBackButton}>
+            <div class="slds-grid slds-wrap slds-gutters">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="back-button">
+                        <template if:false={isRTL}>
+                            <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
+                            </c-web-icon>
+                        </template>
+                        <span
+                            class="slds-p-left_x-small slds-p-right_x-small"
+                            onclick={showMenuBar}
+                            data-header="comm-pref"
+                            >{label.BACK}</span
+                        >
+                        <template if:true={isRTL}>
+                            <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
+                            </c-web-icon>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <div class={cardRTL}>
+            <div class="communication-pref">
+                <span class={communicationPrefHeader}>
+                    <span class="as-title">{label.PP_Communication_Pref}</span>
+                </span>
+                <template if:true={studyError}>
+                    <lightning-layout
+                        multiple-rows="true"
+                        class="po-error-container po-mr-10 po-margin"
+                        vertical-align="center"
+                    >
+                        <lightning-layout-item size="2">
+                            <div class="sub-header po-error">
+                                <lightning-layout multiple-rows="true" vertical-align="center">
+                                    <lightning-layout-item size="12">
+                                        <span>
+                                            <img style={errorIconPosition} src={exclamation} />
+                                        </span>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="10" class={phoneErrorBorder}>
+                            <div class="sub-header overridePad">
+                                <lightning-layout
+                                    multiple-rows="true"
+                                    class="po-error-container po-mr-10 align-left"
+                                >
+                                    <lightning-layout-item size="12" class="pad-top-10">
+                                        <span class="po-text-red"
+                                            >{label.PP_Communication_Pref_Warning}
+                                        </span>
+                                        <span>&nbsp;{errorLabelText}</span>
+                                        <span
+                                            class="blue-highlight-text-color"
+                                            onclick={redirectToProfileInfoTab}
+                                            >&nbsp;{label.PP_Profile_Information}</span
+                                        >.
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12" class="pad-top-10">
+                                        <div class={phoneErrorHeaderMarPadMobile}>
+                                            {label.Mob_Phone_Field}
                                         </div>
                                     </div>
-                                </div>
+                                </template>
                             </template>
                             <!-- <div class={getStudyConsentMargin}> -->
                             <div class={getPurchaseProptyTxt}>
