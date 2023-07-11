@@ -1,9 +1,8 @@
 @page {
     size: A4 landscape;
     padding-top:60px;
-    margin-bottom: 170px;
     margin-right: -8px;
-    
+    margin-bottom:120px;
     @top-right {
     content: element(top-left-header);
     }
@@ -11,7 +10,6 @@
     content: element(top-right-header);
     }
     @bottom-left { 
-    padding-bottom:300px;
     content: element(footer_otherpages);
     }
     }
@@ -29,7 +27,6 @@
     @bottom-left{
     padding-right:40px;
     padding-left:40px;
-    padding-bottom:300px;
     content: element(footer);
     }
     }
@@ -90,7 +87,8 @@
     }
     .footer_text{
     border-top:4px solid #E9E9E9;
-    padding-top:10px;                    
+    padding-top:10px;           
+    font-size:10px;
     margin:0px 20px 10px 20px;
     text-align:center;                
     }
@@ -120,10 +118,10 @@
     }
     .study-name {   
     color: #444444;  
-    width:100%;
     font-size: 23px;
     text-align:center;
     margin-bottom:20px;
+    padding:0 150px;
     }
     .study-info {   
     color: #444444; 
@@ -137,7 +135,6 @@
     width:100%;
     font-size: 23px;
     text-align:center;
-    margin-bottom:50px;
     }
     .datatab
     {
