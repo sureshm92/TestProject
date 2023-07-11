@@ -22,7 +22,27 @@
 .slds-input {
     border-radius: 20px;
 }
-
+.back-link {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+}
+.back-link-mble{
+    margin-left: 14.5px;
+    height: 24px;
+    margin-top: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+}
 .title {
     font-size: 1.5rem;
     white-space: nowrap;

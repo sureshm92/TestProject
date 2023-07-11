@@ -1,0 +1,61 @@
+<template>
+    <div class={cardRTL}>
+        <div class="po-bg">
+            <lightning-layout multiple-rows="true" vertical-align="center" horizontal-align="center" class="po-custom-card">
+                <lightning-layout-item size="12" class={programName}>
+                    <p class="po-about-program"><lightning-formatted-text value={studyProgramName}></lightning-formatted-text></p>   
+                </lightning-layout-item>
+                <lightning-layout-item size="12" class={programName}>
+                    <p class="po-edaries"><lightning-formatted-text value={labels.ediaries}></lightning-formatted-text></p>   
+                </lightning-layout-item>
+
+            </lightning-layout>
+
+            <div class="subjectMessage">
+                <lightning-layout multiple-rows="true" vertical-align="center" horizontal-align="center" class="po-custom-card">
+                    <lightning-layout-item size="12" style="margin-left : 1rem;margin-right : 1rem;">
+                        <div class="po-custom-box slds-align_absolute-center">
+                            <lightning-layout multiple-rows="true" vertical-align="center" horizontal-align="center">
+                                <lightning-layout-item size="12" >
+                                    <div class="slds-col slds-align_absolute-center"><img src={underConstructionMble}/></div>
+                                    <div class="slds-col po-custom-content">{labels.ediariesWorkMsg}</div>
+                                    <div class="slds-col po-custom-edaries-content">{labels.ediariesActivation}</div>
+                                    <div class="slds-col po-custom-comm-Prefences pointer" onclick={handleCommunicationPreferences}>{labels.ediariesComPref}</div>
+
+    
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                            <!--<lightning-layout-item size="2" >
+
+                            </lightning-layout-item>
+                            <lightning-layout-item size="4" >
+                                <div class="slds-col"><img src={underConstruction}/></div>
+                                <div class="slds-col po-custom-content">We are working on it...</div>
+                                <div class="slds-col po-custom-edaries-content">You will be able to activate eDaries soon</div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="2" >
+
+                            </lightning-layout-item>-->
+
+                        </div>
+                    </lightning-layout-item>
+    
+                </lightning-layout>
+            </div>
+    
+    
+    <!--<template if:true={subjectAvailable}>
+        <div class="widthLimiter">
+            <iframe src={ecoaUrl} frameborder="0" height="700px" width="100%"></iframe>
+        </div>
+    </template>
+
+    <template if:false={subjectAvailable}>
+        <div class="subjectMessage">
+            <p>{labels.patientNotRegistered}</p>
+        </div>
+    </template>-->
+</div>
+</div>        
+</template>

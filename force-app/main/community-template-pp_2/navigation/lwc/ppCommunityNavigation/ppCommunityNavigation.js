@@ -24,6 +24,9 @@ import navigationPastStudy from '@salesforce/label/c.Navigation_Past_Studies';
 import desktopLogos from '@salesforce/resourceUrl/PP_DesktopLogos';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import DEVICE from '@salesforce/client/formFactor';
+import { publish, MessageContext } from 'lightning/messageService';
+import messagingChannel from '@salesforce/messageChannel/ppVisResults__c';
+
 
 export default class PpCommunityNavigation extends LightningElement {
     @api communityServic;
@@ -40,6 +43,7 @@ export default class PpCommunityNavigation extends LightningElement {
     showResults = false;
     showAboutProgram = false;
     showAboutStudy = false;
+    showEdaries = false;
     isInitialized = false;
     showAboutTelevisit = false;
     desktop = false;
@@ -49,6 +53,9 @@ export default class PpCommunityNavigation extends LightningElement {
     hasRendered = false;
     shouldDisplayFilesTab = false;
     shouldDisplayPastStudyTab = false;
+    @wire(MessageContext)
+    messageContext;
+
     renderedCallback() {
         if (!this.hasRendered) {
             this.hasRendered = true;
@@ -111,6 +118,10 @@ export default class PpCommunityNavigation extends LightningElement {
         }
     }
     initializeData() {
+        // this.spinner = this.template.querySelector('c-web-spinner');
+        // if (this.spinner) {
+        //     this.spinner.show();
+        // }
         if (communityService.isInitialized()) {
             var recId = communityService.getUrlParameter('id');
             var userMode = communityService.getUserMode();
@@ -125,6 +136,7 @@ export default class PpCommunityNavigation extends LightningElement {
                     getTrialDetail({ trialId: recId, userMode: userMode, isNewPP: true })
                         .then((result) => {
                             let td = JSON.parse(result);
+                            console.log('td>>>>'+JSON.stringify(td));
                             this.shouldDisplayFilesTab = td.tabvisiblity.isFileTabVisiblity;
                             this.shouldDisplayPastStudyTab = td.tabvisiblity.isPastStudyVisible;
                             this.showVisits = td.tabs?.some(
@@ -135,15 +147,22 @@ export default class PpCommunityNavigation extends LightningElement {
                             );
                             this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
                             this.showAboutStudy = !this.showAboutProgram;
+                            this.showEdaries = td.perInTrail && td.pe?.Clinical_Trial_Profile__r?.ECOA_Is_Avaialble__c;
                             if (this.showAboutStudy) {
-                                this.setVisResultsAvailable();
+                                this.communityServic.setVisResultsAvailable(this.showResults);
+                            }
+                            if (DEVICE != 'Large' && this.showAboutStudy && this.showResults) {
+                                let isResultTab = {
+                                    isVisResultsAvailable: this.showResults
+                                };
+                                publish(this.messageContext, messagingChannel, isResultTab);
                             }
 
                             if (
                                 td.pe &&
                                 td.pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c
                             ) {
-                                this.getTelevisitDetails(td.pe.Study_Site__c);
+                                this.gettelevisitDetails(td.pe.Study_Site__c);
                             } else {
                                 this.showAboutTelevisit = false;
                                 if (this.participantTabs.length < 1) {
@@ -163,7 +182,7 @@ export default class PpCommunityNavigation extends LightningElement {
         //     this.spinner.hide();
         // }
     }
-    getTelevisitDetails(studysiteId) {
+    gettelevisitDetails(studysiteId) {
         gettelevisitData({ siteId: studysiteId })
             .then((result) => {
                 this.showAboutTelevisit = result;
@@ -216,11 +235,6 @@ export default class PpCommunityNavigation extends LightningElement {
                 label: navigationMessages,
                 icon: 'message_menu_icon',
                 ismsg: true
-            },
-            'e-diaries': {
-                page: 'e-diaries',
-                label: navigationEDiary,
-                icon: 'icon-e-diaries'
             },
             'trial-match': {
                 page: 'trial-match',
@@ -280,6 +294,13 @@ export default class PpCommunityNavigation extends LightningElement {
                 icon: '',
                 visible: this.showAboutProgram,
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
+            },
+            'e-diaries': {
+                page: 'ediaries',
+                label: navigationEDiary,
+                icon: 'icon-e-diaries',
+                visible: this.showEdaries,
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             }
         };
 
@@ -287,11 +308,7 @@ export default class PpCommunityNavigation extends LightningElement {
         if (this.communityServic.getCurrentCommunityMode().currentPE) {
             this.participantTabs.push(this.allPagesMap['my-study']);
         }
-        if (
-            this.communityServic.getCurrentCommunityMode().hasPastStudies &&
-            this.shouldDisplayPastStudyTab
-        )
-            //shouldDisplayPastStudyTab chekc is for primary delegate
+        if (this.communityServic.getCurrentCommunityMode().hasPastStudies && this.shouldDisplayPastStudyTab) //shouldDisplayPastStudyTab chekc is for primary delegate
             this.participantTabs.push(this.allPagesMap['past-studies']);
         if (this.communityServic.getEDiaryVisible()) {
             if (this.communityServic.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
@@ -325,15 +342,13 @@ export default class PpCommunityNavigation extends LightningElement {
         });
         this.dispatchEvent(valueChangeEvent);
     }
-    handleMessageNotification(event) {
+    handleMessageNotification(event){
         if (!this.desktop) {
-            this.dispatchEvent(
-                new CustomEvent('msgnotify', {
-                    detail: {
-                        message: event.detail.message
-                    }
-                })
-            );
+            this.dispatchEvent(new CustomEvent('msgnotify', {
+                detail: {
+                    message: event.detail.message
+                } 
+            }));
         }
     }
     handleNavigation(event) {
@@ -356,12 +371,7 @@ export default class PpCommunityNavigation extends LightningElement {
             console.error(e);
         }
     }
-    handleNavKeyDown(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            this.handleNavigation(event);
-        }
-    }
+
     updateCurrentPage(pageNam) {
         let pageDetails;
         if (pageNam) {
@@ -422,8 +432,5 @@ export default class PpCommunityNavigation extends LightningElement {
         this.isInitialized = false;
         this.participantTabs = [];
         this.initializeDataForDOM();
-    }
-    async setVisResultsAvailable() {
-        await this.communityServic.setVisResultsAvailable(this.showResults);
     }
 }

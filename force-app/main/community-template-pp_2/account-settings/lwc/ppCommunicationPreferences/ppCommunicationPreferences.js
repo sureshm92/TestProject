@@ -65,6 +65,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     @api personWrapper;
     @api userMode;
     @api isRTL;
+    @api showBackButton;
 
     label = {
         PP_Communication_Pref_Del_Blank_Page,

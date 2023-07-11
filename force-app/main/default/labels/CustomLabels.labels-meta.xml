@@ -1733,6 +1733,34 @@
         <shortDescription>Back</shortDescription>
         <value>Back</value>
     </labels>
+     <labels>
+        <fullName>Back_to_eDiaries</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back to eDiaries</shortDescription>
+        <value>Back to eDiaries</value>
+    </labels>
+     <labels>
+        <fullName>Activate_eDiaries</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Activate eDiaries</shortDescription>
+        <value>You will be able to activate eDaries soon</value>
+    </labels>
+     <labels>
+        <fullName>eDiaries_Comm_Preferences</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>eDiaries Comm Preferences</shortDescription>
+        <value>Update Communication Preferences</value>
+    </labels>
+     <labels>
+        <fullName>eDiaries_Work_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>eDiaries Work Msg</shortDescription>
+        <value>We are working on it...</value>
+    </labels>
     <labels>
         <fullName>Back_to_Manage_Delegates</fullName>
         <language>en_US</language>

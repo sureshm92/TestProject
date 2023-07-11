@@ -1,0 +1,69 @@
+.po-bg {
+    /*  background-color: #f7f8fa;
+    padding-left: 20px;*/
+    height: auto;
+}
+.po-about-program {
+    height: 24px;
+    width: 357px;
+    color: #6E6E6E;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.po-edaries{
+    color: #444444;
+    font-size: 32px;
+    font-weight: 600;
+    font-family: 'Proxima Nova';
+    letter-spacing: 0;
+    line-height: 48px;
+}
+.cardRTL {
+    direction: rtl;
+}
+.po-mr-36 {
+    margin-right: 40px;
+}
+.po-custom-box{
+    margin-top : 24px; 
+    height: 600px;
+    border-radius: 16px;  
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);                       
+}
+.po-custom-content{
+    padding-top: 15px;
+    /*padding-right: 50px;*/
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+.po-custom-edaries-content{
+    padding-top: 4px;
+    /*padding-right: 50px;*/
+    color: #757575;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+.po-custom-comm-Prefences{
+  padding-top: 24px;
+  transform: rotate(-360deg);
+  color: #015FF1;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 24px;
+  text-align: center;
+}
+.pointer {cursor: pointer}

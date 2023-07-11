@@ -2,6 +2,25 @@
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <template if:true={isInitialized}>
+            <template if:true={showBackButton}>
+                <lightning-layout multiple-rows="true">
+                    <!-- ************** Back To Resources *************** -->
+                    <lightning-layout-item size="12">
+                        <span onclick={handleBackClick} class={backLinkClass}>
+                            <c-web-icon
+                                icon-size="medium-large"
+                                icon-name="chevron-left"
+                                icon-color="#015ff1"
+                                class="slds-p-right_xx-small"
+                            ></c-web-icon
+                            >{labels.backToeDiaries}
+                        </span>
+                        <template if:false={isMobile}>
+                          <hr />
+                        </template>
+                    </lightning-layout-item>
+                </lightning-layout>  
+            </template>
         <div class={bodyContainerClass}>
             <!--Desktop Navigation Menu-->
             <template if:false={isMobile}>
@@ -106,6 +125,7 @@
                             <!--Communication Preferences Component-->
                             <c-pp-communication-preferences
                                 is-delegate={isDelegate}
+                                show-back-button ={showBackButton}
                                 participant-state={participantState}
                                 person-wrapper={personWrapper}
                                 is-desktop={isDesktopFlag}
