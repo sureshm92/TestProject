@@ -725,26 +725,28 @@
     </template>
 
     <template if:false={isDesktop}>
-        <div class="slds-grid slds-wrap slds-gutters">
-            <div class="slds-col slds-size_1-of-1">
-                <div class="back-button">
-                    <template if:false={isRTL}>
-                        <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
-                        </c-web-icon>
-                    </template>
-                    <span
-                        class="slds-p-left_x-small slds-p-right_x-small"
-                        onclick={showMenuBar}
-                        data-header="comm-pref"
-                        >{label.BACK}</span
-                    >
-                    <template if:true={isRTL}>
-                        <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
-                        </c-web-icon>
-                    </template>
+        <template if:false={showBackButton}>
+            <div class="slds-grid slds-wrap slds-gutters">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="back-button">
+                        <template if:false={isRTL}>
+                            <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
+                            </c-web-icon>
+                        </template>
+                        <span
+                            class="slds-p-left_x-small slds-p-right_x-small"
+                            onclick={showMenuBar}
+                            data-header="comm-pref"
+                            >{label.BACK}</span
+                        >
+                        <template if:true={isRTL}>
+                            <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
+                            </c-web-icon>
+                        </template>
+                    </div>
                 </div>
             </div>
-        </div>
+        </template>
 
         <div class={cardRTL}>
             <div class="communication-pref">
@@ -1199,93 +1201,7 @@
                                                         ></lightning-input>
                                                     </div>
                                                 </div>
-                                            </lightning-layout-item>
-                                        </lightning-layout>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </template>
-                            <lightning-layout multiple-rows="true">
-                                <lightning-layout-item size="12">
-                                    <div class={getPurchaseProptyTxt}>
-                                        <template if:true={isCountryUS}>
-                                            {label.PP_Communication_Purchase_Pref_V2}
-                                        </template>
-                                    </div>
-                                </lightning-layout-item>
-                            </lightning-layout>
-                        </div>
-                    </div>
-                </Template>
-            </div>
-        </div>
-    </template>
-
-    <template if:false={isDesktop}>
-        <template if:false={showBackButton}>
-            <div class="slds-grid slds-wrap slds-gutters">
-                <div class="slds-col slds-size_1-of-1">
-                    <div class="back-button">
-                        <template if:false={isRTL}>
-                            <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
-                            </c-web-icon>
-                        </template>
-                        <span
-                            class="slds-p-left_x-small slds-p-right_x-small"
-                            onclick={showMenuBar}
-                            data-header="comm-pref"
-                            >{label.BACK}</span
-                        >
-                        <template if:true={isRTL}>
-                            <c-web-icon icon-size="medium" icon-name={iconChevron} icon-color="#297dfd">
-                            </c-web-icon>
-                        </template>
-                    </div>
-                </div>
-            </div>
-        </template>
-
-        <div class={cardRTL}>
-            <div class="communication-pref">
-                <span class={communicationPrefHeader}>
-                    <span class="as-title">{label.PP_Communication_Pref}</span>
-                </span>
-                <template if:true={studyError}>
-                    <lightning-layout
-                        multiple-rows="true"
-                        class="po-error-container po-mr-10 po-margin"
-                        vertical-align="center"
-                    >
-                        <lightning-layout-item size="2">
-                            <div class="sub-header po-error">
-                                <lightning-layout multiple-rows="true" vertical-align="center">
-                                    <lightning-layout-item size="12">
-                                        <span>
-                                            <img style={errorIconPosition} src={exclamation} />
-                                        </span>
-                                    </lightning-layout-item>
-                                </lightning-layout>
-                            </div>
-                        </lightning-layout-item>
-                        <lightning-layout-item size="10" class={phoneErrorBorder}>
-                            <div class="sub-header overridePad">
-                                <lightning-layout
-                                    multiple-rows="true"
-                                    class="po-error-container po-mr-10 align-left"
-                                >
-                                    <lightning-layout-item size="12" class="pad-top-10">
-                                        <span class="po-text-red"
-                                            >{label.PP_Communication_Pref_Warning}
-                                        </span>
-                                        <span>&nbsp;{errorLabelText}</span>
-                                        <span
-                                            class="blue-highlight-text-color"
-                                            onclick={redirectToProfileInfoTab}
-                                            >&nbsp;{label.PP_Profile_Information}</span
-                                        >.
-                                    </lightning-layout-item>
-                                    <lightning-layout-item size="12" class="pad-top-10">
-                                        <div class={phoneErrorHeaderMarPadMobile}>
-                                            {label.Mob_Phone_Field}
+                                            </div>
                                         </div>
                                     </div>
                                 </template>
