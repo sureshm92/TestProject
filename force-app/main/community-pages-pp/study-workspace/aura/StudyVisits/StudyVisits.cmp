@@ -78,7 +78,9 @@
                                 >
                                     {!(visitWrapper.visit.Is_Adhoc__c ?
                                     $Label.c.StudyVisit_Unscheduled_Visit :
-                                    visitWrapper.visit.Visit__r.Patient_Portal_Name__c)}</lightning:button
+                                    (visitWrapper.visit.Visit__r.Patient_Portal_Name__c ?
+                                    visitWrapper.visit.Visit__r.Patient_Portal_Name__c:  
+                                    visitWrapper.visit.Portal_Name__c))}</lightning:button
                                 >
                             </td>
                             <td class="">
