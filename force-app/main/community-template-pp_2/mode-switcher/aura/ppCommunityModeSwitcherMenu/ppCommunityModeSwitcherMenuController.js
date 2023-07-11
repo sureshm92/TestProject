@@ -84,7 +84,9 @@
                                 (reloadRequired && navigateTo == 'account-settings') ||
                                 navigateTo != 'account-settings'
                             ) {
-                                communityService.reloadPage();
+                                setTimeout(function () {
+                                    communityService.reloadPage();
+                                }, 5);
                             }
                         }
                     }
