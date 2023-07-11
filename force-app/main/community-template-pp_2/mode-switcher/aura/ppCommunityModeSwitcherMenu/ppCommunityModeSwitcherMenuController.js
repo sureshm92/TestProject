@@ -74,12 +74,18 @@
 
                         component.set('v.reset', true);
                         component.set('v.reset', false);
-
-                        if (
-                            (reloadRequired && navigateTo == 'account-settings') ||
-                            navigateTo != 'account-settings'
-                        ) {
-                            communityService.reloadPage();
+                        if (navigateTo === '') {
+                            communityService.navigateToHome();
+                            setTimeout(function () {
+                                communityService.reloadPage();
+                            }, 10);
+                        } else {
+                            if (
+                                (reloadRequired && navigateTo == 'account-settings') ||
+                                navigateTo != 'account-settings'
+                            ) {
+                                communityService.reloadPage();
+                            }
                         }
                     }
                 );
