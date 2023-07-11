@@ -1403,6 +1403,8 @@ public without sharing class MyTeamRemote {
                                                                    Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
                                                             FROM Participant_Enrollment__c
                                                             WHERE Participant__r.Contact__c =:participantState.participant.Contact__c
+                                                            and Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c=true
+                                                            and Invited_To_PP_Date__c!=null
                                                             ];
             for(Participant_Enrollment__c per: availablePERs) {
                 peFilterData.studies.add(new LabelValueItem(per.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, per.Id));
