@@ -172,6 +172,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                     (langSet.isEmpty() || langAvailable)
                 ) {
                     for (Contact contact : peContacts) {
+                        if (contact != null && pe != null) {
                         Boolean isDelegate = pe.Participant_Contact__c != contact.Id;
                         if (
                             (contact.userCommunityMode__c == null) ||
@@ -282,6 +283,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                     }
                 }
             }
+        }
         }
         if (!notifications.isEmpty())
             insert notifications;
