@@ -11,9 +11,8 @@
 
             </lightning-layout>
 
+            <template if:false={subjectAvailable}>
             <div class="subjectMessage">
-                <lightning-layout multiple-rows="true" vertical-align="center" horizontal-align="center" class="po-custom-card">
-                    <lightning-layout-item size="12" style="margin-left : 1rem;margin-right : 1rem;">
                         <div class="po-custom-box slds-align_absolute-center">
                             <lightning-layout multiple-rows="true" vertical-align="center" horizontal-align="center">
                                 <lightning-layout-item size="12" >
@@ -25,33 +24,19 @@
     
                                 </lightning-layout-item>
                             </lightning-layout>
-
-                            <!--<lightning-layout-item size="2" >
-
-                            </lightning-layout-item>
-                            <lightning-layout-item size="4" >
-                                <div class="slds-col"><img src={underConstruction}/></div>
-                                <div class="slds-col po-custom-content">We are working on it...</div>
-                                <div class="slds-col po-custom-edaries-content">You will be able to activate eDaries soon</div>
-                            </lightning-layout-item>
-                            <lightning-layout-item size="2" >
-
-                            </lightning-layout-item>-->
-
                         </div>
-                    </lightning-layout-item>
-    
-                </lightning-layout>
+                
             </div>
+            </template>
     
     
-    <!--<template if:true={subjectAvailable}>
-        <div class="widthLimiter">
-            <iframe src={ecoaUrl} frameborder="0" height="700px" width="100%"></iframe>
+    <template if:true={subjectAvailable}>
+        <div class="widthLimitermble">
+            <iframe src={ecoaUrl} frameborder="0" height="508px" width="100%"  class="iframecss"></iframe>
         </div>
     </template>
 
-    <template if:false={subjectAvailable}>
+    <!--<template if:false={subjectAvailable}>
         <div class="subjectMessage">
             <p>{labels.patientNotRegistered}</p>
         </div>

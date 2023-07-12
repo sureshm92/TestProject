@@ -4,7 +4,7 @@
     height: auto;
 }
 .po-about-program {
-  height: 24px;
+  height: auto;
   /*width: 357px;*/
   color: #6E6E6E;
   font-family: "Proxima Nova";
@@ -14,7 +14,41 @@
   line-height: 24px;
   margin-left: 24px ;
   margin-right: 24px;
-  margin-top: 13px;
+  margin-top: 16px; /**update from casey*/
+}
+.widthLimiter {
+    background: #fff;
+  /*  border-radius: 4px 4px 0 0;
+    border: 1px solid #e9e9e9;
+    border-width: 1px 1px 0 1px;
+    box-shadow: 1px 0 2px 0 rgb(0 0 0 / 4%);*/
+    max-width: 900px;
+    margin: auto;
+    width: 100%;
+    margin-top: 24px;
+    border-radius: 16px;
+}
+.widthLimitermble{
+    background: #fff;
+    max-width: 900px;
+    margin: auto;
+    /*width: 100%;*/
+    margin-left: 16px;
+    margin-top: 8px;
+    margin-right: 16px;
+    border-radius: 16px;
+}
+.iframecss{
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);
+    border-radius: 16px;
+}
+
+.subjectMessage {
+    font-size: 17px;
+    font-weight: 600;
+    color: red;
+    text-align: center;
+    margin: auto;
 }
 .po-edaries{
     height: 48px;

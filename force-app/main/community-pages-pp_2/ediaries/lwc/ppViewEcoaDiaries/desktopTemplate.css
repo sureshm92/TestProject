@@ -3,6 +3,29 @@
     padding-left: 20px;*/
     height: auto;
 }
+.widthLimiter {
+    background: #fff;
+  /*  border-radius: 4px 4px 0 0;
+    border: 1px solid #e9e9e9;
+    border-width: 1px 1px 0 1px;
+    box-shadow: 1px 0 2px 0 rgb(0 0 0 / 4%);*/
+    max-width: 900px;
+    margin: auto;
+    width: 100%;
+    margin-top: 24px;
+    border-radius: 16px;
+}
+.iframecss{
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);
+    border-radius: 16px;
+}
+.subjectMessage {
+    font-size: 17px;
+    font-weight: 600;
+    color: red;
+    text-align: center;
+    margin: auto;
+}
 .po-about-program {
     height: 24px;
     width: 357px;
@@ -30,6 +53,7 @@
 .po-custom-box{
     margin-top : 24px; 
     height: 600px;
+    width: 900px;
     border-radius: 16px;  
     background-color: #FFFFFF;
     box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);                       
