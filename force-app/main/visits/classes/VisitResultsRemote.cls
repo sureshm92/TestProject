@@ -336,7 +336,7 @@ public without sharing class VisitResultsRemote {
             WHERE
                 Participant_Enrollment__c = :ParticipantContext.getCurrentPEId()
                 AND Status__c = 'Completed'
-            ORDER BY Visit_Number__c, Completed_Date__c
+            ORDER BY  Completed_Date__c, Visit_Number__c
         ];
     }
 
