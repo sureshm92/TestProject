@@ -530,7 +530,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
 
             for (Participant_Enrollment__c pe : newList) {
+                Boolean needsVisitPlanCheck =
+                oldMap != null &&
+                oldMap.get(pe.Id).Study_Site__c != null &&
+                oldMap.get(pe.Id).Study_Site__c != pe.Study_Site__c;
                 if (
+                    needsVisitPlanCheck &&
                     pe.Visit_Plan__c != null &&
                     (visitPlansBySSId.get(pe.Study_Site__c) == null ||
                     visitPlansBySSId.get(pe.Study_Site__c).isEmpty() ||
