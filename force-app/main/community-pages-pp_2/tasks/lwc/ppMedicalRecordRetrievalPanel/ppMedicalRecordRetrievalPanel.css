@@ -11,6 +11,9 @@
 .mrr-footer_btn {
     width: 100%;
 }
+.pp-tooltip{
+    --lwc-squareIconMediumContentAlt:17px;
+}
 
 .text_para {
     color: #999999;
