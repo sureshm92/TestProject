@@ -453,6 +453,7 @@ public without sharing class PatientDelegateEnrollmentService {
                 Participant_Enrollment__r.Name,
                 Participant_Enrollment__r.Clinical_Trial_Profile__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                 Primary_Delegate__c
             FROM Patient_Delegate_Enrollment__c
             WHERE
@@ -495,6 +496,7 @@ public without sharing class PatientDelegateEnrollmentService {
                 Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
                 Participant_Enrollment__r.Name,
                 Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
                 Primary_Delegate__c
@@ -912,14 +914,15 @@ public without sharing class PatientDelegateEnrollmentService {
             pdFields,
             Patient_Delegate_Enrollment__c.getSObjectType(),
             DatabaseService.fieldInValues(
-                'Patient_Delegate__r.Participant__r.Contact__c',
-                partContactsIds
-            ) +
-            ' AND ' +
-            ((perIdlst != null && !perIdlst.isEmpty())
-                ? (DatabaseService.fieldInValues('Participant_Enrollment__c', perIdlst) + ' AND ')
-                : '') +
-            DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
+                    'Patient_Delegate__r.Participant__r.Contact__c',
+                    partContactsIds
+                ) +
+                ' AND ' +
+                ((perIdlst != null && !perIdlst.isEmpty())
+                    ? (DatabaseService.fieldInValues('Participant_Enrollment__c', perIdlst) +
+                      ' AND ')
+                    : '') +
+                DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
         );
 
         Map<Id, List<Contact>> delContactsByPartCnt = new Map<Id, List<Contact>>();

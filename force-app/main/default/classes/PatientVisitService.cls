@@ -120,6 +120,7 @@ public inherited sharing class PatientVisitService {
             'Status__c',
             'Visit__r.Visit_Schedule__c',
             'Visit__r.Patient_Portal_Name__c',
+            'Portal_Name__c',
             'Visit__r.Icons__c',
             'Visit__r.Visit_Plan__c',
             'Planned_Date__c',
@@ -296,18 +297,19 @@ public inherited sharing class PatientVisitService {
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
         if (visits == null || visits.isEmpty())
             return visitWrappers;
-        Set<Id> visitPlanIds = new Set<Id>();
+        set<Id> visitPlanId=new set<Id>();
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
         for (Patient_Visit__c visit : visits) {
             if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
-                visitPlanIds.add(visit.Visit__r.Visit_Plan__c);
+                visitPlanId.add(visit.Visit__r.Visit_Plan__c);
+                //break;
             }
         }
-        if (visitPlanIds != null && !visitPlanIds.isEmpty()) {
+        if (visitPlanId != null && !visitPlanId.isEmpty()) {
             iconDetails = [
                 SELECT Id, Name, Label__c, Description__c
                 FROM Icon_Details__c
-                WHERE Visit_Plan__c = :visitPlanIds
+                WHERE Visit_Plan__c in :visitPlanId
             ];
         }
         TranslateHelper.translate(iconDetails);
@@ -368,18 +370,20 @@ public inherited sharing class PatientVisitService {
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
         if (visits == null || visits.isEmpty())
             return visitWrappers;
+        set<Id> visitPlanId=new set<Id>();
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
         Set<Id> visitPlanIds = new Set<Id>();
         for (Patient_Visit__c visit : visits) {
             if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
-                visitPlanIds.add(visit.Visit__r.Visit_Plan__c);
+                visitPlanId.add(visit.Visit__r.Visit_Plan__c);
+                //break;
             }
         }
-        if (visitPlanIds != null && !visitPlanIds.isEmpty()) {
+        if (visitPlanId != null && !visitPlanId.isEmpty() ) {
             iconDetails = [
                 SELECT Id, Name, Label__c, Description__c
                 FROM Icon_Details__c
-                WHERE Visit_Plan__c = :visitPlanIds
+                WHERE Visit_Plan__c in :visitPlanId
             ];
         }
         TranslateHelper.translate(iconDetails);
@@ -499,7 +503,7 @@ public inherited sharing class PatientVisitService {
 
     @AuraEnabled
     public static List<Icon_Details__c> getVisitIcons(Id visitId) {
-        Set<Id> visitPlanIds = new Set<Id>();
+        set<Id> visitPlanId=new set<Id>();
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
         List<Patient_Visit__c> visits = [
             SELECT Id, Visit__c, Visit__r.Visit_Plan__c, Completed_Date__c, Visit__r.Icons__c
@@ -509,7 +513,8 @@ public inherited sharing class PatientVisitService {
 
         for (Patient_Visit__c visit : visits) {
             if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
-                visitPlanIds.add(visit.Visit__r.Visit_Plan__c);
+                visitPlanId.add(visit.Visit__r.Visit_Plan__c);
+                //break;
             }
         }
         String icons;
@@ -522,7 +527,7 @@ public inherited sharing class PatientVisitService {
         iconDetails = [
             SELECT Id, Name, Label__c
             FROM Icon_Details__c
-            WHERE Label__c IN :iconNames AND Visit_Plan__c = :visitPlanIds
+            WHERE Label__c IN :iconNames AND Visit_Plan__c in :visitPlanId
         ];
         TranslateHelper.translate(iconDetails);
         return iconDetails;
