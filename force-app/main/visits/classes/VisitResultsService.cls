@@ -197,7 +197,7 @@ public inherited sharing class VisitResultsService {
         );
         String dataOrder = isAlumniParticipant
             ? ' ORDER BY Completed_Date__c NULLS LAST'
-            : ' ORDER BY Visit_Number__c, Completed_Date__c';
+            : ' ORDER BY  Completed_Date__c, Visit_Number__c';
         String visitsQuery =
             'SELECT ' +
             'Id, ' +
