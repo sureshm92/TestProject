@@ -865,23 +865,37 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     }
 
     handleSearch(event) {
-        const searchKey = event.target.value;
+        var searchKey = event.target.value.toLowerCase();
         this.noResultsFound = false;
+        this.isSearchMode = true;
         if (searchKey) {
-            this.isSearchMode = true;
-            this.televisitAttendeesList = this.televisitAttendeesListTemp.filter(obj => (obj.firstName != undefined) ? obj.firstName.toLowerCase().includes(searchKey.toLowerCase()) : '' ||
-                obj.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
-                obj.attendeeType.toLowerCase().includes(searchKey.toLowerCase()));
-            if (this.televisitAttendeesList.length === 0) this.noResultsFound = true;
-            this.openOptionsMenu();
+            if (this.televisitAttendeesList.length === 0) {
+                this.noResultsFound = true;
+                this.televisitAttendeesList = this.televisitAttendeesListTemp;
+            }
+            else{
+                var searchRecords = this.televisitAttendeesList.filter(row => {
+                    console.log('row'+JSON.stringify(row));
+                    if(row.firstName != undefined && (row.firstName+" "+row.lastName+" "+row.attendeeType).toLowerCase().includes(searchKey)) { 
+                        return true;
+                    }
+                    else if(row.lastName != undefined && (row.firstName+" "+row.lastName+" "+row.attendeeType).toLowerCase().includes(searchKey)) { 
+                        return true;
+                    }
+                    else if(row.attendeeType != undefined && (row.firstName+" "+row.lastName+" "+row.attendeeType).toLowerCase().includes(searchKey)) { 
+                        return true;
+                    }
+                    return false;
+                }); 
+                this.televisitAttendeesList = searchRecords;
+                this.openOptionsMenu();
+            }
         }
-
         else {
             this.isSearchMode = false;
             this.closeOptionsMenu();
             this.televisitAttendeesList = this.televisitAttendeesListTemp;
         }
-
     }
 
     checkForPPUser() {
