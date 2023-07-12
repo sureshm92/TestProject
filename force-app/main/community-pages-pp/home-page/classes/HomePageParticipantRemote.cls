@@ -95,6 +95,8 @@ public without sharing class HomePageParticipantRemote {
     @AuraEnabled
     public static String getStudyStaff(String studySiteId) {
         List<Site_Staff__c> siteStaffList = new List<Site_Staff__c>();
+        set<Id> setContactIds = new Set<Id>();
+        Map<Id, Participant__c> mapContactIdToParticipant = new Map<Id, Participant__c>();
         siteStaffList = [
             SELECT
                 Id,
@@ -109,6 +111,33 @@ public without sharing class HomePageParticipantRemote {
             ORDER BY Delegate_Level__c ASC
         ];
 
-        return JSON.serialize(siteStaffList);
+        for (Site_Staff__c ss : siteStaffList) {
+            setContactIds.add(ss.Site_Contact__c);
+        }
+
+        for (Participant__c pp : [
+            SELECT id, First_Name__c, Last_Name__c, Contact__c
+            FROM Participant__c
+            WHERE Contact__c IN :setContactIds
+        ]) {
+            mapContactIdToParticipant.put(pp.Contact__c, pp);
+        }
+
+        String stringJson = JSON.serialize(siteStaffList);
+        Object orderRecords = JSON.deserializeUntyped(stringJson);
+        for (Object ob : (List<Object>) orderRecords) {
+            Map<String, Object> obMap = (Map<String, Object>) ob;
+            Map<String, Object> orderDetailsMap = (Map<String, Object>) obMap.get(
+                'Site_Contact__r'
+            );
+            Id ContactId = (Id) orderDetailsMap.get('Id');
+            if (mapContactIdToParticipant.containsKey(ContactId)) {
+                Participant__c pp = mapContactIdToParticipant.get(ContactId);
+                String Name = pp.First_Name__c + ' ' + pp.Last_Name__c;
+                orderDetailsMap.put('Name', Name);
+            }
+        }
+
+        return JSON.serialize(orderRecords);
     }
 }
