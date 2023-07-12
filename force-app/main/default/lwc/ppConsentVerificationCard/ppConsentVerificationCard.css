@@ -8,6 +8,7 @@
     line-height: 24px;
     box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
     border-color: #E9E9E9;
+    height: 31px;
 }
 .econsent-disable{
   color : #D3D3D3;
@@ -17,6 +18,14 @@
   color : #D3D3D3;
 }
 
+.uppergap{
+  margin-top: 10px;
+  --lwc-borderRadiusMedium: 8px;
+}
+
+.pp-tooltip{
+  --lwc-squareIconMediumContentAlt:16px;
+}
 
 .consent-main_header {
     color: #444444;
