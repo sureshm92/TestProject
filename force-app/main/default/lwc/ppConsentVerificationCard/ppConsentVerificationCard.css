@@ -20,6 +20,7 @@
 
 .uppergap{
   margin-top: 10px;
+  margin-bottom: 30px;
   --lwc-borderRadiusMedium: 8px;
 }
 
