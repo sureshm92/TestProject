@@ -93,6 +93,34 @@ public without sharing class HomePageParticipantRemote {
     }
 
     @AuraEnabled
+    public static String getPIDetails(String studySiteId) {
+        Study_Site__c ss = [
+            SELECT
+                id,
+                Principal_Investigator__c,
+                Principal_Investigator__r.Salutation,
+                Principal_Investigator__r.Name
+            FROM Study_Site__c
+            WHERE id = :studySiteId
+        ];
+        list<Participant__c> pp = [
+            SELECT id, First_Name__c, Last_Name__c, Contact__c
+            FROM Participant__c
+            WHERE Contact__c = :ss.Principal_Investigator__c
+        ];
+        PIDetails PI;
+        if (pp != null && pp.size() > 0) {
+            PI = new PIDetails(pp[0].First_Name__c + ' ' + pp[0].Last_Name__c, '');
+        } else {
+            PI = new PIDetails(
+                ss.Principal_Investigator__r.Name,
+                ss.Principal_Investigator__r.Salutation
+            );
+        }
+        return JSON.serialize(PI);
+    }
+
+    @AuraEnabled
     public static String getStudyStaff(String studySiteId) {
         List<Site_Staff__c> siteStaffList = new List<Site_Staff__c>();
         set<Id> setContactIds = new Set<Id>();
@@ -139,5 +167,16 @@ public without sharing class HomePageParticipantRemote {
         }
 
         return JSON.serialize(orderRecords);
+    }
+
+    class PIDetails {
+        @AuraEnabled
+        public String Name;
+        @AuraEnabled
+        public String Salutation;
+        public PIDetails(String Name, String Salutation) {
+            this.Name = Name;
+            this.Salutation = Salutation;
+        }
     }
 }
