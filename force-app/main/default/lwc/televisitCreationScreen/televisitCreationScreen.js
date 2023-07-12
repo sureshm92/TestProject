@@ -875,7 +875,6 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             }
             else{
                 var searchRecords = this.televisitAttendeesList.filter(row => {
-                    console.log('row'+JSON.stringify(row));
                     if(row.firstName != undefined && (row.firstName+" "+row.lastName+" "+row.attendeeType).toLowerCase().includes(searchKey)) { 
                         return true;
                     }
