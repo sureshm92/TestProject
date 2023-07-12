@@ -116,6 +116,8 @@
     font-size: 16px;
     font-weight: 500;
     line-height: 26px;
+    position: relative;
+    top: 1px;
 }
 
 .disclaimer {
@@ -123,6 +125,7 @@
     font-size: 16px;
     line-height: 21px;
 }
+
 /**CSS for Tablet*/
 @media all and (width: 768px) and (max-height: 1024px) {
     .tab-container {
@@ -135,4 +138,7 @@
 }
 .visit-result-buttons .secondaryBtn {
     color: #595959 !important;
+}
+.download-icon {
+    --slds-c-icon-color-foreground-default: #0768fd;
 }
