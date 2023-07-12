@@ -1,5 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import getStudyStaff from '@salesforce/apex/HomePageParticipantRemote.getStudyStaff';
+import getPIDetails from '@salesforce/apex/HomePageParticipantRemote.getPIDetails';
 import contact_support_icons from '@salesforce/resourceUrl/contact_support_icons';
 import DEVICE from '@salesforce/client/formFactor';
 import Contact_Support from '@salesforce/label/c.PP_Contact_Support';
@@ -17,7 +18,6 @@ import PIR_more from '@salesforce/label/c.PIR_more';
 import Not_Available from '@salesforce/label/c.PP_Visit_Result_Value_Not_Available';
 // import PP_Contact_Support_Show_More from '@salesforce/label/c.PP_Contact_Support_Show_More';
 // import PP_Contact_Support_Show_Less from '@salesforce/label/c.PP_Contact_Support_Show_Less';
-
 
 import DesktopTemplate from './ppFooterContactSupportDesktop.html';
 import MobileTemplate from './ppFooterContactSupportMobile.html';
@@ -42,14 +42,13 @@ export default class PpFooterContactSupport extends LightningElement {
         // PP_Contact_Support_Show_Less
     };
 
-
-    phone_Icon = contact_support_icons+'/phone_Icon.svg';
-    pi_Icon = contact_support_icons+'/PI_icon.svg';
-    address_Icon = contact_support_icons+'/pin_Icon.svg';
-    site_Icon = contact_support_icons+'/site_Icon.svg';
-    copy_Icon = contact_support_icons+'/copy_Icon.svg';
-    copied = contact_support_icons+'/copied.svg';
-    copy_hover = contact_support_icons+'/copy-hover.svg';
+    phone_Icon = contact_support_icons + '/phone_Icon.svg';
+    pi_Icon = contact_support_icons + '/PI_icon.svg';
+    address_Icon = contact_support_icons + '/pin_Icon.svg';
+    site_Icon = contact_support_icons + '/site_Icon.svg';
+    copy_Icon = contact_support_icons + '/copy_Icon.svg';
+    copied = contact_support_icons + '/copied.svg';
+    copy_hover = contact_support_icons + '/copy-hover.svg';
 
     @api tittext;
     @api contact;
@@ -58,7 +57,7 @@ export default class PpFooterContactSupport extends LightningElement {
     @api studysite;
     @api isRTL;
 
-	desktop = true;
+    desktop = true;
     piName;
     piSalutation;
     studySitePhone;
@@ -72,57 +71,61 @@ export default class PpFooterContactSupport extends LightningElement {
     leftHeight;
 
     customHeightMatch = 0;
-    customHeightStyle = "";
-    customHeightMatchForSiteStaff = "";
+    customHeightStyle = '';
+    customHeightMatchForSiteStaff = '';
     showMoreLableState = true;
 
     showmodal = false;
 
-    phoneNumberValueEle = "";
-    addressNumberValueEle = "";
-    siteStaffContainerEle = "";
-    careTeamContainerEle = "";
-    adjustHeight = "";
-    phoneContainerEle = "";
-    addressContainerEle = "";
+    phoneNumberValueEle = '';
+    addressNumberValueEle = '';
+    siteStaffContainerEle = '';
+    careTeamContainerEle = '';
+    adjustHeight = '';
+    phoneContainerEle = '';
+    addressContainerEle = '';
 
     addressCopied = false;
     addressCopyHoverd = false;
-    addressTitle = "Copy";
+    addressTitle = 'Copy';
     phoneCopied = false;
     phoneCopyHoverd = false;
-    phoneTitle = "Copy";
+    phoneTitle = 'Copy';
 
     siteStaffTooltip;
 
-    get copyIconStyle(){
-         return this.isRTL ? "copyIconRTL" : "copyIcon";
+    get copyIconStyle() {
+        return this.isRTL ? 'copyIconRTL' : 'copyIcon';
     }
 
-    get getShowLabel(){
+    get getShowLabel() {
         // return "Show More";
         //return this.showMoreLableState ? this.label.PP_Contact_Support_Show_More : this.label.PP_Contact_Support_Show_Less;
-        return this.showMoreLableState ? "Show More" : "Show Less";
+        return this.showMoreLableState ? 'Show More' : 'Show Less';
     }
 
-    get getShowIcon(){
-        return this.showMoreLableState ? "utility:chevrondown" : "utility:chevronup";
+    get getShowIcon() {
+        return this.showMoreLableState ? 'utility:chevrondown' : 'utility:chevronup';
     }
-   
-    renderedCallback(){
-        if(this.desktop){
+
+    renderedCallback() {
+        if (this.desktop) {
             //this.setHeight();
             this.careTeamContainerEle = this.template.querySelectorAll('.careTeamContainer');
             this.phoneContainerEle = this.template.querySelectorAll('.phoneContainer');
             this.addressContainerEle = this.template.querySelectorAll('.addressContainer');
 
-            if(this.showMoreLableState == false){
-                this.customHeightStyle = "height:auto; min-height: 100%";
-                this.customHeightMatchForSiteStaff = "height: auto;"
-                this.adjustHeight = "height:" + (this.careTeamContainerEle[0].offsetHeight - (this.phoneContainerEle[0].offsetHeight + 8)) + "px";
-            }else{
-                    this.setHeight();
-                    this.adjustHeight = "";
+            if (this.showMoreLableState == false) {
+                this.customHeightStyle = 'height:auto; min-height: 100%';
+                this.customHeightMatchForSiteStaff = 'height: auto;';
+                this.adjustHeight =
+                    'height:' +
+                    (this.careTeamContainerEle[0].offsetHeight -
+                        (this.phoneContainerEle[0].offsetHeight + 8)) +
+                    'px';
+            } else {
+                this.setHeight();
+                this.adjustHeight = '';
             }
         }
         this.phoneNumberValueEle = this.template.querySelectorAll('.phone-value-ele');
@@ -131,52 +134,72 @@ export default class PpFooterContactSupport extends LightningElement {
         this.siteStaffContainerEle = this.template.querySelectorAll('.site-staff-container');
     }
 
-    setHeight(){
-        this.customHeightMatch = this.phoneContainerEle[0].offsetHeight + this.addressContainerEle[0].offsetHeight + 8;
-        this.customHeightStyle = "height:" + this.customHeightMatch + "px";
-        this.customHeightMatchForSiteStaff = "height:" + (this.customHeightMatch - 102) + "px";
+    setHeight() {
+        this.customHeightMatch =
+            this.phoneContainerEle[0].offsetHeight + this.addressContainerEle[0].offsetHeight + 8;
+        this.customHeightStyle = 'height:' + this.customHeightMatch + 'px';
+        this.customHeightMatchForSiteStaff = 'height:' + (this.customHeightMatch - 102) + 'px';
     }
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
         this.showmodal = true;
 
-        this.piSalutation = this.studysite.Principal_Investigator__r.Salutation;
-        this.piName = this.studysite.Principal_Investigator__r.Name;
+        //this.piSalutation = this.studysite.Principal_Investigator__r.Salutation;
+        //this.piName = this.studysite.Principal_Investigator__r.Name;
         this.phoneNotAvailable = this.studysite.Study_Site_Phone__c ? false : true;
         this.studySitePhone = this.studysite.Study_Site_Phone__c;
         this.siteName = this.studysite.Site__r.Name;
-        this.siteAddress = this.studysite.Site__r.BillingStreet + 
-                            ', ' + this.studysite.Site__r.BillingCity +
-                            ', ' + this.studysite.Site__r.BillingState +
-                            ', ' + this.studysite.Site__r.BillingCountryCode +
-                            ' ' + this.studysite.Site__r.BillingPostalCode;
+        this.siteAddress =
+            this.studysite.Site__r.BillingStreet +
+            ', ' +
+            this.studysite.Site__r.BillingCity +
+            ', ' +
+            this.studysite.Site__r.BillingState +
+            ', ' +
+            this.studysite.Site__r.BillingCountryCode +
+            ' ' +
+            this.studysite.Site__r.BillingPostalCode;
 
-        getStudyStaff({ 
-            studySiteId : this.studysite.Id
+        getStudyStaff({
+            studySiteId: this.studysite.Id
         })
-        .then((result) => {
-            if (result) {
-                let res = JSON.parse(result);
-                let length = res.length;
-                this.pluscount = length > 3 ? length - 3 : 0;
-                this.displaypluscount = this.pluscount > 0 ? true : false;
-                //this.siteStaffParticipantList = res.slice(0, 3);
-                this.siteStaffParticipantList = res;
-                this.siteStaffParticipantListTooltip = res.slice(3, res.length);
-                
-            }
+            .then((result) => {
+                if (result) {
+                    let res = JSON.parse(result);
+                    let length = res.length;
+                    this.pluscount = length > 3 ? length - 3 : 0;
+                    this.displaypluscount = this.pluscount > 0 ? true : false;
+                    //this.siteStaffParticipantList = res.slice(0, 3);
+                    this.siteStaffParticipantList = res;
+                    this.siteStaffParticipantListTooltip = res.slice(3, res.length);
+                }
+            })
+            .catch((error) => {
+                this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
+                this.spinner ? this.spinner.hide() : '';
+            });
+
+        getPIDetails({
+            studySiteId: this.studysite.Id
         })
-        .catch((error) => {
-            this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
-            this.spinner ? this.spinner.hide() : '';
-        });   
+            .then((result) => {
+                if (result) {
+                    let res = JSON.parse(result);
+                    this.piSalutation = res.Salutation;
+                    this.piName = res.Name;
+                }
+            })
+            .catch((error) => {
+                this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
+                this.spinner ? this.spinner.hide() : '';
+            });
     }
 
-	render() {
-		return this.desktop ? DesktopTemplate : MobileTemplate;
-	}
-		
+    render() {
+        return this.desktop ? DesktopTemplate : MobileTemplate;
+    }
+
     handleModalClose() {
         const selectedEvent = new CustomEvent('modalclose', {
             detail: false
@@ -184,72 +207,71 @@ export default class PpFooterContactSupport extends LightningElement {
         this.dispatchEvent(selectedEvent);
     }
 
-    copyPhoneToClipboard(){
-         this.phoneNumberValueEle[0]?.select();
-         document.queryCommandSupported('copy');
-         document.execCommand('copy');
-         this.phoneCopied = true;
-         this.phoneCopyHoverd = false;
-         this.phoneTitle = "Copied";
+    copyPhoneToClipboard() {
+        this.phoneNumberValueEle[0]?.select();
+        document.queryCommandSupported('copy');
+        document.execCommand('copy');
+        this.phoneCopied = true;
+        this.phoneCopyHoverd = false;
+        this.phoneTitle = 'Copied';
 
-         setTimeout(() => {
+        setTimeout(() => {
             this.onPhonehoverOut();
         }, 2000);
-     }
+    }
 
-     copyAddressToClipboard(){
+    copyAddressToClipboard() {
         this.addressNumberValueEle[0]?.select();
         document.queryCommandSupported('copy');
         document.execCommand('copy');
         this.addressCopied = true;
         this.addressCopyHoverd = false;
-        this.addressTitle = "Copied";
+        this.addressTitle = 'Copied';
 
         setTimeout(() => {
             this.onAddresshoverOut();
         }, 2000);
     }
 
-    addressHoverHandler(){
+    addressHoverHandler() {
         this.addressCopyHoverd = true;
     }
 
-    onAddresshoverOut(){
+    onAddresshoverOut() {
         this.addressCopyHoverd = false;
         this.addressCopied = false;
-        this.addressTitle = "Copy"
+        this.addressTitle = 'Copy';
     }
 
-    onAddressMouseOut(){
+    onAddressMouseOut() {
         this.addressCopyHoverd = false;
-        this.addressTitle = "Copy"
+        this.addressTitle = 'Copy';
     }
 
-    phoneHoverHandler(){
+    phoneHoverHandler() {
         this.phoneCopyHoverd = true;
     }
-    onPhonehoverOut(){
+    onPhonehoverOut() {
         this.phoneCopyHoverd = false;
         this.phoneCopied = false;
-        this.phoneTitle = "Copy"
+        this.phoneTitle = 'Copy';
     }
 
-    onPhoneMouseOut(){
+    onPhoneMouseOut() {
         this.phoneCopyHoverd = false;
-        this.phoneTitle = "Copy"
+        this.phoneTitle = 'Copy';
     }
 
-    showMoreSiteStaff(){
-        this.siteStaffTooltip[0].classList.toggle("slds-hide");
+    showMoreSiteStaff() {
+        this.siteStaffTooltip[0].classList.toggle('slds-hide');
     }
 
-    hideMoreSiteStaff(){
-        this.siteStaffTooltip[0].classList.toggle("slds-hide");
+    hideMoreSiteStaff() {
+        this.siteStaffTooltip[0].classList.toggle('slds-hide');
     }
 
-    showHideSiteStaff(){
-        this.siteStaffContainerEle[0].classList.toggle("toggle-height");
+    showHideSiteStaff() {
+        this.siteStaffContainerEle[0].classList.toggle('toggle-height');
         this.showMoreLableState = !this.showMoreLableState;
     }
-    
 }
