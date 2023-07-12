@@ -36,8 +36,8 @@ public class Batch_UpdateVisitPlanCreatePatientVisits implements Database.Batcha
         List<Participant_Enrollment__c> peEnrollSuccessWithParticipating = new List<Participant_Enrollment__c>();
         for (Participant_Enrollment__c pe : enrollments) {
                 if (
-                    (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS ||
-                    pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) &&
+                   PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(
+                   pe.Participant_Status__c) &&
                     pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
                 ) {
                     peEnrollSuccessWithParticipating.add(pe);
