@@ -8,7 +8,7 @@
     line-height: 24px;
     box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
     border-color: #E9E9E9;
-    height: 31px;
+    height: 32px;
 }
 .econsent-disable{
   color : #D3D3D3;
@@ -20,6 +20,7 @@
 
 .uppergap{
   margin-top: 10px;
+  margin-bottom: 30px;
   --lwc-borderRadiusMedium: 8px;
 }
 
