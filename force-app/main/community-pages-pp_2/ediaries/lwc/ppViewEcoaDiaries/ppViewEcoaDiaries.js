@@ -75,17 +75,6 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
         return this.desktop ? desktopTemplate : mobileTemplate;
     }
     handleCommunicationPreferences(event){
-        /*this[NavigationMixin.GenerateUrl]({
-            type: 'comm__namedPage',
-            attributes: {
-                pageName: 'account-settings'
-            },
-            state: {
-                showBackButton: true
-            }
-        }).then((url) => {
-            window.open(url, '_self');
-        });*/
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
@@ -95,17 +84,6 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
                 showBackButton: true
             }
         });
-
-        
-        
-        /*this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
-            attributes: {
-                pageName: 'account-settings?communication-preferences'
-            },
-        });*/
-        
-        //communityService.navigateToPage('account-settings?communication-preferences');
         
     }
 
