@@ -874,14 +874,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                 this.televisitAttendeesList = this.televisitAttendeesListTemp;
             }
             else{
-                var searchRecords = this.televisitAttendeesList.filter(row => {
-                    if(row.firstName != undefined && (row.firstName+" "+row.lastName+" "+row.attendeeType).toLowerCase().includes(searchKey)) { 
-                        return true;
-                    }
-                    else if(row.lastName != undefined && (row.firstName+" "+row.lastName+" "+row.attendeeType).toLowerCase().includes(searchKey)) { 
-                        return true;
-                    }
-                    else if(row.attendeeType != undefined && (row.firstName+" "+row.lastName+" "+row.attendeeType).toLowerCase().includes(searchKey)) { 
+                var searchRecords = this.televisitAttendeesListTemp.filter(row => {
+                    if((row.firstName+" "+row.lastName+" ("+row.attendeeType+")").toLowerCase().includes(searchKey)) { 
                         return true;
                     }
                     return false;
