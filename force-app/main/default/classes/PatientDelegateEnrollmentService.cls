@@ -55,7 +55,7 @@ public without sharing class PatientDelegateEnrollmentService {
         Id delContactId
     ) {
         List<Patient_Delegate_Enrollment__c> pdEnrollments = [
-            SELECT Id, Participant_Enrollment__c, Primary_Delegate__c
+            SELECT Id, Participant_Enrollment__c, Primary_Delegate__c, Motivational_Message_Id__c
             FROM Patient_Delegate_Enrollment__c
             WHERE
                 Participant_Enrollment__r.Participant_Contact__c = :participantConId
