@@ -507,9 +507,7 @@ public without sharing class AccountSettingsController {
                 ex.getMessage().contains(System.Label.Pswd_Val_strng2)
             ) {
                 throw new AuraHandledException(
-                    System.Label.Pswd_ValidationMsg3_1 +
-                    ' ' +
-                    System.Label.Pswd_ValidationMsg3_2
+                    System.Label.Pswd_ValidationMsg3_1 + ' ' + System.Label.Pswd_ValidationMsg3_2
                 );
             }
             if (ex.getMessage().contains(System.Label.Passwords_Do_Not_Match)) {
@@ -533,15 +531,11 @@ public without sharing class AccountSettingsController {
                         throw new AuraHandledException(System.Label.PP_CannotReuseOldPwd);
                     } else {
                         throw new AuraHandledException(
-                            ex.getMessage() +
-                            '\n' +
-                            ex.getStackTraceString()
+                            ex.getMessage() + '\n' + ex.getStackTraceString()
                         );
                     }
                     throw new AuraHandledException(
-                        ex.getMessage() +
-                        '\n' +
-                        ex.getStackTraceString()
+                        ex.getMessage() + '\n' + ex.getStackTraceString()
                     );
                 }
             }
@@ -1527,7 +1521,9 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 Permit_SMS_Text_for_this_study__c,
                 Permit_Voice_Text_contact_for_this_study__c,
                 Study_Direct_Mail_Consent__c,
+                Invited_To_PP_Date__c,
                 Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                 Clinical_Trial_Profile__c,
                 Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 Study_Site__r.Participant_DOB_format__c
