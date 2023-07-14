@@ -176,6 +176,9 @@
 
 .acc-settings-link:hover {
     cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    color: #0557d5;
 }
 
 .to-update-all-other {

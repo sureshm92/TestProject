@@ -51,6 +51,7 @@
                                     <c-pp-resource-multimedia
                                         resourced-data={resourcesData}
                                         desktop={desktop}
+                                        onresourceclick={handleResourceClick}
                                     >
                                     </c-pp-resource-multimedia>
                                 </div>
@@ -77,7 +78,11 @@
                             <!--Explore Section starts here-->
                             <div class="res-explore-container res-explore-mobile">
                                 <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
-                                <c-pp-resource-engage desktop={desktop} is-rtl={isRTL}>
+                                <c-pp-resource-engage
+                                    desktop={desktop}
+                                    is-rtl={isRTL}
+                                    onresourceclick={handleResourceClick}
+                                >
                                 </c-pp-resource-engage>
                             </div>
                         </lightning-layout-item>
@@ -94,6 +99,7 @@
                                     <c-pp-discover-links
                                         links-wrappers={linksWrappers}
                                         discover-empty-state={discoverEmptyState}
+                                        onresourceclick={handleResourceClick}
                                     ></c-pp-discover-links>
                                 </div>
                             </lightning-layout-item>
@@ -106,7 +112,9 @@
                         <lightning-layout-item size="12">
                             <!--Explore Section starts here-->
                             <div class="res-box-document-container">
-                                <c-pp-Resource-Document-Container></c-pp-Resource-Document-Container>
+                                <c-pp-Resource-Document-Container
+                                    onresourceclick={handleResourceClick}
+                                ></c-pp-Resource-Document-Container>
                             </div>
                         </lightning-layout-item>
                     </lightning-layout>

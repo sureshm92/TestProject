@@ -304,7 +304,7 @@ public without sharing class ParticipantTriggerHandler {
                 }
             }
             if (updateUsers.size() > 0) {
-                update updateUsers;
+                //update updateUsers;
             }
         }*/
     }

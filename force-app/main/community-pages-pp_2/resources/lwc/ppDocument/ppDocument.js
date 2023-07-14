@@ -46,6 +46,13 @@ export default class Documents extends NavigationMixin(LightningElement) {
     }
 
     handleNavigateDefault() {
+        const clickResource = new CustomEvent('resourceclick', {
+            detail: { resourceId: this.id },
+            bubbles: true,
+            composed: true
+        });
+        this.dispatchEvent(clickResource);
+
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {

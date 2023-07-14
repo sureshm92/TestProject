@@ -22,6 +22,7 @@
                                                     <c-pp-resource-multimedia
                                                         resourced-data={resourcesData}
                                                         desktop={desktop}
+                                                        onresourceclick={handleResourceClick}
                                                     >
                                                     </c-pp-resource-multimedia>
                                                 </template>
@@ -105,6 +106,7 @@
                                                     toggle-explore={toggleExplore}
                                                     links-wrappers={linksWrappers}
                                                     discover-empty-state={discoverEmptyState}
+                                                    onresourceclick={handleResourceClick}
                                                 ></c-pp-discover-links>
                                             </div>
                                         </div>
@@ -133,7 +135,11 @@
                                     <div class="center-column">
                                         <div class="res-explore-container">
                                             <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
-                                            <c-pp-resource-engage desktop={desktop} is-rtl={isRTL}>
+                                            <c-pp-resource-engage
+                                                desktop={desktop}
+                                                is-rtl={isRTL}
+                                                onresourceclick={handleResourceClick}
+                                            >
                                             </c-pp-resource-engage>
                                         </div>
                                         <div class="slds-var-p-top_medium">
@@ -171,7 +177,9 @@
 
                                     <div class="right-column">
                                         <div class={docsHeight}>
-                                            <c-pp-Resource-Document-Container></c-pp-Resource-Document-Container>
+                                            <c-pp-Resource-Document-Container
+                                                onresourceclick={handleResourceClick}
+                                            ></c-pp-Resource-Document-Container>
                                         </div>
                                     </div>
                                 </lightning-layout-item>
