@@ -66,7 +66,7 @@ public without sharing class ParticipantService {
         public String loggedInUserName;
         @AuraEnabled
         public Boolean cookiesAgreedonRegPage;
-        @AuraEnabled 
+        @AuraEnabled
         public CPRA_DoNotSell__mdt objCPRA;
 
         public ParticipantState() {
@@ -136,12 +136,12 @@ public without sharing class ParticipantService {
                 if (Site.getMasterLabel() != 'IQVIA Patient Portal') {
                     participantState.showTerms = showTerms();
                 }
-                participantState.medicalVendors = MedicalRecordVendorPanelRemote.getVendors(
-                    participantState.pe.Study_Site__c
-                );
-                participantState.teleVendors = televisitConfigurationController.getVendors(
-                    participantState.pe.Study_Site__c
-                );
+                participantState.medicalVendors = pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c
+                    ? MedicalRecordVendorPanelRemote.getVendors(participantState.pe.Study_Site__c)
+                    : new List<Medical_Record_Vendor__c>();
+                participantState.teleVendors = pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c
+                    ? televisitConfigurationController.getVendors(participantState.pe.Study_Site__c)
+                    : new List<Televisit_Record_Vendor__c>();
                 participantState.isTeleVendorEnabled =
                     (participantState.teleVendors.size() > 0) &
                     PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL.contains(
@@ -161,19 +161,15 @@ public without sharing class ParticipantService {
                     participantState.value = ParticipantStates.PARTICIPANT;
                     participantState.showVisits = showVisits();
                     participantState.showTeleVisits = showTeleVisits();
-                    /**PEH-525 START*/
                     participantState.showVisitsInPreTrial = participantState.showVisits;
-                    /**PEH-525 END*/
                     participantState.showResults = showResults();
                     participantState.showNonInitialVisits = showNonInitialVisitsNew();
                 } else {
                     participantState.value = ParticipantStates.REFERRAL;
-                    /**PEH-525 START*/
                     participantState.showVisits = showVisits();
                     participantState.showTeleVisits = showTeleVisits();
                     participantState.showVisitsInPreTrial = showVisits();
                     participantState.showNonInitialVisits = showNonInitialVisitsNew();
-                    /**PEH-525 END*/
                     Boolean boolPreConsent = participantState.ctp.Received_Until_Consent_Is_Available__c;
                     Boolean boolEnrolledConsent = participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c;
                     //if Pre Consent is on and  Consent through enrollment/randomization is Off
@@ -226,24 +222,34 @@ public without sharing class ParticipantService {
         participantState.welcomeMessage = getWelcomeMessage(participants);
         participantState.communityName = UserContext.getCurrentCommunityName();
         participantState.loggedInUserName = getLoggedInUserName(participants);
-        participantState.objCPRA = getCPRALink('IQVIA Patient Portal'); 
+        participantState.objCPRA = getCPRALink('IQVIA Patient Portal');
     }
 
-    public static CPRA_DoNotSell__mdt getCPRALink(String strCommunityType){
-        list<CPRA_DoNotSell__mdt> lstMd = new list<CPRA_DoNotSell__mdt> ();
-        if( strCommunityType == 'IQVIA Referral Hub' || strCommunityType == 'null')
-        {
-              lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
-                                                where Active__c = true and Link_to_redirect__c != Null and Community_Name__c = 'Default' LIMIT 1];
+    public static CPRA_DoNotSell__mdt getCPRALink(String strCommunityType) {
+        list<CPRA_DoNotSell__mdt> lstMd = new List<CPRA_DoNotSell__mdt>();
+        if (strCommunityType == 'IQVIA Referral Hub' || strCommunityType == 'null') {
+            lstMd = [
+                SELECT id, Active__c, Community_Name__c, Link_to_redirect__c, CPRA_Label__c
+                FROM CPRA_DoNotSell__mdt
+                WHERE
+                    Active__c = TRUE
+                    AND Link_to_redirect__c != NULL
+                    AND Community_Name__c = 'Default'
+                LIMIT 1
+            ];
+        } else {
+            lstMd = [
+                SELECT id, Active__c, Community_Name__c, Link_to_redirect__c, CPRA_Label__c
+                FROM CPRA_DoNotSell__mdt
+                WHERE
+                    Active__c = TRUE
+                    AND Link_to_redirect__c != NULL
+                    AND Community_Name__c = :strCommunityType
+                LIMIT 1
+            ];
         }
-        else  
-        {
-            lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
-                        where Active__c = true and Link_to_redirect__c != Null and Community_Name__c =:strCommunityType LIMIT 1];
-        }
-       
-        return lstMd.isEmpty() ? Null : lstMd[0];
-                                         
+
+        return lstMd.isEmpty() ? null : lstMd[0];
     }
 
     public static Participant__c getParticipant(Id sourceId) {

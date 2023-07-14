@@ -6,10 +6,10 @@
 public class CreateConsentIntegration {
     
   public static final String E_CONSENT_END_POINT = '';
-  public static final String E_CONSENT_SUCCESS = 'Participant is succesfully sent to eConsent';
+  public static final String E_CONSENT_SUCCESS = 'Participant is successfully sent to eConsent';
   public static final String E_CONSENT_DUPLICATE_ERROR = 'Participant already exists in eConsent';
-  public static final String E_CONSENT_TECHNICAL_EROROR = 'A technical error has ocurred,please try again later'; 
-  public static final String USER_NOT_FOUND_ECONSENT = 'User not found in e-consent system,please contact your support team';   
+  public static final String E_CONSENT_TECHNICAL_EROROR = 'A technical error has ocurred, please try again later'; 
+  public static final String USER_NOT_FOUND_ECONSENT = 'User not found in e-consent system, please contact your support team';   
   
        
      /***

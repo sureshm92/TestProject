@@ -15,7 +15,12 @@ import getInitData from '@salesforce/apex/AccountSettingsController.getInitDataf
 import MANAGE_DELEGATES from '@salesforce/label/c.PP_ManageDelegates';
 import MANAGE_ASSIGNMENTS from '@salesforce/label/c.PP_Assignments';
 import STUDIES_AND_PROGRAM_PP from '@salesforce/label/c.Studies_And_Program_PP';
-export default class PpAccountSettings extends LightningElement {
+import { NavigationMixin } from 'lightning/navigation';
+import backToeDiaries from '@salesforce/label/c.Back_to_eDiaries';
+
+
+
+export default class PpAccountSettings extends NavigationMixin(LightningElement) {
     @api userMode;
     @api isRTL = false;
     @api isMobile = false;
@@ -31,9 +36,11 @@ export default class PpAccountSettings extends LightningElement {
     participantState;
     consentPreferenceData;
     isDesktopFlag = true;
+    showBackButton = false;
 
     labels = {
         ACCOUNT_SETTINGS,
+        backToeDiaries,
         PROFILE_INFO,
         PASSWORD_MANAGEMENT,
         COMMUNICATION_PREF,
@@ -58,6 +65,10 @@ export default class PpAccountSettings extends LightningElement {
     ];
     medicalRecordVendorToggle = false;
     connectedCallback() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        this.showBackButton = urlParams.get('showBackButton');
+
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 this.spinner = this.template.querySelector('c-web-spinner');
@@ -96,6 +107,16 @@ export default class PpAccountSettings extends LightningElement {
             : this.isRTL
             ? 'title slds-col slds-size_1-of-1 rtl slds-p-left_large'
             : 'title slds-size_1-of-1';
+    }
+
+    get backLinkClass() {
+        return this.isMobile
+            ? this.isRTL
+                ? 'back-link-mble slds-p-vertical_small'
+                : 'back-link-mble slds-p-vertical_small'
+            : this.isRTL
+            ? 'back-link slds-p-vertical_small'
+            : 'back-link slds-p-vertical_small';
     }
 
     get navBarClass() {
@@ -200,6 +221,16 @@ export default class PpAccountSettings extends LightningElement {
                 this.showToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
     }
+    handleBackClick(event){
+        if (this.showBackButton) {
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'ediaries'
+                }
+            })
+        } 
+    }
     displayManageDelegates() {
         let isDelegateSwitchingToParView = false;
         let showManageDelegateTab = false;
@@ -215,6 +246,12 @@ export default class PpAccountSettings extends LightningElement {
             isDelegateSwitchingToParView = true;
             showMamanageAssignmentTab = false;
             showManageDelegateTab = false;
+            const indexOfCookieTab = this.navHeadersList.findIndex((object) => {
+                return object.label === COOKIE_SETTINGS;
+            });
+            if (indexOfCookieTab >= 0) {
+                this.navHeadersList.splice(indexOfCookieTab, 1);
+            }
         }
         //Del Self View
         else if (isDelSelfView && !communityService.getCurrentCommunityMode().hasPastStudies) {
@@ -302,15 +339,21 @@ export default class PpAccountSettings extends LightningElement {
             this.componentId = 'manage-assignmens';
             window.history.replaceState(null, null, '?manage-assignmens');
         } else {
-            if (!this.isMobile) {
-                this.componentId = 'profileInformation';
-                window.history.replaceState(null, null, '?profileInformation');
-            } else if (this.isMobile) {
-                this.componentId = 'asHome';
-                this.showMobileNavComponent = true;
-            } else {
-                console.error('We were on a Break!');
+            if(this.showBackButton){
+                this.componentId = 'communication-preferences';
+                window.history.replaceState(null, null, '?communication-preferences');
             }
+            else{
+                if (!this.isMobile) {
+                    this.componentId = 'profileInformation';
+                    window.history.replaceState(null, null, '?profileInformation');
+                } else if (this.isMobile) {
+                    this.componentId = 'asHome';
+                    this.showMobileNavComponent = true;
+                } else {
+                    console.error('We were on a Break!');
+                }
+          }
         }
     }
 

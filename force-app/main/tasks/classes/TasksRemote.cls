@@ -206,6 +206,7 @@ public without sharing class TasksRemote {
         List<Task> finalSortedTasksList = new List<Task>();
         System.debug('openTasks::::' + tasks);
         List<Task> groupATasks = new List<Task>();
+        Set<Id> groupATasksIds = new Set<Id>();
         List<Task> groupBTasks = new List<Task>();
         for (Task taskObj : tasks) {
             if (taskObj.whatId != null && !codeList.contains(taskObj.Task_code__c)) {
@@ -213,6 +214,7 @@ public without sharing class TasksRemote {
                     String.valueOf(taskObj.whatId.getSobjectType()) == 'Participant_Enrollment__c'
                 ) {
                     groupATasks.add(taskObj); //Study Level Task
+                    groupATasksIds.add(taskObj.Id);
                 }
                 if (
                     String.valueOf(taskObj.whatId.getSobjectType()) == 'Participant__c' &&
@@ -224,6 +226,7 @@ public without sharing class TasksRemote {
                     } else {
                         //add it to manually created tasks
                         groupATasks.add(taskObj);
+                        groupATasksIds.add(taskObj.Id);
                     }
                 }
             }
@@ -236,7 +239,7 @@ public without sharing class TasksRemote {
                     groupBTasks.add(taskObj);
                 }
             }
-            if (taskObj.Task_Type__c == 'Ecoa') {
+            if (taskObj.Task_Type__c == 'Ecoa' && !groupATasksIds.contains(taskObj.Id)) {
                 groupATasks.add(taskObj);
                 //add it to ecoa surveys
             }
