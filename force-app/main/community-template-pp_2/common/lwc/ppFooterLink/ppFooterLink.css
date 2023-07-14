@@ -1,13 +1,13 @@
 .pagelink {
     display: inline-block;
-    color: #297dfd;
-    font-size: 13px;
+    color: #015ff1;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0;
     font-weight: 500;
-    line-height: 16px;
     background: transparent;
     border: none;
 }
-
 .imgclass {
     margin-left: 3px;
 }
