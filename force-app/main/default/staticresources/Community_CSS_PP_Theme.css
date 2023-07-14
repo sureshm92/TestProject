@@ -40,7 +40,7 @@ a,
 a:hover {
     text-decoration: underline;
     text-decoration-style: dashed;
-    color: #015ff1;
+    color: #0557d5;
 }
 .rr-header-content {
     position: fixed;
@@ -79,7 +79,7 @@ a:hover {
     min-height: 90vh;
 }
 .rr-body-content {
-    background-color: #f8f9fb;
+    background-color: #f6f7fb;
     vertical-align: top;
 }
 /* SLDS overrides */
@@ -285,23 +285,28 @@ input::placeholder {
 
 .profile-info-btn .slds-button {
     color: #ffffff;
-    height: 2rem !important;
-    width: 6rem !important;
-    border-radius: 16px !important;
-    background-color: #015ff1 !important;
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32) !important;
+    width: 6rem;
+    border-radius: 16px;
+    background-color: #015ff1;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
 }
 
 .profile-info-btn-mobile .slds-button {
     color: #ffffff;
-    height: 2rem !important;
-    border-radius: 16px !important;
-    background-color: #015ff1 !important;
-    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%), 0 4px 8px 0 rgb(7 104 253 / 32%) !important;
+    height: 2rem;
+    border-radius: 16px;
+    background-color: #015ff1;
+    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%), 0 4px 8px 0 rgb(7 104 253 / 32%);
+}
+
+.profile-info-btn .slds-button:hover,
+.profile-info-btn .slds-button:focus,
+.profile-info-btn-mobile .slds-button:focus {
+    background-color: #0557d5;
 }
 
 .profile-info-error-input .slds-input {
-    border: 1px solid rgba(226, 0, 0, 1) !important;
+    border: 1px solid rgba(226, 0, 0, 1);
 }
 
 .round-combobox .slds-dropdown_fluid {
@@ -802,13 +807,12 @@ input::placeholder {
     background: #0557d5;
     transition: 0.25s;
     text-decoration: none;
-    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04),
-        0 8px 16px 0 rgba(41, 125, 253, 0.32);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
 }
 
 .slds-button.secondaryBtn:hover,
 .slds-button.secondaryBtn:focus {
-    --slds-c-button-color-border: #015ff1;
+    border-color: #015ff1;
     --slds-c-button-color-background: #ecf3ff;
     color: #015ff1;
     transition: 0.25s;
@@ -2087,20 +2091,20 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .slds-checkbox_toggle .slds-checkbox--faux::after,
 .slds-checkbox--toggle .slds-checkbox_faux::after,
 .slds-checkbox--toggle .slds-checkbox--faux::after {
-    width: 1rem;
-    height: 1rem;
-    top: 3.5px;
-    left: 4px;
+    width: 1.25rem;
+    height: 1.25rem;
+    top: 1px;
+    left: 1px;
 }
 .result-type-toggle
     .slds-checkbox_toggle
     [type='checkbox']:checked
     + .slds-checkbox_faux_container
     .slds-checkbox_faux::before {
-    width: 1rem;
-    height: 1rem;
-    top: 3.5px;
-    right: 4px;
+    width: 1.25rem;
+    height: 1.25rem;
+    top: 1px;
+    right: 1px;
 }
 
 element.style {
@@ -2166,12 +2170,6 @@ user agent stylesheet svg:not(:root) {
 .update-container .rr-spinner {
     background-color: transparent;
 }
-.refresh-section:hover .refresh-text {
-    color: #0557d5;
-}
-.refresh-section:hover .refresh-icon svg.rr-icon_default {
-    fill: #0557d5 !important;
-}
 .result-container .rr-spinner {
     background: #ffffff;
 }
@@ -2192,4 +2190,19 @@ user agent stylesheet svg:not(:root) {
 .support-container lightning-base-combobox-item span.slds-media__body span {
     font-size: 14px;
     margin-left: -20px;
+}
+
+.show-more-or-less-container svg{
+    fill: #015ff1;
+    height: 15px;
+}
+
+.contact-support-popup .modal-header-text{
+    height: 32px !important;
+    color: #444444 !important;
+    font-family: "Proxima Nova" !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    line-height: 29px !important;
 }

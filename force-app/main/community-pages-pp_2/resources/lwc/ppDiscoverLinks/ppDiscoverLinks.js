@@ -7,7 +7,7 @@ import LINKS_EMPTY from '@salesforce/label/c.Discover_Links_Empty';
 export default class PpDiscoverLinks extends LightningElement {
     isInitialized = false;
     isAvailable = false;
-    @api linksWrappers=[];
+    @api linksWrappers = [];
     @api discoverEmptyState;
     desktop = true;
     isRendered = false;
@@ -40,8 +40,13 @@ export default class PpDiscoverLinks extends LightningElement {
         }
     }
 
-
     openLink(event) {
+        const clickResource = new CustomEvent('resourceclick', {
+            detail: { resourceId: event.currentTarget.dataset.id },
+            bubbles: true,
+            composed: true
+        });
+        this.dispatchEvent(clickResource);
         window.open(event.currentTarget.dataset.link, '_blank');
     }
 
