@@ -856,7 +856,8 @@ public without sharing class PatientDelegateService {
                 Id,
                 Participant__c,
                 Participant_Contact__c,
-                Clinical_Trial_Profile__r.CommunityTemplate__c
+                Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Clinical_Trial_Profile__r.PPTemplate__c
             FROM Participant_Enrollment__c
             WHERE
                 (Participant__c IN :allDelegatedParticipantIds
@@ -876,12 +877,24 @@ public without sharing class PatientDelegateService {
             Set<String> permissions = participantPermissions.get(pe.Participant__c);
             if (permissions == null)
                 permissions = new Set<String>();
-            permissions.add(
-                CommunityTemplateService.getTemplate(
-                        pe.Clinical_Trial_Profile__r.CommunityTemplate__c
-                    )
-                    .permissionSet
-            );
+                if( pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+                {
+                    permissions.add(
+                        CommunityTemplateService.getTemplate(
+                                'PatientPortal'
+                            )
+                            .permissionSet
+                    );
+
+                }
+                else {
+                    permissions.add(
+                        CommunityTemplateService.getTemplate(
+                                pe.Clinical_Trial_Profile__r.CommunityTemplate__c
+                            )
+                            .permissionSet
+                    );
+                }
             participantPermissions.put(pe.Participant__c, permissions);
         }
 
