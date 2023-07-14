@@ -21,6 +21,7 @@ import basePathName from '@salesforce/community/basePath';
 import visitdetails from '@salesforce/label/c.Visit_Details';
 import eventdetails from '@salesforce/label/c.Event_Details';
 import communicationPreference from '@salesforce/label/c.Communication_Preference_Url';
+import unscheduledVisit from '@salesforce/label/c.StudyVisit_Unscheduled_Visit';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import Unavailable from '@salesforce/label/c.Study_Visit_Unavailable';
@@ -40,7 +41,8 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         visitdetails,
         eventdetails,
         BTN_Back,
-        Unavailable
+        Unavailable,
+        unscheduledVisit
     };
     status = {
         scheduled: 'Scheduled',
@@ -119,7 +121,11 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                 .then((result) => {
                     this.visitDetail = result;
                     if (result.length != 0 || result != null || result != '') {
-                        this.visitName = this.visitDetail[0]?.Visit__r?.Patient_Portal_Name__c;
+                        this.visitName = this.visitDetail[0]?.Is_Adhoc__c
+                                    ? this.label.unscheduledVisit
+                                    : this.visitDetail[0]?.Visit__r?.Patient_Portal_Name__c
+                                    ? this.visitDetail[0]?.Visit__r?.Patient_Portal_Name__c
+                                    : this.visitDetail[0]?.Portal_Name__c;
                         this.plannedDate = this.visitDetail[0].Planned_Date__c;
                         this.visitStatus = this.visitDetail[0].Status__c;
                         this.visitTimezone = TIME_ZONE;
