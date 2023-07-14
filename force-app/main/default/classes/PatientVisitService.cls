@@ -364,7 +364,9 @@ public inherited sharing class PatientVisitService {
                 Completed_Date__c,
                 Visit__r.Icons__c,
                 Status__c,
-                Icons__c
+                Icons__c,
+                Is_Adhoc__c,
+                Portal_Name__c
             FROM Patient_Visit__c
             WHERE Id = :visitId
         ];
