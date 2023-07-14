@@ -63,7 +63,7 @@ public class Batch_UpdateVisitPlanCreatePatientVisits implements Database.Batcha
                 SELECT
                     Id,
                     (
-                        SELECT Id, Name, Visit_Number__c, Visit_Schedule__c, Patient_Portal_Name__c
+                        SELECT Id, Name, Visit_Number__c, Visit_Schedule__c, Patient_Portal_Name__c, Icons__c
                         FROM Visits__r
                     )
                 FROM Visit_Plan__c

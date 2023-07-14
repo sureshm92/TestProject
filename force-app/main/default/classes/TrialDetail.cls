@@ -8,6 +8,7 @@ public with sharing class TrialDetail {
     public Boolean isTCAccepted;
     public Boolean isSSAccepted;
     public Boolean showVisits;
+    public Boolean perInTrail;
     public Study_Site__c studySite; //for PI mode
     public HCP_Enrollment__c hcpe; //for HCP mode
     public Participant_Enrollment__c pe; //for Participant;
