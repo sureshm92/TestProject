@@ -47,7 +47,7 @@
                                 class="slds-card slds-card_boundary container-card slds-scrollable_y"
                             >
                                 <div class="slds-card__body slds-card__body_inner">
-                                    <div style="text-align: center;">
+                                    <div style="text-align: center">
                                         <template if:true={showTelevisitCard}>
                                             <template if:true={showVisitCard}>
                                                 <template if:true={isTelevisits}>
@@ -201,7 +201,7 @@
                 class="slds-grid slds-grid_align-center slds-p-vertical_large slds-p-horizontal_small mobileSet"
             >
                 <div class={cardPadding}>
-                    <div class="updates">
+                    <div class="updates" onclick={showUpdatesOnMobile}>
                         <template if:true={updatesSection}>
                             <template if:true={displayCounter}>
                                 <div class="update-circle">
@@ -215,7 +215,6 @@
                                     icon-name="reminderbell_icon"
                                     data-id="reminderbell"
                                     icon-color="#ffffff"
-                                    onclick={showUpdatesOnMobile}
                                 >
                                 </c-web-icon>
                             </div>
@@ -234,7 +233,6 @@
                                     icon-name="reminderbell_icon"
                                     data-id="reminderbell"
                                     icon-color="#ffffff"
-                                    onclick={showUpdatesOnMobile}
                                 >
                                 </c-web-icon>
                             </div>
@@ -244,7 +242,7 @@
                 </div>
 
                 <div class={cardPadding}>
-                    <div class="tasks">
+                    <div class="tasks" onclick={showTaskList}>
                         <template if:true={taskList}>
                             <div class="icon-updates taskIconPosition">
                                 <c-web-icon
@@ -253,7 +251,6 @@
                                     icon-name="check-circle-1-alternate"
                                     data-id="checkcirclealternate"
                                     icon-color="#ffffff"
-                                    onclick={showTaskList}
                                 >
                                 </c-web-icon>
                             </div>
@@ -267,7 +264,6 @@
                                     icon-name="check-circle-1-alternate"
                                     data-id="checkcirclealternate"
                                     icon-color="#ffffff"
-                                    onclick={showTaskList}
                                 >
                                 </c-web-icon>
                             </div>
@@ -279,7 +275,7 @@
                     <template if:true={participantState.pe}>
                         <template if:true={showProgressMobile}>
                             <div class={cardPadding}>
-                                <div class="progress">
+                                <div class="progress" onclick={showProgressMob}>
                                     <div class={progressIcon}>
                                         <c-web-icon
                                             class="svg-icon svg-icon-with-text"
@@ -287,7 +283,6 @@
                                             icon-name="navigation-menu-horizontal"
                                             data-id="navigationmenuhorizontal"
                                             icon-color="#ffffff"
-                                            onclick={showProgressMob}
                                         >
                                         </c-web-icon>
                                     </div>
@@ -305,7 +300,7 @@
                     <template if:true={showUpcomingSection}>
                         <!--<template if:false={isDelegateSelfview}>-->
                         <template if:true={showVisitCardMobile}>
-                            <div class="visit">
+                            <div class="visit" onclick={showVisitCardOnMobile}>
                                 <div class="icon-marg">
                                     <c-web-icon
                                         class="svg-icon"
@@ -313,7 +308,6 @@
                                         icon-name="calendar"
                                         data-id="calendar"
                                         icon-color="#ffffff"
-                                        onclick={showVisitCardOnMobile}
                                     >
                                     </c-web-icon>
                                 </div>
@@ -321,7 +315,7 @@
                             </div>
                         </template>
                         <template if:false={showVisitCardMobile}>
-                            <div class="visit">
+                            <div class="visit" onclick={showVisitCardOnMobile}>
                                 <div class="icon-updates">
                                     <c-web-icon
                                         class="svg-icon svg-icon-with-text"
@@ -329,7 +323,6 @@
                                         icon-name="calendar"
                                         data-id="calendar"
                                         icon-color="#ffffff"
-                                        onclick={showVisitCardOnMobile}
                                     >
                                     </c-web-icon>
                                 </div>
