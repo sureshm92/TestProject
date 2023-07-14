@@ -197,9 +197,9 @@ public without sharing class ParticipantVisitsRemote {
     public static List<Icon_Details__c> getVisitIconsbyName(Id visitId) {
         
         Id visitPlanId;
-        List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
+        List<Icon_Details__c> iconDetailsList = new List<Icon_Details__c>();
         List<Patient_Visit__c> visits = [
-            SELECT Id, Visit__c, Visit__r.Visit_Plan__c, Completed_Date__c, Visit__r.Icons__c
+            SELECT Id, Visit__c, Visit__r.Visit_Plan__c, Completed_Date__c, Visit__r.Icons__c,Icons__c
             FROM Patient_Visit__c
             WHERE Id = :visitId
         ];
@@ -216,11 +216,30 @@ public without sharing class ParticipantVisitsRemote {
             if (visits[0].Visit__r != null && visits[0].Visit__r.Icons__c != null)
                 iconNames = visits[0].Visit__r.Icons__c.split(';');
         }
-        iconDetails = [
+        else{
+            icons = visits[0].Icons__c;
+            if (visits[0].Icons__c != null)
+                iconNames = visits[0].Icons__c.split(';');
+        }
+        
+        iconDetailsList = [
             SELECT Id, Name, Label__c, Description__c
             FROM Icon_Details__c
             WHERE Name IN :iconNames AND Visit_Plan__c = :visitPlanId
         ];
+        Map<String, Icon_Details__c> iconDetailsMap = new Map<String, Icon_Details__c>();
+        for (Icon_Details__c iconDetail : iconDetailsList){
+            iconDetailsMap.put(iconDetail.Name, iconDetail);
+        }
+        List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
+        if (!iconNames.isEmpty()) {
+                for (String iconName : iconNames) {
+                    if (iconDetailsMap.containsKey(iconName)) {
+                        iconDetails.add(iconDetailsMap.get(iconName));
+                    }
+                }
+            }
+        
         TranslateHelper.translate(iconDetails);
         return iconDetails;
     }
