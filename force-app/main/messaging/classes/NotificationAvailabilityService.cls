@@ -1109,6 +1109,7 @@ public without sharing class NotificationAvailabilityService {
                 Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
                 Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                 Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c,
                 Study_Site__r.SMS_Are_Available__c,
                 Study_Site__r.Suppress_Study_Site_PI_Emails__c,
                 Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
@@ -1241,7 +1242,13 @@ public without sharing class NotificationAvailabilityService {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                 Id.valueOf(whatId)
             );
-            communityTemplate = pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+            if(pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN
+            && pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'){
+                communityTemplate ='PatientPortal';
+            }
+            else{
+                communityTemplate = pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+            }
             isValid = pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
                 CommunityTemplateService.TEMPLATE_PP
                 ? true

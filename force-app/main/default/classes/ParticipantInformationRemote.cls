@@ -773,12 +773,20 @@ public without sharing class ParticipantInformationRemote {
             List<id> delContact= new List<id> ();
             Study_Site__c studySite = StudySiteService.getStudySiteForPIById(studySiteId);
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-            String permissionSetName = CommunityTemplateService.getTemplate(
+            String permissionSetName  = '';
+            if(studySite.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && studySite.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+            {
+                 permissionSetName = CommunityTemplateService.getTemplate(
+                     'PatientPortal'
+                )
+                .permissionSet;
+            }
+            else{
+             permissionSetName = CommunityTemplateService.getTemplate(
                     studySite.Clinical_Trial_Profile__r.CommunityTemplate__c
                 )
                 .permissionSet;
-
-
+            }
             update participant;
             if (participantContact.Id != null) {
                 participantContact.Email = participant.Email__c;
