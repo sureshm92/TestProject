@@ -5,6 +5,7 @@
 global without sharing class EmailTemplateDelegatePartController {
     global Id sourceIdValue { get; set; }
     global Id delegateId { get; set; }
+    global String templateName{get; set;}
     //DEPRECATED
     global String delegateUserId { get; set; }
     global String commTemplateStr { get; set; }
@@ -63,13 +64,42 @@ global without sharing class EmailTemplateDelegatePartController {
                 contactIds = delegateId;
             }
         }
-        List<Patient_Delegate_Enrollment__c> pde = [
-            SELECT Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+        List<Patient_Delegate_Enrollment__c> pde = new List<Patient_Delegate_Enrollment__c> ();
+        pde = [
+            SELECT Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
             FROM Patient_Delegate_Enrollment__c
             WHERE
                 Participant_Enrollment__r.Participant__c IN :participantIds
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :EmailTemplateProviderService.getProvider()
-                    .getCommunityTemplateName()
+                    .getCommunityTemplateName() 
+                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen'
+                AND Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c = 'Traditional'
+                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
+                AND Patient_Delegate__r.Contact__c = :contactIds
+                AND Status__c = 'Active'
+            ORDER BY CreatedDate
+        ]; //1.0 
+        String janssenTemplate; //1.0  janssen  2.0 pp
+        if(pde.isEmpty()){            
+            if(getTemplateText() =='Default' || getTemplateText() =='Janssen'){
+                janssenTemplate='PP 1.0';
+            }
+            else if(getTemplateText() =='PatientPortal' || getTemplateText() =='Janssen2.0'){
+                janssenTemplate='PP 2.0';
+            }
+          
+            pde = [
+            SELECT Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE
+                Participant_Enrollment__r.Participant__c IN :participantIds
+                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen'
+                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = : janssenTemplate
                 AND Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c = 'Traditional'
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
@@ -77,12 +107,18 @@ global without sharing class EmailTemplateDelegatePartController {
                 AND Status__c = 'Active'
             ORDER BY CreatedDate
         ];
+
+        }
         for (Patient_Delegate_Enrollment__c pe : pde)
             delegateStudyNames.add(
                 pe.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
             );
 
         return delegateStudyNames;
+    }
+    
+    public String getTemplateText(){
+        return templateName;
     }
 
     public String getBottomText() {
