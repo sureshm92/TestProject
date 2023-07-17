@@ -546,10 +546,20 @@ public without sharing class AddPatientByPIRemote {
     public static void assignParticipantPermissions(String ssId, String contactId) {
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
-        String permissionSetName = CommunityTemplateService.getTemplate(
+        String permissionSetName = '';
+        if(ss.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && ss.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+        {
+            permissionSetName = CommunityTemplateService.getTemplate(
+                 'PatientPortal'
+            )
+            .permissionSet;
+        }
+        else {
+         permissionSetName = CommunityTemplateService.getTemplate(
                 ss.Clinical_Trial_Profile__r.CommunityTemplate__c
             )
             .permissionSet;
+        }
         actionAssignContactPermissions.addPermission(contactId, permissionSetName);
         if (!actionAssignContactPermissions.isEmpty()) {
             ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());

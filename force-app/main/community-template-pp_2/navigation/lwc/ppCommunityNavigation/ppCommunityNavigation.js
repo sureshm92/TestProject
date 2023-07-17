@@ -279,7 +279,7 @@ export default class PpCommunityNavigation extends LightningElement {
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
             'e-diaries': {
-                page: 'ediaries',
+                page: 'e-diaries',
                 label: navigationEDiary,
                 icon: 'icon-e-diaries',
                 visible: this.showEdaries,
