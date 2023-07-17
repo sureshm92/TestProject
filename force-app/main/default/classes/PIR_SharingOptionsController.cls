@@ -15,6 +15,8 @@ public with sharing class PIR_SharingOptionsController {
     public Boolean studySuppressEmail;
     @AuraEnabled
     public Boolean isInvited;
+    @AuraEnabled 
+    public Boolean isJanseenPPEnabled;
     @AuraEnabled
     public String studySiteId;
     @AuraEnabled
@@ -66,6 +68,7 @@ public with sharing class PIR_SharingOptionsController {
                   Study_Site__r.Suppress_Participant_Emails__c,
                   Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                   Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                  Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c,
                   HCP__c,
                   HCP__r.HCP_Contact__c,
                   HCP__r.HCP_Contact__r.FirstName,
@@ -141,7 +144,7 @@ public with sharing class PIR_SharingOptionsController {
                     WHERE Id = :participantId LIMIT 1
                 ];
         Participant_Enrollment__c  per = [Select Id,Is_Virtual_Study_Site__c,Study_Site__c,Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
-                                          Study_Site__r.Participant_DOB_format__c,Study_Site__r.Suppress_Participant_Emails__c,Invited_To_PP_Date__c,Participant_Contact__r.Is_Patient_User_Created__c,
+                                          Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c,Study_Site__r.Participant_DOB_format__c,Study_Site__r.Suppress_Participant_Emails__c,Invited_To_PP_Date__c,Participant_Contact__r.Is_Patient_User_Created__c,
                                           Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c FROM Participant_Enrollment__c WHERE Id = :peId];        
         dw.isVirtualSite = per.Is_Virtual_Study_Site__c;
         dw.isPPEnabled = per.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
@@ -149,6 +152,7 @@ public with sharing class PIR_SharingOptionsController {
         dw.siteSuppressEmail = per.Study_Site__r.Suppress_Participant_Emails__c;
         dw.studySuppressEmail = per.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c;
         dw.getphoneTypeLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Phone_Type__c);
+        dw.isJanseenPPEnabled = per.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c != null ? true : false;
         if(per.Participant_Contact__r.Is_Patient_User_Created__c){
            dw.isInvited = true;
         }else{
