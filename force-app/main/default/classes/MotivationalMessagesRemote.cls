@@ -94,6 +94,7 @@ public without sharing class MotivationalMessagesRemote {
 
                 participantState.pe.Motivational_Message_Id__c = messageForShow.Id;
                 update participantState.pe;
+                return messageForShow.Message__c;
             } else if (myContact.userCommunityDelegateId__c != null) {
                 // Delegate switching to Participant View
 
@@ -108,10 +109,12 @@ public without sharing class MotivationalMessagesRemote {
 
                     pdEnrollments[0].Motivational_Message_Id__c = messageForShow.Id;
                     update pdEnrollments[0];
+                    return messageForShow.Message__c;
                 }
             }
 
             return messageForShow.Message__c;
         }
+        return messageForShow.Message__c;
     }
 }
