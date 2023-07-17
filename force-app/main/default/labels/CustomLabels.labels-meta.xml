@@ -10584,7 +10584,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>IsConfidential</shortDescription>
-        <value>Is Confidential</value>
+        <value>Mark as confidential</value>
     </labels>
     <labels>
         <fullName>IQVIA_intervention_completed</fullName>
