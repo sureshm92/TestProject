@@ -28,11 +28,16 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
     underConstructionMble = pp_icons + '/' + 'undraw_under_construction_-46-pa-mble.svg';
 
     desktop = true;
-   @track gfkll;
+    @track gfkll;
+    showBackToHome = false;
 
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        this.showBackToHome = urlParams.get('showBackToHome');
+
         var participantData = communityService.getParticipantData();
         this.studyProgramName = participantData && participantData.ctp? participantData.ctp.Study_Code_Name__c : '';
 
@@ -74,6 +79,15 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
     render() {
         return this.desktop ? desktopTemplate : mobileTemplate;
     }
+    get backLinkClass() {
+        return this.isMobile
+            ? this.isRTL
+                ? 'back-link-mble slds-p-vertical_small'
+                : 'back-link-mble slds-p-vertical_small'
+            : this.isRTL
+            ? 'back-link slds-p-vertical_small'
+            : 'back-link slds-p-vertical_small';
+    }
     handleCommunicationPreferences(event){
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
@@ -85,6 +99,16 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
             }
         });
         
+    }
+    handleBackClick(event){
+        if (this.showBackToHome) {
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'home'
+                }
+            })
+        } 
     }
 
 }

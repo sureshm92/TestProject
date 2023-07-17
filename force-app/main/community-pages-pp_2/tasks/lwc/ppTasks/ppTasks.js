@@ -216,10 +216,16 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].task = tasks[i].openTask;
 
                 tasks[i].isClosed = false;
-                tasks[i].systemTask =
+				tasks[i].systemTask =  
+                    tasks[i].openTask.Task_Type__c != undefined && tasks[i].openTask.Task_Type__c == 'Ecoa' 
+                       ? true 
+                       : tasks[i].openTask.Task_Code__c === undefined  
+                            ? false
+                            : this.taskCodeList.includes(tasks[i].openTask.Task_Code__c);
+                /*tasks[i].systemTask =
                     tasks[i].openTask.Task_Code__c === undefined
                         ? false
-                        : this.taskCodeList.includes(tasks[i].openTask.Task_Code__c);
+                        : this.taskCodeList.includes(tasks[i].openTask.Task_Code__c);*/
                 if (tasks[i].task.Id == this.taskParamId) {
                     tasks[i].expandCard = true;
                 }
@@ -264,10 +270,16 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         this.completedTasksList = [];
         for (let i = 0; i < tasks.length; i++) {
             tasks[i].isClosed = false;
-            tasks[i].systemTask =
+				tasks[i].systemTask =  
+                    tasks[i].openTask.Task_Type__c != undefined && tasks[i].openTask.Task_Type__c == 'Ecoa' 
+                       ? true 
+                       : tasks[i].openTask.Task_Code__c === undefined  
+                            ? false
+                            : this.taskCodeList.includes(tasks[i].openTask.Task_Code__c);
+           /*tasks[i].systemTask =
                 tasks[i].task.Task_Code__c === undefined
                     ? false
-                    : this.taskCodeList.includes(tasks[i].task.Task_Code__c);
+                    : this.taskCodeList.includes(tasks[i].task.Task_Code__c);*/
             tasks[i].completed = tasks[i].task.Status == 'Completed' ? true : false;
             tasks[i].dueDate = false;
             if (!tasks[i].completed) {
@@ -364,9 +376,9 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                     break;
                 }
             }
-
+            console.log('selectedTask.openTask::'+JSON.stringify(selectedTask.openTask)); 
             if (
-                this.taskCodeList.includes(selectedTask.openTask.Task_Code__c) &&
+                (this.taskCodeList.includes(selectedTask.openTask.Task_Code__c)  || selectedTask.openTask.Task_Type__c == 'Ecoa') &&
                 selectedTask.openTask.Task_Code__c != 'Complete_Survey'
             ) {
                 this.popupTaskMenuItems.push(this.reminderObj);
