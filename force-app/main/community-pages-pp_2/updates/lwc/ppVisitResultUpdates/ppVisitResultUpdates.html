@@ -1,12 +1,11 @@
 <template>
     <template if:false={desktop}>
-        <div class="slds-grid slds-wrap card-border">
+        <div class="slds-grid slds-wrap card-border" onclick={openLink}>
             <div class={cardElement}>
                 <div class="slds-align_absolute-center icon-container">
                     <div class="slds-align_absolute-center">
                         <img
                             data-link={linkData.redirectLink}
-                            onclick={openLink}
                             src={results_Illustration}
                             class="link-img"
                         />
@@ -14,13 +13,12 @@
                 </div>
             </div>
             <div class={cardDataElement}>
-                <div class="slds-grid data-section slds-grid_vertical-align-center">
+                <div class="slds-grid data-section">
                     <div class="slds-col slds-truncate">
                         <div>
                             <p
                                 class="links-title"
                                 data-link={linkData.redirectLink}
-                                onclick={openLink}
                                 title={label.New_Visit_Results_Now_Available}
                             >
                                 {label.New_Visit_Results_Now_Available}
@@ -29,7 +27,7 @@
                     </div>
                 </div>
                 <div class="slds-grid">
-                    <span class="open-in-new-tab-label"> {label.View_Results} </span>
+                    <a class="open-in-new-tab-label"> {label.View_Results} </a>
                 </div>
             </div>
         </div>
@@ -50,7 +48,7 @@
                 </div>
                 <div class="slds-col slds-size_4-of-6">
                     <div
-                        class="slds-grid slds-wrap data-section slds-truncate slds-grid_vertical-align-center"
+                        class="slds-grid slds-wrap data-section slds-truncate"
                     >
                         <p
                             class="links-title"
@@ -61,7 +59,7 @@
                         </p>
                     </div>
                     <div class="slds-grid">
-                        <span class="open-in-new-tab-label"> {label.View_Results} </span>
+                        <a class="open-in-new-tab-label"> {label.View_Results} </a>
                     </div>
                 </div>
             </div>
@@ -75,27 +73,16 @@
                         class="link-image"
                     />
                 </div>
-                <div class="helpful-link-horizontal">
-                    <p class="helpful-link-title" title={linkData.linkType}>{linkData.linkType}</p>
-                </div>
-                <div class="link-title">
-                    <p
-                        class="link-title-horizontal slds-truncate"
-                        data-link={linkData.redirectLink}
-                        title={label.New_Visit_Results_Now_Available}
-                    >
+                <div class="visitresult-title">
+                    <p class="visitresult-title-horizontal" title={label.New_Visit_Results_Now_Available}>
                         {label.New_Visit_Results_Now_Available}
                     </p>
                 </div>
-                <div class="slds-grid open-tab-data-icon-container slds-grid_vertical-align-center">
-                    <div class="">
-                        <p
-                            class="open-in-new-tab"
-                            data-link={linkData.redirectLink}
-                            title={label.New_Visit_Results_Now_Available}
-                        >
+                <div class="slds-grid open-tab-data-icon-container slds-align_absolute-center">
+                    <div>
+                        <a class="open-in-new-tab slds-align_absolute-center" title={label.New_Visit_Results_Now_Available}>
                             {label.View_Results}
-                        </p>
+                    </a>
                     </div>
                 </div>
             </div>

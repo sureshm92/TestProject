@@ -61,8 +61,9 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         PP_Open
     };
     taskSelectionMode = 'Open';
-    taskBtnOpenClass = 'open-task primaryBtn slds-button';
-    taskBtnCompleteClass = 'completed-task secondaryBtn slds-button';
+    taskBtnOpenClass = 'slds-button slds-button_neutral open-task active-button-background';
+    // taskBtnOpenClass = 'open-task primaryBtn slds-button';
+    taskBtnCompleteClass = 'slds-button slds-button_brand completed-task inactive-button-background';
     taskOpenTab = true;
     isEnrolled;
     emailOptIn;
@@ -131,7 +132,13 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         this.spinner = this.template.querySelector('c-web-spinner');
         this.initializeData();
     }
-
+    get containerTabletCard() {
+        if (formFactor === 'Medium') {
+            return 'slds-card slds-card_boundary container-card-mobile tablet-margin slds-size_4-of-6';
+        } else {
+            return 'slds-card slds-card_boundary container-card-mobile';
+        }
+    }
     initializeData() {
         try {
             this.showSpinner = true;
@@ -182,7 +189,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     get taskButtonClass() {
         return this.isCreateTask
             ? 'primaryBtn slds-button create-task after-create-task'
-            : 'primaryBtn slds-button create-task create-task';
+            : 'primaryBtn slds-button create-task';
     }
     handleTaskClose(event) {
         this.isCreateTask = event.detail.isClose;
@@ -308,16 +315,18 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     }
     navigateToCompleted() {
         this.taskSelectionMode = 'Complete';
-        this.taskBtnOpenClass = 'open-task secondaryBtn slds-button';
-        this.taskBtnCompleteClass = 'completed-task primaryBtn slds-button';
+        this.taskBtnOpenClass = 'slds-button slds-button_neutral open-task inactive-button-background';
+        this.taskBtnCompleteClass = 'slds-button slds-button_brand completed-task active-button-background';
+        // this.taskBtnCompleteClass = 'completed-task primaryBtn slds-button';
         this.taskOpenTab = this.taskSelectionMode == 'Open';
         this.initializeData();
     }
     navigateToOpen() {
         this.taskSelectionMode = 'Open';
         this.taskOpenTab = this.taskSelectionMode == 'Open';
-        this.taskBtnOpenClass = 'open-task primaryBtn slds-button';
-        this.taskBtnCompleteClass = 'completed-task secondaryBtn slds-button';
+        this.taskBtnOpenClass = 'slds-button slds-button_neutral open-task active-button-background';
+        // this.taskBtnOpenClass = 'open-task primaryBtn slds-button';
+        this.taskBtnCompleteClass = 'slds-button slds-button_brand completed-task inactive-button-background';
         this.initializeData();
     }
     closeTheTask() {

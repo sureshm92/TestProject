@@ -136,9 +136,13 @@ public inherited sharing class VisitReportContainerRemote {
 
     public class VisitDateColumnWrapper extends VisitDataWrapper {
         public VisitDateColumnWrapper(Date resultDate) {
-             DateTime dt = DateTime.newInstance(resultDate.year(), resultDate.month(),resultDate.day());
-             // this.value = resultDate.format();
-             this.value =UserService.formatDatebyLocale(dt,UserContext.getUser().LocaleSidKey);
+            DateTime dt = DateTime.newInstance(
+                resultDate.year(),
+                resultDate.month(),
+                resultDate.day()
+            );
+            // this.value = resultDate.format();
+            this.value = UserService.formatDatebyLocale(dt, UserContext.getUser().LocaleSidKey);
         }
         public VisitDateColumnWrapper(String value) {
             this.value = value;
@@ -159,12 +163,10 @@ public inherited sharing class VisitReportContainerRemote {
     }
 
     @AuraEnabled
-    public static String getBase64fromVisitSummaryReportPage(String peId,String isRTL)
-    {
-
-      PageReference page = Page.VisitSummaryReportPage;
-        page.getParameters().put('peId',peId);
-        page.getParameters().put('isRTL',isRTL);
+    public static String getBase64fromVisitSummaryReportPage(String peId, String isRTL) {
+        PageReference page = Page.VisitSummaryReportPage;
+        page.getParameters().put('peId', peId);
+        page.getParameters().put('isRTL', isRTL);
 
         Blob content = page.getContent();
         String encoded = EncodingUtil.base64Encode(content);

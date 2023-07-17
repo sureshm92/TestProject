@@ -7,14 +7,22 @@
             helper.registerOrientationChange(component);
         } else {
             communityService.initialize(component);
-        }       
+        }
     },
 
     handleLoadTelevisitBanner: function (component, event, helper) {
         let loadTelevisitBanner = event.getParam('loadTelevisitBanner');
         component.set('v.handleTelevistBanner', loadTelevisitBanner);
-        if(component.find('spinner')){
+        if (component.find('spinner')) {
             component.find('spinner').hide();
+        }
+    },
+    handleMessageNotification: function (component, event, helper) {
+        let messages = event.getParam('message');
+        if (messages != null) {
+            component.set('v.hasMessage', true);
+        } else {
+            component.set('v.hasMessage', false);
         }
     },
     doRefresh: function (component, event, helper) {
@@ -37,14 +45,7 @@
         }
     },
     handleClickCloseNavMenu: function (component, event, helper) {
-        if (
-            $A.get('$Browser.formFactor') != 'DESKTOP' &&
-            !component.get('v.stopLoading') &&
-            component.find('ppMenu')
-        ) {
-            component.find('ppMenu').handleCloseHamberungMenu();
-            component.set('v.stopLoading', true);
-        }
+        helper.handleClickCloseNavMenu(component);
     },
     handleHamberungTouchEnd: function (component, event, helper) {
         if ($A.get('$Browser.formFactor') != 'DESKTOP' && component.get('v.stopLoading')) {

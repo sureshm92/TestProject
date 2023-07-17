@@ -2175,6 +2175,16 @@
         <field>Clinical_Trial_Profile__c.Bell_Notification_Reminder__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.StudyGUID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.PPTemplate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>User.IsCommunityUserRegistered__c</field>
@@ -2785,6 +2795,36 @@
         <field>Participant_Enrollment__c.Delegate_Consent__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.DocumentCollectionId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.DocumentCollectionName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.DocumentCollectionTitle__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Participantavailableincompleteconsen__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.ParticipantGUID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.SenttoCompleteConsent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_PrescreenerResponse__c.Completed_Date__c</field>
@@ -3358,6 +3398,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Televisit__c.Visit_Link_Activation_Start_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Televisit__c.Reshedule_Email_Notification_Check__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

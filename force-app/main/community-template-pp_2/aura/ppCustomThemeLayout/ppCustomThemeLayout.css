@@ -4,40 +4,35 @@
 .THIS {
     font-family: 'Proxima Nova';
 }
+.THIS.DESKTOP .rr-body-content {
+    margin-top: 4rem;
+    padding-top: 2rem;
+}
 
+.THIS.DESKTOP .rr-body-content-res {
+    margin-top: 4rem;
+    padding-top: 2rem;
+}
+
+.THIS.TABLET .rr-body-content {
+    margin-top: 4.5rem;
+}
 .THIS.PHONE .rr-body-content {
     padding-top: 4.5rem;
 }
 
-@media only screen and (min-width: 321px) and (orientation: portrait) {
-    .THIS.PHONE .rr-body-content-res {
-        padding-top: 4.5rem;
-    } 
+.THIS.PHONE .rr-body-content-res {
+    padding-top: 4rem;
 }
 
-
-@media only screen and (min-width: 321px) and (orientation: landscape) {
-    .THIS.PHONE .rr-body-content {
-        padding-top: 0rem;
-    }    
+.THIS.TABLET .rr-body-content-res {
+    padding-top: 4rem;
 }
 
-@media only screen and (min-height: 360px) and (max-height: 376px) and (orientation: landscape) {
+@media only screen and (min-height: 321px) and (max-height: 376px) and (orientation: landscape) {
     .THIS.PHONE .rr-body-content-res {
-        margin-top: 72px;
+        padding-top: 4rem;
     }
-}
-
-@media only screen and (min-height: 377px) and (max-height: 414px) and (orientation: landscape) {
-    .THIS.PHONE .rr-body-content-res {
-        margin-top: 22px;
-    } 
-}
-
-@media only screen and (height: 412px) and (orientation: landscape) {
-    .THIS.PHONE .rr-body-content-res {
-        margin-top: -16px !important;
-    } 
 }
 
 /* login screen background */
@@ -640,4 +635,18 @@
     font-weight: bold;
     letter-spacing: 0;
     line-height: 24px;
+}
+
+@media (max-width: 1024px) and (orientation: landscape) {
+    .THIS .logo-container-pp {
+        width: 80% !important;
+    }
+    .THIS .iqvia_logo {
+        padding-right: 0px !important;
+    }
+}
+@media only screen and (min-width: 321px) and (orientation: landscape) {
+    .THIS .mob-logo-container-pp {
+        width: 75px;
+    }
 }

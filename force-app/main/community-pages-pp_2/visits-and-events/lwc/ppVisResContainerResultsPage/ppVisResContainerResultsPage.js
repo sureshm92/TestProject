@@ -18,7 +18,8 @@ import tabletTemplate from './ppVisResContainerResultsPageTablet.html';
 import desktopTemplate from './ppVisResContainerResultsPage.html';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import Back from '@salesforce/label/c.BTN_Back';
-
+import UNSCHEDULED_VISIT from '@salesforce/label/c.StudyVisit_Unscheduled_Visit';
+import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 export default class PpMyResultsContainer extends LightningElement {
     label = {
         PP_Download_Results_Data,
@@ -32,7 +33,8 @@ export default class PpMyResultsContainer extends LightningElement {
         Labs_Toggle_Off,
         Biomarkers_Toggle_Off,
         Back,
-        PP_Visit_Result_Toggle_Helptext
+        PP_Visit_Result_Toggle_Helptext,
+        UNSCHEDULED_VISIT
     };
     group2;
     group3;
@@ -62,6 +64,8 @@ export default class PpMyResultsContainer extends LightningElement {
     showToggleSpinner = false;
     showTabSpinner;
     onLoad = true;
+    patientVisitNam;
+    isRTL = false;
 
     toggleOffHeart = pp_icons + '/' + 'heart_Icon.svg';
 
@@ -83,8 +87,9 @@ export default class PpMyResultsContainer extends LightningElement {
         this.patientVisitWrapper = value;
     }
     connectedCallback() {
+        this.peId = communityService.getParticipantData().pe.Id;
+        this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
         if (!this.isDesktop) {
-            //  this.showTabSpinner = true;
             this.initializeData();
         }
     }
@@ -99,12 +104,6 @@ export default class PpMyResultsContainer extends LightningElement {
         } else if (this.isMobile) {
             return mobileTemplate;
         } else {
-            // if (this.onLoad) {
-            //     this.showTabSpinner = true;
-            //     this.onLoad = false;
-            // } else {
-            //     this.showTabSpinner = false;
-            // }
             return tabletTemplate;
         }
     }
@@ -121,7 +120,13 @@ export default class PpMyResultsContainer extends LightningElement {
     }
 
     get patientVisitName() {
-        return this.selectedVisit ? this.currentVisit.Visit__r.Patient_Portal_Name__c : '';
+        let name;
+        if (this.selectedVisit) {
+            if (this.currentVisit.Is_Adhoc__c) name = this.label.UNSCHEDULED_VISIT;
+            else name = this.currentVisit.Visit__r.Patient_Portal_Name__c;
+        }
+        this.patientVisitNam = name;
+        return name;
     }
 
     get completedDate() {
@@ -228,6 +233,9 @@ export default class PpMyResultsContainer extends LightningElement {
         }
         this.showSpinnerResults = false;
     }
+    get currentVisitId() {
+        return this.currentVisit.Id;
+    }
     get button1Group2Class() {
         return this.isButton1Group2
             ? 'slds-button group-button1 primaryBtn'
@@ -256,7 +264,6 @@ export default class PpMyResultsContainer extends LightningElement {
 
     handleVRToggle(event) {
         this.showToggleSpinner = true;
-        console.log('JJ' + this.showToggleSpinner);
         modifiedSwitchToggleRemote({
             visitResultsMode: this.selectedResultType,
             isToggleOn: event.target.checked

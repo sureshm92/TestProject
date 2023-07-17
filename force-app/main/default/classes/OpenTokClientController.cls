@@ -31,6 +31,7 @@ public without sharing class OpenTokClientController {
     public static final String SESSION_ID_PARAMETER = 'sessionId';
     public String commTemplate { get; set; }
     public String headerbg { get; set; }
+    public Boolean statusCanceled { get; set; }
 
     public static final String[] HTML_DECODED = new List<String>{ '&', '<', '>', '"', '\'' };
     public static final String[] HTML_ENCODED = new List<String>{
@@ -63,7 +64,7 @@ public without sharing class OpenTokClientController {
             appNamestr = 'IQVIA';
         }*/
         appNamestr = 'IQVIA Referral Hub'; //Added by RAviteja
-        headerbg = 'headerbg-rh';
+        //headerbg = 'headerbg-rh';
         meetingInterval = '';
         //OMSF-5206 Ends
 
@@ -88,6 +89,7 @@ public without sharing class OpenTokClientController {
                 Id,
                 Name,
                 Title__c,
+                Status__c,
                 Visit_Date_Time__c,
                 Visit_End_Date_Time__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
@@ -113,7 +115,7 @@ public without sharing class OpenTokClientController {
 
         if (!lstTelevisit.isEmpty()) {
             this.session = lstTelevisit.get(0);
-
+            
             endMinutes = -Integer.valueOf(System.Label.RH_TelevisitWindowBannerStartTime);
 
             bannerEndTime = String.valueOf(
@@ -149,6 +151,13 @@ public without sharing class OpenTokClientController {
                     attendeeType = 'RH';
                     headerbg = 'headerbg-rh';
                 }
+                
+                if(lstTelevisit[0].Status__c == 'Cancelled'){
+                    statusCanceled = true;
+                }else{
+                    statusCanceled = false;
+                }
+                
             } else {
                 this.isSessionJoinable = false;
             }

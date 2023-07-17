@@ -49,6 +49,7 @@ private class Test_RRChangePasswordController {
             controller.verifyNewPassword = 'qwerty1';
             System.assertEquals(null, controller.changePassword());
             controller.showProfileAction();
+            controller.ppChangePassword();
 
             controller.oldPassword = 'qwerty1';
             controller.newPassword = 'NewPas1234';
@@ -59,6 +60,12 @@ private class Test_RRChangePasswordController {
             controller.updateBrowserLanguageAction();
             controller.updateLanguageAction();
             controller.initTemplateData();
+          //  controller.ppValidateSaveButton();  
+            controller.getCPRALink('IQVIA Referral Hub');
+             controller.getCPRALink('Janssen Community');
+              controller.getCPRALink('GSK Community');
+              controller.getCPRALink('IQVIA Patient Portal');
+           
 
             controller.notEnrollNow = false;
             controller.states = new List<SelectOption>{
@@ -112,4 +119,129 @@ private class Test_RRChangePasswordController {
         }
         Test.stopTest();
     }
+    
+    @isTest
+      public static void testchangepasswordcontrollerNew() {
+           TestData.loadTestData();
+        TestData testData = new TestData();
+        update new Clinical_Trial_Profile__c(id=testData.ss.Clinical_Trial_Profile__c,IQVIA_Outreach__c=true);
+           Contact delegate = new Contact(
+            FirstName = 'Patient',
+            LastName = 'Delegate',
+            Email = 'jsmith@somemail.com',
+            AccountId = testData.participant.Contact__r.AccountId,
+            Current_Participant_Enrollment__c = testData.pe.Id,
+            userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
+            userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
+            UserCommunityIsDelegate__c = true
+        );
+        insert delegate;
+        Participant__c p = new Participant__c(
+            First_Name__c = 'Patient',
+            Last_Name__c = 'Delegate',
+            Contact__c = delegate.Id
+        );
+        insert p;
+
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+            Contact__c = delegate.Id,
+            Contact__r = delegate,
+            Participant__c = testData.participant.Id,
+            Participant__r = testData.participant
+        );
+        insert patientDelegate;
+       	
+        Patient_Delegate_Enrollment__c objPDER = new Patient_Delegate_Enrollment__c();
+        objPDER.Participant_Enrollment__c = testData.pe.Id;
+        objPDER.Patient_Delegate__c =patientDelegate.ID;
+        objPDER.Primary_Delegate__c = TRUE;
+        objPDER.Status__c = 'Active';
+        insert objPDER;
+          List<Participant_Enrollment__c> lstPER = new list<Participant_Enrollment__c> ();
+          lstPER = [SELECT ID,Clinical_Trial_Profile__C,Clinical_Trial_Profile__r.IQVIA_Outreach__c from Participant_Enrollment__c
+                   where id=:testData.pe.Id];
+          List<Patient_Delegate_Enrollment__c> lstPDER = new List<Patient_Delegate_Enrollment__c> ();
+          lstPDER = [SELECT ID,Participant_Enrollment__c,Participant_Enrollment__R.Clinical_Trial_Profile__r.IQVIA_Outreach__c
+                     	from Patient_Delegate_Enrollment__c where id=:objPDER.id];
+           Participant__c objParticipant = [
+            SELECT Id, Birth_Year__c
+            FROM Participant__c
+            WHERE Last_Name__c = 'ParticipantTD'
+        ];
+        //objParticipant.Birth_Year__c = '1994';
+       // update objParticipant;
+		test.startTest();
+        System.runAs(testData.participantUser) {
+          
+          RRChangePasswordController objcontroller = new RRChangePasswordController(); 
+          objcontroller.setPartIQVIAOurtreachToggle(lstPER);
+          objcontroller.setDelIQVIAOurtreachToggle(lstPDER);
+            objcontroller.toggleNewPassword();
+                objcontroller.togglePassword();
+           objcontroller.ppValidateSaveButton();
+            objcontroller.oldPassword = '123456';
+            objcontroller.newPassword = 'qwerty111113333';
+            objcontroller.verifyNewPassword = 'qwerty111113333';
+             objcontroller.ppChangePassword();
+         
+        }
+           test.stopTest();
+      }
+    
+    
+     @isTest
+      public static void testchangepasswordcontrollerDelegate() {
+           TestData.loadTestData();
+        TestData testData = new TestData();
+        update new Clinical_Trial_Profile__c(id=testData.ss.Clinical_Trial_Profile__c,IQVIA_Outreach__c=true);
+          
+          
+          User delegate = testData.createPatientDelegate();
+        insert delegate;
+          Id delegateContactId = [SELECT ContactId FROM User WHERE Id = :delegate.Id].ContactId;
+          Patient_Delegate__c patientDelegate = [
+            SELECT Id, Participant__c, Contact__c
+            FROM Patient_Delegate__c
+            WHERE Contact__c = :delegateContactId
+        ];
+        patientDelegate.Status__c = 'Active';
+        update patientDelegate;
+          Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
+        pde.Participant_Enrollment__c = testData.pe.Id;
+        pde.Patient_Delegate__c  = patientDelegate.id;
+        pde.Status__c = 'Active';
+        pde.Primary_Delegate__c=true;
+        insert pde;
+       
+          List<Participant_Enrollment__c> lstPER = new list<Participant_Enrollment__c> ();
+          lstPER = [SELECT ID,Clinical_Trial_Profile__C,Clinical_Trial_Profile__r.IQVIA_Outreach__c from Participant_Enrollment__c
+                   where id=:testData.pe.Id];
+          List<Patient_Delegate_Enrollment__c> lstPDER = new List<Patient_Delegate_Enrollment__c> ();
+          lstPDER.add(pde);
+           Participant__c objParticipant = [
+            SELECT Id, Birth_Year__c
+            FROM Participant__c
+            WHERE Last_Name__c = 'ParticipantTD'
+        ];
+        objParticipant.Birth_Year__c = '1994';
+        update objParticipant;
+		test.startTest();
+        System.runAs(delegate) {
+          
+          RRChangePasswordController objcontroller = new RRChangePasswordController(); 
+          objcontroller.setPartIQVIAOurtreachToggle(lstPER);
+          objcontroller.setDelIQVIAOurtreachToggle(lstPDER);
+            objcontroller.toggleNewPassword();
+                objcontroller.togglePassword();
+             objcontroller.updateYearOfBirth();
+            objcontroller.oldPassword = '123456';
+            objcontroller.newPassword = 'qwerty111113333';
+            objcontroller.verifyNewPassword = 'qwerty111113333';
+             objcontroller.ppChangePassword();
+         
+        }
+           test.stopTest();
+      }
+    
+    
 }

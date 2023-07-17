@@ -23,6 +23,8 @@ export default class PpMessageBoard extends LightningElement {
   @api isIE;
   @api piContactNames;
   @api isSecondary;
+  @api isMobile;
+  @api isSinglePartAlumni = false;
   spinner;
   msgIllustration = pp_icons + "/" + "messages_Illustration.svg";
   message_attachment = pp_icons + "/" + "message_attachment.svg";
@@ -35,6 +37,7 @@ export default class PpMessageBoard extends LightningElement {
     PP_Select_Questions
   };
   get options() {
+    this.messageTemplatesOption = [];
     this.messageTemplatesOption.push({
       label: this.labels.PP_Select_Questions,
       value: "Select question"
@@ -50,35 +53,29 @@ export default class PpMessageBoard extends LightningElement {
 
   connectedCallback() {
     if (this.selectConWrap != null) {
-      console.log("selectConWrap NOT null");
-      this.msgWrapper = this.selectConWrap.messages;
+      if (!this.selectConWrap.noConversation) {
+        this.msgWrapper = this.selectConWrap.messages;
+      }
       this.messageValue = "";
-      // this.spinner = this.template.querySelector('c-web-spinner');
-      //  console.log('this.selectConWrap.conversation-->'+JSON.stringify(this.selectConWrap.conversation));
       this.isLoaded = true;
-      console.log("scroll down");
       let context = this;
       setTimeout(function () {
-        let boardBody = context.template.querySelector(".chat-item");
+        let boardBody = context.template.querySelector(".child-chat-item-sec");
         if (boardBody) boardBody.scrollTop = boardBody.scrollHeight;
       }, 50);
-      console.log("scroll down end");
     } else {
-      console.log("selectConWrap  null");
       this.messageValue = "";
-      // this.spinner = this.template.querySelector('c-web-spinner');
       this.isLoaded = true;
     }
   }
+  @api isRendered = false;
   @api
   scrollDown() {
-    console.log("scroll down");
     let context = this;
     setTimeout(function () {
-      let boardBody = context.template.querySelector(".chat-item");
+      let boardBody = context.template.querySelector(".child-chat-item-sec");
       if (boardBody) boardBody.scrollTop = boardBody.scrollHeight;
     }, 50);
-    console.log("scroll down end");
   }
   mobileViewToggle() {
     const custEvent = new CustomEvent("calltoparent", {});
@@ -86,7 +83,55 @@ export default class PpMessageBoard extends LightningElement {
   }
   handleChange(event) {
     this.messageValue = event.detail.value;
-    console.log("qustion->" + this.messageValue);
+  }
+  handleChanges() {
+    const focusEventHeader = new CustomEvent("messagetemplateselection", {});
+    this.dispatchEvent(focusEventHeader);
+  }
+  get isPastStudy() {
+    if (this.selectConWrap) {
+      if (this.selectConWrap.isPastStudy) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if(!this.isSinglePartAlumni){
+        return false;
+      }else{
+        return true;
+      }
+    }
+  }
+  get handlePadding(){
+    if (this.selectConWrap) {
+      if (this.selectConWrap.isPastStudy) {
+        return 'mob-parent-chat-item-sec-past';
+      } else {
+        return 'mob-parent-chat-item-sec';
+      }
+    } else {
+      if(!this.isSinglePartAlumni){
+        return 'mob-parent-chat-item-sec';
+      }else{
+        return 'mob-parent-chat-item-sec-past';
+      }
+    }
+  }
+  get headerHandlePadding(){
+    if (this.selectConWrap) {
+      if (this.selectConWrap.isPastStudy) {
+        return 'mob-parent-chat-item-sec-past';
+      } else {
+        return 'mob-parent-chat-item-header-sec';
+      }
+    } else {
+      if(!this.isSinglePartAlumni){
+        return 'mob-parent-chat-item-header-sec';
+      }else{
+        return 'mob-parent-chat-item-sec-past';
+      }
+    }
   }
   get handleValidation() {
     if (this.messageValue != "Select question" && this.messageValue != "") {
@@ -97,64 +142,61 @@ export default class PpMessageBoard extends LightningElement {
   }
   loaded = true;
   handleSendClick() {
+    this.handleChanges();
     if (this.selectConWrap != null) {
-      console.log("selectConWrap not null saving...");
-      console.log(
-        "conversation id->" + JSON.stringify(this.selectConWrap.conversation)
-      );
-      // console.log('Message text->'+this.messageValue);
-      // this.isLoaded = false;
-      let addspinner = new CustomEvent("savemessage");
-      // this.loaded = false;
-      this.dispatchEvent(addspinner);
-      //this.template.querySelector('c-web-spinner').show();
+      if (!this.selectConWrap.noConversation) {
+        let addspinner = new CustomEvent("savemessage");
+        this.dispatchEvent(addspinner);
 
-      console.log("spinner show web");
-
-      sendMessages({
-        conversation: this.selectConWrap.conversation,
-        messageText: this.messageValue,
-        deviceSize: this.deviceSize,
-        isIE: this.isIE,
-        piContactNames: this.piContactNames
-      })
-        .then((result) => {
-          console.log("success" + JSON.stringify(result));
-          this.messageValue = "Select question";
-          //this.messageTemplatesOption = [];
-          const selectEventHeader = new CustomEvent("messageboardcmp", {
-            detail: result
-          });
-          this.dispatchEvent(selectEventHeader);
-
-          console.log("spinner hide");
-          //this.template.querySelector('c-web-spinner').hide();
+        sendMessages({
+          conversation: this.selectConWrap.conversation,
+          messageText: this.messageValue,
+          deviceSize: this.deviceSize,
+          isIE: this.isIE,
+          piContactNames: this.piContactNames
         })
-        .catch((error) => {
-          console.error(
-            "Error in sendMessage():" +
-              error.message +
-              " " +
-              JSON.stringify(error)
-          );
-        });
+          .then((result) => {
+            this.messageValue = "Select question";
+            const selectEventHeader = new CustomEvent("messageboardcmp", {
+              detail: result
+            });
+            this.dispatchEvent(selectEventHeader);
+          })
+          .catch((error) => {
+            console.error(
+              "Error in sendMessage():" +
+                error.message +
+                " " +
+                JSON.stringify(error)
+            );
+          });
+      } else {
+
+        let addspinner = new CustomEvent("savemessage");
+        this.dispatchEvent(addspinner);
+
+        createConversations({
+          enrollment: this.selectConWrap.firstEnrollments,
+          messageText: this.messageValue,
+          deviceSize: this.deviceSize,
+          isIE: this.isIE,
+          piContactNames: this.piContactNames
+        })
+          .then((result) => {
+            this.messageValue = "Select question";
+            const selectEventHeader = new CustomEvent("messageboardcmp", {
+              detail: result
+            });
+            this.dispatchEvent(selectEventHeader);
+          })
+          .catch((error) => {
+            console.error("Error in sendMessage():" + error.message);
+          });
+      }
     } else {
-      console.log("selectConWrap null saving...");
-
-      console.log(
-        "Message text-> first enroll-->" +
-          this.messageValue +
-          "  " +
-          this.firstEnrollments
-      );
-      // this.isLoaded = false;
-
       let addspinner = new CustomEvent("savemessage");
       this.dispatchEvent(addspinner);
 
-      //this.template.querySelector('c-web-spinner').show();
-
-      console.log("spinner show web");
       createConversations({
         enrollment: this.firstEnrollments,
         messageText: this.messageValue,
@@ -163,17 +205,11 @@ export default class PpMessageBoard extends LightningElement {
         piContactNames: this.piContactNames
       })
         .then((result) => {
-          //  this.messageValue = 'Select question from here';
           this.messageValue = "Select question";
-          console.log("success" + JSON.stringify(result));
-          //this.messageTemplatesOption = [];
           const selectEventHeader = new CustomEvent("messageboardcmp", {
             detail: result
           });
           this.dispatchEvent(selectEventHeader);
-
-          console.log("spinner hide");
-          //this.template.querySelector('c-web-spinner').hide();
         })
         .catch((error) => {
           console.error("Error in sendMessage():" + error.message);

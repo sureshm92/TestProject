@@ -20,7 +20,6 @@ public inherited sharing class ModifiedVisitResultsService {
             if (visitResultSharings != null) {
                 wrapper.visitResultWithSubTypesCTP = visitResultSharings;
             }
-
             Set<String> visitResultSubTypeSet = new Set<String>();
             wrapper.visitResultsShares = new Map<String, List<String>>();
             Contact currentContact = ParticipantContext.getCurrentContact();
@@ -203,6 +202,8 @@ public inherited sharing class ModifiedVisitResultsService {
         }
     }
 
+    /**This method returns all the completed visits with configuration done at CTP*/
+
     public Boolean checkDataSharebackTiming(Integer ctpSharingTiming, String patientVisitId) {
         List<Patient_Visit__c> patientVisitList = getPatientVisitsModified();
         /**checking CTP level Data Shareback Timing Configuration*/
@@ -247,6 +248,7 @@ public inherited sharing class ModifiedVisitResultsService {
     /**All Completed Patient Visits for Current Participant meeting ctpSharingTiming value*/
     public List<Patient_Visit__c> checkDataSharebackTimingForResults(Integer ctpSharingTiming) {
         List<Patient_Visit__c> patientVisitList = getPatientVisitsModified();
+
         /**checking CTP level Data Shareback Timing Configuration*/
         if (
             patientVisitList == null ||
@@ -299,12 +301,14 @@ public inherited sharing class ModifiedVisitResultsService {
                 Visit__r.Patient_Portal_Name__c,
                 Completed_Date__c,
                 Visit_Number__c,
-                Status__c
+                Status__c,
+                Is_Adhoc__c
             FROM Patient_Visit__c
             WHERE Participant_Enrollment__c = :ParticipantContext.getCurrentPEId()
             ORDER BY Completed_Date__c NULLS FIRST, Visit_Number__c
         ];
     }
+
     public Boolean isOnStudy() {
         ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
         if (
@@ -684,6 +688,98 @@ public inherited sharing class ModifiedVisitResultsService {
             }
         }
         return lang;
+    }
+
+    public List<Patient_Visit__c> getPatientVisitsForReports(
+        Id patientVisitId,
+        Participant_Enrollment__c pe
+    ) {
+        Boolean isAlumniParticipant = PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(
+            pe.Participant_Status__c
+        );
+        List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
+        if (patientVisitId != null) {
+            Patient_Visit__c patVisit = [
+                SELECT
+                    Id,
+                    Name,
+                    Completed_Date__c,
+                    Participant_Enrollment__r.Participant__r.Full_Name__c,
+                    Participant_Enrollment__r.Participant__r.Last_Name__c,
+                    Planned_Date__c,
+                    (
+                        SELECT
+                            Name,
+                            Actual_Value__c,
+                            Min_Value__c,
+                            Max_Value__c,
+                            Measurement__c,
+                            Result_Type__c,
+                            Patient_Visit__r.Visit_Number__c,
+                            RecordType.DeveloperName
+                        FROM Visit_Results__r
+                    )
+                FROM Patient_Visit__c
+                WHERE Id = :patientVisitId
+            ];
+            patientVisits.add(patVisit);
+            Set<String> visitResultGroupSet = new Set<String>();
+            if (patVisit.Visit_Results__r.size() != 0) {
+                for (Visit_Result__c visResult : patVisit.Visit_Results__r) {
+                    if (
+                        visResult.recordType.DeveloperName ==
+                        VisitResultSharingService.VITAL_RECORDTYPE &&
+                        !visitResultGroupSet.contains(VisitResultSharingService.VITAL_RECORDTYPE)
+                    ) {
+                        visitResultGroupSet.add(VisitResultSharingService.VITAL_RECORDTYPE);
+                    }
+                    if (
+                        visResult.recordType.DeveloperName ==
+                        VisitResultSharingService.LAB_RECORDTYPE &&
+                        !visitResultGroupSet.contains(VisitResultSharingService.LAB_RECORDTYPE)
+                    ) {
+                        visitResultGroupSet.add(VisitResultSharingService.LAB_RECORDTYPE);
+                    }
+                    if (
+                        visResult.recordType.DeveloperName ==
+                        VisitResultSharingService.BIOMARKER_RECORDTYPE &&
+                        !visitResultGroupSet.contains(
+                            VisitResultSharingService.BIOMARKER_RECORDTYPE
+                        )
+                    ) {
+                        visitResultGroupSet.add(VisitResultSharingService.BIOMARKER_RECORDTYPE);
+                    }
+                }
+            }
+            VisitResultsService.patientVisitbyVisitGroupMap.put(patVisit.Id, visitResultGroupSet);
+        } else if (isAlumniParticipant) {
+            patientVisits = [
+                SELECT
+                    Id,
+                    Name,
+                    Completed_Date__c,
+                    Participant_Enrollment__r.Participant__r.Full_Name__c,
+                    Participant_Enrollment__r.Participant__r.Last_Name__c,
+                    Planned_Date__c,
+                    (
+                        SELECT
+                            Name,
+                            Actual_Value__c,
+                            Min_Value__c,
+                            Max_Value__c,
+                            Measurement__c,
+                            Result_Type__c,
+                            Patient_Visit__r.Visit_Number__c,
+                            RecordType.DeveloperName
+                        FROM Visit_Results__r
+                    )
+                FROM Patient_Visit__c
+                WHERE Participant_Enrollment__c = :pe.Id AND Status__c = 'Completed'
+                ORDER BY Completed_Date__c NULLS LAST
+            ];
+        }
+
+        return patientVisits;
     }
 
     public class ModifiedInitDataWrapper {

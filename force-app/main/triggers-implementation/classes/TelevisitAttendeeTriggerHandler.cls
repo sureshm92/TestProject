@@ -1,8 +1,8 @@
 public without sharing class TelevisitAttendeeTriggerHandler {
     public class ManageAttendees extends TriggerHandler {
-        /*public override void afterDelete(List<SObject> oldList) {
+        public override void afterDelete(List<SObject> oldList) {
             notifyAttendeesRemoved(oldList);
-        }*/
+        }
         public override void afterInsert(List<SObject> newList) {
             notifyNewAttendees(newList);
             sendBellNotificationToNewAttendees(newList);
@@ -118,10 +118,7 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                         targetIds.add(
                             attendeeTelevisitMap.get(conId).televisitAttendee.Televisit__c
                         );
-                        if (targetIds.size() > 13) {
-                            targetIds.remove(0);
-                        }
-                            notificationObj.Target_Record_Ids__c = String.join(targetIds, ',');
+                        notificationObj.Target_Record_Ids__c = gettrimmedTargetRecordIds(targetIds);
                         }
                     updatedNotificationList.add(
                         new Notification__c(
@@ -137,16 +134,19 @@ public without sharing class TelevisitAttendeeTriggerHandler {
                     attendeeTelevisitMap.get(conId).notificationType
                 ) {
                     needtoCreate = false;
-                    updatedNotificationList.add(
-                        new Notification__c(
-                            Id = notificationObj.Id,
-                            Target_Record_Ids__c = notificationObj.Target_Record_Ids__c.contains(
+                    String targetRecordIdStr = notificationObj.Target_Record_Ids__c.contains(
                                     attendeeTelevisitMap.get(conId).televisitAttendee.Televisit__c
                                 )
                                 ? notificationObj.Target_Record_Ids__c
                                 : notificationObj.Target_Record_Ids__c +
                                 ',' +
-                                  attendeeTelevisitMap.get(conId).televisitAttendee.Televisit__c
+                          attendeeTelevisitMap.get(conId).televisitAttendee.Televisit__c;
+                    List<Id> targetIds = targetRecordIdStr.split(',');
+
+                    updatedNotificationList.add(
+                        new Notification__c(
+                            Id = notificationObj.Id,
+                            Target_Record_Ids__c = gettrimmedTargetRecordIds(targetIds)
                         )
                     );
                 }
@@ -199,12 +199,37 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             }
         }
         if (!delConTeleMap.isEmpty()) {
-            createAttendeeNotifications(
-                delConTeleMap,
-                NotificationCatalog.MESSAGE_TO_PT_REMOVED_ATTENDEE_TYPE,
-                new List<Notification__c>{}
-            );
+            List<String> notificationsTypeList = new List<String>();
+            List<Id> scheduledCons = new List<Id>();
+            List<Id> delcontactsList = new List<Id>();
+            notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED);
+            notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED);
+            for (Televisit_Attendee__c attendee : [
+                SELECT Id, Televisit__c, Contact__r.Id, Contact__c
+                FROM Televisit_Attendee__c
+                WHERE Televisit__r.Status__c = 'Scheduled' AND Contact__c IN :delConTeleMap.keySet()
+            ]) {
+                scheduledCons.add(attendee.Contact__c);
+            }
+            for (Id keyId : delConTeleMap.keySet()) {
+                if (!scheduledCons.contains(keyId)) {
+                    delcontactsList.add(keyId);
+                }
+            }
+            List<Notification__c> notificationsList = [
+                SELECT Id, Status__c
+                FROM Notification__c
+                WHERE
+                    Recipient__c IN :delcontactsList
+                    AND Notification_Type__c IN :notificationsTypeList
+            ];
+            if (!notificationsList.isEmpty()) {
+                for (Notification__c notificationObj : notificationsList) {
+                    notificationObj.Status__c = 'Processed';
+                }
+                update notificationsList;
         }
+    }
     }
 
     @TestVisible
@@ -232,6 +257,19 @@ public without sharing class TelevisitAttendeeTriggerHandler {
             notifications.addAll(updateNotifications);
         }
         Database.upsert(notifications);
+    }
+    @TestVisible
+    private static String gettrimmedTargetRecordIds(List<Id> targetIds) {
+        Integer idLength = targetIds.size() - 13;
+        if (targetIds.size() > 13 && idLength > 0) {
+            for (Integer i = 0; i < idLength; i++) {
+                targetIds.remove(0);
+            }
+        }
+        if (!targetIds.isEmpty()) {
+            return String.join(targetIds, ',');
+        }
+        return '';
     }
 
     @TestVisible

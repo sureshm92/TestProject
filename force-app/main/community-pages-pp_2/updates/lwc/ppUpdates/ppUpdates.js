@@ -75,7 +75,9 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     }
     get compContainer() {
         if (DEVICE == 'Medium') {
-            return 'position-container update-container slds-size_4-of-6';
+            return 'tab-mob-maxWidth position-container update-container slds-size_4-of-6';
+        } else if (DEVICE == 'Small') {
+            return 'tab-mob-maxWidth position-container update-container';
         } else {
             return 'position-container update-container';
         }
@@ -124,6 +126,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 this.resourcedData = [...this.resourcedData, ...returnValue];
                 if (this.resourcedData.length > 0) {
                     this.resourcePresent = true;
+                } else {
+                    this.resourcePresent = false;
                 }
                 this.offset += this.limit;
                 this.loadMoreValue = true;
@@ -167,6 +171,12 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             this.timer = setTimeout(() => {
                 this.getUpdates();
             }, 1000);
+        }
+    }
+    handleKeyDown(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            this.refresh();
         }
     }
     refresh() {

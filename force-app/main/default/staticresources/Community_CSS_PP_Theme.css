@@ -2,7 +2,7 @@
 html {
     height: 100%;
     background-color: #f2f2f2;
-    font-family: 'Proxima Nova' !important;
+    font-family: 'Proxima Nova';
     transition: 100ms;
 }
 
@@ -12,11 +12,11 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Proxima Nova' !important;
+    font-family: 'Proxima Nova';
 }
 
 .toastMessage.forceActionsText {
-    font-family: 'Proxima Nova' !important;
+    font-family: 'Proxima Nova';
 }
 body {
     font-size: 13px;
@@ -30,11 +30,17 @@ a,
     color: #0557d5;
     box-shadow: none;
 }
+.forgot-unable-pwd-txt .slds-button:hover,
+.forgot-unable-pwd-txt .slds-button:focus {
+    color: #0557d5;
+    box-shadow: none;
+    font-weight: 600;
+}
 
 a:hover {
     text-decoration: underline;
     text-decoration-style: dashed;
-    color: #015ff1;
+    color: #0557d5;
 }
 .rr-header-content {
     position: fixed;
@@ -46,7 +52,8 @@ a:hover {
 @media not print {
     .rr-header-content,
     .rr-header-margin {
-        height: 50px;
+        /* height: 50px; */
+        height: 0px;
     }
 }
 .rr-width-limiter-pp {
@@ -72,7 +79,7 @@ a:hover {
     min-height: 90vh;
 }
 .rr-body-content {
-    background-color: #f8f9fb;
+    background-color: #f6f7fb;
     vertical-align: top;
 }
 /* SLDS overrides */
@@ -278,23 +285,28 @@ input::placeholder {
 
 .profile-info-btn .slds-button {
     color: #ffffff;
-    height: 2rem !important;
-    width: 6rem !important;
-    border-radius: 16px !important;
-    background-color: #015ff1 !important;
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32) !important;
+    width: 6rem;
+    border-radius: 16px;
+    background-color: #015ff1;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
 }
 
 .profile-info-btn-mobile .slds-button {
     color: #ffffff;
-    height: 2rem !important;
-    border-radius: 16px !important;
-    background-color: #015ff1 !important;
-    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%), 0 4px 8px 0 rgb(7 104 253 / 32%) !important;
+    height: 2rem;
+    border-radius: 16px;
+    background-color: #015ff1;
+    box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%), 0 4px 8px 0 rgb(7 104 253 / 32%);
+}
+
+.profile-info-btn .slds-button:hover,
+.profile-info-btn .slds-button:focus,
+.profile-info-btn-mobile .slds-button:focus {
+    background-color: #0557d5;
 }
 
 .profile-info-error-input .slds-input {
-    border: 1px solid rgba(226, 0, 0, 1) !important;
+    border: 1px solid rgba(226, 0, 0, 1);
 }
 
 .round-combobox .slds-dropdown_fluid {
@@ -320,9 +332,6 @@ input::placeholder {
 .mobile-menu-background {
     background: linear-gradient(to bottom, #00839a 0%, #005587 100%);
     border-bottom-right-radius: 20px;
-}
-.font-thickness {
-    font-weight: 500;
 }
 
 .profileIcon .rr-icon_default {
@@ -798,13 +807,12 @@ input::placeholder {
     background: #0557d5;
     transition: 0.25s;
     text-decoration: none;
-    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04),
-        0 8px 16px 0 rgba(41, 125, 253, 0.32);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
 }
 
 .slds-button.secondaryBtn:hover,
 .slds-button.secondaryBtn:focus {
-    --slds-c-button-color-border: #015ff1;
+    border-color: #015ff1;
     --slds-c-button-color-background: #ecf3ff;
     color: #015ff1;
     transition: 0.25s;
@@ -1324,13 +1332,37 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 }
 .selection .slds-dropdown-trigger_click .slds-dropdown,
 .selection .slds-dropdown-trigger_click:hover {
-    border-radius: 16px !important;
+    border-radius: 4px !important;
     background-color: #ffffff !important;
     margin-bottom: 10px !important;
 }
 .selection .slds-listbox__option-icon {
     width: 0px !important;
     display: none !important;
+}
+.selection .slds-listbox__option .slds-media__body {
+    font-size: 1rem;
+}
+.selection .slds-input_faux {
+    height: 35px !important;
+    padding-top: 2px;
+    overflow: hidden;
+}
+.selection .slds-combobox__input .slds-input_faux {
+    padding-right: 10px;
+}
+.selection .slds-input__icon-group_right {
+    right: 10px !important;
+}
+.selection .slds-truncate {
+    max-width: 100%;
+    overflow: visible;
+    white-space: normal;
+}
+.mob-selection .slds-truncate {
+    max-width: 100%;
+    overflow: visible;
+    white-space: normal;
 }
 /* Date Time Dropdown Alignment */
 
@@ -1586,7 +1618,6 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .manage-del-continer {
     margin-left: 24px !important;
     margin-right: 24px !important;
-    margin-top: 16px !important;
 }
 .manage-delegate-acc-setting .manage-del-continer-mobile {
     margin-left: 16px !important;
@@ -1744,17 +1775,20 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     display: flex !important;
 }
 .manage-delegate-acc-setting .manage-del-continer .slds-form-element__label {
-    padding: 0 0 0 5px !important;
+    padding: 0 0 0 5px;
     text-align: left !important;
     margin-top: -4px !important;
     line-height: 22px !important;
+}
+.manage-delegate-acc-setting-old .add-delegate-input-container .slds-form-element__label {
+    padding: 0 !important;
 }
 
 .manage-delegate-acc-setting .manage-del-continer-mobile .slds-checkbox__label {
     display: flex !important;
 }
 .manage-delegate-acc-setting .manage-del-continer-mobile .slds-form-element__label {
-    padding: 0 0 0 5px !important;
+    padding: 0 0 0 5px;
     text-align: left !important;
     margin-top: -4px !important;
     line-height: 22px !important;
@@ -1868,17 +1902,21 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-delegate-acc-setting .add-new-del-input-padding {
     padding: 0px !important;
 }
-
+.manage-delegate-acc-setting
+    .std
+    .text-checked-bold
+    .slds-checkbox
+    .slds-checkbox__label
+    .slds-form-element__label {
+    font-weight: 600 !important;
+}
 .manage-delegate-acc-setting .back-to-manage-del-btn {
     /* width: auto !important; */
     background-color: transparent !important;
     color: #015ff1 !important;
+    display: block !important;
+    padding-top: 41px !important;
 }
-/* @media (max-device-width: 767px) {
-    .manage-delegate-acc-setting .back-to-manage-del-btn {
-        width: 70% !important;
-    }
-} */
 .manage-delegate-acc-setting .profile-information-rectangle {
     background-color: transparent !important;
     width: auto !important;
@@ -2053,20 +2091,20 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .slds-checkbox_toggle .slds-checkbox--faux::after,
 .slds-checkbox--toggle .slds-checkbox_faux::after,
 .slds-checkbox--toggle .slds-checkbox--faux::after {
-    width: 1rem;
-    height: 1rem;
-    top: 3.5px;
-    left: 4px;
+    width: 1.25rem;
+    height: 1.25rem;
+    top: 1px;
+    left: 1px;
 }
 .result-type-toggle
     .slds-checkbox_toggle
     [type='checkbox']:checked
     + .slds-checkbox_faux_container
     .slds-checkbox_faux::before {
-    width: 1rem;
-    height: 1rem;
-    top: 3.5px;
-    right: 4px;
+    width: 1.25rem;
+    height: 1.25rem;
+    top: 1px;
+    right: 1px;
 }
 
 element.style {
@@ -2111,6 +2149,10 @@ user agent stylesheet svg:not(:root) {
     .contact-support-popup .slds-modal_medium .slds-modal__container {
         width: 720px !important;
     }
+    /* .cRRTopBar .tb-back-title,
+    .header {
+        padding-left: 2rem;
+    } */
 }
 
 .contact-support-popup .slds-icon_x-small {
@@ -2139,3 +2181,28 @@ user agent stylesheet svg:not(:root) {
 }
 
 /* Contact support Modal css- Ends */
+
+.support-container button {
+    height: 40px;
+    line-height: 40px;
+}
+
+.support-container lightning-base-combobox-item span.slds-media__body span {
+    font-size: 14px;
+    margin-left: -20px;
+}
+
+.show-more-or-less-container svg{
+    fill: #015ff1;
+    height: 15px;
+}
+
+.contact-support-popup .modal-header-text{
+    height: 32px !important;
+    color: #444444 !important;
+    font-family: "Proxima Nova" !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    line-height: 29px !important;
+}

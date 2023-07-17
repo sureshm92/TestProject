@@ -35,6 +35,7 @@ export default class HomePageParticipantNew extends LightningElement {
         MY_PROGRESS_Caps
     };
     counter;
+    enableCards = [];
     displayCounter = false;
     participantState;
     clinicalrecord;
@@ -91,227 +92,277 @@ export default class HomePageParticipantNew extends LightningElement {
         this.getUpdatesCount();
         this.initializeData();
     }
-
-    getVisitsPreviewAndCount(){
-        setTimeout(()=>{
+    get tabletUpcomingCard() {
+        if (DEVICE == 'Medium') {
+            return 'upcoming-card slds-m-around_small tablet-margin slds-size_4-of-6';
+        } else {
+            return 'upcoming-card slds-m-around_small';
+        }
+    }
+    get tabletProgressTab() {
+        if (DEVICE == 'Medium') {
+            return 'progressTab tablet-margin slds-size_4-of-6';
+        } else {
+            return 'progressTab';
+        }
+    }
+    getVisitsPreviewAndCount() {
+        setTimeout(() => {
             getVisitsPreviewAndCount({})
-            .then((result) => {
-                let visitDetails = result.visitPreviewList;
-                if (visitDetails != null && visitDetails.length != 0 && visitDetails != '') {
-                    this.isUpcomingVisitDetails = true;
-                } else {
-                    this.isUpcomingVisitDetails = false;
-                }
-                console.log('Visit :', this.isUpcomingVisitDetails);
-                this.getVisits();
-            })
-            .catch((error) => {
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-            });
-        },15);
-     
+                .then((result) => {
+                    let visitDetails = result.visitPreviewList;
+                    if (visitDetails != null && visitDetails.length != 0 && visitDetails != '') {
+                        this.isUpcomingVisitDetails = true;
+                    } else {
+                        this.isUpcomingVisitDetails = false;
+                    }
+                    this.getVisits();
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                });
+        }, 15);
     }
 
-    getVisits(){
-        setTimeout(()=>{
-            getVisits({communityMode : 'IQVIA Patient Portal', userMode : 'Participant'})
-            .then((result) => {
-                console.log('result',result);
-                var televisitInformation = JSON.parse(result);
-                if (televisitInformation.length > 0) {
-                    this.isUpcomingTelevisitVisitDetails = true;
-                }else{
-                    this.isUpcomingTelevisitVisitDetails = false;
-                }
-                console.log('Televisit :',this.isUpcomingTelevisitVisitDetails);
-                if(!this.isUpcomingVisitDetails && this.isUpcomingTelevisitVisitDetails){
-                    this.isTelevisits = true;
-                    this.marginbottom = 'marginbottom';
-                }else{
-                    //this.isTelevisits = false;
-                }
-            })
-            .catch((error) => {
-                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-            });
+    getVisits() {
+        setTimeout(() => {
+            getVisits({ communityMode: 'IQVIA Patient Portal', userMode: 'Participant' })
+                .then((result) => {
+                    var televisitInformation = JSON.parse(result);
+                    if (televisitInformation.length > 0) {
+                        this.isUpcomingTelevisitVisitDetails = true;
+                    } else {
+                        this.isUpcomingTelevisitVisitDetails = false;
+                    }
+                    if (!this.isUpcomingVisitDetails && this.isUpcomingTelevisitVisitDetails) {
+                        this.isTelevisits = true;
+                        this.marginbottom = 'marginbottom';
+                    } else {
+                        //this.isTelevisits = false;
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                });
         }, 22);
     }
 
     getUpdatesCount() {
-        setTimeout(()=>{
-            getSendResultCount( { initialLoadTime: this.initialLoadTime })
-            .then((returnValue) => {
-                this.counter = returnValue;
-                if (this.counter < 100 && this.counter > 0) {
-                    this.displayCounter = true;
-                    this.counterLabel = this.counter;
-                } else if (this.counter >= 100) {
-                    this.displayCounter = true;
-                    this.counterLabel = '99+';
-                } else if (this.counter <= 0) {
-                    this.displayCounter = false;
-                }
-            })
-            .catch((error) => {
-                console.log('error message : ' + error?.message);
-                this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
-                if(this.spinner){
-                this.spinner.hide();
-                }
-            });
-        },8);  
+        setTimeout(() => {
+            getSendResultCount({ initialLoadTime: this.initialLoadTime })
+                .then((returnValue) => {
+                    this.counter = returnValue;
+                    if (this.counter < 100 && this.counter > 0) {
+                        this.displayCounter = true;
+                        this.counterLabel = this.counter;
+                    } else if (this.counter >= 100) {
+                        this.displayCounter = true;
+                        this.counterLabel = '99+';
+                    } else if (this.counter <= 0) {
+                        this.displayCounter = false;
+                    }
+                })
+                .catch((error) => {
+                    console.log('error message : ' + error?.message);
+                    this.showErrorToast(
+                        'Error occured',
+                        error.message,
+                        'error',
+                        '5000',
+                        'dismissable'
+                    );
+                    if (this.spinner) {
+                        this.spinner.hide();
+                    }
+                });
+        }, 8);
     }
 
     initializeData() {
-        setTimeout(()=>{
+        setTimeout(() => {
             getParticipantData()
-            .then((result) => {
-                this.spinner ? this.spinner.hide() : '';
-                this.showSpinner = false;
-                if (result) {
-                    let res = JSON.parse(result);
-                    this.participantState = res.pState;
-                    if (this.participantState) {
-                        let username = this.currentMode.groupLabel;
-                        let firstName = username.substring(0, username.indexOf(' '));
+                .then((result) => {
+                    this.spinner ? this.spinner.hide() : '';
+                    this.showSpinner = false;
+                    if (result) {
+                        let res = JSON.parse(result);
+                        this.participantState = res.pState;
+                        if (this.participantState) {
+                            let username = this.currentMode.groupLabel;
+                            let firstName = username.substring(0, username.indexOf(' '));
 
-                        this.userName = this.label.PPWELCOME + ', ' + firstName + '!';
-                    }
-                    if (this.participantState.pe) {
-                        if (this.participantState.pe.Clinical_Trial_Profile__r) {
-                            this.studysite = this.participantState.pe.Study_Site__r;
-                            this.clinicalrecord =
-                                this.participantState.pe.Clinical_Trial_Profile__r;
-                            // Check if Program toggle is or study workspcae on ctp
-                            this.isProgram = this.clinicalrecord.Is_Program__c;
-
-                            this.showVisitCard =
-                                this.clinicalrecord.Patient_Portal_Enabled__c &&
-                                this.clinicalrecord.Visits_are_Available__c &&
-                                res.pvCount != null &&
-                                res.pvCount != undefined &&
-                                res.pvCount > 0;
+                            this.userName = this.label.PPWELCOME + ', ' + firstName + '!';
                         }
-                        //this.showTelevisitCard = this.clinicalrecord.Televisit_Vendor_is_Available__c;
-                        if (
-                            this.clinicalrecord.Televisit_Vendor_is_Available__c &&
-                            res.televisitVendorAvailable
+                        if (this.participantState.pe) {
+                            if (this.participantState.pe.Clinical_Trial_Profile__r) {
+                                this.studysite = this.participantState.pe.Study_Site__r;
+                                this.clinicalrecord = this.participantState.pe.Clinical_Trial_Profile__r;
+                                // Check if Program toggle is or study workspcae on ctp
+                                this.isProgram = this.clinicalrecord.Is_Program__c;
+
+                                this.showVisitCard =
+                                    this.clinicalrecord.Patient_Portal_Enabled__c &&
+                                    this.clinicalrecord.Visits_are_Available__c &&
+                                    res.pvCount != null &&
+                                    res.pvCount != undefined &&
+                                    res.pvCount > 0;
+                            }
+                            //this.showTelevisitCard = this.clinicalrecord.Televisit_Vendor_is_Available__c;
+                            if (
+                                this.clinicalrecord.Televisit_Vendor_is_Available__c &&
+                                res.televisitVendorAvailable
+                            ) {
+                                this.showTelevisitCard = true;
+                            } else {
+                                this.showTelevisitCard = false;
+                                this.isTelevisits = false;
+                                this.marginbottom = '';
+                            }
+                            if (this.showTelevisitCard && !this.showVisitCard) {
+                                this.isTelevisits = true;
+                                this.marginbottom = 'marginbottom';
+                            }
+                        } else if (
+                            this.participantState.value == 'ALUMNI' ||
+                            (this.participantState.hasPatientDelegates &&
+                                !this.participantState.isDelegate)
                         ) {
                             this.showTelevisitCard = true;
-                        } else {
-                            this.showTelevisitCard = false;
-                            this.isTelevisits = false;
-                            this.marginbottom = '';
-                        }
-                        console.log(
-                            'Televisit Toggle',
-                            this.clinicalrecord.Televisit_Vendor_is_Available__c
-                        );
-                        console.log('Televisit Vendor', res.televisitVendorAvailable);
-                        if (this.showTelevisitCard && !this.showVisitCard) {
                             this.isTelevisits = true;
                             this.marginbottom = 'marginbottom';
+
+                            this.showSpinner = true;
+                            this.showUpcomingSection = false;
+
+                            if (this.participantState.hasPatientDelegates)
+                                this.CheckIfTelevisitToggleOnForDelegate();
+                            else this.CheckIfTelevisitToggleOnForAlumni();
                         }
-                    } else if (
-                        this.participantState.value == 'ALUMNI' ||
-                        (this.participantState.hasPatientDelegates &&
-                            !this.participantState.isDelegate)
-                    ) {
-                        this.showTelevisitCard = true;
-                        this.isTelevisits = true;
-                        this.marginbottom = 'marginbottom';
 
-                        this.showSpinner = true;
-                        this.showUpcomingSection = false;
-
-                        if(this.participantState.hasPatientDelegates)
-                            this.CheckIfTelevisitToggleOnForDelegate();
-                        else    
-                            this.CheckIfTelevisitToggleOnForAlumni();
-                    }
-                    
-                    if (this.desktop != true) {
-                        this.updatesSection = true;
-                        // this.showVisitCardMobile = true;
-                    }
-
-                    if (!this.showTelevisitCard && !this.showVisitCard) {
-                        this.showUpcomingSection = false;
                         if (this.desktop != true) {
                             this.updatesSection = true;
-                            this.showVisitCardMobile = false;
+                            // this.showVisitCardMobile = true;
+                            this.enableCards.push('updates');
+                            this.enableCards.push('task');
+                        }
+
+                        if (!this.showTelevisitCard && !this.showVisitCard) {
+                            this.showUpcomingSection = false;
+                            if (this.desktop != true) {
+                                this.updatesSection = true;
+                                this.showVisitCardMobile = false;
+                            }
+                        }
+
+                        //For Delegate Self view
+                        this.isDelegateSelfview =
+                            this.participantState.value == 'ALUMNI' ||
+                            (this.participantState.hasPatientDelegates &&
+                                !this.participantState.isDelegate &&
+                                !this.participantState.pe);
+                        if (this.isDelegateSelfview) {
+                            this.showBiggerUpdatesSection();
                         }
                     }
-
-                    //For Delegate Self view
-                    this.isDelegateSelfview =
-                        this.participantState.value == 'ALUMNI' ||
-                        (this.participantState.hasPatientDelegates &&
-                            !this.participantState.isDelegate &&
-                            !this.participantState.pe);
-                    if( this.isDelegateSelfview){
-                        this.showBiggerUpdatesSection();
+                    this.isInitialized = true;
+                    if (this.showUpcomingSection) {
+                        this.enableCards.push('upcoming');
                     }
-                }
-                this.isInitialized = true;        
-                if(!this.desktop && this.participantState.pe){
-                    showProgress({ peId: this.participantState.pe.Id })
-                        .then(result => {
-                            this.showProgressMobile = result;
-                        })
-                        .catch(error => {
-                            this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
-                        });
-                }        
-            })
-            .catch((error) => {
-                this.showErrorToast('Error occured', error.message, 'error', '5000', 'dismissable');
-                this.spinner ? this.spinner.hide() : '';
-            });
-        },40);
-       
+                    if (!this.desktop && this.participantState.pe) {
+                        showProgress({ peId: this.participantState.pe.Id })
+                            .then((result) => {
+                                this.showProgressMobile = result;
+                                if (this.showProgressMobile) {
+                                    this.enableCards.push('my-progress');
+                                    this.cardNavigation();
+                                }
+                            })
+                            .catch((error) => {
+                                this.showErrorToast(
+                                    'Error occured',
+                                    error.message,
+                                    'error',
+                                    '5000',
+                                    'dismissable'
+                                );
+                            });
+                    }
+                    this.cardNavigation();
+                })
+                .catch((error) => {
+                    this.showErrorToast(
+                        'Error occured',
+                        error.message,
+                        'error',
+                        '5000',
+                        'dismissable'
+                    );
+                    this.spinner ? this.spinner.hide() : '';
+                });
+        }, 40);
     }
+    cardNavigation() {
+        if (!this.desktop) {
+            const queryString = window.location.href;
+            if (queryString.includes('upcoming') && this.enableCards.includes('upcoming')) {
+                this.showVisitCardOnMobile();
+            }
 
-    CheckIfTelevisitToggleOnForDelegate(){
+            if (queryString.includes('my-progress') && this.enableCards.includes('my-progress')) {
+                this.showProgressMob();
+            }
+            if (queryString.includes('task') && this.enableCards.includes('task')) {
+                this.showTaskList();
+            }
+            if (queryString.includes('updates') && this.enableCards.includes('updates')) {
+                this.showUpdatesOnMobile();
+            }
+        }
+    }
+    CheckIfTelevisitToggleOnForDelegate() {
         this.showSpinner = true;
         this.showUpcomingSection = false;
         CheckIfTelevisitToggleOnForDelegate()
-        .then((result) => {
-            this.showSpinner = false;
-            this.showTelevisitCardDelegate = result;
-            if(this.isDelegateSelfview && !this.showTelevisitCardDelegate){
-                this.showUpcomingSection = false;
-                if (this.desktop != true) {
-                    this.showVisitCardMobile = false;
+            .then((result) => {
+                this.showSpinner = false;
+                this.showTelevisitCardDelegate = result;
+                if (this.isDelegateSelfview && !this.showTelevisitCardDelegate) {
+                    this.showUpcomingSection = false;
+                    if (this.desktop != true) {
+                        this.showVisitCardMobile = false;
+                    }
+                } else {
+                    this.showUpcomingSection = true;
+                    this.enableCards.push('upcoming');
+                    this.cardNavigation();
                 }
-            }else{
-                this.showUpcomingSection = true;
-            }
-        })
-        .catch((error) => {
-            console.log('Error :',error);
-        });
+            })
+            .catch((error) => {
+                console.log('Error :', error);
+            });
     }
 
-    CheckIfTelevisitToggleOnForAlumni(){
+    CheckIfTelevisitToggleOnForAlumni() {
         this.showSpinner = true;
         this.showUpcomingSection = false;
         CheckIfTelevisitToggleOnForAlumni()
-        .then((result) => {
-            this.showSpinner = false;
-            this.showTelevisitCardAlumni = result;
-            if(this.isDelegateSelfview && !this.showTelevisitCardAlumni){
-                this.showUpcomingSection = false;
-                if (this.desktop != true) {
-                    this.showVisitCardMobile = false;
+            .then((result) => {
+                this.showSpinner = false;
+                this.showTelevisitCardAlumni = result;
+                if (this.isDelegateSelfview && !this.showTelevisitCardAlumni) {
+                    this.showUpcomingSection = false;
+                    if (this.desktop != true) {
+                        this.showVisitCardMobile = false;
+                    }
+                } else {
+                    this.showUpcomingSection = true;
+                    this.enableCards.push('upcoming');
+                    this.cardNavigation();
                 }
-            }else{
-                this.showUpcomingSection = true;
-            }
-        })
-        .catch((error) => {
-            console.log('Error :',error);
-        });
+            })
+            .catch((error) => {
+                console.log('Error :', error);
+            });
     }
 
     renderedCallback() {
@@ -321,6 +372,8 @@ export default class HomePageParticipantNew extends LightningElement {
     }
 
     showTaskList() {
+        window.history.replaceState(null, null, '?task');
+        const queryString = window.location.href;
         if (this.desktop != true) {
             this.showVisitCardMobile = false;
             this.updatesSection = false;
@@ -336,6 +389,7 @@ export default class HomePageParticipantNew extends LightningElement {
             this.showProgress = false;
         }
         this.taskList = false;
+        window.history.replaceState(null, null, '?upcoming');
     }
 
     showUpdatesOnMobile() {
@@ -345,6 +399,7 @@ export default class HomePageParticipantNew extends LightningElement {
         this.taskList = false;
         this.showVisitCardMobile = false;
         this.showProgress = false;
+        window.history.replaceState(null, null, '?updates');
     }
 
     showProgressMob() {
@@ -354,18 +409,19 @@ export default class HomePageParticipantNew extends LightningElement {
             this.taskList = false;
         }
         this.showProgress = true;
+        window.history.replaceState(null, null, '?my-progress');
     }
-    get progressIcon(){
-        if(this.showProgress){
-            return "icon-updates progressIconPosition";
+    get progressIcon() {
+        if (this.showProgress) {
+            return 'icon-progress progressIconPosition';
         }
-        return "icon-updates";
+        return 'icon-progress';
     }
-    get progressIconSize(){
-        if(this.showProgress){
-            return "xlarge";
+    get progressIconSize() {
+        if (this.showProgress) {
+            return 'xlarge';
         }
-        return "medium";
+        return 'progress';
     }
 
     updateCounter(event) {

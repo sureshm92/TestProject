@@ -85,6 +85,13 @@
     width: 25px;
     height: 25px;
 }
+.icon-progress {
+    margin-left: 31px !important;
+    margin-top: 11px !important;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+}
 .icon-update-section-small {
     margin-left: 32px !important;
     margin-top: 11px !important;
@@ -100,10 +107,9 @@
 }
 
 .p-text {
-    margin-left: 10px;
     margin-top: 10px;
     height: 24px;
-    width: 68.74px;
+    width: 100%;
     color: #ffffff;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -114,10 +120,9 @@
 }
 
 .p-text-televisit {
-    margin-left: 6px;
     margin-top: 10px;
     height: 24px;
-    width: 68.74px;
+    width: 100%;
     color: #ffffff;
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -202,27 +207,10 @@
     margin-left: -30px !important;
 }
 
-.visit-button {
-    border-radius: 16px 0 0 16px;
-    border: 1px solid #d9d9d9 !important;
-    font-size: 14px;
-    padding: 0px 36px;
-    font-weight: 600;
-}
-.active-button-background {
-    color: white !important;
-    background-color: #015ff1;
-}
-
-.inactive-button-background {
-    color: #595959 !important;
-    background-color: #ffffff !important;
-}
-
 .televisit-button {
     box-sizing: border-box;
     border: 1px solid #d9d9d9;
-    border-radius: 0 16px 16px 0 !important;
+    border-radius: 0 16px 16px 0;
     font-family: 'Proxima Nova';
     font-weight: 600;
     letter-spacing: 0;
@@ -231,13 +219,42 @@
     height: 32px;
     width: 109px;
     margin-left: -1px;
+    margin-bottom: 10px;
     font-size: 14px;
+}
+
+.visit-button {
+    border-radius: 16px 0 0 16px;
+    border: 1px solid #d9d9d9;
+    font-size: 14px;
+    padding: 0px 36px;
+    font-weight: 600;
+}
+.active-button-background {
+    color: white;
+    background-color: #015ff1;
+    border-color: #015ff1;
+}
+
+.inactive-button-background {
+    color: #595959;
+    background-color: #ffffff;
+}
+
+.inactive-button-background:hover,
+.inactive-button-background:focus {
+    background-color: #ecf3ff;
+    border-color: #0557d5;
+}
+
+.active-button-background:hover,
+.active-button-background:focus {
+    background-color: #0557d5;
 }
 
 .upcomingheader {
     height: 3.14%;
     color: #444444;
-    font-family: 'Proxima Nova';
     font-size: 24px;
     font-weight: 600;
     letter-spacing: 0;
@@ -247,7 +264,6 @@
 .taskHeader {
     height: 3.14%;
     color: #444444;
-    font-family: 'Proxima Nova';
     font-size: 24px;
     font-weight: 600;
     letter-spacing: 0;
@@ -258,7 +274,7 @@
     padding: 0;
 }
 .container-card {
-    background-color: rgb(246, 247, 249);
+    background-color: #f6f7fb;
     border-top-color: #00a3e0;
     border-top-width: 8px;
     padding: 0;
@@ -275,6 +291,8 @@
 }
 .upcoming-card {
     /*background: rgb(248, 249, 251);*/
+    max-width: 468px;
+    margin: 10px auto 0 auto;
     height: auto;
     /*border: 1px solid lightgrey;*/
     border-top-left-radius: 16px;
@@ -287,17 +305,20 @@
 
 .uc-text-mobile {
     /*margin-top: 6px;*/
-    padding: 6px 0;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: bold;
-    letter-spacing: 0;
+    letter-spacing: 0.5;
     text-align: center;
     color: #ffffff;
+    height: 32px;
+    letter-spacing: 0.5px;
+    line-height: 32px;
 }
 .progressTab {
+    max-width: 468px;
+    margin: 10px auto 0px auto;
     height: 32px;
-    margin: 0px 10px;
     margin-top: 13px;
     border-radius: 20.5px 20.5px 0 0;
     background-color: #044b51;
@@ -315,5 +336,59 @@
 }
 .progressIconPosition {
     padding-top: 7px !important;
-    margin-left: 26px !important;
+    margin-left: 24px !important;
+}
+.tablet-margin {
+    margin: 10px auto 0 auto !important;
+}
+.ipad-width {
+    max-width: 468px;
+    margin: auto;
+}
+@media (max-width: 500px) {
+    .progressTab {
+        margin: 10px 10px 0px 10px;
+    }
+    .upcoming-card {
+        margin: 10px 10px 0px 10px;
+    }
+    .progress-container {
+        margin: 0px 10px 0px 10px !important;
+    }
+}
+
+@media all and (max-width: 380px) {
+    .mobileSet {
+        zoom: 0.97;
+    }
+}
+@media all and (max-width: 372px) {
+    .mobileSet {
+        zoom: 0.95;
+    }
+}
+@media all and (max-width: 362px) {
+    .mobileSet {
+        zoom: 0.93;
+    }
+}
+@media all and (max-width: 350px) {
+    .mobileSet {
+        zoom: 0.91;
+    }
+}
+@media all and (max-width: 342px) {
+    .mobileSet {
+        zoom: 0.89;
+    }
+}
+@media all and (max-width: 332px) {
+    .mobileSet {
+        zoom: 0.87;
+    }
+}
+@media all and (max-width: 326px) {
+    .mobileSet {
+        zoom: 0.85;
+    }
 }

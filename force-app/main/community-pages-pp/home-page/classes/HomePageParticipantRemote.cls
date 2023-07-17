@@ -93,14 +93,90 @@ public without sharing class HomePageParticipantRemote {
     }
 
     @AuraEnabled
+    public static String getPIDetails(String studySiteId) {
+        Study_Site__c ss = [
+            SELECT
+                id,
+                Principal_Investigator__c,
+                Principal_Investigator__r.Salutation,
+                Principal_Investigator__r.Name
+            FROM Study_Site__c
+            WHERE id = :studySiteId
+        ];
+        list<Participant__c> pp = [
+            SELECT id, First_Name__c, Last_Name__c, Contact__c
+            FROM Participant__c
+            WHERE Contact__c = :ss.Principal_Investigator__c
+        ];
+        PIDetails PI;
+        if (pp != null && pp.size() > 0) {
+            PI = new PIDetails(pp[0].First_Name__c + ' ' + pp[0].Last_Name__c, '');
+        } else {
+            PI = new PIDetails(
+                ss.Principal_Investigator__r.Name,
+                ss.Principal_Investigator__r.Salutation
+            );
+        }
+        return JSON.serialize(PI);
+    }
+
+    @AuraEnabled
     public static String getStudyStaff(String studySiteId) {
         List<Site_Staff__c> siteStaffList = new List<Site_Staff__c>();
+        set<Id> setContactIds = new Set<Id>();
+        Map<Id, Participant__c> mapContactIdToParticipant = new Map<Id, Participant__c>();
         siteStaffList = [
-            SELECT Id, Name, Site_Contact__c, Site_Contact__r.Name, Study_Site__c
+            SELECT
+                Id,
+                Name,
+                Site_Contact__c,
+                Site_Contact__r.Name,
+                Study_Site__c,
+                Site_Contact__r.Salutation,
+                Delegate_Level__c
             FROM Site_Staff__c
             WHERE Study_Site__c = :studySiteId
+            ORDER BY Delegate_Level__c ASC
         ];
 
-        return JSON.serialize(siteStaffList);
+        for (Site_Staff__c ss : siteStaffList) {
+            setContactIds.add(ss.Site_Contact__c);
+        }
+
+        for (Participant__c pp : [
+            SELECT id, First_Name__c, Last_Name__c, Contact__c
+            FROM Participant__c
+            WHERE Contact__c IN :setContactIds
+        ]) {
+            mapContactIdToParticipant.put(pp.Contact__c, pp);
+        }
+
+        String stringJson = JSON.serialize(siteStaffList);
+        Object orderRecords = JSON.deserializeUntyped(stringJson);
+        for (Object ob : (List<Object>) orderRecords) {
+            Map<String, Object> obMap = (Map<String, Object>) ob;
+            Map<String, Object> orderDetailsMap = (Map<String, Object>) obMap.get(
+                'Site_Contact__r'
+            );
+            Id ContactId = (Id) orderDetailsMap.get('Id');
+            if (mapContactIdToParticipant.containsKey(ContactId)) {
+                Participant__c pp = mapContactIdToParticipant.get(ContactId);
+                String Name = pp.First_Name__c + ' ' + pp.Last_Name__c;
+                orderDetailsMap.put('Name', Name);
+            }
+        }
+
+        return JSON.serialize(orderRecords);
+    }
+
+    class PIDetails {
+        @AuraEnabled
+        public String Name;
+        @AuraEnabled
+        public String Salutation;
+        public PIDetails(String Name, String Salutation) {
+            this.Name = Name;
+            this.Salutation = Salutation;
+        }
     }
 }

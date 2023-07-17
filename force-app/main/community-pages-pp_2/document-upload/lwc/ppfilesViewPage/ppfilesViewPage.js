@@ -43,7 +43,6 @@ import PP_Backt_o_My_Files from '@salesforce/label/c.PP_Backt_o_My_Files';
 import PP_Filerenamedsuccesfully from '@salesforce/label/c.PP_Filerenamedsuccesfully';
 import PP_Limit10Files from '@salesforce/label/c.PP_Limit10Files';
 import PP_Fileremovedsuccesfully from '@salesforce/label/c.PP_Fileremovedsuccesfully';
-
 import formFactor from '@salesforce/client/formFactor';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
@@ -112,6 +111,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     isFile = true;
     ShowuploadSection = false;
     isMobile;
+    isDesktop;
     isSaving = false;
     openmodel = false;
     openfileUrl;
@@ -154,9 +154,12 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     connectedCallback() {
         if (formFactor === 'Small' || formFactor === 'Medium') {
             this.isMobile = true;
+            this.isDesktop=false;
         } else {
             this.isMobile = false;
+            this.isDesktop=true;
         }
+       
         this.isSaving = true;
         if (!communityService.isDummy()) {
             this.getData = communityService.getParticipantData();
@@ -186,8 +189,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     }
 
     //pagination
-    totalRecord;
-    totalRecordMsg;
+    totalRecord;totalRecordMsg;
     showZeroErr = false;
     initialLoad = true;
     initialLoadMsg = true;
@@ -236,7 +238,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         this.handleresetpageonupdatemsg();
     }
 
-    handleTabChange(event) {
+    handleTabChange(event){
         if (event.detail == 'sharetab') {
             this.issharedFilesTab = true;
         } else {
@@ -249,7 +251,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
     handleresetpageonupdate() {
         this.initialLoad = true;
-        if (this.totalRecord) {
+        if(this.totalRecord){
             this.template.querySelector('c-pir_participant-pagination').totalRecords =
                 this.totalRecord;
             this.template.querySelector('c-pir_participant-pagination').updateInprogress();
@@ -306,9 +308,14 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     showfileUplaodSection() {
         this.ShowuploadSection = true;
     }
-    handlebacktoFile() {
-        this.ShowuploadSection = false;
-        this.ContinuetoDeleteFiles();
+    handlebacktoFile(){
+        if(this.totalfilesUploaded>0){
+             this.cancelFiles()
+        }
+        else{
+            this.ShowuploadSection = false;
+        }
+       
     }
     totalfilesUploaded = 0;
     totalValidFile = 0;
@@ -322,13 +329,13 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
             // Limit 10 starts here
             if (event.target.files.length > 10) {
-                this.template.querySelector('c-custom-toast-files-p-p').showToast('error',label.PP_Limit10Files,'utility:warning',1000);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('error',this.label.PP_Limit10Files,'utility:warning',3000);
                 event.target.value = null;
                 return;
-            }
+        }
 
             if (this.totalfilesUploaded + event.target.files.length > 10) {
-                this.template.querySelector('c-custom-toast-files-p-p').showToast('error',label.PP_Limit10Files,'utility:warning',1000);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('error',this.label.PP_Limit10Files,'utility:warning',3000);
                 event.target.value = null;
                 return;
             }
@@ -339,12 +346,18 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                     let inputclassDivcss =
                         this.template.querySelector('[data-id="browsediv"]').classList.value;
                     if (inputclassDivcss.includes('disabledrag')) {
-                        this.template
-                            .querySelector('[data-id="browsediv"]')
-                            .classList.remove('disabledrag');
-                        this.template.querySelector('.fileInput').disabled = false;
+                       
+                       this.template.querySelector('[data-id="browsediv"]').classList.remove('disabledrag');
+                       if(this.template.querySelector(".fileInput")){
+                         this.template.querySelector(".fileInput").disabled = false; 
+                      }
+                      if(this.template.querySelector(".fileInputMobile")){
+                         this.template.querySelector(".fileInputMobile").disabled = false; 
+                        }
+
                     }
-                }
+                } 
+                
             }
             // Limit 10 End here
             this.Nofilesupload = false;
@@ -367,8 +380,13 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         clearTimeout(this.eventdisable);
         this.eventdisable = setTimeout(() => {
             this.template.querySelector('[data-id="browsediv"]').classList.add('disabledrag');
-            this.template.querySelector('.fileInput').disabled = true;
-        }, 600);
+            if(this.template.querySelector(".fileInput")){
+                this.template.querySelector(".fileInput").disabled = true; 
+              }
+              if(this.template.querySelector(".fileInputMobile")){
+                this.template.querySelector(".fileInputMobile").disabled = true; 
+            }
+          }, 600);
     }
 
     saveFile() {
@@ -507,8 +525,6 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         reader.readAsDataURL(fileCon);
     }
     upload(file, fileContents, indexoffile) {
-        console.log('>>>163>>');
-
         var fromPos = 0;
         var toPos = Math.min(fileContents.length, fromPos + CHUNK_SIZE);
         this.uploadChunk(file, fileContents, fromPos, toPos, '', '', indexoffile);
@@ -568,7 +584,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                             strfileContentDocumentId = getresult.FileContentDocId;
                             fromPos = toPos;
 
-                            // this.showdata = false;
+                    // this.showdata = false;
                             if (index >= 0) {
                                 toPos = Math.min(fileContents.length, fromPos + CHUNK_SIZE);
                                 if (fromPos < toPos) {
@@ -600,9 +616,6 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                                     );
                                     this.toggleUploadButton();
                                 } else {
-                                    console.log('>>files succesfully added>>');
-                                    //event call to child
-                                    // this.progress = 100;
                                     this.filesData[index].progress = 100;
                                     this.filesData[index].progressWidth =
                                         'width :' +
@@ -677,8 +690,6 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
         if (!classindexcalled.includes('slds-is-open')) indexcalled.classList.add('slds-is-open');
         if (classindexcalled.includes('slds-is-open')) indexcalled.classList.remove('slds-is-open');
-
-        // this.template.querySelector("[data-key='" + index + "']").classList.add('slds-is-open');
     }
 
     closeMenu() {
@@ -730,9 +741,28 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
             this.openfileUrl =
                 '../apex/MedicalHistoryPreviewVF?resourceId=' +
                 this.filesData[indexcalled].fileContentVerId;
-            this.openmodel = true;
-            this.modalHeaderFilePage = true;
-        } else if (methodNameCalled == 'Remove') {
+           if(this.isMobile && extension=='pdf'){
+            this.template.querySelectorAll('.getpreviewCss').forEach(function (L) {
+                L.classList.add('previewCssMobile');
+            });
+            this.template.querySelectorAll('.getpreviewCss').forEach(function (L) {
+                L.classList.remove('previewCss');
+            });
+           }
+           else{
+            this.template.querySelectorAll('.getpreviewCss').forEach(function (L) {
+                L.classList.remove('previewCssMobile');
+            });
+            this.template.querySelectorAll('.getpreviewCss').forEach(function (L) {
+                L.classList.add('previewCss');
+            });
+
+           }
+           this.openmodel = true;
+           this.modalHeaderFilePage=true;
+        }
+        else if(methodNameCalled == 'Remove')
+        {   
             let extension_index = this.filesData[indexcalled].fileName.lastIndexOf('.');
             let extension = this.filesData[indexcalled].fileName.slice(extension_index + 1);
             let filenamewitoutextension = this.filesData[indexcalled].fileName.slice(
@@ -770,66 +800,97 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 this.totalValidFile = this.totalValidFile - 1;
                 this.totalValidFileProcessed = this.totalValidFileProcessed - 1;
 
-                let inputclassDiv = this.template.querySelector('[data-id="browsediv"]');
-                let inputclassDivcss =
-                    this.template.querySelector('[data-id="browsediv"]').classList.value;
-                if (inputclassDivcss.includes('disabledrag')) {
-                    inputclassDiv.classList.remove('disabledrag');
-                    this.template.querySelector('.fileInput').disabled = false;
-                }
+        let inputclassDiv = this.template.querySelector('[data-id="browsediv"]'); 
+        let inputclassDivcss = this.template.querySelector('[data-id="browsediv"]').classList.value; 
+          if(inputclassDivcss.includes('disabledrag'))
+          {  
+              inputclassDiv.classList.remove('disabledrag');
+              if(this.template.querySelector(".fileInput")){
+                this.template.querySelector(".fileInput").disabled = false; 
+              }
+              if(this.template.querySelector(".fileInputMobile")){
+                this.template.querySelector(".fileInputMobile").disabled = false; 
+            }
+          } 
 
-                if (this.totalfilesUploaded == 0) {
-                    this.Nofilesupload = true;
-                }
-                this.toggleUploadButton();
-                //this.pageNumber=1;
 
-                this.template.querySelector('c-custom-toast-files-p-p').showToast('success',label.PP_Fileremovedsuccesfully,'utility:success',1000);
 
-            })
-            .catch((error) => {
-                this.isSaving = false;
-                console.error('Error:', error);
-            });
-    }
-
-    handleCancelModelRemove() {
-        this.removefilefromDraftmodel = false;
-    }
-
-    closeModal() {
-        this.openmodel = false;
-        this.modalHeaderFilePage = false;
-    }
-
-    removeFiles(event) {
-        let indexcalled = event.currentTarget.dataset.key;
-        if (this.filesData[indexcalled].isValid) {
-            this.totalValidFile = this.totalValidFile - 1;
-        } else {
-            this.totalInvalidFile = this.totalInvalidFile - 1;
-        }
-        this.filesData[indexcalled].isDeleted = true;
-        this.totalfilesUploaded = this.totalfilesUploaded - 1;
-
-        let inputclassDiv = this.template.querySelector('[data-id="browsediv"]');
-        let inputclassDivcss = this.template.querySelector('[data-id="browsediv"]').classList.value;
-        if (inputclassDivcss.includes('disabledrag')) {
-            inputclassDiv.classList.remove('disabledrag');
-            this.template.querySelector('.fileInput').disabled = false;
-        }
-
-        if (this.totalfilesUploaded == 0) {
+        if(this.totalfilesUploaded == 0)  
+        {
             this.Nofilesupload = true;
         }
+        this.toggleUploadButton();
 
+        this.template.querySelector('c-custom-toast-files-p-p').showToast('success',this.label.PP_Fileremovedsuccesfully,'utility:success',3000);
+
+    })
+    .catch((error) => {
+        this.isSaving = false; 
+        console.error("Error:", error);
+    });
+    }
+
+    get cancelDisbledMbl(){
+        if( this.isMobile){
+            if(this.totalfilesUploaded>0 ){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+       
+    }
+
+
+    handleCancelModelRemove(){
+        this.removefilefromDraftmodel = false;
+    }
+    
+    closeModal(){
+        this.openmodel = false;
+        this.modalHeaderFilePage=false;
+    }
+
+    removeFiles(event) { 
+        let indexcalled = event.currentTarget.dataset.key;
+        if(this.filesData[indexcalled].isValid)
+        {
+            this.totalValidFile = this.totalValidFile - 1;
+        }
+        else { 
+            this.totalInvalidFile = this.totalInvalidFile - 1 ; 
+        }
+        this.filesData[indexcalled].isDeleted = true;
+        this.totalfilesUploaded = this.totalfilesUploaded-1;
+
+         
+        let inputclassDiv = this.template.querySelector('[data-id="browsediv"]'); 
+          let inputclassDivcss = this.template.querySelector('[data-id="browsediv"]').classList.value; 
+            if(inputclassDivcss.includes('disabledrag'))
+            {  
+                inputclassDiv.classList.remove('disabledrag');
+                if(this.template.querySelector(".fileInput")){
+                    this.template.querySelector(".fileInput").disabled = false; 
+                  }
+                if(this.template.querySelector(".fileInputMobile")){
+                    this.template.querySelector(".fileInputMobile").disabled = false; 
+                }
+
+
+            } 
+
+        if(this.totalfilesUploaded == 0)
+        {
+            this.Nofilesupload = true;
+        }
         this.toggleUploadButton();
     }
-    retryFiles(event) {
+    retryFiles(event){
         let indexcalled = event.currentTarget.dataset.key;
         this.filesData[indexcalled].isRetry = true;
-        try {
-            this.totalValidFile = this.totalValidFile + 1;
+        try{
+            this.totalValidFile  = this.totalValidFile + 1;
             this.filesData[indexcalled].progressWidth = 'width :10%';
             this.filesData[indexcalled].progress = 10;
             this.filesData[indexcalled].base = Math.floor(
@@ -879,57 +940,69 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                     this.totalfileNameerror = this.totalfileNameerror + 1;
                     this.filesData[indexcalled].fileNameTooLong = true;
                 }
-
+                if(this.filesData[indexcalled].isNameEmptyorNotValid)
+                {
+                this.totalfileNameEmpty = this.totalfileNameEmpty - 1;
+                this.filesData[indexcalled].isNameEmptyorNotValid = false;
+                }
                 this.isRenameOpen = true;
-                let lightninginputatindex = this.template.querySelector(
-                    "lightning-input[data-key='" + indexcalled + "']"
-                );
-                let lightningInputcss = lightninginputatindex.classList.value;
-
-                lightninginputatindex.classList.add('errornameboxred');
-                let imgnamediv = this.template.querySelector(
-                    ".imgNamedesk[data-key='" + indexcalled + "']"
-                );
-
-                imgnamediv.classList.add('renameinputclassdiv');
-                imgnamediv.classList.remove('imgname');
+                let lightninginputatindex = this.template.querySelector("lightning-input[data-key='"+indexcalled+"']"); 
+                let lightningInputcss = lightninginputatindex.classList.value; 
+        
+                lightninginputatindex.classList.add('errornameboxred'); 
+                let imgnamediv = this.template.querySelector(".imgNamedesk[data-key='"+indexcalled+"']");
+             
+                imgnamediv.classList.add('renameinputclassdiv'); 
+                imgnamediv.classList.remove('imgname'); 
 
                 this.fileNameTooLong = true;
                 this.isNameEmptyorNotValid = false;
                 this.toggleUploadButton();  
                 return;
             }
-            if (this.filesData[indexcalled].fileNameTooLong) {
+            if(this.filesData[indexcalled].fileNameTooLong)
+            {
                 this.totalfileNameerror = this.totalfileNameerror - 1;
                 this.filesData[indexcalled].fileNameTooLong = false;
             }
-            if (this.filesData[indexcalled].isNameEmptyorNotValid) {
+            if(this.filesData[indexcalled].isNameEmptyorNotValid)
+            {
                 this.totalfileNameEmpty = this.totalfileNameEmpty - 1;
                 this.filesData[indexcalled].isNameEmptyorNotValid = false;
             }
+            this.filesData[indexcalled].isNameEmptyorNotValid = false; 
             let extension_index = this.filesData[indexcalled].fileName.lastIndexOf('.');
             let extension = this.filesData[indexcalled].fileName.slice(extension_index + 1);
-            let filenamewitoutextension = this.filesData[indexcalled].fileName.slice(
-                0,
-                extension_index
-            );
-            if (filenamewitoutextension != fileNameUpdated) {
-                this.template.querySelector('c-custom-toast-files-p-p').showToast('success',label.PP_Filerenamedsuccesfully,'utility:success',1000);
-                this.filesData[indexcalled].fileName = fileNameUpdated.trim() + '.' + extension;
-            }
-            let imgnamediv = this.template.querySelector(
-                ".imgNamedesk[data-key='" + indexcalled + "']"
-            );
+            let filenamewitoutextension = this.filesData[indexcalled].fileName.slice(0, extension_index);
+            if(filenamewitoutextension != fileNameUpdated)
+            {
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('success',this.label.PP_Filerenamedsuccesfully,'utility:success',3000);
 
-            imgnamediv.classList.remove('renameinputclassdiv');
-            imgnamediv.classList.add('imgname');
+                this.filesData[indexcalled].fileName = fileNameUpdated.trim() + '.' + extension ;
+            }
+            let imgnamediv = this.template.querySelector(".imgNamedesk[data-key='"+indexcalled+"']");
+             
+                imgnamediv.classList.remove('renameinputclassdiv'); 
+                imgnamediv.classList.add('imgname'); 
             this.filesData[indexcalled].isNameReadOnly = true;
             this.isRenameOpen = false;
-            this.filesData[indexcalled].isNameEmptyorNotValid = false;
-        } else {
-            if (!this.filesData[indexcalled].isNameEmptyorNotValid) {
+            this.filesData[indexcalled].isNameEmptyorNotValid = false;   
+            this.filesData[indexcalled].fileNameTooLong = false;
+
+        }
+        else {
+
+            if(!this.filesData[indexcalled].isNameEmptyorNotValid)
+            {
                 this.totalfileNameEmpty = this.totalfileNameEmpty + 1;
                 this.filesData[indexcalled].isNameEmptyorNotValid = true;
+               // this.filesData[indexcalled].fileNameTooLong = false;
+            }
+            if(this.filesData[indexcalled].fileNameTooLong)
+            {
+                this.filesData[indexcalled].fileNameTooLong = false;
+                this.totalfileNameerror = this.totalfileNameerror - 1;
+
             }
 
             let imgnamediv = this.template.querySelector(
@@ -943,7 +1016,6 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
             let lightninginputatindex = this.template.querySelector(
                 "lightning-input[data-key='" + indexcalled + "']"
             );
-
             let lightningInputcss = lightninginputatindex.classList.value;
 
             lightninginputatindex.classList.add('errornameboxred');
@@ -972,6 +1044,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         this.isSaving = true;
         this.cancelmodalisOpen = false;
         this.iscancelButtonClick = true;
+        this.ShowuploadSection = false;
         DeleteAlldraftFiles({
             perId: this.getData.pe.Id
         })
@@ -997,6 +1070,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     uploadFilesToserver() {
         this.isSaving = true;
         this.Nofilesupload = true;
+        this.ShowuploadSection=false;
         for (var i = 0; i < this.filesData.length; i++) {
             this.filesData[i].filecontentafterRead = '';
             this.filesData[i].file = '';
@@ -1017,13 +1091,13 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 this.totalValidFile = 0;
                 this.totalInvalidFile = 0;
                 this.totalValidFileProcessed = 0;
+                this.displayErrorFilesPopupWarning = false;
                 this.Nofilesupload = true;
                 this.template.querySelector('c-ppdocment-view-page').stopSpinner = false;
                 this.template.querySelector('c-ppdocment-view-page').getTableFilesData();
                 this.isSaving = false;
-                this.displayErrorFilesPopupWarning = false;
                 this.iscancelButtonClick = false;
-                this.template.querySelector('c-custom-toast-files-p-p').showToast('success', this.label.PP_UploadSuccess,'utility:success',1000);
+                this.template.querySelector('c-custom-toast-files-p-p').showToast('success', this.label.PP_UploadSuccess,'utility:success',3000);
             })
             .catch((error) => {
                 this.isSaving = false;

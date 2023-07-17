@@ -5304,6 +5304,15 @@ By using our website, you are accepting our use of cookies.</value>
             Please login to the ##ShortCommunityName to view the latest visit data.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Available_for_Del</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Available for Del</shortDescription>
+        <value>New visit data is available for ##ParticipantFirstName.
+
+            Please login to the ##ShortCommunityName to view the latest visit data.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_By_PI_RP1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5524,6 +5533,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
             
             &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;</value>
     </labels>
+   
     <labels>
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
         <language>en_US</language>
@@ -6465,7 +6475,7 @@ Due Date and Time: ##expirationDate</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Televisit Cancelled PP</shortDescription>
-        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your ##VisitName televisit with ##PIFullName scheduled for ##VisitDttime has been canceled.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Your ##VisitName televisit with ##PIFullName, scheduled for ##VisitDttime has been canceled.&lt;/span&gt;
 
 &lt;span style=&quot;color:#444444;&quot;&gt;Please contact the Study/Program Team for further updates or please login for additional details.&lt;/span&gt;</value>
     </labels>
@@ -6544,6 +6554,18 @@ Sincerely,
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Televisit Day Reminder PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;This is a reminder of your upcoming televisit.&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Duration:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitDuration&lt;/span&gt;&lt;/div&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;If you are unable to make this appointment, please contact the Study/Program Team. Please login for additional details.&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Televisit_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Televisit Reminder</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;This is a reminder of your upcoming televisit.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Televisit Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot; &gt; ##VisitTime &lt;/span&gt;&lt;/div&gt;
@@ -7524,6 +7546,21 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>Referral Hub 4.0 &amp; Patient Portal 2.0 Release on weekend</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Patient_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Sign Patient New  PP</shortDescription>
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in clinical research.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Sign_Patient_New_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7837,6 +7874,17 @@ Sincerely,
         <protected>false</protected>
         <shortDescription>Email Signature Plain Summary Available</shortDescription>
         <value>We are excited to continue this journey with you.
+
+            Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Plain_Summary_Available_For_Del</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Plain Summary Available For Del</shortDescription>
+        <value>We are excited to continue this journey with you and ##ParticipantFirstName.
 
             Sincerely,
 
@@ -8716,7 +8764,7 @@ Release 4.0 includes additional details around the screening process, which has 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Summary Certificate pp</shortDescription>
-        <value>A new reward certificate for ##StudyName ##isStudyorProgram is  now available on the ##ShortCommunityName.   
+        <value>A new reward certificate for ##StudyName  is  now available on the ##ShortCommunityName.   
 
             Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
@@ -9296,7 +9344,7 @@ Release 4.0 includes additional details around the screening process, which has 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Footer T Copyright</shortDescription>
-        <value>Powered by IQVIA © 2022. All rights reserved.</value>
+        <value>Powered by IQVIA © 2023. All rights reserved.</value>
     </labels>
     <labels>
         <fullName>Fulfilled</fullName>
@@ -10536,7 +10584,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>IsConfidential</shortDescription>
-        <value>Is Confidential</value>
+        <value>Mark as confidential</value>
     </labels>
     <labels>
         <fullName>IQVIA_intervention_completed</fullName>
@@ -11000,7 +11048,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Join Visit</shortDescription>
-        <value>Join Visit</value>
+        <value>Join now</value>
     </labels>
     <labels>
         <fullName>July</fullName>
@@ -11972,6 +12020,20 @@ The expected format is REF##### to REF########</value>
         <value>You should only invite a participant&apos;s provider with the participant&apos;s explicit permission. Upon registration, the provider will be able to track a participant&apos;s status.</value>
     </labels>
     <labels>
+        <fullName>Message_MinTime_DoNotTranslate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_MinTime_DoNotTranslate</shortDescription>
+        <value>1000</value>
+    </labels>
+    <labels>
+        <fullName>Message_MaxTime_DoNotTranslate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_MaxTime_DoNotTranslate</shortDescription>
+        <value>5000</value>
+    </labels>
+    <labels>
         <fullName>Message_PT_Survey_Final_Reminder_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12343,7 +12405,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>New_Visit_Results_Now_Available</shortDescription>
-        <value>New visit results now available.</value>
+        <value>New visit results now available</value>
     </labels>
     <labels>
         <fullName>New_York_carcinoma</fullName>
@@ -19304,7 +19366,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PI Televisit Meet Info</shortDescription>
-        <value>##TVName with ##PTName will take place at ##StartTime to ##EndTime.</value>
+        <value>##TVName with ##PTName will take place from ##StartTime to ##EndTime</value>
     </labels>
     <labels>
         <fullName>PI_Toggle_Information</fullName>
@@ -19581,6 +19643,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Assigned_As_Primary_Delegate_help</shortDescription>
         <value>To withdraw as a primary delegate, you must contact the participant or study team.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Assigned_As_Primary_Delegate_help_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Assigned_As_Primary_Delegate_help_1</shortDescription>
+        <value>To withdraw as a primary delegate, you must contact the participant or study/program team.</value>
     </labels>
     <labels>
         <fullName>PP_Assignments</fullName>
@@ -20339,7 +20408,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don&apos;t want to receive email</shortDescription>
-        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to specific user request, e.g.: password reset email) from IQVIA Patient Portal</value>
+        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to specific user request, e.g. password reset email) from IQVIA Patient Portal</value>
     </labels>
     <labels>
         <fullName>PP_DragFiles</fullName>
@@ -21491,7 +21560,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Privacypolicy</shortDescription>
-        <value>Powered by IQVIA © 2022. All rights reserved.</value>
+        <value>Powered by IQVIA © 2023. All rights reserved.</value>
     </labels>
     <labels>
         <fullName>PP_ProfileInformation</fullName>
@@ -21806,7 +21875,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_ReviewAcceptFile</shortDescription>
-        <value>Please review the file error(s) or select Upload to discard the file(s) with errors and proceed with the accepted files.</value>
+        <value>Please review the file error(s) or select Upload to discard the file(s) with errors and proceed with the other files.</value>
     </labels>
     <labels>
         <fullName>PP_ReviewFiles</fullName>
@@ -22045,14 +22114,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Study Consent US</shortDescription>
-        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study/program related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Study_Consent_ROW</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Study Consent ROW</shortDescription>
-        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team for the purposes of keeping me updated with important study/program related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Study_Overview</fullName>
@@ -22081,6 +22150,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Submit Video</shortDescription>
         <value>Please submit your article or video as a website link.</value>
+    </labels>
+    <labels>
+        <fullName>PP_SwitchStudyProgram</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_SwitchStudyProgram</shortDescription>
+        <value>Switch Study/Program</value>
     </labels>
     <labels>
         <fullName>PP_TASK_COMM_PREF</fullName>
@@ -22827,7 +22903,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PT Televisit Meet Info</shortDescription>
-        <value>##TVName with ##PIName will take place from ##StartTime to ##EndTime</value>
+        <value>##TVName with ##PIName's team will take place from ##StartTime to ##EndTime</value>
     </labels>
     <labels>
         <fullName>PT_Televisit_Rejoin</fullName>
@@ -26536,12 +26612,26 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Report Biomarkers header</shortDescription>
         <value>Biomarkers Summary Table</value>
     </labels>
+     <labels>
+        <fullName>Report_Biomarkers_header_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Biomarkers header PP</shortDescription>
+        <value>Biomarkers Summary</value>
+    </labels>
     <labels>
         <fullName>Report_Dates</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Report Dates</shortDescription>
         <value>Dates</value>
+    </labels>
+    <labels>
+        <fullName>Report_Date_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Date PP</shortDescription>
+        <value>Date</value>
     </labels>
     <labels>
         <fullName>Report_Document_Name</fullName>
@@ -26571,6 +26661,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Report Fasting Lipid Profile header</shortDescription>
         <value>Fasting Lipid Summary Table</value>
     </labels>
+      <labels>
+        <fullName>Report_Fasting_Lipid_Profile_header_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Fasting Lipid Profile header PP</shortDescription>
+        <value>Labs Summary - Fasting Lipid Profile</value>
+    </labels>
     <labels>
         <fullName>Report_Haematology_header</fullName>
         <language>en_US</language>
@@ -26586,11 +26683,25 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Hematology Panel</value>
     </labels>
     <labels>
+        <fullName>Report_Hematology_header_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Hematology header PP</shortDescription>
+        <value>Labs Summary - Hematology</value>
+    </labels>
+    <labels>
         <fullName>Report_Metabolic_Panel_header</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Report Metabolic Panel header</shortDescription>
         <value>Metabolic Panel</value>
+    </labels>
+     <labels>
+        <fullName>Report_Metabolic_Panel_header_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Metabolic Panel header PP</shortDescription>
+        <value>Labs Summary - Metabolic Panel</value>
     </labels>
     <labels>
         <fullName>Report_My_Study_Data</fullName>
@@ -26626,6 +26737,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Report Vitals header</shortDescription>
         <value>Vitals Summary Table</value>
+    </labels>
+      <labels>
+        <fullName>Report_Vitals_header_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Vitals header PP</shortDescription>
+        <value>Vitals Summary</value>
     </labels>
     <labels>
         <fullName>Request</fullName>
@@ -30529,7 +30647,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit_Preview</shortDescription>
-        <value>Visit Preview</value>
+        <value>Televisit Preview</value>
     </labels>
     <labels>
         <fullName>Visit_Result</fullName>
@@ -31035,14 +31153,14 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You can also adjust these options during the visit</shortDescription>
-        <value>You can also adjust these options during the visit.</value>
+        <value>You can also adjust these options during the televisit.</value>
     </labels>
     <labels>
         <fullName>You_must_grant_microphone_permission_to_join_televisit</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>You must grant microphone permission to join televisit</shortDescription>
-        <value>You must grant microphone and camera permissions to join the Televisit. Please grant permissions and Join.</value>
+        <value>You must allow browser access to your microphone to join the televisit. Please grant permission in your browser settings.</value>
     </labels>
     <labels>
         <fullName>chatbot</fullName>
@@ -31521,14 +31639,14 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Rescheduled Televisit</shortDescription>
-        <value>A televisit has been rescheduled.</value>
+        <value>A televisit has been rescheduled</value>
     </labels>
     <labels>
         <fullName>PP_Scheduled_Televisit</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Scheduled Televisit</shortDescription>
-        <value>New televisit(s) has been scheduled!</value>
+        <value>New televisit(s) has been scheduled</value>
     </labels>
     <labels>
         <fullName>PP_View_Televisits</fullName>
@@ -31542,7 +31660,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Canceled Televisit</shortDescription>
-        <value>A televisit has been canceled.</value>
+        <value>A televisit has been canceled</value>
     </labels>
     <labels>
         <fullName>PP_Connecting_professionals</fullName>
@@ -31579,4 +31697,134 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>PP Visit Result Toggle Helptext</shortDescription>
         <value>This button will toggle the result data for all the visits.</value>
     </labels>
+    <labels>
+        <fullName>Study_Data_Report</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study Data Report</shortDescription>
+        <value>Results Data</value>
+    </labels>
+      <labels>
+        <fullName>Cumulative_Study_Data_Report</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cumulative Study Data Report</shortDescription>
+        <value>Cumulative Results Data</value>
+    </labels>
+    <labels>
+        <fullName>MyCumulativeResultsData</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MyCumulativeResultsData</shortDescription>
+        <value>MyCumulativeResultsData</value>
+    </labels>
+    <labels>
+        <fullName>MyResultsData</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MyResultsData</shortDescription>
+        <value>MyResultsData</value>
+    </labels>
+    <labels>
+        <fullName>Report_Care_Center</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Report Care Center</shortDescription>
+        <value>Care Center</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Report_Footer_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Report Footer 2</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study or program. It is for research or program participation purposes only. Values are only available for assessments recorded for the date displayed. Some assessments may have been done at your appointments that are not listed here. If you have questions or concerns about this data or any other assessment, please contact your study or program care team.</value>
+    </labels>
+      <labels>
+        <fullName>Report_Randomization_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Randomization Date</shortDescription>
+        <value>Randomization Date:</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient_New_Study_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Patient New Study PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
+
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;
+        </value>  
+    </labels>
+    <labels>
+        <fullName>Create_participant_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create participant header</shortDescription>
+        <value>Participant is being created on econsent portal</value>
+    </labels>
+    
+    <labels>
+        <fullName>Pop_drop_down_label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create participant Pop-drop down label</shortDescription>
+        <value>Document collection id</value>
+    </labels>
+    
+    <labels>
+        <fullName>Create_Participant_Technical_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create Participant Technical Error</shortDescription>
+        <value>A technical error has occured, Please try again later.</value>
+    </labels>
+    
+    <labels>
+        <fullName>Create_participant_button_label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create participant button label</shortDescription>
+        <value>Send to eConsent</value>
+    </labels>
+    
+    <labels>
+        <fullName>create_participant_message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>create participant message</shortDescription>
+        <value>eConsent is available</value>
+    </labels>
+    
+    <labels>
+        <fullName>create_participant_updated_message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>create participant updated message</shortDescription>
+        <value>Sent to eConsent on</value>
+    </labels>
+    
+    <labels>
+        <fullName>Informed_consent_heading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Informed consent heading</shortDescription>
+        <value>Informed Consent</value>
+    </labels>
+    
+    <labels>
+        <fullName>Informed_consent_tool_tip_content</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Informed consent tool-tip content</shortDescription>
+        <value>Verification link will provide you with a code to share with your study team to complete the consenting process.</value>
+    </labels>
+    
+    <labels>
+        <fullName>consent_verification_btn_name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>consent verification btn name</shortDescription>
+        <value>Access Verification Link</value>
+    </labels>   
 </CustomLabels>
