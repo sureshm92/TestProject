@@ -316,6 +316,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     Study_Site__r.Clinical_Trial_Profile__c,
                     Study_Site__r.Suppress_Participant_Emails__c,
                     Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Clinical_Trial_Profile__r.PPTemplate__c,
                     Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                     Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                     Is_Virtual_Study_Site__c,
@@ -397,10 +398,17 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                         );
                         String sourcePe = newPE.Referral_Source__c;
                         String visitedCommunities = newPE.Participant__r.Contact__r.Visited_Communities__c;
-                        String currentCommunityName = CommunityTemplateService.getTemplate(
-                                newPE.Clinical_Trial_Profile__r.CommunityTemplate__c
-                            )
-                            .templateName;
+                        String currentCommunityName;
+                        if( newPE.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' 
+                            && newPE.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'){
+                                currentCommunityName='PatientPortal';
+                        }
+                        else{
+                                currentCommunityName = CommunityTemplateService.getTemplate(
+                                    newPE.Clinical_Trial_Profile__r.CommunityTemplate__c
+                                )
+                                .templateName;
+                        }
                         Boolean checkVisitedCommunity = false;
                         if (visitedCommunities != null)
                             checkVisitedCommunity = visitedCommunities.contains(
