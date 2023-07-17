@@ -59,9 +59,9 @@ public without sharing class EcoaTaskService {
                 userlocaltime.day()
             );
             Datetime dt = Datetime.now();
-            if (userlocaltime.day() == dt.day()) {
+            /*if (userlocaltime.day() == dt.day()) {
                 userlocaltime = userlocaltime.addDays(1);
-            }
+            }*/
             Integer endoffset = tz.getOffset(task.Window_End__c);
             Datetime WindoEndlocaltime = task.Window_End__c.addSeconds(endoffset / 1000);
 

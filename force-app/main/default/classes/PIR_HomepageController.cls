@@ -1359,6 +1359,7 @@ public without sharing class PIR_HomepageController {
           Clinical_Trial_Profile__r.Link_to_Pre_screening__c,
           Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
           Clinical_Trial_Profile__r.CommunityTemplate__c,
+          Clinical_Trial_Profile__r.PPTemplate__c,
           Clinical_Trial_Profile__r.Initial_Visit_Required__c,
           Status_Order__c,
           Participant__r.Full_Name__c,
@@ -1571,7 +1572,8 @@ public without sharing class PIR_HomepageController {
           Invited_To_PP_Date__c,
           HCP_Contact__c,
           HCP_Contact_HCPEnroll__c,
-          Clinical_Trial_Profile__r.CommunityTemplate__c
+          Clinical_Trial_Profile__r.CommunityTemplate__c,
+          Clinical_Trial_Profile__r.PPTemplate__c
         FROM Participant_Enrollment__c
         WHERE Id = :peId
       ];
@@ -1608,10 +1610,20 @@ public without sharing class PIR_HomepageController {
       update pe;
 
       Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-      String permissionSetName = CommunityTemplateService.getTemplate(
+      String permissionSetName = '';
+      if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+      {
+        permissionSetName =  CommunityTemplateService.getTemplate(
+          'PatientPortal'
+        )
+        .permissionSet;
+      }
+      else {
+       permissionSetName = CommunityTemplateService.getTemplate(
           pe.Clinical_Trial_Profile__r.CommunityTemplate__c
         )
         .permissionSet;
+      }
       actionAssignContactPermissions.addPermission(
         pe.Participant_Contact__c,
         permissionSetName
@@ -2728,7 +2740,8 @@ public without sharing class PIR_HomepageController {
                 Clinical_Trial_Profile__r.Initial_Visit_Required__c,
                 Clinical_Trial_Profile__r.Final_Consent_Required__c,
                 Clinical_Trial_Profile__r.Tokenization_Support__c,
-                Clinical_Trial_Profile__r.Promote_to_SH__c
+                Clinical_Trial_Profile__r.Promote_to_SH__c,
+                Clinical_Trial_Profile__r.PPTemplate__c
             FROM Study_Site__c
             WHERE Id = :studySiteId
         ];

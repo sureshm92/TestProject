@@ -78,7 +78,9 @@
                                 >
                                     {!(visitWrapper.visit.Is_Adhoc__c ?
                                     $Label.c.StudyVisit_Unscheduled_Visit :
-                                    visitWrapper.visit.Visit__r.Patient_Portal_Name__c)}</lightning:button
+                                    (visitWrapper.visit.Visit__r.Patient_Portal_Name__c ?
+                                    visitWrapper.visit.Visit__r.Patient_Portal_Name__c:  
+                                    visitWrapper.visit.Portal_Name__c))}</lightning:button
                                 >
                             </td>
                             <td class="">
@@ -127,7 +129,9 @@
                                     >{!$Label.c.Home_Page_StudyVisit_Schedule}:
                                 </span>
                                 {!(visitWrapper.visit.Is_Adhoc__c ? $Label.c.StudyVisit_Ad_hoc_Visit
-                                : visitWrapper.visit.Visit__r.Visit_Schedule__c)}
+                                : (visitWrapper.visit.Visit__r.Visit_Schedule__c ? 
+                                    visitWrapper.visit.Visit__r.Visit_Schedule__c :
+                                    visitWrapper.visit.Visit_Schedule__c))}
                             </td>
                             <td
                                 class="{!visitWrapper.visit.Is_Adhoc__c ? 'invisible' : 'sv-t-icons'}"

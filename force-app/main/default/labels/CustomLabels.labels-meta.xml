@@ -1733,6 +1733,34 @@
         <shortDescription>Back</shortDescription>
         <value>Back</value>
     </labels>
+     <labels>
+        <fullName>Back_to_eDiaries</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back to eDiaries</shortDescription>
+        <value>Back to eDiaries</value>
+    </labels>
+     <labels>
+        <fullName>Activate_eDiaries</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Activate eDiaries</shortDescription>
+        <value>You will be able to activate eDairies soon</value>
+    </labels>
+     <labels>
+        <fullName>eDiaries_Comm_Preferences</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>eDiaries Comm Preferences</shortDescription>
+        <value>Update Communication Preferences</value>
+    </labels>
+     <labels>
+        <fullName>eDiaries_Work_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>eDiaries Work Msg</shortDescription>
+        <value>We are working on it...</value>
+    </labels>
     <labels>
         <fullName>Back_to_Manage_Delegates</fullName>
         <language>en_US</language>
@@ -10584,7 +10612,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>IsConfidential</shortDescription>
-        <value>Is Confidential</value>
+        <value>Mark as confidential</value>
     </labels>
     <labels>
         <fullName>IQVIA_intervention_completed</fullName>
@@ -31753,6 +31781,78 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Email Body Patient New Study PP</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
 
-            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;</value>        
-    </labels>    
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;
+        </value>  
+    </labels>
+    <labels>
+        <fullName>Create_participant_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create participant header</shortDescription>
+        <value>Participant is being created on econsent portal</value>
+    </labels>
+    
+    <labels>
+        <fullName>Pop_drop_down_label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create participant Pop-drop down label</shortDescription>
+        <value>Document collection id</value>
+    </labels>
+    
+    <labels>
+        <fullName>Create_Participant_Technical_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create Participant Technical Error</shortDescription>
+        <value>A technical error has occured, Please try again later.</value>
+    </labels>
+    
+    <labels>
+        <fullName>Create_participant_button_label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create participant button label</shortDescription>
+        <value>Send to eConsent</value>
+    </labels>
+    
+    <labels>
+        <fullName>create_participant_message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>create participant message</shortDescription>
+        <value>eConsent is available</value>
+    </labels>
+    
+    <labels>
+        <fullName>create_participant_updated_message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>create participant updated message</shortDescription>
+        <value>Sent to eConsent on</value>
+    </labels>
+    
+    <labels>
+        <fullName>Informed_consent_heading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Informed consent heading</shortDescription>
+        <value>Informed Consent</value>
+    </labels>
+    
+    <labels>
+        <fullName>Informed_consent_tool_tip_content</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Informed consent tool-tip content</shortDescription>
+        <value>Verification link will provide you with a code to share with your study team to complete the consenting process.</value>
+    </labels>
+    
+    <labels>
+        <fullName>consent_verification_btn_name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>consent verification btn name</shortDescription>
+        <value>Access Verification Link</value>
+    </labels>   
 </CustomLabels>

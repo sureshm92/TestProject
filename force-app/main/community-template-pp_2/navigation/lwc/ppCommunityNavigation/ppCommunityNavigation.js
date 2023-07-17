@@ -40,6 +40,7 @@ export default class PpCommunityNavigation extends LightningElement {
     showResults = false;
     showAboutProgram = false;
     showAboutStudy = false;
+    showEdaries = false;
     isInitialized = false;
     showAboutTelevisit = false;
     desktop = false;
@@ -135,6 +136,7 @@ export default class PpCommunityNavigation extends LightningElement {
                             );
                             this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
                             this.showAboutStudy = !this.showAboutProgram;
+                            this.showEdaries = td.perInTrail && td.pe?.Clinical_Trial_Profile__r?.ECOA_Is_Avaialble__c;
                             if (this.showAboutStudy) {
                                 this.setVisResultsAvailable();
                             }
@@ -217,11 +219,6 @@ export default class PpCommunityNavigation extends LightningElement {
                 icon: 'message_menu_icon',
                 ismsg: true
             },
-            'e-diaries': {
-                page: 'e-diaries',
-                label: navigationEDiary,
-                icon: 'icon-e-diaries'
-            },
             'trial-match': {
                 page: 'trial-match',
                 label: trailMatch,
@@ -279,6 +276,13 @@ export default class PpCommunityNavigation extends LightningElement {
                 label: navigationProgram,
                 icon: '',
                 visible: this.showAboutProgram,
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
+            },
+            'e-diaries': {
+                page: 'e-diaries',
+                label: navigationEDiary,
+                icon: 'icon-e-diaries',
+                visible: this.showEdaries,
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             }
         };
