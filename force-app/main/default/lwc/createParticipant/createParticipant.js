@@ -97,6 +97,9 @@ export default class CreateParticipant extends LightningElement {
                 this.dispatchEvent(event);
              } 
              else{
+                if(statusInfo[0].errorcode && statusInfo[0].errorcode == '40029'){
+                    this.isDisabled = result.isDisabled;
+                }
                 const event = new ShowToastEvent({
                     title: 'Error',
                     message: statusInfo[0].UI_MESSAGE,
