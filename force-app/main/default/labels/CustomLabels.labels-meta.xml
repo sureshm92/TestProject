@@ -1740,6 +1740,13 @@
         <shortDescription>Back to eDiaries</shortDescription>
         <value>Back to eDiaries</value>
     </labels>
+    <labels>
+        <fullName>Back_to_Home</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back to Home</shortDescription>
+        <value>Back to Home</value>
+    </labels>
      <labels>
         <fullName>Activate_eDiaries</fullName>
         <language>en_US</language>
