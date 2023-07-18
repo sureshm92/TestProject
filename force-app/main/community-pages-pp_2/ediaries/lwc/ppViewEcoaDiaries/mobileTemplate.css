@@ -28,6 +28,18 @@
     margin-top: 24px;
     border-radius: 16px;
 }
+.back-link-mble{
+    margin-left: 14.5px;
+    height: auto;
+    /*margin-top: 14px;*/
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+}
 .widthLimitermble{
     background: #fff;
     max-width: 900px;
