@@ -181,7 +181,7 @@ public class CreateConsentIntegration {
                   info.errorCode = wrapper.eConsentErrorCode;
                   info.errorMessage = wrapper.eConsentErrorMessage;
                   //duplicate consent 
-                  if(wrapper.eConsentErrorCode == '40014'){
+                  if(wrapper.eConsentErrorCode == '40029' || wrapper.eConsentErrorCode == '40014'){
                       info.UI_MESSAGE = E_CONSENT_DUPLICATE_ERROR;
                       refIdVsresponse.put(wrapper.subjectId,wrapper);
                   }

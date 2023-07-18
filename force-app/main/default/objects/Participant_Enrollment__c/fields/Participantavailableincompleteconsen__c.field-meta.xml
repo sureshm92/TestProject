@@ -3,7 +3,7 @@
     <fullName>Participantavailableincompleteconsen__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <inlineHelpText>This will be true if participant already available in complete consent.</inlineHelpText>
+    <inlineHelpText>This will be true if the participant is already available in the econsent system.</inlineHelpText>
     <label>Participant available in eConsent</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
