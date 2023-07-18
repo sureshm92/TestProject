@@ -19,7 +19,7 @@
 }
 
 .document-label {
-    color: #0768fd;
+    color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 600;
@@ -31,6 +31,12 @@
     width: 160px;
     width: 100%;
     cursor: pointer;
+}
+
+.document-label:hover {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    color: #0557d5;
 }
 
 .document-details {

@@ -165,6 +165,7 @@ global without sharing class TermsAndConditions {
         if (tcList.size() > 0) {
             Terms_And_Conditions__c tc = tcList[0];
             if (tc.Terms_And_Conditions__r.size() > 0) {
+                tc.Id = tc.Terms_And_Conditions__r[0].Id;
                 tc.T_C_Text__c = tc.Terms_And_Conditions__r[0].T_C_Text__c;
                 tc.Last_Updated_on__c = tc.Terms_And_Conditions__r[0].Last_Updated_on__c;
                 tc.Policy_Headers__c = tc.Terms_And_Conditions__r[0].Policy_Headers__c;
@@ -199,6 +200,7 @@ global without sharing class TermsAndConditions {
         if (tcList.size() > 0) {
             Terms_And_Conditions__c tc = tcList[0];
             if (tc.Terms_And_Conditions__r.size() > 0) {
+                tc.Id = tc.Terms_And_Conditions__r[0].Id;
                 tc.T_C_Text__c = tc.Terms_And_Conditions__r[0].T_C_Text__c;
                 tc.Last_Updated_on__c = tc.Terms_And_Conditions__r[0].Last_Updated_on__c;
                 tc.Policy_Headers__c = tc.Terms_And_Conditions__r[0].Policy_Headers__c;

@@ -40,15 +40,27 @@ private class Test_AccountSettingsController {
         Map<String, Integer> m = CommunityService.getMaxLength(so, fieldNames);
         System.assert(m != null);
         AccountSettingsController.getCommunityUrl();
-       // AccountSettingsController.updateTheRegCookieAcceptance();
-         AccountSettingsController.checkIfDelegateIsAlsoAparticipant(delContId);
-         AccountSettingsController.changePassword('123', '13', '321');
+        // AccountSettingsController.updateTheRegCookieAcceptance();
+        AccountSettingsController.checkIfDelegateIsAlsoAparticipant(delContId);
+        AccountSettingsController.changePassword('123', '13', '321');
     }
 
     @IsTest
     static void getInitData() {
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(ContentDocumentLinkTriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            TranslationTriggerHandler.CheckFieldsConsistencyHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(NotificationTriggerHandler.CheckFieldsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            NotificationTriggerHandler.UpdateNotificationHandler.class
+        );
+
         TestData testData = new TestData();
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
+
         Contact con = [
             SELECT Id, AccountId, MailingCountryCode, Participant_Opt_In_Status_SMS__c
             FROM Contact
@@ -81,7 +93,9 @@ private class Test_AccountSettingsController {
                 'aaa@bbb.com',
                 CommunityService.USER_MODE_PARTICIPANT
             );
-            AccountSettingsController.getInitDataSettingsEdit(CommunityService.USER_MODE_PARTICIPANT);
+            AccountSettingsController.getInitDataSettingsEdit(
+                CommunityService.USER_MODE_PARTICIPANT
+            );
             AccountSettingsController.getInitDataforAccPage();
             AccountSettingsController.changePassword('123', '123', '321');
             AccountSettingsController.changeOptInEmail(
@@ -106,12 +120,11 @@ private class Test_AccountSettingsController {
                 personWrapper.isOptInSMS(),
                 CommunityService.USER_MODE_PARTICIPANT
             );
+            Test.stopTest();
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
             personWrapper = new AccountSettingsController.PersonWrapper(initData.myContact, null);
-           // AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
-           
+            // AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
         }
-        Test.stopTest();
         List<Contact> contacts = [
             SELECT
                 Id,
@@ -127,6 +140,8 @@ private class Test_AccountSettingsController {
             FROM Contact
             WHERE Email = 'aaa@bbb.com'
         ];
+        contacts[0].Participant_Opt_In_Status_SMS__c = true;
+        update contacts[0];
         Participant__c participant = [
             SELECT Id, First_Name__c, Last_Name__c
             FROM Participant__c
@@ -146,7 +161,7 @@ private class Test_AccountSettingsController {
         System.assertEquals(false, contacts[0].RRCookiesAllowedCookie__c);
         System.assertEquals(false, contacts[0].RRLanguageAllowedCookie__c);
         //System.assertEquals(contacts[0].FirstName, participant.First_Name__c);
-       // System.assertEquals(contacts[0].LastName, participant.Last_Name__c);
+        // System.assertEquals(contacts[0].LastName, participant.Last_Name__c);
         System.assertEquals(1, cases.size());
         System.assertEquals(acc1.Id, acc.Id);
         System.assertEquals(12, cookieList.size());
@@ -191,7 +206,7 @@ private class Test_AccountSettingsController {
                 AccountSettingsController.updateAccount('');
                 AccountSettingsController.changeEmail('ss', CommunityService.USER_MODE_PARTICIPANT);
                 AccountSettingsController.changePassword('123', '123', '222');
-                 AccountSettingsController.updateTheRegCookieAcceptance();
+                AccountSettingsController.updateTheRegCookieAcceptance();
             } catch (Exception e) {
                 System.debug(e);
             }

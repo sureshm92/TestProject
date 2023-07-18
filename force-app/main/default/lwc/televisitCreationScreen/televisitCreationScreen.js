@@ -40,11 +40,19 @@ import Duration_Help_Text from '@salesforce/label/c.Duration_Help_Text';
 import Duration_Place_Holder from '@salesforce/label/c.Duration_Place_Holder';
 import Participants from '@salesforce/label/c.Participants';
 import Attendees_Place_Holder from '@salesforce/label/c.Attendees_Place_Holder';
+import Update from '@salesforce/label/c.PIR_Update';
+import Televisit_record_canceled_successfully from '@salesforce/label/c.PP_Televisit_record_canceled_successfully';
+import Televisit_record_created_successfully from '@salesforce/label/c.PP_Televisit_record_created_successfully';
+import Televisit_record_updated_successfully from '@salesforce/label/c.PP_Televisit_record_updated_successfully';
+import Edit from '@salesforce/label/c.SS_Btn_Edit';
+import Cancel from '@salesforce/label/c.Cancel';
+
 
 const cbClass = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click';
 const isMenuOpen = ' slds-is-open';
 
 export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
+    @api isrtl;
     @api peid;
     @api get peidnew() {
         return this.peid;
@@ -138,7 +146,12 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         Duration_Place_Holder,
         Participants,
         Attendees_Place_Holder,
-
+        Update,
+        Televisit_record_canceled_successfully,
+        Televisit_record_created_successfully,
+        Televisit_record_updated_successfully,
+        Edit,
+        Cancel
     }
 
     //bishwa starts
@@ -365,6 +378,10 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
         ];
     }
 
+    get cardRTL() {
+        return this.isrtl ? 'cardRTL' : '';
+    }
+
     handleStartTimeChange(event) {
         this.startTime = event.detail.value;
     }
@@ -398,7 +415,7 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
             this.startTime = val;
             this.errorTime = false;
 
-            if (val < this.defaultTime) {
+            if (val < this.defaultTime && this.visitDate === this.today) {
                 this.errorTime = true;
                 dom.setCustomValidity('Enter Current or Future Time');
             }
@@ -481,9 +498,9 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     showToastSuccess() {
         var message;
         if (this.televisitEditView) {
-            message = 'Televisit record updated successfully'
+            message = Televisit_record_updated_successfully
         } else {
-            message = 'Televisit record created successfully';
+            message = Televisit_record_created_successfully;
         }
         const event = new ShowToastEvent({
             title: message,
@@ -666,8 +683,8 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
                 if (result === 'Televisit Cancelled Successfully') {
                     this.fetchTelevisitRecord();
                     const event = new ShowToastEvent({
-                        title: 'Televisit record canceled successfully',
-                        message: 'Televisit record canceled successfully',
+                        title: Televisit_record_canceled_successfully,
+                        message: Televisit_record_canceled_successfully,
                         variant: 'success',
                         mode: 'dismissable'
                     });
@@ -848,23 +865,30 @@ export default class ModalPopupLWC extends NavigationMixin(LightningElement) {
     }
 
     handleSearch(event) {
-        const searchKey = event.target.value;
+        var searchKey = event.target.value.toLowerCase();
         this.noResultsFound = false;
+        this.isSearchMode = true;
         if (searchKey) {
-            this.isSearchMode = true;
-            this.televisitAttendeesList = this.televisitAttendeesListTemp.filter(obj => obj.firstName.toLowerCase().includes(searchKey.toLowerCase()) ||
-                obj.lastName.toLowerCase().includes(searchKey.toLowerCase()) ||
-                obj.attendeeType.toLowerCase().includes(searchKey.toLowerCase()));
-            if (this.televisitAttendeesList.length === 0) this.noResultsFound = true;
-            this.openOptionsMenu();
+            if (this.televisitAttendeesList.length === 0) {
+                this.noResultsFound = true;
+                this.televisitAttendeesList = this.televisitAttendeesListTemp;
+            }
+            else{
+                var searchRecords = this.televisitAttendeesListTemp.filter(row => {
+                    if((row.firstName+" "+row.lastName+" ("+row.attendeeType+")").toLowerCase().includes(searchKey)) { 
+                        return true;
+                    }
+                    return false;
+                }); 
+                this.televisitAttendeesList = searchRecords;
+                this.openOptionsMenu();
+            }
         }
-
         else {
             this.isSearchMode = false;
             this.closeOptionsMenu();
             this.televisitAttendeesList = this.televisitAttendeesListTemp;
         }
-
     }
 
     checkForPPUser() {

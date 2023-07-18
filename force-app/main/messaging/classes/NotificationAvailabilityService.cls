@@ -3,6 +3,8 @@
  */
 
 public without sharing class NotificationAvailabilityService {
+    public class NotificationServiceException extends Exception {
+    }
     private static final String PARTICIPANT_ENROLLMENT_OBJ_NAME = 'Participant_Enrollment__c';
     private static final String CLINICAL_TRIAL_PROFILE_OBJ_NAME = 'Clinical_Trial_Profile__c';
     private static final String STUDY_SITE_OBJ_NAME = 'Study_Site__c';
@@ -30,74 +32,12 @@ public without sharing class NotificationAvailabilityService {
     public Map<Id, Id> partPerDelegateIds;
     public Set<Id> studyConsentAvailableAtParRecrd;
     Map<Id, Map<Id, Patient_Delegate_Enrollment__c>> delContIdMapOfPerIdPDEnromentMap;
+    Set<Id> perIdLst = new Set<Id>();
 
     public NotificationAvailabilityService(List<Id> recipientIds, List<String> whatIds) {
         contactByIdMap = new Map<Id, Contact>();
         contactLangZoneMap = new Map<Id, String>();
-        Map<Id, Patient_Delegate_Enrollment__c> pdelIdMap = new Map<Id, Patient_Delegate_Enrollment__c>(
-            [
-                SELECT
-                    Id,
-                    Patient_Delegate__r.Participant__r.Full_Name__c,
-                    Patient_Delegate__r.Id,
-                    Welcome_Message_Sent__c,
-                    Study_Email_Consent__c,
-                    Study_SMS_Consent__c,
-                    Welcome_Message_Delivered__c,
-                    Patient_Delegate__r.Participant__r.Contact__c,
-                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-                    Patient_Delegate__r.Participant__r.First_Name__c,
-                    Patient_Delegate__r.Participant__r.Last_Name__c,
-                    Patient_Delegate__r.Contact__c,
-                    Patient_Delegate__r.Participant__c,
-                    Patient_Delegate__r.Participant_Delegate__r.Id,
-                    Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
-                    Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
-                    Patient_Delegate__r.Participant_Delegate__r.Email__c,
-                    Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                    Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-                    Status__c,
-                    Participant_Enrollment__c,
-                    Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
-                    Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
-                    Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
-                    Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                    Participant_Enrollment__r.Name,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
-                FROM Patient_Delegate_Enrollment__c
-                WHERE
-                    Participant_Enrollment__c IN :whatIds
-                    AND Patient_Delegate__r.Contact__c IN :recipientIds
-            ]
-        );
-        delContIdMapOfPerIdPDEnromentMap = new Map<Id, Map<Id, Patient_Delegate_Enrollment__c>>();
-        for (Patient_Delegate_Enrollment__c pdelEnrollment : pdelIdMap.values()) {
-            // junction object records
-            if (
-                delContIdMapOfPerIdPDEnromentMap.containskey(
-                    pdelEnrollment.Patient_Delegate__r.Contact__c
-                )
-            ) {
-                Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = delContIdMapOfPerIdPDEnromentMap.get(
-                    pdelEnrollment.Patient_Delegate__r.Contact__c
-                );
-                perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
-                delContIdMapOfPerIdPDEnromentMap.put(
-                    pdelEnrollment.Patient_Delegate__r.Contact__c,
-                    perIdPDEnrollment
-                );
-            } else {
-                Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = new Map<Id, Patient_Delegate_Enrollment__c>();
-                perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
-                delContIdMapOfPerIdPDEnromentMap.put(
-                    pdelEnrollment.Patient_Delegate__r.Contact__c,
-                    perIdPDEnrollment
-                );
-            }
-        }
+        
         List<Contact> contacts = [
             SELECT
                 Id,
@@ -108,6 +48,7 @@ public without sharing class NotificationAvailabilityService {
                 Language__c,
                 MailingCountryCode,
                 Is_Invalid_Number__c,
+                Is_Patient_User_Created__c,
                 (SELECT TimeZoneSidKey FROM Users)
             FROM Contact
             WHERE Id IN :recipientIds
@@ -177,6 +118,7 @@ public without sharing class NotificationAvailabilityService {
                 );
                 for (Participant_Enrollment__c pe : listPE) {
                     objectsByIds.put(pe.Id, pe);
+                    perIdLst.add(pe.Id);
                 }
             }
             if (objType == PARTICIPANT_OBJ_NAME) {
@@ -220,6 +162,8 @@ public without sharing class NotificationAvailabilityService {
                         '~' +
                         string.valueOf(objPer.Participant_Contact__c);
                     ctpContactToPer.put(str, objPer);
+                    perIdLst.add(objPer.Id);
+
                 }
             }
             if (objType == SURVEY_INVITATION_OBJ_NAME) {
@@ -227,6 +171,9 @@ public without sharing class NotificationAvailabilityService {
                     SELECT
                         Id,
                         IsTrialSurvey__c,
+                        Participant_Enrollment__c,
+                        Participant_Enrollment__r.Invited_To_PP_Date__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
@@ -237,6 +184,7 @@ public without sharing class NotificationAvailabilityService {
                 ];
                 for (SurveyInvitation sur : survInvList) {
                     objectsByIds.put(sur.Id, sur);
+                    perIdLst.add(sur.Participant_Enrollment__c);
                 }
             }
             if (objType == TASK_OBJ_NAME) {
@@ -251,6 +199,8 @@ public without sharing class NotificationAvailabilityService {
                             Task_Type__c,
                             Ecoa_Task_Configuration_del__c,
                             Ecoa_Task_Configuration_del__r.Participant_Enrollment__c,
+                            Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Invited_To_PP_Date__c,
+                            Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                             Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
                             Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                             Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__c,
@@ -280,6 +230,7 @@ public without sharing class NotificationAvailabilityService {
                     List<Participant_Enrollment__c> peList = getPEList(peIds);
                     for (Participant_Enrollment__c pe : peList) {
                         objectsByIds.put(pe.Id, pe);
+                        perIdLst.add(pe.Id);
                     }
                 }
                 if (participantId != null) {
@@ -306,6 +257,7 @@ public without sharing class NotificationAvailabilityService {
                     }
                 }
             }
+            
             if (objType == HCP_ENROLLMENT_OBJ_NAME) {
                 List<HCP_Enrollment__c> hcpeList = [
                     SELECT
@@ -352,6 +304,7 @@ public without sharing class NotificationAvailabilityService {
                 List<Televisit__c> teleVisitsList = [
                     SELECT
                         Id,
+                        Participant_Enrollment__c,
                         Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                         Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
                         Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
@@ -369,6 +322,7 @@ public without sharing class NotificationAvailabilityService {
                 ];
                 for (Televisit__c tv : teleVisitsList) {
                     objectsByIds.put(tv.Id, tv);
+                    perIdLst.add(tv.Participant_Enrollment__c);
                 }
             }
             //As part of RH-6577
@@ -385,6 +339,7 @@ public without sharing class NotificationAvailabilityService {
                         Televisit__r.Visit_Date_Time__c,
                         Televisit__r.Status__c,
                         Televisit__r.Title__c,
+                        Televisit__r.Participant_Enrollment__c,
                         Televisit__r.Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                         Televisit__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
                         Televisit__r.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
@@ -402,8 +357,73 @@ public without sharing class NotificationAvailabilityService {
                 ];
                 for (Televisit_Attendee__c ta : televisitAttendees) {
                     objectsByIds.put(ta.Id, ta);
+                    perIdLst.add(ta.Televisit__r.Participant_Enrollment__c);
                 }
             }
+            Map<Id, Patient_Delegate_Enrollment__c> pdelIdMap = new Map<Id, Patient_Delegate_Enrollment__c>(
+            [
+                SELECT
+                    Id,
+                    Patient_Delegate__r.Participant__r.Full_Name__c,
+                    Patient_Delegate__r.Id,
+                    Welcome_Message_Sent__c,
+                    Study_Email_Consent__c,
+                    Study_SMS_Consent__c,
+                    Welcome_Message_Delivered__c,
+                    Patient_Delegate__r.Participant__r.Contact__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                    Patient_Delegate__r.Participant__r.First_Name__c,
+                    Patient_Delegate__r.Participant__r.Last_Name__c,
+                    Patient_Delegate__r.Contact__c,
+                    Patient_Delegate__r.Participant__c,
+                    Patient_Delegate__r.Participant_Delegate__r.Id,
+                    Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
+                    Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
+                    Patient_Delegate__r.Participant_Delegate__r.Email__c,
+                    Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                    Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                    Status__c,
+                    Participant_Enrollment__c,
+                    Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                    Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                    Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Name,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE
+                    Participant_Enrollment__c IN :perIdLst
+                    AND Patient_Delegate__r.Contact__c IN :recipientIds
+            ]
+        );
+        delContIdMapOfPerIdPDEnromentMap = new Map<Id, Map<Id, Patient_Delegate_Enrollment__c>>();
+        for (Patient_Delegate_Enrollment__c pdelEnrollment : pdelIdMap.values()) {
+            // junction object records
+            if (
+                delContIdMapOfPerIdPDEnromentMap.containskey(
+                    pdelEnrollment.Patient_Delegate__r.Contact__c
+                )
+            ) {
+                Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = delContIdMapOfPerIdPDEnromentMap.get(
+                    pdelEnrollment.Patient_Delegate__r.Contact__c
+                );
+                perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
+                delContIdMapOfPerIdPDEnromentMap.put(
+                    pdelEnrollment.Patient_Delegate__r.Contact__c,
+                    perIdPDEnrollment
+                );
+            } else {
+                Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = new Map<Id, Patient_Delegate_Enrollment__c>();
+                perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
+                delContIdMapOfPerIdPDEnromentMap.put(
+                    pdelEnrollment.Patient_Delegate__r.Contact__c,
+                    perIdPDEnrollment
+                );
+            }
+        }
             //End
 
             //TODO for other objects passing in WhatID
@@ -495,6 +515,7 @@ public without sharing class NotificationAvailabilityService {
                             .get(surveyInvitation.Participant_Enrollment__c);
                         perEmailToSend =
                             pdelEnrollmentrecrd != null &&
+                            pdelEnrollmentrecrd.Status__c == 'Active' &&
                             pdelEnrollmentrecrd.Study_Email_Consent__c &&
                             !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                             !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
@@ -505,14 +526,16 @@ public without sharing class NotificationAvailabilityService {
                             surveyInvitation.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c &&
                             !surveyInvitation.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                             !surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                            !surveyInvitation.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
+                            !surveyInvitation.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                            surveyInvitation.Participant_Enrollment__r.Invited_To_PP_Date__c !=null &&
+                            surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
                     }
                     if (perEmailToSend) {
                         isEmailAvailableAtPER = true;
                     }
                 } else {
                     Contact contact = contactByIdMap.get(contactId);
-                    if (contact.Participant_Opt_In_Status_Emails__c)
+                    if (contact.Is_Patient_User_Created__c && contact.Participant_Opt_In_Status_Emails__c)
                         isEmailAvailableAtPER = true;
                 }
             } else if (objType == TASK_OBJ_NAME) {
@@ -535,12 +558,13 @@ public without sharing class NotificationAvailabilityService {
             } else if (objType == CASE_OBJ_NAME) {
                 ///Platform Level
                 Contact contact = contactByIdMap.get(contactId);
-                if (contact.Participant_Opt_In_Status_Emails__c)
+                if (contact.Is_Patient_User_Created__c && contact.Participant_Opt_In_Status_Emails__c) 
                     isEmailAvailableAtPER = true;
             } else if (objType == PARTICIPANT_OBJ_NAME) {
                 Participant__c participant = (Participant__c) objectsByIds.get(Id.valueOf(whatId));
                 if (
                     participant != null &&
+                    participant.Contact__r.Is_Patient_User_Created__c && 
                     participant.Contact__r.Participant_Opt_In_Status_Emails__c &&
                     !participant.IsCountry_NOT_Eligible_for_Emails__c
                 ) {
@@ -549,7 +573,7 @@ public without sharing class NotificationAvailabilityService {
             } else if (objType == null) {
                 // Platform Level
                 Contact contact = contactByIdMap.get(contactId);
-                if (contact.Participant_Opt_In_Status_Emails__c)
+                if (contact.Is_Patient_User_Created__c && contact.Participant_Opt_In_Status_Emails__c) 
                     isEmailAvailableAtPER = true;
             }
         }
@@ -583,27 +607,19 @@ public without sharing class NotificationAvailabilityService {
             if (taskrecrd != null) {
                 if (taskTriggerEmail) {
                     Contact contact = contactByIdMap.get(contactId);
-                    if (objType == 'Participant_Enrollment__c') {
+                    if (objType == 'Participant_Enrollment__c') {// PEH-13657
                         Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                             taskrecrd.whatId
                         );
-                        pertriggerEmail = isPEREmailtoSend(pe, notObj);
+                        isEmailAvailableAtPER = isPEREmailtoSend(pe, notObj);
                     } else if (objType == 'Participant__c') {
                         Participant__c pe = (Participant__c) objectsByIds.get(taskrecrd.WhatId);
-                        if (
-                            studyConsentAvailableAtParRecrd != null &&
-                            (studyConsentAvailableAtParRecrd.contains(pe.Id) ||
-                            partPerDelegateIds.containsKey(pe.Id))
+                        if (    
+                            contact.Is_Patient_User_Created__c &&
+                            contact.Participant_Opt_In_Status_Emails__c
                         ) {
-                            partriggerEmail = true;
+                            isEmailAvailableAtPER = true;
                         }
-                    }
-                    if (
-                        pertriggerEmail ||
-                        partriggerEmail ||
-                        contact.Participant_Opt_In_Status_Emails__c
-                    ) {
-                        isEmailAvailableAtPER = true;
                     }
                 } else {
                     if (objType == 'Participant_Enrollment__c') {
@@ -628,6 +644,8 @@ public without sharing class NotificationAvailabilityService {
                                     taskrecrd.Ecoa_Task_Configuration_del__r.Participant_Enrollment__c
                                 );
                             perEmailToSend =
+                                pdelEnrollmentrecrd != null &&
+                                pdelEnrollmentrecrd.Status__c == 'Active' &&
                                 pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
@@ -638,7 +656,9 @@ public without sharing class NotificationAvailabilityService {
                                     .Permit_Mail_Email_contact_for_this_study__c &&
                                 !taskrecrd.Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                                 !taskrecrd.Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                                !pe.IsCountry_NOT_Eligible_for_Emails__c;
+                                !pe.IsCountry_NOT_Eligible_for_Emails__c &&
+                                taskrecrd.Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Invited_To_PP_Date__c!=null &&
+                                taskrecrd.Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
                         }
                         if (perEmailToSend) {
                             isEmailAvailableAtPER = true;
@@ -646,7 +666,7 @@ public without sharing class NotificationAvailabilityService {
                     } else if (isPlatformLevelPar) {
                         //Write for platform Level
                         Contact contact = contactByIdMap.get(contactId);
-                        if (contact.Participant_Opt_In_Status_Emails__c)
+                        if (contact.Is_Patient_User_Created__c && contact.Participant_Opt_In_Status_Emails__c) 
                             isEmailAvailableAtPER = true;
                     }
                 }
@@ -666,6 +686,7 @@ public without sharing class NotificationAvailabilityService {
                 )
                 .get(pe.Id);
             perEmailToSend =
+                pdelEnrollmentrecrd != null &&
                 pdelEnrollmentrecrd.Study_Email_Consent__c &&
                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
@@ -675,7 +696,9 @@ public without sharing class NotificationAvailabilityService {
                 pe.Permit_Mail_Email_contact_for_this_study__c &&
                 !pe.Study_Site__r.Suppress_Participant_Emails__c &&
                 !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
+                !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                pe.Invited_To_PP_Date__c != null &&
+                pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
         }
         return perEmailToSend;
     }
@@ -1080,6 +1103,7 @@ public without sharing class NotificationAvailabilityService {
             SELECT
                 Id,
                 Permit_Mail_Email_contact_for_this_study__c,
+                Invited_To_PP_Date__c,
                 Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                 Study_Site__r.Suppress_Participant_Emails__c,
                 Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
@@ -1088,7 +1112,8 @@ public without sharing class NotificationAvailabilityService {
                 Study_Site__r.SMS_Are_Available__c,
                 Study_Site__r.Suppress_Study_Site_PI_Emails__c,
                 Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
-                HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
+                HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c,
+                Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
             FROM Participant_Enrollment__c
             WHERE Id IN :peIds
         ];

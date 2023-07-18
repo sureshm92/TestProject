@@ -34,16 +34,21 @@ public inherited sharing class PatientVisitService {
         );
         processPendingInitialVisits(pvList);
         pvAndEvent.pvList = this.getVisitWrappers(pvList);
-        if(pState.pe !=null){
-            Id studySiteId = pState.pe.Study_Site__c; 
-            if(studySiteId !=null){
-                List<Study_Site__c> ssList = [SELECT Id,Site__r.BillingAddress,Site__r.Phone, Site__r.Name FROM Study_Site__c WHERE Id =:studySiteId];
-                if(ssList.size()>0){
+        if (pState.pe != null) {
+            Id studySiteId = pState.pe.Study_Site__c;
+            if (studySiteId != null) {
+                List<Study_Site__c> ssList = [
+                    SELECT Id, Site__r.BillingAddress, Site__r.Phone, Site__r.Name
+                    FROM Study_Site__c
+                    WHERE Id = :studySiteId
+                ];
+                if (ssList.size() > 0) {
                     pvAndEvent.studySiteAddress = ssList[0];
                 }
             }
         }
         pvAndEvent.isEvent = pState.pe.Clinical_Trial_Profile__r.Is_Program__c;
+        pvAndEvent.ctpSharingTiming = pState.pe.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c.intValue();
         return pvAndEvent;
     }
 
@@ -54,6 +59,8 @@ public inherited sharing class PatientVisitService {
         public Boolean isEvent = false;
         @AuraEnabled
         public Study_Site__c studySiteAddress;
+        @AuraEnabled
+        public Integer ctpSharingTiming;
     }
 
     public List<VisitWrapper> getVisitWrappers(String visitMode, Integer limitNumber) {
@@ -231,26 +238,30 @@ public inherited sharing class PatientVisitService {
         );
 
         List<Id> recordIds = new List<Id>();
-        for(Patient_Visit__c pv: patientVisits){
+        for (Patient_Visit__c pv : patientVisits) {
             recordIds.add(pv.Visit__c);
         }
-		String language=IRBParticipantService.getSuitableLanguageForIRBTranslation(peId);
+        String language = IRBParticipantService.getSuitableLanguageForIRBTranslation(peId);
         if (language == null)
             language = UserInfo.getLanguage();
-        
+
         List<Translation__c> translations = [
             SELECT Id, Field_Name__c, Language__c, Object_Name__c, Record_Id__c, Value__c
             FROM Translation__c
-            WHERE Record_Id__c IN :recordIds AND Language__c = :language and Object_Name__c ='Visit__c'
-        	and Field_Name__c='patient_portal_name__c'];
-        map<id,Translation__c> mapVisitIdToTranslations=new Map<id,Translation__c>();
-        for(Translation__c tt:translations){
-            mapVisitIdToTranslations.put(tt.Record_Id__c,tt);
+            WHERE
+                Record_Id__c IN :recordIds
+                AND Language__c = :language
+                AND Object_Name__c = 'Visit__c'
+                AND Field_Name__c = 'patient_portal_name__c'
+        ];
+        map<id, Translation__c> mapVisitIdToTranslations = new Map<id, Translation__c>();
+        for (Translation__c tt : translations) {
+            mapVisitIdToTranslations.put(tt.Record_Id__c, tt);
         }
-        for(Patient_Visit__c pv: patientVisits){
-            if(mapVisitIdToTranslations.containskey(pv.Visit__c)){
-                Translation__c tt=mapVisitIdToTranslations.get(pv.Visit__c);
-                pv.Portal_Name__c=tt.Value__c;
+        for (Patient_Visit__c pv : patientVisits) {
+            if (mapVisitIdToTranslations.containskey(pv.Visit__c)) {
+                Translation__c tt = mapVisitIdToTranslations.get(pv.Visit__c);
+                pv.Portal_Name__c = tt.Value__c;
             }
         }
 
@@ -277,19 +288,19 @@ public inherited sharing class PatientVisitService {
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
         if (visits == null || visits.isEmpty())
             return visitWrappers;
-        Id visitPlanId;
+        set<Id> visitPlanId = new Set<Id>();
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
         for (Patient_Visit__c visit : visits) {
             if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
-                visitPlanId = visit.Visit__r.Visit_Plan__c;
-                break;
+                visitPlanId.add(visit.Visit__r.Visit_Plan__c);
+                //break;
             }
         }
-        if (visitPlanId != null) {
+        if (visitPlanId != null && !visitPlanId.isEmpty()) {
             iconDetails = [
                 SELECT Id, Name, Label__c, Description__c
                 FROM Icon_Details__c
-                WHERE Visit_Plan__c = :visitPlanId
+                WHERE Visit_Plan__c IN :visitPlanId
             ];
         }
         TranslateHelper.translate(iconDetails);
@@ -350,19 +361,19 @@ public inherited sharing class PatientVisitService {
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
         if (visits == null || visits.isEmpty())
             return visitWrappers;
-        Id visitPlanId;
+        set<Id> visitPlanId = new Set<Id>();
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
         for (Patient_Visit__c visit : visits) {
             if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
-                visitPlanId = visit.Visit__r.Visit_Plan__c;
-                break;
+                visitPlanId.add(visit.Visit__r.Visit_Plan__c);
+                //break;
             }
         }
-        if (visitPlanId != null) {
+        if (visitPlanId != null && !visitPlanId.isEmpty()) {
             iconDetails = [
                 SELECT Id, Name, Label__c, Description__c
                 FROM Icon_Details__c
-                WHERE Visit_Plan__c = :visitPlanId
+                WHERE Visit_Plan__c IN :visitPlanId
             ];
         }
         TranslateHelper.translate(iconDetails);
@@ -424,6 +435,12 @@ public inherited sharing class PatientVisitService {
         Visit__c visit,
         Participant_Enrollment__c pe
     ) {
+        String status = 'Pending';
+        if (pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal') {
+            status = pe?.Initial_visit_occurred_flag__c
+                ? 'Completed'
+                : pe?.Initial_Visit_Scheduled_DateTime__c != null ? 'Scheduled' : 'Pending';
+        }
         return new Patient_Visit__c(
             Name = visit.Name,
             Visit__c = visit.Id,
@@ -433,9 +450,7 @@ public inherited sharing class PatientVisitService {
             Planned_Date__c = pe.Initial_Visit_Scheduled_DateTime__c != null
                 ? pe.Initial_Visit_Scheduled_DateTime__c
                 : null,
-            Status__c = pe.Initial_visit_occurred_flag__c
-                ? 'Completed'
-                : pe.Initial_Visit_Scheduled_DateTime__c != null ? 'Scheduled' : 'Pending',
+            Status__c = status,
             Completed_Date__c = pe.Initial_visit_occurred_date__c != null
                 ? DateTime.newInstance(
                           pe.Initial_visit_occurred_date__c,
@@ -460,17 +475,19 @@ public inherited sharing class PatientVisitService {
 
     public static void processPendingInitialVisits(List<Patient_Visit__c> patientVisits) {
         Boolean needsUpdate = false;
-        for (Patient_Visit__c pv : patientVisits) {
-            if (
-                pv.Is_Pre_Enrollment_Patient_Visit__c &&
-                (pv.Status__c == 'Pending' ||
-                pv.Status__c == 'Scheduled') &&
-                pv.Planned_Date__c != null &&
-                pv.Planned_Date__c < DateTime.now()
-            ) {
-                //pv.Status__c = 'Missed';
-                needsUpdate = true;
-                pv.Status__c = 'Missed';
+        if (patientVisits != null) {
+            for (Patient_Visit__c pv : patientVisits) {
+                if (
+                    pv.Is_Pre_Enrollment_Patient_Visit__c &&
+                    (pv.Status__c == 'Pending' ||
+                    pv.Status__c == 'Scheduled') &&
+                    pv.Planned_Date__c != null &&
+                    pv.Planned_Date__c < DateTime.now()
+                ) {
+                    //pv.Status__c = 'Missed';
+                    needsUpdate = true;
+                    pv.Status__c = 'Missed';
+                }
             }
         }
         if (needsUpdate) {
@@ -480,7 +497,7 @@ public inherited sharing class PatientVisitService {
 
     @AuraEnabled
     public static List<Icon_Details__c> getVisitIcons(Id visitId) {
-        Id visitPlanId;
+        set<Id> visitPlanId = new Set<Id>();
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
         List<Patient_Visit__c> visits = [
             SELECT Id, Visit__c, Visit__r.Visit_Plan__c, Completed_Date__c, Visit__r.Icons__c
@@ -489,8 +506,8 @@ public inherited sharing class PatientVisitService {
         ];
         for (Patient_Visit__c visit : visits) {
             if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
-                visitPlanId = visit.Visit__r.Visit_Plan__c;
-                break;
+                visitPlanId.add(visit.Visit__r.Visit_Plan__c);
+                //break;
             }
         }
         String icons;
@@ -503,7 +520,7 @@ public inherited sharing class PatientVisitService {
         iconDetails = [
             SELECT Id, Name, Label__c
             FROM Icon_Details__c
-            WHERE Label__c IN :iconNames AND Visit_Plan__c = :visitPlanId
+            WHERE Label__c IN :iconNames AND Visit_Plan__c IN :visitPlanId
         ];
         TranslateHelper.translate(iconDetails);
         return iconDetails;

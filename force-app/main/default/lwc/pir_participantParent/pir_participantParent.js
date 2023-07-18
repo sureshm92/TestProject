@@ -57,6 +57,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   @api studyName;
   @api referredBy;
   @api selectedPE;
+  @track isDisableButton=true;
   @api isLoaded = false;
   @api disablebtn = false;
   @api statusDetailValueChanged = false;
@@ -157,7 +158,6 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   }
   setParametersBasedOnUrl() {
     this.dtimeToidentifyTheRecord = this.urlStateParameters.dTime || null;
-    console.log('urlPerName',this.dtimeToidentifyTheRecord);
   }
   get newPageReference() {
     return Object.assign({}, this.currentPageReference, {
@@ -176,6 +176,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     );
   }
   connectedCallback() {
+    console.clear();
     if(!this.isLanguageSelected) {
       getUserLanguage()
         .then((result) => {
@@ -338,12 +339,10 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   showZeroErr  = false;
   initialLoad = true;
   pageChanged(event) {
-    console.log('>>page changed called>>>');
     this.page = event.detail.page;
     this.template.querySelector("c-pir_participant-list").pageNumber =
       this.page;
       if(!this.initialLoad){
-        console.log('>>>fetch page called>>>');
         this.template.querySelector("c-pir_participant-list").fetchList();
       }
       this.initialLoad = false;
@@ -693,10 +692,8 @@ gotoPartTab(){
         this.addParticipant = true;
         this.studysiteaccess = true;
     }else if(this.dropdownLabel=='Import Participants'){
-        console.log('import mod');
         this.importParticipant = true;
     }else if(this.dropdownLabel=='Bulk Import History'){
-        console.log('B import ');
         this[NavigationMixin.Navigate]({
           type: 'comm__namedPage',
           attributes: {
@@ -769,7 +766,6 @@ gotoPartTab(){
     this.template.querySelectorAll(".linenone").forEach(function (L) {
         L.classList.remove("boxShadownone");
     });
-    console.log('>>>oncancel called>>>');
     this.template.querySelector("c-pir_participant-list").hideCheckbox();
     this.removeParticipant=false;
     this.countValue=0;
@@ -900,7 +896,6 @@ gotoPartTab(){
     }
 
     //5.
-    console.log('selected outcome->'+this.newStatusSelected+'='+this.selectedreason);
     if(this.newStatusSelected == "Pre-review Failed" ||
     this.newStatusSelected == "Screening Failed" ||
     this.newStatusSelected == "Unable to Screen" ||
@@ -914,7 +909,6 @@ gotoPartTab(){
     this.newStatusSelected == "Eligibility Failed"
     ){
            if(this.selectedreason == ""){
-             console.log('Reason empty');
              btnValidationSuccess = false;
              validationList.push(btnValidationSuccess);
            }
@@ -982,7 +976,6 @@ gotoPartTab(){
        this.signedDateValue=null;this.consentData='';this.signedDate=false;this.consentValue=false;this.selectedreason = '';this.finalConsent=false;this.finalConsentRequired = false;
        this.bulkStatusSpinner = true;this.finalConsentvalue=false;
        let study = this.studyID.toString();
-       console.log('work'+study);
        bulkstatusDetail({ newStatus: this.newStatusSelected, studyId: study })
       .then(result => {
           let reasons = result.reason;
@@ -1007,7 +1000,11 @@ gotoPartTab(){
                 label: this.utilLabels[outcomeReason],
                 value: outcomeReason
               });
-
+            }
+            if(this.newStatusSelected == "Declined Final Consent"){
+              this.isDisableButton = true;
+            }else{
+              this.isDisableButton = false;
             }
             this.reasoneoptions = trans_reasonopts;
             if(this.newStatusSelected == "Contacted - Not Suitable"){

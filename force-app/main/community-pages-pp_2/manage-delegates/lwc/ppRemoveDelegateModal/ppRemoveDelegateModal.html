@@ -12,29 +12,60 @@
     </div>
 
     <template if:true={showmodal}>
-        <c-pp-modal
-            header-text={tittext}
-            size="small"
-            onclose={handleModalClose}
-            is-show={showmodal}
-        >
-            <div slot="body">
-                <div class="body-container">{messtext}</div>
-            </div>
-            <div slot="footer">
-                <div class="slds-grid slds-gutters slds-grid_align-end">
-                    <div class="slds-col">
-                        <button class="slds-button button-cancel" onclick={handleModalClose}>
-                            {label.BTN_Cancel}
-                        </button>
-                    </div>
-                    <div class="slds-col">
-                        <button class="slds-button button-confirm" onclick={confirmModal}>
-                            {label.BTN_Confirm}
-                        </button>
-                    </div>
+        <div class="pp-manade-del-modal">
+            <c-pp-modal
+                header-text={tittext}
+                size="small"
+                onclose={handleModalClose}
+                is-show={showmodal}
+            >
+                <div slot="body">
+                    <div class="body-container">{messtext}</div>
                 </div>
-            </div>
-        </c-pp-modal>
+                <div slot="footer">
+                    <template lwc:if={isDesktop}>
+                        <!-- for Desktop-->
+                        <div class="slds-grid slds-gutters slds-grid_align-end manage-delegate">
+                            <div class="slds-col">
+                                <button
+                                    class="slds-button button-cancel"
+                                    onclick={handleModalClose}
+                                >
+                                    {label.BTN_Cancel}
+                                </button>
+                            </div>
+                            <div class="slds-col">
+                                <button class="slds-button button-confirm" onclick={confirmModal}>
+                                    {label.BTN_Continue}
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+                    <template lwc:else>
+                        <!-- for Mobile-->
+                        <div class="slds-grid slds-wrap manage-delegate">
+                            <div class="slds-col slds-size_1-of-1 slds-align_absolute-center">
+                                <button
+                                    class="slds-button button-confirm-mobile"
+                                    onclick={confirmModal}
+                                >
+                                    {label.BTN_Continue}
+                                </button>
+                            </div>
+                            <div
+                                class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-top_medium"
+                            >
+                                <button
+                                    class="slds-button button-cancel"
+                                    onclick={handleModalClose}
+                                >
+                                    {label.BTN_Cancel}
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </c-pp-modal>
+        </div>
     </template>
 </template>

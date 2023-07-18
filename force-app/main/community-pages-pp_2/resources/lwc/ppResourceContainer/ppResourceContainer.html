@@ -89,9 +89,9 @@
                             <!--   Version Date    -->
                             <lightning-layout-item size="12">
                                 <div class="summary-date">
-                                    {label.VERSION}&nbsp;
+                                    {showPostingOrVersionLabel}&nbsp;
                                     <lightning-formatted-date-time
-                                        value={resUploadDate}
+                                        value={showPostingOrVersionDate}
                                         time-zone={userTimeZone}
                                     >
                                     </lightning-formatted-date-time>
@@ -214,9 +214,9 @@
                             <!--   Version Date    -->
                             <lightning-layout-item size="12">
                                 <div class="summary-date">
-                                    {label.VERSION}&nbsp;
+                                    {showPostingOrVersionLabel}&nbsp;
                                     <lightning-formatted-date-time
-                                        value={resUploadDate}
+                                        value={showPostingOrVersionDate}
                                         time-zone={userTimeZone}
                                     >
                                     </lightning-formatted-date-time>

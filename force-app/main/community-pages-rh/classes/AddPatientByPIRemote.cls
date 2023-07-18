@@ -689,6 +689,9 @@ public without sharing class AddPatientByPIRemote {
         TriggerHandlerExecutor.bypassHandler(
         PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
         );
+        TriggerHandlerExecutor.bypassHandler( 
+        PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+        );
         
         if(sendPEToStudyHubAsync == true){
             IntegrationService.sendPEToStudyHub(peId);
@@ -935,8 +938,8 @@ public without sharing class AddPatientByPIRemote {
                 /*ReferringRemote.createParticipantUsers(new Map<Id, Id>{
                         newContact.Id => null
                 });*/
-                ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                    .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
+                
+
                 //Recalling createSurveyTasks method to create survey task for Patient Delegates
                 TaskService.invitationsVisibleTemp = invitationsVisibleTemp;
                 if (

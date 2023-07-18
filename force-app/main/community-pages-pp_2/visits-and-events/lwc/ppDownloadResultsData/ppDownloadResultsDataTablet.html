@@ -1,0 +1,19 @@
+<template>
+    <template lwc:if={showDownloadResults}>
+        <template lwc:if={isTablet}>
+            <a target="_blank" onclick={generateReport}>
+                <span>
+                    <lightning-icon
+                        icon-name="utility:download"
+                        size="xx-small"
+                        class="download-icon"
+                    >
+                    </lightning-icon>
+                    <span class="download-res-data slds-p-left_small"
+                        >{label.PP_Download_Results_Data}</span
+                    >
+                </span>
+            </a>
+        </template>
+    </template>
+</template>
