@@ -1,4 +1,21 @@
 <template>
+    <template if:true={showBackToHome}>
+        <lightning-layout multiple-rows="true">
+            <!-- ************** Back To Resources *************** -->
+            <lightning-layout-item size="12">
+                <span onclick={handleBackClick} class={backLinkClass}>
+                    <c-web-icon
+                        icon-size="medium-large"
+                        icon-name="chevron-left"
+                        icon-color="#015ff1"
+                        class="slds-p-right_xx-small"
+                    ></c-web-icon
+                    >{labels.backToHome}
+                </span>
+                  <hr />
+            </lightning-layout-item>
+        </lightning-layout>  
+    </template>
     <div class={cardRTL}>
         <div class="po-bg">
             <lightning-layout multiple-rows="true" vertical-align="center" horizontal-align="center" class="po-custom-card">
