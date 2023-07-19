@@ -4,6 +4,7 @@ import getSubjectGuid from '@salesforce/apex/ECOADiariesController.getSubjectGui
 import ediariesComPref from '@salesforce/label/c.eDiaries_Comm_Preferences';
 import ediaries from '@salesforce/label/c.Navigation_eDiary';
 import ediariesActivation from '@salesforce/label/c.Activate_eDiaries';
+import backToHome from '@salesforce/label/c.Back_to_Home';
 import ediariesWorkMsg from '@salesforce/label/c.eDiaries_Work_Msg';
 import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
@@ -21,6 +22,7 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
         ediaries,
         ediariesActivation,
         ediariesWorkMsg,
+        backToHome,
         ediariesComPref
     };
     @track studyProgramName;
@@ -28,11 +30,16 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
     underConstructionMble = pp_icons + '/' + 'undraw_under_construction_-46-pa-mble.svg';
 
     desktop = true;
-   @track gfkll;
+    @track gfkll;
+    showBackToHome = false;
 
 
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        this.showBackToHome = urlParams.get('showBackToHome');
+
         var participantData = communityService.getParticipantData();
         this.studyProgramName = participantData && participantData.ctp? participantData.ctp.Study_Code_Name__c : '';
 
@@ -74,6 +81,15 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
     render() {
         return this.desktop ? desktopTemplate : mobileTemplate;
     }
+    get backLinkClass() {
+        return this.isMobile
+            ? this.isRTL
+                ? 'back-link-mble slds-p-vertical_small'
+                : 'back-link-mble slds-p-vertical_small'
+            : this.isRTL
+            ? 'back-link slds-p-vertical_small'
+            : 'back-link slds-p-vertical_small';
+    }
     handleCommunicationPreferences(event){
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
@@ -85,6 +101,16 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
             }
         });
         
+    }
+    handleBackClick(event){
+        if (this.showBackToHome) {
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'home'
+                }
+            })
+        } 
     }
 
 }
