@@ -10,7 +10,7 @@
                         <lightning-icon
                             icon-name="utility:chevronleft"
                             size="x-small"
-                            class="download-icon"
+                            class="left-chevron-icon"
                         >
                         </lightning-icon>
                     </span>
@@ -21,15 +21,14 @@
                         class="slds-grid slds-wrap slds-grid_vertical-align-center slds-m-bottom_x-small"
                     >
                         <div class="slds-col visit-name slds-grow-none slds-p-horizontal_none">
-                            <span class="visit-name">{patientVisitName}</span
-                            ><span class="completed-date"
-                                >&nbsp;&nbsp;|
+                            <div class="visit-name">{patientVisitName}</div>
+                            <div class="completed-date">
                                 <lightning-formatted-date-time
                                     value={completedDate}
-                                    class="completed-date slds-m-left_small"
+                                    class="completed-date"
                                     time-zone={userTimezone}
-                                ></lightning-formatted-date-time
-                            ></span>
+                                ></lightning-formatted-date-time>
+                            </div>
                         </div>
                     </div>
                 </div>
