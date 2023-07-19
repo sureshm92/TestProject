@@ -5,7 +5,7 @@
                 <div class="slds-notify_container">
                     <div class="slds-notify slds-notify_toast PP-Mot-Message-Toast" role="status">
                         <lightning-layout-item size="1">
-                            <div class="custom-icon" title={message}>
+                            <div class="custom-icon">
                                 <img src={motivationalicon} />
                             </div>
                         </lightning-layout-item>
@@ -24,7 +24,6 @@
                                     size="x-small"
                                     variant="bare"
                                     alternative-text="Close"
-                                    title="Close"
                                     onclick={closeModel}
                                 ></lightning-icon>
                             </div>
@@ -38,7 +37,7 @@
         <template if:true={showToastBar}>
             <lightning-layout class="custom-notify-container-mobile">
                 <lightning-layout-item size="1">
-                    <div class="custom-icon-mobile" title={message}>
+                    <div class="custom-icon-mobile">
                         <img src={motivationalicon} />
                     </div>
                 </lightning-layout-item>
@@ -57,7 +56,6 @@
                             size="x-small"
                             variant="bare"
                             alternative-text="Close"
-                            title="Close"
                             onclick={closeModel}
                         ></lightning-icon>
                     </div>
