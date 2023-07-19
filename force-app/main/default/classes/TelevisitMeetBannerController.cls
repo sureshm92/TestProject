@@ -29,6 +29,8 @@ public without sharing class TelevisitMeetBannerController {
                 AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime
                 AND Televisit__r.Visit_Link_Activation_End_Time__c <= :next24HoursDateTime
                 AND Televisit__r.Status__c = 'Scheduled'
+                AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true 
+                AND Televisit__r.Participant_Enrollment__r.Invited_To_PP_Date__c !=null
             ORDER BY Televisit__r.Visit_Date_Time__c
         ];
         List<Televisit_Attendee__c> visits = new List<Televisit_Attendee__c> ();
