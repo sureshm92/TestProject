@@ -32,8 +32,9 @@
     width: fit-content;
 }
 .back-link-mble{
-    margin-left: 14.5px;
+    margin-left: 8px;
     height: auto;
+    padding-bottom: 16px;
     /*margin-top: 14px;*/
     font-size: 16px;
     font-weight: 600;
