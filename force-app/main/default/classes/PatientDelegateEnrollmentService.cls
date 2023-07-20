@@ -138,11 +138,11 @@ public without sharing class PatientDelegateEnrollmentService {
             },
             Patient_Delegate_Enrollment__c.getSObjectType(),
             DatabaseService.fieldEqual(
-                'Patient_Delegate__r.Participant__r.Contact__c',
-                CommunityService.getInstance().getCurrentContactId()
-            ) /* +
-            ' AND ' +
-            DatabaseService.fieldNotEqual('Status__c', 'Deleted') */
+                    'Patient_Delegate__r.Participant__r.Contact__c',
+                    CommunityService.getInstance().getCurrentContactId()
+                ) +
+                ' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c= true' +
+                ' AND Participant_Enrollment__r.Invited_To_PP_Date__c != null'
         );
         isDelegate = lstPDE.size() > 0;
         participant = ParticipantContext.getCurrentParticipant();
