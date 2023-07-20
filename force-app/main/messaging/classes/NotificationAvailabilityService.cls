@@ -508,7 +508,7 @@ public without sharing class NotificationAvailabilityService {
                     Id.valueOf(whatId)
                 );
                 Boolean perEmailToSend = false;
-                if (surveyInvitation.IsTrialSurvey__c) {
+                if (surveyInvitation.IsTrialSurvey__c || surveyInvitation.Participant_Enrollment__c !=null) {
                     if (
                         notObj.IsDelegate__c &&
                         delContIdMapOfPerIdPDEnromentMap.containsKey(notObj.Recipient__c)
