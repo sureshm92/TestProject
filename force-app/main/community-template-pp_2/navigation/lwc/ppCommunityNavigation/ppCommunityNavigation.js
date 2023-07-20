@@ -255,6 +255,13 @@ export default class PpCommunityNavigation extends LightningElement {
                 visible: this.showResults,
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             },
+            'e-diaries': {
+                page: 'e-diaries',
+                label: navigationEDiary,
+                icon: 'icon-e-diaries',
+                visible: this.showEdaries,
+                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
+            },
             files: {
                 page: 'files',
                 link: this.baseLink + '/pp/s/files',
@@ -276,13 +283,6 @@ export default class PpCommunityNavigation extends LightningElement {
                 label: navigationProgram,
                 icon: '',
                 visible: this.showAboutProgram,
-                parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
-            },
-            'e-diaries': {
-                page: 'e-diaries',
-                label: navigationEDiary,
-                icon: 'icon-e-diaries',
-                visible: this.showEdaries,
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             }
         };
