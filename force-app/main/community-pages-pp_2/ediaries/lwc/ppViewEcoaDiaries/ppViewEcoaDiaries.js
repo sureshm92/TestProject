@@ -4,7 +4,7 @@ import getSubjectGuid from '@salesforce/apex/ECOADiariesController.getSubjectGui
 import ediariesComPref from '@salesforce/label/c.eDiaries_Comm_Preferences';
 import ediaries from '@salesforce/label/c.Navigation_eDiary';
 import ediariesActivation from '@salesforce/label/c.Activate_eDiaries';
-import backToHome from '@salesforce/label/c.Back_to_Home';
+import backToHome from '@salesforce/label/c.Link_Back_To_Home';
 import ediariesWorkMsg from '@salesforce/label/c.eDiaries_Work_Msg';
 import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
