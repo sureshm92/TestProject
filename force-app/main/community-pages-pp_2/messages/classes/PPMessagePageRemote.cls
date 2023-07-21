@@ -193,11 +193,11 @@ public without sharing class PPMessagePageRemote {
                 List<Patient_Delegate_Enrollment__c> pdenrollment = new List<Patient_Delegate_Enrollment__c>();
                 List<Id> partEnroll = new List<Id>();
                 List<Participant_Enrollment__c> lstpdEnrollment = new List<Participant_Enrollment__c>();
-                pdenrollment = [Select Id,Participant_Enrollment__c,Status__c,Patient_Delegate__c,Patient_Delegate__r.Contact__c from Patient_Delegate_Enrollment__c
+                pdenrollment = [Select Id,Participant_Enrollment__c,Status__c,Patient_Delegate__c,Patient_Delegate__r.Contact__c, Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c from Patient_Delegate_Enrollment__c
                                  where Patient_Delegate__r.Contact__c=:piId limit 2999];    
                 if(!pdenrollment.isEmpty() && pdenrollment != null){
                     for(Patient_Delegate_Enrollment__c p:pdenrollment){
-                            if(p.Status__c != 'Active' ){
+                            if(p.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c && p.Status__c != 'Active' ){
                                 partEnroll.add(p.Participant_Enrollment__c);
                             }
                     } 
@@ -221,7 +221,8 @@ public without sharing class PPMessagePageRemote {
                 pageData.statusByPeMap = new Map<Id, Boolean>();
                 for (Participant_Enrollment__c pe : participantEnrollments) {
                     availablePEIds.add(pe.Id);
-                    if (pe.Study_Site__r.Messages_Are_Available__c) {
+                    Boolean isMessageAvailable = pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c && pe.Invited_To_PP_Date__c !=null && pe.Study_Site__r.Messages_Are_Available__c ? true : false;
+                    if (isMessageAvailable) {
                         pageData.enrollments.add(pe);
                         peIds.add(pe.Id);
                         pageData.statusByPeMap.put(
