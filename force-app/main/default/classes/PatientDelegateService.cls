@@ -862,7 +862,7 @@ public without sharing class PatientDelegateService {
             WHERE
                 (Participant__c IN :allDelegatedParticipantIds
                 OR Participant_Contact__c IN :contactIds)
-                AND Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN :CommunityModeService.rhSponsorsByCommunity.keySet()
+                //AND Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN :CommunityModeService.rhSponsorsByCommunity.keySet()
                 AND Study_Site__r.Study_Site_Type__c != 'Virtual'
                 AND Study_Site__r.Study_Site_Type__c != 'Hybrid'
                 AND Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
