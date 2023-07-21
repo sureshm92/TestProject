@@ -220,6 +220,11 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                     tasks[i].openTask.Task_Code__c === undefined
                         ? false
                         : this.taskCodeList.includes(tasks[i].openTask.Task_Code__c);
+                tasks[i].activateEcoaTask = 
+                        this.taskCodeList.includes(tasks[i].openTask.Task_Code__c) && 
+                                tasks[i].openTask.Task_Code__c ==  'Activate_Ecoa_Ediaries' 
+                                ? true 
+                                : false;        
                 tasks[i].ecoaTask =
                         tasks[i].openTask.Task_Type__c != undefined &&
                             tasks[i].openTask.Task_Type__c == 'Ecoa' 
@@ -276,9 +281,14 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].task.Task_Code__c === undefined
                     ? false
                     : this.taskCodeList.includes(tasks[i].task.Task_Code__c);
+            tasks[i].activateEcoaTask = 
+                    this.taskCodeList.includes(tasks[i].openTask.Task_Code__c) && 
+                            tasks[i].openTask.Task_Code__c ==  'Activate_Ecoa_Ediaries' 
+                            ? true 
+                            : false;        
             tasks[i].ecoaTask =
-                    tasks[i].openTask.Task_Type__c != undefined &&
-                        tasks[i].openTask.Task_Type__c == 'Ecoa' 
+                    tasks[i].task.Task_Type__c != undefined &&
+                        tasks[i].task.Task_Type__c == 'Ecoa' 
                         ? true
                         : false;        
             tasks[i].completed = tasks[i].task.Status == 'Completed' ? true : false;
@@ -304,7 +314,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 ? tasks[i].task.Task_Code__c == 'Complete_Survey'
                 : true;
             
-            if(tasks[i].ecoaTask)  tasks[i].businessTask = false 
+            if(tasks[i].ecoaTask)  tasks[i].businessTask = false; 
             if (tasks[i].task.Status == 'Completed') {
                 tasks[i].subjectClass = 'set-up-your-account complete-header cursor-default';
                 this.completedTasksList.push(tasks[i]);
