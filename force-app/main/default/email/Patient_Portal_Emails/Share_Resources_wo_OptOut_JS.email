@@ -31,7 +31,8 @@
                             title="{!$Label.Email_Title_PH}"
                             greeting="{!$Label.Email_Ext_User_Greeting}"
                             signature="{!$Label.Email_Signature_Resource}"
-                            communityTemplate="PatientPortal">
+                            communityTemplate="PatientPortal"
+                            isJanssenValue="true">
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Share_Resource}"/>
         <c:EmailActionBtnText buttonLabel="{!$Label.Email_Label_View_Information}"
                                 buttonURL="{!relatedTo.article_external_link__c }"/>
