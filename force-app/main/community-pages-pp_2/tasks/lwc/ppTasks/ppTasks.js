@@ -244,9 +244,10 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 } else {
                     tasks[i].criticalTask = tasks[i].openTask.Priority == 'Critical' ? true : false;
                 }
-                tasks[i].subjectClass = tasks[i].systemTask
-                    ? 'set-up-your-account curpointer'
-                    : 'set-up-your-account';
+                tasks[i].subjectClass = 
+                    (tasks[i].systemTask || tasks[i].ecoaTask)
+                        ? 'set-up-your-account curpointer'
+                        : 'set-up-your-account';
                 tasks[i].subjectEllipsisClass = tasks[i].criticalTask
                     ? 'crit-subject-ellipsis crit-mob-subject-ellipsis'
                     : 'subject-ellipsis mob-subject-ellipsis';
