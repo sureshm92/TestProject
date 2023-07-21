@@ -123,16 +123,10 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
     populateSystemTasks(tasks) {
         for (let i = 0; i < tasks.length; i++) {
             tasks[i].isClosed = false;
-            tasks[i].systemTask =  
-            tasks[i].openTask.Task_Type__c != undefined && tasks[i].openTask.Task_Type__c == 'Ecoa' 
-               ? true 
-               : tasks[i].openTask.Task_Code__c === undefined  
-                    ? false
-                    : this.taskCodeList.includes(tasks[i].openTask.Task_Code__c);
-            /*tasks[i].systemTask =
+            tasks[i].systemTask =
                 tasks[i].openTask.Task_Code__c === undefined
                     ? false
-                    : this.taskCodeList.includes(tasks[i].openTask.Task_Code__c);*/
+                    : this.taskCodeList.includes(tasks[i].openTask.Task_Code__c);
             tasks[i].dueDate = tasks[i].openTask.Activity_Datetime__c ? true : false;
             tasks[i].startDate =
                 tasks[i].openTask.Start_Date__c &&
@@ -224,7 +218,7 @@ export default class PpHomePageTasks extends NavigationMixin(LightningElement) {
             }
 
             if (
-                (this.taskCodeList.includes(selectedTask.openTask.Task_Code__c)  || selectedTask.openTask.Task_Type__c == 'Ecoa') &&
+                this.taskCodeList.includes(selectedTask.openTask.Task_Code__c) &&
                 selectedTask.openTask.Task_Code__c != 'Complete_Survey'
             ) {
                 this.popupTaskMenuItems.push(this.reminderObj);
