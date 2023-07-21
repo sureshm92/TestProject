@@ -435,7 +435,7 @@ public without sharing class UpdateService {
                     	Resource__r.Content_Type__c
                     FROM Res_study__c
                     WHERE
-                        Resource__r.Content_Type__c != 'Study_Document'
+                        Resource__r.Content_Type__c = 'Relevant_Link' 
                         AND Clinical_Trial_Profile__c IN :pastCtpIds
                         AND Visible_In_Alumni__c = TRUE
                         AND Visible_To_Participant__c = TRUE

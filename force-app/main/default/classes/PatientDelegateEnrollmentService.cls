@@ -138,11 +138,11 @@ public without sharing class PatientDelegateEnrollmentService {
             },
             Patient_Delegate_Enrollment__c.getSObjectType(),
             DatabaseService.fieldEqual(
-                'Patient_Delegate__r.Participant__r.Contact__c',
-                CommunityService.getInstance().getCurrentContactId()
-            ) /* +
-            ' AND ' +
-            DatabaseService.fieldNotEqual('Status__c', 'Deleted') */
+                    'Patient_Delegate__r.Participant__r.Contact__c',
+                    CommunityService.getInstance().getCurrentContactId()
+                ) +
+                ' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c= true' +
+                ' AND Participant_Enrollment__r.Invited_To_PP_Date__c != null'
         );
         isDelegate = lstPDE.size() > 0;
         participant = ParticipantContext.getCurrentParticipant();
@@ -413,7 +413,9 @@ public without sharing class PatientDelegateEnrollmentService {
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 Primary_Delegate__c
             FROM Patient_Delegate_Enrollment__c
-            WHERE Patient_Delegate__r.Contact__c = :pdContactId AND Status__c = 'Active'
+            WHERE Patient_Delegate__r.Contact__c = :pdContactId 
+            AND Status__c = 'Active'
+            AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c =  true
         ];
         return pdeList;
     }
@@ -460,6 +462,7 @@ public without sharing class PatientDelegateEnrollmentService {
                 Patient_Delegate__r.Contact__c = :pdContactId
                 AND Patient_Delegate__r.Participant__r.Contact__c = :parContactId
                 AND Status__c = 'Active'
+                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c =  true
         ];
         return pdeList;
     }
