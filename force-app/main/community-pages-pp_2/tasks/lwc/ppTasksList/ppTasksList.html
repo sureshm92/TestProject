@@ -16,21 +16,41 @@
                             >
                                 <!--System Non-Business Tasks at Home-->
                                 <template if:false={item.businessTask}>
-                                    <template if:true={isMobile}>
-                                        <c-web-icon
-                                            class={systemIconClass}
-                                            icon-name="task-illustration"
-                                            icon-size="big-custom"
-                                        >
-                                        </c-web-icon>
+                                    <template if:true={item.activateEcoaTask}>
+                                        <template if:true={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="ecoa-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                        <template if:false={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="ecoa-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
                                     </template>
-                                    <template if:false={isMobile}>
-                                        <c-web-icon
-                                            class={systemIconClass}
-                                            icon-name="task-illustration"
-                                            icon-size="big-custom"
-                                        >
-                                        </c-web-icon>
+                                    <template if:false={item.activateEcoaTask}>
+                                        <template if:true={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="task-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                        <template if:false={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="task-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
                                     </template>
                                 </template>
                                 <!--System Business Tasks at Home-->
@@ -96,21 +116,41 @@
                             >
                                 <!--System Non-Business Tasks at Task Page-->
                                 <template if:false={item.businessTask}>
-                                    <template if:true={isMobile}>
-                                        <c-web-icon
-                                            class={systemIconClass}
-                                            icon-name="task-illustration"
-                                            icon-size="big-custom"
-                                        >
-                                        </c-web-icon>
+                                    <template if:true={item.activateEcoaTask}>
+                                        <template if:true={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="ecoa-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                        <template if:false={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="ecoa-illustration"
+                                                icon-size="big"
+                                            >
+                                            </c-web-icon>
+                                        </template>
                                     </template>
-                                    <template if:false={isMobile}>
-                                        <c-web-icon
-                                            class={systemIconClass}
-                                            icon-name="task-illustration"
-                                            icon-size="big"
-                                        >
-                                        </c-web-icon>
+                                    <template if:false={item.activateEcoaTask}>
+                                        <template if:true={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="task-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                        <template if:false={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="task-illustration"
+                                                icon-size="big"
+                                            >
+                                            </c-web-icon>
+                                        </template>
                                     </template>
                                 </template>
                                 <!--System Business Tasks at Task Page-->
@@ -202,7 +242,6 @@
                                 >
                                 </c-web-icon>
                             </template>
-                        </template>
                         <!--Mark Task as Complete Modal-->
                         <template if:true={isShowModal}>
                             <c-pp-task-complete-modal
@@ -228,7 +267,7 @@
                             ></c-pp-task-ignore-modal>
                         </template>
                         <template if:true={item.isClosed}>
-                            <c-web-icon
+                           <c-web-icon
                                 class={webIconClass}
                                 icon-name="icon-completedtask"
                                 onclick={showTaskCompleteModal}
@@ -237,6 +276,7 @@
                                 tabindex="0"
                             ></c-web-icon>
                         </template>
+                       </template>
                     </template>
                 </lightning-layout-item>
                 <!--Desktop View for Task List Subject, Critical and Due Date Section-->

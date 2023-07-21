@@ -281,8 +281,19 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].task.Task_Code__c === undefined
                     ? false
                     : this.taskCodeList.includes(tasks[i].task.Task_Code__c);
+            tasks[i].ecoaTask =
+                    tasks[i].task.Task_Type__c != undefined &&
+                        tasks[i].task.Task_Type__c == 'Ecoa' 
+                        ? true
+                        : false;
+            tasks[i].activateEcoaTask = 
+                    this.taskCodeList.includes(tasks[i].task.Task_Code__c) && 
+                            tasks[i].task.Task_Code__c ==  'Activate_Ecoa_Ediaries' 
+                            ? true 
+                            : false;        
+
             tasks[i].completed = tasks[i].task.Status == 'Completed' ? true : false;
-            tasks[i].dueDate = false;
+            tasks[i].dueDate = false; 
             if (!tasks[i].completed) {
                 tasks[i].dueDate = tasks[i].task.Activity_Datetime__c ? true : false;
             }
@@ -301,9 +312,11 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].criticalTask = tasks[i].task.Priority == 'Critical' ? true : false;
             }
 
-            tasks[i].businessTask = tasks[i].systemTask
-                ? tasks[i].task.Task_Code__c == 'Complete_Survey'
-                : true;
+            tasks[i].businessTask = !tasks[i].ecoaTask && tasks[i].systemTask
+            ? tasks[i].task.Task_Code__c == 'Complete_Survey'
+            : true;    
+            if(tasks[i].ecoaTask) tasks[i].businessTask = false;
+
             if (tasks[i].task.Status == 'Completed') {
                 tasks[i].subjectClass = 'set-up-your-account complete-header cursor-default';
                 this.completedTasksList.push(tasks[i]);
