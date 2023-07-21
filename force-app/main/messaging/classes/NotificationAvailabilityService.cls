@@ -396,7 +396,8 @@ public without sharing class NotificationAvailabilityService {
                     Participant_Enrollment__r.Name,
                     Participant_Enrollment__r.Clinical_Trial_Profile__c,
                     Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
                 FROM Patient_Delegate_Enrollment__c
                 WHERE
                     Participant_Enrollment__c IN :perIdLst

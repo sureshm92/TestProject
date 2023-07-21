@@ -9,7 +9,9 @@ public without sharing class ConversationService {
         conversationShares = (List<Conversation__Share>) DatabaseService.query(
             new List<String>{ 'Id', 'ParentID' },
             Conversation__Share.getSObjectType(),
-            DatabaseService.fieldInValues('Parent.Participant_Enrollment__c', peIds)
+            DatabaseService.fieldInValues('Parent.Participant_Enrollment__c', peIds) + 
+            ' AND Parent.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c= true' +
+            ' AND Parent.Participant_Enrollment__r.Invited_To_PP_Date__c != null'
         );
         Set<String> conversationIds = new Set<String>();
         for (Conversation__Share conShare : conversationShares)
