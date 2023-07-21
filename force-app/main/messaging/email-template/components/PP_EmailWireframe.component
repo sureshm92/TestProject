@@ -29,6 +29,8 @@
     <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML" />
     <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" description="Community template name"
     />
+    <apex:attribute name="isJanssenValue" type="Boolean" assignTo="{!isJanssen}" description="If community is Janssen 2.0"
+    />
     <apex:attribute name="specificEmailProvider" type="String" assignTo="{!specificEmailProviderValue}" description="If you need specific instance of EmailTemplateProvider set this here"
     />
     <apex:attribute name="shareEmailTemplate" assignTo="{!shareTemplate}" type="String" description="" default="No" access="global"
@@ -164,13 +166,13 @@
                 <div style="{!IF(isRTL,'display:block;', 'display:none;')}">
                     <a style="color: #015FF1;
                             text-decoration: none;
-                            font-weight: 600;" href="{!emailCommunityURL + '/s/privacy-policy'}">{!$Label.Email_Footer_Privacy_Policy}</a>&nbsp;&nbsp;|&nbsp;&nbsp;{!$Label.Email_Footer_Address}
+                            font-weight: 600;" href="{!IF(isJanssenValue, emailCommunityURL + '/s/janssen-privacy-policy', emailCommunityURL + '/s/privacy-policy')}">{!$Label.Email_Footer_Privacy_Policy}</a>&nbsp;&nbsp;|&nbsp;&nbsp;{!$Label.Email_Footer_Address}
                 </div>
                 <div style="{!IF(!isRTL,'display:block;', 'display:none;')}">
-                    {!$Label.Email_Footer_Address}&nbsp;&nbsp;|&nbsp;
+                    {!$Label.Email_Footer_Address}&nbsp;&nbsp;|&nbsp; 
                     <a style="color: #015FF1;
                             text-decoration: none;
-                            font-weight: 600;" href="{!emailCommunityURL + '/s/privacy-policy'}">{!$Label.Email_Footer_Privacy_Policy}</a>
+                            font-weight: 600;" href="{!IF(isJanssenValue, emailCommunityURL + '/s/janssen-privacy-policy', emailCommunityURL + '/s/privacy-policy')}" >{!$Label.Email_Footer_Privacy_Policy}</a>
                 </div>
             </div>
         </div>
