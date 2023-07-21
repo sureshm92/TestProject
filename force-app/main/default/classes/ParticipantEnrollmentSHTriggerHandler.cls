@@ -567,7 +567,8 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             ParticipantEnrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
             Status__c,
             Date__c,
-            ParticipantEnrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.PPTemplate__c
             FROM Participant_Enrollment_Status_History__c
             WHERE Id IN :newHistories
         ];
@@ -594,7 +595,8 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             ParticipantEnrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
             Status__c,
             Date__c,
-            ParticipantEnrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.PPTemplate__c
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c IN :statusHistoryPER.values() 
             AND Status__c IN : PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS
@@ -628,7 +630,7 @@ participantIds
             if (pe.Participant_Contact__c != null && !alredayEnrolledPER.contains(pe.Id)) {
                 if (
                     pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                    CommunityTemplateService.TEMPLATE_PP
+                    CommunityTemplateService.TEMPLATE_PP || (pe.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
                 ) {
                     alerts.add(
                         new Alert__c(
