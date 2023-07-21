@@ -22,7 +22,8 @@
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
                               greeting="{!$Label.Email_User_Greeting_FirstName}"
-                              signature="{!$Label.Email_Signature_PT}">
+                              signature="{!$Label.Email_Signature_PT}"
+                              isJanssenValue="true">
             <c:ParagraphText emailLabel="{!IF(AND(relatedTo.Originator__c != 'Participant', relatedTo.Originator__c != 'Delegate'),$Label.Email_Body_Instant_Task_Reminder_Type_Not_Selected_PPOnlyDate, $Label.Email_Body_Instant_Task_Reminder_Type_Not_Selected_PP)}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:PP_EmailWireframeText>
