@@ -234,8 +234,9 @@ public class Test_ListViewParticipantController {
             ListViewParticipantController.getAvailableStatuses('Received',clinical.Id);
             ListViewParticipantController.getAvailableStatuses('Randomization Success',clinical.Id);
             ListViewParticipantController.statusDetail('Received',clinical.Id);
+           Test.startTest();
             ListViewParticipantController.statusDetail('Pre-review Failed',clinical.Id);
-            Test.startTest();
+            
             ListViewParticipantController.createUserForPatientProtal(peList,True);
             
             
