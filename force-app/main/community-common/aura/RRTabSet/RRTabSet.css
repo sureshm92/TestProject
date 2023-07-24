@@ -11,7 +11,7 @@
 }
 
 .THIS.ts-tab-container:after {
-    content: '';
+    content: none;
     height: 1px;
     width: 100%;
     position: absolute;
