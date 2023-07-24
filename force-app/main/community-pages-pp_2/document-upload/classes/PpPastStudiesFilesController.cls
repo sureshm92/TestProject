@@ -55,7 +55,7 @@ public with sharing class PpPastStudiesFilesController {
             }     
         }else{
             Integer indexOfElement = 0;
-            for(Participant_Enrollment__c objPER : alumiPerList){
+            for(Participant_Enrollment__c objPER : (new List<Participant_Enrollment__c>(alumiPerList))){
                 if(objPER.Invited_To_PP_Date__c == null){
                     alumiPerList.remove(indexOfElement); // Remove the study if it is not invited to particiapnt.
                 }
