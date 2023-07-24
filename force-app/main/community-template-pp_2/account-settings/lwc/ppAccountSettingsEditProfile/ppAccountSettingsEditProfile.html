@@ -552,6 +552,7 @@
                                                     class="profile-info-input"
                                                     value={personWrapper.mobilePhone}
                                                     onkeyup={handleMobilePhoneChange}
+                                                    disabled={isDelegate}
                                                 ></lightning-input>
                                             </div>
                                             <div class={useAsDaytimeContainerClass}>
@@ -601,6 +602,18 @@
                                         </abbr></label
                                     >
                                     <div class="slds-form-element__control">
+                                        <template lwc:if={isDelegate}>
+                                            <lightning-input
+                                                type="tel"
+                                                data-id="daytime-phone-input"
+                                                variant="label-hidden"
+                                                class="profile-info-input"
+                                                value={personWrapper.homePhone}
+                                                onkeyup={handleDaytimePhoneChange}
+                                                disabled="true"
+                                            ></lightning-input>
+                                        </template>
+                                        <template lwc:else>
                                         <lightning-input
                                             type="tel"
                                             data-id="daytime-phone-input"
@@ -610,6 +623,7 @@
                                             onkeyup={handleDaytimePhoneChange}
                                             disabled={isUseAsDaytimePhoneChecked}
                                         ></lightning-input>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -621,6 +635,19 @@
                                         >{labels.PHONE_TYPE}</label
                                     >
                                     <div class="slds-form-element__control">
+                                        <template lwc:if={isDelegate}>
+                                            <c-pp-web-select
+                                                is-r-t-l={isRTL}
+                                                label-hidden="true"
+                                                place-holder="Select"
+                                                selected-value={personWrapper.phoneType}
+                                                is-disabled="true"
+                                                options={contactSectionData.phoneTypeList}
+                                                onchangevalue={handlePhoneTypeChange}
+                                                custom-class={phoneTypeWidthClass}
+                                            ></c-pp-web-select>
+                                        </template>
+                                        <template lwc:else>
                                         <c-pp-web-select
                                             is-r-t-l={isRTL}
                                             label-hidden="true"
@@ -631,6 +658,7 @@
                                             onchangevalue={handlePhoneTypeChange}
                                             custom-class={phoneTypeWidthClass}
                                         ></c-pp-web-select>
+                                        </template>
                                     </div>
                                 </div>
                             </div>

@@ -1,36 +1,18 @@
-/**
- * Created by Yehor Dobrovolskyi
- */
-public inherited sharing class VisitReportContainerRemote {
+public class ModifiedVisitReportContainerRemote {
     static Set<String> differentLabNames = new Set<String>{
         'Body_Mass_Index',
         'BUN',
         'AST',
         'ALT'
     };
-    public static final String IQVIA_LOGO = 'IQVIA';
-    private static String base64PNG = 'data:image/png;base64,';
 
     @AuraEnabled
-    public static String getLogoFromStatic(String communityname) {
-        String reportlogopath = '/resource/ReportBrandingLogos/' + communityname + '.png';
+    public static ReportDataWrapper getReportDataWrappers_Modified(Id peId, Id patientVisitId) {
         try {
-            PageReference pr = new PageReference(reportlogopath);
-            Blob imageLogo = pr.getContent();
-            return base64PNG + EncodingUtil.base64Encode(imageLogo);
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
-        }
-        return base64PNG;
-    }
-
-    @AuraEnabled
-    public static ReportDataWrapper getReportDataWrappers(Id peId) {
-        try {
-            VisitReportService visitReportService = ((VisitReportService) ClassFactory.newInstance(
-                VisitReportService.class
+            ModifiedVisitReportService visitReportService = ((ModifiedVisitReportService) ClassFactory.newInstance(
+                ModifiedVisitReportService.class
             ));
-            return visitReportService.getReportDataWrapper(peId);
+            return visitReportService.getReportDataWrapper(peId, patientVisitId);
         } catch (Exception e) {
             return (ReportDataWrapper) AuraHelper.throwException(e);
         }
@@ -67,7 +49,7 @@ public inherited sharing class VisitReportContainerRemote {
         @AuraEnabled
         public List<VisitDataWrapper> tHead;
         @AuraEnabled
-        public List<List<VisitDataWrapper>> visitResultsWrapper;
+        public List<List<VisitValueWrapper>> visitResultsWrapper;
         @AuraEnabled
         public String tableName;
         @AuraEnabled
@@ -106,46 +88,11 @@ public inherited sharing class VisitReportContainerRemote {
     }
 
     public class VisitHeaderWrapper extends VisitDataWrapper {
-        @AuraEnabled
-        public Double minValue;
-        @AuraEnabled
-        public Double maxValue;
-        @AuraEnabled
-        public Boolean isShowRange;
-        @AuraEnabled
-        public String measurement;
-
         public VisitHeaderWrapper(Visit_Result__c visitResult) {
             this.value = TranslateHelper.getLabelValue(visitResult.Result_Type__c);
-            this.minValue = visitResult.Min_Value__c;
-            this.maxValue = visitResult.Max_Value__c;
-            this.isShowRange = true;
-            this.measurement = visitResult.Measurement__c;
         }
-
         public VisitHeaderWrapper(String value) {
             this.value = TranslateHelper.getLabelValue(value);
-            this.isShowRange = false;
-        }
-        public VisitHeaderWrapper(String value, String measurement) {
-            this.value = TranslateHelper.getLabelValue(value);
-            this.isShowRange = false;
-            this.measurement = measurement;
-        }
-    }
-
-    public class VisitDateColumnWrapper extends VisitDataWrapper {
-        public VisitDateColumnWrapper(Date resultDate) {
-            DateTime dt = DateTime.newInstance(
-                resultDate.year(),
-                resultDate.month(),
-                resultDate.day()
-            );
-            // this.value = resultDate.format();
-            this.value = UserService.formatDatebyLocale(dt, UserContext.getUser().LocaleSidKey);
-        }
-        public VisitDateColumnWrapper(String value) {
-            this.value = value;
         }
     }
 
@@ -160,16 +107,33 @@ public inherited sharing class VisitReportContainerRemote {
         public VisitValueWrapper(String value) {
             this.value = value;
         }
+        public VisitValueWrapper(Date resultDate) {
+            DateTime dt = DateTime.newInstance(
+                resultDate.year(),
+                resultDate.month(),
+                resultDate.day()
+            );
+            this.value = UserService.formatDatebyLocale(dt, UserContext.getUser().LocaleSidKey);
+        }
     }
 
     @AuraEnabled
-    public static String getBase64fromVisitSummaryReportPage(String peId, String isRTL) {
-        PageReference page = Page.VisitSummaryReportPage;
+    public static String getBase64fromVisitSummaryReportPage_Modified(
+        String peId,
+        String isRTL,
+        String patientVisitNam,
+        Id patientVisId
+    ) {
+        PageReference page = Page.PatientVisitReportPage;
         page.getParameters().put('peId', peId);
         page.getParameters().put('isRTL', isRTL);
-
-        Blob content = page.getContent();
-        String encoded = EncodingUtil.base64Encode(content);
+        page.getParameters().put('patientVisitNam', patientVisitNam);
+        page.getParameters().put('patientVisitId', patientVisId);
+        String encoded;
+        if (!Test.isRunningTest()) {
+            Blob content = page.getContent();
+            encoded = EncodingUtil.base64Encode(content);
+        }
         return encoded;
     }
 }

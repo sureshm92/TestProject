@@ -385,6 +385,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 // DEl switching to Participant
                 if (communityService.getCurrentCommunityMode().currentDelegateId) {
                     this.isDelegate = true;
+                    this.isMobilePhoneInvalid = true;
                     this.userId = communityService.getCurrentCommunityMode().currentDelegateId;
                     if (this.userMode === 'Participant') {
                         if (

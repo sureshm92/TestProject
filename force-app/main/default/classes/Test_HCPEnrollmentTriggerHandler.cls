@@ -115,13 +115,15 @@ public class Test_HCPEnrollmentTriggerHandler {
         );
             contacts.add(hcpContact);
         insert contacts;
+        List<HCP_Enrollment__c> lstHCPEnrollment = new list<HCP_Enrollment__c> ();
         HCP_Enrollment__c hcpEnrollment = new HCP_Enrollment__c(
                 Study_Site__c = testData.ss.Id,
                 HCP_Contact__c = hcpContact.Id,
                 Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT
             );
         enrollmentList.add(hcpEnrollment);
-        insert hcpEnrollment;
+         
+        //insert hcpEnrollment;
            
         HCP_Enrollment__c hcpEnrollment1 = new HCP_Enrollment__c(
                 Study_Site__c = testData.ss.Id,
@@ -129,49 +131,52 @@ public class Test_HCPEnrollmentTriggerHandler {
                 Status__c = HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O
             );
         enrollmentList.add(hcpEnrollment1);
-        insert hcpEnrollment1;
-        hcpEnrollment1.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-        update hcpEnrollment1;
-        enrollmentList1.add(hcpEnrollment1);
         
-        HCP_Enrollment__c hcpEnrollment2 = new HCP_Enrollment__c(
+         HCP_Enrollment__c hcpEnrollment2 = new HCP_Enrollment__c(
                 Study_Site__c = testData.ss.Id,
                 HCP_Contact__c = hcpContact.Id,
                 Status__c = HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O
             );
         enrollmentList.add(hcpEnrollment2);
-        insert hcpEnrollment2;
-        hcpEnrollment2.Status__c = HCPEnrollmentService.HCP_S_DECLINE_ACTIVATION;
-        update hcpEnrollment2;
-        hcpEnrollment2.Status__c = HCPEnrollmentService.HCP_S_DECLINED_APPROVAL;
-        update hcpEnrollment2;
-        enrollmentList2.add(hcpEnrollment2);
+        
         
         HCP_Enrollment__c hcpEnrollment3 = new HCP_Enrollment__c(
                 Study_Site__c = testData.ss.Id,
                 HCP_Contact__c = hcpContact.Id,
                 Status__c = HCPEnrollmentService.HCP_S_NON_RESPONCIVE_A
             );
-        insert hcpEnrollment3;
-        hcpEnrollment3.Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACCEPTANCE;
-        update hcpEnrollment3;
+         enrollmentList.add(hcpEnrollment3);
         
-        HCP_Enrollment__c hcpEnrollment4 = new HCP_Enrollment__c(
+         HCP_Enrollment__c hcpEnrollment4 = new HCP_Enrollment__c(
                 Study_Site__c = testData.ss.Id,
                 HCP_Contact__c = hcpContact.Id,
                 Status__c = HCPEnrollmentService.HCP_S_NON_RESPONCIVE_A
             );
-        insert hcpEnrollment4;
-        hcpEnrollment4.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
-        update hcpEnrollment4;
-        
-        HCP_Enrollment__c hcpEnrollment5 = new HCP_Enrollment__c(
+         enrollmentList.add(hcpEnrollment4);
+         HCP_Enrollment__c hcpEnrollment5 = new HCP_Enrollment__c(
                 Study_Site__c = testData.ss.Id,
                 HCP_Contact__c = hcpContact.Id,
                 Status__c = HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O
             );
-        insert hcpEnrollment5;
+        enrollmentList.add(hcpEnrollment5);
+        insert enrollmentList;
+       // insert hcpEnrollment1;
+        hcpEnrollment1.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+        update hcpEnrollment1;
+        enrollmentList1.add(hcpEnrollment1); 
         
+        hcpEnrollment2.Status__c = HCPEnrollmentService.HCP_S_DECLINE_ACTIVATION;
+        update hcpEnrollment2;
+        hcpEnrollment2.Status__c = HCPEnrollmentService.HCP_S_DECLINED_APPROVAL;
+        update hcpEnrollment2;
+        enrollmentList2.add(hcpEnrollment2); 
+        
+        hcpEnrollment3.Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACCEPTANCE;
+        update hcpEnrollment3; 
+       
+        hcpEnrollment4.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+        update hcpEnrollment4; 
+       
         Participant_Enrollment__c pe = [
             SELECT Id, Participant__r.Contact__c
             FROM Participant_Enrollment__c
