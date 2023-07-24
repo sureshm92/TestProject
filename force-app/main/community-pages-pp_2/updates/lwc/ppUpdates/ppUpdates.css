@@ -49,7 +49,7 @@
 }
 
 .container-card {
-    background-color: rgb(246, 247, 249);
+    background-color: #f6f7fb;
     border-top-color: #005587;
     border-top-width: 8px;
     padding: 0;
@@ -193,10 +193,15 @@
 .refresh-icon {
     margin-left: 8px;
     height: 16px;
-    margin-right: 8px;
 }
-.pointer-class {
+.refresh-section {
+    padding: 4px 8px;
+}
+.refresh-section:focus,
+.refresh-section:hover {
     cursor: pointer;
+    background-color: #ebf2fe;
+    border-radius: 12px;
 }
 .load-more-label {
     color: #444444;
