@@ -1,0 +1,38 @@
+{
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "c:OneColumnLayout",
+  "dataProviders" : [ ],
+  "id" : "e946f48f-fe1a-4533-b733-68c13f82b79f",
+  "label" : "Mobile Pdf Viewer",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:MobilePdfViewer",
+      "id" : "1a954871-0b05-490d-a09c-d6e80ffdc8f0",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "06e50d4c-429e-4961-91c2-c2c69577a8ed",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Mobile Pdf Viewer"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "b48212d2-dbce-42fd-a0d9-131f107c76db",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "fdbf009f-e5ba-44d0-af13-236a5f5521c1",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-mobile-pdf-viewer"
+}
