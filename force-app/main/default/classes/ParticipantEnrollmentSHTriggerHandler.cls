@@ -493,6 +493,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 Study_Site__r.Clinical_Trial_Profile__c,
                 Study_Site__r.Suppress_Participant_Emails__c,
                 Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Clinical_Trial_Profile__r.PPTemplate__c,
                 Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                 Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                 Is_Virtual_Study_Site__c,
@@ -529,7 +530,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     if(filterCriteria){
                         if (
                             newPE.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                            CommunityTemplateService.TEMPLATE_PP
+                            CommunityTemplateService.TEMPLATE_PP || (newPE.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && newPE.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
                         ) {
                             alertsForInsert.add(
                                 new Alert__c(
@@ -656,7 +657,7 @@ participantIds
                 if(!alredayEnrolledPER.contains(pe.Id)){
                     if (
                         pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                        CommunityTemplateService.TEMPLATE_PP 
+                        CommunityTemplateService.TEMPLATE_PP  || (pe.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
                     ) {
                         alerts.add(
                             new Alert__c(
