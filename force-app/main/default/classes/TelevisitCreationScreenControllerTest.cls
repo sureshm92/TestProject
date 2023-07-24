@@ -48,7 +48,7 @@ Public Class TelevisitCreationScreenControllerTest{
 
         Test.setMock(HttpCalloutMock.class, new RestMock());
         Test.startTest();
-
+        TriggerHandlerExecutor.bypassHandler(NotificationTriggerHandler.UpdateNotificationHandler.class);
         TestData testData = new TestData();
         List<String> participantEnrollmentId = new List<String>();
         participantEnrollmentId.add(testData.pe.Id);

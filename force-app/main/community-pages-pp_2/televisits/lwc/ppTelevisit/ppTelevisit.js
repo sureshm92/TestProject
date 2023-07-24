@@ -9,6 +9,9 @@ import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { NavigationMixin } from 'lightning/navigation';
 import DEVICE from '@salesforce/client/formFactor';
 import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import removeCancelledUpdateNotifications from '@salesforce/apex/PPUpdatesController.removeCancelledUpdateNotifications';
+import removeScheduledAndRescheduledUpdateNotifications from '@salesforce/apex/PPUpdatesController.removeScheduledAndRescheduledUpdateNotifications';
 export default class PpTelevisit extends NavigationMixin(LightningElement) {
     @track contentLoaded = false;
     @track upcomingTelevisitslist = [];
@@ -25,100 +28,154 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
         upcoming,
         Televisits,
         No_upcoming_televisits,
-        No_past_televisits
+        No_past_televisits,
+        removeCancelledUpdateNotifications
     };
     past = false;
-    timechanges ;
+    timechanges;
     reloadupcomingcomponent = false;
     isdelegate = false;
+    alreadyCalledRemovalNotif = false;
     selectedNavHandler(event) {
-        if(event.detail.filter == 'showblankupcomingtelevisits:false'){
+        if (event.detail.filter == 'showblankupcomingtelevisits:false') {
             this.upcomingTelevisitslist = event.detail.upcomingdata;
             this.pastTelevisitlist = event.detail.details;
             this.showblankupcomingtelevisits = false;
         }
-        if(event.detail.filter == 'showblankupcomingtelevisits:true'){
+        if (event.detail.filter == 'showblankupcomingtelevisits:true') {
             this.showblankupcomingtelevisits = true;
             this.pastTelevisitlist = event.detail.details;
-            this.upcomingTelevisitslist = event.detail.upcomingdata;    
-            this.showblankpasttelsvisits = false;       
-            if(this.past){
+            this.upcomingTelevisitslist = event.detail.upcomingdata;
+            this.showblankpasttelsvisits = false;
+            if (this.past) {
                 this.showuppasttelevisits = true;
             }
-            
         }
-        if(event.detail.filter == 'datachange'){
+        if (event.detail.filter == 'datachange') {
             this.pastTelevisitlist = event.detail.details;
-            this.upcomingTelevisitslist = event.detail.upcomingdata; 
-            this.showblankpasttelsvisits = false; 
-            if(this.past){
+            this.upcomingTelevisitslist = event.detail.upcomingdata;
+            this.showblankpasttelsvisits = false;
+            if (this.past) {
                 this.showuppasttelevisits = true;
             }
-
         }
     }
-    onPastClick (){
+    onPastClick() {
         this.reloadupcomingcomponent = false;
         this.past = true;
         this.showupcomingtelevisits = false;
-        if(!this.showblankpasttelsvisits){
+        if (!this.showblankpasttelsvisits) {
             this.showuppasttelevisits = true;
+            this.removeCancelledUpdateNotifications();
         }
     }
-    onUpcomingClick (){  
-        this.past = false; 
+    onUpcomingClick() {
+        this.past = false;
         this.reloadupcomingcomponent = true;
         this.showuppasttelevisits = false;
-        if(!this.showblankupcomingtelevisits){
+        if (!this.showblankupcomingtelevisits) {
             this.showupcomingtelevisits = true;
-        }            
+            if (!this.alreadyCalledRemovalNotif) {
+                this.alreadyCalledRemovalNotif = true;
+                this.removeScheduledAndRescheduledUpdateNotifications();
+            }
+        }
     }
-    gettelevisitdetails(isPast){
-        getParticipantDetails({joinbuttonids : null})
-        .then((result) => {
-            if(result != undefined && result != '' &&
-               (result.televisitupcomingList.length > 0 || result.televisitpastList.length > 0)){
-                this.timechanges = result.tz;
-                this.pastTelevisitlist = result.televisitpastList;
-                this.upcomingTelevisitslist = result.televisitupcomingList;
-                if(this.pastTelevisitlist.length == 0){
+
+    removeCancelledUpdateNotifications() {
+        let participantContactId = communityService.getParticipantData().participant.Contact__c;
+        let partEnrollemntId = communityService.getParticipantData()?.pe?.Id;
+        let currentParticipant = communityService.getParticipantData().participant.Id;
+        removeCancelledUpdateNotifications({
+            contactId: participantContactId,
+            peId: partEnrollemntId,
+            participantId: currentParticipant
+        })
+            .then((result) => {})
+            .catch((error) => {
+                this.showToast('', error.message, 'error');
+            });
+    }
+
+    removeScheduledAndRescheduledUpdateNotifications() {
+        let participantContactId = communityService.getParticipantData().participant.Contact__c;
+        let partEnrollemntId = communityService.getParticipantData()?.pe?.Id;
+        let currentParticipant = communityService.getParticipantData().participant.Id;
+        removeScheduledAndRescheduledUpdateNotifications({
+            contactId: participantContactId,
+            peId: partEnrollemntId,
+            participantId: currentParticipant
+        })
+            .then((result) => {})
+            .catch((error) => {
+                this.showToast('', error.message, 'error');
+            });
+    }
+
+    gettelevisitdetails(isPast) {
+        getParticipantDetails({ joinbuttonids: null })
+            .then((result) => {
+                if (
+                    result != undefined &&
+                    result != '' &&
+                    (result.televisitupcomingList.length > 0 || result.televisitpastList.length > 0)
+                ) {
+                    this.timechanges = result.tz;
+                    this.pastTelevisitlist = result.televisitpastList;
+                    this.upcomingTelevisitslist = result.televisitupcomingList;
+                    if (this.pastTelevisitlist.length == 0) {
+                        this.showblankpasttelsvisits = true;
+                    }
+                    if (this.upcomingTelevisitslist.length == 0) {
+                        this.showblankupcomingtelevisits = true;
+                    }
+                    if (result.showDefault == 'upcoming' && isPast != true) {
+                        this.past = false;
+                        this.showupcomingtelevisits = true;
+                        this.alreadyCalledRemovalNotif = true;
+                        this.removeScheduledAndRescheduledUpdateNotifications();
+                    } else {
+                        this.past = true;
+                        this.showuppasttelevisits = true;
+                    }
+                } else {
+                    this.showblankupcomingtelevisits = true;
                     this.showblankpasttelsvisits = true;
                 }
-                if(this.upcomingTelevisitslist.length == 0){
-                    this.showblankupcomingtelevisits = true;
-                }
-                if(result.showDefault == 'upcoming' && isPast !=true){
-                    this.past = false;
-                    this.showupcomingtelevisits = true; 
-                }else{
-                    this.past = true;
-                    this.showuppasttelevisits = true; 
-                }
-            }else{
-                this.showblankupcomingtelevisits = true;
-                this.showblankpasttelsvisits = true;
-            }
-            this.isdelegate = result.isdelegate;
-            this.contentLoaded = true;
-            this.reloadupcomingcomponent = true;
-            this.template.querySelector('c-web-spinner').hide();
-        })
-        .catch((error) => {
-           this.template.querySelector('c-web-spinner').hide();
-            this.contentLoaded = true;
-        });
+                this.isdelegate = result.isdelegate;
+                this.contentLoaded = true;
+                this.reloadupcomingcomponent = true;
+                this.template.querySelector('c-web-spinner').hide();
+            })
+            .catch((error) => {
+                this.template.querySelector('c-web-spinner').hide();
+                this.contentLoaded = true;
+            });
     }
     connectedCallback() {
         DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
         if (communityService.getUrlParameter('ispast') === 'true') {
             this.gettelevisitdetails(true);
-        }else{
+        } else {
             this.gettelevisitdetails();
         }
     }
-    redircttohomepage(){
-        this[NavigationMixin.Navigate]({ type: 'comm__namedPage',attributes: {
-            name: 'Home'
-        }});
+    redircttohomepage() {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'Home'
+            }
+        });
+    }
+
+    showToast(titleText, messageText, variantType) {
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: titleText,
+                message: '',
+                variant: variantType
+            })
+        );
     }
 }
