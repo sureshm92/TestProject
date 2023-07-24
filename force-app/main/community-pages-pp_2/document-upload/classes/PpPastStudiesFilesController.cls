@@ -33,33 +33,34 @@ public with sharing class PpPastStudiesFilesController {
         }
        
         if (isDelegate) {
-        for(Patient_Delegate_Enrollment__c objPDER : [SELECT id, Participant_Enrollment__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
-            FROM Patient_Delegate_Enrollment__c
-            WHERE
-                Participant_Enrollment__c IN :perIDs
-                AND Patient_Delegate__r.Contact__c = :getUserContact
-                AND Primary_Delegate__c = TRUE
-                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
-            LIMIT 10000])
+            for(Patient_Delegate_Enrollment__c objPDER : [SELECT id, Participant_Enrollment__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE
+                    Participant_Enrollment__c IN :perIDs
+                    AND Patient_Delegate__r.Contact__c = :getUserContact
+                    AND Primary_Delegate__c = TRUE
+                    AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
+                LIMIT 10000])
             {
-                setPrimaryPER.add(objPDER.Participant_Enrollment__c);
-                pder.add(objPDER);
+                    setPrimaryPER.add(objPDER.Participant_Enrollment__c);
+                    pder.add(objPDER);
 
             } 
+            for(Participant_Enrollment__c objPER : alumiPerList){
+                    if(setPrimaryPER.contains(objPER.Id))
+                    {
+                        PrimaryalumniPERList.add(objPER);
+                    }
 
+            }     
+        }else{
             Integer indexOfElement = 0;
-            for(Participant_Enrollment__c objPER : alumiPerList)
-            {
-                if(setPrimaryPER.contains(objPER.Id))
-                {
-                    PrimaryalumniPERList.add(objPER);
-                }else if(objPER.Invited_To_PP_Date__c == null){
+            for(Participant_Enrollment__c objPER : alumiPerList){
+                if(objPER.Invited_To_PP_Date__c == null){
                     alumiPerList.remove(indexOfElement); // Remove the study if it is not invited to particiapnt.
                 }
                 indexOfElement += 1;
-
-            } 
-             
+            }
         }
 
 
