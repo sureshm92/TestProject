@@ -275,7 +275,8 @@ public without sharing class TaskService {
                 [
                     SELECT 
                     	Id,
-                    	Participant_Enrollment__r.Clinical_Trial_Profile__r.Tasks_Are_Available__c
+                    	Participant_Enrollment__r.Clinical_Trial_Profile__r.Tasks_Are_Available__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
                     FROM SurveyInvitation
                     WHERE
                         Id IN :skipSurveyInvIds
