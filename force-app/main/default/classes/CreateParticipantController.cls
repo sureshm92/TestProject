@@ -58,7 +58,7 @@ public without sharing class CreateParticipantController {
            }
            if(accesstoken != null){   
                  List<CreateConsentIntegration.statusInfo> info = CreateConsentIntegration.createParticipant(new List<Participant_Enrollment__c>{pe},accesstoken).values();
-            	 details = getCreateConsentParams(perId);
+            	 //details = getCreateConsentParams(perId);
                  details.statusdetails = info;
                 
             }  
