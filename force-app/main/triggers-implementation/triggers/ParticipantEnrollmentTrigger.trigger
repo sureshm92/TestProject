@@ -20,6 +20,9 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
     );
+    TriggerHandlerExecutor.execute(
+        ParticipantEnrollmentTriggerHandler.CreateJanssenNotification.class
+    );
     TriggerHandlerExecutor.execute(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
