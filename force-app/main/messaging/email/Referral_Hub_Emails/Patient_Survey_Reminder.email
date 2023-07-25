@@ -8,7 +8,8 @@
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Signature_Survey_New}">
+                          signature="{!$Label.Email_Signature_Survey_New}"
+                          communityTemplate="{!IF(relatedTo.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen','Janssen',relatedTo.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Survey_New_Reminder}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                               surveyId="{!relatedTo.Id}"/>
@@ -20,7 +21,8 @@
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Complete_Baseline_Survey}"
                               greeting="{!$Label.Email_User_Greeting_FirstName}"
-                              signature="{!$Label.Email_Signature_Survey}">
+                              signature="{!$Label.Email_Signature_Survey}"
+                              communityTemplate="{!IF(relatedTo.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen','Janssen',relatedTo.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Survey_Reminder}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
                                   surveyId="{!relatedTo.Id}"/>
