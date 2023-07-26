@@ -85,14 +85,14 @@
                             <footer class="{!'footer' + if(v.isRTL ,' align-rtl', '')}">
                                 <div class="slds-col" style="font-weight: 600; margin-bottom: 1em">
                                     <aura:unescapedHtml value="{!$Label.c.Lofi_Optimized_Message}" />
-                                </div>
-                                <div class="slds-grid">
-                                    <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-4', 'slds-size_1-of-3')}">
+                                </div> 
+                                <div  class="{!'slds-grid ' + if(v.isCPRAavailable == true,'slds-wrap', '')}">
+                                <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-1 slds-p-bottom--large slds-p-top--x-small', 'slds-size_1-of-3')}">
                                     <!-- <div class="{!v.cssClassName}"> -->
                                         <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
                                     </div>
-                                        <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-2 policyCss', 'slds-size_1-of-3')}">
-                                       <c:privacyPolicyViewer
+                                    <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-2 policyCss', 'slds-size_1-of-3')}">
+                                        <c:privacyPolicyViewer
                                             isRtl="{!v.isRTL}"
                                             isModalOpen="{!v.showPpPopup}"
                                             onclosePpModal="{!c.closePpPopup}"
@@ -108,8 +108,9 @@
                                         </div>
                                     </div>
                                     </aura:if>  
-                                <div class="slds-col">© IQVIA</div>
-                                </div>
+                                <div  class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-1 slds-m-bottom_medium slds-p-top--x-small', '')}" 
+                                 >© IQVIA</div>
+                            </div>
                                 
                             </footer>
                             <aura:set attribute="else">
