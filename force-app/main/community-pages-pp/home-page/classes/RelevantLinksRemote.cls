@@ -360,13 +360,16 @@ public without sharing class RelevantLinksRemote {
                     WHERE
                         Id IN :peIds
                         AND Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c = TRUE
-                        and Clinical_Trial_Profile__r.Patient_Portal_Enabled__c=TRUE
-                        and Invited_To_PP_Date__c!=null
+                        AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                        AND Invited_To_PP_Date__c != NULL
                 ];
             }
         } else {
             enrollments = new List<Participant_Enrollment__c>();
-            if (participantState.ctp.Relevant_Links_Are_Available__c && participantState.ctp.Patient_Portal_Enabled__c)
+            if (
+                participantState.ctp.Relevant_Links_Are_Available__c &&
+                participantState.ctp.Patient_Portal_Enabled__c
+            )
                 enrollments.add(participantState.pe);
         }
         return enrollments;
