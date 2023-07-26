@@ -152,7 +152,7 @@ Public without sharing Class PPTelevisitUpcomingTileController{
                 if(ParticipantContext.getCurrentUser() != null){
                     //To Display Alumni Participant's Televisit from Delegate view
                     userId = ParticipantContext.getCurrentUser().Id;
-                    query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' AND  Televisit__rParticipant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
+                    query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' AND  Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
                 }else{
                     //To Display Minor or Adult without email Alumni participant's Televisit from Delegate view
                     contactId = pstate.currentContactId;
