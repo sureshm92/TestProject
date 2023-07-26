@@ -321,7 +321,7 @@ public without sharing class TaskService {
                     curPEId != null && t.ownerId == loggedInUserId 
                 ) {
                     if((t.WhatId == curPEId  || hasPastEnrollments )&&  
-                       (isInvitedToPP || !isPatientPortalEnabled)){
+                       (!isInvitedToPP || !isPatientPortalEnabled)){
                        //Task for pure participant or Multirole task as participant
                         skipTask = true;
                     }else if(t.WhatId != curPEId && !isPatientPortalEnabled){
