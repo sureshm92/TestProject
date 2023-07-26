@@ -84,11 +84,11 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
     get backLinkClass() {
         return this.isMobile
             ? this.isRTL
-                ? 'back-link-mble slds-p-vertical_x-small'
-                : 'back-link-mble slds-p-vertical_x-small'
+                ? 'back-link-mble'
+                : 'back-link-mble'
             : this.isRTL
-            ? 'back-link slds-p-vertical_small'
-            : 'back-link slds-p-vertical_small';
+            ? 'back-link'
+            : 'back-link';
     }
     handleCommunicationPreferences(event){
         this[NavigationMixin.Navigate]({
