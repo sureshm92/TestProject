@@ -400,8 +400,8 @@ public without sharing class TaskService {
                     }
                     
                 }else if(curPEId == null){
-                     //For Full Alumni
-                     if(hasPastEnrollments && (!isInvitedToPP || !isPatientPortalEnabled )){
+                    //For Full Alumni
+                    if(hasPastEnrollments && (!isInvitedToPP || !isPatientPortalEnabled )){
                         skipTask = true;
                     }else if(!hasPastEnrollments){
                         //Multi Role(Self View) with No invited study/Delegate self View.
