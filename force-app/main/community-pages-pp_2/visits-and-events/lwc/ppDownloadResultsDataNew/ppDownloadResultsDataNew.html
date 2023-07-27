@@ -1,0 +1,30 @@
+<template>
+    <c-custom-toast-files-p-p is-mobile={val}></c-custom-toast-files-p-p>
+    <a class="download-results" target="_self" download>Download</a>
+    <lightning-button-group>
+        <lightning-button label="Download"></lightning-button>
+        <lightning-button-menu
+            alternative-text="Show menu"
+            variant="border-filled"
+            menu-alignment="right"
+        >
+            <lightning-menu-item
+                label="Download"
+                prefix-icon-name="utility:download"
+                alternative-text="download"
+                size="xx-small"
+                onclick={generateReport}
+                name="download-res"
+            >
+            </lightning-menu-item>
+            <lightning-menu-item
+                label="Open in new tab"
+                prefix-icon-name="utility:new_window"
+                alternative-text="new_window"
+                size="xx-small"
+                onclick={generateReport}
+                name="view-res"
+            ></lightning-menu-item>
+        </lightning-button-menu>
+    </lightning-button-group>
+</template>

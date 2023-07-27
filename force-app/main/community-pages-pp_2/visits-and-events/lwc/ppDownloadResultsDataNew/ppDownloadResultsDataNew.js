@@ -3,16 +3,16 @@ import PP_Download_Results_Data from '@salesforce/label/c.PP_Download_Results_Da
 import Download_PP from '@salesforce/label/c.Download_PP';
 import Open_In_New_Tab_PP from '@salesforce/label/c.Open_In_New_Tab_PP';
 import Download_In_Progress_PP from '@salesforce/label/c.Download_In_Progress_PP';
-import Study_Data_Report from '@salesforce/label/c.Study_Data_Report';
-import Cumulative_Study_Data_Report from '@salesforce/label/c.Cumulative_Study_Data_Report';
+import File_Opening_In_New_Tab_PP from '@salesforce/label/c.File_Opening_In_New_Tab_PP';
 import getBase64fromVisitSummaryReportPage_Modified from '@salesforce/apex/ModifiedVisitReportContainerRemote.getBase64fromVisitSummaryReportPage_Modified';
 import FORM_FACTOR from '@salesforce/client/formFactor';
-import mobileTemplate from './ppDownloadResultsDataMobile.html';
-import tabletTemplate from './ppDownloadResultsDataTablet.html';
-import desktopTemplate from './ppDownloadResultsData.html';
+import mobileTemplate from './ppDownloadResultsDataMobileNew.html';
+import tabletTemplate from './ppDownloadResultsDataTabletNew.html';
+import desktopTemplate from './ppDownloadResultsDataNew.html';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import checkifPrimary from '@salesforce/apex/ppFileUploadController.checkifPrimary';
-export default class PpDownloadResultsData extends LightningElement {
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+export default class PpDownloadResultsDataNew extends LightningElement {
     peId;
     isRTL;
     userDetails;
@@ -25,11 +25,10 @@ export default class PpDownloadResultsData extends LightningElement {
         Open_In_New_Tab_PP,
         Download_PP,
         Download_In_Progress_PP,
-        Study_Data_Report,
-        Cumulative_Study_Data_Report
+        File_Opening_In_New_Tab_PP
     };
     val = false;
-    onFirstLoad = false;
+    dummy;
     viewResults;
     connectedCallback() {
         this.userDetails = communityService.getLoggedInUserData();
@@ -44,7 +43,7 @@ export default class PpDownloadResultsData extends LightningElement {
         } else {
             this.showDownloadResults = true;
         }
-        //    this.onFirstLoad = true;
+        this.dummy = true;
     }
 
     renderedCallback() {
@@ -102,67 +101,19 @@ export default class PpDownloadResultsData extends LightningElement {
         return FORM_FACTOR == 'Medium';
     }
 
-    viewReport() {
-        console.log('JJ');
-        if (!this.isDesktop) {
-            getBase64fromVisitSummaryReportPage_Modified({
-                peId: this.peId,
-                isRTL: this.isRTL,
-                patientVisitNam: this.patientVisitNam,
-                patientVisId: this.patientVisitId
-            })
-                .then((returnValue) => {
-                    communityService.navigateToPage('mobile-pdf-viewer?pdfData=' + returnValue);
-                })
-                .catch((error) => {
-                    console.error('Error occured during report generation', error.message, 'error');
-                });
-        }
-
-        if (this.patientVisitId != null) {
-            let url =
-                '/pp/apex/PatientVisitReportPage?peId=' +
-                this.peId +
-                '&isRTL=' +
-                this.isRTL +
-                '&patientVisitNam=' +
-                this.patientVisitNam +
-                '&patientVisitId=' +
-                this.patientVisitId;
-            window.open(url);
-        } else {
-            let url =
-                '/pp/apex/PatientVisitReportPage?peId=' +
-                this.peId +
-                '&isRTL=' +
-                this.isRTL +
-                '&patientVisitNam=' +
-                this.patientVisitNam +
-                '&patientVisitId=' +
-                this.patientVisitId;
-            window.open(url);
-        }
-    }
-    downloadReport(event) {
-        this.template
-            .querySelector('c-custom-toast-files-p-p')
-            .showToast('success', 'Download_In_Progress_PP', 'utility:download', 10000);
+    generateReport(event) {
         let anchorEle = '';
-        anchorEle = this.template.querySelectorAll('.download-results');
-        // if (!this.isDesktop) {
-        //     getBase64fromVisitSummaryReportPage_Modified({
-        //         peId: this.peId,
-        //         isRTL: this.isRTL,
-        //         patientVisitNam: this.patientVisitNam,
-        //         patientVisId: this.patientVisitId
-        //     })
-        //         .then((returnValue) => {
-        //             communityService.navigateToPage('mobile-pdf-viewer?pdfData=' + returnValue);
-        //         })
-        //         .catch((error) => {
-        //             console.error('Error occured during report generation', error.message, 'error');
-        //         });
-        // }
+        if (event.currentTarget.name == 'download-res') {
+            this.template
+                .querySelector('c-custom-toast-files-p-p')
+                .showToast(
+                    'success',
+                    this.label.Download_In_Progress_PP,
+                    'utility:download',
+                    10000
+                );
+            anchorEle = this.template.querySelectorAll('.download-results');
+        }
 
         if (this.patientVisitId != null) {
             let url =
@@ -174,19 +125,54 @@ export default class PpDownloadResultsData extends LightningElement {
                 this.patientVisitNam +
                 '&patientVisitId=' +
                 this.patientVisitId;
-            anchorEle[0].setAttribute('href', url);
-            if (this.onFirstLoad) {
-                this.onFirstLoad = false;
-                anchorEle[0].click();
-            } else {
-                this.onFirstLoad = true;
+            if (event.currentTarget.name == 'view-res') {
+                window.open(url);
+            } else if (event.currentTarget.name == 'download-res') {
+                anchorEle[0].setAttribute('href', url);
+                anchorEle[0].click(function (event) {
+                    event.stopPropagation();
+                });
             }
         } else {
+            anchorEle = this.template.querySelectorAll('.download-results');
             let url =
                 '/pp/apex/PatientVisitReportPage?peId=' + this.alumniPeId + '&isRTL=' + this.isRTL;
             anchorEle[0].setAttribute('href', url);
-            //    anchorEle[0].click();
+            anchorEle[0].click(function (event) {
+                event.stopPropagation();
+            });
         }
+        this.dummy = false;
+    }
+    generateReport1(event) {
+        let anchorEle = '';
+        anchorEle = this.template.querySelectorAll('.download-results');
+        this.showSuccessToast(this.label.Download_In_Progress_PP, 'message', 'success');
+        if (this.patientVisitId != null) {
+            let url =
+                '/pp/apex/PatientVisitReportPage?peId=' +
+                this.peId +
+                '&isRTL=' +
+                this.isRTL +
+                '&patientVisitNam=' +
+                this.patientVisitNam +
+                '&patientVisitId=' +
+                this.patientVisitId;
+
+            anchorEle[0].setAttribute('href', url);
+            anchorEle[0].click(function (event) {
+                event.stopPropagation();
+            });
+        } else {
+            console.log('JJ 2');
+            let url =
+                '/pp/apex/PatientVisitReportPage?peId=' + this.alumniPeId + '&isRTL=' + this.isRTL;
+            anchorEle[0].setAttribute('href', url);
+            anchorEle[0].click(function (event) {
+                event.stopPropagation();
+            });
+        }
+        this.dummy = false;
     }
     toggleElement() {
         let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');

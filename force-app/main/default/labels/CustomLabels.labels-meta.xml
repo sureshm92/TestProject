@@ -31826,5 +31826,33 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>consent verification btn name</shortDescription>
         <value>Access Verification Link</value>
+    </labels>  
+    <labels>
+        <fullName>Download_In_Progress_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Download In Progress PP</shortDescription>
+        <value>Download in progress</value>
+    </labels>    
+    <labels>
+        <fullName>File_Opening_In_New_Tab_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>File Opening In New Tab PP</shortDescription>
+        <value>File opening in new tab</value>
+    </labels>    
+      <labels>
+        <fullName>Download_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Download PP</shortDescription>
+        <value>Download</value>
+    </labels>    
+    <labels>
+        <fullName>Open_In_New_Tab_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Open_In_New_Tab_PP</shortDescription>
+        <value>Open in new tab/value>
     </labels>   
 </CustomLabels>
