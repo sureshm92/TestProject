@@ -220,15 +220,40 @@ public without sharing class PPMessagePageRemote {
                 pageData.enrollments = new List<Participant_Enrollment__c>();
                 pageData.statusByPeMap = new Map<Id, Boolean>();
                 for (Participant_Enrollment__c pe : participantEnrollments) {
-                    availablePEIds.add(pe.Id);
-                    Boolean isMessageAvailable = pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c && pe.Invited_To_PP_Date__c !=null && pe.Study_Site__r.Messages_Are_Available__c ? true : false;
-                    if (isMessageAvailable) {
-                        pageData.enrollments.add(pe);
-                        peIds.add(pe.Id);
-                        pageData.statusByPeMap.put(
-                            pe.Id,
-                            PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)
-                        );
+                     //Participant Studies where PPEnabled and Invited
+                     if (
+                        pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true &&
+                        pe.Invited_To_PP_Date__c != null &&
+                        !participantState.isDelegate
+                    ) {
+                        availablePEIds.add(pe.Id);
+                        if (pe.Study_Site__r.Messages_Are_Available__c) {
+                            pageData.enrollments.add(pe);
+                            peIds.add(pe.Id);
+                            pageData.statusByPeMap.put(
+                                pe.Id,
+                                PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(
+                                    pe.Participant_Status__c
+                                )
+                            );
+                        }
+                    }
+                    //Delegate-Participant View where Studies are PPEnabled
+                    else if (
+                        participantState.isDelegate &&
+                        pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true
+                    ) {
+                        availablePEIds.add(pe.Id);
+                        if (pe.Study_Site__r.Messages_Are_Available__c) {
+                            pageData.enrollments.add(pe);
+                            peIds.add(pe.Id);
+                            pageData.statusByPeMap.put(
+                                pe.Id,
+                                PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(
+                                    pe.Participant_Status__c
+                                )
+                            );
+                        }
                     }
                 }
                 sharedConversations = ConversationService.getSharedConversations(
