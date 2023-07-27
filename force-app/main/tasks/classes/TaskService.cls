@@ -293,6 +293,10 @@ public without sharing class TaskService {
             }
         }
         List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
+        set<Id> peOfCurrentuser = new Set<Id>();
+        for(Participant_Enrollment__c pe : peList){
+            peOfCurrentuser.Add(pe.Id);
+        }
         for (Task t : tasks) {
             Boolean skipTask = false;
             Id curPEId = ParticipantContext.getCurrentPEId();
@@ -346,14 +350,12 @@ public without sharing class TaskService {
                         skipTask = true;
                     }else if(!hasPastEnrollments){
                         //Multi Role(Self View) with No invited study/Delegate self View.
-                        for(Participant_Enrollment__c pe : peList){
-                            if(t.whatId == pe.Id && (!isInvitedToPP || !isPatientPortalEnabled )){
-                                //MultiROle(Self View) - task created for himself/herself as particapnt.
-                                skipTask = true;
-                            }else if(t.whatId != pe.Id && !isPatientPortalEnabled){
-                                //MultiROle(Self View)/Pure delegate self View - task created for himself/herself as delegate.
-                                skipTask = true;
-                            }
+                        if(peOfCurrentuser.contains(t.whatId) && (!isInvitedToPP || !isPatientPortalEnabled )){
+                            //MultiROle(Self View) - task created for himself/herself as particapnt.
+                            skipTask = true;
+                        }else if(!peOfCurrentuser.contains(t.whatId) && !isPatientPortalEnabled){
+                            //MultiROle(Self View)/Pure delegate self View - task created for himself/herself as delegate.
+                            skipTask = true;
                         }
                     }
                 } 
@@ -405,15 +407,13 @@ public without sharing class TaskService {
                         skipTask = true;
                     }else if(!hasPastEnrollments){
                         //Multi Role(Self View) with No invited study/Delegate self View.
-                        for(Participant_Enrollment__c pe : peList){
-                            if(SurveyPEId == pe.Id && (!isInvitedToPP || !isPatientPortalEnabled )){
+                            if(peOfCurrentuser.contains(SurveyPEId) && (!isInvitedToPP || !isPatientPortalEnabled )){
                                 //MultiROle(Self View) - task created for himself/herself as particapnt.
                                 skipTask = true;
-                            }else if(SurveyPEId != pe.Id && !isPatientPortalEnabled){
+                            }else if(!peOfCurrentuser.contains(SurveyPEId) && !isPatientPortalEnabled){
                                 //MultiROle(Self View)/Pure delegate self View - task created for himself/herself as delegate.
                                 skipTask = true;
                             }
-                        }
                     }
                 } 
             }
