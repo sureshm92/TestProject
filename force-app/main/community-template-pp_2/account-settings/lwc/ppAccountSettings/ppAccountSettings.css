@@ -30,11 +30,13 @@
     cursor: pointer;
     color: #015ff1;
     width: fit-content;
+    line-height: 24px;
+    margin-bottom : 16px;
 }
 .back-link-mble{
     margin-left: 8px;
     height: auto;
-    padding-bottom: 16px;
+    margin-bottom: 16px;
     /*margin-top: 14px;*/
     font-size: 16px;
     font-weight: 600;
@@ -43,6 +45,7 @@
     cursor: pointer;
     color: #015ff1;
     width: fit-content;
+    line-height: 24px;
 }
 hr {
     margin: 0%;
