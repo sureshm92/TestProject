@@ -30,7 +30,9 @@
     max-height: 100vh;
     overflow: hidden;
 }
-
+.THIS .maxheightclass{
+    max-height: 125vh!important;
+}
 .THIS > .slds-col.slds-large-size_4-of-7 img {
     margin-top: -125px;
 }
@@ -41,6 +43,9 @@
     height: 100vh;
     justify-content: space-between;
 }
+.THIS .increasemaxheight {
+    height: 125vh!important;
+}
 
 .THIS .body-content {
     width: 20rem;
@@ -50,6 +55,9 @@
     padding: 1rem 0;
     margin-top: 1rem;
     margin-bottom: 1rem;
+}
+.THIS .janseendivider{
+    margin-right: 8px;
 }
 
 .THIS .logo-block {
@@ -164,7 +172,13 @@
     text-align: right;
     padding-right: 2rem;
 }
-
+.THIS .policyCssjanssen{
+    text-align: right;
+    padding-right: 1rem;
+}
+.THIS .iqviadivider{
+    margin-right: 8px;
+}
 
 .THIS .slds-form-element__label {
     height: 24px;
