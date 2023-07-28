@@ -77,8 +77,8 @@ public without sharing class MotivationalMessagesRemote {
 
         Contact myContact = AccountSettingsController.getCurrentContact();
         if (
-            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal' ||
-            participantState.pe.Clinical_Trial_Profile__r?.PPTemplate__c != 'PP 2.0'
+            participantState.pe.Clinical_Trial_Profile__r?.PPTemplate__c != 'PP 2.0' ||
+            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal'
         ) {
             if (participantState.pe.Motivational_Message_Id__c == messageForShow.Id)
                 return null;
@@ -105,9 +105,10 @@ public without sharing class MotivationalMessagesRemote {
             } else if (myContact.userCommunityDelegateId__c != null) {
                 // Delegate switching to Participant View
 
-                List<Patient_Delegate_Enrollment__c> pdEnrollments = PatientDelegateEnrollmentService.getPatientDelegateEnrollments(
+                List<Patient_Delegate_Enrollment__c> pdEnrollments = PatientDelegateEnrollmentService.getPatientDelegateEnrollmentsActive(
                     participantState.participant.Contact__c,
-                    myContact.Id
+                    myContact.Id,
+                    myContact.Current_Participant_Enrollment__c
                 );
 
                 if (pdEnrollments != null || pdEnrollments.size() >= 0) {
