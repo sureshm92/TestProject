@@ -107,7 +107,7 @@ public without sharing class MotivationalMessagesRemote {
 
                 List<Patient_Delegate_Enrollment__c> pdEnrollments = PatientDelegateEnrollmentService.getPatientDelegateEnrollments(
                     participantState.participant.Contact__c,
-                    myContact.Id
+                    myContact.Id,
                     myContact.Current_Participant_Enrollment__c
                 );
 
