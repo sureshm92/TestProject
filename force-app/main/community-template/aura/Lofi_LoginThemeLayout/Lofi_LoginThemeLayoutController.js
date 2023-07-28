@@ -7,6 +7,7 @@
         // Enqueue Action
         console.log('>>communityType>>' + JSON.stringify(communityType));
         var action = component.get('c.getCPRALink');
+        component.set('v.cssclasscpra',' ');
         action.setParams({ strCommunityType: communityType });
         action.setCallback(this, function (response) {
             console.log('>>>responseback>>' + response.getReturnValue());
@@ -22,6 +23,11 @@
 
                 component.set('v.CPRAlabel', labelReference);
                 component.set('v.CPRALinkToredirect', getReturnValueMD.Link_to_redirect__c);
+                if(communityType == 'Janssen')
+                {
+                    component.set('v.isCpraenabledforjanssen', true); 
+                    component.set('v.cssclasscpra','increasemaxheight');
+                }
             } else {
                 component.set('v.isCPRAavailable', false);
                 component.set('v.cssClassName', 'slds-col slds-size_1-of-3');
