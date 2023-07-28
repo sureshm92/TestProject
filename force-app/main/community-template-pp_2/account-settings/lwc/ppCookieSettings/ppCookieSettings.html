@@ -52,10 +52,28 @@
                                                 </div>
                                             </div>
                                         </template>
+                                        <template if:true={isJanssen}>
+                                            <div
+                                                class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel"
+                                            >
+                                                <div
+                                                    class="slds-col slds-size--3-of-3 slds-medium-size--7-of-7"
+                                                >
+                                                    <div class="ah-item-label">
+                                                        {label.AccountSettings_Functional_RRCookies}
+                                                    </div>
+                                                    <div
+                                                        class="ah-item-sublabel cookie-description-lineheight"
+                                                    >
+                                                        {label.AccountSettings_RRCookies_Description}
+                                                    </div>
+                                                </div>
+                                            </div>  
+                                        </template>
                                     </div>
                                 </div>
                             </lightning-accordion-section>
-
+                        <template if:false={isJanssen}>
                             <lightning-accordion-section
                                 class="cookie-accordion-border"
                                 name="Functional"
@@ -127,6 +145,7 @@
                                     </div>
                                 </div>
                             </lightning-accordion-section>
+                        </template>  
                         </lightning-accordion>
                     </div>
                 </div>
@@ -208,10 +227,28 @@
                                                 </div>
                                             </div>
                                         </template>
+                                        <template if:true={isJanssen}>
+                                            <div
+                                                class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel"
+                                            >
+                                                <div
+                                                    class="slds-col slds-size--3-of-3 slds-medium-size--7-of-7"
+                                                >
+                                                    <div class="ah-item-label">
+                                                        {label.AccountSettings_Functional_RRCookies}
+                                                    </div>
+                                                    <div
+                                                        class="ah-item-sublabel cookie-description-lineheight"
+                                                    >
+                                                        {label.AccountSettings_RRCookies_Description}
+                                                    </div>
+                                                </div>
+                                            </div>  
+                                        </template>
                                     </div>
                                 </div>
                             </lightning-accordion-section>
-
+                        <template if:true={isJanssen}>
                             <lightning-accordion-section
                                 class="cookie-accordion-border cookie-accordion-mobile2"
                                 name="Functional"
@@ -283,6 +320,7 @@
                                     </div>
                                 </div>
                             </lightning-accordion-section>
+                        </template>
                         </lightning-accordion>
                     </div>
                 </div>
