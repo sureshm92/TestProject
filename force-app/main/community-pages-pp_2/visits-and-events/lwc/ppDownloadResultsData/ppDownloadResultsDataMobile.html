@@ -1,15 +1,7 @@
 <template>
-    <lightning-combobox
-        name="progress"
-        label="Status"
-        value={value}
-        placeholder="Select Progress"
-        options={options}
-        onchange={handleChange}
-    ></lightning-combobox>
     <template lwc:if={showDownloadResults}>
         <template lwc:if={isMobile}>
-            <!-- <a target="_blank" onclick={generateReport}>
+            <a target="_blank" onclick={generateReport}>
                 <span>
                     <lightning-icon
                         icon-name="utility:download"
@@ -20,32 +12,6 @@
                     <span class="download-res-data slds-p-left_small"
                         >{label.PP_Download_Results_Data}</span
                     >
-                </span>
-            </a> -->
-            <!-- This will need to be inserted via JS due to Safari Limitations -->
-            <a class="download-report" target="_self" onclick={generateReport} download>
-                <span class="download-section">
-                    <lightning-icon
-                        icon-name="utility:download"
-                        size="xx-small"
-                        class="download-icon"
-                    >
-                    </lightning-icon>
-                </span>
-            </a>
-
-            <a class="download-report" target="_blank" onclick={generateReport}>
-                <span class="download-section">
-                    <!-- <lightning-icon
-                        icon-name="utility:download"
-                        size="xx-small"
-                        class="download-icon"
-                    >                    </lightning-icon> -->
-
-                    <!-- <span class="download-res-data slds-p-left_small" 
-                        >{label.PP_Download_Results_Data}
-                    </span> -->
-                    <span class="download-res-data slds-p-left_small">View Result Data </span>
                 </span>
             </a>
         </template>

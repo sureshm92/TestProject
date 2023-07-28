@@ -1,43 +1,19 @@
 <template>
-    <c-custom-toast-files-p-p is-mobile={val}></c-custom-toast-files-p-p>
-
-    <!-- <div class="download-report1" onclick={handleChange1}>Download results</div> -->
-    <!-- <lightning-combobox
-        value={reportViewOption}
-        placeholder={label.PP_Download_Results_Data}
-        options={downlaodOptions}
-        onchange={handleChange}
-    ></lightning-combobox> -->
-    <!-- <select class="slds-select" name="optionSelect" onchange={changeHandler}>
-        <option value="OPTION A">OPTION A</option>
-        <option value="OPTION B">OPTION B</option>
-    </select> -->
-    <div
-        id="dropdown"
-        class="dropdown"
-        onclick={toggleElement}
-        onfocusout={removeElementFocus}
-        tabindex="0"
-    >
-        <span class="dropdown-span slds-truncate">Download</span>
-        <ul class="dropdown-menu" data-id="dropdown-menu">
-            <li class="dropdown-li" onclick={downloadReport}>
-                <a class="download-results" target="_self" download>Download</a>
-            </li>
-            <li class="dropdown-li" onclick={viewReport} title="viewresults">
-                <div>
-                    <a name="view-results" target="_blank" class="view-results"
-                        ><span
-                            ><lightning-icon
-                                icon-name="utility:new_window"
-                                alternative-text="new_window"
-                                size="xx-small"
-                                title="new_window"
-                            ></lightning-icon></span
-                        ><span class="slds-m-left--large">Open in new tab</span></a
+    <template lwc:if={showDownloadResults}>
+        <template lwc:if={isDesktop}>
+            <a target="_blank" onclick={generateReport}>
+                <span class="download-section">
+                    <lightning-icon
+                        icon-name="utility:download"
+                        size="xx-small"
+                        class="download-icon"
                     >
-                </div>
-            </li>
-        </ul>
-    </div>
+                    </lightning-icon>
+                    <span class="download-res-data slds-p-left_small"
+                        >{label.PP_Download_Results_Data}
+                    </span>
+                </span>
+            </a>
+        </template>
+    </template>
 </template>
