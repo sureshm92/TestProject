@@ -652,9 +652,6 @@ global without sharing class ReferHealthcareProviderRemote {
                 Participant__c participantDelegate;
                 //Added for performance improvement
                 TriggerHandlerExecutor.bypassHandler(
-                        ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class
-                );
-                TriggerHandlerExecutor.bypassHandler(
                         ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class
                 );
                 
@@ -679,6 +676,7 @@ global without sharing class ReferHealthcareProviderRemote {
                             .getCurrentContactId();
                     }
                     insert participantDelegate;
+                    
                 }
                 if (!participantObj.Adult__c) {
                     update new Participant__c(
