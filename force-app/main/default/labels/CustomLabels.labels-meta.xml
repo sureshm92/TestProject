@@ -31818,14 +31818,12 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Informed consent tool-tip content</shortDescription>
         <value>Verification link will provide you with a code to share with your study team to complete the consenting process.</value>
-    </labels>
-    
+    </labels>    
     <labels>
         <fullName>consent_verification_btn_name</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>consent verification btn name</shortDescription>
         <value>Access Verification Link</value>
-    </labels>  
-  
+    </labels>
 </CustomLabels>
