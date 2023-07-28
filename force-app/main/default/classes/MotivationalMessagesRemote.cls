@@ -105,7 +105,7 @@ public without sharing class MotivationalMessagesRemote {
             } else if (myContact.userCommunityDelegateId__c != null) {
                 // Delegate switching to Participant View
 
-                List<Patient_Delegate_Enrollment__c> pdEnrollments = PatientDelegateEnrollmentService.getPatientDelegateEnrollments(
+                List<Patient_Delegate_Enrollment__c> pdEnrollments = PatientDelegateEnrollmentService.getPatientDelegateEnrollmentsActive(
                     participantState.participant.Contact__c,
                     myContact.Id,
                     myContact.Current_Participant_Enrollment__c
