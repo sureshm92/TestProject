@@ -59,7 +59,7 @@
                 if (component.get('v.isGsk')) {
                     communityService.executeAction(
                         component,
-                        'getTCPP',
+                        'getTC',
                         {
                             code: titleCode,
                             languageCode: communityService.getUrlParameter('language'),
@@ -107,7 +107,7 @@
             if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
                     communityService.executeAction(
                         component,
-                        'getTCPP',
+                        'getTC',
                         {
                             code: titleCode,
                             languageCode: communityService.getUrlParameter('language'),
