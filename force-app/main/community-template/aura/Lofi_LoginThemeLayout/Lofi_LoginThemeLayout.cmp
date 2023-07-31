@@ -86,7 +86,8 @@
                             <div class="body-components">{!v.body}</div>
                         </div>
                     </div>
-                    <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-p-left_medium', '')}">
+                    <!-- <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-p-left_medium', '')}"> -->
+                    <div class="slds-col">
                         <aura:if isTrue="{!v.communityType == 'Janssen'}">
                             <footer class="{!'footer' + if(v.isRTL ,' align-rtl', '')}">
                                 <div class="slds-col" style="font-weight: 600; margin-bottom: 1em">
@@ -108,16 +109,16 @@
                                         />
                                     </div>
                                     <aura:if isTrue="{!v.isCPRAavailable}"> 
-                                    <div  class="divider janseendivider slds-size_1-of-2" ></div> 
+                                    <div  class="divider   slds-m-left--x-small slds-m-right--x-small slds-size_1-of-2" ></div> 
                                     
-                                    <div class="slds-col slds-size_1-of-3">
+                                    <div class="slds-col slds-size_1-of-3 alignprivacychoice">
                                         <div class="page-link" onclick="{!c.onLinkClick}">
                                             {!v.CPRAlabel}
                                             <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
                                         </div>
                                     </div>
                                     </aura:if>  
-                                <div  class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-1 slds-m-bottom_medium slds-p-top--x-small', '')}" 
+                                <div  class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-1 slds-p-left--small slds-m-bottom_medium slds-p-top--x-small', '')}" 
                                  >© IQVIA</div>
                             </div>
                                 
