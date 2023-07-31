@@ -13,24 +13,17 @@ public without sharing class ParticipantTelevisitRemote {
             user u = [Select id,contactid,TimeZoneSidKey from User where id =: UserInfo.getUserId()];
             userId = u.Id;
             timezonechanges = u.TimeZoneSidKey;
-            Boolean isDelegate = pstate.isDelegate;
+
             String query = 'Select Televisit__r.Id, Televisit__r.Meeting_URL__c,Televisit__r.Title__c,Televisit__r.Status__c,Televisit__r.Duration__c,Televisit__r.Visit_Date_Time__c,Televisit__r.Visit_End_Date_Time__c,Televisit__r.Participant_Enrollment__r.Study_Site__c from Televisit_Attendee__c';
             if(ctpId != null && ctpId != ''){
                 String peId = pstate.pe.Id;
-                if(!isDelegate){
-                    //participant View
-                    query += '  where Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Televisit__r.Participant_Enrollment__r.Invited_To_PP_Date__c != null order by Televisit__r.Visit_Date_Time__c desc';
-                }else{
-                    //Delegate participant View
-                    query += '  where Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true  order by Televisit__r.Visit_Date_Time__c desc';
-                }     
+                query += '  where Televisit__r.Participant_Enrollment__c = :peId order by Televisit__r.Visit_Date_Time__c desc';
             }else{
-                
                 delegatecheck = true;
                 String contactId;
                 //Added for PEH-13732
                 Boolean minorAlumni = false;
-                if(isDelegate){
+                if(pstate.isDelegate){
                     contactId = ParticipantContext.getCurrentParticipant().Contact__c ;
                     //Added for PEH-13732
                     if(ParticipantContext.getCurrentUser() == null){
@@ -44,23 +37,9 @@ public without sharing class ParticipantTelevisitRemote {
                 
                 //Added for PEH-13732
                 if(minorAlumni){
-                    query += '  where Televisit__r.Participant_Enrollment__r.Participant_Contact__c =:contactId AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true  order by Televisit__r.Visit_Date_Time__c desc';
+                    query += '  where Televisit__r.Participant_Enrollment__r.Participant_Contact__c =:contactId order by Televisit__r.Visit_Date_Time__c desc';
                 }else{
-                    Boolean hasPastEnrollments = false;
-                    if (ParticipantContext.getCurrentContact() != null) {
-                        List<Participant_Enrollment__c> pastEnrollments  = ContactService.getPastEnrollments(
-                            ParticipantContext.getCurrentContact().Id
-                        );
-                        hasPastEnrollments = pastEnrollments.size() > 0 ? true : false;
-                    }
-                    if(hasPastEnrollments && !isDelegate){
-                        //Full Alumni
-                        query += '  where Contact__c =:contactId AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Televisit__r.Participant_Enrollment__r.Invited_To_PP_Date__c != null order by Televisit__r.Visit_Date_Time__c desc';
-                    }else{
-                        //Delegate View
-                        query += '  where Contact__c =:contactId AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true order by Televisit__r.Visit_Date_Time__c desc';
-                    }
-                    
+                    query += '  where Contact__c =:contactId order by Televisit__r.Visit_Date_Time__c desc';
                 }
             }
             List<Televisit_Attendee__c> televisitattendeesdata = Database.query(query);
