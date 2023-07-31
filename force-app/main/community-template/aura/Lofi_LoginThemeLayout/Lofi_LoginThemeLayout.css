@@ -433,6 +433,10 @@
         margin-bottom: 3.8rem;
     }
 
+    .THIS.mobile-content .body-content-janssen {
+        margin-top: 5px !important;
+    }
+
     .THIS .p-container .icon-bell {
         left: 1rem;
     }
@@ -463,6 +467,11 @@
         margin-top: 5rem;
         margin-bottom: 5rem;
     }
+    
+    .THIS.mobile-content .body-content-janssen {
+        margin-top: 5px !important;
+    }
+
 
     .THIS.mobile-content .footer-mobile > .slds-col {
         font-size: 0.8125rem;
@@ -539,10 +548,17 @@
         padding-bottom: 0;
     }
 
+    .THIS .body-content-janssen {
+        margin-top: 5px !important;
+    }
+
     .THIS .body-content .input-box {
         margin-bottom: 1em;
     }
-
+    
+    .THIS .janssen-community{
+     width :fit-content;
+    }
     .THIS .body-content .form-header,
     .THIS .body-content .forgot-pwd,
     .THIS .body-content .forgot-password,
