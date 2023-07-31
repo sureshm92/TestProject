@@ -315,7 +315,9 @@ public without sharing class NotificationAvailabilityService {
                         Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Participant_Enrollment__r.Study_Site__r.Suppress_Study_Site_PI_Emails__c,
                         Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
-                        Participant_Enrollment__r.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
+                        Participant_Enrollment__r.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                        Participant_Enrollment__r.Invited_To_PP_Date__c
                     FROM Televisit__c
                     WHERE Id IN :objectsByStrings.get(objType)
                     ALL ROWS
@@ -350,7 +352,9 @@ public without sharing class NotificationAvailabilityService {
                         Televisit__r.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Televisit__r.Participant_Enrollment__r.Study_Site__r.Suppress_Study_Site_PI_Emails__c,
                         Televisit__r.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
-                        Televisit__r.Participant_Enrollment__r.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
+                        Televisit__r.Participant_Enrollment__r.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c,
+                        Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                        Televisit__r.Participant_Enrollment__r.Invited_To_PP_Date__c         
                     FROM Televisit_Attendee__c
                     WHERE Id IN :objectsByStrings.get(objType)
                     ALL ROWS
@@ -392,7 +396,8 @@ public without sharing class NotificationAvailabilityService {
                     Participant_Enrollment__r.Name,
                     Participant_Enrollment__r.Clinical_Trial_Profile__c,
                     Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
                 FROM Patient_Delegate_Enrollment__c
                 WHERE
                     Participant_Enrollment__c IN :perIdLst
@@ -504,7 +509,7 @@ public without sharing class NotificationAvailabilityService {
                     Id.valueOf(whatId)
                 );
                 Boolean perEmailToSend = false;
-                if (surveyInvitation.IsTrialSurvey__c) {
+                if (surveyInvitation.IsTrialSurvey__c || surveyInvitation.Participant_Enrollment__c !=null) {
                     if (
                         notObj.IsDelegate__c &&
                         delContIdMapOfPerIdPDEnromentMap.containsKey(notObj.Recipient__c)
@@ -519,7 +524,8 @@ public without sharing class NotificationAvailabilityService {
                             pdelEnrollmentrecrd.Study_Email_Consent__c &&
                             !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                             !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                            !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
+                            !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                            pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
                     } else {
                         perEmailToSend =
                             surveyInvitation != null &&
@@ -649,7 +655,8 @@ public without sharing class NotificationAvailabilityService {
                                 pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                                !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
+                                !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
                         } else {
                             perEmailToSend =
                                 taskrecrd.Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
@@ -690,7 +697,8 @@ public without sharing class NotificationAvailabilityService {
                 pdelEnrollmentrecrd.Study_Email_Consent__c &&
                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
+                !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
         } else {
             perEmailToSend =
                 pe.Permit_Mail_Email_contact_for_this_study__c &&
