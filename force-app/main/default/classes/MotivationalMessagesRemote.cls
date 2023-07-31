@@ -78,7 +78,9 @@ public without sharing class MotivationalMessagesRemote {
         Contact myContact = AccountSettingsController.getCurrentContact();
         if (
             participantState.pe.Clinical_Trial_Profile__r?.PPTemplate__c != 'PP 2.0' ||
-            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal'
+            !(participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+            'PatientPortal' ||
+            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen')
         ) {
             if (participantState.pe.Motivational_Message_Id__c == messageForShow.Id)
                 return null;
