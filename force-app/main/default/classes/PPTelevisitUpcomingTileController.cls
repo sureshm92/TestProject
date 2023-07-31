@@ -120,7 +120,7 @@ Public without sharing Class PPTelevisitUpcomingTileController{
         Datetime next24HoursDateTime = Datetime.now().addHours(24);
         String query = 'SELECT Televisit__r.Id,Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c,Televisit__r.Title__c,Televisit__r.Visit_Date_Time__c,Televisit__r.Visit_Link_Activation_End_Time__c,Televisit__r.Visit_Link_Activation_Start_Time__c,Televisit__r.Meeting_URL__c,Televisit__r.Participant_Enrollment__r.Participant_Name__c,Televisit__r.Duration__c,Televisit__r.Visit_End_Date_Time__c,Attendee_Type__c,Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c,Televisit__r.Participant_Enrollment__r.Participant__r.Full_Name__c,Televisit__r.Source_Community__c,Televisit__r.Participant_Enrollment__r.Study_Site__c FROM Televisit_Attendee__c';
         Boolean delegateOrAlumni = false;
-        
+
         String contactId;
         if(ctpId != ''){
             String peId = pstate.pe.Id;
@@ -128,7 +128,7 @@ Public without sharing Class PPTelevisitUpcomingTileController{
                 if(ParticipantContext.getCurrentUser() != null){
                     //To Display Participant's Televisit from Delegate view
                     userId = ParticipantContext.getCurrentUser().Id;
-                    query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
+                    query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Status__c = \'Scheduled\'  AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
                 }else{
                     //To Display Minor or Adult without email Participant's Televisit from Delegate view
                     //query += ' WHERE User__c = :userId AND Attendee_Type__c = \'Participant Delegate\' AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
@@ -137,30 +137,43 @@ Public without sharing Class PPTelevisitUpcomingTileController{
                     String primaryDelegateUserId = userList[0].Id;
                     if(primaryDelegateUserId != userId){
                         //secondary delegate can view Minor Participant televisit scheduled with Primary Delegate
-                        query += ' WHERE User__c = :primaryDelegateUserId AND Attendee_Type__c = \'Participant Delegate\' AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
+                        query += ' WHERE User__c = :primaryDelegateUserId AND Attendee_Type__c = \'Participant Delegate\' AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' AND  Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
                     }else{
-                    query += ' WHERE User__c = :userId AND Attendee_Type__c = \'Participant Delegate\' AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
+                        query += ' WHERE User__c = :userId AND Attendee_Type__c = \'Participant Delegate\' AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
                     }
                 }
             }else{
                 //To Display Participant's Televisit 
-                query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
+                query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Status__c = \'Scheduled\' AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Televisit__r.Participant_Enrollment__r.Invited_To_PP_Date__c != null ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c LIMIT 3';
             }
         }else{
             delegateOrAlumni = true;
+            Boolean hasPastEnrollments = false;
+            if (ParticipantContext.getCurrentContact() != null) {
+                 List<Participant_Enrollment__c> pastEnrollments  = ContactService.getPastEnrollments(
+                    ParticipantContext.getCurrentContact().Id
+                );
+                hasPastEnrollments = pastEnrollments.size() > 0 ? true : false;
+            }
+
             if(pstate.isDelegate){
                 if(ParticipantContext.getCurrentUser() != null){
                     //To Display Alumni Participant's Televisit from Delegate view
                     userId = ParticipantContext.getCurrentUser().Id;
-                    query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
+                    query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' AND  Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
                 }else{
                     //To Display Minor or Adult without email Alumni participant's Televisit from Delegate view
                     contactId = pstate.currentContactId;
-                    query += ' WHERE User__c = :userId AND Attendee_Type__c = \'Participant Delegate\' AND Televisit__r.Participant_Enrollment__r.Participant_Contact__c =:contactId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
+                    query += ' WHERE User__c = :userId AND Attendee_Type__c = \'Participant Delegate\' AND Televisit__r.Participant_Enrollment__r.Participant_Contact__c =:contactId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' AND  Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
                 }    
             }else{
-                //To Display Delegate's self view Televisit
-                query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
+                if(hasPastEnrollments){
+                    // Full Alumni Participant View.
+                    query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Televisit__r.Participant_Enrollment__r.Invited_To_PP_Date__c != null ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
+                }else{
+                    //Delegate Self View
+                    query += ' WHERE User__c = :userId AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime AND Televisit__r.Status__c = \'Scheduled\' AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true  ORDER BY Televisit__r.Visit_Date_Time__c, Televisit__r.Duration__c';
+                } 
             }
         }
         List<Televisit_Attendee__c> allVisitis = Database.query(query);
