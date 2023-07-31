@@ -23,6 +23,7 @@
     cursor: pointer;
     color: #015ff1;
     width: fit-content;
+    margin-bottom : 16px;
 }
 .back-link-mble{
     margin-left: 14.5px;
