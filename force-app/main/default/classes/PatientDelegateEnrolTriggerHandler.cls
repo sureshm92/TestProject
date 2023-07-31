@@ -374,7 +374,8 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
             if(PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(
                 pde.Participant_Enrollment__r.Participant_Status__c) 
               ){
-                  if(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_PP)
+                  if(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_PP ||
+                   (pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'))
                   {
                       alertList.add(
                       new Alert__c(
@@ -567,6 +568,7 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
              Participant_Enrollment__r.Clinical_Trial_Profile__c,
              Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
              Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+             Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
              Participant_Enrollment__r.Participant_Status__c
              FROM Patient_Delegate_Enrollment__c
              WHERE Id IN :pdeIds
@@ -585,7 +587,7 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
              if(alerts.isEmpty()){                
                  if (
                      participantDelegate.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                     CommunityTemplateService.TEMPLATE_PP
+                     CommunityTemplateService.TEMPLATE_PP || (participantDelegate.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && participantDelegate.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
                  ) {
                      alertList.add(
                          new Alert__c(

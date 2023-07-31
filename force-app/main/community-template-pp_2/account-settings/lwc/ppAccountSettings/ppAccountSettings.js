@@ -112,11 +112,11 @@ export default class PpAccountSettings extends NavigationMixin(LightningElement)
     get backLinkClass() {
         return this.isMobile
             ? this.isRTL
-                ? 'back-link-mble slds-p-vertical_small'
-                : 'back-link-mble slds-p-vertical_small'
+                ? 'back-link-mble'
+                : 'back-link-mble'
             : this.isRTL
-            ? 'back-link slds-p-vertical_small'
-            : 'back-link slds-p-vertical_small';
+            ? 'back-link'
+            : 'back-link';
     }
 
     get navBarClass() {

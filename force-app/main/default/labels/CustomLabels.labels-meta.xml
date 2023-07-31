@@ -1740,13 +1740,6 @@
         <shortDescription>Back to eDiaries</shortDescription>
         <value>Back to eDiaries</value>
     </labels>
-    <labels>
-        <fullName>Back_to_Home</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Back to Home</shortDescription>
-        <value>Back to Home</value>
-    </labels>
      <labels>
         <fullName>Activate_eDiaries</fullName>
         <language>en_US</language>
@@ -6890,7 +6883,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Footer Address</shortDescription>
-        <value>Powered by IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
+        <value>Powered by IQVIA</value>
     </labels>
     <labels>
         <fullName>Email_Footer_Address_New</fullName>
@@ -7585,15 +7578,11 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Sign Patient New  PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in clinical research.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+                        
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Sign_Patient_New_PP</fullName>
@@ -7848,7 +7837,7 @@ Sincerely,
 
 ##SignatureFullCommunityNewName</value>
     </labels>
-    <labels>
+ <!--   <labels>
         <fullName>Email_Signature_Patient_New_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7858,7 +7847,7 @@ Sincerely,
             &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
                         
             &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
-    </labels>
+    </labels>-->
     <labels>
         <fullName>Email_Signature_Patient_RP_Referral_PP</fullName>
         <language>en_US</language>
@@ -21867,7 +21856,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Resource_Disclaimer</shortDescription>
-        <value>Links will open in new browser window. IQVIA Patient Portal
+        <value>Links will open in new browser window. IQVIA
             is not responsible for content provided in external websites.</value>
     </labels>
     <labels>

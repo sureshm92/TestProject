@@ -1,19 +1,19 @@
 <!-- sldsValidatorIgnore -->
 <template>
-    <template if:true={consent}>
-    <div class="slds-m-top--x-small slds-p-around--small background slds-grid slds-wrap">
+    <template if:true={initialdata.isEnabled}>
+    <div class="slds-m-top-x-small slds-p-around--small background slds-grid slds-wrap">
         <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12">
             <div class="postions">
                 <img src={createParticipantIcon}>
                 <span class="msg_padding">{messages}</span>
-                <template if:true={DateTime}>
-                    <lightning-formatted-date-time class="date_padding" value={DateTime} time-zone={userTimeZone}></lightning-formatted-date-time>
+                <template if:true={initialdata.consentDate}>
+                    <lightning-formatted-date-time class="date_padding" value={initialdata.consentDate} time-zone={userTimeZone}></lightning-formatted-date-time>
                 </template>
             </div>
         </div>
     <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 slds-clearfix">   
     <button class="secondaryBtn slds-button buttonposition" onclick={openModal}
-    disabled={isDisabled} aria-disabled="false" title="Send to eConsent" type="button">{label.BTN_NAME}</button>
+    disabled={initialdata.isDisabled} aria-disabled="false" title="Send to eConsent" type="button">{label.BTN_NAME}</button>
     <template if:true={isModalOpen}>
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container">

@@ -385,7 +385,7 @@ public without sharing class DashboardParticipantCount {
     }
 
     public static Clinical_Trial_Profile__c fetchStudyDetails(Id ctpId) {
-        return([SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c WHERE Id =: ctpId]);
+        return([SELECT Id,CommunityTemplate__c,PPTemplate__c FROM Clinical_Trial_Profile__c WHERE Id =: ctpId]);
     }
 
     @AuraEnabled

@@ -69,6 +69,28 @@ public without sharing class TermsAndConditionsRemote {
         try {
             TCData tcData = new TCData();
             if (code == 'PrivacyPolicy') {
+                tcData.tc = TermsAndConditionsJanssenPPSecond.getOrgDefaultPrivacyTC(useDefaultCommunity);
+            } else if (code == 'CookiePolicy') {
+                tcData.tc = TermsAndConditions.getCookieTC(useDefaultCommunity);
+            } else {
+                tcData.tc = TermsAndConditions.getTC(
+                    TermsAndConditions.getOrgDefaultTCbyCode(code),
+                    languageCode,
+                    useDefaultCommunity
+                );
+            }
+            return JSON.serialize(tcData);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+    
+     @AuraEnabled
+    public static String getTCPP(String code, String languageCode, Boolean useDefaultCommunity) {
+        System.debug('useDefaultCommunity: ' + useDefaultCommunity);
+        try {
+            TCData tcData = new TCData();
+            if (code == 'PrivacyPolicy') {
                 tcData.tc = TermsAndConditions.getOrgDefaultPrivacyTC(useDefaultCommunity);
             } else if (code == 'CookiePolicy') {
                 tcData.tc = TermsAndConditions.getCookieTC(useDefaultCommunity);
