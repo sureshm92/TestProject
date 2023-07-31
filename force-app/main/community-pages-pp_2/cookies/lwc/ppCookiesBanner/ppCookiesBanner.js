@@ -23,6 +23,7 @@ import accountSettingsCookiesRRLanguageLabel from '@salesforce/label/c.AccountSe
 import accountSettingsCookiesRRLanguageDescriptionLabel from '@salesforce/label/c.AccountSettings_Cookies_RRLanguage_Description';
 import bTN_AcceptLabel from '@salesforce/label/c.BTN_Accept';
 import loadingLabel from '@salesforce/label/c.Loading';
+import DEVICE from '@salesforce/client/formFactor';
 
 export default class PpCookiesBanner extends LightningElement {
     showmodal = false;
@@ -69,10 +70,13 @@ export default class PpCookiesBanner extends LightningElement {
     initData;
     contact;
     dynamicCSSAppend = pp_icons + '/right.svg';
+    footerUILogo = pp_icons + '/footer_ui_logo.svg';
     cookiesBannerDesc3;
     isJanssenCommunity;
+    isMobile = false;
 
     connectedCallback() {
+        DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
         this.cookiesBannerDesc3 = ' ' + this.label.ppCookiesBannerDesc3;
         this.isJanssenCommunity = this.communityName == 'Janssen Community';
         let rrCookies = communityService.getCookie('RRCookies');
