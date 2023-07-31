@@ -24,9 +24,6 @@
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
 
     <c:RRSpinner size="medium" aura:id="mainSpinner" />
-    <aura:if
-        isTrue="{!(v.isGsk) || ((v.titleCode!='CookiePolicy') &amp;&amp; (v.titleCode!='PrivacyPolicy'))}"
-    >
         <div class="{!v.isRTL? 'arabic':'english'}">
             <div
                 class="rr-body-content rr-min-body-height"
@@ -111,8 +108,5 @@
             </div>
         </div>
 
-        <aura:set attribute="else">
-            <c:privacyPolicyViewerPage />
-        </aura:set>
-    </aura:if>
+        
 </aura:component>
