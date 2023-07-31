@@ -24,7 +24,7 @@ global without sharing class PP_EmailWireframeController {
     private EmailTemplateProvider templateProvider;
     global Boolean isInitialEmailValue { get; set; }
     global Boolean isJanssen { get; set; }
-
+    
     global String getUserLanguageCode() {
         return getProvider().getUserLanguage();
     }
@@ -78,7 +78,7 @@ global without sharing class PP_EmailWireframeController {
             communitiesList.add(ns.CommunityName__c);
         return communitiesList.contains(getProvider().getCommunityName());
     }
-
+  
     public Map<String, String> getTemplateMap() {
         return getProvider().getParameters();
     }
@@ -196,6 +196,11 @@ global without sharing class PP_EmailWireframeController {
     public Boolean getIsInitialized() {
         return getProvider().isInitialized();
     }
+
+    public String getStudyTemplate() {
+        return getProvider().getParameters().get('communityTemplateName');
+    }
+    
     @TestVisible
     private EmailTemplateProvider getProvider() {
         if (templateProvider == null) {
