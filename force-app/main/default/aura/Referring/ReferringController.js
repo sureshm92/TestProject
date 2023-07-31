@@ -311,7 +311,6 @@
     doGoHome: function (component) {
         if (component.get('v.patientVeiwRedirection')) {
             communityService.navigateToPage('my-patients');
-            communityService.reloadPage();
         } else {
              communityService.navigateToPage('');   
         }
@@ -319,7 +318,6 @@
 
     doGoPatientsTab: function (component) {
         communityService.navigateToPage('my-patients');
-        communityService.reloadPage();
     },
     
     doGoFindStudySites: function (component) {
