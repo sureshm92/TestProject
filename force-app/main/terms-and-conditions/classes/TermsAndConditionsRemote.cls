@@ -69,7 +69,7 @@ public without sharing class TermsAndConditionsRemote {
         try {
             TCData tcData = new TCData();
             if (code == 'PrivacyPolicy') {
-                tcData.tc = TermsAndConditionsJanssenPPSecond.getOrgDefaultPrivacyTC(useDefaultCommunity);
+                tcData.tc = TermsAndConditions.getOrgDefaultPrivacyTC(useDefaultCommunity);
             } else if (code == 'CookiePolicy') {
                 tcData.tc = TermsAndConditions.getCookieTC(useDefaultCommunity);
             } else {
@@ -106,13 +106,26 @@ public without sharing class TermsAndConditionsRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-
+    
     @AuraEnabled
     public static String getPPTC(String code, String languageCode, Boolean useDefaultCommunity, String ctId) {
         try {
             TCData tcData = new TCData();
             if (code == 'PrivacyPolicy') {
                 tcData.tc = TermsAndConditions.getOrgDefaultPPTC(useDefaultCommunity, ctId);
+            }
+            return JSON.serialize(tcData);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+    
+    @AuraEnabled
+    public static String getPPTCJn(String code, String languageCode, Boolean useDefaultCommunity, String ctId) {
+        try {
+            TCData tcData = new TCData();
+            if (code == 'PrivacyPolicy') {
+                tcData.tc = TermsAndConditionsJanssenPPSecond.getOrgDefaultPPTC(useDefaultCommunity, ctId);
             }
             return JSON.serialize(tcData);
         } catch (Exception e) {
