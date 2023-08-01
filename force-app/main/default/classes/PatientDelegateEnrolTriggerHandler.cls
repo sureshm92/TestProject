@@ -112,7 +112,6 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
     
     public static void sendJanssenNotifications(List<Patient_Delegate_Enrollment__c> pderecs,
     Map<Id, Patient_Delegate_Enrollment__c> oldMap){
-        system.debug('sendJanssenNotifications invoked--');
         Set<Id> patientDelegateIds = new Set<Id>();
         Set<Id> pdeId = new Set<Id>();
         List<Patient_Delegate_Enrollment__c> activePder= new List<Patient_Delegate_Enrollment__c>();
@@ -146,7 +145,6 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
             
         }
 
-        system.debug('delegateEnrollmentrecrs:'+delegateEnrollmentrecrs);
         Map<String,Patient_Delegate_Enrollment__c> pdvsPde = new Map<String,Patient_Delegate_Enrollment__c> ();   
         List<Patient_Delegate_Enrollment__c> iqviaPde = [select Id,Patient_Delegate__c, Patient_Delegate__r.Contact__c ,Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c from Patient_Delegate_Enrollment__c where 
                                                         Patient_Delegate__r.Contact__c IN :patientDelegateIds
@@ -157,7 +155,6 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
             String key  = pde.Patient_Delegate__r.Contact__c+'-'+pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
         	pdvsPde.put(key,pde);
         }
-        system.debug('older Map:'+pdvsPde);
         Set<Id> assigneeIds  = new Set<id>();
         for (Patient_Delegate_Enrollment__c pdeNew : delegateEnrollmentrecrs) 
              {
