@@ -26,10 +26,9 @@ import loadingLabel from "@salesforce/label/c.Loading";
 import getAlumniTemplate from "@salesforce/apex/ParticipantService.getAlumniTemplate";
 import getTemp from "@salesforce/apex/ParticipantService.getTemp";
 import getStudy from "@salesforce/apex/HomePageParticipantRemote.getInitData";
-import DEVICE from '@salesforce/client/formFactor';
 
 export default class PpCookiesBanner extends LightningElement {
-  showmodal = true;
+  showmodal = false;
   @api
   loginPage = false;
   @api
@@ -73,7 +72,6 @@ export default class PpCookiesBanner extends LightningElement {
   initData;
   contact;
   dynamicCSSAppend = pp_icons + "/right.svg";
-  footerUILogo = pp_icons + '/footer_ui_logo.svg';
   cookiesBannerDesc3;
   isJanssenCommunity;
 
@@ -81,7 +79,6 @@ export default class PpCookiesBanner extends LightningElement {
   @api isAlumni = false;
 
   connectedCallback() {
-    DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
     var temp = "";
     if(this.loginPage){
         this.loginPg(); 
@@ -490,7 +487,6 @@ export default class PpCookiesBanner extends LightningElement {
     document.body.removeEventListener("keydown", this.bodyBlock);
     let bodyStyles = document.body.style;
     bodyStyles.removeProperty("--cookieRightIcon");
-    this.showmodal = false;
   }
 
   acceptAll() {
