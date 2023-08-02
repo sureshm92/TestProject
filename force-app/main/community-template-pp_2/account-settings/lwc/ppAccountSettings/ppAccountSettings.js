@@ -226,7 +226,7 @@ export default class PpAccountSettings extends NavigationMixin(LightningElement)
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
-                    pageName: 'ediaries'
+                    pageName: 'e-diaries'
                 }
             })
         } 
