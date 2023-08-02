@@ -11,6 +11,9 @@ trigger PatientDelegateEnrollmentTrigger on Patient_Delegate_Enrollment__c (
         PatientDelegateEnrolTriggerHandler.SetDefaultPatientDelegateStatusHandler.class
     );
     TriggerHandlerExecutor.execute(
+        PatientDelegateEnrolTriggerHandler.CreateJanssenNotification.class
+    );
+    TriggerHandlerExecutor.execute(
         PatientDelegateEnrolTriggerHandler.CreateNewAssignmentNotification.class
     );
     TriggerHandlerExecutor.execute(
