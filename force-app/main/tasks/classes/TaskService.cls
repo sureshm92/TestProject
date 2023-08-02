@@ -292,11 +292,13 @@ public without sharing class TaskService {
                 skipSurveyInvIds.add(objSurvey.Id);
             }
         }
-        List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
+        // List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
+        // for(Participant_Enrollment__c pe : peList){
+        //     peOfCurrentuser.Add(pe.Id);
+        // }
+        contact currentContact = ParticipantContext.getCurrentContact();
         set<Id> peOfCurrentuser = new Set<Id>();
-        for(Participant_Enrollment__c pe : peList){
-            peOfCurrentuser.Add(pe.Id);
-        }
+        Map<Id,Participant_Enrollment__c> perMapForMultiRole = ParticipantEnrollmentService.getPerMapByContactId(currentContact.Id);
         for (Task t : tasks) {
             Boolean skipTask = false;
             Id curPEId = ParticipantContext.getCurrentPEId();
@@ -350,10 +352,10 @@ public without sharing class TaskService {
                         skipTask = true;
                     }else if(!hasPastEnrollments){
                         //Multi Role(Self View) with No invited study/Delegate self View.
-                        if(peOfCurrentuser.contains(t.whatId) && (!isInvitedToPP || !isPatientPortalEnabled )){
+                        if(perMapForMultiRole.containsKey(t.whatId) && (!isInvitedToPP || !isPatientPortalEnabled )){
                             //MultiROle(Self View) - task created for himself/herself as particapnt.
                             skipTask = true;
-                        }else if(!peOfCurrentuser.contains(t.whatId) && !isPatientPortalEnabled){
+                        }else if(!perMapForMultiRole.containsKey(t.whatId) && !isPatientPortalEnabled){
                             //MultiROle(Self View)/Pure delegate self View - task created for himself/herself as delegate.
                             skipTask = true;
                         }
@@ -407,10 +409,10 @@ public without sharing class TaskService {
                         skipTask = true;
                     }else if(!hasPastEnrollments){
                         //Multi Role(Self View) with No invited study/Delegate self View.
-                            if(peOfCurrentuser.contains(SurveyPEId) && (!isInvitedToPP || !isPatientPortalEnabled )){
+                            if(perMapForMultiRole.containsKey(SurveyPEId) && (!isInvitedToPP || !isPatientPortalEnabled )){
                                 //MultiROle(Self View) - task created for himself/herself as particapnt.
                                 skipTask = true;
-                            }else if(!peOfCurrentuser.contains(SurveyPEId) && !isPatientPortalEnabled){
+                            }else if(!perMapForMultiRole.containsKey(SurveyPEId) && !isPatientPortalEnabled){
                                 //MultiROle(Self View)/Pure delegate self View - task created for himself/herself as delegate.
                                 skipTask = true;
                             }

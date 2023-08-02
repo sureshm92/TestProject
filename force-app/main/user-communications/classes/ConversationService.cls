@@ -227,10 +227,14 @@ public without sharing class ConversationService {
                     WHERE Id IN :peIdList
                     ];
                     for (Participant_Enrollment__c enrollment : enrollments) {
-                        if (conversation.Participant_Enrollment__c == enrollment.Id && 
+                        if (!isDelegate && conversation.Participant_Enrollment__c == enrollment.Id && 
                             enrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true &&
-                            enrollment.Invited_To_PP_Date__c != null)
-                            unreadCount++;
+                            enrollment.Invited_To_PP_Date__c != null){
+                                unreadCount++;
+                        }else if (isDelegate && conversation.Participant_Enrollment__c == enrollment.Id && 
+                            enrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true){
+                                unreadCount++;
+                        }
                     }  
                 }
             }
