@@ -1,6 +1,6 @@
 <!--
  - Created by Rushikesh Kadam on 12-Oct-2022.
- --> 
+ -->
 
 <apex:component id="PP_EmailWireframeText" controller="PP_EmailWireframeController" access="global" language="{!userLanguageCode}">
 
@@ -46,6 +46,7 @@
 
     <!--Signature-->
     {!signatureText}
+
 
 
     <!--Footer START-->
