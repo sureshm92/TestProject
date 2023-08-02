@@ -55,7 +55,8 @@
                                     onfocusout="{!c.removeElementFocus}"
                                     tabindex="1"
                                 >
-                                    <span class="dropdown-span">{!v.placeholderText}</span>
+                                    <span class="placeholder-container"><aura:unescapedHtml value="{!v.placeholderText}" /></span>
+
                                     <ul class="dropdown-menu">
                                         <aura:iteration items="{!v.helpTopicOptions}" var="item">
                                             <li

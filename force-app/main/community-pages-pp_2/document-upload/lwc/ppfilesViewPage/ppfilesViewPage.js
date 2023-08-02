@@ -1041,6 +1041,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         this.iscancelButtonClick = false;
     }
     ContinuetoDeleteFiles() {
+        this.FileUploadPending = true;
         this.isSaving = true;
         this.cancelmodalisOpen = false;
         this.iscancelButtonClick = true;
