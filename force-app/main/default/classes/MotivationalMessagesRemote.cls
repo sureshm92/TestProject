@@ -78,24 +78,26 @@ public without sharing class MotivationalMessagesRemote {
         Contact myContact = AccountSettingsController.getCurrentContact();
 
         Boolean ppOld;
-        if(participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
-            ppOld = participantState.pe.Clinical_Trial_Profile__r?.PPTemplate__c != 'PP 2.0'? true : false;
-        }
-        else if(participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal'){
+        if (participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen') {
+            ppOld = participantState.pe.Clinical_Trial_Profile__r?.PPTemplate__c != 'PP 2.0'
+                ? true
+                : false;
+        } else if (
+            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal'
+        ) {
             ppOld = true;
-        }
-        else {
-            ppOld = false;;
+        } else {
+            ppOld = false;
         }
 
-        if ( ppOld ) {
+        if (ppOld) {
             if (participantState.pe.Motivational_Message_Id__c == messageForShow.Id)
                 return null;
 
             participantState.pe.Motivational_Message_Id__c = messageForShow.Id;
             update participantState.pe;
             return messageForShow.Message__c;
-        } else if ( !ppOld ) {
+        } else if (!ppOld) {
             // For participant View
             if (
                 myContact.userCommunityDelegateId__c == null &&
