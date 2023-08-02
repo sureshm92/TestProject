@@ -100,24 +100,27 @@
                                     </div> 
 
 
-                                    <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-2 policyCssjanssen', 'slds-size_1-of-3')}">
-                                        <c:privacyPolicyViewer
-                                            isRtl="{!v.isRTL}"
-                                            isModalOpen="{!v.showPpPopup}"
-                                            onclosePpModal="{!c.closePpPopup}"
-                                            communityTypeName="{!v.communityType}"
-                                        />
-                                    </div>
-                                    <aura:if isTrue="{!v.isCPRAavailable}"> 
-                                    <div  class="divider   slds-m-left--x-small slds-m-right--x-small slds-size_1-of-2" ></div> 
-                                    
-                                    <div class="slds-col slds-size_1-of-3 alignprivacychoice">
-                                        <div class="page-link" onclick="{!c.onLinkClick}">
-                                            {!v.CPRAlabel}
-                                            <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                                    <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-grid slds-size_1-of-1 policyCssjanssen', 'slds-size_1-of-3')}">
+                                        <div  class="{!if(v.isCPRAavailable == true,'slds-col slds-size_1-of-2 slds-border_right overridesldsborder  slds-p-right--medium', '')}">
+                                             <c:privacyPolicyViewer
+                                                isRtl="{!v.isRTL}"
+                                                isModalOpen="{!v.showPpPopup}"
+                                                onclosePpModal="{!c.closePpPopup}"
+                                                communityTypeName="{!v.communityType}"
+                                            />
                                         </div>
+                                        <aura:if isTrue="{!v.isCPRAavailable}">
+                                        <div class="slds-col slds-p-left--medium slds-size_1-of-2 alignprivacychoice">
+                                          
+                                                    <span class="page-link" onclick="{!c.onLinkClick}">
+                                                        {!v.CPRAlabel}
+                                                        <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                                                    </span>
+                                        </div>
+                                    </aura:if>
+
                                     </div>
-                                    </aura:if>  
+                                   
                                 <div  class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-1 slds-p-left--small slds-m-bottom_medium slds-p-top--x-small', '')}" 
                                  >© IQVIA</div>
                             </div>
@@ -269,7 +272,7 @@
                                          </aura:if>
                                           <div class="slds-col slds-m-left_xx-small">
                                                  © IQVIA 
-                                         </div>
+                                         </div> 
                                     </div>
                                 </div>
                             </aura:set>
