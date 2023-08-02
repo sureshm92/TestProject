@@ -595,6 +595,7 @@ public without sharing class ParticipantEnrollmentService {
 
     public static final List<String> PE_COMMON_FIELDS = new List<String>{
         'Id',
+        'Invited_To_PP_Date__c',
         'Clinical_Trial_Profile__c',
         'Clinical_Trial_Profile__r.Profile_Picture__c',
         'Clinical_Trial_Profile__r.Is_Program__c',
