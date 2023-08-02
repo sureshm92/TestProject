@@ -1,8 +1,4 @@
-/**
- * Created by Olga Skrynnikova on 2/4/2020.
- */
-
-global without sharing class EmailTemplateDelegatePartController {
+global without sharing class PP_EmailTemplateDelegatePartController {
     global Id sourceIdValue { get; set; }
     global Id delegateId { get; set; }
     global String templateName{get; set;}
@@ -36,23 +32,11 @@ global without sharing class EmailTemplateDelegatePartController {
         }
 
         List<String> delegateStudyNames = new List<String>();
+        List<String> delegateCommunitytyNames = new List<String>();
         if (participantIds.isEmpty())
             return delegateStudyNames;
-
-        /*List<Participant_Enrollment__c> delegatePE = [
-            SELECT Clinical_Trial_Profile__r.Study_Code_Name__c
-            FROM Participant_Enrollment__c
-            WHERE
-                Participant__c IN :participantIds
-                AND Clinical_Trial_Profile__r.CommunityTemplate__c = :EmailTemplateProviderService.getProvider()
-                    .getCommunityTemplateName()
-				AND Study_Site__r.Study_Site_Type__c ='Traditional'
-            	AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
-            	AND Study_Site__r.Suppress_Participant_Emails__c = FALSE 
-            	AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
-            ORDER BY CreatedDate
-        ];*/
         String contactIds;
+
         list<User> c;
         if (delegateId != null) {
             String objType = String.valueOf(delegateId.getSobjectType());
@@ -68,54 +52,63 @@ global without sharing class EmailTemplateDelegatePartController {
         pde = [
             SELECT Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
             Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
-            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+            LastModifiedDate
             FROM Patient_Delegate_Enrollment__c
             WHERE
                 Participant_Enrollment__r.Participant__c IN :participantIds
-                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :EmailTemplateProviderService.getProvider()
-                    .getCommunityTemplateName() 
-                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen'
                 AND Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c = 'Traditional'
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
                 AND Patient_Delegate__r.Contact__c = :contactIds
                 AND Status__c = 'Active'
-            ORDER BY CreatedDate
-        ]; //1.0 
-        String janssenTemplate; //1.0  janssen  2.0 pp
-        if(pde.isEmpty()){            
-            if(getTemplateText() =='Janssen'){
-                janssenTemplate='PP 1.0';
-            }
-          
-            pde = [
-            SELECT Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-            Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
-            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
-            FROM Patient_Delegate_Enrollment__c
-            WHERE
-                Participant_Enrollment__r.Participant__c IN :participantIds
-                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen'
-                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = : janssenTemplate
-                AND Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c = 'Traditional'
-                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
-                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
-                AND Patient_Delegate__r.Contact__c = :contactIds
-                AND Status__c = 'Active'
-            ORDER BY CreatedDate
-        ];
-
+            ORDER BY LastmodifiedDate DESC
+        ]; 
+        for (Patient_Delegate_Enrollment__c pe : filterPatientDelegates(pde)){           
+                    delegateStudyNames.add(
+                    pe.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                );
+            
         }
-        for (Patient_Delegate_Enrollment__c pe : pde)
-            delegateStudyNames.add(
-                pe.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
-            );
-
         return delegateStudyNames;
     }
     
+    public List<Patient_Delegate_Enrollment__c> filterPatientDelegates(List<Patient_Delegate_Enrollment__c> pdeList){
+        Set<Id> latestPdes = new Set<Id>();
+		List<Patient_Delegate_Enrollment__c> filteredPdes = new List<Patient_Delegate_Enrollment__c>();        
+        Datetime latestDate;
+        Set<String> templates  = new Set<String>();
+        for(Integer i=0;i<pdeList.size();i++){
+            if(i==0)
+              latestDate = pdeList[i].LastmodifiedDate;
+            if(pdeList[i].LastModifiedDate == latestDate){
+                latestPdes.add(pdeList[i].id);
+                templates.add(pdeList[i].Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
+            }
+        }
+        if(!latestPdes.isEmpty() && latestPdes.size() > 1 && templates.size() >1 ){
+           return  pdeList;
+        }
+        String templatename = (!templates.isEmpty()) ? new List<String>(templates)[0] : '';
+        for(Patient_Delegate_Enrollment__c pd : pdeList){
+            if(pd.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == templatename )
+                filteredPdes.add(pd);
+        }
+        return filteredPdes;
+    }
+    
+    
     public String getTemplateText(){
         return templateName;
+    }
+    public String getSourceTemplateText(){
+       List<Patient_Delegate_Enrollment__c> pdes =  [SELECT Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            FROM Patient_Delegate_Enrollment__c where Id=: sourceIdValue];
+        system.debug('enrollments:'+pdes[0].Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
+        
+        return pdes[0].Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
     }
 
     public String getBottomText() {
