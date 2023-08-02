@@ -545,6 +545,10 @@ public without sharing class AccountSettingsController {
                     throw new AuraHandledException(
                         ex.getMessage() + '\n' + ex.getStackTraceString()
                     );
+                }else{
+                    throw new AuraHandledException(
+                        ex.getMessage() + '\n' + ex.getStackTraceString()
+                    );
                 }
             }
         }
