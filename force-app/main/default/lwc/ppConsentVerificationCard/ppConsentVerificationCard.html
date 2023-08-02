@@ -1,0 +1,39 @@
+<template>
+   <template if:true={showConsentCard}>
+    <div class="slds-m-left--large slds-m-top--large uppergap"> 
+        <div class="slds-grid card-wrap slds-p-bottom--xx-small">
+            <span class="consent-main_header">{label.consent_heading}</span>
+            &nbsp;
+            <span class="pp-tooltip"> 
+             <lightning-helptext content={label.consent_toop_tip_info}></lightning-helptext>
+            </span>
+           <!-- <div class="info-tooltip">
+                <lightning-icon icon-name="utility:info" class="blue-icon slds-is-absolute slds-m-top--xxx-small" size="x-small"  onmouseover={showHideInfo} onmouseleave={showHideInfo}></lightning-icon>
+                <div class="slds-popover slds-popover_tooltip slds-nubbin_top-right info-tooltip_position slds-hide" role="tooltip" id="help" >
+                <div class="slds-popover__body info-tooltip_dimension">{label.consent_toop_tip_info}</div>
+                </div>
+            </div> -->
+        </div>
+
+
+        <lightning-card>
+            <div class="consent-main_container">
+
+            <div class="slds-align_absolute-center slds-m-bottom--medium">
+               <template if:true={isUrlPresent} >
+                    <!--<a class="econsentButton" href="javascript:void(0)" onclick={handleClick}
+                        >{label.button_name}</a> -->
+                <button class="secondaryBtn slds-button card-btn econsentButton" disabled={disabled}  onclick={handleClick}> 
+                    {label.button_name} 
+                </button> 
+                </template>
+                <template if:false={isUrlPresent} ><p class="slds-p-around--small" style="color:red;">{errorMessage}</p></template>
+                </div>
+                
+            
+            </div>
+                
+        </lightning-card>
+    </div>
+</template> 
+</template>
