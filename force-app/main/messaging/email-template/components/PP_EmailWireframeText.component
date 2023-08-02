@@ -48,7 +48,6 @@
     {!signatureText}
 
 
-    
     <!--Footer START-->
     <!--IQVIA Address/Privacy Policy-->
     {!$Label.Email_Footer_Address} | {!$Label.Email_Footer_Privacy_Policy}: {!IF(communityTemplate == 'Janssen', $Label.CommunityJanssenURL
