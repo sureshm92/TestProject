@@ -37,8 +37,7 @@
 
     {!signatureText}
 
-
-    {!$Label.Email_Footer_Address} | {!$Label.Email_Footer_Privacy_Policy}: {!IF(communityTemplate == 'Janssen', emailCommunityURL + '/s/privacy-policy?language='+UserLanguageCode, emailCommunityURL + '/s/privacy-policy?language='+UserLanguageCode)}
+    {!$Label.Email_Footer_Address} | {!$Label.Email_Footer_Privacy_Policy}: {!IF(communityTemplate == 'Janssen', $Label.CommunityJanssenURL + '/s/privacy-policy?language='+UserLanguageCode, $Label.CommunityURL + '/s/privacy-policy?language='+UserLanguageCode)}    
     <apex:componentBody rendered="{!displayOptOut!='No'}">
     {!$Label.Email_Opt_Out_footer} {!$Label.Email_Opt_Out_footer_here} : {!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}
      </apex:componentBody> 
