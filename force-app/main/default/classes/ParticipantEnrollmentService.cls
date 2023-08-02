@@ -1934,4 +1934,21 @@ public without sharing class ParticipantEnrollmentService {
         ];
         updateParticipantState(participants);
     }
+
+    /**
+     * @description: This Method will return the PERMap for given contact.
+     * @author: Krishna Mahto
+     * @param: delContId
+     * @return:
+     **/
+    public static Map<Id,Participant_Enrollment__c> getPerMapByContactId(Id contactId) {
+        Map<Id,Participant_Enrollment__c> perMap=  new Map<Id,Participant_Enrollment__c>([
+            SELECT  Id,
+                    Invited_To_PP_Date__c,
+                    Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
+            FROM Participant_Enrollment__c
+            WHERE Participant_Contact__c = :contactId
+        ]);
+        return perMap;
+    }
 }
