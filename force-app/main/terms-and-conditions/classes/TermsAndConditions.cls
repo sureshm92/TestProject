@@ -118,14 +118,15 @@ global without sharing class TermsAndConditions {
         } else {
             query += ' Active__c = TRUE ';
             query += 'AND Community_Name__c =\'' + communityName + '\'';
+            if( communityName == 'Janssen Community')
+            {
+                query += 'AND Janssen_Template__c =\'' + strJanseenTemplate + '\'';
+            }
         }
         if (tcType != null) {
             query += 'AND T_C_Type__c =\'' + tcType + '\'';
         }
-        if( communityName == 'Janssen Community')
-        {
-            query += 'AND Janssen_Template__c =\'' + strJanseenTemplate + '\'';
-        }
+        
         query += ' ORDER BY Name DESC LIMIT 1';
         System.debug('>>>QUERY: ' + query);
         return query;
