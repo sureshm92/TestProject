@@ -107,7 +107,7 @@ hr {
     font-weight: 400;
 }
 .po-custom-comm-Prefences {
-    padding-top: 24px;
+    margin-top: 24px; 
     transform: rotate(-360deg);
     color: #015ff1;
     font-family: 'Proxima Nova';
