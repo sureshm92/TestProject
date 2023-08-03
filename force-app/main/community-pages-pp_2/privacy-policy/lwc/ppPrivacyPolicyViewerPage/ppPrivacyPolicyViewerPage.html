@@ -64,8 +64,12 @@
         <div class="rr-body-content">
             <!-- Loading Spinner-->
             <c-web-spinner class="main-spinner"></c-web-spinner>
+            
             <!-- Header label-->
             <div class={headerContainer}>
+                <template if:true={showBackButton}>
+                    <lightning-button label="Back" title="Back" onclick={goToPreviousPage}></lightning-button>
+                </template>
                 <div class={headerLabel}>
                     <div class={privacyHeader}>{labels.PP_HEADER}</div>
                 </div>

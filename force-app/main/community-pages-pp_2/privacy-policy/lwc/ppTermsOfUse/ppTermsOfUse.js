@@ -25,7 +25,7 @@ export default class PpTermsOfUse extends LightningElement {
     ppRichText;
     @track currentHeaderLabel = '';
     spinner;
-
+    showBackButton = false;
     labels = {
         TU_HEADER,
         ERROR_MESSAGE,
@@ -46,6 +46,7 @@ export default class PpTermsOfUse extends LightningElement {
             .catch((error) => {
                 this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
+            this.showBackButton = communityService.isMobileSDK();
     }
 
     initializeData() {
@@ -278,5 +279,8 @@ export default class PpTermsOfUse extends LightningElement {
     removeElementFocus() {
         let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
         ddMenu.classList.remove('active');
+    }
+    goToPreviousPage(){
+        window.history.back();
     }
 }

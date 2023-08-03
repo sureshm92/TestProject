@@ -53,6 +53,9 @@
             <div
                 class="slds-grid slds-wrap slds-p-left_medium slds-p-right_medium slds-p-top_large"
             >
+            <template if:true={showBackButton}>
+                <lightning-button label="Back" title="Back" onclick={goToPreviousPage}></lightning-button>
+            </template>
                 <div class="slds-col slds-size_1-of-1">
                     <div class={privacyHeader}>{labels.TU_HEADER}</div>
                 </div>

@@ -31,6 +31,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
     options = [];
     @track currentHeader = '';
     @track currentHeaderLabel = '';
+    showBackButton = false;
     labels = {
         PP_HEADER,
         LAST_UPDATED,
@@ -57,6 +58,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
                     })
                 );
             });
+            this.showBackButton = communityService.isMobileSDK();
     }
 
     @wire(CurrentPageReference)
@@ -306,5 +308,8 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
     removeElementFocus() {
         let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
         ddMenu.classList.remove('active');
+    }
+    goToPreviousPage(){
+        window.history.back();
     }
 }
