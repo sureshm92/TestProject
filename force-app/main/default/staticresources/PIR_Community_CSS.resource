@@ -149,3 +149,15 @@ height: 70px;
     } 
    
 }
+
+.toastMessage.forceActionsText{
+    white-space : pre-line !important;
+}
+
+.toastContainer.slds-notify_container{
+    top : 50px;
+}
+
+.participant-spinner.slds-spinner_container{
+    background: transparent;
+}

@@ -7550,15 +7550,11 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Sign Patient New  PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
+          <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
-&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in clinical research.&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
-
-&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
+            &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+                        
+            &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Sign_Patient_New_PP</fullName>
@@ -7813,7 +7809,7 @@ Sincerely,
 
 ##SignatureFullCommunityNewName</value>
     </labels>
-    <labels>
+    <!-- <labels>
         <fullName>Email_Signature_Patient_New_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7823,7 +7819,7 @@ Sincerely,
             &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
                         
             &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
-    </labels>
+    </labels> -->
     <labels>
         <fullName>Email_Signature_Patient_RP_Referral_PP</fullName>
         <language>en_US</language>
@@ -7884,7 +7880,7 @@ Sincerely,
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Plain Summary Available For Del</shortDescription>
-        <value>We are excited to continue this journey with you and ##ParticipantFirstName.
+        <value>We are excited to continue this journey with you.
 
             Sincerely,
 
@@ -10584,7 +10580,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>IsConfidential</shortDescription>
-        <value>Is Confidential</value>
+        <value>Mark as confidential</value>
     </labels>
     <labels>
         <fullName>IQVIA_intervention_completed</fullName>
@@ -21832,7 +21828,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Resource_Disclaimer</shortDescription>
-        <value>Links will open in new browser window. IQVIA Patient Portal
+        <value>Links will open in new browser window. IQVIA
             is not responsible for content provided in external websites.</value>
     </labels>
     <labels>
@@ -31753,6 +31749,78 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Email Body Patient New Study PP</shortDescription>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
 
-            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;</value>        
-    </labels>    
+            &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;
+        </value>  
+    </labels>
+    <labels>
+        <fullName>Create_participant_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create participant header</shortDescription>
+        <value>Participant is being created on econsent portal</value>
+    </labels>
+    
+    <labels>
+        <fullName>Pop_drop_down_label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create participant Pop-drop down label</shortDescription>
+        <value>Document collection id</value>
+    </labels>
+    
+    <labels>
+        <fullName>Create_Participant_Technical_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create Participant Technical Error</shortDescription>
+        <value>A technical error has occured, Please try again later.</value>
+    </labels>
+    
+    <labels>
+        <fullName>Create_participant_button_label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create participant button label</shortDescription>
+        <value>Send to eConsent</value>
+    </labels>
+    
+    <labels>
+        <fullName>create_participant_message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>create participant message</shortDescription>
+        <value>eConsent is available</value>
+    </labels>
+    
+    <labels>
+        <fullName>create_participant_updated_message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>create participant updated message</shortDescription>
+        <value>Sent to eConsent on</value>
+    </labels>
+    
+    <labels>
+        <fullName>Informed_consent_heading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Informed consent heading</shortDescription>
+        <value>Informed Consent</value>
+    </labels>
+    
+    <labels>
+        <fullName>Informed_consent_tool_tip_content</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Informed consent tool-tip content</shortDescription>
+        <value>Verification link will provide you with a code to share with your study team to complete the consenting process.</value>
+    </labels>
+    
+    <labels>
+        <fullName>consent_verification_btn_name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>consent verification btn name</shortDescription>
+        <value>Access Verification Link</value>
+    </labels>   
 </CustomLabels>

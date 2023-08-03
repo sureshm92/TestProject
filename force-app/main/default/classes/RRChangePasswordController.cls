@@ -340,13 +340,17 @@ public without sharing class RRChangePasswordController {
                         Permit_Voice_Text_contact_for_this_study__c,
                         Study_Direct_Mail_Consent__c,
                         Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Clinical_Trial_Profile__r.PPTemplate__c,
                         Clinical_Trial_Profile__c,
                         Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
                         Clinical_Trial_Profile__r.Privacy_Policy_ID__c
                     FROM Participant_Enrollment__c
                     WHERE
                         Participant_Contact__c = :contact.Id
-                        AND Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
+                        AND ((Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal') OR 
+                        (Clinical_Trial_Profile__r.CommunityTemplate__c='Janssen' AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+                        AND Invited_To_PP_Date__c != NULL
+                        AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 ];
                 List<Patient_Delegate_Enrollment__c> delegateContactUserPDEs = [
                     SELECT
@@ -358,13 +362,17 @@ public without sharing class RRChangePasswordController {
                         Study_Email_Consent__c,
                         Study_Direct_Mail_Consent__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.Privacy_Policy_ID__c
                     FROM Patient_Delegate_Enrollment__c
                     WHERE
                         Patient_Delegate__r.Contact__c = :contact.Id
-                        AND Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
+                        AND ((Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal') OR 
+                        (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c='Janssen' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+                        AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                        AND Status__c = 'Active'
                 ];
                 if (loginUserPEs.size() != 0 && delegateContactUserPDEs.size() != 0) {
                     //Multi ROle
@@ -1276,7 +1284,8 @@ public without sharing class RRChangePasswordController {
                 isDisabled = false;
                 if (
                     per != null &&
-                    per.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal'
+                    ((per.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal') ||
+                    (per.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && per.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'))
                 ) {
                     ppValidateSaveButton();
                 } else {

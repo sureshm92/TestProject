@@ -197,6 +197,9 @@
     padding: 5px;
 }
 
+.THIS.placeholder-container{
+    width : 300px;
+}
 @media (max-width: 850px) {
     .THIS .h-body {
         margin-top: 20px;
@@ -240,5 +243,14 @@
 
     .THIS .pi-picklist-container .slds-grid > .slds-col:first-child {
         margin-bottom: 15px;
+    }
+    .THIS .dropdown {
+        width: 100% !important;
+    }
+    .THIS .dropdown-span {
+        width: 340px !important;
+    }
+    .THIS .dropdown:after {
+        top: auto !important;
     }
 }
