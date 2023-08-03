@@ -15,7 +15,7 @@
     padding-right: 29px;
     margin-bottom: 24px;
 }
-.communication-pref-no-margin{
+.communication-pref-no-margin {
     padding-left: 20px;
     padding-right: 29px;
     margin-bottom: 24px;
@@ -74,6 +74,14 @@
 }
 
 .communication-pref .header {
+    color: #444;
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 600;
+    margin: 0px 0px 10px 5px;
+}
+
+.communication-pref-no-margin .header {
     color: #444;
     font-size: 20px;
     line-height: 20px;

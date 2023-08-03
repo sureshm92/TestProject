@@ -53,7 +53,7 @@ hr {
     margin: auto;
 }
 .po-about-program {
-    height: 24px;
+    height: auto;
     width: 357px;
     color: #6e6e6e;
     font-family: 'Proxima Nova';
