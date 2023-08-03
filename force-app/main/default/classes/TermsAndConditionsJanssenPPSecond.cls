@@ -61,6 +61,7 @@ global without sharing class TermsAndConditionsJanssenPPSecond {
         System.debug('communityName: ' + communityName);
         Boolean BoolIsRegistration = false;
        Boolean isGuestUser = Auth.CommunitiesUtil.isGuestUser();
+       String strJanseenTemplate = '2.0';
         //condition for  registration page links
         if (communityName != null) {
             if (communityName.containsIgnoreCase('terms')) {
