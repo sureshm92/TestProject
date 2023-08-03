@@ -197,6 +197,9 @@
     padding: 5px;
 }
 
+.THIS.placeholder-container{
+    width : 300px;
+}
 @media (max-width: 850px) {
     .THIS .h-body {
         margin-top: 20px;

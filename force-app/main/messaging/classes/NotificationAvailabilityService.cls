@@ -370,69 +370,70 @@ public without sharing class NotificationAvailabilityService {
                 }
             }
             Map<Id, Patient_Delegate_Enrollment__c> pdelIdMap = new Map<Id, Patient_Delegate_Enrollment__c>(
-                [
-                    SELECT
-                        Id,
-                        Patient_Delegate__r.Participant__r.Full_Name__c,
-                        Patient_Delegate__r.Id,
-                        Welcome_Message_Sent__c,
-                        Study_Email_Consent__c,
-                        Study_SMS_Consent__c,
-                        Welcome_Message_Delivered__c,
-                        Patient_Delegate__r.Participant__r.Contact__c,
-                        Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                        Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-                        Patient_Delegate__r.Participant__r.First_Name__c,
-                        Patient_Delegate__r.Participant__r.Last_Name__c,
-                        Patient_Delegate__r.Contact__c,
-                        Patient_Delegate__r.Participant__c,
-                        Patient_Delegate__r.Participant_Delegate__r.Id,
-                        Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
-                        Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
-                        Patient_Delegate__r.Participant_Delegate__r.Email__c,
-                        Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                        Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-                        Status__c,
-                        Participant_Enrollment__c,
-                        Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
-                        Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
-                        Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
-                        Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                        Participant_Enrollment__r.Name,
-                        Participant_Enrollment__r.Clinical_Trial_Profile__c,
-                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
-                    FROM Patient_Delegate_Enrollment__c
-                    WHERE
-                        Participant_Enrollment__c IN :perIdLst
-                        AND Patient_Delegate__r.Contact__c IN :recipientIds
-                ]
-            );
-            delContIdMapOfPerIdPDEnromentMap = new Map<Id, Map<Id, Patient_Delegate_Enrollment__c>>();
-            for (Patient_Delegate_Enrollment__c pdelEnrollment : pdelIdMap.values()) {
-                // junction object records
-                if (
-                    delContIdMapOfPerIdPDEnromentMap.containskey(
-                        pdelEnrollment.Patient_Delegate__r.Contact__c
-                    )
-                ) {
-                    Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = delContIdMapOfPerIdPDEnromentMap.get(
-                        pdelEnrollment.Patient_Delegate__r.Contact__c
-                    );
-                    perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
-                    delContIdMapOfPerIdPDEnromentMap.put(
-                        pdelEnrollment.Patient_Delegate__r.Contact__c,
-                        perIdPDEnrollment
-                    );
-                } else {
-                    Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = new Map<Id, Patient_Delegate_Enrollment__c>();
-                    perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
-                    delContIdMapOfPerIdPDEnromentMap.put(
-                        pdelEnrollment.Patient_Delegate__r.Contact__c,
-                        perIdPDEnrollment
-                    );
-                }
+            [
+                SELECT
+                    Id,
+                    Patient_Delegate__r.Participant__r.Full_Name__c,
+                    Patient_Delegate__r.Id,
+                    Welcome_Message_Sent__c,
+                    Study_Email_Consent__c,
+                    Study_SMS_Consent__c,
+                    Welcome_Message_Delivered__c,
+                    Patient_Delegate__r.Participant__r.Contact__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                    Patient_Delegate__r.Participant__r.First_Name__c,
+                    Patient_Delegate__r.Participant__r.Last_Name__c,
+                    Patient_Delegate__r.Contact__c,
+                    Patient_Delegate__r.Participant__c,
+                    Patient_Delegate__r.Participant_Delegate__r.Id,
+                    Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
+                    Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
+                    Patient_Delegate__r.Participant_Delegate__r.Email__c,
+                    Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                    Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                    Status__c,
+                    Participant_Enrollment__c,
+                    Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                    Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                    Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Name,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE
+                    Participant_Enrollment__c IN :perIdLst
+                    AND Patient_Delegate__r.Contact__c IN :recipientIds
+            ]
+        );
+        delContIdMapOfPerIdPDEnromentMap = new Map<Id, Map<Id, Patient_Delegate_Enrollment__c>>();
+        for (Patient_Delegate_Enrollment__c pdelEnrollment : pdelIdMap.values()) {
+            // junction object records
+            if (
+                delContIdMapOfPerIdPDEnromentMap.containskey(
+                    pdelEnrollment.Patient_Delegate__r.Contact__c
+                )
+            ) {
+                Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = delContIdMapOfPerIdPDEnromentMap.get(
+                    pdelEnrollment.Patient_Delegate__r.Contact__c
+                );
+                perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
+                delContIdMapOfPerIdPDEnromentMap.put(
+                    pdelEnrollment.Patient_Delegate__r.Contact__c,
+                    perIdPDEnrollment
+                );
+            } else {
+                Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = new Map<Id, Patient_Delegate_Enrollment__c>();
+                perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
+                delContIdMapOfPerIdPDEnromentMap.put(
+                    pdelEnrollment.Patient_Delegate__r.Contact__c,
+                    perIdPDEnrollment
+                );
             }
+		}
             //End
 
             //TODO for other objects passing in WhatID
@@ -528,7 +529,8 @@ public without sharing class NotificationAvailabilityService {
                             pdelEnrollmentrecrd.Study_Email_Consent__c &&
                             !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                             !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                            !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
+                            !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                            pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
                     } else {
                         perEmailToSend =
                             surveyInvitation != null &&
@@ -669,7 +671,8 @@ public without sharing class NotificationAvailabilityService {
                                 pdelEnrollmentrecrd.Study_SMS_Consent__c &&
                                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                                !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
+                                !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
                         } else {
                             perEmailToSend =
                                 taskrecrd.Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
@@ -714,7 +717,8 @@ public without sharing class NotificationAvailabilityService {
                 pdelEnrollmentrecrd.Study_Email_Consent__c &&
                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c;
+                !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
         } else {
             perEmailToSend =
                 pe.Permit_Mail_Email_contact_for_this_study__c &&

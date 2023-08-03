@@ -8,6 +8,7 @@ global without sharing class EmailActionBtnController {
     global String caseIdString { get; set; }
     global Id surveyIdString { get; set; }
     global String communityTemplateValue { get; set; }
+    global String isPPJanssenString{ get; set; }
 
     //DEPRECATED
     global Id resourceIdString { get; set; }
@@ -53,6 +54,10 @@ global without sharing class EmailActionBtnController {
             }
         } else {
             result = Url.getOrgDomainUrl().toExternalForm() + '/' + caseIdString;
+        }
+        
+        if(isPPJanssenString != null){
+            result = result.replace('janssen', 'pp');
         }
 
         return result;
