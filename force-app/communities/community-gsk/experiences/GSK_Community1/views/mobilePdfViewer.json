@@ -1,19 +1,19 @@
 {
-  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
-  "componentName" : "c:PPOneColumnLayout",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "c:OneColumnLayout",
   "dataProviders" : [ ],
-  "id" : "7e66be26-99d5-40d1-ab52-9e6605099d5e",
+  "id" : "e946f48f-fe1a-4533-b733-68c13f82b79f",
   "label" : "Mobile Pdf Viewer",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
       "componentName" : "c:MobilePdfViewer",
-      "id" : "35d8e67c-46c1-4464-b14f-290c600355bd",
+      "id" : "1a954871-0b05-490d-a09c-d6e80ffdc8f0",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "9a1aa578-f2cc-43e5-85ef-21d505591e6c",
+    "id" : "06e50d4c-429e-4961-91c2-c2c69577a8ed",
     "regionName" : "column1",
     "type" : "region"
   }, {
@@ -24,11 +24,11 @@
         "title" : "Mobile Pdf Viewer"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "921ba4cb-b740-48db-ad54-4b8fdf305258",
+      "id" : "b48212d2-dbce-42fd-a0d9-131f107c76db",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "d97ca9d0-4d0b-448f-98cc-ca97f09d5582",
+    "id" : "fdbf009f-e5ba-44d0-af13-236a5f5521c1",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
