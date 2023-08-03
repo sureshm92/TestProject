@@ -183,7 +183,7 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
              	}
 
         if(!assigneeIds.isEmpty()){
-            system.enqueueJob(new PermissionSetDeletion(assigneeIds,true));
+            system.enqueueJob(new PermissionSetDeletion(assigneeIds,false));
         }
           
     }
