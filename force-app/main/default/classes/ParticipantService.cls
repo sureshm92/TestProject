@@ -68,7 +68,9 @@ public without sharing class ParticipantService {
         public Boolean cookiesAgreedonRegPage;
         @AuraEnabled 
         public CPRA_DoNotSell__mdt objCPRA;
-    
+       @AuraEnabled 
+        public Boolean isJanseenAlumniloggedin;
+
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
             isDelegate = false;
@@ -226,10 +228,10 @@ public without sharing class ParticipantService {
         participantState.welcomeMessage = getWelcomeMessage(participants);
         participantState.communityName = UserContext.getCurrentCommunityName();
         participantState.loggedInUserName = getLoggedInUserName(participants);
-        participantState.objCPRA = getCPRALink('IQVIA Patient Portal');  
+        participantState.objCPRA = getCPRALink('IQVIA Patient Portal'); 
+        participantState.isJanseenAlumniloggedin = getAlumniTemplate();  
     }
-
-     public static CPRA_DoNotSell__mdt getCPRALink(String strCommunityType) {
+    public static CPRA_DoNotSell__mdt getCPRALink(String strCommunityType) {
         list<CPRA_DoNotSell__mdt> lstMd = new List<CPRA_DoNotSell__mdt>();
         if (strCommunityType == 'IQVIA Referral Hub' || strCommunityType == 'null') {
             lstMd = [
@@ -255,7 +257,6 @@ public without sharing class ParticipantService {
 
         return lstMd.isEmpty() ? null : lstMd[0];
     }
-
     @AuraEnabled
     public static Boolean getAlumniTemplate(){
 

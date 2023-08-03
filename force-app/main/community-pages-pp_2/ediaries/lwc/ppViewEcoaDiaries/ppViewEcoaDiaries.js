@@ -13,8 +13,6 @@ import mobileTemplate from './mobileTemplate.html';
 import DEVICE from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
 
-
-
 export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
     @track ecoaUrl;
     @track subjectAvailable = true;
@@ -33,7 +31,6 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
     @track gfkll;
     showBackToHome = false;
 
-
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
         const queryString = window.location.search;
@@ -41,29 +38,30 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
         this.showBackToHome = urlParams.get('showBackToHome');
 
         var participantData = communityService.getParticipantData();
-        this.studyProgramName = participantData && participantData.ctp? participantData.ctp.Study_Code_Name__c : '';
+        this.studyProgramName =
+            participantData && participantData.ctp ? participantData.ctp.Study_Code_Name__c : '';
 
         let subjectGuid = getSubjectGuid()
-                    .then((result) => {
-                        console.log('Subject GUID::' + result);
-                        if (result) {
-                            let ppGetter = loadDiary()
-                                .then((result) => {
-                                    this.subjectAvailable = true;
-                                    this.ecoaUrl = result;
-                                })
-                                .catch(function (error) {
-                                    console.error('Error: ' + JSON.stringify(error));
-                                    //this.isLoading = false;
-                                });
-                        } else {
-                            console.log('else' + result);
-                            this.subjectAvailable = false;
-                        }
-                    })
-                    .catch(function (error) {
-                        console.error('Error: ' + JSON.stringify(error));
-                    });
+            .then((result) => {
+                console.log('Subject GUID::' + result);
+                if (result) {
+                    let ppGetter = loadDiary()
+                        .then((result) => {
+                            this.subjectAvailable = true;
+                            this.ecoaUrl = result;
+                        })
+                        .catch(function (error) {
+                            console.error('Error: ' + JSON.stringify(error));
+                            //this.isLoading = false;
+                        });
+                } else {
+                    console.log('else' + result);
+                    this.subjectAvailable = false;
+                }
+            })
+            .catch(function (error) {
+                console.error('Error: ' + JSON.stringify(error));
+            });
         getisRTL()
             .then((data) => {
                 this.isRTL = data;
@@ -82,15 +80,19 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
         return this.desktop ? desktopTemplate : mobileTemplate;
     }
     get backLinkClass() {
-        return this.isMobile
-            ? this.isRTL
+        return this.isRTL
+            ? this.isMobile
                 ? 'back-link-mble'
-                : 'back-link-mble'
-            : this.isRTL
-            ? 'back-link'
+                : 'back-link'
+            : !this.isRTL
+            ? this.isMobile
+                ? 'back-link-mble'
+                : 'back-link'
+            : this.isMobile
+            ? 'back-link-mble'
             : 'back-link';
     }
-    handleCommunicationPreferences(event){
+    handleCommunicationPreferences(event) {
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
@@ -100,17 +102,15 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
                 showBackButton: true
             }
         });
-        
     }
-    handleBackClick(event){
+    handleBackClick(event) {
         if (this.showBackToHome) {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
                     pageName: 'home'
                 }
-            })
-        } 
+            });
+        }
     }
-
 }

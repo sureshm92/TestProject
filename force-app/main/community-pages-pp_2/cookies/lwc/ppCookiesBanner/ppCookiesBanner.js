@@ -26,10 +26,9 @@ import loadingLabel from "@salesforce/label/c.Loading";
 import getAlumniTemplate from "@salesforce/apex/ParticipantService.getAlumniTemplate";
 import getTemp from "@salesforce/apex/ParticipantService.getTemp";
 import getStudy from "@salesforce/apex/HomePageParticipantRemote.getInitData";
-import DEVICE from '@salesforce/client/formFactor';
 
 export default class PpCookiesBanner extends LightningElement {
-  showmodal = true;
+  showmodal = false;
   @api
   loginPage = false;
   @api
@@ -73,7 +72,6 @@ export default class PpCookiesBanner extends LightningElement {
   initData;
   contact;
   dynamicCSSAppend = pp_icons + "/right.svg";
-  footerUILogo = pp_icons + '/footer_ui_logo.svg';
   cookiesBannerDesc3;
   isJanssenCommunity;
 
@@ -81,7 +79,6 @@ export default class PpCookiesBanner extends LightningElement {
   @api isAlumni = false;
 
   connectedCallback() {
-    DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
     var temp = "";
     if(this.loginPage){
         this.loginPg(); 
@@ -93,9 +90,9 @@ export default class PpCookiesBanner extends LightningElement {
                   this.ppCookieBanner();
               }else{
               this.cookiesBannerDesc3 = " " + this.label.ppCookiesBannerDesc3;
-              
+             
               this.isJanssenCommunity = this.communityName == "Janssen Community";
-              
+          
               let rrCookies = communityService.getCookie("RRCookies");
               let data = sessionStorage.getItem("Cookies");
               if (localStorage.getItem("Cookies")) {
@@ -193,7 +190,7 @@ export default class PpCookiesBanner extends LightningElement {
   }
   loginPg(){
       this.cookiesBannerDesc3 = " " + this.label.ppCookiesBannerDesc3;
-     
+    
       this.isJanssenCommunity = this.communityName == "Janssen Community";
       let rrCookies = communityService.getCookie("RRCookies");
       let data = sessionStorage.getItem("Cookies");
@@ -287,6 +284,13 @@ export default class PpCookiesBanner extends LightningElement {
       }
       let accList = this.template.querySelectorAll("accordion");
   }
+  get isJanssenStudy() {
+     if(this.isJanssenCommunity == true || this.isJanssen == true){
+       return true;
+     }else{
+       return false;
+     }
+  }
   ppCookieBanner(){
     getAlumniTemplate({})
       .then((alumniValue) => {
@@ -299,7 +303,7 @@ export default class PpCookiesBanner extends LightningElement {
             let ctp = sr.ctp;
             let CommTemp = ctp.CommunityTemplate__c;
             let tempName = JSON.stringify(ctp.PPTemplate__c);
-           
+      
             if (CommTemp == "Janssen") {
               if (!this.isAlumni) {
                 this.isJanssen = true;
@@ -307,19 +311,14 @@ export default class PpCookiesBanner extends LightningElement {
             } else {
               this.isJanssen = false;
             }
-
-            if (this.communityName != "Janssen Community") {
-              if (this.isJanssen) {
-                this.communityName = "Janssen Community";
-              }
-            }
+          
           })
           .then(() => {
             this.cookiesBannerDesc3 = " " + this.label.ppCookiesBannerDesc3;
-           
+          
             this.isJanssenCommunity =
-            this.communityName == "Janssen Community";
-           
+              this.communityName == "Janssen Community";
+          
             let rrCookies = communityService.getCookie("RRCookies");
             let data = sessionStorage.getItem("Cookies");
             if (localStorage.getItem("Cookies")) {
@@ -490,7 +489,6 @@ export default class PpCookiesBanner extends LightningElement {
     document.body.removeEventListener("keydown", this.bodyBlock);
     let bodyStyles = document.body.style;
     bodyStyles.removeProperty("--cookieRightIcon");
-    this.showmodal = false;
   }
 
   acceptAll() {
@@ -499,32 +497,60 @@ export default class PpCookiesBanner extends LightningElement {
     let htmlDivs = document.getElementsByTagName("html");
     htmlDivs[0].classList.remove("cookie-block-user");
     this.showBanner = false;
-    if (!this.isJanssenCommunity) {
-      changeOptInCookies({
-        rrCookieAllowed: true,
-        rrLanguageAllowed: true
-      })
-        .then((returnValue) => {
-          if (this.spinner) this.spinner.hide();
-          if (this.contact) {
-            this.contact.RRCookiesAllowedCookie__c = true;
-            this.contact.RRLanguageAllowedCookie__c = true;
-          }
-          this.setRRCookie();
-          this.setRRCookieLanguage();
-          this.closeTheBanner();
-          this.showmodal = false;
-          this.initData = undefined;
-        })
-        .catch((error) => {
-          communityService.showToast(
-            "",
-            "error",
-            "Failed To read the Data...",
-            100
-          );
-          this.spinner.hide();
-        });
+    if (!this.isJanssenCommunity) { 
+        if(!this.isJanssen){ 
+          changeOptInCookies({
+            rrCookieAllowed: true,
+            rrLanguageAllowed: true
+          })
+            .then((returnValue) => {
+              if (this.spinner) this.spinner.hide();
+              if (this.contact) {
+                this.contact.RRCookiesAllowedCookie__c = true;
+                this.contact.RRLanguageAllowedCookie__c = true;
+              }
+              this.setRRCookie();
+              this.setRRCookieLanguage();
+              this.closeTheBanner();
+              this.showmodal = false;
+              this.initData = undefined;
+            })
+            .catch((error) => {
+              communityService.showToast(
+                "",
+                "error",
+                "Failed To read the Data...",
+                100
+              );
+              this.spinner.hide();
+            });
+        }else{
+          changeOptInCookies({
+            rrCookieAllowed: true,
+            rrLanguageAllowed: false
+          })
+            .then((returnValue) => {
+              if (this.spinner) this.spinner.hide();
+              if (this.contact) {
+                this.contact.RRCookiesAllowedCookie__c = true;
+                this.contact.RRLanguageAllowedCookie__c = false;
+              }
+              this.setRRCookie();
+              this.setRRCookieLanguage();
+              this.closeTheBanner();
+              this.showmodal = false;
+              this.initData = undefined;
+            })
+            .catch((error) => {
+              communityService.showToast(
+                "",
+                "error",
+                "Failed To read the Data...",
+                100
+              );
+              this.spinner.hide();
+            });
+        }  
     } else {
       if (this.spinner) this.spinner.hide();
       this.setRRCookie();
@@ -541,12 +567,45 @@ export default class PpCookiesBanner extends LightningElement {
   updateCookies() {
     this.spinner.show();
     if (!this.isJanssenCommunity) {
-      let ppLangChecked =
-        this.template.querySelector("[data-id=PPLang]").checked;
-      let ppCookieChecked =
-        this.template.querySelector("[data-id=PPCookie]").checked;
-      this.contact.RRCookiesAllowedCookie__c = ppCookieChecked;
-      this.contact.RRLanguageAllowedCookie__c = ppLangChecked;
+      if(!this.isJanssen){
+        let ppLangChecked =
+          this.template.querySelector("[data-id=PPLang]").checked;
+        let ppCookieChecked =
+          this.template.querySelector("[data-id=PPCookie]").checked;
+        this.contact.RRCookiesAllowedCookie__c = ppCookieChecked;
+        this.contact.RRLanguageAllowedCookie__c = ppLangChecked;
+        changeOptInCookies({
+          rrCookieAllowed: this.contact.RRCookiesAllowedCookie__c,
+          rrLanguageAllowed: this.contact.RRLanguageAllowedCookie__c
+        })
+          .then((returnValue) => {
+            this.spinner.hide();
+            if (this.contact.RRCookiesAllowedCookie__c) {
+              this.setRRCookie();
+              document.body.classList.remove("cookie-block-user");
+              let htmlDivs = document.getElementsByTagName("html");
+              htmlDivs[0].classList.remove("cookie-block-user");
+            }
+            if (this.contact.RRLanguageAllowedCookie__c) {
+              this.setRRCookieLanguage();
+            }
+            this.closeTheBanner();
+            this.updateBrowserCookies();
+            this.showmodal = false;
+            this.initData = undefined;
+          })
+          .catch((error) => {
+            communityService.showToast(
+              "",
+              "error",
+              "Failed To read the Data...",
+              100
+            );
+            this.spinner.hide();
+          });
+      }else{
+      this.contact.RRCookiesAllowedCookie__c = true;
+      this.contact.RRLanguageAllowedCookie__c = false;
       changeOptInCookies({
         rrCookieAllowed: this.contact.RRCookiesAllowedCookie__c,
         rrLanguageAllowed: this.contact.RRLanguageAllowedCookie__c
@@ -576,6 +635,7 @@ export default class PpCookiesBanner extends LightningElement {
           );
           this.spinner.hide();
         });
+      }
     } else {
       this.setRRCookie();
       this.spinner.hide();

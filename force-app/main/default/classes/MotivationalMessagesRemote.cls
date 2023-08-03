@@ -76,23 +76,28 @@ public without sharing class MotivationalMessagesRemote {
             return null;
 
         Contact myContact = AccountSettingsController.getCurrentContact();
-        if (
-            participantState.pe.Clinical_Trial_Profile__r?.PPTemplate__c != 'PP 2.0' ||
-            !(participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-            'PatientPortal' ||
-            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen')
+
+        Boolean ppOld;
+        if (participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen') {
+            ppOld = participantState.pe.Clinical_Trial_Profile__r?.PPTemplate__c != 'PP 2.0'
+                ? true
+                : false;
+        } else if (
+            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal'
         ) {
+            ppOld = true;
+        } else {
+            ppOld = false;
+        }
+
+        if (ppOld) {
             if (participantState.pe.Motivational_Message_Id__c == messageForShow.Id)
                 return null;
 
             participantState.pe.Motivational_Message_Id__c = messageForShow.Id;
             update participantState.pe;
             return messageForShow.Message__c;
-        } else if (
-            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal' ||
-            (participantState.pe.Clinical_Trial_Profile__r?.PPTemplate__c == 'PP 2.0' &&
-            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen')
-        ) {
+        } else if (!ppOld) {
             // For participant View
             if (
                 myContact.userCommunityDelegateId__c == null &&

@@ -5714,6 +5714,13 @@ Your username is ##UserName.</value>
 &lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Activate_Task_For_ECOA_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Activate Task For ECOA PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Instant_Task_Reminder_Type_Not_Selected_PPOnlyDate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7578,7 +7585,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Sign Patient New  PP</shortDescription>
-        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+          <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
             &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
                         
@@ -7837,7 +7844,7 @@ Sincerely,
 
 ##SignatureFullCommunityNewName</value>
     </labels>
- <!--   <labels>
+    <!-- <labels>
         <fullName>Email_Signature_Patient_New_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7847,7 +7854,7 @@ Sincerely,
             &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
                         
             &lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
-    </labels>-->
+    </labels> -->
     <labels>
         <fullName>Email_Signature_Patient_RP_Referral_PP</fullName>
         <language>en_US</language>
