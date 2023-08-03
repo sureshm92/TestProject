@@ -718,8 +718,7 @@ public without sharing class NotificationAvailabilityService {
                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
                 !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
-                pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
-        } else {
+                pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;        } else {
             perEmailToSend =
                 pe.Permit_Mail_Email_contact_for_this_study__c &&
                 !pe.Study_Site__r.Suppress_Participant_Emails__c &&
