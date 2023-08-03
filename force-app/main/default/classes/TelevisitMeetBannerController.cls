@@ -22,26 +22,42 @@ public without sharing class TelevisitMeetBannerController {
                 Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c,
                 Televisit__r.Participant_Enrollment__r.Participant__r.Full_Name__c,
                 Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c,
-                Televisit__r.Source_Community__c 
+                Televisit__r.Source_Community__c,
+                Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                Televisit__r.Participant_Enrollment__r.Invited_To_PP_Date__c
             FROM Televisit_Attendee__c
             WHERE
                 User__c = :UserInfo.getUserId()
                 AND Televisit__r.Visit_Link_Activation_End_Time__c >= :currentDateTime
                 AND Televisit__r.Visit_Link_Activation_End_Time__c <= :next24HoursDateTime
                 AND Televisit__r.Status__c = 'Scheduled'
-                AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true 
-                AND Televisit__r.Participant_Enrollment__r.Invited_To_PP_Date__c !=null
             ORDER BY Televisit__r.Visit_Date_Time__c
         ];
-        List<Televisit_Attendee__c> visits = new List<Televisit_Attendee__c> ();
-        for(Televisit_Attendee__c attendee : allVisitis){
-            if(userMode != 'Participant' && attendee.Televisit__r.Source_Community__c == communityMode && (attendee.Attendee_Type__c != 'Participant' && attendee.Attendee_Type__c != 'Participant Delegate')){
+        List<Televisit_Attendee__c> visits = new List<Televisit_Attendee__c>();
+        for (Televisit_Attendee__c attendee : allVisitis) {
+            if (
+                userMode != 'Participant' &&
+                attendee.Televisit__r.Source_Community__c == communityMode &&
+                (attendee.Attendee_Type__c != 'Participant' &&
+                attendee.Attendee_Type__c != 'Participant Delegate')
+            ) {
                 visits.add(attendee);
             }
-            if(userMode == 'Participant' && (attendee.Attendee_Type__c == 'Participant' || attendee.Attendee_Type__c == 'Participant Delegate')){
+            if (
+                userMode == 'Participant' &&
+                attendee.Attendee_Type__c == 'Participant' &&
+                attendee.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c ==
+                true &&
+                attendee.Televisit__r.Participant_Enrollment__r.Invited_To_PP_Date__c != null
+            ) {
                 visits.add(attendee);
-    }
-}
+            } else if (
+                userMode == 'Participant' &&
+                attendee.Attendee_Type__c == 'Participant Delegate'
+            ) {
+                visits.add(attendee);
+            }
+        }
         return JSON.serialize(visits);
     }
 }
