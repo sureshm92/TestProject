@@ -80,6 +80,15 @@ export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
         return this.desktop ? desktopTemplate : mobileTemplate;
     }
     get backLinkClass() {
+        return !this.desktop
+            ? this.isRTL
+                ? 'back-link-mble'
+                : 'back-link-mble'
+            : this.isRTL
+            ? 'back-link'
+            : 'back-link';
+    }
+    get backLinkClass() {
         return this.isRTL
             ? this.isMobile
                 ? 'back-link-mble'
