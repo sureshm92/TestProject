@@ -41,11 +41,11 @@
     padding-left: 4px
 }
 
-.slds-modal__container {
+.container {
     border: none; 
 }
 
-.slds-modal__header {
+.my-custom-header1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -56,32 +56,20 @@
     padding-left: 24px;
 }
 
-.slds-modal__content {
-    padding: 1rem;
-}
-
-.slds-modal__footer{
-    border-top-width: 0px;
-}
-
-.slds-modal__header h1 {
+.my-custom-header1 h1 {
     display: flex;
     align-items: center;
     margin: 0;
     flex: 1;
 }
 
-.slds-modal__header h1 b {
+.my-custom-header1 h1 b {
     margin-right: 5rem; 
 }
 
-.slds-modal__header .slds-button_icon {
+.my-custom-header1 .slds-button_icon {
     flex-shrink: 0; 
     margin-left: auto; 
-}
-
-.black-icon svg {
-    fill: black;
 }
 
 .my-custom-header {
@@ -105,11 +93,13 @@
 }
 
 .bottom-gap{
+    border-top-width: 0px;
     padding-right: 24px;
     padding-left: 24px;
 }
 
 .combo-style{
+    padding: 1rem;
     padding-right: 24px;
     padding-left: 24px;
 }

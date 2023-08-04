@@ -16,8 +16,8 @@
     disabled={initialdata.isDisabled} aria-disabled="false" title="Send to eConsent" type="button">{label.BTN_NAME}</button>
     <template if:true={isModalOpen}>
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-            <div class="slds-modal__container">
-                <header class="slds-modal__header">
+            <div class="slds-modal__container container">
+                <header class="slds-modal__header my-custom-header1">
                     <h1 class="slds-text-heading_medium slds-hyphenate"><b>{label.Main_Header}</b>
                         <button class="slds-button slds-button_icon" title="Close" onclick={closeModal}>
                             <lightning-icon icon-name="utility:close"
@@ -27,15 +27,15 @@
                         </button>
                     </h1>
                 </header>
-                <header class="slds-modal__header my-custom-header">
+                <header class="slds-modal__header my-custom-header my-custom-header1">
                     <h1 class="slds-text-heading_small slds-hyphenate">{label.POP_UP_Header}</h1>
-                </header>  
+                </header>
                     <div class="slds-modal__content slds-p-around_medium combo-style" id="modal-content-id-1">
                         <!--label class="slds-form-element slds-form-element__label"><b>{label.DropDown_Label}</b></label-->
                         <template if:true={innerspinner}>
                             <lightning-spinner  size="small" variant="brand" class="participant-spinner"></lightning-spinner>
                           </template>
-                    <template if:true={showDropdown}>     
+                    <template if:true={showDropdown}>
                         <lightning-combobox class="label-gap"
                             label={label.DropDown_Label}
                             options={options}
