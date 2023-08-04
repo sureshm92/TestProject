@@ -41,6 +41,79 @@
     padding-left: 4px
 }
 
+.slds-modal__container {
+    border: none; 
+}
+
+.slds-modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 1rem; 
+    padding-top:2rem;
+    border: none;
+    padding-right: 24px;
+    padding-left: 24px;
+}
+
+.slds-modal__content {
+    padding: 1rem;
+}
+
+.slds-modal__footer{
+    border-top-width: 0px;
+}
+
+.slds-modal__header h1 {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    flex: 1;
+}
+
+.slds-modal__header h1 b {
+    margin-right: 5rem; 
+}
+
+.slds-modal__header .slds-button_icon {
+    flex-shrink: 0; 
+    margin-left: auto; 
+}
+
+.black-icon svg {
+    fill: black;
+}
+
+.my-custom-header {
+    border-top-right-radius: 0; 
+    border-top-left-radius: 0; 
+    display: flex;
+    align-items: center;
+    padding: 0.2rem 1rem; 
+    border: none; 
+    padding-right: 24px;
+    padding-left: 24px;
+}
+
+.my-custom-header h1 {
+    margin: 0;
+    flex: 1;
+}
+
+.my-custom-header .slds-button_icon {
+    flex-shrink: 0; 
+}
+
+.bottom-gap{
+    padding-right: 24px;
+    padding-left: 24px;
+}
+
+.combo-style{
+    padding-right: 24px;
+    padding-left: 24px;
+}
+
 @media all and (max-width: 1023px){
     .buttonposition{
         float:none;
