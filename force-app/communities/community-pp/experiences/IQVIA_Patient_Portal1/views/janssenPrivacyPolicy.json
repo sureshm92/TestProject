@@ -1,19 +1,19 @@
 {
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
-  "componentName" : "c:PPOneColumnLayout",
+  "componentName" : "c:EmptyLayout",
   "dataProviders" : [ ],
-  "id" : "7e66be26-99d5-40d1-ab52-9e6605099d5e",
-  "label" : "Mobile Pdf Viewer",
+  "id" : "a8c01d7d-5892-4e69-a396-175e318bd9a5",
+  "label" : "Janssen Privacy Policy",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:MobilePdfViewer",
-      "id" : "35d8e67c-46c1-4464-b14f-290c600355bd",
+      "componentName" : "c:ppPrivacyPolicyViewerPageJanssen",
+      "id" : "b2cf4a41-5210-4986-ba38-ac5af86444d8",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "9a1aa578-f2cc-43e5-85ef-21d505591e6c",
+    "id" : "7ce7480a-065c-4d83-af4f-46ff418ca4e8",
     "regionName" : "column1",
     "type" : "region"
   }, {
@@ -21,18 +21,18 @@
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "Mobile Pdf Viewer"
+        "title" : "Janssen Privacy Policy"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "921ba4cb-b740-48db-ad54-4b8fdf305258",
+      "id" : "3acbc423-e6ab-4547-99bc-0577bbf9f39d",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "d97ca9d0-4d0b-448f-98cc-ca97f09d5582",
+    "id" : "47d4abc3-c3ca-4892-8b7f-997562f8841b",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
-  "themeLayoutType" : "Inner",
+  "themeLayoutType" : "plAm3nHzp9j4TqsN4DBW97xONJ8WJG",
   "type" : "view",
-  "viewType" : "custom-mobile-pdf-viewer"
+  "viewType" : "custom-janssen-privacy-policy"
 }
