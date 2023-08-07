@@ -50,7 +50,7 @@ public without sharing class VisitResultSharingService {
                 )
             FROM Patient_Visit__c
             WHERE Participant_Enrollment__c = :state.pe.Id AND Status__c = 'Completed'
-            ORDER BY Visit_Number__c, Completed_Date__c
+            ORDER BY  Completed_Date__c, Visit_Number__c
         ];
 
         return getAvailableVisitResults(patientVisits, false, ctpById, strVisitResultGroup);

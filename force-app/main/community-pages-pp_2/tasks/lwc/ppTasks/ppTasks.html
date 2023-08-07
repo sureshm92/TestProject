@@ -279,11 +279,16 @@
                     </div>
                 </div>
             </div>
-            <div class="slds-col slds-large-size--1-of-3 slds-size_1-of-1 task-panel_right">
+            <div class="slds-col slds-large-size--1-of-3 slds-size_1-of-1 slds-m-top--xx-large task-panel_right">
+            <div class="card-gap">
+              <c-pp-consent-verification-card onsuccessload={handleLoad}
+                oncardremove={handleCardRemove}>
+              </c-pp-consent-verification-card> 
                 <c-pp-medical-record-retrieval-panel
                     onsuccessload={handleLoad}
                     oncardremove={handleCardRemove}
                 ></c-pp-medical-record-retrieval-panel>
+            </div>
             </div>
         </div>
     </template>

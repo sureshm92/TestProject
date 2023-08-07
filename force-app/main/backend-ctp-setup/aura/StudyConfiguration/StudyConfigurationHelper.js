@@ -12,7 +12,7 @@
             let prValue = component.find('prToggle').get('v.checked');
             component.find('stworkspaceToggle').set('v.checked', !prValue);
         }
-        if (source === 'visitScheduleToggle' && (component.get('v.ctp').CommunityTemplate__c != "PatientPortal")) {
+        if (source === 'visitScheduleToggle' && (!component.get('v.isPP'))) {    
             let vsValue = component.find('vsToggle').get('v.checked');
             component.find('stToggle').set('v.checked', !vsValue);
         }

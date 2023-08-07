@@ -1284,7 +1284,7 @@
                                                             <div
                                                                 class="slds-modal__content slds-p-around--small slds-grid slds-wrap">
                                                                 <!--  Write Your Content here  -->
-                                                                <div class="slds-size--1-of-2 slds-large-size--1-of-2">
+                                                                <div class="slds-size--1-of-1 slds-large-size--1-of-1">
                                                                     <span>
                                                                         <iframe id="my_iframe" class="iframe-pdf-css"
                                                                             src="{!v.subDomain + '/apex/SignedAuthorizationFormPreview?resourceId=' + v.contentDocId}"
