@@ -8,7 +8,12 @@
         var comModes = component.get('v.communityModes');
         let reloadRequired = false;
         let oldCommunityMode = communityService.getCurrentCommunityMode();
-        if (navigateTo && !itemValue) {
+        if(navigateTo == 'account-settings'){
+            communityService.navigateToPage(navigateTo);
+            component.set('v.reset', true);
+            component.set('v.reset', false);
+        }
+        else if (navigateTo && !itemValue) {
             communityService.navigateToPage(navigateTo);
             component.set('v.reset', true);
             component.set('v.reset', false);
