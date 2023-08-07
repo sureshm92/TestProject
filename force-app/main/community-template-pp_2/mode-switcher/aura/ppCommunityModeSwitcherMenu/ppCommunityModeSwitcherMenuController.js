@@ -13,7 +13,7 @@
             component.set('v.reset', true);
             component.set('v.reset', false);
         }
-       else if((navigateTo == 'account-settings' && itemValue.isDelegate == false && itemValue.subTitle != 'No active studies')){
+       else if((navigateTo == 'account-settings' && itemValue.isDelegate == false && itemValue.subTitle != $A.get("$Label.c.No_active_studies"))){
             communityService.navigateToPage(navigateTo);
             component.set('v.reset', true);
             component.set('v.reset', false);
