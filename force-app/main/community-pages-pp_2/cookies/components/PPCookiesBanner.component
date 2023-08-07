@@ -503,7 +503,7 @@
                                     value="{!$Label.BTN_Accept}"
                                    onclick="updateCookiesJs();closeManageModalJs();return false;" 
                                     id="manageacceptjs"
-                                /> {!communityName}
+                                /> 
                             </div>
                      </apex:outputPanel>
                       <apex:outputPanel rendered="{!communityName != 'Janssen Community'}">
@@ -512,7 +512,7 @@
                                     value="{!$Label.BTN_Accept}"
                                     onclick="updateCookies();closeManageModal();return false;"  
                                     id="manageaccept"
-                                /> {!communityName}
+                                /> 
                             </div>
                      </apex:outputPanel>
                 </div>
