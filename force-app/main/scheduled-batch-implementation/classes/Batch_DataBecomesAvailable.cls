@@ -92,8 +92,10 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
                         Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                     )
                 );
-                if(!patientEnrollmentList.isEmpty() && patientEnrollmentList.containsKey(recipient.Id) && patientEnrollmentList.get(recipient.Id).participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                CommunityTemplateService.TEMPLATE_PP){
+                if(!patientEnrollmentList.isEmpty() && patientEnrollmentList.containsKey(recipient.Id) && ((patientEnrollmentList.get(recipient.Id).participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                CommunityTemplateService.TEMPLATE_PP )|| (patientEnrollmentList.get(recipient.Id).participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                'Janssen' && patientEnrollmentList.get(recipient.Id).participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c ==
+                'PP 2.0'))){
                     notifications.add(
                         new Notification__c(
                             Recipient__c = patientEnrollmentList.get(recipient.Id).Patient_Delegate__r.Contact__c,

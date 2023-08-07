@@ -1745,7 +1745,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Activate eDiaries</shortDescription>
-        <value>You will be able to activate eDairies soon</value>
+        <value>You will be able to activate eDiaries soon</value>
     </labels>
      <labels>
         <fullName>eDiaries_Comm_Preferences</fullName>
@@ -31857,5 +31857,12 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>consent verification btn name</shortDescription>
         <value>Access Verification Link</value>
-    </labels>   
+    </labels> 
+    <labels>
+        <fullName>create_Participant_Main_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>create_Participant_Main_Header</shortDescription>
+        <value>Participant Creation</value>
+    </labels> 
 </CustomLabels>

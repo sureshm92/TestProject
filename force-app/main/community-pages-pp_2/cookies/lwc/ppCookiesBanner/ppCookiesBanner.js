@@ -301,16 +301,20 @@ export default class PpCookiesBanner extends LightningElement {
           .then((studyresult) => {
             let sr = JSON.parse(studyresult);
             let ctp = sr.ctp;
+            if(ctp != null){
             let CommTemp = ctp.CommunityTemplate__c;
             let tempName = JSON.stringify(ctp.PPTemplate__c);
-      
+
             if (CommTemp == "Janssen") {
               if (!this.isAlumni) {
                 this.isJanssen = true;
               }
             } else {
               this.isJanssen = false;
-            }
+           }
+          }else{
+            this.isJanssen = false;
+          }
           
           })
           .then(() => {
