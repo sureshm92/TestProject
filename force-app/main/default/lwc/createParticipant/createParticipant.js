@@ -11,6 +11,7 @@ import Technical_Error from '@salesforce/label/c.Create_Participant_Technical_Er
 import BTN_OK from '@salesforce/label/c.BTN_OK';
 import BTN_CANCEL from '@salesforce/label/c.BTN_Cancel';
 import BTN_NAME from '@salesforce/label/c.Create_participant_button_label';
+import Main_Header from '@salesforce/label/c.create_Participant_Main_Header';
 import Message from '@salesforce/label/c.create_participant_message';
 import Updated_Message from  '@salesforce/label/c.create_participant_updated_message';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -41,7 +42,8 @@ export default class CreateParticipant extends LightningElement {
         BTN_CANCEL,
         Message,
         Technical_Error,
-        Updated_Message
+        Updated_Message,
+        Main_Header
     }
 
     //fetch prerequisit to decide whether participant is consent eligible
