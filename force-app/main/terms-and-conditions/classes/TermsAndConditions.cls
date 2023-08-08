@@ -76,7 +76,7 @@ global without sharing class TermsAndConditions {
             Boolean isAlumniJanseen = false ;
              User objUser =[SELECT Id, ContactId,Contact.userCommunityDelegateId__c,Contact.Current_Participant_Enrollment__c
                          FROM User WHERE Id =: UserInfo.getUserId()];
-            Id contactId  = objUser.Contact.userCommunityDelegateId__c != null ?  objUser.Contact.userCommunityDelegateId__c : objUser.ContactId; 
+           Id contactId  =  objUser.ContactId; 
         contact objcon = [select ID, Current_Participant_Enrollment__c from contact where id =:contactId];
         //If current contact is a active participant in any study
         if(string.isNotBlank(objcon.Current_Participant_Enrollment__c))
