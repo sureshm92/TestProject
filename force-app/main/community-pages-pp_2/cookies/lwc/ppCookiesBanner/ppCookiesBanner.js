@@ -44,9 +44,9 @@ export default class PpCookiesBanner extends LightningElement {
   containerClassCss = "c-container desk-cookies-banner mob-cookies-banner ";
   modalTopCss = " slds-grid card-top-bg ";
   acceptButtonCss = "accept-btn-container btn-label cookie-btn ";
-  acceptAllButtonCss = "btn-container btn-label cookie-btn ";
+  acceptAllButtonCss = "btn-container btn-label cookie-btn cookie-cursor";
   modalContainer = "slds-modal__container modal-container";
-  manageButtonCss = "btn-container manage cookie-btn ";
+  manageButtonCss = "btn-container manage cookie-btn cookie-cursor";
   accordionCss = "accordion ";
   accordionActiveCss = "accordion active ";
   label = {
