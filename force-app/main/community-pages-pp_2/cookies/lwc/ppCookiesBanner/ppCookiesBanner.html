@@ -33,7 +33,7 @@
                         <lightning-layout multiple-rows>
                             <lightning-layout-item size="12" small-device-size="12"
                                 ><button class={acceptAllButtonCss} onclick={acceptAll}>
-                                    <label>{label.ppCookiesButtonAccept}</label>
+                                    <label class="cookie-cursor">{label.ppCookiesButtonAccept}</label>
                                 </button></lightning-layout-item
                             >
                             <lightning-layout-item
@@ -41,7 +41,7 @@
                                 small-device-size="12"
                                 class="slds-m-top_large"
                                 ><button class={manageButtonCss} onclick={showManagePreferences}>
-                                    <label>{label.ppCookiesButtonManagePrefer}</label>
+                                    <label class="cookie-cursor">{label.ppCookiesButtonManagePrefer}</label>
                                 </button></lightning-layout-item
                             >
                         </lightning-layout>
@@ -111,7 +111,7 @@
                     </div>
 
                     <div class={accordionCss} id="strictcookies" onclick={showCookieDiv}>
-                        <div class="acordion-title right-angle-chevron slds-p-horizontal_medium">
+                        <div class="acordion-title right-angle-chevron slds-p-horizontal_medium  cookie-cursor">
                             {label.accountSettingsStrictlyNecessaryCookies}
                             <span class="always-active">{label.cookieAlwaysActive}</span>
                         </div>
@@ -153,7 +153,7 @@
                             id="functionalcookies"
                             onclick={showCookieDiv}
                         >
-                            <div class="acordion-title slds-p-horizontal_medium">
+                            <div class="acordion-title slds-p-horizontal_medium  cookie-cursor">
                                 {label.accountSettingsFunctionalCookiesLabel}
                             </div>
                             <div class="panel" style="display: block">
