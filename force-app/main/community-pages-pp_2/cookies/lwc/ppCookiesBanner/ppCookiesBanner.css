@@ -7,7 +7,9 @@
     z-index: 99999;
     background: rgba(0, 0, 0, 0.8);
 }
-
+.cookie-cursor{
+    cursor: pointer;
+}
 .rh-cookies-banner {
     border-radius: 4px 4px 0 0;
 }

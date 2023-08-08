@@ -44,9 +44,9 @@ export default class PpCookiesBanner extends LightningElement {
   containerClassCss = "c-container desk-cookies-banner mob-cookies-banner ";
   modalTopCss = " slds-grid card-top-bg ";
   acceptButtonCss = "accept-btn-container btn-label cookie-btn ";
-  acceptAllButtonCss = "btn-container btn-label cookie-btn ";
+  acceptAllButtonCss = "btn-container btn-label cookie-btn cookie-cursor";
   modalContainer = "slds-modal__container modal-container";
-  manageButtonCss = "btn-container manage cookie-btn ";
+  manageButtonCss = "btn-container manage cookie-btn cookie-cursor";
   accordionCss = "accordion ";
   accordionActiveCss = "accordion active ";
   label = {
@@ -301,16 +301,20 @@ export default class PpCookiesBanner extends LightningElement {
           .then((studyresult) => {
             let sr = JSON.parse(studyresult);
             let ctp = sr.ctp;
+            if(ctp != null){
             let CommTemp = ctp.CommunityTemplate__c;
             let tempName = JSON.stringify(ctp.PPTemplate__c);
-      
+
             if (CommTemp == "Janssen") {
               if (!this.isAlumni) {
                 this.isJanssen = true;
               }
             } else {
               this.isJanssen = false;
-            }
+           }
+          }else{
+            this.isJanssen = false;
+          }
           
           })
           .then(() => {

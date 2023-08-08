@@ -31822,5 +31822,12 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>consent verification btn name</shortDescription>
         <value>Access Verification Link</value>
-    </labels>   
+    </labels> 
+    <labels>
+        <fullName>create_Participant_Main_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>create_Participant_Main_Header</shortDescription>
+        <value>Participant Creation</value>
+    </labels> 
 </CustomLabels>
