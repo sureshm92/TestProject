@@ -1,11 +1,11 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Initial_Janssen}"
+<messaging:emailTemplate subject="{!IF(recipient.Contact.userCommunityMode__c=='Participant', $Label.Email_Subject_Initial_New, $Label.Email_Subject_Initial_Janssen)}"
                          recipientType="User"
                          language="{!recipient.LanguageLocaleKey}">
 
     <messaging:htmlEmailBody >
         <c:InitialWireframe userId="{!recipient.Id}"
                             communityTemplate="Janssen"
-                            buttonLabel="{!$Label.Email_Action_Enroll_Now}"
+                            buttonLabel="{!IF(recipient.Contact.userCommunityMode__c=='Participant' || recipient.Contact.userCommunityMode__c=='CC',$Label.Email_Action_Register,$Label.Email_Action_Enroll_Now)}"
                             buttonURL="{!$Network.NetworkUrlForUserEmails}">
         </c:InitialWireframe>
     </messaging:htmlEmailBody>
@@ -13,7 +13,7 @@
     <messaging:plainTextEmailBody >
         <c:InitialWireframeText userId="{!recipient.Id}"
                                 communityTemplate="Janssen"
-                                buttonLabel="{!$Label.Email_Action_Enroll_Now}"
+                                buttonLabel="{!IF(recipient.Contact.userCommunityMode__c=='Participant' || recipient.Contact.userCommunityMode__c=='CC',$Label.Email_Action_Register,$Label.Email_Action_Enroll_Now)}"
                                 buttonURL="{!$Network.NetworkUrlForUserEmails}">
         </c:InitialWireframeText>
     </messaging:plainTextEmailBody>

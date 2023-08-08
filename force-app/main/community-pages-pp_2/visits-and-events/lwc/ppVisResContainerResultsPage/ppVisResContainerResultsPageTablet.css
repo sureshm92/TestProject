@@ -116,6 +116,8 @@
     font-size: 16px;
     font-weight: 500;
     line-height: 26px;
+    position: relative;
+    top: 1px;
 }
 
 .disclaimer {
@@ -135,4 +137,7 @@
 }
 .visit-result-buttons .secondaryBtn {
     color: #595959 !important;
+}
+.left-chevron-icon {
+    --slds-c-icon-color-foreground-default: #0768fd;
 }
