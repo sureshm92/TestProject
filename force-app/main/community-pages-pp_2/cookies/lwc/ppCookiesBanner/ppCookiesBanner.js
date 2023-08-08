@@ -556,11 +556,39 @@ export default class PpCookiesBanner extends LightningElement {
             });
         }  
     } else {
-      if (this.spinner) this.spinner.hide();
-      this.setRRCookie();
-      this.closeTheBanner();
-      this.showmodal = false;
-      this.initData = undefined;
+      if (this.isJanssenCommunity){
+        changeOptInCookies({
+          rrCookieAllowed: true,
+          rrLanguageAllowed: false
+        })
+          .then((returnValue) => {
+            if (this.spinner) this.spinner.hide();
+            if (this.contact) {
+              this.contact.RRCookiesAllowedCookie__c = true;
+              this.contact.RRLanguageAllowedCookie__c = false;
+            }
+            this.setRRCookie();
+            this.setRRCookieLanguage();
+            this.closeTheBanner();
+            this.showmodal = false;
+            this.initData = undefined;
+          })
+          .catch((error) => {
+            communityService.showToast(
+              "",
+              "error",
+              "Failed To read the Data...",
+              100
+            );
+            this.spinner.hide();
+          });
+        }else{
+          if (this.spinner) this.spinner.hide();
+          this.setRRCookie();
+          this.closeTheBanner();
+          this.showmodal = false;
+          this.initData = undefined;
+        }
     }
   }
 
@@ -641,11 +669,39 @@ export default class PpCookiesBanner extends LightningElement {
         });
       }
     } else {
-      this.setRRCookie();
-      this.spinner.hide();
-      this.closeTheBanner();
-      this.showmodal = false;
-      this.initData = undefined;
+      if (this.isJanssenCommunity){
+        changeOptInCookies({
+          rrCookieAllowed: true,
+          rrLanguageAllowed: false
+        })
+          .then((returnValue) => {
+            if (this.spinner) this.spinner.hide();
+            if (this.contact) {
+              this.contact.RRCookiesAllowedCookie__c = true;
+              this.contact.RRLanguageAllowedCookie__c = false;
+            }
+            this.setRRCookie();
+            this.setRRCookieLanguage();
+            this.closeTheBanner();
+            this.showmodal = false;
+            this.initData = undefined;
+          })
+          .catch((error) => {
+            communityService.showToast(
+              "",
+              "error",
+              "Failed To read the Data...",
+              100
+            );
+            this.spinner.hide();
+          });
+        }else{
+            this.setRRCookie();
+            this.spinner.hide();
+            this.closeTheBanner();
+            this.showmodal = false;
+            this.initData = undefined;
+        }
     }
   }
   setRRCookie() {
