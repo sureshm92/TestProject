@@ -7,5 +7,5 @@
   "pageAccess" : "UseParent",
   "routeType" : "custom-ediaries",
   "type" : "route",
-  "urlPrefix" : "ediaries"
+  "urlPrefix" : "e-diaries"
 }
