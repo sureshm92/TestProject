@@ -110,6 +110,8 @@
   font-weight: 600;
   letter-spacing: 0;
   line-height: 19px;
+  word-wrap: break-word;
+  text-align: left;
 }
 
 .content2 {
