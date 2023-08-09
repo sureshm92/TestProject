@@ -1752,7 +1752,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>eDiaries Comm Preferences</shortDescription>
-        <value>Update Communication Preferences</value>
+        <value>Review Communication Preferences</value>
     </labels>
      <labels>
         <fullName>eDiaries_Work_Msg</fullName>
