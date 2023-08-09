@@ -7,6 +7,7 @@ import generatePDF from '@salesforce/apex/TermsAndConditionsRemote.generatePDF';
 import formFactor from '@salesforce/client/formFactor';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import PP_HEADER from '@salesforce/label/c.Email_Footer_Privacy_Policy';
+import Back from '@salesforce/label/c.Back';
 import LAST_UPDATED from '@salesforce/label/c.Last_Updated_On';
 import CHAPTER from '@salesforce/label/c.Chapter';
 import DOWNLOAD_AS_PDF from '@salesforce/label/c.Download_PP_as_PDF';
@@ -36,10 +37,12 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
         PP_HEADER,
         LAST_UPDATED,
         CHAPTER,
-        DOWNLOAD_AS_PDF
+        DOWNLOAD_AS_PDF,
+        Back
     };
 
     connectedCallback() {
+        this.showBackButton = communityService.isMobileSDK();
         Promise.all([
             loadScript(this, RR_COMMUNITY_JS),
             loadStyle(this, PP_Theme),
@@ -58,7 +61,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
                     })
                 );
             });
-            this.showBackButton = communityService.isMobileSDK();
+            
     }
 
     @wire(CurrentPageReference)
@@ -166,7 +169,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
 
     get headerContainer() {
         return this.isMobile
-            ? 'header-container slds-grid slds-wrap slds-p-left_medium slds-p-right_medium'
+            ? (this.showBackButton ? 'header-container-app slds-grid slds-wrap slds-p-left_medium slds-p-right_medium' : 'header-container slds-grid slds-wrap slds-p-left_medium slds-p-right_medium')
             : 'slds-grid slds-gutters slds-p-around_medium';
     }
 
