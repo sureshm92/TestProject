@@ -4,7 +4,7 @@
     </div>
     <template lwc:if={showDownloadResults}>
         <template lwc:if={isTablet}>
-            <a target="_blank" onclick={generateReport}>
+            <a target="_self" onclick={generateReport}>
                 <span>
                     <lightning-icon
                         icon-name="utility:download"
