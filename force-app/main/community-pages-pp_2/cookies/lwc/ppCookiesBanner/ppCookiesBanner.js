@@ -139,7 +139,6 @@ export default class PpCookiesBanner extends LightningElement {
             if (this.showBanner) {
                 this.blockBackGroundEvents();
             }
-            alert('this.communityName 1; ' + this.communityName);
             if (
                 this.communityName == 'Default' ||
                 this.communityName == 'IQVIA Referral Hub' ||
