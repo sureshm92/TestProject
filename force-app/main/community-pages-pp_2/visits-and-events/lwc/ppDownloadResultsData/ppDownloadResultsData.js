@@ -8,7 +8,6 @@ import tabletTemplate from './ppDownloadResultsDataTablet.html';
 import desktopTemplate from './ppDownloadResultsData.html';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import checkifPrimary from '@salesforce/apex/ppFileUploadController.checkifPrimary';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class PpDownloadResultsData extends LightningElement {
     peId;
@@ -90,14 +89,6 @@ export default class PpDownloadResultsData extends LightningElement {
 
     get isTablet() {
         return FORM_FACTOR == 'Medium';
-    }
-    showToast(title, message, variant) {
-        const event = new ShowToastEvent({
-            title: title,
-            message: message,
-            variant: variant === undefined ? 'info' : variant
-        });
-        this.dispatchEvent(event);
     }
 
     generateReport() {
