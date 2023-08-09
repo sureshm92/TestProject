@@ -161,3 +161,7 @@ height: 70px;
 .participant-spinner.slds-spinner_container{
     background: transparent;
 }
+
+.label-gap .slds-form-element__label{
+    margin-bottom: 8px;
+}

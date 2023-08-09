@@ -593,6 +593,20 @@
         <value>RRCookies</value>
     </labels>
     <labels>
+        <fullName>AccountSettings_For_Strictly_Necessary_Cookies_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AccountSettings_For_Strictly_Necessary_Cookies_Janssen</shortDescription>
+        <value>Cookie settings can be adjusted below. Strictly Necessary Cookies are required for essential features of our platform to function and cannot be switched off.</value>
+    </labels>
+    <labels>
+        <fullName>AccountSettings_For_Strictly_Necessary_Cookies</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AccountSettings_For_Strictly_Necessary_Cookies</shortDescription>
+        <value>Some essential features on Patient Portal site just won't work without cookies. And having other cookies switched off can seriously affect the way you'll be able to enjoy our services. "Strictly necessary" cookies can't be turned off.</value>
+    </labels>
+    <labels>
         <fullName>AccountSettings_RRCookies_Description</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -31822,5 +31836,12 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>consent verification btn name</shortDescription>
         <value>Access Verification Link</value>
-    </labels>   
+    </labels> 
+    <labels>
+        <fullName>create_Participant_Main_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>create_Participant_Main_Header</shortDescription>
+        <value>Participant Creation</value>
+    </labels> 
 </CustomLabels>

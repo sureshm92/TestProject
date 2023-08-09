@@ -44,9 +44,9 @@ export default class PpCookiesBanner extends LightningElement {
   containerClassCss = "c-container desk-cookies-banner mob-cookies-banner ";
   modalTopCss = " slds-grid card-top-bg ";
   acceptButtonCss = "accept-btn-container btn-label cookie-btn ";
-  acceptAllButtonCss = "btn-container btn-label cookie-btn ";
+  acceptAllButtonCss = "btn-container btn-label cookie-btn cookie-cursor";
   modalContainer = "slds-modal__container modal-container";
-  manageButtonCss = "btn-container manage cookie-btn ";
+  manageButtonCss = "btn-container manage cookie-btn cookie-cursor";
   accordionCss = "accordion ";
   accordionActiveCss = "accordion active ";
   label = {
@@ -252,8 +252,9 @@ export default class PpCookiesBanner extends LightningElement {
         if (this.termsAndConditions) {
           localStorage.setItem("CookiesOnTC", "Accepted");
         }
-
+        if(this.showBanner){
         this.blockBackGroundEvents();
+        }
         if (
           this.communityName == "Default" ||
           this.communityName == "IQVIA Referral Hub"
@@ -301,16 +302,20 @@ export default class PpCookiesBanner extends LightningElement {
           .then((studyresult) => {
             let sr = JSON.parse(studyresult);
             let ctp = sr.ctp;
+            if(ctp != null){
             let CommTemp = ctp.CommunityTemplate__c;
             let tempName = JSON.stringify(ctp.PPTemplate__c);
-      
+
             if (CommTemp == "Janssen") {
               if (!this.isAlumni) {
                 this.isJanssen = true;
               }
             } else {
               this.isJanssen = false;
-            }
+           }
+          }else{
+            this.isJanssen = false;
+          }
           
           })
           .then(() => {
@@ -552,11 +557,39 @@ export default class PpCookiesBanner extends LightningElement {
             });
         }  
     } else {
-      if (this.spinner) this.spinner.hide();
-      this.setRRCookie();
-      this.closeTheBanner();
-      this.showmodal = false;
-      this.initData = undefined;
+      if (this.isJanssenCommunity){
+        changeOptInCookies({
+          rrCookieAllowed: true,
+          rrLanguageAllowed: false
+        })
+          .then((returnValue) => {
+            if (this.spinner) this.spinner.hide();
+            if (this.contact) {
+              this.contact.RRCookiesAllowedCookie__c = true;
+              this.contact.RRLanguageAllowedCookie__c = false;
+            }
+            this.setRRCookie();
+            this.setRRCookieLanguage();
+            this.closeTheBanner();
+            this.showmodal = false;
+            this.initData = undefined;
+          })
+          .catch((error) => {
+            communityService.showToast(
+              "",
+              "error",
+              "Failed To read the Data...",
+              100
+            );
+            this.spinner.hide();
+          });
+        }else{
+          if (this.spinner) this.spinner.hide();
+          this.setRRCookie();
+          this.closeTheBanner();
+          this.showmodal = false;
+          this.initData = undefined;
+        }
     }
   }
 
@@ -637,11 +670,39 @@ export default class PpCookiesBanner extends LightningElement {
         });
       }
     } else {
-      this.setRRCookie();
-      this.spinner.hide();
-      this.closeTheBanner();
-      this.showmodal = false;
-      this.initData = undefined;
+      if (this.isJanssenCommunity){
+        changeOptInCookies({
+          rrCookieAllowed: true,
+          rrLanguageAllowed: false
+        })
+          .then((returnValue) => {
+            if (this.spinner) this.spinner.hide();
+            if (this.contact) {
+              this.contact.RRCookiesAllowedCookie__c = true;
+              this.contact.RRLanguageAllowedCookie__c = false;
+            }
+            this.setRRCookie();
+            this.setRRCookieLanguage();
+            this.closeTheBanner();
+            this.showmodal = false;
+            this.initData = undefined;
+          })
+          .catch((error) => {
+            communityService.showToast(
+              "",
+              "error",
+              "Failed To read the Data...",
+              100
+            );
+            this.spinner.hide();
+          });
+        }else{
+            this.setRRCookie();
+            this.spinner.hide();
+            this.closeTheBanner();
+            this.showmodal = false;
+            this.initData = undefined;
+        }
     }
   }
   setRRCookie() {
