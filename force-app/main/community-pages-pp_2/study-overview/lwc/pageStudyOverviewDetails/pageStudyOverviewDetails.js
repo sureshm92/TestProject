@@ -40,6 +40,7 @@ export default class ProgramOverviewDetails extends LightningElement {
     address_Icon = contact_support_icons+'/pin_Icon.svg';
 
     piName;
+    piTitle;
     studySitePhone;
     siteName;
     siteAddress;
@@ -139,6 +140,8 @@ export default class ProgramOverviewDetails extends LightningElement {
                         if(this.participantState.pe.Study_Site__r){
                             this.piName = this.participantState.pe.Study_Site__r.Principal_Investigator__r.Name;
                             console.log('piName--->'+this.piName);
+
+                            this.piTitle = this.piName + " " + this.label.PI_Post_Fix;
                             this.studySitePhone = this.participantState.pe.Study_Site__r.Study_Site_Phone__c;
                             console.log('studySitePhone--->'+this.studySitePhone);
                             this.siteName = this.participantState.pe.Study_Site__r.Site__r.Name;

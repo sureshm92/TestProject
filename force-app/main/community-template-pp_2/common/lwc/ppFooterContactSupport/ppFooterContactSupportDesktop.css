@@ -103,13 +103,15 @@
 }
 
 .content1 {
-  height: 19px; 
+  height: auto; 
   color: #444444;
   font-family: "Proxima Nova";
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0;
   line-height: 19px;
+  word-wrap: break-word;
+  text-align: left;
 }
 
 .content2 {
@@ -227,7 +229,7 @@
 .site-staff-container {
     width: 100%;
     padding-right: 10px;
-    max-height: 82px;
+    max-height: 88px;
     overflow: hidden;
 }
 
