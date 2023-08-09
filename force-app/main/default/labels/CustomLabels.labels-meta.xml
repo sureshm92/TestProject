@@ -10555,6 +10555,13 @@ The expected format is REF##### to REF########</value>
         <value>HLA</value>
     </labels>
     <labels>
+        <fullName>I_Acknowledge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>I_Acknowledge</shortDescription>
+        <value>I acknowledge</value>
+    </labels>
+    <labels>
         <fullName>ICOS_Description_Intratumoral</fullName>
         <language>en_US</language>
         <protected>true</protected>
