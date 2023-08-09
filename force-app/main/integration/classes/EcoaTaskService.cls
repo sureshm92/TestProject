@@ -68,7 +68,11 @@ public without sharing class EcoaTaskService {
             System.debug('userObj::' + userObj);
             System.debug('delegateUserObj::' + delegateUserObj);
             Task t = new Task();
-            t.OwnerId = userObj != null ? userObj.Id : delegateUserObj.Id;
+            if (userObj != null) {
+                t.OwnerId = userObj.Id;
+            } else {
+                t.Owner_Contact__c = task.Participant_Enrollment__r.Participant_Contact__c;
+            }
             t.Subject = 'eDiary ' + task.Diary_Name__c;
             t.Priority = 'Normal';
             //t.Action_URL__c ='e-diaries';

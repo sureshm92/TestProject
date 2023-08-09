@@ -166,6 +166,7 @@
             <aura:set attribute="else">
                 <div class="mobile-content slds-grid slds-wrap">
                     <div class="slds-col slds-size_1-of-1">
+                        <div class="{!v.communityType == 'Janssen' ? 'janssen-community' : ''}">
                         <div class="brand-logo slds-align_absolute-center">
                             <img src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Logo_White.png'}" />
                         </div>
@@ -202,7 +203,7 @@
                             </div>
                         </aura:if>
 
-                        <div class="body-content">
+                        <div class="{!v.communityType == 'Janssen' ? 'body-content-janssen body-content' : 'body-content'}">
                             <div class="body-components">{!v.body}</div>
                         </div>
                     </div>
@@ -277,6 +278,7 @@
                             </aura:set>
                         </aura:if>
                         
+                    </div>
                     </div>
                     </div>
                 </div>

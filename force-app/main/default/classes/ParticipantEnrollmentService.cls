@@ -1,5 +1,6 @@
 /**
  * Created by Leonid Bartenev
+ * Last Modified by Faizaan Baig
  */
 
 public without sharing class ParticipantEnrollmentService {
