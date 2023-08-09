@@ -340,7 +340,7 @@ span:hover {
 }
 
 .piName {
-    height: 19px;
+    height: auto;
     /* width: 146px; */
     color: #444444;
     font-family: 'Proxima Nova';
@@ -352,7 +352,13 @@ span:hover {
 }
 
 .piName-text {
-    margin-left: 15px;
+    /* overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; */
+    padding-left: 15px;
+    padding-right: 15px;
+    word-wrap: break-word;
+    text-align: left;
 }
 
 .tdpiIcon {

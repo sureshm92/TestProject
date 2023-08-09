@@ -79,12 +79,12 @@
                                             </lightning-layout>
                                         </lightning-layout-item>
                                         <lightning-layout-item size="4" class="piName">
-                                            <lightning-layout size="12">
-                                                <lightning-layout-item size="">
+                                            <lightning-layout size="12" multiple-rows="true">
+                                                <lightning-layout-item size="1">
                                                     <img src={pi_Icon} class="piIcon"/>
                                                 </lightning-layout-item>
-                                                <lightning-layout-item size="" class="piName-text">
-                                                    {piName}&nbsp;{label.PI_Post_Fix}
+                                                <lightning-layout-item size="11">
+                                                    <p title={piTitle} class="piName-text">{piName}&nbsp;{label.PI_Post_Fix}</p>
                                                 </lightning-layout-item>
                                             </lightning-layout>
                                         </lightning-layout-item>

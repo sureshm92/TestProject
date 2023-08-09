@@ -103,7 +103,7 @@
 }
 
 .content1 {
-  height: 19px; 
+  height: auto; 
   color: #444444;
   font-family: "Proxima Nova";
   font-size: 16px;
@@ -227,7 +227,7 @@
 .site-staff-container {
     width: 100%;
     padding-right: 10px;
-    max-height: 82px;
+    max-height: 88px;
     overflow: hidden;
 }
 
