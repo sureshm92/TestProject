@@ -351,7 +351,7 @@ public without sharing class RRChangePasswordController {
                         (Clinical_Trial_Profile__r.CommunityTemplate__c='Janssen' AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
                         AND Invited_To_PP_Date__c != NULL
                         AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
-                       order by CreatedDate desc
+                       order by CreatedDate desc //if same participant is enrolled in janseen and pp, then get the recent on top
                 ];
                 List<Patient_Delegate_Enrollment__c> delegateContactUserPDEs = [
                     SELECT
@@ -373,7 +373,7 @@ public without sharing class RRChangePasswordController {
                         AND ((Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal') OR 
                         (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c='Janssen' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
                         AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
-                        AND Status__c = 'Active'  order by CreatedDate desc
+                        AND Status__c = 'Active'  order by CreatedDate desc //if same participant is enrolled in janseen and pp, then get the recent on top
                 ];
                 if (loginUserPEs.size() != 0 && delegateContactUserPDEs.size() != 0) {
                     //Multi ROle
