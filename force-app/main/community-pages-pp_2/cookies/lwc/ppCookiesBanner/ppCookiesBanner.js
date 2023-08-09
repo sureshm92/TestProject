@@ -22,6 +22,7 @@ import accountSettingsRRCookiesDescriptionLabel from '@salesforce/label/c.Accoun
 import accountSettingsCookiesRRLanguageLabel from '@salesforce/label/c.AccountSettings_Cookies_RRLanguage';
 import accountSettingsCookiesRRLanguageDescriptionLabel from '@salesforce/label/c.AccountSettings_Cookies_RRLanguage_Description';
 import bTN_AcceptLabel from '@salesforce/label/c.BTN_Accept';
+import bTN_I_Acknowledge from '@salesforce/label/c.I_Acknowledge';
 import loadingLabel from '@salesforce/label/c.Loading';
 import DEVICE from '@salesforce/client/formFactor';
 
@@ -65,7 +66,8 @@ export default class PpCookiesBanner extends LightningElement {
         accountSettingsRRCookiesDescriptionLabel,
         accountSettingsCookiesRRLanguageLabel,
         accountSettingsCookiesRRLanguageDescriptionLabel,
-        bTN_AcceptLabel
+        bTN_AcceptLabel,
+        bTN_I_Acknowledge
     };
     showBanner = false;
     initData;
