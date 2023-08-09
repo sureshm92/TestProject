@@ -41,67 +41,18 @@
     padding-left: 4px
 }
 
-.container {
-    border: none; 
+.title {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
 }
-
-.my-custom-header1 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0rem 1rem; 
-    padding-top:2rem;
-    border: none;
-    padding-right: 24px;
-    padding-left: 24px;
-}
-
-.my-custom-header1 h1 {
-    display: flex;
-    align-items: center;
-    margin: 0;
-    flex: 1;
-}
-
-.my-custom-header1 h1 b {
-    margin-right: 5rem; 
-}
-
-.my-custom-header1 .slds-button_icon {
-    flex-shrink: 0; 
-    margin-left: auto; 
-}
-
-.my-custom-header {
-    border-top-right-radius: 0; 
-    border-top-left-radius: 0; 
-    display: flex;
-    align-items: center;
-    padding: 0.2rem 1rem; 
-    border: none; 
-    padding-right: 24px;
-    padding-left: 24px;
-}
-
-.my-custom-header h1 {
-    margin: 0;
-    flex: 1;
-}
-
-.my-custom-header .slds-button_icon {
-    flex-shrink: 0; 
-}
-
-.bottom-gap{
-    border-top-width: 0px;
-    padding-right: 24px;
-    padding-left: 24px;
-}
-
-.combo-style{
-    padding: 1rem;
-    padding-right: 24px;
-    padding-left: 24px;
+.sub-text{
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
 }
 
 @media all and (max-width: 1023px){
@@ -123,6 +74,10 @@
     }
     .msg_padding{
         padding-left: 10px
+    }
+    .button-mob{
+        height: 32px;
+        width: 67px;
     }
 }
 
