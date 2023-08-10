@@ -1752,7 +1752,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>eDiaries Comm Preferences</shortDescription>
-        <value>Update Communication Preferences</value>
+        <value>Review Communication Preferences</value>
     </labels>
      <labels>
         <fullName>eDiaries_Work_Msg</fullName>
@@ -10553,6 +10553,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Human leukocyte antigen</shortDescription>
         <value>HLA</value>
+    </labels>
+    <labels>
+        <fullName>I_Acknowledge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>I_Acknowledge</shortDescription>
+        <value>I acknowledge</value>
     </labels>
     <labels>
         <fullName>ICOS_Description_Intratumoral</fullName>
