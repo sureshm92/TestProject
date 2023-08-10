@@ -103,7 +103,8 @@ export default class PpCookiesBanner extends LightningElement {
                   if (this.isJanssenCommunity) {
                     this.setRRCookie();
                   }
-                  data = "Agreed";
+                  if(rrCookies){
+                    data = "Agreed";}
                   updateTheRegCookieAcceptance()
                     .then(() => {
                       communityService.setCookiesAgreedonReg(false);
