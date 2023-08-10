@@ -153,8 +153,18 @@ export default class PpCookiesBanner extends LightningElement {
                 if (this.termsAndConditions) {
                   localStorage.setItem("CookiesOnTC", "Accepted");
                 }
-        
+                
+                if(this.showBanner){
                 this.blockBackGroundEvents();
+                }
+                if(window.location.href.indexOf("terms-and-conditions") != -1){
+                    if(this.showBanner){
+                    document.body.classList.remove("cookie-block-user");
+                    let htmlDivs = document.getElementsByTagName("html");
+                    htmlDivs[0].classList.remove("cookie-block-user");
+                    this.showBanner = false;
+                    } 
+                }
                 if (
                   this.communityName == "Default" ||
                   this.communityName == "IQVIA Referral Hub"
@@ -252,7 +262,7 @@ export default class PpCookiesBanner extends LightningElement {
         if (this.termsAndConditions) {
           localStorage.setItem("CookiesOnTC", "Accepted");
         }
-        if(this.showBanner){
+        if(this.showBanner){ 
         this.blockBackGroundEvents();
         }
         if (
@@ -386,7 +396,7 @@ export default class PpCookiesBanner extends LightningElement {
               if (this.termsAndConditions) {
                 localStorage.setItem("CookiesOnTC", "Accepted");
               }
-
+             
               this.blockBackGroundEvents();
               if (
                 this.communityName == "Default" ||
@@ -446,7 +456,7 @@ export default class PpCookiesBanner extends LightningElement {
         if (this.spinner) this.spinner.hide();
         let initData = JSON.parse(returnValue);
         this.initData = initData;
-        this.blockBackGroundEvents();
+        this.blockBackGroundEvents(); 
         this.contact = initData.myContact;
         this.contact.RRCookiesAllowedCookie__c =
           initData.myContact.RRCookiesAllowedCookie__c;
