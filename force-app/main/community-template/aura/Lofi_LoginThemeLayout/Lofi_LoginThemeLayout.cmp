@@ -86,7 +86,8 @@
                             <div class="body-components">{!v.body}</div>
                         </div>
                     </div>
-                    <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-p-left_medium', '')}">
+                    <!-- <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-p-left_medium', '')}"> -->
+                    <div class="slds-col">
                         <aura:if isTrue="{!v.communityType == 'Janssen'}">
                             <footer class="{!'footer' + if(v.isRTL ,' align-rtl', '')}">
                                 <div class="slds-col" style="font-weight: 600; margin-bottom: 1em">
@@ -99,25 +100,28 @@
                                     </div> 
 
 
-                                    <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-2 policyCssjanssen', 'slds-size_1-of-3')}">
-                                        <c:privacyPolicyViewer
-                                            isRtl="{!v.isRTL}"
-                                            isModalOpen="{!v.showPpPopup}"
-                                            onclosePpModal="{!c.closePpPopup}"
-                                            communityTypeName="{!v.communityType}"
-                                        />
-                                    </div>
-                                    <aura:if isTrue="{!v.isCPRAavailable}"> 
-                                    <div  class="divider janseendivider slds-size_1-of-2" ></div> 
-                                    
-                                    <div class="slds-col slds-size_1-of-3">
-                                        <div class="page-link" onclick="{!c.onLinkClick}">
-                                            {!v.CPRAlabel}
-                                            <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                                    <div class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-grid slds-size_1-of-1 policyCssjanssen', 'slds-size_1-of-3')}">
+                                        <div  class="{!if(v.isCPRAavailable == true,'slds-col slds-size_1-of-2 slds-border_right overridesldsborder  slds-p-right--medium', '')}">
+                                             <c:privacyPolicyViewer
+                                                isRtl="{!v.isRTL}"
+                                                isModalOpen="{!v.showPpPopup}"
+                                                onclosePpModal="{!c.closePpPopup}"
+                                                communityTypeName="{!v.communityType}"
+                                            />
                                         </div>
+                                        <aura:if isTrue="{!v.isCPRAavailable}">
+                                        <div class="slds-col slds-p-left--medium slds-size_1-of-2 alignprivacychoice">
+                                          
+                                                    <span class="page-link" onclick="{!c.onLinkClick}">
+                                                        {!v.CPRAlabel}
+                                                        <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                                                    </span>
+                                        </div>
+                                    </aura:if>
+
                                     </div>
-                                    </aura:if>  
-                                <div  class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-1 slds-m-bottom_medium slds-p-top--x-small', '')}" 
+                                   
+                                <div  class="{!'slds-col ' + if(v.isCPRAavailable == true,'slds-size_1-of-1 slds-p-left--small slds-m-bottom_medium slds-p-top--x-small', '')}" 
                                  >© IQVIA</div>
                             </div>
                                 
@@ -161,6 +165,7 @@
             <!--Mobile View-->
             <aura:set attribute="else">
                 <div class="mobile-content slds-grid slds-wrap">
+                    <div class="{!v.communityType == 'Janssen' ? 'janssen-community' : ''}">
                     <div class="slds-col slds-size_1-of-1">
                         <div class="{!v.communityType == 'Janssen' ? 'janssen-community' : ''}">
                         <div class="brand-logo slds-align_absolute-center">
@@ -268,13 +273,14 @@
                                          </aura:if>
                                           <div class="slds-col slds-m-left_xx-small">
                                                  © IQVIA 
-                                         </div>
+                                         </div> 
                                     </div>
                                 </div>
                             </aura:set>
                         </aura:if>
                         
                     </div>
+                </div>
                     </div>
                     </div>
                 </div>
