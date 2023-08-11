@@ -87,6 +87,9 @@
 .modal-container {
     top: 2rem;
 }
+.displaydot{
+    display: none;
+}
 
 /** RH **/
 .rh-border-radius {
@@ -116,6 +119,11 @@
 
 /** RH End **/
 @media screen and (max-width: 768px) {
+    .displaydot{
+        padding: 0px 7px;
+        opacity: 0;
+        display: inline;
+    }
     .mob-cookies-banner {
         width: 100%;
     }
