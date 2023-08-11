@@ -36,9 +36,9 @@
                                     <div class="slds-col slds-align_absolute-center"><img src={underConstructionMble}/></div>
                                     <div class="slds-col po-custom-content">{labels.ediariesWorkMsg}</div>
                                     <div class="slds-col po-custom-edaries-content">{labels.ediariesActivation}</div>
-                                    <div class="slds-col po-custom-comm-Prefences pointer" onclick={handleCommunicationPreferences}>{labels.ediariesComPref}</div>
-
-    
+                                    <div class="slds-col po-custom-comm-Prefences pointer">
+                                        <span onclick={handleCommunicationPreferences}>{labels.ediariesComPref}</span>
+                                    </div>
                                 </lightning-layout-item>
                             </lightning-layout>
                         </div>
