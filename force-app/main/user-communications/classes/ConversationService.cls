@@ -69,6 +69,7 @@ public without sharing class ConversationService {
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Name',
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Title',
                 'Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c',
+                'Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
                 'FirstUnreadDate__c'
             },
             Conversation__c.getSObjectType(),
@@ -212,20 +213,28 @@ public without sharing class ConversationService {
                         List<Message__c> messages = convVsmsg.get(conversation.id);
                         if(!messages.isEmpty()){
                            Message__c  message = messages[0];
-                            if(!message.Is_Confidential__c) {
+                            if(!message.Is_Confidential__c && conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
                                 unreadCount++;
                             }
                         }                       
                 }
                 else{
                   List<Participant_Enrollment__c> enrollments = [
-                    SELECT Id
+                    SELECT Id,
+                    Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                    Invited_To_PP_Date__c
                     FROM Participant_Enrollment__c
                     WHERE Id IN :peIdList
                     ];
                     for (Participant_Enrollment__c enrollment : enrollments) {
-                        if (conversation.Participant_Enrollment__c == enrollment.Id)
-                            unreadCount++;
+                        if (!isDelegate && conversation.Participant_Enrollment__c == enrollment.Id && 
+                            enrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true &&
+                            enrollment.Invited_To_PP_Date__c != null){
+                                unreadCount++;
+                        }else if (isDelegate && conversation.Participant_Enrollment__c == enrollment.Id && 
+                            enrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true){
+                                unreadCount++;
+                        }
                     }  
                 }
             }

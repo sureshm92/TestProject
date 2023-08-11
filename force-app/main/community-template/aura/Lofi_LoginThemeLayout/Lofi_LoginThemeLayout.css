@@ -210,14 +210,13 @@
     line-height: 36px;
     overflow: hidden;
     margin-top: 1.1em;
-    /* @noflip */
+    /* @noflip */ 
     text-align: left;
 }
 
 .THIS .header-title-mobile {
     color: #ffffff;
     font-size: 21px;
-    font-weight: bold;
     letter-spacing: 0;
     line-height: 25px;
 }
@@ -478,6 +477,10 @@
         margin-top: 5px !important;
     }
 
+
+    .THIS.mobile-content .body-content-janssen {
+        margin-top: 5px !important;
+    }
 
     .THIS.mobile-content .footer-mobile > .slds-col {
         font-size: 0.8125rem;

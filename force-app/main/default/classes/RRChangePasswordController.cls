@@ -347,6 +347,8 @@ public without sharing class RRChangePasswordController {
                     WHERE
                         Participant_Contact__c = :contact.Id
                         AND Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
+                        AND Invited_To_PP_Date__c != NULL
+                        AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 ];
                 List<Patient_Delegate_Enrollment__c> delegateContactUserPDEs = [
                     SELECT
@@ -365,6 +367,8 @@ public without sharing class RRChangePasswordController {
                     WHERE
                         Patient_Delegate__r.Contact__c = :contact.Id
                         AND Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
+                        AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                        AND Status__c = 'Active'
                 ];
                 if (loginUserPEs.size() != 0 && delegateContactUserPDEs.size() != 0) {
                     //Multi ROle

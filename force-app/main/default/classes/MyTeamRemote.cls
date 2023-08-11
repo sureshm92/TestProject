@@ -649,12 +649,7 @@ public without sharing class MyTeamRemote {
                     }
                 }            
                 //To check existing data present or not
-                lstss = [
-                    SELECT id, Site_Contact__c, is_Invited__c, Study_Site__c
-                    FROM Site_Staff__c
-                    WHERE Site_Contact__c IN :ConId AND is_Invited__c = TRUE
-                    LIMIT 5
-                ];
+                
                 String PI = '';
                 Boolean isHCP = false;
                 List<Study_Site__c> lstSSites = new List<Study_Site__c>();
@@ -1402,6 +1397,8 @@ public without sharing class MyTeamRemote {
                                                                    Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
                                                             FROM Participant_Enrollment__c
                                                             WHERE Participant__r.Contact__c =:participantState.participant.Contact__c
+                                                            and Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c=true
+                                                            and Invited_To_PP_Date__c!=null
                                                             ];
             for(Participant_Enrollment__c per: availablePERs) {
                 peFilterData.studies.add(new LabelValueItem(per.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, per.Id));
