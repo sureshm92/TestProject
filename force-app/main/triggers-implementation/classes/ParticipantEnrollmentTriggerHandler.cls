@@ -302,7 +302,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     (oldMap == null &&
                     pv.Participant_Enrollment__r.Initial_Visit_Scheduled_DateTime__c != null)
                 ) {
-                    if(pv.Status__c != 'Completed'){
+                    if(pv.Status__c != 'Completed'){ //PEH-16138
                     pv.Planned_Date__c = pv.Participant_Enrollment__r.Initial_Visit_Scheduled_DateTime__c !=
                         null
                         ? pv.Participant_Enrollment__r.Initial_Visit_Scheduled_DateTime__c
