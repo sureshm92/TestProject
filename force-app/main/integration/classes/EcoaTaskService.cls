@@ -73,7 +73,7 @@ public without sharing class EcoaTaskService {
             } else {
                 t.Owner_Contact__c = task.Participant_Enrollment__r.Participant_Contact__c;
             }
-            t.Subject = 'eDiary ' + task.Diary_Name__c;
+            t.Subject = task.Diary_Name__c;
             t.Priority = 'Normal';
             //t.Action_URL__c ='e-diaries';
             t.Action_URL__c = 'e-diaries';
