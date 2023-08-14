@@ -20,7 +20,10 @@ export default class PpDiscoverLinks extends LightningElement {
     empty_state = pp_community_icons + '/' + 'discover_empty.png';
 
     get cardContainerHeight() {
-        if (!this.toggleExplore) {
+        if(DEVICE == 'Small'){
+            return 'card-container-mobile';
+        }
+        else if (!this.toggleExplore) {
             return 'card-container card-container-height-medium';
         } else if (this.toggleExplore) {
             return 'card-container card-container-height-small slds-p-horizontal_x-small';
