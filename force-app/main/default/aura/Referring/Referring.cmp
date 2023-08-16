@@ -74,6 +74,10 @@
     <aura:attribute name="searchResult" type="Object" />
     <aura:attribute name="searchData" type="Object" />
     <aura:attribute name="mrrResult" type="String" />
+    <aura:attribute name="FileList" type="Object" />
+    <aura:attribute name="fullFileName" type="String" />
+    <aura:attribute name="percentDone" type="Integer" default="0" />
+    <aura:attribute name="progressbar" type="Boolean" default="false" />
 
     <aura:attribute name="counries" type="List" />
     <aura:attribute name="selectedCountry" type="String" />
@@ -1165,38 +1169,54 @@
                                            <div class="marTop  fontSizeForm">
                                             {!$Label.c.RH_PatientAuthComplete}
                                             </div>
-                                                <div aura:id="uploadfile">
-                                            
-                                                <div >
-                                                    <div class="slds-size_full slds-text_center uploadLabel marginUpload ">  
-                                                        <div  >
-                                                        <lightning:fileUpload 
-                                                            name="fileUploader" multiple="false"
-                                                            disabled="{!v.disableFile}"
-                                                            onuploadfinished="{!c.handleUploadFinished}" />
-                                                        <div class="slds-grid slds-gutters slds-wrap"
-                                                            style="padding-top: 10px">
-                                                            <div class="slds-col slds-size--5-of-5">
-                                                                <a title="{!v.fileName}" style="padding-top: 5px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;display:inline-block;width:100%" onclick="{!c.openModel}">
-                                                                    {!v.fileName}
-                                                                </a>
-                                                            </div>
-                                                            </div>
+                                            <div class="marTop  fontSizeForm">
+                                                {!$Label.c.RH_FileUploadAcceptedConditions}
+                                            </div>
+                                            <div class="marTop  fontSizeForm">
+                                                {!$Label.c.RH_FileUploadAcceptedAnotherConditions}
+                                            </div>
+                                            <div   aura:id="uploadfile">
+                                               
+                                                <div class="slds-size_full slds-text_center uploadLabel marginUpload ">         
+                                                        
+                                                            <lightning:input
+                                                                aura:id="file-input"
+                                                                type="file"
+                                                                files="{!v.FileList}"
+                                                                accept=".pdf"
+                                                                name="file"
+                                                                multiple="false"
+                                                                onchange="{!c.upload}"
+                                                            />
+                                                
                                                             <div class="slds-grid slds-gutters slds-wrap"
-                                                                style="padding-top: 5px">
-                                                                <div class="slds-col slds-size--1-of-5">
-                                                                <aura:if isTrue="{!v.disableFile}">
-                                                                    <lightning:buttonIcon iconName="utility:delete"
-                                                                        alternativeText="Delete" title="Delete"
-                                                                        size="small" onclick="{!c.handleDeleteFile}" />
+                                                                >
+                                                                <a title="{!v.fullFileName}" style="padding-left: 12px;
+                                                                padding-top: 10px" onclick="{!c.openModel}" >
+                                                                    {!v.fullFileName}
+                                                                </a>   
+                                                                <aura:if isTrue="{!!empty(v.fullFileName)}">
+                                                                    <a href="javascript:void(0)" style="padding-top: 5px ; padding-left: 4px" onclick="{!c.doClearFile}">
+                                                                        <c:RRIcon iconName="icon-trash" class="icon-trash" />
+                                                                    </a>
                                                                 </aura:if>
                                                             </div>
-                                                          </div>
-                                                        </div>
-                                                    </div>
-                                                  
+                                                            <aura:if  isTrue="{!v.errorMessage}">
+                                                            <p style="color: red;">{!v.errorMessage}</p>
+                                                        </aura:if> 
+                                                    
+                                                    </div>  
+                                               
+                                            </div>     
+                                        </aura:if>
+                                        <aura:if  isTrue="{!v.progressbar}">
+                                            <div class="progress-bar-container">
+                                                <div data-reactroot="" class="slds-progress-bar" style=  "width: 50%; margin: 20px 0 50px 0" color ="green" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{!v.percentDone}" role="progressbar">      
+                                                    <span class="slds-progress-bar__value" style="{!'width:'+v.percentDone+'%'}">
+                                                  <span class="slds-progress-bar__value" style=" line-height :30px">Progress:{!v.percentDone}%</span>
+                                                </span>
                                                 </div>
-                                                </div>
+                                            </div>
                                         </aura:if>
                                             <button class="apollo-btn primary"
                                                 style="width: 100%; margin: 20px 0 50px 0"
@@ -1792,38 +1812,51 @@
                                                 <div class="marTop  fontSizeForm">
                                                     {!$Label.c.RH_PatientAuthComplete}
                                                 </div>
+                                                <div class="marTop  fontSizeForm">
+                                                    {!$Label.c.RH_FileUploadAcceptedConditions}
+                                                </div>
+                                                <div class="marTop  fontSizeForm">
+                                                    {!$Label.c.RH_FileUploadAcceptedAnotherConditions}
+                                                </div>
                                                 <div   aura:id="uploadfile">
-                                                    <div >
-                                                        <div class="slds-size_full  slds-text_center uploadLabel marginUpload ">  
-                                                            <div>
-                                                               <lightning:fileUpload 
-                                                                    name="fileUploader" multiple="false"
-                                                                    disabled="{!v.disableFile}"
-                                                                    onuploadfinished="{!c.handleUploadFinished}" />
+                                                    <div class="slds-size_full slds-text_center uploadLabel marginUpload ">
+                                                                <lightning:input
+                                                                    aura:id="file-input"
+                                                                    type="file"
+                                                                    files="{!v.FileList}"
+                                                                    accept=".pdf"
+                                                                    name="file"
+                                                                    multiple="false"
+                                                                    onchange="{!c.upload}"
+                                                                />
+                                                    
                                                                 <div class="slds-grid slds-gutters slds-wrap"
-                                                                    style="padding-top: 10px">
-                                                                    <div class="slds-col slds-size--2-of-5">
-                                                                        <a style="padding-top: 5px" onclick="{!c.openModel}">
-                                                                            {!v.fileName}
+                                                                 >
+                                                                    <a title="{!v.fullFileName}" style= "padding-left: 12px;
+                                                                    padding-top: 10px" onclick="{!c.openModel}" >
+                                                                        {!v.fullFileName}
+                                                                    </a>   
+                                                                    <aura:if isTrue="{!!empty(v.fullFileName)}">
+                                                                        <a href="javascript:void(0)" style= "padding-top: 5px ; padding-left:4px"  onclick="{!c.doClearFile}">
+                                                                              <c:RRIcon iconName="icon-trash" class="icon-trash" />
                                                                         </a>
-                                                                    </div>
+                                                                    </aura:if>
                                                                 </div>
-                                                                <div class="slds-grid slds-gutters slds-wrap"
-                                                                    style="padding-top: 5px">
-                                                                    <div class="slds-col slds-size--1-of-5">
-                                                                        <aura:if isTrue="{!v.disableFile}">
-                                                                            <lightning:buttonIcon iconName="utility:delete"
-                                                                                alternativeText="Delete" title="Delete"
-                                                                                size="small" onclick="{!c.handleDeleteFile}" />
-                                                                        </aura:if>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                     
+                                                                <aura:if  isTrue="{!v.errorMessage}">
+                                                                <p style="color: red;">{!v.errorMessage}</p>
+                                                            </aura:if> 
+                                                        </div> 
+                                                    
+                                                </div>
+                                            </aura:if>
+                                            <aura:if  isTrue="{!v.progressbar}">
+                                                <div class="progress-bar-container">
+                                                    <div data-reactroot="" class="slds-progress-bar" style=  "width: 50%; margin: 20px 0 50px 0" color ="green" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{!v.percentDone}" role="progressbar">      
+                                                        <span class="slds-progress-bar__value" style="{!'width:'+v.percentDone+'%'}">
+                                                      <span class="slds-progress-bar__value" style=" line-height :30px">Progress:{!v.percentDone}%</span>
+                                                    </span>
                                                     </div>
-                                                    </div>
-                                            
+                                                </div>
                                             </aura:if>
                                                 <button class="apollo-btn primary"
                                                     style="width: 100%; margin: 20px 0 50px 0"

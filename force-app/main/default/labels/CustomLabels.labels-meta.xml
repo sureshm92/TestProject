@@ -24549,6 +24549,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>You must upload the completed and signed Patient Authorization Form to submit your referral.</value>
     </labels>
     <labels>
+        <fullName>RH_FileUploadAcceptedConditions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileUploadAcceptedConditions</shortDescription>
+        <value>1. You must upload only pdf file, no other format is accepted.</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileUploadAcceptedAnotherConditions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileUploadAcceptedAnotherConditions</shortDescription>
+        <value>2. You must upload the pdf file whose size should not exceed 4MB.</value>
+    </labels>
+    <labels>
         <fullName>RH_PatientAuthInfo</fullName>
         <language>en_US</language>
         <protected>false</protected>
