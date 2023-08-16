@@ -140,6 +140,8 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 17px;
+    word-wrap: break-word;
+    text-align: left;
 }
 
 .mob-addr-content1 {

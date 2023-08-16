@@ -37,6 +37,8 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_TASK_INSTANT_TYPE = 'Message_To_PT_Task_Instant_Type';
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Type';
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Del_Type';
+    public static final String MESSAGE_TO_PT_ACTIVATE_ECOA_TASK_INSTANT_TYPE = 'Message_to_PT_Activate_eDairies';
+
     /*Start Email Consent*/
     public static final String MESSAGE_TO_PT_PT_COMPLETE_BL_SURVEY_TYPE = 'Message_to_PT_Complete_BL_Survey_Type';
 

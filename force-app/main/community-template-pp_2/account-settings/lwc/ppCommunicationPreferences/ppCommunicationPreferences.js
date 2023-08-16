@@ -65,6 +65,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     @api personWrapper;
     @api userMode;
     @api isRTL;
+    @api showBackButton;
 
     label = {
         PP_Communication_Pref_Del_Blank_Page,
@@ -409,6 +410,10 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
 
     get StudyConsentClass() {
         return this.isRTL ? 'study-content study-content-mobile-rtl' : 'study-content study-content-mobile';
+    }
+
+    get ECOAPad11() {
+        return !this.isDesktop  && this.showBackButton ? 'communication-pref-no-margin' : 'communication-pref';
     }
 
     renderedCallback() {}
