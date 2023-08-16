@@ -144,8 +144,28 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
             pdeId.add(pde.id);
             
         }
+        List<Participant_Enrollment__c> perList = [
+            SELECT
+                id,
+                Participant__c,
+                Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Clinical_Trial_Profile__r.PPTemplate__c,
+                Is_Virtual_Study_Site__c,
+                Participant_Status__c,
+                Participant_Contact__c,
+                Participant__r.Contact__r.Visited_Communities__c,
+                Study_Site__r.Suppress_Participant_Emails__c,
+                Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                Invited_To_PP_Date__c,
+                Referral_Source__c
+            FROM Participant_Enrollment__c
+            WHERE Participant_Contact__c IN : patientDelegateIds
+            AND ( Clinical_Trial_Profile__r.CommunityTemplate__c='PatientPortal' OR (Clinical_Trial_Profile__r.CommunityTemplate__c='Janssen' AND 
+                Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+        ];
 
-        Map<String,Patient_Delegate_Enrollment__c> pdvsPde = new Map<String,Patient_Delegate_Enrollment__c> ();   
+        Map<String,sObject> pdvsPde = new Map<String,sObject> ();   
         List<Patient_Delegate_Enrollment__c> iqviaPde = [select Id,Patient_Delegate__c, Patient_Delegate__r.Contact__c ,Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c from Patient_Delegate_Enrollment__c where 
                                                         Patient_Delegate__r.Contact__c IN :patientDelegateIds
                                                            and Id NOT IN : pdeId and  //Status__c =:PATIENT_DELEGATE_ACTIVE_STATUS and
@@ -155,6 +175,12 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
             String key  = pde.Patient_Delegate__r.Contact__c+'-'+pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
         	pdvsPde.put(key,pde);
         }
+        // check for template in PE's as well
+        for(Participant_Enrollment__c pe : perList){
+            String key  = pe.Participant_Contact__c+'-'+pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+        	pdvsPde.put(key,pe);
+        }
+
         Set<Id> assigneeIds  = new Set<id>();
         for (Patient_Delegate_Enrollment__c pdeNew : delegateEnrollmentrecrs) 
              {
