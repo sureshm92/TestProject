@@ -437,6 +437,19 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
     }
 
     @AuraEnabled
+    public static id uploadPDFDocument(String fileName, String base64Data) {
+       
+        ContentVersion contentVersion = new ContentVersion();
+        contentVersion.Title = fileName;
+        contentVersion.PathOnClient = '/' + fileName;
+        contentVersion.VersionData = EncodingUtil.base64Decode(base64Data);
+        insert contentVersion;
+        id ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion.Id].ContentDocumentId;
+       ContentDocumentLink contentLink =   [SELECT Id FROM ContentDocumentLink WHERE LinkedEntityId =:UserInfo.getUserId() AND ContentDocumentId =: ContentDocumentId ];
+       return ContentDocumentId;
+ }
+
+    @AuraEnabled
     public static void deleteFile(String contentDocId) {
         System.debug('contentDocId--' + contentDocId);
         try {
