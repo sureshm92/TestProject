@@ -643,12 +643,14 @@ global without sharing class ReferHealthcareProviderRemote {
                         FROM Contact
                         WHERE Id = :delegateDuplicate.contactId
                     ];
-                    //update contact as delegate
-                    newContact.UserCommunityIsDelegate__c = true;
                     if(delegateDuplicate.contactId != null){
                         existingUserPatientDelegate = [SELECT ID, Email FROM User WHERE ContactId = :delegateDuplicate.contactId];
                     }
-                    update newContact;
+                    //update participant as delegate
+                    if(!newContact.UserCommunityIsDelegate__c){
+                        newContact.UserCommunityIsDelegate__c = true;
+                    	update newContact;
+                    }
                     //createUser = false;
                 }
 
