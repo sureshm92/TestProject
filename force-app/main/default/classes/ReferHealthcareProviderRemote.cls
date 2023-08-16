@@ -639,7 +639,8 @@ global without sharing class ReferHealthcareProviderRemote {
                         IQVIA_Contact_info_storage_consent__c,
                         Participant_Opt_In_Status_Emails__c,
                         IQVIA_PI_Storage_Consent_Time__c,
-                        IQVIA_Email_Consent_Time__c
+                        IQVIA_Email_Consent_Time__c,
+                        UserCommunityIsDelegate__c
                         FROM Contact
                         WHERE Id = :delegateDuplicate.contactId
                     ];
