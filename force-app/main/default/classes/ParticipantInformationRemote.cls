@@ -607,13 +607,29 @@ public without sharing class ParticipantInformationRemote {
                 );
                 insert delegateContact;
             } else {
-                delegateContact = new Contact(Id = ddi.contactId,
-                    IQVIA_Contact_info_storage_consent__c =true,
-                    Participant_Opt_In_Status_Emails__c =true,
-                    IQVIA_PI_Storage_Consent_Time__c =Datetime.now(),
-                    IQVIA_Email_Consent_Time__c =Datetime.now()
-                    );
-                    //update delegateContact;
+                // delegateContact = new Contact(Id = ddi.contactId,
+                //     IQVIA_Contact_info_storage_consent__c =true,
+                //     Participant_Opt_In_Status_Emails__c =true,
+                //     IQVIA_PI_Storage_Consent_Time__c =Datetime.now(),
+                //     IQVIA_Email_Consent_Time__c =Datetime.now()
+                //     );
+                //     //update delegateContact;
+                delegateContact = [
+                        SELECT Id, FirstName, LastName, Email, MailingCity,
+                        IQVIA_Contact_info_storage_consent__c,
+                        Participant_Opt_In_Status_Emails__c,
+                        IQVIA_PI_Storage_Consent_Time__c,
+                        IQVIA_Email_Consent_Time__c,
+                        UserCommunityIsDelegate__c
+                        FROM Contact
+                        WHERE Id = :ddi.contactId
+                    ];
+                    //update contact as delegate
+                    if(!delegateContact.UserCommunityIsDelegate__c){
+                        delegateContact.UserCommunityIsDelegate__c = true;
+                    	update delegateContact;
+                    }
+
             }
 
             List<Patient_Delegate__c> patientDelegatesEver = [
