@@ -13,6 +13,7 @@ import fetchExisitingTelevisitRecordVendor from '@salesforce/apex/televisitConfi
 import submitTelevisitVendorDetails from '@salesforce/apex/televisitConfigurationController.submitTelevisitVendorDetails';
 import saveLabel from '@salesforce/label/c.Save';
 import cancelLabel from '@salesforce/label/c.Cancel';
+import noTelevisitVendorAvailableLabel from '@salesforce/label/c.Televisit_No_Vendor_Message';
 import selectcountryLabel from '@salesforce/label/c.RH_RP_Select_Country';
 import selecttelevisitvendorLabel from '@salesforce/label/c.Select_Televisit_Vendor';
 import studysiteLabel from '@salesforce/label/c.TS_Select_Study_Site';
@@ -63,7 +64,8 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         offsetTimeLabel,
         selectallLabel,
         clearallLabel,
-        permissionLabel
+        permissionLabel,
+        noTelevisitVendorAvailableLabel
 
     };
     @api recordId;   
