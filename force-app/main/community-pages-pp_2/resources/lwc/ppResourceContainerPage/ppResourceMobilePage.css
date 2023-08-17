@@ -381,7 +381,10 @@ select.minimal:focus {
 }
 .down-icon {
     float:right;
-    padding-right:10px;
+    padding-right:20px;
+}
+.green-utility-icon {
+        --sds-c-icon-color-foreground-default: #00568c;
 }
 .res-options {
     position: relative;
