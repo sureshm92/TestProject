@@ -1,5 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import PP_Download_Results_Data from '@salesforce/label/c.PP_Download_Results_Data';
+import Download_In_Progress_PP from '@salesforce/label/c.Download_In_Progress_PP';
 import getBase64fromVisitSummaryReportPage_Modified from '@salesforce/apex/ModifiedVisitReportContainerRemote.getBase64fromVisitSummaryReportPage_Modified';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import mobileTemplate from './ppDownloadResultsDataMobile.html';
@@ -17,7 +18,8 @@ export default class PpDownloadResultsData extends LightningElement {
     @api patientVisitId;
     showDownloadResults;
     label = {
-        PP_Download_Results_Data
+        PP_Download_Results_Data,
+        Download_In_Progress_PP
     };
 
     connectedCallback() {
@@ -88,8 +90,13 @@ export default class PpDownloadResultsData extends LightningElement {
     get isTablet() {
         return FORM_FACTOR == 'Medium';
     }
+
     generateReport() {
-        if (!this.isDesktop) {
+        this.template
+            .querySelector('c-custom-toast-files-p-p')
+            .showToast('success', this.label.Download_In_Progress_PP, 'utility:download', 10000);
+
+        if (communityService.isMobileSDK()) {
             getBase64fromVisitSummaryReportPage_Modified({
                 peId: this.peId,
                 isRTL: this.isRTL,
