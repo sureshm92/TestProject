@@ -16,6 +16,7 @@ import AccountSettings_Cookies_RRLanguage from '@salesforce/label/c.AccountSetti
 import AccountSettings_Cookies_RRLanguage_Description from '@salesforce/label/c.AccountSettings_Cookies_RRLanguage_Description';
 import PP_Profile_Update_Success from '@salesforce/label/c.PP_Profile_Update_Success';
 import BACK from '@salesforce/label/c.Back';
+import AccountSettings_For_Strictly_Necessary_Cookies from '@salesforce/label/c.AccountSettings_For_Strictly_Necessary_Cookies';
 
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData'; 
 import changeOptInCookies from '@salesforce/apex/AccountSettingsController.changeOptInCookies';
@@ -54,7 +55,8 @@ export default class PpCookieSettings extends LightningElement {
         AccountSettings_Cookies_RRLanguage,
         AccountSettings_Cookies_RRLanguage_Description,
         PP_Profile_Update_Success,
-        BACK
+        BACK,
+        AccountSettings_For_Strictly_Necessary_Cookies
     };
 
     connectedCallback(){
@@ -107,7 +109,7 @@ export default class PpCookieSettings extends LightningElement {
                        let sr = JSON.parse(studyresult);
                        let ctp = sr.ctp;
                        let CommTemp = ctp.CommunityTemplate__c;
-                       let tempName = JSON.stringify(ctp.PPTemplate__c);
+                       let tempName = JSON.stringify(ctp.PPTemplate__c); 
                        if(CommTemp == 'Janssen'){ 
                             if(!this.isAlumni){
                               this.isJanssen = true;  
