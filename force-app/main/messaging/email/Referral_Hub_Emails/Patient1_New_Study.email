@@ -4,7 +4,7 @@
                          language="{!relatedTo.Participant__r.Contact__r.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailWireframe rendered="{!(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Default') || (relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen')}"
+        <c:EmailWireframe rendered="{!(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Default') && (relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen')}"
                           recipientId="{!relatedTo.Participant__r.Contact__c}"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Patient2}"
