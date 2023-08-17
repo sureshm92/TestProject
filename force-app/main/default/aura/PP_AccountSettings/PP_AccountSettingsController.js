@@ -7,6 +7,10 @@
         } else {
             component.set('v.isDelegate', false);
         }
+        let communityPrefix = communityService.getCommunityURLPathPrefix();
+        communityService.executeAction(component, 'getCommunityUrl', {}, function (rValue) {
+            component.set('v.isJanssen', rValue.includes('Janssen Community'));
+        });
         component.set(
             'v.participantState',
             communityService.getCurrentCommunityMode().participantState

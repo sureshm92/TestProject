@@ -11,11 +11,20 @@
                 <div class="">
                     <div class="as-email-preference">
                         <div class="as-sub-title slds-m-bottom_large cookieDesc">
-                            <lightning-formatted-rich-text
-                                value={initData.cookieDescription}
-                                class="cookie-accordion-paragraph"
-                            >
-                            </lightning-formatted-rich-text>
+                            <template if:true={isJanssen}>
+                                    <lightning-formatted-rich-text
+                                    value={label.AccountSettings_For_Strictly_Necessary_Cookies}
+                                    class="cookie-accordion-paragraph"
+                                >
+                                </lightning-formatted-rich-text>
+                            </template>
+                            <template if:false={isJanssen}>
+                                    <lightning-formatted-rich-text
+                                    value={initData.cookieDescription}
+                                    class="cookie-accordion-paragraph"
+                                >
+                                </lightning-formatted-rich-text>
+                            </template>
                         </div>
                         <lightning-accordion
                             allow-multiple-sections-open
@@ -184,11 +193,21 @@
                 <div class="">
                     <div class="as-email-preference">
                         <div class="as-sub-title slds-m-bottom_large cookieDesc">
-                            <lightning-formatted-rich-text
-                                value={initData.cookieDescription}
-                                class="cookie-accordion-paragraph"
-                            >
-                            </lightning-formatted-rich-text>
+                           
+                            <template if:true={isJanssen}>
+                                    <lightning-formatted-rich-text
+                                    value={label.AccountSettings_For_Strictly_Necessary_Cookies}
+                                    class="cookie-accordion-paragraph"
+                                >
+                                </lightning-formatted-rich-text>
+                            </template>
+                            <template if:false={isJanssen}>
+                                    <lightning-formatted-rich-text
+                                    value={initData.cookieDescription}
+                                    class="cookie-accordion-paragraph"
+                                >
+                                </lightning-formatted-rich-text>
+                            </template>
                         </div>
                         <lightning-accordion
                             allow-multiple-sections-open
