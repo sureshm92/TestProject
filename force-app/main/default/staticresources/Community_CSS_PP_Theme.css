@@ -2224,6 +2224,6 @@ user agent stylesheet svg:not(:root) {
     display:none;
 }
 .custom-pp-combo .slds-media__body{ 
-	margin-left: -4px;                                            
+	margin-left: -16px;                                             
 }
                                     
