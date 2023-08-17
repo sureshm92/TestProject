@@ -324,12 +324,28 @@ public without sharing class ManualCreationPanelRemote {
             for (List<Participant_Enrollment__c> peList : contactsWithPE.values()) {
                 for (Participant_Enrollment__c pe : peList) {
                     if (!networkByPE.containsKey(pe.Id)) {
-                        String communityName = CommunityTemplateService.getTemplate(
-                                pe.Clinical_Trial_Profile__r.CommunityTemplate__c
-                            )
-                            .communityName;
-                        networkByPE.put(pe.Id, communitiesMap.get(communityName));
-                    }
+                         if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                              if(pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'){
+                                    String communityName = CommunityTemplateService.getTemplate(
+                                    'PatientPortal'
+                                    )
+                                    .communityName;
+                                    networkByPE.put(pe.Id, communitiesMap.get(communityName));
+                              }else{
+                                    String communityName = CommunityTemplateService.getTemplate(
+                                    pe.Clinical_Trial_Profile__r.CommunityTemplate__c
+                                    )
+                                    .communityName;
+                                    networkByPE.put(pe.Id, communitiesMap.get(communityName));
+                              }
+                         }else{    
+                            String communityName = CommunityTemplateService.getTemplate(
+                                    pe.Clinical_Trial_Profile__r.CommunityTemplate__c
+                                )
+                                .communityName;
+                            networkByPE.put(pe.Id, communitiesMap.get(communityName));
+                        }
+                    }  
                 }
             }
 
