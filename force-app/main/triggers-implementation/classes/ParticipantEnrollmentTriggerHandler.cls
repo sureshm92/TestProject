@@ -1548,8 +1548,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 WhatId = per.Id,
                 WhoId = per.Participant_Contact__c,
                 Visible_For__c = TaskService.TASK_VISIBILITY_ALL,
-                Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED
-                Community_Template_Name__c = per.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
+                Community_Template_Name__c = per.Clinical_Trial_Profile__r ?.CommunityTemplate__c
             );
             if (usersByContactId.get(per.Participant_Contact__c) != null) {
                 //if user exist then assign to him:
