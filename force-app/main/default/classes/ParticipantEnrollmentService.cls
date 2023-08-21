@@ -1,5 +1,6 @@
 /**
  * Created by Leonid Bartenev
+ * Last Modified by Faizaan Baig
  */
 
 public without sharing class ParticipantEnrollmentService {
@@ -595,6 +596,7 @@ public without sharing class ParticipantEnrollmentService {
 
     public static final List<String> PE_COMMON_FIELDS = new List<String>{
         'Id',
+        'Invited_To_PP_Date__c',
         'Clinical_Trial_Profile__c',
         'Clinical_Trial_Profile__r.Profile_Picture__c',
         'Clinical_Trial_Profile__r.Is_Program__c',
@@ -626,6 +628,7 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c',
         'Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c',
         'Clinical_Trial_Profile__r.CommunityTemplate__c',
+        'Clinical_Trial_Profile__r.PPTemplate__c',
         'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
         'Clinical_Trial_Profile__r.Trial_Match_Is_Available__c',
         'Clinical_Trial_Profile__r.ECOA_Is_Avaialble__c',
@@ -742,6 +745,7 @@ public without sharing class ParticipantEnrollmentService {
         'Study_Site__r.Override_PI_Referral_Status__c',
         'Study_Site__r.Clinical_Trial_Profile__c',
         'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c',
         'Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c',
         'Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c',
         'Study_Site__r.Clinical_Trial_Profile__r.Override_Inclusion_Criteria__c',
@@ -1930,5 +1934,22 @@ public without sharing class ParticipantEnrollmentService {
             WHERE Id IN :participantIds
         ];
         updateParticipantState(participants);
+    }
+
+    /**
+     * @description: This Method will return the PERMap for given contact.
+     * @author: Krishna Mahto
+     * @param: delContId
+     * @return:
+     **/
+    public static Map<Id,Participant_Enrollment__c> getPerMapByContactId(Id contactId) {
+        Map<Id,Participant_Enrollment__c> perMap=  new Map<Id,Participant_Enrollment__c>([
+            SELECT  Id,
+                    Invited_To_PP_Date__c,
+                    Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
+            FROM Participant_Enrollment__c
+            WHERE Participant_Contact__c = :contactId
+        ]);
+        return perMap;
     }
 }

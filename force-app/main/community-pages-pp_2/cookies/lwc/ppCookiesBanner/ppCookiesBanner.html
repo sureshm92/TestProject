@@ -48,14 +48,17 @@
                     </lightning-layout-item>
                 </template>
                 <template if:true={loginPage}>
-                    <lightning-layout-item size="11" padding="around-small">
+                    <lightning-layout-item size="12">
                         <div class="we-care-about-your-p">
-                            <div class="banner-heading slds-m-top_small">
-                                {label.ppCookieBannerHeader}
+                            <div class="banner-heading">
+                                <p>{label.ppCookieBannerHeader}</p>
                             </div>
                             <div class="banner-txt slds-m-top_x-small slds-show_medium">
-                                {label.ppCookiesBannerDesc1}<b> {label.ppCookiesBannerDesc2} </b>
-                                {label.ppCookiesBannerDesc3}
+                                <p class="mb-10">{label.ppCookiesBannerDesc1}</p>
+                                <p>
+                                    <b> {label.ppCookiesBannerDesc2} </b>
+                                    {label.ppCookiesBannerDesc3}
+                                </p>
                             </div>
                             <div class="banner-txt slds-show_medium">
                                 {label.ppCookiesBannerLoginDesc}
@@ -63,28 +66,59 @@
                             <div class="banner-txt slds-m-vertical_x-small slds-hide_medium">
                                 {label.ppCookiesBannerDesc1}
                             </div>
-                            <div class="banner-txt slds-m-top_medium slds-hide_medium">
+                            <span class="banner-txt slds-m-top_medium slds-hide_medium">
                                 <b>{label.ppCookiesBannerDesc2}</b>
-                            </div>
-                            <div class="banner-txt slds-hide_medium">
-                                {label.ppCookiesBannerDesc3}
-                            </div>
+                            </span>
+                            <span class="banner-txt slds-hide_medium">
+                                &nbsp; {label.ppCookiesBannerDesc3}
+                            </span>
                             <div class="banner-txt slds-hide_medium">
                                 {label.ppCookiesBannerLoginDesc}
                             </div>
                         </div>
                     </lightning-layout-item>
-                    <lightning-layout-item size="1" padding="around-small" class="login-close">
-                        <div onclick={closeTheBanner}>
-                            <c-web-icon
-                                class="svg-icon"
-                                icon-size="small"
-                                icon-name="pp-close-new"
-                                icon-color="white"
-                            >
-                            </c-web-icon>
-                        </div>
-                    </lightning-layout-item>
+                    <template lwc:if={isMobile}>
+                        <lightning-layout-item size="12">
+                            <lightning-layout multiple-rows class="uniform-margin">
+                                <lightning-layout-item size="12">
+                                    <button
+                                        type="button"
+                                        class={acknowledgeButtonCss}
+                                        onclick={closeTheBanner}
+                                    >
+                                        <span class="acknowledge_content"
+                                            >{label.bTN_I_Acknowledge}</span
+                                        >
+                                    </button>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12">
+                                    <div class="footer_logo_login_cookie_pos_mobile">
+                                        <img src={footerUILogo} />
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </template>
+                    <template lwc:else>
+                        <lightning-layout-item size="12">
+                            <lightning-layout multiple-rows class="uniform-margin">
+                                <lightning-layout-item size="6" padding="around-large">
+                                    <img src={footerUILogo} class="footer_logo_login_cookie_pos" />
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6" padding="around-small">
+                                    <button
+                                        type="button"
+                                        class={acknowledgeButtonCss}
+                                        onclick={closeTheBanner}
+                                    >
+                                        <span class="acknowledge_content"
+                                            >{label.bTN_I_Acknowledge}</span
+                                        >
+                                    </button>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </template>
                 </template>
             </lightning-layout>
         </div>
@@ -113,6 +147,7 @@
                     <div class={accordionCss} id="strictcookies" onclick={showCookieDiv}>
                         <div class="acordion-title right-angle-chevron slds-p-horizontal_medium">
                             {label.accountSettingsStrictlyNecessaryCookies}
+                            <span class="displaydot">.</span>
                             <span class="always-active">{label.cookieAlwaysActive}</span>
                         </div>
                         <div class="panel">

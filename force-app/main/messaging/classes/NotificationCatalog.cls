@@ -37,8 +37,11 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_TASK_INSTANT_TYPE = 'Message_To_PT_Task_Instant_Type';
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Type';
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Del_Type';
+    public static final String MESSAGE_TO_PT_ACTIVATE_ECOA_TASK_INSTANT_TYPE = 'Message_to_PT_Activate_eDairies';
+
     /*Start Email Consent*/
     public static final String MESSAGE_TO_PT_PT_COMPLETE_BL_SURVEY_TYPE = 'Message_to_PT_Complete_BL_Survey_Type';
+
 
     // for patient statuses
     public static final String MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_PT_Ref_Status_Update_Type';
@@ -62,7 +65,9 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_NEW_MESSAGE_TYPE = 'Message_To_PT_New_Message_Type';
     public static final String MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE = 'Message_to_PT_Del_New_Assignment';
     public static final String MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE = 'Message_to_PT_Del_New_Assignment_GSK';
+    public static final String MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE_JANSSEN = 'Message_to_PT_Del_New_Assignment_Janssen';
     public static final String MESSAGE_TO_PT_DEL_REACTIVATED_TYPE = 'Message_to_PT_Del_Reactivated';
+    public static final String MESSAGE_TO_PT_DEL_REACTIVATED_TYPE_JANSSEN = 'Message_to_PT_Del_Reactivated_Janssen';
     public static final String MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE = 'Message_to_PT_Del_Reactivated_GSK';
     public static final String MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE = 'Message_to_PT_Del_New_Study_Type';
 
@@ -143,8 +148,8 @@ public without sharing class NotificationCatalog {
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE
     };
-
-    //Updates
+        
+     //Updates
     public static final String UPDATE_TO_PT_NEW_ARTICLE_TYPE = 'Update_to_PT_New_Article_Type';
     public static final String UPDATE_TO_PT_NEW_LINK_TYPE = 'Update_to_PT_New_Link_Type';
     public static final String UPDATE_TO_PT_NEW_MULTIMEDIA_TYPE = 'Update_to_PT_New_Multimedia_Type';

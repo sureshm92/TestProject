@@ -10,6 +10,15 @@
     padding-left: unset;
 }
 
+.date-time-left-space-rtl{
+    padding-left: 1rem;
+    padding-right: 0rem;
+}
+.date-time-right-space-rtl{
+    padding-right: 1rem;
+    padding-left: 0rem;
+}
+
 .curve-input {
     display: flex;
     position: relative;

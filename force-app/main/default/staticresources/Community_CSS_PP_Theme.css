@@ -438,7 +438,7 @@ input::placeholder {
 
 .rr-min-body-height .rr-min-body-height {
     min-height: auto !important;
-    padding-bottom: 35px !important;
+    padding-bottom: 40px !important;
 }
 
 .label-email-pass-match .slds-form-element__label {
@@ -2192,17 +2192,21 @@ user agent stylesheet svg:not(:root) {
     margin-left: -20px;
 }
 
-.show-more-or-less-container svg{
+.show-more-or-less-container svg {
     fill: #015ff1;
     height: 15px;
 }
 
-.contact-support-popup .modal-header-text{
+.contact-support-popup .modal-header-text {
     height: 32px !important;
     color: #444444 !important;
-    font-family: "Proxima Nova" !important;
+    font-family: 'Proxima Nova' !important;
     font-size: 24px !important;
     font-weight: 600 !important;
     letter-spacing: 0 !important;
     line-height: 29px !important;
+}
+.past-studies .custom-notify-container-mobile {
+    left: 0;
+    top: 33px !important;
 }

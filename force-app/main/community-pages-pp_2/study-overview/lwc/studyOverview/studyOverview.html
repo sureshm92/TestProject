@@ -14,26 +14,45 @@
                             <lightning-layout-item size="3" class="border-right">
                                 <template if:true={clinicalrecord.Profile_Picture__c}>
                                     <div class="po-center slds-p-right_small slds-p-left_small">
-                                        <img src={clinicalrecord.Profile_Picture__c} class="po-logo" />
+                                        <img
+                                            src={clinicalrecord.Profile_Picture__c}
+                                            class="po-logo"
+                                        />
                                     </div>
                                 </template>
                             </lightning-layout-item>
-                            <lightning-layout-item size="6" class="slds-p-left_medium slds-p-bottom_medium slds-p-top_medium slds-p-right_medium">
+                            <lightning-layout-item
+                                size="6"
+                                class="slds-p-left_medium slds-p-bottom_medium slds-p-top_medium slds-p-right_medium"
+                            >
                                 <template if:true={clinicalrecord.Brief_Summary__c}>
-                                    <lightning-formatted-rich-text class="po-text" value={shortOverview}></lightning-formatted-rich-text>
+                                    <lightning-formatted-rich-text
+                                        class="po-text"
+                                        value={shortOverview}
+                                    ></lightning-formatted-rich-text>
                                 </template>
                             </lightning-layout-item>
                             <lightning-layout-item size="3" class="slds-align_absolute-center li3">
                                 <lightning-layout class="piPhone">
-                                    <lightning-layout-item><img src={phone_Icon} class="phoneIcon"/></lightning-layout-item>
+                                    <lightning-layout-item
+                                        ><img src={phone_Icon} class="phoneIcon"
+                                    /></lightning-layout-item>
                                     <lightning-layout-item>{studySitePhone}</lightning-layout-item>
                                 </lightning-layout>
                                 <lightning-layout class="piName">
-                                    <lightning-layout-item class="piIcon-li"><img src={pi_Icon} class="piIcon"/></lightning-layout-item>
-                                    <lightning-layout-item class="piNameText">{piName}&nbsp;{label.PI_Post_Fix}</lightning-layout-item>
+                                    <lightning-layout-item class={piUserIcon}
+                                        ><img src={pi_Icon} class="piIcon"
+                                    /></lightning-layout-item>
+                                    <lightning-layout-item
+                                        ><p title={piTitle} class="piNameText">{piName}&nbsp;{label.PI_Post_Fix}</p></lightning-layout-item
+                                    >
                                 </lightning-layout>
                                 <div class="po-more">
-                                    <a><span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREMBLELabel}</span></a>
+                                    <a
+                                        ><span class="po-more-text" onclick={handleclick}
+                                            >{label.PPLEARNMOREMBLELabel}</span
+                                        ></a
+                                    >
                                     <lightning-button-icon
                                         icon-name="utility:chevronright"
                                         variant="bare"
@@ -49,39 +68,38 @@
 
             <!-- NO study overview available -->
             <template if:true={noStudyOverviewAvailable}>
-                    <div class="po-container">
-                        <lightning-layout
-                            multiple-rows="true"
-                            vertical-align="center"
-                            horizontal-align="center"
-                            class="po-custom-card"
-                        >
-                            <lightning-layout-item size="3" class={borderPOHome}>
-                                    <div class="po-center slds-p-right_small slds-p-left_small">
-                                        <template if:true={isIqviaLogo}>
-                                            <img src={iqviaLogoUrl} class="po-logo" />
-                                        </template>
-                                        <template if:true={isGskLogo}>
-                                            <img src={gskLogoUrl} class="po-logo" />
-                                        </template>
-                                    </div>
-                            </lightning-layout-item>
-                            <lightning-layout-item size="9">
-								<div class="po-text_2 ">
-                                    {label.PP_StudyOverview_homePage_shortDecs_DelAlu}
+                <div class="po-container">
+                    <lightning-layout
+                        multiple-rows="true"
+                        vertical-align="center"
+                        horizontal-align="center"
+                        class="po-custom-card"
+                    >
+                        <lightning-layout-item size="3" class={borderPOHome}>
+                            <div class="po-center slds-p-right_small slds-p-left_small">
+                                <template if:true={isIqviaLogo}>
+                                    <img src={iqviaLogoUrl} class="po-logo" />
+                                </template>
+                                <template if:true={isGskLogo}>
+                                    <img src={gskLogoUrl} class="po-logo" />
+                                </template>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="9">
+                            <div class="po-text_2">
+                                {label.PP_StudyOverview_homePage_shortDecs_DelAlu}
                                 <!--    </br>
                                     <a><span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
                                     <img src={open_new_tab} onclick={handleclickClinicalResearch}/></a> -->
-                                </div>
-							</lightning-layout-item>                          
-                        </lightning-layout>
-                    </div>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
             </template>
-
         </template>
 
         <template if:false={desktop}>
-             <!-- Study Overview Available -->
+            <!-- Study Overview Available -->
             <template if:false={noStudyOverviewAvailable}>
                 <template if:true={clinicalrecord}>
                     <div class="po-container">
@@ -97,19 +115,29 @@
                                         <img src={clinicalrecord.Profile_Picture__c} />
                                     </div>
                                 </template>
-                            </lightning-layout-item>   
+                            </lightning-layout-item>
 
                             <lightning-layout-item size="6" class="slds-align_absolute-center li3">
                                 <lightning-layout class="piPhone">
-                                    <lightning-layout-item><img src={phone_Icon} class="phoneIcon"/></lightning-layout-item>
+                                    <lightning-layout-item
+                                        ><img src={phone_Icon} class="phoneIcon"
+                                    /></lightning-layout-item>
                                     <lightning-layout-item>{studySitePhone}</lightning-layout-item>
                                 </lightning-layout>
                                 <lightning-layout class="piName">
-                                    <lightning-layout-item><img src={pi_Icon} class="piIcon"/></lightning-layout-item>
-                                    <lightning-layout-item>{piName}&nbsp;{label.PI_Post_Fix}</lightning-layout-item>
+                                    <lightning-layout-item
+                                        ><img src={pi_Icon} class="piIcon"
+                                    /></lightning-layout-item>
+                                    <lightning-layout-item
+                                        >{piName}&nbsp;{label.PI_Post_Fix}</lightning-layout-item
+                                    >
                                 </lightning-layout>
                                 <div class="po-more">
-                                    <a><span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREMBLELabel}</span></a>
+                                    <a
+                                        ><span class="po-more-text" onclick={handleclick}
+                                            >{label.PPLEARNMOREMBLELabel}</span
+                                        ></a
+                                    >
                                     <lightning-button-icon
                                         icon-name="utility:chevronright"
                                         variant="bare"
@@ -118,7 +146,6 @@
                                     ></lightning-button-icon>
                                 </div>
                             </lightning-layout-item>
-
                         </lightning-layout>
                     </div>
                 </template>
@@ -133,28 +160,29 @@
                         class="po-custom-card-mobile-no-study"
                     >
                         <lightning-layout-item size="5">
-                                <div class="po-center slds-p-top_medium slds-p-left_medium">
-                                    <template if:true={isIqviaLogo}>
-                                        <img src={iqviaLogoUrl} class="po-logo borderRight" />
-                                    </template>
-                                    <template if:true={isGskLogo}>
-                                        <img src={gskLogoUrl} class="po-logo borderRight" />
-                                    </template>
-                                </div>
+                            <div class="po-center slds-p-top_medium slds-p-left_medium">
+                                <template if:true={isIqviaLogo}>
+                                    <img src={iqviaLogoUrl} class="po-logo borderRight" />
+                                </template>
+                                <template if:true={isGskLogo}>
+                                    <img src={gskLogoUrl} class="po-logo borderRight" />
+                                </template>
+                            </div>
                         </lightning-layout-item>
                         <lightning-layout-item size="7">
-                        <!--    <div class="po-text_3 slds-p-top_large">
+                            <!--    <div class="po-text_3 slds-p-top_large">
                                 <a><span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
                                 <img src={open_new_tab} onclick={handleclickClinicalResearch}/></a>
                             </div> -->
-                        </lightning-layout-item>   
+                        </lightning-layout-item>
                         <lightning-layout-item size="12">
-                            <div class="po-text_3">{label.PP_StudyOverview_homePage_shortDecs_DelAlu}</div>
-                        </lightning-layout-item>                       
+                            <div class="po-text_3">
+                                {label.PP_StudyOverview_homePage_shortDecs_DelAlu}
+                            </div>
+                        </lightning-layout-item>
                     </lightning-layout>
                 </div>
-        </template>
-
+            </template>
         </template>
     </div>
 </template>
