@@ -280,7 +280,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             this[NavigationMixin.GenerateUrl](config).then((url) => {
                 // localStorage.setItem('Cookies', 'Accepted');
                 window.open(url, '_blank');
-
+            });
         // this.isPrivacyPolicy = true;
         // this.commPrefForPrivacyPolicy = true;
     }
