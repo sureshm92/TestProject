@@ -1586,7 +1586,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 WHERE
                     Visit__r.Visit_Plan__r.Id NOT IN :peVpIds
                     AND Participant_Enrollment__c IN :perIds
-                    AND Status__c = :'Pending'
+                    AND (Status__c = :'Pending' OR Status__c = :'Scheduled')
                     AND Is_Pre_Enrollment_Patient_Visit__c = FALSE
                     AND Is_Adhoc__c = FALSE
             ];
