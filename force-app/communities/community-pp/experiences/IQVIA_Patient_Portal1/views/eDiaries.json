@@ -1,19 +1,19 @@
 {
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
-  "componentName" : "c:EmptyLayout",
+  "componentName" : "c:PPOneColumnLayout",
   "dataProviders" : [ ],
-  "id" : "7e66be26-99d5-40d1-ab52-9e6605099d5e",
-  "label" : "Mobile Pdf Viewer",
+  "id" : "2786d7e1-bf98-44a8-b807-6c904615b171",
+  "label" : "eDiaries",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:MobilePdfViewer",
-      "id" : "35d8e67c-46c1-4464-b14f-290c600355bd",
+      "componentName" : "c:ppViewEcoaDiaries",
+      "id" : "4ca156ef-f4f6-4664-9c56-2938a4150fc7",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "9a1aa578-f2cc-43e5-85ef-21d505591e6c",
+    "id" : "3c241753-2eb5-40e1-a2da-12f9ac6bbd81",
     "regionName" : "column1",
     "type" : "region"
   }, {
@@ -21,18 +21,18 @@
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "Mobile Pdf Viewer"
+        "title" : "eDiaries"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "921ba4cb-b740-48db-ad54-4b8fdf305258",
+      "id" : "93aec29d-fa4a-4d72-bb00-cab5f82d1834",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "d97ca9d0-4d0b-448f-98cc-ca97f09d5582",
+    "id" : "bc74c024-6308-4b13-828e-dd34d8070b04",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
-  "themeLayoutType" : "plAm3nHzp9j4TqsN4DBW97xONJ8WJG",
+  "themeLayoutType" : "Inner",
   "type" : "view",
-  "viewType" : "custom-mobile-pdf-viewer"
+  "viewType" : "custom-ediaries"
 }
