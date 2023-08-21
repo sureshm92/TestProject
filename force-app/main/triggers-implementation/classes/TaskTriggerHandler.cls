@@ -328,7 +328,7 @@ public without sharing class TaskTriggerHandler {
                         }
                     }
                 }
-                else if(task.Action_URL__c != null && task.Task_Code__c == TaskService.TASK_CODE_ECOA_TASK){
+                else if(task.Action_URL__c != null && task.Task_Code__c == TaskService.TASK_CODE_ECOA_TASK && task.Community_Template_Name__c == CommunityTemplateService.TEMPLATE_PP){
                     Id whatId = task.WhatId;
                     //Start
                     if (
