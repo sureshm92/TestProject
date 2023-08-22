@@ -58,6 +58,9 @@ global without sharing class PP_EmailTemplateDelegatePartController {
             WHERE
                 Participant_Enrollment__r.Participant__c IN :participantIds
                 AND Participant_Enrollment__r.Study_Site__r.Study_Site_Type__c = 'Traditional'
+            	AND (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' OR
+                (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen' AND 
+                 Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c ='PP 2.0' ) )  
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
                 AND Patient_Delegate__r.Contact__c = :contactIds
