@@ -224,7 +224,8 @@ private class Test_BaseCRCPCommunity {
             TermsAndConditionsRemote.getTrialTcData(testData.ctp.Id);
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             TermsAndConditionsRemote.getTC('CookiePolicy', 'en_US', false); //TODO: check code
-            TermsAndConditionsRemote.getPPTC('CookiePolicy', 'en_US', false,ppTC.Id);
+            TermsAndConditionsRemote.getPPTC('CookiePolicy', 'en_US', false,ppTC.Id,false);
+            TermsAndConditionsRemote.getPPTC('PrivacyPolicy', 'en_US', false,ppTC.Id,false);
             TermsAndConditionsRemote.generatePDF(ppTC.Id);
             TermsAndConditionsRemote.getCommunityName();
             List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();

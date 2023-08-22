@@ -358,6 +358,8 @@
 }
 
 .piName-text {
-    width: 233px;
+    width: 85%;
     margin-left: 15px;
+    word-wrap: break-word;
+    text-align: left;
 }
