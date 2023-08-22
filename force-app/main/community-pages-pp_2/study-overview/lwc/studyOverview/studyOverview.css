@@ -167,6 +167,10 @@
     overflow: hidden;
 }
 
-.piIcon-li {
+/* .piIcon-NonRtl {
     margin-right: 12px;
+} */
+
+.piIcon-Rtl {
+    margin-left: 24px;
 }
