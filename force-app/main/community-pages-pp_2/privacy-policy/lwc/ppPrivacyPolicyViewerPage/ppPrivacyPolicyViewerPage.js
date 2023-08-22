@@ -26,6 +26,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
     currentPageReference = null;
     urlStateParameters = null;
     studyId = null;
+    commpref = false;
     ppRichText;
     @track listOfHeaders = [];
     empNames = [];
@@ -43,6 +44,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
 
     connectedCallback() {
         this.showBackButton = communityService.isMobileSDK();
+        console.log('>>>>connectedcallback>>>>');
         Promise.all([
             loadScript(this, RR_COMMUNITY_JS),
             loadStyle(this, PP_Theme),
@@ -81,13 +83,20 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
         this.spinner.show();
 
         let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
+        let iscompreff = communityService.getUrlParameter('iscommpref');
+        if(iscompreff)
+        {
+            this.commpref = true;
+        }
         let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;
-
+        console.log('>>> variable from iscompreff>>'+iscompreff);
+        console.log('>>>commpref>>'+this.commpref);
         getPrivacyPolicy({
             code: 'PrivacyPolicy',
             languageCode: communityService.getUrlParameter('language'),
             useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC,
-            ctId: this.ctpId
+            ctId: this.ctpId,
+            calledfromCommPref : this.commpref
         })
             .then((result) => {
                 let tcData = JSON.parse(result);
