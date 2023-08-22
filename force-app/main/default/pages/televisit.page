@@ -2581,7 +2581,7 @@
     >
         <!--OMSF-5206-->
         <header id="header" class="page-header {!headerbg}">
-            <apex:outputPanel rendered="{!(commTemplate=='Default')}">
+            <apex:outputPanel rendered="{!(commTemplate=='Default') || (commTemplate == 'Janssen' && commPPTemplate == 'PP 1.0')}">
                 <h1 class="slds-text-heading_small">
                     <b style="font-family: Helvetica;
                 ">{!appNamestr}</b>
@@ -2593,7 +2593,7 @@
             <apex:outputPanel rendered="{!(attendeeType=='RH')}">
             <h1 class="slds-text-heading_small">{!appNamestr}</h1>
             </apex:outputPanel>
-            <apex:outputPanel rendered="{!(commTemplate=='PatientPortal')}">
+            <apex:outputPanel rendered="{!(commTemplate=='PatientPortal') || (commTemplate == 'Janssen' && commPPTemplate == 'PP 2.0')}">
                 <!--<h1 class="slds-text-heading_small">{!appNamestr}</h1>-->
                 <img src="{!$Resource.PP_DesktopLogos + '/Patient_Portal_Logo.svg'}" class="communityTitle" />
             </apex:outputPanel>
