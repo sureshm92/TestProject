@@ -128,7 +128,8 @@ public without sharing class TaskTriggerHandler {
                 WhoId,
                 Start_Date__c,
                 Action_URL__c,
-                Owner_Contact__c
+                Owner_Contact__c,
+                Community_Template_Name__c
             FROM Task
             WHERE Id IN :tasks
         ];
