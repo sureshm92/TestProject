@@ -35,9 +35,9 @@ export default class ProgramOverviewDetails extends LightningElement {
     activeTab = 'overview';
     homeSvg = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-home-pplite-new';
     ctpAccordionData;
-    phone_Icon = contact_support_icons+'/phone_Icon.svg';
-    pi_Icon = contact_support_icons+'/PI_icon.svg';
-    address_Icon = contact_support_icons+'/pin_Icon.svg';
+    phone_Icon = contact_support_icons + '/phone_Icon.svg';
+    pi_Icon = contact_support_icons + '/PI_icon.svg';
+    address_Icon = contact_support_icons + '/pin_Icon.svg';
 
     piName;
     piTitle;
@@ -137,21 +137,27 @@ export default class ProgramOverviewDetails extends LightningElement {
                                 this.showSpinner = false;
                             }
                         }
-                        if(this.participantState.pe.Study_Site__r){
-                            this.piName = this.participantState.pe.Study_Site__r.Principal_Investigator__r.Name;
-                            console.log('piName--->'+this.piName);
-
-                            this.piTitle = this.piName + " " + this.label.PI_Post_Fix;
-                            this.studySitePhone = this.participantState.pe.Study_Site__r.Study_Site_Phone__c;
-                            console.log('studySitePhone--->'+this.studySitePhone);
+                        if (this.participantState.pe.Study_Site__r) {
+                            this.piName =
+                                this.participantState.pe.Study_Site__r.Principal_Investigator__r.Name;
+                            console.log('piName--->' + this.piName);
+                            this.piTitle = this.piName + ' ' + this.label.PI_Post_Fix;
+                            this.studySitePhone =
+                                this.participantState.pe.Study_Site__r.Study_Site_Phone__c;
+                            console.log('studySitePhone--->' + this.studySitePhone);
                             this.siteName = this.participantState.pe.Study_Site__r.Site__r.Name;
-                            console.log('siteName--->'+this.siteName);
-                            this.siteAddress = this.participantState.pe.Study_Site__r.Site__r.BillingStreet + 
-                                            ', ' + this.participantState.pe.Study_Site__r.Site__r.BillingCity +
-                                            ', ' + this.participantState.pe.Study_Site__r.Site__r.BillingState +
-                                            ', ' + this.participantState.pe.Study_Site__r.Site__r.BillingCountryCode +
-                                            ' ' + this.participantState.pe.Study_Site__r.Site__r.BillingPostalCode;
-                            console.log('siteAddress--->'+this.siteAddress);
+                            console.log('siteName--->' + this.siteName);
+                            this.siteAddress =
+                                this.participantState.pe.Study_Site__r.Site__r.BillingStreet +
+                                ', ' +
+                                this.participantState.pe.Study_Site__r.Site__r.BillingCity +
+                                ', ' +
+                                this.participantState.pe.Study_Site__r.Site__r.BillingState +
+                                ', ' +
+                                this.participantState.pe.Study_Site__r.Site__r.BillingCountryCode +
+                                ' ' +
+                                this.participantState.pe.Study_Site__r.Site__r.BillingPostalCode;
+                            console.log('siteAddress--->' + this.siteAddress);
                         }
                     }
                 }

@@ -29631,6 +29631,13 @@ Duration: ##VisitDuration</value>
         <value>Televisit Record Vendor Name</value>
     </labels>
     <labels>
+        <fullName>Televisit_No_Vendor_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit No Vendor Message</shortDescription>
+        <value>No new vendor is available to add on this Study/Program.</value>
+    </labels>
+    <labels>
         <fullName>Televisit_Reminder_Email_Body</fullName>
         <language>en_US</language>
         <protected>true</protected>
