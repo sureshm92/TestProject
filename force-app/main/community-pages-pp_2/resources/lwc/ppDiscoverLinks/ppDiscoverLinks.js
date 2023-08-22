@@ -16,7 +16,7 @@ export default class PpDiscoverLinks extends LightningElement {
         LINKS_EMPTY
     };
 
-    open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
+    open_new_tab = pp_community_icons + '/' + 'open_in_new_tab_svg_icon.svg';
     empty_state = pp_community_icons + '/' + 'discover_empty.png';
 
     get cardContainerHeight() {

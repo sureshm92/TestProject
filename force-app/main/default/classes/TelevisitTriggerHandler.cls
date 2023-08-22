@@ -157,7 +157,7 @@ public without sharing class TelevisitTriggerHandler {
                 }
                 if (
                     teleObj.Status__c == 'Scheduled' &&
-                    oldMap.get(teleObj.Id).Meeting_URL__c != null &&
+                    //oldMap.get(teleObj.Id).Meeting_URL__c != null &&
                     oldMap.get(teleObj.Id).Visit_Date_Time__c != teleObj.Visit_Date_Time__c
                 ) {
                     for (Televisit_Attendee__c teleAttendee : teleObj.Televisit_Attendee__r) {
@@ -223,11 +223,18 @@ public without sharing class TelevisitTriggerHandler {
     @Future(callout=true)
     public static Void SendRequestToVonageAPI(list<Id> listTelevisitId) {
         TokBoxSettings2__c tokbox = TokBoxSettings2__c.getOrgDefaults();
-        Televisit__c televisitRecord = [SELECT Id FROM Televisit__c WHERE Id = :listTelevisitId[0]];
+        List<Televisit__c> televisitRecord = new List<Televisit__c>([SELECT Id,Participant_Enrollment__r.Clinical_Trial_Profile__c,Participant_Enrollment__r.Study_Site__c FROM Televisit__c WHERE Id = :listTelevisitId[0]]);
+        String ctpId = televisitRecord[0].Participant_Enrollment__r.Clinical_Trial_Profile__c;
+        String studtStiteId = televisitRecord[0].Participant_Enrollment__r.Study_Site__c;
+        //List<Televisit_Record_Vendor__c> lstTRV = new List<Televisit_Record_Vendor__c>([SELECT Id,Name,Description__c,API_Key__c, API_Secret__c, Televisit_Vendor__c,Clinical_Trial_Profile__c FROM Televisit_Record_Vendor__c WHERE Clinical_Trial_Profile__c =:ctpId ]);
+        List<TelevisitVendorSettings__c> lstTVS = new List<TelevisitVendorSettings__c>([SELECT Id,Televisit_Record_Vendor__c,Televisit_Record_Vendor__r.Clinical_Trial_Profile__c,Televisit_Record_Vendor__r.Name,Televisit_Record_Vendor__r.API_Key__c, Televisit_Record_Vendor__r.API_Secret__c, Study_Site__c from TelevisitVendorSettings__c WHERE Study_Site__c =:studtStiteId AND Televisit_Record_Vendor__r.Clinical_Trial_Profile__c =:ctpId AND isEnable__c = true]);
+        
+        
         HttpRequest req = new HttpRequest();
         req.setEndpoint('https://api.opentok.com/session/create');
         req.setMethod('POST');
         req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+        /*
         req.setHeader(
             'X-OPENTOK-AUTH',
             new OpenTokJWT(
@@ -237,26 +244,50 @@ public without sharing class TelevisitTriggerHandler {
                 )
                 .getAuthJWTHeader()
         );
+        */
+        req.setHeader(
+            'X-OPENTOK-AUTH',
+            new OpenTokJWT(
+                    '',
+                    lstTVS[0].Televisit_Record_Vendor__r.API_Key__c,
+                    lstTVS[0].Televisit_Record_Vendor__r.API_Secret__c
+                )
+                .getAuthJWTHeader()
+        );
         req.setHeader('Accept', 'application/json');
         //req.setBody(null);
         Http http = new Http();
         HTTPResponse res = http.send(req);
         System.debug(res.getBody());
+        Boolean UnauthorizedToken = res.getBody().contains('Unauthorized token');
 
-        TelevisitWrapper wrap = new TelevisitWrapper();
-        wrap = (TelevisitWrapper) System.JSON.deserialize(
-            res.getBody().substring(1, res.getBody().length() - 1),
-            TelevisitWrapper.class
-        );
-        system.debug('Wrap Session Id :' + wrap.session_id);
-
-        Televisit__c updateTelevisitRecord = new Televisit__c();
-        updateTelevisitRecord.Id = televisitRecord.Id;
-        updateTelevisitRecord.Televisit_Request__c = String.valueOf(req);
-        updateTelevisitRecord.Televisit_Response__c = res.getBody();
-        updateTelevisitRecord.Session_Id__c = wrap.session_id;
-        updateTelevisitRecord.Meeting_URL__c = '/apex/televisit?sessionId=' + wrap.session_id;
-        update updateTelevisitRecord;
+        if(!UnauthorizedToken){
+            TelevisitWrapper wrap = new TelevisitWrapper();
+            wrap = (TelevisitWrapper) System.JSON.deserialize(
+                res.getBody().substring(1, res.getBody().length() - 1),
+                TelevisitWrapper.class
+            );
+            system.debug('Wrap Session Id :' + wrap.session_id);
+    
+            Televisit__c updateTelevisitRecord = new Televisit__c();
+            updateTelevisitRecord.Id = televisitRecord[0].Id;
+            updateTelevisitRecord.Televisit_Record_Vendor__c = lstTVS[0].Televisit_Record_Vendor__c;
+            updateTelevisitRecord.Televisit_Request__c = String.valueOf(req);
+            updateTelevisitRecord.Televisit_Response__c = res.getBody();
+            updateTelevisitRecord.Session_Id__c = wrap.session_id;
+            updateTelevisitRecord.Meeting_URL__c = '/apex/televisit?sessionId=' + wrap.session_id;
+            update updateTelevisitRecord;
+        }else{
+            Televisit__c updateTelevisitRecord = new Televisit__c();
+            updateTelevisitRecord.Id = televisitRecord[0].Id;
+            updateTelevisitRecord.Televisit_Record_Vendor__c = lstTVS[0].Televisit_Record_Vendor__c;
+            updateTelevisitRecord.Televisit_Request__c = String.valueOf(req);
+            updateTelevisitRecord.Televisit_Response__c = res.getBody();
+            //updateTelevisitRecord.Session_Id__c = wrap.session_id;
+            //updateTelevisitRecord.Meeting_URL__c = '/apex/televisit?sessionId=' + wrap.session_id;
+            update updateTelevisitRecord;
+        }
+        
     }
 
     public static void checkForTelevisitEventCreation(List<SObject> newList){

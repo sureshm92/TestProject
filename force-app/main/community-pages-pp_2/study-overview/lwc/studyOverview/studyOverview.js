@@ -96,8 +96,7 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
         if (this.studysite) {
             this.piName = this.studysite.Principal_Investigator__r.Name;
             this.studySitePhone = this.studysite.Study_Site_Phone__c;
-
-            this.piTitle = this.piName + " "  + this.label.PI_Post_Fix;
+            this.piTitle = this.piName + ' ' + this.label.PI_Post_Fix;
         }
 
         getisRTL()

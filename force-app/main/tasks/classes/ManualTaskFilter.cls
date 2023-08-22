@@ -4,7 +4,7 @@
 
 public without sharing class ManualTaskFilter {
     private static final String PE_QUERY =
-        'SELECT Id,Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c, Participant__c, ' +
+        'SELECT Id,Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.PPTemplate__c , Participant__c, ' +
         'Participant__r.Contact__c, Participant__r.Mailing_Country_Code__c ' +
         'FROM Participant_Enrollment__c WHERE Participant__r.Contact__c != NULL AND ';
 
