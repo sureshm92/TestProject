@@ -1540,7 +1540,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         for (Participant_Enrollment__c per : enrollments) {
             Task t = new Task(
-                Subject = TaskService.TASK_CODE_ECOA_TASK,
+                Subject = System.Label.Activate_Ecoa_Ediaries,
                 Task_Code__c = TaskService.TASK_CODE_ECOA_TASK,
                 Status = TaskService.TASK_STATUS_OPEN,
                 Priority = TaskService.TASK_PRIORITY_CRITICAL,
@@ -1587,7 +1587,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 WHERE
                     Visit__r.Visit_Plan__r.Id NOT IN :peVpIds
                     AND Participant_Enrollment__c IN :perIds
-                    AND Status__c = :'Pending'
+                    AND (Status__c = :'Pending' OR Status__c = :'Scheduled')
                     AND Is_Pre_Enrollment_Patient_Visit__c = FALSE
                     AND Is_Adhoc__c = FALSE
             ];
@@ -1603,6 +1603,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
           Map<Id, Participant_Enrollment__c> oldMap)
           {
             Set<Id> participantIds = new Set<Id>();
+            Set<Id> contactIds = new Set<Id>();
              Set<Id> perIDs = new Set<Id>();
              Set<id> allPer= new set<id>();
              Map<String, String> partCommunityTempMap= new Map<String, String>();
@@ -1615,6 +1616,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             for (Participant_Enrollment__c pe : newList) {
                         participantIds.add(pe.Participant__c);
                         perIDs.add(pe.Id);
+                        contactIds.add(pe.Participant_Contact__c);
                     }
                     List<Participant_Enrollment__c> perListExisting = [
                         SELECT
@@ -1623,6 +1625,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             Clinical_Trial_Profile__r.CommunityTemplate__c,
                             Clinical_Trial_Profile__r.PPTemplate__c,
                             Is_Virtual_Study_Site__c,
+                            Participant_Contact__c,
                             Study_Site__r.Suppress_Participant_Emails__c,
                             Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                             Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
@@ -1633,10 +1636,38 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         AND ( Clinical_Trial_Profile__r.CommunityTemplate__c='PatientPortal' OR (Clinical_Trial_Profile__r.CommunityTemplate__c='Janssen' AND 
                             Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
                     ];   
+                    List<Patient_Delegate_Enrollment__c> delegateEnrollmentExisting = [
+                            SELECT 
+                                Id,
+                                Patient_Delegate__r.Participant__r.Full_Name__c,
+                                Patient_Delegate__r.Id,
+                                Patient_Delegate__r.Contact__c,
+                                Patient_Delegate__r.Contact__r.Is_First_Logon__c, 
+                                Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                                Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                                Patient_Delegate__r.Contact__r.Visited_Communities__c,
+                                Status__c,
+                                Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                                Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                                Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                                Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
+                                Participant_Enrollment__r.Participant_Status__c,
+                                Participant_Enrollment__r.Participant_Contact__c,
+                                isInviteToPP__c
+                                FROM Patient_Delegate_Enrollment__c
+                                WHERE Patient_Delegate__r.Contact__c IN :contactIds AND Status__c = 'Active'
+                                AND ( Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c='PatientPortal' OR (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c='Janssen' AND 
+                                Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+                            ];
                     for (Participant_Enrollment__c pe : perListExisting) {
                         String temp= '';
-                        temp=pe.Participant__c+ '-' +pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                        temp=pe.Participant_Contact__c+ '-' +pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
                         partCommunityTempMap.put(temp, pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
+                     }
+                    for (Patient_Delegate_Enrollment__c per : delegateEnrollmentExisting) {
+                        String temp= '';
+                        temp=per.Patient_Delegate__r.Contact__c+ '-' +per.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                        partCommunityTempMap.put(temp, per.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
                      } 
 
              List<Participant_Enrollment__c> perList = [
@@ -1675,11 +1706,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     
                         if(((  peNew.Clinical_Trial_Profile__r.CommunityTemplate__c=='Janssen' 
                         && peNew.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0' 
-                        && partCommunityTempMap.containskey(peNew.Participant__c+ '-' +'PatientPortal') 
-                        && !partCommunityTempMap.containskey(peNew.Participant__c+ '-' +'Janssen'))
+                        && partCommunityTempMap.containskey(peNew.Participant_Contact__c+ '-' +'PatientPortal') 
+                        && !partCommunityTempMap.containskey(peNew.Participant_Contact__c+ '-' +'Janssen'))
                        ||(peNew.Clinical_Trial_Profile__r.CommunityTemplate__c=='PatientPortal'
-                         && partCommunityTempMap.containskey(peNew.Participant__c+ '-' +'Janssen')
-                         &&  !partCommunityTempMap.containskey(peNew.Participant__c+ '-' +'PatientPortal')))
+                         && partCommunityTempMap.containskey(peNew.Participant_Contact__c+ '-' +'Janssen')
+                         &&  !partCommunityTempMap.containskey(peNew.Participant_Contact__c+ '-' +'PatientPortal')))
                         && !checkVisitedCommunity){
                           assigneeIds.add(peNew.Participant_Contact__c);
                      }

@@ -127,15 +127,17 @@ export default class PpFooterContactSupport extends LightningElement {
                 this.setHeight();
                 // this.adjustHeight = '';
                 this.customHeightMatch =
-                this.phoneContainerEle[0].offsetHeight + this.addressContainerEle[0].offsetHeight + 8;
-              //if(this.customHeightMatch < 235){
-                    this.customHeightMatch = '235';
-                    this.adjustHeight =
+                    this.phoneContainerEle[0].offsetHeight +
+                    this.addressContainerEle[0].offsetHeight +
+                    8;
+                //if(this.customHeightMatch < 235){
+                this.customHeightMatch = '235';
+                this.adjustHeight =
                     'height:' +
                     (this.careTeamContainerEle[0].offsetHeight -
                         (this.phoneContainerEle[0].offsetHeight + 8)) +
-                    'px';  
-              //  }
+                    'px';
+                //  }
             }
         }
         this.phoneNumberValueEle = this.template.querySelectorAll('.phone-value-ele');
@@ -147,9 +149,9 @@ export default class PpFooterContactSupport extends LightningElement {
     setHeight() {
         this.customHeightMatch =
             this.phoneContainerEle[0].offsetHeight + this.addressContainerEle[0].offsetHeight + 8;
-       // if(this.customHeightMatch < 235){
-            this.customHeightMatch = '235';
-       //  }
+        // if(this.customHeightMatch < 235){
+        this.customHeightMatch = '235';
+        //  }
         this.customHeightStyle = 'height:' + this.customHeightMatch + 'px';
         this.customHeightMatchForSiteStaff = 'height:' + (this.customHeightMatch - 102) + 'px';
     }
