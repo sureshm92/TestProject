@@ -1540,7 +1540,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         for (Participant_Enrollment__c per : enrollments) {
             Task t = new Task(
-                Subject = TaskService.TASK_CODE_ECOA_TASK,
+                Subject = System.Label.Activate_Ecoa_Ediaries,
                 Task_Code__c = TaskService.TASK_CODE_ECOA_TASK,
                 Status = TaskService.TASK_STATUS_OPEN,
                 Priority = TaskService.TASK_PRIORITY_CRITICAL,
