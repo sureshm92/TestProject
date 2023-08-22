@@ -29586,7 +29586,7 @@ Duration: ##VisitDuration</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Televisit No Vendor Message</shortDescription>
-        <value>No new vendor is available to add on this study.</value>
+        <value>No new vendor is available to add on this Study/Program.</value>
     </labels>
     <labels>
         <fullName>Televisit_Reminder_Email_Body</fullName>
