@@ -157,7 +157,7 @@ public without sharing class TelevisitTriggerHandler {
                 }
                 if (
                     teleObj.Status__c == 'Scheduled' &&
-                    oldMap.get(teleObj.Id).Meeting_URL__c != null &&
+                    //oldMap.get(teleObj.Id).Meeting_URL__c != null &&
                     oldMap.get(teleObj.Id).Visit_Date_Time__c != teleObj.Visit_Date_Time__c
                 ) {
                     for (Televisit_Attendee__c teleAttendee : teleObj.Televisit_Attendee__r) {
