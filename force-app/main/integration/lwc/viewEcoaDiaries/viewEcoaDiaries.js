@@ -53,4 +53,7 @@ export default class ViewEcoaDiaries extends LightningElement {
                 );
             });
     }
+    goToPreviousPage(){
+        window.history.back();
+    }
 }
