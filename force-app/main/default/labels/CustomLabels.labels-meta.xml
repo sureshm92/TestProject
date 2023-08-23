@@ -5735,6 +5735,13 @@ Your username is ##UserName.</value>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;</value>
     </labels>
     <labels>
+        <fullName>Del_Email_Body_Activate_Task_For_ECOA_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Del Email Body Activate Task For ECOA PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName&lt;/span&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Instant_Task_Reminder_Type_Not_Selected_PPOnlyDate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -29622,6 +29629,13 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>Televisit Record Vendor Name</shortDescription>
         <value>Televisit Record Vendor Name</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_No_Vendor_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit No Vendor Message</shortDescription>
+        <value>No new vendor is available to add on this Study/Program.</value>
     </labels>
     <labels>
         <fullName>Televisit_Reminder_Email_Body</fullName>

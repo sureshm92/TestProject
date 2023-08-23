@@ -131,6 +131,7 @@ private class Test_NotificationAvailabilityService {
         List<String> whatIds = new List<String>{ task.Id };
             Contact contact = [SELECT Id FROM Contact WHERE Id = :recipientIds[0]];
         contact.Participant_Opt_In_Status_Emails__c = true;
+        contact.Is_Patient_User_Created__c=true;
         update contact;
         
         NotificationAvailabilityService service = new NotificationAvailabilityService(
@@ -181,6 +182,9 @@ private class Test_NotificationAvailabilityService {
         insert newCase;
         List<String> whatIds = new List<String>{ newCase.Id };
             Contact contact = [SELECT Id FROM Contact WHERE Id = :recipientIds[0]];
+            contact.Participant_Opt_In_Status_Emails__c = true;
+            contact.Is_Patient_User_Created__c=true;
+            update contact;
         
         Test.startTest();
         NotificationAvailabilityService service = new NotificationAvailabilityService(
