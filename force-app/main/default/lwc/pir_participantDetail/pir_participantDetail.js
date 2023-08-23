@@ -309,6 +309,7 @@ export default class Pir_participantDetail extends LightningElement {
                             for (let i = 0; i < this.visitplanoptions.length; i++) {
                                 if (this.pd['pe']['Visit_Plan__c'] == this.visitplanoptions[i].value) {
                                     this.selectedPlan = this.visitplanoptions[i].value;
+                                    this.vPlan = this.visitplanoptions[i].value;
                                 }
                             }
                         } else {
@@ -371,7 +372,6 @@ export default class Pir_participantDetail extends LightningElement {
         console.log('get value vp', event.target.dataset.value + '' + event.target.value);
         this.vPlan = event.target.value;
         this.pd['pe']['Visit_Plan__c'] = this.vPlan;
-        console.log('value update' + this.vPlan);
 
     }
     get checkDelegateLevels() {
