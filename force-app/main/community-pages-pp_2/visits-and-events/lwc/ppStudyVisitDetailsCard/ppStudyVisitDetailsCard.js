@@ -344,7 +344,6 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
             return null;
         } else if (this.visitdata.visit.Completed_Date__c) {
             var dbvisitDate = new Date(this.visitdata.visit.Completed_Date__c);
-            console.log('dbvisitDate : '+dbvisitDate);
             return this.visitdata.visit.Completed_Date__c;
         } else {
             return null;
