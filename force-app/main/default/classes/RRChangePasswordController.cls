@@ -96,6 +96,7 @@ public without sharing class RRChangePasswordController {
     public CPRA_DoNotSell__mdt CPRAMd { get; set; }
     public String CPRALink { get; set; }
 
+    public String ctpName {get;set;} 
     public Boolean mainPortal {
         get {
             return !Site.getPathPrefix().startsWith('/gsk');
@@ -580,19 +581,38 @@ public without sharing class RRChangePasswordController {
         String baseUrl = Site.getBaseUrl()
             .replace('/pp.clinicalresearch', '/policies.clinicalresearch')
             .replace('.com/pp', '.com/terms');
-        if (
-            (ctpId != null) && (per.Clinical_Trial_Profile__r?.Terms_And_Conditions_ID__c != null)
-        ) {
-            tcLink = baseUrl + '/s/terms-and-conditions?id=' + ctpId;
-        } else {
-            tcLink = baseUrl + '/s/terms-and-conditions/';
-        }
         platformPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
-
-        if (ctpId != null && (per.Clinical_Trial_Profile__r?.Privacy_Policy_Id__c != null)) {
-            studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy?id=' + ctpId;
-        } else {
-            studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
+        if(per != null) {
+            if (
+                (ctpId != null) && (per.Clinical_Trial_Profile__r?.Terms_And_Conditions_ID__c != null)) 
+         {
+                tcLink = baseUrl + '/s/terms-and-conditions?id=' + ctpId;
+            } else {
+                tcLink = baseUrl + '/s/terms-and-conditions/';
+            }
+            if (ctpId != null && (per.Clinical_Trial_Profile__r?.Privacy_Policy_Id__c != null)) {
+                studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy?id=' + ctpId;
+            } else {
+                studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
+            }
+        }
+        else{
+            if(ctpId == null && pde != null)
+            {
+                ctpId = pde.Participant_Enrollment__r.Clinical_Trial_Profile__c;
+            } 
+            if ((ctpId != null) && (pde != null) && (pde.Participant_Enrollment__r.Clinical_Trial_Profile__r?.Terms_And_Conditions_ID__c != null)) 
+            {
+                tcLink = baseUrl + '/s/terms-and-conditions?id=' + ctpId;
+            }
+            else {
+                tcLink = baseUrl + '/s/terms-and-conditions/';
+            } 
+            if ((ctpId != null) && (pde != null) && (pde.Participant_Enrollment__r.Clinical_Trial_Profile__r?.Privacy_Policy_Id__c != null)) {
+                studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy?id=' + ctpId;
+            } else {
+                studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
+            }
         }
     }
 
