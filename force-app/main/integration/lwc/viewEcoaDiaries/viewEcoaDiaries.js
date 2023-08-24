@@ -6,8 +6,10 @@ import getSubjectGuid from '@salesforce/apex/ECOADiariesController.getSubjectGui
 import ediaries from '@salesforce/label/c.Navigation_eDiary';
 import homeLablel from '@salesforce/label/c.Navigation_Home';
 import patientNotRegistered from '@salesforce/label/c.Patient_not_in_ecoa';
+import { NavigationMixin } from 'lightning/navigation';
 
-export default class ViewEcoaDiaries extends LightningElement {
+export default class ViewEcoaDiaries extends NavigationMixin(LightningElement) {
+
     @track ecoaUrl;
     @track subjectAvailable = true;
     labels = {
@@ -54,6 +56,11 @@ export default class ViewEcoaDiaries extends LightningElement {
             });
     }
     goToPreviousPage(){
-        window.history.back();
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'home'
+            }
+        });
     }
 }
