@@ -343,28 +343,9 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         if (this.visitdata.visitStatus == 'Missed') {
             return null;
         } else if (this.visitdata.visit.Completed_Date__c) {
-            var completedDate, completedTime;
             var dbvisitDate = new Date(this.visitdata.visit.Completed_Date__c);
-            var localtimezonedate = dbvisitDate.toLocaleString('en-US', { timeZone: TIME_ZONE });
-            var processlocaltimezonedate = new Date(localtimezonedate);
-            var hh = String(
-                (processlocaltimezonedate.getHours() < 10 ? '0' : '') +
-                    processlocaltimezonedate.getHours()
-            );
-            var mm = String(
-                (processlocaltimezonedate.getMinutes() < 10 ? '0' : '') +
-                    processlocaltimezonedate.getMinutes()
-            );
-            var ss = String(
-                (processlocaltimezonedate.getSeconds() < 10 ? '0' : '') +
-                    processlocaltimezonedate.getSeconds()
-            );
-            completedTime = hh + ':' + mm + ':' + ss;
-            var dd = String(processlocaltimezonedate.getDate()).padStart(2, '0');
-            var mm = String(processlocaltimezonedate.getMonth() + 1).padStart(2, '0');
-            var yyyy = processlocaltimezonedate.getFullYear();
-            completedDate = yyyy + '-' + mm + '-' + dd;
-            return completedDate;
+            console.log('dbvisitDate : '+dbvisitDate);
+            return this.visitdata.visit.Completed_Date__c;
         } else {
             return null;
         }
