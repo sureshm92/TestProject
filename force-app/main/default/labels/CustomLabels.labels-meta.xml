@@ -674,7 +674,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Activate_Ecoa_Ediaries</shortDescription>
-        <value>Activate Your eDiaries</value>
+        <value>Activate eDiaries</value>
     </labels>
     <labels>
         <fullName>Active_Requests</fullName>
