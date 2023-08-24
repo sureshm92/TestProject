@@ -12,6 +12,16 @@
     box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
 }
 
+.desk-cookies-banner-post-login {
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    border-radius: 16px 16px 0 0;
+    box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.8);
+}
+
 .rh-cookies-banner {
     border-radius: 4px;
 }
@@ -428,4 +438,20 @@
 .footer_logo_login_cookie_pos {
     margin-left: -14px;
     margin-top: -8px;
+}
+
+.desk-cookies-banner-post-login .banner-heading {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 32px;
+    color: #FFFFFF;
+    font-family: "Proxima Nova";
+}
+.desk-cookies-banner-post-login .banner-txt {
+    color: #FFFFFF;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
 }
