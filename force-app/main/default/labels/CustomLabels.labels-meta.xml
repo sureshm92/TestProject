@@ -674,7 +674,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Activate_Ecoa_Ediaries</shortDescription>
-        <value>Activate Your eDiaries</value>
+        <value>Activate eDiaries</value>
     </labels>
     <labels>
         <fullName>Active_Requests</fullName>
@@ -29629,6 +29629,13 @@ Duration: ##VisitDuration</value>
         <protected>true</protected>
         <shortDescription>Televisit Record Vendor Name</shortDescription>
         <value>Televisit Record Vendor Name</value>
+    </labels>
+    <labels>
+        <fullName>Televisit_No_Vendor_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit No Vendor Message</shortDescription>
+        <value>No new vendor is available to add on this Study/Program.</value>
     </labels>
     <labels>
         <fullName>Televisit_Reminder_Email_Body</fullName>
