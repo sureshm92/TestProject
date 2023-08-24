@@ -185,6 +185,9 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                             if (result[i].visit.Completed_Date__c === '') {
                                 pastWithoutDate.push(result[i]);
                             } else {
+                                if(result[i].visitDate.includes('T')){
+                                    result[i].visitDate = result[i].visitDate.substr(0, result[i].visitDate.indexOf('T'));
+                                }
                                 pastWithDate.push(result[i]);
                             }
                         }
