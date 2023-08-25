@@ -158,7 +158,14 @@ public without sharing class ParametersProviderService {
                 } else {
                     if (value instanceof Datetime) {
                         DateTime tempDateTime = (DateTime) value;
-                        valueStr = UserService.formatDatebyLocale(tempDateTime.date(), language);
+                        String temp;
+                        temp = UserService.formatDateTimebyZone(
+                                (DateTime) value,
+                                userObj.LocaleSidKey,
+                                userObj.TimeZoneSidKey
+                            );
+                        String[] tempvalue     = temp.split(',');
+                        valueStr =tempvalue[0];
                     } else if (value instanceof Date) {
                         valueStr = UserService.formatDatebyLocale((Date) value, language);
                     }
