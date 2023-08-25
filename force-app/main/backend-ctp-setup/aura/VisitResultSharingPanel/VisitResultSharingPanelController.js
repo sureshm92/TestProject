@@ -155,7 +155,8 @@
         }
 
         if (
-            component.get('v.communityTemplate') != 'PatientPortal' &&
+            ((component.get('v.communityTemplate') != 'PatientPortal') &&  (component.get('v.communityTemplate') != 'Janssen' ||  component.get('v.ppTemplate') != 'PP 2.0'))
+            &&
             ((!displayOnMyResultCardFlag && options.countrySelectionType !== 'Disabled') ||
                 showCustomTooltipErrorMessage)
         ) {

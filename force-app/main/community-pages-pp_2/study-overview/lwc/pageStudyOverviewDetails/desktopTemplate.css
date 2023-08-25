@@ -148,6 +148,7 @@ span:hover {
     word-break: break-word;
     font-size: 16px;
     font-weight: 500;
+    margin-top: 10px;
 }
 .slds-accordion__summary-heading > button > lightning-primitive-icon {
     order: 2 !important;
