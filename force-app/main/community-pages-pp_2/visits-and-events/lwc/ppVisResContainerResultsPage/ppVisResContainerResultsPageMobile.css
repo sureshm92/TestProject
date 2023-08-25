@@ -126,6 +126,9 @@
 .visit-result-buttons .secondaryBtn {
     color: #595959 !important;
 }
+.bcgCol{
+    background: white;
+}
 
 @media (orientation: portrait) {
     .vertical-padding {
