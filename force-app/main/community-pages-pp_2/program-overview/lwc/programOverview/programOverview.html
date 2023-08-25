@@ -24,13 +24,17 @@
                                 </template>
                             </lightning-layout-item>
                             <lightning-layout-item size="3" class="slds-align_absolute-center li3">
-                                <lightning-layout class="piPhone">
-                                    <lightning-layout-item><img src={phone_Icon} class="phoneIcon"/></lightning-layout-item>
-                                    <lightning-layout-item>{studySitePhone}</lightning-layout-item>
+                                <lightning-layout class="piPhone" multiple-rows="true">
+                                    <lightning-layout-item size="1"><img src={phone_Icon} class="phoneIcon"/></lightning-layout-item>
+                                    <lightning-layout-item size="11">{studySitePhone}</lightning-layout-item>
                                 </lightning-layout>
-                                <lightning-layout class="piName">
-                                    <lightning-layout-item class="piIcon-li"><img src={pi_Icon} class="piIcon"/></lightning-layout-item>
-                                    <lightning-layout-item class="piNameText">{piName}&nbsp;{label.PI_Post_Fix}</lightning-layout-item>
+                                <lightning-layout class="piName" multiple-rows="true">
+                                    <lightning-layout-item class="" size="1"><img src={pi_Icon} class="piIcon"/></lightning-layout-item>
+                                    <lightning-layout-item size="11">
+                                        <p title={piTitle} class="piNameText">
+                                        {piName}&nbsp;{label.PI_Post_Fix}
+                                        </p>
+                                    </lightning-layout-item>
                                 </lightning-layout>
                                 <div class="po-more">
                                     <a><span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREMBLELabel}</span></a>
@@ -95,13 +99,17 @@
                             </lightning-layout-item>   
 
                             <lightning-layout-item size="6" class="slds-align_absolute-center li3">
-                                <lightning-layout class="piPhone">
-                                    <lightning-layout-item><img src={phone_Icon} class="phoneIcon"/></lightning-layout-item>
-                                    <lightning-layout-item>{studySitePhone}</lightning-layout-item>
+                                <lightning-layout class="piPhone" vertical-align="center">
+                                    <lightning-layout-item size="1"><img src={phone_Icon} class="phoneIcon"/></lightning-layout-item>
+                                    <lightning-layout-item size="11" class="pad-5">{studySitePhone}</lightning-layout-item>
                                 </lightning-layout>
-                                <lightning-layout class="piName">
-                                    <lightning-layout-item><img src={pi_Icon} class="piIcon"/></lightning-layout-item>
-                                    <lightning-layout-item>{piName}&nbsp;{label.PI_Post_Fix}</lightning-layout-item>
+                                <lightning-layout class="piName" vertical-align="center">
+                                    <lightning-layout-item size="1"><img src={pi_Icon} class="piIcon"/></lightning-layout-item>
+                                    <lightning-layout-item size="11" class="pad-5">
+                                        <p title={piTitle} class="piNameText">
+                                            {piName}&nbsp;{label.PI_Post_Fix}
+                                        </p>
+                                    </lightning-layout-item>
                                 </lightning-layout>
                                 <div class="po-more">
                                     <a><span class="po-more-text" onclick={handleclick}>{label.PPLEARNMOREMBLELabel}</span></a>
