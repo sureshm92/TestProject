@@ -1096,6 +1096,21 @@ public without sharing class NotificationAvailabilityService {
                 communityTemplate = CommunityTemplateService.getTemplate(
                     task.Community_Template_Name__c
                 );
+                if (
+                    task.WhatId != null &&
+                    task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()
+                ) {
+                    Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
+                        Id.valueOf(task.WhatId)
+                    );
+                    if (
+                        pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                        CommunityTemplateService.TEMPLATE_JANSSEN &&
+                        pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'
+                    ) {
+                        communityTemplate = CommunityTemplateService.getTemplate(CommunityTemplateService.TEMPLATE_PP);
+                    }
+                }
             } else if (
                 task.WhatId != null &&
                 task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()
