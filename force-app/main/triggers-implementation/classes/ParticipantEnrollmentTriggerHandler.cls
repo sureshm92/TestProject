@@ -1540,7 +1540,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         for (Participant_Enrollment__c per : enrollments) {
             String communityTemplate = ((Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(
-                pe.Clinical_Trial_Profile__c
+                per.Clinical_Trial_Profile__c
             ))
             .CommunityTemplate__c;
 
