@@ -183,6 +183,7 @@ private class Test_BasePPCommunity {
         testDataInstance.updatePEStatusEnrollmentSuccess();
         Test.startTest();
         System.runAs(testDataInstance.participantUser) {
+            Test.startTest();
             trialDetail = (TrialDetail) JSON.deserialize(
                 StudyDetailViewController.getTrialDetail(
                     testDataInstance.ctp.Id,
