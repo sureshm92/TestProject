@@ -178,10 +178,11 @@ private class Test_BasePPCommunity {
     @IsTest
     static void test_StudyDetailViewParticipant() {
         TrialDetail trialDetail;
-        Test.startTest();
+        //Test.startTest();
         TestData testDataInstance = new TestData();
         testDataInstance.updatePEStatusEnrollmentSuccess();
         System.runAs(testDataInstance.participantUser) {
+            Test.startTest();
             trialDetail = (TrialDetail) JSON.deserialize(
                 StudyDetailViewController.getTrialDetail(
                     testDataInstance.ctp.Id,

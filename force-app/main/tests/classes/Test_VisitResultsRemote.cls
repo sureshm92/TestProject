@@ -59,11 +59,12 @@ public with sharing class Test_VisitResultsRemote {
                 .build()
         );
 
-        Test.startTest();
+        //Test.startTest();
         TestData testData = new TestData();
         testData.updatePEStatusEnrollmentSuccess();
 
         System.runAs(testData.participantUser) {
+            Test.startTest();
             Map<String, Map<String, List<String>>> visitResultSharings = new Map<String, Map<String, List<String>>>();
             visitResultSharings.put('Vitals', new Map<String, List<String>>());
             VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData(
