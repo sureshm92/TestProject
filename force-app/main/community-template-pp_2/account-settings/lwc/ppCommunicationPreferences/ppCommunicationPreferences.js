@@ -134,6 +134,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     updatedPerRecord = {};
     commPrefForPrivacyPolicy = true;
     emailSMSConsent = false;
+    retUrl = '';
 
     studyError = false;
     isMobilePhoneNumberAvailable = true;
@@ -162,7 +163,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     connectedCallback() {
         // Get Initial Load Data
         this.spinner = true;
-
+        this.retUrl = communityService.createRetString();
         getInitData({ userMode: this.userMode })
             .then((result) => {
                 this.spinner = false;
@@ -265,8 +266,23 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     }
 
     openPrivacyPolicy() {
-        this.isPrivacyPolicy = true;
-        this.commPrefForPrivacyPolicy = true;
+
+              var  link = 'privacy-policy?ret=' + this.retUrl  + '&iscommpref=true';
+            
+            const config = {
+                type: 'standard__webPage',
+    
+                attributes: {
+                    url: link
+                }
+            };
+            console.log('>>before naviagton>>');
+            this[NavigationMixin.GenerateUrl](config).then((url) => {
+                // localStorage.setItem('Cookies', 'Accepted');
+                window.open(url, '_blank');
+            });
+        // this.isPrivacyPolicy = true;
+        // this.commPrefForPrivacyPolicy = true;
     }
 
     closePrivacyPolicy() {

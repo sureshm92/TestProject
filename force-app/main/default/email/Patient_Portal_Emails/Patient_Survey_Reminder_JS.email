@@ -1,0 +1,34 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Survey_Reminder_PP}"
+                         recipientType="Contact"
+                         relatedToType="SurveyInvitation"
+                         language="{!recipient.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:PP_EmailWireframe recipientId="{!recipient.Id}"
+                          sourceId="{!relatedTo.Id}"
+                          isPreBodyButton="true"
+                          preBodyButtonName="{!$Label.Email_Action_Login_now}"
+                          surveyId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
+                          greeting="{!$Label.Email_User_Greeting_FirstName}"
+                          signature="{!$Label.Email_Signature_Survey_New}"
+                          communityTemplate="PatientPortal"
+                          isJanssenValue="true">
+            <c:PP_Paragraph emailLabel="{!IF(!relatedTo.IsTrialSurvey__c, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate, IF(relatedTo.Is_End_Date_Visible__c, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate, $Label.Email_Body_Survey_New_Reminder_PP_ParticipantExp_Date))}"/>
+        </c:PP_EmailWireframe>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:PP_EmailWireframeText recipientId="{!recipient.Id}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
+                              greeting="{!$Label.Email_User_Greeting_FirstName}"
+                              signature="{!$Label.Email_Signature_Survey}"
+                              isJanssenValue="true">
+            <c:ParagraphText emailLabel="{!IF(!relatedTo.IsTrialSurvey__c, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate, IF(relatedTo.Is_End_Date_Visible__c, $Label.Email_Body_Survey_New_Reminder_PP_OnlyDate, $Label.Email_Body_Survey_New_Reminder_PP_ParticipantExp_Date))}"/>    
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
+                                  surveyId="{!relatedTo.Id}" isPPJanssen="yes" />
+        </c:PP_EmailWireframeText>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

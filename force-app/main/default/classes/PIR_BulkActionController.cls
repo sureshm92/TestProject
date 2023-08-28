@@ -9,7 +9,8 @@ public without sharing class PIR_BulkActionController {
                                                   Participant_Contact__r.Is_Patient_User_Created__c,
                                                   PI_Contact__c,Invited_To_PP_Date__c, 
                                                   HCP_Contact__c,HCP_Contact_HCPEnroll__c,
-                                                  Clinical_Trial_Profile__r.CommunityTemplate__c 
+                                                  Clinical_Trial_Profile__r.CommunityTemplate__c, 
+                                                  Clinical_Trial_Profile__r.PPTemplate__c 
                                                   FROM Participant_Enrollment__c 
                                                   WHERE ID IN:peId];
            
@@ -25,7 +26,12 @@ public without sharing class PIR_BulkActionController {
                    lstContact.add(con);           
                }
                if(communityTemplatename!=null){
+                if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'){
+                    communityTemplatename = 'PatientPortal';
+                }
+                else {
                    communityTemplatename = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                }
                }
                if(pe.Participant_Contact__r.Is_Patient_User_Created__c == false){
                    if (pe.HCP_Contact__c == null) {
