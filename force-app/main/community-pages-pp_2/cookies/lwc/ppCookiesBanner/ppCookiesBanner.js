@@ -23,6 +23,8 @@ import accountSettingsCookiesRRLanguageLabel from "@salesforce/label/c.AccountSe
 import accountSettingsCookiesRRLanguageDescriptionLabel from "@salesforce/label/c.AccountSettings_Cookies_RRLanguage_Description";
 import bTN_AcceptLabel from "@salesforce/label/c.BTN_Accept";
 import loadingLabel from "@salesforce/label/c.Loading";
+import DEVICE from '@salesforce/client/formFactor';
+import bTN_I_Acknowledge from '@salesforce/label/c.I_Acknowledge';
 import getAlumniTemplate from "@salesforce/apex/ParticipantService.getAlumniTemplate";
 import getTemp from "@salesforce/apex/ParticipantService.getTemp";
 import getStudy from "@salesforce/apex/HomePageParticipantRemote.getInitData";
@@ -42,6 +44,7 @@ export default class PpCookiesBanner extends LightningElement {
   userMode;
   spinner;
   containerClassCss = "c-container desk-cookies-banner mob-cookies-banner ";
+  containerClassCssPostLogin = "c-container desk-cookies-banner-post-login mob-cookies-banner ";
   modalTopCss = " slds-grid card-top-bg ";
   acceptButtonCss = "accept-btn-container btn-label cookie-btn ";
   acceptAllButtonCss = "btn-container btn-label cookie-btn cookie-cursor";
@@ -49,6 +52,7 @@ export default class PpCookiesBanner extends LightningElement {
   manageButtonCss = "btn-container manage cookie-btn cookie-cursor";
   accordionCss = "accordion ";
   accordionActiveCss = "accordion active ";
+  acknowledgeButtonCss = 'acknowledge_button ';
   label = {
     ppCookiesBannerLoginDesc,
     ppCookiesBannerDesc1,
@@ -66,19 +70,23 @@ export default class PpCookiesBanner extends LightningElement {
     accountSettingsRRCookiesDescriptionLabel,
     accountSettingsCookiesRRLanguageLabel,
     accountSettingsCookiesRRLanguageDescriptionLabel,
-    bTN_AcceptLabel
+    bTN_AcceptLabel,
+	bTN_I_Acknowledge
   };
   showBanner = false;
   initData;
   contact;
   dynamicCSSAppend = pp_icons + "/right.svg";
+  footerUILogo = pp_icons + '/footer_ui_logo.svg';
   cookiesBannerDesc3;
   isJanssenCommunity;
+  isMobile = false;
 
   @api isJanssen = false;
   @api isAlumni = false;
 
   connectedCallback() {
+    DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
     var temp = "";
     if(this.loginPage){
         this.loginPg(); 
@@ -121,6 +129,7 @@ export default class PpCookiesBanner extends LightningElement {
               }
               if (!this.loginPage && data) {
                 this.showBanner = false;
+				this.showmodal = false;
               }
               if (
                 (!rrCookies || this.loginPage) &&
@@ -133,6 +142,7 @@ export default class PpCookiesBanner extends LightningElement {
                   !this.termsAndConditions
                 ) {
                   this.showBanner = true;
+				  this.showmodal = true;
                 }
                 if (this.isDummy) {
                   localStorage.setItem("CookiesOnTC", "Accepted");
@@ -140,7 +150,7 @@ export default class PpCookiesBanner extends LightningElement {
         
                 if (!this.termsAndConditions && !this.isDummy) {
                   //Home Page
-                  this.showBanner = true;
+                  this.showBanner = true; this.showmodal = true;
                 }
         
                 if (
@@ -149,7 +159,7 @@ export default class PpCookiesBanner extends LightningElement {
                   !this.isDummy
                 ) {
                   //Cookies banner for terms page
-                  this.showBanner = true;
+                  this.showBanner = true; this.showmodal = true;
                 }
                 if (this.termsAndConditions) {
                   localStorage.setItem("CookiesOnTC", "Accepted");
@@ -183,6 +193,7 @@ export default class PpCookiesBanner extends LightningElement {
                   this.accordionCss = this.accordionCss + "  rh-border-radius";
                   this.accordionActiveCss =
                     this.accordionActiveCss + " rh-border-radius";
+				  this.acknowledgeButtonCss = this.acknowledgeButtonCss + ' rh-border-radius';	
                 }
                 if (this.communityName == "Janssen Community") {
                   this.modalTopCss = this.modalTopCss + " janssen-card-top-bg";
@@ -200,6 +211,7 @@ export default class PpCookiesBanner extends LightningElement {
     }
   }
   loginPg(){
+      
       this.cookiesBannerDesc3 = " " + this.label.ppCookiesBannerDesc3;
     
       this.isJanssenCommunity = this.communityName == "Janssen Community";
@@ -230,7 +242,7 @@ export default class PpCookiesBanner extends LightningElement {
         }
       }
       if (!this.loginPage && data) {
-        this.showBanner = false;
+        this.showBanner = false;  this.showmodal = false;
       }
       if (
         (!rrCookies || this.loginPage) &&
@@ -242,7 +254,7 @@ export default class PpCookiesBanner extends LightningElement {
           !localStorage.getItem("CookiesOnTC") &&
           !this.termsAndConditions
         ) {
-          this.showBanner = true;
+          this.showBanner = true;  this.showmodal = true;
         }
         if (this.isDummy) {
           localStorage.setItem("CookiesOnTC", "Accepted");
@@ -250,7 +262,7 @@ export default class PpCookiesBanner extends LightningElement {
 
         if (!this.termsAndConditions && !this.isDummy) {
           //Home Page
-          this.showBanner = true;
+          this.showBanner = true;  this.showmodal = true;
         }
 
         if (
@@ -259,7 +271,7 @@ export default class PpCookiesBanner extends LightningElement {
           !this.isDummy
         ) {
           //Cookies banner for terms page
-          this.showBanner = true;
+          this.showBanner = true;  this.showmodal = true;
         }
         if (this.termsAndConditions) {
           localStorage.setItem("CookiesOnTC", "Accepted");
@@ -284,6 +296,7 @@ export default class PpCookiesBanner extends LightningElement {
           this.accordionCss = this.accordionCss + "  rh-border-radius";
           this.accordionActiveCss =
             this.accordionActiveCss + " rh-border-radius";
+		   this.acknowledgeButtonCss = this.acknowledgeButtonCss + ' rh-border-radius';	
         }
         if (this.communityName == "Janssen Community") {
           this.modalTopCss = this.modalTopCss + " janssen-card-top-bg";
@@ -365,7 +378,7 @@ export default class PpCookiesBanner extends LightningElement {
               }
             }
             if (!this.loginPage && data) {
-              this.showBanner = false;
+              this.showBanner = false; this.showmodal = false;
             }
             if (
               (!rrCookies || this.loginPage) &&
@@ -377,7 +390,7 @@ export default class PpCookiesBanner extends LightningElement {
                 !localStorage.getItem("CookiesOnTC") &&
                 !this.termsAndConditions
               ) {
-                this.showBanner = true;
+                this.showBanner = true; this.showmodal = true;
               }
               if (this.isDummy) {
                 localStorage.setItem("CookiesOnTC", "Accepted");
@@ -385,7 +398,7 @@ export default class PpCookiesBanner extends LightningElement {
 
               if (!this.termsAndConditions && !this.isDummy) {
                 //Home Page
-                this.showBanner = true;
+                this.showBanner = true; this.showmodal = true;
               }
 
               if (
@@ -394,7 +407,7 @@ export default class PpCookiesBanner extends LightningElement {
                 !this.isDummy
               ) {
                 //Cookies banner for terms page
-                this.showBanner = true;
+                this.showBanner = true; this.showmodal = true;
               }
               if (this.termsAndConditions) {
                 localStorage.setItem("CookiesOnTC", "Accepted");
@@ -420,6 +433,7 @@ export default class PpCookiesBanner extends LightningElement {
                 this.accordionCss = this.accordionCss + "  rh-border-radius";
                 this.accordionActiveCss =
                   this.accordionActiveCss + " rh-border-radius";
+				this.acknowledgeButtonCss = this.acknowledgeButtonCss + ' rh-border-radius';
               }
               if (this.communityName == "Janssen Community") {
                 this.modalTopCss = this.modalTopCss + " janssen-card-top-bg";
@@ -502,11 +516,11 @@ export default class PpCookiesBanner extends LightningElement {
     document.body.classList.remove("cookie-block-user");
     let htmlDivs = document.getElementsByTagName("html");
     htmlDivs[0].classList.remove("cookie-block-user");
-    this.showBanner = false;
+    this.showBanner = false; this.showmodal = false;
     document.body.removeEventListener("keypress", this.bodyBlock);
     document.body.removeEventListener("keydown", this.bodyBlock);
     let bodyStyles = document.body.style;
-    bodyStyles.removeProperty("--cookieRightIcon");
+    bodyStyles.removeProperty("--cookieRightIcon"); this.showmodal = false;
   }
 
   acceptAll() {
@@ -514,7 +528,7 @@ export default class PpCookiesBanner extends LightningElement {
     document.body.classList.remove("cookie-block-user");
     let htmlDivs = document.getElementsByTagName("html");
     htmlDivs[0].classList.remove("cookie-block-user");
-    this.showBanner = false;
+    this.showBanner = false; this.showmodal = false;
     if (!this.isJanssenCommunity) { 
         if(!this.isJanssen){ 
           changeOptInCookies({

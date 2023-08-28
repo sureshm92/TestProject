@@ -16,10 +16,69 @@
                             >
                                 <!--System Non-Business Tasks at Home-->
                                 <template if:false={item.businessTask}>
+                                    <template if:true={item.activateEcoaTask}>
+                                        <template if:true={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="ecoa-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                        <template if:false={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="ecoa-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                    </template>
+                                    <template if:false={item.activateEcoaTask}>
+                                        <template if:true={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="task-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                        <template if:false={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="task-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                    </template>
+                                </template>
+                                <!--System Business Tasks at Home-->
+                                <template if:true={item.businessTask}>
+                                    <c-web-icon
+                                        class={systemIconClass}
+                                        icon-name="task-survey"
+                                        icon-size="big-custom"
+                                    >
+                                    </c-web-icon>
+                                </template>
+                            </div>
+                        </template>
+                        <!--- Ecao task-->
+                        <template if:true={item.ecoaTask}>
+                            <div
+                                class="slds-p-around_medium"
+                                onclick={taskOpen}
+                                data-actionurl={item.task.Action_URL__c}
+                                data-status={item.task.Status}
+                                data-index={item.task.Id}
+                            >
+                                <!--System Non-Business Tasks at Home-->
+                                <template if:false={item.businessTask}>
                                     <template if:true={isMobile}>
                                         <c-web-icon
                                             class={systemIconClass}
-                                            icon-name="task-illustration"
+                                            icon-name="ecoa-illustration"
                                             icon-size="big-custom"
                                         >
                                         </c-web-icon>
@@ -27,7 +86,7 @@
                                     <template if:false={isMobile}>
                                         <c-web-icon
                                             class={systemIconClass}
-                                            icon-name="task-illustration"
+                                            icon-name="ecoa-illustration"
                                             icon-size="big-custom"
                                         >
                                         </c-web-icon>
@@ -37,7 +96,7 @@
                                 <template if:true={item.businessTask}>
                                     <c-web-icon
                                         class={systemIconClass}
-                                        icon-name="task-survey"
+                                        icon-name="ecoa-illustration"
                                         icon-size="big-custom"
                                     >
                                     </c-web-icon>
@@ -57,21 +116,41 @@
                             >
                                 <!--System Non-Business Tasks at Task Page-->
                                 <template if:false={item.businessTask}>
-                                    <template if:true={isMobile}>
-                                        <c-web-icon
-                                            class={systemIconClass}
-                                            icon-name="task-illustration"
-                                            icon-size="big-custom"
-                                        >
-                                        </c-web-icon>
+                                    <template if:true={item.activateEcoaTask}>
+                                        <template if:true={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="ecoa-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                        <template if:false={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="ecoa-illustration"
+                                                icon-size="big"
+                                            >
+                                            </c-web-icon>
+                                        </template>
                                     </template>
-                                    <template if:false={isMobile}>
-                                        <c-web-icon
-                                            class={systemIconClass}
-                                            icon-name="task-illustration"
-                                            icon-size="big"
-                                        >
-                                        </c-web-icon>
+                                    <template if:false={item.activateEcoaTask}>
+                                        <template if:true={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="task-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                        <template if:false={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="task-illustration"
+                                                icon-size="big"
+                                            >
+                                            </c-web-icon>
+                                        </template>
                                     </template>
                                 </template>
                                 <!--System Business Tasks at Task Page-->
@@ -97,20 +176,72 @@
                                 </template>
                             </div>
                         </template>
+                        <!--Ecao task-->
+                        <template if:true={item.ecoaTask}>
+                            <div
+                                class="slds-p-around_medium"
+                                onclick={taskOpen}
+                                data-actionurl={item.task.Action_URL__c}
+                                data-status={item.task.Status}
+                                data-index={item.task.Id}
+                            >
+                                <!--System Non-Business Tasks at Task Page-->
+                                <template if:false={item.businessTask}>
+                                    <template if:true={isMobile}>
+                                        <c-web-icon
+                                            class={systemIconClass}
+                                            icon-name="ecoa-illustration"
+                                            icon-size="big-custom"
+                                        >
+                                        </c-web-icon>
+                                    </template>
+                                    <template if:false={isMobile}>
+                                        <c-web-icon
+                                            class={systemIconClass}
+                                            icon-name="ecoa-illustration"
+                                            icon-size="big"
+                                        >
+                                        </c-web-icon>
+                                    </template>
+                                </template>
+                                <!--System Business Tasks at Task Page-->
+                                <template if:true={isMobile}>
+                                    <template if:true={item.businessTask}>
+                                        <c-web-icon
+                                            class={systemIconClass}
+                                            icon-name="ecoa-illustration"
+                                            icon-size="big-custom"
+                                        >
+                                        </c-web-icon>
+                                    </template>
+                                </template>
+                                <template if:false={isMobile}>
+                                    <template if:true={item.businessTask}>
+                                        <c-web-icon
+                                            class={systemIconClass}
+                                            icon-name="ecoa-illustration"
+                                            icon-size="big"
+                                        >
+                                        </c-web-icon>
+                                    </template>
+                                </template>
+                            </div>
+                        </template>
                     </template>
 
                     <template if:false={item.systemTask}>
-                        <template if:false={item.isClosed}>
-                            <c-web-icon
-                                class={webIconClass}
-                                icon-name="icon-opentask"
-                                icon-color=""
-                                onclick={showTaskCompleteModal}
-                                data-index={item.task.Id}
-                                data-status={item.task.Status}
-                            >
-                            </c-web-icon>
-                        </template>
+                        <template if:false={item.ecoaTask}>
+                            <template if:false={item.isClosed}>
+                                <c-web-icon
+                                    class={webIconClass}
+                                    icon-name="icon-opentask"
+                                    icon-color=""
+                                    onclick={showTaskCompleteModal}
+                                    data-index={item.task.Id}
+                                    data-status={item.task.Status}
+                                >
+                                </c-web-icon>
+                            </template>
                         <!--Mark Task as Complete Modal-->
                         <template if:true={isShowModal}>
                             <c-pp-task-complete-modal
@@ -136,7 +267,7 @@
                             ></c-pp-task-ignore-modal>
                         </template>
                         <template if:true={item.isClosed}>
-                            <c-web-icon
+                           <c-web-icon
                                 class={webIconClass}
                                 icon-name="icon-completedtask"
                                 onclick={showTaskCompleteModal}
@@ -145,6 +276,7 @@
                                 tabindex="0"
                             ></c-web-icon>
                         </template>
+                       </template>
                     </template>
                 </lightning-layout-item>
                 <!--Desktop View for Task List Subject, Critical and Due Date Section-->
@@ -242,6 +374,15 @@
                                                                     minute="numeric"
                                                                     time-zone={userTimeZone}
                                                                 ></lightning-formatted-date-time>
+                                                            </template>
+                                                            <template if:true={item.ecoaTask}
+                                                                    >&nbsp;|&nbsp;
+                                                                    <lightning-formatted-date-time
+                                                                        value={item.task.Activity_Datetime__c}
+                                                                        hour="numeric"
+                                                                        minute="numeric"
+                                                                        time-zone={userTimeZone}
+                                                                    ></lightning-formatted-date-time>
                                                             </template>
                                                         </template>
                                                     </template>
@@ -395,6 +536,15 @@
                                                                             time-zone={userTimeZone}
                                                                         ></lightning-formatted-date-time>
                                                                     </template>
+                                                                    <template if:true={item.ecoaTask}
+                                                                    >&nbsp;|&nbsp;
+                                                                    <lightning-formatted-date-time
+                                                                        value={item.task.Activity_Datetime__c}
+                                                                        hour="numeric"
+                                                                        minute="numeric"
+                                                                        time-zone={userTimeZone}
+                                                                    ></lightning-formatted-date-time>
+                                                            </template>
                                                                 </template>
                                                             </template>
                                                         </span>
@@ -544,6 +694,15 @@
                                                             time-zone={userTimeZone}
                                                         ></lightning-formatted-date-time>
                                                     </template>
+                                                    <template if:true={item.ecoaTask}
+                                                                    >&nbsp;|&nbsp;
+                                                                    <lightning-formatted-date-time
+                                                                        value={item.task.Activity_Datetime__c}
+                                                                        hour="numeric"
+                                                                        minute="numeric"
+                                                                        time-zone={userTimeZone}
+                                                                    ></lightning-formatted-date-time>
+                                                    </template>
                                                 </template>
                                             </template>
                                         </span>
@@ -684,6 +843,15 @@
                                                                 time-zone={userTimeZone}
                                                             ></lightning-formatted-date-time>
                                                         </template>
+                                                        <template if:true={item.ecoaTask}
+                                                                    >&nbsp;|&nbsp;
+                                                                    <lightning-formatted-date-time
+                                                                        value={item.task.Activity_Datetime__c}
+                                                                        hour="numeric"
+                                                                        minute="numeric"
+                                                                        time-zone={userTimeZone}
+                                                                    ></lightning-formatted-date-time>
+                                                        </template>
                                                     </template>
                                                 </template>
                                             </span>
@@ -735,7 +903,7 @@
                         <template if:false={item.isClosed}>
                             <!--Arrow Icon for System Tasks as Home Page-->
                             <template if:true={ishomepage}>
-                                <template if:true={item.systemTask}>
+                                <template if:false={item.businessTask}> 
                                     <img
                                         src={task_arrow}
                                         class="curpointer"
@@ -745,6 +913,7 @@
                                         data-index={item.task.Id}
                                     />
                                 </template>
+                                
                             </template>
                             <!--Three Dots for Tasks as Task Page-->
                             <template if:false={ishomepage}>

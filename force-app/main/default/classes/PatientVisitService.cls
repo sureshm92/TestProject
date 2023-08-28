@@ -381,6 +381,7 @@ public inherited sharing class PatientVisitService {
         set<Id> visitPlanId=new set<Id>();
         set<String> pvIcons=new set<String>();
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
+        Set<Id> visitPlanIds = new Set<Id>();
         for (Patient_Visit__c visit : visits) {
             if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
                 visitPlanId.add(visit.Visit__r.Visit_Plan__c);
@@ -533,6 +534,7 @@ public inherited sharing class PatientVisitService {
             FROM Patient_Visit__c
             WHERE Id = :visitId
         ];
+
         for (Patient_Visit__c visit : visits) {
             if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
                 visitPlanId.add(visit.Visit__r.Visit_Plan__c);
