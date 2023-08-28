@@ -92,7 +92,8 @@
     line-height: 24px;
     /*PEH-11588*/
     padding-top: 10px;
-    max-width: 188px;
+    /* max-width: 188px; */
+    word-wrap: break-word;
 }
 
 @media only screen and (min-width: 360px) and (max-width: 375px) {
@@ -169,8 +170,12 @@
 
 /* .piIcon-NonRtl {
     margin-right: 12px;
-} */
+}*/ 
 
 .piIcon-Rtl {
     margin-left: 24px;
+}
+
+.pad-5{
+    padding-left: 5px;
 }
