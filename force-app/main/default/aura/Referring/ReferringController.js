@@ -475,35 +475,8 @@
         helper.checkFields(component, event, helper);
         
     },
-    handleUploadFinished: function (component, event) {
-       
-        var cmpTarget1 = component.find("uploadfile");
-        $A.util.removeClass(cmpTarget1, "fileBoxwoFile");
-        $A.util.addClass(cmpTarget1, "fileBox");
-         // Get the list of uploaded files
-        var uploadedFiles = event.getParam("files");
-        component.set("v.fileName",uploadedFiles[0].name);
-        component.set("v.disableFile",true);
-        component.set("v.contentDocId",uploadedFiles[0].documentId);
-        component.set('v.fileRequired',true);
-        communityService.executeAction(
-            component,
-            'getContentVersion',
-            {
-                contDocId: uploadedFiles[0].documentId
-            },
-            function (returnValue) {
-                component.set('v.blobData',returnValue);
-                component.set('v.pdfData',returnValue);
-            }
-        );
-    },
-    handleDeleteFile:function(component,event){
-        //alert('inside delete file');
+    doClearFile: function (component, event, helper) {
         let conDocId=component.get("v.contentDocId");
-        let spinner = component.find('mainSpinner');
-        spinner.show();
-        //alert('conDocId-'+conDocId);
         communityService.executeAction(
             component,
             'deleteFile',
@@ -511,17 +484,93 @@
                 contentDocId: conDocId
             },
             function () {
-                component.set("v.fileName",'');
-                component.set("v.disableFile",false);
+                component.set('v.FileList', []);
+                component.set('v.fullFileName', '');
+                component.set('v.fileName', '');
+                component.set('v.fileType', '');
                 component.set('v.fileRequired',false);
-                var cmpTarget1 = component.find("uploadfile");
-                $A.util.addClass(cmpTarget1, "fileBoxwoFile");
-                $A.util.removeClass(cmpTarget1, "fileBox");
-                spinner.hide();
+                component.set("v.progressbar",false);
             }
         );
     },
-   
+    upload: function (component, event, helper) {
+        component.find('mainSpinner').show();
+        var file = component.get('v.FileList')[0];
+        var chunkSize =  5 * 1024 * 1024; 
+        var fileSize = file.size;
+        var offset = 0;
+        
+        if(fileSize > chunkSize){
+            component.set("v.errorMessage", "File size exceeds 4MB limit.");
+            component.find('mainSpinner').hide();
+            return;
+        }
+ 
+        function uploadChunk(start, end) {
+            var chunk = file.slice(start, end);
+    
+            var fileTypes = ['pdf'];
+            var extension = file.name.split('.').pop().toLowerCase();
+            var fileName = file.name.split('.')[0];
+    
+            if (fileTypes.indexOf(extension) == -1) {
+                component.set("v.errorMessage", "Only PDF files are allowed.");
+                component.set("v.progressbar", false);
+                component.find('mainSpinner').hide();
+                return;
+            } else {
+                component.set("v.errorMessage", "");
+                component.set("v.progressbar", true);
+                component.set("v.percentDone", 25);
+            }
+    
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var binary = '';
+                var bytes = new Uint8Array(e.target.result);
+                var length = bytes.byteLength;
+                var base64Data = e.target.result.split(',')[1];
+    
+                component.set("v.percentDone", 75);
+    
+                communityService.executeAction(
+                    component,
+                    'uploadPDFDocument',
+                    {
+                        fileName: fileName + '.' + extension,
+                        base64Data: base64Data  
+                    },
+                    function (returnValue) {
+                        
+                        component.set('v.contentDocId', returnValue); 
+                        component.set('v.blobData', base64Data);
+                        component.set('v.pdfData', base64Data);
+                        component.set('v.fileName', fileName);
+                        component.set('v.fileType', extension);
+                        component.set('v.fullFileName', fileName + '.' + extension);
+                        component.set("v.percentDone", 100);
+                        component.set('v.fileRequired', true);
+                        offset = end;
+                        uploadNextChunk();
+                    }
+                );
+                component.find('mainSpinner').hide();
+            };
+            component.set("v.percentDone", 50);
+            reader.readAsDataURL(chunk);
+        }
+        
+        function uploadNextChunk() {
+            if (offset < fileSize) {
+                var end = Math.min(offset + chunkSize, fileSize);
+                uploadChunk(offset, end);
+            } else {
+                component.find('mainSpinner').hide();
+            }
+        }
+        uploadNextChunk();
+    },
+
     doReferPatient: function (component) {
         communityService.navigateToPage(
             'referring?id=' +

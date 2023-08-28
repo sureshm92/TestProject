@@ -56,9 +56,7 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
-.THIS .janseendivider{
-    margin-right: 8px;
-}
+ 
 
 
 .THIS .logo-block {
@@ -475,6 +473,11 @@
         margin-top: 5rem;
         margin-bottom: 5rem;
     }
+    
+    .THIS.mobile-content .body-content-janssen {
+        margin-top: 5px !important;
+    }
+
 
     .THIS.mobile-content .body-content-janssen {
         margin-top: 5px !important;
@@ -566,7 +569,6 @@
     .THIS .janssen-community{
      width :fit-content;
     }
-
     .THIS .body-content .form-header,
     .THIS .body-content .forgot-pwd,
     .THIS .body-content .forgot-password,

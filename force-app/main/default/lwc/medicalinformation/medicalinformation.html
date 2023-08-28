@@ -264,7 +264,7 @@
                             <strong>{label.RH_MedicalRecordProvider}</strong>
                           </p>
                         </div>
-                        <template if:false={isReportAvailable}>
+                        <!--<template if:false={isReportAvailable}>-->
                           <div
                             class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small">
                             <div class="btn-medical-record">
@@ -275,11 +275,11 @@
                               </button>
                             </div>
                           </div>
-                        </template>
+                        <!--</template>-->
                         <template if:true={isReportAvailable}>
                           <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_medium">
-                            <div class="m-report slds-truncate">
+                            class="slds-col slds-size_1-of-1">
+                            <div class="m-report slds-truncate custom-pad">
                               <!-- <a href="{!v.highlightsReport.reportUrl}" target="_blank">{!v.highlightsReport.reportName}</a> -->
                               <lightning-formatted-url value={highlightsReport.reportUrl}
                                 label={highlightsReport.reportName} title={highlightsReport.reportName} target="_blank">
@@ -291,7 +291,7 @@
                             <div
                               class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_5-of-12 slds-m-bottom_medium"
                               key={index}>
-                              <p>{detailrep.providerName}</p>
+                              <p class="custom-provider">{detailrep.providerName}</p>
                             </div>
                             <div
                               class="slds-col slds-size_7-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_medium"
@@ -309,7 +309,7 @@
                             </div>
                           </template>
                         </template>
-                        <template if:false={isReportAvailable}>
+                        <!--<template if:false={isReportAvailable}>-->
                           <template for:each={lstEnrollmenthistry} for:item="enrollment">
                             <div key={index}
                               class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
@@ -321,7 +321,7 @@
                               </p>
                             </div>
                           </template>
-                        </template>
+                        <!--</template>-->
                         <template if:false={isRequestHistrySuccess} class="slds-is-relative">
                           <lightning-spinner alternative-text="Loading..." variant="brand">
                           </lightning-spinner>
