@@ -41,6 +41,7 @@
         min-height: 335px;
         height: auto;
         padding: 0 1rem;
+        margin-left:0px;
     }
     .svg-align {
         margin: auto;

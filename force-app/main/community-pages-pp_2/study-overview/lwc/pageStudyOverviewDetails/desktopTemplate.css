@@ -148,6 +148,7 @@ span:hover {
     word-break: break-word;
     font-size: 16px;
     font-weight: 500;
+    margin-top: 10px;
 }
 .slds-accordion__summary-heading > button > lightning-primitive-icon {
     order: 2 !important;
@@ -352,10 +353,11 @@ span:hover {
 }
 
 .piName-text {
+    /* margin-left: 15px; */
     /* overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap; */
-    padding-left: 15px;
+    /* padding-left: 15px; */
     padding-right: 15px;
     word-wrap: break-word;
     text-align: left;

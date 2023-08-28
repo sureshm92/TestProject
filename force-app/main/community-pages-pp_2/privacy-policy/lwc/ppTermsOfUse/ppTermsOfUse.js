@@ -7,6 +7,7 @@ import formFactor from '@salesforce/client/formFactor';
 import TU_HEADER from '@salesforce/label/c.CPD_Terms_of_Use';
 import LAST_UPDATED from '@salesforce/label/c.Last_Updated_On';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
+import Back from '@salesforce/label/c.Back';
 import CHAPTER from '@salesforce/label/c.Chapter';
 import getPortalTcData from '@salesforce/apex/TermsAndConditionsRemote.getPortalTcData';
 import getTrialTcData from '@salesforce/apex/TermsAndConditionsRemote.getTrialTcData';
@@ -25,12 +26,13 @@ export default class PpTermsOfUse extends LightningElement {
     ppRichText;
     @track currentHeaderLabel = '';
     spinner;
-
+    showBackButton = false;
     labels = {
         TU_HEADER,
         ERROR_MESSAGE,
         LAST_UPDATED,
-        CHAPTER
+        CHAPTER,
+        Back
     };
 
     connectedCallback() {
@@ -46,6 +48,7 @@ export default class PpTermsOfUse extends LightningElement {
             .catch((error) => {
                 this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
+            this.showBackButton = communityService.isMobileSDK();
     }
 
     initializeData() {
@@ -110,7 +113,9 @@ export default class PpTermsOfUse extends LightningElement {
             ? 'slds-col slds-size_3-of-12 tc-text slds-p-left_large tc-header rtl'
             : 'slds-col slds-size_3-of-12 tc-text tc-header';
     }
-
+    get headerMobileClass(){
+        return this.showBackButton ? 'slds-grid slds-wrap slds-p-left_medium slds-p-right_medium slds-p-top_xx-small' : 'slds-grid slds-wrap slds-p-left_medium slds-p-right_medium slds-p-top_large';
+    }
     get headerScrollerClass() {
         return this.isRTL ? 'header-scroller rtl' : 'header-scroller';
     }
@@ -278,5 +283,8 @@ export default class PpTermsOfUse extends LightningElement {
     removeElementFocus() {
         let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
         ddMenu.classList.remove('active');
+    }
+    goToPreviousPage(){
+        window.history.back();
     }
 }

@@ -1096,6 +1096,21 @@ public without sharing class NotificationAvailabilityService {
                 communityTemplate = CommunityTemplateService.getTemplate(
                     task.Community_Template_Name__c
                 );
+                if (
+                    task.WhatId != null &&
+                    task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()
+                ) {
+                    Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
+                        Id.valueOf(task.WhatId)
+                    );
+                    if (
+                        pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                        CommunityTemplateService.TEMPLATE_JANSSEN &&
+                        pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'
+                    ) {
+                        communityTemplate = CommunityTemplateService.getTemplate(CommunityTemplateService.TEMPLATE_PP);
+                    }
+                }
             } else if (
                 task.WhatId != null &&
                 task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()
@@ -1348,10 +1363,12 @@ public without sharing class NotificationAvailabilityService {
             Televisit_Attendee__c ta = (Televisit_Attendee__c) objectsByIds.get(
                     Id.valueOf(whatId)
                 );
-            communityTemplate = ta.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
-            isValid = ta.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && ta.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c =='PP 2.0'
-            ? true
-            : false;
+            if(ta.Attendee_Type__c != 'PI' &&  ta.Attendee_Type__c != 'Site Staff' ){
+                communityTemplate = ta.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                isValid = ta.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && ta.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c =='PP 2.0'
+                ? true
+                : false;
+            }
         }
        return isValid;
     }

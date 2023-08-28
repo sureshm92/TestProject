@@ -108,11 +108,20 @@ public without sharing class TermsAndConditionsRemote {
     }
     
     @AuraEnabled
-    public static String getPPTC(String code, String languageCode, Boolean useDefaultCommunity, String ctId) {
+    public static String getPPTC(String code, String languageCode, Boolean useDefaultCommunity, String ctId,Boolean calledfromCommPref) {
         try {
             TCData tcData = new TCData();
-            if (code == 'PrivacyPolicy') {
-                tcData.tc = TermsAndConditions.getOrgDefaultPPTC(useDefaultCommunity, ctId);
+            //this method is only for privacy policy of pp2.0 iqvia outreach consent preference
+            if(calledfromCommPref)
+            {
+                if (code == 'PrivacyPolicy') {
+                    tcData.tc = TermsAndConditions.getOrgDefaultPrivacyIQVIAPP(useDefaultCommunity);
+                }  
+            }
+            else{
+                if (code == 'PrivacyPolicy') {
+                    tcData.tc = TermsAndConditions.getOrgDefaultPPTC(useDefaultCommunity, ctId);
+                }
             }
             return JSON.serialize(tcData);
         } catch (Exception e) {
