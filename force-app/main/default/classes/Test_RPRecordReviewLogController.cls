@@ -7,10 +7,9 @@ public class Test_RPRecordReviewLogController {
         Test.stopTest();
     }
     @isTest
-    public static void TestM1()
+    public static void TestM1(){
 
         List<Account> accounts = new List<Account>();
-        
 
         UserRole userRole_1 = [SELECT Id FROM UserRole WHERE Name = 'View All' LIMIT 1];
         Profile profile_1 = [
@@ -55,9 +54,8 @@ public class Test_RPRecordReviewLogController {
             insert user_1;
         } 
         Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
-        Study_Site__c studySite =[SELECT ID FROM Study_Site__c WHERE Clinical_Trial_Profile__c=:clinical.ID];
+        Study_Site__c studySite =[SELECT ID FROM Study_Site__c WHERE Clinical_Trial_Profile__c=:clinical.ID]; 
     
-
         Participant_Enrollment__c pe = [SELECT ID,Participant__c,Pre_screening_Status__c,Medical_Record_Review_Status__c,PI_Contact__c
                                         ,Initial_visit_scheduled_date__c,Study_Site__c,Patient_ID__c,Referral_Source__c,Participant_Status__c
                                         ,Birth_Month__c,YOB__c,Email__c,Participant_Name__c,Patient_Middle_Name_Initial__c,
@@ -70,7 +68,6 @@ public class Test_RPRecordReviewLogController {
                                       
                                         FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c=:clinical.ID
                                        LIMIT 1 ]; 
-
         HCP_Enrollment__c hcpEnrollment = new HCP_Enrollment__c(
             Study_Site__c = studySite.Id,
             HCP_Contact__c = contact_1.Id,
@@ -79,9 +76,7 @@ public class Test_RPRecordReviewLogController {
         insert hcpEnrollment; 
 	Test.startTest();
         pe.HCP__c = hcpEnrollment.ID;
-        update pe;
-     
-
+        update pe; 
         List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
         screenerList.add(new PreScreener_Survey__c(
             Link_to_Pre_screening__c = 'https://link.test',
@@ -125,7 +120,8 @@ public class Test_RPRecordReviewLogController {
             insert account_1;
 
             contact_1 = new Contact(AccountId = account_1.Id, LastName = 'xgeek');
-            insert contact_1;
+            insert contact_1; 
+            
         } 
         Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
         Study_Site__c studySite =[SELECT ID FROM Study_Site__c WHERE Clinical_Trial_Profile__c=:clinical.ID];
