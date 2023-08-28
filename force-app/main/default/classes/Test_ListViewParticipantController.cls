@@ -35,6 +35,9 @@ public class Test_ListViewParticipantController {
             account_1 = new Account(Name = 'Community', BillingCountry = 'United States');
             insert account_1;
 
+            TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForCCContactHandler.class
+            );
             contact_1 = new Contact(AccountId = account_1.Id, LastName = 'xgeek');
             insert contact_1;
 
@@ -229,12 +232,18 @@ public class Test_ListViewParticipantController {
                 null,
                 'Janssen'
             );
-
+            
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.sendJanssenNotification.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CreateJanssenNotification.class
+            );
             ListViewParticipantController.getSSList(clinical.Id,'Active');
             ListViewParticipantController.getAvailableStatuses('Received',clinical.Id);
+            Test.startTest();
             ListViewParticipantController.getAvailableStatuses('Randomization Success',clinical.Id);
             ListViewParticipantController.statusDetail('Received',clinical.Id);
-           Test.startTest();
             ListViewParticipantController.statusDetail('Pre-review Failed',clinical.Id);
             
             ListViewParticipantController.createUserForPatientProtal(peList,True);
@@ -399,6 +408,12 @@ public class Test_ListViewParticipantController {
                 'Janssen'
             );
 
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.sendJanssenNotification.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CreateJanssenNotification.class
+            );
             ListViewParticipantController.getSSList(clinical.Id,'Active');
 
             ListViewParticipantController.getParticipantStatus(clinical.ID,'Active');
