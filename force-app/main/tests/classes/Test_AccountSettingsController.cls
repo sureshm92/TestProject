@@ -115,12 +115,13 @@ private class Test_AccountSettingsController {
                 rawInitData,
                 AccountSettingsController.AccountData.class
             );
+            Test.stopTest(); 
             AccountSettingsController.PersonWrapper personWrapper = initData.contactSectionData.personWrapper;
             AccountSettingsController.changeOptInSMS(
                 personWrapper.isOptInSMS(),
                 CommunityService.USER_MODE_PARTICIPANT
             );
-            Test.stopTest();
+            
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
             personWrapper = new AccountSettingsController.PersonWrapper(initData.myContact, null);
             // AccountSettingsController.updatePerson(JSON.serialize(personWrapper));

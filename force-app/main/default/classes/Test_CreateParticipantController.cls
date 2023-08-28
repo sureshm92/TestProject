@@ -73,7 +73,7 @@ public class Test_CreateParticipantController {
                                                pe.ParticipantGUID__c='test';
                                                peList.add(pe);
                                            }
-        update peList;
+        //update peList;
         
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new Mock_MulesoftIntegrationApi());

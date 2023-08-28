@@ -59,10 +59,9 @@ public with sharing class Test_VisitResultsRemote {
                 .build()
         );
 
-        Test.startTest();
         TestData testData = new TestData();
         testData.updatePEStatusEnrollmentSuccess();
-
+		Test.startTest(); 
         System.runAs(testData.participantUser) {
             Map<String, Map<String, List<String>>> visitResultSharings = new Map<String, Map<String, List<String>>>();
             visitResultSharings.put('Vitals', new Map<String, List<String>>());
