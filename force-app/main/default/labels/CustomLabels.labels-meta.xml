@@ -24210,6 +24210,22 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>No record found for Export</value>
     </labels>
     <labels>
+        <fullName>Only_PDF_Error_Message</fullName>
+        <categories>RH</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Only_PDF_Error_Message</shortDescription>
+        <value>Only PDF files are allowed.</value>
+    </labels>
+    <labels>
+        <fullName>File_size_exceeds_limit_Error_Message</fullName>
+        <categories>RH</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>File_size_exceeds_limit_Error_Message</shortDescription>
+        <value>File size exceeds 4MB limit.</value>
+    </labels>
+    <labels>
         <fullName>RH_External_Link_Disclaimer</fullName>
         <language>en_US</language>
         <protected>false</protected>
