@@ -76,7 +76,7 @@ global without sharing class TermsAndConditions {
             Boolean isAlumniJanseen = false ;
              User objUser =[SELECT Id, ContactId,Contact.userCommunityDelegateId__c,Contact.Current_Participant_Enrollment__c
                          FROM User WHERE Id =: UserInfo.getUserId()];
-            Id contactId  = objUser.Contact.userCommunityDelegateId__c != null ?  objUser.Contact.userCommunityDelegateId__c : objUser.ContactId; 
+           Id contactId  =  objUser.ContactId; 
         contact objcon = [select ID, Current_Participant_Enrollment__c from contact where id =:contactId];
         //If current contact is a active participant in any study
         if(string.isNotBlank(objcon.Current_Participant_Enrollment__c))
@@ -225,6 +225,56 @@ global without sharing class TermsAndConditions {
             return tc;
         }
         return null;
+    }
+    //this method is only for pp2.0 iqvia outreach consent preference
+    public static Terms_And_Conditions__c getOrgDefaultPrivacyIQVIAPP(Boolean useDefaultCommunity) {
+        String query = getTCQueryIQVIA(null, null, PRIVACY_POLICY, useDefaultCommunity);
+        Terms_And_Conditions__c[] tcList = Database.query(query);
+        if (tcList.size() > 0) {
+            Terms_And_Conditions__c tc = tcList[0];
+            if (tc.Terms_And_Conditions__r.size() > 0) {
+                tc.Id = tc.Terms_And_Conditions__r[0].Id;
+                tc.T_C_Text__c = tc.Terms_And_Conditions__r[0].T_C_Text__c;
+                tc.Last_Updated_on__c = tc.Terms_And_Conditions__r[0].Last_Updated_on__c;
+                tc.Policy_Headers__c = tc.Terms_And_Conditions__r[0].Policy_Headers__c;
+            }
+            return tc;
+        }
+        return null;
+    }
+
+    //this method is only for pp2.0 iqvia outreach consent preference
+    public static String getTCQueryIQVIA(
+        Id tcId,
+        String languageCode,
+        String tcType,
+        Boolean useDefaultCommunity
+    ) {
+        if (String.isEmpty(languageCode))
+            languageCode = UserInfo.getLanguage();
+        String query =
+            ' SELECT Id, T_C_Text__c, Last_Updated_on__c,Policy_Headers__c,Community_Name__c,T_C_Type__c,' +
+            '   (SELECT Id, T_C_Text__c,Last_Updated_on__c,Policy_Headers__c,Community_Name__c,T_C_Type__c FROM Terms_And_Conditions__r WHERE Language__c = \'' +
+            languageCode +
+            '\') ' +
+            ' FROM Terms_And_Conditions__c' +
+            ' WHERE ';
+        String communityName = useDefaultCommunity
+            ? CommunityService.IQVIA_NETWORK_NAME
+            : UserContext.getCurrentCommunityName();
+        System.debug('communityName: ' + communityName); 
+        if (tcId != null) {
+            query += ' Id =\'' + tcId + '\' ';
+        } else {
+            query += ' Active__c = TRUE ';
+            query += 'AND Community_Name__c =\'' + communityName + '\''; 
+        }
+        if (tcType != null) {
+            query += 'AND T_C_Type__c =\'' + tcType + '\'';
+        } 
+        query += ' ORDER BY Name DESC LIMIT 1';
+        System.debug('>>>QUERY: ' + query);
+        return query;
     }
 
     public static Terms_And_Conditions__c getOrgDefaultPPTC(

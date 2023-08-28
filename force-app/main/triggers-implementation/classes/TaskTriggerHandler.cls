@@ -128,7 +128,8 @@ public without sharing class TaskTriggerHandler {
                 WhoId,
                 Start_Date__c,
                 Action_URL__c,
-                Owner_Contact__c
+                Owner_Contact__c,
+                Community_Template_Name__c
             FROM Task
             WHERE Id IN :tasks
         ];
@@ -328,7 +329,7 @@ public without sharing class TaskTriggerHandler {
                         }
                     }
                 }
-                else if(task.Action_URL__c != null && task.Task_Code__c == TaskService.TASK_CODE_ECOA_TASK){
+                else if(task.Action_URL__c != null && task.Task_Code__c == TaskService.TASK_CODE_ECOA_TASK && task.Community_Template_Name__c == CommunityTemplateService.TEMPLATE_PP){
                     Id whatId = task.WhatId;
                     //Start
                     if (
@@ -560,7 +561,8 @@ public without sharing class TaskTriggerHandler {
 
     public static Map<Id, Boolean> isSurveyTaskNewPP(Set<Id> surveyInvitationSet) {
         List<SurveyInvitation> surveyInvitationList = [
-            SELECT Id, Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            SELECT Id, Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c
             FROM SurveyInvitation
             WHERE Id IN :surveyInvitationSet
         ];
@@ -568,7 +570,10 @@ public without sharing class TaskTriggerHandler {
         for (SurveyInvitation surveyInvitation : surveyInvitationList) {
             if (
                 surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                CommunityTemplateService.TEMPLATE_PP
+                CommunityTemplateService.TEMPLATE_PP ||
+                (surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                'Janssen' &&
+                surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
             ) {
                 surveyInvitationMap.put(surveyInvitation.Id, true);
             } else {
