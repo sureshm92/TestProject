@@ -153,7 +153,6 @@ private class Test_MyTeamRemote {
     @IsTest
     static void piDelegateTest() {
         TestData testData = new TestData();
-        Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
         System.runAs(testData.piUser) {
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, null);
@@ -169,6 +168,7 @@ private class Test_MyTeamRemote {
                 .delegateTrials[0]
                 .siteLevels[0]
                 .delegateLevel = DelegateService.DELEGATE_LEVEL_2;
+                    Test.startTest();
             MyTeamRemote.saveDelegateLevelChanges(
                 CommunityService.USER_MODE_PI,
                 JSON.serialize(detail.delegates[0]),
@@ -219,7 +219,6 @@ private class Test_MyTeamRemote {
     @IsTest
     static void piDelegateWithParentTest() {
         TestData testData = new TestData();
-        Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
         List<Contact> parentContact = [SELECT Id, Salutation FROM Contact WHERE Id=:testData.piUser.ContactId];
         if(parentContact!=NULL && !parentContact.isEmpty()){
@@ -241,6 +240,7 @@ private class Test_MyTeamRemote {
                 .delegateTrials[0]
                 .siteLevels[0]
                 .delegateLevel = DelegateService.DELEGATE_LEVEL_2;
+            Test.startTest();
             MyTeamRemote.saveDelegateLevelChanges(
                 CommunityService.USER_MODE_PI,
                 JSON.serialize(detail.delegates[0]),
@@ -260,7 +260,6 @@ private class Test_MyTeamRemote {
                 ),
                 MyTeamRemote.MyTeamDetail.class
             );
-            Test.StopTest();
             detail.delegates[0]
                 .delegateTrials[0]
                 .siteLevels[0]
@@ -272,6 +271,7 @@ private class Test_MyTeamRemote {
                 JSON.serialize(detail.delegates[0]),
                 null
             );
+            Test.stopTest();
         }
         Site_Staff__c testPiDel = [
             SELECT
@@ -346,7 +346,6 @@ private class Test_MyTeamRemote {
                 ),
                 MyTeamRemote.MyTeamDetail.class
             );
-            Test.stopTest();
             detail.delegates[0]
                 .delegateTrials[0]
                 .siteLevels[0]
@@ -359,6 +358,7 @@ private class Test_MyTeamRemote {
                 null
             );
         }
+        Test.stopTest();
         Site_Staff__c testPiDel = [
             SELECT
                 Id,
