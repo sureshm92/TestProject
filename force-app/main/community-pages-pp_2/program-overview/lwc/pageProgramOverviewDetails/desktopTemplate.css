@@ -351,7 +351,7 @@ span:hover {
     /* overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap; */
-    padding-left: 15px;
+    /* padding-left: 15px; */
     padding-right: 15px;
     word-wrap: break-word;
     text-align: left;
