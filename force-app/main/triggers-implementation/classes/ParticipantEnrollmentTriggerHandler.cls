@@ -1539,6 +1539,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             usersByContactId.put(user.ContactId, user);
         }
         for (Participant_Enrollment__c per : enrollments) {
+            String communityTemplate = ((Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(
+                per.Clinical_Trial_Profile__c
+            ))
+            .CommunityTemplate__c;
+
             Task t = new Task(
                 Subject = System.Label.Activate_Ecoa_Ediaries,
                 Task_Code__c = TaskService.TASK_CODE_ECOA_TASK,
@@ -1549,7 +1554,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 WhoId = per.Participant_Contact__c,
                 Visible_For__c = TaskService.TASK_VISIBILITY_ALL,
                 Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
-                Community_Template_Name__c = per.Clinical_Trial_Profile__r ?.CommunityTemplate__c
+                Community_Template_Name__c = per.Clinical_Trial_Profile__c != null ? communityTemplate : null
             );
             if (usersByContactId.get(per.Participant_Contact__c) != null) {
                 //if user exist then assign to him:

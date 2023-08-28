@@ -26,7 +26,12 @@ public with sharing class Test_TelevisitTriggerHandler {
         Test.setMock(HttpCalloutMock.class, new RestMock());
         Test.startTest();
         TestData testData = new TestData();
-
+        
+        Televisit_Record_Vendor__c trv = new Televisit_Record_Vendor__c(API_Key__c = 'test',API_Secret__c='test1', Clinical_Trial_Profile__c=testData.ctp.id);
+        insert trv;
+        TelevisitVendorSettings__c tvs = new TelevisitVendorSettings__c(Study_Site__c = testData.ss.id,isEnable__c=True, Televisit_Record_Vendor__c=trv.id);
+        insert tvs;
+        
         Televisit_Attendee__c taObj = new Televisit_Attendee__c();
         Televisit_Attendee__c taObj1 = new Televisit_Attendee__c();
 
