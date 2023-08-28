@@ -260,6 +260,7 @@ private class Test_MyTeamRemote {
                 ),
                 MyTeamRemote.MyTeamDetail.class
             );
+            Test.StopTest();
             detail.delegates[0]
                 .delegateTrials[0]
                 .siteLevels[0]
@@ -272,7 +273,6 @@ private class Test_MyTeamRemote {
                 null
             );
         }
-        Test.stopTest();
         Site_Staff__c testPiDel = [
             SELECT
                 Id,
@@ -346,6 +346,7 @@ private class Test_MyTeamRemote {
                 ),
                 MyTeamRemote.MyTeamDetail.class
             );
+            Test.stopTest();
             detail.delegates[0]
                 .delegateTrials[0]
                 .siteLevels[0]
@@ -358,7 +359,6 @@ private class Test_MyTeamRemote {
                 null
             );
         }
-        Test.stopTest();
         Site_Staff__c testPiDel = [
             SELECT
                 Id,
