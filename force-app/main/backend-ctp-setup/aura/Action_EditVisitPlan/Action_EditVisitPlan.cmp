@@ -10,6 +10,7 @@
     <aura:attribute name="iconDetails" type="List" />
 
     <aura:attribute name="communitytemplate" type="String"  />
+    <aura:attribute name="pptemplate" type="String"  />
 
     <aura:attribute name="callback" type="Object" access="private" />
     <aura:attribute name="mode" type="String" access="private" />
@@ -143,7 +144,7 @@
         planId="{!v.plan.Id}"
         isDisabled="{!equals(v.mode,'view')}"
     />
-    <c:Action_EditVisit aura:id="actionVisit" icons="{!v.icons}"  communitytemplate="{!v.communitytemplate}"/>
+    <c:Action_EditVisit aura:id="actionVisit" icons="{!v.icons}"  communitytemplate="{!v.communitytemplate}" pptemplate="{!v.pptemplate}"/>
 
     <c:IconsStaticResourceService
         aura:id="iconsService"

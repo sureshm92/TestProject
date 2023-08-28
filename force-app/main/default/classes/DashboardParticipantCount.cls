@@ -264,7 +264,7 @@ public without sharing class DashboardParticipantCount {
         
         String query = 'SELECT Id,Invited_To_PP_Date__c,Participant__c,Participant__r.First_Name__c,Participant__r.Last_Name__c,'
             +'Participant_Contact__c,Participant_Contact__r.Is_Patient_User_Created__c,Participant__r.Email__c,Participant__r.Adult__c,'
-            +'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c'
+            +'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.PPTemplate__c'
             +' FROM Participant_Enrollment__c'
             +' WHERE Study_Site__c != NULL'
             +' '+whereClause
@@ -385,7 +385,7 @@ public without sharing class DashboardParticipantCount {
     }
 
     public static Clinical_Trial_Profile__c fetchStudyDetails(Id ctpId) {
-        return([SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c WHERE Id =: ctpId]);
+        return([SELECT Id,CommunityTemplate__c,PPTemplate__c FROM Clinical_Trial_Profile__c WHERE Id =: ctpId]);
     }
 
     @AuraEnabled
