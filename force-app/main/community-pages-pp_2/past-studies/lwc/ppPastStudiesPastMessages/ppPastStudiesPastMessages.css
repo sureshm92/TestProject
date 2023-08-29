@@ -1,0 +1,44 @@
+.ms-item-icon-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    background-color: black;
+}
+.img-ms-item-icon-circle {
+    height: 40px;
+    width: 40px;
+}
+.lt-initial-pos {
+    position: relative;
+    top: 5px;
+}
+.no-msg-img {
+    height: 54px;
+    width: 61px;
+    margin-bottom: 7.33px;
+}
+.no-msg-txt{
+    color: #757575;
+    font-weight: 500;
+    line-height: 32px;
+    text-align: center;
+}
+.fullHeight{
+    height: 100%;
+}
+.viewmessagelabel{
+  color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  font-weight: 500;
+  /*
+  letter-spacing: 0;
+  line-height: 10px;
+  text-align: center;
+  width: 130px;
+  height: 105px; */
+}
