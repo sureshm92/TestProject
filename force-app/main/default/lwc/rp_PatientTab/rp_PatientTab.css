@@ -66,6 +66,9 @@ line-height: 24px;
 .middle-initial{
   width:4rem !important;
 }
+.cursorType{
+  cursor: default;
+}
 
 /* ----------------END-----------*/
 .section-header {

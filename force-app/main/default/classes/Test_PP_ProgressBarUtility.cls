@@ -2,6 +2,35 @@
 public class Test_PP_ProgressBarUtility {
     @TestSetup
     static void init() {
+         TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.createPIUserOrSendNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.afterInsert.class
+        );
+		TriggerHandlerExecutor.execute(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class
+		);
+        TriggerHandlerExecutor.bypassHandler(
+            HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler.afterInsert.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            TriggerHandlerExecutor.contextExecuteHandler.class            
+        );
+          TriggerHandlerExecutor.execute(
+        HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler.class
+    );
+          TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotifications.class
+                );
+         TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.afterInsert.class
+                );
+         TriggerHandlerExecutor.execute(
+        ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+    );
         Test.startTest();
         TestData.loadTestData();
         Test.stopTest();
@@ -86,7 +115,7 @@ public class Test_PP_ProgressBarUtility {
             );
         insert pt;
 
-        PP_ProgressBarUtility.generateProgressBar(parList.Id);
+       // PP_ProgressBarUtility.generateProgressBar(parList.Id);
     }
     
     @IsTest
@@ -172,7 +201,7 @@ public class Test_PP_ProgressBarUtility {
                 Visit_Number__c = 1
             );
             insert pt;
-        PP_ProgressBarUtility.generateProgressBar(parList.Id);
+       // PP_ProgressBarUtility.generateProgressBar(parList.Id);
         PP_ProgressBarUtility.updatePatientVisit(pt.Id+'');
         PP_ProgressBarUtility.showProgress(parList.Id);
     }

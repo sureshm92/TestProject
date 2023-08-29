@@ -8,12 +8,13 @@
     line-height: 24px;
   }
 
-.numbervalue{
-font-weight: 400;
-font-size: .875rem;
-line-height: 24px;
-color: #444;
-}
+  .numbervalue{
+    font-weight: 400;
+    font-size: .875rem;
+    line-height: 24px;
+    color: #444;
+    }
+
 .mask {
     padding-left: 13px;
     /*width: 326px;*/

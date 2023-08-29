@@ -484,91 +484,58 @@
                 contentDocId: conDocId
             },
             function () {
-                component.set('v.FileList', []);
+                component.set('v.contentDocId', undefined);
+                component.set('v.contentVersionId', undefined);
+                component.set('v.fileList', []);
                 component.set('v.fullFileName', '');
                 component.set('v.fileName', '');
                 component.set('v.fileType', '');
                 component.set('v.fileRequired',false);
                 component.set("v.progressbar",false);
+                component.set('v.fileUploaded', false);
+                
             }
         );
     },
     upload: function (component, event, helper) {
-        component.find('mainSpinner').show();
-        var file = component.get('v.FileList')[0];
-        var chunkSize =  5 * 1024 * 1024; 
-        var fileSize = file.size;
-        var offset = 0;
-        
-        if(fileSize > chunkSize){
-            component.set("v.errorMessage", "File size exceeds 4MB limit.");
+        var MAX_FILE_SIZE = 4500000;
+        var CHUNK_SIZE= 750000;
+        var file = component.get('v.fileList')[0];
+        var fileName = file.name;
+        var extension_index = fileName.lastIndexOf(".");
+        var extension = fileName.slice(extension_index + 1);
+
+        if (extension.toLowerCase() != "pdf") {
+             component.set("v.errorMessage", $A.get('$Label.c.Only_PDF_Error_Message'));
+                component.set("v.progressbar", false);
+                component.find('mainSpinner').hide();
+            return;
+        }else{
+             component.set("v.errorMessage", "");
+                component.set("v.progressbar", true);
+               
+        }
+
+        if (file.size > MAX_FILE_SIZE) {
+            
+            component.set("v.errorMessage", $A.get('$Label.c.File_size_exceeds_limit_Error_Message'));
+            component.set("v.progressbar", false);
             component.find('mainSpinner').hide();
             return;
         }
- 
-        function uploadChunk(start, end) {
-            var chunk = file.slice(start, end);
-    
-            var fileTypes = ['pdf'];
-            var extension = file.name.split('.').pop().toLowerCase();
-            var fileName = file.name.split('.')[0];
-    
-            if (fileTypes.indexOf(extension) == -1) {
-                component.set("v.errorMessage", "Only PDF files are allowed.");
-                component.set("v.progressbar", false);
-                component.find('mainSpinner').hide();
-                return;
-            } else {
-                component.set("v.errorMessage", "");
-                component.set("v.progressbar", true);
-                component.set("v.percentDone", 25);
-            }
-    
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                var binary = '';
-                var bytes = new Uint8Array(e.target.result);
-                var length = bytes.byteLength;
-                var base64Data = e.target.result.split(',')[1];
-    
-                component.set("v.percentDone", 75);
-    
-                communityService.executeAction(
-                    component,
-                    'uploadPDFDocument',
-                    {
-                        fileName: fileName + '.' + extension,
-                        base64Data: base64Data  
-                    },
-                    function (returnValue) {
-                        
-                        component.set('v.contentDocId', returnValue); 
-                        component.set('v.blobData', base64Data);
-                        component.set('v.pdfData', base64Data);
-                        component.set('v.fileName', fileName);
-                        component.set('v.fileType', extension);
-                        component.set('v.fullFileName', fileName + '.' + extension);
-                        component.set("v.percentDone", 100);
-                        component.set('v.fileRequired', true);
-                        offset = end;
-                        uploadNextChunk();
-                    }
-                );
-                component.find('mainSpinner').hide();
-            };
-            component.set("v.percentDone", 50);
-            reader.readAsDataURL(chunk);
-        }
-        
-        function uploadNextChunk() {
-            if (offset < fileSize) {
-                var end = Math.min(offset + chunkSize, fileSize);
-                uploadChunk(offset, end);
-            } else {
-                component.find('mainSpinner').hide();
-            }
-        }
-        uploadNextChunk();
+
+        component.set("v.percentDone", 8);
+
+        var reader = new FileReader();
+        reader.onload = function () {
+            var fileContents = reader.result;
+            var base64Mark = "base64,";
+            var dataStart = fileContents.indexOf(base64Mark) + base64Mark.length;
+            fileContents = fileContents.substring(dataStart);
+            helper.uploadNextChunk(component, file, fileContents);
+           
+    }
+      reader.readAsDataURL(file);       
     },
 
     doReferPatient: function (component) {
