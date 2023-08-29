@@ -254,8 +254,7 @@
                             <div class="label tooltip textmargin">
                                 <abbr title="required" class="slds-required"
                                     >{!v.needsGuardian ? '*' : ''}</abbr>
-                                    <p class="textoverlap textinline">{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}</p>  
-                              <span class="{!v.isRTL?'margintextRTL':'margintext'}">{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}</span>
+                                    <p class="textoverlap textinline cursorType">{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}</p>  
                             </div>
                                 <lightning:input
                                     aura:id="delegate-phone"
