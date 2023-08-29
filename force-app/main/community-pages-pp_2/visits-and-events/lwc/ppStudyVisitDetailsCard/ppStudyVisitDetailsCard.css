@@ -67,7 +67,9 @@
 .date-height {
     height: 2rem;
 }
-
+.down-arrow-unstyled {
+    -webkit-appearance: none;
+}
 .curve-input:focus-within,
 .slds-form-element__control
     .slds-checkbox
