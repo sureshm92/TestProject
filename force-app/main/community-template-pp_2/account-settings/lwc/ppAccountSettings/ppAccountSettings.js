@@ -21,6 +21,7 @@ export default class PpAccountSettings extends LightningElement {
     @api isMobile = false;
     @api isInitialized = false;
     @api isDelegate = false;
+    @api isJanssen = false;
     @track initData;
     @track personWrapper;
     @track contactSectionData;
@@ -171,6 +172,7 @@ export default class PpAccountSettings extends LightningElement {
             .then((result) => {
                 let initialData = JSON.parse(result);
                 this.initData = initialData;
+                this.isJanssen =  this.initData.isJanssen; 
                 // this.medicalRecordVendorToggle = communityService.getParticipantData().ctp
                 //     ? communityService.getParticipantData().ctp.Medical_Vendor_is_Available__c
                 //     : false;

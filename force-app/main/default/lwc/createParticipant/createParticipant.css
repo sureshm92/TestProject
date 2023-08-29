@@ -41,6 +41,20 @@
     padding-left: 4px
 }
 
+.title {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+.sub-text{
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+}
+
 @media all and (max-width: 1023px){
     .buttonposition{
         float:none;
@@ -60,6 +74,10 @@
     }
     .msg_padding{
         padding-left: 10px
+    }
+    .button-mob{
+        height: 32px;
+        width: 67px;
     }
 }
 

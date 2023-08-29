@@ -11,9 +11,11 @@ import Technical_Error from '@salesforce/label/c.Create_Participant_Technical_Er
 import BTN_OK from '@salesforce/label/c.BTN_OK';
 import BTN_CANCEL from '@salesforce/label/c.BTN_Cancel';
 import BTN_NAME from '@salesforce/label/c.Create_participant_button_label';
+import Main_Header from '@salesforce/label/c.create_Participant_Main_Header';
 import Message from '@salesforce/label/c.create_participant_message';
 import Updated_Message from  '@salesforce/label/c.create_participant_updated_message';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { refreshApex } from '@salesforce/apex'
 
 export default class CreateParticipant extends LightningElement {
     createParticipantIcon = image;
@@ -21,17 +23,16 @@ export default class CreateParticipant extends LightningElement {
     innerspinner = true;
     @api participantenrollmentid;
     @api peid;
-    consent;
     okDisabled = true;
     isDropdownSelected = true;
-    isDisabled = false;
     messages;
-    DateTime;
     userTimezone = TIME_ZONE;
     isModalOpen = false;
     returnValue = [];
     isbuttonvisible=true;
     @api SelectedCollection;
+    initialdata ={"isDisabled": false,"isEnabled" : false}
+    wiredIntialData={};
 
     label={
         BTN_NAME,
@@ -41,29 +42,26 @@ export default class CreateParticipant extends LightningElement {
         BTN_CANCEL,
         Message,
         Technical_Error,
-        Updated_Message
+        Updated_Message,
+        Main_Header
     }
-
-   
 
     //fetch prerequisit to decide whether participant is consent eligible
     @wire(getConsentParams,{perId :'$participantenrollmentid'}) 
     getconsent(response,error){
-       
+       this.wiredIntialData = response;
         console.log('Response in load:'+JSON.stringify(response));
         if(response.data){
             this.messages  = this.label.Message;
-            this.consent = response.data.isEnabled;
-            this.isDisabled = response.data.isDisabled;
-            this.DateTime = response.data.consentDate;
-            if(this.isDisabled){
+            this.initialdata = response.data;
+            if(this.initialdata.isDisabled){
                 this.messages = this.label.Updated_Message;
             }
         }
         if(error){
             console.error(JSON.stringify(error));
         }
-    }
+    } 
 
     creatingParticipant(){
         this.innerspinner = true;
@@ -86,8 +84,6 @@ export default class CreateParticipant extends LightningElement {
             let statusInfo = result.statusdetails;
             if(statusInfo && statusInfo.length > 0){
              if(statusInfo[0].isSuccess){
-                this.isDisabled =result.isDisabled;
-                this.DateTime = result.consentDate;
                 this.messages= this.label.Updated_Message;
                 const event = new ShowToastEvent({
                     title: 'Success',
@@ -97,9 +93,6 @@ export default class CreateParticipant extends LightningElement {
                 this.dispatchEvent(event);
              } 
              else{
-                if(statusInfo[0].errorcode && (statusInfo[0].errorcode == '40029' || statusInfo[0].errorcode == '40014')){
-                    this.isDisabled = result.isDisabled;
-                }
                 const event = new ShowToastEvent({
                     title: 'Error',
                     message: statusInfo[0].UI_MESSAGE,
@@ -108,7 +101,8 @@ export default class CreateParticipant extends LightningElement {
                 this.dispatchEvent(event);
               }
             }
-           this.closeModal();
+            refreshApex(this.wiredIntialData);
+            this.closeModal();
                 
         }).catch(error=>{
             this.innerspinner = false;

@@ -84,11 +84,8 @@ global without sharing class EmailTemplateDelegatePartController {
         ]; //1.0 
         String janssenTemplate; //1.0  janssen  2.0 pp
         if(pde.isEmpty()){            
-            if(getTemplateText() =='Default' || getTemplateText() =='Janssen'){
+            if(getTemplateText() =='Janssen'){
                 janssenTemplate='PP 1.0';
-            }
-            else if(getTemplateText() =='PatientPortal' || getTemplateText() =='Janssen2.0'){
-                janssenTemplate='PP 2.0';
             }
           
             pde = [
