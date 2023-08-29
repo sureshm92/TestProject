@@ -244,4 +244,13 @@
     .THIS .pi-picklist-container .slds-grid > .slds-col:first-child {
         margin-bottom: 15px;
     }
+    .THIS .dropdown {
+        width: 100% !important;
+    }
+    .THIS .dropdown-span {
+        width: 340px !important;
+    }
+    .THIS .dropdown:after {
+        top: auto !important;
+    }
 }

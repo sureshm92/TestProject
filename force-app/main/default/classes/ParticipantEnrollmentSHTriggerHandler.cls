@@ -316,6 +316,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     Study_Site__r.Clinical_Trial_Profile__c,
                     Study_Site__r.Suppress_Participant_Emails__c,
                     Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Clinical_Trial_Profile__r.PPTemplate__c,
                     Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                     Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                     Is_Virtual_Study_Site__c,
@@ -397,10 +398,17 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                         );
                         String sourcePe = newPE.Referral_Source__c;
                         String visitedCommunities = newPE.Participant__r.Contact__r.Visited_Communities__c;
-                        String currentCommunityName = CommunityTemplateService.getTemplate(
-                                newPE.Clinical_Trial_Profile__r.CommunityTemplate__c
-                            )
-                            .templateName;
+                        String currentCommunityName;
+                        if( newPE.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' 
+                            && newPE.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'){
+                                currentCommunityName='PatientPortal';
+                        }
+                        else{
+                                currentCommunityName = CommunityTemplateService.getTemplate(
+                                    newPE.Clinical_Trial_Profile__r.CommunityTemplate__c
+                                )
+                                .templateName;
+                        }
                         Boolean checkVisitedCommunity = false;
                         if (visitedCommunities != null)
                             checkVisitedCommunity = visitedCommunities.contains(
@@ -485,6 +493,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 Study_Site__r.Clinical_Trial_Profile__c,
                 Study_Site__r.Suppress_Participant_Emails__c,
                 Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Clinical_Trial_Profile__r.PPTemplate__c,
                 Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                 Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                 Is_Virtual_Study_Site__c,
@@ -521,7 +530,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     if(filterCriteria){
                         if (
                             newPE.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                            CommunityTemplateService.TEMPLATE_PP
+                            CommunityTemplateService.TEMPLATE_PP || (newPE.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && newPE.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
                         ) {
                             alertsForInsert.add(
                                 new Alert__c(
@@ -559,7 +568,8 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             ParticipantEnrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
             Status__c,
             Date__c,
-            ParticipantEnrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.PPTemplate__c
             FROM Participant_Enrollment_Status_History__c
             WHERE Id IN :newHistories
         ];
@@ -586,7 +596,8 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             ParticipantEnrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
             Status__c,
             Date__c,
-            ParticipantEnrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+            ParticipantEnrollment__r.Clinical_Trial_Profile__r.PPTemplate__c
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c IN :statusHistoryPER.values() 
             AND Status__c IN : PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS
@@ -620,7 +631,7 @@ participantIds
             if (pe.Participant_Contact__c != null && !alredayEnrolledPER.contains(pe.Id)) {
                 if (
                     pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                    CommunityTemplateService.TEMPLATE_PP
+                    CommunityTemplateService.TEMPLATE_PP || (pe.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
                 ) {
                     alerts.add(
                         new Alert__c(
@@ -646,7 +657,7 @@ participantIds
                 if(!alredayEnrolledPER.contains(pe.Id)){
                     if (
                         pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                        CommunityTemplateService.TEMPLATE_PP 
+                        CommunityTemplateService.TEMPLATE_PP  || (pe.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
                     ) {
                         alerts.add(
                             new Alert__c(

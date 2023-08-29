@@ -6,11 +6,12 @@ import getInitData from '@salesforce/apex/ApplicationHelpRemote.getInitData';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+import { NavigationMixin } from 'lightning/navigation';
 import quickRefernceCard from '@salesforce/label/c.Quick_Reference_Card';
 import getResourceURL from '@salesforce/apex/HelpController.getResourceURL';
 import Quick_Reference_Guide from '@salesforce/label/c.PG_AH_H_Quick_Reference_Guide';
 
-export default class PpQuickReferenceLink extends LightningElement {
+export default class PpQuickReferenceLink extends NavigationMixin(LightningElement) {
     videoLink;
     @api userMode;
     @api isDelegate;
@@ -52,6 +53,18 @@ export default class PpQuickReferenceLink extends LightningElement {
     }
 
     openQuickReference() {
+        if (communityService.isMobileSDK() ) {
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'mobile-pdf-viewer'
+                },
+                state: {
+                    'resourceName': this.quickReference
+                }
+            });
+            return;
+        }
         var webViewer = pdfjs_dist + '/web/viewer.html';
         console.log('webViewer', webViewer);
         getResourceURL({ resourceName: this.quickReference }).then((result) => {

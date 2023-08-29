@@ -24,6 +24,7 @@
                     <lightning-layout-item if:true={resourcesAvailable} size="12">
                         <div class="dropdown" data-key="dropdown" onclick={showOptions}>
                             <span>{selectedOptions}</span>
+                            <span class="down-icon"><lightning-icon icon-name='utility:down' alternative-text='down' size="x-small" class='green-utility-icon' title='down'></lightning-icon></span>
                             <ul class="res-options hidden">
                                 <template for:each={options} for:item="option">
                                     <li
