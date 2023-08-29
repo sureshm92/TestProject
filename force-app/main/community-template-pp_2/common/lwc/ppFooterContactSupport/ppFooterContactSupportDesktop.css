@@ -311,3 +311,10 @@
 .toggle-height {
     max-height: 100% !important;
 }
+.show-more-or-less-container {
+    /* margin-top: -90px; */
+    width: 134%;
+    left: -21.33%;
+    position: relative;
+    padding-bottom: 20px;
+}
