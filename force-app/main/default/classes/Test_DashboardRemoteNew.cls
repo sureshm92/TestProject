@@ -103,6 +103,15 @@ private class Test_DashboardRemoteNew {
                 testDataInst.piContact.Id,
                 testDataInst.ctp.Id
             );
+            Participant__c participantDel = new Participant__c();
+            participantDel.Email__c = 'Test01@mail.ru';
+            participantDel.First_Name__c = 'testName';
+            participantDel.Last_Name__c = 'testLastName';
+            participantDel.Phone__c = '141241';
+            participantDel.Phone_Type__c = 'Home';    
+            participantDel.Birth_Year__c = '1990';
+            participantDel.Contact__c = testDataInst.hcpEnrollment.HCP_Contact__c;
+              insert participantDel;
             DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id, testDataInst.ctp.Id);
             DashboardRemoteNew.getContactedParticipantsData(
                 testDataInst.piContact.Id,
@@ -540,79 +549,17 @@ private class Test_DashboardRemoteNew {
       @IsTest
     static void SuccessfullycontactedTest() {
        TestData testDataInst = new TestData();
-        Account SiteAccount = new Account(
-                Name = 'Study Site Account'
-            );
-        
-            insert SiteAccount;
-            
-            Contact con = new Contact(
-                FirstName = 'PITD',
-                LastName = 'PITD',
-                AccountId = SiteAccount.Id,
-                Email = 'part1@email.com'
-            );
-            insert con;
-        
-           Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
-                Protocol_ID__c = 'tt123456790',
-               Override_Recruitment_Status__c = 'Actively Enrolling',
-                NCT_Number__c = 'NCT00000002',
-                Link_to_Pre_screening__c = 'some link',
-                Study_Title__c = 'Some Title',
-                Study_Code_Name__c = 'Some Code Name',
-                Suppress_Participant_Emails__c = false,
-                 Initial_Visit_Required__c= False
-                );
-                insert clinical;
-        
-             Study_Site__c studySite = new Study_Site__c(
-                Name = 'Test',
-                Principal_Investigator__c = con.Id,
-                Clinical_Trial_Profile__c = clinical.Id,
-                Site__c = SiteAccount.Id,
-                Study_Site_Type__c = 'Traditional',
-                Suppress_Participant_Emails__c = false
-            );
-            insert studySite;
-            Participant__c participant = new Participant__c(
-            First_Name__c = 'ParticipantTD',
-            Last_Name__c = 'ParticipantTD',
-            Phone__c = '55313535',
-            Email__c = 'part1@email.com',
-            Contact__c = con.Id,
-            Mailing_Country_Code__c = 'US',
-            Mailing_State_Code__c = 'AL',
-            Adult__c = true,
-            Site__c=SiteAccount.Id
-        );
-        insert participant;
-        
-            Participant_Enrollment__c pe2 = new Participant_Enrollment__c(
-            Medical_Record_Review_Status__c= 'Pass',
-            Pre_screening_Status__c= 'Pass',
-            PI_Contact__c = con.Id,
-            Study_Site__c = studySite.Id,
-            Patient_ID__c = 'SomePatientId2',
-            Referral_Source__c = 'PI',      
-            Initial_visit_occurred_flag__c = false,
-            Participant_Status__c = DashboardRemoteNew.STATUS_ENROLLMENT_SUCCESS,
-            Participant__c = participant.Id,
-            Screening_ID__c = 'PESCR2'
-
-        );
-         insert pe2;  
         Test.startTest();
         System.runAs(testDataInst.piUser) {
             
             DashboardRemoteNew.prepareDataForFunnelChart(
-                con.Id,
-                clinical.Id
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
             );
-            DashboardRemoteNew.getPIName(con.Id);
+            DashboardRemoteNew.getPIName(testDataInst.piContact.Id);
             DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);
-            DashboardRemoteNew.getCurrentStudySitesCount(clinical.Id);
-            DashboardRemoteNew.getStudySiteDetails(con.Id, clinical.Id);
+            DashboardRemoteNew.getCurrentStudySitesCount(testDataInst.ctp.Id);
+            DashboardRemoteNew.getStudySiteDetails(testDataInst.piContact.Id, testDataInst.ctp.Id);
         }
         Test.stopTest();
     }
@@ -1431,49 +1378,6 @@ private class Test_DashboardRemoteNew {
     static void prepareAwaitingContactListTest2() {
         TestData testDataInst = new TestData();
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_CONTACT_ATTEMPTED);
-
-        Account studySiteAccount = new Account(
-                Name = 'Study Site Account',
-                BillingLatitude = 41.766594,
-                BillingLongitude = -74.991509,
-                BillingCountry = 'United States'
-            );
-        insert studySiteAccount;
-
-        Study_Site__c studySite = new Study_Site__c(
-            Principal_Investigator__c = testDataInst.piContact.Id,
-            Clinical_Trial_Profile__c = testDataInst.ctp.Id,
-            Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
-            Site__c = studySiteAccount.Id,
-            Study_Site_Type__c = 'Traditional',
-            Suppress_Participant_Emails__c = false,
-            Study_Site_Number__c = 'SS1',
-            Billable_Code_CRM_Number__c = 'Test_Billable_Code',
-            Enable_for_Call_Center_Support__c = true
-        );
-        insert studySite;
-
-        Time myTime = Time.newInstance(1, 2, 3, 0);
-        Participant_Enrollment__c parList = new Participant_Enrollment__c(
-            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
-            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
-            Initial_visit_scheduled_date__c = date.today(),
-            Initial_visit_scheduled_time__c = myTime,
-            Study_Site__c = studySite.Id,
-            Patient_ID__c = 'SomePatientId78887',
-            Referral_Source__c = 'HCP',
-            Source_Type__c = 'Referring Provider',
-            HighRisk_Indicator__c = 'Yes',
-            High_Priority__c=false,
-            Participant_Status__c = 'Pending Referral',
-            Screening_ID__c = 'PESCR9991',
-            Birth_Month__c='04',
-            YOB__c='2000'
-        );
-        insert parList;
-
-        parList.Participant_Status__c = PEStatusState.PE_STATUS_CONTACT_ATTEMPTED;
-        update parList;
 
         Test.startTest();
 

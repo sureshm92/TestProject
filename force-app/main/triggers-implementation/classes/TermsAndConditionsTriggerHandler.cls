@@ -25,6 +25,8 @@ public without sharing class TermsAndConditionsTriggerHandler {
             List<Terms_And_Conditions__c> activeTCList = new List<Terms_And_Conditions__c>();
             List<String> commNames = new List<String>();
             List<String> tcTypes = new List<String>();
+            List<String> lstTemplate = new list<String> ();
+            
             for (Terms_And_Conditions__c tc : newList) {
                 if (
                     tc.Active__c == true &&
@@ -32,7 +34,11 @@ public without sharing class TermsAndConditionsTriggerHandler {
                 ) {
                     activeTCList.add(tc);
                     commNames.add(tc.Community_Name__c);
-                    tcTypes.add(tc.T_C_Type__c);
+                    tcTypes.add(tc.T_C_Type__c); 
+                    if(tc.Community_Name__c == 'Janssen Community' && tc.Janssen_Template__c != null)
+                    {
+                        lstTemplate.add(tc.Janssen_Template__c);
+                    }
                 }
             }
             if (activeTCList.size() > 1)
@@ -40,7 +46,7 @@ public without sharing class TermsAndConditionsTriggerHandler {
 
             if (!activeTCList.isEmpty()) {
                 List<Terms_And_Conditions__c> termsAndConditions = [
-                    SELECT Id, Active__c
+                    SELECT Id, Active__c,Janssen_Template__c,Community_Name__c
                     FROM Terms_And_Conditions__c
                     WHERE
                         Active__c = TRUE
@@ -49,7 +55,16 @@ public without sharing class TermsAndConditionsTriggerHandler {
                         AND T_C_Type__c IN :tcTypes
                 ];
                 for (Terms_And_Conditions__c tc : termsAndConditions)
+                {
+                    if(tc.Community_Name__c == 'Janssen Community')
+                    {
+                       if(lstTemplate.contains(tc.Janssen_Template__c))
+                        tc.Active__c = false;
+                    }
+                    else {
                     tc.Active__c = false;
+                    }
+                }
                 update termsAndConditions;
             }
         }

@@ -264,7 +264,7 @@
                                 <!--Critical Label if any-->
                                 <lightning-layout-item class="slds-align_absolute-center" size="2"
                                     ><template if:true={item.criticalTask}
-                                        ><span class="critical-rect"
+                                        ><span class="critical-rect-home"
                                             >{label.taskPriorityCritical}</span
                                         ></template
                                     >
@@ -454,7 +454,6 @@
                         <lightning-layout-item size="8">
                             <lightning-layout size="12">
                                 <lightning-layout-item
-                                    size="10"
                                     class={item.homeSubjectEllipsisClass}
                                     ><span
                                         class={item.subjectClass}
@@ -467,9 +466,9 @@
                                         </lightning-formatted-text
                                     ></span>
                                 </lightning-layout-item>
-                                <lightning-layout-item size="2"
+                                <lightning-layout-item size="1"
                                     ><template if:true={item.criticalTask}
-                                        ><span class="critical-rect"
+                                        ><span class="critical-rect-home"
                                             >{label.taskPriorityCritical}</span
                                         ></template
                                     ></lightning-layout-item
