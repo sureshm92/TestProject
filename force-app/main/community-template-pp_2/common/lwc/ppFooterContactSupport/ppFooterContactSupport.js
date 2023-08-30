@@ -16,8 +16,8 @@ import If_You_Exp_Issue from '@salesforce/label/c.PP_If_You_Exp_Issue';
 import supportEmail from '@salesforce/label/c.PG_Unable_To_Login_L6';
 import PIR_more from '@salesforce/label/c.PIR_more';
 import Not_Available from '@salesforce/label/c.PP_Visit_Result_Value_Not_Available';
-// import PP_Contact_Support_Show_More from '@salesforce/label/c.PP_Contact_Support_Show_More';
-// import PP_Contact_Support_Show_Less from '@salesforce/label/c.PP_Contact_Support_Show_Less';
+import PP_Contact_Support_Show_More from '@salesforce/label/c.PP_Contact_Support_Show_More';
+import PP_Contact_Support_Show_Less from '@salesforce/label/c.PP_Contact_Support_Show_Less';
 
 import DesktopTemplate from './ppFooterContactSupportDesktop.html';
 import MobileTemplate from './ppFooterContactSupportMobile.html';
@@ -37,9 +37,9 @@ export default class PpFooterContactSupport extends LightningElement {
         If_You_Exp_Issue,
         supportEmail,
         PIR_more,
-        Not_Available
-        // PP_Contact_Support_Show_More,
-        // PP_Contact_Support_Show_Less
+        Not_Available,
+        PP_Contact_Support_Show_More,
+        PP_Contact_Support_Show_Less
     };
 
     phone_Icon = contact_support_icons + '/phone_Icon.svg';
@@ -91,6 +91,7 @@ export default class PpFooterContactSupport extends LightningElement {
     phoneCopied = false;
     phoneCopyHoverd = false;
     phoneTitle = 'Copy';
+    customHeightRendered = false;
 
     siteStaffTooltip;
 
@@ -99,9 +100,7 @@ export default class PpFooterContactSupport extends LightningElement {
     }
 
     get getShowLabel() {
-        // return "Show More";
-        //return this.showMoreLableState ? this.label.PP_Contact_Support_Show_More : this.label.PP_Contact_Support_Show_Less;
-        return this.showMoreLableState ? 'Show More' : 'Show Less';
+        return this.showMoreLableState ? this.label.PP_Contact_Support_Show_More : this.label.PP_Contact_Support_Show_Less;
     }
 
     get getShowIcon() {
@@ -115,45 +114,33 @@ export default class PpFooterContactSupport extends LightningElement {
             this.phoneContainerEle = this.template.querySelectorAll('.phoneContainer');
             this.addressContainerEle = this.template.querySelectorAll('.addressContainer');
 
-            if (this.showMoreLableState == false) {
-                this.customHeightStyle = 'height:auto; min-height: 100%';
-                this.customHeightMatchForSiteStaff = 'height: auto;';
-                this.adjustHeight =
-                    'height:' +
-                    (this.careTeamContainerEle[0].offsetHeight -
-                        (this.phoneContainerEle[0].offsetHeight + 8)) +
-                    'px';
-            } else {
-                this.setHeight();
-                // this.adjustHeight = '';
-                this.customHeightMatch =
-                    this.phoneContainerEle[0].offsetHeight +
-                    this.addressContainerEle[0].offsetHeight +
-                    8;
-                //if(this.customHeightMatch < 235){
-                this.customHeightMatch = '235';
-                this.adjustHeight =
-                    'height:' +
-                    (this.careTeamContainerEle[0].offsetHeight -
-                        (this.phoneContainerEle[0].offsetHeight + 8)) +
-                    'px';
-                //  }
+            //  START: Init Logic
+            let leftColumnHeight =
+                this.phoneContainerEle[0].offsetHeight +
+                this.addressContainerEle[0].offsetHeight +
+                8;
+            let rightColumnHeight = this.careTeamContainerEle[0].offsetHeight;
+            if (this.customHeightRendered == false) {
+                if (leftColumnHeight > rightColumnHeight) {
+                    //Adjust the height of the right column.
+                    this.customHeightStyle = 'height:' + leftColumnHeight + 'px';
+                    this.customHeightRendered = true;
+                } else {
+                    //Adjust the height of the left column.
+                    this.adjustHeight =
+                        'height:' +
+                        (rightColumnHeight - (this.phoneContainerEle[0].offsetHeight + 8)) +
+                        'px';
+                    this.customHeightRendered = true;
+                }
             }
+
+            // END: Init Logic
         }
         this.phoneNumberValueEle = this.template.querySelectorAll('.phone-value-ele');
         this.addressNumberValueEle = this.template.querySelectorAll('.address-value-ele');
         this.siteStaffTooltip = this.template.querySelectorAll('.siteStaffTooltip');
         this.siteStaffContainerEle = this.template.querySelectorAll('.site-staff-container');
-    }
-
-    setHeight() {
-        this.customHeightMatch =
-            this.phoneContainerEle[0].offsetHeight + this.addressContainerEle[0].offsetHeight + 8;
-        // if(this.customHeightMatch < 235){
-        this.customHeightMatch = '235';
-        //  }
-        this.customHeightStyle = 'height:' + this.customHeightMatch + 'px';
-        this.customHeightMatchForSiteStaff = 'height:' + (this.customHeightMatch - 102) + 'px';
     }
 
     connectedCallback() {
@@ -286,6 +273,9 @@ export default class PpFooterContactSupport extends LightningElement {
     }
 
     showHideSiteStaff() {
+        this.customHeightRendered = false;
+        this.customHeightStyle = 'height: auto';
+        this.adjustHeight = 'height: auto';
         this.siteStaffContainerEle[0].classList.toggle('toggle-height');
         this.showMoreLableState = !this.showMoreLableState;
     }
