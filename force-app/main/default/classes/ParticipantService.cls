@@ -229,7 +229,11 @@ public without sharing class ParticipantService {
         participantState.communityName = UserContext.getCurrentCommunityName();
         participantState.loggedInUserName = getLoggedInUserName(participants);
         participantState.objCPRA = getCPRALink('IQVIA Patient Portal'); 
-        participantState.isJanseenAlumniloggedin = getAlumniTemplate();  
+        if(participantState.communityName == 'IQVIA Patient Portal'){
+            participantState.isJanseenAlumniloggedin = getAlumniTemplate();
+        }else{
+            participantState.isJanseenAlumniloggedin = false;
+        }  
     }
     public static CPRA_DoNotSell__mdt getCPRALink(String strCommunityType) {
         list<CPRA_DoNotSell__mdt> lstMd = new List<CPRA_DoNotSell__mdt>();
