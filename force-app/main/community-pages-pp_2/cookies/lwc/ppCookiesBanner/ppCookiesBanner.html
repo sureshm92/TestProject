@@ -3,7 +3,7 @@
     <template if:true={showBanner}>
         <template if:false={loginPage}>
             <div class={containerClassCssPostLogin}>
-                <lightning-layout multiple-rows>               
+                <lightning-layout multiple-rows vertical-align="center" horizontal-align="center">               
                         <lightning-layout-item size="12" small-device-size="9" padding="around-small">
                             <div class="we-care-about-your-p">
                                 <div class="banner-heading slds-m-top_small">
@@ -25,7 +25,7 @@
                             </div>
                         </lightning-layout-item>
                         <lightning-layout-item
-                            class="desk-btn-margin mob-btn-center"
+                            class="mob-btn-center"
                             size="12"
                             small-device-size="3"
                             padding="around-small"
@@ -40,7 +40,7 @@
                                     size="12"
                                     small-device-size="12"
                                     class="slds-m-top_large"
-                                    ><button class={manageButtonCss} onclick={showManagePreferences}>
+                                    ><button class={manageButtonCss} onclick={showManagePreferences} style="box-shadow:none;">
                                         <label>{label.ppCookiesButtonManagePrefer}</label>
                                     </button></lightning-layout-item
                                 >
@@ -51,7 +51,7 @@
         </template>
         <template if:true={loginPage}>
             <div class={containerClassCss}>
-                <lightning-layout multiple-rows>
+                <lightning-layout multiple-rows >
                     
                         <lightning-layout-item size="12">
                             <div class="we-care-about-your-p">
