@@ -89,6 +89,9 @@
         .cookie-btn {
             pointer-events: auto;
             border-color: transparent;
+        }  
+        .cookie-cursor {
+            cursor: pointer;
         }
 
         .hide-banner {
@@ -354,23 +357,23 @@
                 class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 desk-btn-margin mob-btn-center slds-p-around_small"
             >
                 <div class="slds-grid slds-wrap">
-                     <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
-                        <apex:commandButton
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                          <apex:commandButton
                             styleClass="btn-container btn-label cookie-btn rh-border-radius"
                             value="{!$Label.PP_Cookies_Button_Accept}"
                             onclick="closeCookiesInfo();return false;"
                             id="accept"
-                        />
+                        /> 
                     </div>
                     <div
                         class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-m-top_large"
                     >
-                        <apex:commandButton
+                       <apex:commandButton
                             styleClass="btn-container manage cookie-btn rh-border-radius"
                             value="{!$Label.PP_Cookies_Button_Manage_Prefer}"
                             onclick="showManagePreferences();return false;"
                             id="manage"
-                        />
+                        /> 
                     </div>
                 </div>
             </div>
@@ -391,8 +394,8 @@
                         {!$Label.Manage_Cookies_Desc}
                     </div>
 
-                    <div class="accordion rh-border-radius">
-                        <div class="acordion-title right-angle-chevron slds-p-horizontal_small">
+                    <div class="accordion rh-border-radius ">
+                        <div class="acordion-title right-angle-chevron slds-p-horizontal_small cookie-cursor">
                             {!$Label.AccountSettings_Strictly_Necessary_Cookies}
                             <span class="always-active">{!$Label.Cookie_Always_Active}</span>
                         </div>
@@ -415,13 +418,13 @@
                                     style="{!IF(community =='Janssen Community' || communityName =='Janssen Community',  'display:block', 'display:none')}"
                                 >
                                     <div class="cookie-title-font-size">
-                                         <apex:outputText
-                                            value="{!$Label.AccountSettings_Functional_RRCookies}"
+                                        <apex:outputText
+                                        value="{!$Label.AccountSettings_Functional_RRCookies}"
                                         />
                                     </div>
                                     <div class="cookie-desc-font-size">
-                                       <apex:outputText
-                                            value="{!$Label.AccountSettings_RRCookies_Description}"
+                                        <apex:outputText 
+                                        value="{!$Label.AccountSettings_RRCookies_Description}"
                                         />
                                     </div>
                                 </div>
@@ -433,7 +436,7 @@
                         style="{!IF(community!='Janssen Community' && communityName !='Janssen Community','display:block' , 'display:none')}"
                     >
                         <apex:outputPanel id="functionCookiesInfo">
-                            <div class="acordion-title slds-p-horizontal_small">
+                            <div class="acordion-title slds-p-horizontal_small cookie-cursor">
                                 {!$Label.AccountSettings_Functional_Cookies}
                             </div>
                             <div class="panel" style="display: block">
@@ -451,8 +454,8 @@
                                             <label
                                                 class="slds-checkbox_toggle slds-grid slds-grid_align-center"
                                             >
-                                                <apex:inputCheckbox
-                                                    id="currentRRCookies"
+                                                <apex:inputCheckbox 
+                                                id="currentRRCookies"
                                                     value="{!currentContact.RRCookiesAllowedCookie__c}"
                                                 />
                                                 <span
@@ -480,8 +483,8 @@
                                             <label
                                                 class="slds-checkbox_toggle slds-grid slds-grid_align-center"
                                             >
-                                                <apex:inputCheckbox
-                                                    value="{!currentContact.RRLanguageAllowedCookie__c}"
+                                                <apex:inputCheckbox 
+                                                value="{!currentContact.RRLanguageAllowedCookie__c}"
                                                 />
                                                 <span
                                                     id="checkbox-toggle-16"

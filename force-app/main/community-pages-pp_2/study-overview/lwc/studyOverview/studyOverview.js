@@ -32,6 +32,7 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
     shortOverview;
     @api studysite;
     piName;
+    piTitle;
     studySitePhone;
 
     desktop = true;
@@ -62,6 +63,11 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
         return this.communityName == 'GSK Community' ? true : false;
     }
 
+
+    get piUserIcon(){
+        return this.isRTL ? 'piIcon-Rtl' : 'piIcon-NonRtl';
+    }
+
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
 
@@ -90,6 +96,7 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
         if (this.studysite) {
             this.piName = this.studysite.Principal_Investigator__r.Name;
             this.studySitePhone = this.studysite.Study_Site_Phone__c;
+            this.piTitle = this.piName + ' ' + this.label.PI_Post_Fix;
         }
 
         getisRTL()

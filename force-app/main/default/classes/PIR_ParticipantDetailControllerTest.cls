@@ -403,6 +403,12 @@ public with sharing class PIR_ParticipantDetailControllerTest {
          TriggerHandlerExecutor.bypassHandler(
             PatientDelegateTriggerHandler.CreateReactivatedNotification.class
             );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateJanssenNotification.class
+            );
+          TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.CreateJanssenNotification.class
+            );
         Contact delegate = new Contact(
             FirstName = 'Patient',
             LastName = 'Delegate',

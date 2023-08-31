@@ -115,7 +115,8 @@ export default class PpCreateTask extends LightningElement {
                         } else {
                             if (
                                 wrapper.task.Originator__c != 'Participant' &&
-                                wrapper.task.Originator__c != 'Delegate'
+                                wrapper.task.Originator__c != 'Delegate' &&
+                                wrapper.task.Task_Type__c != 'Ecoa' 
                             ) {
                                 if (
                                     !wrapper.task.Activity_Datetime__c ||

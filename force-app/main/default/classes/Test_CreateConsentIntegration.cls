@@ -2,6 +2,20 @@
 public class Test_CreateConsentIntegration {
     @TestSetup
     static void init(){
+        TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentSHTriggerHandler.CreateJanssenNotification.afterUpdate.class
+                );
+         
+		TriggerHandlerExecutor.execute(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
+    TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.createPIUserOrSendNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.afterInsert.class
+        );
+		TriggerHandlerExecutor.execute(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class
+		);
+	 
         TestData.loadTestData();
         TestData td = new TestData();
         

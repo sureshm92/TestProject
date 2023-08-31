@@ -593,6 +593,20 @@
         <value>RRCookies</value>
     </labels>
     <labels>
+        <fullName>AccountSettings_For_Strictly_Necessary_Cookies_Janssen</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AccountSettings_For_Strictly_Necessary_Cookies_Janssen</shortDescription>
+        <value>Cookie settings can be adjusted below. Strictly Necessary Cookies are required for essential features of our platform to function and cannot be switched off.</value>
+    </labels>
+    <labels>
+        <fullName>AccountSettings_For_Strictly_Necessary_Cookies</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AccountSettings_For_Strictly_Necessary_Cookies</shortDescription>
+        <value>Some essential features on Patient Portal site just won't work without cookies. And having other cookies switched off can seriously affect the way you'll be able to enjoy our services. "Strictly necessary" cookies can't be turned off.</value>
+    </labels>
+    <labels>
         <fullName>AccountSettings_RRCookies_Description</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -660,7 +674,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Activate_Ecoa_Ediaries</shortDescription>
-        <value>Activate Your eDiaries</value>
+        <value>Activate eDiaries</value>
     </labels>
     <labels>
         <fullName>Active_Requests</fullName>
@@ -1732,6 +1746,34 @@
         <protected>true</protected>
         <shortDescription>Back</shortDescription>
         <value>Back</value>
+    </labels>
+     <labels>
+        <fullName>Back_to_eDiaries</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back to eDiaries</shortDescription>
+        <value>Back to eDiaries</value>
+    </labels>
+     <labels>
+        <fullName>Activate_eDiaries</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Activate eDiaries</shortDescription>
+        <value>You will be able to activate eDiaries soon</value>
+    </labels>
+     <labels>
+        <fullName>eDiaries_Comm_Preferences</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>eDiaries Comm Preferences</shortDescription>
+        <value>Review Communication Preferences</value>
+    </labels>
+     <labels>
+        <fullName>eDiaries_Work_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>eDiaries Work Msg</shortDescription>
+        <value>We are working on it...</value>
     </labels>
     <labels>
         <fullName>Back_to_Manage_Delegates</fullName>
@@ -5686,6 +5728,20 @@ Your username is ##UserName.</value>
 &lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Activate_Task_For_ECOA_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Activate Task For ECOA PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Del_Email_Body_Activate_Task_For_ECOA_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Del Email Body Activate Task For ECOA PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName&lt;/span&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Instant_Task_Reminder_Type_Not_Selected_PPOnlyDate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6855,7 +6911,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Footer Address</shortDescription>
-        <value>Powered by IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
+        <value>Powered by IQVIA</value>
     </labels>
     <labels>
         <fullName>Email_Footer_Address_New</fullName>
@@ -6863,6 +6919,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>false</protected>
         <shortDescription>Email Footer Address New</shortDescription>
         <value>IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
+    </labels>
+    <labels>
+        <fullName>Email_Footer_Address_RH</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Footer_Address_RH</shortDescription>
+        <value>Powered by IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
     </labels>
     <labels>
         <fullName>Email_Footer_Privacy_Policy</fullName>
@@ -9984,6 +10047,16 @@ If you wish to access, correct, update or request removal of any of your informa
 IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quot;&gt;PrivacyOfficer@iqvia.com&lt;/a&gt;</value>
     </labels>
     <labels>
+        <fullName>HT_20_B_PP</fullName>
+        <categories>This is for patient Portal</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 20 B_PP</shortDescription>
+        <value>We acquire, hold, use, and process your personal information based on legal grounds, your explicit consent and for the legitimate business purposes outlined in the &lt;a href=privacy-policy?ret=help target=&quot;_blank&quot;&gt;Privacy Policy&lt;/a&gt; .
+If you wish to access, correct, update or request removal of any of your information you provided to us or if you have any questions regarding this Privacy Policy or would like more information on our privacy practices, please contact
+IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quot;&gt;PrivacyOfficer@iqvia.com&lt;/a&gt;</value>
+    </labels>
+    <labels>
         <fullName>HT_20_H</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10518,6 +10591,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Human leukocyte antigen</shortDescription>
         <value>HLA</value>
+    </labels>
+    <labels>
+        <fullName>I_Acknowledge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>I_Acknowledge</shortDescription>
+        <value>I acknowledge</value>
     </labels>
     <labels>
         <fullName>ICOS_Description_Intratumoral</fullName>
@@ -29568,6 +29648,13 @@ Duration: ##VisitDuration</value>
         <value>Televisit Record Vendor Name</value>
     </labels>
     <labels>
+        <fullName>Televisit_No_Vendor_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Televisit No Vendor Message</shortDescription>
+        <value>No new vendor is available to add on this Study/Program.</value>
+    </labels>
+    <labels>
         <fullName>Televisit_Reminder_Email_Body</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -31623,6 +31710,13 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>PP_Download_Results_Data</shortDescription>
         <value>Download Results Data</value>
     </labels>
+     <labels>
+        <fullName>Download_In_Progress_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Download_In_Progress_PP</shortDescription>
+        <value>Download in progress</value>
+    </labels>
     <labels>
         <fullName>PP_For_Participants_and_Caregivers</fullName>
         <language>en_US</language>
@@ -31757,7 +31851,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Create participant header</shortDescription>
-        <value>Participant is being created on econsent portal</value>
+        <value>Participant is being created on eConsent portal</value>
     </labels>
     
     <labels>
@@ -31765,7 +31859,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Create participant Pop-drop down label</shortDescription>
-        <value>Document collection id</value>
+        <value>Document collection ID</value>
     </labels>
     
     <labels>
@@ -31773,7 +31867,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Create Participant Technical Error</shortDescription>
-        <value>A technical error has occured, Please try again later.</value>
+        <value>A technical error has occured, Please try again.</value>
     </labels>
     
     <labels>
@@ -31829,5 +31923,19 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>create_Participant_Main_Header</shortDescription>
         <value>Participant Creation</value>
+    </labels> 
+     <labels>
+        <fullName>PP_Contact_Support_Show_More</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Show More Site staff</shortDescription>
+        <value>Show More</value>
+    </labels> 
+     <labels>
+        <fullName>PP_Contact_Support_Show_Less</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Show Less Site staff</shortDescription>
+        <value>Show Less</value>
     </labels> 
 </CustomLabels>
