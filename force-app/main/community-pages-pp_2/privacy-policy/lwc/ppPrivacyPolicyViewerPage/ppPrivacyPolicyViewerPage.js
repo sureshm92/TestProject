@@ -7,6 +7,7 @@ import generatePDF from '@salesforce/apex/TermsAndConditionsRemote.generatePDF';
 import formFactor from '@salesforce/client/formFactor';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import PP_HEADER from '@salesforce/label/c.Email_Footer_Privacy_Policy';
+import Back from '@salesforce/label/c.Back';
 import LAST_UPDATED from '@salesforce/label/c.Last_Updated_On';
 import CHAPTER from '@salesforce/label/c.Chapter';
 import DOWNLOAD_AS_PDF from '@salesforce/label/c.Download_PP_as_PDF';
@@ -25,20 +26,25 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
     currentPageReference = null;
     urlStateParameters = null;
     studyId = null;
+    commpref = false;
     ppRichText;
     @track listOfHeaders = [];
     empNames = [];
     options = [];
     @track currentHeader = '';
     @track currentHeaderLabel = '';
+    showBackButton = false;
     labels = {
         PP_HEADER,
         LAST_UPDATED,
         CHAPTER,
-        DOWNLOAD_AS_PDF
+        DOWNLOAD_AS_PDF,
+        Back
     };
 
     connectedCallback() {
+        this.showBackButton = communityService.isMobileSDK();
+        console.log('>>>>connectedcallback>>>>');
         Promise.all([
             loadScript(this, RR_COMMUNITY_JS),
             loadStyle(this, PP_Theme),
@@ -57,6 +63,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
                     })
                 );
             });
+            
     }
 
     @wire(CurrentPageReference)
@@ -76,13 +83,20 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
         this.spinner.show();
 
         let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
+        let iscompreff = communityService.getUrlParameter('iscommpref');
+        if(iscompreff)
+        {
+            this.commpref = true;
+        }
         let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;
-
+        console.log('>>> variable from iscompreff>>'+iscompreff);
+        console.log('>>>commpref>>'+this.commpref);
         getPrivacyPolicy({
             code: 'PrivacyPolicy',
             languageCode: communityService.getUrlParameter('language'),
             useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC,
-            ctId: this.ctpId
+            ctId: this.ctpId,
+            calledfromCommPref : this.commpref
         })
             .then((result) => {
                 let tcData = JSON.parse(result);
@@ -164,7 +178,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
 
     get headerContainer() {
         return this.isMobile
-            ? 'header-container slds-grid slds-wrap slds-p-left_medium slds-p-right_medium'
+            ? (this.showBackButton ? 'header-container-app slds-grid slds-wrap slds-p-left_medium slds-p-right_medium' : 'header-container slds-grid slds-wrap slds-p-left_medium slds-p-right_medium')
             : 'slds-grid slds-gutters slds-p-around_medium';
     }
 
@@ -306,5 +320,8 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
     removeElementFocus() {
         let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
         ddMenu.classList.remove('active');
+    }
+    goToPreviousPage(){
+        window.history.back();
     }
 }

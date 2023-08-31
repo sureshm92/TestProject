@@ -25,14 +25,19 @@
         modal.set('v.cancelCallback', params.cancelCallback);
         modal.show();
         component.validateInputs();
-        
+      
     },
 
     checkValidity: function (component, event, helper) {
         let visit = component.get('v.visit');
         let isValid =
             !visit.Name || !visit.Icons__c || !visit.Visit_Number__c || visit.Visit_Number__c < 1;
-        if(component.get('v.communitytemplate') == 'PatientPortal'){
+        if(component.get('v.communitytemplate') == 'PatientPortal' || component.get('v.pptemplate') == 'PP 2.0'){
+            component.set('v.isPP', true); 
+        }else{
+            component.set('v.isPP', false); 
+        }
+        if(component.get('v.communitytemplate') == 'PatientPortal' || component.get('v.pptemplate') == 'PP 2.0'){
         let motivMsgValidity = component.find("motivationalMsg").get("v.validity");
         let descripMsgValidity = component.find("descriptionMsg").get("v.validity");
         isValid = isValid || (!motivMsgValidity.valid) || (!descripMsgValidity.valid);
