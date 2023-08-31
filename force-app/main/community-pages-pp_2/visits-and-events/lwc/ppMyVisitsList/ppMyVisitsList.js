@@ -145,7 +145,6 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     }
 
     createEditTask(index) {
-        console.log('Inside Create Edit');
         this.contentLoaded = false;
         this.template.querySelector('c-web-spinner').show();
         this.showreminderdatepicker = false;
