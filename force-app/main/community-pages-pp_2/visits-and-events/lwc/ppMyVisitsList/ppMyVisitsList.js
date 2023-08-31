@@ -151,7 +151,8 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         this.showreminderdatepicker = false;
         if (this.visitid) {
             getParticipantVisitsDetails({
-                visitId: this.visitid
+                visitId: this.visitid,
+                updateReminderExpTasks: true
             }).then((result) => {
                 const str =
                     '{"Id":"","Patient_Visit__c":"","Reminder_Date__c":"","ReminderDateTime":"","Remind_Me__c":"","Remind_Using_Email__c":false,"Remind_Using_SMS__c":false}';
