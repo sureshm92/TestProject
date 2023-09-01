@@ -2011,7 +2011,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BulkImport_Ok</shortDescription>
-        <value>Ok</value>
+        <value>OK</value>
     </labels>
     <labels>
         <fullName>BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files</fullName>
