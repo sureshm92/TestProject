@@ -55,7 +55,7 @@ public without sharing class PatientDelegateEnrollmentService {
         Id delContactId
     ) {
         List<Patient_Delegate_Enrollment__c> pdEnrollments = [
-            SELECT Id, Participant_Enrollment__c, Primary_Delegate__c
+            SELECT Id, Participant_Enrollment__c, Primary_Delegate__c, Motivational_Message_Id__c
             FROM Patient_Delegate_Enrollment__c
             WHERE
                 Participant_Enrollment__r.Participant_Contact__c = :participantConId
@@ -77,6 +77,24 @@ public without sharing class PatientDelegateEnrollmentService {
         ];
         return pdEnrollments;
     }
+
+    public static List<Patient_Delegate_Enrollment__c> getPatientDelegateEnrollmentsActive(
+        Id participantConId,
+        Id delContactId,
+        Id perId
+    ) {
+        List<Patient_Delegate_Enrollment__c> pdEnrollments = [
+            SELECT Id, Participant_Enrollment__c, Primary_Delegate__c, Motivational_Message_Id__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE
+                Participant_Enrollment__r.Participant_Contact__c = :participantConId
+                AND Patient_Delegate__r.Contact__c = :delContactId
+                AND Participant_Enrollment__c = :perId
+                AND Status__c = 'Active'
+        ];
+        return pdEnrollments;
+    }
+
     public static List<Participant_Enrollment__c> getPEList(Id participantConId, Id delContactId) {
         Set<Id> peIdSet = new Set<Id>();
         List<Id> peIdList = new List<Id>();
@@ -138,11 +156,11 @@ public without sharing class PatientDelegateEnrollmentService {
             },
             Patient_Delegate_Enrollment__c.getSObjectType(),
             DatabaseService.fieldEqual(
-                    'Patient_Delegate__r.Participant__r.Contact__c',
-                    CommunityService.getInstance().getCurrentContactId()
-                ) +
-                ' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c= true' +
-                ' AND Participant_Enrollment__r.Invited_To_PP_Date__c != null'
+                'Patient_Delegate__r.Participant__r.Contact__c',
+                CommunityService.getInstance().getCurrentContactId()
+            ) +
+            ' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c= true' +
+            ' AND Participant_Enrollment__r.Invited_To_PP_Date__c != null'
         );
         isDelegate = lstPDE.size() > 0;
         participant = ParticipantContext.getCurrentParticipant();
@@ -413,9 +431,10 @@ public without sharing class PatientDelegateEnrollmentService {
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 Primary_Delegate__c
             FROM Patient_Delegate_Enrollment__c
-            WHERE Patient_Delegate__r.Contact__c = :pdContactId 
-            AND Status__c = 'Active'
-            AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c =  true
+            WHERE
+                Patient_Delegate__r.Contact__c = :pdContactId
+                AND Status__c = 'Active'
+                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
         ];
         return pdeList;
     }
@@ -462,7 +481,7 @@ public without sharing class PatientDelegateEnrollmentService {
                 Patient_Delegate__r.Contact__c = :pdContactId
                 AND Patient_Delegate__r.Participant__r.Contact__c = :parContactId
                 AND Status__c = 'Active'
-                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c =  true
+                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
         ];
         return pdeList;
     }
@@ -917,15 +936,14 @@ public without sharing class PatientDelegateEnrollmentService {
             pdFields,
             Patient_Delegate_Enrollment__c.getSObjectType(),
             DatabaseService.fieldInValues(
-                    'Patient_Delegate__r.Participant__r.Contact__c',
-                    partContactsIds
-                ) +
-                ' AND ' +
-                ((perIdlst != null && !perIdlst.isEmpty())
-                    ? (DatabaseService.fieldInValues('Participant_Enrollment__c', perIdlst) +
-                      ' AND ')
-                    : '') +
-                DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
+                'Patient_Delegate__r.Participant__r.Contact__c',
+                partContactsIds
+            ) +
+            ' AND ' +
+            ((perIdlst != null && !perIdlst.isEmpty())
+                ? (DatabaseService.fieldInValues('Participant_Enrollment__c', perIdlst) + ' AND ')
+                : '') +
+            DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
         );
 
         Map<Id, List<Contact>> delContactsByPartCnt = new Map<Id, List<Contact>>();
@@ -1131,7 +1149,8 @@ public without sharing class PatientDelegateEnrollmentService {
                     'Participant_Enrollment__c',
                     'Participant_Enrollment__r.Name',
                     'Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
-                    'Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c'
+                    'Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c',
+                    'Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c'
                 },
                 Patient_Delegate_Enrollment__c.getSObjectType(),
                 baseFilter

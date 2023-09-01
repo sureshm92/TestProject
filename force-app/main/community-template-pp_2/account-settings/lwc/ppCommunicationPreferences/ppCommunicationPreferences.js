@@ -65,6 +65,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     @api personWrapper;
     @api userMode;
     @api isRTL;
+    @api showBackButton;
 
     label = {
         PP_Communication_Pref_Del_Blank_Page,
@@ -134,6 +135,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     updatedPerRecord = {};
     commPrefForPrivacyPolicy = true;
     emailSMSConsent = false;
+    retUrl = '';
 
     studyError = false;
     isMobilePhoneNumberAvailable = true;
@@ -162,7 +164,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     connectedCallback() {
         // Get Initial Load Data
         this.spinner = true;
-
+        this.retUrl = communityService.createRetString();
         getInitData({ userMode: this.userMode })
             .then((result) => {
                 this.spinner = false;
@@ -265,8 +267,23 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     }
 
     openPrivacyPolicy() {
-        this.isPrivacyPolicy = true;
-        this.commPrefForPrivacyPolicy = true;
+
+              var  link = 'privacy-policy?ret=' + this.retUrl  + '&iscommpref=true';
+            
+            const config = {
+                type: 'standard__webPage',
+    
+                attributes: {
+                    url: link
+                }
+            };
+            console.log('>>before naviagton>>');
+            this[NavigationMixin.GenerateUrl](config).then((url) => {
+                // localStorage.setItem('Cookies', 'Accepted');
+                window.open(url, '_blank');
+            });
+        // this.isPrivacyPolicy = true;
+        // this.commPrefForPrivacyPolicy = true;
     }
 
     closePrivacyPolicy() {
@@ -409,6 +426,10 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
 
     get StudyConsentClass() {
         return this.isRTL ? 'study-content study-content-mobile-rtl' : 'study-content study-content-mobile';
+    }
+
+    get ECOAPad11() {
+        return !this.isDesktop  && this.showBackButton ? 'communication-pref-no-margin' : 'communication-pref';
     }
 
     renderedCallback() {}

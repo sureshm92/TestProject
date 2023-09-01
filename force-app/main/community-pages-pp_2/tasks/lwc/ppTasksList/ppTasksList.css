@@ -224,6 +224,16 @@
     color: #ffffff;
     border-radius: 2px;
 }
+.critical-rect-home {
+    position: relative;
+    float: right;
+    padding: 0px 6px 0 6px;
+    background-color: #e20000;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    border-radius: 2px;
+}
 
 .no-task-list-view {
     height: 152px !important;
@@ -386,6 +396,19 @@
     padding-bottom: 0.75rem;
 }
 
+@media all and (max-width: 400px) {
+    .critical-rect-home {
+        /* right: -10px; */
+        float: none;
+    }
+}
+@media (min-width: 400px) and (max-width: 486px) {
+    .critical-rect-home {
+        right: -10px;
+        float: none;
+    }
+}
+
 @media all and (max-width: 486px) {
     .inactive-custom-box {
         width: 100%;
@@ -429,7 +452,8 @@
     }
 
     .mob-subject-ellipsis {
-        width: 230px;
+        /* width: 230px; */
+        width: 100%;
     }
 
     .open-task-icon {

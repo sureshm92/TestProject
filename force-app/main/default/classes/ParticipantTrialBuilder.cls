@@ -35,6 +35,9 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
         if (pe == null)
             return trialDetail;
         trialDetail.pe = pe;
+        if(pe != null && PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(pe.Participant_Status__c)){
+                trialDetail.perInTrail = true;   
+        }
         trialDetail.participantstate = participantstate;
         Map<Id, Study_Site__c> idToStudySiteMap = new Map<Id, Study_Site__c>();
         idToStudySiteMap.put(pe.Study_Site__r.Site__c, pe.Study_Site__r);

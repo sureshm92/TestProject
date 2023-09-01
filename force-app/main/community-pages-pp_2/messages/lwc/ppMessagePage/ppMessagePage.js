@@ -1,4 +1,4 @@
-import { LightningElement, track, api } from "lwc";
+import { LightningElement, track, api, wire } from "lwc";
 import formFactor from "@salesforce/client/formFactor";
 import { loadStyle } from "lightning/platformResourceLoader";
 import { NavigationMixin } from "lightning/navigation";
@@ -10,7 +10,7 @@ import rr_community_icons from "@salesforce/resourceUrl/rr_community_icons";
 import disclaimerLabel from "@salesforce/label/c.MS_Chat_Disclaimer";
 import messagesLabel from "@salesforce/label/c.MS_Messages";
 import profileTZ from "@salesforce/i18n/timeZone";
-
+import { CurrentPageReference } from 'lightning/navigation';
 export default class PpMessagePage extends NavigationMixin(LightningElement) {
   curentMobileView = "list";
   progressValue = false;
@@ -26,6 +26,9 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
   @api isLoaded = false;
   @api studyName;
   @api deviceSize;
+  @wire(CurrentPageReference)
+  currentPageRef;
+
   isMobile;
   message_disclaimer = pp_icons + "/" + "message_disclaimer.svg";
   team_Selected = pp_icons + "/" + "team_Selected_icon.svg";
@@ -132,7 +135,8 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
     this.loaded = true;
     getInit({
       formFactor: formFactor,
-      isIE: navigator.userAgent.match(/Trident|Edge/) !== null
+      isIE: navigator.userAgent.match(/Trident|Edge/) !== null,
+      studyId: this.currentPageRef.state.c__study
     })
       .then((data) => {
         if (!data.isPageEnabled) {

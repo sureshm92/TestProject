@@ -89,6 +89,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         Principal_Investigator__c,
         Clinical_Trial_Profile__c,
         Clinical_Trial_Profile__r.CommunityTemplate__c,
+        Clinical_Trial_Profile__r.PPTemplate__c,
         Study_Site_Type__c,
         Suppress_Participant_Emails__c,
         Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
@@ -216,11 +217,20 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
     try {
       Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-      String permissionSetName = CommunityTemplateService.getTemplate(
+      String permissionSetName = '';
+      if(studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && studySiteDetails.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+      {
+        permissionSetName = CommunityTemplateService.getTemplate(
+          'PatientPortal'
+        )
+        .permissionSet; 
+      }
+      else{
+       permissionSetName = CommunityTemplateService.getTemplate(
           studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c
         )
         .permissionSet;
-
+      } 
       Map<Id, Contact> contactsById = new Map<Id, Contact>();
       Set<Id> contactsToCreateUsersWith = new Set<Id>();
       Map<Id, Participant__c> participantsByContact = new Map<Id, Participant__c>();

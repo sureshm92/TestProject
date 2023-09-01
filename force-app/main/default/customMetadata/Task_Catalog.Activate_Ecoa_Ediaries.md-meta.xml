@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Source_Object_Type__c</field>
-        <value xsi:type="xsd:string">Participant__c</value>
+        <value xsi:type="xsd:string">Participant_Enrollment__c</value>
     </values>
     <values>
         <field>Subject_Label__c</field>
