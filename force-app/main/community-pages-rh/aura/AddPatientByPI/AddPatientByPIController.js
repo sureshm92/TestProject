@@ -9,6 +9,7 @@
             let ssId = communityService.getUrlParameter('ssId');
 			
             component.find('spinner').show();
+            helper.checkCommunity(component, event, helper);
             communityService.executeAction(
                 component,
                 'getInitData',
@@ -17,9 +18,6 @@
                 },
                 function (formData) {
                     component.set('v.ctp', formData.ctp);
-                    if(formData.ctp.CommunityTemplate__c == $A.get('$Label.c.Janssen_Community_Template_Name') && !formData.ctp.PPTemplate__c){
-                        component.set("v.communityWithPPInv",false);
-                    }
                     component.set('v.ss', formData.ss);
                     component.set('v.formData', formData);
                     component.set('v.initialized', true);

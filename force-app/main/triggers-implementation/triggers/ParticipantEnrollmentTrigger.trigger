@@ -20,18 +20,12 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
     );
-    TriggerHandlerExecutor.execute(
-        ParticipantEnrollmentTriggerHandler.CreateJanssenNotification.class
-    );
     TriggerHandlerExecutor.execute(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
     );
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
-    );
-    TriggerHandlerExecutor.execute(
-        ParticipantEnrollmentTriggerHandler.PatientVisitsDeletion.class
     );
     /*For Welcome Msg -- Added by Anitha*/
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.createNotifications.class);
@@ -68,6 +62,5 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
         ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class
     );
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.UpdateInitialVisits.class);
-
 
 }

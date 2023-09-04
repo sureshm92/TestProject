@@ -31,7 +31,6 @@ export default class ProgramOverview extends LightningElement {
     shortOverview;
     @api studysite;
     piName;
-    piTitle;
     studySitePhone;
 
     desktop = true;
@@ -90,7 +89,6 @@ export default class ProgramOverview extends LightningElement {
         if (this.studysite) {
             this.piName = this.studysite.Principal_Investigator__r.Name;
             this.studySitePhone = this.studysite.Study_Site_Phone__c;
-            this.piTitle = this.piName + ' ' + this.label.PI_Post_Fix;
         }
 
         getisRTL()

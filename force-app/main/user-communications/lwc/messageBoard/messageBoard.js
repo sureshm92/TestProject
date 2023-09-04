@@ -20,7 +20,6 @@ import isConfidentialLabel from '@salesforce/label/c.IsConfidential';
 import createConversation from '@salesforce/apex/MessagePageRemote.createConversation';
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
 import sendMultipleMessage from '@salesforce/apex/MessagePageRemote.sendMultipleMessage';
-import getConfidentialEligibility from '@salesforce/apex/MessagePageRemote.getConfidentialEligibility';
 import formFactor from '@salesforce/client/formFactor';
 
 const attIconMap = {
@@ -79,7 +78,6 @@ export default class MessageBoard extends LightningElement {
     needAfterRenderSetup;
 
     isConfidential = false;
-    ppEnrollment = false;
 
 
     //Public Methods:---------------------------------------------------------------------------------------------------
@@ -189,30 +187,9 @@ export default class MessageBoard extends LightningElement {
         }
     }
 
-    ConfidentialEligibility(){
-        getConfidentialEligibility({perIds: this.selectedEnrollments})
-        .then((result)=>{
-            this.ppEnrollment  = result;
-            if(this.ppEnrollment == false){
-                this.isConfidential = false;
-            }
-        })
-        .catch(error=>{
-            console.error('returned eligibility:'+JSON.stringify(error));
-        })
-
-    }
-
     //PI Search Handler:--------------------------------------------------------------------------------------------------
     handleSelectionChange(event) {
         this.selectedEnrollments = event.detail.selection;
-        if(this.selectedEnrollments && this.selectedEnrollments.length >0){
-            this.ConfidentialEligibility();
-        }
-        else{
-            this.ppEnrollment = false;
-            this.isConfidential = false;
-        }
         this.checkSendBTNAvailability();
     }
     
@@ -318,7 +295,6 @@ export default class MessageBoard extends LightningElement {
             })
                 .then(function () {
                     context.isConfidential = false;
-                    context.ppEnrollment = false;
                     inputToDisable.classList.remove("pointer-none");
                     context.fireMultipleSendEvent();
                     if (context.spinner) context.spinner.hide();
@@ -341,7 +317,6 @@ export default class MessageBoard extends LightningElement {
                 })
                     .then(function (data) {
                         context.isConfidential = false;
-                        context.ppEnrollment = false;
                         inputToDisable.classList.remove("pointer-none");
                         if (formFactor === 'Small') context.hideEmptyStub = false;
                         setTimeout(function () {
@@ -462,18 +437,6 @@ export default class MessageBoard extends LightningElement {
         this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
     }
     get showIsconfidential(){
-        if(!this.conversation){
-            return this.ppEnrollment;
-        }
-        else if(this.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c && this.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal'){
-           return true;
-        }else if(this.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c && this.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' 
-        && this.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'){
-            return true;
-        }
-        else{
-            return false;
-        } 
-
+        return (this.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c && this.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal');
     }
 }

@@ -39,10 +39,6 @@
                 <behavior>Edit</behavior>
                 <field>Bell_Notification_Reminder__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>StudyGUID__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

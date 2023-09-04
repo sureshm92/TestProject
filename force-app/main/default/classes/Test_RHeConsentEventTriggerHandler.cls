@@ -25,7 +25,6 @@ public class Test_RHeConsentEventTriggerHandler {
         
         List<RH_eConsent__e> listEvents = new List<RH_eConsent__e>();
         listEvents.add(newEvent1);
-        Test.startTest();
         RH_eConsentEventTriggerHandler.updatePERafterInsert(listEvents);
         Participant_Enrollment__c  peRecord1 = [Select Id, Name,Participant_Status__c from Participant_Enrollment__c LIMIT 1];
         peRecord1.Participant_Status__c = 'Withdrew Consent';
@@ -100,7 +99,6 @@ public class Test_RHeConsentEventTriggerHandler {
         listEvents.add(newEvent6);
         
         RH_eConsentEventTriggerHandler.updatePERafterInsert(listEvents);
-        Test.stopTest();
     }
     @isTest
     static void testUpdatePERafterInsert2(){
@@ -124,7 +122,6 @@ public class Test_RHeConsentEventTriggerHandler {
                                                     );
         List<RH_eConsent__e> listEvents = new List<RH_eConsent__e>();
         listEvents.add(newEvent1);
-        Test.startTest();
         RH_eConsentEventTriggerHandler.updatePERafterInsert(listEvents);
         
         
@@ -172,6 +169,5 @@ public class Test_RHeConsentEventTriggerHandler {
                                                     );
         listEvents.add(newEvent4);
         RH_eConsentEventTriggerHandler.updatePERafterInsert(listEvents);
-        Test.stopTest();
     }
 }

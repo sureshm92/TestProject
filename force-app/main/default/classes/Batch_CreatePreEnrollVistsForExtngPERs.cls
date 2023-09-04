@@ -34,8 +34,7 @@ global without sharing class Batch_CreatePreEnrollVistsForExtngPERs implements D
             'Initial_visit_occurred_date__c,'+
             'Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c, ' +
             'Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c, ' +
-            'Clinical_Trial_Profile__r.CommunityTemplate__c, ' +
-            'Clinical_Trial_Profile__r.PPTemplate__c ' +
+            'Clinical_Trial_Profile__r.CommunityTemplate__c ' +
             'FROM Participant_Enrollment__c ' +
             'WHERE ' +
             'Participant_Status__c IN :peStatuses ' +
@@ -60,10 +59,7 @@ global without sharing class Batch_CreatePreEnrollVistsForExtngPERs implements D
         List<Patient_Visit__c> patentientVisitsToInsert = new List<Patient_Visit__c>();
 
         for (Participant_Enrollment__c pe : scope) {
-            if (pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal' && (
-                pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' 
-                ||  pe.Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0'
-            )) {
+            if (pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal') {
                 peWithCTPPreEnrollConsentIsOnMap.put(pe.id, pe);
             }
         }

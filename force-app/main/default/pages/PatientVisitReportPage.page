@@ -72,7 +72,7 @@
                                             <th style="text-align: center;"
                                                 >
                                                 <div
-                                                     style="font-size: 13px;text-transform: none;  display: block;color: #2B3942;padding-left:10px;padding-right:10px;"
+                                                     style="font-size: 13px;text-transform: none;  display: block;color: #2B3942;"
                                                      >
                                                     {!tableHead.value}
                                                 </div>
@@ -87,11 +87,11 @@
                                                 <apex:repeat value="{!rows}" var="row">
                                                     
                                                     <apex:outputText rendered="{!row.value!='______'}"> 
-                                                        <td style="font-size: 15px;color:#C42EA5;padding-top:15px;padding-bottom:15px;text-align:center;padding-left:10px;padding-right:10px;" ><span><span>{!row.value}&nbsp;</span><span></span><span>{!row.measurement}</span></span></td>
+                                                        <td style="font-size: 15px;color:#C42EA5;padding-top:15px;padding-bottom:15px;text-align:center;" ><span><span>{!row.value}&nbsp;</span><span></span><span>{!row.measurement}</span></span></td>
                                                     </apex:outputText>
                                                     <apex:outputText rendered="{!row.value=='______'}">
-                                                        <td style="font-size: 15px;text-align:center;color:#999999;padding-top:4px;padding-bottom:15px;padding-left:10px;padding-right:10px;" >{!row.value}</td></apex:outputText>
-                                                </apex:repeat>  
+                                                        <td style="font-size: 15px;text-align:center;color:#999999;padding-top:4px;padding-bottom:15px;" >{!row.value}</td></apex:outputText>
+                                                </apex:repeat> 
                                             </tr>
                                         </apex:repeat>
                                     </tbody>

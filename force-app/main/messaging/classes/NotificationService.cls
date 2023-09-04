@@ -41,12 +41,10 @@ public without sharing class NotificationService {
         /*NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE,*/
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE_JANSSEN,
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP,
-        NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE_JANSSEN
+        NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
     };
 
     static public List<String> instantNotificationTypes = new List<String>{

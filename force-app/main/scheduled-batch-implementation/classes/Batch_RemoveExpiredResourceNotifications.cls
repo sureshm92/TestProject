@@ -70,7 +70,7 @@ public with sharing class Batch_RemoveExpiredResourceNotifications extends Batch
         );
         Map<Id, Res_study__c> stdResMap = new Map<Id, Res_study__c>(
             [
-                SELECT Id, Expires_On_Status__c, resource__r.Expiration_Date__c,resource__r.Content_Type__c
+                SELECT Id, Expires_On_Status__c, resource__r.Expiration_Date__c
                 FROM Res_study__c
                 WHERE Id IN :stdResIds
             ]
@@ -100,9 +100,7 @@ public with sharing class Batch_RemoveExpiredResourceNotifications extends Batch
                     (stdResMap.get(sr.Notification__r.Target_Record_Ids__c)
                         .resource__r.Expiration_Date__c != null &&
                     stdResMap.get(sr.Notification__r.Target_Record_Ids__c)
-                        .resource__r.Expiration_Date__c <= Date.today()) ||
-                    (PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(peMap.get(sr.Notification__r.WhatId__c).Participant_Status__c) && 
-                    'Study_Document;Video;Article;Multimedia'.contains(stdResMap.get(sr.Notification__r.Target_Record_Ids__c).resource__r.Content_Type__c))
+                        .resource__r.Expiration_Date__c <= Date.today())
                 ) {
                     sr.Status__c = 'Sent';
                     sendResultToUpdate.add(sr);

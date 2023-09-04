@@ -1,6 +1,6 @@
 <messaging:emailTemplate subject="{!$Label.Task_Subject_Update_Your_Phone_Number}"
                          recipientType="Contact"
-                         relatedToType="Participant__c"
+                         relatedToType="Contact"
                          language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >

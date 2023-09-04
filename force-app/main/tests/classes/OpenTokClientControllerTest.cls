@@ -112,7 +112,7 @@ public with sharing class OpenTokClientControllerTest {
                 OpenTokClientController controller = new OpenTokClientController();
                 controller.attendeeEmailAddress = '';
                 controller.session = testSession;
-                //controller.validateAttendeeEmail();
+                controller.validateAttendeeEmail();
 
             Test.stopTest();
 
@@ -201,7 +201,7 @@ public with sharing class OpenTokClientControllerTest {
                 OpenTokClientController controller = new OpenTokClientController();
                 controller.attendeeEmailAddress = testEmailAddress;
                 controller.session = testSession;
-               // controller.validateAttendeeEmail();
+                controller.validateAttendeeEmail();
                 controller.getExtendMeetingOptions();
                 //controller.fetchUpdatedTelevisitDetails();
             Test.stopTest();
@@ -220,11 +220,11 @@ public with sharing class OpenTokClientControllerTest {
                 OpenTokClientController controller = new OpenTokClientController();
                 controller.attendeeEmailAddress = testEmailAddress;
                 controller.session = testSession;
-               // controller.validateAttendeeEmail();
+                controller.validateAttendeeEmail();
 
             Test.stopTest();
 
-           // System.assertEquals(true, controller.isAttendeeEmailValid, 'The email address should validate successfully given an exact match.');
+            System.assertEquals(true, controller.isAttendeeEmailValid, 'The email address should validate successfully given an exact match.');
         }
     }
 
@@ -260,11 +260,11 @@ public with sharing class OpenTokClientControllerTest {
                 controller.maintainSession();
                 controller.attendeeEmailAddress = testEmailAddress.toUpperCase();
                 controller.session = testSession;
-               // controller.validateAttendeeEmail();
+                controller.validateAttendeeEmail();
 
             Test.stopTest();
 
-            //System.assertEquals(true, controller.isAttendeeEmailValid, 'The email address should validate successfully given a case-insensitive match.');
+            System.assertEquals(true, controller.isAttendeeEmailValid, 'The email address should validate successfully given a case-insensitive match.');
         }
     }
 
@@ -337,7 +337,7 @@ public with sharing class OpenTokClientControllerTest {
                     OpenTokClientController controller = new OpenTokClientController();
                     controller.attendeeEmailAddress = testEmailAddress;
                     controller.session = testSession;
-                    //controller.validateAttendeeEmail();
+                    controller.validateAttendeeEmail();
 
                 } catch (NullPointerException npe) {
                     System.assert(false, 'No exception should be thrown.');

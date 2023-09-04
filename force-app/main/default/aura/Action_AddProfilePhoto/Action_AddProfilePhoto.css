@@ -388,18 +388,14 @@
 }
 
 @media all and (max-width: 500px) {
-    .THIS {
-        text-align: center;
-        margin-top: 0rem;
-    }
     .THIS .username {
-        height: auto;
+        height: 20px;
         color: #000000;
         font-family: 'Proxima Nova';
         font-size: 15px;
         margin-left: 18px;
         max-width: 76%;
-        overflow: hidden ;
+        overflow: visible !important;
         text-overflow: ellipsis;
         padding-bottom: 2px;
     }
@@ -416,10 +412,10 @@
     }
     .THIS .custom-file-upload {
         display: inline-block;
-        padding: 4px 0 0 20px;
+        padding: 6px 0 0 20px;
         cursor: pointer;
         color: blue;
-        /* padding-top: 17px; */
+        padding-top: 17px;
     }
     .THIS .custom-file-uploadRTL {
         display: inline-block;

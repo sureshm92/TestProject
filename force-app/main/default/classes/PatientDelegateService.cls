@@ -856,13 +856,12 @@ public without sharing class PatientDelegateService {
                 Id,
                 Participant__c,
                 Participant_Contact__c,
-                Clinical_Trial_Profile__r.CommunityTemplate__c,
-                Clinical_Trial_Profile__r.PPTemplate__c
+                Clinical_Trial_Profile__r.CommunityTemplate__c
             FROM Participant_Enrollment__c
             WHERE
                 (Participant__c IN :allDelegatedParticipantIds
                 OR Participant_Contact__c IN :contactIds)
-                //AND Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN :CommunityModeService.rhSponsorsByCommunity.keySet()
+                AND Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN :CommunityModeService.rhSponsorsByCommunity.keySet()
                 AND Study_Site__r.Study_Site_Type__c != 'Virtual'
                 AND Study_Site__r.Study_Site_Type__c != 'Hybrid'
                 AND Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
@@ -877,24 +876,12 @@ public without sharing class PatientDelegateService {
             Set<String> permissions = participantPermissions.get(pe.Participant__c);
             if (permissions == null)
                 permissions = new Set<String>();
-                if( pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
-                {
-                    permissions.add(
-                        CommunityTemplateService.getTemplate(
-                                'PatientPortal'
-                            )
-                            .permissionSet
-                    );
-
-                }
-                else {
-                    permissions.add(
-                        CommunityTemplateService.getTemplate(
-                                pe.Clinical_Trial_Profile__r.CommunityTemplate__c
-                            )
-                            .permissionSet
-                    );
-                }
+            permissions.add(
+                CommunityTemplateService.getTemplate(
+                        pe.Clinical_Trial_Profile__r.CommunityTemplate__c
+                    )
+                    .permissionSet
+            );
             participantPermissions.put(pe.Participant__c, permissions);
         }
 

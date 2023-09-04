@@ -158,14 +158,7 @@ public without sharing class ParametersProviderService {
                 } else {
                     if (value instanceof Datetime) {
                         DateTime tempDateTime = (DateTime) value;
-                        String temp;
-                        temp = UserService.formatDateTimebyZone(
-                                (DateTime) value,
-                                userObj.LocaleSidKey,
-                                userObj.TimeZoneSidKey
-                            );
-                        String[] tempvalue     = temp.split(',');
-                        valueStr =tempvalue[0];
+                        valueStr = UserService.formatDatebyLocale(tempDateTime.date(), language);
                     } else if (value instanceof Date) {
                         valueStr = UserService.formatDatebyLocale((Date) value, language);
                     }
@@ -178,14 +171,7 @@ public without sharing class ParametersProviderService {
                 } else {
                     if (value instanceof Datetime) {
                         DateTime tempDateTime = (DateTime) value;
-                        String temp;
-                        temp = UserService.formatDateTimebyZone(
-                                (DateTime) value,
-                                userObj.LocaleSidKey,
-                                userObj.TimeZoneSidKey
-                            );
-                        String[] tempvalue     = temp.split(',');
-                        valueStr = tempvalue[0];
+                        valueStr = UserService.formatDatebyLocale(tempDateTime.date(), language);
                     } else if (value instanceof Date) {
                         valueStr = UserService.formatDatebyLocale((Date) value, language);
                     }
@@ -198,14 +184,7 @@ public without sharing class ParametersProviderService {
                 } else {
                     if (value instanceof Datetime) {
                         DateTime tempDateTime = (DateTime) value;
-                        String temp;
-                        temp = UserService.formatDateTimebyZone(
-                                (DateTime) value,
-                                userObj.LocaleSidKey,
-                                userObj.TimeZoneSidKey
-                            );
-                        String[] tempvalue     = temp.split(',');
-                        valueStr =tempvalue[0];
+                        valueStr = UserService.formatDatebyLocale(tempDateTime.date(), language);
                     } else if (value instanceof Date) {
                         valueStr = UserService.formatDatebyLocale((Date) value, language);
                     }

@@ -521,8 +521,7 @@ public without sharing class TaskTriggerHandler {
 
     public static Map<Id, Boolean> isSurveyTaskNewPP(Set<Id> surveyInvitationSet) {
         List<SurveyInvitation> surveyInvitationList = [
-            SELECT Id, Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-            Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c
+            SELECT Id, Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
             FROM SurveyInvitation
             WHERE Id IN :surveyInvitationSet
         ];
@@ -530,10 +529,7 @@ public without sharing class TaskTriggerHandler {
         for (SurveyInvitation surveyInvitation : surveyInvitationList) {
             if (
                 surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                CommunityTemplateService.TEMPLATE_PP ||
-                (surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                'Janssen' &&
-                surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+                CommunityTemplateService.TEMPLATE_PP
             ) {
                 surveyInvitationMap.put(surveyInvitation.Id, true);
             } else {

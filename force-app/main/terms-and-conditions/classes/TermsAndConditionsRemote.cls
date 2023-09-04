@@ -84,57 +84,13 @@ public without sharing class TermsAndConditionsRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    
-     @AuraEnabled
-    public static String getTCPP(String code, String languageCode, Boolean useDefaultCommunity) {
-        System.debug('useDefaultCommunity: ' + useDefaultCommunity);
+
+    @AuraEnabled
+    public static String getPPTC(String code, String languageCode, Boolean useDefaultCommunity, String ctId) {
         try {
             TCData tcData = new TCData();
             if (code == 'PrivacyPolicy') {
-                tcData.tc = TermsAndConditions.getOrgDefaultPrivacyTC(useDefaultCommunity);
-            } else if (code == 'CookiePolicy') {
-                tcData.tc = TermsAndConditions.getCookieTC(useDefaultCommunity);
-            } else {
-                tcData.tc = TermsAndConditions.getTC(
-                    TermsAndConditions.getOrgDefaultTCbyCode(code),
-                    languageCode,
-                    useDefaultCommunity
-                );
-            }
-            return JSON.serialize(tcData);
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
-    }
-    
-    @AuraEnabled
-    public static String getPPTC(String code, String languageCode, Boolean useDefaultCommunity, String ctId,Boolean calledfromCommPref) {
-        try {
-            TCData tcData = new TCData();
-            //this method is only for privacy policy of pp2.0 iqvia outreach consent preference
-            if(calledfromCommPref)
-            {
-                if (code == 'PrivacyPolicy') {
-                    tcData.tc = TermsAndConditions.getOrgDefaultPrivacyIQVIAPP(useDefaultCommunity);
-                }  
-            }
-            else{
-                if (code == 'PrivacyPolicy') {
-                    tcData.tc = TermsAndConditions.getOrgDefaultPPTC(useDefaultCommunity, ctId);
-                }
-            }
-            return JSON.serialize(tcData);
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
-    }
-    
-    @AuraEnabled
-    public static String getPPTCJn(String code, String languageCode, Boolean useDefaultCommunity, String ctId) {
-        try {
-            TCData tcData = new TCData();
-            if (code == 'PrivacyPolicy') {
-                tcData.tc = TermsAndConditionsJanssenPPSecond.getOrgDefaultPPTC(useDefaultCommunity, ctId);
+                tcData.tc = TermsAndConditions.getOrgDefaultPPTC(useDefaultCommunity, ctId);
             }
             return JSON.serialize(tcData);
         } catch (Exception e) {

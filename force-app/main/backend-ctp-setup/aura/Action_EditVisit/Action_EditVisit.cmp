@@ -15,8 +15,6 @@
     
 
     <aura:attribute name="communitytemplate" type="String"  />
-    <aura:attribute name="pptemplate" type="String"  />
-    <aura:attribute name="isPP" type="Boolean" default="true"/>
 
     <aura:handler name="change" value="{!v.visit.Name}" action="{!c.checkValidity}" />
     <aura:handler name="change" value="{!v.visit.Icons__c}" action="{!c.checkValidity}" />
@@ -73,7 +71,7 @@
                 </div>
             </div>
             <!-- new fields -->
-            <aura:if isTrue="{!v.isPP}">
+            <aura:if isTrue="{!v.communitytemplate == 'PatientPortal'}">
                 <div class="slds-grid slds-gutters">
                     <div class="slds-col slds-size--1-of-2">
                         <span>

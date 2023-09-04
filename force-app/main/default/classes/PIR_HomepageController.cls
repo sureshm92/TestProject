@@ -299,23 +299,11 @@ public without sharing class PIR_HomepageController {
         '  LIMIT 1' +
         ' )' +
         'FROM Participant_Enrollment__c WHERE ';
-      String janssenLabel =  UserContext.getCurrentCommunityTemplate().templateName;
-      
-      String sponsorsName = UserContext.getCurrentCommunityTemplate().templateName;
-      String filterStringPP ='';
-      if(sponsorsName == CommunityTemplateService.TEMPLATE_JANSSEN){
-          filterStringPP =
-        ' AND (Participant_Contact__r.Is_Patient_User_Created__c = FALSE OR Invited_To_PP_Date__c =NULL) AND Participant__r.Email__c!=NULL AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !=\'Virtual\' AND Study_Site__r.Study_Site_Type__c !=\'Hybrid\' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE' +
-        ' AND Clinical_Trial_Profile__r.CommunityTemplate__c =: janssenLabel' +
-        ' AND Clinical_Trial_Profile__r.PPTemplate__c !=NULL' +
-        ' AND Study_Site__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE';
-      }else{
-          filterStringPP =
+      String janssenLabel = system.Label.Janssen_Community_Template_Name;
+      String filterStringPP =
         ' AND (Participant_Contact__r.Is_Patient_User_Created__c = FALSE OR Invited_To_PP_Date__c =NULL) AND Participant__r.Email__c!=NULL AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !=\'Virtual\' AND Study_Site__r.Study_Site_Type__c !=\'Hybrid\' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE' +
         ' AND Clinical_Trial_Profile__r.CommunityTemplate__c !=: janssenLabel' +
         ' AND Study_Site__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE';
-      }
-    
 
       List<String> pshStatus = new List<String>();
       for (Promote_to_SH__mdt psl : [
@@ -421,7 +409,7 @@ public without sharing class PIR_HomepageController {
       if (!String.isBlank(ageStart)) {
         filterString =
           filterString +
-          ' AND Participant__r.Present_Age__c >=  ' +
+          ' AND Participant__r.Age__c >=  ' +
           ageStart +
           ' ';
       }
@@ -429,7 +417,7 @@ public without sharing class PIR_HomepageController {
       if (!String.isBlank(ageEnd)) {
         filterString =
           filterString +
-          ' AND Participant__r.Present_Age__c <=  ' +
+          ' AND Participant__r.Age__c <=  ' +
           ageEnd +
           ' ';
       }
@@ -1371,7 +1359,6 @@ public without sharing class PIR_HomepageController {
           Clinical_Trial_Profile__r.Link_to_Pre_screening__c,
           Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
           Clinical_Trial_Profile__r.CommunityTemplate__c,
-          Clinical_Trial_Profile__r.PPTemplate__c,
           Clinical_Trial_Profile__r.Initial_Visit_Required__c,
           Status_Order__c,
           Participant__r.Full_Name__c,
@@ -1584,8 +1571,7 @@ public without sharing class PIR_HomepageController {
           Invited_To_PP_Date__c,
           HCP_Contact__c,
           HCP_Contact_HCPEnroll__c,
-          Clinical_Trial_Profile__r.CommunityTemplate__c,
-          Clinical_Trial_Profile__r.PPTemplate__c
+          Clinical_Trial_Profile__r.CommunityTemplate__c
         FROM Participant_Enrollment__c
         WHERE Id = :peId
       ];
@@ -1622,20 +1608,10 @@ public without sharing class PIR_HomepageController {
       update pe;
 
       Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-      String permissionSetName = '';
-      if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
-      {
-        permissionSetName =  CommunityTemplateService.getTemplate(
-          'PatientPortal'
-        )
-        .permissionSet;
-      }
-      else {
-       permissionSetName = CommunityTemplateService.getTemplate(
+      String permissionSetName = CommunityTemplateService.getTemplate(
           pe.Clinical_Trial_Profile__r.CommunityTemplate__c
         )
         .permissionSet;
-      }
       actionAssignContactPermissions.addPermission(
         pe.Participant_Contact__c,
         permissionSetName
@@ -2752,8 +2728,7 @@ public without sharing class PIR_HomepageController {
                 Clinical_Trial_Profile__r.Initial_Visit_Required__c,
                 Clinical_Trial_Profile__r.Final_Consent_Required__c,
                 Clinical_Trial_Profile__r.Tokenization_Support__c,
-                Clinical_Trial_Profile__r.Promote_to_SH__c,
-                Clinical_Trial_Profile__r.PPTemplate__c
+                Clinical_Trial_Profile__r.Promote_to_SH__c
             FROM Study_Site__c
             WHERE Id = :studySiteId
         ];

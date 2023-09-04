@@ -14,7 +14,4 @@ trigger PatientVisitTrigger on Patient_Visit__c(
     TriggerHandlerExecutor.execute(
         PatientVisitTriggerHandler.updateEcoaEvents.class
     );
-    TriggerHandlerExecutor.execute(
-        PatientVisitTriggerHandler.completePatientVisitTask.class
-    );
 }

@@ -8,12 +8,7 @@
         var comModes = component.get('v.communityModes');
         let reloadRequired = false;
         let oldCommunityMode = communityService.getCurrentCommunityMode();
-        if(navigateTo && !itemValue) {
-            communityService.navigateToPage(navigateTo);
-            component.set('v.reset', true);
-            component.set('v.reset', false);
-        }
-       else if((navigateTo == 'account-settings' && itemValue.isDelegate == false && itemValue.subTitle != $A.get("$Label.c.No_active_studies"))){
+        if (navigateTo && !itemValue) {
             communityService.navigateToPage(navigateTo);
             component.set('v.reset', true);
             component.set('v.reset', false);
@@ -95,8 +90,8 @@
                             }
                         }
                     }
-                    );
-                }
+                );
+            }
         }
     },
     logout: function (component, event, helper) {
