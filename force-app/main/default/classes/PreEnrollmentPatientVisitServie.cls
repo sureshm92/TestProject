@@ -64,7 +64,6 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
                     Initial_visit_occurred_date__c,
                     Participant_Status__c,
                     Clinical_Trial_Profile__r.CommunityTemplate__c,
-                    Clinical_Trial_Profile__r.PPTemplate__c,
                     Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c,
                     Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c
                 FROM Participant_Enrollment__c
@@ -72,12 +71,8 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
                     Id IN :peIds
                     AND (((Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c = TRUE
                     OR Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c = TRUE)
-                    AND (Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal' OR 
-                    Clinical_Trial_Profile__r.CommunityTemplate__c !='Janssen' OR 
-                            Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0'))
-                    OR ((Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' OR 
-                    (Clinical_Trial_Profile__r.CommunityTemplate__c='Janssen' AND 
-                            Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+                    AND Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal')
+                    OR (Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
                     AND Clinical_Trial_Profile__r.Is_Program__c = FALSE
                     AND Clinical_Trial_Profile__r.Initial_Visit_required__c = TRUE))
             ]
@@ -128,9 +123,7 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
 
         //Store the Study Site Ids for each PERs in a Set.
         for (Participant_Enrollment__c pe : peWithCTPPreEnrollConsentIsOnMap.Values()) {
-            if ((pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal' && 
-            (pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' 
-            ||  pe.Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0'))) {
+            if (pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal') {
                 studySiteIdSet.Add(pe.Study_Site__c);
             }
         }
@@ -148,12 +141,11 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
         for (Participant_Enrollment__c pe : peWithCTPPreEnrollConsentIsOnMap.Values()) {
             if (
                 !studySiteWithTravelVendor.contains(pe.Study_Site__c) &&
-               ( pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal' && (pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' 
-               ||  pe.Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0'))
+                pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal'
             ) {
                 peWithCTPPreEnrollConsentIsOnMap.remove(pe.Id);
             }
-        
+
             //Handle PER based on the Pre Enrollment Toggles on/Off and PER status for creating Pre Enrollment Patient Visits.
             boolean ignorePER = handlePreEnrollVisitForPreConsetToggles(pe);
             if (ignorePER) {
@@ -220,8 +212,7 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
                 Status__c,
                 Participant_Enrollment__c,
                 Visit__r.Visit_Plan__r.Id,
-                Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-                Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
             FROM Patient_Visit__c
             WHERE
                 Participant_Enrollment__c IN :perIds
@@ -243,24 +234,16 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
         boolean ignorePER = false;
         boolean preConcentToggle = pe.Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c;
         boolean enrollRandomizeConsentToggle = pe.Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c;
-        boolean isPatientPortalNew ;
-        if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal' || 
-        (pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' &&  pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')) 
-        {
-            isPatientPortalNew=true;
-        }
-        else{
-            isPatientPortalNew=false;
-        }
+        boolean isPatientPortalNew = pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+            'PatientPortal'
+            ? true
+            : false;
+
         if (
-            isPatientPortalNew 
+            isPatientPortalNew &&
+            !PEStatusState.PE_STATUS_GROUP_PRE_ENROLLMENT.contains(pe.Participant_Status__c)
         ) {
-            if(!PEStatusState.PE_STATUS_GROUP_PRE_ENROLLMENT.contains(pe.Participant_Status__c)){
-                ignorePER = true;
-            }
-            else{
-                ignorePER = false;
-            }
+            ignorePER = true;
             return ignorePER;
         } else if (preConcentToggle && enrollRandomizeConsentToggle) {
             //If Both "Pre-consent" and "Consent through Enrolled/Randomized" toggles are On at Visit Configuration at CTP.
@@ -306,15 +289,10 @@ public inherited sharing class PreEnrollmentPatientVisitServie {
             Participant_Enrollment__c pe = peMap.get(pv.Participant_Enrollment__c);
             boolean preConcentToggle = pe.Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c;
             boolean enrollRandomizeConsentToggle = pe.Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c;
-            boolean isPatientPortalNew ;
-            if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal' || 
-            (pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' &&  pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')) 
-            {
-                isPatientPortalNew=true;
-            }
-            else{
-                isPatientPortalNew=false;
-            }
+            boolean isPatientPortalNew = pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                'PatientPortal'
+                ? true
+                : false;
             if (isPatientPortalNew) {
                 //ignore these records
             } else if (preConcentToggle && !enrollRandomizeConsentToggle) {

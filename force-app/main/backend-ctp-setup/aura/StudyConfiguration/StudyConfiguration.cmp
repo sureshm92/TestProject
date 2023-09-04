@@ -14,9 +14,8 @@
     <aura:attribute name="user_has_permission" type="String" default="Edit" />
     <aura:attribute name="noVisitPlansMessage" type="Boolean" default="true" />
 
-    <aura:attribute name="isPP" type="Boolean" default="false" />
-     <!-- dependency -->
-     <aura:dependency resource="markup://force:editRecord" type="EVENT" />
+    <!-- dependency -->
+    <aura:dependency resource="markup://force:editRecord" type="EVENT" />
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -56,7 +55,7 @@
                             <div style="margin-left: 10px; margin-right: 20px">
                                 <span>
                                 Program (Description)
-                                     <aura:if isTrue="{!v.isPP}">
+                                    <aura:if isTrue="{!v.ctp.CommunityTemplate__c == 'PatientPortal'}">
                                         <lightning:helptext class="helpTxt"
                                             content="Provide the program description and motivational message to populate on the progress bar for the participant and their delegate."
                                         />
@@ -67,7 +66,7 @@
                     </div>
                     <div class="group-title">Progress Timeline</div>
                     <div class="global-data">
-                        <aura:if isTrue="{!v.isPP}">
+                        <aura:if isTrue="{!v.ctp.CommunityTemplate__c == 'PatientPortal'}">
                             <div class="global-element">
                                 <lightning:input aura:id="pp2StToggle" type="toggle" label="Status/Milestones PP2"
                                     name="statusTimelineTogglePP2" checked="{!v.ctp.Status_Milestone_Available__c}"
@@ -96,7 +95,7 @@
                             <div style="margin-left: 10px; margin-right: 20px">
                                 <span>
                                     Visits/Events
-                                    <aura:if isTrue="{!v.isPP}">
+                                    <aura:if isTrue="{!v.ctp.CommunityTemplate__c == 'PatientPortal'}">
                                         <lightning:helptext class="helpTxt"
                                             content="Provide the visit/event description and motivational message to populate on the progress bar for the participant and their delegate."
                                         />

@@ -8,13 +8,7 @@
         //var title = $A.util.isUndefinedOrNull(visitWrapper.task)
         //  ? $A.get('$Label.c.PP_Create_Visit_Reminder')
         //: $A.get('$Label.c.PP_Edit_Visit_Reminder');
-        var title ;
-        if(visitWrapper.visit.Visit__c){
-            title = !visitWrapper.visit.Portal_Name__c ? visitWrapper.visit.Visit__r.Patient_Portal_Name__c:visitWrapper.visit.Visit__r.Name;
-        }
-        else{
-            title = visitWrapper.visit.Portal_Name__c;
-        }
+        var title = !visitWrapper.visit.Portal_Name__c ? visitWrapper.visit.Visit__r.Patient_Portal_Name__c:visitWrapper.visit.Visit__r.Name;
         var isNewTask = $A.util.isUndefinedOrNull(visitWrapper.task) ? true : false;
         $A.createComponent(
             'c:StudyVisitReminder',

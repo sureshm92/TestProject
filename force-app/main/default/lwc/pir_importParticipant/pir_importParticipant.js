@@ -88,7 +88,7 @@ visitPlanDisabled = false;
 selectedvisitPlanId = undefined;
 visitPlanRequired = false;
 visitPlansLVList = [];
-communityWithPPInv = true;
+communityWithPPInv = false;
 @api navigateFromComponent = '';
  
 @api siteName='';
@@ -160,9 +160,7 @@ connectedCallback() {
                 }
                 this.shouldDisableImportStatus = false; 
                 this.countryDisable=false;
-                if(communityService.getCurrentCommunityTemplateName() ==  this.label.Janssen_Community_Template_Name  && !result.objStudySite.Clinical_Trial_Profile__r.PPTemplate__c ){
-                    this.communityWithPPInv  = false;
-                } 
+                this.communityWithPPInv = communityService.getCurrentCommunityTemplateName() !=  this.label.Janssen_Community_Template_Name; 
                 if ( (result.objStudySite.Suppress_Participant_Emails__c || result.objStudySite.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) 
                         &&  result.objStudySite.Study_Site_Type__c == 'Traditional') 
                     {
@@ -360,7 +358,7 @@ studysitehandleChange(event) {
     this.isStudyPPEnabled = false;
     this.visitPlanAvailable = false;
     this.visitPlanDisabled = false;
-    //this.communityWithPPInv = false;
+    this.communityWithPPInv = false;
     this.selectedvisitPlanId = undefined;
     this.visitPlanRequired = false;
     this.selectedStatus = '';
@@ -412,9 +410,7 @@ studysitehandleChange(event) {
 
 
 
-            if(communityService.getCurrentCommunityTemplateName() ==  this.label.Janssen_Community_Template_Name  && !result.objStudySite.Clinical_Trial_Profile__r.PPTemplate__c ){
-                this.communityWithPPInv  = false;
-            } 
+            this.communityWithPPInv = communityService.getCurrentCommunityTemplateName() !=  this.label.Janssen_Community_Template_Name; 
             if ( (result.objStudySite.Suppress_Participant_Emails__c || result.objStudySite.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) 
                     &&  result.objStudySite.Study_Site_Type__c == 'Traditional') 
                 {

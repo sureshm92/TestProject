@@ -16,12 +16,9 @@ import AccountSettings_Cookies_RRLanguage from '@salesforce/label/c.AccountSetti
 import AccountSettings_Cookies_RRLanguage_Description from '@salesforce/label/c.AccountSettings_Cookies_RRLanguage_Description';
 import PP_Profile_Update_Success from '@salesforce/label/c.PP_Profile_Update_Success';
 import BACK from '@salesforce/label/c.Back';
-import AccountSettings_For_Strictly_Necessary_Cookies from '@salesforce/label/c.AccountSettings_For_Strictly_Necessary_Cookies';
 
-import getInitData from '@salesforce/apex/AccountSettingsController.getInitData'; 
+import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
 import changeOptInCookies from '@salesforce/apex/AccountSettingsController.changeOptInCookies';
-import getAlumniTemplate from '@salesforce/apex/ParticipantService.getAlumniTemplate'; 
-import getStudy from '@salesforce/apex/HomePageParticipantRemote.getInitData';
 
 export default class PpCookieSettings extends LightningElement {
 
@@ -41,8 +38,6 @@ export default class PpCookieSettings extends LightningElement {
     @api isRTL = false;
     @api isMobile = false;
     @api isDelegate = false;
-    @api isJanssen = false;
-    @api isAlumni = false;
 
     label = {
         AccountSettings_Cookie_Settings,
@@ -55,8 +50,7 @@ export default class PpCookieSettings extends LightningElement {
         AccountSettings_Cookies_RRLanguage,
         AccountSettings_Cookies_RRLanguage_Description,
         PP_Profile_Update_Success,
-        BACK,
-        AccountSettings_For_Strictly_Necessary_Cookies
+        BACK
     };
 
     connectedCallback(){
@@ -97,28 +91,6 @@ export default class PpCookieSettings extends LightningElement {
 
              this.spinner.hide();
 
-        }).then(()=>{
-                getAlumniTemplate({ 
-                 })
-                .then((alumniValue) => {
-                    this.isAlumni = alumniValue;
-                }).then(() => {
-                    getStudy({ 
-                    })
-                   .then((studyresult) => {
-                       let sr = JSON.parse(studyresult);
-                       let ctp = sr.ctp;
-                       let CommTemp = ctp.CommunityTemplate__c;
-                       let tempName = JSON.stringify(ctp.PPTemplate__c); 
-                       if(CommTemp == 'Janssen'){ 
-                            if(!this.isAlumni){
-                              this.isJanssen = true;  
-                            }
-                       }else{
-                            this.isJanssen = false;
-                       }
-                   })
-                })
         })
         .catch((error) => {
             communityService.showToast('', 'error', 'Failed To read the Data...', 100);

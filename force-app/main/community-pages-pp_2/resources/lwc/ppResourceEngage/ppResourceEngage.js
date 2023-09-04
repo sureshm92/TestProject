@@ -47,7 +47,7 @@ export default class PpResourceEngage extends LightningElement {
             emptyLabel: ARTICLES_EMPTY
         },
         Favorites: {
-            pngLink: pp_icons + '/' + 'favorites_illustration.svg',
+            pngLink: pp_icons + '/' + 'favorites_resources_empty.png',
             emptyLabel: FAVORITE_EMPTY
         }
     };

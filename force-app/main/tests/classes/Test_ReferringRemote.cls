@@ -686,9 +686,9 @@ private without sharing class Test_ReferringRemote {
     @IsTest
     static void getInitData() {
         
+        Test.startTest();
         TestData.loadTestData();
         TestData testDataInstance = new TestData();
-        Test.startTest();
         String initDataStr;
         System.runAs(testDataInstance.hcpUser) {
             initDataStr = ReferringRemote.getInitData(

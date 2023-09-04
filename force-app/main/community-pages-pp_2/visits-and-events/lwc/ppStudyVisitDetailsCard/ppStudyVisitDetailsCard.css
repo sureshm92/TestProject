@@ -67,10 +67,7 @@
 .date-height {
     height: 2rem;
 }
-.down-arrow-android-hide {
-    -webkit-appearance: none;
-    appearance: none;
-}
+
 .curve-input:focus-within,
 .slds-form-element__control
     .slds-checkbox

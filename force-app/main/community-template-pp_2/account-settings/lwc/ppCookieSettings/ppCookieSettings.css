@@ -307,8 +307,7 @@
 }
 .cookie-scroll-height {
     overflow-y: scroll;
-    /*max-height: 472px; */
-    max-height: 374px;
+    max-height: 472px;
 }
 .cookie-accordion-mobile {
     overflow: hidden;

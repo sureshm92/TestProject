@@ -24,13 +24,12 @@ public without sharing class BatchSendInviteToDelegates implements Database.Batc
         List<Patient_delegate__c> pdList = [SELECT Contact__c,Participant_Delegate__c,Status__c,isInviteToPP__c,Participant__c
             FROM Patient_Delegate__c 
             WHERE Participant_Delegate__c IN : delParticipantIds];
-
-            Boolean boolcheckTemplate = ctpDetails.CommunityTemplate__c == 'Janssen' && ctpDetails.PPTemplate__c == null ? false : true ;
+        
         //Store the patient delegate contact ids. 
         for(Patient_Delegate__c pd:pdList) {
             contIdToCreateUserMap.put(pd.Contact__c,null);
         }
-        if(boolcheckTemplate) {
+        if(ctpDetails.CommunityTemplate__c != 'Janssen') {
             //check if Patient Delegate has user Record. if not create user for them. 
             if (contIdToCreateUserMap != null && !contIdToCreateUserMap.isEmpty()){
                 checkifPatientDelHasUser(contIdToCreateUserMap);
@@ -41,51 +40,21 @@ public without sharing class BatchSendInviteToDelegates implements Database.Batc
             if(pd.contact__c != null && !pd.isInviteToPP__c && pd.Participant__c != null) {
                 contactIds.add(pd.Contact__c);
                 pd.Status__c = 'Active';
-                if(boolcheckTemplate) {
+                if(ctpDetails.CommunityTemplate__c != 'Janssen') {
                     pd.isInviteToPP__c = true;
                 }
                 pdListToUpdate.add(pd);
             }
         }
-        List<Patient_Delegate_Enrollment__c> lstPatientDelegateEnrolltoUpdate = new List<Patient_Delegate_Enrollment__c>(); 
-         for(Patient_Delegate_Enrollment__c objPDER : [ SELECT ID, Status__c,Patient_Delegate__c,Patient_Delegate__r.Contact__c FROM Patient_Delegate_Enrollment__c  WHERE
-                                                           Patient_Delegate__r.Participant_Delegate__c IN: delParticipantIds
-                                                            AND Participant_Enrollment__r.Clinical_Trial_Profile__c =: ctpDetails.id
-                                                            AND Patient_Delegate__r.Contact__c IN:contactIds
-                                                            AND Patient_Delegate__c IN: pdList])
-            {
-                objPDER.Status__c = 'Active';
-                if(boolcheckTemplate) {
-                    objPDER.isInviteToPP__c = true;
-                }
-                lstPatientDelegateEnrolltoUpdate.add(objPDER);
 
-             }
-             
-         
-        if(!boolcheckTemplate) {
+        if(ctpDetails.CommunityTemplate__c == 'Janssen') {
             TriggerHandlerExecutor.bypassHandler(
                 PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
             );
-            TriggerHandlerExecutor.bypassHandler(
-                PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
-            );
-            
         }
 
-         //Bypaass old methods from Patient Delegate Trigger
-         TriggerHandlerExecutor.bypassHandler(
-            PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
-            );
-        TriggerHandlerExecutor.bypassHandler(
-            PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
-            );
-        TriggerHandlerExecutor.bypassHandler( 
-            PatientDelegateTriggerHandler.CreateReactivatedNotification.class
-            );  
-
         Database.update(pdListToUpdate);
-        Database.update(lstPatientDelegateEnrolltoUpdate); 
+
     
         /*if(contactIds != null){
             particpantUser = [SELECT ID, Email, ContactId FROM User WHERE ContactId IN :contactIds];

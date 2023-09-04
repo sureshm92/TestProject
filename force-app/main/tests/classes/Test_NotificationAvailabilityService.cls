@@ -6,16 +6,6 @@
 private class Test_NotificationAvailabilityService {
     @TestSetup
     static void makeData() {
-        TriggerHandlerExecutor.bypassHandler(
-            TriggerHandlerExecutor.contextExecuteHandler.class            
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            StudySiteTriggerHandler.createPIUserOrSendNotification.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.afterInsert.class
-        );
-        TriggerHandlerExecutor.execute(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
         TestData.loadTestData();
         Test.startTest();
         Participant__c participant = [

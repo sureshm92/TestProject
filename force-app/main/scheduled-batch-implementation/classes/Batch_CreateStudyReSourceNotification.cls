@@ -22,8 +22,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                     Study_Site__r.Approved_Lng__c,
                     Study_Site__r.Site__r.BillingCountryCode,
                     Participant__r.Has_Studies_In_Progress__c,
-                    Clinical_Trial_Profile__r.CommunityTemplate__c,
-                    Clinical_Trial_Profile__r.PPTemplate__c
+                    Clinical_Trial_Profile__r.CommunityTemplate__c
                 FROM Participant_Enrollment__c
                 WHERE
                     Clinical_Trial_Profile__c IN :ctpIds
@@ -212,9 +211,8 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                 }
 
                                 if (
-                                    ((pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                                    CommunityTemplateService.TEMPLATE_PP) || (pe.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN 
-                                    && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')) && !isDelegate
+                                    pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                                    CommunityTemplateService.TEMPLATE_PP && !isDelegate
                                 ) {
                                     if (res.Resource__r.Content_Type__c == 'Study_Document') {
                                         notifications.add(

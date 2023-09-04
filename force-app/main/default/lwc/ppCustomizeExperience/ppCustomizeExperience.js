@@ -15,7 +15,7 @@ import BACK from '@salesforce/label/c.Back';
 import PP_Profile_Update_Success from '@salesforce/label/c.PP_Profile_Update_Success';
 import PP_Customize_Experience from '@salesforce/label/c.PP_Customize_Experience';
 import PP_Conditions from '@salesforce/label/c.PP_Conditions';
-import PP_Select_up_to_5_conditions from '@salesforce/label/c.PP_Customize_footer_message';
+import PP_Select_up_to_5_conditions from '@salesforce/label/c.PP_Select_up_to_5_conditions';
 
 import getInitData from '@salesforce/apex/SearchConditionsOfInterestRemote.getConditionOfInterest';
 import searchConditionOfInterest from '@salesforce/apex/SearchConditionsOfInterestRemote.searchConditionOfInterest';
@@ -37,7 +37,7 @@ export default class PpCustomizeExperience extends LightningElement {
 
     spinner;
     isInitialized = false;
-    isValueChanged = false;
+    isValueChanged =  false;
 
     label = {
         PP_Condition_of_Interest_title,
@@ -92,13 +92,15 @@ export default class PpCustomizeExperience extends LightningElement {
     }
 
     get isSaveDisabled() {
-        if (this.isValueChanged) {
+        if (
+            this.isValueChanged
+        ) {
             return false;
         } else {
             return true;
         }
     }
-
+    
     renderedCallback() {
         if (this.isInitialized == true) {
             this.spinner = this.template.querySelector('c-web-spinner');
@@ -122,7 +124,7 @@ export default class PpCustomizeExperience extends LightningElement {
             });
     }
 
-    initializeData() {
+    initializeData(){        
         getInitData()
             .then((returnValue) => {
                 console.log('success', returnValue);
@@ -132,7 +134,7 @@ export default class PpCustomizeExperience extends LightningElement {
                 this.conditionsOfInterestTemp = copy;
                 //console.log(this.conditionsOfInterestTemp[0].coi.Id);
                 window.setTimeout(() => {
-                    this.callhelper(coival);
+                    this.callhelper(coival);                    
                 }, 500);
                 this.spinner.hide();
             })
@@ -205,10 +207,7 @@ export default class PpCustomizeExperience extends LightningElement {
         let removedPill = event.currentTarget.getAttribute('data-name');
         //alert(removedPill);
         this.handleClearPill(removedPill);
-        this.isValueChanged =
-            JSON.stringify(this.displayedItems) == JSON.stringify(this.conditionOfInterestList)
-                ? false
-                : true;
+        this.isValueChanged = JSON.stringify(this.displayedItems) == JSON.stringify(this.conditionOfInterestList) ? false : true;
     }
 
     handleClearPill(removedPill) {
@@ -229,15 +228,15 @@ export default class PpCustomizeExperience extends LightningElement {
     handleChange(event) {
         let taList = this.conditionsOfInterestTemp;
         let inputValue = event.target.name;
-        let check = this.conditionOfInterestList;
+		let check =this.conditionOfInterestList;
         var capturedCheckboxName = inputValue;
         var selectedCheckBoxes = this.selectedValues;
         let uncheckedValues = [];
         let finalSelectedvalues = [];
         let copy = JSON.parse(JSON.stringify(this.conditionOfInterestList));
-        if (check.length < 5) {
-            this.isValueChanged = false;
-        }
+			if(check.length <5){
+					this.isValueChanged = false;
+			}
         if (!event.target.checked) {
             for (let i = 0; i < taList.length; i++) {
                 if (
@@ -255,16 +254,15 @@ export default class PpCustomizeExperience extends LightningElement {
                     }
                 }
                 taList = finalSelectedvalues;
-            }
+		     }				
         } else if (taList.length < 5) {
             selectedCheckBoxes.push(capturedCheckboxName);
             taList.push(capturedCheckboxName);
         } else {
-            event.target.checked = false;
+            event.target.checked = false;				
         }
         this.conditionsOfInterestTemp = taList;
-        this.isValueChanged =
-            JSON.stringify(this.conditionsOfInterestTemp) == JSON.stringify(copy) ? false : true;
+        this.isValueChanged =  JSON.stringify(this.conditionsOfInterestTemp) == JSON.stringify(copy)? false : true ;
     }
 
     showMenuBar(event) {

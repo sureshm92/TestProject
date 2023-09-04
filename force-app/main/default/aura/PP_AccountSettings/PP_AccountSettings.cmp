@@ -39,12 +39,6 @@
     <aura:attribute name="hoverId" type="string" />
     <aura:attribute name="showManageDelegateTab" type="Boolean" default="false" />
     <aura:attribute name="showMamanageAssignmentTab" type="Boolean" default="false" />
-    <aura:attribute
-        name="isJanssen"
-        type="Boolean"
-        description="get is janssen login"
-        default="false"
-    />
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
@@ -160,22 +154,6 @@
                                         >{!$Label.c.PP_Cookie_Settings}</a
                                     >
                                 </li>
-                                <aura:set attribute="else">
-                                    <aura:if isTrue="{!v.isJanssen}">
-                                        <li
-                                            id="6"
-                                            aura:id="6"
-                                            class="{!(v.compId == '6') ? 'navItem mouse-hover group-6' : 'navItem' }"
-                                            >
-                                            <a
-                                               class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset"
-                                               data-menu-item-id="6"
-                                               onclick="{!c.selectCookie}"
-                                               >{!$Label.c.PP_Cookie_Settings}</a
-                                                >
-                                        </li>
-                                    </aura:if>
-                                </aura:set>
                             </aura:if>
                             <!-- Manage Delegates Start -->
                             <aura:if

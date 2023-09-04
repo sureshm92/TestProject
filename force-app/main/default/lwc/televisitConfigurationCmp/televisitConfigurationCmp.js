@@ -8,12 +8,8 @@ import deletevendordetails from '@salesforce/apex/televisitConfigurationControll
 import updatestudysitedetails from '@salesforce/apex/televisitConfigurationController.updatestudysite';
 import vendoravailabilitycheck from '@salesforce/apex/televisitConfigurationController.vendoravailability';
 import updateremindervalues from '@salesforce/apex/televisitConfigurationController.updateremindervalues';
-import fetchTelevisitVendorDetails from '@salesforce/apex/televisitConfigurationController.fetchTelevisitVendorDetails';
-import fetchExisitingTelevisitRecordVendor from '@salesforce/apex/televisitConfigurationController.fetchExisitingTelevisitRecordVendor';
-import submitTelevisitVendorDetails from '@salesforce/apex/televisitConfigurationController.submitTelevisitVendorDetails';
 import saveLabel from '@salesforce/label/c.Save';
 import cancelLabel from '@salesforce/label/c.Cancel';
-import noTelevisitVendorAvailableLabel from '@salesforce/label/c.Televisit_No_Vendor_Message';
 import selectcountryLabel from '@salesforce/label/c.RH_RP_Select_Country';
 import selecttelevisitvendorLabel from '@salesforce/label/c.Select_Televisit_Vendor';
 import studysiteLabel from '@salesforce/label/c.TS_Select_Study_Site';
@@ -64,8 +60,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
         offsetTimeLabel,
         selectallLabel,
         clearallLabel,
-        permissionLabel,
-        noTelevisitVendorAvailableLabel
+        permissionLabel
 
     };
     @api recordId;   
@@ -109,30 +104,12 @@ export default class TelevisitConfigurationCmp extends LightningElement {
     isSpinnerCheck = false;
     sortingType = 'StudySite';
     soritingShow = true;
-    
-    isModalOpenNew = false;
-    isVendorAvailable = true;
-    vendorValue = '';
-    vendorOptions = [];
-    vendorOptionsMap = [];
-    vendorOptionsMapMandatoryFields = [];
-    vendorOptionsMapNonMandatoryFields = [];
-    listOfMandatoryFields = [];
-    listOfNonMandatoryFields = [];
-    jsonObj = {};
-    isEditMode = false;
-    disableSaveUpdate = false;
-
     connectedCallback() {
         this.isSpinnerCheck = true;
-        //this.fetchTelevisitVendorDetails();
         this.getteledetails(this.recordId);
         this.handleSubscribe();
-        
         //alert('From connect call back');
     }
-
-    
    
     getteledetails(itemId) {
         this.televisitdetails = [];
@@ -536,7 +513,6 @@ export default class TelevisitConfigurationCmp extends LightningElement {
                 console.log(JSON.stringify(error));
             });
         }
-        /*
         else if(selectedVal == 'Edit'){
             this.vendername = vendorName; 
             this.isModalOpen = true;
@@ -544,17 +520,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
             this.vendorId = vendorId;
             this.venderdescription = this.vendoriddescmap.get(vendorId); 
             this.vendercreationcheck = true;
-        } */     
-        else if(selectedVal == 'Edit'){
-            this.isEditMode = true;
-            this.vendorValue = vendorName; 
-            //this.isModalOpenNew = true;
-            //this.toupsertcheck = true;
-            this.vendorId = vendorId;
-            //this.venderdescription = this.vendoriddescmap.get(vendorId); 
-            //this.vendercreationcheck = true;
-            this.openEditModalPopup();
-        } 
+        }      
     }
     handleTypeChange(event){
         this.isSpinner = true;
@@ -680,197 +646,5 @@ export default class TelevisitConfigurationCmp extends LightningElement {
             this.isSpinner = false;
             console.log(JSON.stringify(error));
         });
-    } 
-    
-    fetchTelevisitVendorDetails(){
-        fetchTelevisitVendorDetails({ctpId : this.recordId, editMode : this.isEditMode})
-        .then((result) => {
-            
-            if(result != ''){
-                for(var i=0; i< result.length; i++){
-                    this.vendorOptions.push({label: result[i].DeveloperName, value: result[i].DeveloperName});
-                    this.vendorOptionsMapMandatoryFields.push({label: result[i].DeveloperName, value: (result[i].Mandatory_Fields__c != undefined) ? result[i].Mandatory_Fields__c:null});
-                    this.vendorOptionsMapNonMandatoryFields.push({label: result[i].DeveloperName, value: (result[i].Non_Mandatory_Fields__c !=undefined) ? result[i].Non_Mandatory_Fields__c:null});
-                }
-                
-                this.isModalOpenNew = true;
-                this.isVendorAvailable = true;
-                if(this.isEditMode){
-                    this.handleVendorChange();
-                }
-            }else{
-                this.isModalOpenNew = true;
-                this.isVendorAvailable = false;
-            }
-            
-            
-        })
-        .catch((error) => {
-            console.log(JSON.stringify(error));
-        });
-    }
-
-    fetchExisitingTelevisitRecordVendor(){
-        
-        fetchExisitingTelevisitRecordVendor({vendorId : this.vendorId})
-        .then((result) => {
-            
-            
-            if(result != ''){
-                var jsonObj = {};
-                jsonObj = result[0];
-                for(var i=0; i<this.listOfMandatoryFields.length; i++){
-                    this.template.querySelector('[data-apiname="' + this.listOfMandatoryFields[i].value + '"]').value = jsonObj[this.listOfMandatoryFields[i].value];
-                    
-                }
-                for(var i=0; i<this.listOfNonMandatoryFields.length; i++){
-                    this.template.querySelector('[data-apiname="' + this.listOfNonMandatoryFields[i].value + '"]').value = jsonObj[this.listOfNonMandatoryFields[i].value];
-                }
-
-                
-                this.disableSaveUpdate = true;
-            }
-            
-
-            
-        })
-        .catch((error) => {
-            console.log(JSON.stringify(error));
-        });
-    }
-
-    openNewModalPopup(){
-        this.disableSaveUpdate = true;
-        this.isEditMode = false;
-        this.resetValues();
-        this.fetchTelevisitVendorDetails();
-        
-        //this.isModalOpenNew = true;
-        
-    }
-
-    resetValues(){
-        this.vendorOptions = [];
-        this.vendorOptionsMapMandatoryFields = [];
-        this.vendorOptionsMapNonMandatoryFields = [];
-        this.vendorValue = '';
-        this.vendorId = '';
-        this.listOfMandatoryFields = [];
-        this.listOfNonMandatoryFields = [];
-    }
-
-    openEditModalPopup(){
-        
-        this.fetchTelevisitVendorDetails();
-        /*
-        setTimeout(() => {
-            this.handleVendorChange();
-        }, 1000);
-        setTimeout(() => {
-            this.fetchExisitingTelevisitRecordVendor();
-        }, 1200);
-        */
-        //this.disableSaveUpdate = true;
-    }
-
-    
-    closeModalNew(){
-        this.isModalOpenNew = false;
-        this.resetValues();
-    }
-
-    submitDetailsNew(){
-        this.jsonObj = {};
-        this.jsonObj.Clinical_Trial_Profile__c = this.recordId;
-        this.jsonObj.Name = this.vendorValue;
-        if(this.vendorId != ''){
-            this.jsonObj.Id = this.vendorId;
-        }
-        
-        for(var i=0; i<this.listOfMandatoryFields.length; i++){
-            let labelData = '';
-            let valueData = '';
-            labelData = this.listOfMandatoryFields[i].value;
-            valueData = this.template.querySelector('[data-apiname="' + this.listOfMandatoryFields[i].value + '"]').value;
-            
-            this.jsonObj[labelData] = valueData;
-            
-            
-        }
-        
-        for(var i=0; i<this.listOfNonMandatoryFields.length; i++){
-            let labelData = '';
-            let valueData = '';
-            labelData = this.listOfNonMandatoryFields[i].value;
-            valueData = this.template.querySelector('[data-apiname="' + this.listOfNonMandatoryFields[i].value + '"]').value;
-            
-            this.jsonObj[labelData] = valueData;
-        }
-        this.submitTelevisitVendorDetails();
-        
-    }
-
-    handleVendorChange(event) {
-        this.listOfMandatoryFields = [];
-        this.listOfNonMandatoryFields = [];
-        if(event != null){
-            this.vendorValue = event.detail.value;
-        }
-        
-        var selectedVendorDetailsMandatoryFields = this.vendorOptionsMapMandatoryFields.filter(obj =>(obj.label.toLowerCase().includes(this.vendorValue.toLowerCase())));
-        var selectedVendorDetailsNonMandatoryFields = this.vendorOptionsMapNonMandatoryFields.filter(obj =>(obj.label.toLowerCase().includes(this.vendorValue.toLowerCase())));
-        var mandatoryFields = (selectedVendorDetailsMandatoryFields[0].value != null) ? selectedVendorDetailsMandatoryFields[0].value.split(','):null;
-        var nonMandatoryFields = (selectedVendorDetailsNonMandatoryFields[0].value != null) ? selectedVendorDetailsNonMandatoryFields[0].value.split(','):null;
-   
-        if(mandatoryFields != null){
-            for(var i=0; i<mandatoryFields.length; i++){
-                this.listOfMandatoryFields.push({label:mandatoryFields[i].replace('__c','').replace('_',' '),value:mandatoryFields[i]});
-            }
-        }
-        
-        if(nonMandatoryFields != null){
-            for(var i=0; i<nonMandatoryFields.length; i++){
-                this.listOfNonMandatoryFields.push({label:nonMandatoryFields[i].replace('__c','').replace('_',' '),value:nonMandatoryFields[i]});
-            }
-        }
-        
-        if(this.isEditMode){
-            this.fetchExisitingTelevisitRecordVendor();
-        }
-    }
-
-    
-    submitTelevisitVendorDetails(){
-        submitTelevisitVendorDetails({jsonString : JSON.stringify(this.jsonObj)})
-        .then((result) => {
-            if(result === 'Success'){
-                const event = new ShowToastEvent({
-                    title: 'Success',
-                    message: 'Televisit vendor setting details record saved successfully',
-                    variant: 'success',
-                    mode: 'dismissable'
-                });
-                this.dispatchEvent(event);
-                this.isModalOpenNew = false;
-                this.getteledetails(this.recordId);
-                this.resetValues();
-            }
-            
-        })
-        .catch((error) => {
-            console.log(JSON.stringify(error));
-        });
-    }
-
-    handleRequiredFieldValidation(){
-        for(var i=0; i<this.listOfMandatoryFields.length; i++){
-            if((this.template.querySelector('[data-apiname="' + this.listOfMandatoryFields[i].value + '"]').value) == null ||
-            (this.template.querySelector('[data-apiname="' + this.listOfMandatoryFields[i].value + '"]').value) == ''){
-                this.disableSaveUpdate = true;
-                break;
-            }else{
-                this.disableSaveUpdate = false;
-            }
-        }
-    }
+    }    
 }

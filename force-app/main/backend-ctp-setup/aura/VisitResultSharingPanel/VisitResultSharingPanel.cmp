@@ -16,7 +16,6 @@
     <aura:attribute name="dataSnapshot" type="String" />
     <aura:attribute name="userPermission" type="String" />
     <aura:attribute name="communityTemplate" type="String" />
-    <aura:attribute name="ppTemplate" type="String" />
 
     <aura:method name="refresh" action="{!c.doInit}" />
 
@@ -251,7 +250,6 @@
                                 globalCountries="{!v.options.selectedCountries}"
                                 globalType="{!v.options.countrySelectionType}"
                                 communityTemplate="{!v.communityTemplate}"
-                                ppTemplate="{!v.ppTemplate}"
                                 onChange="{!c.doGroupChanged}"
                                 onChangeShowOnMyResultCard="{!c.doGroupSelectionChanged}"
                             />

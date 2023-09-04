@@ -57,8 +57,7 @@
     /*PEH-11588*/
     padding-top: 10px;
     width: 100%;
-    /* max-width: 188px; */
-    word-wrap: break-word;
+    max-width: 188px;
 }
 
 @media only screen and (min-width: 360px) and (max-width: 375px) {
@@ -105,7 +104,7 @@
 
 .piName {
     min-height: 17px;
-    /* width: 129px; */
+    width: 129px;
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 14px;
@@ -117,8 +116,8 @@
 
 .phoneIcon {
     height: 13.33px;
-    width: 12px;
-    /* margin-right: 10px; */
+    width: 13.33px;
+    margin-right: 10px;
 }
 
 .piIcon {
@@ -128,17 +127,10 @@
 }
 
 .piNameText {
-    width: 100%;
-    white-space: nowrap;
-    max-width: 200px;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    width: 199px;
+    word-wrap: break-word;
 }
 
 .piIcon-li {
     margin-right: 10px;
-}
-
-.pad-5{
-    padding-left: 5px;
 }

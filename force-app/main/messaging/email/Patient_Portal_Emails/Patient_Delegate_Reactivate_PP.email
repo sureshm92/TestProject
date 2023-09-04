@@ -12,10 +12,9 @@
                         title="{!$Label.Email_Title_PH}"
                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                         signature="{!$Label.Email_Signature_FullName_New}"
-                        communityTemplate="PatientPortal"
-                        isDelegate="True">
+                        communityTemplate="PatientPortal">
 <c:PP_Paragraph emailLabel="{!$Label.Email_Body_Participant_Dele_Reactivated_PP}"/>
-        <c:PP_EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}" recipientId="{!recipient.Id}" communityTemplate="PatientPortal"/>
+        <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}" recipientId="{!recipient.Id}" communityTemplate="PatientPortal"/>
 
     </c:PP_EmailWireframe>
 </messaging:htmlEmailBody>
@@ -27,10 +26,9 @@
                             title="{!$Label.Email_Title_PH}"
                             greeting="{!$Label.Email_User_Greeting_FirstName}"
                             signature="{!$Label.Email_Signature_FullName_New}"
-                            communityTemplate="PatientPortal"
-                            isDelegate="True">
+                            communityTemplate="PatientPortal">
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Participant_Dele_Reactivated_PP}"/>
-        <c:PP_EmailTemplateDelegateParticipantText sourceId="{!relatedTo.Id}" recipientId="{!recipient.Id}" />
+        <c:EmailTemplateDelegateParticipantText sourceId="{!relatedTo.Id}"/>
         <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                                 buttonURL="/s/"/>
     </c:PP_EmailWireframeText>

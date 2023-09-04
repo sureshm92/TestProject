@@ -2,7 +2,7 @@
  - Created by Igor Malyuta on 29.04.2020.
  -->
 
- <apex:component id="InitialWireframeText" controller="InitialWireframeController" access="global">
+<apex:component id="InitialWireframeText" controller="InitialWireframeController" access="global">
 
     <!-- attributes: -->
     <apex:attribute name="userId" type="Id" assignTo="{!recordId}" description="" access="global"/>
@@ -17,11 +17,10 @@
                           header="{!$Label.Email_Header_Initial_Patient}"
                           title="{!titleLabel}"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Signature_Patient}"
-                          communityTemplate="{!communityTemplate}">
+                          signature="{!$Label.Email_Signature_Patient}">
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Virtual}"/>
-        <c:EmailActionBtnText rendered="{!studySiteType == 'Traditional'}" buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
+ 		<c:EmailActionBtnText rendered="{!studySiteType == 'Traditional'}" buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframeText>
 
     <c:EmailWireframeText rendered="{!userMode == 'Participant referred by PI'}"
@@ -30,8 +29,7 @@
                           header="{!$Label.Email_Header_Initial_Patient}"
                           title="{!titleLabel}"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Signature_Patient}"
-                          communityTemplate="{!communityTemplate}">
+                          signature="{!$Label.Email_Signature_Patient}">
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Created_By_PI}"/>
         <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
@@ -56,11 +54,10 @@
                           header="{!$Label.Email_Header_Initial_Patient_Delegate}"
                           title="{!titleLabel}"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Signature_New}"
-                          communityTemplate="{!communityTemplate}">
+                          signature="{!$Label.Email_Signature_New}">
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
-        <c:EmailTemplateDelegateParticipantText recipientId="{!recordId}"  communityTemplate="{!communityTemplate}"/>
+        <c:EmailTemplateDelegateParticipantText/>
         <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframeText>
 
@@ -72,7 +69,7 @@
                           title="{!titleLabel}"
                           greeting="{!$Label.Email_User_Greeting}"
                           signature="{!$Label.Email_Signature}"
-                          communityTemplate="{!communityTemplate}">
+                          communityTemplate = "{!communityTemplate}">
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!IF(commTemplate == 'Janssen',$Label.Email_Body_Janssen_Initial_PI,$Label.Email_Body_Initial_PI)}"/>
         <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
@@ -85,11 +82,10 @@
                           header="{!$Label.Email_Header_Initial_Delegate}"
                           title="{!titleLabel}"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Signature}"
-                          communityTemplate="{!communityTemplate}">
+                          signature="{!$Label.Email_Signature}">
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
-        <c:EmailTemplateDelegateText />
+        <c:EmailTemplateDelegateText/>
         <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframeText>
 
@@ -143,7 +139,7 @@
                           signature="{!$Label.Email_Signature}">
         <!-- Inner body -->
         <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Delegate}"/>
-        <c:EmailTemplateDelegateText />
+        <c:EmailTemplateDelegateText/>
         <c:EmailActionBtnText buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>
     </c:EmailWireframeText>
 

@@ -8,9 +8,7 @@
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Patient5}"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Signature_Trial_Completed}"
-                          communityTemplate="{!IF(relatedTo.CommunityTemplate__c == 'Janssen',
-                                                                                         'Janssen',relatedTo.CommunityTemplate__c)}">
+                          signature="{!$Label.Email_Signature_Trial_Completed}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Patient18}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailWireframe>
@@ -21,9 +19,7 @@
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Patient5}"
                               greeting="{!$Label.Email_User_Greeting_FirstName}"
-                              signature="{!$Label.Email_Signature_Trial_Completed}"
-                              communityTemplate="{!IF(relatedTo.CommunityTemplate__c == 'Janssen',
-                                                                                         'Janssen',relatedTo.CommunityTemplate__c)}">
+                              signature="{!$Label.Email_Signature_Trial_Completed}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Patient18}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailWireframeText>

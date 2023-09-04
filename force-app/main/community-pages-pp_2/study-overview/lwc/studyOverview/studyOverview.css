@@ -92,14 +92,13 @@
     line-height: 24px;
     /*PEH-11588*/
     padding-top: 10px;
-    /* max-width: 188px; */
-    word-wrap: break-word;
+    max-width: 188px;
 }
 
 @media only screen and (min-width: 360px) and (max-width: 375px) {
     .po-more {
-        max-width: 170px;
-    }
+       max-width: 170px;
+    }    
 }
 
 .po-more-text {
@@ -139,7 +138,7 @@
 
 .piName {
     min-height: 17px;
-    /* width: 129px; */
+    width: 129px;
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 14px;
@@ -161,21 +160,10 @@
     margin-right: 12px;
 }
 .piNameText {
-    width: 100%;
-    white-space: nowrap;
-    max-width: 200px;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    width: 199px;
+    word-wrap: break-word;
 }
 
 .piIcon-li {
     margin-right: 12px;
-} 
-
-.piIcon-Rtl {
-    margin-left: 24px;
-}
-
-.pad-5{
-    padding-left: 5px;
 }

@@ -12,7 +12,6 @@
     <apex:attribute name="resourceId" type="Id" description="DEPRECATED" access="global" assignTo="{!resourceIdString}" />
     <apex:attribute name="communityTemplate" type="String" description="" access="global" assignTo="{!communityTemplateValue}"
     />
-    <apex:attribute name="isPPJanssen" type="String" description="" access="global" assignTo="{!isPPJanssenString}"/>
     <apex:outputpanel>
         <!-- component body: -->
         <apex:outputLink value="{!resultURL}" style="border: 1px solid #ffffff;

@@ -49,9 +49,7 @@ public without sharing class TrialService {
         'Patient_Auth_Upload_Required__c',
         'Televisit_Vendor_is_Available__c',
         'IQVIA_Outreach__c',
-        'Tokenization_Support__c',
-        'CommunityTemplate__c',
-        'PPTemplate__c'
+        'Tokenization_Support__c'
     };
 
     private static TrialService instance;

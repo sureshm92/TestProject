@@ -30,7 +30,6 @@ public without sharing class OpenTokClientController {
     public List<Attendee> attendees { get; private set; }
     public static final String SESSION_ID_PARAMETER = 'sessionId';
     public String commTemplate { get; set; }
-    public String commPPTemplate { get; set; }
     public String headerbg { get; set; }
     public Boolean statusCanceled { get; set; }
 
@@ -94,7 +93,6 @@ public without sharing class OpenTokClientController {
                 Visit_Date_Time__c,
                 Visit_End_Date_Time__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
-                Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
                 Duration__c,
                 (
                     SELECT
@@ -142,15 +140,12 @@ public without sharing class OpenTokClientController {
                     attendeeType = 'PP';
 
                     commTemplate = this.session.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
-                    commPPTemplate = this.session.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c;
-                    if (commTemplate == CommunityTemplateService.TEMPLATE_DEFAULT || 
-                        (commTemplate == CommunityTemplateService.TEMPLATE_JANSSEN && commPPTemplate == 'PP 1.0') )
+                    if (commTemplate == CommunityTemplateService.TEMPLATE_DEFAULT)
                         headerbg = 'headerbg-pp';
                     if (commTemplate == CommunityTemplateService.TEMPLATE_GSK)
                         headerbg = 'headerbg-gsk';
-                    if (commTemplate == CommunityTemplateService.TEMPLATE_PP || 
-                        (commTemplate == CommunityTemplateService.TEMPLATE_JANSSEN && commPPTemplate == 'PP 2.0') )
-                             headerbg = 'headerbg-pp2';
+                    if (commTemplate == CommunityTemplateService.TEMPLATE_PP)
+                        headerbg = 'headerbg-pp2';
                 } else {
                     appNamestr = 'IQVIA Referral Hub';
                     attendeeType = 'RH';

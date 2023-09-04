@@ -10,7 +10,6 @@ import ABOUT_IQVIA from '@salesforce/label/c.Footer_Link_About_IQVIA';
 import COPYRIGHT from '@salesforce/label/c.Footer_T_Copyright';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import CONTACT_SUPPORT from '@salesforce/label/c.PP_Contact_Support';
-import Janssen_Community_Template_Name from '@salesforce/label/c.Janssen_Community_Template_Name';
 
 export default class PpCommunityFooter extends LightningElement {
     //String var
@@ -41,8 +40,7 @@ export default class PpCommunityFooter extends LightningElement {
         COPYRIGHT,
         ERROR_MESSAGE,
         CPRA_DoNotSell_PatientPortal,
-        CONTACT_SUPPORT,
-        Janssen_Community_Template_Name
+        CONTACT_SUPPORT
     };
 
     connectedCallback() {
@@ -69,12 +67,12 @@ export default class PpCommunityFooter extends LightningElement {
             this.isRTL = true;
         }
 
-        //getting ctp terms of use and privacy policy if exists 
+        //getting ctp terms of use and privacy policy if exists
         setTimeout(() => {
             getInitData({})
                 .then((result) => {
                     let ps = JSON.parse(result);
-                    console.log('>>isJanseenAlumniloggedin>>'+ps.isJanseenAlumniloggedin);
+
                     if (ps.objCPRA) {
                         this.isCPRAAvailable = true;
                         this.CPRALinkToredirect = ps.objCPRA.Link_to_redirect__c;
@@ -107,10 +105,6 @@ export default class PpCommunityFooter extends LightningElement {
                                 ? 'privacy-policy?ret=' + this.retUrl + '&amp;' + 'default=true'
                                 : 'privacy-policy?ret=' + this.retUrl;
                         }
-                        if(ps.ctp.CommunityTemplate__c == 'Janssen' && ps.ctp.PPTemplate__c == 'PP 2.0')
-                        {
-                            this.sponsor = this.labels.Janssen_Community_Template_Name;
-                        }
                     } else {
                         //if not patient portal then
                         this.tcLink =
@@ -120,17 +114,7 @@ export default class PpCommunityFooter extends LightningElement {
                         this.privacyLink = this.defaultTC
                             ? 'privacy-policy?ret=' + this.retUrl + '&amp;' + 'default=true'
                             : 'privacy-policy?ret=' + this.retUrl;
-                        if(ps.isJanseenAlumniloggedin)
-                        {
-                            this.sponsor = this.labels.Janssen_Community_Template_Name;    
-                        }
                     }
-                    this.privacyLabel = this.sponsor
-                        ? this.sponsor + ' ' + this.labels.PRIVACY_POLICY
-                        : this.labels.PRIVACY_POLICY;
-                     this.termsOfUseLabel = this.sponsor
-                        ? this.sponsor + ' ' + this.labels.TERMS_OF_USE
-                        : this.labels.TERMS_OF_USE;
                     this.initialized = true;
                 })
                 .catch((error) => {
@@ -138,12 +122,12 @@ export default class PpCommunityFooter extends LightningElement {
                 });
         }, 100);
 
-        // this.privacyLabel = this.sponsor
-        //     ? this.sponsor + ' ' + this.labels.PRIVACY_POLICY
-        //     : this.labels.PRIVACY_POLICY;
-        // this.termsOfUseLabel = this.sponsor
-        //     ? this.sponsor + ' ' + this.labels.TERMS_OF_USE
-        //     : this.labels.TERMS_OF_USE;
+        this.privacyLabel = this.sponser
+            ? this.sponser + ' ' + this.labels.PRIVACY_POLICY
+            : this.labels.PRIVACY_POLICY;
+        this.termsOfUseLabel = this.sponsor
+            ? this.sponser + ' ' + this.labels.TERMS_OF_USE
+            : this.labels.TERMS_OF_USE;
     }
     showErrorToast(titleText, messageText, variantType) {
         this.dispatchEvent(

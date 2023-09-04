@@ -177,7 +177,7 @@ public without sharing class CommunityModeService {
         );
 
         List<String> rhCommunityNames = new List<String>();
-        //rhCommunityNames.addAll(rhSponsorsByCommunity.keySet()); /** commenting out for PEH-14489 */
+        rhCommunityNames.addAll(rhSponsorsByCommunity.keySet());
         Map<Id, List<Participant_Enrollment__c>> peListByParticipantIdMap = getPEMap(
             userParticipant,
             delegatedParticipantIds,
@@ -589,7 +589,7 @@ public without sharing class CommunityModeService {
         }
 
         List<String> rhCommunityNames = new List<String>();
-        //rhCommunityNames.addAll(rhSponsorsByCommunity.keySet()); /** commenting out for PEH-14489 */
+        rhCommunityNames.addAll(rhSponsorsByCommunity.keySet());
         Map<Id, List<Participant_Enrollment__c>> peListByParticipantIdMap = getPEMap(
             userParticipant,
             delegatedParticipantIds,
@@ -647,46 +647,17 @@ public without sharing class CommunityModeService {
             modes.add(mode);
             if (peList != null) {
                 for (Participant_Enrollment__c pe : peList) {
-                    if( pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
-                        if(pe.Clinical_Trial_Profile__r.PPTemplate__c != null && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'){
-                          mode.addSubMode(
-                           new CommunityMode(
-                               USER_MODE_PARTICIPANT,
-                               pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                               null,
-                               pe,
-                               CommunityTemplateService.getTemplate(
-                                  'PatientPortal'
-                               )
-                           )
-                        );
-                        }else{
-                                  mode.addSubMode(
-                               new CommunityMode(
-                                   USER_MODE_PARTICIPANT,
-                                   pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                                   null,
-                                   pe,
-                                   CommunityTemplateService.getTemplate(
-                                      pe.Clinical_Trial_Profile__r.CommunityTemplate__c
-                                   )
-                               )
-                           );
-                      
-                        }
-                    }else{
-                        mode.addSubMode(
-                            new CommunityMode(
-                                USER_MODE_PARTICIPANT,
-                                pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                                null,
-                                pe,
-                                CommunityTemplateService.getTemplate(
-                                    pe.Clinical_Trial_Profile__r.CommunityTemplate__c
-                                )
+                    mode.addSubMode(
+                        new CommunityMode(
+                            USER_MODE_PARTICIPANT,
+                            pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                            null,
+                            pe,
+                            CommunityTemplateService.getTemplate(
+                                pe.Clinical_Trial_Profile__r.CommunityTemplate__c
                             )
-                        );
-                    }
+                        )
+                    );
                 }
             }
         }
@@ -737,46 +708,17 @@ public without sharing class CommunityModeService {
             if (peList != null && pdeWrapperMap != null) {
                 for (Participant_Enrollment__c pe : peList) {
                     if (pdeWrapperMap.contains(pe.Id)) {
-                        if( pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
-                            if(pe.Clinical_Trial_Profile__r.PPTemplate__c != null && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'){
-                                                        mode.addSubMode(
-                                       new CommunityMode(
-                                           USER_MODE_PARTICIPANT,
-                                           pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                                           pe.Participant__r.Contact__c,
-                                           pe,
-                                           CommunityTemplateService.getTemplate(
-                                               'PatientPortal'
-                                           )
-                                       )
-                                   );
-                            }else{
-                                                mode.addSubMode(
-                                   new CommunityMode(
-                                       USER_MODE_PARTICIPANT,
-                                       pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                                       pe.Participant__r.Contact__c,
-                                       pe,
-                                       CommunityTemplateService.getTemplate(
-                                           pe.Clinical_Trial_Profile__r.CommunityTemplate__c
-                                       )
-                                   )
-                               );
-                                            
-                            }
-                   }else{
-                           mode.addSubMode(
-                               new CommunityMode(
-                                   USER_MODE_PARTICIPANT,
-                                   pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                                   pe.Participant__r.Contact__c,
-                                   pe,
-                                   CommunityTemplateService.getTemplate(
-                                       pe.Clinical_Trial_Profile__r.CommunityTemplate__c
-                                   )
-                               )
-                           );
-                    } 
+                        mode.addSubMode(
+                            new CommunityMode(
+                                USER_MODE_PARTICIPANT,
+                                pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                                pe.Participant__r.Contact__c,
+                                pe,
+                                CommunityTemplateService.getTemplate(
+                                    pe.Clinical_Trial_Profile__r.CommunityTemplate__c
+                                )
+                            )
+                        );
                     }
                 }
             }
@@ -847,7 +789,6 @@ public without sharing class CommunityModeService {
                 'Clinical_Trial_Profile__r.Study_Title__c',
                 'Clinical_Trial_Profile__r.Study_Code_Name__c',
                 'Clinical_Trial_Profile__r.CommunityTemplate__c',
-                'Clinical_Trial_Profile__r.PPTemplate__c',
                 'Clinical_Trial_Profile__r.Is_Program__c',
                 'Participant__c',
                 'Participant__r.Contact__c',

@@ -5,7 +5,7 @@ public without sharing class PPCookiesBannerController {
     public Contact currentContact { get; set; }
     public String userMode;
     public String userJsonString;
-   
+
     public void fetchTheCookieData() {
         try {
             cookieSettings = AccountSettingsController.getCookieSettings();
@@ -19,10 +19,6 @@ public without sharing class PPCookiesBannerController {
         }
     }
     public void updateCookiePreferences() {
-        update currentContact;
-    }
-    public void updateCookiePreferencesJs() {
-        currentContact.RRCookiesAllowedCookie__c = true;
         update currentContact;
     }
 }
