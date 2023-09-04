@@ -31931,6 +31931,20 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>create_Participant_Main_Header</shortDescription>
         <value>Participant Creation</value>
     </labels> 
+     <labels>
+        <fullName>PP_Contact_Support_Show_More</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Show More Site staff</shortDescription>
+        <value>Show More</value>
+    </labels> 
+     <labels>
+        <fullName>PP_Contact_Support_Show_Less</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Show Less Site staff</shortDescription>
+        <value>Show Less</value>
+    </labels> 
     <labels>
         <fullName>Back_to_Past_Studies_and_Programs</fullName>
         <language>en_US</language>
