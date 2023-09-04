@@ -6,7 +6,7 @@
                 <lightning-button variant="Neutral" label="Cancel" title="Canel" onclick={handleCancel} class="slds-m-left_x-small" disabled={isDisabled}></lightning-button>
             </div>
         </template> 
-    <template if:false={pre_trial_not_show}> 
+    <template if:true={showPreTrialConfig}> 
     <template if:true={statusTitleData}>
         <h2 class="table-heading">Pre Enrollment Status</h2>
         <lightning-datatable suppress-bottom-bar="true"

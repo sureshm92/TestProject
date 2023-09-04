@@ -1,4 +1,5 @@
-import { LightningElement,api, track } from 'lwc';
+import { LightningElement,api, track,wire } from 'lwc';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import fetchStatusConfig from '@salesforce/apex/ppStatusDescConfigController.fetchStatusConfig';
 import updateStatusConfig from '@salesforce/apex/ppStatusDescConfigController.updateStatusConfig';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -10,6 +11,8 @@ const columns = [
     { label: 'Status Description', fieldName: 'Status_Description__c', editable: true },
     { label: 'Status Motivational Message', fieldName: 'Status_Motivational_Message__c', editable: true }
 ];
+
+const CTP_Fields = ['Clinical_Trial_Profile__c.Is_Program__c', 'Clinical_Trial_Profile__c.Status_Milestone_Available__c'];
 
 const titleColumns = [
     { label: 'Status Name', fieldName: 'Status_Name__c' },
@@ -24,10 +27,12 @@ const milestoneColumns = [
 ];
 
 export default class PpStatusDescConfig extends LightningElement {
+    @track ctpRecord;
     @api recordId;
     @track isDisabled = true;
     data = null;
-    program;
+    isprogram;
+    isstatusmilestoneavailable;
     statusTitleData = null;
     statusilestoneData = null;
     columns = columns;
@@ -46,6 +51,19 @@ export default class PpStatusDescConfig extends LightningElement {
     ppProgressBarMessage = '';
     subscription = null;
     context = createMessageContext();
+
+    @wire(getRecord,{recordId:'$recordId', fields: CTP_Fields})
+    ctpDetail({error,data}){
+        if(data){
+            this.ctpRecord=data;
+            this.isprogram = getFieldValue(data,'Clinical_Trial_Profile__c.Is_Program__c');
+            this.isstatusmilestoneavailable = getFieldValue(data,'Clinical_Trial_Profile__c.Status_Milestone_Available__c');
+            console.log('both field value', this.isprogram,this.isstatusmilestoneavailable);
+        } else if(error){
+            console.error('Error fetching ctp record', error);
+        }
+    }
+
     connectedCallback(){
         this.getData();
         this.subscribeToMessageChannel();
@@ -57,7 +75,6 @@ export default class PpStatusDescConfig extends LightningElement {
                     this.featureUnavailale = true;
                 }else{
                     this.configResult = result;
-                    this.program=result.ctp.Is_Program__c;
                     this.data = result[1];
                     this.statusTitleData = result[0];
                     this.statusilestoneData = result[2];
@@ -160,14 +177,18 @@ export default class PpStatusDescConfig extends LightningElement {
             );
         }
         else{
-            let draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues;
-            draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues);
-            draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues);
-       
+            let draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues;
+            if(!this.isprogram && this.isstatusmilestoneavailable){
+                draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues);
+                draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues);
+            }
+            
             updateStatusConfig({ recs: draftConfigurations })
                 .then(result => {
                     if(result){
                         this.data=null;
+                        this.statusTitleData = null;
+                        this.statusilestoneData = null;
                         this.dispatchEvent(
                             new ShowToastEvent({
                                 title: "Success",
@@ -189,6 +210,8 @@ export default class PpStatusDescConfig extends LightningElement {
     }
     handleChange(event) {
         this.data=null;
+        this.statusTitleData = null;
+        this.statusilestoneData = null;
         this.getData();
 
     }
@@ -209,7 +232,9 @@ export default class PpStatusDescConfig extends LightningElement {
         this.isDisabled = true;
     }
 
-    get pre_trial_not_show(){
-        return this.program;
+    get showPreTrialConfig(){
+        if(this.ctpRecord){
+        return (!this.isprogram && this.isstatusmilestoneavailable);
         }
+    }
 }
