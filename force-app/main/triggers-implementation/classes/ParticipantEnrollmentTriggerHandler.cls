@@ -10,6 +10,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         FROM User
         WHERE Profile.Name = 'API Only'
     ];
+    public static Boolean executedJanssenNotfication = false;
     public class PrepareAdditionalFieldsHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             prepareAdditionalFields(newList, null);
