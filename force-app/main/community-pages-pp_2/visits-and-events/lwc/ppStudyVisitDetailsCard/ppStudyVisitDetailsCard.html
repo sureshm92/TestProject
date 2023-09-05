@@ -69,7 +69,7 @@
                         </div>
                     </template>
                 </template>
-                <div if:true={past} class="slds-grid slds-wrap">
+                <div if:true={past} class="slds-grid slds-wrap visit-detail-card-pad">
                     <template if:true={dbCompletedDate}>
                         <div
                             class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-left_none"
@@ -97,7 +97,7 @@
                 </div>
             </div>
             <div>
-                <div class="slds-grid slds-wrap">
+                <div class="slds-grid slds-wrap visit-detail-card-pad">
                     <div class="slds-size_1-of-1 slds-small-size_1-of-1 slds-p-left_none">
                         <div if:false={past}>
                             <label>{label.reminder}</label>
@@ -128,27 +128,35 @@
                         if:false={past}
                         class="slds-col slds-size_3-of-4 slds-small-size_3-of-4 slds-p-around_none comm-checks"
                     >
-                        <div if:true={showEmailSms}>
-                            <lightning-input
-                                data:id="emailField"
-                                label={label.email}
-                                type="checkbox"
-                                name={label.email}
-                                value={email}
-                                disabled={emailOptIn}
-                                checked={email}
-                                onchange={setAttributeValueEmail}
-                            ></lightning-input>
-                            <lightning-input
-                                data:id="smsField"
-                                type="checkbox"
-                                label={label.sms}
-                                name={label.sms}
-                                value={sms}
-                                disabled={smsOptIn}
-                                checked={sms}
-                                onchange={setAttributeValueSms}
-                            ></lightning-input>
+                        <div class="slds-grid slds-grid_align-spread">
+                            <div class="slds-col">
+                                <span if:true={showEmailSms}>
+                                    <lightning-input
+                                        data:id="emailField"
+                                        label={label.email}
+                                        type="checkbox"
+                                        name={label.email}
+                                        value={email}
+                                        disabled={emailOptIn}
+                                        checked={email}
+                                        onchange={setAttributeValueEmail}
+                                    ></lightning-input>
+                                </span>
+                            </div>
+                            <div class="slds-col">
+                                <span if:true={showEmailSms}>
+                                    <lightning-input
+                                        data:id="smsField"
+                                        type="checkbox"
+                                        label={label.sms}
+                                        name={label.sms}
+                                        value={sms}
+                                        disabled={smsOptIn}
+                                        checked={sms}
+                                        onchange={setAttributeValueSms}
+                                    ></lightning-input>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
