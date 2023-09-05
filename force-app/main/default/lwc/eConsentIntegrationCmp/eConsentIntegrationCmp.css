@@ -10,3 +10,11 @@
     z-index: 1;
     background: #f8f8f8;
 }
+.form-element_button{
+    opacity: 0.5;
+}
+
+.form-element_button:hover{
+    opacity: 1;
+    cursor: pointer;
+}

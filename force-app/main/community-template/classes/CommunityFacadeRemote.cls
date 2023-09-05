@@ -51,6 +51,7 @@
         Boolean isMobileApp;
         Boolean hasIQVIAStudiesPI;
         ParticipantService.ParticipantState participantData;
+        String studyDetails;
     }
     @testvisible
     private class CommunityType {
@@ -99,6 +100,7 @@
                 cd.messagesVisible = getMessagesVisibility();
                 cd.trialMatchVisible = getTrialMatchVisibility();
                 cd.eDiaryVisible = getEDiaryVisibility();
+                cd.studyDetails = HomePageParticipantRemote.getInitData();
             }
             cd.hasIQVIAStudiesPI = getHasIQVIAStudiesPI();
             cd.currentUserMode = UserContext.getCurrentUserMode();
@@ -257,7 +259,7 @@
         List<Participant_Enrollment__c> peWithAvailableMessages = new List<Participant_Enrollment__c>();
         List<Id> peIds = new List<Id>();
         CommunityMode communityMode = UserContext.getCurrentUserMode();
-
+    
         if (communityMode.currentPE != null)
             peIds.add(communityMode.currentPE);
         if (communityMode.hasPastStudies) {
@@ -570,8 +572,8 @@
             }
         }
         
-		List<Send_Result__c> listOfAllSendResult = new List<Send_Result__c>();
-		if(listOfResult.size() > 0){
+        List<Send_Result__c> listOfAllSendResult = new List<Send_Result__c>();
+        if(listOfResult.size() > 0){
           sendResultWrap.allSendResult = listOfResult;
           return sendResultWrap;
         }              

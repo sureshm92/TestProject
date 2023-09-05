@@ -66,8 +66,10 @@ public without sharing class ParticipantService {
         public String loggedInUserName;
         @AuraEnabled
         public Boolean cookiesAgreedonRegPage;
-        @AuraEnabled
+        @AuraEnabled 
         public CPRA_DoNotSell__mdt objCPRA;
+       @AuraEnabled 
+        public Boolean isJanseenAlumniloggedin;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -86,7 +88,7 @@ public without sharing class ParticipantService {
             loggedInUserName = '';
         }
     }
-
+    
     private ParticipantState participantState;
     private static ParticipantService instance;
 
@@ -161,15 +163,19 @@ public without sharing class ParticipantService {
                     participantState.value = ParticipantStates.PARTICIPANT;
                     participantState.showVisits = showVisits();
                     participantState.showTeleVisits = showTeleVisits();
+                    /**PEH-525 START*/
                     participantState.showVisitsInPreTrial = participantState.showVisits;
+                    /**PEH-525 END*/
                     participantState.showResults = showResults();
                     participantState.showNonInitialVisits = showNonInitialVisitsNew();
                 } else {
                     participantState.value = ParticipantStates.REFERRAL;
+                    /**PEH-525 START*/
                     participantState.showVisits = showVisits();
                     participantState.showTeleVisits = showTeleVisits();
                     participantState.showVisitsInPreTrial = showVisits();
                     participantState.showNonInitialVisits = showNonInitialVisitsNew();
+                    /**PEH-525 END*/
                     Boolean boolPreConsent = participantState.ctp.Received_Until_Consent_Is_Available__c;
                     Boolean boolEnrolledConsent = participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c;
                     //if Pre Consent is on and  Consent through enrollment/randomization is Off
@@ -222,9 +228,13 @@ public without sharing class ParticipantService {
         participantState.welcomeMessage = getWelcomeMessage(participants);
         participantState.communityName = UserContext.getCurrentCommunityName();
         participantState.loggedInUserName = getLoggedInUserName(participants);
-        participantState.objCPRA = getCPRALink('IQVIA Patient Portal');
+        participantState.objCPRA = getCPRALink('IQVIA Patient Portal'); 
+        if(participantState.communityName == 'IQVIA Patient Portal'){
+            participantState.isJanseenAlumniloggedin = getAlumniTemplate();
+        }else{
+            participantState.isJanseenAlumniloggedin = false;
+        }  
     }
-
     public static CPRA_DoNotSell__mdt getCPRALink(String strCommunityType) {
         list<CPRA_DoNotSell__mdt> lstMd = new List<CPRA_DoNotSell__mdt>();
         if (strCommunityType == 'IQVIA Referral Hub' || strCommunityType == 'null') {
@@ -251,7 +261,45 @@ public without sharing class ParticipantService {
 
         return lstMd.isEmpty() ? null : lstMd[0];
     }
+    @AuraEnabled
+    public static Boolean getAlumniTemplate(){
 
+        User objUser =[SELECT Id, ContactId,Contact.userCommunityDelegateId__c,Contact.Current_Participant_Enrollment__c
+                         FROM User WHERE Id =: UserInfo.getUserId()];
+        Id contactId  = objUser.Contact.userCommunityDelegateId__c != null ?  objUser.Contact.userCommunityDelegateId__c : objUser.ContactId;
+
+        Boolean isAlumniPP = false ;
+        Boolean isAlumniJanseen = false ;
+         
+
+      for(Participant_Enrollment__c objper : [SELECT id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c
+                                                    ,Clinical_Trial_Profile__r.PPTemplate__c   from Participant_Enrollment__c 
+                                                    Where Participant_Contact__c =:contactId AND ((Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen'
+                                                    AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0')  
+                                                    OR  Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal')
+                                                    AND Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_ALUMNI LIMIT 10000])
+            {
+                if(objper.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal')
+                    isAlumniPP = true; 
+                if(objper.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen')
+                    isAlumniJanseen = true; 
+                if(isAlumniPP && isAlumniJanseen)
+                    break;
+            }
+            if(isAlumniJanseen && !isAlumniPP)
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+    }
+
+    @AuraEnabled
+    public static String getTemp(){
+      return UserContext.getCurrentCommunityTemplate().templateName;
+    }
+    
     public static Participant__c getParticipant(Id sourceId) {
         if (sourceId != null) {
             List<Participant__c> participants = [

@@ -123,6 +123,15 @@
                     }
 
                     component.set('v.studyDetail', trialDetail);
+                    let getCommunityName = component.get('v.studyDetail.communityName');
+                    if(getCommunityName == 'IQVIA Referral Hub' || getCommunityName == 'IQVIA Patient Portal' 
+                    ||  getCommunityName == 'Janssen Community' )
+                    {
+                        component.set('v.isIQVIALogo',true);
+                    }
+                    else {
+                        component.set('v.isIQVIALogo',false);
+                    }
                     //get sticky bar position in browser window
                     //if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
                     component.set('v.isInitialized', true);

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Icons__c</fullName>
+    <externalId>false</externalId>
+    <label>Icons</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>icon-blood-test</fullName>
+                <default>false</default>
+                <label>Blood tests</label>
+            </value>
+            <value>
+                <fullName>icon-brief-ph-ex</fullName>
+                <default>false</default>
+                <label>Physical examination</label>
+            </value>
+            <value>
+                <fullName>icon-ecg</fullName>
+                <default>false</default>
+                <label>Electrocardiogram (ECG)</label>
+            </value>
+            <value>
+                <fullName>icon-joint</fullName>
+                <default>false</default>
+                <label>Joint assessment</label>
+            </value>
+            <value>
+                <fullName>icon-lung-test</fullName>
+                <default>false</default>
+                <label>Lung function test</label>
+            </value>
+            <value>
+                <fullName>icon-lung-check</fullName>
+                <default>false</default>
+                <label>Lung health check</label>
+            </value>
+            <value>
+                <fullName>icon-pregnancy</fullName>
+                <default>false</default>
+                <label>Pregnancy test</label>
+            </value>
+            <value>
+                <fullName>icon-questionnaires</fullName>
+                <default>false</default>
+                <label>Questionnaires</label>
+            </value>
+            <value>
+                <fullName>icon-questions</fullName>
+                <default>false</default>
+                <label>Questions about your health and medications</label>
+            </value>
+            <value>
+                <fullName>icon-vital-signs</fullName>
+                <default>false</default>
+                <label>Vital signs</label>
+            </value>
+            <value>
+                <fullName>icon-urine-tests</fullName>
+                <default>false</default>
+                <label>Urine tests</label>
+            </value>
+            <value>
+                <fullName>icon-receive-study-medication-injection</fullName>
+                <default>false</default>
+                <label>Receive study medication</label>
+            </value>
+            <value>
+                <fullName>icon-receive-study-medication-capsules</fullName>
+                <default>false</default>
+                <label>Receive study medication capsules</label>
+            </value>
+            <value>
+                <fullName>icon-fasting</fullName>
+                <default>false</default>
+                <label>Fasting</label>
+            </value>
+            <value>
+                <fullName>icon-hands-and-feet-x-rays</fullName>
+                <default>false</default>
+                <label>Hand and feet X-rays</label>
+            </value>
+            <value>
+                <fullName>icon-chest-x-rays</fullName>
+                <default>false</default>
+                <label>Chest X-rays</label>
+            </value>
+            <value>
+                <fullName>icon-no-study-visit</fullName>
+                <default>false</default>
+                <label>No study visit</label>
+            </value>
+            <value>
+                <fullName>team-meeting-chat</fullName>
+                <default>false</default>
+                <label>Exit interview</label>
+            </value>
+            <value>
+                <fullName>medical-specialty-intestine</fullName>
+                <default>false</default>
+                <label>Colonoscopy</label>
+            </value>
+            <value>
+                <fullName>shipment-package</fullName>
+                <default>false</default>
+                <label>Supply of study medication</label>
+            </value>
+            <value>
+                <fullName>notes-diary-alternate</fullName>
+                <default>false</default>
+                <label>eDiary review</label>
+            </value>
+            <value>
+                <fullName>laboratory-test-stool-cup</fullName>
+                <default>false</default>
+                <label>Stool sample</label>
+            </value>
+            <value>
+                <fullName>biopsy</fullName>
+                <default>false</default>
+                <label>Biopsy</label>
+            </value>
+            <value>
+                <fullName>task-checklist-check</fullName>
+                <default>false</default>
+                <label>Check if the study is right for you</label>
+            </value>
+            <value>
+                <fullName>single-neutral-actions-text</fullName>
+                <default>false</default>
+                <label>Study discussion</label>
+            </value>
+            <value>
+                <fullName>height-and-weight</fullName>
+                <default>false</default>
+                <label>Height and weight</label>
+            </value>
+            <value>
+                <fullName>cancer-treatments</fullName>
+                <default>false</default>
+                <label>Cancer treatments</label>
+            </value>
+            <value>
+                <fullName>ct-scan-or-mri-scan</fullName>
+                <default>false</default>
+                <label>CT scan or MRI scan</label>
+            </value>
+            <value>
+                <fullName>informed-consent</fullName>
+                <default>false</default>
+                <label>Informed Consent Form</label>
+            </value>
+            <value>
+                <fullName>medical-folder</fullName>
+                <default>false</default>
+                <label>Medical history</label>
+            </value>
+            <value>
+                <fullName>medical-notes</fullName>
+                <default>false</default>
+                <label>Medical chart review</label>
+            </value>
+            <value>
+                <fullName>multiple-users-2</fullName>
+                <default>false</default>
+                <label>Demographics</label>
+            </value>
+            <value>
+                <fullName>medical-ribbon-cancer</fullName>
+                <default>false</default>
+                <label>Cancer type</label>
+            </value>
+            <value>
+                <fullName>Icon_Ultrasound</fullName>
+                <default>false</default>
+                <label>Basic Ultrasound</label>
+            </value>
+            <value>
+                <fullName>Icon_Eye</fullName>
+                <default>false</default>
+                <label>Eye</label>
+            </value>
+            <value>
+                <fullName>Icon_Echocardiogram</fullName>
+                <default>false</default>
+                <label>Echocardiogram</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

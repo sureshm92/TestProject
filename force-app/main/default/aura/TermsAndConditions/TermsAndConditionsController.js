@@ -105,29 +105,29 @@
             }
         } else {
             if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
-                communityService.executeAction(
-                    component,
-                    'getTC',
-                    {
-                        code: titleCode,
-                        languageCode: communityService.getUrlParameter('language'),
-                        useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC
-                    },
-                    function(returnValue) {
-                        let tcData = JSON.parse(returnValue);
-                        component.set('v.tcData', tcData);
-                        if (RTL) {
-                            helper.setRTL(component);
+                    communityService.executeAction(
+                        component,
+                        'getTC',
+                        {
+                            code: titleCode,
+                            languageCode: communityService.getUrlParameter('language'),
+                            useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC
+                        },
+                        function(returnValue) {
+                            let tcData = JSON.parse(returnValue);
+                            component.set('v.tcData', tcData);
+                            if (RTL) {
+                                helper.setRTL(component);
+                            }
+                            if (tcData.tc) {
+                                component.set('v.privacyPolicyId', tcData.tc);
+                            }
+                        },
+                        null,
+                        function() {
+                            component.find('mainSpinner').hide();
                         }
-                        if (tcData.tc) {
-                            component.set('v.privacyPolicyId', tcData.tc);
-                        }
-                    },
-                    null,
-                    function() {
-                        component.find('mainSpinner').hide();
-                    }
-                );
+                    );
             } else {
                 if (!component.get('v.ctpId')) {
                     component.set('v.ctpId', ctpId);

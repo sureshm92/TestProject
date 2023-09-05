@@ -224,7 +224,10 @@ private class Test_BaseCRCPCommunity {
             TermsAndConditionsRemote.getTrialTcData(testData.ctp.Id);
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             TermsAndConditionsRemote.getTC('CookiePolicy', 'en_US', false); //TODO: check code
-            TermsAndConditionsRemote.getPPTC('CookiePolicy', 'en_US', false,ppTC.Id);
+            TermsAndConditionsRemote.getPPTC('CookiePolicy', 'en_US', false,ppTC.Id,false);
+            TermsAndConditionsRemote.getPPTC('PrivacyPolicy', 'en_US', false,null,false);  
+            TermsAndConditionsRemote.getPPTC('PrivacyPolicy', 'en_US', false,null,true); 
+            TermsAndConditionsRemote.getPPTCJn('PrivacyPolicy', 'en_US', false,null); 
             TermsAndConditionsRemote.generatePDF(ppTC.Id);
             TermsAndConditionsRemote.getCommunityName();
             List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();
@@ -263,7 +266,11 @@ private class Test_BaseCRCPCommunity {
         update testData.hcpEnrollment;
 
         System.runAs(testData.hcpUser) {
+             TermsAndConditionsRemote.getTCPP('PrivacyPolicy', 'en_US', true); 
+             TermsAndConditionsRemote.getTCPP('CookiePolicy', 'en_US', true); 
+             TermsAndConditionsRemote.getTCPP('TermsandConditions', 'en_US', true); 
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
+            
             Action_SendSiteRequestByHCPRemote.changeStudyForHCP(
                 testData.ss.Id,
                 testData.hcpEnrollment.Id
@@ -287,6 +294,8 @@ private class Test_BaseCRCPCommunity {
         update testData.hcpEnrollment;
 
         System.runAs(testData.hcpUser) {
+             TermsAndConditionsRemote.getTC('PrivacyPolicy', 'en_US', true); 
+             TermsAndConditionsRemote.getTC('TermsandConditions', 'en_US', true);  
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             Action_SendSiteRequestByHCPRemote.selectNoSites(testData.hcpEnrollment.Id);
         }
