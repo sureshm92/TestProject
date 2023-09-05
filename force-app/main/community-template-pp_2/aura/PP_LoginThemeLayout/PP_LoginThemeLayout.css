@@ -99,6 +99,12 @@
     }
 }
 
+@media (min-width: 760px) {
+    .THIS .footer {
+        padding-left: 20px;
+    }
+}
+
 @media all  and (orientation: landscape)  and (max-width: 759px) {
     .THIS .footer {
          
