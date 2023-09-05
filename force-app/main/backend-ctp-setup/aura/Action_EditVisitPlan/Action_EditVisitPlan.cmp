@@ -44,7 +44,6 @@
                         value="{!v.plan.Name}"
                         disabled="{!equals(v.mode,'view')}"
                     />
-                    <div class="slds-p-top--large">
                         <lightning:button
                             class="btns toolbar-btn"
                             variant="neutral"
@@ -52,7 +51,6 @@
                             label="{!if(v.mode == 'view', $Label.c.View_Visit_Legend, $Label.c.Edit_Visit_Legend)}"
                             onclick="{!c.doEditLegend}"
                         />
-                   </div>
                 </div>
                 <div class="toolbar">
                     <lightning:input
@@ -63,7 +61,6 @@
                         disabled="{!equals(v.mode,'view')}"
                     />
                     <aura:if isTrue="{!notequals(v.mode,'view')}">
-                        <div class="slds-p-top--large" >
                             <lightning:button
                                 class="btns toolbar-btn"
                                 variant="neutral"
@@ -71,7 +68,6 @@
                                 label="{!$Label.c.Visit_b_Add_Visit}"
                                 onclick="{!c.doAddVisit}"
                             />
-                        </div>
                     </aura:if>
                 </div>
             </div>
