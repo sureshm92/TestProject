@@ -326,7 +326,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         }
 
         if (
-            (this.taskCodeList.includes(selectedTask.openTask.Task_Code__c)  || selectedTask.openTask.Task_Type__c == 'Ecoa')  &&
+            (this.taskCodeList.includes(selectedTask.task.Task_Code__c)  || selectedTask.task.Task_Type__c == 'Ecoa')  &&
             selectedTask.task.Task_Code__c != 'Complete_Survey'
         ) {
             this.popupTaskMenuItems.push(this.reminderObj);
