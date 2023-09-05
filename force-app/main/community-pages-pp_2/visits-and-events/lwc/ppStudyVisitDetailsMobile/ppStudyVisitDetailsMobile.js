@@ -122,15 +122,14 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
                     this.visitDetail = result;
                     if (result.length != 0 || result != null || result != '') {
                         this.visitName = this.visitDetail[0]?.Is_Adhoc__c
-                                    ? this.label.unscheduledVisit
-                                    : this.visitDetail[0]?.Visit__r?.Patient_Portal_Name__c
-                                    ? this.visitDetail[0]?.Visit__r?.Patient_Portal_Name__c
-                                    : this.visitDetail[0]?.Portal_Name__c;
+                            ? this.label.unscheduledVisit
+                            : this.visitDetail[0]?.Visit__r?.Patient_Portal_Name__c
+                            ? this.visitDetail[0]?.Visit__r?.Patient_Portal_Name__c
+                            : this.visitDetail[0]?.Portal_Name__c;
                         this.plannedDate = this.visitDetail[0].Planned_Date__c;
                         this.visitStatus = this.visitDetail[0].Status__c;
                         this.visitTimezone = TIME_ZONE;
-                        this.isInitialVisit =
-                            this.visitDetail[0].Is_Pre_Enrollment_Patient_Visit__c;
+                        this.isInitialVisit = this.visitDetail[0].Is_Pre_Enrollment_Patient_Visit__c;
                     }
                     if (this.visitStatus == 'Missed') {
                         this.visitStatus = this.label.Unavailable;
@@ -219,7 +218,8 @@ export default class PpStudyVisitDetailsMobile extends NavigationMixin(Lightning
         this.showreminderdatepicker = false;
         if (this.visitid) {
             getParticipantVisitsDetails({
-                visitId: this.visitid
+                visitId: this.visitid,
+                updateReminderExpTasks: true
             }).then((result) => {
                 const str =
                     '{"Id":"","Patient_Visit__c":"","Reminder_Date__c":"","ReminderDateTime":"","Remind_Me__c":"","Remind_Using_Email__c":false,"Remind_Using_SMS__c":false}';
