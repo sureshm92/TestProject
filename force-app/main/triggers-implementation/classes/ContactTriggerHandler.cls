@@ -91,13 +91,13 @@ public without sharing class ContactTriggerHandler {
             }
         }
     }
-
+    
     public without sharing class UpdateNotificationHandler extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updateExisistingNotifications(newList, oldMap);
         }
     }
-
+    
     // Logic: ----------------------------------------------------------------------------------------------------------
     
     @TestVisible
@@ -923,7 +923,7 @@ participantIds
             }
         }
     }
-
+    
     @TestVisible
     private static void updateExisistingNotifications(
         List<SObject> newList,
@@ -935,9 +935,9 @@ participantIds
             if (
                 (((Contact) oldMap.get(contactObj.Id)).Language__c != contactObj.Language__c) ||
                 (((Contact) oldMap.get(contactObj.Id)).Second_Choice_Language__c !=
-                contactObj.Second_Choice_Language__c) ||
+                 contactObj.Second_Choice_Language__c) ||
                 (((Contact) oldMap.get(contactObj.Id)).Third_Choice_Language__c !=
-                contactObj.Third_Choice_Language__c)
+                 contactObj.Third_Choice_Language__c)
             ) {
                 targetedContactList.add(contactObj.Id);
             }
@@ -947,11 +947,11 @@ participantIds
             Map<Id, List<Contact>> ctpContactsMap = new Map<Id, List<Contact>>();
             for (Participant_Enrollment__c peObj : [
                 SELECT
-                    Clinical_Trial_Profile__c,
-                    Participant__r.Contact__r.Id,
-                    Participant__r.Contact__r.Language__c,
-                    Participant__r.Contact__r.Second_Choice_Language__c,
-                    Participant__r.Contact__r.Third_Choice_Language__c
+                Clinical_Trial_Profile__c,
+                Participant__r.Contact__r.Id,
+                Participant__r.Contact__r.Language__c,
+                Participant__r.Contact__r.Second_Choice_Language__c,
+                Participant__r.Contact__r.Third_Choice_Language__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__r.Contact__c = :targetedContactList
             ]) {
@@ -971,14 +971,14 @@ participantIds
             List<Id> resIdsForContentDocs = new List<Id>();
             Map<Id, List<Contact>> resourceIdContactMap = new Map<Id, List<Contact>>();
             Map<Id, List<String>> contentLangByResId = new Map<Id, List<String>>();
-
+            
             for (Res_study__c resStudy : [
                 SELECT
-                    Resource__r.Language__c,
-                    Resource__r.Languages__c,
-                    Clinical_Trial_Profile__c,
-                    Resource__r.Id,
-                    Resource__r.Content_Type__c
+                Resource__r.Language__c,
+                Resource__r.Languages__c,
+                Clinical_Trial_Profile__c,
+                Resource__r.Id,
+                Resource__r.Content_Type__c
                 FROM Res_study__c
                 WHERE Clinical_Trial_Profile__c = :studyIds
             ]) {
@@ -1008,14 +1008,14 @@ participantIds
             if (!rsIds.isEmpty()) {
                 List<ContentDocumentLink> contentDocumentLinks = [
                     SELECT
-                        Id,
-                        LinkedEntityId,
-                        ContentDocument.Title,
-                        ContentDocument.LatestPublishedVersion.LanguageCode__c
+                    Id,
+                    LinkedEntityId,
+                    ContentDocument.Title,
+                    ContentDocument.LatestPublishedVersion.LanguageCode__c
                     FROM ContentDocumentLink
                     WHERE LinkedEntityId IN :rsIds
                 ];
-
+                
                 for (ContentDocumentLink content : contentDocumentLinks) {
                     if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
                         contentLangByResId.put(content.LinkedEntityId, new List<String>());
@@ -1047,16 +1047,16 @@ participantIds
                     }
                 }
             }
-
+            
             List<Id> therapeuticIds = new List<Id>();
             Map<Id, List<Contact>> therapeuticConMap = new Map<Id, List<Contact>>();
             for (Therapeutic_Area_Patient__c tap : [
                 SELECT
-                    Id,
-                    Therapeutic_Area__c,
-                    Participant__r.Contact__r.Language__c,
-                    Participant__r.Contact__r.Second_Choice_Language__c,
-                    Participant__r.Contact__r.Third_Choice_Language__c
+                Id,
+                Therapeutic_Area__c,
+                Participant__r.Contact__r.Language__c,
+                Participant__r.Contact__r.Second_Choice_Language__c,
+                Participant__r.Contact__r.Third_Choice_Language__c
                 FROM Therapeutic_Area_Patient__c
                 WHERE Participant__r.Contact__c = :targetedContactList
             ]) {
@@ -1071,18 +1071,18 @@ participantIds
                     );
                 }
             }
-
+            
             List<Therapeutic_Area_Assignment__c> taAssignments = [
                 SELECT
-                    Resource__r.Language__c,
-                    Resource__r.Id,
-                    Resource__r.Languages__c,
-                    Therapeutic_Area__c,
-                    Resource__r.Content_Type__c
+                Resource__r.Language__c,
+                Resource__r.Id,
+                Resource__r.Languages__c,
+                Therapeutic_Area__c,
+                Resource__r.Content_Type__c
                 FROM Therapeutic_Area_Assignment__c
                 WHERE Therapeutic_Area__c = :therapeuticIds
             ];
-
+            
             for (Therapeutic_Area_Assignment__c taAssignmentObj : taAssignments) {
                 List<Contact> contacts = therapeuticConMap.get(taAssignmentObj.Therapeutic_Area__c);
                 for (Contact con : contacts) {
@@ -1093,34 +1093,58 @@ participantIds
                     }
                 }
             }
-
+            Map<Id,Id> stdResPtResMap = new Map<Id,Id>();
             for (Res_study__c resStudy : [
-                SELECT Id
+                SELECT Id,Resource__c
                 FROM Res_study__c
                 WHERE Resource__c = :resourceIds
             ]) {
                 resourceIds.add(resStudy.Id);
+                stdResPtResMap.put(resStudy.Id,resStudy.Resource__c);
             }
-
+            
             List<Notification__c> updateNotifications = new List<Notification__c>();
+            Map<String,Set<String>> ctIdRemovedResidsMap = new Map<String,Set<String>>();
             for (Notification__c notification : [
-                SELECT Status__c
+                SELECT Status__c,Recipient__c,Target_Record_Ids__c
                 FROM Notification__c
                 WHERE
-                    Target_Record_Ids__c = :resourceIds
-                    AND Recipient__c = :contactsToRemoveNotify
-                    AND Status__c = :UpdateService.SR_STATUS_IN_PROGRESS
-            ]) {
+                Target_Record_Ids__c = :resourceIds
+                AND Recipient__c = :contactsToRemoveNotify
+                AND Status__c = :UpdateService.SR_STATUS_IN_PROGRESS
+            ]) { 
+                String resId = stdResPtResMap.containsKey(notification.Target_Record_Ids__c)?stdResPtResMap.get(notification.Target_Record_Ids__c):notification.Target_Record_Ids__c;
+                if(ctIdRemovedResidsMap.containsKey(notification.Recipient__c)){
+                    ctIdRemovedResidsMap.get(notification.Recipient__c).add(resId);
+                }else{
+                    ctIdRemovedResidsMap.put(notification.Recipient__c,new Set<String>{resId});
+                }
                 notification.Status__c = 'Processed';
                 updateNotifications.add(notification);
             }
-
             if (!updateNotifications.isEmpty()) {
                 update updateNotifications;
             }
+            List<Contact> ctToupdate = new List<Contact>();
+            for(sObject sObj : newList){
+                Contact cnt = new Contact(Id = ((Contact) sObj).Id);
+                String resNotificationStr = ((Contact) sObj).Resource_Notifications__c;
+                if(ctIdRemovedResidsMap.containsKey(cnt.Id)){
+                    for(Id sObjId : ctIdRemovedResidsMap.get(cnt.Id)){
+                        if(resNotificationStr.contains(sObjId)){
+                            resNotificationStr = resNotificationStr.replace(sObjId + ';', '').replace('' + sObjId, '').removeEnd(';');   
+                        }
+                    }
+                    cnt.Resource_Notifications__c = resNotificationStr;
+                }
+                ctToupdate.add(cnt); 
+            }
+            if(!ctToupdate.isEmpty()){
+                update ctToupdate;
+            }
         }
     }
-
+    
     @TestVisible
     private static Boolean checkContactResourceLang(Resource__c resourceObj, Contact contactObj) {
         List<String> preferredLaguages = new List<String>();
@@ -1133,19 +1157,19 @@ participantIds
         for (String lanCode : preferredLaguages) {
             if (
                 (resourceObj.Language__c != null &&
-                resourceObj.Language__c.contains(lanCode) &&
-                resourceObj.Content_Type__c != 'Relevant_Link' &&
-                resourceObj.Content_Type__c != 'Study_Document') ||
+                 resourceObj.Language__c.contains(lanCode) &&
+                 resourceObj.Content_Type__c != 'Relevant_Link' &&
+                 resourceObj.Content_Type__c != 'Study_Document') ||
                 (resourceObj.Languages__c != null &&
-                resourceObj.Languages__c.contains(lanCode) &&
-                resourceObj.Content_Type__c == 'Relevant_Link')
+                 resourceObj.Languages__c.contains(lanCode) &&
+                 resourceObj.Content_Type__c == 'Relevant_Link')
             ) {
                 isToDelete = false;
             }
         }
         return isToDelete;
     }
-
+    
     @TestVisible
     private static void updateParticipantConsent(List<Contact> newList, Map<Id, Contact> oldMap) {
         for (Contact con : newList) {
