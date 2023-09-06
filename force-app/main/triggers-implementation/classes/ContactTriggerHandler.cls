@@ -1136,8 +1136,8 @@ participantIds
                         }
                     }
                     cnt.Resource_Notifications__c = resNotificationStr;
+                    ctToupdate.add(cnt);  
                 }
-                ctToupdate.add(cnt); 
             }
             if(!ctToupdate.isEmpty()){
                 update ctToupdate;
