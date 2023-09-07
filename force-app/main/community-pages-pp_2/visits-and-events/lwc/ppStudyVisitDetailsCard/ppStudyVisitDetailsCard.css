@@ -3,7 +3,10 @@
     border-radius: 16px;
 }
 
-.slds-grid {
+/* .slds-grid {
+    padding: 0 1rem;
+} */
+.visit-detail-card-pad {
     padding: 0 1rem;
 }
 
@@ -67,7 +70,10 @@
 .date-height {
     height: 2rem;
 }
-
+.down-arrow-android-hide {
+    -webkit-appearance: none;
+    appearance: none;
+}
 .curve-input:focus-within,
 .slds-form-element__control
     .slds-checkbox

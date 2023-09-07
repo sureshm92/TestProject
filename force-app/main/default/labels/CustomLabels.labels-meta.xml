@@ -2011,7 +2011,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BulkImport_Ok</shortDescription>
-        <value>Ok</value>
+        <value>OK</value>
     </labels>
     <labels>
         <fullName>BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files</fullName>
@@ -7607,6 +7607,21 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>false</protected>
         <shortDescription>Email Outage Title</shortDescription>
         <value>Referral Hub 4.0 &amp; Patient Portal 2.0 Release on weekend</value>
+    </labels>
+    <labels>
+        <fullName>Email_Refer_Sign_Patient_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Refer Sign Patient New PP</shortDescription>
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in clinical research.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Patient_New_PP</fullName>
@@ -31923,5 +31938,19 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>create_Participant_Main_Header</shortDescription>
         <value>Participant Creation</value>
+    </labels> 
+     <labels>
+        <fullName>PP_Contact_Support_Show_More</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Show More Site staff</shortDescription>
+        <value>Show More</value>
+    </labels> 
+     <labels>
+        <fullName>PP_Contact_Support_Show_Less</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Show Less Site staff</shortDescription>
+        <value>Show Less</value>
     </labels> 
 </CustomLabels>
