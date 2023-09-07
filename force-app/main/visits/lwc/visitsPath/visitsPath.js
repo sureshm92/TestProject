@@ -419,7 +419,7 @@ export default class VisitsPath extends LightningElement {
     }
 
     getVisitDetails(itemId) {
-        getVisitsDetails({ visitId: itemId })
+        getVisitsDetails({ visitId: itemId, updateReminderExpTasks: false })
             .then((result) => {
                 this.emailOptIn = false;
                 this.smsOptIn = false;
