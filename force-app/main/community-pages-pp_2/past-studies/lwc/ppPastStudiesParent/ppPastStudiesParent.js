@@ -190,9 +190,25 @@ export default class PpPastStudiesParent extends LightningElement {
         try{
             clearTimeout(this.timeoutId); 
             this.timeoutId = setTimeout(this.copied.bind(this),2000); 
+            this.docopy(event.currentTarget.dataset.id);
         } catch (error) {
             console.error(error);
         } 
+    }
+    docopy(data){
+        const input = document.createElement("textarea");
+        input.innerHTML = data;
+
+        document.body.appendChild(input);
+        input.select();
+
+        if(navigator.clipboard){
+            const selection = document.getSelection();
+        } else {
+            // deprecated but still a good fallback because it is supported in most of the browsers
+            document.execCommand('copy');
+        }
+        document.body.removeChild(input);
     }
     copied() {
         var e = this.template.querySelectorAll(".copying");
