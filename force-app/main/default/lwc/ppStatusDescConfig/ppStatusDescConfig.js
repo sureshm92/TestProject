@@ -122,7 +122,7 @@ export default class PpStatusDescConfig extends LightningElement {
                 }
                 else{
                     if(fldNm.includes('Status_Description__c')){
-                        msg.splice(msg.indexOf('Please enter Status Description under 200 characters'),1);
+                        msg.splice(msg.indexOf(descriptionError),1);
                         fldNm.splice(fldNm.indexOf('Status_Description__c'),1);
                     }
                 }
