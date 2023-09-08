@@ -1,10 +1,16 @@
-import { LightningElement,api, track } from 'lwc';
+import { LightningElement,api, track,wire } from 'lwc';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import Is_Program from '@salesforce/schema/Clinical_Trial_Profile__c.Is_Program__c';
+import Status_Milestone_Available from '@salesforce/schema/Clinical_Trial_Profile__c.Status_Milestone_Available__c';
 import fetchStatusConfig from '@salesforce/apex/ppStatusDescConfigController.fetchStatusConfig';
 import updateStatusConfig from '@salesforce/apex/ppStatusDescConfigController.updateStatusConfig';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import PP_Study_Status_Unavailable from '@salesforce/label/c.PP_Study_Status_Unavailable';
+import PP_Updated_Study_Status_Unavailable from '@salesforce/label/c.PP_Updated_Study_Status_Unavailable';
 import { subscribe,createMessageContext } from 'lightning/messageService';
 import ppToggleMessageChannel from "@salesforce/messageChannel/ppStudyUpdates__c";
+import { refreshApex } from '@salesforce/apex';
+
 const columns = [
     { label: 'Status Name', fieldName: 'Status_Name__c' },
     { label: 'Status Description', fieldName: 'Status_Description__c', editable: true },
@@ -24,10 +30,13 @@ const milestoneColumns = [
 ];
 
 export default class PpStatusDescConfig extends LightningElement {
+    @track ctpRecord;
     @api recordId;
     @track isDisabled = true;
     data = null;
-    program;
+    @track isProgram;
+    @track isStatusMilestoneAvailable;
+    ctpData;
     statusTitleData = null;
     statusilestoneData = null;
     columns = columns;
@@ -37,15 +46,28 @@ export default class PpStatusDescConfig extends LightningElement {
     errors = { rows: {}};
     preTrialStatusErrors = { rows: {}};
     preTrialMilestoneErrors = { rows: {}};
-    showConfig = true;
-    featureUnavailale = false;
+    featureUnavailale = true;
     label = {
-        PP_Study_Status_Unavailable
+        PP_Study_Status_Unavailable,
+        PP_Updated_Study_Status_Unavailable
     };
     receivedMessage = '';
     ppProgressBarMessage = '';
     subscription = null;
     context = createMessageContext();
+
+    @wire(getRecord,{recordId:'$recordId', fields:[Is_Program,Status_Milestone_Available]})
+    ctpDetail(response) {
+        this.ctpData = response;
+        const { data, error } = response; // destructure the provisioned value
+        if (data) { 
+            this.ctpRecord = data;
+            this.isProgram = getFieldValue(response.data,Is_Program);
+            this.isStatusMilestoneAvailable = getFieldValue(response.data,Status_Milestone_Available);
+        }
+        else if (error) {}
+    }
+
     connectedCallback(){
         this.getData();
         this.subscribeToMessageChannel();
@@ -53,23 +75,20 @@ export default class PpStatusDescConfig extends LightningElement {
     getData(){
         fetchStatusConfig({ recId: this.recordId })
             .then(result => {
-                if(result == null){
-                    this.featureUnavailale = true;
-                }else{
+                if(result != null){
+                    this.featureUnavailale = false;
                     this.configResult = result;
-                    this.program=result.ctp.Is_Program__c;
-                    this.data = result[1];
                     this.statusTitleData = result[0];
+                    this.data = result[1];
                     this.statusilestoneData = result[2];
-                    this.showConfig=true;
                     this.handleCancel();
-                    console.log('program is '+this.program);
                 } 
             })
             .catch(error => {
                 console.log(error);
             });
     }
+
     handleEditCellChange(event){
         var rowsError = this.errors.rows;
         let targetName = event.target.name;
@@ -103,7 +122,7 @@ export default class PpStatusDescConfig extends LightningElement {
                 }
                 else{
                     if(fldNm.includes('Status_Description__c')){
-                        msg.splice(msg.indexOf('Please enter Status Description under 200 characters'),1);
+                        msg.splice(msg.indexOf(descriptionError),1);
                         fldNm.splice(fldNm.indexOf('Status_Description__c'),1);
                     }
                 }
@@ -147,7 +166,6 @@ export default class PpStatusDescConfig extends LightningElement {
     }
 
     handleSave() {
-        console.log('handleSave');
         if(JSON.stringify(this.errors).includes('Status_Motivational_Message__c') || JSON.stringify(this.errors).includes('Status_Description__c')
         || JSON.stringify(this.preTrialStatusErrors).includes('Status_Motivational_Message__c') || JSON.stringify(this.preTrialStatusErrors).includes('Status_Description__c')
         || JSON.stringify(this.preTrialMilestoneErrors).includes('Status_Motivational_Message__c') || JSON.stringify(this.preTrialMilestoneErrors).includes('Status_Description__c')){
@@ -160,14 +178,18 @@ export default class PpStatusDescConfig extends LightningElement {
             );
         }
         else{
-            let draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues;
-            draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues);
-            draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues);
-       
+            let draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues;
+            if(!this.isprogram && this.isstatusmilestoneavailable){
+                draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues);
+                draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues);
+            }
+            
             updateStatusConfig({ recs: draftConfigurations })
                 .then(result => {
                     if(result){
                         this.data=null;
+                        this.statusTitleData = null;
+                        this.statusilestoneData = null;
                         this.dispatchEvent(
                             new ShowToastEvent({
                                 title: "Success",
@@ -188,9 +210,13 @@ export default class PpStatusDescConfig extends LightningElement {
         
     }
     handleChange(event) {
+        this.configResult = null;
+        this.featureUnavailale = true;
         this.data=null;
+        this.statusTitleData = null;
+        this.statusilestoneData = null;
         this.getData();
-
+        refreshApex(this.ctpData);
     }
     subscribeToMessageChannel() {
         if (!this.subscription) {
@@ -203,13 +229,26 @@ export default class PpStatusDescConfig extends LightningElement {
         this.errors = { rows: {}};
         this.preTrialStatusErrors = { rows: {}};
         this.preTrialMilestoneErrors = { rows: {}};
-        this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues = [];
-        this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues = [];
-        this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues = [];
+        if(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]") != null){
+            this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues = [];
+        }
+        if(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]") != null){
+            this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues = [];
+        }
+        if(this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]") != null){
+            this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues = [];
+        }
+        
         this.isDisabled = true;
     }
+    get showStatusTitleTab(){
+        return (!this.isProgram && this.isStatusMilestoneAvailable && this.configResult != null && this.statusTitleData!=null);
+    }
 
-    get pre_trial_not_show(){
-        return this.program;
-        }
+    get showStatusMilestoneTab(){
+        return (!this.isProgram && this.isStatusMilestoneAvailable && this.configResult != null && this.statusilestoneData!=null);
+    }
+    get featureUnavailaleMessage(){
+        return (this.isProgram ? this.label.PP_Updated_Study_Status_Unavailable :this.label.PP_Study_Status_Unavailable);         
+    }
 }

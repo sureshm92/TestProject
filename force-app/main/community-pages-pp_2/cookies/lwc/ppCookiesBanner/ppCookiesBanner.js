@@ -81,6 +81,7 @@ export default class PpCookiesBanner extends LightningElement {
   cookiesBannerDesc3;
   isJanssenCommunity;
   isMobile = false;
+  managePrefClick = false;
 
   @api isJanssen = false;
   @api isAlumni = false;
@@ -460,6 +461,7 @@ export default class PpCookiesBanner extends LightningElement {
     event.preventDefault();
   }
   showManagePreferences() {
+    this.managePrefClick = true;
     this.spinner = this.template.querySelector("c-web-spinner");
 
     if (this.spinner) this.spinner.show();
@@ -621,7 +623,24 @@ export default class PpCookiesBanner extends LightningElement {
   }
 
   get backDropClass() {
-    return "slds-backdrop " + (this.showmodal ? " slds-backdrop_open " : "");
+    //return "slds-backdrop " + (this.showmodal ? " slds-backdrop_open " : "");
+    if(this.managePrefClick){
+      // show backdrop
+      return "slds-backdrop slds-backdrop_open";
+    }
+    else if(this.showmodal){
+      if(!this.loginPage){
+        // Post login page      
+          return "slds-backdrop";
+      }
+      else{
+        // Login page
+        return "slds-backdrop " + (this.showmodal ? " slds-backdrop_open " : "");
+      }
+    }
+    else{
+      return "slds-backdrop";
+    }
   }
 
   updateCookies() {
@@ -650,6 +669,7 @@ export default class PpCookiesBanner extends LightningElement {
               this.setRRCookieLanguage();
             }
             this.closeTheBanner();
+            this.managePrefClick = false;
             this.updateBrowserCookies();
             this.showmodal = false;
             this.initData = undefined;
@@ -682,6 +702,7 @@ export default class PpCookiesBanner extends LightningElement {
             this.setRRCookieLanguage();
           }
           this.closeTheBanner();
+          this.managePrefClick = false;
           this.updateBrowserCookies();
           this.showmodal = false;
           this.initData = undefined;
@@ -711,6 +732,7 @@ export default class PpCookiesBanner extends LightningElement {
             this.setRRCookie();
             this.setRRCookieLanguage();
             this.closeTheBanner();
+            this.managePrefClick = false;
             this.showmodal = false;
             this.initData = undefined;
           })
