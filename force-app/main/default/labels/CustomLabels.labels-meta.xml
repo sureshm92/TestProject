@@ -22226,7 +22226,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Study Status Unavailable</shortDescription>
-        <value>Progress Bar cannot be configured on this study/program.</value>
+        <value>Progress Bar cannot be configured on this study.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Updated_Study_Status_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Status Unavailable</shortDescription>
+        <value>Progress Bar cannot be configured on this program.</value>
     </labels>
     <labels>
         <fullName>PP_Submit_Button</fullName>
