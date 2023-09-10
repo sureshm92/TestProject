@@ -7,6 +7,11 @@
         let sponsor = communityService.getCurrentSponsorName();
         let communityName = communityService.getCurrentCommunityName();
         let strCommunityName = '';
+        let currentPage = communityService.getPageName();
+        let hasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI();
+        const pagesWithSharedPrivacyPolicy = communityService.getPagesWithSharedPrivacyPolicy();
+        console.log('>>>currentPage>>'+currentPage);
+        console.log('>>>pagesWithSharedPrivacyPolicy.has(currentPage)>>'+pagesWithSharedPrivacyPolicy.has(currentPage));
         //let isGsk = communityService.getCommunityURLPathPrefix().includes("/gsk");
         if (communityName == 'GSK Community') {
             component.set('v.isGsk', true);
@@ -27,7 +32,10 @@
         {
             strCommunityName = 'IQVIA Referral Hub'; 
         }
-
+        if((pagesWithSharedPrivacyPolicy.has(currentPage) && hasIQVIAStudiesPI) &&  strCommunityName == 'Janssen Community')
+        {
+            strCommunityName = 'IQVIA Referral Hub'; 
+        }
         var action = component.get("c.getCPRALink");
         action.setParams({ strCommunityType : strCommunityName });
         action.setCallback(this, function(response) {
@@ -36,7 +44,7 @@
                 var getReturnValueMD = response.getReturnValue();
                 component.set('v.enablePrivacyChoice',true);
                 var labelReference = $A.getReference("$Label.c." + getReturnValueMD.CPRA_Label__c);
- 
+                console.log('>>>result>>'+JSON.stringify(response.getReturnValue()));
                 component.set('v.CPRAlabel', labelReference); 
                 component.set('v.CPRALinkToredirect',getReturnValueMD.Link_to_redirect__c); 
             }
@@ -53,9 +61,6 @@
         }else{
             component.set('v.mobile', false);
         }
-        let currentPage = communityService.getPageName();
-        let hasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI();
-        const pagesWithSharedPrivacyPolicy = communityService.getPagesWithSharedPrivacyPolicy();
         component.set(
             'v.defaultTC',
             pagesWithSharedPrivacyPolicy.has(currentPage) && hasIQVIAStudiesPI
