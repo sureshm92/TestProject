@@ -291,6 +291,14 @@ public without sharing class AccountSettingsController {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
+            if(initData.myContact.Current_Participant_Enrollment__c != null){
+                String tempName='';
+                tempName = [Select Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.PPTemplate__c
+                                              from Participant_Enrollment__c where Id=: initData.myContact.Current_Participant_Enrollment__c].Clinical_Trial_Profile__r.PPTemplate__c;
+                if(tempName != null && tempName == 'PP 2.0'){
+                        initData.isJanssen = true;
+                }
+            }
             if (initData?.myContact?.userCommunityDelegateId__c != null) {
                 initData.myContact = ContactService.getContact(
                     initData.myContact.userCommunityDelegateId__c
@@ -534,6 +542,10 @@ public without sharing class AccountSettingsController {
                             ex.getMessage() + '\n' + ex.getStackTraceString()
                         );
                     }
+                    throw new AuraHandledException(
+                        ex.getMessage() + '\n' + ex.getStackTraceString()
+                    );
+                }else{
                     throw new AuraHandledException(
                         ex.getMessage() + '\n' + ex.getStackTraceString()
                     );
@@ -888,6 +900,8 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public ParticipantService.ParticipantState participantState;
         @AuraEnabled
         public Boolean isActiveDelegate = false;
+        @AuraEnabled
+        public Boolean isJanssen = false;
     }
 
     public class ContactSectionData {
@@ -1335,9 +1349,9 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             initData.consentPreferenceData.currentParticipant = currentParticipantTemp;
             /*if(currentParticipantTemp.Alternative_Phone_Type__c=='Mobile' && 
                !String.isEmpty(currentParticipantTemp.Alternative_Phone_Number__c)){
-            	initData.consentPreferenceData.isMobilePhoneNumberAvailable =true;
-        	}
-			*/
+                initData.consentPreferenceData.isMobilePhoneNumberAvailable =true;
+            }
+            */
             initData.consentPreferenceData.isMobilePhoneNumberAvailable = checkMobilePhoneIsAvailable(
                 currentContactTemp,
                 currentParticipantTemp

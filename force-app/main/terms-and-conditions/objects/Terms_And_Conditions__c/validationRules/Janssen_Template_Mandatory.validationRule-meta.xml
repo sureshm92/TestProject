@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Janssen_Template_Mandatory</fullName>
+    <active>true</active>
+    <description>This rule verify if the community name is Janssen then we required the Janssen template</description>
+    <errorConditionFormula>ISPICKVAL(Community_Name__c  , &apos;Janssen Community&apos;)  &amp;&amp;  ISPICKVAL(Janssen_Template__c, &apos;&apos;)</errorConditionFormula>
+    <errorDisplayField>Janssen_Template__c</errorDisplayField>
+    <errorMessage>Janssen Template is mandatory for Janssen Community type</errorMessage>
+</ValidationRule>

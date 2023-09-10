@@ -586,6 +586,20 @@ public without sharing class MessagePageRemote {
             return (ConversationWrapper) AuraHelper.throwException(e);
         }
     }
+    
+    @AuraEnabled
+    public static Boolean getConfidentialEligibility(List<Id> perIds){
+        List<Participant_enrollment__c> enrollments = [select Id,name,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.PPTemplate__c from Participant_enrollment__c where Id IN:perIds];
+        for(Participant_enrollment__c enroll : enrollments){
+            if(enroll.Clinical_Trial_Profile__r.CommunityTemplate__c == 'patientportal'
+               ||(enroll.Clinical_Trial_Profile__r.CommunityTemplate__c != null && enroll.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'))
+                continue;
+            else
+                return false;
+        }
+        return true;
+    } 
+
 
     @AuraEnabled
     public static Integer getUnreadCount() {

@@ -3,9 +3,11 @@ public without sharing class ppStatusDescConfigController {
     @AuraEnabled
     public static List<Study_status_description_motivation__c> fetchStatusConfig(Id recId){
         try {
-            Clinical_Trial_Profile__c ctp = [select Id,CommunityTemplate__c,Status_Milestone_Available__c from Clinical_Trial_Profile__c where Id=:recId];
+            Clinical_Trial_Profile__c ctp = [select Id,CommunityTemplate__c,Status_Milestone_Available__c,PPTemplate__c  from Clinical_Trial_Profile__c where Id=:recId];
             if(ctp.CommunityTemplate__c != 'PatientPortal' || (ctp.CommunityTemplate__c == 'PatientPortal' && !ctp.Status_Milestone_Available__c)){
+               if(ctp.CommunityTemplate__c != 'Janssen' || ctp.PPTemplate__c == 'PP 1.0'){
                 return null;
+                }
             }
             List<Study_status_description_motivation__c> studyDescConfigList = [SELECT Status_Name__c,Study__c,Status_Description__c,Status_Motivational_Message__c FROM Study_status_description_motivation__c WHERE Study__c  =:recId ];
             List<String> existingStatusList = new List<String>();

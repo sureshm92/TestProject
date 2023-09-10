@@ -34,19 +34,19 @@
     text-align: left;
     color: #005587;
     font-family: "Arial Unicode MS";
-    font-size: 25px; 
+    font-size: 23px; 
     padding-top:40px;
     border-bottom:3px solid #F2F2F2;
     padding-bottom:5px;
     margin-left:6px;
     position: running(top-left-header);
     }
-    div.top-right-header {
+    div.top-right-header { 
     text-align:right;
     color: #005587;
     padding-top:50px;
-    padding-bottom:9px;  
-    font-size: 15px;
+    padding-bottom:9.5px;  
+    font-size: 12.8px;
     margin-right:60px;
     padding-right:0px;
     border-bottom:3px solid #F2F2F2;
