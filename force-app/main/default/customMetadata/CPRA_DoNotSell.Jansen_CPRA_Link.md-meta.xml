@@ -4,10 +4,10 @@
     <protected>false</protected>
     <values>
         <field>Active__c</field>
-        <value xsi:type="xsd:boolean">true</value>
-    </values>
+        <value xsi:type="xsd:boolean">true</value>    
+    </values> 
     <values>
-        <field>CPRA_Label__c</field>
+        <field>CPRA_Label__c</field> 
         <value xsi:type="xsd:string">CPRA_DoNotSell_Janssen</value>
     </values>
     <values>
