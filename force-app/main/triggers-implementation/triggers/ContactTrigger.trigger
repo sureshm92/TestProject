@@ -17,10 +17,8 @@ trigger ContactTrigger on Contact(
             ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
         );
         /*For Welcome Msg -- Added by Anitha Start*/
-        TriggerHandlerExecutor.execute(
-            ContactTriggerHandler.createNotificationsHandler.class
-        );
-        
+        TriggerHandlerExecutor.execute(ContactTriggerHandler.createNotificationsHandler.class);
+
         TriggerHandlerExecutor.execute(
             ContactTriggerHandler.CreateUserForDelegateContactHandler.class
         );
@@ -34,5 +32,6 @@ trigger ContactTrigger on Contact(
         //Timestamp should not be bypassed when consents are changed
         TriggerHandlerExecutor.execute(ContactTriggerHandler.ParticipantConsentUpdate.class);
         TriggerHandlerExecutor.execute(ContactTriggerHandler.UpdateConsentTimeStamps.class);
+        TriggerHandlerExecutor.execute(ContactTriggerHandler.UpdateNotificationHandler.class);
     }
 }
