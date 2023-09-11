@@ -1,19 +1,19 @@
 {
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
-  "componentName" : "c:PPOneColumnLayout",
+  "componentName" : "c:EmptyLayout",
   "dataProviders" : [ ],
-  "id" : "6cd6f18d-1cb2-4956-9796-a3cab4317b7f",
-  "label" : "Resource Detail",
+  "id" : "a8c01d7d-5892-4e69-a396-175e318bd9a5",
+  "label" : "Janssen Privacy Policy",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:ppResourceDetailPage",
-      "id" : "34e3648c-c7d6-48dc-a033-7924f42e8115",
+      "componentName" : "c:ppPrivacyPolicyViewerPageJanssen",
+      "id" : "b2cf4a41-5210-4986-ba38-ac5af86444d8",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "8a2f7918-7b23-45e6-b5c1-2debe7a2018b",
+    "id" : "7ce7480a-065c-4d83-af4f-46ff418ca4e8",
     "regionName" : "column1",
     "type" : "region"
   }, {
@@ -21,18 +21,18 @@
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "Resource Detail"
+        "title" : "Janssen Privacy Policy"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "5fd2741e-d729-4b96-b6f6-42fa56098b19",
+      "id" : "3acbc423-e6ab-4547-99bc-0577bbf9f39d",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "235c9ea5-cddd-4854-96d0-3459f59e07da",
+    "id" : "47d4abc3-c3ca-4892-8b7f-997562f8841b",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
-  "themeLayoutType" : "Inner",
+  "themeLayoutType" : "plAm3nHzp9j4TqsN4DBW97xONJ8WJG",
   "type" : "view",
-  "viewType" : "custom-resource-detail"
+  "viewType" : "custom-janssen-privacy-policy"
 }
