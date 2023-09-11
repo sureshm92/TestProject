@@ -40,8 +40,10 @@ public without sharing class CommunityModeSwitcherRemote {
     @AuraEnabled
     public static String getLogoutURL() {
         Contact userContact = UserContext.getUserContact();
-        userContact.Current_Participant_Enrollment__c = null;
-        update userContact;
+         if(userContact.userCommunityMode__c != 'Participant') {
+            userContact.Current_Participant_Enrollment__c = null;
+            update userContact;
+         }
         List<LoginHistory> userLoginHistory = [
             SELECT Id, UserId, LoginTime, LoginUrl
             FROM LoginHistory
