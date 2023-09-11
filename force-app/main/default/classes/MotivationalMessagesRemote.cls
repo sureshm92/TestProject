@@ -74,12 +74,62 @@ public without sharing class MotivationalMessagesRemote {
     ) {
         if (messageForShow == null)
             return null;
-        if (participantState.pe.Motivational_Message_Id__c == messageForShow.Id)
-            return null;
 
-        participantState.pe.Motivational_Message_Id__c = messageForShow.Id;
-        update participantState.pe;
+        Contact myContact = AccountSettingsController.getCurrentContact();
 
+        Boolean ppOld;
+        if (participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen') {
+            ppOld = participantState.pe.Clinical_Trial_Profile__r?.PPTemplate__c != 'PP 2.0'
+                ? true
+                : false;
+        } else if (
+            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal'
+        ) {
+            ppOld = true;
+        } else {
+            ppOld = false;
+        }
+
+        if (ppOld) {
+            if (participantState.pe.Motivational_Message_Id__c == messageForShow.Id)
+                return null;
+
+            participantState.pe.Motivational_Message_Id__c = messageForShow.Id;
+            update participantState.pe;
+            return messageForShow.Message__c;
+        } else if (!ppOld) {
+            // For participant View
+            if (
+                myContact.userCommunityDelegateId__c == null &&
+                participantState.value == ParticipantService.ParticipantStates.PARTICIPANT
+            ) {
+                if (participantState.pe.Motivational_Message_Id__c == messageForShow.Id)
+                    return null;
+
+                participantState.pe.Motivational_Message_Id__c = messageForShow.Id;
+                update participantState.pe;
+                return messageForShow.Message__c;
+            } else if (myContact.userCommunityDelegateId__c != null) {
+                // Delegate switching to Participant View
+
+                List<Patient_Delegate_Enrollment__c> pdEnrollments = PatientDelegateEnrollmentService.getPatientDelegateEnrollmentsActive(
+                    participantState.participant.Contact__c,
+                    myContact.Id,
+                    myContact.Current_Participant_Enrollment__c
+                );
+
+                if (pdEnrollments != null || pdEnrollments.size() >= 0) {
+                    if (pdEnrollments[0].Motivational_Message_Id__c == messageForShow.Id)
+                        return null;
+
+                    pdEnrollments[0].Motivational_Message_Id__c = messageForShow.Id;
+                    update pdEnrollments[0];
+                    return messageForShow.Message__c;
+                }
+            }
+
+            return messageForShow.Message__c;
+        }
         return messageForShow.Message__c;
     }
 }

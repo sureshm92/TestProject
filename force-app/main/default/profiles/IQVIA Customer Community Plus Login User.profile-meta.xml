@@ -2304,6 +2304,10 @@
         <apexClass>TelevisitTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ppPastStudiesTabUtility</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <custom>true</custom>
     <fieldPermissions>
         <editable>true</editable>

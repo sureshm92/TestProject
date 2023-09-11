@@ -1,93 +1,131 @@
 <template>
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <template if:true={showBanner}>
-        <div class={containerClassCss}>
-            <lightning-layout multiple-rows>
-                <template if:false={loginPage}>
-                    <lightning-layout-item size="12" small-device-size="9" padding="around-small">
-                        <div class="we-care-about-your-p">
-                            <div class="banner-heading slds-m-top_small">
-                                {label.ppCookieBannerHeader}
+        <template if:false={loginPage}>
+            <div class={containerClassCssPostLogin}>
+                <lightning-layout multiple-rows vertical-align="center" horizontal-align="center">               
+                        <lightning-layout-item size="12" small-device-size="9" padding="around-small">
+                            <div class="we-care-about-your-p">
+                                <div class="banner-heading slds-m-top_small">
+                                    {label.ppCookieBannerHeader}
+                                </div>
+                                <div class="banner-txt slds-m-top_x-small slds-show_medium">
+                                    {label.ppCookiesBannerDesc1}<b> {label.ppCookiesBannerDesc2}</b>
+                                    {cookiesBannerDesc3}
+                                </div>
+                                <div class="banner-txt slds-m-top_x-small slds-hide_medium">
+                                    {label.ppCookiesBannerDesc1}
+                                </div>
+                                <div class="banner-txt slds-m-vertical_xx-small slds-hide_medium">
+                                    <b>{label.ppCookiesBannerDesc2}</b>&nbsp;
+                                </div>
+                                <div class="banner-txt slds-hide_medium">
+                                    {label.ppCookiesBannerDesc3}
+                                </div>
                             </div>
-                            <div class="banner-txt slds-m-top_x-small slds-show_medium">
-                                {label.ppCookiesBannerDesc1}<b> {label.ppCookiesBannerDesc2}</b>
-                                {cookiesBannerDesc3}
+                        </lightning-layout-item>
+                        <lightning-layout-item
+                            class="mob-btn-center"
+                            size="12"
+                            small-device-size="3"
+                            padding="around-small"
+                        >
+                            <lightning-layout multiple-rows>
+                                <lightning-layout-item size="12" small-device-size="12"
+                                    ><button class={acceptAllButtonCss} onclick={acceptAll}>
+                                        <label>{label.ppCookiesButtonAccept}</label>
+                                    </button></lightning-layout-item
+                                >
+                                <lightning-layout-item
+                                    size="12"
+                                    small-device-size="12"
+                                    class="slds-m-top_large"
+                                    ><button class={manageButtonCss} onclick={showManagePreferences} style="box-shadow:none;">
+                                        <label>{label.ppCookiesButtonManagePrefer}</label>
+                                    </button></lightning-layout-item
+                                >
+                            </lightning-layout>
+                        </lightning-layout-item>                
+                </lightning-layout>
+            </div>
+        </template>
+        <template if:true={loginPage}>
+            <div class={containerClassCss}>
+                <lightning-layout multiple-rows >
+                    
+                        <lightning-layout-item size="12">
+                            <div class="we-care-about-your-p">
+                                <div class="banner-heading">
+                                    <p>{label.ppCookieBannerHeader}</p>
+                                </div>
+                                <div class="banner-txt slds-m-top_x-small slds-show_medium">
+                                    <p class="mb-10">{label.ppCookiesBannerDesc1}</p>
+                                    <p>
+                                        <b> {label.ppCookiesBannerDesc2} </b>
+                                        {label.ppCookiesBannerDesc3}
+                                        {label.ppCookiesBannerLoginDesc}                                
+                                    </p>
+                                </div>
+                            
+                                <div class="banner-txt slds-m-vertical_x-small slds-hide_medium">
+                                    {label.ppCookiesBannerDesc1}
+                                </div>
+                                <span class="banner-txt slds-m-top_medium slds-hide_medium">
+                                    <b>{label.ppCookiesBannerDesc2}</b>
+                                </span>
+                                <span class="banner-txt slds-hide_medium">
+                                    &nbsp; {label.ppCookiesBannerDesc3}
+                                </span>
+                                <span class="banner-txt slds-hide_medium">
+                                    &nbsp;{label.ppCookiesBannerLoginDesc}
+                                </span>
                             </div>
-                            <div class="banner-txt slds-m-top_x-small slds-hide_medium">
-                                {label.ppCookiesBannerDesc1}
-                            </div>
-                            <div class="banner-txt slds-m-vertical_xx-small slds-hide_medium">
-                                <b>{label.ppCookiesBannerDesc2}</b>&nbsp;
-                            </div>
-                            <div class="banner-txt slds-hide_medium">
-                                {label.ppCookiesBannerDesc3}
-                            </div>
-                        </div>
-                    </lightning-layout-item>
-                    <lightning-layout-item
-                        class="desk-btn-margin mob-btn-center"
-                        size="12"
-                        small-device-size="3"
-                        padding="around-small"
-                    >
-                        <lightning-layout multiple-rows>
-                            <lightning-layout-item size="12" small-device-size="12"
-                                ><button class={acceptAllButtonCss} onclick={acceptAll}>
-                                    <label class="cookie-cursor">{label.ppCookiesButtonAccept}</label>
-                                </button></lightning-layout-item
-                            >
-                            <lightning-layout-item
-                                size="12"
-                                small-device-size="12"
-                                class="slds-m-top_large"
-                                ><button class={manageButtonCss} onclick={showManagePreferences}>
-                                    <label class="cookie-cursor">{label.ppCookiesButtonManagePrefer}</label>
-                                </button></lightning-layout-item
-                            >
-                        </lightning-layout>
-                    </lightning-layout-item>
-                </template>
-                <template if:true={loginPage}>
-                    <lightning-layout-item size="11" padding="around-small">
-                        <div class="we-care-about-your-p">
-                            <div class="banner-heading slds-m-top_small">
-                                {label.ppCookieBannerHeader}
-                            </div>
-                            <div class="banner-txt slds-m-top_x-small slds-show_medium">
-                                {label.ppCookiesBannerDesc1}<b> {label.ppCookiesBannerDesc2} </b>
-                                {label.ppCookiesBannerDesc3}
-                            </div>
-                            <div class="banner-txt slds-show_medium">
-                                {label.ppCookiesBannerLoginDesc}
-                            </div>
-                            <div class="banner-txt slds-m-vertical_x-small slds-hide_medium">
-                                {label.ppCookiesBannerDesc1}
-                            </div>
-                            <div class="banner-txt slds-m-top_medium slds-hide_medium">
-                                <b>{label.ppCookiesBannerDesc2}</b>
-                            </div>
-                            <div class="banner-txt slds-hide_medium">
-                                {label.ppCookiesBannerDesc3}
-                            </div>
-                            <div class="banner-txt slds-hide_medium">
-                                {label.ppCookiesBannerLoginDesc}
-                            </div>
-                        </div>
-                    </lightning-layout-item>
-                    <lightning-layout-item size="1" padding="around-small" class="login-close">
-                        <div onclick={closeTheBanner}>
-                            <c-web-icon
-                                class="svg-icon"
-                                icon-size="small"
-                                icon-name="pp-close-new"
-                                icon-color="white"
-                            >
-                            </c-web-icon>
-                        </div>
-                    </lightning-layout-item>
-                </template>
-            </lightning-layout>
-        </div>
+                        </lightning-layout-item>
+                        <template lwc:if={isMobile}>
+                            <lightning-layout-item size="12">
+                                <lightning-layout multiple-rows class="uniform-margin">
+                                    <lightning-layout-item size="12">
+                                        <button
+                                            type="button"
+                                            class={acknowledgeButtonCss}
+                                            onclick={closeTheBanner}
+                                        >
+                                            <span class="acknowledge_content"
+                                                >{label.bTN_I_Acknowledge}</span
+                                            >
+                                        </button>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12" class="slds-m-top_large">
+                                        <div class="footer_logo_login_cookie_pos_mobile">
+                                            <img src={footerUILogo} />
+                                        </div>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </template>
+                        <template lwc:else>
+                            <lightning-layout-item size="12">
+                                <lightning-layout multiple-rows class="uniform-margin">
+                                    <lightning-layout-item size="6" padding="around-large">
+                                        <img src={footerUILogo} class="footer_logo_login_cookie_pos" />
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6" padding="around-small">
+                                        <button
+                                            type="button"
+                                            class={acknowledgeButtonCss}
+                                            onclick={closeTheBanner}
+                                        >
+                                            <span class="acknowledge_content"
+                                                >{label.bTN_I_Acknowledge}</span
+                                            >
+                                        </button>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </template>                
+                </lightning-layout>
+            </div>
+        </template>
     </template>
     <!-- Include the Banner modal logic-->
     <template if:true={initData}>
@@ -111,7 +149,7 @@
                     </div>
 
                     <div class={accordionCss} id="strictcookies" onclick={showCookieDiv}>
-                        <div class="acordion-title right-angle-chevron slds-p-horizontal_medium  cookie-cursor">
+                        <div class="acordion-title right-angle-chevron slds-p-horizontal_medium">
                             {label.accountSettingsStrictlyNecessaryCookies}
                             <span class="displaydot">.</span>
                             <span class="always-active">{label.cookieAlwaysActive}</span>
@@ -134,7 +172,7 @@
                                     </div>
                                 </div>
                             </template>
-                            <template if:true={isJanssenStudy}>
+                            <template if:true={isJanssenCommunity}>
                                 <div
                                     class="cookie-title slds-p-horizontal_medium slds-p-vertical_x-small"
                                 >
@@ -148,13 +186,13 @@
                             </template>
                         </div>
                     </div>
-                    <template if:false={isJanssenStudy}>
+                    <template if:false={isJanssenCommunity}>
                         <div
                             class={accordionActiveCss}
                             id="functionalcookies"
                             onclick={showCookieDiv}
                         >
-                            <div class="acordion-title slds-p-horizontal_medium  cookie-cursor">
+                            <div class="acordion-title slds-p-horizontal_medium">
                                 {label.accountSettingsFunctionalCookiesLabel}
                             </div>
                             <div class="panel" style="display: block">

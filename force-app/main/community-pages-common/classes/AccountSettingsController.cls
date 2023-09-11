@@ -292,10 +292,9 @@ public without sharing class AccountSettingsController {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
             if(initData.myContact.Current_Participant_Enrollment__c != null){
-                String tempName='';
-                tempName = [Select Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.PPTemplate__c
-                                              from Participant_Enrollment__c where Id=: initData.myContact.Current_Participant_Enrollment__c].Clinical_Trial_Profile__r.PPTemplate__c;
-                if(tempName != null && tempName == 'PP 2.0'){
+                Participant_Enrollment__c peRec = [Select Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.PPTemplate__c
+                                              from Participant_Enrollment__c where Id=: initData.myContact.Current_Participant_Enrollment__c];
+                if(peRec.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && peRec.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'){
                         initData.isJanssen = true;
                 }
             }

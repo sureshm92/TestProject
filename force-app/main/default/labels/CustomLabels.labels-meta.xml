@@ -674,7 +674,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Activate_Ecoa_Ediaries</shortDescription>
-        <value>Activate Your eDiaries</value>
+        <value>Activate eDiaries</value>
     </labels>
     <labels>
         <fullName>Active_Requests</fullName>
@@ -1747,6 +1747,34 @@
         <shortDescription>Back</shortDescription>
         <value>Back</value>
     </labels>
+     <labels>
+        <fullName>Back_to_eDiaries</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back to eDiaries</shortDescription>
+        <value>Back to eDiaries</value>
+    </labels>
+     <labels>
+        <fullName>Activate_eDiaries</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Activate eDiaries</shortDescription>
+        <value>You will be able to activate eDiaries soon</value>
+    </labels>
+     <labels>
+        <fullName>eDiaries_Comm_Preferences</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>eDiaries Comm Preferences</shortDescription>
+        <value>Review Communication Preferences</value>
+    </labels>
+     <labels>
+        <fullName>eDiaries_Work_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>eDiaries Work Msg</shortDescription>
+        <value>We are working on it...</value>
+    </labels>
     <labels>
         <fullName>Back_to_Manage_Delegates</fullName>
         <language>en_US</language>
@@ -1983,7 +2011,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BulkImport_Ok</shortDescription>
-        <value>Ok</value>
+        <value>OK</value>
     </labels>
     <labels>
         <fullName>BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files</fullName>
@@ -5700,6 +5728,20 @@ Your username is ##UserName.</value>
 &lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Activate_Task_For_ECOA_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Activate Task For ECOA PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Del_Email_Body_Activate_Task_For_ECOA_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Del Email Body Activate Task For ECOA PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName&lt;/span&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Instant_Task_Reminder_Type_Not_Selected_PPOnlyDate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6869,7 +6911,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Footer Address</shortDescription>
-        <value>Powered by IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
+        <value>Powered by IQVIA</value>
     </labels>
     <labels>
         <fullName>Email_Footer_Address_New</fullName>
@@ -6877,6 +6919,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>false</protected>
         <shortDescription>Email Footer Address New</shortDescription>
         <value>IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
+    </labels>
+    <labels>
+        <fullName>Email_Footer_Address_RH</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Footer_Address_RH</shortDescription>
+        <value>Powered by IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
     </labels>
     <labels>
         <fullName>Email_Footer_Privacy_Policy</fullName>
@@ -7558,6 +7607,21 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>false</protected>
         <shortDescription>Email Outage Title</shortDescription>
         <value>Referral Hub 4.0 &amp; Patient Portal 2.0 Release on weekend</value>
+    </labels>
+    <labels>
+        <fullName>Email_Refer_Sign_Patient_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Refer Sign Patient New PP</shortDescription>
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in clinical research.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Patient_New_PP</fullName>
@@ -10542,6 +10606,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Human leukocyte antigen</shortDescription>
         <value>HLA</value>
+    </labels>
+    <labels>
+        <fullName>I_Acknowledge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>I_Acknowledge</shortDescription>
+        <value>I acknowledge</value>
     </labels>
     <labels>
         <fullName>ICOS_Description_Intratumoral</fullName>
@@ -22155,7 +22226,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Study Status Unavailable</shortDescription>
-        <value>Description and Motivational message cannot be configured on this study.</value>
+        <value>Progress Bar can not be configured on this study.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Updated_Study_Status_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Status Unavailable</shortDescription>
+        <value>Progress Bar can not be configured on this program.</value>
     </labels>
     <labels>
         <fullName>PP_Submit_Button</fullName>
@@ -23591,6 +23669,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Pre-review Passed</shortDescription>
         <value>Pre-review Passed</value>
+    </labels>
+    <labels>
+        <fullName>Pre_Trial_Stay_Tune</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pre_Trial_Stay_Tune</shortDescription>
+        <value>Stay Tuned</value>
     </labels>
     <labels>
         <fullName>Prefer_not_to_say</fullName>
@@ -31882,4 +31967,88 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Show Less Site staff</shortDescription>
         <value>Show Less</value>
     </labels> 
+    <labels>
+        <fullName>Back_to_Past_Studies_and_Programs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back to Past Studies and Programs</shortDescription>
+        <value>Back to Past Studies and Programs</value>
+    </labels>
+    <labels>
+        <fullName>PP_Care_Team_Contact</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Care Team Contact</shortDescription>
+        <value>Care Team Contact</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communications</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Communications</shortDescription>
+        <value>Communications</value>
+    </labels>
+    <labels>
+        <fullName>PP_EMAIL_caps</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EMAIL</shortDescription>
+        <value>EMAIL</value>
+    </labels>
+    <labels>
+        <fullName>PP_No_files_available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No files available</shortDescription>
+        <value>No files available</value>
+    </labels>
+    <labels>
+        <fullName>PP_No_messages_available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No messages available</shortDescription>
+        <value>No messages available</value>
+    </labels>
+    <labels>
+        <fullName>PP_No_results_available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No results available</shortDescription>
+        <value>No results available</value>
+    </labels>
+    <labels>
+        <fullName>PP_Past_Messages</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past Messages</shortDescription>
+        <value>Past Messages</value>
+    </labels>
+    <labels>
+        <fullName>PP_Past_Studies_Page_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Past Studies Page Header</shortDescription>
+        <value>Past Studies and Programs</value>
+    </labels>
+    <labels>
+        <fullName>PP_View_Messages</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View Messages</shortDescription>
+        <value>View Messages</value>
+    </labels>
+    <labels>
+        <fullName>Participation_complete_description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participation complete description</shortDescription>
+        <value>Your willingness to volunteer your time and efforts is truly appreciated and will make a difference in the lives of many. Thank you for your contribution to medical research.</value>
+    </labels>
+    <labels>
+        <fullName>Your_participation_is_complete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Your participation is complete</shortDescription>
+        <value>Your participation is complete!</value>
+    </labels>
 </CustomLabels>
