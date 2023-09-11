@@ -1,0 +1,38 @@
+{
+  "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
+  "componentName" : "c:EmptyLayout",
+  "dataProviders" : [ ],
+  "id" : "a081e905-36eb-4372-a1bd-3dd7cec518d9",
+  "label" : "eDiaries",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:viewEcoaDiaries",
+      "id" : "8a73f7cc-e16b-4bd7-8fb1-34fd33d024a6",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "5215d5f8-7bd5-4680-9e7a-9d8e1411190c",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "eDiaries"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "51b37617-51e4-4ebd-99f2-24c1db4c3955",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "709d9c74-6cc4-433e-ad8a-e1f4bf7d3e56",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-ediaries"
+}
