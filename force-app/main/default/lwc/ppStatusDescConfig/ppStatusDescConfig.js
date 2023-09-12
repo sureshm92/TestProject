@@ -2,6 +2,7 @@ import { LightningElement,api, track,wire } from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import Is_Program from '@salesforce/schema/Clinical_Trial_Profile__c.Is_Program__c';
 import Status_Milestone_Available from '@salesforce/schema/Clinical_Trial_Profile__c.Status_Milestone_Available__c';
+import Community_Template from '@salesforce/schema/Clinical_Trial_Profile__c.CommunityTemplate__c';
 import fetchStatusConfig from '@salesforce/apex/ppStatusDescConfigController.fetchStatusConfig';
 import updateStatusConfig from '@salesforce/apex/ppStatusDescConfigController.updateStatusConfig';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
@@ -36,6 +37,7 @@ export default class PpStatusDescConfig extends LightningElement {
     data = null;
     @track isProgram;
     @track isStatusMilestoneAvailable;
+    @track communityTemplate;
     ctpData;
     statusTitleData = null;
     statusilestoneData = null;
@@ -56,7 +58,7 @@ export default class PpStatusDescConfig extends LightningElement {
     subscription = null;
     context = createMessageContext();
 
-    @wire(getRecord,{recordId:'$recordId', fields:[Is_Program,Status_Milestone_Available]})
+    @wire(getRecord,{recordId:'$recordId', fields:[Is_Program,Status_Milestone_Available,Community_Template]})
     ctpDetail(response) {
         this.ctpData = response;
         const { data, error } = response; // destructure the provisioned value
@@ -64,6 +66,7 @@ export default class PpStatusDescConfig extends LightningElement {
             this.ctpRecord = data;
             this.isProgram = getFieldValue(response.data,Is_Program);
             this.isStatusMilestoneAvailable = getFieldValue(response.data,Status_Milestone_Available);
+            this.communityTemplate = getFieldValue(response.data,Community_Template);
         }
         else if (error) {}
     }
@@ -178,11 +181,21 @@ export default class PpStatusDescConfig extends LightningElement {
             );
         }
         else{
-            let draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues;
-            if(!this.isProgram && this.isStatusMilestoneAvailable){
-                draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues);
-                draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues);
+            let draftConfigurations;
+            if(this.communityTemplate!='Janssen'){
+                draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues;
+                if(!this.isProgram && this.isStatusMilestoneAvailable){
+                    draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues);
+                    draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues);
+                }
+            }else{
+                if(!this.isProgram && this.isStatusMilestoneAvailable){
+                    draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues;
+                    draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues);
+                }
             }
+          
+           
             
             updateStatusConfig({ recs: draftConfigurations })
                 .then(result => {
@@ -248,6 +261,11 @@ export default class PpStatusDescConfig extends LightningElement {
     get showStatusMilestoneTab(){
         return (!this.isProgram && this.isStatusMilestoneAvailable && this.configResult != null && this.statusilestoneData!=null);
     }
+
+    get showPreTrialConfigTab(){
+        return (this.data != null && this.data!='' && this.communityTemplate!='Janssen' );
+    }
+
     get featureUnavailaleMessage(){
         return (this.isProgram ? this.label.PP_Updated_Study_Status_Unavailable :this.label.PP_Study_Status_Unavailable);         
     }
