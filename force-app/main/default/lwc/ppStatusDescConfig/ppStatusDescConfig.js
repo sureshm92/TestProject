@@ -179,7 +179,7 @@ export default class PpStatusDescConfig extends LightningElement {
         }
         else{
             let draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues;
-            if(!this.isprogram && this.isstatusmilestoneavailable){
+            if(!this.isProgram && this.isStatusMilestoneAvailable){
                 draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues);
                 draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues);
             }
