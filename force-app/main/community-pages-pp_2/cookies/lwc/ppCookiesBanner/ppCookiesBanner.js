@@ -702,6 +702,7 @@ export default class PpCookiesBanner extends LightningElement {
             this.setRRCookieLanguage();
           }
           this.closeTheBanner();
+          this.managePrefClick = false;
           this.updateBrowserCookies();
           this.showmodal = false;
           this.initData = undefined;
@@ -731,6 +732,7 @@ export default class PpCookiesBanner extends LightningElement {
             this.setRRCookie();
             this.setRRCookieLanguage();
             this.closeTheBanner();
+            this.managePrefClick = false;
             this.showmodal = false;
             this.initData = undefined;
           })

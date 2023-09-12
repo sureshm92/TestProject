@@ -531,6 +531,8 @@ private class Test_VisitResultsService {
                 ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c
             );
             System.assertEquals(1, container.wrappers.size());
+            service.getPatientVisitsForReport(testData.pe);
+            VisitResultsService.getVisitResults(ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c,ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c,visitResultGroup);
         }
         update visits;
         delete visits;
