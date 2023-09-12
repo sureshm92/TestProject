@@ -303,7 +303,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     (oldMap == null &&
                     pv.Participant_Enrollment__r.Initial_Visit_Scheduled_DateTime__c != null)
                 ) {
-                    if(pv.Status__c != 'Completed'){ //PEH-16138
+                   if(pv.Status__c != 'Completed'){ //PEH-16138
                     pv.Planned_Date__c = pv.Participant_Enrollment__r.Initial_Visit_Scheduled_DateTime__c !=
                         null
                         ? pv.Participant_Enrollment__r.Initial_Visit_Scheduled_DateTime__c
@@ -909,7 +909,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Enrollment__c> peEnrollSuccessWithParticipating = new List<Participant_Enrollment__c>();
         List<Participant_Enrollment__c> peInPreEnrollmentStatus = new List<Participant_Enrollment__c>();
         Map<Id, Id> peIdInPreEnrollmentStatusStudySiteMap = new Map<Id, id>();
-        //Set<Id> peIdsToCompletePreEnrollVisits = new Set<Id>();
+        //Set<Id> peIdsToCompletePreEnrollVisits = new Set<Id>(); 
         Set<Id> peIds = new Set<Id>();
         Set<Id> enrollmentIds = new Set<Id>();
         for (Participant_Enrollment__c pe : enrollments) {
@@ -946,7 +946,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
             enrollmentIds.add(pe.Id);
         }
-      
+
         if(System.isFuture() || System.isBatch()){
             Set<Id> ctpIds = new Set<Id>();
         for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating)
@@ -1045,8 +1045,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 patientVisits.addAll(mapVisit.get(peId));
             }
         }
+
         if (patientVisits.size() > 0) {
+        
             insert patientVisits;
+            
         }
 
         //Create Pre Enrollment patient Visit for the Participant on Pre Enrollment Status.
@@ -1062,7 +1065,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             createVisitsScheduleFuture(peIds,peIdInPreEnrollmentStatusStudySiteMap,enrollmentIds); 
         }
     }
-
     public static Clinical_Trial_Profile__c getCTP(Id ctp){
         return [SELECT
                     Id,
@@ -1078,7 +1080,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 WHERE Id =:ctp
         ];
     }
-
     @TestVisible @Future
     private static void createVisitsScheduleFuture(
        Set<Id> peIds,
@@ -1198,7 +1199,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
         }
         if (patientVisits.size() > 0) {
-            insert patientVisits;
+            insert patientVisits; 
         }
         } 
        

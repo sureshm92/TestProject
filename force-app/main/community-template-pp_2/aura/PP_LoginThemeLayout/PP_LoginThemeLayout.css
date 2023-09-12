@@ -99,12 +99,17 @@
     }
 }
 
-@media (min-width: 760px) {
+@media (min-width: 414px) {
     .THIS .footer {
-        padding-left: 20px;
+        padding-left: 22px;
     }
 }
 
+@media (min-width: 371px) and (max-width : 413px) {
+    .THIS .footer {
+        padding-left: calc((100vw - 370px)/2);
+    }
+}
 @media all  and (orientation: landscape)  and (max-width: 759px) {
     .THIS .footer {
          
