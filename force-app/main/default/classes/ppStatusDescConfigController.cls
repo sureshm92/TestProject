@@ -7,8 +7,8 @@ public without sharing class ppStatusDescConfigController {
             if(ctp.CommunityTemplate__c != 'PatientPortal' || (ctp.CommunityTemplate__c == 'PatientPortal' && !ctp.Status_Milestone_Available__c)){
                 return null;
             }
-            List<Study_status_description_motivation__c> studyDescConfigList = [SELECT Status_Name__c,Study__c,Status_Description__c,Status_Motivational_Message__c,Status_Developer_Name__c FROM Study_status_description_motivation__c WHERE Study__c  =:recId ];
-            List<Study_status_desc_and_motivational_msg__mdt> configurationMetadata = [SELECT PER_Participant_Status__c,Status_order__c,DeveloperName from Study_status_desc_and_motivational_msg__mdt   Order by Status_order__c asc];
+            List<Study_status_description_motivation__c> studyDescConfigList = [SELECT Status_Name__c,Status_Label__c,Study__c,Status_Description__c,Status_Motivational_Message__c,Status_Developer_Name__c FROM Study_status_description_motivation__c WHERE Study__c  =:recId ];
+            List<Study_status_desc_and_motivational_msg__mdt> configurationMetadata = [SELECT Label,PER_Participant_Status__c,Status_order__c,DeveloperName from Study_status_desc_and_motivational_msg__mdt   Order by Status_order__c asc];
             List<String> existingStatusList = new List<String>();
             Map<String,Study_status_description_motivation__c> statusConfiguration = new Map<String,Study_status_description_motivation__c>();
             List<Study_status_description_motivation__c> statusTitleConfiguration = new List<Study_status_description_motivation__c> ();
@@ -28,6 +28,7 @@ public without sharing class ppStatusDescConfigController {
                     studyDescConfig.Study__c = recId;
                     studyDescConfig.Status_Name__c =studyMdt.PER_Participant_Status__c ;
                     studyDescConfig.Status_Developer_Name__c =studyMdt.DeveloperName ;
+                    studyDescConfig.Status_Label__c =studyMdt.Label ;
                     studyDescConfigListToInsert.add(studyDescConfig);
                 }
                 
