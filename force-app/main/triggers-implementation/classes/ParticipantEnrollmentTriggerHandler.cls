@@ -309,7 +309,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         ? pv.Participant_Enrollment__r.Initial_Visit_Scheduled_DateTime__c
                         : null;
                     if (pv.Planned_Date__c != null) {
-                        pv.Status__c = 'Scheduled';
+                        pv.Status__c = 'Scheduled'; 
                     }
                     if (!visitsToUpdate.contains(pv))
                         visitsToUpdate.add(pv);
@@ -900,7 +900,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             u.IsActive = false;
         update users;
     }
-
+    
     @TestVisible
     private static void createVisitsSchedule(
         List<Participant_Enrollment__c> enrollments,

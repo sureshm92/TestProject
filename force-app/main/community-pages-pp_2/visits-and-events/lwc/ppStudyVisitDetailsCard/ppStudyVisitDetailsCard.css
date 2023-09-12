@@ -3,7 +3,10 @@
     border-radius: 16px;
 }
 
-.slds-grid {
+/* .slds-grid {
+    padding: 0 1rem;
+} */
+.visit-detail-card-pad {
     padding: 0 1rem;
 }
 
