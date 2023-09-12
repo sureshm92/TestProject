@@ -18,13 +18,13 @@ const columns = [
 ];
 
 const titleColumns = [
-    { label: 'Status Name', fieldName: 'Status_Name__c' },
+    { label: 'Status Name', fieldName: 'Status_Label__c' },
     { label: 'Title', fieldName: 'Status_Description__c', editable: true },
     { label: 'Description', fieldName: 'Status_Motivational_Message__c', editable: true}
 ];
 
 const milestoneColumns = [
-    { label: 'Milestone Name', fieldName: 'Status_Name__c' },
+    { label: 'Milestone Name', fieldName: 'Status_Label__c' },
     { label: 'Title', fieldName: 'Status_Description__c', editable: true },
     { label: 'Description', fieldName: 'Status_Motivational_Message__c', editable: true}
 ];
