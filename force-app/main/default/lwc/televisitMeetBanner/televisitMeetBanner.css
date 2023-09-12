@@ -23,7 +23,8 @@ a:hover {
     margin-left: -50vw;
     margin-right: -50vw;
     width: 100vw;
-    top:-2rem;
+    /* top:-2rem; */
+    top: -1.5rem;
 }
 .divBodyPP2::before {
     content: "";
@@ -49,7 +50,7 @@ a:hover {
     margin-right: -50vw;
     width: 100vw;
     /* top:-20px; */
-    top: -8px;
+    top: -16px;    
 }
 .divBodyPP2Mobile::before {
     content: "";
@@ -262,6 +263,10 @@ a:hover {
 .hrline{
     margin-left: -10px;
     margin-bottom: -1px;
+}
+
+.mt-6{
+    margin-top: 6px;
 }
 
 
