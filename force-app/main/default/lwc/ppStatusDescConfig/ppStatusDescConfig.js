@@ -18,13 +18,13 @@ const columns = [
 ];
 
 const titleColumns = [
-    { label: 'Status Name', fieldName: 'Status_Name__c' },
+    { label: 'Status Name', fieldName: 'Status_Label__c' },
     { label: 'Title', fieldName: 'Status_Description__c', editable: true },
     { label: 'Description', fieldName: 'Status_Motivational_Message__c', editable: true}
 ];
 
 const milestoneColumns = [
-    { label: 'Milestone Name', fieldName: 'Status_Name__c' },
+    { label: 'Milestone Name', fieldName: 'Status_Label__c' },
     { label: 'Title', fieldName: 'Status_Description__c', editable: true },
     { label: 'Description', fieldName: 'Status_Motivational_Message__c', editable: true}
 ];
@@ -179,7 +179,7 @@ export default class PpStatusDescConfig extends LightningElement {
         }
         else{
             let draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues;
-            if(!this.isprogram && this.isstatusmilestoneavailable){
+            if(!this.isProgram && this.isStatusMilestoneAvailable){
                 draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues);
                 draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues);
             }
