@@ -28,21 +28,15 @@ global without sharing class RRLoginRemote {
             ) {
                 Contact c = new Contact(
                     Id = loginUser[0].ContactId,
-                     
                     //set Current_Participant_Enrollment__c to null
-                    // Current_Participant_Enrollment__c = null,
+                    Current_Participant_Enrollment__c = null,
                     //set userCommunityDelegateId__c to null
-                    // userCommunityDelegateId__c = null,
+                    userCommunityDelegateId__c = null,
                     //set the Landing_Community__c based on the Site
                     Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
                         ? CommunityService.IQVIA_NETWORK_NAME
                         : Site.getMasterLabel()
                 );
-                 if(loginUser[0].Contact.userCommunityMode__c != 'Participant')
-                {
-                    c.Current_Participant_Enrollment__c = null;
-                    c.userCommunityDelegateId__c = null;
-                }
                 update c;
             }
             aura.redirect(lgn);
@@ -302,19 +296,14 @@ global without sharing class RRLoginRemote {
                 Contact c = new Contact(
                     Id = loginUser[0].ContactId,
                     //set Current_Participant_Enrollment__c to null
-                    // Current_Participant_Enrollment__c = null,
+                    Current_Participant_Enrollment__c = null,
                     //set userCommunityDelegateId__c to null
-                    // userCommunityDelegateId__c = null,
+                    userCommunityDelegateId__c = null,
                     //set the Landing_Community__c based on the Site
                     Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
                         ? CommunityService.IQVIA_NETWORK_NAME
                         : Site.getMasterLabel()
                 );
-                if(loginUser[0].Contact.userCommunityMode__c != 'Participant')
-                {
-                    c.Current_Participant_Enrollment__c = null;
-                    c.userCommunityDelegateId__c = null;
-                }
                 update c;
             }
             returnMap.put('startUrl', pageRef.getUrl());
