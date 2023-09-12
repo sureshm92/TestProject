@@ -5,7 +5,7 @@ public without sharing class ppStatusDescConfigController {
         try {
             Clinical_Trial_Profile__c ctp = [select Id,Is_Program__c,Participant_Workflow_Final_Step__c,Initial_Visit_Required__c,CommunityTemplate__c,Status_Milestone_Available__c,Visit_Schedule_Is_Available__c from Clinical_Trial_Profile__c where Id=:recId];
             if((ctp.CommunityTemplate__c != 'PatientPortal' || (ctp.CommunityTemplate__c == 'PatientPortal' && !ctp.Status_Milestone_Available__c))
-                && (ctp.CommunityTemplate__c != 'Janssen' || (ctp.CommunityTemplate__c == 'Janssen' && ctp.Visit_Schedule_Is_Available__c))){
+                && (ctp.PPTemplate__c == 'PP 1.0' || ((ctp.CommunityTemplate__c != 'Janssen' || (ctp.CommunityTemplate__c == 'Janssen' && ctp.Visit_Schedule_Is_Available__c))))){
                 return null;
             }
             List<Study_status_description_motivation__c> studyDescConfigList = [SELECT Status_Name__c,Status_Label__c,Study__c,Status_Description__c,Status_Motivational_Message__c,Status_Developer_Name__c FROM Study_status_description_motivation__c WHERE Study__c  =:recId ];
