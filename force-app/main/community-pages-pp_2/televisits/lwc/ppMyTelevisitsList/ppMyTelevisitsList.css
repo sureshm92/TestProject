@@ -192,6 +192,8 @@
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
+    padding-right: 4%;
+    word-wrap: break-word;
 }
 .televisitdate{
     display:inline;

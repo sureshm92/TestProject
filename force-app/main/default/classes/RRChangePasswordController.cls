@@ -583,9 +583,8 @@ public without sharing class RRChangePasswordController {
             .replace('.com/pp', '.com/terms');
         platformPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
         if(per != null) {
-            if (
-                (ctpId != null) && (per.Clinical_Trial_Profile__r?.Terms_And_Conditions_ID__c != null)) 
-         {
+            if ((ctpId != null) && (per.Clinical_Trial_Profile__r?.Terms_And_Conditions_ID__c != null)) 
+            {
                 tcLink = baseUrl + '/s/terms-and-conditions?id=' + ctpId;
             } else {
                 tcLink = baseUrl + '/s/terms-and-conditions/';
@@ -1173,6 +1172,7 @@ public without sharing class RRChangePasswordController {
 
     public CPRA_DoNotSell__mdt getCPRALink(String strCommunityType) {
         list<CPRA_DoNotSell__mdt> lstMd = new List<CPRA_DoNotSell__mdt>();
+        list<CPRA_Active_Community__mdt> lstCpraActiveCommunity = new list<CPRA_Active_Community__mdt> ();
         if (strCommunityType == 'IQVIA Referral Hub') {
             lstMd = [
                 SELECT id, Active__c, Community_Name__c, Link_to_redirect__c, CPRA_Label__c
@@ -1225,7 +1225,28 @@ public without sharing class RRChangePasswordController {
             ];
         }
         isCPRAAvailable = false;
-        if (!lstMd.isEmpty()) {
+        if(isParticipant)
+        {
+            lstCpraActiveCommunity = [ SELECT id, Active__c, Community_Name__c 
+                                    FROM CPRA_Active_Community__mdt WHERE
+                                    Active__c = TRUE and Community_Name__c='IQVIA PatientPortal1.0'];
+            if(!lstCpraActiveCommunity.isEmpty())
+            {
+                if (!lstMd.isEmpty()) {
+                    isCPRAAvailable = true;
+                    CPRAlabel = lstMd[0].CPRA_Label__c;
+                    CPRALink = lstMd[0].Link_to_redirect__c;
+                    return lstMd[0];
+                }
+                else {
+                    return null;
+                }
+                
+            }
+            else 
+            return null;
+        }
+        else if (!lstMd.isEmpty()) {
             isCPRAAvailable = true;
             CPRAlabel = lstMd[0].CPRA_Label__c;
             CPRALink = lstMd[0].Link_to_redirect__c;
