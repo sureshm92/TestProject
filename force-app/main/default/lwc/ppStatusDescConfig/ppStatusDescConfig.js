@@ -262,10 +262,6 @@ export default class PpStatusDescConfig extends LightningElement {
         return (!this.isProgram && this.isStatusMilestoneAvailable && this.configResult != null && this.statusilestoneData!=null);
     }
 
-    get showPreTrialConfigTab(){
-        return (this.data != null && this.data!='' && this.communityTemplate!='Janssen' );
-    }
-
     get featureUnavailaleMessage(){
         return (this.isProgram ? this.label.PP_Updated_Study_Status_Unavailable :this.label.PP_Study_Status_Unavailable);         
     }
