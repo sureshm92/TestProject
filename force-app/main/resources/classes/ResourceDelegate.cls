@@ -58,9 +58,6 @@ public inherited sharing class ResourceDelegate {
                     .init(resourceType, resourceId,null,participantData)
                     .getResources()
             );
-           /* resources.addAll(
-                ResourceArticleVideoService.getResourcesNew();
-            );  */
           
         }
         return resources.isEmpty()
