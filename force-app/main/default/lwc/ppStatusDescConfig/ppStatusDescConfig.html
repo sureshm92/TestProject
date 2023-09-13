@@ -35,7 +35,7 @@
                     oncancel={handleCancel}>
             </lightning-datatable>
         </template> 
-        <template if:true={showPreTrialConfigTab}>
+        <template if:true={data}>
             <h2 class="table-heading">In Study Status</h2>
             <lightning-datatable suppress-bottom-bar="true"
                     name="studyConfig" 
