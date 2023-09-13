@@ -38,7 +38,8 @@ public inherited sharing class ResourceDelegate {
 
     public ResourceService.ResourceWrapperContainer getResourcesById(
         String resourceId,
-        String resourceType
+        String resourceType,
+        String participantData
     ) {
         List<Resource__c> resources = new List<Resource__c>();
         if (
@@ -54,9 +55,13 @@ public inherited sharing class ResourceDelegate {
         } else {
             resources.addAll(
                 ResourceArticleVideoService.getInstance()
-                    .init(resourceType, resourceId)
+                    .init(resourceType, resourceId,null,participantData)
                     .getResources()
             );
+           /* resources.addAll(
+                ResourceArticleVideoService.getResourcesNew();
+            );  */
+          
         }
         return resources.isEmpty()
             ? new ResourceService.ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource)

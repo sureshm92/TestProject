@@ -251,7 +251,8 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                         //get clicked resource details
                         getResourceDetails({
                             resourceId: this.resourceId,
-                            resourceType: this.resourceType
+                            resourceType: this.resourceType,
+                            participantData: JSON.stringify(participantData)
                         })
                             .then((result) => {
                                 let resourceData = result.wrappers[0].resource;
