@@ -4,8 +4,14 @@
     </div>
     <template lwc:if={showDownloadResults}>
         <template lwc:if={isTablet}>
-            <a target="_self" onclick={generateReport}>
-                <span>
+            <a
+                class="download-report"
+                target="_self"
+                onclick={generateReport}
+                download
+                name="download-res-tab-icon"
+            >
+                <span class="download-section">
                     <lightning-icon
                         icon-name="utility:download"
                         size="xx-small"
@@ -13,8 +19,8 @@
                     >
                     </lightning-icon>
                     <span class="download-res-data slds-p-left_small"
-                        >{label.PP_Download_Results_Data}</span
-                    >
+                        >{label.PP_Download_Results_Data}
+                    </span>
                 </span>
             </a>
         </template>
