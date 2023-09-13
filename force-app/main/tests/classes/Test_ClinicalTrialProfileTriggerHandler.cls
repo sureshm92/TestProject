@@ -53,6 +53,19 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
                 }
             )
         );
+         clinicalTrialProfiles.add(
+            (Clinical_Trial_Profile__c) TestDataFactory.getSObject(
+                Clinical_Trial_Profile__c.getSObjectType(),
+                new Map<String, Object>{
+                    'Study_Title__c' => 'CTP 3',
+                    'Protocol_ID__c' => 'CTP 3',
+                    'Study_Code_Name__c' => 'CTP 3',
+                    'NCT_Number__c' => 'NCT00000003',
+                    'Therapeutic_Area__c' => tA.Id,
+                    'Synch_with_TMDH__c' => true
+                }
+            )
+        );
         insert clinicalTrialProfiles;
 
         List<Study_Site__c> studySites = new List<Study_Site__c>();
@@ -187,8 +200,10 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
             new Map<String, Object>{ 'Name' => 'NewTA' }
         );
         insert newTA;
-        System.assertEquals(2, cTPs.size());
+        System.assertEquals(3, cTPs.size());
         cTPs[1].Therapeutic_Area__c = newTA.Id;
+        cTPs[1].Override_Recruitment_Status__c = 'Actively Enrolling';
+
         Test.startTest();
         update cTPs;
         Test.stopTest();
@@ -246,7 +261,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
             FROM Clinical_Trial_Profile__c
             ORDER BY Name
         ];
-        System.assertEquals(2, cTPs.size());
+        System.assertEquals(3, cTPs.size());
         cTPs[1].Therapeutic_Area__c = null;
         Test.startTest();
         update cTPs;
