@@ -181,21 +181,12 @@ export default class PpStatusDescConfig extends LightningElement {
             );
         }
         else{
-            let draftConfigurations;
-            if(this.communityTemplate!='Janssen'){
-                draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues;
-                if(!this.isProgram && this.isStatusMilestoneAvailable){
+            let draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues;
+                
+            if(!this.isProgram && this.isStatusMilestoneAvailable){
                     draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues);
                     draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues);
-                }
-            }else{
-                if(!this.isProgram && this.isStatusMilestoneAvailable){
-                    draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues;
-                    draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues);
-                }
             }
-          
-           
             
             updateStatusConfig({ recs: draftConfigurations })
                 .then(result => {
