@@ -179,7 +179,8 @@ export default class PpCookiesBanner extends LightningElement {
                 }
                 if (
                   this.communityName == "Default" ||
-                  this.communityName == "IQVIA Referral Hub"
+                  this.communityName == "IQVIA Referral Hub" ||
+                  this.communityName == "Janssen"                  
                 ) {
                   this.containerClassCss =
                     this.containerClassCss + " rh-cookies-banner";
@@ -282,7 +283,8 @@ export default class PpCookiesBanner extends LightningElement {
         }
         if (
           this.communityName == "Default" ||
-          this.communityName == "IQVIA Referral Hub"
+          this.communityName == "IQVIA Referral Hub" ||
+          this.communityName == "Janssen"             
         ) {
           this.containerClassCss =
             this.containerClassCss + " rh-cookies-banner";
