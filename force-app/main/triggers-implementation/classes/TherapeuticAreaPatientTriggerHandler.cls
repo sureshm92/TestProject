@@ -111,7 +111,7 @@ public without sharing class TherapeuticAreaPatientTriggerHandler extends Trigge
             String resNotificationStr = ctResourceIdsMap.get(ctId);
             if(ctIdRemovedResidsMap.containsKey(ctId)){
                 for(String sObjId : ctIdRemovedResidsMap.get(ctId)){
-                    if(resNotificationStr.contains(sObjId)){
+                    if(resNotificationStr != null && resNotificationStr.contains(sObjId)){
                         resNotificationStr = resNotificationStr.replace(sObjId + ';', '').replace('' + sObjId, '').removeEnd(';');   
                     }
                 }
