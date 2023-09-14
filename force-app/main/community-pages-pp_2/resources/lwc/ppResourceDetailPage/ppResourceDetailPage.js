@@ -1,6 +1,6 @@
 import { LightningElement, track, wire } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
-import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesById';
+import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesByIdNew';
 import getUnsortedResources from '@salesforce/apex/ResourceRemote.getUnsortedResourcesByType';
 import getDataWrapper from '@salesforce/apex/RelevantLinksRemote.getDataWrapper';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';

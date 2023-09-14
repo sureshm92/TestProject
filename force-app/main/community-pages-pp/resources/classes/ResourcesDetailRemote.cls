@@ -5,11 +5,22 @@ public without sharing class ResourcesDetailRemote {
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getResourcesById(
         String resourceId, 
+        String resourceType
+    ) {
+        try {
+            return ResourceDelegate.getInstance().getResourcesById(resourceId, resourceType); 
+        } catch (Exception e) {
+            return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
+        }
+    }
+    @AuraEnabled
+    public static ResourceService.ResourceWrapperContainer getResourcesByIdNew(
+        String resourceId, 
         String resourceType,
         String participantData
     ) {
         try {
-            return ResourceDelegate.getInstance().getResourcesById(resourceId, resourceType, participantData); 
+            return ResourceDelegate.getInstance().getResourcesByIdNew(resourceId, resourceType, participantData); 
         } catch (Exception e) {
             return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }
