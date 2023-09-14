@@ -106,9 +106,10 @@ private class Test_AccountSettingsController {
                 true,
                 CommunityService.USER_MODE_PARTICIPANT
             );
-            //AccountSettingsController.changeOptInCookies(false, false);
+            AccountSettingsController.changeOptInCookies(false, false);
             AccountSettingsController.fillParticipantContact(con);
             AccountSettingsController.createCase('description', 'type');
+            AccountSettingsController.getCountryCodes(CommunityService.USER_MODE_PARTICIPANT);
             acc = AccountSettingsController.getInstituteById(acc1.Id);
             cookieList = AccountSettingsController.getCookieSettings();
 			//Test.stopTest();
@@ -200,6 +201,7 @@ private class Test_AccountSettingsController {
                 AccountSettingsController.AccountData.class
             );
             AccountSettingsController.PersonWrapper personWrapper = initData.contactSectionData.personWrapper;
+            AccountSettingsController.ConsentPreferenceData consentWrapper = initData.consentPreferenceData;
             AccountSettingsController.changeOptInSMS(
                 personWrapper.isOptInSMS(),
                 CommunityService.USER_MODE_PARTICIPANT
@@ -208,6 +210,8 @@ private class Test_AccountSettingsController {
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
             personWrapper = new AccountSettingsController.PersonWrapper(initData.myContact, null);
             AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
+            AccountSettingsController.updatePersonMain(JSON.serialize(personWrapper),JSON.serialize(consentWrapper),CommunityService.USER_MODE_PARTICIPANT);
+
         }
     }
 
@@ -241,7 +245,7 @@ private class Test_AccountSettingsController {
             Alias = 'nuser',
             LastName = 'lastname',
             ContactId = conCase.Id
-        );
+        ); 
         insert portalUser;
         System.runAs(portalUser) {
             try {

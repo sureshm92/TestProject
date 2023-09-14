@@ -1,6 +1,6 @@
 /**
- * Created by Slav on 20.08.2019.
- */
+* Created by Slav on 20.08.2019.
+*/
 
 @IsTest(SeeAllData=false)
 public class Test_AlertsRemote {
@@ -30,28 +30,28 @@ public class Test_AlertsRemote {
             T_C_Type__c = 'Privacy Policy'
         );
         tcList.add(ppTc);
-		
+        
         Terms_And_Conditions__c studyTC = new Terms_And_Conditions__c();
         tcList.add(studyTC);
         insert tcList;
-
+        
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
             Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
         );
         accounts.add(participantsAccount);
-
+        
         Account piAccount = new Account(Name = 'PI Account', BillingCountry = 'United States');
         accounts.add(piAccount);
-
+        
         Account hcpAccount = new Account(Name = 'HCP Account');
         accounts.add(hcpAccount);
-
+        
         Account delegateAccount = new Account(
             Name = CommunityService.COMMUNITY_DELEGATE_ACCOUNT_NAME
         );
         accounts.add(delegateAccount);
-
+        
         Account studySiteAccount = new Account(
             Name = 'Study Site Account',
             BillingLatitude = 41.766594,
@@ -60,7 +60,7 @@ public class Test_AlertsRemote {
         );
         accounts.add(studySiteAccount);
         insert accounts;
-
+        
         List<Contact> contacts = new List<Contact>();
         Contact piContact = new Contact(
             FirstName = 'PITD',
@@ -72,10 +72,10 @@ public class Test_AlertsRemote {
         );
         contacts.add(piContact);
         insert contacts;
-
+        
         Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD');
         insert area;
-
+        
         Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
             Protocol_ID__c = 'CTP1',
             Override_Recruitment_Status__c = 'Actively Enrolling',
@@ -104,7 +104,7 @@ public class Test_AlertsRemote {
             Enable_for_Call_Center_Support__c = true
         );
         insert study;
-
+        
         List<PicklistEntry> pleList = Translation__c.Language__c.getDescribe().getPicklistValues();
         String langCode;
         for (PicklistEntry ple : pleList) {
@@ -119,7 +119,7 @@ public class Test_AlertsRemote {
             Value__c = 'Some translated value'
         );
         insert studyTranslation;
-
+        
         Study_Site__c studySite1 = new Study_Site__c(
             Principal_Investigator__c = piContact.Id,
             Clinical_Trial_Profile__c = study.Id,
@@ -134,7 +134,7 @@ public class Test_AlertsRemote {
         insert studySite1;
         studySite1.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
         //update studySite1;	
-                Participant__c participant = new Participant__c(
+        Participant__c participant = new Participant__c(
             First_Name__c = 'ParticipantTD',
             Last_Name__c = 'ParticipantTD',
             Phone__c = '55313535',
@@ -158,16 +158,84 @@ public class Test_AlertsRemote {
             Participant_Status_Last_Changed_Date__c=system.now()
         );
         insert pe;
- 
+        
         //TestData testDataInstance = new TestData();
         User participantUser = [SELECT ID,ContactId FROM User WHERE ContactId IN(SELECT Contact__c FROM Participant__c WHERE Id =: participant.Id) ];
-
+        
         Alert__c  partAlerts=new Alert__c (
-        Alert_Code__c='Welcome_To_The_PH',
-        Viewed__c=false,
-        Contact__c=participantUser.ContactId
+            Alert_Code__c='Welcome_To_The_PH',
+            Viewed__c=false,
+            Contact__c=participantUser.ContactId
         );
         insert partAlerts;
+        
+        Alert__c partStudyAlerts=new Alert__c (
+            Alert_Code__c='Welcome_to_the_Study_PP',
+            Viewed__c=false,
+            Record_ID__c = pe.Id,
+            Contact__c=participantUser.ContactId
+        );
+        insert partStudyAlerts;
+        Boolean isExceptionThrown = false;
+        /*Alert code can not be empty*/
+        Alert__c noAlertCode;
+        try{
+            noAlertCode=new Alert__c (
+                Viewed__c=false,
+                Contact__c=participantUser.ContactId
+            );
+            insert noAlertCode;
+        }
+        catch(Exception ex){
+            isExceptionThrown = true;
+            
+        }
+        /**Record Id can not be null*/
+        Alert__c noAlertCode1;
+        try{
+            noAlertCode1=new Alert__c (
+                Viewed__c=false,
+                Alert_Code__c='Welcome_to_the_Study_PP',
+                Contact__c=participantUser.ContactId
+            );
+            insert noAlertCode1;
+        }
+        catch(Exception ex){
+            isExceptionThrown = true;
+            
+        }
+        /**Wrong record SObject Type*/
+        Alert__c noAlertCode12;
+        try{
+            noAlertCode12=new Alert__c (
+                Viewed__c=false,
+                Record_ID__c = participantUser.ContactId,
+                Alert_Code__c='Welcome_to_the_Study_PP',
+                Contact__c=participantUser.ContactId
+            );
+            insert noAlertCode12;
+        }
+        catch(Exception ex){
+            isExceptionThrown = true;
+            
+        }
+        /**Wrong record Id*/
+        Alert__c noAlertCode123;
+        try{
+            noAlertCode123=new Alert__c (
+                Viewed__c=false,
+                Record_ID__c = 'abc',
+                Alert_Code__c='Welcome_to_the_Study_PP',
+                Contact__c=participantUser.ContactId
+            );
+            insert noAlertCode123;
+        }
+        catch(Exception ex){
+            isExceptionThrown = true;
+            
+        }
+        System.assertEquals(true, isExceptionThrown);
+        
         
         System.runAs(participantUser) {
             alerts = (List<Alert>) JSON.deserialize(
@@ -181,10 +249,10 @@ public class Test_AlertsRemote {
             );
         }
         Test.stopTest();
-
-        System.assertEquals(1, alerts.size());
+        
+        System.assertEquals(2, alerts.size());
     }
-
+    
     @IsTest
     public static void testException() {
         Boolean isExceptionThrown = false;
