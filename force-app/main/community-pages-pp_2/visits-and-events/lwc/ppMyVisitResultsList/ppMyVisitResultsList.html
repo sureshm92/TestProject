@@ -20,7 +20,7 @@
                                     data-past="false"
                                     data-id={item.Id}
                                 >
-                                    <div class="slds-grid slds-wrap">
+                                    <div class="slds-grid">
                                         <div
                                             class="slds-col slds-size_1-of-12 slds-align_absolute-center"
                                         >
@@ -90,7 +90,6 @@
         </div>
         <div class={visitResultContainerClass}>
             <template lwc:if={isInitiliazed}>
-                <!--Jayashree Component Logic-->
                 <template lwc:if={showResults}>
                     <c-pp-vis-res-container-results-page
                         visits-details={patientVisitWrapper}
