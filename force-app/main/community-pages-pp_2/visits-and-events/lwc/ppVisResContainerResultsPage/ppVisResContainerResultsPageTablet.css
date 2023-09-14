@@ -141,3 +141,6 @@
 .left-chevron-icon {
     --slds-c-icon-color-foreground-default: #0768fd;
 }
+.download-section {
+    text-align: center;
+}
