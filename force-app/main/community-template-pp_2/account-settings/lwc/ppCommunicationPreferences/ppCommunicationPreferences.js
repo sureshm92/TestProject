@@ -33,7 +33,6 @@ import PP_Outreach_Communication_Pref_B from '@salesforce/label/c.PP_Outreach_Co
 import PP_Outreach_Communication_Pref_C from '@salesforce/label/c.PP_Outreach_Communication_Pref_C';
 import PP_Outreach_Communication_Pref_D from '@salesforce/label/c.PP_Outreach_Communication_Pref_D';
 
-
 import PP_Communication_Par_Mobile_Upd_Success from '@salesforce/label/c.PP_Communication_Par_Mobile_Upd_Success';
 import PP_Communication_Del_Mobile_Upd_Success from '@salesforce/label/c.PP_Communication_Del_Mobile_Upd_Success';
 import PP_Profile_Information from '@salesforce/label/c.PP_Profile_Information';
@@ -56,6 +55,7 @@ import createCommPrefEvent from '@salesforce/apex/PreferenceManagementController
 
 import { loadScript } from 'lightning/platformResourceLoader';
 import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
+import communityPath from '@salesforce/community/basePath';
 
 export default class PpCommunicationPreferences extends NavigationMixin(LightningElement) {
     @api isDelegate;
@@ -120,10 +120,10 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     showIQIVAOutreachConsentFlag = false;
     showStudyConsentFlag = false;
     disableConsentsForDelInParView = false;
-    showStaticMessageForDelSelfViewEmpty =false;
+    showStaticMessageForDelSelfViewEmpty = false;
     showPERConsents = false;
     ShowPDEConsents = false;
-    isDelegateAlsoAParticipant =false;
+    isDelegateAlsoAParticipant = false;
     //hideConsentsForDelegateView = false;
     isParticipantLoggedIn = false;
     isPrimaryDelegate = false;
@@ -165,11 +165,13 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         // Get Initial Load Data
         this.spinner = true;
         this.retUrl = communityService.createRetString();
+        
         getInitData({ userMode: this.userMode })
             .then((result) => {
                 this.spinner = false;
                 let data = JSON.parse(result).consentPreferenceData;
                 this.consentPreferenceDataLocal = data;
+                
                 this.setConsentVisibility();
                 let isParticipantLoggedIn = this.isParticipantLoggedIn;
                 let isDelegateSelfView = this.isDelegateSelfView;
@@ -179,32 +181,50 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                         study['all'] = false;
                         study['error'] = false;
                         study['ppEnabledAndInvitedPER'] = false;
-                        console.log('The Invited Date for PP   '+study.Invited_To_PP_Date__c); 
-                        if(isParticipantLoggedIn && study.Invited_To_PP_Date__c != null  && study.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true){
+                        
+                        if (
+                            isParticipantLoggedIn &&
+                            study.Invited_To_PP_Date__c != null &&
+                            study.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true
+                        ) {
                             study.ppEnabledAndInvitedPER = true;
-                            if(!showIQIVAOutreachConsentFlag && study.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
-                                showIQIVAOutreachConsentFlag=true;
+                            if (
+                                !showIQIVAOutreachConsentFlag &&
+                                study.Clinical_Trial_Profile__r.IQVIA_Outreach__c
+                            ) {
+                                showIQIVAOutreachConsentFlag = true;
                             }
                         }
-                        if(!isParticipantLoggedIn && !isDelegateSelfView){
+                        if (!isParticipantLoggedIn && !isDelegateSelfView) {
                             study.ppEnabledAndInvitedPER = true;
-                            if(!showIQIVAOutreachConsentFlag && study.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
-                                showIQIVAOutreachConsentFlag=true;
+                            if (
+                                !showIQIVAOutreachConsentFlag &&
+                                study.Clinical_Trial_Profile__r.IQVIA_Outreach__c
+                            ) {
+                                showIQIVAOutreachConsentFlag = true;
                             }
                         }
-                        console.log('The PER Consents   '+study);
                     });
                 }
-                if(this.ShowPDEConsents){
+                if (this.ShowPDEConsents) {
                     this.consentPreferenceDataLocal.pdeList.forEach(function (pde) {
                         pde['all'] = false;
                         pde['error'] = false;
-                        pde['parLastNameInitial'] = pde.Patient_Delegate__r.Participant__r.Last_Name__c.slice(0,1);
+                        pde['parLastNameInitial'] =
+                            pde.Patient_Delegate__r.Participant__r.Last_Name__c.slice(0, 1);
                         pde['ppEnabledPDE'] = false;
-                        if(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true &&  pde.Status__c == 'Active'){
+                        if (
+                            pde.Participant_Enrollment__r.Clinical_Trial_Profile__r
+                                .Patient_Portal_Enabled__c == true &&
+                            pde.Status__c == 'Active'
+                        ) {
                             pde.ppEnabledPDE = true;
-                            if(!showIQIVAOutreachConsentFlag && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
-                                showIQIVAOutreachConsentFlag=true;
+                            if (
+                                !showIQIVAOutreachConsentFlag &&
+                                pde.Participant_Enrollment__r.Clinical_Trial_Profile__r
+                                    .IQVIA_Outreach__c
+                            ) {
+                                showIQIVAOutreachConsentFlag = true;
                             }
                         }
                     });
@@ -212,7 +232,12 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 this.showIQIVAOutreachConsentFlag = showIQIVAOutreachConsentFlag;
 
                 //this.isCountryUS = (this.consentPreferenceDataLocal.myContact.MailingCountry!= undefined &&  this.consentPreferenceDataLocal.myContact.MailingCountry == 'United States' ? true : false);
-                this.isCountryUS = (this.personWrapper.mailingCC != undefined && (this.personWrapper.mailingCC == 'United States' || this.personWrapper.mailingCC == 'US') ? true : false);
+                this.isCountryUS =
+                    this.personWrapper.mailingCC != undefined &&
+                    (this.personWrapper.mailingCC == 'United States' ||
+                        this.personWrapper.mailingCC == 'US')
+                        ? true
+                        : false;
                 let conData = JSON.parse(result).myContact;
                 this.contactDataLocal.push(conData);
                 this.contactDataLocal.forEach(function (con) {
@@ -265,23 +290,90 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 });
         }
     }
-
-    openPrivacyPolicy() {
-
-              var  link = 'privacy-policy?ret=' + this.retUrl  + '&iscommpref=true';
-            
+    openStudyPrivacyPolicy(event){
+        let studyId = event.currentTarget.dataset.id; 
+        let policyId = event.currentTarget.dataset.name; 
+        let ctemp = event.currentTarget.dataset.title; 
+        if(policyId != null && policyId != undefined){ 
+            var link = 'privacy-policy?id=' + studyId + '&iscalledfromRegistrationORcommpref=true' + '&';
+            var finallink = link+ 'ret='+ this.retUrl;
             const config = {
                 type: 'standard__webPage',
-    
+                attributes: {
+                    url: finallink
+                }
+            };
+            this[NavigationMixin.GenerateUrl](config).then((url) => {
+                window.open(url, '_blank');
+            });
+       }else{ 
+           
+            var link = 'privacy-policy?ret=' + this.retUrl +  '&iscalledfromRegistrationORcommpref=true' ;
+            if(ctemp == 'Janssen'){
+                link = link+'&isJanssen=true';
+            }
+            const config = {
+                type: 'standard__webPage',
                 attributes: {
                     url: link
                 }
             };
-            console.log('>>before naviagton>>');
             this[NavigationMixin.GenerateUrl](config).then((url) => {
-                // localStorage.setItem('Cookies', 'Accepted');
                 window.open(url, '_blank');
             });
+       }
+    }
+
+    openStudyTermsOfUse(event){
+        
+        let studyId = event.currentTarget.dataset.id; 
+        let termsId = event.currentTarget.dataset.name; 
+        let ctemp = event.currentTarget.dataset.title; 
+        if(termsId != null && termsId != undefined){ 
+            var link = 'terms-and-conditions?id=' + studyId + '&';
+            var finallink = link+ 'ret='+ this.retUrl;
+            const config = {
+                type: 'standard__webPage',
+                attributes: {
+                    url: finallink
+                }
+            };
+            this[NavigationMixin.GenerateUrl](config).then((url) => {
+                window.open(url, '_blank');
+            });
+       }else{ console.log('>>policy null>>');
+            var link = 'terms-and-conditions?ret=' + this.retUrl +'&iscalledfromRegistrationORcommpref=true';
+            if(ctemp == 'Janssen'){
+                link = link+'&isJanssen=true';
+            }
+            const config = {
+                type: 'standard__webPage',
+                attributes: {
+                    url: link
+                }
+            };
+            this[NavigationMixin.GenerateUrl](config).then((url) => {
+                window.open(url, '_blank');
+            });
+       }
+    }
+
+    openPrivacyPolicy() {
+
+        var link = 'privacy-policy?ret=' + this.retUrl + '&iscommpref=true';
+
+        const config = {
+            type: 'standard__webPage',
+
+            attributes: {
+                url: link
+            }
+        };
+        console.log('>>before naviagton>>');
+        this[NavigationMixin.GenerateUrl](config).then((url) => {
+            // localStorage.setItem('Cookies', 'Accepted');
+            window.open(url, '_blank');
+        });
         // this.isPrivacyPolicy = true;
         // this.commPrefForPrivacyPolicy = true;
     }
@@ -307,33 +399,36 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             this.consentPreferenceDataLocal.isMobilePhoneNumberAvailable;
         this.currentParticipantId = this.consentPreferenceDataLocal.currentParticipant.Id;
         this.currentContactId = this.consentPreferenceDataLocal.currentParticipant.Contact__c;
-        this.isDelegateAlsoAParticipant= this.consentPreferenceDataLocal.isDelegateAlsoAParticipant;
+        this.isDelegateAlsoAParticipant =
+            this.consentPreferenceDataLocal.isDelegateAlsoAParticipant;
 
         //when pure partipant Logs in
-        if(this.isParticipantLoggedIn && !this.isDelegateAlsoAParticipant){
-            this.showPERConsents=true;
+        if (this.isParticipantLoggedIn && !this.isDelegateAlsoAParticipant) {
+            this.showPERConsents = true;
         }
         //When delegate switch to participant View
-        else if(!this.isParticipantLoggedIn && !this.isDelegateSelfView){
-            this.showPERConsents=true;
+        else if (!this.isParticipantLoggedIn && !this.isDelegateSelfView) {
+            this.showPERConsents = true;
         }
         //when delegate is in self View
-        else if(this.isDelegateSelfView){
-            this.ShowPDEConsents=true;
+        else if (this.isDelegateSelfView) {
+            this.ShowPDEConsents = true;
         }
         //When Participant(also a delegate) Logs in
-        else if(this.isParticipantLoggedIn && this.isDelegateAlsoAParticipant){
-            this.showPERConsents=true;
-            this.ShowPDEConsents=true;
+        else if (this.isParticipantLoggedIn && this.isDelegateAlsoAParticipant) {
+            this.showPERConsents = true;
+            this.ShowPDEConsents = true;
         }
-
 
         // //Check IQVIA Outreach Consent Visibility
         // if (this.showIQVIAOutreachConsent()) {
         //     this.showIQIVAOutreachConsentFlag = true;
         // }
         //Check Study Consent Visibility
-        if (this.consentPreferenceDataLocal.perList.length > 0 || this.consentPreferenceDataLocal.pdeList.length > 0) {
+        if (
+            this.consentPreferenceDataLocal.perList.length > 0 ||
+            this.consentPreferenceDataLocal.pdeList.length > 0
+        ) {
             this.showStudyConsentFlag = true;
         }
 
@@ -345,8 +440,12 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         }
         */
 
-         //Check if Delegate is in self View with no Studies associated and Iqvia Outreach Toggle Off
-         if (this.isDelegateSelfView && this.consentPreferenceDataLocal.pdeList.length == 0 && !this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP) {
+        //Check if Delegate is in self View with no Studies associated and Iqvia Outreach Toggle Off
+        if (
+            this.isDelegateSelfView &&
+            this.consentPreferenceDataLocal.pdeList.length == 0 &&
+            !this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP
+        ) {
             this.showStaticMessageForDelSelfViewEmpty = true;
         }
         //
@@ -425,20 +524,29 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     }
 
     get StudyConsentClass() {
-        return this.isRTL ? 'study-content study-content-mobile-rtl' : 'study-content study-content-mobile';
+        return this.isRTL
+            ? 'study-content study-content-mobile-rtl'
+            : 'study-content study-content-mobile';
     }
-
     get ECOAPad11() {
         return !this.isDesktop  && this.showBackButton ? 'communication-pref-no-margin' : 'communication-pref';
+    }
+    get TermUseStudyConsentClass() {
+        return this.isRTL ? 'study-content study-content-mobile-rtl' : 'study-content';
     }
 
     renderedCallback() {}
 
     selectAllOptions(event) {
         let objName = event.target.dataset.objname;
-        if(objName ==='PER'){
-            this.updateStudyData(event.target.label, event.target.checked, event.target.name, event);
-        } else if(objName ==='PDE'){
+        if (objName === 'PER') {
+            this.updateStudyData(
+                event.target.label,
+                event.target.checked,
+                event.target.name,
+                event
+            );
+        } else if (objName === 'PDE') {
             this.updatePDEData(event.target.label, event.target.checked, event.target.name, event);
         }
     }
@@ -462,9 +570,14 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
 
     selectIndividualOptions(event) {
         let objName = event.target.dataset.objname;
-        if(objName ==='PER'){
-            this.updateStudyData(event.target.label, event.target.checked, event.target.name, event);
-        } else if(objName ==='PDE'){
+        if (objName === 'PER') {
+            this.updateStudyData(
+                event.target.label,
+                event.target.checked,
+                event.target.name,
+                event
+            );
+        } else if (objName === 'PDE') {
             this.updatePDEData(event.target.label, event.target.checked, event.target.name, event);
         }
     }
@@ -622,7 +735,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         }
     }
     //Update Patient delegate Enrollment record.
-    updatePDEData(label, value, pdeId,eventObj) {
+    updatePDEData(label, value, pdeId, eventObj) {
         let processConsentSave = false;
         this.currentPDEId = pdeId;
 
@@ -660,9 +773,9 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
 
                     if (processSave) {
                         pde.Study_Phone_Consent__c =
-                        pde.Study_Email_Consent__c =
-                        pde.Study_SMS_Consent__c =
-                        pde.Study_Direct_Mail_Consent__c =
+                            pde.Study_Email_Consent__c =
+                            pde.Study_SMS_Consent__c =
+                            pde.Study_Direct_Mail_Consent__c =
                                 value;
                         processConsentSave = true;
                         //studyError = false;
@@ -696,15 +809,11 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
 
                 switch (label) {
                     case 'Phone':
-                        pde.Id == pdeId
-                            ? (pde.Study_Phone_Consent__c = value)
-                            : '';
+                        pde.Id == pdeId ? (pde.Study_Phone_Consent__c = value) : '';
                         processConsentSave = true;
                         break;
                     case 'Email':
-                        pde.Id == pdeId
-                            ? (pde.Study_Email_Consent__c = value)
-                            : '';
+                        pde.Id == pdeId ? (pde.Study_Email_Consent__c = value) : '';
                         processConsentSave = true;
                         break;
                     case 'SMS':
@@ -768,7 +877,6 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             this.updateAllPDEFlag();
             this.doSaveCommunicationPref('PDE');
         }
-        
     }
 
     // Helper Method : To Update ALL flag comparing phone, email, sms and direct email at study as well as sponsor level
@@ -783,14 +891,14 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         });
     }
     // Helper Method : To Update ALL flag comparing phone, email, sms and direct email at study as well as sponsor level -PDE Records
-    updateAllPDEFlag(){
-        this.consentPreferenceDataLocal.pdeList.forEach(function (pde){
+    updateAllPDEFlag() {
+        this.consentPreferenceDataLocal.pdeList.forEach(function (pde) {
             pde.Study_Phone_Consent__c &&
             pde.Study_Email_Consent__c &&
             pde.Study_SMS_Consent__c &&
-            pde.Study_Direct_Mail_Consent__c 
-                 ? (pde.all= true)
-                 : (pde.all= false);
+            pde.Study_Direct_Mail_Consent__c
+                ? (pde.all = true)
+                : (pde.all = false);
         });
     }
 
@@ -798,10 +906,10 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     doSaveCommunicationPref(requestFrom) {
         this.spinner = true;
         let perObj = {};
-        let pdeObj ={};
+        let pdeObj = {};
         let perId = this.currentPERId;
-        let pdeId =this.currentPDEId;
-        let studyJSON='';
+        let pdeId = this.currentPDEId;
+        let studyJSON = '';
         if (perId && requestFrom == 'PER') {
             this.consentPreferenceDataLocal.perList.forEach(function (perRecord) {
                 if (perRecord.Id == perId) {
@@ -814,7 +922,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                         perRecord.Permit_Voice_Text_contact_for_this_study__c;
                     perObj.participantOptInDirectEmail = perRecord.Study_Direct_Mail_Consent__c;
                 }
-                studyJSON=JSON.stringify(perObj);
+                studyJSON = JSON.stringify(perObj);
             });
         }
         //Save PDE Record
@@ -823,12 +931,12 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 if (pdeRecord.Id == pdeId) {
                     pdeObj.pdeId = pdeRecord.Id;
                     //pdeObj.ParticipantContId = pdeRecord.Participant__r.Contact__c;
-                    pdeObj.delegateOptInEmail =pdeRecord.Study_Email_Consent__c;
+                    pdeObj.delegateOptInEmail = pdeRecord.Study_Email_Consent__c;
                     pdeObj.delegateOptInSMSText = pdeRecord.Study_SMS_Consent__c;
-                    pdeObj.delegateOptInPhone =pdeRecord.Study_Phone_Consent__c;
+                    pdeObj.delegateOptInPhone = pdeRecord.Study_Phone_Consent__c;
                     pdeObj.delegateOptInDirectEmail = pdeRecord.Study_Direct_Mail_Consent__c;
                 }
-                studyJSON=JSON.stringify(pdeObj);
+                studyJSON = JSON.stringify(pdeObj);
             });
         }
 
