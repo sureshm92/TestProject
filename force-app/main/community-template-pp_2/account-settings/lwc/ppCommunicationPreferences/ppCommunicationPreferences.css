@@ -142,16 +142,16 @@
 
 .study-content {
     padding-top: 6px;
-    font-size: 20px;
+    font-size: 14px;
     /* font-size: 15px; */
     /* text-align: left; */
     padding-left: 2%;
     word-break: break-word;
 }
 
-.study-content-mobile {
+/* .study-content-mobile {
     padding: 16px 0px 14px 24px;
-}
+} */
 
 .study-content-mobile-rtl {
     padding: 16px 24px 14px 0px;
@@ -411,6 +411,14 @@
     line-height: 32px;
     word-break: break-word;
 }
+.TermUse-study-header {
+    /* height: 24px; */
+   /* width: 218px; */
+    font-size: 20px;
+    font-weight: 600;
+    /* line-height: 32px; */
+    word-break: break-word;
+}
 .part-name {
     height: 24px;
     color: #6e6e6e;
@@ -419,4 +427,24 @@
 }
 .tx-italic {
     font-style: italic;
+}
+@media all and (max-width: 768px) {
+    
+    .mob-p-bottom--medium {
+        padding-bottom: 1rem;
+    }
+    .study-content {
+        padding-bottom: 6px;
+        padding-left:4%;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1366px) {
+    
+    .mob-p-bottom--medium {
+        padding-bottom: 1rem;
+    }
+    .study-content {
+        padding-bottom: 6px;
+        padding-left:2%;
+    }
 }
