@@ -125,10 +125,6 @@
 }
 .visit-result-buttons .secondaryBtn {
     color: #595959 !important;
-    background: white;
-}
-.bcgCol{
-    background: white;
 }
 
 @media (orientation: portrait) {
