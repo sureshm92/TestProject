@@ -241,20 +241,20 @@ export default class PpDateTimeCombo extends LightningElement {
     }
     get dueDateClass() {
         if (this.isRTL){
-            return 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 date-time-left-space-rtl';
+            return 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 date-time-left-space-rtl';
         }else{
-            return 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
+            return 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
         }
     }
     get timeClass() {
         if (this.isRTL){
             return this.hideTimeInput
-            ? 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small slds-hide'
-            : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 date-time-right-space-rtl';
+            ? 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small slds-hide'
+            : 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 date-time-right-space-rtl';
         }else{
             return this.hideTimeInput
-            ? 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small slds-hide'
-            : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small';
+            ? 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small slds-hide'
+            : 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small';
         }
     }
     get gridClass() {
