@@ -163,7 +163,7 @@
 
 .MedicalCreatedate {
     text-align: left;
-    font-weight: 600;
+    font-weight: 700;
 }
 .doc-date-time {
     text-align: left;
@@ -365,3 +365,9 @@ input[type='number'] {
     }
 }
 /* RTL End */
+.custom-pad{
+    margin:15px 0px;
+}
+.custom-provider{
+    font-weight: 700;
+}
