@@ -138,8 +138,24 @@
     }
 }
 
+@media screen and (max-width: 370px) {
+    .we-care-about-your-p {
+        margin: 18px 16px !important;
+    }
+    .footer-m-top{
+        margin-top: 1rem !important;
+    }
+    .banner-heading{
+        line-height: 26px !important;
+        margin-top: 0.5rem !important;
+    }
+}
+
 /** RH End **/
 @media screen and (max-width: 768px) {
+    .footer-m-top{
+        margin-top: 1.5rem;
+    }
     .displaydot{
         padding: 0px 7px;
         opacity: 0;
