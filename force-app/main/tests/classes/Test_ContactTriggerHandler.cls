@@ -54,7 +54,7 @@ public class Test_ContactTriggerHandler {
         ContactTriggerHandler.updateParticipantAndUserEmailsOnEmailChange(contactList,contactOldMap);
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-        //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
+         
     }
      @isTest
     private static void test1(){ 
@@ -193,7 +193,7 @@ public class Test_ContactTriggerHandler {
         
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-        //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
+         
     }  
     @isTest
     private static void test2() {
@@ -399,7 +399,7 @@ public class Test_ContactTriggerHandler {
         Id conId = partContact.Id;
 
         Participant__c pt = participant;
-        //  Participant_Enrollment__c pe = pe.Id; 
+        
         //DOC
         Notification__c nt1 = new Notification__c(
             Target_Record_Ids__c = resDocStudy.Id,
@@ -488,10 +488,7 @@ public class Test_ContactTriggerHandler {
         insert t;
 
         Test.startTest();
-        // partContact.MailingStateCode = 'RJ';
-       // partContact.MailingState = 'Rajasthan';
-       // partContact.MailingCountry='India';
-       // partContact.MailingCountryCode='IN';
+         
         partContact.MailingPostalCode = '94151';
         partContact.Language__c = 'ru';
         partContact.Participant_Opt_In_Status_SMS__c=true;
@@ -511,7 +508,6 @@ public class Test_ContactTriggerHandler {
         Participant__c newValPart = [SELECT Id,Mailing_Zip_Postal_Code__c FROM Participant__c WHERE Id =:participant.Id];
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-        //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
     }
     @isTest
     private static void test3(){ 
@@ -566,7 +562,6 @@ public class Test_ContactTriggerHandler {
         ContactTriggerHandler.updateParticipantConsent(contactList,null);
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-        //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
     }
 
     @isTest
