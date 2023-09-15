@@ -178,10 +178,7 @@ public class Test_ContactTriggerHandler {
         ContactTriggerHandler.updateParticipantConsent(contactList,contactOldMap);
         ContactTriggerHandler.updateParticipantConsent(contactList,null);
         ContactTriggerHandler.setShowTourDefault(contactList);
-        ContactTriggerHandler.createUserForCCContact(contactList);
-        //ContactTriggerHandler.createTaskToUpdatePhoneNumber(contactList,contactOldMap);
-        //ContactTriggerHandler.retryWelcomeMsg(contactList,contactOldMap);
-        //ContactTriggerHandler.createUserForDelegateContact(contactList);
+        ContactTriggerHandler.createUserForCCContact(contactList); 
         contactList[0].Participant_Phone_Opt_In_Permit_Phone__c = false;
         ContactTriggerHandler.updateParticipantConsent(contactList,null);
         pcon.Participant_Phone_Opt_In_Permit_Phone__c = true;
