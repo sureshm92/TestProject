@@ -53,33 +53,33 @@
             <div class={containerClassCss}>
                 <lightning-layout multiple-rows >
                     
-                    <lightning-layout-item size="12">
-                        <div class="we-care-about-your-p">
-                            <div class="banner-heading">
-                                <p>{label.ppCookieBannerHeader}</p>
+                        <lightning-layout-item size="12">
+                            <div class="we-care-about-your-p">
+                                <div class="banner-heading">
+                                    <p>{label.ppCookieBannerHeader}</p>
+                                </div>
+                                <div class="banner-txt slds-m-top_x-small slds-show_medium">
+                                    <p class="mb-10">{label.ppCookiesBannerDesc1}</p>
+                                    <p>
+                                        <b> {label.ppCookiesBannerDesc2} </b>
+                                        {label.ppCookiesBannerDesc3}
+                                        {label.ppCookiesBannerLoginDesc}                                
+                                    </p>
+                                </div>
+                            
+                                <div class="banner-txt slds-m-vertical_x-small slds-hide_medium">
+                                    {label.ppCookiesBannerDesc1}
+                                </div>
+                                <span class="banner-txt slds-m-top_medium slds-hide_medium">
+                                    <b>{label.ppCookiesBannerDesc2}</b>
+                                </span>
+                                <span class="banner-txt slds-hide_medium">
+                                    &nbsp; {label.ppCookiesBannerDesc3}
+                                </span>
+                                <span class="banner-txt slds-hide_medium">
+                                    &nbsp;{label.ppCookiesBannerLoginDesc}
+                                </span>
                             </div>
-                            <div class="banner-txt slds-m-top_x-small slds-show_medium">
-                                <p class="mb-10">{label.ppCookiesBannerDesc1}</p>
-                                <p>
-                                    <b> {label.ppCookiesBannerDesc2} </b>
-                                    {label.ppCookiesBannerDesc3}
-                                    {label.ppCookiesBannerLoginDesc}                                
-                                </p>
-                            </div>
-                        
-                            <div class="banner-txt slds-m-vertical_x-small slds-hide_medium">
-                                {label.ppCookiesBannerDesc1}
-                            </div>
-                            <span class="banner-txt slds-m-top_medium slds-hide_medium">
-                                <b>{label.ppCookiesBannerDesc2}</b>
-                            </span>
-                            <span class="banner-txt slds-hide_medium">
-                                &nbsp; {label.ppCookiesBannerDesc3}
-                            </span>
-                            <span class="banner-txt slds-hide_medium">
-                                &nbsp;{label.ppCookiesBannerLoginDesc}
-                            </span>
-                        </div>
                         </lightning-layout-item>
                         <template lwc:if={isMobile}>
                             <lightning-layout-item size="12">
@@ -122,8 +122,8 @@
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
-                        </template>
-                        </lightning-layout>
+                        </template>                
+                </lightning-layout>
             </div>
         </template>
     </template>
