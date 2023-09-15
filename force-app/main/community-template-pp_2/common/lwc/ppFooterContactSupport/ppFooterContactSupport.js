@@ -113,29 +113,7 @@ export default class PpFooterContactSupport extends LightningElement {
             this.careTeamContainerEle = this.template.querySelectorAll('.careTeamContainer');
             this.phoneContainerEle = this.template.querySelectorAll('.phoneContainer');
             this.addressContainerEle = this.template.querySelectorAll('.addressContainer');
-
-            //  START: Init Logic
-            let leftColumnHeight =
-                this.phoneContainerEle[0].offsetHeight +
-                this.addressContainerEle[0].offsetHeight +
-                8;
-            let rightColumnHeight = this.careTeamContainerEle[0].offsetHeight;
-            if (this.customHeightRendered == false) {
-                if (leftColumnHeight > rightColumnHeight) {
-                    //Adjust the height of the right column.
-                    this.customHeightStyle = 'height:' + leftColumnHeight + 'px';
-                    this.customHeightRendered = true;
-                } else {
-                    //Adjust the height of the left column.
-                    this.adjustHeight =
-                        'height:' +
-                        (rightColumnHeight - (this.phoneContainerEle[0].offsetHeight + 8)) +
-                        'px';
-                    this.customHeightRendered = true;
-                }
-            }
-
-            // END: Init Logic
+            this.resetContainerHeight();
         }
         this.phoneNumberValueEle = this.template.querySelectorAll('.phone-value-ele');
         this.addressNumberValueEle = this.template.querySelectorAll('.address-value-ele');
@@ -174,7 +152,7 @@ export default class PpFooterContactSupport extends LightningElement {
                     this.displaypluscount = this.pluscount > 0 ? true : false;
                     //this.siteStaffParticipantList = res.slice(0, 3);
                     this.siteStaffParticipantList = res;
-                    this.siteStaffParticipantListTooltip = res;//.slice(3, res.length);
+                    this.siteStaffParticipantListTooltip = res;//.slice(0, res.length);
                 }
             })
             .catch((error) => {
@@ -198,6 +176,30 @@ export default class PpFooterContactSupport extends LightningElement {
             });
     }
 
+    resetContainerHeight(){
+        //  START: Init Logic
+            let leftColumnHeight =
+                this.phoneContainerEle[0].offsetHeight +
+                this.addressContainerEle[0].offsetHeight +
+                8;
+            let rightColumnHeight = this.careTeamContainerEle[0].offsetHeight;
+            //if (this.customHeightRendered == false) {
+                if (leftColumnHeight > rightColumnHeight) {
+                    //Adjust the height of the right column.
+                    this.customHeightStyle = 'height:' + leftColumnHeight + 'px';
+                    this.customHeightRendered = true;
+                } else {
+                    //Adjust the height of the left column.
+                    this.adjustHeight =
+                        'height:' +
+                        (rightColumnHeight - (this.phoneContainerEle[0].offsetHeight + 8)) +
+                        'px';
+                    this.customHeightRendered = true;
+                }
+            //}
+
+            // END: Init Logic
+    }
     render() {
         return this.desktop ? DesktopTemplate : MobileTemplate;
     }
