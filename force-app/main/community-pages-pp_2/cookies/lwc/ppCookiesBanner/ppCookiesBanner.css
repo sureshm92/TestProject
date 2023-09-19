@@ -166,20 +166,36 @@
     .mob-cookies-banner {
         width: auto;
         bottom: 0;
-        margin: 0px !important;
+        margin: 25px;
         position: fixed;
         z-index: 99999;
         background: rgba(0, 0, 0, 0.8);
         min-height: 602px;
         height: auto;
         border-radius: 16px;
-        /* background-color: #ffffff; */
+        background-color: #ffffff;
+        box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+        left: 0;
+        transform: none;
+    }
+    .mob-cookies-banner-new {
+        width: auto;
+        bottom: 0;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(0, 0, 0, 0.8);
+        min-height: 602px;
+        height: auto;
+        border-radius: 16px;
         box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
         left: 0;
         transform: none;
     }
     .we-care-about-your-p {
-        margin: 32px 24px !important;
+        margin: 32px 24px;
+    }
+    .we-care-about-your-p-new {
+        margin: 18px 18px !important;
     }
     .banner-heading {
         height: auto;
@@ -475,6 +491,10 @@
 }
 
 .desk-cookies-banner-post-login .we-care-about-your-p{
+    color: #000;
+    margin: 14px 0px 24px 56px;
+}
+.desk-cookies-banner-post-login .we-care-about-your-p-new{
     color: #000;
     margin: 14px 0px 24px 56px;
 }
