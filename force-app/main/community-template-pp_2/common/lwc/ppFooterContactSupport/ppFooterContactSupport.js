@@ -1,4 +1,4 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import getStudyStaff from '@salesforce/apex/HomePageParticipantRemote.getStudyStaff';
 import getPIDetails from '@salesforce/apex/HomePageParticipantRemote.getPIDetails';
 import contact_support_icons from '@salesforce/resourceUrl/contact_support_icons';
@@ -65,7 +65,7 @@ export default class PpFooterContactSupport extends LightningElement {
     siteName;
     siteAddress;
     siteStaffParticipantList;
-    siteStaffParticipantListTooltip;
+    @track siteStaffParticipantListTooltip = [];
     pluscount;
     displaypluscount;
     leftHeight;
@@ -113,29 +113,7 @@ export default class PpFooterContactSupport extends LightningElement {
             this.careTeamContainerEle = this.template.querySelectorAll('.careTeamContainer');
             this.phoneContainerEle = this.template.querySelectorAll('.phoneContainer');
             this.addressContainerEle = this.template.querySelectorAll('.addressContainer');
-
-            //  START: Init Logic
-            let leftColumnHeight =
-                this.phoneContainerEle[0].offsetHeight +
-                this.addressContainerEle[0].offsetHeight +
-                8;
-            let rightColumnHeight = this.careTeamContainerEle[0].offsetHeight;
-            if (this.customHeightRendered == false) {
-                if (leftColumnHeight > rightColumnHeight) {
-                    //Adjust the height of the right column.
-                    this.customHeightStyle = 'height:' + leftColumnHeight + 'px';
-                    this.customHeightRendered = true;
-                } else {
-                    //Adjust the height of the left column.
-                    this.adjustHeight =
-                        'height:' +
-                        (rightColumnHeight - (this.phoneContainerEle[0].offsetHeight + 8)) +
-                        'px';
-                    this.customHeightRendered = true;
-                }
-            }
-
-            // END: Init Logic
+            this.resetContainerHeight();
         }
         this.phoneNumberValueEle = this.template.querySelectorAll('.phone-value-ele');
         this.addressNumberValueEle = this.template.querySelectorAll('.address-value-ele');
@@ -172,9 +150,8 @@ export default class PpFooterContactSupport extends LightningElement {
                     let length = res.length;
                     this.pluscount = length > 3 ? length - 3 : 0;
                     this.displaypluscount = this.pluscount > 0 ? true : false;
-                    //this.siteStaffParticipantList = res.slice(0, 3);
                     this.siteStaffParticipantList = res;
-                    this.siteStaffParticipantListTooltip = res;//.slice(3, res.length);
+                    this.siteStaffParticipantListTooltip = res;
                 }
             })
             .catch((error) => {
@@ -198,6 +175,30 @@ export default class PpFooterContactSupport extends LightningElement {
             });
     }
 
+    resetContainerHeight(){
+        //  START: Init Logic
+            let leftColumnHeight =
+                this.phoneContainerEle[0].offsetHeight +
+                this.addressContainerEle[0].offsetHeight +
+                8;
+            let rightColumnHeight = this.careTeamContainerEle[0].offsetHeight;
+            //if (this.customHeightRendered == false) {
+                if (leftColumnHeight > rightColumnHeight) {
+                    //Adjust the height of the right column.
+                    this.customHeightStyle = 'height:' + leftColumnHeight + 'px';
+                    this.customHeightRendered = true;
+                } else {
+                    //Adjust the height of the left column.
+                    this.adjustHeight =
+                        'height:' +
+                        (rightColumnHeight - (this.phoneContainerEle[0].offsetHeight + 8)) +
+                        'px';
+                    this.customHeightRendered = true;
+                }
+            //}
+
+            // END: Init Logic
+    }
     render() {
         return this.desktop ? DesktopTemplate : MobileTemplate;
     }
