@@ -1131,7 +1131,7 @@ participantIds
                 String resNotificationStr = ((Contact) sObj).Resource_Notifications__c;
                 if(ctIdRemovedResidsMap.containsKey(cnt.Id)){
                     for(Id sObjId : ctIdRemovedResidsMap.get(cnt.Id)){
-                        if(resNotificationStr.contains(sObjId)){
+                        if(resNotificationStr != null && resNotificationStr.contains(sObjId)){
                             resNotificationStr = resNotificationStr.replace(sObjId + ';', '').replace('' + sObjId, '').removeEnd(';');   
                         }
                     }

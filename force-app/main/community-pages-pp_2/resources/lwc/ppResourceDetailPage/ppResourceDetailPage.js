@@ -1,6 +1,6 @@
 import { LightningElement, track, wire } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
-import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesById';
+import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesByIdNew';
 import getUnsortedResources from '@salesforce/apex/ResourceRemote.getUnsortedResourcesByType';
 import getDataWrapper from '@salesforce/apex/RelevantLinksRemote.getDataWrapper';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -251,7 +251,8 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                         //get clicked resource details
                         getResourceDetails({
                             resourceId: this.resourceId,
-                            resourceType: this.resourceType
+                            resourceType: this.resourceType,
+                            participantData: JSON.stringify(participantData)
                         })
                             .then((result) => {
                                 let resourceData = result.wrappers[0].resource;
