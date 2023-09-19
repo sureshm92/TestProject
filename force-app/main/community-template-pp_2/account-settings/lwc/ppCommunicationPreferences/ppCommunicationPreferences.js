@@ -174,6 +174,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 let isParticipantLoggedIn = this.isParticipantLoggedIn;
                 let isDelegateSelfView = this.isDelegateSelfView;
                 let showIQIVAOutreachConsentFlag = false;
+                let showStudyConsentFlagLocal=false;
                 if (this.showPERConsents) {
                     this.consentPreferenceDataLocal.perList.forEach(function (study) {
                         study['all'] = false;
@@ -201,15 +202,22 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                         pde['error'] = false;
                         pde['parLastNameInitial'] = pde.Patient_Delegate__r.Participant__r.Last_Name__c.slice(0,1);
                         pde['ppEnabledPDE'] = false;
+                        if(!showIQIVAOutreachConsentFlag && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true){
+                            showIQIVAOutreachConsentFlag=true;
+                        }
                         if(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true &&  pde.Status__c == 'Active'){
                             pde.ppEnabledPDE = true;
-                            if(!showIQIVAOutreachConsentFlag && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
-                                showIQIVAOutreachConsentFlag=true;
-                            }
+                            showStudyConsentFlagLocal=true;
                         }
                     });
+                    this.showStudyConsentFlag = showStudyConsentFlagLocal;
                 }
                 this.showIQIVAOutreachConsentFlag = showIQIVAOutreachConsentFlag;
+
+                //Check if Delegate is in self View with no Studies associated and Iqvia Outreach Toggle Off
+                if (this.isDelegateSelfView && !this.showStudyConsentFlag && !this.showIQIVAOutreachConsentFlag) {
+                this.showStaticMessageForDelSelfViewEmpty = true;
+                }
 
                 //this.isCountryUS = (this.consentPreferenceDataLocal.myContact.MailingCountry!= undefined &&  this.consentPreferenceDataLocal.myContact.MailingCountry == 'United States' ? true : false);
                 this.isCountryUS = (this.personWrapper.mailingCC != undefined && (this.personWrapper.mailingCC == 'United States' || this.personWrapper.mailingCC == 'US') ? true : false);
@@ -333,7 +341,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         //     this.showIQIVAOutreachConsentFlag = true;
         // }
         //Check Study Consent Visibility
-        if (this.consentPreferenceDataLocal.perList.length > 0 || this.consentPreferenceDataLocal.pdeList.length > 0) {
+        if (this.consentPreferenceDataLocal.perList.length > 0) {
             this.showStudyConsentFlag = true;
         }
 
@@ -345,10 +353,10 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         }
         */
 
-         //Check if Delegate is in self View with no Studies associated and Iqvia Outreach Toggle Off
-         if (this.isDelegateSelfView && this.consentPreferenceDataLocal.pdeList.length == 0 && !this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP) {
-            this.showStaticMessageForDelSelfViewEmpty = true;
-        }
+        //  //Check if Delegate is in self View with no Studies associated and Iqvia Outreach Toggle Off
+        //  if (this.isDelegateSelfView && this.consentPreferenceDataLocal.pdeList.length == 0 && !this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP) {
+        //     this.showStaticMessageForDelSelfViewEmpty = true;
+        // }
         //
         if (!this.isParticipantLoggedIn && !this.isDelegateSelfView) {
             this.disableConsentsForDelInParView = true;
