@@ -1,4 +1,4 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import getStudyStaff from '@salesforce/apex/HomePageParticipantRemote.getStudyStaff';
 import getPIDetails from '@salesforce/apex/HomePageParticipantRemote.getPIDetails';
 import contact_support_icons from '@salesforce/resourceUrl/contact_support_icons';
@@ -65,7 +65,7 @@ export default class PpFooterContactSupport extends LightningElement {
     siteName;
     siteAddress;
     siteStaffParticipantList;
-    siteStaffParticipantListTooltip;
+    @track siteStaffParticipantListTooltip = [];
     pluscount;
     displaypluscount;
     leftHeight;
@@ -150,9 +150,8 @@ export default class PpFooterContactSupport extends LightningElement {
                     let length = res.length;
                     this.pluscount = length > 3 ? length - 3 : 0;
                     this.displaypluscount = this.pluscount > 0 ? true : false;
-                    //this.siteStaffParticipantList = res.slice(0, 3);
                     this.siteStaffParticipantList = res;
-                    this.siteStaffParticipantListTooltip = res;//.slice(0, res.length);
+                    this.siteStaffParticipantListTooltip = res;
                 }
             })
             .catch((error) => {
