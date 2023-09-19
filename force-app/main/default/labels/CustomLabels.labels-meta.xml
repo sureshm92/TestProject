@@ -31966,6 +31966,27 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Show Less Site staff</shortDescription>
         <value>Show Less</value>
+    </labels>
+     <labels>
+        <fullName>Visit_Results_Disclaimer_Past_Studies</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Disclaimer_Past_Studies</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study or program. It is for research or program participation purposes only.</value>
+    </labels>
+    <labels>
+        <fullName>Open_In_New_Tab_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Open_In_New_Tab_PP</shortDescription>
+        <value>Open in new tab</value>
+    </labels>
+    <labels>
+        <fullName>Download_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Download_PP</shortDescription>
+        <value>Download</value>
     </labels> 
     <labels>
         <fullName>Back_to_Past_Studies_and_Programs</fullName>
