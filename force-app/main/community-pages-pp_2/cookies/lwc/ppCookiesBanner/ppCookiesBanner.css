@@ -21,6 +21,7 @@
     box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
     z-index: 99999;
     background: rgba(0, 0, 0, 0.8);
+    height: 180px;
 }
 
 .rh-cookies-banner {
@@ -471,4 +472,9 @@
     font-weight: 500;
     letter-spacing: 0;
     line-height: 24px;
+}
+
+.desk-cookies-banner-post-login .we-care-about-your-p{
+    color: #000;
+    margin: 14px 0px 24px 56px;
 }
