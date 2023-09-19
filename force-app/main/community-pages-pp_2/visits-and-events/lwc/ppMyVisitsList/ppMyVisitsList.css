@@ -419,9 +419,12 @@ a {
     color: #a9a9a9;
     margin-top: 8px;
 }
-@media all and (max-width: 486px) {
+ @media all and (max-width: 486px) {
     .visit-card-upcoming {
         height: 213px;
-        width: 326px;
+        width: auto !important;
     }
-}
+    .scroll-bar {
+        margin-right: 0rem !important;
+    }
+} 
