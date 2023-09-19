@@ -202,7 +202,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                         pde['error'] = false;
                         pde['parLastNameInitial'] = pde.Patient_Delegate__r.Participant__r.Last_Name__c.slice(0,1);
                         pde['ppEnabledPDE'] = false;
-                        if(!showIQIVAOutreachConsentFlag && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                        if(!showIQIVAOutreachConsentFlag && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true){
                             showIQIVAOutreachConsentFlag=true;
                         }
                         if(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true &&  pde.Status__c == 'Active'){
