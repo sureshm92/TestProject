@@ -594,7 +594,8 @@ export default class PpCreateTask extends LightningElement {
                         this.updatedRecord?.reminderDateTime ==
                             this.initialRecord?.reminderDateTime &&
                         this.updatedRecord?.remindSMS == this.initialRecord?.remindSMS &&
-                        this.updatedRecord?.remindEmail == this.initialRecord?.remindEmail
+                        this.updatedRecord?.remindEmail == this.initialRecord?.remindEmail &&
+                        this.initialRecord.remindme ==this.updatedRecord.remindme
                     ) {
                         this.enableSave = false;
                     }
