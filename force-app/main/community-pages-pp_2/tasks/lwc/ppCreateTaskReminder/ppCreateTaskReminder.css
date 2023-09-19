@@ -1,6 +1,11 @@
 .full-width {
     width: 100%;
 }
+@media all and (max-width: 759px) {
+    .full-width {
+        width: 100%;
+    }
+}
 
 .curve-input {
     display: flex;
