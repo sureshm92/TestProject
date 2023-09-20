@@ -42,6 +42,8 @@ import PP_Phone_Numeric from '@salesforce/label/c.PP_Phone_Numeric';
 import Mob_Phone_Field from '@salesforce/label/c.Mob_Phone_Field';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
 import BACK from '@salesforce/label/c.Back';
+import Footer_Link_Terms_Of_Use from '@salesforce/label/c.Footer_Link_Terms_Of_Use';
+import Email_Footer_Privacy_Policy from '@salesforce/label/c.Email_Footer_Privacy_Policy';
 
 //END TO DO
 
@@ -105,7 +107,9 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         PP_Phone_Numeric,
         Mob_Phone_Field,
         BTN_Save,
-        BACK
+        BACK,
+        Email_Footer_Privacy_Policy,
+        Footer_Link_Terms_Of_Use
     };
 
     @track studyDetails = [];
@@ -306,7 +310,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             this[NavigationMixin.GenerateUrl](config).then((url) => {
                 window.open(url, '_blank');
             });
-       }else{ 
+       }else{
            
             var link = 'privacy-policy?ret=' + this.retUrl +  '&iscalledfromRegistrationORcommpref=true' ;
             if(ctemp == 'Janssen'){
