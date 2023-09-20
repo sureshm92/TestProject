@@ -140,7 +140,7 @@ export default class PpCreateTask extends LightningElement {
                                 }
                                 if (wrapper.task.Task_Type__c == 'Ecoa') this.isSystemOrBusinessTask = false;
                                 else this.isSystemOrBusinessTask = true;
-                                if (wrapper.task.Activity_Datetime__c) this.readOnlyMode = true;
+                                this.readOnlyMode = true;
                             }
                         }
                         this.task = wrapper.task;
