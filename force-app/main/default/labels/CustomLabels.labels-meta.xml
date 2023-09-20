@@ -11036,6 +11036,13 @@ The expected format is REF##### to REF########</value>
         <value>to contact me with educational health information and other clinical trial opportunities using my preferences selected below:</value>
     </labels>
     <labels>
+        <fullName>IQVIA_Privacy_Policy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA's Privacy Policy</shortDescription>
+        <value>IQVIA's Privacy Policy</value>
+    </labels>
+    <labels>
         <fullName>InitailEmail_stayInformed_illustration</fullName>
         <language>en_US</language>
         <protected>false</protected>
