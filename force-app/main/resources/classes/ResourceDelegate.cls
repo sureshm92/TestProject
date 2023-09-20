@@ -57,6 +57,7 @@ public inherited sharing class ResourceDelegate {
                     .init(resourceType, resourceId)
                     .getResources()
             );
+          
         }
         return resources.isEmpty()
             ? new ResourceService.ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource)
@@ -66,7 +67,38 @@ public inherited sharing class ResourceDelegate {
                   }
               );
     }
-
+	public ResourceService.ResourceWrapperContainer getResourcesByIdNew(
+        String resourceId,
+        String resourceType,
+        String participantData
+    ) {
+        List<Resource__c> resources = new List<Resource__c>();
+        if (
+            ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.containsIgnoreCase(
+                resourceType
+            )
+        ) {
+            resources.addAll(
+                ResourceStudyDocumentService.getInstance()
+                    .init(resourceType, resourceId)
+                    .getResources()
+            );
+        } else {
+            resources.addAll(
+                ResourceArticleVideoService.getInstance()
+                    .init(resourceType, resourceId,null,participantData)
+                    .getResources()
+            );
+          
+        }
+        return resources.isEmpty()
+            ? new ResourceService.ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource)
+            : new ResourceService.ResourceWrapperContainer(
+                  (List<ResourceService.ResourceWrapper>) new List<ResourceService.ResourceDetailWrapper>{
+                      new ResourceService.ResourceDetailWrapper(resources[0])
+                  }
+              );
+    }
     public void deleteRelatedToStudyDocuments(List<Clinical_Trial_Profile__c> trialProfiles) {
         Set<Id> resourcesForDelete = new Set<Id>();
         List<Res_study__c> relatedResStudies = [
