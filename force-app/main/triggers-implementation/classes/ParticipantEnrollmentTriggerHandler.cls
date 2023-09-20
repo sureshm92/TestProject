@@ -1051,7 +1051,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             insert patientVisits;
             
         }
-
+        
+        }else{
+            createVisitsScheduleFuture(peIds,peIdInPreEnrollmentStatusStudySiteMap,enrollmentIds); 
+        }
         //Create Pre Enrollment patient Visit for the Participant on Pre Enrollment Status.
         if (
             peIdInPreEnrollmentStatusStudySiteMap != null &&
@@ -1061,9 +1064,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 peIdInPreEnrollmentStatusStudySiteMap
             );
         } 
-        }else{
-            createVisitsScheduleFuture(peIds,peIdInPreEnrollmentStatusStudySiteMap,enrollmentIds); 
-        }
     }
     public static Clinical_Trial_Profile__c getCTP(Id ctp){
         return [SELECT
@@ -1202,16 +1202,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             insert patientVisits; 
         }
         } 
-       
-        //Create Pre Enrollment patient Visit for the Participant on Pre Enrollment Status.
-        if (
-            peIdInPreEnrollmentStatusStudySiteMap != null &&
-            !peIdInPreEnrollmentStatusStudySiteMap.isEmpty()
-        ) {
-            PreEnrollmentPatientVisitServie.processPreEnrollmentPatientVisits(
-                peIdInPreEnrollmentStatusStudySiteMap
-            );
-        }
     }
 
     @TestVisible
