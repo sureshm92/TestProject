@@ -18,7 +18,6 @@
         if (patientVeiwRedirection) {
               event.preventDefault();
             communityService.navigateToPage('my-patients');
-            communityService.reloadPage();
         } else if (participantVeiwRedirection) {
             event.preventDefault();
             communityService.navigateToPage('my-referrals');

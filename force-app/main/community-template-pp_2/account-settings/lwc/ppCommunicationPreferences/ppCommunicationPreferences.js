@@ -134,6 +134,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     updatedPerRecord = {};
     commPrefForPrivacyPolicy = true;
     emailSMSConsent = false;
+    retUrl = '';
 
     studyError = false;
     isMobilePhoneNumberAvailable = true;
@@ -162,17 +163,35 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     connectedCallback() {
         // Get Initial Load Data
         this.spinner = true;
-
+        this.retUrl = communityService.createRetString();
         getInitData({ userMode: this.userMode })
             .then((result) => {
                 this.spinner = false;
                 let data = JSON.parse(result).consentPreferenceData;
                 this.consentPreferenceDataLocal = data;
                 this.setConsentVisibility();
+                let isParticipantLoggedIn = this.isParticipantLoggedIn;
+                let isDelegateSelfView = this.isDelegateSelfView;
+                let showIQIVAOutreachConsentFlag = false;
                 if (this.showPERConsents) {
                     this.consentPreferenceDataLocal.perList.forEach(function (study) {
                         study['all'] = false;
                         study['error'] = false;
+                        study['ppEnabledAndInvitedPER'] = false;
+                        console.log('The Invited Date for PP   '+study.Invited_To_PP_Date__c); 
+                        if(isParticipantLoggedIn && study.Invited_To_PP_Date__c != null  && study.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true){
+                            study.ppEnabledAndInvitedPER = true;
+                            if(!showIQIVAOutreachConsentFlag && study.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                                showIQIVAOutreachConsentFlag=true;
+                            }
+                        }
+                        if(!isParticipantLoggedIn && !isDelegateSelfView){
+                            study.ppEnabledAndInvitedPER = true;
+                            if(!showIQIVAOutreachConsentFlag && study.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                                showIQIVAOutreachConsentFlag=true;
+                            }
+                        }
+                        console.log('The PER Consents   '+study);
                     });
                 }
                 if(this.ShowPDEConsents){
@@ -180,8 +199,16 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                         pde['all'] = false;
                         pde['error'] = false;
                         pde['parLastNameInitial'] = pde.Patient_Delegate__r.Participant__r.Last_Name__c.slice(0,1);
+                        pde['ppEnabledPDE'] = false;
+                        if(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true &&  pde.Status__c == 'Active'){
+                            pde.ppEnabledPDE = true;
+                            if(!showIQIVAOutreachConsentFlag && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                                showIQIVAOutreachConsentFlag=true;
+                            }
+                        }
                     });
                 }
+                this.showIQIVAOutreachConsentFlag = showIQIVAOutreachConsentFlag;
 
                 //this.isCountryUS = (this.consentPreferenceDataLocal.myContact.MailingCountry!= undefined &&  this.consentPreferenceDataLocal.myContact.MailingCountry == 'United States' ? true : false);
                 this.isCountryUS = (this.personWrapper.mailingCC != undefined && (this.personWrapper.mailingCC == 'United States' || this.personWrapper.mailingCC == 'US') ? true : false);
@@ -239,8 +266,23 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     }
 
     openPrivacyPolicy() {
-        this.isPrivacyPolicy = true;
-        this.commPrefForPrivacyPolicy = true;
+
+              var  link = 'privacy-policy?ret=' + this.retUrl  + '&iscommpref=true';
+            
+            const config = {
+                type: 'standard__webPage',
+    
+                attributes: {
+                    url: link
+                }
+            };
+            console.log('>>before naviagton>>');
+            this[NavigationMixin.GenerateUrl](config).then((url) => {
+                // localStorage.setItem('Cookies', 'Accepted');
+                window.open(url, '_blank');
+            });
+        // this.isPrivacyPolicy = true;
+        // this.commPrefForPrivacyPolicy = true;
     }
 
     closePrivacyPolicy() {
@@ -285,10 +327,10 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         }
 
 
-        //Check IQVIA Outreach Consent Visibility
-        if (this.showIQVIAOutreachConsent()) {
-            this.showIQIVAOutreachConsentFlag = true;
-        }
+        // //Check IQVIA Outreach Consent Visibility
+        // if (this.showIQVIAOutreachConsent()) {
+        //     this.showIQIVAOutreachConsentFlag = true;
+        // }
         //Check Study Consent Visibility
         if (this.consentPreferenceDataLocal.perList.length > 0 || this.consentPreferenceDataLocal.pdeList.length > 0) {
             this.showStudyConsentFlag = true;
@@ -991,14 +1033,14 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         });
     }
 
-    //Set Visibility if IQVIA Outreach Consent
-    showIQVIAOutreachConsent() {
-        //If IQVIA Outreach Consent is ON at CTP then only IQVIA Outreach Consent section should be visible.
-        if (this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP) {
-                return true;
-        }
-        return false;
-    }
+    // //Set Visibility if IQVIA Outreach Consent
+    // showIQVIAOutreachConsent() {
+    //     //If IQVIA Outreach Consent is ON at CTP then only IQVIA Outreach Consent section should be visible.
+    //     if (this.consentPreferenceDataLocal.isIQIVAOutrechToggleOnAtCTP) {
+    //             return true;
+    //     }
+    //     return false;
+    // }
 
     isInputValid(event) {
         let numbers = /^[0-9]*$/;
