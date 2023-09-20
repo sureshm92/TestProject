@@ -9492,6 +9492,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <value>Male</value>
     </labels>
     <labels>
+        <fullName>General_Communication</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>General Communication</shortDescription>
+        <value>General Communication</value>
+    </labels>
+    <labels>
         <fullName>General_Screener_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11006,6 +11013,34 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Incorrect data</shortDescription>
         <value>Please input correct data.</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_Outreach</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA Outreach</shortDescription>
+        <value>IQVIA Outreach</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_Outreach_Content_1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA_Outreach_Content_1</shortDescription>
+        <value>I consent to allow IQVIA (in accordance with</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_Outreach_Content_2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA_Outreach_Content_2</shortDescription>
+        <value>to contact me with educational health information and other clinical trial opportunities using my preferences selected below:</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_Privacy_Policy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA's Privacy Policy</shortDescription>
+        <value>IQVIA's Privacy Policy</value>
     </labels>
     <labels>
         <fullName>InitailEmail_stayInformed_illustration</fullName>
@@ -27802,6 +27837,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Screen Share</shortDescription>
         <value>Screen Share</value>
+    </labels>
+    <labels>
+        <fullName>Study_Program_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study/Program Consent</shortDescription>
+        <value>Study/Program Consent</value>
     </labels>
     <labels>
         <fullName>Screen_Share_Hover_Message_Off</fullName>
