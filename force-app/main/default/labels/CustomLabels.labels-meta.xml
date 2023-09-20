@@ -14899,6 +14899,69 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Please review your contact information. If any information is incorrect, please</value>
     </labels>
     <labels>
+        <fullName>PreTrial_Milestone_Desc_Error_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreTrial Milestone Desc Error Msg</shortDescription>
+        <value>Please enter Milestone Description under 200 characters</value>
+    </labels>
+    <labels>
+        <fullName>PreTrial_Milestone_Table_Heading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreTrial Milestone Table Heading</shortDescription>
+        <value>Pre Enrollment Milestones</value>
+    </labels>
+    <labels>
+        <fullName>PreTrial_Milestone_Title_Error_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreTrial Milestone Title Error Msg</shortDescription>
+        <value>Please enter Milestone Title under 200 characters</value>
+    </labels>
+    <labels>
+        <fullName>PreTrial_Status_Desc_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreTrial Status Desc Error Message</shortDescription>
+        <value>Please enter Status Description under 200 characters</value>
+    </labels>
+    <labels>
+        <fullName>PreTrial_Status_Table_Heading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreTrial Status Table Heading</shortDescription>
+        <value>Pre Enrollment Status</value>
+    </labels>
+    <labels>
+        <fullName>PreTrial_Status_Title_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreTrial Status Title Error Message</shortDescription>
+        <value>Please enter Status Title under 200 characters</value>
+    </labels>
+	<labels>
+        <fullName>InTrial_Motivational_Error_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InTrial Motivational Error Msg</shortDescription>
+        <value>Please enter Status Motivational Message under 100 characters</value>
+    </labels>
+    <labels>
+        <fullName>InTrial_Status_Desc_Error_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InTrial Status Desc Error Msg</shortDescription>
+        <value>Please enter Status Description under 200 characters</value>
+    </labels>
+    <labels>
+        <fullName>InTrial_Table_Heading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InTrial Table Heading</shortDescription>
+        <value>In Study Status</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_T2_Link_Contact_IQVIA</fullName>
         <language>en_US</language>
         <protected>false</protected>
