@@ -14905,7 +14905,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PreTrial Status Title Error Message</shortDescription>
         <value>Please enter Status Title under 200 characters</value>
     </labels>
-    <labels>
 	<labels>
         <fullName>InTrial_Motivational_Error_Msg</fullName>
         <language>en_US</language>
