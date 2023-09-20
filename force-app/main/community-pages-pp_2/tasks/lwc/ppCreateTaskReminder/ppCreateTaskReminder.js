@@ -107,6 +107,11 @@ export default class PpCreateTaskReminder extends LightningElement {
     ];
     @api editMode = false;
 
+    get reminderClass() {
+        return DEVICE == 'Small'
+            ? 'slds-size_1-of-1 slds-p-horizontal_none'
+            : 'slds-size_1-of-1';
+    }
     connectedCallback() {
         if (DEVICE != 'Large') {
             this.isMobile = true;
