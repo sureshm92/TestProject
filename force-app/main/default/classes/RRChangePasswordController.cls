@@ -111,6 +111,7 @@ public without sharing class RRChangePasswordController {
     public List<Patient_Delegate_Enrollment__c> allPdeList { get; set; }
     public Boolean outreachSelection { get; set; }
     public Boolean studyConsentSelection { get; set; }
+    public Boolean isIQVIAOutreachToggleOn{ get; set; }
     
     
     public List<perListCommPreferences> cpr { get; set; }
@@ -215,6 +216,7 @@ public without sharing class RRChangePasswordController {
     private void init() {
         isIQVIAOutreachToggleOnForParticipant = false;
         isIQVIAOutreachToggleOnForDelegate = false;
+        isIQVIAOutreachToggleOn = false;
         showPassword = true;
         showNewPassword = true;
         Id userId = UserInfo.getUserId();
@@ -688,7 +690,7 @@ public without sharing class RRChangePasswordController {
                 studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
             }
         }
-      
+        
        loginContact = [
             SELECT
                 Id,
@@ -736,7 +738,7 @@ public without sharing class RRChangePasswordController {
         ];
         List<Patient_Delegate_Enrollment__c> pde = new List<Patient_Delegate_Enrollment__c>();
         List<Participant_Enrollment__c> listPE = new List<Participant_Enrollment__c>();
-        pde = [Select Id,Participant_Enrollment__c,Participant_Enrollment__r.Clinical_Trial_Profile__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+        pde = [Select Id,Participant_Enrollment__c,Participant_Enrollment__r.Clinical_Trial_Profile__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
                  Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
                  Participant_Enrollment__r.Clinical_Trial_Profile__r.Privacy_Policy_ID__c, 
                  Status__c ,Study_Direct_Mail_Consent__c,Study_Email_Consent__c,Study_Phone_Consent__c,Study_SMS_Consent__c,isInviteToPP__c,Patient_Delegate__c,Patient_Delegate__r.Contact__c
@@ -746,7 +748,7 @@ public without sharing class RRChangePasswordController {
                  ];
         listPE = [Select Id,Participant_Contact__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.PPTemplate__c,Participant_Status__c, 
                   Permit_Voice_Text_contact_for_this_study__c,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c,Study_Direct_Mail_Consent__c,
-                  Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,Clinical_Trial_Profile__r.Privacy_Policy_ID__c
+                  Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,Clinical_Trial_Profile__r.Privacy_Policy_ID__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c
                   from Participant_Enrollment__c where 
                   Participant_Contact__c =:loginContact.Id AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Participant_Status__c NOT IN:PEStatusState.PE_STATUS_GROUP_ALUMNI AND
                   (Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' OR (Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen' AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
@@ -778,7 +780,9 @@ public without sharing class RRChangePasswordController {
                         redirPP = '/terms/s/privacy-policy?iscalledfromRegistrationORcommpref=true';
                    }
                }
-               
+               if(per.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                   isIQVIAOutreachToggleOn = true;
+               }
               cpr.add( new perListCommPreferences(per,allcons,redirTC,redirPP));  
            }
        }
@@ -809,19 +813,21 @@ public without sharing class RRChangePasswordController {
                       redirPP = '/terms/s/privacy-policy?iscalledfromRegistrationORcommpref=true';
                    }
                }
-               
+               if(pd.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                      isIQVIAOutreachToggleOn = true;
+               }
               cprDel.add( new perListCommPreferencesDel(pd,allcons,redirTC,redirPP));  
            }
        }
        
        
     }
-      
+   
     public PageReference changePassword() {
         try {
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
             contact cont = new contact();
-        
+    
             cont.Id = contact.Id;
             if (contact.Is_First_Logon__c) {
                 cont.Cookies_Agreed_on_Reg__c = true;
@@ -923,7 +929,7 @@ public without sharing class RRChangePasswordController {
                 // update participant;
             }
             update cont;
-            update participant;
+            update participant; 
             if (isDelegate && isParticipant) {
                 //update pde;
                 List<Patient_Delegate_Enrollment__c > lsttoUpdPDER = new List<Patient_Delegate_Enrollment__c >();

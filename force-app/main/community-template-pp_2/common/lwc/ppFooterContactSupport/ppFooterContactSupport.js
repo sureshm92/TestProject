@@ -152,6 +152,7 @@ export default class PpFooterContactSupport extends LightningElement {
                     this.displaypluscount = this.pluscount > 0 ? true : false;
                     this.siteStaffParticipantList = res;
                     this.siteStaffParticipantListTooltip = res;
+                    this.customHeightStyle = 'height: auto;';
                 }
             })
             .catch((error) => {
@@ -167,6 +168,7 @@ export default class PpFooterContactSupport extends LightningElement {
                     let res = JSON.parse(result);
                     this.piSalutation = res.Salutation;
                     this.piName = res.Name;
+                    this.customHeightStyle = 'height: auto;';
                 }
             })
             .catch((error) => {
