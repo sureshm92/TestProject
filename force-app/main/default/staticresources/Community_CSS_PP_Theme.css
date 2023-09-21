@@ -2232,3 +2232,7 @@ user agent stylesheet svg:not(:root) {
 .custom-pp-combo .slds-media__body {
     margin-left: -16px;
 }
+
+.manage-pref-spinner-container .rr-spinner {    
+    z-index: 15000 !important;
+}
