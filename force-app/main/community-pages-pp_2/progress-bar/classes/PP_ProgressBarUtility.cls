@@ -45,7 +45,7 @@ public with sharing class PP_ProgressBarUtility {
         parentWrapper pw = new parentWrapper();
         try{
             Set<String> InTrialStatus = new Set<String>{'Enrollment Success','Randomization Success','Treatment Period Started','Follow-Up Period Started','Participation Complete','Trial Complete'};
-            Set<String> PreTrialStatus = new Set<String>{'Received','Pre-review Passed','Contact Attempted','Successfully re-engaged','Successfully Contacted','Screening In Progress - Wash Out Period','Screening In Progress	','Screening Passed'};
+            Set<String> PreTrialStatus = new Set<String>{'Received','Pre-review Passed','Contact Attempted','Successfully re-engaged','Successfully Contacted','Eligibility Passed','Screening In Progress - Wash Out Period','Screening In Progress	','Screening Passed'};
             Participant_Enrollment__c pe = [select id,Participant_Status__c,Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,Clinical_Trial_Profile__r.Is_Program__c,
                     Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Status_Milestone_Available__c,Clinical_Trial_Profile__r.Study_External_URL__c,Clinical_Trial_Profile__c,
                     (select id,Status__c, Date__c FROM Participant_Enrollment_Status_History__r order by Date__c asc) 
