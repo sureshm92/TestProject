@@ -2510,6 +2510,10 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <field>Clinical_Trial_Profile__c.Status_Milestone_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Comorbidities__c.Comorbidity_Name__c</field>
         <readable>true</readable>
