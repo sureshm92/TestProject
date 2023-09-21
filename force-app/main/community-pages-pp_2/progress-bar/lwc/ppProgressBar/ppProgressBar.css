@@ -164,6 +164,23 @@
     letter-spacing: 0;
     line-height: 24px;
 }
+.leftPreTrailTitle {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.leftPreTrailTitleMob {
+    display: none;
+}
+.leftOrdering {
+    display: none;
+}
+.leftOrderingFont {
+    font-weight: 600;
+}
 .leftDescription {
     color: #6E6E6E;
     font-family: "Proxima Nova";
@@ -173,6 +190,7 @@
     padding-top: 8px;
 }
 .leftBSectionDescription {
+    display: inline-block;
     color: #6E6E6E;
     font-family: "Proxima Nova";
     font-size: 16px;
@@ -183,8 +201,7 @@
 .progressBPath {
     position: relative;
     text-align: center;
-		padding-bottom: 17px;
-		order: 1;
+	padding-bottom: 17px;
 }
 .progress {
     padding-top: 12px;
@@ -199,6 +216,10 @@
     display: inline-block;
     padding-top: 12px;
     padding-bottom: 7px;
+}
+.stayTuned{
+    padding-top: 20px;
+    margin-left: 27px;
 }
 .iconCont {    
     padding-right: 21px;
@@ -250,6 +271,17 @@
 .padLeft{
     padding-left: 8px;
 }
+.displayGrid {
+}
+.orderA {
+    order :1;
+}
+.orderB {
+    order :2;
+}
+.padBottom{
+}
+
 @media (min-width: 1024px){
     .big .box{
         position: relative;
@@ -353,6 +385,20 @@
         text-align: center;
         font-size: 18px;
     }
+    .big .leftPreTrailTitle {
+        display: none;
+    }
+    .big .leftPreTrailTitleMob {
+        display: inline-block;
+        width: 88%;
+        text-align: center;
+        font-size: 18px;
+    }
+    .big .leftOrdering {
+        display: inline-block;
+        width: 68px;
+        height: 32px;
+    }
     .big .arrowMob {
         display: inline-block;
         width: 6%;
@@ -374,6 +420,18 @@
     }
     .big .leftBSectionDescription {
         padding-top: 16px;
+    }
+    .big .sectionBMountain{
+        display: none;
+    }
+    .big .displayGrid{
+        display : grid;
+    }
+    .big .orderA{
+        order :2;
+    }
+    .big .orderB{
+        order :1;
     }
 }
 @media all and (max-width: 450px) {
@@ -416,9 +474,7 @@
     }
 }
 
-.small .box {
-	padding: 11px;
-}    
+
 .small .btnmac {
 	display: block;
 	padding-top: 16px;
@@ -465,27 +521,18 @@
 	padding: 30px 24px 24px 24px;
 	margin-top: 0px;
 }
-.small .sub-status-box{
-    box-sizing: border-box;
-    border-radius: 4px;
-    border: 1px solid #F2F2F2;
-    background-color: #F2F2F2;
-    height: 48px;
-    display: flex;
-    align-items: center;
-		padding: 0 16px;
-    margin-left: 0px;
-    margin-bottom: 8px;
-}
 .small .leftBBox {
     width: 100%;
     display: inline-block;
     padding: 17.95px 22px 19px 22px;
 }
 .small .rightBBox {
-		width: 100%;
-		display: inline-block;
-		padding: 17.95px 20px 19px 20px;
+    width: 100%;
+    display: inline-block;
+    padding: 0px 22px 8px 22px;
+}
+.small .sub-status-box {
+    margin-right: 22px;
 }
 .small .arrowCont {
 	display: none;
@@ -498,12 +545,50 @@
 }
 .small .rBMain {
 	width: 100%;
+    padding-top: 9px;
 }
 .small .leftTitle {
 	display: inline-block;
 	width: 88%;
 	text-align: center;
 	font-size: 18px;
+}
+.small .leftPreTrailTitle {
+    display: none;
+}
+.small .leftPreTrailTitleMob {
+    display: flex;
+	text-align: left;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 24px;
+    padding: 8px 22px 8px 22px;
+}
+.small .leftDescription {
+    padding-top: 16px;
+}
+.small .leftBSectionDescription {
+    text-align: left;
+    padding: 0px 22px 0px 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+.small .leftOrdering {
+    display: inline-block;
+    width: 68px;
+    height: 32px;
+    /*padding: 13px 17px 7px 17px;*/
+    color: #444;
+    font-family: Proxima Nova;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 .small .arrowMob {
 	display: inline-block;
@@ -538,11 +623,17 @@
     line-height: 32px;
     padding-bottom: 12px;
 }
-.small .leftDescription {
-    min-height: 128px;
+.small .displayGrid{
+    display : grid;
 }
-.small .leftBSectionDescription {
-    min-height: 128px;
+.small .orderA{
+    order :2;
+}
+.small .orderB{
+    order :1;
+}
+.small .stayTuned{
+    display: none;
 }
 @media all and (max-width: 1332px) {
     .small .rightText {
@@ -555,9 +646,9 @@
     .small .rightImg img {
         width: 32%;
     }
-.small .sectionBMountain{
-				display: none;
-		}
+    .small .sectionBMountain{
+        display: none;
+    }
 }
 .mobile .box {
 	padding-top: 11px;
@@ -610,22 +701,41 @@
 	padding: 30px 24px 24px 24px;
 	margin-top: 0px;
 }
-.mobile .sub-status-box{
+.mobile .leftBBox {
+    background-color: #FFFFFF;
+	margin-top: 0px;
+    width: 100%;
+    display: inline-block;
+    padding: 20px 0px 0px 0px;
     box-sizing: border-box;
-    border-radius: 4px;
-    border: 1px solid #F2F2F2;
-    background-color: #F2F2F2;
-    height: 48px;
-    display: flex;
-    align-items: center;
-		padding: 0 16px;
-    margin-left: 0px;
-    margin-bottom: 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-left-style: solid;
+    border-width: 1px;
+	border-color: #E9E9E9;
+}
+.mobile .sub-status-box{
+    margin-right: auto;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 .mobile .rightBBox {
 	width: 100%;
 	display: inline-block;
-	padding: 17.95px 11px 19px 11px;
+	background-color: #FFFFFF;
+    width: 100%;
+    display: inline-block;
+    box-sizing: border-box;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-style: solid;
+    border-right-style: solid;
+    border-left-style: solid;
+    border-width: 1px;
+    border-color: #E9E9E9;
+    padding: 0px 24px 0px 24px;
 }
 .mobile .arrowCont {
 	display: none;
@@ -638,12 +748,47 @@
 }
 .mobile .rBMain {
 	width: 100%;
+    padding-top: 9px;
+}
+.mobile .progressBPath {
+    margin: 0 auto;
+    display: flex;
+    padding: 8px 10px;
+    justify-content: center;
+    align-items: flex-start;
 }
 .mobile .leftTitle {
 	display: inline-block;
 	width: 88%;
 	text-align: center;
 	font-size: 18px;
+}
+.mobile .leftPreTrailTitle {
+    display: none;
+}
+.mobile .leftPreTrailTitleMob {
+    display: flex;
+	text-align: left;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 24px;
+    padding: 8px 24px 8px 24px;
+}
+.mobile .leftOrdering {
+    display: inline-block;
+    width: 68px;
+    height: 32px;
+    /*padding: 13px 17px 7px 17px;*/
+    color: #444;
+    font-family: Proxima Nova;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 .mobile .arrowMob {
 	display: inline-block;
@@ -667,12 +812,30 @@
 		display: none;
 }
 .mobile .leftDescription {
-    min-height: 128px;
     padding-top: 16px;
 }
 .mobile .leftBSectionDescription {
-    min-height: 128px;
     padding-top: 16px;
+    text-align: left;
+    padding: 0px 24px 16px 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+.mobile .displayGrid{
+    display : grid;
+}
+.mobile .orderA{
+    order :2;
+}
+.mobile .orderB{
+    order :1;
+}
+.mobile .stayTuned{
+    display: none;
+}
+.mobile .padBottom{
+    padding-bottom: 8px;
 }
 @media all and (max-width: 450px) {
     .mobile .rightText {
@@ -690,6 +853,15 @@
     .mobile .rightImg img {
         width: 75px;
     }
+    .mobile .displayGrid{
+        display : grid;
+    }
+    .mobile .orderA{
+        order :2;
+    }
+    .mobile .orderB{
+        order :1;
+    }
 }
 @media all and (max-width: 395px) {
     .mobile .rightText {
@@ -705,5 +877,14 @@
     }
     .mobile .rightImg img {
         width: 75px;
+    }
+    .mobile .displayGrid{
+        display : grid;
+    }
+    .mobile .orderA{
+        order :2;
+    }
+    .mobile .orderB{
+        order :1;
     }
 }

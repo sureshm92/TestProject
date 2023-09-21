@@ -256,6 +256,9 @@ get showMarkAsComplete(){
             return (!this.parentWrapper.isEvent  || (this.parentWrapper.isEvent && (this.parentWrapper.progressWrapperList[this.currentCard-1].statusDate)));
         return false;
     }
+    get totalProgressSteps(){
+        return (this.bars!=null ? this.bars.length : '');
+    }
     get layout2Class(){
         if(this.parentWrapper.isPreTiral && this.parentClass=='big'){
             this.layoutClass2 = 'slds-col slds-large-size_5-of-7 slds-size_1-of-1';
@@ -301,26 +304,29 @@ let customCSS = 'tRight slds-align-top';
     }
     get middleDesktopClass(){
         if(this.parentWrapper.isPreTiral){
-            return "rBMain tCenter"; 
+            return "rBMain tCenter orderA"; 
         }
         return "rMain";
     }
     get progressSteps(){
         if(this.parentWrapper.isPreTiral){
-            return "progressBPath";
+            return "progressBPath orderB";
         }
         return "progress"; 
     }
-		get leftBoxClass(){
+	get leftBoxClass(){
         if(this.parentWrapper.isPreTiral){
             return "leftBBox";
         }
         return "leftBox"; 
     }
-		get leftSectionDescription(){
+	get leftSectionDescription(){
         if(this.parentWrapper.isPreTiral){
             return "leftBSectionDescription";
         }
         return "leftDescription";
+    }
+    get leftTitle() {
+        return (this.parentWrapper.isPreTiral? "leftPreTrailTitle" : "leftTitle");
     }
 }
