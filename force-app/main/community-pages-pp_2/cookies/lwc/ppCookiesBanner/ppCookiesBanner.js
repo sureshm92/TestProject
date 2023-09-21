@@ -44,7 +44,7 @@ export default class PpCookiesBanner extends LightningElement {
   userMode;
   spinner;
   containerClassCss = "c-container desk-cookies-banner mob-cookies-banner ";
-  containerClassCssPostLogin = "c-container desk-cookies-banner-post-login mob-cookies-banner ";
+  containerClassCssPostLogin = "c-container desk-cookies-banner-post-login mob-cookies-banner-new";
   modalTopCss = " slds-grid card-top-bg ";
   acceptButtonCss = "accept-btn-container btn-label cookie-btn ";
   acceptAllButtonCss = "btn-container btn-label cookie-btn cookie-cursor";
@@ -179,7 +179,8 @@ export default class PpCookiesBanner extends LightningElement {
                 }
                 if (
                   this.communityName == "Default" ||
-                  this.communityName == "IQVIA Referral Hub"
+                  this.communityName == "IQVIA Referral Hub" ||
+                  this.communityName == "Janssen"                  
                 ) {
                   this.containerClassCss =
                     this.containerClassCss + " rh-cookies-banner";
@@ -282,7 +283,8 @@ export default class PpCookiesBanner extends LightningElement {
         }
         if (
           this.communityName == "Default" ||
-          this.communityName == "IQVIA Referral Hub"
+          this.communityName == "IQVIA Referral Hub" ||
+          this.communityName == "Janssen"             
         ) {
           this.containerClassCss =
             this.containerClassCss + " rh-cookies-banner";
