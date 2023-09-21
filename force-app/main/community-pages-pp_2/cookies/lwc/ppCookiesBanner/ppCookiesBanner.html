@@ -1,5 +1,7 @@
 <template>
+    <div class="manage-pref-spinner-container">
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    </div>
     <template if:true={showBanner}>
         <template if:false={loginPage}>
             <div class={containerClassCssPostLogin}>
@@ -134,7 +136,7 @@
             tabindex="-1"
             aria-modal="true"
             class="slds-modal slds-fade-in-open cookie-btn"
-            style="z-index: 999999"
+            style="z-index: 999999; margin-top:-40px;"
         >
             <div class={modalContainer}>
                 <div class={modalTopCss}></div>
