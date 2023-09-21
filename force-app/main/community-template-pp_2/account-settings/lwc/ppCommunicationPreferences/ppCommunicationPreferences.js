@@ -111,6 +111,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     @track outReachDetails = [];
     @track consentPreferenceDataLocal = [];
     @track contactDataLocal = [];
+    @track pdeListLocal = [];
     currentEvtObj;
 
     spinner = false;
@@ -173,7 +174,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 let isParticipantLoggedIn = this.isParticipantLoggedIn;
                 let isDelegateSelfView = this.isDelegateSelfView;
                 let showIQIVAOutreachConsentFlag = false;
-                let showStudyConsentFlagLocal = false;
+                let addPdeConsents = [];
                 if (this.showPERConsents) {
                     this.consentPreferenceDataLocal.perList.forEach(function (study) {
                         study['all'] = false;
@@ -228,11 +229,14 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                             pde.Status__c == 'Active'
                         ) {
                             pde.ppEnabledPDE = true;
-                            showStudyConsentFlagLocal = true;
+                            addPdeConsents.push(pde);
                         }
                     });
-                    //this.showStudyConsentFlag = showStudyConsentFlagLocal;
-                    this.ShowPDEConsents = showStudyConsentFlagLocal;
+                    this.pdeListLocal = addPdeConsents;
+                }
+                //Check Study Consent Visibility
+                if (this.consentPreferenceDataLocal.perList.length > 0 || this.pdeListLocal.length > 0) {
+                    this.showStudyConsentFlag = true;
                 }
                 this.showIQIVAOutreachConsentFlag = showIQIVAOutreachConsentFlag;
 
@@ -367,10 +371,10 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         // if (this.showIQVIAOutreachConsent()) {
         //     this.showIQIVAOutreachConsentFlag = true;
         // }
-        //Check Study Consent Visibility
-        if (this.consentPreferenceDataLocal.perList.length > 0) {
-            this.showStudyConsentFlag = true;
-        }
+        // //Check Study Consent Visibility
+        // if (this.consentPreferenceDataLocal.perList.length > 0) {
+        //     this.showStudyConsentFlag = true;
+        // }
 
         /*if (!this.showIQIVAOutreachConsentFlag && !this.showStudyConsentFlag) {
             if (!this.isParticipantLoggedIn && this.isDelegateSelfView) {

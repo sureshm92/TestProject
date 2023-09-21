@@ -110,7 +110,8 @@ export default class PpDownloadResultsData extends LightningElement {
             event.currentTarget.name == 'download-res-past' ||
             event.currentTarget.name == 'download-res-mob' ||
             event.currentTarget.name == 'download-res-mob-past' ||
-            event.currentTarget.name == 'download-res-tab-icon' ||
+            event.currentTarget.name == 'download-res-tab' ||
+            event.currentTarget.name == 'download-res-tab-past' ||
             event.currentTarget.dataset.name == 'download-vis-res'
         ) {
             this.template
@@ -155,7 +156,6 @@ export default class PpDownloadResultsData extends LightningElement {
                     event.currentTarget.name == 'download-res' ||
                     event.currentTarget.name == 'download-res-mob' ||
                     event.currentTarget.name == 'download-res-tab' ||
-                    event.currentTarget.name == 'download-res-tab-icon' ||
                     event.currentTarget.dataset.name == 'download-vis-res'
                 ) {
                     anchorEle[0].setAttribute('href', url);
@@ -174,7 +174,8 @@ export default class PpDownloadResultsData extends LightningElement {
                 } else if (
                     event.currentTarget.name == 'download-res-past' ||
                     event.currentTarget.name == 'download-res-mob' ||
-                    event.currentTarget.name == 'download-res-mob-past'
+                    event.currentTarget.name == 'download-res-mob-past' ||
+                    event.currentTarget.name == 'download-res-tab-past'
                 ) {
                     anchorEle[0].setAttribute('href', url);
                     anchorEle[0].click(function (event) {
