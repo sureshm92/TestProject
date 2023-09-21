@@ -1270,9 +1270,9 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
             );
             Boolean isIQIVAOutrechToggleOnAtCTPForDel = false;
             for (Patient_Delegate_Enrollment__c pde : pdeListAll) {
-                if (pde.Status__c == 'Active') {
+                //if (pde.Status__c == 'Active') {
                     initData.consentPreferenceData.pdeList.Add(pde); //Show Active Patient Delegate Enrollment Records for Delegate
-                }
+                //}
                 if (pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
                     isIQIVAOutrechToggleOnAtCTPForDel = true; //Need all Records to check for Toggle ON/OFF
                 }
