@@ -1,11 +1,13 @@
 <template>
+    <div class="manage-pref-spinner-container">
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    </div>
     <template if:true={showBanner}>
         <template if:false={loginPage}>
             <div class={containerClassCssPostLogin}>
                 <lightning-layout multiple-rows vertical-align="center" horizontal-align="center">               
                         <lightning-layout-item size="12" small-device-size="9" padding="around-small">
-                            <div class="we-care-about-your-p">
+                            <div class="we-care-about-your-p-new">
                                 <div class="banner-heading slds-m-top_small">
                                     {label.ppCookieBannerHeader}
                                 </div>
@@ -134,7 +136,7 @@
             tabindex="-1"
             aria-modal="true"
             class="slds-modal slds-fade-in-open cookie-btn"
-            style="z-index: 999999"
+            style="z-index: 999999; margin-top:-40px;"
         >
             <div class={modalContainer}>
                 <div class={modalTopCss}></div>
