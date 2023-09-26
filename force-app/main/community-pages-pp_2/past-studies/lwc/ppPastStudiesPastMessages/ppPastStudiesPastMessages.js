@@ -15,8 +15,10 @@ export default class PpPastStudiesPastMessages extends NavigationMixin(Lightning
         PP_View_Messages,
         PP_No_messages_available
     }
+    isLoading = false;
     connectedCallback() {
         console.log('++++++++++++++per'+JSON.stringify(this.per) + 'ppp'+this.contactid);
+        this.isLoading = true;
         getrecentlycommunicatedmembers({
             contID: this.contactid,
             per: this.per
@@ -28,11 +30,13 @@ export default class PpPastStudiesPastMessages extends NavigationMixin(Lightning
             }else{
                 this.hasmembers = false;
             }
+            this.isLoading = false;
 
         })
         .catch((error) => {
-            console.error('Error:', error);
+            console.error('Error:', JSON.stringify(error));
             this.hasmembers = false;
+            this.isLoading = false;
         });
     }
     navigatetomessagepage() {
