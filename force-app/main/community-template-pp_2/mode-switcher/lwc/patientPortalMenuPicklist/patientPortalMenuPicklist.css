@@ -2,7 +2,6 @@
 .dropdown {
     display: flex;
     position: absolute;
-    left: 15px;
     align-items: center;
     width: 281px;
     height: 2rem;

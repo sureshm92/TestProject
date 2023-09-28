@@ -54,6 +54,7 @@
                                 label="{!v.CPRAlabel}"
                                 link="{!v.CPRALinkToredirect}"
                                 enablePrivacyChoice = "{!v.enablePrivacyChoice}"
+                                isRTL="{!v.isRTL}"
                             />
                         </div>
                     </aura:if>
