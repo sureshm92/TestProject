@@ -748,9 +748,9 @@ public without sharing class RRChangePasswordController {
                  ];
         listPE = [Select Id,Participant_Contact__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.PPTemplate__c,Participant_Status__c, 
                   Permit_Voice_Text_contact_for_this_study__c,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c,Study_Direct_Mail_Consent__c,
-                  Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,Clinical_Trial_Profile__r.Privacy_Policy_ID__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c
+                  Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,Clinical_Trial_Profile__r.Privacy_Policy_ID__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Invited_To_PP_Date__c 
                   from Participant_Enrollment__c where 
-                  Participant_Contact__c =:loginContact.Id AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Participant_Status__c NOT IN:PEStatusState.PE_STATUS_GROUP_ALUMNI AND
+                  Participant_Contact__c =:loginContact.Id AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Participant_Status__c NOT IN:PEStatusState.PE_STATUS_GROUP_ALUMNI AND Invited_To_PP_Date__c != null AND
                   (Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' OR (Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen' AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
                   ];         
        
@@ -822,12 +822,12 @@ public without sharing class RRChangePasswordController {
        
        
     }
-   
+    
     public PageReference changePassword() {
         try {
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
             contact cont = new contact();
-    
+        
             cont.Id = contact.Id;
             if (contact.Is_First_Logon__c) {
                 cont.Cookies_Agreed_on_Reg__c = true;
@@ -929,24 +929,26 @@ public without sharing class RRChangePasswordController {
                 // update participant;
             }
             update cont;
-            update participant; 
-            if (isDelegate && isParticipant) {
-                //update pde;
-                List<Patient_Delegate_Enrollment__c > lsttoUpdPDER = new List<Patient_Delegate_Enrollment__c >();
-                for(perListCommPreferencesDel pp:cprDel){
-                    lsttoUpdPDER.add(pp.perListAllforCommPrefsDel);
-               }
-               update lsttoUpdPDER;
-            } else if (!isDelegate && isParticipant) {
-                //update per;
-                //comm preff
-                List<Participant_Enrollment__c> lsttoUpd = new List<Participant_Enrollment__c>();
-                for(perListCommPreferences pp:cpr){
-                    lsttoUpd.add(pp.perListAllforCommPrefs);
-               }
-               
-               update lsttoUpd; 
-            }
+            update participant;
+                 List<Patient_Delegate_Enrollment__c > lsttoUpdPDER = new List<Patient_Delegate_Enrollment__c >();
+                if(cprDel != null && cprDel.size() != 0 && !cprDel.isEmpty()){
+                     for(perListCommPreferencesDel pp:cprDel){
+                            lsttoUpdPDER.add(pp.perListAllforCommPrefsDel);
+                     }
+                     if(lsttoUpdPDER != null && !lsttoUpdPDER.isEmpty()){
+                      update lsttoUpdPDER;
+                     }
+                 }
+                 
+                 List<Participant_Enrollment__c> lsttoUpd = new List<Participant_Enrollment__c>();
+                 if(cpr != null && cpr.size() != 0 && !cpr.isEmpty()){
+                     for(perListCommPreferences pp:cpr){
+                            lsttoUpd.add(pp.perListAllforCommPrefs);
+                     }
+                     if(lsttoUpd != null && !lsttoUpd.isEmpty()){  
+                     update lsttoUpd;
+                     } 
+                 }
             userVal.IsCommunityUserRegistered__c = true;
             update userVal;
             for (ApexPages.Message m : ApexPages.getMessages()) {
