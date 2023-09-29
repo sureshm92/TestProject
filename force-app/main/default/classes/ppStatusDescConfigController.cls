@@ -58,10 +58,8 @@ public without sharing class ppStatusDescConfigController {
             
             if(ctp.Participant_Workflow_Final_Step__c=='Enrollment'){
                 statusConfiguration.remove('Randomization1');
-                statusConfiguration.remove('Randomization');
             }else{
                 statusConfiguration.remove('Enrollment1');
-                statusConfiguration.remove('Enrollment');
             }
             
             for( Study_status_desc_and_motivational_msg__mdt studyMdt : configurationMetadata ){
