@@ -107,6 +107,11 @@ export default class PpCreateTaskReminder extends LightningElement {
     ];
     @api editMode = false;
 
+    get reminderClass() {
+        return DEVICE == 'Small'
+            ? 'slds-size_1-of-1 slds-p-horizontal_none'
+            : 'slds-size_1-of-1';
+    }
     connectedCallback() {
         if (DEVICE != 'Large') {
             this.isMobile = true;
@@ -132,6 +137,11 @@ export default class PpCreateTaskReminder extends LightningElement {
                                     this.maxReminderDate != null
                                         ? this.maxReminderDate
                                         : this.taskDueDate;
+                                this.maxReminderDate = new Date(
+                                    this.maxReminderDate
+                                ).toLocaleString('en-US', {
+                                    timeZone: TIME_ZONE
+                                });
                                 this.taskId = this.taskInfo.Id;
                                 this.systemTask =
                                     this.taskInfo.Originator__c != 'Participant'
@@ -278,15 +288,6 @@ export default class PpCreateTaskReminder extends LightningElement {
     }
 
     get maximumReminderTime() {
-        /*let taskDueDateTime = new Date(this.maxReminderDate).toLocaleString('en-US', {
-            timeZone: TIME_ZONE
-        });
-        let taskDueDateTimeObject = new Date(taskDueDateTime); // IST
-        let taskDueDateTimeString = [
-            taskDueDateTimeObject.getFullYear(),
-            ('0' + (taskDueDateTimeObject.getMonth() + 1)).slice(-2),
-            ('0' + taskDueDateTimeObject.getDate()).slice(-2)
-        ].join('-');*/
         if (this.maxReminderTime != null) {
             return this.selectedReminderDate == this.maxReminderDate ? this.maxReminderTime : null;
         } else {

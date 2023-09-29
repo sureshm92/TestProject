@@ -316,5 +316,6 @@
     width: 134%;
     left: -21.33%;
     position: relative;
-    padding-bottom: 20px;
+    margin-bottom: 8px;
+    margin-top: 8px;
 }

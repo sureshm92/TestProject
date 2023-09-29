@@ -193,15 +193,15 @@ public with sharing class ECOAService {
             contactIds.add(peObj.Participant_Contact__c);
             ctpIds.add(peObj.Clinical_Trial_Profile__c);
         }
-        List<Patient_Delegate__c> patientdelegatesList = [
-            SELECT Contact__c, Participant__r.Contact__c
-            FROM Patient_Delegate__c
-            WHERE Participant__r.Contact__c IN :contactIds AND Primary_Delegate__c = TRUE
+        List<Patient_Delegate_Enrollment__c> patientdelegatesList = [
+            SELECT Patient_Delegate__r.Contact__c, Participant_Enrollment__c,Participant_Enrollment__r.Participant_Contact__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE Participant_Enrollment__r.Participant_Contact__c IN :contactIds AND Primary_Delegate__c = TRUE
         ];
-        for (Patient_Delegate__c pd : patientdelegatesList) {
-            primarydelegateContactMap.put(pd.Participant__r.Contact__c, pd.Contact__c);
-            if (!contactIds.contains(pd.Contact__c)) {
-                contactIds.add(pd.Contact__c);
+        for (Patient_Delegate_Enrollment__c pd : patientdelegatesList) {
+            primarydelegateContactMap.put(pd.Participant_Enrollment__r.Participant_Contact__c, pd.Patient_Delegate__r.Contact__c);
+            if (!contactIds.contains(pd.Patient_Delegate__r.Contact__c)) {
+                contactIds.add(pd.Patient_Delegate__r.Contact__c);
             }
         }
         List<User> participantUsers = [

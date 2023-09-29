@@ -138,8 +138,9 @@ export default class PpCreateTask extends LightningElement {
                                         }
                                     }
                                 }
-                                this.isSystemOrBusinessTask = true;
-                                if (wrapper.task.Activity_Datetime__c) this.readOnlyMode = true;
+                                if (wrapper.task.Task_Type__c == 'Ecoa') this.isSystemOrBusinessTask = false;
+                                else this.isSystemOrBusinessTask = true;
+                                this.readOnlyMode = true;
                             }
                         }
                         this.task = wrapper.task;
@@ -593,7 +594,8 @@ export default class PpCreateTask extends LightningElement {
                         this.updatedRecord?.reminderDateTime ==
                             this.initialRecord?.reminderDateTime &&
                         this.updatedRecord?.remindSMS == this.initialRecord?.remindSMS &&
-                        this.updatedRecord?.remindEmail == this.initialRecord?.remindEmail
+                        this.updatedRecord?.remindEmail == this.initialRecord?.remindEmail &&
+                        this.initialRecord.remindme ==this.updatedRecord.remindme
                     ) {
                         this.enableSave = false;
                     }
