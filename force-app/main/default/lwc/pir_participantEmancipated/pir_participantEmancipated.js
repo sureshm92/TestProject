@@ -232,9 +232,9 @@ export default class Pir_participantEmancipated extends LightningElement {
                 this.isvirtualsite = result.isVirtualSite;
                 this.siteid = result.studySiteId;
                 this.showInvite = (!result.isVirtualSite && result.isPPEnabled);
-                if(this.communityTemplate == 'Janssen'){
-                    this.showInvite = false;  
-                    this.isJanssen = true;
+                if(this.communityTemplate == 'Janssen'){ 
+                     this.showInvite = result.isJanseenPPEnabled; 
+                     this.isJanssen = true;
                 }
                 this.isInvited = result.isInvited;
                 if(this.isInvited){

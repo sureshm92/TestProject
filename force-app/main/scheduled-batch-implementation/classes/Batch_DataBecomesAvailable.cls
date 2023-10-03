@@ -25,6 +25,7 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
                             Patient_Visit__r.Completed_Date__c,
                             Patient_Visit__r.Notified__c,
                             Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__c,
+                            Patient_Visit__r.Participant_Enrollment__r.Participant__c,
                             Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                             Result_Type__c
                         FROM Visit_Results__r
@@ -70,23 +71,46 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
 
         Set<Patient_Visit__c> updatedPatientVisits = new Set<Patient_Visit__c>();
         Set<Id> recipientIds = new Set<Id>();
+        List<Id> perIds = new List<Id>();
+        List<Id> participantIds = new List<Id>();
         for (Visit_Result__c visitResultObj : listOfResult) {
-            Contact recipient = visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__r;
+            if (!participantIds.contains(visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant__c)) 
+                participantIds.add(visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant__c);
+            if (!perIds.contains(visitResultObj.Patient_Visit__r.Participant_Enrollment__c)) 
+                perIds.add(visitResultObj.Patient_Visit__r.Participant_Enrollment__c);
+        }
+        Map<Id,Patient_Delegate_Enrollment__c> patientEnrollmentList = PatientDelegateEnrollmentService.getPrimaryPatientDelEnrollmentList(participantIds,perIds);
+        for (Visit_Result__c visitResult : listOfResult) {
+            Contact recipient = visitResult.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__r;
             if (!recipientIds.contains(recipient.Id)) {
                 recipientIds.add(recipient.Id);
                 notifications.add(
                     new Notification__c(
                         Recipient__c = recipient.Id,
-                        WhatId__c = visitResultObj.Patient_Visit__r.Participant_Enrollment__c,
+                        WhatId__c = visitResult.Patient_Visit__r.Participant_Enrollment__c,
                         Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DATA_AVAILABLE_TYPE,
                         Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                     )
                 );
+                if(!patientEnrollmentList.isEmpty() && patientEnrollmentList.containsKey(recipient.Id) && ((patientEnrollmentList.get(recipient.Id).participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                CommunityTemplateService.TEMPLATE_PP )|| (patientEnrollmentList.get(recipient.Id).participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                'Janssen' && patientEnrollmentList.get(recipient.Id).participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c ==
+                'PP 2.0'))){
+                    notifications.add(
+                        new Notification__c(
+                            Recipient__c = patientEnrollmentList.get(recipient.Id).Patient_Delegate__r.Contact__c,
+                            WhatId__c = visitResult.Patient_Visit__r.Participant_Enrollment__c,
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DATA_AVAILABLE_TYPE,
+                            Status__c = NotificationService.NOTIFICATION_STATUS_PENDING,
+                            IsDelegate__c = true
+                        )
+                    );
+                }
+              }
+                Patient_Visit__c patientVisit = visitResult.Patient_Visit__r;
+                patientVisit.Notified__c = true;
+                updatedPatientVisits.add(patientVisit);
             }
-            Patient_Visit__c patientVisit = visitResultObj.Patient_Visit__r;
-            patientVisit.Notified__c = true;
-            updatedPatientVisits.add(patientVisit);
-        }
         update new List<Patient_Visit__c>(updatedPatientVisits);
         insert notifications;
     }

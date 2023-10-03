@@ -9,11 +9,23 @@ public with sharing class EmailTemplateInitialPT extends EmailTemplateInitial {
     ) {
         super(recipientContactId, outputMode, communityTemplateName);
         userMode = 'Participant Virtual';
-
+        List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c> ();
         List<String> templates = new List<String>{ communityTemplateName };
         if (communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT)
             templates.add(null);
-        List<Participant_Enrollment__c> enrollments = [
+        if(templates.contains('PatientPortal')){
+            enrollments = [
+            SELECT Id, Referral_Source__c, Study_Site__r.Study_Site_Type__c,Invited_to_PP_Date__c
+            FROM Participant_Enrollment__c
+            WHERE
+                Participant_Contact__c = :recipientContactId
+                AND (Clinical_Trial_Profile__r.CommunityTemplate__c IN :templates
+                        OR Clinical_Trial_Profile__r.PPTemplate__c ='PP 2.0')
+            ORDER BY CreatedDate DESC
+        ];
+        }
+        else{
+            enrollments = [
             SELECT Id, Referral_Source__c, Study_Site__r.Study_Site_Type__c,Invited_to_PP_Date__c
             FROM Participant_Enrollment__c
             WHERE
@@ -21,6 +33,7 @@ public with sharing class EmailTemplateInitialPT extends EmailTemplateInitial {
                 AND Clinical_Trial_Profile__r.CommunityTemplate__c IN :templates
             ORDER BY CreatedDate DESC
         ];
+       }
         Participant_Enrollment__c enrollment;        
         if (!enrollments.isEmpty()) {
             for(Participant_Enrollment__c pe: enrollments){

@@ -25,13 +25,20 @@
         <template if:true={isCommunityFooter}>
             <div class="">
                 <template if:true={isJanssen}>
+                    <template if:false={receiveMessage}>
                     <p>
-                        <a onclick={openModal}> {labels.janssenHeaderLabel} </a>
+                        <a onclick={openModal}> {labels.janssenHeaderLabel}</a>
                     </p>
+                </template>
+                <template if:true={receiveMessage}>
+                    <p>
+                        <a onclick={openModal}> {labels.ppHeaderLabel}</a>
+                    </p>
+                </template>
                 </template>
                 <template if:false={isJanssen}>
                     <p>
-                        <a onclick={openModal}> {labels.ppHeaderLabel} </a>
+                        <a onclick={openModal}> {labels.ppHeaderLabel}</a>
                     </p>
                 </template>
             </div>

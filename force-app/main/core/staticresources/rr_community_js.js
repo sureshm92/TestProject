@@ -35,6 +35,8 @@ window.communityService = (function () {
     let hasIQVIAStudiesPI;
     let communityName;
     let participantData;
+    let visResultAvailable = false;
+    let loggedInUserInfo;
     const pagesWithSharedPrivacyPolicy = new Set([
         'my-team',
         'new-team-member',
@@ -47,6 +49,19 @@ window.communityService = (function () {
             if (service.isInitialized()) return;
             service.executeAction(component, 'getCommunityData', null, function (returnValue) {
                 let communityData = JSON.parse(returnValue);
+                let isJanssen = false; 
+                let sr = JSON.parse(communityData.studyDetails);
+                if(sr != null){
+                 let ctp = sr.ctp;
+                  if(ctp != null){
+                  let CommTemp = ctp.CommunityTemplate__c;
+                  let tempName = JSON.stringify(ctp.PPTemplate__c);
+                  if(CommTemp == 'Janssen'){
+                    isJanssen = true;
+                  }
+                  }
+                }
+
                 preventedCookies = communityData.preventedCookies;
                 isDummy = communityData.isDummy;
                 if (!isDummy) {
@@ -74,7 +89,10 @@ window.communityService = (function () {
                 hasIQVIAStudiesPI = communityData.hasIQVIAStudiesPI;
                 communityName = communityData.communityName;
                 service.setCurrentCommunityMode(communityData.currentUserMode, null, true);
-                service.setCookie('RRLanguage', communityData.language, 365);
+                if(communityName != 'Janssen_Community1'){ 
+                    if(!isJanssen){
+                    service.setCookie('RRLanguage', communityData.language, 365);}  
+                }
                 //console.log('CommunityService initialized:');
                 //console.log('is TC accepted: ' + isTCAcceptedFlag);
                 //console.log('URL path prefix: ' + communityURLPathPrefix);
@@ -150,6 +168,7 @@ window.communityService = (function () {
                         if (finalCallback) finalCallback();
                     }
                 });
+                action.setBackground();
                 $A.enqueueAction(action);
             });
         },
@@ -524,8 +543,7 @@ window.communityService = (function () {
             participantData.cookiesAgreedonRegPage = val;
         },
         isValidEmail: function (email) {
-            let re =
-                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
         },
 
@@ -613,6 +631,18 @@ window.communityService = (function () {
                 url: redirectUrl
             });
             urlEvent.fire();
+        },
+        setVisResultsAvailable: function (val) {
+            visResultAvailable = val;
+        },
+        getVisResultsAvailable: function () {
+            return visResultAvailable;
+        },
+        setLoggedInUserData: function (userDetails) {
+            loggedInUserInfo = userDetails;
+        },
+        getLoggedInUserData: function () {
+            return loggedInUserInfo;
         }
     };
 

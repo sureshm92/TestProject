@@ -114,13 +114,21 @@ Public Class TeleVisitRemoteTest{
 
         Test.setMock(HttpCalloutMock.class, new RestMock());
         Test.startTest();
+        TestData testData = new TestData();
+        Televisit_Record_Vendor__c trv = new Televisit_Record_Vendor__c(API_Key__c = 'test',API_Secret__c='test1', Clinical_Trial_Profile__c=testData.ctp.id);
+        insert trv;
+        TelevisitVendorSettings__c tvs = new TelevisitVendorSettings__c(Study_Site__c = testData.ss.id,isEnable__c=True, Televisit_Record_Vendor__c=trv.id);
+        insert tvs;
         
         List<Televisit__c> lstTV = new List<Televisit__c>();
-        TestData testData = new TestData();
         
         List<String> participantEnrollmentId = new List<String>();
         participantEnrollmentId.add(testData.pe.Id);
         
+        Participant__c  participant = new Participant__c(id=testData.participant.id);
+        participant.Contact__c = testdata.piContact.id;
+        update participant;
+            
         Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c();
         ctp = testData.ctp;
         ctp.Televisit_Vendor_is_Available__c = true;
@@ -157,7 +165,8 @@ Public Class TeleVisitRemoteTest{
         ta.Televisit__c = tv.id;
         ta.Contact__c = testData.piDelegateContact.Id;
         insert ta;  
-        
+
+		        
         Televisit_Attendee__c ta1 = new Televisit_Attendee__c();
         ta1.Firstname__c = 'test';
         ta1.Lastname__c = 'test';

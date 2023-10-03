@@ -1,11 +1,11 @@
 @isTest
 public with sharing class Batch_TelevisitCompletedStatus_Test {
     @testsetup
-    static void televisitData(){
+    static void televisitData() {
         List<Terms_And_Conditions__c> tcList = new List<Terms_And_Conditions__c>();
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(Active__c = true);
         tcList.add(portalTC);
-        
+
         Terms_And_Conditions__c studyTC = new Terms_And_Conditions__c();
         tcList.add(studyTC);
         insert tcList;
@@ -14,18 +14,18 @@ public with sharing class Batch_TelevisitCompletedStatus_Test {
             Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
         );
         accounts.add(participantsAccount);
-        
+
         Account piAccount = new Account(Name = 'PI Account', BillingCountry = 'United States');
         accounts.add(piAccount);
-        
+
         Account hcpAccount = new Account(Name = 'HCP Account');
         accounts.add(hcpAccount);
-        
+
         Account delegateAccount = new Account(
             Name = CommunityService.COMMUNITY_DELEGATE_ACCOUNT_NAME
         );
         accounts.add(delegateAccount);
-        
+
         Account studySiteAccount = new Account(
             Name = 'Study Site Account',
             BillingLatitude = 41.766594,
@@ -34,7 +34,7 @@ public with sharing class Batch_TelevisitCompletedStatus_Test {
         );
         accounts.add(studySiteAccount);
         insert accounts;
-        
+
         List<Contact> contacts = new List<Contact>();
         Contact piContact = new Contact(
             FirstName = 'PITD',
@@ -47,7 +47,7 @@ public with sharing class Batch_TelevisitCompletedStatus_Test {
             Participant_Opt_In_Status_Emails__c = true
         );
         contacts.add(piContact);
-        
+
         Contact piDelegateContact = new Contact(
             FirstName = 'PIDelTD',
             LastName = 'PIDelTD',
@@ -56,7 +56,7 @@ public with sharing class Batch_TelevisitCompletedStatus_Test {
             userCommunityMode__c = 'PI'
         );
         contacts.add(piDelegateContact);
-        
+
         contact hcpContact = new Contact(
             FirstName = 'HCPTD',
             LastName = 'HCPTD',
@@ -69,10 +69,10 @@ public with sharing class Batch_TelevisitCompletedStatus_Test {
         );
         contacts.add(hcpContact);
         insert contacts;
-        
+
         Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD');
         insert area;
-        
+
         Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
             Protocol_ID__c = 'CTP1',
             Override_Recruitment_Status__c = 'Actively Enrolling',
@@ -101,7 +101,7 @@ public with sharing class Batch_TelevisitCompletedStatus_Test {
             Enable_for_Call_Center_Support__c = true
         );
         insert study;
-        
+
         List<PicklistEntry> pleList = Translation__c.Language__c.getDescribe().getPicklistValues();
         String langCode;
         for (PicklistEntry ple : pleList) {
@@ -109,7 +109,7 @@ public with sharing class Batch_TelevisitCompletedStatus_Test {
             if (TranslateHelper.isLanguageSupported(ple.getValue()))
                 break;
         }
-        list<Study_Site__c> sslist = new list<Study_Site__c>();
+        list<Study_Site__c> sslist = new List<Study_Site__c>();
         Study_Site__c studySite = new Study_Site__c(
             Principal_Investigator__c = piContact.Id,
             Clinical_Trial_Profile__c = study.Id,
@@ -146,7 +146,7 @@ public with sharing class Batch_TelevisitCompletedStatus_Test {
             Enable_for_Call_Center_Support__c = true
         );
         //sslist.add(studySite2);
-        
+
         insert sslist;
         HCP_Enrollment__c hcpEnrollment = new HCP_Enrollment__c(
             Study_Site__c = studySite.Id,
@@ -156,7 +156,7 @@ public with sharing class Batch_TelevisitCompletedStatus_Test {
         insert hcpEnrollment;
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
         update hcpEnrollment;
-        
+
         Site_Staff__c siteStaff = new Site_Staff__c(
             Site_Contact__c = piDelegateContact.Id,
             Delegate_Level__c = DelegateService.DELEGATE_LEVEL_1,
@@ -175,7 +175,7 @@ public with sharing class Batch_TelevisitCompletedStatus_Test {
             Site__c = piAccount.Id
         );
         partList.add(participant);
-        
+
         insert (partList);
         Participant_Enrollment__c pe = new Participant_Enrollment__c(
             HCP__c = hcpEnrollment.Id,
@@ -189,7 +189,7 @@ public with sharing class Batch_TelevisitCompletedStatus_Test {
             Participant__c = participant.Id,
             Screening_ID__c = 'PESCR1',
             Invited_To_PP_Date__c = system.now(),
-            Participant_Status_Last_Changed_Date__c=system.now(),
+            Participant_Status_Last_Changed_Date__c = system.now(),
             Permit_Mail_Email_contact_for_this_study__c = true,
             Permit_Voice_Text_contact_for_this_study__c = true
         );
@@ -197,33 +197,76 @@ public with sharing class Batch_TelevisitCompletedStatus_Test {
         insert pe;
         Test.stopTest();
     }
-    
+
     @isTest
-    public static void test(){
-        Participant_Enrollment__c per = [Select id,PI_Contact__c,Study_Site__r.Clinical_Trial_Profile__c from Participant_Enrollment__c where Screening_ID__c = 'PESCR1'];
+    public static void test() {
+        Participant_Enrollment__c per = [
+            SELECT id, PI_Contact__c, Study_Site__r.Clinical_Trial_Profile__c
+            FROM Participant_Enrollment__c
+            WHERE Screening_ID__c = 'PESCR1'
+        ];
         Televisit__c tv = new Televisit__c();
         tv.Participant_Enrollment__c = per.Id;
         tv.Title__c = 'Test';
         tv.Duration__c = '30 minutes';
         tv.Visit_Date_Time__c = System.now();
         tv.Visit_End_Date_Time__c = System.now().addminutes(30);
-        TriggerHandlerExecutor.bypassHandler(
-            TelevisitTriggerHandler.TelevisitEventTrigger.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            TelevisitTriggerHandler.NotifyAttendees.class
-        );
+        TriggerHandlerExecutor.bypassHandler(TelevisitTriggerHandler.TelevisitEventTrigger.class);
+        TriggerHandlerExecutor.bypassHandler(TelevisitTriggerHandler.NotifyAttendees.class);
         insert tv;
         Test.startTest();
-        
-        Batch_TelevisitCompletedStatus obj = new Batch_TelevisitCompletedStatus(); 
+
+        Batch_TelevisitCompletedStatus obj = new Batch_TelevisitCompletedStatus();
         Database.QueryLocator QL;
         Database.BatchableContext BC;
         QL = obj.start(BC);
-        
-        obj.execute(BC, new list<Televisit__c>{tv});
+
+        obj.execute(BC, new List<Televisit__c>{ tv });
         obj.finish(BC);
-        DataBase.executeBatch(obj); 
+        DataBase.executeBatch(obj);
+        obj.getBatchDescription();
+        obj.getRecommendedIntervalMode();
+        obj.getRecommendedRelaunchInterval();
+        test.stoptest();
+    }
+
+    @isTest
+    public static void testNotificationUpdates() {
+        Participant_Enrollment__c per = [
+            SELECT
+                id,
+                Participant_Contact__c,
+                PI_Contact__c,
+                Study_Site__r.Clinical_Trial_Profile__c
+            FROM Participant_Enrollment__c
+            WHERE Screening_ID__c = 'PESCR1'
+        ];
+        Televisit__c tv = new Televisit__c();
+        tv.Participant_Enrollment__c = per.Id;
+        tv.Title__c = 'Test';
+        tv.Duration__c = '30 minutes';
+        tv.Visit_Date_Time__c = System.now().addMinutes(-50);
+        tv.Visit_End_Date_Time__c = System.now().addminutes(30);
+        TriggerHandlerExecutor.bypassHandler(TelevisitTriggerHandler.TelevisitEventTrigger.class);
+        TriggerHandlerExecutor.bypassHandler(TelevisitTriggerHandler.NotifyAttendees.class);
+        insert tv;
+        Notification__c n = new Notification__c();
+        n.Recipient__c = per.Participant_Contact__c;
+        n.WhatId__c = per.Id;
+        n.Target_Record_Ids__c = '' + tv.Id;
+        n.Status__c = 'Pending';
+        n.Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_TELEVISIT_SCHEDULED;
+        insert n;
+        Test.startTest();
+
+        Batch_TelevisitCompletedStatus obj = new Batch_TelevisitCompletedStatus();
+        Database.QueryLocator QL;
+        Database.BatchableContext BC;
+        QL = obj.start(BC);
+
+        obj.execute(BC, new List<Televisit__c>{ tv });
+        obj.finish(BC);
+        DataBase.executeBatch(obj);
         obj.getBatchDescription();
         obj.getRecommendedIntervalMode();
         obj.getRecommendedRelaunchInterval();

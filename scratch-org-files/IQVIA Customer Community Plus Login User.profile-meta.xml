@@ -2113,6 +2113,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ModifiedVisitResultsService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+     <classAccesses>
+        <apexClass>ModifiedVisitResultsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>VisitService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2120,6 +2128,18 @@
         <apexClass>VisitSummaryReportPageController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ModifiedVisitReportService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ModifiedVisitReportContainerRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses> 
+     <classAccesses>
+        <apexClass>PatientVisitReportPageController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses> 
     <classAccesses>
         <apexClass>VisitTriggerHandler</apexClass>
         <enabled>true</enabled>
@@ -8367,6 +8387,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>VisitSummaryReportPage</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>PatientVisitReportPage</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>

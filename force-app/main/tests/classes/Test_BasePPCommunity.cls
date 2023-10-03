@@ -139,6 +139,12 @@ private class Test_BasePPCommunity {
         List<Alert> alerts = new List<Alert>();
         Test.startTest();
         TestData testDataInstance = new TestData();
+        Alert__c  partAlerts=new Alert__c (
+        Alert_Code__c='Welcome_To_The_PH',
+        Viewed__c=false,
+        Contact__c=testDataInstance.participantUser.ContactId
+        );
+        insert partAlerts;
         System.runAs(testDataInstance.participantUser) {
             alerts = (List<Alert>) JSON.deserialize(
                 AlertsRemote.getAlerts(CommunityService.USER_MODE_PARTICIPANT),
@@ -172,9 +178,10 @@ private class Test_BasePPCommunity {
     @IsTest
     static void test_StudyDetailViewParticipant() {
         TrialDetail trialDetail;
-        Test.startTest();
+        
         TestData testDataInstance = new TestData();
         testDataInstance.updatePEStatusEnrollmentSuccess();
+        Test.startTest();
         System.runAs(testDataInstance.participantUser) {
             trialDetail = (TrialDetail) JSON.deserialize(
                 StudyDetailViewController.getTrialDetail(

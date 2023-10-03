@@ -119,7 +119,8 @@ public with sharing class Batch_TelevisitReminder_Test {
             Suppress_Participant_Emails__c = false,
             Study_Site_Number__c = 'SS1',
             Billable_Code_CRM_Number__c = 'Test_Billable_Code',
-            Enable_for_Call_Center_Support__c = true
+            Enable_for_Call_Center_Support__c = true,
+            First_Reminder__c = 0
         );
         sslist.add(studySite);
         Study_Site__c studySite1 = new Study_Site__c(
@@ -200,9 +201,15 @@ public with sharing class Batch_TelevisitReminder_Test {
     
     @isTest
     public static void test(){
-        Participant_Enrollment__c per = [Select id,PI_Contact__c,Study_Site__r.Clinical_Trial_Profile__c from Participant_Enrollment__c where Screening_ID__c = 'PESCR1'];
+        Participant_Enrollment__c per = [Select id,PI_Contact__c,Study_Site__r.Clinical_Trial_Profile__c,Participant__c from Participant_Enrollment__c where Screening_ID__c = 'PESCR1'];
+        
+        Participant__c participant = new Participant__c(id= per.Participant__c);
+        participant.Contact__c = per.PI_Contact__c;
+        update participant;
+        
         Televisit__c tv = new Televisit__c();
         tv.Participant_Enrollment__c = per.Id;
+        tv.Status__c = 'Scheduled';
         tv.Title__c = 'Test';
         tv.Duration__c = '30 minutes';
         tv.Visit_Date_Time__c = System.now();

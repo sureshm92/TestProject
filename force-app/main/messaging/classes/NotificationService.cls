@@ -38,13 +38,15 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE,
+        /*NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE,*/
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE_JANSSEN,
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
-        NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
+        NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP,
+        NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE_JANSSEN
     };
 
     static public List<String> instantNotificationTypes = new List<String>{
@@ -94,6 +96,7 @@ public without sharing class NotificationService {
     static public String NOTIFICATION_TARGET_TYPE_EMAIL = 'Email';
     static public String NOTIFICATION_TARGET_TYPE_SMS = 'SMS';
     static public String NOTIFICATION_TARGET_TYPE_PUSH = 'Push';
+    static public String NOTIFICATION_TARGET_TYPE_UPDATES = 'Updates';
 
     static public String NOTIFICATION_RECIPIENT_TYPE_PARTICIPANT = 'Participant';
     static public String NOTIFICATION_RECIPIENT_TYPE_HCP = 'HCP';
@@ -394,25 +397,39 @@ public without sharing class NotificationService {
             for (Notification_Target__mdt nt : notificationType.Notification_Targets__r) {
                 if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_EMAIL) {
                     if (n.Recipient__c != null) {
-                        Boolean isDeferedFlag = availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c);
+                        Boolean isDeferedFlag = availabilityService.isDeferNotification(
+                            n.Recipient__c,
+                            n.WhatId__c
+                        );
                         Boolean platformTask = false;
-                        if(n.Task_Id__c != null && n.Task_Id__c != '' && taskMap.containsKey(n.Task_Id__c)){
-                            Id wId = taskMap.get(n.Task_Id__c).WhatId != null ? Id.valueOf(taskMap.get(n.Task_Id__c).WhatId) : null;
-                            if(wId != null)
-                            platformTask = String.valueOf(wId.getSobjectType()) == 'Participant__c'  && !taskMap.get(n.Task_Id__c).CreatedByAdmin__c ? true : false ;
+                        if (
+                            n.Task_Id__c != null &&
+                            n.Task_Id__c != '' &&
+                            taskMap.containsKey(n.Task_Id__c)
+                        ) {
+                            Id wId = taskMap.get(n.Task_Id__c).WhatId != null
+                                ? Id.valueOf(taskMap.get(n.Task_Id__c).WhatId)
+                                : null;
+                            if (wId != null)
+                                platformTask = String.valueOf(wId.getSobjectType()) ==
+                                    'Participant__c' && !taskMap.get(n.Task_Id__c).CreatedByAdmin__c
+                                    ? true
+                                    : false;
                         }
                         if (
                             !notificationWithoutPermissions.contains(n.Notification_Type__c) &&
-                            isDeferedFlag && n.IsDelegate__c &&  platformTask &&
-                            (taskAndVisitReminderTypes.contains(n.Notification_Type__c))  &&
+                            isDeferedFlag &&
+                            n.IsDelegate__c &&
+                            platformTask &&
+                            (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) &&
                             (n.StartDate__c == null &&
                             !instantNotificationTypes.contains(n.Notification_Type__c))
-                        ){
+                        ) {
                             isDeferedFlag = false;
-                        }             
+                        }
                         if (
                             !notificationWithoutPermissions.contains(n.Notification_Type__c) &&
-                            isDeferedFlag && 
+                            isDeferedFlag &&
                             (n.StartDate__c == null &&
                             !instantNotificationTypes.contains(n.Notification_Type__c))
                         )
@@ -513,6 +530,9 @@ public without sharing class NotificationService {
                     } else {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
+                } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_UPDATES) {
+                    //Creating the send results for update notifications
+                    sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                 } else if (nt.Target_Type__c == NOTIFICATION_RECIPIENT_TYPE_EXTERNAL_EMAIL) {
                     //TODO
                 }

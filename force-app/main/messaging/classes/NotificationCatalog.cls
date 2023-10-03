@@ -37,6 +37,8 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_TASK_INSTANT_TYPE = 'Message_To_PT_Task_Instant_Type';
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Type';
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Del_Type';
+    public static final String MESSAGE_TO_PT_ACTIVATE_ECOA_TASK_INSTANT_TYPE = 'Message_to_PT_Activate_eDairies';
+
     /*Start Email Consent*/
     public static final String MESSAGE_TO_PT_PT_COMPLETE_BL_SURVEY_TYPE = 'Message_to_PT_Complete_BL_Survey_Type';
 
@@ -63,7 +65,9 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_NEW_MESSAGE_TYPE = 'Message_To_PT_New_Message_Type';
     public static final String MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE = 'Message_to_PT_Del_New_Assignment';
     public static final String MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_GSK_TYPE = 'Message_to_PT_Del_New_Assignment_GSK';
+    public static final String MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE_JANSSEN = 'Message_to_PT_Del_New_Assignment_Janssen';
     public static final String MESSAGE_TO_PT_DEL_REACTIVATED_TYPE = 'Message_to_PT_Del_Reactivated';
+    public static final String MESSAGE_TO_PT_DEL_REACTIVATED_TYPE_JANSSEN = 'Message_to_PT_Del_Reactivated_Janssen';
     public static final String MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE = 'Message_to_PT_Del_Reactivated_GSK';
     public static final String MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE = 'Message_to_PT_Del_New_Study_Type';
 
@@ -144,4 +148,20 @@ public without sharing class NotificationCatalog {
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE
     };
+        
+     //Updates
+    public static final String UPDATE_TO_PT_NEW_ARTICLE_TYPE = 'Update_to_PT_New_Article_Type';
+    public static final String UPDATE_TO_PT_NEW_LINK_TYPE = 'Update_to_PT_New_Link_Type';
+    public static final String UPDATE_TO_PT_NEW_MULTIMEDIA_TYPE = 'Update_to_PT_New_Multimedia_Type';
+    public static final String UPDATE_TO_PT_NEW_DOC_TYPE = 'Update_to_PT_New_Document_Type';
+    public static final String UPDATE_TO_PT_NEW_VIDEO_TYPE = 'Update_to_PT_New_Video_Type';
+    public static final String UPDATE_TO_PT_NEW_PLATFROM_ARTICLE_TYPE = 'Update_to_PT_New_Platform_Article_Type';
+    public static final String UPDATE_TO_PT_NEW_PLATFROM_DOCUMENT_TYPE = 'Update_to_PT_New_Platform_Document_Type';
+    public static final String UPDATE_TO_PT_NEW_PLATFORM_LINK_TYPE = 'Update_to_PT_New_Platform_Link_Type';
+    public static final String UPDATE_TO_PT_NEW_PLATFROMMULTIMEDIA_TYPE = 'Update_to_PT_New_PlatformMultimedia_Type';
+    public static final String UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE = 'Update_to_PT_New_Platform_Video_Type';
+    public static final String UPDATE_TO_PT_NEW_VISIT_RESULT_TYPE = 'Update_to_PT_New_Visit_Result';
+    public static final String UPDATE_TO_PT_TELEVISIT_SCHEDULED = 'Update_to_PT_Televisit_Scheduled';
+    public static final String UPDATE_TO_PT_TELEVISIT_RESCHEDULED = 'Update_to_PT_Televisit_Rescheduled';
+    public static final String UPDATE_TO_PT_TELEVISIT_CANCELED = 'Update_to_PT_Televisit_Canceled';
 }

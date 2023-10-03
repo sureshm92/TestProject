@@ -332,7 +332,6 @@ public without sharing class PatientDelegateService {
             }
         }
 
-        createPDAlerts(newDelegate);
 
         List<Participant__c> participant = DatabaseService.getInstance()
             .queryImpl(
@@ -416,59 +415,7 @@ public without sharing class PatientDelegateService {
         }
     }
 
-    public void createPDAlerts(Contact contactDelegate) {
-        ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
-            .getState();
-        if (participantState.pe == null)
-            return;
-        List<Alert__c> alertList = new List<Alert__c>();
-        if (
-            participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-            CommunityTemplateService.TEMPLATE_PP
-        ) {
-            alertList.add(
-                new Alert__c(
-                    Contact__c = contactDelegate.Id,
-                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_DELEGATE_PP,
-                    Record_ID__c = participantState.pe.Id
-                )
-            );
-        } else {
-            alertList.add(
-                new Alert__c(
-                    Contact__c = contactDelegate.Id,
-                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_DELEGATE,
-                    Record_ID__c = participantState.pe.Id
-                )
-            );
-        }
-
-        if (participantState.value == ParticipantService.ParticipantStates.PARTICIPANT) {
-            if (
-                participantState.pe.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                CommunityTemplateService.TEMPLATE_PP
-            ) {
-                alertList.add(
-                    new Alert__c(
-                        Contact__c = contactDelegate.Id,
-                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE_PP,
-                        Record_ID__c = participantState.pe.Id
-                    )
-                );
-            } else {
-                /*alertList.add(
-                    new Alert__c(
-                        Contact__c = contactDelegate.Id,
-                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
-                        Record_ID__c = participantState.pe.Id
-                    )
-                );*/
-            }
-        }
-
-        insert alertList;
-    }
-
+    
     public static void changeStatus(Id contactId, String newStatus) {
         List<Patient_Delegate__c> patientDelegate = [
             SELECT Id, Status__c
@@ -909,12 +856,13 @@ public without sharing class PatientDelegateService {
                 Id,
                 Participant__c,
                 Participant_Contact__c,
-                Clinical_Trial_Profile__r.CommunityTemplate__c
+                Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Clinical_Trial_Profile__r.PPTemplate__c
             FROM Participant_Enrollment__c
             WHERE
                 (Participant__c IN :allDelegatedParticipantIds
                 OR Participant_Contact__c IN :contactIds)
-                AND Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN :CommunityModeService.rhSponsorsByCommunity.keySet()
+                //AND Clinical_Trial_Profile__r.CommunityTemplate__c NOT IN :CommunityModeService.rhSponsorsByCommunity.keySet()
                 AND Study_Site__r.Study_Site_Type__c != 'Virtual'
                 AND Study_Site__r.Study_Site_Type__c != 'Hybrid'
                 AND Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
@@ -929,12 +877,24 @@ public without sharing class PatientDelegateService {
             Set<String> permissions = participantPermissions.get(pe.Participant__c);
             if (permissions == null)
                 permissions = new Set<String>();
-            permissions.add(
-                CommunityTemplateService.getTemplate(
-                        pe.Clinical_Trial_Profile__r.CommunityTemplate__c
-                    )
-                    .permissionSet
-            );
+                if( pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+                {
+                    permissions.add(
+                        CommunityTemplateService.getTemplate(
+                                'PatientPortal'
+                            )
+                            .permissionSet
+                    );
+
+                }
+                else {
+                    permissions.add(
+                        CommunityTemplateService.getTemplate(
+                                pe.Clinical_Trial_Profile__r.CommunityTemplate__c
+                            )
+                            .permissionSet
+                    );
+                }
             participantPermissions.put(pe.Participant__c, permissions);
         }
 
@@ -1078,7 +1038,8 @@ public without sharing class PatientDelegateService {
                    Participant__c,
                    Permit_SMS_Text_for_this_study__c,
                    Welcome_Message_Sent__c,
-                   Welcome_Message_Delivered__c
+                   Welcome_Message_Delivered__c,
+                   Study_Site__r.Participant_DOB_format__c
             FROM Participant_Enrollment__c
             WHERE Participant__c IN: ParticipantIdSet 
         ];

@@ -1,5 +1,4 @@
-<apex:page
-    controller="OpenTokClientController"
+<apex:page controller="OpenTokClientController"
     showHeader="false"
     sidebar="false"
     standardStylesheets="false"
@@ -8,6 +7,188 @@
     applyHtmlTag="False"
     docType="html-5.0"
 >
+    <style>
+        span#audio-toggle-background::after {
+            background-color:white;
+            margin-top: 2px;
+            margin-left: 2px;
+            height:16px;
+            width:16px;
+        }
+        span#audio-toggle-background::before {
+            background-color:white;
+            margin-top: 2px;
+            margin-right: 2px;
+            height:16px;
+            width:16px;
+        }
+        span#audio-toggle-background{
+            height:24px;
+            width:48px;  
+        }
+        span#video-toggle-background::after {
+            background-color:white;
+            margin-top: 2px;
+            margin-left: 2px;
+            height:16px;
+            width:16px;
+        }
+        span#video-toggle-background::before {
+            background-color:white;
+            margin-top: 2px;
+            margin-right: 2px;
+            height:16px;
+            width:16px;
+        }
+        span#video-toggle-background{
+            height:24px;
+            width:48px;  
+        }
+        .all-button-disabled{
+            opacity: 0.5;
+        }
+        .backdrop{
+            visibility: visible;
+            opacity: 1;
+            transition: opacity .4s linear;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0,0,0,0.56) !important;
+        }
+        .titleT {
+            color: #000000;
+            font-family: "Proxima Nova";
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 0;
+            line-height: 20px;
+        }
+        .subTextT{
+                height: 14px;
+                width: 373px;
+                color: #444444;
+                font-family: "Proxima Nova";
+                font-size: 14px;
+                letter-spacing: 0;
+                line-height: 14px;
+                text-align: center;
+                padding-top: 10px;
+                padding-bottom: 12px;
+        }
+        .join-button {
+            font-size: 16px !important;
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32) !important;
+        }
+        .back-button {
+            font-size: 16px !important;
+        }
+        @media all and (max-width: 430px) {
+            .subTextT{
+                margin-bottom: 24px;
+                line-height: 21px;
+                padding-bottom: 16px;
+            }
+            .preview-tv{
+                height: 680px !important;
+            }
+        }
+        .slds-scope .slds-modal__container {
+			margin: 0 24px;
+        }
+       	@media (orientation: portrait) {
+            .previewContainerFull{
+                height: calc(100vh - 62px) !important;
+            } 
+        }
+        @media all and (max-width: 900px) {
+            .preview-tv-error .height-full {
+                height: 580px !important;
+            }
+        }
+        @media all and (max-width: 492px) {
+            .previewContainer{
+        		/* padding-top: 24px; */
+            }
+            .preview-tv-error{
+                height: 740px !important;
+            }
+            .preview-tv-error .height-full {
+                height: 650px !important;
+            }
+        }
+        @media all and (max-width: 430px) {
+            .previewContainer{
+        		/* padding-top: 32px; */
+             }
+            .preview-tv-error{
+                height: 760px !important;
+            }
+        }
+        
+        @media all and (max-width: 388px) {
+            .previewContainer{
+               padding-top: 90px;
+          }
+            .preview-tv-error{
+                height: 785px !important;
+            }
+        }
+        @media screen and (max-width: 768px) and (orientation: landscape){
+            .speaker-feed .OT_edge-bar-item.OT_mode-off {
+                min-height: 21px;
+            }
+        }
+        .speaker-feed .OT_edge-bar-item.OT_mode-off{
+            top:unset !important;
+        }
+        .people-container-heading{
+            color: #444444;
+            font-weight: 600;
+            line-height: 32px !important;
+        }
+        .people-container-heading img{
+            margin-right: 16px;
+            margin-left: 8px;
+        }
+        .top-margin-rejoin{
+            align-items: center;
+        }
+        @media screen and (max-width: 1024px){
+            .top-margin-rejoin{
+                align-items: unset;
+                margin-top: 156px;
+            }
+            .top-margin-rejoin.rejoin-container {
+                height: 75vh !important;
+            }
+            .televisit-end {
+                line-height: 24px !important;
+            }
+	     }
+        .firstAttendeeText{
+        	width: 262px;
+            color: #999999;
+            font-size: 24px !important;
+            font-weight: 600;
+            line-height: 37px;
+        }        
+        .non-attendee-screen .televisit-end{
+        	padding: 0px 24px;
+        }
+        .non-attendee-screen .rejoin-container{
+        	height: 96vh;
+        }
+        @media screen and (max-width: 401px){
+            .non-attendee-screen .televisit-rejoin{
+            	width: unset !important;
+            }
+        }
+    </style>
     <apex:stylesheet value="{!$Resource.proximanova}/proximanova.css" />
     <apex:stylesheet value="{!$Resource.Community_CSS_Core}" />
     <apex:includeScript value="{!$Resource.svg4everybody}" />
@@ -18,42 +199,36 @@
     <apex:includeScript value="{!$Resource.jsonTV1}" />
     <apex:includeScript value="{!$Resource.jqueryCometdTV1}" />
     <link id="themeCSS" href="{!$Resource.Community_CSS_Stub}" rel="stylesheet" type="text/css" />
-    <apex:form>
+    <apex:form >
         <apex:actionPoller action="{!maintainSession}" interval="180" />
-        <apex:actionFunction
-            name="rerenderControllerValues"
+        <apex:actionFunction name="rerenderControllerValues"
             action="{!rerenderControllerValues}"
             rerender="controller-values"
         />
-        <apex:actionFunction
-            name="updateSharingUserName"
+        <apex:actionFunction name="updateSharingUserName"
             action="{!updateSharingUserName}"
             rerender="screen-sharing-username-text"
         />
-        <apex:actionFunction
-            name="updateAttendees"
+        <apex:actionFunction name="updateAttendees"
             action="{!updateAttendees}"
             rerender="participant-list,attendee-list"
         >
             <apex:param name="attendeesJson" assignTo="{!attendeesJson}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction
-            name="validateAttendeeEmail"
+        <apex:actionFunction name="validateAttendeeEmail"
             action="{!validateAttendeeEmail}"
             rerender="controller-values"
             oncomplete="completeValidateAttendeeEmail();"
         >
             <apex:param name="attendeeEmailAddress" assignTo="{!attendeeEmailAddress}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction
-            name="extendedMeetingInterval"
+        <apex:actionFunction name="extendedMeetingInterval"
             action="{!extendedMeetingInterval}"
             rerender="jspanel,televisitBanner,controller-values"
         >
             <apex:param name="meetingInterval" assignTo="{!meetingInterval}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction
-            name="fetchUpdatedTelevisitDetails"
+        <apex:actionFunction name="fetchUpdatedTelevisitDetails"
             action="{!fetchUpdatedTelevisitDetails}"
             rerender="jspanel,televisitBanner,controller-values"
         />
@@ -78,7 +253,7 @@
                     if(existingOption!=null && existingOption.text != 'Extend Call')
                     select.appendChild(option);
                     else
-                    	existingOption.selected = 'true';
+                        existingOption.selected = 'true';
                 }
 
                 var bc = new BroadcastChannel('{!sessionId}');
@@ -447,6 +622,8 @@
                 disconnectFromSession();
                 window.close();
             }
+            
+            
 
             function toggleDeviceSettingsVisible() {
                 let settingsContainerId = sessionJoined ? '#in-call-device-settings-container' : '#device-settings-container'
@@ -746,15 +923,33 @@
                 toggle('.last-active-feed', 'slds-hide');
                 toggle('.self-feed-container', 'slds-hide');
                 toggle('.video-container', 'slds-medium-size_3-of-4');
-                toggle('.controls', 'slds-size_3-of-4');
+                toggle('.controls', 'slds-size_4-of-4');
+                toggle('.callbuttons', 'shareWidth');
+                
+                
 
                 toggle('.ctrls-feeds-action-bar', 'speaker-view');
                 toggle('.ctrls-feeds-action-bar', 'share-view');
 
                 if (isSubscribedScreenShare) {
                     addClass('.button--sharing', 'slds-hide');
+                    
+                    var myDiv = document.getElementsByClassName("OT_name");
+                    for (var i = 0; i < myDiv.length; i++) {
+                       myDiv[i].setAttribute("style", "visibility: hidden;");
+                    }
+                    
+                    
+                    
                 } else {
                     removeClass('.button--sharing', 'slds-hide');
+                    
+                    var myDiv = document.getElementsByClassName("OT_name");
+                    for (var i = 0; i < myDiv.length; i++) {
+                       myDiv[i].setAttribute("style", "visibility: none;");
+                    }
+                    
+                    
                 }
 
                 if (stream) {
@@ -965,7 +1160,9 @@
                 let headerHeight = document.getElementsByClassName('page-header')[0].clientHeight;
 
                 let activeSpeakerTileHeight = (window.innerHeight) - inCallHeaderHeight - actionBarHeight - headerHeight - 76;
-
+                if(window.innerHeight<=480 && window.innerWidth<=766){
+                    activeSpeakerTileHeight = 225;
+                }
                 document.getElementsByClassName('speaker-feed')[0].style.height = activeSpeakerTileHeight + 'px';
                 document.getElementsByClassName('screen-sharing-feed')[0].style.height = activeSpeakerTileHeight + 'px';
             }
@@ -1188,11 +1385,16 @@
                 var mm = String(today.getMonth() + 1).padStart(2, '0'); 
                 var yyyy = today.getFullYear();
                 today = yyyy +'-'+ mm +'-'+ dd;
-                    
+                  
+                
+                var statusCanceled = '{!statusCanceled}';
+                   
                 if(visitDate < today){
                    toggle('#tv-end-screen-container', 'slds-hide');
                 }else if(currTime > jsAutoDisconnectMeetingTime){
                    toggle('#tv-end-screen-container', 'slds-hide');
+                }else if(statusCanceled == 'true'){
+                    toggle('#tv-end-screen-container', 'slds-hide');
                 }else{
                     toggle('#call-preview-screen-container', 'slds-hide');
                     OT.getUserMedia().then(() => {
@@ -1201,6 +1403,7 @@
                         document.getElementById("microphone-toggle").disabled = false;
                         document.getElementById("camera-toggle").disabled = false;
                         document.getElementById("tv-join-button").disabled = false;
+                    	document.getElementById("preview-buttons").classList.remove("all-button-disabled");
                         document.getElementById("tv-join-button").classList.remove("join-button-disabled");
                         previewPublisher.on('streamCreated', function(event) {
 
@@ -1208,10 +1411,14 @@
                     }).catch((error) => {
                         if(error.name == 'OT_USER_MEDIA_ACCESS_DENIED'){
                             let previewScreen = document.getElementById("preview-screen");
+                        	let previewCont = document.getElementById("previewContainer");
                             if(previewScreen!= null && previewScreen.classList.contains('preview-tv')){
                                 previewScreen.classList.remove('preview-tv');
                                 previewScreen.classList.add('preview-tv-error');
                             }
+                            if(previewCont){
+                        		previewCont.classList.add('previewContainer');
+                    		}
                             toggle('#permission-error', 'slds-hide');
                         }
                     });
@@ -1328,6 +1535,37 @@
                 }
             }
         </script>
+        <script>
+           window.onload = function checkInternetDisconnect() {
+              
+              window.addEventListener('online', () => onlineCall());
+              window.addEventListener('offline', () => offlineCall());
+              var isOffline = false;
+              var myTimeout;
+              function offlineCall(){
+                 myTimeout  = setTimeout(checkTimer, 10000);
+              }
+              
+              function checkTimer() {
+                  isOffline = true;
+              }
+              
+              
+              function onlineCall(){
+                  if(isOffline){
+                      isOffline = false;
+                      disconnectFromSession();
+                      toggle('#main', 'slds-hide');
+                      toggle('#call-end-screen-container', 'slds-hide');
+                      //removeParticipant(publisher);
+                      
+                  }else{
+                      clearTimeout(myTimeout);
+                  }
+              }
+            }
+            
+        </script>
 
         <apex:outputPanel layout="none" rendered="{!isSessionJoinable == true}">
             <script type="text/javascript">
@@ -1400,7 +1638,7 @@
             }
 
             .rejoin-container {
-                height: 800px;
+                height: 650px;
                 background: #f5f6fa;
             }
 
@@ -1412,7 +1650,7 @@
 
             .preview-tv {
                 justify-content: center;
-                height: 650px;
+                height: 660px;
             }
 
             .preview-tv-error {
@@ -1426,10 +1664,11 @@
 
             .televisit-end {
                 color: #999999;
-                font-size: 24px;
+                font-size: 16px;
                 font-weight: 600;
                 letter-spacing: 0;
-                line-height: 37px;
+                line-height: 30px;
+                
             }
 
             .extendCallListUpdatedClass {
@@ -1460,18 +1699,19 @@
                 padding: 8px 12px;
                 background-color: #0768fd;
                 border: none;
-                border-radius: 4px;
-                font-size: 16px !important;
-                font-weight: 500 !important;
+                border-radius: 30px;
+                font-size: 14px !important;
+                font-weight: 600 !important;
                 margin-left: 10px !important;
+                
             }
 
             .close-tv-button {
                 background: transparent;
                 border: none;
-                font-size: 16px !important;
+                font-size: 14px !important;
                 color: #0768fd !important;
-                font-weight: 500 !important;
+                font-weight: 600 !important;
                 letter-spacing: 0;
                 line-height: 24px !important;
                 text-align: center;
@@ -1484,10 +1724,10 @@
 
             .permission-error-message {
                 color: #e20000;
-                font-size: 16px;
+                font-size: 14px;
                 letter-spacing: 0;
-                line-height: 24px;
-                text-align: center;
+                line-height: 21px;
+                /*text-align: center;*/
             }
 
             @media screen and (min-width: 48em) {
@@ -1521,9 +1761,16 @@
             .headerbg-pp {
                 background: linear-gradient(to right, #230559 0%, #036ca7 100%);
             }
+            
+            .headerbg-pp2 {
+                background: linear-gradient(to top, #005587 0%, #008299 100%);
+                border-radius:0 0 20px 0;
+                
+            }
+            
 
             .top-margin-container {
-                margin-top: 2.5em;
+                margin: 2.5em;
             }
 
             @media screen and (min-width: 48em) {
@@ -1564,7 +1811,7 @@
                 }
 
                 .heading-container .slds-col:first-child {
-                    max-width: 250px;
+                    max-width: 1000px;
                 }
 
                 .speaker-container .speaker-feed,
@@ -1586,7 +1833,7 @@
 
             .firstAttendeeMsg {
                 max-width: 960px;
-                width: 25%;
+                //width: 25%;
                 background-color: #f6f7fb;
                 vertical-align: middle;
                 position: absolute;
@@ -1594,7 +1841,10 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
             }
-
+			.callButtonsContainer{
+            	max-width: 960px;
+            	width: 100%;
+            }
             .video-container {
                 background: #f6f7fb;
             }
@@ -1615,6 +1865,7 @@
 
             .participants h2 {
                 font-weight: bold;
+                font-size: 16px;
             }
 
             .OT_widget-container {
@@ -1634,12 +1885,14 @@
                 background-color: #df216d;
                 border-color: #df216d;
                 color: white;
+               
             }
 
             .slds-button-circle.button_white {
                 background-color: white;
                 border-color: #b5b5b5;
                 color: #0768fd;
+                margin-right:12px;
             }
 
             .slds-button-circle.button_white svg {
@@ -1650,6 +1903,7 @@
                 background-color: #0768fd;
                 border-color: #0768fd;
                 color: white;
+                margin-right:12px;
             }
 
             .slds-button-circle.button_blue svg {
@@ -1685,7 +1939,7 @@
                 }
             }
 
-            @media screen and (min-width: 576px) {
+            @media screen and (min-width: 767px) {
                 .people-icon-wrapper {
                     display: none;
                 }
@@ -1693,12 +1947,27 @@
                     display: none;
                 }
             }
-
-            @media screen and (max-width: 576px) {
-                .people-icon-wrapper {
+			@media (max-width: 767px){
+            	.people-icon-wrapper {
                     display: inline-block;
                     padding: 10px;
+                    margin-right: -10px;
+                    padding-left: 17px;
+                    padding-top: 8px;
+                }                
+                .people-button {
+                    height: 24px;
+                    width: 24px;
                 }
+            	.share-container {
+                	width: 100% !important;
+                }
+            	.callButtonsContainer{
+            		width: 100% !important;
+            	}
+            }
+
+            @media screen and (max-width: 576px) {
                 .televisitBanner {
                     margin-top: 55px;
                     padding: 0px;
@@ -1874,11 +2143,11 @@
                 width: 100%;
                 height: 0.5em;
                 border-radius: 0.25em 0.25em 0 0;
-                background: rgb(0, 118, 174);
+                background: #005587;
                 background: linear-gradient(
-                    270deg,
-                    rgba(0, 118, 174, 1) 0%,
-                    rgba(37, 0, 86, 1) 100%
+                    90deg,
+                    #005587 0%,
+                    #008D9E 100%
                 );
             }
 
@@ -1910,6 +2179,7 @@
                 z-index: 90002 !important;
                 min-width: 25em !important;
                 padding: 1em !important;
+                padding-right: 3em !important;
             }
 
             .slds-popover__header {
@@ -1961,6 +2231,8 @@
 
             .in-meeting-device-settings .option-buttons {
                 display: block;
+                text-align: right;
+                margin-right: -20px;
             }
 
             .settings-icon-wrapper {
@@ -1978,7 +2250,12 @@
 
             .participant-item {
                 border-bottom: 1px solid #f6f7fb;
-                padding: 1em;
+                color: #444444;
+                font-size: 16px;
+                font-weight: 500;
+                letter-spacing: 0;
+                line-height: 27px;
+                padding: 11px 0px 11px 18px;
             }
 
             .participant-list {
@@ -2009,8 +2286,11 @@
                 color: #f6f7fb;
                 background: black;
                 padding: 0 0.5em 0 0.5em;
-                top: -19px;
-                border-radius: 0.125em;
+                top: -31px;
+                border-radius: 3px;
+                border: 1px solid #ccc;
+                margin-left: 10px;
+            	font-size: 12px;
             }
 
             .OT_video-poster {
@@ -2018,28 +2298,78 @@
                 background-color: #595959;
                 opacity: 1;
             }
+            
+            .OT_name.OT_mode-off {
+                display: block !important;
+                opacity: 100 !important;
+                
+                
+                /*
+                top: 0 !important;
+                margin-top:45%;
+                margin-left:10px;*/
+                
+            }
+            
+            .self-feed-container .OT_name.OT_mode-off {
+                top: 75% !important;
+                bottom: 0;
+                margin-left: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .speaker-feed .OT_name.OT_mode-off {
+                top: 92.5%;
+                bottom: 0;
+                margin-left: 10px;
+                margin-bottom: 10px;
+            
+            }
+            
+            .last-active-feed .OT_name.OT_mode-off {
+                top: 75% !important;
+                bottom: 0;
+                margin-left: 10px;
+                margin-bottom: 10px;
+            }
+            .camera-screen .OT_name.OT_mode-off {
+                visibility:hidden;
+            }
 
             @media screen and (min-width: 48em) {
                 .video-container {
                     background-color: #f6f7fb;
                 }
+                .communityTitle{
+                    width: 142px;
+                    margin-left: 21px;
+                    height: 36px !important;
+                    display: flex;
+                }
+                 
             }
 
             @media screen and (max-width: 768px) {
                 .mob-timer {
-                    position: absolute;
-                    bottom: 6rem;
-                    left: 18.7rem;
-                    z-index: 999;
+                    height: 20px;
+                    width: 48px;
+                    margin-top: 9px;
+                    padding: 1px;
                 }
                 .setting-icon-show {
                     display: block;
                 }
                 .settings-icon-wrapper {
-                    display: inline-block;
-                    padding: 0 0.5em;
-                    position: relative;
-                    top: 6px;
+                    margin-top: 11px;
+                    padding: unset;
+                    height: 24px;
+                    width: 24px;
+                    margin-left: 17px;
+                }
+                .settings-button {
+                    width: 24px;
+                    height: 24px;
+                    padding: 2px !important;
                 }
                 .slds-button-circle {
                     width: 50px;
@@ -2050,15 +2380,57 @@
                     margin-left: 0.5em;
                 }
                 .height-full {
-                    height: 550px !important;
+                    height: 600px !important;
                 }
+                .communityTitle {
+                     width: 142px;
+                     height: 36px !important;
+                }
+                .televisitleftcss{
+                    margin-left:50px;
+                }
+                .heading-container{
+                    padding-top:12px !important;
+                }
+                .slds-has-flexi-truncate{
+                    background: #f6f7fb;
+                    padding: 0px !important;
+                }
+                .speaker-feed .OT_name.OT_mode-off {
+                    top: 94.5%;
+                    bottom: 0;
+                    margin-left: 10px;
+                    margin-bottom: 10px;
+                
+                }
+                
+                .in-meeting-device-settings{
+                    right: -22px !important; 
+                }
+                .icon-settings{
+                    margin-top: 0px !important;
+                    height: 20px;
+                    width: 20px;
+                    padding: 0px;
+                }
+                .icon-settings svg{ 
+                    width: 20px;
+                    height: 20px;
+                }
+                .video-container{
+                    padding:8px 0px !important;
+                }
+                .top-margin-container{
+                    margin:1.5em;
+                }
+                
+                
             }
 
-            .OT_name.OT_mode-off {
-                display: block !important;
-                opacity: 100 !important;
-                top: 0 !important;
+            .icon-settings{
+                margin-top:4px;
             }
+          
              .OT_publisher .OT_name, .OT_name.OT_edge-bar-item.OT_mode-off {
                 background-color: white;
                 color: #000;
@@ -2074,13 +2446,16 @@
                 left: 0;
                 right: auto;
                 height: auto;
-                max-width: 90%;
+                max-width: 80%;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
             
             .share-container {
+                width: 76%;
+            }
+            .shareWidth {
                 width: 76%;
             }
             
@@ -2161,13 +2536,19 @@
             .join-button {
                 background-color: #0768fd !important;
                 border-color: #0768fd !important;
-                border-radius: 14px !important;
+                border-radius: 24px !important;
                 height: 42px;
                 width: 100%;
                 box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+            	font-weight: 600 !important;
             }
             .join-button-disabled {
                 opacity: 0.4;
+            }
+            .close-window-button{
+                background-color: #0768fd !important;
+                font-weight: 600 !important;
+                border-radius: 30px !important;
             }
             .back-button {
                 height: 40px;
@@ -2182,7 +2563,15 @@
                 background-color: #00c221 !important;
                 border-color: #00c221 !important;
             }
+            
+            @media all and (orientation: landscape) and (max-width: 1024px) {
+                .button--sharing{
+                    display:none;
+                }
+            }
+            
         </style>
+        
     </head>
 
     <body
@@ -2192,7 +2581,7 @@
     >
         <!--OMSF-5206-->
         <header id="header" class="page-header {!headerbg}">
-            <apex:outputPanel rendered="{!(commTemplate=='Default')}">
+            <apex:outputPanel rendered="{!(commTemplate=='Default') || (commTemplate == 'Janssen' && commPPTemplate == 'PP 1.0')}">
                 <h1 class="slds-text-heading_small">
                     <b style="font-family: Helvetica;
                 ">{!appNamestr}</b>
@@ -2204,15 +2593,21 @@
             <apex:outputPanel rendered="{!(attendeeType=='RH')}">
             <h1 class="slds-text-heading_small">{!appNamestr}</h1>
             </apex:outputPanel>
+            <apex:outputPanel rendered="{!(commTemplate=='PatientPortal') || (commTemplate == 'Janssen' && commPPTemplate == 'PP 2.0')}">
+                <!--<h1 class="slds-text-heading_small">{!appNamestr}</h1>-->
+                <img src="{!$Resource.PP_DesktopLogos + '/Patient_Portal_Logo.svg'}" class="communityTitle" />
+            </apex:outputPanel>
+            
         </header>
 
         <!--Call Preview Screen -->
-        <apex:outputPanel rendered="{!isSessionJoinable == true}">
+        <apex:outputPanel rendered="{!isSessionJoinable == true}" >
             <div class="call-preview-screen slds-hide" id="call-preview-screen-container">
                 <div id="welcome-container">
                     <apex:outputPanel rendered="{!isSessionJoinable == true}">
                         <div
-                            class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container"
+                            class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container previewContainerFull"
+                        	id="previewContainer" 
                         >
                             <div class="slds-col">
                                 <div class="slds-grid">
@@ -2221,15 +2616,34 @@
                                             id="preview-screen"
                                             class="slds-text-align_center preview-tv"
                                         >
+                                            <div class="backdrop" role="presentation"></div>
                                             <div class="slds-modal__container visit-preview">
                                                 <div class="gradient"></div>
                                                 <div
                                                     class="slds-modal__content slds-p-around_medium height-full"
                                                 >
                                                     <div
-                                                        class="slds-col slds-text-heading--small slds-text-bold slds-text-align_left"
+                                                        class="slds-col titleT slds-text-align_left"
                                                     >
                                                         {!$Label.Visit_Preview}
+                                                        
+                                                        <div
+                                                            id="permission-error"
+                                                            class="permission-error-message slds-p-top_small slds-hide"
+                                                        >
+                                                            <div
+                                                                class="slds-col slds-size_1-of-6"
+                                                            ></div>
+                                                            <div
+                                                                class="slds-col slds-size_6-of-6"
+                                                            >
+                                                                {!$Label.You_must_grant_microphone_permission_to_join_televisit}
+                                                            </div>
+                                                            <div
+                                                                class="slds-col slds-size_1-of-6"
+                                                            ></div>
+                                                        </div>
+                                                        
                                                     </div>
                                                     <div
                                                         class="slds-size_1-of-1 slds-m-top_small preview-container"
@@ -2271,7 +2685,7 @@
                                                         </div>
                                                         <div
                                                             id="preview-buttons"
-                                                            class="preview-buttons"
+                                                            class="preview-buttons all-button-disabled"
                                                         >
                                                             <div
                                                                 class="slds-grid preview-buttons-container"
@@ -2400,7 +2814,7 @@
                                                                 class="slds-col slds-size_1-of-6"
                                                             ></div>
                                                             <div
-                                                                class="slds-col slds-size_4-of-6 slds-align_absolute-center slds-text-body_small slds-text-align_center"
+                                                                class="slds-col slds-size_6-of-6 subTextT"
                                                             >
                                                                 {!$Label.You_can_also_adjust_these_options_during_the_visit}
                                                             </div>
@@ -2416,7 +2830,7 @@
                                                                 class="slds-col slds-size_1-of-6"
                                                             ></div>
                                                             <div
-                                                                class="slds-col slds-size_4-of-6 slds-align_absolute-center"
+                                                                class="slds-col slds-size_6-of-6 slds-align_absolute-center"
                                                             >
                                                                 <button
                                                                     id="tv-join-button"
@@ -2431,6 +2845,7 @@
                                                                 class="slds-col slds-size_1-of-6"
                                                             ></div>
                                                         </div>
+                                                        <!--
                                                         <div
                                                             id="permission-error"
                                                             class="slds-align_absolute-center permission-error-message slds-p-top_small slds-hide"
@@ -2447,6 +2862,7 @@
                                                                 class="slds-col slds-size_1-of-6"
                                                             ></div>
                                                         </div>
+                                                        -->
                                                         <div
                                                             id="back-button"
                                                             class="slds-p-top_small slds-p-bottom_small"
@@ -2462,7 +2878,7 @@
                                                                     class="slds-button slds-col slds-align_absolute-center back-button"
                                                                     onclick="confirmCancel();"
                                                                 >
-                                                                    {!$Label.Back}
+                                                                    {!$Label.BTN_Close}
                                                                 </button>
                                                             </div>
                                                             <div
@@ -2480,8 +2896,9 @@
                     </apex:outputPanel>
                 </div>
             </div>
+            <!--class="slds-container_large slds-container_center top-margin-container slds-hide"-->
             <div
-                class="slds-container_large slds-container_center top-margin-container slds-hide"
+                class="top-margin-container slds-hide"
                 id="main"
             >
                 <div id="call-container" class="slds-grid slds-wrap">
@@ -2585,7 +3002,7 @@
                                         <div class="slds-popover slds-nubbin--top-right">
                                             <div class="slds-popover__header">
                                                 <span
-                                                    class="slds-text-heading--x-small slds-text-bold"
+                                                    class="slds-text-heading--x-small slds-text-bold" style="font-size:16px;font-weight:600 !important;"
                                                 >
                                                     {!$Label.DeviceSettings_Header}
                                                 </span>
@@ -2651,13 +3068,13 @@
                                                 </div>
                                                 <div class="option-buttons slds-m-top--large">
                                                     <button
-                                                        class="slds-button slds-button--neutral slds-col"
+                                                        class="slds-button slds-button--neutral slds-col" style="border-radius: 40px !important;height: 24px;width: 86px;font-weight: 600;color: #0768fd;"
                                                         onclick="toggleDeviceSettingsVisible();"
                                                     >
                                                         {!$Label.Cancel}
                                                     </button>
                                                     <button
-                                                        class="slds-button slds-button--brand slds-col"
+                                                        class="slds-button slds-button--brand slds-col" style="border-radius: 40px !important;height: 24px;width: 86px;background:#0768fd;"
                                                         onclick="applyDeviceSettings();"
                                                     >
                                                         {!$Label.Apply}
@@ -2674,6 +3091,8 @@
                                         class="people-button slds-button slds-button--icon"
                                         onclick="showparticipantListMobile();"
                                     >
+                                        <apex:image height="24px" width="24px" url="{! URLFOR($Resource.TelevisitParticipantIcon)}"/>
+                                        <!--
                                         <span class="icon-people">
                                             <svg
                                                 class="slds-button__icon slds-button__icon"
@@ -2684,6 +3103,7 @@
                                                 ></use>
                                             </svg>
                                         </span>
+                                        -->
                                     </button>
                                 </div>
                             </div>
@@ -2733,9 +3153,9 @@
                                                 ></use>
                                             </svg>
                                         </span>
+                                        <br/>
                                         <span
-                                            class="slds-align_absolute-center slds-text-heading--small"
-                                            style="font-size: 13pt; color: #999999"
+                                            class="slds-align_absolute-center firstAttendeeText"
                                         >
                                             {!$Label.First_Attendee}
                                         </span>
@@ -2748,8 +3168,7 @@
 
                                     <div id="screen-sharing-username-text">
                                         <apex:outputPanel id="screen-sharing-username-text">
-                                            <apex:outputText
-                                                value="{!$Label.ScreenSharePublisherUsernameText}"
+                                            <apex:outputText value="{!$Label.ScreenSharePublisherUsernameText}"
                                             >
                                                 <apex:param value="{!sharingUserName}" />
                                             </apex:outputText>
@@ -2758,11 +3177,11 @@
                                 </div>
 
                                 <div
-                                    class="ctrls-feeds-action-bar speaker-view slds-grid slds-gutters slds-grid_align-spread slds-clearfix"
+                                    class="callbuttons ctrls-feeds-action-bar speaker-view slds-grid slds-clearfix callButtonsContainer"
                                 >
                                     <div
                                         id="last-active-feed"
-                                        class="last-active-feed slds-col slds-size_1-of-4 slds-show_small"
+                                        class="last-active-feed slds-col slds-size_1-of-4 slds-show_small slds-m-right--large"
                                     ></div>
                                     <div
                                         id="self-feed-container"
@@ -2772,7 +3191,7 @@
                                     <div
                                         id="controls"
                                         class="controls slds-col slds-align-bottom"
-                                        style="padding-left: 0"
+                                        style="padding-left: 0;min-height: 117px;padding-top: 67px;" 
                                     >
                                         <div class="slds-grid slds-float_right">
                                             <button
@@ -2841,6 +3260,7 @@
                                                     />
                                                 </svg>
                                                 <svg
+                                                    id="svgVideoOff"
                                                     class="icon-videoOff"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 24 24"
@@ -2968,7 +3388,7 @@
             <div class="call-end-screen slds-hide" id="call-end-screen-container">
                 <div id="rejoin-call-container">
                     <div
-                        class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container"
+                        class="slds-grid slds-grid_align-center rejoin-container top-margin-rejoin"
                     >
                         <div class="slds-col">
                             <div class="slds-grid">
@@ -2984,10 +3404,10 @@
                                         </span>
                                         <div class="slds-grid">
                                             <div class="slds-col slds-medium-size_12-of-12">
-                                                <div class="televisit-end">
+                                                <div class="televisit-end" style="inline-size: 284px;margin-left: 50px;">
                                                     {!$Label.PT_Televisit_Left}
                                                 </div>
-                                                <div class="rejoin-buttons">
+                                                <div class="rejoin-buttons televisitleftcss">
                                                     <button
                                                         class="close-tv-button"
                                                         onclick="confirmCancelRejoin();"
@@ -3029,9 +3449,19 @@
                                         </span>
                                         <div class="slds-grid">
                                             <div class="slds-col slds-medium-size_12-of-12">
-                                                <div class="televisit-end">
+                                                <div class="televisit-end" style="inline-size: 400px;padding: 0px 24px;">
                                                     {!$Label.PT_Session_Ended}
+                                                    
+                                                    
                                                 </div>
+                                                <br/>
+                                                <button
+                                                        id="tv-back-button"
+                                                        class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button"
+                                                        onclick="confirmCancel();"
+                                                    >
+                                                        {!$Label.PP_Opt_Out_Close_window}
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
@@ -3101,8 +3531,8 @@
         <div class="participant-wrapper">
             <div id="in-call-device-people-container" class="people-container">
                 <div class="participant-header">
-                    <span class="slds-text-heading--medium slds-text">
-                        {!$Label.Participants}
+                    <span class="slds-text-heading--medium slds-text people-container-heading">
+                        <apex:image height="21px" width="21px" url="{! URLFOR($Resource.TelevisitParticipantIcon)}"/>{!$Label.Participants}
                     </span>
                     <button
                         class="slds-button slds-button_icon slds-button_icon-small closebtn"

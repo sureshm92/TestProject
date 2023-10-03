@@ -17,6 +17,7 @@ global without sharing class EmailWireframeController {
     global String outputMode { get; set; }
     global String displayOptOut { get; set; }
     global String userModeValue { get; set; }
+    public Contact objCon {get;set;}
     private EmailTemplateProvider templateProvider;
 
     global String getUserLanguageCode() {
@@ -50,6 +51,29 @@ global without sharing class EmailWireframeController {
         }
         set;
     }
+
+    public Boolean  getshouldDisplayAddressFooter(){
+        Boolean shouldDisplayAddressFooter = false;
+        Id currentLoggedinConId ;
+        currentLoggedinConId = getProvider().getRecipientId();
+        if (currentLoggedinConId == null){
+        currentLoggedinConId = getProvider().getParameters().get('RecipientContactId');  
+        }
+        Contact objCon = [
+            SELECT ID , UserCommunityIsDelegate__c, userCommunityMode__c
+            FROM contact
+            WHERE Id = :currentLoggedinConId
+        ];
+        if(objCon.userCommunityMode__c == 'HCP' || objCon.userCommunityMode__c == 'PI')
+        {
+            shouldDisplayAddressFooter = true;
+        }
+        else {
+            shouldDisplayAddressFooter = false;
+        }
+        return shouldDisplayAddressFooter;
+    } 
+
     global Id recipientcntId {
         get {
             try {
@@ -128,7 +152,18 @@ global without sharing class EmailWireframeController {
     }
 
     public String getGreetingText() {
-        return prepareLineBreaks(replaceParams(getLabelValue(greetingValue)) + '\n');
+        if(greetingValue == Label.Televisit_Greeting){
+            String greetingText = replaceParams(getLabelValue(greetingValue)); 
+            if(greetingText.length()>0 && greetingText.endsWith(',')){
+               String greetingTextName = greetingText.removeEnd(',');
+                if(!String.isBlank(greetingTextName)){
+                    greetingText = greetingTextName.trim()+',';
+                }
+            }
+            return prepareLineBreaks(greetingText + '\n');
+        }else{
+            return prepareLineBreaks(replaceParams(getLabelValue(greetingValue)) + '\n');
+        }
     }
 
     public String getPreSignatureText() {

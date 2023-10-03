@@ -37,6 +37,7 @@ public without sharing class TemplatePropertiesService {
         return communityName;
     }
 
+    @TestVisible
     private String defineTemplateName(Id whatId, String userMode) {
         if (userMode != CommunityModeService.USER_MODE_PARTICIPANT)
             return CommunityTemplateService.TEMPLATE_DEFAULT;
@@ -130,6 +131,30 @@ public without sharing class TemplatePropertiesService {
                         .templateName;
                 }
             }
+            else if(whatId.getSobjectType() == 	Participant__c.getSObjectType()){
+                Participant__c partObj = [
+                    SELECT
+                        Id,
+                        Contact__c
+                    FROM Participant__c
+                    WHERE Id = :whatId
+                ]; 
+                if(partObj!=null){
+                     List<PermissionSetAssignment> assignments = [
+                            SELECT PermissionSet.Name
+                            FROM PermissionSetAssignment
+                            WHERE
+                                Assignee.ContactId = :partObj.Contact__c
+                                AND PermissionSet.Name IN :CommunityTemplateService.getAllPermissionSets()
+                        ];
+                        if (!assignments.isEmpty() && assignments.size()==1) {
+                            return CommunityTemplateService.getTemplateByPermissionSetName(
+                                    assignments.get(0).PermissionSet.Name
+                                )
+                                .templateName;
+                        }
+                    }
+                }
         } catch (Exception e) {
             EmailService.sendException(e, null);
         }

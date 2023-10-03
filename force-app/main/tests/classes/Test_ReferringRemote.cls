@@ -668,6 +668,7 @@ private without sharing class Test_ReferringRemote {
                 testDataInstance.ctp.Id,
                 testDataInstance.pe.Id,
                 testDataInstance.hcpEnrollment.Id,
+                false,
                 CommunityService.USER_MODE_HCP,
                 null,
                 null
@@ -685,15 +686,16 @@ private without sharing class Test_ReferringRemote {
     @IsTest
     static void getInitData() {
         
-        Test.startTest();
         TestData.loadTestData();
         TestData testDataInstance = new TestData();
+        Test.startTest();
         String initDataStr;
         System.runAs(testDataInstance.hcpUser) {
             initDataStr = ReferringRemote.getInitData(
                 testDataInstance.ctp.Id,
                 testDataInstance.pe.Id,
                 testDataInstance.hcpEnrollment.Id,
+                false,
                 CommunityService.USER_MODE_HCP,
                 null,
                 null

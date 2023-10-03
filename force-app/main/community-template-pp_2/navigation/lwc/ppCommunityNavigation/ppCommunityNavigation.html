@@ -1,14 +1,21 @@
 <!--created by  ->Jayshree
     modified by ->chetna PEH-7098-->
 <template>
-    <div class="mainNav">
+    <div class="mainNav" role="menubar">
         <template if:true={desktop}>
             <c-web-spinner class="main-spinner"></c-web-spinner>
             <template if:true={isInitialized}>
                 <template for:each={participantTabs} for:item="item">
-                    <div class="nav-item" key={item.label}>
+                    <div class="nav-item" key={item.label} role="menu">
+                        <!--Home Page Tab-->
                         <template if:true={item.displayIcon}>
-                            <div data-page-name={item.page} onclick={handleNavigation}>
+                            <div
+                                tabindex="0"
+                                role="menuitem"
+                                data-page-name={item.page}
+                                onclick={handleNavigation}
+                                onkeydown={handleKeyDown}
+                            >
                                 <c-web-icon
                                     icon-name={item.icon}
                                     icon-color="white"
@@ -18,9 +25,22 @@
                         </template>
                         <template if:false={item.displayIcon}>
                             <template if:false={item.expand}>
-                                <div data-page-name={item.page} onclick={handleNavigation}>
+                                <div
+                                    data-page-name={item.page}
+                                    tabindex="0"
+                                    role="menuitem"
+                                    onclick={handleNavigation}
+                                    onkeydown={handleNavKeyDown}
+                                >
                                     <ul>
-                                        <li>{item.label}</li>
+                                        <li>
+                                            {item.label}
+                                            <template if:true={item.ismsg}>
+                                                <c-nav-message-counter
+                                                    is-message-page="true"
+                                                ></c-nav-message-counter>
+                                            </template>
+                                        </li>
                                     </ul>
                                 </div>
                             </template>
@@ -29,12 +49,15 @@
                         <template if:true={item.expand}>
                             <div
                                 class="slds-dropdown-trigger slds-dropdown-trigger_click my-menu my-submenuopen"
-                                data-key={item.label} 
+                                data-key={item.label}
+                                role="menuitem"
+                                aria-haspopup="true"
                             >
                                 <a
                                     href="javascript:void(0);"
-                                    aria-haspopup="true"  onclick={dropdownMenu} onblur={removeElementFocus}
-                                    data-tagname='myprogram'
+                                    onclick={dropdownMenu}
+                                    onblur={removeElementFocus}
+                                    data-tagname="myprogram"
                                     class="slds-text-color_inverse color-text-link-disabled slds-var-p-around_x-small"
                                 >
                                     {item.label}
@@ -57,10 +80,16 @@
                                             <template if:true={subItem.visible}>
                                                 <li
                                                     class="slds-dropdown__item"
-                                                    role="presentation"
+                                                    role="menuitem"
                                                     key={subItem.label}
                                                 >
-                                                    <a onclick={handleNavigationSubMenu}  data-pagename={subItem.page} role="menuitem" onmouseover={handleOnMouseOver} onmouseleave={handleOnMouseLeave}>
+                                                    <a
+                                                        onclick={handleNavigationSubMenu}
+                                                        data-pagename={subItem.page}
+                                                        role="menuitem"
+                                                        onmouseover={handleOnMouseOver}
+                                                        onmouseleave={handleOnMouseLeave}
+                                                    >
                                                         <span
                                                             class="slds-truncate"
                                                             title={subItem.label}

@@ -68,6 +68,8 @@ public without sharing class ParticipantService {
         public Boolean cookiesAgreedonRegPage;
         @AuraEnabled 
         public CPRA_DoNotSell__mdt objCPRA;
+       @AuraEnabled 
+        public Boolean isJanseenAlumniloggedin;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -86,7 +88,7 @@ public without sharing class ParticipantService {
             loggedInUserName = '';
         }
     }
-
+    
     private ParticipantState participantState;
     private static ParticipantService instance;
 
@@ -103,10 +105,8 @@ public without sharing class ParticipantService {
     public ParticipantService() {
         participantState = new ParticipantState();
         Contact userContact = CommunityService.getUserContact();
-        if(userContact != null || userContact.userCommunityDelegateId__c != null){
-            participantState.currentContactId = userContact.userCommunityDelegateId__c;
-        }
-        if (participantState.currentContactId == null || userContact!= null)
+        participantState.currentContactId = userContact.userCommunityDelegateId__c;
+        if (participantState.currentContactId == null)
             participantState.currentContactId = userContact.Id;
         participantState.isDelegate = userContact.userCommunityDelegateId__c != null;
         participantState.cookiesAgreedonRegPage = userContact.Cookies_Agreed_on_Reg__c;
@@ -138,12 +138,12 @@ public without sharing class ParticipantService {
                 if (Site.getMasterLabel() != 'IQVIA Patient Portal') {
                     participantState.showTerms = showTerms();
                 }
-                participantState.medicalVendors = MedicalRecordVendorPanelRemote.getVendors(
-                    participantState.pe.Study_Site__c
-                );
-                participantState.teleVendors = televisitConfigurationController.getVendors(
-                    participantState.pe.Study_Site__c
-                );
+                participantState.medicalVendors = pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c
+                    ? MedicalRecordVendorPanelRemote.getVendors(participantState.pe.Study_Site__c)
+                    : new List<Medical_Record_Vendor__c>();
+                participantState.teleVendors = pe.Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c
+                    ? televisitConfigurationController.getVendors(participantState.pe.Study_Site__c)
+                    : new List<Televisit_Record_Vendor__c>();
                 participantState.isTeleVendorEnabled =
                     (participantState.teleVendors.size() > 0) &
                     PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL.contains(
@@ -229,25 +229,77 @@ public without sharing class ParticipantService {
         participantState.communityName = UserContext.getCurrentCommunityName();
         participantState.loggedInUserName = getLoggedInUserName(participants);
         participantState.objCPRA = getCPRALink('IQVIA Patient Portal'); 
+        if(participantState.communityName == 'IQVIA Patient Portal'){
+            participantState.isJanseenAlumniloggedin = getAlumniTemplate();
+        }else{
+            participantState.isJanseenAlumniloggedin = false;
+        }  
+    }
+    public static CPRA_DoNotSell__mdt getCPRALink(String strCommunityType) {
+        list<CPRA_DoNotSell__mdt> lstMd = new List<CPRA_DoNotSell__mdt>();
+        if (strCommunityType == 'IQVIA Referral Hub' || strCommunityType == 'null') {
+            lstMd = [
+                SELECT id, Active__c, Community_Name__c, Link_to_redirect__c, CPRA_Label__c
+                FROM CPRA_DoNotSell__mdt
+                WHERE
+                    Active__c = TRUE
+                    AND Link_to_redirect__c != NULL
+                    AND Community_Name__c = 'Default'
+                LIMIT 1
+            ];
+        } else {
+            lstMd = [
+                SELECT id, Active__c, Community_Name__c, Link_to_redirect__c, CPRA_Label__c
+                FROM CPRA_DoNotSell__mdt
+                WHERE
+                    Active__c = TRUE
+                    AND Link_to_redirect__c != NULL
+                    AND Community_Name__c = :strCommunityType
+                LIMIT 1
+            ];
+        }
+
+        return lstMd.isEmpty() ? null : lstMd[0];
+    }
+    @AuraEnabled
+    public static Boolean getAlumniTemplate(){
+
+        User objUser =[SELECT Id, ContactId,Contact.userCommunityDelegateId__c,Contact.Current_Participant_Enrollment__c
+                         FROM User WHERE Id =: UserInfo.getUserId()];
+        Id contactId  = objUser.Contact.userCommunityDelegateId__c != null ?  objUser.Contact.userCommunityDelegateId__c : objUser.ContactId;
+
+        Boolean isAlumniPP = false ;
+        Boolean isAlumniJanseen = false ;
+         
+
+      for(Participant_Enrollment__c objper : [SELECT id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c
+                                                    ,Clinical_Trial_Profile__r.PPTemplate__c   from Participant_Enrollment__c 
+                                                    Where Participant_Contact__c =:contactId AND ((Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen'
+                                                    AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0')  
+                                                    OR  Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal')
+                                                    AND Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_ALUMNI LIMIT 10000])
+            {
+                if(objper.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal')
+                    isAlumniPP = true; 
+                if(objper.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen')
+                    isAlumniJanseen = true; 
+                if(isAlumniPP && isAlumniJanseen)
+                    break;
+            }
+            if(isAlumniJanseen && !isAlumniPP)
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
     }
 
-    public static CPRA_DoNotSell__mdt getCPRALink(String strCommunityType){
-        list<CPRA_DoNotSell__mdt> lstMd = new list<CPRA_DoNotSell__mdt> ();
-        if( strCommunityType == 'IQVIA Referral Hub' || strCommunityType == 'null')
-        {
-              lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
-                                                where Active__c = true and Link_to_redirect__c != Null and Community_Name__c = 'Default' LIMIT 1];
-        }
-        else  
-        {
-            lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
-                        where Active__c = true and Link_to_redirect__c != Null and Community_Name__c =:strCommunityType LIMIT 1];
-        }
-       
-        return lstMd.isEmpty() ? Null : lstMd[0];
-                                         
+    @AuraEnabled
+    public static String getTemp(){
+      return UserContext.getCurrentCommunityTemplate().templateName;
     }
-
+    
     public static Participant__c getParticipant(Id sourceId) {
         if (sourceId != null) {
             List<Participant__c> participants = [

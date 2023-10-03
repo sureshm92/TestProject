@@ -11,6 +11,7 @@
         <value xsi:type="xsd:string">SurveyName = Survey__r.Name
 invId= Id
 expirationDate = ExpireDateTime__c
+participantExpdate = Participant_Due_Date__c
 expirationOnlyDate = ExpireDateTime__c
 endDateVisible = Is_End_Date_Visible__c
 SMSexpirationDate = ExpireDateTime__c

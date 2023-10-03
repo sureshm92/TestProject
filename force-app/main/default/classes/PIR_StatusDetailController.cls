@@ -2095,6 +2095,11 @@ public without sharing class PIR_StatusDetailController {
       ){
       perRecord.Re_consent__c=false;
       }
+      if(perRecord.Final_consent__c == true){
+        perRecord.Final_Consent_Date__c= system.today();
+        }else{
+          perRecord.Final_Consent_Date__c = null; 
+        }
       update perRecord;
       if(perRecord.Participant__r.Gender__c!=perRec.Gender__c){
         TriggerHandlerExecutor.bypassHandler(

@@ -17,6 +17,7 @@ import No_Upcoming_Visits from '@salesforce/label/c.Visit_No_Upcoming_Visits';
 import No_Upcoming_Events from '@salesforce/label/c.Event_No_Upcoming_Events';
 import No_Past_Visit from '@salesforce/label/c.Visit_No_Past_Visit';
 import No_Past_Event from '@salesforce/label/c.Event_No_Past_Event';
+import unscheduledVisit from '@salesforce/label/c.StudyVisit_Unscheduled_Visit';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 
 export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
@@ -35,7 +36,8 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         No_Upcoming_Visits,
         No_Upcoming_Events,
         No_Past_Visit,
-        No_Past_Event
+        No_Past_Event,
+        unscheduledVisit
     };
     status = {
         scheduled: 'Scheduled',
@@ -143,13 +145,13 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     }
 
     createEditTask(index) {
-        console.log('Inside Create Edit');
         this.contentLoaded = false;
         this.template.querySelector('c-web-spinner').show();
         this.showreminderdatepicker = false;
         if (this.visitid) {
             getParticipantVisitsDetails({
-                visitId: this.visitid
+                visitId: this.visitid,
+                updateReminderExpTasks: true
             }).then((result) => {
                 const str =
                     '{"Id":"","Patient_Visit__c":"","Reminder_Date__c":"","ReminderDateTime":"","Remind_Me__c":"","Remind_Using_Email__c":false,"Remind_Using_SMS__c":false}';
@@ -169,12 +171,14 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
                     this.upcomingVisits[this.selectedIndex].isReminderDate = true;
                 }
                 if (!this.past && this.upcomingVisits) {
-                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
-                        this.visitdata.visitDate;
+                    this.upcomingVisits[
+                        this.selectedIndex
+                    ].visit.Planned_Date__c = this.visitdata.visitDate;
                     if (this.visitdata.visitDate && this.showupcomingvisits) {
                         this.upcomingvisits[this.selectedIndex].noVisitDate = false;
-                        this.plannedDate =
-                            this.upcomingvisits[this.selectedIndex].visit.Planned_Date__c;
+                        this.plannedDate = this.upcomingvisits[
+                            this.selectedIndex
+                        ].visit.Planned_Date__c;
                     } else {
                         this.upcomingvisits[this.selectedIndex].noVisitDate = true;
                         this.plannedDate = '';

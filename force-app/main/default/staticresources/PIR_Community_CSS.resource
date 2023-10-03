@@ -50,7 +50,10 @@ height: 70px;
     padding-left: 0;
     padding-right: 0;
 }
-
+.rh-initial-visit-date input{ 
+    min-width:100%;
+    -webkit-appearance:none;
+}
 /* only for ios app start+ */
 @media not all and (min-resolution:.001dpcm)
 { @supports (-webkit-appearance:none) and (stroke-color:transparent) {
@@ -145,4 +148,20 @@ height: 70px;
         top: -20px;
     } 
    
+}
+
+.toastMessage.forceActionsText{
+    white-space : pre-line !important;
+}
+
+.toastContainer.slds-notify_container{
+    top : 50px;
+}
+
+.participant-spinner.slds-spinner_container{
+    background: transparent;
+}
+
+.label-gap .slds-form-element__label{
+    margin-bottom: 8px;
 }

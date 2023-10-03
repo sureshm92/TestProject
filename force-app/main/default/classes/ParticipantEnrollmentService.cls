@@ -1,5 +1,6 @@
 /**
  * Created by Leonid Bartenev
+ * Last Modified by Faizaan Baig
  */
 
 public without sharing class ParticipantEnrollmentService {
@@ -221,6 +222,27 @@ public without sharing class ParticipantEnrollmentService {
         );
     }
 
+    	
+    public List<Participant_Enrollment__c> getPendingParticipantEnrollmentsImpl(
+        Id trialId,
+        Id hcpEnrollmentId,
+        String delegateId,
+        List<String> customFields
+    ) {
+        return getPEnrolmentsCommon(
+            CommunityService.USER_MODE_HCP,
+            ' AND Clinical_Trial_Profile__c=\'' +
+            trialId +
+            '\'' +
+            (hcpEnrollmentId != null ? ' AND HCP__c =\'' + hcpEnrollmentId + '\'' : '') +
+            ' AND Participant_Status__c = \'' +
+            PART_STATUS_PENDING_REFERRAL +
+            '\'',
+            delegateId,
+            customFields
+        );
+    }
+
     // Static facade: --------------------------------------------------------------------------------------------------
 
     public static Participant_Enrollment__c findParticipantEnrollment(
@@ -293,7 +315,16 @@ public without sharing class ParticipantEnrollmentService {
         return getInstance()
             .getPendingParticipantEnrollmentsImpl(trialId, hcpEnrollmentId, delegateId);
     }
-    
+
+    public static List<Participant_Enrollment__c> getPendingParticipantEnrollments(
+        Id trialId,
+        Id hcpEnrollmentId,
+        String delegateId,
+        List<String> customFields
+    ) {
+        return getInstance()
+            .getPendingParticipantEnrollmentsImpl(trialId, hcpEnrollmentId,delegateId,customFields);
+    }
 
     public static Map<Id, Integer> getPreScreeningsAllByTrial(Id clinicId) {
         return getPECountMapByTrialsForPI(
@@ -565,6 +596,7 @@ public without sharing class ParticipantEnrollmentService {
 
     public static final List<String> PE_COMMON_FIELDS = new List<String>{
         'Id',
+        'Invited_To_PP_Date__c',
         'Clinical_Trial_Profile__c',
         'Clinical_Trial_Profile__r.Profile_Picture__c',
         'Clinical_Trial_Profile__r.Is_Program__c',
@@ -596,6 +628,7 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c',
         'Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c',
         'Clinical_Trial_Profile__r.CommunityTemplate__c',
+        'Clinical_Trial_Profile__r.PPTemplate__c',
         'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
         'Clinical_Trial_Profile__r.Trial_Match_Is_Available__c',
         'Clinical_Trial_Profile__r.ECOA_Is_Avaialble__c',
@@ -712,6 +745,7 @@ public without sharing class ParticipantEnrollmentService {
         'Study_Site__r.Override_PI_Referral_Status__c',
         'Study_Site__r.Clinical_Trial_Profile__c',
         'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c',
         'Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c',
         'Study_Site__r.Clinical_Trial_Profile__r.Is_Program__c',
         'Study_Site__r.Clinical_Trial_Profile__r.Override_Inclusion_Criteria__c',
@@ -733,6 +767,8 @@ public without sharing class ParticipantEnrollmentService {
         'Study_Site__r.Site__r.Name',
         'Study_Site__r.Site__r.Phone',
         'Study_Site__r.Site__r.BillingStreet',
+        'Study_Site__r.Site__r.BillingCity',
+        'Study_Site__r.Site__r.BillingState',
         'Study_Site__r.Site__r.BillingPostalCode',
         'Study_Site__r.Site__r.BillingCountryCode',
         'Study_Site__r.Principal_Investigator__c',
@@ -854,6 +890,20 @@ public without sharing class ParticipantEnrollmentService {
         return getPEnrolmentsCommonCustomFieldsWithTranslation(
             userMode,
             PE_COMMON_FIELDS,
+            filter,
+            delegateId
+        );
+    }
+
+    public static List<Participant_Enrollment__c> getPEnrolmentsCommon(
+        String userMode,
+        String filter,
+        String delegateId,
+        List<String> customFields
+    ) {
+        return getPEnrolmentsCommonCustomFieldsWithTranslation(
+            userMode,
+            customFields,
             filter,
             delegateId
         );
@@ -981,9 +1031,11 @@ public without sharing class ParticipantEnrollmentService {
             }
             return '(' + '   HCP__r.HCP_Contact__c = \'' + contactId + '\'' + ') ';
         } else {
-            List<Id> delegatedParticipants = PatientDelegateService.getDelegatedParticipantIds(
+            PatientDelegateEnrollmentService.PDEWrapper pdewrapper = PatientDelegateEnrollmentService.getDelegatedParticipantIdsMap(
                 CommunityService.getUserContact().Id
             );
+            List<Id> delegatedParticipants = pdewrapper.delParticipantIds.get(UserContext.getUserContactId());
+          
             if (delegatedParticipants != null && delegatedParticipants.size() > 0) {
                 delegatesFilter =
                     ' OR ' + DatabaseService.fieldInValues('Participant__c', delegatedParticipants);
@@ -1882,5 +1934,22 @@ public without sharing class ParticipantEnrollmentService {
             WHERE Id IN :participantIds
         ];
         updateParticipantState(participants);
+    }
+
+    /**
+     * @description: This Method will return the PERMap for given contact.
+     * @author: Krishna Mahto
+     * @param: delContId
+     * @return:
+     **/
+    public static Map<Id,Participant_Enrollment__c> getPerMapByContactId(Id contactId) {
+        Map<Id,Participant_Enrollment__c> perMap=  new Map<Id,Participant_Enrollment__c>([
+            SELECT  Id,
+                    Invited_To_PP_Date__c,
+                    Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
+            FROM Participant_Enrollment__c
+            WHERE Participant_Contact__c = :contactId
+        ]);
+        return perMap;
     }
 }

@@ -30,7 +30,9 @@ public without sharing class OpenTokClientController {
     public List<Attendee> attendees { get; private set; }
     public static final String SESSION_ID_PARAMETER = 'sessionId';
     public String commTemplate { get; set; }
+    public String commPPTemplate { get; set; }
     public String headerbg { get; set; }
+    public Boolean statusCanceled { get; set; }
 
     public static final String[] HTML_DECODED = new List<String>{ '&', '<', '>', '"', '\'' };
     public static final String[] HTML_ENCODED = new List<String>{
@@ -46,7 +48,7 @@ public without sharing class OpenTokClientController {
     public String appNamestr { get; set; } //Indicates Meeting title Raviteja
     public String bannerEndTime { get; set; }
     public String autoDisconnectMeetingTime { get; set; }
-	public String visitDate {get;set;}
+    public String visitDate {get;set;}
     public String userTimeZone {get;set;}
     public List<Televisit__c>  lstTelevisit{get;set;}
     TokBoxSettings2__c settings;
@@ -63,7 +65,7 @@ public without sharing class OpenTokClientController {
             appNamestr = 'IQVIA';
         }*/
         appNamestr = 'IQVIA Referral Hub'; //Added by RAviteja
-        headerbg = 'headerbg-rh';
+        //headerbg = 'headerbg-rh';
         meetingInterval = '';
         //OMSF-5206 Ends
 
@@ -88,9 +90,11 @@ public without sharing class OpenTokClientController {
                 Id,
                 Name,
                 Title__c,
+                Status__c,
                 Visit_Date_Time__c,
                 Visit_End_Date_Time__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
                 Duration__c,
                 (
                     SELECT
@@ -113,7 +117,7 @@ public without sharing class OpenTokClientController {
 
         if (!lstTelevisit.isEmpty()) {
             this.session = lstTelevisit.get(0);
-
+            
             endMinutes = -Integer.valueOf(System.Label.RH_TelevisitWindowBannerStartTime);
 
             bannerEndTime = String.valueOf(
@@ -124,7 +128,7 @@ public without sharing class OpenTokClientController {
                     lstTelevisit[0].Visit_End_Date_Time__c.addMinutes(0).timeGmt()
                 )
                 .remove('.000Z');
-			visitDate = String.valueOf(lstTelevisit[0].Visit_End_Date_Time__c.date());
+            visitDate = String.valueOf(lstTelevisit[0].Visit_End_Date_Time__c.date());
             userTimeZone = UserInfo.getTimeZone().getID();
             system.debug('this.session.Televisit_Attendee__r :'+this.session.Televisit_Attendee__r);
             if(!this.session.Televisit_Attendee__r.isEmpty()){
@@ -138,15 +142,27 @@ public without sharing class OpenTokClientController {
                     attendeeType = 'PP';
 
                     commTemplate = this.session.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
-                    if (commTemplate == CommunityTemplateService.TEMPLATE_DEFAULT)
+                    commPPTemplate = this.session.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c;
+                    if (commTemplate == CommunityTemplateService.TEMPLATE_DEFAULT || 
+                        (commTemplate == CommunityTemplateService.TEMPLATE_JANSSEN && commPPTemplate == 'PP 1.0') )
                         headerbg = 'headerbg-pp';
                     if (commTemplate == CommunityTemplateService.TEMPLATE_GSK)
                         headerbg = 'headerbg-gsk';
+                    if (commTemplate == CommunityTemplateService.TEMPLATE_PP || 
+                        (commTemplate == CommunityTemplateService.TEMPLATE_JANSSEN && commPPTemplate == 'PP 2.0') )
+                             headerbg = 'headerbg-pp2';
                 } else {
                     appNamestr = 'IQVIA Referral Hub';
                     attendeeType = 'RH';
                     headerbg = 'headerbg-rh';
                 }
+                
+                if(lstTelevisit[0].Status__c == 'Cancelled'){
+                    statusCanceled = true;
+                }else{
+                    statusCanceled = false;
+                }
+                
             } else {
                 this.isSessionJoinable = false;
             }

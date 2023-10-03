@@ -3,7 +3,7 @@
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <div class="slds-grid slds-wrap slds-grid_vertical-align-start slds-m-top_medium">
         <!--Reminder Dropdown-->
-        <div class="slds-col slds-size_1-of-1">
+        <div class={reminderClass}>
             <div class="full-width">
                 <label class="label-reminder">{labels.REMINDER}</label>
                 <div class="curve-input">
@@ -35,7 +35,7 @@
         <template if:true={isReminderOptionSelected}>
             <!--Custom Reminder Option Date Time-->
             <template if:true={isCustomReminderOptionSelected}>
-                <div class="slds-col slds-size_1-of-1 slds-m-top_medium task-reminder">
+                <div class="slds-size_1-of-1 slds-m-top_medium task-reminder">
                     <c-pp-date-time-combo
                         data-id="reminderDateTime"
                         create-task={isCustomReminderOptionSelected}
@@ -43,7 +43,7 @@
                         compdate={dbreminderdate}
                         comptime={dbremindertime}
                         mindate={currentDate}
-                        maxdate={taskDueDate}
+                        maxdate={maxReminderDate}
                         mintime={minimumReminderTime}
                         maxtime={maximumReminderTime}
                         icon-size="small"

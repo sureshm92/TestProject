@@ -10,6 +10,8 @@
     <apex:attribute name="recipientLanguage" type="String" assignTo="{!emailRecipientLanguage}" description="" access="global"
     />
     <apex:attribute name="sourceId" assignTo="{!sourceRecordId}" type="Id" description="" access="global" />
+    <apex:attribute name="isDelegate" assignTo="{!isDelegates}" type="Boolean" description="" access="global" />
+    <apex:attribute name="mode" assignTo="{!currentMode}" type="String" description="" access="global" />
 
     <!-- Templates labels -->
     <apex:attribute name="header" assignTo="{!headerValue}" type="String" description="" />
@@ -21,6 +23,8 @@
     <!-- Other -->
     <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="Text" />
     <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" description="Community template name"
+    />
+    <apex:attribute name="isJanssenValue" type="Boolean" assignTo="{!isJanssen}" description="If community is Janssen 2.0"
     />
     <apex:attribute name="specificEmailProvider" type="String" assignTo="{!specificEmailProviderValue}" description="If you need specific instance of EmailTemplateProvider set this here"
     />
@@ -50,7 +54,7 @@
     <!--Footer START-->
     <!--IQVIA Address/Privacy Policy-->
     {!$Label.Email_Footer_Address} | {!$Label.Email_Footer_Privacy_Policy}: {!IF(communityTemplate == 'Janssen', $Label.CommunityJanssenURL
-    + '/s/privacy-policy?language='+UserLanguageCode, emailCommunityURL+'/s/privacy-policy?language='+UserLanguageCode)}
+    + '/s/privacy-policy?language='+UserLanguageCode, IF((isJanssenValue || StudyTemplate == 'Janssen'), emailCommunityURL+'/s/janssen-privacy-policy?language='+UserLanguageCode, emailCommunityURL+'/s/privacy-policy?language='+UserLanguageCode))}
     <!--Tech Support, Opt Out and Medical Emergency -->
     <apex:componentBody rendered="{!displayOptOut!='No'}">
         {!$Label.Email_Opt_Out_footer} {!$Label.Email_Opt_Out_footer_here} : {!emailCommunityURL+'/s/opt-out?language='+UserLanguageCode+'&mode='+userMode+'&recipientId='+recipientcntId}

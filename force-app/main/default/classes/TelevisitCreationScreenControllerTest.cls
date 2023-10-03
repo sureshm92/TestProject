@@ -48,14 +48,24 @@ Public Class TelevisitCreationScreenControllerTest{
 
         Test.setMock(HttpCalloutMock.class, new RestMock());
         Test.startTest();
-
+        TriggerHandlerExecutor.bypassHandler(NotificationTriggerHandler.UpdateNotificationHandler.class);
         TestData testData = new TestData();
+        
+        Televisit_Record_Vendor__c trv = new Televisit_Record_Vendor__c(API_Key__c = 'test',API_Secret__c='test1', Clinical_Trial_Profile__c=testData.ctp.id);
+        insert trv;
+        TelevisitVendorSettings__c tvs = new TelevisitVendorSettings__c(Study_Site__c = testData.ss.id,isEnable__c=True, Televisit_Record_Vendor__c=trv.id);
+        insert tvs;
+        
         List<String> participantEnrollmentId = new List<String>();
         participantEnrollmentId.add(testData.pe.Id);
         Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c();
         ctp = testData.ctp;
         Study_Site__c ss = new Study_Site__c();
         ss = testData.ss;
+        Participant__c participant = new Participant__c(id= testdata.participant.id);
+        participant.Contact__c = testData.piContact.id;
+        update participant;
+        
         Televisit__c tv = new Televisit__c();
         tv.Duration__c = '15 minutes';
         tv.Participant_Enrollment__c = participantEnrollmentId[0];
@@ -83,7 +93,7 @@ Public Class TelevisitCreationScreenControllerTest{
         ta.Attendee_Type__c = 'PI';
         ta.User__c = UserInfo.getUserId();
         ta.Televisit__c = tv.id;
-        ta.Contact__c = testData.piDelegateContact.Id;
+        ta.Contact__c = testData.piContact.Id;
         taList.add(ta);
         Televisit_Attendee__c ta1 = new Televisit_Attendee__c();
         ta1.Firstname__c = 'test';
@@ -118,12 +128,46 @@ Public Class TelevisitCreationScreenControllerTest{
         String json='[{"id":"'+testData.piContact.Id+'"}]';
 		String json1='[{"attendeeId":"'+taList[0].id+'"}]';
 
-    	TelevisitCreationScreenController.insertTelevisitRecord('{"title":"1111111","duration":"15 minutes","startTime":"02:15:00.000","visitDate":"2022-07-18","peid":"'+participantEnrollmentId[0]+'"}');
         TelevisitCreationScreenController.updateAttendees(tv.id,json1,json);
         TelevisitCreationScreenController.addNewAttendees(tv.id,json);
         TelevisitTriggerHandler.createTelevisitEvent();
-        TelevisitCreationScreenController.insertTelevisitRecord('{"attendeesList":'+json+',"id":"","title":"1111111","duration":"15 minutes","startTime":"02:15:00.000","visitDate":"2022-07-18","peid":"'+participantEnrollmentId[0]+'"}');       
-	  Test.StopTest();
+      Test.StopTest();
 	}
+    
+    @isTest
+    public static void testTvInsert(){
+        Test.setMock(HttpCalloutMock.class, new RestMock());
+        
+        TestData testData = new TestData();
+        
+        Televisit_Record_Vendor__c trv = new Televisit_Record_Vendor__c(API_Key__c = 'test',API_Secret__c='test1', Clinical_Trial_Profile__c=testData.ctp.id);
+        insert trv;
+        TelevisitVendorSettings__c tvs = new TelevisitVendorSettings__c(Study_Site__c = testData.ss.id,isEnable__c=True, Televisit_Record_Vendor__c=trv.id);
+        insert tvs;
+        
+        List<String> participantEnrollmentId = new List<String>();
+        participantEnrollmentId.add(testData.pe.Id);
+        
+        Televisit__c tv = new Televisit__c();
+        tv.Duration__c = '15 minutes';
+        tv.Participant_Enrollment__c = participantEnrollmentId[0];
+        tv.Status__c = 'Scheduled';
+        tv.Visit_Date_Time__c = system.now();
+        tv.Visit_End_Date_Time__c = system.now()+(15/1440);
+        tv.Title__c = 'Test Televisit';
+        tv.Meeting_URL__c = '123';
+        tv.Visit_Date_Time__c = system.now();
+        tv.Visit_End_Date_Time__c = system.now()+(15/1440);
+        insert tv;
+        
+        String json='[{"id":"'+testData.piContact.Id+'"}]';
+        
+        Test.startTest();
+        	TelevisitCreationScreenController.insertTelevisitRecord('{"attendeesList":'+json+',"id":"","title":"1111111","duration":"15 minutes","startTime":"02:15:00.000","visitDate":"2022-07-18","peid":"'+participantEnrollmentId[0]+'"}');       
+			TelevisitCreationScreenController.insertTelevisitRecord('{"id":"'+tv.id+'","attendeesList":'+json+',"title":"1111111","duration":"15 minutes","startTime":"02:15:00.000","visitDate":"2022-07-18","peid":"'+participantEnrollmentId[0]+'"}');
+
+        Test.stopTest();
+        
+    }
         
 }

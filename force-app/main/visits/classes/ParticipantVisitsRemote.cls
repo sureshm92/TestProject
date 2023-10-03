@@ -32,9 +32,9 @@ public without sharing class ParticipantVisitsRemote {
     public static VisitAndCountWrapper getVisitsPreviewAndCount() {
         try {
             ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(
-                ParticipantService.class
-            ))
-            .getState();
+                    ParticipantService.class
+                ))
+                .getState();
             VisitAndCountWrapper visitAndCount = new VisitAndCountWrapper();
             visitAndCount.showVisits = pState.showVisits;
             List<String> additionalFields = new List<String>();
@@ -42,10 +42,15 @@ public without sharing class ParticipantVisitsRemote {
             additionalFields.add('Participant_Enrollment__r.Study_Site__r.Site__r.Name');
             additionalFields.add('Participant_Enrollment__r.Study_Site__r.Site__r.Phone');
             additionalFields.add('Is_Pre_Enrollment_Patient_Visit__c');
-            visitAndCount.visitPreviewList = ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
-                .getVisitWrappersAndHandleInitialVisits(PatientVisitService.VISIT_MODE_CURRENT, 5, additionalFields);
+            visitAndCount.visitPreviewList = ((PatientVisitService) ClassFactory.newInstance(
+                    PatientVisitService.class
+                ))
+                .getVisitWrappersAndHandleInitialVisits(
+                    PatientVisitService.VISIT_MODE_CURRENT,
+                    5,
+                    additionalFields
+                );
             return visitAndCount;
-
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -54,7 +59,7 @@ public without sharing class ParticipantVisitsRemote {
 
     public class VisitAndCountWrapper {
         @AuraEnabled
-        public List<PatientVisitService.VisitWrapper>  visitPreviewList;
+        public List<PatientVisitService.VisitWrapper> visitPreviewList;
         @AuraEnabled
         public Boolean showVisits;
     }
@@ -119,7 +124,9 @@ public without sharing class ParticipantVisitsRemote {
     }
 
     @AuraEnabled
-    public static PatientVisitService.PatientVisitsAndEvent getParticipantVisitsAndStudyType(String visitMode) {
+    public static PatientVisitService.PatientVisitsAndEvent getParticipantVisitsAndStudyType(
+        String visitMode
+    ) {
         try {
             List<String> additionalFields = new List<String>();
             additionalFields.add('Is_Pre_Enrollment_Patient_Visit__c');
@@ -132,10 +139,13 @@ public without sharing class ParticipantVisitsRemote {
     }
 
     @AuraEnabled
-    public static List<PatientVisitService.VisitWrapper> getParticipantVisitsDetails(Id visitId) {
+    public static List<PatientVisitService.VisitWrapper> getParticipantVisitsDetails(
+        Id visitId,
+        Boolean updateReminderExpTasks
+    ) {
         try {
             return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
-                .getVisitDetails(visitId);
+                .getVisitDetails(visitId, updateReminderExpTasks);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -152,7 +162,7 @@ public without sharing class ParticipantVisitsRemote {
         }
         return null;
     }
-    
+
     @AuraEnabled
     public static Boolean getIsRTL() {
         try {
@@ -195,11 +205,16 @@ public without sharing class ParticipantVisitsRemote {
 
     @AuraEnabled
     public static List<Icon_Details__c> getVisitIconsbyName(Id visitId) {
-        
         Id visitPlanId;
-        List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
+        List<Icon_Details__c> iconDetailsList = new List<Icon_Details__c>();
         List<Patient_Visit__c> visits = [
-            SELECT Id, Visit__c, Visit__r.Visit_Plan__c, Completed_Date__c, Visit__r.Icons__c
+            SELECT
+                Id,
+                Visit__c,
+                Visit__r.Visit_Plan__c,
+                Completed_Date__c,
+                Visit__r.Icons__c,
+                Icons__c
             FROM Patient_Visit__c
             WHERE Id = :visitId
         ];
@@ -215,12 +230,30 @@ public without sharing class ParticipantVisitsRemote {
             icons = visits[0].Visit__r.Icons__c;
             if (visits[0].Visit__r != null && visits[0].Visit__r.Icons__c != null)
                 iconNames = visits[0].Visit__r.Icons__c.split(';');
+        } else {
+            icons = visits[0].Icons__c;
+            if (visits[0].Icons__c != null)
+                iconNames = visits[0].Icons__c.split(';');
         }
-        iconDetails = [
+
+        iconDetailsList = [
             SELECT Id, Name, Label__c, Description__c
             FROM Icon_Details__c
             WHERE Name IN :iconNames AND Visit_Plan__c = :visitPlanId
         ];
+        Map<String, Icon_Details__c> iconDetailsMap = new Map<String, Icon_Details__c>();
+        for (Icon_Details__c iconDetail : iconDetailsList) {
+            iconDetailsMap.put(iconDetail.Name, iconDetail);
+        }
+        List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
+        if (!iconNames.isEmpty()) {
+            for (String iconName : iconNames) {
+                if (iconDetailsMap.containsKey(iconName)) {
+                    iconDetails.add(iconDetailsMap.get(iconName));
+                }
+            }
+        }
+
         TranslateHelper.translate(iconDetails);
         return iconDetails;
     }
