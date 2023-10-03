@@ -1,5 +1,10 @@
 import { LightningElement, api } from 'lwc';
 import PP_Download_Results_Data from '@salesforce/label/c.PP_Download_Results_Data';
+import Download_PP from '@salesforce/label/c.Download_PP';
+import Open_In_New_Tab_PP from '@salesforce/label/c.Open_In_New_Tab_PP';
+import myResults from '@salesforce/label/c.Visit_Results_Dashboard_My_Results';
+import Download_In_Progress_PP from '@salesforce/label/c.Download_In_Progress_PP';
+import Visit_Results_Disclaimer_Past_Studies from '@salesforce/label/c.Visit_Results_Disclaimer_Past_Studies';
 import getBase64fromVisitSummaryReportPage_Modified from '@salesforce/apex/ModifiedVisitReportContainerRemote.getBase64fromVisitSummaryReportPage_Modified';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import mobileTemplate from './ppDownloadResultsDataMobile.html';
@@ -7,7 +12,6 @@ import tabletTemplate from './ppDownloadResultsDataTablet.html';
 import desktopTemplate from './ppDownloadResultsData.html';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import checkifPrimary from '@salesforce/apex/ppFileUploadController.checkifPrimary';
-
 export default class PpDownloadResultsData extends LightningElement {
     peId;
     isRTL;
@@ -17,9 +21,13 @@ export default class PpDownloadResultsData extends LightningElement {
     @api patientVisitId;
     showDownloadResults;
     label = {
-        PP_Download_Results_Data
+        PP_Download_Results_Data,
+        Open_In_New_Tab_PP,
+        Download_PP,
+        Download_In_Progress_PP,
+        Visit_Results_Disclaimer_Past_Studies,
+        myResults
     };
-
     connectedCallback() {
         this.userDetails = communityService.getLoggedInUserData();
         if (this.alumniPeId != null) {
@@ -33,7 +41,9 @@ export default class PpDownloadResultsData extends LightningElement {
         } else {
             this.showDownloadResults = true;
         }
+        this.dummy = true;
     }
+
     renderedCallback() {
         if (this.alumniPeId != null) {
             this.peId = this.alumniPeId;
@@ -43,6 +53,9 @@ export default class PpDownloadResultsData extends LightningElement {
                 this.showDownloadResults = true;
             }
         }
+    }
+    get isPastStudies() {
+        return this.alumniPeId != null ? true : false;
     }
     @api
     loadData() {
@@ -88,8 +101,32 @@ export default class PpDownloadResultsData extends LightningElement {
     get isTablet() {
         return FORM_FACTOR == 'Medium';
     }
-    generateReport() {
-        if (!this.isDesktop) {
+
+    generateReport(event) {
+        let anchorEle = '';
+
+        if (
+            event.currentTarget.name == 'download-res' ||
+            event.currentTarget.name == 'download-res-past' ||
+            event.currentTarget.name == 'download-res-mob' ||
+            event.currentTarget.name == 'download-res-mob-past' ||
+            event.currentTarget.name == 'download-res-tab' ||
+            event.currentTarget.name == 'download-res-tab-past' ||
+            event.currentTarget.dataset.name == 'download-vis-res'
+        ) {
+            this.template
+                .querySelector('c-custom-toast-files-p-p')
+                .showToast(
+                    'success',
+                    this.label.Download_In_Progress_PP,
+                    'utility:download',
+                    10000
+                );
+            anchorEle = this.isDesktop
+                ? this.template.querySelectorAll('.download-results')
+                : this.template.querySelectorAll('.download-report');
+        }
+        if (communityService.isMobileSDK()) {
             getBase64fromVisitSummaryReportPage_Modified({
                 peId: this.peId,
                 isRTL: this.isRTL,
@@ -102,23 +139,59 @@ export default class PpDownloadResultsData extends LightningElement {
                 .catch((error) => {
                     console.error('Error occured during report generation', error.message, 'error');
                 });
-        }
-
-        if (this.patientVisitId != null) {
-            window.open(
-                '/pp/apex/PatientVisitReportPage?peId=' +
+        } else {
+            if (this.patientVisitId != null) {
+                let url =
+                    '/pp/apex/PatientVisitReportPage?peId=' +
                     this.peId +
                     '&isRTL=' +
                     this.isRTL +
                     '&patientVisitNam=' +
                     this.patientVisitNam +
                     '&patientVisitId=' +
-                    this.patientVisitId
-            );
-        } else {
-            window.open(
-                '/pp/apex/PatientVisitReportPage?peId=' + this.alumniPeId + '&isRTL=' + this.isRTL
-            );
+                    this.patientVisitId;
+                if (event.currentTarget.dataset.name == 'view-res') {
+                    window.open(url);
+                } else if (
+                    event.currentTarget.name == 'download-res' ||
+                    event.currentTarget.name == 'download-res-mob' ||
+                    event.currentTarget.name == 'download-res-tab' ||
+                    event.currentTarget.dataset.name == 'download-vis-res'
+                ) {
+                    anchorEle[0].setAttribute('href', url);
+                    if (this.isDesktop) {
+                        anchorEle[0].click();
+                    }
+                }
+            } else {
+                let url =
+                    '/pp/apex/PatientVisitReportPage?peId=' +
+                    this.alumniPeId +
+                    '&isRTL=' +
+                    this.isRTL;
+                if (event.currentTarget.name == 'view-res-past') {
+                    window.open(url);
+                } else if (
+                    event.currentTarget.name == 'download-res-past' ||
+                    event.currentTarget.name == 'download-res-mob' ||
+                    event.currentTarget.name == 'download-res-mob-past' ||
+                    event.currentTarget.name == 'download-res-tab-past'
+                ) {
+                    anchorEle[0].setAttribute('href', url);
+                    anchorEle[0].click(function (event) {
+                        event.stopPropagation();
+                    });
+                }
+            }
         }
+    }
+
+    toggleElement() {
+        let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
+        ddMenu.classList.toggle('active');
+    }
+    removeElementFocus() {
+        let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
+        ddMenu.classList.remove('active');
     }
 }

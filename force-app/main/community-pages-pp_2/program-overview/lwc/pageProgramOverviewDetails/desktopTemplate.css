@@ -90,7 +90,13 @@ span:hover {
 .po-mr-10 {
     margin-right: 10px;
 }
-
+.po-custom-box{
+    padding-top : 1rem; 
+    height: 400px;
+    border-radius: 16px;  
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);                       
+}
 .po-mr-26 {
     margin-right: 26px;
 }
@@ -148,6 +154,7 @@ span:hover {
     word-break: break-word;
     font-size: 16px;
     font-weight: 500;
+    margin-top: 10px;
 }
 .slds-accordion__summary-heading > button > lightning-primitive-icon {
     order: 2 !important;
@@ -334,7 +341,7 @@ span:hover {
 }
 
 .piName {
-    height: 19px;
+    height: auto;
     /* width: 146px; */
     color: #444444;
     font-family: 'Proxima Nova';
@@ -346,7 +353,14 @@ span:hover {
 }
 
 .piName-text {
-    margin-left: 15px;
+    /* margin-left: 15px; */
+    /* overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; */
+    /* padding-left: 15px; */
+    padding-right: 15px;
+    word-wrap: break-word;
+    text-align: left;
 }
 
 .tdpiIcon {

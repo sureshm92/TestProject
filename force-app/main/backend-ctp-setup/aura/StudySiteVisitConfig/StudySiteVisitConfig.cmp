@@ -42,7 +42,7 @@
 
     <!-- component body: -->
     <force:recordData aura:id="clinicalRecordData"
-                      fields="CommunityTemplate__c"
+                      fields="CommunityTemplate__c,PPTemplate__c"
                       recordId="{!v.recordId}"
                       targetFields="{!v.studyData}"
                       recordUpdated="{!c.handleRecordUpdate}"/>
@@ -210,7 +210,8 @@
                 </aura:if>
             </aura:if>
         </div>
-        <c:Action_EditVisitPlan aura:id="actionVP" communitytemplate="{!v.studyData.CommunityTemplate__c}" />
+        <c:Action_EditVisitPlan aura:id="actionVP" communitytemplate="{!v.studyData.CommunityTemplate__c}"
+                                pptemplate="{!v.studyData.PPTemplate__c}"/>
     </aura:if>
     <aura:if isTrue="{!v.isModalOpen}">
         <div

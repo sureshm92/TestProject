@@ -639,21 +639,24 @@ global without sharing class ReferHealthcareProviderRemote {
                         IQVIA_Contact_info_storage_consent__c,
                         Participant_Opt_In_Status_Emails__c,
                         IQVIA_PI_Storage_Consent_Time__c,
-                        IQVIA_Email_Consent_Time__c
+                        IQVIA_Email_Consent_Time__c,
+                        UserCommunityIsDelegate__c
                         FROM Contact
                         WHERE Id = :delegateDuplicate.contactId
                     ];
                     if(delegateDuplicate.contactId != null){
                         existingUserPatientDelegate = [SELECT ID, Email FROM User WHERE ContactId = :delegateDuplicate.contactId];
                     }
+                    //update participant as delegate
+                    if(!newContact.UserCommunityIsDelegate__c){
+                        newContact.UserCommunityIsDelegate__c = true;
+                    	update newContact;
+                    }
                     //createUser = false;
                 }
 
                 Participant__c participantDelegate;
                 //Added for performance improvement
-                TriggerHandlerExecutor.bypassHandler(
-                        ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class
-                );
                 TriggerHandlerExecutor.bypassHandler(
                         ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class
                 );
@@ -679,6 +682,7 @@ global without sharing class ReferHealthcareProviderRemote {
                             .getCurrentContactId();
                     }
                     insert participantDelegate;
+                    
                 }
                 if (!participantObj.Adult__c) {
                     update new Participant__c(

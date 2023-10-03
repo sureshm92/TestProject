@@ -50,11 +50,11 @@
                                     data-name={item.ppVisitName}
                                 >
                                     <div class="slds-grid slds-wrap">
-                                        <div class="slds-col slds-size_1-of-12">
+                                        <div class="slds-p-left_x-small slds-size_1-of-12">
                                             <div class="left-line"></div>
                                         </div>
 
-                                        <div class="slds-col slds-size_9-of-12">
+                                        <div class="slds-size_9-of-12">
                                             <div class="slds-truncate" title={item.ppVisitName}>
                                                 <lightning-formatted-text
                                                     class="name-style"
@@ -89,7 +89,7 @@
                                                 </template>
                                             </div>
                                         </div>
-                                        <div class="slds-col slds-size_2-of-12">
+                                        <div class="slds-size_2-of-12">
                                             <template if:true={item.isReminderDate}>
                                                 <c-web-icon
                                                     icon-name="icon_bell"
@@ -172,9 +172,6 @@
                                                             >&nbsp;
                                                             <lightning-formatted-date-time
                                                                 value={item.visitDate}
-                                                                year="numeric"
-                                                                month="short"
-                                                                day="2-digit"
                                                                 time-zone={visitTimezone}
                                                             ></lightning-formatted-date-time>
                                                         </p>
@@ -203,9 +200,6 @@
                                                             >&nbsp;
                                                             <lightning-formatted-date-time
                                                                 value={item.visitDate}
-                                                                year="numeric"
-                                                                month="short"
-                                                                day="2-digit"
                                                                 time-zone={visitTimezone}
                                                             ></lightning-formatted-date-time>
                                                         </p>

@@ -1041,6 +1041,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         this.iscancelButtonClick = false;
     }
     ContinuetoDeleteFiles() {
+        this.FileUploadPending = true;
         this.isSaving = true;
         this.cancelmodalisOpen = false;
         this.iscancelButtonClick = true;
@@ -1097,6 +1098,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 this.template.querySelector('c-ppdocment-view-page').getTableFilesData();
                 this.isSaving = false;
                 this.iscancelButtonClick = false;
+                this.FileUploadPending = true;
                 this.template.querySelector('c-custom-toast-files-p-p').showToast('success', this.label.PP_UploadSuccess,'utility:success',3000);
             })
             .catch((error) => {

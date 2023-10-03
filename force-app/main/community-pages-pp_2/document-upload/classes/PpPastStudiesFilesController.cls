@@ -17,11 +17,14 @@ public with sharing class PpPastStudiesFilesController {
                 id,
                 Participant_Status__c,
                 Clinical_Trial_Profile__c,
-                Clinical_Trial_Profile__r.Study_Code_Name__c
+                Clinical_Trial_Profile__r.Study_Code_Name__c,
+                Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                Invited_To_PP_Date__c 
             FROM Participant_Enrollment__c
             WHERE
                 Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_ALUMNI
                 AND Participant_Contact__c = :contID
+                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true            
             LIMIT 10000 ])
         {
             perIDs.add(objPER.id);
@@ -30,28 +33,34 @@ public with sharing class PpPastStudiesFilesController {
         }
        
         if (isDelegate) {
-        for(Patient_Delegate_Enrollment__c objPDER : [SELECT id, Participant_Enrollment__c
-            FROM Patient_Delegate_Enrollment__c
-            WHERE
-                Participant_Enrollment__c IN :perIDs
-                AND Patient_Delegate__r.Contact__c = :getUserContact
-                AND Primary_Delegate__c = TRUE
-            LIMIT 10000])
+            for(Patient_Delegate_Enrollment__c objPDER : [SELECT id, Participant_Enrollment__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE
+                    Participant_Enrollment__c IN :perIDs
+                    AND Patient_Delegate__r.Contact__c = :getUserContact
+                    AND Primary_Delegate__c = TRUE
+                    AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
+                LIMIT 10000])
             {
-                setPrimaryPER.add(objPDER.Participant_Enrollment__c);
-                pder.add(objPDER);
+                    setPrimaryPER.add(objPDER.Participant_Enrollment__c);
+                    pder.add(objPDER);
 
             } 
+            for(Participant_Enrollment__c objPER : alumiPerList){
+                    if(setPrimaryPER.contains(objPER.Id))
+                    {
+                        PrimaryalumniPERList.add(objPER);
+                    }
 
-            for(Participant_Enrollment__c objPER : alumiPerList)
-            {
-                if(setPrimaryPER.contains(objPER.Id))
-                {
-                    PrimaryalumniPERList.add(objPER);
+            }     
+        }else{
+            Integer indexOfElement = 0;
+            for(Participant_Enrollment__c objPER : (new List<Participant_Enrollment__c>(alumiPerList))){
+                if(objPER.Invited_To_PP_Date__c == null){
+                    alumiPerList.remove(indexOfElement); // Remove the study if it is not invited to particiapnt.
                 }
-
-            } 
-             
+                indexOfElement += 1;
+            }
         }
 
 

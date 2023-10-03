@@ -87,6 +87,7 @@
 }
 
 .dropdown-menu {
+    z-index: 2 !important;
     width: 100%;
     min-width: 7.5rem;
     max-height: 12rem;
@@ -187,7 +188,7 @@
 
 .custom-no-border .dropdown-span {
     padding-left: 0.5rem;
-    padding-right: unset;
+    padding-right: 1.5rem;
 }
 
 .custom-no-border-large {

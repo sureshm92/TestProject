@@ -65,6 +65,22 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
 
         
     }
+    
+   public class CreateJanssenNotification extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            sendJanssenNotifications(
+                (List<Patient_Delegate_Enrollment__c>) newList,
+                null
+            );
+        }
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            sendJanssenNotifications(
+                (List<Patient_Delegate_Enrollment__c>) newList,
+                (Map<Id, Patient_Delegate_Enrollment__c>) oldMap
+            );
+        }
+    }
+    
     public class AssignCommunityPermissionSets extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             Set<Id> pdeIdSet = new set<Id>();
@@ -92,6 +108,110 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
                 updatePermissionSets(pdeIdSet);
             }
         }
+    }
+    
+    public static void sendJanssenNotifications(List<Patient_Delegate_Enrollment__c> pderecs,
+    Map<Id, Patient_Delegate_Enrollment__c> oldMap){
+        Set<Id> patientDelegateIds = new Set<Id>();
+        Set<Id> pdeId = new Set<Id>();
+        List<Patient_Delegate_Enrollment__c> activePder= new List<Patient_Delegate_Enrollment__c>();
+        for(Patient_Delegate_Enrollment__c pde : pderecs){
+            patientDelegateIds.add(pde.Patient_Delegate__r.Contact__c);  
+            pdeId.add(pde.id);
+        }
+        
+        List<Patient_Delegate_Enrollment__c> delegateEnrollmentrecrs = [
+            SELECT Id,
+            Patient_Delegate__r.Participant__r.Full_Name__c,
+            Patient_Delegate__r.Id,
+            Patient_Delegate__r.Contact__c,
+            Patient_Delegate__r.Contact__r.Is_First_Logon__c, 
+            Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+            Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+            Patient_Delegate__r.Contact__r.Visited_Communities__c,
+            Status__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
+            Participant_Enrollment__r.Participant_Status__c,
+            isInviteToPP__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE Id IN :pderecs AND Status__c = :PATIENT_DELEGATE_ACTIVE_STATUS
+        ];
+        for(Patient_Delegate_Enrollment__c pde : delegateEnrollmentrecrs){
+            patientDelegateIds.add(pde.Patient_Delegate__r.Contact__c);  
+            pdeId.add(pde.id);
+            
+        }
+        List<Participant_Enrollment__c> perList = [
+            SELECT
+                id,
+                Participant__c,
+                Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Clinical_Trial_Profile__r.PPTemplate__c,
+                Is_Virtual_Study_Site__c,
+                Participant_Status__c,
+                Participant_Contact__c,
+                Participant__r.Contact__r.Visited_Communities__c,
+                Study_Site__r.Suppress_Participant_Emails__c,
+                Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                Invited_To_PP_Date__c,
+                Referral_Source__c
+            FROM Participant_Enrollment__c
+            WHERE Participant_Contact__c IN : patientDelegateIds
+            AND ( Clinical_Trial_Profile__r.CommunityTemplate__c='PatientPortal' OR (Clinical_Trial_Profile__r.CommunityTemplate__c='Janssen' AND 
+                Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+        ];
+
+        Map<String,sObject> pdvsPde = new Map<String,sObject> ();   
+        List<Patient_Delegate_Enrollment__c> iqviaPde = [select Id,Patient_Delegate__c, Patient_Delegate__r.Contact__c ,Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c from Patient_Delegate_Enrollment__c where 
+                                                        Patient_Delegate__r.Contact__c IN :patientDelegateIds
+                                                           and Id NOT IN : pdeId and  //Status__c =:PATIENT_DELEGATE_ACTIVE_STATUS and
+                                                            isInviteToPP__c=true and 
+                                                       (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' OR Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen')];
+        for(Patient_Delegate_Enrollment__c pde : iqviaPde){
+            String key  = pde.Patient_Delegate__r.Contact__c+'-'+pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+        	pdvsPde.put(key,pde);
+        }
+        // check for template in PE's as well
+        for(Participant_Enrollment__c pe : perList){
+            String key  = pe.Participant_Contact__c+'-'+pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+        	pdvsPde.put(key,pe);
+        }
+
+        Set<Id> assigneeIds  = new Set<id>();
+        for (Patient_Delegate_Enrollment__c pdeNew : delegateEnrollmentrecrs) 
+             {
+                    String visitedCommunities = pdeNew.Patient_Delegate__r.Contact__r.Visited_Communities__c;
+                    Boolean checkVisitedCommunity = false;
+                    if (visitedCommunities != null)
+                        checkVisitedCommunity = visitedCommunities.contains('PatientPortal');
+                   if(oldMap==null ||
+                    (oldMap!= null && pdeNew.Status__c ==  PATIENT_DELEGATE_ACTIVE_STATUS &&
+                        oldMap.get(pdeNew.Id).Status__c == PATIENT_DELEGATE_DISCONNECTED_STATUS &&
+                        oldMap.get(pdeNew.Id).isInviteToPP__c == false &&
+                        pdeNew.isInviteToPP__c == true )
+                    ){
+                    if(((  pdeNew.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c =='Janssen' 
+                       && pdeNew.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0' 
+                       && pdvsPde.containskey(pdeNew.Patient_Delegate__r.Contact__c + '-' +'PatientPortal') 
+                       && !pdvsPde.containskey(pdeNew.Patient_Delegate__r.Contact__c+ '-' +'Janssen'))
+                      ||(pdeNew.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c =='PatientPortal'
+                        && pdvsPde.containskey(pdeNew.Patient_Delegate__r.Contact__c+ '-' +'Janssen')
+                        &&  !pdvsPde.containskey(pdeNew.Patient_Delegate__r.Contact__c+ '-' +'PatientPortal')))
+                       && !checkVisitedCommunity) {
+                         assigneeIds.add(pdeNew.Patient_Delegate__r.Contact__c);
+                    }
+                   }
+                
+             	}
+
+        if(!assigneeIds.isEmpty()){
+            system.enqueueJob(new PermissionSetDeletion(assigneeIds,false));
+        }
+          
     }
 
     @TestVisible
@@ -158,6 +278,7 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
                 .add(pd.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
             } 
 
+           
             Id delId = pd.Patient_Delegate__c;
             if (
                 pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
@@ -180,10 +301,10 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
                 //When Delegate status change from Disconnected to Active - Send Access level change email.
                 //Avoid creating duplicate notification records when Patient delegate is reactivated for multiple studis for same community at a time. 
                 withdrawnPDEORDelORNewRecrs.add(pd); 
-                if(!pdIdReactivatedDupCheckSet.contains(delId)){
-                    pdIdReactivatedDupCheckSet.add(delId);
-                    activatedDelegateEnrolrecrds.add(pd);
-                }
+                    if(!pdIdReactivatedDupCheckSet.contains(delId)){
+                        pdIdReactivatedDupCheckSet.add(delId);
+                        activatedDelegateEnrolrecrds.add(pd);
+                    }
                
             }else if(
                 pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
@@ -194,7 +315,7 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
                 withdrawnPDEORDelORNewRecrs.add(pd);
                 //When Delegate status change from Deleted/Withdrawn to Active - Send New Assignment email.
                 //Avoid creating duplicate notification records when Patient delegate is readded for multiple studis  same community at a time. 
-                if(!pdIdReaddeddDupCheckSet.contains(delId)){
+                 if(!pdIdReaddeddDupCheckSet.contains(delId)){
                     pdIdReaddeddDupCheckSet.add(delId);
                     activatedDelegateEnrolrecrdsNewAssignment.add(pd);
                 }
@@ -265,7 +386,7 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
                 communityTemplateForDelContIdMap.put(pde.Patient_Delegate__r.Contact__c, new Set<String>());
             }
             
-            if( pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+           if( pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
             {
                 communityTemplateForDelContIdMap.get(pde.Patient_Delegate__r.Contact__c)
                 .add('PatientPortal');
@@ -280,7 +401,7 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
             if(!pdIdNewAssDupCheckSet.contains(delId)){
                 pdIdNewAssDupCheckSet.add(delId);
                 pdeRecrdsToProcess.add(pde); // Might be part of two different studies - del is same but enrollments hould be two
-            }
+            }   
         }
         setPDPlatformLevelAlerts(patientDelegateEnrollRecrds);
         createPDEnrollmentAlerts(patientDelegateEnrollRecrds);
@@ -374,7 +495,8 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
             if(PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(
                 pde.Participant_Enrollment__r.Participant_Status__c) 
               ){
-                  if(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_PP)
+                  if(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_PP ||
+                   (pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'))
                   {
                       alertList.add(
                       new Alert__c(
@@ -437,7 +559,7 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
             if (!communityTemplatesByParticipant.containsKey(pe.Participant__c)){
                 communityTemplatesByParticipant.put(pe.Participant__c, new List<String>());
             }
-            if( pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+             if( pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
             {
                 communityTemplatesByParticipant.get(pe.Participant__c)
                 .add('PatientPortal');
@@ -463,8 +585,9 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
                 permissionsByContact.put(assignment.Assignee.ContactId, new Set<String>());
             }
             permissionsByContact.get(assignment.Assignee.ContactId)
-                .add(assignment.PermissionSet.Name);  
+                .add(assignment.PermissionSet.Name); //cid, community_pp
         }
+
         for (Id delCont : participantsByDelContId.keySet()){
              if (!permissionsByContact.containsKey(delCont))
                  continue;
@@ -484,12 +607,13 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
                     ){
                         communityTemplates.add(CommunityTemplateService.getTemplate(templateName));
                     }
-                }
+
+                }              
                 for (CommunityTemplate template : communityTemplates){
                     if (delPermissions.contains(template.permissionSet) && communityTemplateForDelContIdMap.get(delCont).contains(template.templateName)){
                         Contact delegateContact = delContIdDelContMap.get(delCont);
                         //If Delegate is registered then only send New Assignment email for new study assigned to delegate.
-                        if(!delegateContact.Is_First_Logon__c){
+                       if(!delegateContact.Is_First_Logon__c){
                             notifications.add(
                                 new Notification__c(
                                     Notification_Type__c = template.properties.get(templateProperty),
@@ -567,6 +691,7 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
              Participant_Enrollment__r.Clinical_Trial_Profile__c,
              Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
              Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+             Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
              Participant_Enrollment__r.Participant_Status__c
              FROM Patient_Delegate_Enrollment__c
              WHERE Id IN :pdeIds
@@ -585,7 +710,7 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
              if(alerts.isEmpty()){                
                  if (
                      participantDelegate.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                     CommunityTemplateService.TEMPLATE_PP
+                     CommunityTemplateService.TEMPLATE_PP || (participantDelegate.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && participantDelegate.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
                  ) {
                      alertList.add(
                          new Alert__c(
@@ -640,6 +765,7 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
             }
         }
     }
+
     @TestVisible
     //This method check what consents where given and stamps the current time
     private static void updateConsentTimeStamps(List<Patient_Delegate_Enrollment__c> newList) {

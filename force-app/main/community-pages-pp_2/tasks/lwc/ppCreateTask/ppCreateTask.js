@@ -82,16 +82,22 @@ export default class PpCreateTask extends LightningElement {
             .catch((error) => {
                 console.error('Error in loading RR Community JS: ' + JSON.stringify(error));
             });
-        loadScript(this, moment).then(() => {
-            loadScript(this, momentTZ).then(() => {
-                this.currentBrowserTime = window.moment();
-                var localOffset = this.currentBrowserTime.utcOffset();
-                var userTime = this.currentBrowserTime.tz(TIME_ZONE);
-                var centralOffset = userTime.utcOffset();
-                this.diffInMinutes = localOffset - centralOffset;
-                this.initializeData();
+        loadScript(this, moment)
+            .then(() => {
+                loadScript(this, momentTZ).then(() => {
+                    this.currentBrowserTime = window.moment();
+                    if (this.currentBrowserTime) {
+                        var localOffset = this.currentBrowserTime.utcOffset();
+                        var userTime = this.currentBrowserTime.tz(TIME_ZONE);
+                        var centralOffset = userTime.utcOffset();
+                        this.diffInMinutes = localOffset - centralOffset;
+                        this.initializeData();
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error('Error in loading moment: ' + JSON.stringify(error));
             });
-        });
     }
     initializeData() {
         this.spinner.show();
@@ -121,7 +127,7 @@ export default class PpCreateTask extends LightningElement {
                                     if (
                                         !wrapper?.task?.Survey_Invitation__r?.Trial_Survey__r
                                             ?.Display_in_UI__c &&
-                                        wrapper.task.Survey_Invitation__r.IsTrialSurvey__c
+                                        wrapper.task.Survey_Invitation__r?.IsTrialSurvey__c
                                     ) {
                                         this.displayDateInUi = false;
                                         if (
@@ -132,8 +138,9 @@ export default class PpCreateTask extends LightningElement {
                                         }
                                     }
                                 }
-                                this.isSystemOrBusinessTask = true;
-                                if (wrapper.task.Activity_Datetime__c) this.readOnlyMode = true;
+                                if (wrapper.task.Task_Type__c == 'Ecoa') this.isSystemOrBusinessTask = false;
+                                else this.isSystemOrBusinessTask = true;
+                                this.readOnlyMode = true;
                             }
                         }
                         this.task = wrapper.task;
@@ -587,7 +594,8 @@ export default class PpCreateTask extends LightningElement {
                         this.updatedRecord?.reminderDateTime ==
                             this.initialRecord?.reminderDateTime &&
                         this.updatedRecord?.remindSMS == this.initialRecord?.remindSMS &&
-                        this.updatedRecord?.remindEmail == this.initialRecord?.remindEmail
+                        this.updatedRecord?.remindEmail == this.initialRecord?.remindEmail &&
+                        this.initialRecord.remindme ==this.updatedRecord.remindme
                     ) {
                         this.enableSave = false;
                     }

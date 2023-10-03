@@ -438,7 +438,7 @@ input::placeholder {
 
 .rr-min-body-height .rr-min-body-height {
     min-height: auto !important;
-    padding-bottom: 35px !important;
+    padding-bottom: 40px !important;
 }
 
 .label-email-pass-match .slds-form-element__label {
@@ -1439,7 +1439,8 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     .cPpCustomThemeLayout input[type='email'] {
         height: 32px !important;
     }
-    .pp-change-pwd [lightning-input_input-host] {
+    .pp-change-pwd [lightning-input_input-host],
+    .pp-change-pwd lightning-input {
         width: 100% !important;
     }
 
@@ -2192,17 +2193,46 @@ user agent stylesheet svg:not(:root) {
     margin-left: -20px;
 }
 
-.show-more-or-less-container svg{
+.show-more-or-less-container svg {
     fill: #015ff1;
     height: 15px;
 }
 
-.contact-support-popup .modal-header-text{
+.contact-support-popup .modal-header-text {
     height: 32px !important;
     color: #444444 !important;
-    font-family: "Proxima Nova" !important;
+    font-family: 'Proxima Nova' !important;
     font-size: 24px !important;
     font-weight: 600 !important;
     letter-spacing: 0 !important;
     line-height: 29px !important;
+}
+.past-studies .custom-notify-container-mobile {
+    left: 0;
+    top: 33px !important;
+}
+.past-studies-tablet .custom-notify-container-mobile {
+    left: 12% !important;
+    top: 3rem !important;
+    width: 70% !important;
+}
+.custom-pp-combo .slds-input__icon-group_right {
+    right: 16px;
+    top: 60%;
+}
+.custom-pp-combo .slds-input__icon-group {
+    position: absolute;
+    width: 8px;
+    height: 6px;
+}
+
+.custom-pp-combo .slds-listbox__option-icon {
+    display: none;
+}
+.custom-pp-combo .slds-media__body {
+    margin-left: -16px;
+}
+
+.manage-pref-spinner-container .rr-spinner {    
+    z-index: 15000 !important;
 }
