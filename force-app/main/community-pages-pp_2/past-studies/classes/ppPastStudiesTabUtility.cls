@@ -9,6 +9,7 @@ public without sharing class ppPastStudiesTabUtility {
             'SELECT '+
             'id ,'+
             'Enrolled_DateTime__c ,'+
+            'Participant_Status__c ,'+
             'Study_Site__r.Principal_Investigator__r.Name ,'+
             'Study_Site__r.Site__r.Name ,'+
             'Clinical_Trial_Profile__c ,'+
