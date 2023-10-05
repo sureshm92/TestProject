@@ -1,4 +1,7 @@
 <template>
+    <div class="toast">
+        <c-custom-toast-files-p-p is-mobile={showMenu}></c-custom-toast-files-p-p>
+    </div>   
     <div data-id="top"></div>
     <div class="parent"  if:false={showFilePage}>
         <div>
@@ -17,21 +20,24 @@
             <div if:true={showDetailPage} class="detail-page-header">
                 {pageHeader}
             </div>
-            <div if:true={showDetailPage}>
-                <div class="switcher" tabindex="0" onfocus={toggleSwt} onblur={toggleSwt}>
-                    <div class="switcher-txt">
-                        {label.PP_SwitchStudyProgram}
-                        <img src={sycnDropDown} class="swt-img-size" />
+            <div if:true={showDetail}>
+                <div if:false={showDetailPageSwitcher} class="set-margin"></div>
+                <div if:true={showDetailPageSwitcher}>
+                    <div class="switcher" tabindex="0" onfocus={toggleSwt} onblur={toggleSwt}>
+                        <div class="switcher-txt">
+                            {label.PP_SwitchStudyProgram}
+                            <img src={sycnDropDown} class="swt-img-size" />
+                        </div>
+                        <ul if:true={sectionList} class="swt-options slds-hide">
+                            <template for:each={perList} for:item="per">
+                                <li key={per.Id} data-item={per.Id}  onclick={selectStudy}>
+                                    <span class={per.class}>
+                                        {per.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                                    </span>
+                                </li>
+                            </template>
+                        </ul>
                     </div>
-                    <ul if:true={sectionList} class="swt-options slds-hide">
-                        <template for:each={perList} for:item="per">
-                            <li key={per.Id} data-item={per.Id}  onclick={selectStudy}>
-                                <span class={per.class}>
-                                    {per.Clinical_Trial_Profile__r.Study_Code_Name__c}
-                                </span>
-                            </li>
-                        </template>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -91,9 +97,10 @@
                             <div class="box-header">
                                 {label.PP_Resource_Documents}
                             </div>
-                            <div class="box-container slds-align--absolute-center slds-grid slds-wrap doc-box"> 
-                                <div class="slds-size--1-of-1 no-doc-img"><img src={noDocsIcon}/></div>
-                                <div class="slds-size--1-of-1 no-doc-txt">{label.No_Documents_Available}</div>
+                            <div class="box-container doc-box"> 
+                                <!-- <div class="slds-size--1-of-1 no-doc-img"><img src={noDocsIcon}/></div>
+                                <div class="slds-size--1-of-1 no-doc-txt">{label.No_Documents_Available}</div> -->
+                                <c-pp-past-studies-documents lazy-load={showMenu} pe={selectedPER}></c-pp-past-studies-documents>
                             </div>
                         </div>
                     </template>
@@ -106,7 +113,7 @@
                                 <lightning-tab label="Uploaded" onactive={handleFiles}>
                                     <div class={uploadedFilesClass}>
                                         <div class="box-container file-box"> 
-                                            <c-pp-past-studies-my-files study={selectedPER.Clinical_Trial_Profile__c} cont-id={contID} file-uploaded=true class={uploadedFilesClass}  onmorefiles={showViewMore}></c-pp-past-studies-my-files>
+                                            <c-pp-past-studies-my-files onfiledeleted={showdeletetoast} study={selectedPER.Clinical_Trial_Profile__c} cont-id={contID} file-uploaded=true class={uploadedFilesClass}  onmorefiles={showViewMore}></c-pp-past-studies-my-files>
                                         </div>
                                         <div class="card-link slds-align_absolute-center">
                                             <span onclick={viewFile}>View All Files</span>
@@ -152,7 +159,7 @@
                                 </template>
                                 <template if:true={selectedPER.Study_Site__r.Study_Site_Phone__c}>
                                     <div class="con-available">
-                                        <span class="con-txt-align">
+                                        <span class="con-txt-align my-class">
                                             {selectedPER.Study_Site__r.Study_Site_Phone__c}
                                         </span>
                                         <span class="copyIcon" onclick={copyEmailPhone} data-id={selectedPER.Study_Site__r.Study_Site_Phone__c}>
