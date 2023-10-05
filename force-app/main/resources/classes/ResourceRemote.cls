@@ -34,6 +34,47 @@ public without sharing class ResourceRemote {
             throw new AuraHandledException(e.getMessage());
         }
     }
+
+    @AuraEnabled
+    public static ResourceService.ResourceWrapperContainer getPastStudyResources(
+        String resourceType,
+        String participantData,
+        Id peId
+    ) {
+        try {
+            String queryString =
+            'SELECT '+
+            'id ,'+
+            'Enrolled_DateTime__c ,'+
+            'Participant_Status__c ,'+
+            'Study_Site__r.Principal_Investigator__r.Name ,'+
+            'Study_Site__r.Site__r.Name ,'+
+            'Clinical_Trial_Profile__c ,'+
+            'Clinical_Trial_Profile__r.Profile_Picture__c ,'+
+            'Clinical_Trial_Profile__r.Study_Code_Name__c ,'+
+            'Clinical_Trial_Profile__r.Detailed_Description__c ,'+
+            'Clinical_Trial_Profile__r.Study_Documents_Are_Available__c ,'+
+            'Clinical_Trial_Profile__r.Visit_Data_Shareback__c ,'+
+            'Study_Site__r.Messages_Are_Available__c ,'+
+            'Study_Site__r.Study_Site_Phone__c ,'+
+            'Study_Site__r.Study_Site_Email__c ,'+
+            'Study_Site__r.Approved_Lng__c '+
+            'FROM Participant_Enrollment__c '+
+            'WHERE Id =: peId ';
+            Participant_Enrollment__c  alumiPer =  Database.query(queryString);
+            ResourceService.ResourceWrapperContainer resourceWrapperContainer = resourceType.equalsIgnoreCase(
+                    ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT
+                )
+                ? getPastStudyDocuments(alumiPer)
+                : ResourceArticleVideoService.getInstance()
+                      .ppInit(resourceType, participantData)
+                      .getResourceWrapperContainer();
+            return resourceWrapperContainer;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getArticleAndVideos(
         String participantData
@@ -168,6 +209,22 @@ public without sharing class ResourceRemote {
                 .getStudyDocuments();
             cont.wrappers = ResourceService.removeTranslations(cont.wrappers);
             return cont;
+        } catch (Exception e) {
+            return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
+        }
+    }
+
+     @AuraEnabled
+    public static ResourceService.ResourceWrapperContainer getPastStudyDocuments(Participant_Enrollment__c pe) {
+        try {
+            ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceStudyDocumentService.getInstance()
+            .init(ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT)
+            .getResourceWrapperContainer(pe);
+            resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(
+                    resourceWrapperContainer.wrappers
+                );
+            resourceWrapperContainer.wrappers = ResourceService.removeTranslations(resourceWrapperContainer.wrappers);
+            return resourceWrapperContainer;
         } catch (Exception e) {
             return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }
