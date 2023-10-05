@@ -47,7 +47,7 @@
                         <div if:true={parentWrapper.isPreTiral} class="leftPreTrailTitle">
                             {title}
                         </div>
-                        <div class="leftOrdering">
+                        <div if:true={parentWrapper.isPreTiral} class="leftOrdering">
                             <span class="leftOrderingFont">{currentCard}</span>&nbsp;<span>/&nbsp;{totalProgressSteps}</span>
                         </div>
                         <div class={rightMobileClass} onclick={next}>
