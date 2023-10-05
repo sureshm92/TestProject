@@ -8,7 +8,6 @@ import PP_Overview from '@salesforce/label/c.PP_Overview';
 import Your_participation_is_complete from '@salesforce/label/c.Your_participation_is_complete';
 import Participation_complete_description from '@salesforce/label/c.Participation_complete_description';
 import PP_Resource_Documents from '@salesforce/label/c.PP_Resource_Documents';
-import No_Documents_Available from '@salesforce/label/c.No_Documents_Available';
 import PP_MyFiles from '@salesforce/label/c.PP_MyFiles';
 import Visit_Results_Dashboard_My_Results from '@salesforce/label/c.Visit_Results_Dashboard_My_Results';
 import PP_No_results_available from '@salesforce/label/c.PP_No_results_available';
@@ -19,6 +18,7 @@ import PP_EMAIL_caps from '@salesforce/label/c.PP_EMAIL_caps';
 import PP_Past_Messages from '@salesforce/label/c.PP_Past_Messages';
 import Back_to_Past_Studies_and_Programs from '@salesforce/label/c.Back_to_Past_Studies_and_Programs';
 import PP_Communications from '@salesforce/label/c.PP_Communications';
+import PP_DeletedSucesfully from '@salesforce/label/c.PP_DeletedSucesfully';
 
 export default class PpPastStudiesParent extends LightningElement {
     hideDetailPage = false;
@@ -37,7 +37,6 @@ export default class PpPastStudiesParent extends LightningElement {
     selectedPER;
     studyPERMap = new Map();
     sycnDropDown = pp_icons + '/' + 'arrow2-sync.svg';
-    noDocsIcon = pp_icons + '/' + 'no-docs.svg';
     noFilesIcon = pp_icons + '/' + 'no-files.svg';
     noMessagesIcon = pp_icons + '/' + 'no-messages.svg';
     noResultsIcon = pp_icons + '/' + 'no-results.svg';
@@ -52,7 +51,6 @@ export default class PpPastStudiesParent extends LightningElement {
         Your_participation_is_complete,
         Participation_complete_description,
         PP_Resource_Documents,
-        No_Documents_Available,
         PP_MyFiles,
         Visit_Results_Dashboard_My_Results,
         PP_No_results_available,
@@ -61,7 +59,8 @@ export default class PpPastStudiesParent extends LightningElement {
         PP_Visit_Result_Value_Not_Available,
         PP_EMAIL_caps,
         PP_Past_Messages,
-        Back_to_Past_Studies_and_Programs
+        Back_to_Past_Studies_and_Programs,
+        PP_DeletedSucesfully
     };
     connectedCallback() {
         window.addEventListener('resize', this.windowResize);   
@@ -169,6 +168,12 @@ export default class PpPastStudiesParent extends LightningElement {
         }
         return false;
     }
+    get showDetailPageSwitcher(){
+        if(this.showDetailPage){
+            return this.perList.length > 1;
+        }
+        return false;
+    }
     toggleSwt(){
         this.template.querySelector('.swt-options').classList.toggle('slds-hide');
     }
@@ -234,5 +239,9 @@ export default class PpPastStudiesParent extends LightningElement {
             this.updateSelectedStudy(this.studyPERMap.get(event.detail.message));
         }
         this.showFilePage=false;
+    }
+    
+    showdeletetoast(){
+        this.template.querySelector('c-custom-toast-files-p-p').showToast('success',this.label.PP_DeletedSucesfully ,'utility:success',100000);
     }
 }
