@@ -19905,12 +19905,40 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_ BacktoUpload</shortDescription>
         <value>Back to Upload</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Browsefiles</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Browsefiles</shortDescription>
         <value>Browse files</value>
+    </labels>
+    <labels>
+        <fullName>PP_Consent_Study_Program_US</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Consent_Study_Program_US</shortDescription>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Consent_Study_Program_ROW</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Consent_Study_Program_ROW</shortDescription>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Consent_IQVIA_US</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Consent_IQVIA_US</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA&apos;s Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Consent_IQVIA_ROW</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Consent_IQVIA_ROW</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA&apos;s Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Can_t_rembeber_my_username</fullName>

@@ -29,12 +29,14 @@
 }
 .fullHeight{
     height: 100%;
+    position: relative;
 }
 .viewmessagelabel{
   color: #0768FD;
   font-family: "Proxima Nova";
   font-size: 14px;
   font-weight: 500;
+  margin-top: -21px;
   /*
   letter-spacing: 0;
   line-height: 10px;
