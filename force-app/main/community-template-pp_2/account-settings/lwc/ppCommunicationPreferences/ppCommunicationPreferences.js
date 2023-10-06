@@ -488,7 +488,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     }
 
     get borderStyle() {
-        return this.isRTL ? 'study-paramters border-left' : 'study-paramters border-right';
+        return this.isRTL ? 'study-paramters border-right' : 'study-paramters border-left';
     }
 
     get borderStyleMobile() {
@@ -582,6 +582,9 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             );
             this.isInitialized = false;
         }
+    }
+    get studyParameterStyle(){
+        return this.isRTL ? 'study-paramters' : 'study-paramters';
     }
 
     selectIndividualOptions(event) {
