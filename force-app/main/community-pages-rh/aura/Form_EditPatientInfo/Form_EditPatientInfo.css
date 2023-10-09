@@ -61,11 +61,6 @@
     overflow: hidden;
     width: 13.5rem;
 }
-
-.THIS .cursorType{
-    cursor:text;
-  }
-
 .THIS .textoverlapDaytimeTelephoneNumbe1 {
     width: 16rem;
     text-overflow: ellipsis;
