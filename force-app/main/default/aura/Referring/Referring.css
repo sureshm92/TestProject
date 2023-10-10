@@ -125,6 +125,10 @@
     font-weight: 600;
 }
 
+.THIS .cursorType{
+    cursor: default;
+  }
+
 .THIS.rr-body-content > .rr-width-limiter {
     margin-top: 50px;
 }
