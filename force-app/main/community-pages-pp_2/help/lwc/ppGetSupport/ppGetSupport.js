@@ -123,6 +123,9 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
             ? 'highlight-error mt-5 fadePlaceholder'
             : 'mt-5 fade fadePlaceholder';
     }
+    get currentYobClass(){
+        return this.isRTL ? 'from-date-rtl' : 'from-date';
+    }
     handleChangeSelection(event) {
         this.disableSave = true;
         this.selectedOption = event.detail.value;

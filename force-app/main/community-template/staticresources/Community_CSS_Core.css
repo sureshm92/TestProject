@@ -2104,3 +2104,6 @@ outline: none !important;
     background: #ecf3ff !important;
 }
 /* Delegate redesing - Chages-  Ends */
+.manage-pref-spinner-container .rr-spinner {
+    z-index: 50001 !important;
+}

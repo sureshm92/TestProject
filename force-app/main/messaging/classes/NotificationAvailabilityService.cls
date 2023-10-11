@@ -614,10 +614,10 @@ public without sharing class NotificationAvailabilityService {
             Id whatId = Id.valueOf(whatIdrecrd);
             Task taskrecrd = (Task) objectsByIds.get(whatId);
             String objType = String.valueOf(taskrecrd.whatId.getSobjectType());
-            isStudyLevelEcoaPar =
+            /*isStudyLevelEcoaPar =
                 notificationType.IsStudyLevel__c &&
                 objType == 'Participant__c' &&
-                taskrecrd.Task_Type__c == 'Ecoa';
+                taskrecrd.Task_Type__c == 'Ecoa';*/
             isPlatformLevelPar = !notificationType.IsStudyLevel__c && objType == 'Participant__c';
             Boolean taskTriggerEmail =
                 !taskrecrd.CreatedByAdmin__c &&
@@ -652,7 +652,7 @@ public without sharing class NotificationAvailabilityService {
                         if (perEmailToSend) {
                             isEmailAvailableAtPER = true;
                         }
-                    } else if (isStudyLevelEcoaPar) {
+                    } /*else if (isStudyLevelEcoaPar) {
                         Participant__c pe = (Participant__c) objectsByIds.get(taskrecrd.WhatId);
                         Boolean perEmailToSend = false;
                         if (
@@ -687,7 +687,7 @@ public without sharing class NotificationAvailabilityService {
                         if (perEmailToSend) {
                             isEmailAvailableAtPER = true;
                         }
-                    } else if (isPlatformLevelPar) {
+                    }*/ else if (isPlatformLevelPar) {
                         //Write for platform Level
                         Contact contact = contactByIdMap.get(contactId);
                         if (
@@ -1121,6 +1121,13 @@ public without sharing class NotificationAvailabilityService {
                 communityTemplate = CommunityTemplateService.getTemplate(
                     pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c
                 );
+                if (
+                    pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                    CommunityTemplateService.TEMPLATE_JANSSEN &&
+                    pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'
+                ) {
+                    communityTemplate = CommunityTemplateService.getTemplate(CommunityTemplateService.TEMPLATE_PP);
+                }
             }
         } else if (objType == SURVEY_INVITATION_OBJ_NAME) {
             SurveyInvitation surveyInv = (SurveyInvitation) objectsByIds.get(Id.valueOf(whatId));

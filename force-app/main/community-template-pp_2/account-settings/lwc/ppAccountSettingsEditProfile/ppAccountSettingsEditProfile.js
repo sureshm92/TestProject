@@ -1301,7 +1301,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         } else {
             this.selectedAge = null;
             personWrapperDob.age = null;
-            this.personWrapper = personWrapper;
+            this.personWrapper = personWrapperDob;
         }
     }
 }

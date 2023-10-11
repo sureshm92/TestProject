@@ -44,7 +44,7 @@
             </div>
             <aura:set attribute="footerButtons">
                 <button class="apollo-btn primary" onclick="{!c.doShowNext}">
-                    {!$Label.c.BTN_OK}
+                    {!$Label.c.BulkImport_Ok}
                 </button>
             </aura:set>
         </c:Popup>

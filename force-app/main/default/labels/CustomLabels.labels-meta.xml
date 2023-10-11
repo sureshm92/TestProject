@@ -674,7 +674,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Activate_Ecoa_Ediaries</shortDescription>
-        <value>Activate Your eDiaries</value>
+        <value>Activate eDiaries</value>
     </labels>
     <labels>
         <fullName>Active_Requests</fullName>
@@ -1747,6 +1747,34 @@
         <shortDescription>Back</shortDescription>
         <value>Back</value>
     </labels>
+     <labels>
+        <fullName>Back_to_eDiaries</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back to eDiaries</shortDescription>
+        <value>Back to eDiaries</value>
+    </labels>
+     <labels>
+        <fullName>Activate_eDiaries</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Activate eDiaries</shortDescription>
+        <value>You will be able to activate eDiaries soon</value>
+    </labels>
+     <labels>
+        <fullName>eDiaries_Comm_Preferences</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>eDiaries Comm Preferences</shortDescription>
+        <value>Review Communication Preferences</value>
+    </labels>
+     <labels>
+        <fullName>eDiaries_Work_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>eDiaries Work Msg</shortDescription>
+        <value>We are working on it...</value>
+    </labels>
     <labels>
         <fullName>Back_to_Manage_Delegates</fullName>
         <language>en_US</language>
@@ -1983,7 +2011,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BulkImport_Ok</shortDescription>
-        <value>Ok</value>
+        <value>OK</value>
     </labels>
     <labels>
         <fullName>BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files</fullName>
@@ -5700,6 +5728,20 @@ Your username is ##UserName.</value>
 &lt;div&gt;&lt;span&gt;Due Date &amp; Time :&lt;/span&gt; &lt;span &gt; ##Taskdate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Activate_Task_For_ECOA_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Activate Task For ECOA PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Del_Email_Body_Activate_Task_For_ECOA_PP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Del Email Body Activate Task For ECOA PP</shortDescription>
+        <value>&lt;span style=&quot;color:#444444;&quot;&gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName&lt;/span&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Instant_Task_Reminder_Type_Not_Selected_PPOnlyDate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6869,7 +6911,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Footer Address</shortDescription>
-        <value>Powered by IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
+        <value>Powered by IQVIA</value>
     </labels>
     <labels>
         <fullName>Email_Footer_Address_New</fullName>
@@ -6877,6 +6919,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>false</protected>
         <shortDescription>Email Footer Address New</shortDescription>
         <value>IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
+    </labels>
+    <labels>
+        <fullName>Email_Footer_Address_RH</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Footer_Address_RH</shortDescription>
+        <value>Powered by IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
     </labels>
     <labels>
         <fullName>Email_Footer_Privacy_Policy</fullName>
@@ -7558,6 +7607,21 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>false</protected>
         <shortDescription>Email Outage Title</shortDescription>
         <value>Referral Hub 4.0 &amp; Patient Portal 2.0 Release on weekend</value>
+    </labels>
+    <labels>
+        <fullName>Email_Refer_Sign_Patient_New_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Refer Sign Patient New PP</shortDescription>
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Further information on the Patient Portal can be found in the Informed Consent Form from your ##isStudyorProgram team.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in participating in clinical research.&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
+
+&lt;span style=&quot;color:#444444;&quot;&gt;##SignatureFullCommunityNewName&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Patient_New_PP</fullName>
@@ -10542,6 +10606,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Human leukocyte antigen</shortDescription>
         <value>HLA</value>
+    </labels>
+    <labels>
+        <fullName>I_Acknowledge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>I_Acknowledge</shortDescription>
+        <value>I acknowledge</value>
     </labels>
     <labels>
         <fullName>ICOS_Description_Intratumoral</fullName>
@@ -31881,5 +31952,26 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Show Less Site staff</shortDescription>
         <value>Show Less</value>
-    </labels> 
+    </labels>
+     <labels>
+        <fullName>Visit_Results_Disclaimer_Past_Studies</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Disclaimer_Past_Studies</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study or program. It is for research or program participation purposes only.</value>
+    </labels>
+    <labels>
+        <fullName>Open_In_New_Tab_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Open_In_New_Tab_PP</shortDescription>
+        <value>Open in new tab</value>
+    </labels>
+    <labels>
+        <fullName>Download_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Download_PP</shortDescription>
+        <value>Download</value>
+    </labels>
 </CustomLabels>

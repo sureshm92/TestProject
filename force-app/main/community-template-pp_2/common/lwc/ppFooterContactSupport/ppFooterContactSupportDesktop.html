@@ -243,23 +243,38 @@
                                                             style={customHeightMatchForSiteStaff}
                                                             class="site-staff-container"
                                                         >
-                                                            <template
+                                                            <!-- <template
                                                                 for:each={siteStaffParticipantListTooltip}
                                                                 for:item="ssName"
-                                                            >
+                                                            > -->
+                                                            <template iterator:ssname={siteStaffParticipantListTooltip}>
                                                                 <lightning-layout
-                                                                    key={ssName.Id}
+                                                                    key={ssname.value.Id}
                                                                     multiple-rows="true"
                                                                 >
+
+                                                                <template lwc:if={ssname.last}> 
                                                                     <lightning-layout-item
                                                                         size="12"
-                                                                        key={ssName.Id}
-                                                                        class="content1 marginBottom-12"
+                                                                        key={ssname.value.Id}
+                                                                        class="content1"
                                                                     >
-                                                                        {ssName.Site_Contact__r.Salutation}
-                                                                        {ssName.Site_Contact__r.Name}
-                                                                        <!-- &nbsp;{label.Site_Staff_Post_Fix} -->
-                                                                    </lightning-layout-item>
+                                                                        {ssname.value.Site_Contact__r.Salutation}
+                                                                        {ssname.value.Site_Contact__r.Name}
+                                                                     </lightning-layout-item>
+                                                                </template>                                                            
+                                                                <template lwc:else> 
+                                                                    <lightning-layout-item
+                                                                            size="12"
+                                                                            key={ssname.value.Id}
+                                                                            class="content1 marginBottom-12"
+                                                                        >
+                                                                            {ssname.value.Site_Contact__r.Salutation}
+                                                                            {ssname.value.Site_Contact__r.Name}
+                                                                            <!-- &nbsp;{label.Site_Staff_Post_Fix} -->
+                                                                     </lightning-layout-item>
+                                                                </template>
+                                                                   
                                                                 </lightning-layout>
                                                             </template>
                                                             <!-- <template if:true={displaypluscount}>

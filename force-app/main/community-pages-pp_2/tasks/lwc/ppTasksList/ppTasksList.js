@@ -205,8 +205,27 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             event.currentTarget.dataset.status == 'Completed'
         )
             return;
+
         if (event.currentTarget.dataset.actionurl != undefined) {
-            communityService.navigateToPage(event.currentTarget.dataset.actionurl);
+            if (event.currentTarget.dataset.actionurl != undefined && event.currentTarget.dataset.actionurl == 'e-diaries') {
+                if(this.ishomepage){
+                    this[NavigationMixin.Navigate]({
+                        type: 'comm__namedPage',
+                        attributes: {
+                            pageName: 'e-diaries'
+                        },
+                        state: {
+                            showBackToHome: true
+                        }
+                    });
+                }
+                else{
+                    communityService.navigateToPage(event.currentTarget.dataset.actionurl);
+                }
+            }
+            else{
+                communityService.navigateToPage(event.currentTarget.dataset.actionurl);
+            }
         }
     }
     showTaskCompleteModal(event) {
@@ -307,7 +326,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         }
 
         if (
-            this.taskCodeList.includes(selectedTask.task.Task_Code__c) &&
+            (this.taskCodeList.includes(selectedTask.task.Task_Code__c)  || selectedTask.task.Task_Type__c == 'Ecoa')  &&
             selectedTask.task.Task_Code__c != 'Complete_Survey'
         ) {
             this.popupTaskMenuItems.push(this.reminderObj);
