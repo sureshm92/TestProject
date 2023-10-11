@@ -101,7 +101,7 @@
 }
 .sub-status-date {
     color: #6E6E6E;
-    font-family: "Proxima Nova";
+    font-family: "Nunito Sans";
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
@@ -167,7 +167,7 @@
 .leftPreTrailTitle {
     color: #444444;
     font-family: "Proxima Nova";
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 24px;
@@ -190,7 +190,7 @@
     padding-top: 8px;
 }
 .leftBSectionDescription {
-    display: inline-block;
+    display: flex;
     color: #6E6E6E;
     font-family: "Proxima Nova";
     font-size: 16px;
@@ -474,7 +474,12 @@
     }
 }
 
-
+.small .pretrial-progress-bar{
+    border-radius: 8px;
+    border: 1px solid #E9E9E9;
+    background: #FFF;
+    margin: 12px 15px 15px 15px;;
+}
 .small .btnmac {
 	display: block;
 	padding-top: 16px;
@@ -489,6 +494,7 @@
     border-top-right-radius: 0px;
     border-top-left-radius: 0px;
     border-color: #D4D4D4;
+    min-height: 408px
 }
 .small .rightBox {
 	box-sizing: border-box;
