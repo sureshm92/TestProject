@@ -493,6 +493,7 @@
     border-top-right-radius: 0px;
     border-top-left-radius: 0px;
     border-color: #D4D4D4;
+    min-height: 408px
 }
 .small .rightBox {
 	box-sizing: border-box;

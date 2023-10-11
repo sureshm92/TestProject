@@ -19931,14 +19931,28 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Consent_IQVIA_US</shortDescription>
-        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA&apos;s Privacy Policy, by the following means:</value>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of</value>
     </labels>
     <labels>
         <fullName>PP_Consent_IQVIA_ROW</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Consent_IQVIA_ROW</shortDescription>
-        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of IQVIA&apos;s Privacy Policy, by the following means:</value>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of</value>
+    </labels>
+    <labels>
+        <fullName>PP_IQVIA_s_Privacy_Policy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA&apos;s Privacy Policy</shortDescription>
+        <value>IQVIA&apos;s Privacy Policy</value>
+    </labels>
+    <labels>
+        <fullName>PP_by_the_following_means</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>by the following means</shortDescription>
+        <value>by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Can_t_rembeber_my_username</fullName>
@@ -23801,7 +23815,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pre_Trial_Stay_Tune</shortDescription>
-        <value>Stay Tuned</value>
+        <value>Stay Tuned!</value>
     </labels>
     <labels>
         <fullName>Prefer_not_to_say</fullName>
