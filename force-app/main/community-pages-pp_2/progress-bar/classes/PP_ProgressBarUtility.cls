@@ -50,11 +50,9 @@ public with sharing class PP_ProgressBarUtility {
                     Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Status_Milestone_Available__c,Clinical_Trial_Profile__r.Study_External_URL__c,Clinical_Trial_Profile__c,
                     (select id,Status__c, Date__c FROM Participant_Enrollment_Status_History__r order by Date__c asc) 
                     FROM Participant_Enrollment__c where id=:peId];
-            system.debug('pe.Participant_Status__c ::'+pe.Participant_Status__c);
             if([select count() FROM Study_status_desc_and_motivational_msg__mdt where PER_Participant_Status__c =:pe.Participant_Status__c]==0){
                 return null;
             }
-            system.debug('pe.Participant_Status__c ::'+PreTrialStatus.contains(pe.Participant_Status__c));
             if(InTrialStatus.contains(pe.Participant_Status__c)){
                 pw = generateBarForInTrial(pe,pw,peId);
                 return pw;
@@ -202,10 +200,8 @@ public with sharing class PP_ProgressBarUtility {
                 for(Study_status_description_motivation__c studyDescConfig : [SELECT Status_Name__c,Study__c,Status_Description__c,Status_Motivational_Message__c,Status_Developer_Name__c   FROM Study_status_description_motivation__c WHERE Study__c  =: pe.Clinical_Trial_Profile__c]){
                     if(studyDescConfig.Status_Developer_Name__c !=null){
                         statusConfigMap.put(studyDescConfig.Status_Developer_Name__c,studyDescConfig);
-                        system.debug('statusConfigMap :: '+studyDescConfig.Status_Developer_Name__c);
                     }else{
                         statusConfigMap.put(studyDescConfig.Status_Name__c,studyDescConfig);
-                        system.debug('statusConfigMap :: '+studyDescConfig.Status_Name__c);
                     }
                     configCount++;
                 }
