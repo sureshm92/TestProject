@@ -50,12 +50,13 @@ public with sharing class PP_ProgressBarUtility {
                     Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Status_Milestone_Available__c,Clinical_Trial_Profile__r.Study_External_URL__c,Clinical_Trial_Profile__c,
                     (select id,Status__c, Date__c FROM Participant_Enrollment_Status_History__r order by Date__c asc) 
                     FROM Participant_Enrollment__c where id=:peId];
+            system.debug('pe.Participant_Status__c ::'+pe.Participant_Status__c);
             if([select count() FROM Study_status_desc_and_motivational_msg__mdt where PER_Participant_Status__c =:pe.Participant_Status__c]==0){
                 return null;
             }
+            system.debug('pe.Participant_Status__c ::'+PreTrialStatus.contains(pe.Participant_Status__c));
             if(InTrialStatus.contains(pe.Participant_Status__c)){
                 pw = generateBarForInTrial(pe,pw,peId);
-                
                 return pw;
             }
             else if(PreTrialStatus.contains(pe.Participant_Status__c) && pe.Clinical_Trial_Profile__r.Status_Milestone_Available__c 
@@ -240,6 +241,7 @@ public with sharing class PP_ProgressBarUtility {
                     List<Study_status_desc_and_motivational_msg__mdt> statusLst = milestonseStatusMapping.get(milestoneConfig.PER_Participant_Status__c);
                     List<statusWrapper> sWrpList = new List<statusWrapper>();
                     if(multiplier < 0 ){
+
                         for(Study_status_desc_and_motivational_msg__mdt statusConfig : statusLst){
                             if(peshDateMap.containsKey(statusConfig.PER_Participant_Status__c)){
                                 
@@ -248,10 +250,10 @@ public with sharing class PP_ProgressBarUtility {
                                 sWrp.statusDate = peshDateMap.get(statusConfig.PER_Participant_Status__c);
                                 sWrpList.add(sWrp);
                             }
-                            
-                            prW.title = (statusConfigMap.containsKey(statusConfig.DeveloperName) && statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c!=null) ? statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c : statusConfig.PER_Participant_Status__c;
-                            system.debug('statusConfig.DeveloperName ::'+statusConfig.DeveloperName);
-                            prW.description = statusConfigMap.get(statusConfig.DeveloperName).Status_Motivational_Message__c;  
+                            if(multiplier < 0 ){
+                                prW.title = (statusConfigMap.containsKey(statusConfig.DeveloperName) && statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c!=null) ? statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c : statusConfig.PER_Participant_Status__c;
+                                prW.description = statusConfigMap.get(statusConfig.DeveloperName).Status_Motivational_Message__c;  
+                            }
                             if(statusConfig.PER_Participant_Status__c == pe.Participant_Status__c){
                                 pw.currentStatusVal = count;                    
                                 multiplier = 1;
@@ -263,7 +265,7 @@ public with sharing class PP_ProgressBarUtility {
                         prW.statusWrapperList = sWrpList;
                     }
 
-
+                    
                     prW.stepVal = count*multiplier;
                     
                     if(prW.stepVal<0){
