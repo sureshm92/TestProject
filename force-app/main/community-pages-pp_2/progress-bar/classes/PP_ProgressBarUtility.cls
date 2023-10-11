@@ -242,7 +242,7 @@ public with sharing class PP_ProgressBarUtility {
                             if(peshDateMap.containsKey(statusConfig.PER_Participant_Status__c)){
                                 
                                 statusWrapper sWrp = new statusWrapper();
-                                sWrp.statusName = statusConfig.PER_Participant_Status__c;
+                                sWrp.statusName = statusConfig.MasterLabel;
                                 sWrp.statusDate = peshDateMap.get(statusConfig.PER_Participant_Status__c);
                                 sWrpList.add(sWrp);
                             }
