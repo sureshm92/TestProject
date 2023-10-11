@@ -329,9 +329,4 @@ let customCSS = 'tRight slds-align-top';
     get leftTitle() {
         return (this.parentWrapper.isPreTiral? "leftPreTrailTitle" : "leftTitle");
     }
-    get boxClass(){
-        if(this.parentWrapper.isPreTiral){
-            return "slds-grid slds-wrap pretrial-progress-bar";
-        }
-    }
 }
