@@ -217,8 +217,8 @@ public with sharing class PP_ProgressBarUtility {
                 Integer multiplier = -1;
                 Map<String,Datetime> peshDateMap = new Map<String,Datetime>();
                 for(Participant_Enrollment_Status_History__c pesh : pe.Participant_Enrollment_Status_History__r){
-                    peshDateMap.put(pesh.Status__c,pesh.Date__c);
-                }
+                    peshDateMap.put(pesh.Status__c.toLowerCase(),pesh.Date__c);
+               }
                 for(Study_status_desc_and_motivational_msg__mdt milestoneConfig : [select id,MasterLabel,Status_order__c,PER_Participant_Status__c,DeveloperName   FROM Study_status_desc_and_motivational_msg__mdt where Status_order__c>3 and Status_order__c<4 order by Status_order__c  asc]){
                     if((milestoneConfig.MasterLabel == 'Randomization' || milestoneConfig.MasterLabel == 'Enrollment') && pe.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c != milestoneConfig.MasterLabel){
                         continue;
@@ -239,11 +239,10 @@ public with sharing class PP_ProgressBarUtility {
                     if(multiplier < 0 ){
 
                         for(Study_status_desc_and_motivational_msg__mdt statusConfig : statusLst){
-                            if(peshDateMap.containsKey(statusConfig.PER_Participant_Status__c)){
-                                
+                            if(peshDateMap.containsKey(statusConfig.PER_Participant_Status__c.toLowerCase())){
                                 statusWrapper sWrp = new statusWrapper();
                                 sWrp.statusName = statusConfig.MasterLabel;
-                                sWrp.statusDate = peshDateMap.get(statusConfig.PER_Participant_Status__c);
+                                sWrp.statusDate = peshDateMap.get(statusConfig.PER_Participant_Status__c.toLowerCase());
                                 sWrpList.add(sWrp);
                             }
                             if(multiplier < 0 ){
@@ -256,7 +255,6 @@ public with sharing class PP_ProgressBarUtility {
                                 count = 0;
                                 prW.status = 'IN PROGRESS';
                             }
-                            
                         }
                         prW.statusWrapperList = sWrpList;
                     }
@@ -266,8 +264,8 @@ public with sharing class PP_ProgressBarUtility {
                     
                     if(prW.stepVal<0){
                         prW.status = 'COMPLETED';
-                        if(peshDateMap.containsKey(pe.Participant_Status__c)){
-                            prW.statusDate = peshDateMap.get(pe.Participant_Status__c);
+                        if(peshDateMap.containsKey(pe.Participant_Status__c.toLowerCase())){
+                            prW.statusDate = peshDateMap.get(pe.Participant_Status__c.toLowerCase());
                         }
                     }
                     count++;    
