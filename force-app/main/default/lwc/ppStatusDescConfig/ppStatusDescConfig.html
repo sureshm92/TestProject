@@ -1,12 +1,11 @@
 <template>
     <template if:false={featureUnavailale}>
         <div class="slds-align_absolute-center">
-            <lightning-button variant="brand" label="Save" title="Save" onclick={handleSave} class="slds-m-left_x-small" disabled={isDisabled}></lightning-button>
-            <lightning-button variant="Neutral" label="Cancel" title="Canel" onclick={handleCancel} class="slds-m-left_x-small" disabled={isDisabled}></lightning-button>
+            <lightning-button variant="brand" label="Save" title="Save" onclick={handleSave} class="slds-m-left_x-small" disabled={buttonDisabled}></lightning-button>
+            <lightning-button variant="Neutral" label="Cancel" title="Canel" onclick={handleCancel} class="slds-m-left_x-small" disabled={buttonDisabled}></lightning-button>
         </div>
-        
         <template if:true={showStatusTitleTab}>
-            <h2 class="table-heading">Pre Enrollment Status</h2>
+            <h2 class="table-heading">{label.PreTrial_Status_Table_Heading}</h2>
             <lightning-datatable suppress-bottom-bar="true"
                     name="statusConfig" 
                     key-field="Id"
@@ -17,11 +16,12 @@
                     oncellchange = "{handleEditCellChange}"
                     errors={preTrialStatusErrors}
                     hide-checkbox-column
-                    oncancel={handleCancel}>
+                    oncancel={handleCancel}
+                    onchange={handleCellChange}>
             </lightning-datatable>
         </template>
         <template if:true={showStatusMilestoneTab}>
-            <h2 class="table-heading">Pre Enrollment Milestones</h2>
+            <h2 class="table-heading">{label.PreTrial_Milestone_Table_Heading}</h2>
             <lightning-datatable suppress-bottom-bar="true"
                     name="milestoneConfig" 
                     key-field="Id"
@@ -32,11 +32,12 @@
                     oncellchange = "{handleEditCellChange}"
                     errors={preTrialMilestoneErrors}
                     hide-checkbox-column
-                    oncancel={handleCancel}>
+                    oncancel={handleCancel}
+                    onchange={handleCellChange}>
             </lightning-datatable>
         </template> 
         <template if:true={data}>
-            <h2 class="table-heading">In Study Status</h2>
+            <h2 class="table-heading">{label.InTrial_Table_Heading}</h2>
             <lightning-datatable suppress-bottom-bar="true"
                     name="studyConfig" 
                     key-field="Id"
@@ -47,7 +48,8 @@
                     oncellchange = "{handleEditCellChange}"
                     errors={errors}
                     hide-checkbox-column
-                    oncancel={handleCancel}>
+                    oncancel={handleCancel}
+                    onchange={handleCellChange}>
             </lightning-datatable>
         </template>
     </template>

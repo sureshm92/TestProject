@@ -54,7 +54,7 @@ public class Test_ContactTriggerHandler {
         ContactTriggerHandler.updateParticipantAndUserEmailsOnEmailChange(contactList,contactOldMap);
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-        //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
+         
     }
      @isTest
     private static void test1(){ 
@@ -178,10 +178,7 @@ public class Test_ContactTriggerHandler {
         ContactTriggerHandler.updateParticipantConsent(contactList,contactOldMap);
         ContactTriggerHandler.updateParticipantConsent(contactList,null);
         ContactTriggerHandler.setShowTourDefault(contactList);
-        ContactTriggerHandler.createUserForCCContact(contactList);
-        //ContactTriggerHandler.createTaskToUpdatePhoneNumber(contactList,contactOldMap);
-        //ContactTriggerHandler.retryWelcomeMsg(contactList,contactOldMap);
-        //ContactTriggerHandler.createUserForDelegateContact(contactList);
+        ContactTriggerHandler.createUserForCCContact(contactList); 
         contactList[0].Participant_Phone_Opt_In_Permit_Phone__c = false;
         ContactTriggerHandler.updateParticipantConsent(contactList,null);
         pcon.Participant_Phone_Opt_In_Permit_Phone__c = true;
@@ -193,8 +190,8 @@ public class Test_ContactTriggerHandler {
         
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-        //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-    }
+         
+    }  
     @isTest
     private static void test2() {
         TriggerHandlerExecutor.bypassHandler(
@@ -212,6 +209,8 @@ public class Test_ContactTriggerHandler {
             PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
         );
 
+		Account account_1 = new Account(Name = 'Community', BillingCountry = 'United States');
+        insert account_1;
         List<Contact> contactList = new List<Contact>();
          Map<Id, Contact> contactOldMap = new  Map<Id, Contact>();
         Contact partContact = new Contact(
@@ -221,6 +220,7 @@ public class Test_ContactTriggerHandler {
             Language__c = 'en_US',
             MailingCountry = 'United States',
             Participant_Opt_In_Status_SMS__c=false,
+           
             MailingCountryCode='US',
             Phone='123',
             UserCommunityIsDelegate__c=false,
@@ -263,8 +263,7 @@ public class Test_ContactTriggerHandler {
         contactList.add(pcon);
        insert pcon;
 
-        Account account_1 = new Account(Name = 'Community', BillingCountry = 'United States');
-        insert account_1;
+        
 
         Therapeutic_Area__c newTA = new Therapeutic_Area__c(Name = 'Cancer');
         insert newTA;
@@ -397,7 +396,7 @@ public class Test_ContactTriggerHandler {
         Id conId = partContact.Id;
 
         Participant__c pt = participant;
-        //  Participant_Enrollment__c pe = pe.Id;
+        
         //DOC
         Notification__c nt1 = new Notification__c(
             Target_Record_Ids__c = resDocStudy.Id,
@@ -486,10 +485,8 @@ public class Test_ContactTriggerHandler {
         insert t;
 
         Test.startTest();
-        partContact.MailingStateCode = 'MH';
-        partContact.MailingCountry='India';
-        partContact.MailingCountryCode='IN';
-        partContact.MailingPostalCode = '3733';
+         
+        partContact.MailingPostalCode = '94151';
         partContact.Language__c = 'ru';
         partContact.Participant_Opt_In_Status_SMS__c=true;
         partContact.MobilePhone='12223';
@@ -500,17 +497,14 @@ public class Test_ContactTriggerHandler {
         partContact.IQVIA_Direct_Mail_Consent__c=false;
         partContact.IQVIA_Assisted_Dialing_Consent__c=false;
         partContact.IQVIA_Artificial_Voice_Consent__c=false;
+        partContact.Resource_Notifications__c ='testResources';
         update partContact;
-
-       
-        
         
         
         contactOldMap.put(partContact.Id,partContact);
         Participant__c newValPart = [SELECT Id,Mailing_Zip_Postal_Code__c FROM Participant__c WHERE Id =:participant.Id];
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-        //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
     }
     @isTest
     private static void test3(){ 
@@ -565,7 +559,6 @@ public class Test_ContactTriggerHandler {
         ContactTriggerHandler.updateParticipantConsent(contactList,null);
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-        //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
     }
 
     @isTest
@@ -948,5 +941,5 @@ public class Test_ContactTriggerHandler {
         c.Language__c = 'ru';
         contactList[0] = c;
         ContactTriggerHandler.updateExisistingNotifications(contactList, contactOldMap);
-    }
+    }  
 }

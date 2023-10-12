@@ -6,7 +6,7 @@
             <div class="slds-scrollable_y scroll-bar">
                 <template if:true={documentPresent}>
                     <template for:each={documentList} for:item="docs" for:index="index">
-                        <c-pp-Document key={docs} document={docs}></c-pp-Document>
+                        <c-pp-Document pe = "" key={docs} document={docs}></c-pp-Document>
                     </template>
                 </template>
                 <template if:false={documentPresent}> </template>

@@ -9,7 +9,9 @@ public without sharing class ppPastStudiesTabUtility {
             'SELECT '+
             'id ,'+
             'Enrolled_DateTime__c ,'+
+            'Participant_Status__c ,'+
             'Study_Site__r.Principal_Investigator__r.Name ,'+
+            'Study_Site__r.Principal_Investigator__r.Salutation ,'+
             'Study_Site__r.Site__r.Name ,'+
             'Clinical_Trial_Profile__c ,'+
             'Clinical_Trial_Profile__r.Profile_Picture__c ,'+
@@ -53,31 +55,44 @@ public without sharing class ppPastStudiesTabUtility {
 
     @AuraEnabled
     public static list<Userwrapper> getrecentlycommunicatedmembers(Id contID,Participant_Enrollment__c per){
-        /*Set<Id> lstUserId = new Set<Id>(); 
-            for(Message__c mes:lstMessage){
-                lstUserId.add(mes.CreatedById);
-            } 
-            lstUserId.add(UserInfo.getUserId()); */
-        Map<Id,String> usrPic = new Map<Id,String>();
         List<Userwrapper> userdetaillist = new List<Userwrapper>();
-        //List<Message__c> lstMessage = [Select Id,CreatedById,Conversation__c,Sender_Name__c from Message__c where Conversation__r.Participant_Enrollment__r.Clinical_Trial_Profile__c =:per.Clinical_Trial_Profile__c order by createddate DESC];
         string piName ;
         if(per != null && per.Study_Site__r != null && per.Study_Site__r.Principal_Investigator__r != null){
             piName = per.Study_Site__r.Principal_Investigator__r.name;
         }
         if(piName != null && piName != ''){
-            List<User> lstUser = [Select Id,Firstname,Lastname,name,SmallPhotoUrl,FullPhotoUrl  from User where contactid =: per.Study_Site__r.Principal_Investigator__r.Id];
+            Map<id,User> userMap = new Map<id,User>();
+            List<User> lstUser = [Select Id,contactId,Firstname,contact.name,contact.Salutation,Lastname,name,SmallPhotoUrl,FullPhotoUrl  from User where contactid =: per.Study_Site__r.Principal_Investigator__r.Id or contactid =:contID ];
             for(User u:lstUser){
+                    userMap.put(u.contactId,u);
+            }
+            List<Conversation__c> sharedConversations = ConversationService.getSharedConversations(
+                  userMap.get(contID).Id
+                );
+            Boolean showemptymessagescreen = false;
+            for(Conversation__c cnv:sharedConversations){
+                if(cnv.Participant_Enrollment__c == per.Id){
+                    showemptymessagescreen = true;
+                    break;
+                }
+            }
+            if(showemptymessagescreen && lstUser != null){
                 Userwrapper wrap = new Userwrapper();
-                wrap.Userid = u.id;
-                wrap.Profilepicurl = u.SmallPhotoUrl;
-                wrap.Username = u.name;
-                if(!u.SmallPhotoUrl.contains('profilephoto/005/T')){
+                wrap.Userid = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).id;
+                wrap.Profilepicurl = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).SmallPhotoUrl;
+                String salutation = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).contact.Salutation != null ? userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).contact.Salutation:'';
+                wrap.Username = salutation + userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).name;
+                if(!userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).SmallPhotoUrl.contains('profilephoto/005/T')){
                     wrap.hasuserpic = true;
                 }else{
                     wrap.hasuserpic = false;
-                    wrap.Initials = u.FirstName.toUpperCase().substring(0,1) + 
-                    u.LastName.toUpperCase().substring(0,1);
+                    String firstName = '';
+                    if(userMap.get(per.Study_Site__r.Principal_Investigator__r.Id) != null && 
+                       userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).FirstName != null &&
+                       userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).FirstName != ''){
+                           firstName = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).FirstName.toUpperCase().substring(0,1);
+                    }
+                    wrap.Initials = firstName + userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).LastName.toUpperCase().substring(0,1);
                 }
                 userdetaillist.add(wrap);
             }

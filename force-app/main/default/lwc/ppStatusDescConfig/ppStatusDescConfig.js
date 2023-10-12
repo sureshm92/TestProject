@@ -3,11 +3,21 @@ import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import Is_Program from '@salesforce/schema/Clinical_Trial_Profile__c.Is_Program__c';
 import Status_Milestone_Available from '@salesforce/schema/Clinical_Trial_Profile__c.Status_Milestone_Available__c';
 import Community_Template from '@salesforce/schema/Clinical_Trial_Profile__c.CommunityTemplate__c';
+import PP_Template from '@salesforce/schema/Clinical_Trial_Profile__c.PPTemplate__c';
 import fetchStatusConfig from '@salesforce/apex/ppStatusDescConfigController.fetchStatusConfig';
 import updateStatusConfig from '@salesforce/apex/ppStatusDescConfigController.updateStatusConfig';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import PP_Study_Status_Unavailable from '@salesforce/label/c.PP_Study_Status_Unavailable';
 import PP_Updated_Study_Status_Unavailable from '@salesforce/label/c.PP_Updated_Study_Status_Unavailable';
+import PreTrial_Status_Table_Heading from '@salesforce/label/c.PreTrial_Status_Table_Heading';
+import PreTrial_Milestone_Table_Heading from '@salesforce/label/c.PreTrial_Milestone_Table_Heading';
+import PreTrial_Status_Title_Error_Message from '@salesforce/label/c.PreTrial_Status_Title_Error_Message';
+import PreTrial_Status_Desc_Error_Message from '@salesforce/label/c.PreTrial_Status_Desc_Error_Message';
+import PreTrial_Milestone_Title_Error_Msg from '@salesforce/label/c.PreTrial_Milestone_Title_Error_Msg';
+import PreTrial_Milestone_Desc_Error_Msg from '@salesforce/label/c.PreTrial_Milestone_Desc_Error_Msg';
+import InTrial_Status_Desc_Error_Msg from '@salesforce/label/c.InTrial_Status_Desc_Error_Msg';
+import InTrial_Motivational_Error_Msg from '@salesforce/label/c.InTrial_Motivational_Error_Msg';
+import InTrial_Table_Heading from '@salesforce/label/c.InTrial_Table_Heading';
 import { subscribe,createMessageContext } from 'lightning/messageService';
 import ppToggleMessageChannel from "@salesforce/messageChannel/ppStudyUpdates__c";
 import { refreshApex } from '@salesforce/apex';
@@ -38,6 +48,7 @@ export default class PpStatusDescConfig extends LightningElement {
     @track isProgram;
     @track isStatusMilestoneAvailable;
     @track communityTemplate;
+    @track PPTemplate;
     ctpData;
     statusTitleData = null;
     statusilestoneData = null;
@@ -51,22 +62,34 @@ export default class PpStatusDescConfig extends LightningElement {
     featureUnavailale = true;
     label = {
         PP_Study_Status_Unavailable,
-        PP_Updated_Study_Status_Unavailable
+        PP_Updated_Study_Status_Unavailable,
+        PreTrial_Status_Title_Error_Message,
+        PreTrial_Status_Desc_Error_Message,
+        PreTrial_Milestone_Title_Error_Msg,
+        PreTrial_Milestone_Desc_Error_Msg,
+        InTrial_Status_Desc_Error_Msg,
+        InTrial_Motivational_Error_Msg,
+        InTrial_Table_Heading,
+        PreTrial_Milestone_Table_Heading,
+        PreTrial_Status_Table_Heading
     };
     receivedMessage = '';
     ppProgressBarMessage = '';
     subscription = null;
     context = createMessageContext();
 
-    @wire(getRecord,{recordId:'$recordId', fields:[Is_Program,Status_Milestone_Available,Community_Template]})
+    @wire(getRecord,{recordId:'$recordId', fields:[Is_Program,Status_Milestone_Available,Community_Template,PP_Template]})
     ctpDetail(response) {
         this.ctpData = response;
         const { data, error } = response; // destructure the provisioned value
         if (data) { 
+            this.featureUnavailale=true;
             this.ctpRecord = data;
             this.isProgram = getFieldValue(response.data,Is_Program);
             this.isStatusMilestoneAvailable = getFieldValue(response.data,Status_Milestone_Available);
             this.communityTemplate = getFieldValue(response.data,Community_Template);
+            this.PPTemplate = getFieldValue(response.data,PP_Template);
+             this.getData();
         }
         else if (error) {}
     }
@@ -85,6 +108,9 @@ export default class PpStatusDescConfig extends LightningElement {
                     this.data = result[1];
                     this.statusilestoneData = result[2];
                     this.handleCancel();
+                }
+                else{
+                     this.configResult = null;
                 } 
             })
             .catch(error => {
@@ -96,17 +122,17 @@ export default class PpStatusDescConfig extends LightningElement {
         var rowsError = this.errors.rows;
         let targetName = event.target.name;
         let messageCharacterLimit = 100;
-        let descriptionError = 'Please enter Status Description under 200 characters';
-        let motiationalFieldError = 'Please enter Status Motivational Message under 100 characters';
+        let descriptionError = this.label.InTrial_Status_Desc_Error_Msg;
+        let motiationalFieldError = this.label.InTrial_Motivational_Error_Msg;
         if(targetName == 'statusConfig'){
             messageCharacterLimit = 200;
-            descriptionError = 'Please enter Status Title under 200 characters';
-            motiationalFieldError = 'Please enter Status Description under 200 characters';
+            descriptionError = this.label.PreTrial_Status_Title_Error_Message;
+            motiationalFieldError = this.label.PreTrial_Status_Desc_Error_Message;
         }
         if(targetName == 'milestoneConfig'){
             messageCharacterLimit = 200;
-            descriptionError = 'Please enter Milestone Title under 200 characters';
-            motiationalFieldError = 'Please enter Milestone Description under 200 characters';
+            descriptionError = this.label.PreTrial_Milestone_Title_Error_Msg;
+            motiationalFieldError = this.label.PreTrial_Milestone_Desc_Error_Msg;
         }
         for(var i = 0; i<event.detail.draftValues.length; i++){
             var msg = [];
@@ -245,6 +271,15 @@ export default class PpStatusDescConfig extends LightningElement {
         
         this.isDisabled = true;
     }
+
+    handleCellChange(){
+        this.isDisabled = true;
+    }
+
+    get buttonDisabled(){
+        return this.isDisabled;
+    }
+
     get showStatusTitleTab(){
         return (!this.isProgram && this.isStatusMilestoneAvailable && this.configResult != null && this.statusTitleData!=null);
     }
