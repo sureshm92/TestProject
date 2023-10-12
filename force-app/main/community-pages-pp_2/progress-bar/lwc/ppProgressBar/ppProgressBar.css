@@ -167,7 +167,7 @@
 .leftPreTrailTitle {
     color: #444444;
     font-family: "Proxima Nova";
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 24px;
@@ -218,6 +218,11 @@
     padding-bottom: 7px;
 }
 .stayTuned{
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
     padding-top: 20px;
     margin-left: 27px;
 }
@@ -289,7 +294,7 @@
     .big .rMain {
         min-height: 182px;
     }
-.big .rBMain {
+    .big .rBMain {
         min-height: 162px;
     }
     .big .progress {
@@ -363,9 +368,9 @@
         margin-top: 0px;
     }
     .big .rightBBox {
-            width: 100%;
-            display: inline-block;
-            padding: 17.95px 31px 19px 11px;
+        width: 100%;
+        display: inline-block;
+        padding: 17.95px 31px 19px 11px;
     }
     .big .arrowCont {
         display: none;
@@ -474,7 +479,6 @@
     }
 }
 
-
 .small .btnmac {
 	display: block;
 	padding-top: 16px;
@@ -489,6 +493,7 @@
     border-top-right-radius: 0px;
     border-top-left-radius: 0px;
     border-color: #D4D4D4;
+    min-height: 408px
 }
 .small .rightBox {
 	box-sizing: border-box;
@@ -584,7 +589,7 @@
     height: 32px;
     /*padding: 13px 17px 7px 17px;*/
     color: #444;
-    font-family: Proxima Nova;
+    font-family: "Proxima Nova";
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -784,7 +789,7 @@
     height: 32px;
     /*padding: 13px 17px 7px 17px;*/
     color: #444;
-    font-family: Proxima Nova;
+    font-family: "Proxima Nova";
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
