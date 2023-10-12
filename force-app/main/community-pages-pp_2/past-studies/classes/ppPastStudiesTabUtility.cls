@@ -11,6 +11,7 @@ public without sharing class ppPastStudiesTabUtility {
             'Enrolled_DateTime__c ,'+
             'Participant_Status__c ,'+
             'Study_Site__r.Principal_Investigator__r.Name ,'+
+            'Study_Site__r.Principal_Investigator__r.Salutation ,'+
             'Study_Site__r.Site__r.Name ,'+
             'Clinical_Trial_Profile__c ,'+
             'Clinical_Trial_Profile__r.Profile_Picture__c ,'+
@@ -61,7 +62,7 @@ public without sharing class ppPastStudiesTabUtility {
         }
         if(piName != null && piName != ''){
             Map<id,User> userMap = new Map<id,User>();
-            List<User> lstUser = [Select Id,contactId,Firstname,Lastname,name,SmallPhotoUrl,FullPhotoUrl  from User where contactid =: per.Study_Site__r.Principal_Investigator__r.Id or contactid =:contID ];
+            List<User> lstUser = [Select Id,contactId,Firstname,contact.name,contact.Salutation,Lastname,name,SmallPhotoUrl,FullPhotoUrl  from User where contactid =: per.Study_Site__r.Principal_Investigator__r.Id or contactid =:contID ];
             for(User u:lstUser){
                     userMap.put(u.contactId,u);
             }
@@ -79,7 +80,8 @@ public without sharing class ppPastStudiesTabUtility {
                 Userwrapper wrap = new Userwrapper();
                 wrap.Userid = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).id;
                 wrap.Profilepicurl = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).SmallPhotoUrl;
-                wrap.Username = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).name;
+                String salutation = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).contact.Salutation != null ? userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).contact.Salutation:'';
+                wrap.Username = salutation + userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).name;
                 if(!userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).SmallPhotoUrl.contains('profilephoto/005/T')){
                     wrap.hasuserpic = true;
                 }else{
