@@ -479,6 +479,9 @@
     }
 }
 
+.small .box {
+	padding: 11px;
+}    
 .small .btnmac {
 	display: block;
 	padding-top: 16px;
@@ -493,7 +496,8 @@
     border-top-right-radius: 0px;
     border-top-left-radius: 0px;
     border-color: #D4D4D4;
-    min-height: 408px
+    padding-left: 15px;
+    padding-right: 15px;
 }
 .small .rightBox {
 	box-sizing: border-box;
@@ -529,15 +533,30 @@
 .small .leftBBox {
     width: 100%;
     display: inline-block;
-    padding: 17.95px 22px 19px 22px;
+    padding: 17.95px 18px 19px 18px;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    border-top: 1px solid #E9E9E9;
+    border-left: 1px solid #E9E9E9;
+    border-right: 1px solid #E9E9E9;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
 }
 .small .rightBBox {
     width: 100%;
     display: inline-block;
     padding: 0px 22px 8px 22px;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #E9E9E9;
+    border-left: 1px solid #E9E9E9;
+    border-right: 1px solid #E9E9E9;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
 .small .sub-status-box {
-    margin-right: 22px;
+    margin-left: 0px;
 }
 .small .arrowCont {
 	display: none;
@@ -571,14 +590,15 @@
     font-size: 18px;
     letter-spacing: 0;
     line-height: 24px;
-    padding: 8px 22px 8px 22px;
+    padding: 8px 6px 8px 6px;
 }
 .small .leftDescription {
     padding-top: 16px;
 }
 .small .leftBSectionDescription {
+    display: flex;
     text-align: left;
-    padding: 0px 22px 0px 22px;
+    padding: 0px 6px 0px 6px;
     font-style: normal;
     font-weight: 400;
     line-height: 24px;
@@ -627,6 +647,9 @@
     letter-spacing: 0;
     line-height: 32px;
     padding-bottom: 12px;
+}
+.small .leftDescription {
+    min-height: 128px;
 }
 .small .displayGrid{
     display : grid;
@@ -820,6 +843,7 @@
     padding-top: 16px;
 }
 .mobile .leftBSectionDescription {
+    display: flex;
     padding-top: 16px;
     text-align: left;
     padding: 0px 24px 16px 24px;
