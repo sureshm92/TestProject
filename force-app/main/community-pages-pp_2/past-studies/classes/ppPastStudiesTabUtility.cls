@@ -28,7 +28,7 @@ public without sharing class ppPastStudiesTabUtility {
         
         if (isDelegate) {
             for(Patient_Delegate_Enrollment__c objPDER : [SELECT id, Participant_Enrollment__c FROM Patient_Delegate_Enrollment__c
-            WHERE Participant_Enrollment__c IN :alumiPerMap.keySet() AND Patient_Delegate__r.Contact__c = :getUserContact AND Primary_Delegate__c = TRUE
+            WHERE Participant_Enrollment__c IN :alumiPerMap.keySet() AND Patient_Delegate__r.Contact__c = :getUserContact AND Primary_Delegate__c = TRUE AND Status__c = 'Active'
             LIMIT 10000])
             {
                 setPrimaryPER.add(objPDER.Participant_Enrollment__c);
