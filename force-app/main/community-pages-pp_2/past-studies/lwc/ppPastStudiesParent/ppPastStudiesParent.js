@@ -96,6 +96,10 @@ export default class PpPastStudiesParent extends LightningElement {
         this.updateSelectedStudy(event.target.dataset.item);
     }
     updateSelectedStudy(perid){
+        if(this.template.querySelector('[data-id="top"]')){
+            const topDiv = this.template.querySelector('[data-id="top"]');
+            topDiv.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+        }
         this.hideDetailPage=true;
         this.uploadedFilesClass='no-show-link';
         this.sharedFilesClass='no-show-link';
