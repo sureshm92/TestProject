@@ -18,6 +18,11 @@
     min-height: 49px;    
     margin-top: 24px;
 }
+.info-container-no-show{
+    display:none;
+    min-height: 49px;    
+    margin-top: 24px;
+}
 .info{
     font-weight: 600;
     display: block;
@@ -29,6 +34,14 @@
 }
 .tiles .container-description,.tiles .info-container,.detail .container-title{
     display: none;
+}
+.labelT{
+    white-space: nowrap;
+}
+@media (min-width: 64em) and (max-width: 1334px){
+    .detail.container-overview{
+        min-height: 300px !important;
+    }
 }
 @media (min-width: 64em){
     .container-title{
@@ -42,6 +55,9 @@
         display: inline-flex;
     }
     .info-container div {
+        display: inline-grid;
+    }
+    .info-container-no-show div {
         display: inline-grid;
     }
     .detail .container-description{
@@ -60,8 +76,9 @@
     .detail .info-container{
         position:absolute;
         bottom: 0;
-    }
-    .detail .container-description {
-        padding-bottom: 71px;
+    }    
+    .detail .info-container-no-show {
+        display:flex;
+        opacity:0;
     }
 }
