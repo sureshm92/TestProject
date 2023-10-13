@@ -272,6 +272,14 @@ export default class PpStatusDescConfig extends LightningElement {
         this.isDisabled = true;
     }
 
+    handleCellChange(){
+        this.isDisabled = true;
+    }
+
+    get buttonDisabled(){
+        return this.isDisabled;
+    }
+
     get showStatusTitleTab(){
         return (!this.isProgram && this.isStatusMilestoneAvailable && this.configResult != null && this.statusTitleData!=null);
     }

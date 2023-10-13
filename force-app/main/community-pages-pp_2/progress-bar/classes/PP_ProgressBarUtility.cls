@@ -55,7 +55,6 @@ public with sharing class PP_ProgressBarUtility {
             }
             if(InTrialStatus.contains(pe.Participant_Status__c)){
                 pw = generateBarForInTrial(pe,pw,peId);
-                
                 return pw;
             }
             else if(PreTrialStatus.contains(pe.Participant_Status__c) && pe.Clinical_Trial_Profile__r.Status_Milestone_Available__c 
@@ -201,10 +200,8 @@ public with sharing class PP_ProgressBarUtility {
                 for(Study_status_description_motivation__c studyDescConfig : [SELECT Status_Name__c,Study__c,Status_Description__c,Status_Motivational_Message__c,Status_Developer_Name__c   FROM Study_status_description_motivation__c WHERE Study__c  =: pe.Clinical_Trial_Profile__c]){
                     if(studyDescConfig.Status_Developer_Name__c !=null){
                         statusConfigMap.put(studyDescConfig.Status_Developer_Name__c,studyDescConfig);
-                        system.debug('statusConfigMap :: '+studyDescConfig.Status_Developer_Name__c);
                     }else{
                         statusConfigMap.put(studyDescConfig.Status_Name__c,studyDescConfig);
-                        system.debug('statusConfigMap :: '+studyDescConfig.Status_Name__c);
                     }
                     configCount++;
                 }
@@ -220,8 +217,8 @@ public with sharing class PP_ProgressBarUtility {
                 Integer multiplier = -1;
                 Map<String,Datetime> peshDateMap = new Map<String,Datetime>();
                 for(Participant_Enrollment_Status_History__c pesh : pe.Participant_Enrollment_Status_History__r){
-                    peshDateMap.put(pesh.Status__c,pesh.Date__c);
-                }
+                    peshDateMap.put(pesh.Status__c.toLowerCase(),pesh.Date__c);
+               }
                 for(Study_status_desc_and_motivational_msg__mdt milestoneConfig : [select id,MasterLabel,Status_order__c,PER_Participant_Status__c,DeveloperName   FROM Study_status_desc_and_motivational_msg__mdt where Status_order__c>3 and Status_order__c<4 order by Status_order__c  asc]){
                     if((milestoneConfig.MasterLabel == 'Randomization' || milestoneConfig.MasterLabel == 'Enrollment') && pe.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c != milestoneConfig.MasterLabel){
                         continue;
@@ -240,36 +237,35 @@ public with sharing class PP_ProgressBarUtility {
                     List<Study_status_desc_and_motivational_msg__mdt> statusLst = milestonseStatusMapping.get(milestoneConfig.PER_Participant_Status__c);
                     List<statusWrapper> sWrpList = new List<statusWrapper>();
                     if(multiplier < 0 ){
+
                         for(Study_status_desc_and_motivational_msg__mdt statusConfig : statusLst){
-                            if(peshDateMap.containsKey(statusConfig.PER_Participant_Status__c)){
-                                
+                            if(peshDateMap.containsKey(statusConfig.PER_Participant_Status__c.toLowerCase())){
                                 statusWrapper sWrp = new statusWrapper();
-                                sWrp.statusName = statusConfig.PER_Participant_Status__c;
-                                sWrp.statusDate = peshDateMap.get(statusConfig.PER_Participant_Status__c);
+                                sWrp.statusName = statusConfig.MasterLabel;
+                                sWrp.statusDate = peshDateMap.get(statusConfig.PER_Participant_Status__c.toLowerCase());
                                 sWrpList.add(sWrp);
                             }
-                            
-                            prW.title = (statusConfigMap.containsKey(statusConfig.DeveloperName) && statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c!=null) ? statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c : statusConfig.PER_Participant_Status__c;
-                            system.debug('statusConfig.DeveloperName ::'+statusConfig.DeveloperName);
-                            prW.description = statusConfigMap.get(statusConfig.DeveloperName).Status_Motivational_Message__c;  
+                            if(multiplier < 0 ){
+                                prW.title = (statusConfigMap.containsKey(statusConfig.DeveloperName) && statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c!=null) ? statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c : statusConfig.PER_Participant_Status__c;
+                                prW.description = statusConfigMap.get(statusConfig.DeveloperName).Status_Motivational_Message__c;  
+                            }
                             if(statusConfig.PER_Participant_Status__c == pe.Participant_Status__c){
                                 pw.currentStatusVal = count;                    
                                 multiplier = 1;
                                 count = 0;
                                 prW.status = 'IN PROGRESS';
                             }
-                            
                         }
                         prW.statusWrapperList = sWrpList;
                     }
 
-
+                    
                     prW.stepVal = count*multiplier;
                     
                     if(prW.stepVal<0){
                         prW.status = 'COMPLETED';
-                        if(peshDateMap.containsKey(pe.Participant_Status__c)){
-                            prW.statusDate = peshDateMap.get(pe.Participant_Status__c);
+                        if(peshDateMap.containsKey(pe.Participant_Status__c.toLowerCase())){
+                            prW.statusDate = peshDateMap.get(pe.Participant_Status__c.toLowerCase());
                         }
                     }
                     count++;    

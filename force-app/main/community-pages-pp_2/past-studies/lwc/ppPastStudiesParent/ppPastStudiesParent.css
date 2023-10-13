@@ -1,6 +1,12 @@
 .parent{
     color: #444444;
 }
+.toast{
+    position: fixed;
+    width: 100vw;
+    top: 5px;
+    z-index: 9999; 
+}
 .chevronleft-icon{
     --slds-c-icon-color-foreground-default: #015FF1;
 }
@@ -21,7 +27,9 @@
     height: 12px;
     padding-left: 9px;
 }
-
+.set-margin{
+    margin-top: 16px;
+}
 .switcher-txt {
     height: 32px;
     padding-top: 4px;
@@ -138,18 +146,10 @@
 }
 /* documents start */
 .doc-box{
-    height: 527px;
-}
-.no-doc-img {
-    height: 44px;
-    width: 83px;
-    margin-bottom: 9px;
-}
-.no-doc-txt{
-    color: #757575;
-    font-weight: 500;
-    line-height: 24px;
-    text-align: center;
+    min-height: 527px;
+    padding: 16px;
+    padding-right: 9px;
+
 }
 /* documents end */
 /* files start */
@@ -351,6 +351,9 @@
     }
     .sectionHeight{
         height: calc(100% - 40px);
+    }
+    .doc-box{
+        height: 527px;
     }
     .doc-container{
         padding-right: 12px;
