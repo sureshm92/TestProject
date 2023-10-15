@@ -45,7 +45,7 @@ public with sharing class PP_ProgressBarUtility {
         parentWrapper pw = new parentWrapper();
         try{
             Set<String> InTrialStatus = new Set<String>{'Enrollment Success','Randomization Success','Treatment Period Started','Follow-Up Period Started','Participation Complete','Trial Complete'};
-            Set<String> PreTrialStatus = new Set<String>{'Received','Pre-review Passed','Contact Attempted','Successfully re-engaged','Successfully Contacted','Eligibility Passed','Screening In Progress - Wash Out Period','Screening In Progress	','Screening Passed'};
+            Set<String> PreTrialStatus = new Set<String>{'Received','Pre-review Passed','Contact Attempted','Successfully re-engaged','Successfully Contacted','Eligibility Passed','Ready to Screen','Screening In Progress - Wash Out Period','Screening In Progress	','Screening Passed'};
             Participant_Enrollment__c pe = [select id,Participant_Status__c,Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,Clinical_Trial_Profile__r.Is_Program__c,
                     Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Status_Milestone_Available__c,Clinical_Trial_Profile__r.Study_External_URL__c,Clinical_Trial_Profile__c,
                     (select id,Status__c, Date__c FROM Participant_Enrollment_Status_History__r order by Date__c asc) 
@@ -247,7 +247,7 @@ public with sharing class PP_ProgressBarUtility {
                             }
                             if(multiplier < 0 ){
                                 prW.title = (statusConfigMap.containsKey(statusConfig.DeveloperName) && statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c!=null) ? statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c : statusConfig.PER_Participant_Status__c;
-                                prW.description = statusConfigMap.get(statusConfig.DeveloperName).Status_Motivational_Message__c;  
+                                prW.description = (statusConfigMap.containsKey(statusConfig.DeveloperName) ? statusConfigMap.get(statusConfig.DeveloperName).Status_Motivational_Message__c : '');  
                             }
                             if(statusConfig.PER_Participant_Status__c == pe.Participant_Status__c){
                                 pw.currentStatusVal = count;                    
@@ -312,6 +312,7 @@ public with sharing class PP_ProgressBarUtility {
             }
             if(statusConfig.DeveloperName == 'In_Wash_Out_Period' ||
             statusConfig.DeveloperName == 'Screening_In_Progress' ||
+            statusConfig.DeveloperName == 'Ready_to_Screen' ||
             statusConfig.DeveloperName == 'Screening_Passed'){
                 List<Study_status_desc_and_motivational_msg__mdt> statusList = (milestonseStatusMapping.containsKey('Screening') ? milestonseStatusMapping.get('Screening') : new List<Study_status_desc_and_motivational_msg__mdt>());
                 statusList.add(statusConfig);
