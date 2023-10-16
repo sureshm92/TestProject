@@ -45,20 +45,20 @@ public with sharing class PP_ProgressBarUtility {
         parentWrapper pw = new parentWrapper();
         try{
             Set<String> InTrialStatus = new Set<String>{'Enrollment Success','Randomization Success','Treatment Period Started','Follow-Up Period Started','Participation Complete','Trial Complete'};
-            Set<String> PreTrialStatus = new Set<String>{'Received','Pre-review Passed','Contact Attempted','Successfully re-engaged','Successfully Contacted','Eligibility Passed','Ready to Screen','Screening In Progress - Wash Out Period','Screening In Progress	','Screening Passed'};
-            Participant_Enrollment__c pe = [select id,Participant_Status__c,Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,Clinical_Trial_Profile__r.Is_Program__c,
+            Set<String> PreTrialStatus = new Set<String>{'Received','Pre-review Passed','Contact Attempted','Successfully re-engaged','Successfully Contacted','Participant No Show','Eligibility Passed','Ready to Screen','Screening In Progress - Wash Out Period','Screening In Progress	','Screening Passed'};
+            Participant_Enrollment__c pe = [select id,Participant_Status__c,Initial_visit_scheduled_date__c,Informed_Consent_Date__c,Initial_visit_occurred_date__c,Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,Clinical_Trial_Profile__r.Is_Program__c,
                     Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Status_Milestone_Available__c,Clinical_Trial_Profile__r.Study_External_URL__c,Clinical_Trial_Profile__c,
                     (select id,Status__c, Date__c FROM Participant_Enrollment_Status_History__r order by Date__c asc) 
                     FROM Participant_Enrollment__c where id=:peId];
-            if([select count() FROM Study_status_desc_and_motivational_msg__mdt where PER_Participant_Status__c =:pe.Participant_Status__c]==0){
+            if(([select count() FROM Study_status_desc_and_motivational_msg__mdt where PER_Participant_Status__c =:pe.Participant_Status__c]==0) && pe.Participant_Status__c != 'Participant No Show'){
                 return null;
             }
             if(InTrialStatus.contains(pe.Participant_Status__c)){
                 pw = generateBarForInTrial(pe,pw,peId);
                 return pw;
             }
-            else if(PreTrialStatus.contains(pe.Participant_Status__c) && pe.Clinical_Trial_Profile__r.Status_Milestone_Available__c 
-            && !pe.Clinical_Trial_Profile__r.Is_Program__c){
+            else if((PreTrialStatus.contains(pe.Participant_Status__c) && pe.Clinical_Trial_Profile__r.Status_Milestone_Available__c 
+            && !pe.Clinical_Trial_Profile__r.Is_Program__c) || pe.Participant_Status__c == 'Participant No Show'){
                 pw.isPreTiral = true;
                 pw = generateBarForPreTrial(pe,pw,peId);
                 return pw;
@@ -219,6 +219,14 @@ public with sharing class PP_ProgressBarUtility {
                 for(Participant_Enrollment_Status_History__c pesh : pe.Participant_Enrollment_Status_History__r){
                     peshDateMap.put(pesh.Status__c.toLowerCase(),pesh.Date__c);
                }
+               if(pe.Participant_Status__c == 'Participant No Show' && !peshDateMap.containsKey('Successfully Contacted'.toLowerCase())){
+                return null;
+               }
+                if(pe.Participant_Status__c ==  'Successfully Contacted'){
+                    if(pe.Informed_Consent_Date__c != null || pe.Initial_visit_occurred_date__c!=null || pe.Initial_visit_scheduled_date__c!=null){
+                        pe.Participant_Status__c = 'Initial Visit';
+                    }
+                }
                 for(Study_status_desc_and_motivational_msg__mdt milestoneConfig : [select id,MasterLabel,Status_order__c,PER_Participant_Status__c,DeveloperName   FROM Study_status_desc_and_motivational_msg__mdt where Status_order__c>3 and Status_order__c<4 order by Status_order__c  asc]){
                     if((milestoneConfig.MasterLabel == 'Randomization' || milestoneConfig.MasterLabel == 'Enrollment') && pe.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c != milestoneConfig.MasterLabel){
                         continue;
@@ -249,12 +257,14 @@ public with sharing class PP_ProgressBarUtility {
                                 prW.title = (statusConfigMap.containsKey(statusConfig.DeveloperName) && statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c!=null) ? statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c : statusConfig.PER_Participant_Status__c;
                                 prW.description = (statusConfigMap.containsKey(statusConfig.DeveloperName) ? statusConfigMap.get(statusConfig.DeveloperName).Status_Motivational_Message__c : '');  
                             }
-                            if(statusConfig.PER_Participant_Status__c == pe.Participant_Status__c){
+                            if((statusConfig.PER_Participant_Status__c == pe.Participant_Status__c) 
+                            || (pe.Participant_Status__c == 'Participant No Show' && statusConfig.PER_Participant_Status__c == 'Successfully Contacted')){
                                 pw.currentStatusVal = count;                    
                                 multiplier = 1;
                                 count = 0;
                                 prW.status = 'IN PROGRESS';
                             }
+                            
                         }
                         prW.statusWrapperList = sWrpList;
                     }
