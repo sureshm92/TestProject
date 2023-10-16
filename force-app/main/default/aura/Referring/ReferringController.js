@@ -498,7 +498,7 @@
         );
     },
     upload: function (component, event, helper) {
-        var MAX_FILE_SIZE = 4000000;
+        var MAX_FILE_SIZE = 4194304;
         var CHUNK_SIZE= 750000;
         var file = component.get('v.fileList')[0];
         var fileName = file.name;
