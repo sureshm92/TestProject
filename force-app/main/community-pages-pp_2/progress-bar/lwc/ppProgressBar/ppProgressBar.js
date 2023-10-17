@@ -15,7 +15,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 
 export default class PpProgressBar extends LightningElement {
-    userTimezone = TIME_ZONE;
+    userTimeZone = TIME_ZONE;
 stayTunedIcon = Stay_Tuned;
     statusCheckIcon = Status_Check;
     @api
