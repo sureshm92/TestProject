@@ -62,7 +62,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                                                                 And  Participant_Status__c IN: PEStatusState.PE_STATUS_GROUP_ALUMNI LIMIT 10000];
 
                 List<Patient_Delegate_Enrollment__c> lstPDERAlumni = [SELECT ID FROM Patient_Delegate_Enrollment__c WHERE Participant_Enrollment__c IN:lstPERAlumni 
-                                                                AND Patient_Delegate__r.Contact__c =: objUser.ContactId AND Primary_Delegate__c = TRUE LIMIT 10000];
+                                                                AND Patient_Delegate__r.Contact__c =: objUser.ContactId LIMIT 10000];
                 
                  List<Patient_Delegate_Enrollment__c> lstPDEActive = [SELECT ID from Patient_Delegate_Enrollment__c Where 
                                                                       Participant_Enrollment__c =: objUser.contact.Current_Participant_Enrollment__c 
