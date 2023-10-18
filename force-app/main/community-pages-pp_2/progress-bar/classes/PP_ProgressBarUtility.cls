@@ -46,7 +46,7 @@ public with sharing class PP_ProgressBarUtility {
         try{
             Set<String> InTrialStatus = new Set<String>{'Enrollment Success','Randomization Success','Treatment Period Started','Follow-Up Period Started','Participation Complete','Trial Complete'};
             Set<String> PreTrialStatus = new Set<String>{'Received','Pre-review Passed','Contact Attempted','Successfully re-engaged','Successfully Contacted','Participant No Show','Eligibility Passed','Ready to Screen','Screening In Progress - Wash Out Period','Screening In Progress','Screening Passed'};
-            Participant_Enrollment__c pe = [select id,Participant_Status__c,Initial_visit_scheduled_date__c,Informed_Consent_Date__c,Initial_visit_occurred_date__c,Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,Clinical_Trial_Profile__r.Is_Program__c,
+            Participant_Enrollment__c pe = [select id,Participant_Status__c,Initial_visit_scheduled_flag__c,Initial_visit_occurred_flag__c,Informed_Consent__c,Initial_visit_scheduled_date__c,Informed_Consent_Date__c,Initial_visit_occurred_date__c,Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,Clinical_Trial_Profile__r.Is_Program__c,
                     Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Status_Milestone_Available__c,Clinical_Trial_Profile__r.Study_External_URL__c,Clinical_Trial_Profile__c,
                     (select id,Status__c, Date__c FROM Participant_Enrollment_Status_History__r order by Date__c asc) 
                     FROM Participant_Enrollment__c where id=:peId];
@@ -266,10 +266,31 @@ public with sharing class PP_ProgressBarUtility {
                             }
                             
                         }
+
+                        if((pe.Participant_Status__c == 'Initial Visit' && peshDateMap.containsKey('Successfully Contacted'.toLowerCase()))
+                         || (milestoneConfig.PER_Participant_Status__c == 'Initial Visit' && peshDateMap.containsKey('Successfully Contacted'.toLowerCase()))
+                        ){
+                            if(pe.Initial_visit_scheduled_flag__c){
+                                statusWrapper sWrp = new statusWrapper();
+                                sWrp.statusName = 'Scheduled Date';
+                                sWrp.statusDate = pe.Initial_visit_scheduled_date__c;
+                                sWrpList.add(sWrp);
+                            }
+                            if(pe.Initial_visit_occurred_flag__c){
+                                statusWrapper sWrp = new statusWrapper();
+                                sWrp.statusName = 'Attended Date';
+                                sWrp.statusDate = pe.Initial_visit_occurred_date__c;
+                                sWrpList.add(sWrp);
+                            }
+                            if(pe.Informed_Consent__c){
+                                statusWrapper sWrp = new statusWrapper();
+                                sWrp.statusName = 'Consented Date';
+                                sWrp.statusDate = pe.Informed_Consent_Date__c;
+                                sWrpList.add(sWrp);
+                            }
+                        }
                         prW.statusWrapperList = sWrpList;
                     }
-
-                    
                     prW.stepVal = count*multiplier;
                     
                     if(prW.stepVal<0){
