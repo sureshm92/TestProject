@@ -1,6 +1,16 @@
 public without sharing class ppPastStudiesTabUtility {
+    
+    public class studyResult{
+        @AuraEnabled
+        public List<Participant_Enrollment__c> peList  ;
+        @AuraEnabled
+        public List<string> hideFilesForPER;
+    }
+
     @AuraEnabled
-    public static List<Participant_Enrollment__c> getStudyData(Id contID, Boolean isDelegate) {
+    public static studyResult getStudyData(Id contID, Boolean isDelegate) {
+        studyResult resultWrapper = new studyResult();
+        resultWrapper.hideFilesForPER = new List<string>();
         String getUserContact = UserContext.getUserContactId();
         set<Id> setPrimaryPER = new set<Id> ();        
         List<Participant_Enrollment__c> PrimaryalumniPERList = new List<Participant_Enrollment__c> ();
@@ -27,11 +37,14 @@ public without sharing class ppPastStudiesTabUtility {
         Map<Id,Participant_Enrollment__c>  alumiPerMap =  new Map<Id, Participant_Enrollment__c>((List<Participant_Enrollment__c>)Database.query(queryString));
         
         if (isDelegate) {
-            for(Patient_Delegate_Enrollment__c objPDER : [SELECT id, Participant_Enrollment__c FROM Patient_Delegate_Enrollment__c
-            WHERE Participant_Enrollment__c IN :alumiPerMap.keySet() AND Patient_Delegate__r.Contact__c = :getUserContact AND Primary_Delegate__c = TRUE
+            for(Patient_Delegate_Enrollment__c objPDER : [SELECT id, Participant_Enrollment__c, Primary_Delegate__c  FROM Patient_Delegate_Enrollment__c
+            WHERE Participant_Enrollment__c IN :alumiPerMap.keySet() AND Patient_Delegate__r.Contact__c = :getUserContact 
             LIMIT 10000])
             {
                 setPrimaryPER.add(objPDER.Participant_Enrollment__c);
+                if(!objPDER.Primary_Delegate__c){
+                    resultWrapper.hideFilesForPER.add(objPDER.Participant_Enrollment__c);
+                }
             } 
 
             for(Participant_Enrollment__c objPER : alumiPerMap.values())
@@ -42,15 +55,11 @@ public without sharing class ppPastStudiesTabUtility {
                 }
 
             } 
-             
+            resultWrapper.peList = PrimaryalumniPERList;
+            return resultWrapper;             
         }
-        if(!PrimaryalumniPERList.isEmpty()){
-            return PrimaryalumniPERList;
-        } 
-        else{
-            return alumiPerMap.values();
-        }
-        
+        resultWrapper.peList =alumiPerMap.values();
+        return resultWrapper;
     }
 
     @AuraEnabled
@@ -114,5 +123,11 @@ public without sharing class ppPastStudiesTabUtility {
         public String Username;
         @AuraEnabled
         public String Initials;
+    }
+
+    @AuraEnabled
+    public static boolean resultAvailable(String perId){
+        Integer resultRecCount = [select  count() from Visit_Result__c where Patient_Visit__r.Participant_Enrollment__c =: perId ];
+        return resultRecCount > 0;
     }
 }

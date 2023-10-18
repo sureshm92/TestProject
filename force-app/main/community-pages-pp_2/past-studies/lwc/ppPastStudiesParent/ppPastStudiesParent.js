@@ -10,7 +10,6 @@ import Participation_complete_description from '@salesforce/label/c.Participatio
 import PP_Resource_Documents from '@salesforce/label/c.PP_Resource_Documents';
 import PP_MyFiles from '@salesforce/label/c.PP_MyFiles';
 import Visit_Results_Dashboard_My_Results from '@salesforce/label/c.Visit_Results_Dashboard_My_Results';
-import PP_No_results_available from '@salesforce/label/c.PP_No_results_available';
 import PP_Care_Team_Contact from '@salesforce/label/c.PP_Care_Team_Contact';
 import PP_Phone_In_Caps from '@salesforce/label/c.PP_Phone_In_Caps';
 import PP_Visit_Result_Value_Not_Available from '@salesforce/label/c.PP_Visit_Result_Value_Not_Available';
@@ -27,19 +26,17 @@ export default class PpPastStudiesParent extends LightningElement {
     selectedSection = PP_Overview;
     showOverview = false;
     showDoc = false;
-    showFiles = false;
-    showResults = false;
     showComm = false;
     showFilePage = false;
     contID;
     isDelegate = false;
     perList=[];
+    hideFilesForPER =[];
     selectedPER;
     studyPERMap = new Map();
     sycnDropDown = pp_icons + '/' + 'arrow2-sync.svg';
     noFilesIcon = pp_icons + '/' + 'no-files.svg';
     noMessagesIcon = pp_icons + '/' + 'no-messages.svg';
-    noResultsIcon = pp_icons + '/' + 'no-results.svg';
     winnersIcon = pp_icons + '/' + 'winners.svg';
     copyIconUrl =  `${pp_icons + '/copy.svg'}#copy`;
     copiedIcon = con_icons + '/copied.svg';
@@ -53,7 +50,6 @@ export default class PpPastStudiesParent extends LightningElement {
         PP_Resource_Documents,
         PP_MyFiles,
         Visit_Results_Dashboard_My_Results,
-        PP_No_results_available,
         PP_Care_Team_Contact,
         PP_Phone_In_Caps,
         PP_Visit_Result_Value_Not_Available,
@@ -80,8 +76,8 @@ export default class PpPastStudiesParent extends LightningElement {
                 contID: this.contID,
                 isDelegate: this.isDelegate
             }).then((result) => {
-                this.perList = JSON.parse(JSON.stringify(result));
-                console.log(JSON.stringify(result));
+                this.perList = JSON.parse(JSON.stringify(result.peList));
+                this.hideFilesForPER = JSON.parse(JSON.stringify(result.hideFilesForPER));
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -116,8 +112,9 @@ export default class PpPastStudiesParent extends LightningElement {
                 this.renderSections();
                 if(this.selectedPER.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c)
                     this.sectionList.push({id: PP_Resource_Documents , class :''});
-                this.sectionList.push({id: PP_MyFiles , class :''});
-                if(this.selectedPER.Clinical_Trial_Profile__r.Visit_Data_Shareback__c)
+                if(this.showFiles)    
+                    this.sectionList.push({id: PP_MyFiles , class :''});
+                if(this.selectedPER.Clinical_Trial_Profile__r.Visit_Data_Shareback__c && this.showResults)
                     this.sectionList.push({id: Visit_Results_Dashboard_My_Results , class :''});
                 this.sectionList.push({id: PP_Communications , class :''});
                 
@@ -145,11 +142,15 @@ export default class PpPastStudiesParent extends LightningElement {
         this.selectedSection = event.target.dataset.item;
         this.renderSections();
     }
+    get showFiles(){
+        return (!this.showMenu || this.selectedSection == PP_MyFiles) && !this.hideFilesForPER.includes(this.selectedPER.Id);
+    }
+    get showResults(){
+        return (!this.showMenu || this.selectedSection == Visit_Results_Dashboard_My_Results) && !this.hideFilesForPER.includes(this.selectedPER.Id);
+    }
     renderSections(){
         this.showOverview = !this.showMenu || this.selectedSection == PP_Overview;
         this.showDoc = !this.showMenu || this.selectedSection == PP_Resource_Documents;
-        this.showFiles = !this.showMenu || this.selectedSection == PP_MyFiles;
-        this.showResults = !this.showMenu || this.selectedSection == Visit_Results_Dashboard_My_Results;
         this.showComm = !this.showMenu || this.selectedSection == PP_Communications;
         for (let i = 0; i < this.sectionList.length; i++) {
             this.sectionList[i].class ='';
@@ -181,17 +182,34 @@ export default class PpPastStudiesParent extends LightningElement {
     toggleSwt(){
         this.template.querySelector('.swt-options').classList.toggle('slds-hide');
     }
-    docContClass='slds-large-size--1-of-2 slds-size--1-of-1 file-container';
+    fileContClass='slds-large-size--1-of-2 slds-size--1-of-1 file-container';
+    docContClass = 'slds-large-size--1-of-2 slds-size--1-of-1 doc-container';
     bottonRightBoxClass = 'slds-large-size--2-of-5 slds-size--1-of-1 slds-grid slds-wrap box-right';
     get docFileClass(){
-        if(this.selectedPER && this.selectedPER.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c){
-            this.docContClass ='slds-large-size--1-of-2 slds-size--1-of-1 file-container';
+        if(this.selectedPER && this.selectedPER.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c && this.showFiles){
+            this.fileContClass ='slds-large-size--1-of-2 slds-size--1-of-1 file-container';
+            this.docContClass = 'slds-large-size--1-of-2 slds-size--1-of-1 doc-container';
             this.bottonRightBoxClass = 'slds-large-size--2-of-5 slds-size--1-of-1 slds-grid slds-wrap box-right';
             return 'slds-large-size--3-of-5 slds-size--1-of-1 slds-grid slds-wrap'
         }
-        this.docContClass ='slds-size--1-of-1 file-container file-container-left';
-        this.bottonRightBoxClass = 'slds-large-size--2-of-5 slds-size--1-of-1 slds-grid slds-wrap';
-        return 'slds-large-size--2-of-6 slds-size--1-of-1 slds-grid slds-wrap';
+        else if(this.selectedPER && !this.selectedPER.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c  && this.showFiles){
+            this.fileContClass ='slds-size--1-of-1 file-container file-container-left';
+            this.docContClass = '';
+            this.bottonRightBoxClass = 'slds-large-size--2-of-5 slds-size--1-of-1 slds-grid slds-wrap';
+            return 'slds-large-size--2-of-6 slds-size--1-of-1 slds-grid slds-wrap';
+        }
+        else if(this.selectedPER && this.selectedPER.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c  && !this.showFiles){
+            this.fileContClass ='';
+            this.docContClass = 'slds-size--1-of-1 doc-container-right';
+            this.bottonRightBoxClass = 'slds-large-size--2-of-5 slds-size--1-of-1 slds-grid slds-wrap';
+            return 'slds-large-size--2-of-6 slds-size--1-of-1 slds-grid slds-wrap';
+        }
+        else{
+            this.fileContClass ='';
+            this.docContClass = '';
+            this.bottonRightBoxClass = 'slds-large-size--2-of-5 slds-size--1-of-1 slds-grid slds-wrap';
+            return 'slds-hide';
+        }
     }
     copyEmailPhone(event){
         console.log('copy this::'+event.currentTarget.dataset.id);
