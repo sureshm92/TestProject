@@ -550,7 +550,7 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>OrgID__c</field>
-            </layoutItems> 
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
