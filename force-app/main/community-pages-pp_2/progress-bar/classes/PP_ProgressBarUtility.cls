@@ -222,7 +222,7 @@ public with sharing class PP_ProgressBarUtility {
                if(pe.Participant_Status__c == 'Participant No Show' && !peshDateMap.containsKey('Successfully Contacted'.toLowerCase())){
                 return null;
                }
-                if(pe.Participant_Status__c ==  'Successfully Contacted' && peshDateMap.containsKey('Successfully Contacted'.toLowerCase())){
+                if(pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c && pe.Participant_Status__c ==  'Successfully Contacted' && peshDateMap.containsKey('Successfully Contacted'.toLowerCase())){
                     if(pe.Informed_Consent_Date__c != null || pe.Initial_visit_occurred_date__c!=null || pe.Initial_visit_scheduled_date__c!=null){
                         pe.Participant_Status__c = 'Initial Visit';
                     }
@@ -267,8 +267,11 @@ public with sharing class PP_ProgressBarUtility {
                             
                         }
 
-                        if((pe.Participant_Status__c == 'Initial Visit' && peshDateMap.containsKey('Successfully Contacted'.toLowerCase()))
-                         || (milestoneConfig.PER_Participant_Status__c == 'Initial Visit' && peshDateMap.containsKey('Successfully Contacted'.toLowerCase()))
+                        if((pe.Participant_Status__c == 'Initial Visit' 
+                        && peshDateMap.containsKey('Successfully Contacted'.toLowerCase())
+                        && milestoneConfig.PER_Participant_Status__c == 'Initial Visit') ||
+                        (peshDateMap.containsKey('Successfully Contacted'.toLowerCase())
+                        && milestoneConfig.PER_Participant_Status__c == 'Initial Visit')
                         ){
                             if(pe.Initial_visit_scheduled_flag__c){
                                 statusWrapper sWrp = new statusWrapper();
