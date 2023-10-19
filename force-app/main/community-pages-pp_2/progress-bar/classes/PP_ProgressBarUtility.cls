@@ -275,19 +275,19 @@ public with sharing class PP_ProgressBarUtility {
                         ){
                             if(pe.Initial_visit_scheduled_flag__c){
                                 statusWrapper sWrp = new statusWrapper();
-                                sWrp.statusName = 'Scheduled Date';
+                                sWrp.statusName = 'Scheduled';
                                 sWrp.statusDate = pe.Initial_visit_scheduled_date__c;
                                 sWrpList.add(sWrp);
                             }
                             if(pe.Initial_visit_occurred_flag__c){
                                 statusWrapper sWrp = new statusWrapper();
-                                sWrp.statusName = 'Attended Date';
+                                sWrp.statusName = 'Attended';
                                 sWrp.statusDate = pe.Initial_visit_occurred_date__c;
                                 sWrpList.add(sWrp);
                             }
                             if(pe.Informed_Consent__c){
                                 statusWrapper sWrp = new statusWrapper();
-                                sWrp.statusName = 'Consented Date';
+                                sWrp.statusName = 'Consented';
                                 sWrp.statusDate = pe.Informed_Consent_Date__c;
                                 sWrpList.add(sWrp);
                             }
