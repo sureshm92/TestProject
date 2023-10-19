@@ -23804,7 +23804,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_FileUploadAcceptedAnotherConditions</shortDescription>
-        <value>2. You must upload the pdf file whose size should not exceed 4MB.</value>
+        <value>2. Maximum file size allowed is less than 4MB.</value>
     </labels>
     <labels>
         <fullName>Program_Header_PP</fullName>
