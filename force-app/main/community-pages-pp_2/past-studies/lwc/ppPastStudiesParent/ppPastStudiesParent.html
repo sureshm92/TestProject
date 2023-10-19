@@ -93,7 +93,7 @@
                 
                 <div class={docFileClass}>
                     <template if:true={selectedPER.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c}>
-                        <div if:true={showDoc} class="slds-large-size--1-of-2 slds-size--1-of-1 doc-container">
+                        <div if:true={showDoc} class={docContClass}>
                             <div class="box-header">
                                 {label.PP_Resource_Documents}
                             </div>
@@ -104,7 +104,7 @@
                             </div>
                         </div>
                     </template>
-                    <div if:true={showFiles} class={docContClass}>
+                    <div if:true={showFiles} class={fileContClass}>
                         <div class="box-header file-header">
                             {label.PP_MyFiles}
                         </div>
@@ -141,9 +141,7 @@
                                 {label.Visit_Results_Dashboard_My_Results}
                             </div>
                             <div class="box-container slds-align--absolute-center slds-grid slds-wrap small-box"> 
-                                <!-- <c-pp-past-studies-result perid={selectedPER.Id} studyid={selectedPER.Clinical_Trial_Profile__c}></c-pp-past-studies-result> -->
-                                <div class="slds-size--1-of-1 no-result-img"><img src={noResultsIcon}/></div>
-                                <div class="slds-size--1-of-1 no-result-txt">{label.PP_No_results_available}</div>
+                                <c-pp-past-studies-result perid={selectedPER.Id} studyid={selectedPER.Clinical_Trial_Profile__c}></c-pp-past-studies-result>
                             </div>
                         </div>
                     </template>
