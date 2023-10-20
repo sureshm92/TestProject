@@ -37,6 +37,8 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
                 Participant_Contact__c IN :contacts
                 AND Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL
                 AND Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c != NULL
+                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                AND Invited_To_PP_Date__c != NULL
         ];
 
         Map<Id, Map<Id, Integer>> ctpWithLoggedByCnt = new Map<Id, Map<Id, Integer>>();

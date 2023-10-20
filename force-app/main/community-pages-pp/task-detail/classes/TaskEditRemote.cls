@@ -3,6 +3,16 @@
  */
 
 public without sharing class TaskEditRemote {
+    public static final String COMPLETE_YOUR_PROFILE = 'Complete_Your_Profile';
+    public static final String UPDATE_YOUR_PHONE_NUMBER = 'Update_Your_Phone_Number';
+    ///public static final String Select_COI = 'Select_COI';
+
+    //List of system task where we dont need any consent for sending communication.
+    static public Set<String> systemTasksWhereNoConsentRequireForComm = new Set<String>{
+        TaskEditRemote.COMPLETE_YOUR_PROFILE,
+        TaskEditRemote.UPDATE_YOUR_PHONE_NUMBER
+    };
+        
     public class TaskServiceException extends Exception {
     }
     public Boolean isDelegate;
@@ -546,7 +556,8 @@ public without sharing class TaskEditRemote {
                     Survey_Invitation__c,
                     Survey_Invitation__r.IsTrialSurvey__c,
                     Survey_Invitation__r.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
-                    Survey_Invitation__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c
+                    Survey_Invitation__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
+                	Task_Code__c
                 FROM Task
                 WHERE Id = :taskId
                 LIMIT 1
@@ -558,6 +569,18 @@ public without sharing class TaskEditRemote {
                 (taskList[0].WhatId != null ||
                 taskList[0].Survey_Invitation__c != null)
             ) {
+                if (
+                    taskList[0].Task_Code__c != null &&
+                    taskList[0].Task_Code__c != '' &&
+                    TaskEditRemote.systemTasksWhereNoConsentRequireForComm.contains(
+                        taskList[0].Task_Code__c
+                    )
+                ) {
+                    // add values to concent map
+                    consentTypeValueMap.put('emailConsent', true);
+                    return consentTypeValueMap;
+                }
+                
                 if (taskList[0].WhatId != null) {
                     String objType = String.valueOf(taskList[0].WhatId.getSobjectType());
                     if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
