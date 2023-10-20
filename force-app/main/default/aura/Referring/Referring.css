@@ -60,6 +60,12 @@
     font-size: 0.875rem;
 }
 
+.THIS .icon-trash {
+    fill: #297dfd!important;
+    height: 26px!important;
+    width: 14px!important;
+}
+
 .THIS .textoverlap1 {
     width: 3rem;
     text-overflow: ellipsis;
