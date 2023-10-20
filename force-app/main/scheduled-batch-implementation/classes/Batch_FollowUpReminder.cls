@@ -1,4 +1,4 @@
- /**
+/**
  * Created by Igor Malyuta on 10.06.2020.
  */
 public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract {
@@ -100,6 +100,8 @@ public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract
             SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c, Participant_Contact__c
             FROM Participant_Enrollment__c
             WHERE Participant_Contact__c IN :permSetNameWithDTByContact.keySet()
+            AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+            AND Invited_To_PP_Date__c != NULL
         ];
         Map<Id, List<Participant_Enrollment__c>> enrollmentsByContact = new Map<Id, List<Participant_Enrollment__c>>();
         for (Participant_Enrollment__c enrollment : enrollments) {
