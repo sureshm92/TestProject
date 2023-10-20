@@ -4,6 +4,7 @@ global without sharing class TermsAndConditionsJanssenPPSecond {
     public static final String PRIVACY_POLICY = 'Privacy Policy';
     public static final String TERMS_AND_CONDITIONS = 'Terms and Conditions';
     public static final String COOKIE_POLICY = 'Cookie Policy';
+    public static Boolean iscalledforJanssenCommunity = true;
 
     public static Terms_And_Conditions__c getPortalTC(Boolean useDefaultCommunity) {
         return getTC(null, null, useDefaultCommunity);
@@ -58,69 +59,22 @@ global without sharing class TermsAndConditionsJanssenPPSecond {
             ? CommunityService.IQVIA_NETWORK_NAME
             : UserContext.getCurrentCommunityName(); **/
           String communityName = 'Janssen Community';
-        System.debug('communityName: ' + communityName);
-        Boolean BoolIsRegistration = false;
-       Boolean isGuestUser = Auth.CommunitiesUtil.isGuestUser();
-       String strJanseenTemplate = '2.0';
-        //condition for  registration page links
-        if (communityName != null) {
-            if (communityName.containsIgnoreCase('terms')) {
+          if(!iscalledforJanssenCommunity)
+          {
                 communityName = 'IQVIA Patient Portal';
-                BoolIsRegistration = true;
-            }
-        } else {
-            communityName = 'IQVIA Patient Portal';
-        }
-        //Extra condition for Janseen PP2.0 privacy policy
-        if(communityName == 'IQVIA Patient Portal' && !BoolIsRegistration && !isGuestUser)  {
-            Boolean isAlumniPP = false ;
-            Boolean isAlumniJanseen = false ;
-             User objUser =[SELECT Id, ContactId,Contact.userCommunityDelegateId__c,Contact.Current_Participant_Enrollment__c
-                         FROM User WHERE Id =: UserInfo.getUserId()];
-            Id contactId  = objUser.Contact.userCommunityDelegateId__c != null ?  objUser.Contact.userCommunityDelegateId__c : objUser.ContactId; 
-            system.debug('>>objUser>>>'+objUser+'>>contactId>>>'+contactId);
-           // SendEmailDebug.sendEmail('>>>>guestUserrr>>'+Auth.CommunitiesUtil.isGuestUser());
-            system.debug('>>>>guestUserrr>>'+Auth.CommunitiesUtil.isGuestUser());
-           // system.debug('>>Exc>>'+0/0);
-        contact objcon = [select ID, Current_Participant_Enrollment__c from contact where id =:contactId];
-        //If current contact is a active participant in any study
-        if(string.isNotBlank(objcon.Current_Participant_Enrollment__c))
-        {
-            Participant_Enrollment__c objPER = [select id,Clinical_Trial_Profile__r.CommunityTemplate__c, Clinical_Trial_Profile__r.PPTemplate__c
-                                                from Participant_Enrollment__c Where id=:objcon.Current_Participant_Enrollment__c];
-            if(objPER.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen')
-            {
-                communityName = 'Janssen Community';
-            }
-        } 
-        else 
-        { // if current contact is alumni , check if participant is alumni in janseen or pp
-            for(Participant_Enrollment__c objper : [SELECT id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c
-                                                    ,Clinical_Trial_Profile__r.PPTemplate__c   from Participant_Enrollment__c 
-                                                    Where Participant_Contact__c =:contactId AND ((Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen'
-                                                    AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0')  
-                                                    OR  Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal')
-                                                    AND Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_ALUMNI LIMIT 10000])
-            {
-                if(objper.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal')
-                    isAlumniPP = true; 
-                if(objper.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen')
-                    isAlumniJanseen = true; 
-                if(isAlumniPP && isAlumniJanseen)
-                    break;
-            }
-            if(isAlumniJanseen && !isAlumniPP)
-            {
-                communityName = 'Janssen Community';
-            }
-
-        }
-        }   
+          }
+       String strJanseenTemplate = '2.0';
+        
+         
         if (tcId != null) {
             query += ' Id =\'' + tcId + '\' ';
         } else {
             query += ' Active__c = TRUE ';
             query += 'AND Community_Name__c =\'' + communityName + '\'';
+             if( communityName == 'Janssen Community')
+            {
+            query += 'AND Janssen_Template__c =\'' + strJanseenTemplate + '\'';
+            }
         }
         if (tcType != null) {
             query += 'AND T_C_Type__c =\'' + tcType + '\'';

@@ -9,7 +9,7 @@
         </head>
         <body style="font-family:Arial Unicode MS" class="{!if(isRTL == true, 'rtlEnable', '')}"> 
             <div style="width:100% !important"> 
-                <apex:image value="{!$Resource.VisitReportsBrandingLogo}" alt="logo"  width="100%" height="220px" />
+                <apex:image value="{!$Resource.VisitReportBrandingLogo}" alt="logo"  width="100%" height="220px" />
             </div>
             <div class="footer">
                 <div class="peInfo">

@@ -2,6 +2,7 @@ import { api, LightningElement } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import { loadStyle } from 'lightning/platformResourceLoader';
 
+import BTN_Close from '@salesforce/label/c.BTN_Close';
 import unableToLogin from '@salesforce/label/c.PG_Unable_To_Login';
 import unableToLogin1 from '@salesforce/label/c.PG_Unable_To_Login_L1';
 import unableToLogin2 from '@salesforce/label/c.PG_Unable_To_Login_L2';
@@ -18,6 +19,7 @@ import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordL
 
 export default class PpUnableToLogin extends NavigationMixin(LightningElement) {
     labels = {
+        BTN_Close,
         unableToLogin,
         unableToLogin1,
         unableToLogin2,

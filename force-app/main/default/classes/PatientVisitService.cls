@@ -33,7 +33,7 @@ public inherited sharing class PatientVisitService {
             additionalFields
         );
         processPendingInitialVisits(pvList);
-        pvAndEvent.pvList = this.getVisitWrappers(pvList);
+        pvAndEvent.pvList = this.getVisitWrappers_Updated(pvList);
         if (pState.pe != null) {
             Id studySiteId = pState.pe.Study_Site__c;
             if (studySiteId != null) {
@@ -193,7 +193,13 @@ public inherited sharing class PatientVisitService {
         Id visitPlanId;
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
         List<Patient_Visit__c> visits = [
-            SELECT Id, Visit__c, Visit__r.Visit_Plan__c, Completed_Date__c, Visit__r.Icons__c,Icons__c
+            SELECT
+                Id,
+                Visit__c,
+                Visit__r.Visit_Plan__c,
+                Completed_Date__c,
+                Visit__r.Icons__c,
+                Icons__c
             FROM Patient_Visit__c
             WHERE Id = :visitId
         ];
@@ -220,12 +226,15 @@ public inherited sharing class PatientVisitService {
     }
 
     public static List<Patient_Visit__c> getPatientCardVisits(Id peId) {
-        Participant_Enrollment__c per= [SELECT Id, Visit_Plan__c FROM Participant_Enrollment__c
-                                        WHERE Id=:peId ];
-        id vp=per.Visit_Plan__c;
+        Participant_Enrollment__c per = [
+            SELECT Id, Visit_Plan__c
+            FROM Participant_Enrollment__c
+            WHERE Id = :peId
+        ];
+        id vp = per.Visit_Plan__c;
         String filter =
             DatabaseService.fieldEqual('Participant_Enrollment__c', peId) +
-            'AND Is_Adhoc__c = FALSE '+ 
+            'AND Is_Adhoc__c = FALSE ' +
             'AND (' +
             DatabaseService.fieldEqual('Visit__r.Visit_Plan__c', vp) +
             'OR Is_Pre_Enrollment_Patient_Visit__c = TRUE )';
@@ -283,7 +292,7 @@ public inherited sharing class PatientVisitService {
         );*/
         return patientVisits;
     }
-    public List<VisitWrapper> getVisitDetails(Id visitId) {
+    public List<VisitWrapper> getVisitDetails(Id visitId, Boolean updateReminderExpTasks) {
         List<Patient_Visit__c> visits = [
             SELECT
                 Id,
@@ -330,7 +339,12 @@ public inherited sharing class PatientVisitService {
 
         CURRENT_USER = users.get(0);
         TimeZone timeZone = TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey);
-        Map<Id, Task> tasksByVisitIds = getTasksByVisitIds(visits);
+        Map<Id, Task> tasksByVisitIds = new Map<Id, Task>();
+        if (updateReminderExpTasks) {
+            tasksByVisitIds = getTasksByVisitIds_Updated(visits);
+        } else {
+            tasksByVisitIds = getTasksByVisitIds(visits);
+        }
         Set<Id> uniqueId = new Set<Id>();
         for (Patient_Visit__c singleVisit : visits) {
             if (singleVisit.Completed_Date__c != null) {
@@ -374,34 +388,93 @@ public inherited sharing class PatientVisitService {
         return visits;
     }
 
-    private List<VisitWrapper> getVisitWrappers(List<Patient_Visit__c> visits) {
+    private List<VisitWrapper> getVisitWrappers_Updated(List<Patient_Visit__c> visits) {
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
         if (visits == null || visits.isEmpty())
             return visitWrappers;
-        set<Id> visitPlanId=new set<Id>();
-        set<String> pvIcons=new set<String>();
+        set<Id> visitPlanId = new Set<Id>();
+        set<String> pvIcons = new Set<String>();
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
         for (Patient_Visit__c visit : visits) {
             if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
                 visitPlanId.add(visit.Visit__r.Visit_Plan__c);
                 //break;
-            }
-            else{
-                pvIcons.add(visit.Icons__c); 
+            } else {
+                pvIcons.add(visit.Icons__c);
             }
         }
         if (visitPlanId != null && !visitPlanId.isEmpty()) {
             iconDetails = [
                 SELECT Id, Name, Label__c, Description__c
                 FROM Icon_Details__c
-                WHERE Visit_Plan__c in :visitPlanId  OR (Name in :pvIcons AND Visit_Plan__c = NULL)
+                WHERE Visit_Plan__c IN :visitPlanId OR (Name IN :pvIcons AND Visit_Plan__c = NULL)
             ];
-        }
-        else if( pvIcons!=null ){
+        } else if (pvIcons != null) {
             iconDetails = [
                 SELECT Id, Name, Label__c, Description__c
                 FROM Icon_Details__c
-                WHERE  Name in :pvIcons AND Visit_Plan__c = NULL
+                WHERE Name IN :pvIcons AND Visit_Plan__c = NULL
+            ];
+        }
+        TranslateHelper.translate(iconDetails);
+        Map<String, Icon_Details__c> iconDetailsMap = new Map<String, Icon_Details__c>();
+        for (Icon_Details__c iconDetail : iconDetails)
+            iconDetailsMap.put(iconDetail.Name, iconDetail);
+
+        List<User> users = [
+            SELECT Id, LocaleSidKey, TimeZoneSidKey
+            FROM User
+            WHERE Id = :UserInfo.getUserId()
+        ];
+
+        CURRENT_USER = users.get(0);
+        TimeZone timeZone = TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey);
+        Map<Id, Task> tasksByVisitIds = getTasksByVisitIds_Updated(visits);
+        Set<Id> uniqueId = new Set<Id>();
+        for (Patient_Visit__c singleVisit : visits) {
+            if (singleVisit.Completed_Date__c != null) {
+                singleVisit.Completed_Date__c = singleVisit.Completed_Date__c;
+            }
+
+            if (uniqueId.add(singleVisit.Id)) {
+                visitWrappers.add(
+                    new VisitWrapper(
+                        singleVisit,
+                        tasksByVisitIds.get(singleVisit.Id),
+                        iconDetailsMap
+                    )
+                );
+            }
+        }
+        return visitWrappers;
+    }
+
+    private List<VisitWrapper> getVisitWrappers(List<Patient_Visit__c> visits) {
+        List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
+        if (visits == null || visits.isEmpty())
+            return visitWrappers;
+        set<Id> visitPlanId = new Set<Id>();
+        set<String> pvIcons = new Set<String>();
+        List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
+        for (Patient_Visit__c visit : visits) {
+            if (visit.Visit__c != null && visit.Visit__r.Visit_Plan__c != null) {
+                visitPlanId.add(visit.Visit__r.Visit_Plan__c);
+                //break;
+            } else {
+                pvIcons.add(visit.Icons__c);
+            }
+        }
+        if (visitPlanId != null && !visitPlanId.isEmpty()) {
+            iconDetails = [
+                SELECT Id, Name, Label__c, Description__c
+                FROM Icon_Details__c
+                WHERE Visit_Plan__c IN :visitPlanId OR (Name IN :pvIcons AND Visit_Plan__c = NULL)
+            ];
+        } else if (pvIcons != null) {
+            iconDetails = [
+                SELECT Id, Name, Label__c, Description__c
+                FROM Icon_Details__c
+                WHERE Name IN :pvIcons AND Visit_Plan__c = NULL
             ];
         }
         TranslateHelper.translate(iconDetails);
@@ -453,12 +526,54 @@ public inherited sharing class PatientVisitService {
                 Patient_Visit__c IN :new Map<Id, Patient_Visit__c>(visits).keySet()
                 AND Status = 'Open'
         ];
+
         for (Task singleTask : tasks) {
             tasksByVisitIds.put(singleTask.Patient_Visit__c, singleTask);
         }
         return tasksByVisitIds;
     }
 
+    //Get tasks and also update reminder date time to null, if reminder is expired
+    private Map<Id, Task> getTasksByVisitIds_Updated(List<Patient_Visit__c> visits) {
+        Map<Id, Task> tasksByVisitIds = new Map<Id, Task>();
+        List<Task> tasks = [
+            SELECT
+                Id,
+                Patient_Visit__c,
+                Reminder_Date__c,
+                ReminderDateTime,
+                Remind_Me__c,
+                Remind_Using_Email__c,
+                Remind_Using_SMS__c
+            FROM Task
+            WHERE
+                Patient_Visit__c IN :new Map<Id, Patient_Visit__c>(visits).keySet()
+                AND Status = 'Open'
+        ];
+        Datetime now = Datetime.now();
+        List<Task> reminderExpiredTasks = new List<Task>();
+        for (Task singleTask : tasks) {
+            if (
+                (singleTask.Reminder_Date__c != null || singleTask.ReminderDateTime != null) &&
+                singleTask.Reminder_Date__c < now
+            ) {
+                singleTask.Reminder_Date__c = null;
+                singleTask.Remind_Using_Email__c = false;
+                singleTask.Remind_Using_SMS__c = false;
+                singleTask.ReminderDateTime = null;
+                singleTask.Remind_Me__c = '';
+                reminderExpiredTasks.add(singleTask);
+            }
+            tasksByVisitIds.put(singleTask.Patient_Visit__c, singleTask);
+        }
+        try {
+            if (reminderExpiredTasks.size() > 0)
+                update reminderExpiredTasks;
+        } catch (Exception ex) {
+            system.debug('Error occured during task updation' + ex.getMessage());
+        }
+        return tasksByVisitIds;
+    }
     public static Patient_Visit__c createInitialVisit(
         Visit__c visit,
         Participant_Enrollment__c pe
@@ -588,7 +703,7 @@ public inherited sharing class PatientVisitService {
                 icons = visit.Visit__r.Icons__c;
 
                 List<String> iconNames = new List<String>();
-                if (visit.Visit__r != null && visit.Visit__r.Icons__c != null){
+                if (visit.Visit__r != null && visit.Visit__r.Icons__c != null) {
                     iconNames = visit.Visit__r.Icons__c.split(';');
                 }
                 if (!iconNames.isEmpty()) {
@@ -598,11 +713,10 @@ public inherited sharing class PatientVisitService {
                         }
                     }
                 }
-            }
-            else{
+            } else {
                 icons = visit.Icons__c;
                 List<String> iconNames = new List<String>();
-                if (visit.Icons__c != null){
+                if (visit.Icons__c != null) {
                     iconNames = visit.Icons__c.split(';');
                 }
                 if (!iconNames.isEmpty()) {

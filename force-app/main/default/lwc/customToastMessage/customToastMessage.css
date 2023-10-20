@@ -1,29 +1,29 @@
-.PP-Mot-Message-Toast{
-    background-color: #C42EA5;
+.PP-Mot-Message-Toast {
+    background-color: #c42ea5;
     width: 620px;
     padding: 8px;
 }
-.slds-text-heading_small{
-    color: #F0F8FF;
+.slds-text-heading_small {
+    color: #f0f8ff;
 }
-.slds-notify_container{
+.slds-notify_container {
     border-radius: 8px;
-    width:50% !important;
+    width: 50% !important;
     position: fixed;
     left: 26%;
     top: 48px;
 }
-.slds-notify__content{
+.slds-notify__content {
     width: 508px;
     font-weight: 600;
 }
-.custom-icon{
+.custom-icon {
     margin-right: 15px;
     text-align: right;
-    margin-top: 2px
+    margin-top: 2px;
 }
-.custom-icon-mobile{
-   margin-right: 10px;
+.custom-icon-mobile {
+    margin-right: 10px;
     text-align: right;
 }
 /* .slds-notify_container_mobile{
@@ -32,21 +32,21 @@
     margin-top: 18px;
     width: 366px; 
 } */
-.PP-Mot-Message-Toast_mobile{
-    background-color: #C42EA5;
+.PP-Mot-Message-Toast_mobile {
+    background-color: #c42ea5;
     padding: 8px;
     /* width: 366px; */
-    margin-top: 16px
+    margin-top: 16px;
 }
-.slds-notify__content_mobile{
+.slds-notify__content_mobile {
     font-weight: 600;
     word-wrap: break-word;
 }
 
-.custom-notify-container-mobile{
+.custom-notify-container-mobile {
     position: fixed;
     top: 25px;
-    background-color: #C42EA5;
+    background-color: #c42ea5;
     padding: 8px;
     margin: 20px;
     border-radius: 8px;
@@ -55,13 +55,14 @@
     width: 90%;
 }
 
-.mt-0{
+.mt-0 {
     position: absolute;
     top: 20px;
 }
 
-.slds-notify__close{
+.slds-notify__close {
     width: 24px;
     height: 24px;
     right: 1%;
+    cursor: pointer;
 }

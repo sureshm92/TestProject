@@ -655,7 +655,7 @@ public without sharing class MyTeamRemote {
                     WHERE Site_Contact__c IN :ConId AND is_Invited__c = TRUE
                     LIMIT 5
                 ];
-                
+
                 String PI = '';
                 Boolean isHCP = false;
                 List<Study_Site__c> lstSSites = new List<Study_Site__c>();
@@ -1022,6 +1022,8 @@ public without sharing class MyTeamRemote {
                 contactDelegate.AccountId = user.Contact.AccountId;
                 contactDelegate.Current_Participant_Enrollment__c = null;
                 contactDelegate.Language__c = UserInfo.getLanguage();
+                contactDelegate.Second_Choice_Language__c = '';
+                contactDelegate.Third_Choice_Language__c = '';
                 contactDelegate.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactDelegate.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactDelegate.UserCommunityIsDelegate__c = true;

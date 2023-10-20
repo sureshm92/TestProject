@@ -55,7 +55,7 @@ public without sharing class PatientDelegateEnrollmentService {
         Id delContactId
     ) {
         List<Patient_Delegate_Enrollment__c> pdEnrollments = [
-            SELECT Id, Participant_Enrollment__c, Primary_Delegate__c
+            SELECT Id, Participant_Enrollment__c, Primary_Delegate__c, Motivational_Message_Id__c
             FROM Patient_Delegate_Enrollment__c
             WHERE
                 Participant_Enrollment__r.Participant_Contact__c = :participantConId
@@ -77,6 +77,24 @@ public without sharing class PatientDelegateEnrollmentService {
         ];
         return pdEnrollments;
     }
+    
+    public static List<Patient_Delegate_Enrollment__c> getPatientDelegateEnrollmentsActive(
+        Id participantConId,
+        Id delContactId,
+        Id perId
+    ) {
+        List<Patient_Delegate_Enrollment__c> pdEnrollments = [
+            SELECT Id, Participant_Enrollment__c, Primary_Delegate__c, Motivational_Message_Id__c
+            FROM Patient_Delegate_Enrollment__c
+            WHERE
+                Participant_Enrollment__r.Participant_Contact__c = :participantConId
+                AND Patient_Delegate__r.Contact__c = :delContactId
+                AND Participant_Enrollment__c = :perId
+                AND Status__c = 'Active'
+        ];
+        return pdEnrollments;
+    }
+
     public static List<Participant_Enrollment__c> getPEList(Id participantConId, Id delContactId) {
         Set<Id> peIdSet = new Set<Id>();
         List<Id> peIdList = new List<Id>();
@@ -413,9 +431,9 @@ public without sharing class PatientDelegateEnrollmentService {
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 Primary_Delegate__c
             FROM Patient_Delegate_Enrollment__c
-            WHERE Patient_Delegate__r.Contact__c = :pdContactId 
+            WHERE  Patient_Delegate__r.Contact__c = :pdContactId 
             AND Status__c = 'Active'
-            AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c =  true
+            AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
         ];
         return pdeList;
     }
@@ -502,6 +520,9 @@ public without sharing class PatientDelegateEnrollmentService {
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.Privacy_Policy_ID__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                 Primary_Delegate__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Patient_Delegate__r.Contact__c = :pdContactId
@@ -922,8 +943,7 @@ public without sharing class PatientDelegateEnrollmentService {
                 ) +
                 ' AND ' +
                 ((perIdlst != null && !perIdlst.isEmpty())
-                    ? (DatabaseService.fieldInValues('Participant_Enrollment__c', perIdlst) +
-                      ' AND ')
+                ? (DatabaseService.fieldInValues('Participant_Enrollment__c', perIdlst) + ' AND ')
                     : '') +
                 DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
         );

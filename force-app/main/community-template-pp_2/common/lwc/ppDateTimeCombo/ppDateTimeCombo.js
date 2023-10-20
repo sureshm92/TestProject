@@ -16,6 +16,7 @@ import PAST_DATETIME_ERROR_FOR_REMINDER from '@salesforce/label/c.Past_DateTime_
 import FUTURE_DATETIME_ERROR_FOR_REMINDER_EVENT from '@salesforce/label/c.Future_DateTime_Error_For_Reminder_DateTime_Event';
 import FUTURE_DATETIME_ERROR_FOR_REMINDER_VISIT from '@salesforce/label/c.Future_DateTime_Error_For_Reminder_DateTime_Visit';
 import FUTURE_DATETIME_ERROR_FOR_REMINDER_TASK from '@salesforce/label/c.Future_DateTime_Error_For_Reminder_DateTime_Task';
+import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 export default class PpDateTimeCombo extends LightningElement {
     @api compdate;
     @api comptime;
@@ -43,6 +44,7 @@ export default class PpDateTimeCombo extends LightningElement {
     @api showDateTime;
     @api isVisitEventTask = 'task';
     @api hideTimeInput;
+    isRTL = false;
     label = {
         date,
         time,
@@ -88,6 +90,13 @@ export default class PpDateTimeCombo extends LightningElement {
                 this.diffInMinutes = localOffset - centralOffset;
             });
         });
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+            });
     }
 
     get pastDateErrorLabel() {
@@ -231,12 +240,22 @@ export default class PpDateTimeCombo extends LightningElement {
         this.createTask = true ? 'task-due-date-time' : 'curve-input';
     }
     get dueDateClass() {
-        return 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
+        if (this.isRTL){
+            return 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 date-time-left-space-rtl';
+        }else{
+            return 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
+        }
     }
     get timeClass() {
-        return this.hideTimeInput
-            ? 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small slds-hide'
-            : 'slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small';
+        if (this.isRTL){
+            return this.hideTimeInput
+            ? 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small slds-hide'
+            : 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 date-time-right-space-rtl';
+        }else{
+            return this.hideTimeInput
+            ? 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small slds-hide'
+            : 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small';
+        }
     }
     get gridClass() {
         return this.createTask == true

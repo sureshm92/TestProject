@@ -18,6 +18,19 @@ public without sharing class TermsAndConditionsRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
+    
+    @AuraEnabled
+    public static String getPortalTcDataJn(Boolean useDefaultCommunity,Boolean isJanseen) {
+        try {
+            if(!isJanseen)
+            {
+                TermsAndConditionsJanssenPPSecond.iscalledforJanssenCommunity = false;
+            }
+            return JSON.serialize(getTCData(TermsAndConditionsJanssenPPSecond.getPortalTC(useDefaultCommunity)));
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
 
     @AuraEnabled
     public static String getTrialTcData(Id ctpId) {
@@ -112,6 +125,7 @@ public without sharing class TermsAndConditionsRemote {
         try {
             TCData tcData = new TCData();
             //this method is only for privacy policy of pp2.0 iqvia outreach consent preference
+            
             if(calledfromCommPref)
             {
                 if (code == 'PrivacyPolicy') {
@@ -133,7 +147,23 @@ public without sharing class TermsAndConditionsRemote {
     public static String getPPTCJn(String code, String languageCode, Boolean useDefaultCommunity, String ctId) {
         try {
             TCData tcData = new TCData();
-            if (code == 'PrivacyPolicy') {
+            if (code == 'PrivacyPolicy'){
+                tcData.tc = TermsAndConditionsJanssenPPSecond.getOrgDefaultPPTC(useDefaultCommunity, ctId);
+            }
+            return JSON.serialize(tcData);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+    @AuraEnabled
+    public static String getPPTCJncommpref(String code, String languageCode, Boolean useDefaultCommunity, String ctId,Boolean isJanssen) {
+        try {
+            TCData tcData = new TCData();
+            if (code == 'PrivacyPolicy'){
+                if(!isJanssen)
+                {
+                    TermsAndConditionsJanssenPPSecond.iscalledforJanssenCommunity = false;
+                }
                 tcData.tc = TermsAndConditionsJanssenPPSecond.getOrgDefaultPPTC(useDefaultCommunity, ctId);
             }
             return JSON.serialize(tcData);

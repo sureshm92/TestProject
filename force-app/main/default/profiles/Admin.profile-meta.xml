@@ -4177,6 +4177,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ECOA_Study_Schedule__c.Visit_Plan__c</field>
+        <readable>true</readable>
+    </fieldPermissions> 
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ECOA_Study_Schedule__c.EproRuleSetGuid__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9907,6 +9912,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_status_description_motivation__c.Status_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_status_description_motivation__c.Status_Developer_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_status_description_motivation__c.Status_Label__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
