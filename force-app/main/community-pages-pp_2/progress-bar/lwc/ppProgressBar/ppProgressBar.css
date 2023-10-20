@@ -438,6 +438,32 @@
     .big .orderB{
         order :1;
     }
+
+.big .leftBBox {
+    width: 100%;
+    display: inline-block;
+    padding: 17.95px 18px 19px 18px;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    border-top: 1px solid #E9E9E9;
+    border-left: 1px solid #E9E9E9;
+    border-right: 1px solid #E9E9E9;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+.big .rightBBox {
+    width: 100%;
+    display: inline-block;
+    padding: 0px 22px 8px 22px;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #E9E9E9;
+    border-left: 1px solid #E9E9E9;
+    border-right: 1px solid #E9E9E9;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
 }
 @media all and (max-width: 450px) {
     .big .rightText {
@@ -495,7 +521,7 @@
     border-top-left-radius: 0px;
     border-color: #D4D4D4;
     padding: 13px 15px 13px 15px;
-    min-height: 410px;
+    min-height: 408px;
     width: 100%;
 }
 .small .rightBox {
