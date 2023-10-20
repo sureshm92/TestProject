@@ -112,9 +112,9 @@ export default class PpPastStudiesParent extends LightningElement {
                 this.renderSections();
                 if(this.selectedPER.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c)
                     this.sectionList.push({id: PP_Resource_Documents , class :''});
-                if(this.showFiles)    
+                if(!this.hideFilesForPER.includes(this.selectedPER.Id))    
                     this.sectionList.push({id: PP_MyFiles , class :''});
-                if(this.selectedPER.Clinical_Trial_Profile__r.Visit_Data_Shareback__c && this.showResults)
+                if(this.selectedPER.Clinical_Trial_Profile__r.Visit_Data_Shareback__c && !this.hideFilesForPER.includes(this.selectedPER.Id))
                     this.sectionList.push({id: Visit_Results_Dashboard_My_Results , class :''});
                 this.sectionList.push({id: PP_Communications , class :''});
                 
