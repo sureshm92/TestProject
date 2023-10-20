@@ -2571,6 +2571,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Is_Program__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Patient_Outreach_Info__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2582,6 +2587,10 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Study_External_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <field>Clinical_Trial_Profile__c.Status_Milestone_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2967,6 +2976,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_status_description_motivation__c.Status_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_status_description_motivation__c.Status_Developer_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_status_description_motivation__c.Status_Label__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

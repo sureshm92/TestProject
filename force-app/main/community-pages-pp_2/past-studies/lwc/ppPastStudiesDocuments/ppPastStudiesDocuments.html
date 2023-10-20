@@ -1,0 +1,31 @@
+<template>
+    <div if:false={loaded}  class="fullHeight">
+        <div role="status" class="slds-spinner slds-spinner_medium">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>    
+    <template if:true={loaded}>
+        <div if:false={documentPresent} class="slds-align--absolute-center slds-grid slds-wrap fullHeight">
+            <div class="slds-size--1-of-1 no-doc-img"><img src={noDocsIcon}/></div>
+            <div class="slds-size--1-of-1 no-doc-txt">{label.No_Documents_Available}</div>
+        </div>
+        <div if:true={documentPresent} class="docListCont">
+            <template if:true={documentList} for:each={documentList} for:item="doc" for:index="index">
+                <!--<div class="cardMain" key={doc.a}>
+                    <div class="cardImg">{doc.a}</div>
+                    <div class="cardDetail">
+                        <div class="cardTitle slds-truncate">{doc.b}</div>
+                        <div class="cardVersion">{doc.c}</div>
+                    </div>
+                </div> onresourceclick = {handleResourceClick}-->
+                <c-pp-Document  pe = {pe} key={doc} document={doc}></c-pp-Document>
+            </template>  
+            <div if:true={showLoadMore} onclick={loadMore}>
+                <div class="loadMoreText">Load More</div>
+                <div class="loadMoreImg"><img src={chevronDown}/></div>
+            </div>          
+        </div>
+    </template>
+</template>
