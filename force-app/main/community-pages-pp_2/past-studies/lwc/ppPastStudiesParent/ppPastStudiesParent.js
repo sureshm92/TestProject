@@ -88,6 +88,9 @@ export default class PpPastStudiesParent extends LightningElement {
         this.showMenu = window.innerWidth<1024;
         this.renderSections();
     };
+    selectStudy(event){
+        this.updateSelectedStudy(event.target.dataset.item);
+    }
     updateSelectedStudy(perid){
         if(this.template.querySelector('[data-id="top"]')){
             const topDiv = this.template.querySelector('[data-id="top"]');
