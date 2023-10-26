@@ -58,7 +58,11 @@ export default class PpPastStudiesParent extends LightningElement {
         Back_to_Past_Studies_and_Programs,
         PP_DeletedSucesfully
     };
+    showPage;
     connectedCallback() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        let perURLId = urlParams.get('per');
         window.addEventListener('resize', this.windowResize);
         this.showMenu = window.innerWidth < 1024;
         this.renderSections();
@@ -79,6 +83,10 @@ export default class PpPastStudiesParent extends LightningElement {
                 .then((result) => {
                     this.perList = JSON.parse(JSON.stringify(result.peList));
                     this.hideFilesForPER = JSON.parse(JSON.stringify(result.hideFilesForPER));
+                    if (perURLId) {
+                        this.updateSelectedStudy(perURLId);
+                    }
+                    this.showPage = true;
                 })
                 .catch((error) => {
                     console.error('Error:', error);
