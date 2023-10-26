@@ -89,7 +89,7 @@ public without sharing class ppPastStudiesTabUtility {
                 Userwrapper wrap = new Userwrapper();
                 wrap.Userid = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).id;
                 wrap.Profilepicurl = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).SmallPhotoUrl;
-                String salutation = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).contact.Salutation != null ? userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).contact.Salutation:'';
+                String salutation = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).contact.Salutation != null ? userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).contact.Salutation+' ':'';
                 wrap.Username = salutation + userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).name;
                 if(!userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).SmallPhotoUrl.contains('profilephoto/005/T')){
                     wrap.hasuserpic = true;
