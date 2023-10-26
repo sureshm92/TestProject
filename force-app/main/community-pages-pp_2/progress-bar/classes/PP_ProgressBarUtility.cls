@@ -35,9 +35,9 @@ public with sharing class PP_ProgressBarUtility {
 
     public class statusWrapper{
         @AuraEnabled
-        public String statusName;
-        @AuraEnabled
         public Datetime statusDate;
+        @AuraEnabled
+        public String statusName;
     }
 
     @AuraEnabled
@@ -46,7 +46,7 @@ public with sharing class PP_ProgressBarUtility {
         try{
             Set<String> InTrialStatus = new Set<String>{'Enrollment Success','Randomization Success','Treatment Period Started','Follow-Up Period Started','Participation Complete','Trial Complete'};
             Set<String> PreTrialStatus = new Set<String>{'Received','Pre-review Passed','Contact Attempted','Successfully re-engaged','Successfully Contacted','Participant No Show','Eligibility Passed','Ready to Screen','Screening In Progress - Wash Out Period','Screening In Progress','Screening Passed'};
-            Participant_Enrollment__c pe = [select id,Participant_Status__c,Initial_visit_scheduled_flag__c,Initial_visit_occurred_flag__c,Informed_Consent__c,Initial_visit_scheduled_date__c,Informed_Consent_Date__c,Initial_visit_occurred_date__c,Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,Clinical_Trial_Profile__r.Is_Program__c,
+            Participant_Enrollment__c pe = [select id,Participant_Status__c,Initial_Visit_Scheduled_DateTime__c,Initial_visit_scheduled_flag__c,Initial_visit_occurred_flag__c,Informed_Consent__c,Initial_visit_scheduled_date__c,Informed_Consent_Date__c,Initial_visit_occurred_date__c,Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,Clinical_Trial_Profile__r.Is_Program__c,
                     Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Status_Milestone_Available__c,Clinical_Trial_Profile__r.Study_External_URL__c,Clinical_Trial_Profile__c,
                     (select id,Status__c, Date__c FROM Participant_Enrollment_Status_History__r order by Date__c asc) 
                     FROM Participant_Enrollment__c where id=:peId];
@@ -217,8 +217,14 @@ public with sharing class PP_ProgressBarUtility {
                 Integer multiplier = -1;
                 Map<String,Datetime> peshDateMap = new Map<String,Datetime>();
                 for(Participant_Enrollment_Status_History__c pesh : pe.Participant_Enrollment_Status_History__r){
+                    system.debug(pesh.Status__c +''+pesh.Date__c);
                     peshDateMap.put(pesh.Status__c.toLowerCase(),pesh.Date__c);
                }
+               for( String statName : peshDateMap.KeySet()){
+            
+                system.debug(statName+ ' result ' +peshDateMap.get(statName));
+           }
+               
                if(pe.Participant_Status__c == 'Participant No Show' && !peshDateMap.containsKey('Successfully Contacted'.toLowerCase())){
                 return null;
                }
@@ -245,13 +251,16 @@ public with sharing class PP_ProgressBarUtility {
                     List<Study_status_desc_and_motivational_msg__mdt> statusLst = milestonseStatusMapping.get(milestoneConfig.PER_Participant_Status__c);
                     List<statusWrapper> sWrpList = new List<statusWrapper>();
                     if(multiplier < 0 ){
-
+                        Map<DateTime, statusWrapper> statusMap = new Map<DateTime, statusWrapper>();
+                        List<DateTime> statusDateList = new List<DateTime>();
                         for(Study_status_desc_and_motivational_msg__mdt statusConfig : statusLst){
                             if(peshDateMap.containsKey(statusConfig.PER_Participant_Status__c.toLowerCase())){
                                 statusWrapper sWrp = new statusWrapper();
-                                sWrp.statusName = statusConfig.MasterLabel;
                                 sWrp.statusDate = peshDateMap.get(statusConfig.PER_Participant_Status__c.toLowerCase());
-                                sWrpList.add(sWrp);
+                                sWrp.statusName = statusConfig.MasterLabel;
+                                //sWrpList.add(sWrp);
+                                statusMap.put(sWrp.statusDate, sWrp);
+                                statusDateList.add(sWrp.statusDate);
                             }
                             if(multiplier < 0 ){
                                 prW.title = (statusConfigMap.containsKey(statusConfig.DeveloperName) && statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c!=null) ? statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c : statusConfig.PER_Participant_Status__c;
@@ -263,6 +272,13 @@ public with sharing class PP_ProgressBarUtility {
                                 multiplier = 1;
                                 count = 0;
                                 prW.status = 'IN PROGRESS';
+                            }
+                            
+                        }
+                        statusDateList.sort();
+                        for(Datetime statusDate : statusDateList){
+                            if(statusMap.containsKey(statusDate)){
+                                sWrpList.add(statusMap.get(statusDate));
                             }
                             
                         }
@@ -292,6 +308,7 @@ public with sharing class PP_ProgressBarUtility {
                                 sWrpList.add(sWrp);
                             }
                         }
+                        //sWrpList.sort();
                         prW.statusWrapperList = sWrpList;
                     }
                     prW.stepVal = count*multiplier;
