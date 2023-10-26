@@ -229,7 +229,7 @@ public with sharing class PP_ProgressBarUtility {
                 return null;
                }
                 if(pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c && pe.Participant_Status__c ==  'Successfully Contacted' && peshDateMap.containsKey('Successfully Contacted'.toLowerCase())){
-                    if(pe.Informed_Consent_Date__c != null || pe.Initial_visit_occurred_date__c!=null || pe.Initial_visit_scheduled_date__c!=null){
+                    if(pe.Informed_Consent_Date__c != null || pe.Initial_visit_occurred_date__c!=null || pe.Initial_visit_scheduled_flag__c){
                         pe.Participant_Status__c = 'Initial Visit';
                     }
                 }
