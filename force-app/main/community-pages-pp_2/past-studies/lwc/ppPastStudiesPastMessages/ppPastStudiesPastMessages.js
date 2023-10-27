@@ -8,6 +8,7 @@ export default class PpPastStudiesPastMessages extends NavigationMixin(Lightning
     @api per;
     @api contactid;
     @api noMessagesIcon;
+    @api isdelegate;
     hasmembers;
     messagesIcon = pp_icons + '/' + 'messageIcon.svg';;
     @track userrdetails;
@@ -21,7 +22,8 @@ export default class PpPastStudiesPastMessages extends NavigationMixin(Lightning
         this.isLoading = true;
         getrecentlycommunicatedmembers({
             contID: this.contactid,
-            per: this.per
+            per: this.per,
+            isdelegate:this.isdelegate
         }).then((result) => {
             console.log(JSON.stringify(result));
             if(result.length > 0){
