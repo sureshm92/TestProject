@@ -30,7 +30,7 @@
                         </div>
                         <ul if:true={sectionList} class="swt-options slds-hide">
                             <template for:each={perList} for:item="per">
-                                <li key={per.Id}>
+                                <li key={per.Id} data-item={per.Id}  onclick={selectStudy}>
                                     <span class={per.class}>
                                         {per.Clinical_Trial_Profile__r.Study_Code_Name__c}
                                     </span>
@@ -142,7 +142,7 @@
                             </div>
                             <div class="box-container slds-align--absolute-center slds-grid slds-wrap small-box"> 
                                 <c-pp-past-studies-result perid={selectedPER.Id} studyid={selectedPER.Clinical_Trial_Profile__c}></c-pp-past-studies-result>
-                            </div>
+                                </div>
                         </div>
                     </template>
                     <div if:true={showComm} class="slds-size--1-of-1 ">
