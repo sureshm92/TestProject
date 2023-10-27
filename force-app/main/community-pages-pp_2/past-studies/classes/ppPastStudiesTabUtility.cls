@@ -63,7 +63,7 @@ public without sharing class ppPastStudiesTabUtility {
     }
 
     @AuraEnabled
-    public static list<Userwrapper> getrecentlycommunicatedmembers(Id contID,Participant_Enrollment__c per){
+    public static list<Userwrapper> getrecentlycommunicatedmembers(Id contID,Participant_Enrollment__c per,Boolean isdelegate){
         List<Userwrapper> userdetaillist = new List<Userwrapper>();
         string piName ;
         if(per != null && per.Study_Site__r != null && per.Study_Site__r.Principal_Investigator__r != null){
@@ -71,13 +71,22 @@ public without sharing class ppPastStudiesTabUtility {
         }
         if(piName != null && piName != ''){
             Map<id,User> userMap = new Map<id,User>();
-            List<User> lstUser = [Select Id,contactId,Firstname,contact.name,contact.Salutation,Lastname,name,SmallPhotoUrl,FullPhotoUrl  from User where contactid =: per.Study_Site__r.Principal_Investigator__r.Id or contactid =:contID ];
+            String getUserContact = UserContext.getUserContactId();
+            List<User> lstUser = [Select Id,contactId,Firstname,contact.name,contact.Salutation,Lastname,name,SmallPhotoUrl,FullPhotoUrl  from User where contactid =: per.Study_Site__r.Principal_Investigator__r.Id or contactid =:contID 
+                                    or contactid =:getUserContact ];
             for(User u:lstUser){
                     userMap.put(u.contactId,u);
             }
-            List<Conversation__c> sharedConversations = ConversationService.getSharedConversations(
+            List<Conversation__c> sharedConversations;
+            if(isdelegate){
+                sharedConversations = ConversationService.getSharedConversations(
+                  userMap.get(getUserContact).Id
+                );
+            }else{
+                sharedConversations = ConversationService.getSharedConversations(
                   userMap.get(contID).Id
                 );
+            }
             Boolean showemptymessagescreen = false;
             for(Conversation__c cnv:sharedConversations){
                 if(cnv.Participant_Enrollment__c == per.Id){
