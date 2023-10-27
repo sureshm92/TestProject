@@ -14,4 +14,13 @@ export default class PpPastStudiesOverview extends LightningElement {
     };
     @api per;
     @api mainClass="container-overview" ;
+    setStudy(){
+        if(this.mainClass == 'tiles container-overview'){
+            this.dispatchEvent(new CustomEvent('loaddetail', {
+                detail: {
+                    message: this.per.Id
+                }
+            }));
+        }
+    }
 }

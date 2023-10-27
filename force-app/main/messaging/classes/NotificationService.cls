@@ -526,7 +526,16 @@ public without sharing class NotificationService {
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_PUSH) {
                     if (availabilityService.isAvailableForPush(n.Id, n.WhatId__c)) {
                         //sendResultService.setInProgress(n.Id, nt.Target_Type__c);
-                        pushNotifications.add(n);
+                        if (
+                            n.Notification_Type__c ==
+                            NotificationCatalog.MESSAGE_TO_PT_DATA_AVAILABLE_TYPE
+                        ) {
+                            Boolean isOldPP = availabilityService.isDefaultTemplate(n.WhatId__c);
+                            if (isOldPP)
+                                pushNotifications.add(n);
+                        } else {
+                            pushNotifications.add(n);
+                        }
                     } else {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
