@@ -1,15 +1,15 @@
 /**
- * Created by Sandeep on 17.03.2023.
- */
+* Created by Sandeep on 17.03.2023.
+*/
 public without sharing class Batch_InsertPlatformResNotification implements Database.Batchable<SObject>, Database.AllowsCallouts {
     public Map<Id, Batch_CreatePlatformResourceNotification.ThereaputicAreaLang> resWithTherapeuticAreasMap = new Map<Id, Batch_CreatePlatformResourceNotification.ThereaputicAreaLang>();
-
+    
     public Batch_InsertPlatformResNotification(
         Map<Id, Batch_CreatePlatformResourceNotification.ThereaputicAreaLang> resWithTherapeuticAreasMap
     ) {
         this.resWithTherapeuticAreasMap = resWithTherapeuticAreasMap;
     }
-
+    
     public Database.QueryLocator start(Database.BatchableContext param1) {
         List<Id> theraputicAreaIds = new List<Id>();
         for (Id resId : this.resWithTherapeuticAreasMap.keySet()) {
@@ -18,22 +18,22 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
         return Database.getQueryLocator(
             [
                 SELECT
-                    Id,
-                    Participant__r.Contact__c,
-                    Participant__r.Contact__r.userCommunityDelegateId__c,
-                    Participant__r.Contact__r.UserCommunityIsDelegate__c,
-                    Participant__c,
-                    Therapeutic_Area__c,
-                    Participant__r.Contact__r.Resource_Notifications__c,
-                    Participant__r.Contact__r.Third_Choice_Language__c,
-                    Participant__r.Contact__r.Second_Choice_Language__c,
-                    Participant__r.Contact__r.Language__c,
-                    Participant__r.Has_Studies_In_Progress__c,
-                    Participant__r.Has_Past_Studies__c
+                Id,
+                Participant__r.Contact__c,
+                Participant__r.Contact__r.userCommunityDelegateId__c,
+                Participant__r.Contact__r.UserCommunityIsDelegate__c,
+                Participant__c,
+                Therapeutic_Area__c,
+                Participant__r.Contact__r.Resource_Notifications__c,
+                Participant__r.Contact__r.Third_Choice_Language__c,
+                Participant__r.Contact__r.Second_Choice_Language__c,
+                Participant__r.Contact__r.Language__c,
+                Participant__r.Has_Studies_In_Progress__c,
+                Participant__r.Has_Past_Studies__c
                 FROM Therapeutic_Area_Patient__c
                 WHERE
-                    Participant__r.Contact__r.userCommunityMode__c = 'Participant'
-                    AND Therapeutic_Area__c = :theraputicAreaIds
+                Participant__r.Contact__r.userCommunityMode__c = 'Participant'
+                AND Therapeutic_Area__c = :theraputicAreaIds
             ]
         );
     }
@@ -43,13 +43,16 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
     ) {
         Map<Id, Contact> contactstoNotify = new Map<Id, Contact>();
         List<Notification__c> notificationsList = new List<Notification__c>();
-
+        Map<Id,List<Participant_Enrollment__c>> contActivePEMap = new Map<Id,List<Participant_Enrollment__c>>();
+        Map<Id,List<Id>> contPatientDelMap = new Map<Id,List<Id>>();
         List<Id> participantContactIds = new List<Id>();
         for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatientsList) {
             if (!tap.Participant__r.Contact__r.UserCommunityIsDelegate__c) {
                 participantContactIds.add(tap.Participant__r.Contact__c);
             }
         }
+        //Map<contactid,List<PatientDelegates>>
+        //Map<contactid,activedelegates>
         for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatientsList) {
             Contact currentContact;
             if (contactstoNotify.get(tap.Participant__r.Contact__c) != null) {
@@ -87,7 +90,7 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                         notifyUser = true;
                     } else if (
                         (therapeuticAreaLang.contentClass == '3rd Party' ||
-                        therapeuticAreaLang.resourceType == 'Relevant_Link') &&
+                         therapeuticAreaLang.resourceType == 'Relevant_Link') &&
                         !tap.Participant__r.Has_Studies_In_Progress__c
                     ) {
                         notifyUser = true;
@@ -96,20 +99,20 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                 if (
                     notifyUser &&
                     ((String.isNotBlank(tap.Participant__r.Contact__r.Language__c) &&
-                    therapeuticAreaLang.langCodeList.contains(
-                        tap.Participant__r.Contact__r.Language__c
-                    )) ||
-                    (String.isNotBlank(tap.Participant__r.Contact__r.Second_Choice_Language__c) &&
-                    therapeuticAreaLang.langCodeList.contains(
-                        tap.Participant__r.Contact__r.Second_Choice_Language__c
-                    )) ||
-                    (String.isNotBlank(tap.Participant__r.Contact__r.Third_Choice_Language__c) &&
-                    therapeuticAreaLang.langCodeList.contains(
-                        tap.Participant__r.Contact__r.Third_Choice_Language__c
-                    )))
+                      therapeuticAreaLang.langCodeList.contains(
+                          tap.Participant__r.Contact__r.Language__c
+                      )) ||
+                     (String.isNotBlank(tap.Participant__r.Contact__r.Second_Choice_Language__c) &&
+                      therapeuticAreaLang.langCodeList.contains(
+                          tap.Participant__r.Contact__r.Second_Choice_Language__c
+                      )) ||
+                     (String.isNotBlank(tap.Participant__r.Contact__r.Third_Choice_Language__c) &&
+                      therapeuticAreaLang.langCodeList.contains(
+                          tap.Participant__r.Contact__r.Third_Choice_Language__c
+                      )))
                 ) {
                     notifyUser = true;
-
+                    
                     currentContact.Resource_Notifications__c = currentContact.Resource_Notifications__c !=
                         null
                         ? currentContact.Resource_Notifications__c + ';' + resourceId
@@ -123,16 +126,21 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                     therapeuticAreaLang.therapeuticAreaIds.contains(tap.Therapeutic_Area__c)
                 ) {
                     String notificationType;
+                    String notificationTypePush;
                     if (therapeuticAreaLang.resourceType == 'Article') {
+                        notificationTypePush = NotificationCatalog.PUSH_TO_PT_NEW_PLATFORM_ARTICLE;
                         notificationType = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFROM_ARTICLE_TYPE;
                     }
                     if (therapeuticAreaLang.resourceType == 'Video') {
+                        notificationTypePush = NotificationCatalog.PUSH_TO_PT_NEW_PLATFORM_VIDEO;
                         notificationType = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE;
                     }
                     if (therapeuticAreaLang.resourceType == 'Multimedia') {
+                        notificationTypePush = NotificationCatalog.PUSH_TO_PT_NEW_PLATFORM_MULTIMEDIA;
                         notificationType = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFROMMULTIMEDIA_TYPE;
                     }
                     if (therapeuticAreaLang.resourceType == 'Relevant_Link') {
+                        notificationTypePush = NotificationCatalog.PUSH_TO_PT_NEW_PLATFORM_LINK;
                         notificationType = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_LINK_TYPE;
                     }
                     notificationsList.add(
@@ -144,6 +152,7 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                         )
                     );
                     notifyUser = true;
+                    createPushnotifications(tap, resourceId,notificationTypePush,notificationsList,contActivePEMap,contPatientDelMap);
                 } else {
                     notifyUser = false;
                 }
@@ -152,7 +161,7 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                 }
             }
         }
-
+        
         if (contactstoNotify.size() > 0)
             update contactstoNotify.values();
         if (notificationsList.size() > 0)
@@ -160,5 +169,38 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
     }
     public void finish(Database.BatchableContext param1) {
         system.debug('The job is finished');
+    }
+    public void createPushnotifications(Therapeutic_Area_Patient__c tap,Id resourceId,String notificationTypePush,List<Notification__c> notificationsList,Map<Id,List<Participant_Enrollment__c>> contActivePEMap,Map<Id,List<Id>> contPatientDelMap){
+        
+        if(tap.Participant__r.Has_Studies_In_Progress__c){
+            //has one active participant
+            //delegates for active participants
+            if(contActivePEMap.containsKey(tap.Participant__r.Contact__c)){
+                notificationsList.add(
+                    new Notification__c(
+                        Recipient__c = tap.Participant__r.Contact__c,
+                        WhatId__c = contActivePEMap.get(tap.Participant__r.Contact__c).get(0).Id,
+                        Notification_Type__c = notificationTypePush,
+                        Target_Record_Ids__c = '' + resourceId
+                    )
+                );
+            }
+            for(Id delId : contPatientDelMap.get(tap.Participant__r.Contact__c)){
+                notificationsList.add(
+                    new Notification__c(
+                        Recipient__c = delId,
+                        WhatId__c = contActivePEMap.get(tap.Participant__r.Contact__c).get(0).Id,
+                        Notification_Type__c = notificationTypePush,
+                        Target_Record_Ids__c = '' + resourceId
+                    )
+                );
+            }
+            
+        }else if(!tap.Participant__r.Has_Studies_In_Progress__c && tap.Participant__r.Has_Past_Studies__c){
+            //fully alumni
+            
+        }else if(!tap.Participant__r.Has_Studies_In_Progress__c && !tap.Participant__r.Has_Past_Studies__c){
+            //only delegate
+        }
     }
 }

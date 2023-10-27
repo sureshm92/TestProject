@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track,wire } from 'lwc';
 import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitDataAndCount';
 import showProgress from '@salesforce/apex/PP_ProgressBarUtility.showProgress';
 import DEVICE from '@salesforce/client/formFactor';
@@ -20,8 +20,13 @@ import getVisits from '@salesforce/apex/PPTelevisitUpcomingTileController.getVis
 import getSendResultCount from '@salesforce/apex/PPUpdatesController.getSendResultCount';
 import CheckIfTelevisitToggleOnForDelegate from '@salesforce/apex/PPTelevisitUpcomingTileController.CheckIfTelevisitToggleOnForDelegate';
 import CheckIfTelevisitToggleOnForAlumni from '@salesforce/apex/PPTelevisitUpcomingTileController.CheckIfTelevisitToggleOnForAlumni';
+import { NavigationMixin } from 'lightning/navigation';
+import { CurrentPageReference } from 'lightning/navigation';
+import updateCurrentContact from '@salesforce/apex/PushNotificationSwitcherUpdate.updateCurrentContact';
+import SAMPLEMC from "@salesforce/messageChannel/ppLightningMessageService__c";
+import { publish,MessageContext,subscribe,unsubscribe,createMessageContext,releaseMessageContext } from 'lightning/messageService';
 
-export default class HomePageParticipantNew extends LightningElement {
+export default class HomePageParticipantNew extends NavigationMixin (LightningElement) {
     label = {
         PPWELCOME,
         VISITS,
@@ -455,5 +460,37 @@ export default class HomePageParticipantNew extends LightningElement {
         this.updateCardLayoutClass = 'around-small-custom around-right-zero';
         this.updateCardLayoutSmall = false;
         this.progressBarLayoutClass = 'slds-hide';
+    }
+    @wire(MessageContext)
+    messageContext;
+
+    @wire(CurrentPageReference)
+    getStateParameters(currentPageReference) {
+        console.log('home page parameters1');
+        let currentPeId = currentPageReference.state?.peId;
+        let delegateId = currentPageReference.state?.userCommunityDelegateId;
+        console.log(currentPeId!=undefined);
+        console.log(delegateId!=undefined);
+              if(currentPeId!=undefined && delegateId!=undefined){
+           console.log('currentPeId : '+currentPeId);
+           console.log('userCommunityDelegateId : '+delegateId); 
+           updateCurrentContact({currentPE : currentPeId,userCommunityDelegateId : delegateId})
+           .then(result=>{
+            const message = {
+                refreshSwitcher: 'Refresh Switcher'
+            };
+            publish(this.messageContext, SAMPLEMC, message);
+        /*    this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'home'
+                  }
+            }); */
+            console.log('navigate to home page');
+           })
+           .catch(error =>{
+            console.error('error in contact update : '+JSON.stringify(error));
+           }) 
+        } 
     }
 }
