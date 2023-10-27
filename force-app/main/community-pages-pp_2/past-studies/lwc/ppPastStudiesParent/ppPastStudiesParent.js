@@ -89,6 +89,7 @@ export default class PpPastStudiesParent extends LightningElement {
         this.renderSections();
     };
     selectStudy(event){
+        if(event.target.dataset.item)
         this.updateSelectedStudy(event.target.dataset.item);
     }
     updateSelectedStudy(perid){
