@@ -187,13 +187,18 @@ public with sharing class ECOAService {
 
         Map<Id, User> userContactIdMap = new Map<Id, User>();
         Map<Id, Id> primarydelegateContactMap = new Map<Id, Id>();
-        Map<Id, Id> subjectVisitplan = new Map<Id, Id>();
-
+        // Map<Id, Id> subjectVisitplan = new Map<Id, Id>();
+        Map<Id, String> subjectVisitplan = new Map<Id, String>();
         Map<Id, List<ECOA_Study_Schedule__c>> ctpScheduleMap = new Map<Id, List<ECOA_Study_Schedule__c>>();
         for (Participant_Enrollment__c peObj : peList) {
             contactIds.add(peObj.Participant_Contact__c);
             ctpIds.add(peObj.Clinical_Trial_Profile__c);
-            subjectVisitplan.put(peObj.Id, peObj.Visit_Plan__c);
+            subjectVisitplan.put(
+                peObj.Id,
+                peObj.Clinical_Trial_Profile__c +
+                '~' +
+                peObj.Visit_Plan__c
+            );
         }
         List<Patient_Delegate_Enrollment__c> patientdelegatesList = [
             SELECT
@@ -233,7 +238,7 @@ public with sharing class ECOAService {
         for (User userObj : participantUsers) {
             userContactIdMap.put(userObj.ContactId, userObj);
         }
-        Map<Id, ECOA_Study_Schedule__c> visitPlanSchedule = new Map<Id, ECOA_Study_Schedule__c>();
+        Map<string, ECOA_Study_Schedule__c> visitPlanSchedule = new Map<string, ECOA_Study_Schedule__c>();
         for (ECOA_Study_Schedule__c schedule : studySchedules) {
             if (ctpScheduleMap.containsKey(schedule.Clinical_Trial_Profile__c)) {
                 ctpScheduleMap.get(schedule.Clinical_Trial_Profile__c).add(schedule);
@@ -243,7 +248,12 @@ public with sharing class ECOAService {
                     new List<ECOA_Study_Schedule__c>{ schedule }
                 );
             }
-            visitPlanSchedule.put(schedule.Visit_Plan__c, schedule);
+            visitPlanSchedule.put(
+                schedule.Clinical_Trial_Profile__c +
+                '~' +
+                schedule.Visit_Plan__c,
+                schedule
+            );
         }
         Integer allowedCallouts = Limits.getLimitCallouts() - Limits.getCallouts();
         for (Participant_Enrollment__c peObj : peList) {

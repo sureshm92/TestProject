@@ -11313,6 +11313,20 @@ The expected format is REF##### to REF########</value>
         <value>Version Date</value>
     </labels>
     <labels>
+        <fullName>Link_To_All_Televisits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Link To All Televisits</shortDescription>
+        <value>View All Televisits</value>
+    </labels>
+    <labels>
+        <fullName>Link_To_Televisit_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Link To Televisit Details</shortDescription>
+        <value>View Televisit Details</value>
+    </labels>
+    <labels>
         <fullName>Link_Back_To_Home</fullName>
         <language>en_US</language>
         <protected>true</protected>
