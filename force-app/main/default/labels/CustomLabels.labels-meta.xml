@@ -12104,6 +12104,34 @@ The expected format is REF##### to REF########</value>
         <value>You have a new reward certificate from the ##StudyCodeName clinical research study available on the ##ShortCommName.</value>
     </labels>
     <labels>
+        <fullName>Title_New_Message_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for new Message Push</shortDescription>
+        <value>New Message available</value>
+    </labels>
+    <labels>
+        <fullName>Body_New_Message_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Body for new Message Push</shortDescription>
+        <value>You have a new message from your ##StudyCodeName care team</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Visit_Result_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body New Visit Result Push</shortDescription>
+        <value>You have new results available for your ##StudyCodeName</value>
+    </labels>
+    <labels>
+        <fullName>Title_New_Visit_Result_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title New Visit Result Push</shortDescription>
+        <value>New Visit Result available</value>
+    </labels>
+    <labels>
         <fullName>Message_Body_New_Data_Push</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -32218,5 +32246,12 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Your participation is complete</shortDescription>
         <value>Your participation is complete!</value>
+    </labels>
+    <labels>
+        <fullName>Past_Studies_Result_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past Studies Result Text</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only.</value>
     </labels>
 </CustomLabels>

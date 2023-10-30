@@ -1638,7 +1638,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     border-radius: 8px !important;
 }
 .manage-del .add-Delegate-Btn {
-    width: 160px !important;
+    min-width: 160px !important;
     border-radius: 16px !important;
     background-color: #015ff1 !important;
 }
@@ -2233,6 +2233,9 @@ user agent stylesheet svg:not(:root) {
     margin-left: -16px;
 }
 
-.manage-pref-spinner-container .rr-spinner {    
+.manage-pref-spinner-container .rr-spinner {
     z-index: 15000 !important;
+}
+.pastStudiesFiles .slds-tabs_default__item {
+    margin-left: -4px;
 }
