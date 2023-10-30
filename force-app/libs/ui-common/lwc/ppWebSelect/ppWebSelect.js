@@ -1,6 +1,10 @@
 import { LightningElement, api } from 'lwc';
+import SELECT from '@salesforce/label/c.Select';
 
 export default class PpWebSelect extends LightningElement {
+    labels={
+        SELECT
+    };
     @api isRTL = false;
     @api labelHidden = false;
     @api label = '';
@@ -48,9 +52,11 @@ export default class PpWebSelect extends LightningElement {
             let currentOption = optionArray.filter((option) => {
                 return option.value === this.selectedValue;
             });
-            return currentOption.length ? currentOption[0].label : this.placeHolder;
+            //return currentOption.length ? currentOption[0].label : this.placeHolder;
+            return currentOption.length ? currentOption[0].label : this.labels.SELECT;
         } else {
-            return this.placeHolder;
+            //return this.placeHolder;
+            return this.labels.SELECT;
         }
     }
 
