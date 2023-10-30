@@ -370,70 +370,70 @@ public without sharing class NotificationAvailabilityService {
                 }
             }
             Map<Id, Patient_Delegate_Enrollment__c> pdelIdMap = new Map<Id, Patient_Delegate_Enrollment__c>(
-            [
-                SELECT
-                    Id,
-                    Patient_Delegate__r.Participant__r.Full_Name__c,
-                    Patient_Delegate__r.Id,
-                    Welcome_Message_Sent__c,
-                    Study_Email_Consent__c,
-                    Study_SMS_Consent__c,
-                    Welcome_Message_Delivered__c,
-                    Patient_Delegate__r.Participant__r.Contact__c,
-                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-                    Patient_Delegate__r.Participant__r.First_Name__c,
-                    Patient_Delegate__r.Participant__r.Last_Name__c,
-                    Patient_Delegate__r.Contact__c,
-                    Patient_Delegate__r.Participant__c,
-                    Patient_Delegate__r.Participant_Delegate__r.Id,
-                    Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
-                    Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
-                    Patient_Delegate__r.Participant_Delegate__r.Email__c,
-                    Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                    Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-                    Status__c,
-                    Participant_Enrollment__c,
-                    Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
-                    Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
-                    Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
-                    Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                    Participant_Enrollment__r.Name,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
-                FROM Patient_Delegate_Enrollment__c
-                WHERE
-                    Participant_Enrollment__c IN :perIdLst
-                    AND Patient_Delegate__r.Contact__c IN :recipientIds
-            ]
-        );
-        delContIdMapOfPerIdPDEnromentMap = new Map<Id, Map<Id, Patient_Delegate_Enrollment__c>>();
-        for (Patient_Delegate_Enrollment__c pdelEnrollment : pdelIdMap.values()) {
-            // junction object records
-            if (
-                delContIdMapOfPerIdPDEnromentMap.containskey(
-                    pdelEnrollment.Patient_Delegate__r.Contact__c
-                )
-            ) {
-                Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = delContIdMapOfPerIdPDEnromentMap.get(
-                    pdelEnrollment.Patient_Delegate__r.Contact__c
-                );
-                perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
-                delContIdMapOfPerIdPDEnromentMap.put(
-                    pdelEnrollment.Patient_Delegate__r.Contact__c,
-                    perIdPDEnrollment
-                );
-            } else {
-                Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = new Map<Id, Patient_Delegate_Enrollment__c>();
-                perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
-                delContIdMapOfPerIdPDEnromentMap.put(
-                    pdelEnrollment.Patient_Delegate__r.Contact__c,
-                    perIdPDEnrollment
-                );
+                [
+                    SELECT
+                        Id,
+                        Patient_Delegate__r.Participant__r.Full_Name__c,
+                        Patient_Delegate__r.Id,
+                        Welcome_Message_Sent__c,
+                        Study_Email_Consent__c,
+                        Study_SMS_Consent__c,
+                        Welcome_Message_Delivered__c,
+                        Patient_Delegate__r.Participant__r.Contact__c,
+                        Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                        Patient_Delegate__r.Participant__r.First_Name__c,
+                        Patient_Delegate__r.Participant__r.Last_Name__c,
+                        Patient_Delegate__r.Contact__c,
+                        Patient_Delegate__r.Participant__c,
+                        Patient_Delegate__r.Participant_Delegate__r.Id,
+                        Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
+                        Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
+                        Patient_Delegate__r.Participant_Delegate__r.Email__c,
+                        Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                        Status__c,
+                        Participant_Enrollment__c,
+                        Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                        Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                        Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
+                        Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Participant_Enrollment__r.Name,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE
+                        Participant_Enrollment__c IN :perIdLst
+                        AND Patient_Delegate__r.Contact__c IN :recipientIds
+                ]
+            );
+            delContIdMapOfPerIdPDEnromentMap = new Map<Id, Map<Id, Patient_Delegate_Enrollment__c>>();
+            for (Patient_Delegate_Enrollment__c pdelEnrollment : pdelIdMap.values()) {
+                // junction object records
+                if (
+                    delContIdMapOfPerIdPDEnromentMap.containskey(
+                        pdelEnrollment.Patient_Delegate__r.Contact__c
+                    )
+                ) {
+                    Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = delContIdMapOfPerIdPDEnromentMap.get(
+                        pdelEnrollment.Patient_Delegate__r.Contact__c
+                    );
+                    perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
+                    delContIdMapOfPerIdPDEnromentMap.put(
+                        pdelEnrollment.Patient_Delegate__r.Contact__c,
+                        perIdPDEnrollment
+                    );
+                } else {
+                    Map<Id, Patient_Delegate_Enrollment__c> perIdPDEnrollment = new Map<Id, Patient_Delegate_Enrollment__c>();
+                    perIdPDEnrollment.put(pdelEnrollment.Participant_Enrollment__c, pdelEnrollment);
+                    delContIdMapOfPerIdPDEnromentMap.put(
+                        pdelEnrollment.Patient_Delegate__r.Contact__c,
+                        perIdPDEnrollment
+                    );
+                }
             }
-		}
             //End
 
             //TODO for other objects passing in WhatID
@@ -514,7 +514,10 @@ public without sharing class NotificationAvailabilityService {
                     Id.valueOf(whatId)
                 );
                 Boolean perEmailToSend = false;
-                if (surveyInvitation.IsTrialSurvey__c || surveyInvitation.Participant_Enrollment__c !=null) {
+                if (
+                    surveyInvitation.IsTrialSurvey__c ||
+                    surveyInvitation.Participant_Enrollment__c != null
+                ) {
                     if (
                         notObj.IsDelegate__c &&
                         delContIdMapOfPerIdPDEnromentMap.containsKey(notObj.Recipient__c)
@@ -652,7 +655,8 @@ public without sharing class NotificationAvailabilityService {
                         if (perEmailToSend) {
                             isEmailAvailableAtPER = true;
                         }
-                    } /*else if (isStudyLevelEcoaPar) {
+                    } else if (isPlatformLevelPar) {
+                        /*else if (isStudyLevelEcoaPar) {
                         Participant__c pe = (Participant__c) objectsByIds.get(taskrecrd.WhatId);
                         Boolean perEmailToSend = false;
                         if (
@@ -687,8 +691,7 @@ public without sharing class NotificationAvailabilityService {
                         if (perEmailToSend) {
                             isEmailAvailableAtPER = true;
                         }
-                    }*/ else if (isPlatformLevelPar) {
-                        //Write for platform Level
+                    }*/ //Write for platform Level
                         Contact contact = contactByIdMap.get(contactId);
                         if (
                             contact.Is_Patient_User_Created__c &&
@@ -1069,13 +1072,14 @@ public without sharing class NotificationAvailabilityService {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                 Id.valueOf(whatId)
             );
-            if(pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c =='Janssen' &&
-                    pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'){
-                communityTemplate=communityTemplate = CommunityTemplateService.getTemplate(
+            if (
+                pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' &&
+                pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'
+            ) {
+                communityTemplate = communityTemplate = CommunityTemplateService.getTemplate(
                     'PatientPortal'
                 );
-            }
-            else{
+            } else {
                 communityTemplate = CommunityTemplateService.getTemplate(
                     pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c
                 );
@@ -1108,7 +1112,9 @@ public without sharing class NotificationAvailabilityService {
                         CommunityTemplateService.TEMPLATE_JANSSEN &&
                         pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'
                     ) {
-                        communityTemplate = CommunityTemplateService.getTemplate(CommunityTemplateService.TEMPLATE_PP);
+                        communityTemplate = CommunityTemplateService.getTemplate(
+                            CommunityTemplateService.TEMPLATE_PP
+                        );
                     }
                 }
             } else if (
@@ -1126,7 +1132,9 @@ public without sharing class NotificationAvailabilityService {
                     CommunityTemplateService.TEMPLATE_JANSSEN &&
                     pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'
                 ) {
-                    communityTemplate = CommunityTemplateService.getTemplate(CommunityTemplateService.TEMPLATE_PP);
+                    communityTemplate = CommunityTemplateService.getTemplate(
+                        CommunityTemplateService.TEMPLATE_PP
+                    );
                 }
             }
         } else if (objType == SURVEY_INVITATION_OBJ_NAME) {
@@ -1135,9 +1143,7 @@ public without sharing class NotificationAvailabilityService {
                 communityTemplate = surveyInv.Participant_Enrollment__r
                         ?.Clinical_Trial_Profile__r
                         ?.PPTemplate__c == 'PP 2.0'
-                    ? CommunityTemplateService.getTemplate(
-                          CommunityTemplateService.TEMPLATE_PP
-                      )
+                    ? CommunityTemplateService.getTemplate(CommunityTemplateService.TEMPLATE_PP)
                     : CommunityTemplateService.getTemplate(
                           surveyInv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
                       );
@@ -1297,45 +1303,67 @@ public without sharing class NotificationAvailabilityService {
         }
         return true;
     }
-    
-    public Boolean isJanssenPPTemplate(String whatId){
-       Boolean isValid = false;
-       String communityTemplate;
-       String objType = String.valueOf(((Id) whatId).getSobjectType());
-       if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
+
+    public Boolean isDefaultTemplate(Id whatId) {
+        Boolean isValid = false;
+        String objType = String.valueOf(((Id) whatId).getSobjectType());
+        if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                 Id.valueOf(whatId)
             );
-           isValid = (pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN
-            && pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0') ? true : false;
-       }
-         else if (objType == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
+            isValid = (pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                CommunityTemplateService.TEMPLATE_DEFAULT)
+                ? true
+                : false;
+        }
+        return isValid;
+    }
+
+    public Boolean isJanssenPPTemplate(String whatId) {
+        Boolean isValid = false;
+        String communityTemplate;
+        String objType = String.valueOf(((Id) whatId).getSobjectType());
+        if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
+            Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
+                Id.valueOf(whatId)
+            );
+            isValid = (pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                CommunityTemplateService.TEMPLATE_JANSSEN &&
+                pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+                ? true
+                : false;
+        } else if (objType == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
             Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(
                 Id.valueOf(whatId)
             );
             communityTemplate = ctp.CommunityTemplate__c;
-            isValid = ctp.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && ctp.PPTemplate__c =='PP 2.0'
+            isValid = ctp.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN &&
+                ctp.PPTemplate__c == 'PP 2.0'
                 ? true
                 : false;
         } else if (objType == STUDY_SITE_OBJ_NAME) {
             Study_Site__c ss = (Study_Site__c) objectsByIds.get(Id.valueOf(whatId));
             communityTemplate = ss.Clinical_Trial_Profile__r.CommunityTemplate__c;
             isValid = ss.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                CommunityTemplateService.TEMPLATE_JANSSEN && ss.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'
+                CommunityTemplateService.TEMPLATE_JANSSEN &&
+                ss.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'
                 ? true
                 : false;
         } else if (objType == TASK_OBJ_NAME) {
             Task task = (Task) objectsByIds.get(Id.valueOf(whatId));
             if (task.Community_Template_Name__c != null) {
-               if( task.WhatId != null &&
-                task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType() ){
+                if (
+                    task.WhatId != null &&
+                    task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()
+                ) {
                     Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
-                    Id.valueOf(task.WhatId)
+                        Id.valueOf(task.WhatId)
                     );
-                isValid = (pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN
-                    && pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0' )
-                    ? true
-                    : false;
+                    isValid = (pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                        CommunityTemplateService.TEMPLATE_JANSSEN &&
+                        pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+                        ? true
+                        : false;
                 }
             } else if (
                 task.WhatId != null &&
@@ -1344,8 +1372,9 @@ public without sharing class NotificationAvailabilityService {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                     Id.valueOf(task.WhatId)
                 );
-                isValid = (pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN
-                    && pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0' )
+                isValid = (pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                    CommunityTemplateService.TEMPLATE_JANSSEN &&
+                    pe.Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
                     ? true
                     : false;
             }
@@ -1353,31 +1382,35 @@ public without sharing class NotificationAvailabilityService {
             SurveyInvitation surveyInv = (SurveyInvitation) objectsByIds.get(Id.valueOf(whatId));
             if (surveyInv.Participant_Enrollment__c != null) {
                 communityTemplate = surveyInv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
-                isValid = (surveyInv.Participant_Enrollment__r?.Clinical_Trial_Profile__r?.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN
-                    && surveyInv.Participant_Enrollment__r?.Clinical_Trial_Profile__r?.PPTemplate__c == 'PP 2.0' )
+                isValid = (surveyInv.Participant_Enrollment__r
+                        ?.Clinical_Trial_Profile__r
+                        ?.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN &&
+                    surveyInv.Participant_Enrollment__r?.Clinical_Trial_Profile__r?.PPTemplate__c ==
+                    'PP 2.0')
+                    ? true
+                    : false;
+            }
+        } else if (objType == TELEVISIT_OBJ_NAME) {
+            Televisit__c tv = (Televisit__c) objectsByIds.get(Id.valueOf(whatId));
+            communityTemplate = tv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+            isValid = tv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                CommunityTemplateService.TEMPLATE_JANSSEN &&
+                tv.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'
+                ? true
+                : false;
+        } else if (objType == TELEVISIT_ATTN_OBJ_NAME) {
+            Televisit_Attendee__c ta = (Televisit_Attendee__c) objectsByIds.get(Id.valueOf(whatId));
+            if (ta.Attendee_Type__c != 'PI' && ta.Attendee_Type__c != 'Site Staff') {
+                communityTemplate = ta.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                isValid = ta.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                    CommunityTemplateService.TEMPLATE_JANSSEN &&
+                    ta.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c ==
+                    'PP 2.0'
                     ? true
                     : false;
             }
         }
-        else if (objType == TELEVISIT_OBJ_NAME) {
-            Televisit__c tv = (Televisit__c) objectsByIds.get(Id.valueOf(whatId));
-            communityTemplate = tv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
-            isValid = tv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && tv.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c =='PP 2.0'
-            ? true
-            : false;
-        }
-        else if (objType == TELEVISIT_ATTN_OBJ_NAME) {
-            Televisit_Attendee__c ta = (Televisit_Attendee__c) objectsByIds.get(
-                    Id.valueOf(whatId)
-                );
-            if(ta.Attendee_Type__c != 'PI' &&  ta.Attendee_Type__c != 'Site Staff' ){
-                communityTemplate = ta.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
-                isValid = ta.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN && ta.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c =='PP 2.0'
-                ? true
-                : false;
-            }
-        }
-       return isValid;
+        return isValid;
     }
 
     public Boolean isUpdatedPPTemplate(String whatId, String contactId) {
@@ -1435,9 +1468,9 @@ public without sharing class NotificationAvailabilityService {
             if (surveyInv.Participant_Enrollment__c != null) {
                 communityTemplate = surveyInv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
                 isValid = surveyInv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                CommunityTemplateService.TEMPLATE_PP
-                ? true
-                : false;
+                    CommunityTemplateService.TEMPLATE_PP
+                    ? true
+                    : false;
             }
         }
         if (communityTemplate == null) {
