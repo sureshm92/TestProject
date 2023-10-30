@@ -43,7 +43,6 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
     ) {
         Map<Id, Contact> contactstoNotify = new Map<Id, Contact>();
         List<Notification__c> notificationsList = new List<Notification__c>();
-        Map<Id,List<Participant_Enrollment__c>> contActivePEMap = new Map<Id,List<Participant_Enrollment__c>>();
         Map<Id,List<Id>> contPatientDelMap = new Map<Id,List<Id>>();
         List<Id> participantContactIds = new List<Id>();
         for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatientsList) {
@@ -152,7 +151,7 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                         )
                     );
                     notifyUser = true;
-                    createPushnotifications(tap, resourceId,notificationTypePush,notificationsList,contActivePEMap,contPatientDelMap);
+                    createPushnotifications(tap, resourceId,notificationTypePush,notificationsList,contPatientDelMap); 
                 } else {
                     notifyUser = false;
                 }
@@ -170,37 +169,64 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
     public void finish(Database.BatchableContext param1) {
         system.debug('The job is finished');
     }
-    public void createPushnotifications(Therapeutic_Area_Patient__c tap,Id resourceId,String notificationTypePush,List<Notification__c> notificationsList,Map<Id,List<Participant_Enrollment__c>> contActivePEMap,Map<Id,List<Id>> contPatientDelMap){
+    public void createPushnotifications(Therapeutic_Area_Patient__c tap,Id resourceId,String notificationTypePush,List<Notification__c> notificationsList,Map<Id,List<Id>> contPatientDelMap){
         
         if(tap.Participant__r.Has_Studies_In_Progress__c){
             //has one active participant
             //delegates for active participants
-            if(contActivePEMap.containsKey(tap.Participant__r.Contact__c)){
-                notificationsList.add(
-                    new Notification__c(
-                        Recipient__c = tap.Participant__r.Contact__c,
-                        WhatId__c = contActivePEMap.get(tap.Participant__r.Contact__c).get(0).Id,
-                        Notification_Type__c = notificationTypePush,
-                        Target_Record_Ids__c = '' + resourceId
-                    )
-                );
+            notificationsList.add(
+                new Notification__c(
+                    Recipient__c = tap.Participant__r.Contact__c,
+                    WhatId__c = tap.Participant__c,
+                    Notification_Type__c = notificationTypePush,
+                    Target_Record_Ids__c = '' + resourceId
+                )
+            );
+            if(contPatientDelMap.containsKey(tap.Participant__r.Contact__c) && contPatientDelMap.get(tap.Participant__r.Contact__c)!=null){
+                for(Id delId : contPatientDelMap.get(tap.Participant__r.Contact__c)){
+                    notificationsList.add(
+                        new Notification__c(
+                            Recipient__c = delId,
+                            WhatId__c = tap.Participant__c,
+                            Notification_Type__c = notificationTypePush,
+                            Target_Record_Ids__c = '' + resourceId
+                        )
+                    );
+                }
             }
-            for(Id delId : contPatientDelMap.get(tap.Participant__r.Contact__c)){
-                notificationsList.add(
-                    new Notification__c(
-                        Recipient__c = delId,
-                        WhatId__c = contActivePEMap.get(tap.Participant__r.Contact__c).get(0).Id,
-                        Notification_Type__c = notificationTypePush,
-                        Target_Record_Ids__c = '' + resourceId
-                    )
-                );
-            }
-            
         }else if(!tap.Participant__r.Has_Studies_In_Progress__c && tap.Participant__r.Has_Past_Studies__c){
             //fully alumni
-            
+            notificationsList.add(
+                new Notification__c(
+                    Recipient__c = tap.Participant__r.Contact__c,
+                    WhatId__c = tap.Participant__c,
+                    Notification_Type__c = notificationTypePush,
+                    Target_Record_Ids__c = '' + resourceId
+                )
+            );
+            if(contPatientDelMap.containsKey(tap.Participant__r.Contact__c) && contPatientDelMap.get(tap.Participant__r.Contact__c)!=null){
+                for(Id delId : contPatientDelMap.get(tap.Participant__r.Contact__c)){
+                    notificationsList.add(
+                        new Notification__c(
+                            Recipient__c = delId,
+                            WhatId__c = tap.Participant__c,
+                            Notification_Type__c = notificationTypePush,
+                            Target_Record_Ids__c = '' + resourceId,
+                            Task_Id__c = tap.Participant__r.Contact__c
+                        )
+                    );
+                }
+            }
         }else if(!tap.Participant__r.Has_Studies_In_Progress__c && !tap.Participant__r.Has_Past_Studies__c){
             //only delegate
+            notificationsList.add(
+                new Notification__c(
+                    Recipient__c = tap.Participant__r.Contact__c,
+                    WhatId__c = tap.Participant__c,
+                    Notification_Type__c = notificationTypePush,
+                    Target_Record_Ids__c = '' + resourceId
+                )
+            );
         }
     }
 }
