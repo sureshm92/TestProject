@@ -181,3 +181,33 @@
         margin: auto !important;
     }
 }
+.back-link {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+}
+.seperator-v {
+    background-color: #E9E9E9;
+    height: 1.5px;
+    margin: 16px 0px;
+    color: #444444;
+    margin-bottom: 13px;
+}
+@media (max-width: 500px) {
+    .parent {
+        margin: 0px 16px;
+    }
+}
+.chevronleft-icon{
+    --slds-c-icon-color-foreground-default: #015FF1;
+}
+.pointer-cursor{
+    cursor: pointer;
+}
+.fit{
+    width: fit-content;
+}
