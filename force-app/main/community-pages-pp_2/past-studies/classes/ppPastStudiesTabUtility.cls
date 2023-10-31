@@ -78,7 +78,7 @@ public without sharing class ppPastStudiesTabUtility {
                     userMap.put(u.contactId,u);
             }
             List<Conversation__c> sharedConversations;
-            if(isdelegate){
+            if(isdelegate != null && isdelegate){
                 sharedConversations = ConversationService.getSharedConversations(
                   userMap.get(getUserContact).Id
                 );
