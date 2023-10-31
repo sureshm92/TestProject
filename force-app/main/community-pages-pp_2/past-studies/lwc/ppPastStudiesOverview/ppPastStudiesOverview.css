@@ -1,5 +1,5 @@
 .container-overview{
-    margin: 17px 24px 24px 24px;
+    padding: 17px 24px 24px 24px;
 }
 .container-img img{
     height: 48px;
@@ -71,6 +71,7 @@
     .detail.container-overview {
         min-height: 269px;
         margin: 32px;
+        padding: 0px;
         position: relative;
     }
     .detail .info-container{
