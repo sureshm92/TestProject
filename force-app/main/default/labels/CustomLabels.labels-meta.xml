@@ -32282,5 +32282,12 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Shared with Me</shortDescription>
         <value>Shared with Me</value>
     </labels>
+    <labels>
+        <fullName>assigned_by</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>assigned by</shortDescription>
+        <value>assigned by</value>
+    </labels>
 
 </CustomLabels>

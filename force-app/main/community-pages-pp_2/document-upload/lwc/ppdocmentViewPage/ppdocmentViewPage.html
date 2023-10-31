@@ -546,7 +546,7 @@
     </template>
     <template if:true={openDeleteModel}>
         <c-pp-modal
-            header-text="Delete File"
+            header-text={label.PP_DeleteFile}
             size="small"
             is-show="true"
             onclose={handleCancelModel}
