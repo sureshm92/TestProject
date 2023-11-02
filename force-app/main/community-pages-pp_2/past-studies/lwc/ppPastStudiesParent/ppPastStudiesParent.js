@@ -89,6 +89,7 @@ export default class PpPastStudiesParent extends LightningElement {
         this.renderSections();
     };
     selectStudy(event){
+        if(event.target.dataset.item)
         this.updateSelectedStudy(event.target.dataset.item);
     }
     updateSelectedStudy(perid){
@@ -255,6 +256,9 @@ export default class PpPastStudiesParent extends LightningElement {
         const topDiv = this.template.querySelector('[data-id="top"]');
         topDiv.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
         this.showFilePage=true;
+    }
+    slectStudyFormTiles(event){
+        this.updateSelectedStudy(event.detail.message);        
     }
     slectStudyFormFiles(event){
         if(event.detail.message!=this.selectedPER.Clinical_Trial_Profile__c){
