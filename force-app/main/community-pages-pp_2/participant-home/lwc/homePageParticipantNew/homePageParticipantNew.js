@@ -467,25 +467,20 @@ export default class HomePageParticipantNew extends NavigationMixin (LightningEl
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
         console.log('home page parameters1');
-        let currentPeId = currentPageReference.state?.peId;
-        let delegateId = currentPageReference.state?.userCommunityDelegateId;
-        console.log(currentPeId!=undefined);
-        console.log(delegateId!=undefined);
-              if(currentPeId!=undefined && delegateId!=undefined){
-           console.log('currentPeId : '+currentPeId);
-           console.log('userCommunityDelegateId : '+delegateId); 
-           updateCurrentContact({currentPE : currentPeId,userCommunityDelegateId : delegateId})
+        let whatId = currentPageReference.state?.whatId;
+        let notificationType = currentPageReference.state?.notificationType;
+        let recipientId = currentPageReference.state?.recipientId;
+        //alert(JSON.stringify(currentPageReference.state));
+        //alert('whatId : '+whatId);
+        //alert('notificationType : '+notificationType);
+        //alert('recipientId : '+recipientId);
+          if(whatId!=undefined && notificationType!=undefined && recipientId!=undefined){
+           updateCurrentContact({notificationType : notificationType,whatId : whatId,recipientId:recipientId})
            .then(result=>{
             const message = {
                 refreshSwitcher: 'Refresh Switcher'
             };
             publish(this.messageContext, SAMPLEMC, message);
-        /*    this[NavigationMixin.Navigate]({
-                type: 'comm__namedPage',
-                attributes: {
-                    pageName: 'home'
-                  }
-            }); */
             console.log('navigate to home page');
            })
            .catch(error =>{

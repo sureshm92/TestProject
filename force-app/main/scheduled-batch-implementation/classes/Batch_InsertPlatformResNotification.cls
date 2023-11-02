@@ -43,15 +43,37 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
     ) {
         Map<Id, Contact> contactstoNotify = new Map<Id, Contact>();
         List<Notification__c> notificationsList = new List<Notification__c>();
-        Map<Id,List<Id>> contPatientDelMap = new Map<Id,List<Id>>();
+        //Map<Id,List<Id>> contPatientDelMap = new Map<Id,List<Id>>();
         List<Id> participantContactIds = new List<Id>();
+        Set<Id> participantIds = new Set<Id>();
         for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatientsList) {
             if (!tap.Participant__r.Contact__r.UserCommunityIsDelegate__c) {
                 participantContactIds.add(tap.Participant__r.Contact__c);
             }
+            participantIds.add(tap.Participant__c);
         }
-        //Map<contactid,List<PatientDelegates>>
-        //Map<contactid,activedelegates>
+        //ParticipantIdwithdelegateOfActivePEs
+        Map<Id,Set<Id>> ptPatientDelMap = new Map<Id,Set<Id>>();
+        for(Patient_Delegate_Enrollment__c pde : [SELECT Id,Patient_Delegate__r.Contact__c,Participant_Enrollment__r.Participant__c,Participant_Enrollment__r.Participant_Status__c,Participant_Enrollment__r.Participant__r.Has_Past_Studies__c,Participant_Enrollment__r.Participant__r.Has_Studies_In_Progress__c FROM Patient_Delegate_Enrollment__c WHERE Participant_Enrollment__r.Participant__c IN : participantIds and Participant_Enrollment__r.Invited_To_PP_Date__c !=null and Status__c='Active' ]){
+            if(pde.Participant_Enrollment__r.Participant__r.Has_Past_Studies__c && !pde.Participant_Enrollment__r.Participant__r.Has_Studies_In_Progress__c){
+                if(ptPatientDelMap.containsKey(pde.Participant_Enrollment__r.Participant__c)){
+                    ptPatientDelMap.get(pde.Participant_Enrollment__r.Participant__c).add(pde.Patient_Delegate__r.Contact__c);
+                }else{
+                    ptPatientDelMap.put(pde.Participant_Enrollment__r.Participant__c,new Set<Id>{pde.Patient_Delegate__r.Contact__c});
+                }
+                
+            }else if(pde.Participant_Enrollment__r.Participant__r.Has_Studies_In_Progress__c){
+                if(!PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pde.Participant_Enrollment__r.Participant_Status__c)){
+                    if(ptPatientDelMap.containsKey(pde.Participant_Enrollment__r.Participant__c)){
+                        ptPatientDelMap.get(pde.Participant_Enrollment__r.Participant__c).add(pde.Patient_Delegate__r.Contact__c);
+                    }else{
+                        ptPatientDelMap.put(pde.Participant_Enrollment__r.Participant__c,new Set<Id>{pde.Patient_Delegate__r.Contact__c});
+                    }
+                }
+            }
+        }
+        //ParticipantIdwithActivePEs
+        //Map<Id,>
         for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatientsList) {
             Contact currentContact;
             if (contactstoNotify.get(tap.Participant__r.Contact__c) != null) {
@@ -151,7 +173,7 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                         )
                     );
                     notifyUser = true;
-                    createPushnotifications(tap, resourceId,notificationTypePush,notificationsList,contPatientDelMap); 
+                    createPushnotifications(tap, resourceId,notificationTypePush,notificationsList,ptPatientDelMap); 
                 } else {
                     notifyUser = false;
                 }
@@ -169,7 +191,7 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
     public void finish(Database.BatchableContext param1) {
         system.debug('The job is finished');
     }
-    public void createPushnotifications(Therapeutic_Area_Patient__c tap,Id resourceId,String notificationTypePush,List<Notification__c> notificationsList,Map<Id,List<Id>> contPatientDelMap){
+    public void createPushnotifications(Therapeutic_Area_Patient__c tap,Id resourceId,String notificationTypePush,List<Notification__c> notificationsList,Map<Id,Set<Id>> ptPatientDelMap){
         
         if(tap.Participant__r.Has_Studies_In_Progress__c){
             //has one active participant
@@ -182,8 +204,8 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                     Target_Record_Ids__c = '' + resourceId
                 )
             );
-            if(contPatientDelMap.containsKey(tap.Participant__r.Contact__c) && contPatientDelMap.get(tap.Participant__r.Contact__c)!=null){
-                for(Id delId : contPatientDelMap.get(tap.Participant__r.Contact__c)){
+            if(ptPatientDelMap.containsKey(tap.Participant__c) && ptPatientDelMap.get(tap.Participant__c)!=null){
+                for(Id delId : ptPatientDelMap.get(tap.Participant__c)){
                     notificationsList.add(
                         new Notification__c(
                             Recipient__c = delId,
@@ -204,15 +226,14 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                     Target_Record_Ids__c = '' + resourceId
                 )
             );
-            if(contPatientDelMap.containsKey(tap.Participant__r.Contact__c) && contPatientDelMap.get(tap.Participant__r.Contact__c)!=null){
-                for(Id delId : contPatientDelMap.get(tap.Participant__r.Contact__c)){
+            if(ptPatientDelMap.containsKey(tap.Participant__c) && ptPatientDelMap.get(tap.Participant__c)!=null){
+                for(Id delId : ptPatientDelMap.get(tap.Participant__c)){ 
                     notificationsList.add(
                         new Notification__c(
                             Recipient__c = delId,
                             WhatId__c = tap.Participant__c,
                             Notification_Type__c = notificationTypePush,
-                            Target_Record_Ids__c = '' + resourceId,
-                            Task_Id__c = tap.Participant__r.Contact__c
+                            Target_Record_Ids__c = '' + resourceId 
                         )
                     );
                 }

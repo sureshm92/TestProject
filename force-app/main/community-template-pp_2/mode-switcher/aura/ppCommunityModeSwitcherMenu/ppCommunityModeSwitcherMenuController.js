@@ -113,8 +113,18 @@
         // Read the message argument to get the values in the message payload
         if (event != null && event.getParams() != null) {
             const message = event.getParam('reset_PP_Menue_Items');
-            if (message) {
+             const teleId  = event.getParam('messageToSend');
+             const refreshSwitcher = event.getParam('refreshSwitcher');
+             console.log('refreshSwitcher : '+refreshSwitcher);
+            if (message || teleId || refreshSwitcher) {
+                alert('refreshing switcher');
                 helper.doInit(component, event, helper);
+                if(refreshSwitcher){
+                    communityService.navigateToHome();
+                setTimeout(function () {
+                    communityService.reloadPage();
+                }, 5);
+            }
             }
         }
     }
