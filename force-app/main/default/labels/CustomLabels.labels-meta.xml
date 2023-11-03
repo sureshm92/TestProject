@@ -19614,6 +19614,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Passwords do not match</value>
     </labels>
     <labels>
+        <fullName>PP_About_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP About Study</shortDescription>
+        <value>About</value>
+    </labels>
+    <labels>
+        <fullName>PP_Preview</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Preview</shortDescription>
+        <value>Preview</value>
+    </labels>
+    <labels>
+        <fullName>PP_Rename</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Rename</shortDescription>
+        <value>Rename</value>
+    </labels>
+    <labels>
         <fullName>PP_AS_COMPLETE_TASK</fullName>
         <categories>PPAccountSettings</categories>
         <language>en_US</language>
