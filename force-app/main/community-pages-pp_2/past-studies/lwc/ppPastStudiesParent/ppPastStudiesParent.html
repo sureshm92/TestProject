@@ -58,8 +58,8 @@
         <div if:false={showDetailPage} class="slds-align-content-center slds-grid slds-wrap main-overview">
             <template for:each={perList} for:item="per">
                 <div key={per.Id} data-item={per.Id} class="slds-large-size--3-of-5 slds-size--1-of-1 box-container" onclick={selectStudy}>
-                    <span class="no-click">
-                        <c-pp-past-studies-overview main-class="tiles container-overview" per={per}></c-pp-past-studies-overview>
+                    <span data-item={per.Id}>
+                        <c-pp-past-studies-overview main-class="tiles container-overview" onloaddetail={slectStudyFormTiles} per={per}></c-pp-past-studies-overview>
                     </span>
                 </div>
             </template>            
@@ -142,14 +142,14 @@
                             </div>
                             <div class="box-container slds-align--absolute-center slds-grid slds-wrap small-box"> 
                                 <c-pp-past-studies-result perid={selectedPER.Id} studyid={selectedPER.Clinical_Trial_Profile__c}></c-pp-past-studies-result>
-                            </div>
+                                </div>
                         </div>
                     </template>
                     <div if:true={showComm} class="slds-size--1-of-1 ">
                         <div class="box-header">
                             {label.PP_Care_Team_Contact}
                         </div>
-                        <div class="box-container small-box contact-box"> 
+                        <div class="box-container contact-box"> 
                             <div class=" ">
                                 <div class="con-header">{label.PP_Phone_In_Caps}</div>
                                 <template if:false={selectedPER.Study_Site__r.Study_Site_Phone__c}>
@@ -157,7 +157,7 @@
                                 </template>
                                 <template if:true={selectedPER.Study_Site__r.Study_Site_Phone__c}>
                                     <div class="con-available">
-                                        <span class="con-txt-align my-class">
+                                        <span title={selectedPER.Study_Site__r.Study_Site_Phone__c} class="con-txt-align my-class">
                                             {selectedPER.Study_Site__r.Study_Site_Phone__c}
                                         </span>
                                         <span class="copyIcon" onclick={copyEmailPhone} data-id={selectedPER.Study_Site__r.Study_Site_Phone__c}>
@@ -176,7 +176,7 @@
                                 </template>
                                 <template if:true={selectedPER.Study_Site__r.Study_Site_Email__c}>
                                     <div class="con-available">
-                                        <span class="con-txt-align">
+                                        <span title={selectedPER.Study_Site__r.Study_Site_Email__c} class="con-txt-align">
                                             {selectedPER.Study_Site__r.Study_Site_Email__c}
                                         </span>
                                         <span class="copyIcon" onclick={copyEmailPhone} data-id={selectedPER.Study_Site__r.Study_Site_Email__c}>
@@ -195,8 +195,8 @@
                             <div class="box-header">
                                 {label.PP_Past_Messages}
                             </div>
-                            <div class="box-container small-box"> 
-                                <c-pp-past-studies-past-messages per={selectedPER} no-messages-icon={noMessagesIcon} contactid = {contID}></c-pp-past-studies-past-messages>
+                            <div class="box-container msg-box"> 
+                                <c-pp-past-studies-past-messages per={selectedPER} no-messages-icon={noMessagesIcon} contactid = {contID} isdelegate = {isDelegate}></c-pp-past-studies-past-messages>
                             </div>
                         </div>
                     </template>

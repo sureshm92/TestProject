@@ -11,6 +11,7 @@ import disclaimerLabel from "@salesforce/label/c.MS_Chat_Disclaimer";
 import messagesLabel from "@salesforce/label/c.MS_Messages";
 import profileTZ from "@salesforce/i18n/timeZone";
 import { CurrentPageReference } from 'lightning/navigation';
+import Back_To_PastStudies from '@salesforce/label/c.Back_to_Past_Studies_and_Programs';
 export default class PpMessagePage extends NavigationMixin(LightningElement) {
   curentMobileView = "list";
   progressValue = false;
@@ -28,7 +29,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
   @api deviceSize;
   @wire(CurrentPageReference)
   currentPageRef;
-
+  backtopaststudies = false;
   isMobile;
   message_disclaimer = pp_icons + "/" + "message_disclaimer.svg";
   team_Selected = pp_icons + "/" + "team_Selected_icon.svg";
@@ -38,7 +39,8 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
     rr_community_icons + "/" + "icons.svg" + "#" + "icon-home-pplite-new";
   labels = {
     disclaimerLabel,
-    messagesLabel
+    messagesLabel,
+    Back_To_PastStudies
   };
   mobileViewToggle() {
     if (this.progressValue == false) {
@@ -71,6 +73,9 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
   }
   _handler;
   connectedCallback() {
+    if(this.currentPageRef.state.c__study){
+      this.backtopaststudies = true;
+    }
     if (formFactor === "Small" || formFactor === "Medium") {
       this.isMobile = true;
     } else {
@@ -851,5 +856,13 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
         this.template.querySelector(".team-color").style.color = "#015FF1";
       }
     }
+  }
+  handleBackToPastStudies(event) {
+    this[NavigationMixin.Navigate]({
+        type: 'comm__namedPage',
+        attributes: {
+            pageName: 'past-studies'
+        }
+    })
   }
 }

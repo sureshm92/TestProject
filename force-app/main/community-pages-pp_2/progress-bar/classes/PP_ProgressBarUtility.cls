@@ -229,7 +229,7 @@ public with sharing class PP_ProgressBarUtility {
                 return null;
                }
                 if(pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c && pe.Participant_Status__c ==  'Successfully Contacted' && peshDateMap.containsKey('Successfully Contacted'.toLowerCase())){
-                    if(pe.Informed_Consent_Date__c != null || pe.Initial_visit_occurred_date__c!=null || pe.Initial_visit_scheduled_date__c!=null){
+                    if(pe.Informed_Consent_Date__c != null || pe.Initial_visit_occurred_date__c!=null || pe.Initial_visit_scheduled_flag__c){
                         pe.Participant_Status__c = 'Initial Visit';
                     }
                 }
@@ -419,6 +419,11 @@ public with sharing class PP_ProgressBarUtility {
         Participant_Enrollment__c pe = [select id,Participant_Status__c,Clinical_Trial_Profile__r.Is_Program__c,Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,
                                         Clinical_Trial_Profile__r.Status_Milestone_Available__c FROM Participant_Enrollment__c where id=:peId];
         List<Study_status_desc_and_motivational_msg__mdt> metadtaRec = [select id FROM Study_status_desc_and_motivational_msg__mdt where PER_Participant_Status__c =:pe.Participant_Status__c];
+        List<Participant_Enrollment_Status_History__c> pesh = [select Id from Participant_Enrollment_Status_History__c where status__c = 'Successfully Contacted' and  ParticipantEnrollment__c=:pe.Id limit 1];
+        if(pe.Participant_Status__c == 'Participant No Show' && pesh!=null && pesh.size()>0){
+            return true;
+        }
+
         if(metadtaRec.isEmpty()){
             return false;
         }
