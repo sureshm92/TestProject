@@ -26,7 +26,6 @@ export default class PpPastStudiesFiles extends LightningElement {
     studyListDropDown;
     selectedStudyId;
     isLoaded = false;
-    loadResults = false;
 
     label = { PP_MyFiles, PP_SwitchStudyProgram };
     connectedCallback() {
@@ -71,7 +70,6 @@ export default class PpPastStudiesFiles extends LightningElement {
         }
     }
     @api perId;
-    @track enrollId;
     fetchData() {
         this.isSaving = true;
         getStudyList({
@@ -83,12 +81,21 @@ export default class PpPastStudiesFiles extends LightningElement {
                 this.studyList = result;
                 this.totalSize = result.length;
                 this.curentSize = 0;
+                if(this.perId){
+                    for (let i = 0; i < result.length; i++) {
+                        if(this.perId==result[i].Id){
+                            this.dropDownLabel = result[i].Clinical_Trial_Profile__r.Study_Code_Name__c;
+                            this.selectedStudyId = result[i].Clinical_Trial_Profile__c;
+                            break;        
+                        }
+                    }
+                }
+                else{
+                    this.dropDownLabel = result[0].Clinical_Trial_Profile__r.Study_Code_Name__c;
+                    this.selectedStudyId = result[0].Clinical_Trial_Profile__c;
+                    this.perId=result[0].Id;
+                }
                 this.addMoreStudies();
-                this.dropDownLabel = result[0].Clinical_Trial_Profile__r.Study_Code_Name__c;
-                this.selectedStudyId = result[0].Clinical_Trial_Profile__c;
-                this.perId = result[0].Id;
-                this.enrollId = result[0].Id;
-                this.loadResults = true;
                 if (result.length > 1) {
                     this.showDropdown = true;
                 } else {
@@ -112,9 +119,20 @@ export default class PpPastStudiesFiles extends LightningElement {
             }
             this.studyListToShow = tempAccRec;
             this.curentSize = this.studyListToShow.length;
+            this.highlightStudyOnSwitcher();
         }
     }
-
+    highlightStudyOnSwitcher(){
+        let tempStudyList = JSON.parse(JSON.stringify(this.studyListToShow));
+        this.studyListToShow = [];
+        for (var i = 0; i < tempStudyList.length; i++) {
+            tempStudyList[i].class='liscroll';
+            if(this.dropDownLabel == tempStudyList[i].Clinical_Trial_Profile__r.Study_Code_Name__c){
+                tempStudyList[i].class='liscroll selected';
+            }
+        }
+        this.studyListToShow = tempStudyList;
+    }
     handleLazyLoading(event) {
         var scrollTop = event.target.scrollTop;
         var offsetHeight = event.target.offsetHeight;
@@ -133,10 +151,9 @@ export default class PpPastStudiesFiles extends LightningElement {
     callMethod(event) {
         let index = event.target.dataset.id;
         this.dropDownLabel = this.studyList[index].Clinical_Trial_Profile__r.Study_Code_Name__c;
+        this.highlightStudyOnSwitcher(); 
         this.selectedStudyId = this.studyList[index].Clinical_Trial_Profile__c;
-        this.enrollId = this.studyList[index].Id;
-        this.loadResults = true;
-        this.template.querySelector('c-pp-download-results-data').loadData();
+
         this.template.querySelector('c-pp-past-studies-file-table').peId = this.studyList[index].Id;
         this.stopSpinnerChild = false;
         if (!this.issharedFilesTab) {
@@ -284,5 +301,12 @@ export default class PpPastStudiesFiles extends LightningElement {
             this.template.querySelector('c-pp-past-studies-file-table').getTableFiles();
         }
         this.isDelete = false;
+    }
+    backToDetail(){
+        this.dispatchEvent(new CustomEvent('loaddetail', {
+            detail: {
+                message: this.selectedStudyId
+            }
+        }));
     }
 }
