@@ -11543,6 +11543,48 @@ The expected format is REF##### to REF########</value>
         <value>Low-density lipoprotein</value>
     </labels>
     <labels>
+        <fullName>Message_to_PT_Televisit_Cancelled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message to PT Televisit Cancelled</shortDescription>
+        <value>Your televisit with ##PIFullName team for the ##StudyCodeName is cancelled. Please contact your Care Team for more details.</value>
+    </labels>
+	<labels>
+        <fullName>Message_to_PT_Televisit_Cancelled_title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_to_PT_Televisit_Cancelled_title</shortDescription>
+        <value>A televisit is cancelled</value>
+    </labels>
+    <labels>
+        <fullName>Message_to_PT_Televisit_Rescheduled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message to PT Televisit Rescheduled</shortDescription>
+        <value>Your televisit with ##PIFullName team for the ##StudyCodeName is rescheduled. If you are unable to make this appointment, please contact your Care Team.</value>
+    </labels>
+    <labels>
+        <fullName>Message_to_PT_Televisit_Rescheduled_title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_to_PT_Televisit_Rescheduled_title</shortDescription>
+        <value>A televisit is rescheduled</value>
+    </labels>
+    <labels>
+        <fullName>Message_to_PT_Televisit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_to_PT_Televisit_Scheduled</shortDescription>
+        <value>Your televisit with ##PIFullName team for the ##StudyCodeName is scheduled. If you are unable to make this appointment, please contact your Care Team.</value>
+    </labels>
+    <labels>
+        <fullName>Message_to_PT_Televisit_Scheduled_title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_to_PT_Televisit_Scheduled_title</shortDescription>
+        <value>A televisit is scheduled</value>
+    </labels>
+    <labels>
         <fullName>Low_density_Lipoprotein_Description</fullName>
         <language>en_US</language>
         <protected>false</protected>
