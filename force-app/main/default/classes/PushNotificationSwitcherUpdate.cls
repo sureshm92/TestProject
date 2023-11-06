@@ -14,12 +14,10 @@ public without sharing class PushNotificationSwitcherUpdate {
         resPlatPushNotifications.add(NotificationCatalog.PUSH_TO_PT_NEW_PLATFORM_LINK);
         resPlatPushNotifications.add(NotificationCatalog.PUSH_TO_PT_NEW_PLATFORM_VIDEO);
         resPlatPushNotifications.add(NotificationCatalog.PUSH_TO_PT_NEW_PLATFORM_MULTIMEDIA);
-        createLog(notificationType+' '+whatId+' '+recipientId);
         //Study level Notifications
         if(resStdPushNotifications.contains(notificationType)){
-            List<Participant_Enrollment__c> peList = [SELECT Id,Participant_Status__c,Participant_Contact__c FROM Participant_Enrollment__c WHERE Id =: whatId];
-            if(PEStatusState.PE_STATUS_GROUP_ACTIVE.contains(peList.get(0).Participant_Status__c)){
-                createLog(peList.get(0).Participant_Contact__c+'  '+recipientId);
+            List<Participant_Enrollment__c> peList = [SELECT Id,Participant_Status__c,Participant_Contact__c,Participant__r.Has_Studies_In_Progress__c FROM Participant_Enrollment__c WHERE Id =: whatId];
+            if(!PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(peList.get(0).Participant_Status__c)){
                 if(peList.get(0).Participant_Contact__c == recipientId){
                     currentContact.Current_Participant_Enrollment__c = (Id)whatId;
                     currentContact.userCommunityDelegateId__c = null;
@@ -27,7 +25,7 @@ public without sharing class PushNotificationSwitcherUpdate {
                     currentContact.Current_Participant_Enrollment__c = (Id)whatId;
                     currentContact.userCommunityDelegateId__c = peList.get(0).Participant_Contact__c;
                 }
-            }else if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(peList.get(0).Participant_Status__c)){
+            }else if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(peList.get(0).Participant_Status__c) && !peList.get(0).Participant__r.Has_Studies_In_Progress__c){
                 if(peList.get(0).Participant_Contact__c == recipientId){
                     currentContact.Current_Participant_Enrollment__c = null;
                     currentContact.userCommunityDelegateId__c = null;
@@ -45,7 +43,7 @@ public without sharing class PushNotificationSwitcherUpdate {
                     currentContact.userCommunityDelegateId__c = null;
                 }else if(ptList.get(0).Has_Studies_In_Progress__c){
                     //active participant
-                    currentContact.Current_Participant_Enrollment__c = ContactService.getCurrentPE(ptList.get(0).Contact__c).Id;
+                    currentContact.Current_Participant_Enrollment__c = getActiveEnrollment(ptList.get(0).Contact__c).Id;
                     currentContact.userCommunityDelegateId__c = null;
                 }else if(ptList.get(0).Has_Past_Studies__c && !ptList.get(0).Has_Studies_In_Progress__c){
                     //alumni
@@ -55,7 +53,7 @@ public without sharing class PushNotificationSwitcherUpdate {
             }else{
                 if(ptList.get(0).Has_Studies_In_Progress__c){
                     //active participant
-                    currentContact.Current_Participant_Enrollment__c = ContactService.getCurrentPE(ptList.get(0).Contact__c).Id;
+                    currentContact.Current_Participant_Enrollment__c = getActiveEnrollment(ptList.get(0).Contact__c).Id;
                     currentContact.userCommunityDelegateId__c = ptList.get(0).Contact__c;
                 }else if(ptList.get(0).Has_Past_Studies__c && !ptList.get(0).Has_Studies_In_Progress__c){
                     //alumni
@@ -67,9 +65,8 @@ public without sharing class PushNotificationSwitcherUpdate {
         update currentContact;
         //Platform level Notifications        
     }
-    public static void createLog(String logMessage){
-        IntegrationLog__c	il = new IntegrationLog__c();
-		il.Error_Message__c	= logMessage;
-		insert il;
+    public static Participant_Enrollment__c getActiveEnrollment(String contactId){ 
+        List<Participant_Enrollment__c> activePeList = [select id,Participant_Status__c from Participant_Enrollment__c where Participant__r.Contact__c=:contactId AND Participant_Status__c NOT IN : PEStatusState.PE_STATUS_GROUP_ALUMNI AND Invited_To_PP_Date__c!=null LIMIT 1];
+        return activePeList.get(0);
     }
 }
