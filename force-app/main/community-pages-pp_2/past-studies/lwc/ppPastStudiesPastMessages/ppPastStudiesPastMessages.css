@@ -1,0 +1,100 @@
+.parentCont {
+    position: relative;
+    min-height: 138.3px;
+    padding-bottom: 56px;
+}
+.ms-item-icon-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    background-color: black;
+}
+.img-ms-item-icon-circle {
+    height: 40px;
+    width: 40px;
+}
+.lt-initial-pos {
+    position: relative;
+    top: 5px;
+}
+.no-msg-img {
+    height: 54px;
+    width: 61px;
+    margin-bottom: 7.33px;
+}
+.no-msg-txt{
+    color: #757575;
+    font-weight: 500;
+    line-height: 32px;
+    text-align: center;
+}
+.fullHeight{
+    height: 138.3px;
+    position: relative;
+}
+.viewmessagelabel{
+  color: #0768FD;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: -21px;
+}
+.footer-block {
+    height: 47px;
+    color: #015FF1;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    border-top: 1px solid #D9D9D9;
+    background-color: #FFFFFF;
+    position: absolute;
+    bottom: 2px;
+    width: 100%;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;    
+}
+.footer-link{
+    cursor: pointer;
+    padding: 8px;
+}
+.footer-link:hover{
+    text-decoration: underline;
+    text-decoration-style: dashed;
+}
+.footer-link img{
+    padding-right: 5px;
+}
+.topBox{
+    padding-top: 14px;
+    position: relative;
+    display: flex;
+}
+.alignCenter{
+    height: fit-content;
+    margin: auto 0px;
+}
+.topImg{
+    width: 62px;
+    padding-left: 22px;
+    display: inline-block;
+}
+.textTop{
+    display: inline-block;
+    width: calc(100% - 80px);
+}
+.pi-name-font{
+    word-wrap: break-word;
+}
+@media (min-width: 64em){
+    .pi-name-font{
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

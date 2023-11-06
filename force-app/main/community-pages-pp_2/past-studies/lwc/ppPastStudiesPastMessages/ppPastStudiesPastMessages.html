@@ -1,0 +1,49 @@
+<template>
+    <div if:true={isLoading}  class="fullHeight">
+        <div role="status" class="slds-spinner slds-spinner_medium">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+    <template  if:false={isLoading}>
+        <div class="parentCont" if:true={hasmembers}>                     
+            <div>
+                <template for:each={userrdetails} for:item="record">
+                    <div  key={record.Userid} class="topBox">
+                        <div class="alignCenter">
+                            <span class="topImg">
+                                <template if:true={record.hasuserpic}>
+                                    <lightning-avatar
+                                        variant="circle"
+                                        src={record.Profilepicurl}
+                                        fallback-icon-name="standard:person_account"
+                                    ></lightning-avatar>
+                                </template>
+                                <template if:false={record.hasuserpic}>
+                                    <div class="ms-item-icon-circle">
+                                        <span class="lt-initial-pos">{record.Initials} </span>
+                                    </div>
+                                </template>
+                            </span>
+                        </div>
+                        <div class="textTop alignCenter">
+                            <span title={record.Username} class="pi-name-font">{record.Username}</span></lightning-layout-item>
+                        </div>
+                    </div>
+                </template>
+            </div> 
+            <div class="footer-block slds-align--absolute-center" >
+                <span class="footer-link" onclick={navigatetomessagepage}>
+                    <img src={messagesIcon}/>{label.PP_View_Messages}
+                </span>
+            </div>
+        </div>
+        <template if:false={hasmembers}>
+            <div class="slds-align--absolute-center slds-grid slds-wrap fullHeight"> 
+                <div class="slds-size--1-of-1 no-msg-img"><img src={noMessagesIcon}/></div>
+                <div class="slds-size--1-of-1 no-msg-txt">{label.PP_No_messages_available}</div>
+            </div>
+        </template>  
+    </template>
+</template>
