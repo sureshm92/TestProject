@@ -87,7 +87,7 @@
     cursor: pointer;
     color: #3374ee;
     width: auto;
-    max-width: 205px;
+    max-width: max-content;
 }
 
 .inline {

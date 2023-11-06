@@ -16,6 +16,8 @@ import PP_DeleteFile from "@salesforce/label/c.PP_DeleteFile";
 import PP_DeleteConfirmation from "@salesforce/label/c.PP_DeleteConfirmation";
 import BTN_Cancel from "@salesforce/label/c.BTN_Cancel";
 import No_Documents_Available from "@salesforce/label/c.No_Documents_Available";
+import Uploaded from "@salesforce/label/c.Uploaded";
+import Shared_with_Me from "@salesforce/label/c.Shared_with_Me";
 import formFactor from "@salesforce/client/formFactor";
 import profileTZ from "@salesforce/i18n/timeZone";
 
@@ -75,7 +77,9 @@ export default class ppdocmentViewPage extends NavigationMixin(
     PP_DeleteConfirmation,
     BTN_Cancel,
     pir_Delete_Btn,
-    No_Documents_Available
+    No_Documents_Available,
+    Uploaded,
+    Shared_with_Me
   };
 
   connectedCallback() {
