@@ -20,6 +20,8 @@ import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import profileTZ from "@salesforce/i18n/timeZone";
 
 export default class PpPastStudiesFileTable extends LightningElement {
+    downloadIcon = pp_icons + '/' + 'download.svg';
+    deleteIcon = pp_icons + '/' + 'delete.svg';
     noDocumentAvailable = pp_icons + '/' + 'noDocumentAvailable.svg';
     uploadNewDocuments = pp_icons + '/' + 'uploadNewDocuments.svg';
     sort = pp_icons + "/" + "sort.svg";

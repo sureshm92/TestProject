@@ -138,5 +138,9 @@
     },
     getToggleElement: function (component) {
         return document.getElementsByClassName('dropdown-menu');
+    },    
+    removeElementFocus: function (component, event, helper) {
+        let element = helper.getToggleElement(component);
+        element[0].classList.remove('active');
     }
 });
