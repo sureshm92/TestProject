@@ -463,6 +463,11 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             ? 'slds-form-element slds-col slds-size_3-of-8 slds-p-vertical_x-small'
             : 'slds-form-element slds-col slds-medium-size_1-of-7 slds-p-vertical_x-small';
     }
+    get shortContainerClass1() {
+        return this.isMobile
+            ? 'slds-form-element slds-col slds-size_3-of-8 slds-p-vertical_x-small'
+            : 'slds-form-element slds-medium-size_1-of-7 slds-p-vertical_x-small';
+    }
 
     get webSelectClass() {
         return this.isMobile ? 'as-width-mobile' : 'as-width';
