@@ -355,7 +355,13 @@ public without sharing class NotificationService {
         if (!taskIds.isEmpty()) {
             taskMap = new Map<Id, Task>(
                 [
-                    SELECT Id, WhatId, Remind_Using_Email__c, Remind_Using_SMS__c, CreatedByAdmin__c, Task_Code__c
+                    SELECT
+                        Id,
+                        WhatId,
+                        Remind_Using_Email__c,
+                        Remind_Using_SMS__c,
+                        CreatedByAdmin__c,
+                        Task_Code__c
                     FROM Task
                     WHERE Id IN :taskIds
                 ]
@@ -408,10 +414,19 @@ public without sharing class NotificationService {
                             (n.Task_Id__c != null &&
                             n.Task_Id__c != '' &&
                             taskMap.containsKey(n.Task_Id__c)) &&
-                            (taskMap.get(n.Task_Id__c).Task_Code__c != null && taskMap.get(n.Task_Id__c).Task_Code__c != '')
-                        ) ){
+                            (taskMap.get(n.Task_Id__c).Task_Code__c != null &&
+                            taskMap.get(n.Task_Id__c).Task_Code__c != ''))
+                        ) {
                             emailNotifications.add(n);
                             sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                            orgWideEmailByNotifyMap.put(
+                                n.Id,
+                                availabilityService.getOrgWideEmail(
+                                    n.Recipient__c,
+                                    n.WhatId__c,
+                                    nt.Org_Wide_Email_Address__c
+                                )
+                            );
                             continue;
                         }
                         Boolean isDeferedFlag = availabilityService.isDeferNotification(
@@ -512,20 +527,21 @@ public without sharing class NotificationService {
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
                     //Dont check any consent for this notifications.
                     if (
-                            NotificationCatalog.notificationsNotRequiresAnyConsent.contains(
-                                n.Notification_Type__c
-                            ) ||
-                            (NotificationCatalog.systemTaskNotificationsNotRequiresAnyConsent.contains(
-                                n.Notification_Type__c
-                            ) &&
-                            (n.Task_Id__c != null &&
-                            n.Task_Id__c != '' &&
-                            taskMap.containsKey(n.Task_Id__c)) &&
-                            (taskMap.get(n.Task_Id__c).Task_Code__c != null && taskMap.get(n.Task_Id__c).Task_Code__c != '')
-                        ) ){
-                            smsNotifications.add(n);
-                            sendResultService.setInProgress(n.Id, nt.Target_Type__c);
-                            continue;
+                        NotificationCatalog.notificationsNotRequiresAnyConsent.contains(
+                            n.Notification_Type__c
+                        ) ||
+                        (NotificationCatalog.systemTaskNotificationsNotRequiresAnyConsent.contains(
+                            n.Notification_Type__c
+                        ) &&
+                        (n.Task_Id__c != null &&
+                        n.Task_Id__c != '' &&
+                        taskMap.containsKey(n.Task_Id__c)) &&
+                        (taskMap.get(n.Task_Id__c).Task_Code__c != null &&
+                        taskMap.get(n.Task_Id__c).Task_Code__c != ''))
+                    ) {
+                        smsNotifications.add(n);
+                        sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                        continue;
                     }
 
                     //check if the SMS notification is eligible to send.
