@@ -54,7 +54,7 @@ export default class PpResourceEngage extends LightningElement {
 
     renderedCallback() {
         if (!this.isRendered) {
-            this.selectedOption = 'All';
+            this.selectedOption = ALL;
             this.isRendered = true;
             this.initializeData();
         }

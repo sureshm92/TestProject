@@ -278,7 +278,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             this.resourcesAvailable = true;
             if (!this.selectedResourceType && !this.selectedOptions) {
                 this.selectedResourceType = 'engage';
-                this.selectedOptions = 'Engage';
+                this.selectedOptions = this.labels.ENGAGE;
             }
         }
         if (this.toggleLinks) {
