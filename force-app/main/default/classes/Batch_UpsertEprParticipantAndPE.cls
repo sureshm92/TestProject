@@ -361,6 +361,14 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         list<contact> contactsToDelete = new list<contact>();
         List<Participant_PrescreenerResponse__c> screenerResponseList = new List<Participant_PrescreenerResponse__c>();
         List<Patient_Delegate_Enrollment__c> patientDelEnrollList = new List<Patient_Delegate_Enrollment__c>();
+        Map<String,String> sourceToConsentMap = new Map<String,String>();
+
+        for(Referral_Source_Communication_Consent__mdt	 ccT: [ SELECT id, MasterLabel, DeveloperName, Consent_Values_Delegate__c FROM 
+                                         Referral_Source_Communication_Consent__mdt	 ]){
+            if(ccT.Consent_Values_Delegate__c!=null){
+                sourceToConsentMap.put(ccT.DeveloperName,ccT.Consent_Values_Delegate__c);
+            }
+        }
         for (Integer i = 0; i < saveResults.size(); i++) {
             Participant_Enrollment__c pe = peList[i];	
             Database.SaveResult sr = saveResults[i];
@@ -397,15 +405,22 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                        !String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c) &&
                        !String.isEmpty(ipr.Delegate_Email_Address__c))
                     {
-                    patientDelEnrollList.add(
+                        Patient_Delegate_Enrollment__c pder=
                         new Patient_Delegate_Enrollment__c(
                             Status__c = 'Disconnected',
                             Participant_Enrollment__c = sr.getId(),
                             Primary_Delegate__c = true,
                             Study_info_storage_consent__c=true,
                             Study_Storage_Consent_Time__c = Datetime.now()
-                        )
-                    );
+                        );
+                        if(sourceToConsentMap.containsKey(ipr.Data_Source__c)){
+                            list<string> lstFields = sourceToConsentMap.get(ipr.Data_Source__c).split(',');
+                            for(String objstr : lstFields)
+                            {
+                            pder.put(objstr,true);
+                            }
+                        }
+                    patientDelEnrollList.add(pder);
                 }
 
                 } else {

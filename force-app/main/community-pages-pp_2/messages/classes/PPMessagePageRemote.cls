@@ -581,7 +581,9 @@ public without sharing class PPMessagePageRemote {
             
             Map<Id,String> nameList = new Map<Id,String>();
             for(Message__c mes:messages){
-               nameList.put(mes.CreatedById,mes.Sender_Name__c);
+               if(!nameList.containsKey(mes.CreatedById)){
+                    nameList.put(mes.CreatedById,mes.Sender_Name__c);
+                }
             }  
             conWr.nameList = nameList;
             conWr.peopleCount = nameList.size();
@@ -990,7 +992,9 @@ public without sharing class PPMessagePageRemote {
             
             Map<Id,String> nameList = new Map<Id,String>();
             for(Message__c mes:messages){
-               nameList.put(mes.CreatedById,mes.Sender_Name__c);
+               if(!nameList.containsKey(mes.CreatedById)){
+                    nameList.put(mes.CreatedById,mes.Sender_Name__c);
+                }
             }  
             conWr.nameList = nameList;
             conWr.peopleCount = nameList.size();
