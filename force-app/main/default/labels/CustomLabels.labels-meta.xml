@@ -32209,7 +32209,7 @@ The IQVIA Referral Hub Support Team</value>
         <fullName>Past_Studies_Team</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Past Studies Team</shortDescription>
+        <shortDescription>Past Studies Team Deatils</shortDescription>
         <value>&apos;s Team</value>
     </labels>
     <labels>
@@ -32230,7 +32230,7 @@ The IQVIA Referral Hub Support Team</value>
         <fullName>Past_Studies_Result_Text</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Past Studies Result Text</shortDescription>
+        <shortDescription>Past Studies Result Description</shortDescription>
         <value>This data is being provided as part of your participation in a clinical research study or program. It is for research purposes only.</value>
     </labels>
 </CustomLabels>
