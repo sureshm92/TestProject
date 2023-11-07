@@ -12,6 +12,8 @@ import PP_DeleteConfirmation from '@salesforce/label/c.PP_DeleteConfirmation';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 
 export default class PpPastStudiesMyFiles extends LightningElement {
+    downloadIcon = pp_icons + '/' + 'download.svg';
+    deleteIcon = pp_icons + '/' + 'delete.svg';
     timeZone = profileTZ;
     @api fileUploaded=false;
     @api study;
@@ -154,11 +156,13 @@ export default class PpPastStudiesMyFiles extends LightningElement {
         this.openDeleteModel = false;
         this.loaded = false;
         this.showFiles =false;
+        
         deleteFile({
             fileID: this.deleteFileID
         })
         .then((result) => {
             this.deleteFileID=null;
+            this.dispatchEvent(new CustomEvent("filedeleted"));
             this.loadFiles();
         })
         .catch((error) => {
@@ -167,6 +171,7 @@ export default class PpPastStudiesMyFiles extends LightningElement {
     
     }
     handleCancelModel(event) {
+        this.deleteFileID=null;
         this.openDeleteModel = false;
     }
     get sectionClass(){
