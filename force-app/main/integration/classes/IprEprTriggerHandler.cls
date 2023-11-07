@@ -746,7 +746,8 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             Permit_IQVIA_to_contact_about_study__c = true,
             Study_PI_Storage_Consent_Time__c = Datetime.now(),
             Human_Id__c = ipr.Human_Id__c,
-            Additional_Information__c = ipr.Additional_Information__c
+            Additional_Information__c = ipr.Additional_Information__c,
+
         );
         if(filterCriteria && isAdult && String.isNotBlank(ipr.email__c)){
             objPE.Invited_To_PP_Date__c = DateTime.now(); 
@@ -757,6 +758,9 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             objPE.Comorbidities__c = 'No';
         else
             objPE.Comorbidities__c = '';
+        if(ipr.DataControllerOrg__c!=null){
+          objPE.DataControllerOrg__c=ipr.DataControllerOrg__c=='Sponsor Org'? 'SponsorSpecific':'Generic';
+        }
         return objPE;
     }
 }
