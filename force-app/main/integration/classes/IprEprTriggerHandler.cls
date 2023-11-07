@@ -708,14 +708,6 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         Study_Site__c ss,
         Boolean isAdult
     ) {
-        Map<String,String> sourceToConsentMap = new Map<String,String>();
-
-        for(Referral_Source_Communication_Consent__mdt	 ccT: [ SELECT id, MasterLabel, DeveloperName, Consent_Values_Participant__c FROM 
-                                         Referral_Source_Communication_Consent__mdt	 ]){
-            if(ccT.Consent_Values_Participant__c!=null){
-                sourceToConsentMap.put(ccT.DeveloperName,ccT.Consent_Values_Participant__c);
-            }
-        }
         
         Boolean filterCriteria =
             ss.Study_Site_Type__c!='Virtual'&& ss.Study_Site_Type__c!='Hybrid' &&
@@ -754,25 +746,8 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             Permit_IQVIA_to_contact_about_study__c = true,
             Study_PI_Storage_Consent_Time__c = Datetime.now(),
             Human_Id__c = ipr.Human_Id__c,
-            Additional_Information__c = ipr.Additional_Information__c,
-
+            Additional_Information__c = ipr.Additional_Information__c
         );
-        if(sourceToConsentMap.containsKey(ipr.Data_Source__c)){
-            list<string> lstFields = sourceToConsentMap.get(ipr.Data_Source__c).split(',');
-            for(String objstr : lstFields)
-            {
-               objPE.put(objstr,true);
-            }
-          
-            if(ipr.Data_Source__c=='ePR_Campaign'){
-                objPE.Study_Phone_Consent_Time__c = Datetime.now();
-                objPE.Study_Email_Consent_Time__c = Datetime.now();
-                objPE.Study_Direct_Mail_Consent_Time__c = Datetime.now();
-                objPE.Study_Assisted_Dialing_Consent_Time__c = Datetime.now();
-                objPE.Study_Artificial_Voice_Consent_Time__c = Datetime.now();
-                objPE.Study_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
-            }  
-        }
         if(filterCriteria && isAdult && String.isNotBlank(ipr.email__c)){
             objPE.Invited_To_PP_Date__c = DateTime.now(); 
         }
@@ -785,6 +760,7 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         if(ipr.DataControllerOrg__c!=null){
           objPE.DataControllerOrg__c=ipr.DataControllerOrg__c=='Sponsor Org'? 'SponsorSpecific':'Generic';
         }
+        
         return objPE;
     }
 }
