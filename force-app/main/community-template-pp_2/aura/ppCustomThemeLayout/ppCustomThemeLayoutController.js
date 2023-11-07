@@ -24,12 +24,10 @@
                     recId: contactRecId
                 },
                 function (returnValue) {
-                    if (component.find('modeSwitcher')) component.find('modeSwitcher').refresh();
-                    if (component.find('ppMenu')) component.find('ppMenu').forceRefresh();
-                    alert(communityService.isInitialized());
-                    communityService.initialize(component);
+                    if (sessionStorage.getItem('isPushNotification') == null) {
+                        communityService.loadPage();
+                    }
                     var pageurl = communityService.getFullPageName();
-
                     if (pageurl.includes('messages')) {
                         communityService.navigateToPage('messages');
                     } else if (pageurl.includes('televisit')) {
