@@ -19917,14 +19917,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Consent_Study_Program_US</shortDescription>
-        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study/program related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Consent_Study_Program_ROW</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Consent_Study_Program_ROW</shortDescription>
-        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team for the purposes of keeping me updated with important study/program -related information, according to the terms of the Privacy Policy, by the following means:</value>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team for the purposes of keeping me updated with important study/program related information, according to the terms of the Privacy Policy, by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Consent_IQVIA_US</fullName>
@@ -20289,7 +20289,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_ConsentRequired</shortDescription>
-        <value>Your consent is not required as a condition of purchasing any property, goods, or services.</value>
+        <value>This consent is not required as a condition of purchasing any property, goods, or services.</value>
     </labels>
     <labels>
         <fullName>PP_ContactInfo_Change</fullName>
