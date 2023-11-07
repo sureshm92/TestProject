@@ -33,7 +33,7 @@ public without sharing class ppPastStudiesTabUtility {
             'Study_Site__r.Study_Site_Phone__c ,'+
             'Study_Site__r.Study_Site_Email__c '+
             'FROM Participant_Enrollment__c '+
-            'WHERE Participant_Status__c IN :PE_STATUS_GROUP_ALUMNI AND Participant_Contact__c = :contID LIMIT 10000';
+            'WHERE Participant_Status__c IN :PE_STATUS_GROUP_ALUMNI AND Participant_Contact__c = :contID ORDER BY Clinical_Trial_Profile__r.Study_Code_Name__c ASC LIMIT 10000';
         Map<Id,Participant_Enrollment__c>  alumiPerMap =  new Map<Id, Participant_Enrollment__c>((List<Participant_Enrollment__c>)Database.query(queryString));
         
         if (isDelegate) {
