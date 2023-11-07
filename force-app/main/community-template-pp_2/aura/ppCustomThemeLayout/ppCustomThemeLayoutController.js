@@ -25,11 +25,9 @@
                 },
                 function (returnValue) {
                     if (component.find('modeSwitcher')) component.find('modeSwitcher').refresh();
-                    if (component.find('ppMenu')) component.find('ppMenu').forceRefresh();
-                    alert(communityService.isInitialized());
-                    communityService.initialize(component);
+                    if (component.find('ppMenu')) component.find('ppMenu').forceRefreshApp();
                     var pageurl = communityService.getFullPageName();
-
+                    location.reload();
                     if (pageurl.includes('messages')) {
                         communityService.navigateToPage('messages');
                     } else if (pageurl.includes('televisit')) {
