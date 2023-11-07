@@ -487,6 +487,16 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         list<contact> contactsToDelete = new List<contact>();
         List<Participant_PrescreenerResponse__c> screenerResponseList = new List<Participant_PrescreenerResponse__c>();
         List<Patient_Delegate_Enrollment__c> patientDelEnrollList = new List<Patient_Delegate_Enrollment__c>();
+        Map<String, String> sourceToConsentMap = new Map<String, String>();
+
+        for (Referral_Source_Communication_Consent__mdt ccT : [
+            SELECT id, MasterLabel, DeveloperName, Consent_Values_Delegate__c
+            FROM Referral_Source_Communication_Consent__mdt
+        ]) {
+            if (ccT.Consent_Values_Delegate__c != null) {
+                sourceToConsentMap.put(ccT.DeveloperName, ccT.Consent_Values_Delegate__c);
+            }
+        }
         for (Integer i = 0; i < saveResults.size(); i++) {
             Participant_Enrollment__c pe = peList[i];
             Database.SaveResult sr = saveResults[i];
