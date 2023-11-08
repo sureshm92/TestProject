@@ -297,11 +297,6 @@ window.communityService = (function () {
             sessionStorage.setItem('Cookies', 'Accepted');
             location.reload();
         },
-        loadPage() {
-            sessionStorage.setItem('isPushNotification', 'Yes');
-            location.reload();
-        },
-
         getLanguage: function () {
             return language;
         },

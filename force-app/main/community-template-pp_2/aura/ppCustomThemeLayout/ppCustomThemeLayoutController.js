@@ -24,9 +24,7 @@
                     recId: contactRecId
                 },
                 function (returnValue) {
-                    if (sessionStorage.getItem('isPushNotification') == null) {
-                        communityService.loadPage();
-                    }
+                    if (component.find('modeSwitcher')) component.find('modeSwitcher').refresh();
                     var pageurl = communityService.getFullPageName();
                     if (pageurl.includes('messages')) {
                         communityService.navigateToPage('messages');
