@@ -297,6 +297,7 @@ window.communityService = (function () {
             sessionStorage.setItem('Cookies', 'Accepted');
             location.reload();
         },
+
         getLanguage: function () {
             return language;
         },
