@@ -16,6 +16,7 @@ import FIND_ANSWERS from '@salesforce/label/c.PP_Resource_Answers';
 import RESOURCES from '@salesforce/label/c.PG_SW_Tab_Resources';
 import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
 import DISCLAIMER from '@salesforce/label/c.PP_Resource_Disclaimer';
+import No_modules_available from '@salesforce/label/c.No_modules_available';
 import { NavigationMixin } from 'lightning/navigation';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import removeUpdateCardForResource from '@salesforce/apex/PPUpdatesController.removeUpdateCardForResource';
@@ -48,7 +49,8 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
         FIND_ANSWERS,
         DISCOVER_TITLE,
         CHANGE_PREFERENCES,
-        DISCLAIMER
+        DISCLAIMER,
+        No_modules_available
     };
     @track linksData;
     @track trialdata;
@@ -276,7 +278,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
             this.resourcesAvailable = true;
             if (!this.selectedResourceType && !this.selectedOptions) {
                 this.selectedResourceType = 'engage';
-                this.selectedOptions = 'Engage';
+                this.selectedOptions = this.labels.ENGAGE;
             }
         }
         if (this.toggleLinks) {
