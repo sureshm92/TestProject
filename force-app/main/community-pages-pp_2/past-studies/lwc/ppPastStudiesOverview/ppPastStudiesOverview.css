@@ -1,5 +1,5 @@
 .container-overview{
-    margin: 17px 24px 24px 24px;
+    padding: 17px 24px 24px 24px;
 }
 .container-img img{
     height: 48px;
@@ -28,7 +28,7 @@
     display: block;
 }
 .separator{
-    margin: 15.5px 0px;
+    margin: 11.5px 0px;
     border: none;
     border-top: 1px solid hsl(0, 0%, 85%);
 }
@@ -37,6 +37,10 @@
 }
 .labelT{
     white-space: nowrap;
+}
+.detail.container-overview {
+    padding: 0px;
+    margin: 18px 16px 28px 16px;
 }
 @media (min-width: 64em) and (max-width: 1334px){
     .detail.container-overview{
@@ -71,6 +75,7 @@
     .detail.container-overview {
         min-height: 269px;
         margin: 32px;
+        padding: 0px;
         position: relative;
     }
     .detail .info-container{

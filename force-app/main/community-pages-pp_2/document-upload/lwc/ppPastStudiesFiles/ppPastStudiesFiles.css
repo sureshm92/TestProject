@@ -1,4 +1,36 @@
+.fit{
+    width: fit-content;
+}
+.pointer-cursor{
+    cursor: pointer;
+}
+.chevronleft-icon{
+    --slds-c-icon-color-foreground-default: #015FF1;
+}
+@media (max-width: 500px) {
+    .fit {
+        margin: 0px 16px;
+    }
+}
+.back-link{
+    color: #015FF1;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    padding-top: 2px;
+    padding-left: 14.75px;
+}
+.seperator-v {
+    background-color: #E9E9E9;
+    height: 1px;
+    margin: 16px 0px;
+}
+.selected{
+    font-weight: 600;
+}
 .my-files {
+    line-height: 40px;
+    margin-bottom: 20px;
     color: #444444;
     font-size: 32px;
     font-weight: 600;
@@ -255,6 +287,7 @@
     margin-left: 6px;
 }
 .popup-default {
+    --lwc-colorBackgroundRowHover: #ECF3FF;;
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 14px;
@@ -393,6 +426,7 @@
     margin-left: 1.5rem;
 }
 .pointercss {
+    font-weight: 600;
     cursor: pointer;
 }
 .dropdownoptions {
@@ -490,15 +524,5 @@
 @media screen and (orientation: landscape) {
     .imagecss {
         margin-top: unset;
-    }
-}
-@media screen and (pointer: coarse) and (orientation: landscape) and (min-width: 742px) and (max-width: 1180px) {
-    .my-files {
-        margin-top: -4rem;
-    }
-}
-@media screen and (pointer: coarse) and (orientation: landscape) and (max-width: 741px) {
-    .my-files {
-        margin-top: -2rem;
     }
 }
