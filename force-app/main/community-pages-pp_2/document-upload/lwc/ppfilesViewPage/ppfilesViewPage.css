@@ -516,6 +516,12 @@
     padding-right: 2rem;
 }
 .uploadinfo {
+    height: 20px;
+    text-wrap: nowrap;
+    overflow: hidden;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-overflow: ellipsis;
     font-size: 14px;
 }
 .action-menu {
@@ -551,6 +557,12 @@
 }
 /* testing end */
 .wait-time {
+    height: 20px;
+    text-wrap: nowrap;
+    overflow: hidden;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-overflow: ellipsis;
     color: #757575;
     font-size: 13px;
     font-style: italic;
