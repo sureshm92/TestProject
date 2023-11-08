@@ -135,7 +135,7 @@ public with sharing class IntegrationVisitResultService {
             participantIdsList,
             perIdsList
         );
-        // perId with its patient delegate enrollments
+        // perId with it's patient delegate enrollments
         Map<Id, List<Patient_Delegate_Enrollment__c>> perWithdelEnrollment = new Map<Id, List<Patient_Delegate_Enrollment__c>>();
         for (Patient_Delegate_Enrollment__c pder : delEnrollmentList) {
             if (perWithdelEnrollment.containsKey(pder.Participant_Enrollment__c)) {
