@@ -11547,7 +11547,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message to PT Televisit Cancelled</shortDescription>
-        <value>Your televisit with ##PIFullName team for the ##StudyCodeName is cancelled. Please contact your Care Team for more details.</value>
+        <value>Your televisit with ##PIFullName's team for the ##StudyCodeName is cancelled. Please contact your Care Team for more details.</value>
     </labels>
 	<labels>
         <fullName>Message_to_PT_Televisit_Cancelled_title</fullName>
@@ -11561,7 +11561,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message to PT Televisit Rescheduled</shortDescription>
-        <value>Your televisit with ##PIFullName team for the ##StudyCodeName is rescheduled. If you are unable to make this appointment, please contact your Care Team.</value>
+        <value>Your televisit with ##PIFullName's team for the ##StudyCodeName is rescheduled. If you are unable to make this appointment, please contact your Care Team.</value>
     </labels>
     <labels>
         <fullName>Message_to_PT_Televisit_Rescheduled_title</fullName>
@@ -11575,7 +11575,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message_to_PT_Televisit_Scheduled</shortDescription>
-        <value>Your televisit with ##PIFullName team for the ##StudyCodeName is scheduled. If you are unable to make this appointment, please contact your Care Team.</value>
+        <value>Your televisit with ##PIFullName's team for the ##StudyCodeName is scheduled. If you are unable to make this appointment, please contact your Care Team.</value>
     </labels>
     <labels>
         <fullName>Message_to_PT_Televisit_Scheduled_title</fullName>
@@ -19654,6 +19654,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PPLite_PasswordsMismatch</shortDescription>
         <value>Passwords do not match</value>
+    </labels>
+    <labels>
+        <fullName>PP_About_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP About Study</shortDescription>
+        <value>About</value>
+    </labels>
+    <labels>
+        <fullName>PP_Preview</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Preview</shortDescription>
+        <value>Preview</value>
+    </labels>
+    <labels>
+        <fullName>PP_Rename</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Rename</shortDescription>
+        <value>Rename</value>
     </labels>
     <labels>
         <fullName>PP_AS_COMPLETE_TASK</fullName>
@@ -32338,5 +32359,18 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>assigned by</shortDescription>
         <value>assigned by</value>
     </labels>
-
+    <labels>
+        <fullName>No_modules_available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No modules available</shortDescription>
+        <value>No modules available</value>
+    </labels>
+    <labels>
+        <fullName>Sort_By</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sort By</shortDescription>
+        <value>Sort By</value>
+    </labels>
 </CustomLabels>

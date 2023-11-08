@@ -20,7 +20,7 @@ private class Test_PPMessagePageRemote {
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            PPMessagePageRemote.getInitData('Large', false);
+            PPMessagePageRemote.getInitData('Large', false,testData.pe.Clinical_Trial_Profile__c);
         }
         Test.stopTest();
     }
@@ -48,7 +48,7 @@ private class Test_PPMessagePageRemote {
 
         
         System.runAs(testData.piUser) {
-            PPMessagePageRemote.getInitData('Large', false);
+            PPMessagePageRemote.getInitData('Large', false,ctpList[0].id);
         }
         Test.stopTest();
     }
