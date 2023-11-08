@@ -4,7 +4,6 @@
 
 public without sharing class RRChangePasswordController {
     public String US { get; set; }
-    public String randomString {get; set;}
     public static final String ERROR_SUFFIX = ': ' + System.Label.RH_ProfileInfoErrorMsz;
     public static final String ERROR_VALUE_SUFFIX = ': You must enter a valid value';
     public static final String TEMP_ACCOUNT = 'temporary account';
@@ -170,7 +169,6 @@ public without sharing class RRChangePasswordController {
    
 
     public RRChangePasswordController() {
-        generateRandomString();
         passwordValidation = false;
         isRTL = false;
         onLoad = true;
@@ -1755,16 +1753,5 @@ public without sharing class RRChangePasswordController {
                 isIQVIAOutreachToggleOnForDelegate = true;
             }
         }
-    }
-    public void generateRandomString() {
-        Integer len = 4;
-        final String chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
-        String randStr = '';
-        while (randStr.length() < len) {
-            Integer idx = Math.mod(Math.abs(Crypto.getRandomInteger()), chars.length());
-            randStr += chars.substring(idx, idx+1);
-        }
-        randStr = '&'+randStr + '=' +Math.round((Math.random() * (900000) + 100000));
-        randomString = randStr;
     }
 }

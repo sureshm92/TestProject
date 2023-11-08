@@ -39,7 +39,7 @@
         <aura:if isTrue="{!v.communityName == 'IQVIA Patient Portal'}">
             <div class="pp-survey">
                 <c:RRTopBar
-                    backLabel="Back"
+                    backLabel="{!$Label.c.BTN_Back}"
                     backPage="{!'tasks'}"
                     smallTitle="{!v.codeName}"
                     bigTitle="{!v.surveyName}"
