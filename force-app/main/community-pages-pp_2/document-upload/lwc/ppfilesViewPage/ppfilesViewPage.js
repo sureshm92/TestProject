@@ -44,6 +44,9 @@ import PP_Filerenamedsuccesfully from '@salesforce/label/c.PP_Filerenamedsuccesf
 import PP_Limit10Files from '@salesforce/label/c.PP_Limit10Files';
 import PP_Fileremovedsuccesfully from '@salesforce/label/c.PP_Fileremovedsuccesfully';
 import formFactor from '@salesforce/client/formFactor';
+import REMOVE from '@salesforce/label/c.PP_Remove';
+import RENAME from '@salesforce/label/c.PP_Rename';
+import PREVIEW from '@salesforce/label/c.PP_Preview';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const MAX_FILE_SIZE = 4500000; //2621440;// 4500000; max file size prog can handle
@@ -92,7 +95,10 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         PP_Backt_o_My_Files,
         PP_Filerenamedsuccesfully,
         PP_Limit10Files,
-        PP_Fileremovedsuccesfully
+        PP_Fileremovedsuccesfully,
+        REMOVE,
+        RENAME,
+        PREVIEW
     };
 
     value = 'inProgress';
@@ -127,13 +133,13 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     // progresBarClass =' progressBarError slds-col slds-size_5-of-12 ';
 
     renameObj = {
-        name: 'Rename'
+        name: RENAME
     };
     Preview = {
-        name: 'Preview'
+        name: PREVIEW
     };
     removeobj = {
-        name: 'Remove'
+        name: REMOVE
     };
 
     uploadonid; //perid
