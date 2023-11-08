@@ -391,6 +391,10 @@ window.communityService = (function () {
             //console.log('Navigate to page: ' + pageName);
             urlEvent.fire();
         },
+        loadPage() {
+            sessionStorage.setItem('isPushNotification', 'Yes');
+            location.reload();
+        },
 
         navigateToHome: function () {
             service.navigateToPage('');

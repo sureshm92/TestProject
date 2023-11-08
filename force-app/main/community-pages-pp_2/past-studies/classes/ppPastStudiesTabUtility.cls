@@ -31,9 +31,10 @@ public without sharing class ppPastStudiesTabUtility {
             'Clinical_Trial_Profile__r.Visit_Data_Shareback__c ,'+
             'Study_Site__r.Messages_Are_Available__c ,'+
             'Study_Site__r.Study_Site_Phone__c ,'+
-            'Study_Site__r.Study_Site_Email__c '+
+            'Study_Site__r.Study_Site_Email__c ,'+
+            'Study_Site__r.Override_PI_Referral_Status__c '+
             'FROM Participant_Enrollment__c '+
-            'WHERE Participant_Status__c IN :PE_STATUS_GROUP_ALUMNI AND Participant_Contact__c = :contID LIMIT 10000';
+            'WHERE Participant_Status__c IN :PE_STATUS_GROUP_ALUMNI AND Participant_Contact__c = :contID ORDER BY Clinical_Trial_Profile__r.Study_Code_Name__c ASC LIMIT 10000';
         Map<Id,Participant_Enrollment__c>  alumiPerMap =  new Map<Id, Participant_Enrollment__c>((List<Participant_Enrollment__c>)Database.query(queryString));
         
         if (isDelegate) {
@@ -88,18 +89,21 @@ public without sharing class ppPastStudiesTabUtility {
                 );
             }
             Boolean showemptymessagescreen = false;
-            for(Conversation__c cnv:sharedConversations){
-                if(cnv.Participant_Enrollment__c == per.Id){
-                    showemptymessagescreen = true;
-                    break;
-                }
+            if(sharedConversations != null){
+                for(Conversation__c cnv:sharedConversations){
+                    if(cnv.Participant_Enrollment__c == per.Id){
+                        showemptymessagescreen = true;
+                        break;
+                    }
+                }   
             }
+            
             if(showemptymessagescreen && lstUser != null){
                 Userwrapper wrap = new Userwrapper();
                 wrap.Userid = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).id;
                 wrap.Profilepicurl = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).SmallPhotoUrl;
                 String salutation = userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).contact.Salutation != null ? userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).contact.Salutation+' ':'';
-                wrap.Username = salutation + userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).name;
+                wrap.Username = salutation + userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).name + System.Label.Past_Studies_Team ; 
                 if(!userMap.get(per.Study_Site__r.Principal_Investigator__r.Id).SmallPhotoUrl.contains('profilephoto/005/T')){
                     wrap.hasuserpic = true;
                 }else{
