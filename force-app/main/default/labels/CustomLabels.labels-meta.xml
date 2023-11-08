@@ -32359,5 +32359,18 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>assigned by</shortDescription>
         <value>assigned by</value>
     </labels>
-
+    <labels>
+        <fullName>No_modules_available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No modules available</shortDescription>
+        <value>No modules available</value>
+    </labels>
+    <labels>
+        <fullName>Sort_By</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sort By</shortDescription>
+        <value>Sort By</value>
+    </labels>
 </CustomLabels>
