@@ -230,6 +230,7 @@ p {
 
 .change-preferences {
     height: 24px;
+    min-width: max-content;
     color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 13px;
