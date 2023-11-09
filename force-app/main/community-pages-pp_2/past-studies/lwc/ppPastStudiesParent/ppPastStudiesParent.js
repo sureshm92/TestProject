@@ -291,11 +291,11 @@ export default class PpPastStudiesParent extends LightningElement {
     slectStudyFormTiles(event) {
         this.updateSelectedStudy(event.detail.message);
     }
-    slectStudyFormFiles(event) {
-        if (event.detail.message != this.selectedPER.Clinical_Trial_Profile__c) {
-            this.updateSelectedStudy(this.studyPERMap.get(event.detail.message));
-        }
-        this.showFilePage = false;
+    slectStudyFormFiles(event){
+        this.uploadedFilesClass='no-show-link';
+        this.sharedFilesClass='no-show-link';
+        this.updateSelectedStudy(this.studyPERMap.get(event.detail.message));
+        this.showFilePage=false;
     }
 
     showdeletetoast() {
