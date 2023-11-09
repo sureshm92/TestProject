@@ -662,7 +662,6 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
     ) {
         Contact newContact = new Contact(
             FirstName = ipr.Delegate_First_Name__c,
-            MiddleName = ipr.Delegate_Middle_Name__c,
             LastName = ipr.Delegate_Last_Name__c,
             Email = ipr.Delegate_Email_Address__c,
             MailingCountryCode = ipr.Address_Country__c,
