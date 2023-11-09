@@ -35,7 +35,6 @@
                         disabled="{!!empty(v.searchResult)}"
                         onchange="{!c.doCheckPatientId}"
                     />
-                      <span style="{!if(v.isRTL, 'display:none;','')}">{!$Label.c.PE_Patient_Id}</span>
                   </div>
                     <div class="small-info-text">{!$Label.c.PG_SPE_L_Patient_Id_tip}</div>
                 </div>
@@ -52,7 +51,6 @@
                                          disabled="{!!empty(v.searchResult)}"
                                          />
                         
-                        <span style="{!if(v.isRTL, 'display:none;','')}">{!$Label.c.PG_SPE_L_Patient_s_first_name_Optional}</span>
                     </div>
                     
                     <div class="small-info-text">
@@ -70,7 +68,6 @@
                         value="{!v.searchData.lastName}"
                         disabled="{!!empty(v.searchResult)}"
                         />
-                        <span style="{!if(v.isRTL, 'display:none;','')}">{!$Label.c.PG_SPE_L_Patient_s_last_name_Optional}</span>
                     </div>
                 </div>
             </div>
