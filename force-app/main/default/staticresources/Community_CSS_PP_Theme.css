@@ -1638,7 +1638,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     border-radius: 8px !important;
 }
 .manage-del .add-Delegate-Btn {
-    width: 160px !important;
+    min-width: 160px !important;
     border-radius: 16px !important;
     background-color: #015ff1 !important;
 }
@@ -1650,7 +1650,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .manage-del .remove-btn {
     border: 1px solid #d9d9d9 !important;
     border-radius: 16px !important;
-    width: 107px !important;
+    min-width: 107px !important;
 }
 .manage-del .remove-btn-mob {
     border: 1px solid #d9d9d9 !important;
@@ -2233,7 +2233,7 @@ user agent stylesheet svg:not(:root) {
     margin-left: -16px;
 }
 
-.manage-pref-spinner-container .rr-spinner {    
+.manage-pref-spinner-container .rr-spinner {
     z-index: 15000 !important;
 }
 .pastStudiesFiles .slds-tabs_default__item {

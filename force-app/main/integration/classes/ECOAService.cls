@@ -187,19 +187,34 @@ public with sharing class ECOAService {
 
         Map<Id, User> userContactIdMap = new Map<Id, User>();
         Map<Id, Id> primarydelegateContactMap = new Map<Id, Id>();
-
+        // Map<Id, Id> subjectVisitplan = new Map<Id, Id>();
+        Map<Id, String> subjectVisitplan = new Map<Id, String>();
         Map<Id, List<ECOA_Study_Schedule__c>> ctpScheduleMap = new Map<Id, List<ECOA_Study_Schedule__c>>();
         for (Participant_Enrollment__c peObj : peList) {
             contactIds.add(peObj.Participant_Contact__c);
             ctpIds.add(peObj.Clinical_Trial_Profile__c);
+            subjectVisitplan.put(
+                peObj.Id,
+                peObj.Clinical_Trial_Profile__c +
+                '~' +
+                peObj.Visit_Plan__c
+            );
         }
         List<Patient_Delegate_Enrollment__c> patientdelegatesList = [
-            SELECT Patient_Delegate__r.Contact__c, Participant_Enrollment__c,Participant_Enrollment__r.Participant_Contact__c
+            SELECT
+                Patient_Delegate__r.Contact__c,
+                Participant_Enrollment__c,
+                Participant_Enrollment__r.Participant_Contact__c
             FROM Patient_Delegate_Enrollment__c
-            WHERE Participant_Enrollment__r.Participant_Contact__c IN :contactIds AND Primary_Delegate__c = TRUE
+            WHERE
+                Participant_Enrollment__r.Participant_Contact__c IN :contactIds
+                AND Primary_Delegate__c = TRUE
         ];
         for (Patient_Delegate_Enrollment__c pd : patientdelegatesList) {
-            primarydelegateContactMap.put(pd.Participant_Enrollment__r.Participant_Contact__c, pd.Patient_Delegate__r.Contact__c);
+            primarydelegateContactMap.put(
+                pd.Participant_Enrollment__r.Participant_Contact__c,
+                pd.Patient_Delegate__r.Contact__c
+            );
             if (!contactIds.contains(pd.Patient_Delegate__r.Contact__c)) {
                 contactIds.add(pd.Patient_Delegate__r.Contact__c);
             }
@@ -209,14 +224,21 @@ public with sharing class ECOAService {
             FROM User
             WHERE ContactId IN :contactIds
         ];
+
         List<ECOA_Study_Schedule__c> studySchedules = [
-            SELECT Id, ClinroRuleSetGuid__c, EproRuleSetGuid__c, Clinical_Trial_Profile__c
+            SELECT
+                Id,
+                ClinroRuleSetGuid__c,
+                EproRuleSetGuid__c,
+                Clinical_Trial_Profile__c,
+                Visit_Plan__c
             FROM ECOA_Study_Schedule__c
             WHERE Clinical_Trial_Profile__c IN :ctpIds
         ];
         for (User userObj : participantUsers) {
             userContactIdMap.put(userObj.ContactId, userObj);
         }
+        Map<string, ECOA_Study_Schedule__c> visitPlanSchedule = new Map<string, ECOA_Study_Schedule__c>();
         for (ECOA_Study_Schedule__c schedule : studySchedules) {
             if (ctpScheduleMap.containsKey(schedule.Clinical_Trial_Profile__c)) {
                 ctpScheduleMap.get(schedule.Clinical_Trial_Profile__c).add(schedule);
@@ -226,6 +248,12 @@ public with sharing class ECOAService {
                     new List<ECOA_Study_Schedule__c>{ schedule }
                 );
             }
+            visitPlanSchedule.put(
+                schedule.Clinical_Trial_Profile__c +
+                '~' +
+                schedule.Visit_Plan__c,
+                schedule
+            );
         }
         Integer allowedCallouts = Limits.getLimitCallouts() - Limits.getCallouts();
         for (Participant_Enrollment__c peObj : peList) {
@@ -254,7 +282,7 @@ public with sharing class ECOAService {
                             timeZoneVal = delegateUserObj.TimeZoneSidKey;
                         }
                     }
-                    if(timeZoneVal != ''){
+                    if (timeZoneVal != '') {
                         List<Map<String, String>> requestMapList = new List<Map<String, String>>();
                         Map<String, String> requestMap = new Map<String, String>{
                             'username' => peObj.Id,
@@ -264,14 +292,19 @@ public with sharing class ECOAService {
                             'studyGuid' => peObj.Clinical_Trial_Profile__r.Study_GUID__c,
                             'studyVersionGuid' => peObj.Clinical_Trial_Profile__r.Study_Version_GUID__c,
                             'subjectLocale' => 'en',
-                            'eproRuleSetGuid' => studySchedulesList[0].EproRuleSetGuid__c,
-                            'clinroRuleSetGuid' => studySchedulesList[0].ClinroRuleSetGuid__c,
+                            'eproRuleSetGuid' => visitPlanSchedule
+                                ?.get(subjectVisitplan?.get(peObj.Id))
+                                ?.EproRuleSetGuid__c, //studySchedulesList[0].EproRuleSetGuid__c,
+                            'clinroRuleSetGuid' => visitPlanSchedule
+                                ?.get(subjectVisitplan?.get(peObj.Id))
+                                ?.ClinroRuleSetGuid__c, //studySchedulesList[0].ClinroRuleSetGuid__c,
                             'orgGuid' => apiParamsMap.get(ORG_GUID).ParamValue__c,
                             'siteGuid' => peObj.Study_Site__r.ECOA_Site_Guid__c,
                             'loginType' => 'SSO',
                             'loginSsoId' => peObj.Id,
                             'loginSsoIssuerGuid' => apiParamsMap.get(ISSUER_GUID).ParamValue__c
                         };
+                        system.debug('requestMap::' + requestMap);
                         requestMapList.add(requestMap);
                         HttpCallout remoteCall = new HttpCallout(
                             null,
@@ -286,7 +319,8 @@ public with sharing class ECOAService {
                         remoteCall.setAutoLogInsert(false);
 
                         String respBody = (String) remoteCall.execute();
-
+                        system.debug('respBody.log::' + respBody);
+                        system.debug('remoteCall.log::' + remoteCall.log);
                         if (remoteCall.log.Success__c) {
                             List<ECOAService.CreateSubjectResponse> newSubjectInfo = getSubjectResponse(
                                 respBody
@@ -301,7 +335,7 @@ public with sharing class ECOAService {
                     }
                 }
             } catch (Exception e) {
-                System.debug(e.getMessage());
+                System.debug('exce::' + e.getMessage());
             }
             allowedCallouts--;
         }

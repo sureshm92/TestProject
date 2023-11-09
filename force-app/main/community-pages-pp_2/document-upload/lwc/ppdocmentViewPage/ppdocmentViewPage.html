@@ -15,7 +15,7 @@
         <div class="document-boxDesk pir-parent pp-doc">
             <div class="section-padding all-tabs slds-show_medium">
                 <lightning-tabset active-tab-value="">
-                    <lightning-tab label="Uploaded" onactive={handleFiles}>
+                    <lightning-tab label={label.Uploaded} onactive={handleFiles}>
                         <template if:false={noRecords}>
                             <div
                                 class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small ppfont tablePP"
@@ -286,7 +286,7 @@
                         </template>
                     </lightning-tab>
                     <lightning-tab
-                        label="Shared with Me"
+                        label={label.Shared_with_Me}
                         onactive={handleMessageFiles}
                     >
                         <template if:false={noMsgRecords}>
@@ -546,7 +546,7 @@
     </template>
     <template if:true={openDeleteModel}>
         <c-pp-modal
-            header-text="Delete File"
+            header-text={label.PP_DeleteFile}
             size="small"
             is-show="true"
             onclose={handleCancelModel}
@@ -690,7 +690,7 @@
                             onblur={handleonblur}
                         >
                             <span class="slds-truncate w-100 fBold"
-                                >{selectedsortOption}</span
+                                >{label.Sort_By}</span
                             >
                             <span>
                                 <img src={sort} class="sortIcon" />
@@ -833,7 +833,7 @@
                             onblur={handleonblur}
                         >
                             <span class="slds-truncate w-100 fBold"
-                                >{selectedsortOption}</span
+                                >{label.Sort_By}</span
                             >
                             <span>
                                 <img src={sort} class="sortIcon" />

@@ -20,11 +20,14 @@ public with sharing class IntegrationVisitResultService {
         );
         List<Visit_Result__c> newResults = new List<Visit_Result__c>();
         List<Notification__c> updateNotificationsForNewVResults = new List<Notification__c>();
-        List<Notification__c> insertNotificationsForNewVResults = new List<NOtification__c>();
+        List<Notification__c> insertNotificationsForNewVResults = new List<Notification__c>();
         List<Id> participantContactIds = new List<Id>();
         List<Id> participantEnrollmentIds = new List<Id>();
         Map<Id, Patient_Visit__c> peAndPv = new Map<Id, Patient_Visit__c>();
         Map<Id, List<Id>> peAndPVsDetails = new Map<Id, List<Id>>();
+        Map<Id, List<Id>> peAndPVsDetailsPush = new Map<Id, List<Id>>();
+        Set<Id> participantIds = new Set<Id>();
+        Set<Id> perIds = new Set<Id>();
         List<Id> alreadyNotifiedPEs = new List<Id>();
         List<Visit_Result__c> resultsToDelete = new List<Visit_Result__c>();
         List<Visit_Result__c> resultsToUpdate = new List<Visit_Result__c>();
@@ -72,37 +75,76 @@ public with sharing class IntegrationVisitResultService {
                 }
             }
         }
-
-        update resultsToUpdate;
-        delete resultsToDelete;
-        insert newResults;
+        try {
+            update resultsToUpdate;
+            delete resultsToDelete;
+            insert newResults;
+        } catch (Exception e) {
+            system.debug('Error' + e.getMessage());
+        }
         for (Patient_Visit__c pv : [
             SELECT
                 Id,
                 Completed_Date__c,
                 Participant_Enrollment__c,
+                Participant_Enrollment__r.Participant_Status__c,
+                Participant_Enrollment__r.Participant__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c
             FROM Patient_Visit__c
             WHERE Participant_Enrollment__c IN :participantEnrollmentIds AND Status__c = 'Completed'
             ORDER BY Completed_Date__c DESC, Visit_Number__c DESC
         ]) {
-            Integer sharebackAvailabilityTiming = pv.Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c !=
-                null
-                ? Integer.valueOf(
-                      pv.Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c
-                  )
-                : 0;
-            if (sharebackAvailabilityTiming > 0) {
-                if (peAndPVsDetails.containsKey(pv.Participant_Enrollment__c)) {
-                    if (
-                        peAndPVsDetails.get(pv.Participant_Enrollment__c).size() <
-                        sharebackAvailabilityTiming
-                    ) {
-                        peAndPVsDetails.get(pv.Participant_Enrollment__c).add(pv.Id);
+            Boolean isAlumniParticipant = PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(
+                pv.Participant_Enrollment__r.Participant_Status__c
+            );
+            participantIds.add(pv.Participant_Enrollment__r.Participant__c);
+            perIds.add(pv.Participant_Enrollment__c);
+            if (!isAlumniParticipant) {
+                Integer sharebackAvailabilityTiming = pv.Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c !=
+                    null
+                    ? Integer.valueOf(
+                          pv.Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c
+                      )
+                    : 0;
+                if (sharebackAvailabilityTiming > 0) {
+                    if (peAndPVsDetails.containsKey(pv.Participant_Enrollment__c)) {
+                        if (
+                            peAndPVsDetails.get(pv.Participant_Enrollment__c).size() <
+                            sharebackAvailabilityTiming
+                        ) {
+                            peAndPVsDetails.get(pv.Participant_Enrollment__c).add(pv.Id);
+                        }
+                    } else {
+                        peAndPVsDetails.put(pv.Participant_Enrollment__c, new List<Id>{ pv.Id });
                     }
-                } else {
-                    peAndPVsDetails.put(pv.Participant_Enrollment__c, new List<Id>{ pv.Id });
                 }
+            } else {
+                if (peAndPVsDetailsPush.containsKey(pv.Participant_Enrollment__c)) {
+                    peAndPVsDetailsPush.get(pv.Participant_Enrollment__c).add(pv.Id);
+                } else {
+                    peAndPVsDetailsPush.put(pv.Participant_Enrollment__c, new List<Id>{ pv.Id });
+                }
+            }
+        }
+
+        List<Id> perIdsList = new List<Id>();
+        perIdsList.addAll(perIds);
+        List<Id> participantIdsList = new List<Id>();
+        participantIdsList.addAll(participantIds);
+        List<Patient_Delegate_Enrollment__c> delEnrollmentList = PatientDelegateEnrollmentService.getPatientEnrollmentList(
+            participantIdsList,
+            perIdsList
+        );
+        // perId with it's patient delegate enrollments
+        Map<Id, List<Patient_Delegate_Enrollment__c>> perWithdelEnrollment = new Map<Id, List<Patient_Delegate_Enrollment__c>>();
+        for (Patient_Delegate_Enrollment__c pder : delEnrollmentList) {
+            if (perWithdelEnrollment.containsKey(pder.Participant_Enrollment__c)) {
+                perWithdelEnrollment.get(pder.Participant_Enrollment__c).add(pder);
+            } else {
+                perWithdelEnrollment.put(
+                    pder.Participant_Enrollment__c,
+                    new List<Patient_Delegate_Enrollment__c>{ pder }
+                );
             }
         }
         List<Send_Result__c> sendResults = [
@@ -132,6 +174,80 @@ public with sharing class IntegrationVisitResultService {
                 alreadyNotifiedPEs.add(sr.Notification__r.WhatId__c);
             }
         }
+        for (Id peId : peAndPv.keySet()) {
+            Boolean isAlumniParticipant = PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(
+                peAndPv.get(peId).Participant_Enrollment__r.Participant_Status__c
+            );
+            if (
+                peAndPv.containsKey(peId) &&
+                (!peAndPVsDetails.containsKey(peId) ||
+                (peAndPVsDetails.containsKey(peId) &&
+                !peAndPVsDetails.get(peId).contains(peAndPv.get(peId).Id))) &&
+                peAndPv.get(peId)
+                    .Participant_Enrollment__r.Clinical_Trial_Profile__r.Visits_are_Available__c &&
+                peAndPv.get(peId)
+                    .Participant_Enrollment__r.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&
+                (!isAlumniParticipant)
+            ) {
+                insertNotificationsForNewVResults.add(
+                    new Notification__c(
+                        Recipient__c = peAndPv.get(peId)
+                            .Participant_Enrollment__r.Participant_Contact__c,
+                        WhatId__c = peAndPv.get(peId).Participant_Enrollment__c,
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_VISIT_RESULT_AVAILAB,
+                        Target_Record_Ids__c = '' + peAndPv.get(peId).Id
+                    )
+                );
+                List<Patient_Delegate_Enrollment__c> pdeList = perWithdelEnrollment.get(
+                    peAndPv.get(peId).Participant_Enrollment__c
+                );
+                if (pdeList != null && !pdeList.isEmpty()) {
+                    for (Patient_Delegate_Enrollment__c pde : pdeList) {
+                        insertNotificationsForNewVResults.add(
+                            new Notification__c(
+                                Recipient__c = pde.Patient_Delegate__r.Contact__c,
+                                WhatId__c = peAndPv.get(peId).Participant_Enrollment__c,
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_VISIT_RESULT_AVAILAB,
+                                Target_Record_Ids__c = '' + peAndPv.get(peId).Id
+                            )
+                        );
+                    }
+                }
+            } else if (
+                isAlumniParticipant &&
+                peAndPv.containsKey(peId) &&
+                (peAndPVsDetailsPush.containsKey(peId) &&
+                peAndPVsDetailsPush.get(peId).contains(peAndPv.get(peId).Id))
+            ) {
+                insertNotificationsForNewVResults.add(
+                    new Notification__c(
+                        Recipient__c = peAndPv.get(peId)
+                            .Participant_Enrollment__r.Participant_Contact__c,
+                        WhatId__c = peAndPv.get(peId).Participant_Enrollment__c,
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_VISIT_RESULT_AVAILAB,
+                        Target_Record_Ids__c = '' + peAndPv.get(peId).Id
+                    )
+                );
+                List<Patient_Delegate_Enrollment__c> pdeList = perWithdelEnrollment.get(
+                    peAndPv.get(peId).Participant_Enrollment__c
+                );
+                if (pdeList != null && !pdeList.isEmpty()) {
+                    for (Patient_Delegate_Enrollment__c pde : pdeList) {
+                        if (pde.Primary_Delegate__c) {
+                            insertNotificationsForNewVResults.add(
+                                new Notification__c(
+                                    Recipient__c = pde.Patient_Delegate__r.Contact__c,
+                                    WhatId__c = peAndPv.get(peId).Participant_Enrollment__c,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_VISIT_RESULT_AVAILAB,
+                                    Target_Record_Ids__c = '' + peAndPv.get(peId).Id
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+        }
+
         for (Id peId : peAndPv.keySet()) {
             if (
                 !alreadyNotifiedPEs.contains(peId) &&
@@ -204,13 +320,15 @@ public with sharing class IntegrationVisitResultService {
                 if (visitNumberFlag) {
                     externalKeys.add(
                         visitResult.USUBJID__c +
-                            visitResult.VISIT__c +
-                            visitResult.VSDTC__c +
-                            visitResult.VISITNUM__c.stripTrailingZeros().toPlainString()
+                        visitResult.VISIT__c +
+                        visitResult.VSDTC__c +
+                        visitResult.VISITNUM__c.stripTrailingZeros().toPlainString()
                     );
                 } else {
                     externalKeys.add(
-                        visitResult.USUBJID__c + visitResult.VISIT__c + visitResult.VSDTC__c
+                        visitResult.USUBJID__c +
+                        visitResult.VISIT__c +
+                        visitResult.VSDTC__c
                     );
                 }
             }
@@ -288,6 +406,7 @@ public with sharing class IntegrationVisitResultService {
                 Participant_Enrollment__r.External_Key__c,
                 Participant_Enrollment__c,
                 Participant_Enrollment__r.Participant_Contact__c,
+                Participant_Enrollment__r.Participant_Status__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Visits_are_Available__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Visit_Data_Shareback__c,
