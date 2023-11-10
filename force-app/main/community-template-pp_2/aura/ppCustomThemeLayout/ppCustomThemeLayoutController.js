@@ -14,14 +14,15 @@
         var contactRecId = communityService.getUrlParameter('contactId');
         var targetRec = communityService.getUrlParameter('targetRecId');
         var isPast = communityService.getUrlParameter('ispast');
-
-        if (contactRecId != null)
+        var perContId = communityService.getUrlParameter('perContactId');
+        if (contactRecId != null) {
             communityService.executeAction(
                 component,
                 'updateContact',
                 {
                     peId: perRecId,
-                    recId: contactRecId
+                    recId: contactRecId,
+                    peContactId: perContId
                 },
                 function (returnValue) {
                     if (sessionStorage.getItem('isPushNotification') == null) {
@@ -31,11 +32,7 @@
                     if (pageurl.includes('messages')) {
                         communityService.navigateToPage('messages');
                     } else if (pageurl.includes('televisit')) {
-                        if (returnValue) {
-                            communityService.navigateToPage('');
-                        } else {
-                            communityService.navigateToPage('televisit?ispast=' + isPast);
-                        }
+                        communityService.navigateToPage('televisit?ispast=' + isPast);
                     } else if (pageurl.includes('results')) {
                         if (returnValue)
                             communityService.navigateToPage('past-studies?per=' + perRecId);
@@ -45,6 +42,7 @@
                     }
                 }
             );
+        }
     },
 
     handleLoadTelevisitBanner: function (component, event, helper) {
