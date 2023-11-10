@@ -3102,6 +3102,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.DataControllerOrg__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Discussion_Documented_Date__c</field>
         <readable>true</readable>
@@ -3356,6 +3361,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Condition_Of_Interests__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_Patient_Referral__c.DataControllerOrg__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
