@@ -1,4 +1,4 @@
-import { LightningElement, api, track,wire } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitDataAndCount';
 import showProgress from '@salesforce/apex/PP_ProgressBarUtility.showProgress';
 import DEVICE from '@salesforce/client/formFactor';
@@ -20,13 +20,8 @@ import getVisits from '@salesforce/apex/PPTelevisitUpcomingTileController.getVis
 import getSendResultCount from '@salesforce/apex/PPUpdatesController.getSendResultCount';
 import CheckIfTelevisitToggleOnForDelegate from '@salesforce/apex/PPTelevisitUpcomingTileController.CheckIfTelevisitToggleOnForDelegate';
 import CheckIfTelevisitToggleOnForAlumni from '@salesforce/apex/PPTelevisitUpcomingTileController.CheckIfTelevisitToggleOnForAlumni';
-import { NavigationMixin } from 'lightning/navigation';
-import { CurrentPageReference } from 'lightning/navigation';
-import updateCurrentContact from '@salesforce/apex/PushNotificationSwitcherUpdate.updateCurrentContact';
-import SAMPLEMC from "@salesforce/messageChannel/ppLightningMessageService__c";
-import { publish,MessageContext,subscribe,unsubscribe,createMessageContext,releaseMessageContext } from 'lightning/messageService';
 
-export default class HomePageParticipantNew extends NavigationMixin (LightningElement) {
+export default class HomePageParticipantNew extends LightningElement {
     label = {
         PPWELCOME,
         VISITS,
@@ -460,32 +455,5 @@ export default class HomePageParticipantNew extends NavigationMixin (LightningEl
         this.updateCardLayoutClass = 'around-small-custom around-right-zero';
         this.updateCardLayoutSmall = false;
         this.progressBarLayoutClass = 'slds-hide';
-    }
-    @wire(MessageContext)
-    messageContext;
-
-    @wire(CurrentPageReference)
-    getStateParameters(currentPageReference) {
-        console.log('home page parameters1');
-        let whatId = currentPageReference.state?.whatId;
-        let notificationType = currentPageReference.state?.notificationType;
-        let recipientId = currentPageReference.state?.recipientId;
-        //alert(JSON.stringify(currentPageReference.state));
-        //alert('whatId : '+whatId);
-        //alert('notificationType : '+notificationType);
-        //alert('recipientId : '+recipientId);
-          if(whatId!=undefined && notificationType!=undefined && recipientId!=undefined){
-           updateCurrentContact({notificationType : notificationType,whatId : whatId,recipientId:recipientId})
-           .then(result=>{
-            const message = {
-                refreshSwitcher: 'Refresh Switcher'
-            };
-            publish(this.messageContext, SAMPLEMC, message);
-            console.log('navigate to home page');
-           })
-           .catch(error =>{
-            console.error('error in contact update : '+JSON.stringify(error));
-           }) 
-        } 
     }
 }
