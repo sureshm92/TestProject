@@ -11547,7 +11547,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message to PT Televisit Cancelled</shortDescription>
-        <value>Your televisit with ##PIFullName team for the ##StudyCodeName is cancelled. Please contact your Care Team for more details.</value>
+        <value>Your televisit with ##PIFullName's team for the ##StudyCodeName is cancelled. Please contact your Care Team for more details.</value>
     </labels>
 	<labels>
         <fullName>Message_to_PT_Televisit_Cancelled_title</fullName>
@@ -11561,7 +11561,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message to PT Televisit Rescheduled</shortDescription>
-        <value>Your televisit with ##PIFullName team for the ##StudyCodeName is rescheduled. If you are unable to make this appointment, please contact your Care Team.</value>
+        <value>Your televisit with ##PIFullName's team for the ##StudyCodeName is rescheduled. If you are unable to make this appointment, please contact your Care Team.</value>
     </labels>
     <labels>
         <fullName>Message_to_PT_Televisit_Rescheduled_title</fullName>
@@ -11575,7 +11575,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message_to_PT_Televisit_Scheduled</shortDescription>
-        <value>Your televisit with ##PIFullName team for the ##StudyCodeName is scheduled. If you are unable to make this appointment, please contact your Care Team.</value>
+        <value>Your televisit with ##PIFullName's team for the ##StudyCodeName is scheduled. If you are unable to make this appointment, please contact your Care Team.</value>
     </labels>
     <labels>
         <fullName>Message_to_PT_Televisit_Scheduled_title</fullName>
@@ -24034,6 +24034,36 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Profile Menu More</shortDescription>
         <value>More</value>
+    </labels>
+    <labels>
+        <fullName>Only_PDF_Error_Message</fullName>
+        <categories>RH</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Only_PDF_Error_Message</shortDescription>
+        <value>Only PDF files are allowed.</value>
+    </labels>
+    <labels>
+        <fullName>File_size_exceeds_limit_Error_Message</fullName>
+        <categories>RH</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>File_size_exceeds_limit_Error_Message</shortDescription>
+        <value>File size exceeds 4MB limit.</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileUploadAcceptedConditions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileUploadAcceptedConditions</shortDescription>
+        <value>1. You must upload only pdf file, no other format is accepted.</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileUploadAcceptedAnotherConditions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileUploadAcceptedAnotherConditions</shortDescription>
+        <value>2. Maximum file size allowed is less than 4MB.</value>
     </labels>
     <labels>
         <fullName>Program_Header_PP</fullName>
