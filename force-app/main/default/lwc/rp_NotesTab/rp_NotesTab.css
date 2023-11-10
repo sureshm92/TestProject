@@ -8,6 +8,13 @@
     line-height: 24px;
   }
 
+  .numbervalue{
+    font-weight: 400;
+    font-size: .875rem;
+    line-height: 24px;
+    color: #444;
+    }
+
 .mask {
     padding-left: 13px;
     /*width: 326px;*/
@@ -73,6 +80,9 @@
 
 :host {
     --sds-c-textarea-sizing-min-height: 200px;
+    font-weight: 400;
+    font-size: .875rem;
+    line-height: 24px;
  }
 
  .slds-modal__header {
