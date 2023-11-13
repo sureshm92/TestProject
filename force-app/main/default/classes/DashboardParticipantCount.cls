@@ -303,7 +303,8 @@ public without sharing class DashboardParticipantCount {
             String perWhereClause = ' AND study_Site__r.Study_Site_Type__c != \'Virtual\' AND study_Site__r.Study_Site_Type__c != \'Hybrid\' AND study_Site__r.Suppress_Participant_Emails__c=false';  
             perWhereClause += ' AND study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c =false AND study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true';
             perWhereClause += ' AND study_Site__r.Clinical_Trial_Profile__c =\''+ String.escapeSingleQuotes(ctpId)+'\' AND Study_Site__r.Principal_Investigator__c = \''+String.escapeSingleQuotes(piId)+'\'';
-            
+            perWhereClause += ' And Study_Site__r.Site_Activation_Status__c IN (\'Activated\', \'Activated (Admin)\', \'On Hold\')';
+
             List<Participant_Enrollment__c> perList = DashboardParticipantCount.fetchPerRecords(perWhereClause, new List<Id>());
             for(Participant_Enrollment__c per : perList) {
                 ParticipantDetails parDetail = new ParticipantDetails();
