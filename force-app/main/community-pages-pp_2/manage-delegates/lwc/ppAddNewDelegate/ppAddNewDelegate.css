@@ -62,6 +62,7 @@
 .save-del-btn {
     height: 40px;
     width: 128px;
+    min-width: max-content;
     border-radius: 4px;
     background-color: #0768fd;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
