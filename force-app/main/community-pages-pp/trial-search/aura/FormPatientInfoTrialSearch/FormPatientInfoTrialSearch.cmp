@@ -23,7 +23,7 @@
     <aura:attribute name="dataStamp" type="String" />
     <aura:attribute name="isDisclaimer" type="Boolean" />
     <aura:attribute name="sendForList" type="List" />
-    <aura:attribute name="sendFor" type="String" default="Me"/>
+    <aura:attribute name="sendFor" type="String" default="{!$Label.c.trialSearch_me}"/>
     <aura:attribute name="isStorage" type="Boolean" default="false" />
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private" />
 
@@ -349,7 +349,7 @@
             <aura:set attribute="else">
                 <!-- Desktop UI -->
                 <div class="slds-grid mt-10">
-                    <div class="slds-col slds-size--2-of-12">
+                    <div class="slds-col slds-size--2-of-12 width-align">
                         <div class="al-consents-align">
                             <lightning:input
                                 type="checkbox"
@@ -366,7 +366,7 @@
                         </div>
                     </div>
 
-                    <div class="slds-col slds-size--2-of-12">
+                    <div class="slds-col slds-size--2-of-12 width-align">
                         <div class="al-consents-align">
                             <lightning:input
                                 type="checkbox"
@@ -383,7 +383,7 @@
                         </div>
                     </div>
 
-                    <div class="slds-col slds-size--2-of-12">
+                    <div class="slds-col slds-size--2-of-12 width-align">
                         <div class="al-consents-align">
                             <lightning:input
                                 type="checkbox"
@@ -400,7 +400,7 @@
                         </div>
                     </div>
 
-                    <div class="slds-col slds-size--2-of-12">
+                    <div class="slds-col slds-size--2-of-12 width-align">
                         <div class="al-consents-align">
                             <lightning:input
                                 type="checkbox"
