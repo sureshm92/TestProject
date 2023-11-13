@@ -41,7 +41,7 @@ import PP_Outreach_Communication_Pref_A from '@salesforce/label/c.PP_Outreach_Co
 import PP_Outreach_Communication_Pref_B from '@salesforce/label/c.PP_Outreach_Communication_Pref_B';
 import PP_Outreach_Communication_Pref_C from '@salesforce/label/c.PP_Outreach_Communication_Pref_C';
 import PP_Outreach_Communication_Pref_D from '@salesforce/label/c.PP_Outreach_Communication_Pref_D';
-
+import assigned_by from '@salesforce/label/c.assigned_by';
 
 //END TO DO
 
@@ -98,7 +98,8 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         PP_Phone_Mandatory,
         PP_Phone_Numeric,
         Mob_Phone_Field,
-        BTN_Save
+        BTN_Save,
+        assigned_by
     };
 
     @track studyDetails = [];
