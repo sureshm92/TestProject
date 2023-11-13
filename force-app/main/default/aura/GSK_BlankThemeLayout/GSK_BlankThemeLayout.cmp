@@ -17,7 +17,7 @@
                 </div>
                 <div class="body-components">{!v.body}</div>
             </div>
-            <div class="powered-by">Powered by <b>IQVIA</b></div>
+            <div class="powered-by">{!$Label.c.PP_Powered_by_Footer}&nbsp;<b>IQVIA</b></div>
         </div>
     </div>
 </aura:component>

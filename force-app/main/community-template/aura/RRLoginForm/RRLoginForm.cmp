@@ -94,6 +94,7 @@
     <aura:attribute name="isJanssen" type="boolean" default="false" />
     <aura:attribute name="ieClass" type="String" access="private" default="" />
     <aura:attribute name="urlCommunity" type="String" access="private" default="" />
+    <aura:attribute name="errorLabel" type="String" default="{!$Label.c.GSK_Login_Error}" />
 
     <aura:registerevent name="sitePropagatedStartUrl" type="c:setStartUrl" />
     <aura:dependency resource="c:setStartUrl" type="EVENT" />
@@ -109,7 +110,7 @@
             <span>
                 <aura:renderIf isTrue="{!v.showError}">
                     <div class="lg-error-alert">
-                        <ui:outputRichText value="{!'ERROR: ' + v.errorMessage}" />
+                        <ui:outputRichText value="{!v.errorLabel +' '+ v.errorMessage}" />
                     </div>
                 </aura:renderIf>
             </span>
@@ -225,7 +226,7 @@
                                                 <aura:renderIf isTrue="{!v.showError}">
                                                     <div class="lg-error-alert">
                                                         <ui:outputRichText
-                                                            value="{!'ERROR: ' + v.errorMessage}"
+                                                            value="{!v.errorLabel +' '+ v.errorMessage}" />
                                                         />
                                                     </div>
                                                 </aura:renderIf>
