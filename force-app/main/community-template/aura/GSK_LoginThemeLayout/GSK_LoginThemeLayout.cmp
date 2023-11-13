@@ -50,7 +50,7 @@
                                 </div>
                             
                         </aura:if>
-                        <div class="powered-by slds-m-top_small">Powered by <b>IQVIA</b></div>
+                        <div class="powered-by slds-m-top_small">{!$Label.c.PP_Powered_by_Footer}&nbsp;<b>IQVIA</b></div>
                     </div>
                     </div>
                    
