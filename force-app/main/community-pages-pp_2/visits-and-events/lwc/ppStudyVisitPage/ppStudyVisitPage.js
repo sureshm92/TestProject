@@ -120,6 +120,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
         })
             .then((pvResult) => {
                 this.upcomingVisits = [];
+                this.upcomingInitialVisits = [];
                 if (!fromVisitSelect) this.template.querySelector('c-web-spinner').show();
                 this.visitTimezone = TIME_ZONE;
                 var result = pvResult.pvList;
