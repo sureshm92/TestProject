@@ -2100,6 +2100,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer10</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
