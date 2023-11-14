@@ -2074,6 +2074,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>StudyLogo</componentName>
+                <identifier>StudyLogo</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
