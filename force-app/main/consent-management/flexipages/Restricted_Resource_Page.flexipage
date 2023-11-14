@@ -25,7 +25,7 @@
                 <identifier>RecordSponsor_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
+        <!--<itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
@@ -34,7 +34,7 @@
                 <fieldItem>Record.test_field__c</fieldItem>
                 <identifier>Recordtest_field_cField</identifier>
             </fieldInstance>
-        </itemInstances>
+        </itemInstances>-->
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
