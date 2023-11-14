@@ -41,6 +41,7 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
         Database.BatchableContext param1,
         List<Therapeutic_Area_Patient__c> therapeuticAreaPatientsList
     ) {
+        Map<Id,Resource__c> resourceMap = new Map<Id,Resource__c>([SELECT Id,Expiration_Date__c from Resource__c WHERE Id In : resWithTherapeuticAreasMap.keyset()]);
         Map<Id, Contact> contactstoNotify = new Map<Id, Contact>();
         List<Notification__c> notificationsList = new List<Notification__c>();
         //Map<Id,List<Id>> contPatientDelMap = new Map<Id,List<Id>>();
@@ -173,7 +174,9 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                         )
                     );
                     notifyUser = true;
-                    createPushnotifications(tap, resourceId,notificationTypePush,notificationsList,ptPatientDelMap); 
+                    if(resourceMap.containsKey(resourceId) && (resourceMap.get(resourceId).Expiration_Date__c==null || (resourceMap.get(resourceId).Expiration_Date__c > Date.today()))){
+                    	createPushnotifications(tap, resourceId,notificationTypePush,notificationsList,ptPatientDelMap); 
+                    }
                 } else {
                     notifyUser = false;
                 }

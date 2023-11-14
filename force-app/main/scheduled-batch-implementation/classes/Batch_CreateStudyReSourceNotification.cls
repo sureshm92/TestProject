@@ -64,7 +64,8 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
             Resource__r.document_type__c,
             Resource__r.Language__c,
             Resource__r.Languages__c,
-            Resource__r.Countries__c
+            Resource__r.Countries__c,
+            Resource__r.Expiration_Date__c 
             FROM Res_study__c
             WHERE
             Visible_To_Participant__c = TRUE
@@ -273,7 +274,9 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                                 )
                                             );
                                         }
-                                        createPushnotifications(delContactsByParticipant.get(pe.Id),contact,notifications, pe, res);
+                                        if(res.Resource__r.Expiration_Date__c==null || res.Resource__r.Expiration_Date__c > Date.today()){
+                                        	createPushnotifications(delContactsByParticipant.get(pe.Id),contact,notifications, pe, res);
+                                        }
                                     }
                                     
                                     if (!resIdsByContactId.containsKey(contact.Id)) {
@@ -323,128 +326,128 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
     public void createPushnotifications(List<Contact> delegates,Contact contact,List<Notification__c> notifications,Participant_Enrollment__c pe,Res_study__c res){
         //if current pe is alumni then check if participant has in progress studies then skip push notification
         if(!(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c) && pe.participant__r.Has_Studies_In_Progress__c)){
-        if (res.Resource__r.Content_Type__c == 'Study_Document' && pe.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c) {
-            notifications.add(
-                new Notification__c(
-                    Recipient__c = contact.Id,
-                    WhatId__c = pe.Id,
-                    Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_DOCUMENT,
-                    Target_Record_Ids__c = '' + res.Id
-                )
-            );
-        }
-        if (res.Resource__r.Content_Type__c == 'Article' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
-            //Insert the notification for article
-            notifications.add(
-                new Notification__c(
-                    Recipient__c = contact.Id,
-                    WhatId__c = pe.Id,
-                    Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_ARTICLE,
-                    Target_Record_Ids__c = '' + res.Id
-                )
-            );
-        }
-        if (res.Resource__r.Content_Type__c == 'Video' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
-            //Insert the notification for article
-            notifications.add(
-                new Notification__c(
-                    Recipient__c = contact.Id,
-                    WhatId__c = pe.Id,
-                    Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_VIDEO,
-                    Target_Record_Ids__c = '' + res.Id
-                )
-            );
-        }
-        if (res.Resource__r.Content_Type__c == 'Relevant_Link' && pe.Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c) {
-            //insert the notification for relevant link
-            notifications.add(
-                new Notification__c(
-                    Recipient__c = contact.Id,
-                    WhatId__c = pe.Id,
-                    Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_LINK,
-                    Target_Record_Ids__c = '' + res.Id
-                )
-            );
-        }
-        if (res.Resource__r.Content_Type__c == 'Multimedia' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
-            //insert the notification for relevant link
-            notifications.add(
-                new Notification__c(
-                    Recipient__c = contact.Id,
-                    WhatId__c = pe.Id,
-                    Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_MULTIMEDIA,
-                    Target_Record_Ids__c = '' + res.Id
-                )
-            );
-        }
-        System.debug('delegates : '+delegates);
+            if (res.Resource__r.Content_Type__c == 'Study_Document' && pe.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c) {
+                notifications.add(
+                    new Notification__c(
+                        Recipient__c = contact.Id,
+                        WhatId__c = pe.Id,
+                        Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_DOCUMENT,
+                        Target_Record_Ids__c = '' + res.Id
+                    )
+                );
+            }
+            if (res.Resource__r.Content_Type__c == 'Article' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
+                //Insert the notification for article
+                notifications.add(
+                    new Notification__c(
+                        Recipient__c = contact.Id,
+                        WhatId__c = pe.Id,
+                        Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_ARTICLE,
+                        Target_Record_Ids__c = '' + res.Id
+                    )
+                );
+            }
+            if (res.Resource__r.Content_Type__c == 'Video' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
+                //Insert the notification for article
+                notifications.add(
+                    new Notification__c(
+                        Recipient__c = contact.Id,
+                        WhatId__c = pe.Id,
+                        Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_VIDEO,
+                        Target_Record_Ids__c = '' + res.Id
+                    )
+                );
+            }
+            if (res.Resource__r.Content_Type__c == 'Relevant_Link' && pe.Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c) {
+                //insert the notification for relevant link
+                notifications.add(
+                    new Notification__c(
+                        Recipient__c = contact.Id,
+                        WhatId__c = pe.Id,
+                        Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_LINK,
+                        Target_Record_Ids__c = '' + res.Id
+                    )
+                );
+            }
+            if (res.Resource__r.Content_Type__c == 'Multimedia' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
+                //insert the notification for relevant link
+                notifications.add(
+                    new Notification__c(
+                        Recipient__c = contact.Id,
+                        WhatId__c = pe.Id,
+                        Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_MULTIMEDIA,
+                        Target_Record_Ids__c = '' + res.Id
+                    )
+                );
+            }
+            System.debug('delegates : '+delegates);
             if(delegates!=null){
-        for(Contact del : delegates){
-            if(res.Visible_To_Delegates__c){
-                //remove what Id if alumni participant enrollment
-                if (res.Resource__r.Content_Type__c == 'Study_Document' && pe.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c) {
-                    //Insert the notification for article
-                    notifications.add(
-                        new Notification__c(
-                            Recipient__c = del.Id,
-                            WhatId__c = pe.Id,
-                            Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_DOCUMENT,
-                            Target_Record_Ids__c = '' + res.Id,
-                            Task_Id__c	= contact.Id
-                        ) 
-                    );
-                }
-                if (res.Resource__r.Content_Type__c == 'Article' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
-                    //Insert the notification for article
-                    notifications.add(
-                        new Notification__c(
-                            Recipient__c = del.Id,
-                            WhatId__c = pe.Id,
-                            Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_ARTICLE,
-                            Target_Record_Ids__c = '' + res.Id,
-                            Task_Id__c	= contact.Id
-                        ) 
-                    );
-                }
-                if (res.Resource__r.Content_Type__c == 'Video' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
-                    //Insert the notification for article
-                    notifications.add(
-                        new Notification__c(
-                            Recipient__c = del.Id,
-                            WhatId__c = pe.Id,
-                            Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_VIDEO,
-                            Target_Record_Ids__c = '' + res.Id,
-                            Task_Id__c	= contact.Id
-                        ) 
-                    );
-                }
-                if (res.Resource__r.Content_Type__c == 'Relevant_Link' && pe.Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c) {
-                    //Insert the notification for article
-                    notifications.add(
-                        new Notification__c(
-                            Recipient__c = del.Id,
-                            WhatId__c = pe.Id,
-                            Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_LINK,
-                            Target_Record_Ids__c = '' + res.Id,
-                            Task_Id__c	= contact.Id
-                        ) 
-                    );
-                }
-                if (res.Resource__r.Content_Type__c == 'Multimedia' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
-                    //Insert the notification for article
-                    notifications.add(
-                        new Notification__c(
-                            Recipient__c = del.Id,
-                            WhatId__c = pe.Id,
-                            Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_MULTIMEDIA,
-                            Target_Record_Ids__c = '' + res.Id,
-                            Task_Id__c	= contact.Id
-                        ) 
-                    );
+                for(Contact del : delegates){
+                    if(res.Visible_To_Delegates__c){
+                        //remove what Id if alumni participant enrollment
+                        if (res.Resource__r.Content_Type__c == 'Study_Document' && pe.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c) {
+                            //Insert the notification for article
+                            notifications.add(
+                                new Notification__c(
+                                    Recipient__c = del.Id,
+                                    WhatId__c = pe.Id,
+                                    Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_DOCUMENT,
+                                    Target_Record_Ids__c = '' + res.Id,
+                                    Task_Id__c	= contact.Id
+                                ) 
+                            );
+                        }
+                        if (res.Resource__r.Content_Type__c == 'Article' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
+                            //Insert the notification for article
+                            notifications.add(
+                                new Notification__c(
+                                    Recipient__c = del.Id,
+                                    WhatId__c = pe.Id,
+                                    Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_ARTICLE,
+                                    Target_Record_Ids__c = '' + res.Id,
+                                    Task_Id__c	= contact.Id
+                                ) 
+                            );
+                        }
+                        if (res.Resource__r.Content_Type__c == 'Video' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
+                            //Insert the notification for article
+                            notifications.add(
+                                new Notification__c(
+                                    Recipient__c = del.Id,
+                                    WhatId__c = pe.Id,
+                                    Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_VIDEO,
+                                    Target_Record_Ids__c = '' + res.Id,
+                                    Task_Id__c	= contact.Id
+                                ) 
+                            );
+                        }
+                        if (res.Resource__r.Content_Type__c == 'Relevant_Link' && pe.Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c) {
+                            //Insert the notification for article
+                            notifications.add(
+                                new Notification__c(
+                                    Recipient__c = del.Id,
+                                    WhatId__c = pe.Id,
+                                    Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_LINK,
+                                    Target_Record_Ids__c = '' + res.Id,
+                                    Task_Id__c	= contact.Id
+                                ) 
+                            );
+                        }
+                        if (res.Resource__r.Content_Type__c == 'Multimedia' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
+                            //Insert the notification for article
+                            notifications.add(
+                                new Notification__c(
+                                    Recipient__c = del.Id,
+                                    WhatId__c = pe.Id,
+                                    Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_MULTIMEDIA,
+                                    Target_Record_Ids__c = '' + res.Id,
+                                    Task_Id__c	= contact.Id
+                                ) 
+                            );
+                        }
+                    }
                 }
             }
         }
-        }
-    }
     }
 }
