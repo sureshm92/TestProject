@@ -9471,6 +9471,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <value>Gather &lt;i&gt;Share&lt;/i&gt; Know</value>
     </labels>
     <labels>
+        <fullName>GSK_Login_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GSK Login Error</shortDescription>
+        <value>ERROR:</value>
+    </labels>
+    <labels>
         <fullName>Gather_Share_Know</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12067,6 +12074,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Medical Record Review</shortDescription>
         <value>Medical Record Review</value>
+    </labels>
+    <labels>
+        <fullName>Medical_Label_Provider</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Medical Label Provider</shortDescription>
+        <value>Provider</value>
     </labels>
     <labels>
         <fullName>Mess_Variant_Can_relocate</fullName>
@@ -20959,6 +20973,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>page or enter a unique email address to add a new delegate.</value>
     </labels>
     <labels>
+        <fullName>PP_Event_Complete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Event_Complete</shortDescription>
+        <value>Event marked as complete</value>
+    </labels>
+    <labels>
         <fullName>PP_FileFormatNotAccept</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -24034,6 +24055,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Profile Menu More</shortDescription>
         <value>More</value>
+    </labels>
+    <labels>
+        <fullName>Provider_Not_Authorized</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Provider Not Authorized</shortDescription>
+        <value>You have not yet authorized</value>
     </labels>
     <labels>
         <fullName>Only_PDF_Error_Message</fullName>
@@ -28230,6 +28258,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Selected Icons</shortDescription>
         <value>Selected Icons</value>
+    </labels>
+    <labels>
+        <fullName>Selected_None</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Selected None</shortDescription>
+        <value>--None--</value>
     </labels>
     <labels>
         <fullName>Send_Emails_Checkbox_on_PE_Info</fullName>

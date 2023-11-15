@@ -110,7 +110,7 @@
 }
 
 .mob-needSupport2 {
-    height: 63px;
+    min-height: 63px;
     /* width: 618px; */
     color: #444444;
     font-family: 'Proxima Nova';
