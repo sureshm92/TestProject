@@ -44,7 +44,6 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
         Map<Id,Resource__c> resourceMap = new Map<Id,Resource__c>([SELECT Id,Expiration_Date__c from Resource__c WHERE Id In : resWithTherapeuticAreasMap.keyset()]);
         Map<Id, Contact> contactstoNotify = new Map<Id, Contact>();
         List<Notification__c> notificationsList = new List<Notification__c>();
-        //Map<Id,List<Id>> contPatientDelMap = new Map<Id,List<Id>>();
         List<Id> participantContactIds = new List<Id>();
         Set<Id> participantIds = new Set<Id>();
         for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatientsList) {
@@ -53,7 +52,6 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
             }
             participantIds.add(tap.Participant__c);
         }
-        //ParticipantIdwithdelegateOfActivePEs
         Map<Id,Set<Id>> ptPatientDelMap = new Map<Id,Set<Id>>();
         for(Patient_Delegate_Enrollment__c pde : [SELECT Id,Patient_Delegate__r.Contact__c,Participant_Enrollment__r.Participant__c,Participant_Enrollment__r.Participant_Status__c,Participant_Enrollment__r.Participant__r.Has_Past_Studies__c,Participant_Enrollment__r.Participant__r.Has_Studies_In_Progress__c FROM Patient_Delegate_Enrollment__c WHERE Participant_Enrollment__r.Participant__c IN : participantIds and Participant_Enrollment__r.Invited_To_PP_Date__c !=null and Status__c='Active' ]){
             if(pde.Participant_Enrollment__r.Participant__r.Has_Past_Studies__c && !pde.Participant_Enrollment__r.Participant__r.Has_Studies_In_Progress__c){
@@ -73,8 +71,6 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                 }
             }
         }
-        //ParticipantIdwithActivePEs
-        //Map<Id,>
         for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatientsList) {
             Contact currentContact;
             if (contactstoNotify.get(tap.Participant__r.Contact__c) != null) {
@@ -197,8 +193,6 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
     public void createPushnotifications(Therapeutic_Area_Patient__c tap,Id resourceId,String notificationTypePush,List<Notification__c> notificationsList,Map<Id,Set<Id>> ptPatientDelMap){
         
         if(tap.Participant__r.Has_Studies_In_Progress__c){
-            //has one active participant
-            //delegates for active participants
             notificationsList.add(
                 new Notification__c(
                     Recipient__c = tap.Participant__r.Contact__c,
@@ -220,7 +214,6 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                 }
             }
         }else if(!tap.Participant__r.Has_Studies_In_Progress__c && tap.Participant__r.Has_Past_Studies__c){
-            //fully alumni
             notificationsList.add(
                 new Notification__c(
                     Recipient__c = tap.Participant__r.Contact__c,
@@ -242,7 +235,6 @@ public without sharing class Batch_InsertPlatformResNotification implements Data
                 }
             }
         }else if(!tap.Participant__r.Has_Studies_In_Progress__c && !tap.Participant__r.Has_Past_Studies__c){
-            //only delegate
             notificationsList.add(
                 new Notification__c(
                     Recipient__c = tap.Participant__r.Contact__c,

@@ -231,7 +231,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                             );
                                         }
                                         if (res.Resource__r.Content_Type__c == 'Article') {
-                                            //Insert the notification for article
                                             notifications.add(
                                                 new Notification__c(
                                                     Recipient__c = contact.Id,
@@ -242,7 +241,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                             );
                                         }
                                         if (res.Resource__r.Content_Type__c == 'Video') {
-                                            //Insert the notification for article
                                             notifications.add(
                                                 new Notification__c(
                                                     Recipient__c = contact.Id,
@@ -253,7 +251,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                             );
                                         }
                                         if (res.Resource__r.Content_Type__c == 'Relevant_Link') {
-                                            //insert the notification for relevant link
                                             notifications.add(
                                                 new Notification__c(
                                                     Recipient__c = contact.Id,
@@ -264,7 +261,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                             );
                                         }
                                         if (res.Resource__r.Content_Type__c == 'Multimedia') {
-                                            //insert the notification for relevant link
                                             notifications.add(
                                                 new Notification__c(
                                                     Recipient__c = contact.Id,
@@ -324,7 +320,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
         return notify;
     }
     public void createPushnotifications(List<Contact> delegates,Contact contact,List<Notification__c> notifications,Participant_Enrollment__c pe,Res_study__c res){
-        //if current pe is alumni then check if participant has in progress studies then skip push notification
         if(!(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c) && pe.participant__r.Has_Studies_In_Progress__c)){
             if (res.Resource__r.Content_Type__c == 'Study_Document' && pe.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c) {
                 notifications.add(
@@ -337,7 +332,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                 );
             }
             if (res.Resource__r.Content_Type__c == 'Article' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
-                //Insert the notification for article
                 notifications.add(
                     new Notification__c(
                         Recipient__c = contact.Id,
@@ -348,7 +342,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                 );
             }
             if (res.Resource__r.Content_Type__c == 'Video' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
-                //Insert the notification for article
                 notifications.add(
                     new Notification__c(
                         Recipient__c = contact.Id,
@@ -359,7 +352,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                 );
             }
             if (res.Resource__r.Content_Type__c == 'Relevant_Link' && pe.Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c) {
-                //insert the notification for relevant link
                 notifications.add(
                     new Notification__c(
                         Recipient__c = contact.Id,
@@ -370,7 +362,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                 );
             }
             if (res.Resource__r.Content_Type__c == 'Multimedia' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
-                //insert the notification for relevant link
                 notifications.add(
                     new Notification__c(
                         Recipient__c = contact.Id,
@@ -384,9 +375,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
             if(delegates!=null){
                 for(Contact del : delegates){
                     if(res.Visible_To_Delegates__c){
-                        //remove what Id if alumni participant enrollment
                         if (res.Resource__r.Content_Type__c == 'Study_Document' && pe.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c) {
-                            //Insert the notification for article
                             notifications.add(
                                 new Notification__c(
                                     Recipient__c = del.Id,
@@ -398,7 +387,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                             );
                         }
                         if (res.Resource__r.Content_Type__c == 'Article' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
-                            //Insert the notification for article
                             notifications.add(
                                 new Notification__c(
                                     Recipient__c = del.Id,
@@ -410,7 +398,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                             );
                         }
                         if (res.Resource__r.Content_Type__c == 'Video' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
-                            //Insert the notification for article
                             notifications.add(
                                 new Notification__c(
                                     Recipient__c = del.Id,
@@ -422,7 +409,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                             );
                         }
                         if (res.Resource__r.Content_Type__c == 'Relevant_Link' && pe.Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c) {
-                            //Insert the notification for article
                             notifications.add(
                                 new Notification__c(
                                     Recipient__c = del.Id,
@@ -434,7 +420,6 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                             );
                         }
                         if (res.Resource__r.Content_Type__c == 'Multimedia' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
-                            //Insert the notification for article
                             notifications.add(
                                 new Notification__c(
                                     Recipient__c = del.Id,
