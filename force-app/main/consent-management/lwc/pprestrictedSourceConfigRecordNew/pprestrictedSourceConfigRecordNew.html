@@ -25,7 +25,7 @@
                     >
                     </lightning-spinner>
                 </template>
-                     <lightning-record-edit-form object-api-name={objectApiName} onload={handleLoad} onsuccess={handleSuccess}>
+                     <lightning-record-edit-form object-api-name={objectApiName} onload={handleLoad} onsuccess={handleSuccess} onerror={handleError}>
                         <lightning-messages></lightning-messages>
                         <lightning-input-field field-name='Study__c' value={parentrecId} disabled ></lightning-input-field>
                         <lightning-input-field field-name='Sponsor__c' value={sponsername}  disabled></lightning-input-field>
