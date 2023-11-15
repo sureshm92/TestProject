@@ -7,7 +7,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import BTN_Save from '@salesforce/label/c.RH_RP_Save';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import BTN_Close from '@salesforce/label/c.BTN_Close';
-
+import Edit_Restricted_Source from '@salesforce/label/c.Edit_Restricted_Source';
 
 
 const fields = [SPONSER_FIELD];
@@ -25,7 +25,8 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
     label = {
         BTN_Save,
         BTN_Cancel,
-        BTN_Close
+        BTN_Close,
+        Edit_Restricted_Source
     };
 
 
@@ -80,17 +81,6 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
             .querySelector('lightning-record-edit-form').submit();
         this.showSuccessToast();
         this.hideModalBox();
-    }
-    
-    /*onsuccess={handleSuccess} onsubmit ={handleSubmit}*/
-    showErrorToast() {
-        const evt = new ShowToastEvent({
-            title: 'Toast Error',
-            message: 'Can not add more than one record . please update the existing record.',
-            variant: 'error',
-            mode: 'dismissable'
-        });
-        this.dispatchEvent(evt);
     }
     showSuccessToast() {
         const evt = new ShowToastEvent({
