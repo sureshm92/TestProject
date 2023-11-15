@@ -17,6 +17,7 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
     @api objectApiName='Restricted_Source_Config__c';
     isShowModal = false;
     isLoading = false;
+    restrictedconfigToBeShown;
 
     
     label = {
@@ -62,7 +63,7 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
         getRestrictedSourceConfigData({ recordId: this.parentrecId })
 		.then(result => {
             if(result >= 1){
-              this.showErrorToast();
+              this.showErrorToast('Can not add more than one record . please update the existing record.','error','dismissable');
             }
             else{
                 // Here you can execute any logic before submit
@@ -73,20 +74,25 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
             }
 		})
     }
-   
-    showErrorToast() {
+    handleSuccess(event) {
+        this.restrictedconfigToBeShown = event.detail.id;
+    }
+    handleError(event) {
+        let message = event.detail.detail;
+        message = "Something went wrong!";
+        this.showErrorToast(message, 'error','dismissable');
+    }
+    showErrorToast(theMessage,theVariant,theMode) {
         const evt = new ShowToastEvent({
-            title: 'Toast Error',
-            message: 'Can not add more than one record . please update the existing record.',
-            variant: 'error',
-            mode: 'dismissable'
+            message: theMessage,
+            variant: theVariant,
+            mode: theMode
         });
         this.dispatchEvent(evt);
     }
     showSuccessToast() {
         const evt = new ShowToastEvent({
-            title: 'Toast Success',
-            message: 'Record Created Successfully',
+            message: 'Restricted Source '+this.restrictedconfigToBeShown+ ' was created.',
             variant: 'success',
             mode: 'dismissable'
         });

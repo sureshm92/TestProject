@@ -75,6 +75,12 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
         return getFieldValue(this.record.data, SPONSER_FIELD);
     }
 
+    handleError(event){
+        let message = event.detail.detail;
+        //do some stuff with message to make it more readable
+        message = "Something went wrong!";
+        this.showErrorToast(message,'error','dismissable');
+    }
     handleOkay(event){
         const fields = event.detail.fields;
         this.template
@@ -82,10 +88,17 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
         this.showSuccessToast();
         this.hideModalBox();
     }
+    showErrorToast(theMessage,theVariant,theMode) {
+        const evt = new ShowToastEvent({
+            message: theMessage,
+            variant: theVariant,
+            mode: theMode
+        });
+        this.dispatchEvent(evt);
+    }
     showSuccessToast() {
         const evt = new ShowToastEvent({
-            title: 'Toast Success',
-            message: 'Record Updated Successfully',
+            message: 'Restricted Source ' +this.recordId+ ' was saved.',
             variant: 'success',
             mode: 'dismissable'
         });
