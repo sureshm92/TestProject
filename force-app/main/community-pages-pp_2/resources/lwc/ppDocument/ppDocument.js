@@ -63,7 +63,8 @@ export default class Documents extends NavigationMixin(LightningElement) {
                     resourceid: this.id,
                     resourcetype: this.document.resource.RecordType.DeveloperName,
                     state: this.state,
-                    pe:this.pe.Id
+                    pe:this.pe.Id,
+                    studyname:this.pe.Clinical_Trial_Profile__r.Study_Code_Name__c
                 }
             });
         }else{
