@@ -149,17 +149,25 @@
                 tabindex="0"
             >
                 <template if:false={conWr.noConversation}>
-                    <lightning-layout size="12" class="slds-p-vertical_x-small"
-                        ><div class="mob-study-time">
-                            <lightning-formatted-date-time
-                                value={conWr.lastUpdate}
-                                year="numeric"
-                                month="short"
-                                day="2-digit"
-                                time-zone={timeZone}
+                    <lightning-layout class="slds-p-vertical_x-small"
+                    >
+                        <lightning-layout-item
+                            size="1"
+                            class="slds-p-left_xx-small"
                             >
-                            </lightning-formatted-date-time></div
-                    ></lightning-layout>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="11">
+                            <div class="mob-study-time ">
+                                <lightning-formatted-date-time
+                                    value={conWr.lastUpdate}
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
+                                    time-zone={timeZone}
+                                >
+                                </lightning-formatted-date-time></div>
+                        </lightning-layout-item>
+                    </lightning-layout>
                     <lightning-layout>
                         <lightning-layout-item
                             size="1"
