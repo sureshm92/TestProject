@@ -5,7 +5,6 @@
  ({
     doInit: function (component, event, helper) {
       helper.init(component, event, helper) ;
-      helper.getURLParameterValue(component);
     },
    
     getValueFromLwc : function(component, event, helper) {

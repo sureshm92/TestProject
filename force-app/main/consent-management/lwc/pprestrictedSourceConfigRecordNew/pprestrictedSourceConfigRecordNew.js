@@ -7,6 +7,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import BTN_Save from '@salesforce/label/c.RH_RP_Save';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import BTN_Close from '@salesforce/label/c.BTN_Close';
+import New_Restricted_Source from '@salesforce/label/c.New_Restricted_Source';
 
 
 const fields = [SPONSER_FIELD];
@@ -21,7 +22,8 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
     label = {
         BTN_Save,
         BTN_Cancel,
-        BTN_Close
+        BTN_Close,
+        New_Restricted_Source
     };
 
     connectedCallback() {
