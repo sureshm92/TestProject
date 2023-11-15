@@ -84,8 +84,7 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
     }
     showSuccessToast() {
         const evt = new ShowToastEvent({
-            title: 'Toast Success',
-            message: 'Record Updated Successfully',
+            message: 'Restricted Source ' +this.recordId+ ' was saved.',
             variant: 'success',
             mode: 'dismissable'
         });
