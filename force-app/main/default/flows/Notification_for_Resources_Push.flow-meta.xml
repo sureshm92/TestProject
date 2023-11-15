@@ -45,8 +45,6 @@
                 <elementReference>URLValue</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>customNotificationAction</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>52.0</apiVersion>
     <assignments>
@@ -96,7 +94,6 @@
             <label>Fire Push Notification</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <interviewLabel>Notification for Resources {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Notification for Resources - Push</label>
     <processMetadataValues>
@@ -348,13 +345,23 @@
         </value>
     </variables>
     <variables>
+        <name>srId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <elementReference>$Record.Id</elementReference>
+        </value>
+    </variables>
+    <variables>
         <name>URLValue</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
         <value>
-            <stringValue>{&quot;type&quot;:&quot;comm__namedPage&quot;,&quot;attributes&quot;:{&quot;pageName&quot;:&quot;home&quot;},&quot;state&quot;:{&quot;WhatId&quot;:&quot;{!WhatId}&quot;,&quot;NotificationType&quot;:&quot;{!NotificationType}&quot;,&quot;RecipientId&quot;:&quot;{!RecipientId}&quot;}}</stringValue>
+            <stringValue>{&quot;type&quot;:&quot;comm__namedPage&quot;,&quot;attributes&quot;:{&quot;pageName&quot;:&quot;home&quot;},&quot;state&quot;:{&quot;whatId&quot;:&quot;{!WhatId}&quot;,&quot;notificationType&quot;:&quot;{!NotificationType}&quot;,&quot;recipientId&quot;:&quot;{!RecipientId}&quot;,&quot;srId&quot;:&quot;{!srId}&quot;}}</stringValue>
         </value>
     </variables>
     <variables>
