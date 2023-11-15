@@ -7,7 +7,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import BTN_Save from '@salesforce/label/c.RH_RP_Save';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import BTN_Close from '@salesforce/label/c.BTN_Close';
-
+import Edit_Restricted_Source from '@salesforce/label/c.Edit_Restricted_Source';
 
 
 const fields = [SPONSER_FIELD];
@@ -25,7 +25,8 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
     label = {
         BTN_Save,
         BTN_Cancel,
-        BTN_Close
+        BTN_Close,
+        Edit_Restricted_Source
     };
 
 
@@ -74,6 +75,12 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
         return getFieldValue(this.record.data, SPONSER_FIELD);
     }
 
+    handleError(event){
+        let message = event.detail.detail;
+        //do some stuff with message to make it more readable
+        message = "Something went wrong!";
+        this.showErrorToast(message,'error','dismissable');
+    }
     handleOkay(event){
         const fields = event.detail.fields;
         this.template
@@ -81,21 +88,17 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
         this.showSuccessToast();
         this.hideModalBox();
     }
-    
-    /*onsuccess={handleSuccess} onsubmit ={handleSubmit}*/
-    showErrorToast() {
+    showErrorToast(theMessage,theVariant,theMode) {
         const evt = new ShowToastEvent({
-            title: 'Toast Error',
-            message: 'Can not add more than one record . please update the existing record.',
-            variant: 'error',
-            mode: 'dismissable'
+            message: theMessage,
+            variant: theVariant,
+            mode: theMode
         });
         this.dispatchEvent(evt);
     }
     showSuccessToast() {
         const evt = new ShowToastEvent({
-            title: 'Toast Success',
-            message: 'Record Updated Successfully',
+            message: 'Restricted Source ' +this.recordId+ ' was saved.',
             variant: 'success',
             mode: 'dismissable'
         });
