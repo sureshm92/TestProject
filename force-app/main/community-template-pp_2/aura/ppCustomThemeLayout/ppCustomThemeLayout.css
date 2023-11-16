@@ -156,6 +156,13 @@
     margin-left: 1.5rem;
 }
 
+.THIS .layout-header .barsIconrtl {
+    height: 30px;
+    width: 30px;
+    margin-top: 18px;
+    margin-right: 1rem;
+}
+
 .THIS .slds-form-element__icon {
     padding-top: 2px;
 }

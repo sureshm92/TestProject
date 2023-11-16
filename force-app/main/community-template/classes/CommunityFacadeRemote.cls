@@ -83,9 +83,10 @@ public without sharing class CommunityFacadeRemote {
     }
 
     @AuraEnabled
-    public static Boolean updateContact(Id peId, Id recId) {
+    public static Boolean updateContact(Id peId, Id recId, Id peContactId) {
         Boolean isAlumni = false;
         Boolean isTelevisit = false;
+
         Contact recipientContact = [
             SELECT
                 id,
@@ -95,40 +96,55 @@ public without sharing class CommunityFacadeRemote {
             FROM Contact
             WHERE id = :recId
         ];
+
         List<Televisit__c> teleList = new List<Televisit__c>();
-        if(peId?.getSobjectType().getDescribe().getName() == 'Televisit__c'){
+        if (peId?.getSobjectType().getDescribe().getName() == 'Televisit__c') {
             isTelevisit = true;
-            teleList = [Select Id,Participant_Enrollment__c from Televisit__c Where Id =: peId];
+            teleList = [SELECT Id, Participant_Enrollment__c FROM Televisit__c WHERE Id = :peId];
             peId = teleList[0].Participant_Enrollment__c;
         }
         Participant_Enrollment__c peOfRecipient = new Participant_Enrollment__c();
+        Map<Id, Participant_Enrollment__c> perMap = new Map<Id, Participant_Enrollment__c>();
 
-        Map<Id, Participant_Enrollment__c> peMap = new Map<Id, Participant_Enrollment__c>();
         for (Participant_Enrollment__c per : [
             SELECT Id, Participant_Contact__c, Participant_Status__c
             FROM Participant_Enrollment__c
-            WHERE Participant_Contact__c = :recId OR Id = :peId
+            WHERE Participant_Contact__c = :peContactId OR Id = :peId
         ]) {
             if (per.Id == peId)
                 peOfRecipient = per;
-            if (per.Participant_Contact__c == recId)
-                peMap.put(per.Id, per);
+            perMap.put(per.Id, per);
         }
 
         if (recipientContact != null) {
             Contact con = new Contact();
             con.Id = recipientContact.Id;
-            con.Current_Participant_Enrollment__c = PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(
-                    peOfRecipient.Participant_Status__c
-                )
-                ? null
-                : peId;
-            if(isTelevisit){
+            if (
+                !perMap.isEmpty() &&
+                perMap.size() > 1 &&
+                PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(peOfRecipient.Participant_Status__c)
+            ) {
+                ID perEnrollId = null;
+                for (Participant_Enrollment__c pe : perMap.values()) {
+                    if (!PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)) {
+                        perEnrollId = pe.Id;
+                        break;
+                    }
+                }
+                con.Current_Participant_Enrollment__c = perEnrollId != null ? perEnrollId : null;
+            } else {
+                con.Current_Participant_Enrollment__c = PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(
+                        peOfRecipient.Participant_Status__c
+                    )
+                    ? null
+                    : peId;
+            }
+            if (isTelevisit) {
                 con.userCommunityDelegateId__c = null;
-            }else{
-                con.userCommunityDelegateId__c = peMap.containsKey(peId)
-                ? null
-                : peOfRecipient.Participant_Contact__c;
+            } else if (recId != peContactId) {
+                con.userCommunityDelegateId__c = peOfRecipient.Participant_Contact__c != null
+                    ? peOfRecipient.Participant_Contact__c
+                    : null;
             }
             update con;
         }

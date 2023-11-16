@@ -662,7 +662,6 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
     ) {
         Contact newContact = new Contact(
             FirstName = ipr.Delegate_First_Name__c,
-            MiddleName = ipr.Delegate_Middle_Name__c,
             LastName = ipr.Delegate_Last_Name__c,
             Email = ipr.Delegate_Email_Address__c,
             MailingCountryCode = ipr.Address_Country__c,
@@ -762,15 +761,13 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             {
                objPE.put(objstr,true);
             }
-          
-            if(ipr.Data_Source__c=='ePR_Campaign'){
                 objPE.Study_Phone_Consent_Time__c = Datetime.now();
                 objPE.Study_Email_Consent_Time__c = Datetime.now();
                 objPE.Study_Direct_Mail_Consent_Time__c = Datetime.now();
                 objPE.Study_Assisted_Dialing_Consent_Time__c = Datetime.now();
                 objPE.Study_Artificial_Voice_Consent_Time__c = Datetime.now();
                 objPE.Study_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
-            }  
+            
         }
         if(filterCriteria && isAdult && String.isNotBlank(ipr.email__c)){
             objPE.Invited_To_PP_Date__c = DateTime.now(); 

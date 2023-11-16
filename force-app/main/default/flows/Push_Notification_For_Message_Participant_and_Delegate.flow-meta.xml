@@ -2,10 +2,10 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
         <description>This will fire push notification to the user</description>
-        <name>Push_Notification_for_Visit_Result</name>
-        <label>Push Notification for Visit Result</label>
-        <locationX>540</locationX>
-        <locationY>1479</locationY>
+        <name>Push_Notification_for_Messages</name>
+        <label>Push Notification for Messages</label>
+        <locationX>265</locationX>
+        <locationY>719</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <connector>
@@ -42,7 +42,7 @@
         <inputParameters>
             <name>targetPageRef</name>
             <value>
-                <stringValue>{&quot;type&quot;:&quot;comm__namedPage&quot;,&quot;attributes&quot;:{&quot;pageName&quot;:&quot;results&quot;},&quot;state&quot;:{&quot;perId&quot;:{!$Record.Notification__r.WhatId__c},&quot;contactId&quot;:{!$Record.Notification__r.Recipient__r.Id},&quot;targetRecId&quot;:&quot;{!$Record.Notification__r.Target_Record_Ids__c}&quot;,&quot;perContactId&quot;:&quot;{!Get_Participant_Enrollment_Record.Participant_Contact__c}&quot;}}</stringValue>
+                <stringValue>{&quot;type&quot;:&quot;comm__namedPage&quot;,&quot;attributes&quot;:{&quot;pageName&quot;:&quot;messages&quot;},&quot;state&quot;:{&quot;perId&quot;:{!$Record.Notification__r.WhatId__c},&quot;contactId&quot;:{!$Record.Notification__r.Recipient__r.Id},&quot;targetRecId&quot;:&quot;{!$Record.Notification__r.Target_Record_Ids__c}&quot;,&quot;perContactId&quot;:&quot;{!Get_Participant_Enrollment_Record.Participant_Contact__c}&quot;}}</stringValue>
             </value>
         </inputParameters>
     </actionCalls>
@@ -51,8 +51,8 @@
         <description>Assign the recipient ids (user ids) to the collection</description>
         <name>Assign_Recipient_Ids</name>
         <label>Assign Recipient Ids</label>
-        <locationX>536</locationX>
-        <locationY>1017</locationY>
+        <locationX>527</locationX>
+        <locationY>587</locationY>
         <assignmentItems>
             <assignToReference>NotificationRecipients</assignToReference>
             <operator>Add</operator>
@@ -68,8 +68,8 @@
         <description>Validate the mandatory fields</description>
         <name>Validate_required_fields</name>
         <label>Validate required fields</label>
-        <locationX>530</locationX>
-        <locationY>1237</locationY>
+        <locationX>586</locationX>
+        <locationY>715</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Fire_Push_Notification</name>
@@ -89,13 +89,13 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Push_Notification_for_Visit_Result</targetReference>
+                <targetReference>Push_Notification_for_Messages</targetReference>
             </connector>
             <label>Fire Push Notification</label>
         </rules>
     </decisions>
-    <interviewLabel>Notification for Visit Results Participant and Delegate {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Notification for Visit Results Participant and Delegate</label>
+    <interviewLabel>Push Notification For Message Participant and Delegate {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Push Notification For Message Participant and Delegate</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -119,8 +119,8 @@
         <description>Get the record id for PP_RH_Push_Notification</description>
         <name>Get_Custom_Notification_Id</name>
         <label>Get Custom Notification Id</label>
-        <locationX>540</locationX>
-        <locationY>630</locationY>
+        <locationX>527</locationX>
+        <locationY>334</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Recipient_User_Id</targetReference>
@@ -141,8 +141,8 @@
     <recordLookups>
         <name>Get_Participant_Enrollment_Record</name>
         <label>Get Participant Enrollment Record</label>
-        <locationX>535</locationX>
-        <locationY>401</locationY>
+        <locationX>828</locationX>
+        <locationY>213</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Custom_Notification_Id</targetReference>
@@ -159,14 +159,15 @@
         <object>Participant_Enrollment__c</object>
         <queriedFields>Id</queriedFields>
         <queriedFields>Participant_Contact__c</queriedFields>
+        <queriedFields>Participant_Status__c</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
         <description>To get the User Id of the Participants</description>
         <name>Get_Recipient_User_Id</name>
         <label>Get Recipient User Id</label>
-        <locationX>539</locationX>
-        <locationY>805</locationY>
+        <locationX>527</locationX>
+        <locationY>479</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Recipient_Ids</targetReference>
@@ -188,8 +189,8 @@
         <description>Update status and capture fault message</description>
         <name>Update_Status_to_Failed</name>
         <label>Update Status to Failed</label>
-        <locationX>833</locationX>
-        <locationY>1473</locationY>
+        <locationX>529</locationX>
+        <locationY>885</locationY>
         <inputAssignments>
             <field>Error__c</field>
             <value>
@@ -208,8 +209,8 @@
         <description>Update the record status to &quot;Sent&quot; if the push notification is successful.</description>
         <name>Update_Status_to_Sent</name>
         <label>Update Status to Sent</label>
-        <locationX>213</locationX>
-        <locationY>1477</locationY>
+        <locationX>265</locationX>
+        <locationY>898</locationY>
         <inputAssignments>
             <field>Status__c</field>
             <value>
@@ -244,7 +245,7 @@
             <field>Notification_Type__c</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>Message_to_PT_Del_Visit_Result_Availabl</stringValue>
+                <stringValue>Message_To_PT_New_Message_Type</stringValue>
             </value>
         </filters>
         <object>Send_Result__c</object>
@@ -259,5 +260,13 @@
         <isCollection>true</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Participant_Enrollment_of_Delegate_s_Participant</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Participant_Enrollment__c</objectType>
     </variables>
 </Flow>

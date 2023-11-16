@@ -19,7 +19,7 @@
     <div class="navigation rr-width-limiter" style="margin-bottom: 30px">
         <c:RRNavigationPath>
             <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page="" />
-            <c:RRNPathItem label="Past Studies" />
+            <c:RRNPathItem label="{!$Label.c.Navigation_Past_Studies}" />
         </c:RRNavigationPath>
     </div>
 
