@@ -21,6 +21,7 @@ import PP_DeletedSucesfully from '@salesforce/label/c.PP_DeletedSucesfully';
 
 export default class PpPastStudiesParent extends LightningElement {
     hideDetailPage = false;
+
     showMenu = false;
     sectionList = [];
     selectedSection = PP_Overview;
@@ -97,12 +98,11 @@ export default class PpPastStudiesParent extends LightningElement {
         this.showMenu = window.innerWidth < 1024;
         this.renderSections();
     };
-    selectStudy(event){
-        if(event.target.dataset.item)
-        this.updateSelectedStudy(event.target.dataset.item);
+    selectStudy(event) {
+        if (event.target.dataset.item) this.updateSelectedStudy(event.target.dataset.item);
     }
-    updateSelectedStudy(perid){
-        if(this.template.querySelector('[data-id="top"]')){
+    updateSelectedStudy(perid) {
+        if (this.template.querySelector('[data-id="top"]')) {
             const topDiv = this.template.querySelector('[data-id="top"]');
             topDiv.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
         }
@@ -291,11 +291,11 @@ export default class PpPastStudiesParent extends LightningElement {
     slectStudyFormTiles(event) {
         this.updateSelectedStudy(event.detail.message);
     }
-    slectStudyFormFiles(event){
-        this.uploadedFilesClass='no-show-link';
-        this.sharedFilesClass='no-show-link';
+    slectStudyFormFiles(event) {
+        this.uploadedFilesClass = 'no-show-link';
+        this.sharedFilesClass = 'no-show-link';
         this.updateSelectedStudy(this.studyPERMap.get(event.detail.message));
-        this.showFilePage=false;
+        this.showFilePage = false;
     }
 
     showdeletetoast() {
