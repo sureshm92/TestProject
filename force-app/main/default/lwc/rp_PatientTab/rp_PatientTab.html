@@ -29,12 +29,12 @@
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="3">
                             <div class="tooltip">
-                                <div class="textoverlap middle-initial">{label.RH_RP_Middle_Initial}</div>
+                                <div class="textoverlap middle-initial cursorType">{label.RH_RP_Middle_Initial}</div>
                                 <lightning-input type="text" disabled={isaccesslevelthree} variant="label-hidden"
                                     name="Middle Initial" value={pe.peRecord.Patient_Middle_Name_Initial__c}
                                     data-value="MI" data-id={pe.peRecord.Id} onchange={changeInputValue}>
                                 </lightning-input>
-                                <span>{label.RH_RP_Middle_Initial}</span>
+                                
                             </div>
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="12">
@@ -141,41 +141,41 @@
                         <lightning-layout-item padding="around-small" size="6">
                             <div>
                                 <div class="tooltip">
-                                    <div class="textoverlap">{label.RH_RP_Phone_Type}</div>
+                                    <div class="textoverlap cursorType">{label.RH_RP_Phone_Type}</div>
                                     <lightning-combobox disabled={disableField} variant="label-hidden" name="Phone Type"
                                         placeholder={label.RH_RP_Select_Phone_Type}
                                         value={pe.peRecord.Patient_Phone_Type__c} options={pe.phoneTypeList}
                                         data-value="PhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue}
                                         class="col-top">
                                     </lightning-combobox>
-                                    <span>{label.RH_RP_Phone_Type}</span>
+                                    
                                 </div>
                             </div>
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="6">
                             <div>
                                 <div class="tooltip">
-                                    <div class="textoverlap">{label.RH_RP_Alt_Phone_Number}</div>
+                                    <div class="textoverlap cursorType">{label.RH_RP_Alt_Phone_Number}</div>
                                     <lightning-input type="text" disabled={disableField} variant="label-hidden"
                                         name="Alt Phone Number" value={pe.peRecord.Participant_Alternative_Phone__c}
                                         data-value="AltPhoneNumber" data-id={pe.peRecord.Id}
                                         onchange={changeInputValue}>
                                     </lightning-input>
-                                    <span>{label.RH_RP_Alt_Phone_Number}</span>
+                                    
                                 </div>
                             </div>
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="6">
                             <div>
                                 <div class="tooltip">
-                                    <div class="textoverlap">{label.RH_RP_Alt_Phone_Type}</div>
+                                    <div class="textoverlap cursorType">{label.RH_RP_Alt_Phone_Type}</div>
                                     <lightning-combobox disabled={disableField} variant="label-hidden"
                                         name="Alt Phone Type" placeholder={label.RH_RP_Select_Phone_Type}
                                         value={pe.peRecord.Participant_Alt_Phone_Type__c} options={pe.altPhoneTypeList}
                                         data-value="AltPhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue}
                                         class="col-top">
                                     </lightning-combobox>
-                                    <span>{label.RH_RP_Alt_Phone_Type}</span>
+                                    
                                 </div>
                             </div>
                         </lightning-layout-item>
@@ -211,7 +211,7 @@
                         <lightning-layout-item padding="around-small" size="12">
                             <div>
                                 <div class="tooltip">
-                                    <div class="textoverlap"><abbr class="slds-required" title="required">*</abbr>{label.RH_RP_Patient_Auth_Status}</div>
+                                    <div class="textoverlap cursorType"><abbr class="slds-required" title="required">*</abbr>{label.RH_RP_Patient_Auth_Status}</div>
                                     <lightning-combobox disabled={isaccesslevelthree} required="true"
                                         variant="label-hidden" name="Patient Auth Status"
                                         placeholder={label.RH_RP_Patient_Auth_Status_Verified}
@@ -219,7 +219,7 @@
                                         data-value="PatientAuthStatus" data-id={pe.peRecord.Id}
                                         onchange={changeInputValue} class="col-top">
                                     </lightning-combobox>
-                                    <span>{label.RH_RP_Patient_Auth_Status}</span>
+                                    
                                 </div>
                             </div>
                         </lightning-layout-item>

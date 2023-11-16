@@ -51,12 +51,12 @@ export default class PpTermsOfUse extends LightningElement {
             loadStyle(this, Proxima_Nova + '/proximanova.css')
         ])
             .then(() => {
+                this.showBackButton = communityService.isMobileSDK();
                 this.initializeData();
             })
             .catch((error) => {
                 this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
-            this.showBackButton = communityService.isMobileSDK();
     }
 
     @wire(CurrentPageReference)

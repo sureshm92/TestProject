@@ -4,7 +4,6 @@
 
 public without sharing class RRChangePasswordController {
     public String US { get; set; }
-
     public static final String ERROR_SUFFIX = ': ' + System.Label.RH_ProfileInfoErrorMsz;
     public static final String ERROR_VALUE_SUFFIX = ': You must enter a valid value';
     public static final String TEMP_ACCOUNT = 'temporary account';
@@ -147,7 +146,7 @@ public without sharing class RRChangePasswordController {
         ) {
             this.perListAllforCommPrefsDel = perListAllforCommPrefsDel ;
             this.studyConsDel= studyConsDel;
-            this.reDirTCDel = reDirTCDel;
+            this.reDirTCDel = reDirTCDel; 
             this.reDirPPDel = reDirPPDel;
         }
    }

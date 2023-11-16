@@ -82,7 +82,7 @@
                             </span>
                             <span if:true={showMarkAsComplete} class="slds-align-middle">
                                 <div  class="btnmac">
-                                    <button class="slds-button slds-button_neutral evtBtn" onclick={handleMarkAsComplete}>Mark as Complete</button>
+                                    <button class="slds-button slds-button_neutral evtBtn" onclick={handleMarkAsComplete}>{label.Mark_Complete}</button>
                                 </div>
                             </span>
                         </div>
@@ -120,7 +120,7 @@
                                             year="numeric"
                                         month="long"
                                         day="numeric"
-                                        time-zone={userTimeZone}></lightning-formatted-date-time>
+                                        time-zone="UTC"></lightning-formatted-date-time>
                                     </div>
                                 </div>
                             </div>

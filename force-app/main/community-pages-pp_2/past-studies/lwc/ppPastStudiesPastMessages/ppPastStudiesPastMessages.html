@@ -7,38 +7,38 @@
         </div>
     </div>
     <template  if:false={isLoading}>
-        <template if:true={hasmembers}>                     
+        <div class="parentCont" if:true={hasmembers}>                     
             <div>
                 <template for:each={userrdetails} for:item="record">
-                    <lightning-layout class="slds-m-vertical_medium " style="margin-left: 24px;" key={record.Userid}>
-                    <lightning-layout-item size="2" class="ms-item-icon-circle slds-align-middle">
-                        <template if:true={record.hasuserpic}>
-                            <lightning-avatar
-                                variant="circle"
-                                src={record.Profilepicurl}
-                                fallback-icon-name="standard:person_account"
-                            ></lightning-avatar>
-                        </template>
-                        <template if:false={record.hasuserpic}>
-                            <div class="ms-item-icon-circle">
-                                <span class="lt-initial-pos">{record.Initials} </span>
-                            </div>
-                        </template> </lightning-layout-item>
-                    <lightning-layout-item size="10" class="slds-p-left_small slds-p-top_xx-small">
-                        <span class="pi-name-font">{record.Username}</span></lightning-layout-item>
-                    </lightning-layout>
+                    <div  key={record.Userid} class="topBox">
+                        <div class="alignCenter">
+                            <span class="topImg">
+                                <template if:true={record.hasuserpic}>
+                                    <lightning-avatar
+                                        variant="circle"
+                                        src={record.Profilepicurl}
+                                        fallback-icon-name="standard:person_account"
+                                    ></lightning-avatar>
+                                </template>
+                                <template if:false={record.hasuserpic}>
+                                    <div class="ms-item-icon-circle">
+                                        <span class="lt-initial-pos">{record.Initials} </span>
+                                    </div>
+                                </template>
+                            </span>
+                        </div>
+                        <div class="textTop alignCenter">
+                            <span title={record.Username} class="pi-name-font">{record.Username}</span></lightning-layout-item>
+                        </div>
+                    </div>
                 </template>
-                <div style = "margin-top:42px;">
-                    <hr>
-                    <lightning-layout class="slds-align--absolute-center viewmessagelabel">
-                        <img src={messagesIcon}/> &nbsp;
-                        <a  onclick={navigatetomessagepage}>
-                            {label.PP_View_Messages}
-                        </a>
-                    </lightning-layout>
-                </div> 
             </div> 
-        </template>
+            <div class="footer-block slds-align--absolute-center" >
+                <span class="footer-link" onclick={navigatetomessagepage}>
+                    <img src={messagesIcon}/>{label.PP_View_Messages}
+                </span>
+            </div>
+        </div>
         <template if:false={hasmembers}>
             <div class="slds-align--absolute-center slds-grid slds-wrap fullHeight"> 
                 <div class="slds-size--1-of-1 no-msg-img"><img src={noMessagesIcon}/></div>

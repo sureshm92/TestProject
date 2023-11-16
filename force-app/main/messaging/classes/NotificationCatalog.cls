@@ -165,6 +165,5 @@ public without sharing class NotificationCatalog {
     public static final String UPDATE_TO_PT_TELEVISIT_CANCELED = 'Update_to_PT_Televisit_Canceled';
 
     //push
-
     public static final String MESSAGE_TO_PT_DEL_VISIT_RESULT_AVAILAB = 'Message_to_PT_Del_Visit_Result_Availabl';
 }

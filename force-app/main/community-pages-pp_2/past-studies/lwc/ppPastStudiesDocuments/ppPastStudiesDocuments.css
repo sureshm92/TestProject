@@ -14,7 +14,6 @@
     text-align: center;
 }
 .docListCont{
-    padding-right: 17px;
     height: 100%;
     overflow: auto;
 }
@@ -69,8 +68,12 @@
     font-weight: 600;
     line-height: 27px;
 }
-
 .loadMoreImg {
     text-align: center;
     padding-bottom: 2px;
+}
+@media (min-width: 64em){
+    .docListCont{
+        padding-right: 8px;
+    }
 }

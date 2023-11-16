@@ -59,6 +59,12 @@
     font-size: 14px;
     line-height: 21px;
     pointer-events: none;
+    word-wrap: break-word;
+}
+@media (max-width: 360px){
+    .swt-options {
+        width: 288px !important;
+    }
 }
 .swt-options .selected{
     font-weight: 600;    
@@ -144,6 +150,10 @@
     height: 138.3px;
     margin-bottom: 16px;
 }
+.msg-box{
+    min-height: 138.3px;
+    margin-bottom: 16px;
+}
 /* documents start */
 .doc-box{
     min-height: 527px;
@@ -168,6 +178,8 @@
 /* contact start */
 .contact-box{
     padding: 16px 24px 24px 24px;
+    min-height: 138.3px;
+    margin-bottom: 16px;
 }
 .con-header{
     color: #757575;
@@ -188,6 +200,9 @@
 }
 .con-txt-align{
     vertical-align: middle;
+    max-width: calc(100% - 44px);
+    display: inline-block;
+    word-break: break-word;
 }
 .copyIcon{
     fill: #595959;
@@ -313,6 +328,17 @@
     }
 }
 @media (min-width: 64em){
+    .msg-box{
+        height: 138.3px;
+    }
+    .contact-box{
+        height: 138.3px;
+    }
+    .con-txt-align{        
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
     .main-overview .box-container:hover {
         transform: scale(1.02);
     }

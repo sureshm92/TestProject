@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Consent_Values_Participant__c</fullName>
+    <description>This field must hold API values of Participant Enrollment object communication consent filed whose consents needs to be captured</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>API values of Participant Enrollment object communication consent filed whose consents needs to be captured</inlineHelpText>
+    <label>Consent Values Participant</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

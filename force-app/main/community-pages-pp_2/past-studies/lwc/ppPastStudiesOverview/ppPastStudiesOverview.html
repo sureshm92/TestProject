@@ -1,5 +1,5 @@
 <template>
-    <div class={mainClass}>
+    <div class={mainClass} onclick={setStudy}>
         <div if:true={per.Clinical_Trial_Profile__r.Profile_Picture__c} class="container-img">
             <img class="profile-pic" src={per.Clinical_Trial_Profile__r.Profile_Picture__c} />
         </div>

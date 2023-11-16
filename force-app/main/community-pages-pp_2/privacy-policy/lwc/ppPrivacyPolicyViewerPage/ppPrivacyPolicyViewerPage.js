@@ -44,7 +44,6 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
     };
 
     connectedCallback() {
-        this.showBackButton = communityService.isMobileSDK();
         console.log('>>>>connectedcallback>>>>');
         Promise.all([
             loadScript(this, RR_COMMUNITY_JS),
@@ -53,6 +52,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
             loadStyle(this, Proxima_Nova + '/proximanova.css')
         ])
             .then(() => {
+                this.showBackButton = communityService.isMobileSDK();
                 this.loadPrivacyPolicy();
             })
             .catch((error) => {

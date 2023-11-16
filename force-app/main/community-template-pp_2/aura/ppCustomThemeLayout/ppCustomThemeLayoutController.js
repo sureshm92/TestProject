@@ -9,6 +9,41 @@
             communityService.initialize(component);
         }
     },
+    handleRouteChange: function (component, event, helper) {
+        var perRecId = communityService.getUrlParameter('perId');
+        var contactRecId = communityService.getUrlParameter('contactId');
+        var targetRec = communityService.getUrlParameter('targetRecId');
+        var isPast = communityService.getUrlParameter('ispast');
+        var perContId = communityService.getUrlParameter('perContactId');
+        if (contactRecId != null) {
+            communityService.executeAction(
+                component,
+                'updateContact',
+                {
+                    peId: perRecId,
+                    recId: contactRecId,
+                    peContactId: perContId
+                },
+                function (returnValue) {
+                    if (sessionStorage.getItem('isPushNotification') == null) {
+                        communityService.loadPage();
+                    }
+                    var pageurl = communityService.getFullPageName();
+                    if (pageurl.includes('messages')) {
+                        communityService.navigateToPage('messages');
+                    } else if (pageurl.includes('televisit')) {
+                        communityService.navigateToPage('televisit?ispast=' + isPast);
+                    } else if (pageurl.includes('results')) {
+                        if (returnValue)
+                            communityService.navigateToPage('past-studies?per=' + perRecId);
+                        else communityService.navigateToPage('results?vrlist&pvId=' + targetRec);
+                    } else {
+                        communityService.navigateToPage('');
+                    }
+                }
+            );
+        }
+    },
 
     handleLoadTelevisitBanner: function (component, event, helper) {
         let loadTelevisitBanner = event.getParam('loadTelevisitBanner');

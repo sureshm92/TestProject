@@ -98,7 +98,7 @@ export default class PpPastStudiesParent extends LightningElement {
         this.renderSections();
     };
     selectStudy(event) {
-        this.updateSelectedStudy(event.target.dataset.item);
+        if (event.target.dataset.item) this.updateSelectedStudy(event.target.dataset.item);
     }
     updateSelectedStudy(perid) {
         if (this.template.querySelector('[data-id="top"]')) {
@@ -287,10 +287,13 @@ export default class PpPastStudiesParent extends LightningElement {
         topDiv.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
         this.showFilePage = true;
     }
+    slectStudyFormTiles(event) {
+        this.updateSelectedStudy(event.detail.message);
+    }
     slectStudyFormFiles(event) {
-        if (event.detail.message != this.selectedPER.Clinical_Trial_Profile__c) {
-            this.updateSelectedStudy(this.studyPERMap.get(event.detail.message));
-        }
+        this.uploadedFilesClass = 'no-show-link';
+        this.sharedFilesClass = 'no-show-link';
+        this.updateSelectedStudy(this.studyPERMap.get(event.detail.message));
         this.showFilePage = false;
     }
 

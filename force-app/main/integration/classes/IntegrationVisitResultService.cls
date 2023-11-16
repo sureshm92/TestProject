@@ -125,6 +125,13 @@ public with sharing class IntegrationVisitResultService {
                     peAndPVsDetailsPush.put(pv.Participant_Enrollment__c, new List<Id>{ pv.Id });
                 }
             }
+            } else {
+                if (peAndPVsDetailsPush.containsKey(pv.Participant_Enrollment__c)) {
+                    peAndPVsDetailsPush.get(pv.Participant_Enrollment__c).add(pv.Id);
+                } else {
+                    peAndPVsDetailsPush.put(pv.Participant_Enrollment__c, new List<Id>{ pv.Id });
+                }
+            }
         }
 
         List<Id> perIdsList = new List<Id>();
@@ -135,7 +142,32 @@ public with sharing class IntegrationVisitResultService {
             participantIdsList,
             perIdsList
         );
+<<<<<<< HEAD
         // perId with its patient delegate enrollments
+=======
+        // perId with it's patient delegate enrollments
+>>>>>>> d7248802d0505ecccb25f30e051a3fbbf351cc9e
+        Map<Id, List<Patient_Delegate_Enrollment__c>> perWithdelEnrollment = new Map<Id, List<Patient_Delegate_Enrollment__c>>();
+        for (Patient_Delegate_Enrollment__c pder : delEnrollmentList) {
+            if (perWithdelEnrollment.containsKey(pder.Participant_Enrollment__c)) {
+                perWithdelEnrollment.get(pder.Participant_Enrollment__c).add(pder);
+            } else {
+                perWithdelEnrollment.put(
+                    pder.Participant_Enrollment__c,
+                    new List<Patient_Delegate_Enrollment__c>{ pder }
+                );
+            }
+        }
+
+        List<Id> perIdsList = new List<Id>();
+        perIdsList.addAll(perIds);
+        List<Id> participantIdsList = new List<Id>();
+        participantIdsList.addAll(participantIds);
+        List<Patient_Delegate_Enrollment__c> delEnrollmentList = PatientDelegateEnrollmentService.getPatientEnrollmentList(
+            participantIdsList,
+            perIdsList
+        );
+        // perId with it's patient delegate enrollments
         Map<Id, List<Patient_Delegate_Enrollment__c>> perWithdelEnrollment = new Map<Id, List<Patient_Delegate_Enrollment__c>>();
         for (Patient_Delegate_Enrollment__c pder : delEnrollmentList) {
             if (perWithdelEnrollment.containsKey(pder.Participant_Enrollment__c)) {
@@ -231,16 +263,18 @@ public with sharing class IntegrationVisitResultService {
                 List<Patient_Delegate_Enrollment__c> pdeList = perWithdelEnrollment.get(
                     peAndPv.get(peId).Participant_Enrollment__c
                 );
-                for (Patient_Delegate_Enrollment__c pde : pdeList) {
-                    if (pde.Primary_Delegate__c) {
-                        insertNotificationsForNewVResults.add(
-                            new Notification__c(
-                                Recipient__c = pde.Patient_Delegate__r.Contact__c,
-                                WhatId__c = peAndPv.get(peId).Participant_Enrollment__c,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_VISIT_RESULT_AVAILAB,
-                                Target_Record_Ids__c = '' + peAndPv.get(peId).Id
-                            )
-                        );
+                if (pdeList != null && !pdeList.isEmpty()) {
+                    for (Patient_Delegate_Enrollment__c pde : pdeList) {
+                        if (pde.Primary_Delegate__c) {
+                            insertNotificationsForNewVResults.add(
+                                new Notification__c(
+                                    Recipient__c = pde.Patient_Delegate__r.Contact__c,
+                                    WhatId__c = peAndPv.get(peId).Participant_Enrollment__c,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_VISIT_RESULT_AVAILAB,
+                                    Target_Record_Ids__c = '' + peAndPv.get(peId).Id
+                                )
+                            );
+                        }
                     }
                 }
             }

@@ -131,6 +131,7 @@
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
+    word-wrap: break-word;
 }
 
 .v-line {
@@ -218,7 +219,8 @@
     line-height: 24px;
     text-align: center;
     height: 32px;
-    width: 109px;
+    min-width: 109px;
+    width: auto;
     margin-left: -1px;
     margin-bottom: 10px;
     font-size: 14px;
