@@ -21,6 +21,7 @@ import PP_DeletedSucesfully from '@salesforce/label/c.PP_DeletedSucesfully';
 
 export default class PpPastStudiesParent extends LightningElement {
     hideDetailPage = false;
+
     showMenu = false;
     sectionList = [];
     selectedSection = PP_Overview;

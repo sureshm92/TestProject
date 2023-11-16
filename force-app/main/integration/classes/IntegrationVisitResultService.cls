@@ -125,38 +125,6 @@ public with sharing class IntegrationVisitResultService {
                     peAndPVsDetailsPush.put(pv.Participant_Enrollment__c, new List<Id>{ pv.Id });
                 }
             }
-            } else {
-                if (peAndPVsDetailsPush.containsKey(pv.Participant_Enrollment__c)) {
-                    peAndPVsDetailsPush.get(pv.Participant_Enrollment__c).add(pv.Id);
-                } else {
-                    peAndPVsDetailsPush.put(pv.Participant_Enrollment__c, new List<Id>{ pv.Id });
-                }
-            }
-        }
-
-        List<Id> perIdsList = new List<Id>();
-        perIdsList.addAll(perIds);
-        List<Id> participantIdsList = new List<Id>();
-        participantIdsList.addAll(participantIds);
-        List<Patient_Delegate_Enrollment__c> delEnrollmentList = PatientDelegateEnrollmentService.getPatientEnrollmentList(
-            participantIdsList,
-            perIdsList
-        );
-<<<<<<< HEAD
-        // perId with its patient delegate enrollments
-=======
-        // perId with it's patient delegate enrollments
->>>>>>> d7248802d0505ecccb25f30e051a3fbbf351cc9e
-        Map<Id, List<Patient_Delegate_Enrollment__c>> perWithdelEnrollment = new Map<Id, List<Patient_Delegate_Enrollment__c>>();
-        for (Patient_Delegate_Enrollment__c pder : delEnrollmentList) {
-            if (perWithdelEnrollment.containsKey(pder.Participant_Enrollment__c)) {
-                perWithdelEnrollment.get(pder.Participant_Enrollment__c).add(pder);
-            } else {
-                perWithdelEnrollment.put(
-                    pder.Participant_Enrollment__c,
-                    new List<Patient_Delegate_Enrollment__c>{ pder }
-                );
-            }
         }
 
         List<Id> perIdsList = new List<Id>();
