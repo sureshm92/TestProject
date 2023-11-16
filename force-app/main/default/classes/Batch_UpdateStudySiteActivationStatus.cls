@@ -7,10 +7,9 @@ global class Batch_UpdateStudySiteActivationStatus implements Database.Batchable
     Map<String, String> siteActivationStatusMap = new Map<String, String>{
             'On Hold' => 'On Hold',
             'On Hold (Admin)' => 'On Hold',
-            'Accepted' => 'Activated (Admin)',
+            'Accepted' => 'Activated',
             'Accepted (Admin)' => 'Activated (Admin)',
             'Deactivated (Admin)' => 'Deactivated (Admin)',
-            'None' => 'None',
             'Invitation Sent' => 'None',
             'Non-Responsive (Admin)' => 'Deactivated',
             'Declined (Acceptance)' => 'Deactivated',
@@ -18,7 +17,6 @@ global class Batch_UpdateStudySiteActivationStatus implements Database.Batchable
     };
                 
     Map<String, String> overrideStatusMap = new Map<String, String>{
-            'None' => 'None',
             'On Hold' => 'Accepted',
             'On Hold (Admin)' => 'Accepted',
             'Invitation Sent' => 'Invitation Sent',
