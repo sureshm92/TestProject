@@ -49,6 +49,9 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
     get borderPOHome() {
         return this.isRTL ? 'borderLeft' : 'borderRight';
     }
+    get paddingPIPhoneAndName() {
+        return this.isRTL ? 'pad-Rtl' : 'pad-5';
+    }
     get noStudyOverviewAvailable() {
         return this.alumniParticipant || this.delegateSelfView ? true : false;
     }
