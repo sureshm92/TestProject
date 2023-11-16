@@ -50,3 +50,6 @@
 .task-save-btn-opacity {
     opacity: 0.4;
 }
+.submit-button-rtl{
+    padding-right: 10px;
+}

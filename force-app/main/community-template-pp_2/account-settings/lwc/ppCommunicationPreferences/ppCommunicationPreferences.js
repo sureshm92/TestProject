@@ -553,6 +553,14 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         return this.isRTL ? 'study-content study-content-mobile-rtl' : 'study-content';
     }
 
+    get padFooterLinkMobile(){
+        return this.isRTL ? 'slds-p-left--medium txt-color' : 'slds-p-right--medium txt-color';
+    }
+
+    get padPrivacyLinkMobile(){
+        return this.isRTL ? 'slds-p-right--medium txt-color' : 'slds-p-left--medium txt-color';
+    }
+
     renderedCallback() {}
 
     selectAllOptions(event) {

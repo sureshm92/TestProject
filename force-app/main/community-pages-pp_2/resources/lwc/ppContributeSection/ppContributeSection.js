@@ -11,6 +11,7 @@ import SUCCESS from '@salesforce/label/c.PP_Resource_Submit';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import PASTE_URL from '@salesforce/label/c.PP_Paste_URL';
 import PP_URL_Error from '@salesforce/label/c.PP_URL_Error';
+import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 
 export default class PpContributeSection extends NavigationMixin(LightningElement) {
     labels = {
@@ -29,6 +30,7 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
     @track textValue;
     labelPasteURL;
     showSection = true;
+    isRTL = false;
 
     connectedCallback() {
         this.labelPasteURL = FORM_FACTOR !== 'Large' ? PASTE_URL : URLLINK;
@@ -42,6 +44,14 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
                 this.showSection = true;
             }
         }
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+            });
+            console.log('the isRTL value is ' + this.isRTL);
     }
 
     get isMobile() {
@@ -54,6 +64,15 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
 
     get buttonGridSize() {
         return this.isMobile ? '3' : '2';
+    }
+
+    get padSubmitButtonMobile() {
+        if(this.isRTL && this.isMobile){
+            return 'slds-var-p-top_x-small resource-btn profile-info-btn-mobile submit-button-rtl';
+        }
+        else{
+            return 'slds-var-p-top_x-small resource-btn profile-info-btn-mobile';
+        }
     }
 
     handleChangePreference() {
