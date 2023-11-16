@@ -59,6 +59,12 @@
     font-size: 14px;
     line-height: 21px;
     pointer-events: none;
+    word-wrap: break-word;
+}
+@media (max-width: 360px){
+    .swt-options {
+        width: 288px !important;
+    }
 }
 .swt-options .selected{
     font-weight: 600;    

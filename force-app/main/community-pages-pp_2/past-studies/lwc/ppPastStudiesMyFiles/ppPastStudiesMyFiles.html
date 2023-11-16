@@ -30,83 +30,15 @@
                     <div class="right-sec">
                         <div class="slds-float_right">
                             <div class="download-icon" data-cdid={file.cdid} onclick={downloadFile} title={label.PIR_Download}>                
-                                <lightning-icon class="no-click" icon-name="utility:download" size="x-small" alternative-text={label.PIR_Download} title={label.PIR_Download}></lightning-icon>
+                                <img src={downloadIcon} class="no-click" alt={label.PIR_Download} title={label.PIR_Download}/>
                             </div>
                             <div if:true={fileUploaded} class="del-icon" data-cvid={file.cvid}  onclick={deleteFile} title={label.pir_Delete_Btn}>
-                                <lightning-icon class="no-click" icon-name="utility:delete" size="x-small" alternative-text={label.pir_Delete_Btn} title={label.pir_Delete_Btn}></lightning-icon>
+                                <img src={deleteIcon} class="no-click" alt={label.pir_Delete_Btn} title={label.pir_Delete_Btn}/>
                             </div>
                         </div>                
                     </div>
                 </div>
             </template>
-            <!-- <div class="main-sec slds-align--absolute-center">
-                <div class="left-sec">
-                    <div class="file-name">Note from Physician</div>
-                    <div class="file-type">PDF</div>
-                    <div class="upload-date">September 19, 2022</div>
-                </div>
-                <div class="right-sec">
-                    <div class="slds-float_right">
-                        <div class="download-icon">                
-                            <lightning-icon icon-name="utility:download" size="x-small" alternative-text={label.PIR_Download} title={label.PIR_Download}></lightning-icon>
-                        </div>
-                        <div class="del-icon">
-                            <lightning-icon icon-name="utility:delete" size="x-small" alternative-text={label.pir_Delete_Btn} title={label.pir_Delete_Btn}></lightning-icon>
-                        </div>
-                    </div>                
-                </div>
-            </div>
-            <div class="main-sec slds-align--absolute-center">
-                <div class="left-sec">
-                    <div class="file-name">Rash on Left Shoulder Rash on Left Shoulder</div>
-                    <div class="file-type">JPEG</div>
-                    <div class="upload-date">September 19, 2022</div>
-                </div>
-                <div class="right-sec">
-                    <div class="slds-float_right">
-                        <div class="download-icon">                
-                            <lightning-icon icon-name="utility:download" size="x-small" alternative-text={label.PIR_Download} title={label.PIR_Download}></lightning-icon>
-                        </div>
-                        <div class="del-icon">
-                            <lightning-icon icon-name="utility:delete" size="x-small" alternative-text={label.pir_Delete_Btn} title={label.pir_Delete_Btn}></lightning-icon>
-                        </div>
-                    </div>                
-                </div>
-            </div>
-            <div class="main-sec slds-align--absolute-center">
-                <div class="left-sec">
-                    <div class="file-name">Note from Physician</div>
-                    <div class="file-type">PDF</div>
-                    <div class="upload-date">September 19, 2022</div>
-                </div>
-                <div class="right-sec">
-                    <div class="slds-float_right">
-                        <div class="download-icon">                
-                            <lightning-icon icon-name="utility:download" size="x-small" alternative-text={label.PIR_Download} title={label.PIR_Download}></lightning-icon>
-                        </div>
-                        <div class="del-icon">
-                            <lightning-icon icon-name="utility:delete" size="x-small" alternative-text={label.pir_Delete_Btn} title={label.pir_Delete_Btn}></lightning-icon>
-                        </div>
-                    </div>                
-                </div>
-            </div>
-            <div class="main-sec slds-align--absolute-center">
-                <div class="left-sec">
-                    <div class="file-name">Rash on Left Shoulder Rash on Left Shoulder</div>
-                    <div class="file-type">JPEG</div>
-                    <div class="upload-date">September 19, 2022</div>
-                </div>
-                <div class="right-sec">
-                    <div class="slds-float_right">
-                        <div class="download-icon">                
-                            <lightning-icon icon-name="utility:download" size="x-small" alternative-text={label.PIR_Download} title={label.PIR_Download}></lightning-icon>
-                        </div>
-                        <div class="del-icon">
-                            <lightning-icon icon-name="utility:delete" size="x-small" alternative-text={label.pir_Delete_Btn} title={label.pir_Delete_Btn}></lightning-icon>
-                        </div>
-                    </div>                
-                </div>
-            </div> -->
         </div>
     </div>
     <template if:true={openDeleteModel}>

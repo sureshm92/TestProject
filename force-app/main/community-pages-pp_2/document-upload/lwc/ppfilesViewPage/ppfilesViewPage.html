@@ -323,7 +323,7 @@
                     </div>
                   </div>
                 </div>
-                        <div class="wait-time center">{label.PP_WaitTime}
+                        <div class="wait-time center" title={label.PP_WaitTime}>{label.PP_WaitTime}
                         </div>
                         <div class="scrollableclass">
                             <template for:each={filesData} for:item="imgData" for:index="index">
@@ -429,7 +429,7 @@
                             </template>
                         </div>
                         <div class="uplaodfilesbutton">
-                            <div class="center uploadinfo slds-m-bottom_medium">{label.PP_UploadedFilesShar} </div>
+                            <div class="center uploadinfo slds-m-bottom_medium" title={label.PP_UploadedFilesShar}>{label.PP_UploadedFilesShar} </div>
                             <span class="horizontal"></span>
                             <div class="upld-can-btn slds-m-around--medium">
                                 <span class="cancel-btnDesk slds-m-right--small" onclick={cancelFiles}>
@@ -651,9 +651,9 @@
                         </div>
                         <div class="slds-col slds-size--4-of-12">
                             <span class="cancelBtnmbl "><button if:true={cancelDisbledMbl} class="cancel-btn opacityon" 
-                                onclick={cancelFiles} disabled={cancelDisbledMbl}>Cancel</button>
+                                onclick={cancelFiles} disabled={cancelDisbledMbl}>{label.RH_RP_Cancel}</button>
                                 <button if:false={cancelDisbledMbl} class="cancel-btn" 
-                                onclick={cancelFiles} disabled={cancelDisbledMbl}>Cancel</button></span>
+                                onclick={cancelFiles} disabled={cancelDisbledMbl}>{label.RH_RP_Cancel}</button></span>
                         </div>
                         <div class="slds-col slds-size--8-of-12 ">
                             <span >

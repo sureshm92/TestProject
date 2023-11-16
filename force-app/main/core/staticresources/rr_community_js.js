@@ -49,17 +49,17 @@ window.communityService = (function () {
             if (service.isInitialized()) return;
             service.executeAction(component, 'getCommunityData', null, function (returnValue) {
                 let communityData = JSON.parse(returnValue);
-                let isJanssen = false; 
+                let isJanssen = false;
                 let sr = JSON.parse(communityData.studyDetails);
-                if(sr != null){
-                 let ctp = sr.ctp;
-                  if(ctp != null){
-                  let CommTemp = ctp.CommunityTemplate__c;
-                  let tempName = JSON.stringify(ctp.PPTemplate__c);
-                  if(CommTemp == 'Janssen'){
-                    isJanssen = true;
-                  }
-                  }
+                if (sr != null) {
+                    let ctp = sr.ctp;
+                    if (ctp != null) {
+                        let CommTemp = ctp.CommunityTemplate__c;
+                        let tempName = JSON.stringify(ctp.PPTemplate__c);
+                        if (CommTemp == 'Janssen') {
+                            isJanssen = true;
+                        }
+                    }
                 }
 
                 preventedCookies = communityData.preventedCookies;
@@ -89,9 +89,10 @@ window.communityService = (function () {
                 hasIQVIAStudiesPI = communityData.hasIQVIAStudiesPI;
                 communityName = communityData.communityName;
                 service.setCurrentCommunityMode(communityData.currentUserMode, null, true);
-                if(communityName != 'Janssen_Community1'){ 
-                    if(!isJanssen){
-                    service.setCookie('RRLanguage', communityData.language, 365);}  
+                if (communityName != 'Janssen_Community1') {
+                    if (!isJanssen) {
+                        service.setCookie('RRLanguage', communityData.language, 365);
+                    }
                 }
                 //console.log('CommunityService initialized:');
                 //console.log('is TC accepted: ' + isTCAcceptedFlag);
@@ -390,6 +391,10 @@ window.communityService = (function () {
             });
             //console.log('Navigate to page: ' + pageName);
             urlEvent.fire();
+        },
+        loadPage() {
+            sessionStorage.setItem('isPushNotification', 'Yes');
+            location.reload();
         },
 
         navigateToHome: function () {

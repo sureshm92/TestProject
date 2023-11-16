@@ -135,7 +135,7 @@ public with sharing class IntegrationVisitResultService {
             participantIdsList,
             perIdsList
         );
-        // perId with its patient delegate enrollments
+        // perId with it's patient delegate enrollments
         Map<Id, List<Patient_Delegate_Enrollment__c>> perWithdelEnrollment = new Map<Id, List<Patient_Delegate_Enrollment__c>>();
         for (Patient_Delegate_Enrollment__c pder : delEnrollmentList) {
             if (perWithdelEnrollment.containsKey(pder.Participant_Enrollment__c)) {
@@ -231,16 +231,18 @@ public with sharing class IntegrationVisitResultService {
                 List<Patient_Delegate_Enrollment__c> pdeList = perWithdelEnrollment.get(
                     peAndPv.get(peId).Participant_Enrollment__c
                 );
-                for (Patient_Delegate_Enrollment__c pde : pdeList) {
-                    if (pde.Primary_Delegate__c) {
-                        insertNotificationsForNewVResults.add(
-                            new Notification__c(
-                                Recipient__c = pde.Patient_Delegate__r.Contact__c,
-                                WhatId__c = peAndPv.get(peId).Participant_Enrollment__c,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_VISIT_RESULT_AVAILAB,
-                                Target_Record_Ids__c = '' + peAndPv.get(peId).Id
-                            )
-                        );
+                if (pdeList != null && !pdeList.isEmpty()) {
+                    for (Patient_Delegate_Enrollment__c pde : pdeList) {
+                        if (pde.Primary_Delegate__c) {
+                            insertNotificationsForNewVResults.add(
+                                new Notification__c(
+                                    Recipient__c = pde.Patient_Delegate__r.Contact__c,
+                                    WhatId__c = peAndPv.get(peId).Participant_Enrollment__c,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_VISIT_RESULT_AVAILAB,
+                                    Target_Record_Ids__c = '' + peAndPv.get(peId).Id
+                                )
+                            );
+                        }
                     }
                 }
             }
