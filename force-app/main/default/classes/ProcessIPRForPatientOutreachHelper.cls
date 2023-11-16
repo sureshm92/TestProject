@@ -274,7 +274,7 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
             if (ss != null){
                 Participant_Enrollment__c objPE = IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c);
                  objPE.Id = REFNamePERIdMap.get(ipr.UTM_campaignName__c);
-                 if(perIDtoPERMap.get(objPE.Id)!=null && perIDtoPERMap.get(objPE.Id).Permit_SMS_Text_for_this_study__c==true){
+                 if(perIDtoPERMap.get(objPE.Id)!=null && perIDtoPERMap.get(objPE.Id).Study_SMS_Consent_Time__c !=null){
                      objPE.Study_SMS_Consent_Time__c= Datetime.now();
                  }
                  objPE.Participant_Name__c = ipr.firstName__c;
