@@ -23931,6 +23931,36 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>More</value>
     </labels>
     <labels>
+        <fullName>Only_PDF_Error_Message</fullName>
+        <categories>RH</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Only_PDF_Error_Message</shortDescription>
+        <value>Only PDF files are allowed.</value>
+    </labels>
+    <labels>
+        <fullName>File_size_exceeds_limit_Error_Message</fullName>
+        <categories>RH</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>File_size_exceeds_limit_Error_Message</shortDescription>
+        <value>File size exceeds 4MB limit.</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileUploadAcceptedConditions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileUploadAcceptedConditions</shortDescription>
+        <value>1. You must upload only pdf file, no other format is accepted.</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileUploadAcceptedAnotherConditions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileUploadAcceptedAnotherConditions</shortDescription>
+        <value>2. Maximum file size allowed is less than 4MB.</value>
+    </labels>
+    <labels>
         <fullName>Program_Header_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
