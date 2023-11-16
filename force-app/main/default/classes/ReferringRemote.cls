@@ -436,13 +436,60 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
 
+    public class ContentInfoWrapper{
+        @AuraEnabled  public Id contentVersionId {get;set;}
+        @AuraEnabled  public Id contentDocumentId  {get; set;}
+    }
     @AuraEnabled
-    public static void deleteFile(String contentDocId) {
-        System.debug('contentDocId--' + contentDocId);
+    public static ContentInfoWrapper saveTheChunkFile(String fileName, String base64Data,String fileId,String contentDocumentId){
+        ContentInfoWrapper wrapper = new ContentInfoWrapper();  
+        base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
+        if ( String.isBlank(fileId) ) {
+            wrapper = saveFiles(fileName, base64Data );
+        } else {
+            wrapper.contentVersionId = fileId;
+        wrapper.contentDocumentId = ContentDocumentId;
+            appendToFile(fileId, base64Data);
+        }
+        return wrapper;
+    }
+
+    public static ContentInfoWrapper saveFiles(String fileName, String base64Data )  { 
+        ContentInfoWrapper wrapper = new ContentInfoWrapper();
+        ContentVersion contentVersion = new ContentVersion();
+        contentVersion.Title = fileName;
+        contentVersion.PathOnClient = '/' + fileName;
+        contentVersion.VersionData = EncodingUtil.base64Decode(base64Data);
+        contentVersion.IsMajorVersion = false;
+        insert contentVersion;
+        id ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion.Id].ContentDocumentId;
+       ContentDocumentLink contentLink =   [SELECT Id FROM ContentDocumentLink WHERE LinkedEntityId =:UserInfo.getUserId() AND ContentDocumentId =: ContentDocumentId ];
+        wrapper.contentDocumentId = ContentDocumentId;
+        wrapper.contentVersionId = contentVersion.Id; 
+        return wrapper;
+        
+    } 
+
+    public static void appendToFile(Id contentDocumentId, String base64Data) {
+         ContentVersion versionData = [
+            SELECT Id, VersionData,ContentDocumentId
+            FROM ContentVersion
+            WHERE Id = :contentDocumentId
+        ];
+        if(versionData != null){ 
+           String existingBody     = EncodingUtil.base64Encode(versionData.VersionData);
+           versionData.VersionData = EncodingUtil.base64Decode(existingBody + base64Data); 
+    }
+    update versionData;
+    }
+
+    @AuraEnabled
+    public static void deleteFile(String fileId) {
         try {
-            if (!String.isBlank(contentDocId)) {
-                ContentDocument objCon = [SELECT Id FROM ContentDocument WHERE Id = :contentDocId];
-                delete objCon;
+            if (!String.isBlank(fileId)) {
+                ContentVersion cv = [SELECT ContentDocumentId FROM ContentVersion WHERE id = :fileId];
+                contentdocument cd = new contentdocument(id = cv.contentDocumentId);
+            delete cd;
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);

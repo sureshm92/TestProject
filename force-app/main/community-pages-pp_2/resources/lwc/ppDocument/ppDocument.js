@@ -4,6 +4,7 @@ import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import versionDate from '@salesforce/label/c.Version_date';
 export default class Documents extends NavigationMixin(LightningElement) {
     @api document;
+    @api pe;
     title;
     versiondate;
     id;
@@ -52,18 +53,33 @@ export default class Documents extends NavigationMixin(LightningElement) {
             composed: true
         });
         this.dispatchEvent(clickResource);
-
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
-            attributes: {
-                pageName: 'resource-detail'
-            },
-            state: {
-                resourceid: this.id,
-                resourcetype: this.document.resource.RecordType.DeveloperName,
-                state: this.state
-            }
-        });
+        if(this.pe){
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'resource-detail'
+                },
+                state: {
+                    resourceid: this.id,
+                    resourcetype: this.document.resource.RecordType.DeveloperName,
+                    state: this.state,
+                    pe:this.pe.Id,
+                    studyname:this.pe.Clinical_Trial_Profile__r.Study_Code_Name__c
+                }
+            });
+        }else{
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'resource-detail'
+                },
+                state: {
+                    resourceid: this.id,
+                    resourcetype: this.document.resource.RecordType.DeveloperName,
+                    state: this.state
+                }
+            });
+        }
     }
 
     doMenuItemSelected(event) {
