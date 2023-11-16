@@ -68,7 +68,7 @@
                                     <img
                                         src="{!$Resource.icon_hamburgerMenu}"
                                         onclick="{!c.handleClick}"
-                                        class="barsIcon"
+                                        class="{!v.isRTL? ' barsIconrtl':'barsIcon'}"
                                     />
                                 </aura:set>
                             </aura:if>
