@@ -305,6 +305,7 @@
 .expired {
     height: 24px;
     width: 61px;
+    min-width: max-content;
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 18px;
@@ -315,10 +316,10 @@
 .path-2-copy {
     box-sizing: border-box;
     height: 1px;
-    width: 439px;
+    width: 336px;
     border: 0.6px solid #979797;
     margin-top: 10px;
-    margin-left: -17px;
+    /* margin-left: -17px; */
 }
 
 @media all and (max-width: 486px) {

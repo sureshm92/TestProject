@@ -152,7 +152,7 @@
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
-    height: 575px;
+    height: auto;
 }
 .mob-box-container {
     top: 23.9rem !important;
