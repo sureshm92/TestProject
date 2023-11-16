@@ -7116,6 +7116,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Study_Site__c.Site_Activation_Status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Study_Site__c.Override_Status_Updated_By__c</field>
         <readable>false</readable>
     </fieldPermissions>
