@@ -59,6 +59,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     isArticleVideo = false;
     @track landscape = false;
     pe;
+    paststudyname;
     desktop = true;
     spinner;
     resourceForPostingDate = ['Article', 'Video', 'Multimedia'];
@@ -139,6 +140,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         this.resourceType = urlParams.get('resourcetype');
         this.showHomePage = urlParams.get('showHomePage');
         this.pe = urlParams.get('pe');
+        this.paststudyname = urlParams.get('studyname');
         this.publishResourceType(true);
 
         // Logic for portrait mode and landscape mode - hide content in case of mediaContent is true
@@ -285,8 +287,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                                     (resourceData.Content_Class__c == 'Study-Specific' ||
                                         this.isDocument)
                                 ) {
-                                    this.studyTitle =
-                                        communityService.getParticipantData()?.ctp?.Study_Code_Name__c;
+                                    this.studyTitle = this.paststudyname;
                                     if (this.isDocument) {
                                         this.handleDocumentLoad();
                                     }
