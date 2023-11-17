@@ -136,19 +136,4 @@ public class ModifiedVisitReportContainerRemote {
         }
         return encoded;
     }
-    @AuraEnabled
-    public static String getBase64fromVisitSummaryReportPage_ModifiedAlumni(
-        String peId,
-        String isRTL
-    ) {
-        PageReference page = Page.PatientVisitReportPage;
-        page.getParameters().put('peId', peId);
-        page.getParameters().put('isRTL', isRTL);
-        String encoded;
-        if (!Test.isRunningTest()) {
-            Blob content = page.getContent();
-            encoded = EncodingUtil.base64Encode(content);
-        }
-        return encoded;
-    }
 }
