@@ -41,7 +41,7 @@
         <inputParameters>
             <name>targetPageRef</name>
             <value>
-                <stringValue>{&quot;type&quot;: &quot;comm__namedPage&quot;,&quot;attributes&quot;:{&quot;pageName&quot;:&quot;televisit&quot;},&quot;state&quot;:{&quot;ispast&quot;:&quot;false&quot;,&quot;perId&quot;:{!$Record.Notification__r.WhatId__c},&quot;contactId&quot;:&quot;{!$Record.Notification__r.Recipient__r.Id}&quot;}}</stringValue>
+                <stringValue>{&quot;type&quot;: &quot;comm__namedPage&quot;,&quot;attributes&quot;:{&quot;pageName&quot;:&quot;televisit&quot;},&quot;state&quot;:{&quot;ispast&quot;:&quot;false&quot;,&quot;perId&quot;:{!$Record.Notification__r.WhatId__c},&quot;contactId&quot;:&quot;{!$Record.Notification__r.Recipient__r.Id}&quot;,&quot;srId&quot;:&quot;{!$Record.Id}&quot;}}</stringValue>
             </value>
         </inputParameters>
     </actionCalls>
