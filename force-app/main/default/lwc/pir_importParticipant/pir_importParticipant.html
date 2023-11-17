@@ -38,7 +38,7 @@
                            options={studylist}
                            onchange={studyhandleChange}
                            disabled={isMyStudies}
-                           ></lightning-combobox>
+                           ></lightning-combobox>                          
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small dropdown-fonts_bulk">
                            <lightning-combobox
@@ -50,6 +50,7 @@
                                onchange={studysitehandleChange}
                                disabled={studysiteaccess}
                                ></lightning-combobox>
+                               <div if:true={showStudyErr} class="slds-form-element__help err">No active study sites available for selection</div>
                         </div>
                       
                      
