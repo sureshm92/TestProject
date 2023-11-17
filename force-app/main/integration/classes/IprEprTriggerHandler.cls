@@ -707,14 +707,6 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         Study_Site__c ss,
         Boolean isAdult
     ) {
-        Map<String,String> sourceToConsentMap = new Map<String,String>();
-
-        for(Referral_Source_Communication_Consent__mdt	 ccT: [ SELECT id, MasterLabel, DeveloperName, Consent_Values_Participant__c FROM 
-                                         Referral_Source_Communication_Consent__mdt	 ]){
-            if(ccT.Consent_Values_Participant__c!=null){
-                sourceToConsentMap.put(ccT.DeveloperName,ccT.Consent_Values_Participant__c);
-            }
-        }
         
         Boolean filterCriteria =
             ss.Study_Site_Type__c!='Virtual'&& ss.Study_Site_Type__c!='Hybrid' &&
@@ -778,6 +770,10 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             objPE.Comorbidities__c = 'No';
         else
             objPE.Comorbidities__c = '';
+        if(ipr.DataControllerOrg__c!=null){
+          objPE.DataControllerOrg__c=ipr.DataControllerOrg__c=='Sponsor Org'? 'SponsorSpecific':'Generic';
+        }
+        
         return objPE;
     }
 }

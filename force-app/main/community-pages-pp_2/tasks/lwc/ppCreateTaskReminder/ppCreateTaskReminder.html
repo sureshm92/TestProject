@@ -84,7 +84,7 @@
                             </label>
                         </div>
                         <div class="slds-checkbox">
-                            <input
+                            <!-- <input
                                 type="checkbox"
                                 data-id="smsReminder"
                                 id="smsReminder"
@@ -92,7 +92,17 @@
                                 checked={smsReminderOptIn}
                                 disabled={isSMSReminderDisabled}
                                 onclick={handleSMSReminder}
+                            /> -->
+                            <input
+                                type="checkbox"
+                                data-id="smsReminder"
+                                id="smsReminder"
+                                value={smsReminderOptIn}
+                                checked={smsReminderOptIn}
+                                disabled
+                                onclick={handleSMSReminder}
                             />
+
                             <label class="slds-checkbox__label" for="smsReminder">
                                 <span class="slds-checkbox_faux"></span>
                                 <span class="slds-form-element__label field-title slds-p-left_small"

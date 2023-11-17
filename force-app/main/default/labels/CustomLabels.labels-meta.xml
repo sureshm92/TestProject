@@ -3111,6 +3111,20 @@ We are asking all eligible donors to come forward so we can treat as many patien
         <value>and our</value>
     </labels>
     <labels>
+        <fullName>Edit_Restricted_Source</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Edit Restricted Source</shortDescription>
+        <value>Edit Restricted Source</value>
+    </labels>
+    <labels>
+        <fullName>New_Restricted_Source</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Restricted Source</shortDescription>
+        <value>New Restricted Source</value>
+    </labels>
+    <labels>
         <fullName>CPRA_DoNotSell_GSK</fullName>
         <language>en_US</language>
         <protected>true</protected>

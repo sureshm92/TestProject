@@ -139,13 +139,23 @@
                                 checked={email}
                                 onchange={setAttributeValueEmail}
                             ></lightning-input>
-                            <lightning-input
+                            <!-- <lightning-input
                                 data:id="smsField"
                                 type="checkbox"
                                 label={label.sms}
                                 name={label.sms}
                                 value={sms}
                                 disabled={smsOptIn}
+                                checked={sms}
+                                onchange={setAttributeValueSms}
+                            ></lightning-input> -->
+                            <lightning-input
+                                data:id="smsField"
+                                type="checkbox"
+                                label={label.sms}
+                                name={label.sms}
+                                value={sms}
+                                disabled
                                 checked={sms}
                                 onchange={setAttributeValueSms}
                             ></lightning-input>
