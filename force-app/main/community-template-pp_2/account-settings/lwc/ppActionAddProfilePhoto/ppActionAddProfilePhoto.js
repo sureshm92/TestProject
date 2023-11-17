@@ -134,7 +134,8 @@ export default class PpActionAddProfilePhoto extends LightningElement {
 
                 fileContents = fileContents.substring(dataStart);
                 parentRef.uploadFile(uploadedFile, fileContents);
-                parentRef.pictureSrc = fileContents;
+                //parentRef.pictureSrc = fileContents;
+                this.hasProfilePic = false;
             };
             reader.readAsDataURL(uploadedFile);
         }
