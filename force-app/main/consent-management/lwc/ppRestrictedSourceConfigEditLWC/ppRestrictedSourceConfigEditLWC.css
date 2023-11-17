@@ -1,0 +1,16 @@
+.modal-study{
+    background-color: var(--slds-g-color-neutral-base-95, var(--lwc-colorBackgroundInputDisabled,rgb(243, 243, 243)));
+    border-color: var(--slds-g-color-border-base-1, var(--lwc-colorBorderInputDisabled,rgb(201, 201, 201)));
+    color: var(--slds-g-color-neutral-base-50, var(--lwc-colorTextInputDisabled,rgb(68, 68, 68)));
+    cursor: not-allowed;
+}
+.spins::after {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+}
+.modalBodySpinner{
+    position: relative;
+}
