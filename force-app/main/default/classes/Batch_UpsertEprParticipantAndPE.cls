@@ -537,15 +537,21 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                         !String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c) &&
                         !String.isEmpty(ipr.Delegate_Email_Address__c)
                     ) {
-                        patientDelEnrollList.add(
-                            new Patient_Delegate_Enrollment__c(
-                                Status__c = 'Disconnected',
-                                Participant_Enrollment__c = sr.getId(),
-                                Primary_Delegate__c = true,
-                                Study_info_storage_consent__c = true,
-                                Study_Storage_Consent_Time__c = Datetime.now()
-                            )
+                        Patient_Delegate_Enrollment__c pder = new Patient_Delegate_Enrollment__c(
+                            Status__c = 'Disconnected',
+                            Participant_Enrollment__c = sr.getId(),
+                            Primary_Delegate__c = true,
+                            Study_info_storage_consent__c = true,
+                            Study_Storage_Consent_Time__c = Datetime.now()
                         );
+                        if (sourceToConsentMap.containsKey(ipr.Data_Source__c)) {
+                            list<string> lstFields = sourceToConsentMap.get(ipr.Data_Source__c)
+                                .split(',');
+                            for (String objstr : lstFields) {
+                                pder.put(objstr, true);
+                            }
+                        }
+                        patientDelEnrollList.add(pder);
                     }
                 } else {
                     ipr.Batch_consideration__c = 'Completed';
