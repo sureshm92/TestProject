@@ -42,7 +42,6 @@ export default class PpPastStudiesResult extends LightningElement {
                 isRTL: this.isRTL
             })
                 .then((returnValue) => {
-                    // alert(returnValue);
                     communityService.navigateToPage('mobile-pdf-viewer?pdfData=' + returnValue);
                 })
                 .catch((error) => {
