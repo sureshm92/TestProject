@@ -393,7 +393,6 @@ window.communityService = (function () {
             urlEvent.fire();
         },
         loadPage() {
-            sessionStorage.setItem('isPushNotification', 'Yes');
             location.reload();
         },
 
