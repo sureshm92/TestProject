@@ -5,6 +5,7 @@ import getResult from '@salesforce/apex/ppPastStudiesTabUtility.resultAvailable'
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import PP_Download_Results_Data from '@salesforce/label/c.PP_Download_Results_Data';
 import Past_Studies_Result_Text from '@salesforce/label/c.Past_Studies_Result_Text';
+import getBase64fromVisitSummaryReportPage_ModifiedAlumni from '@salesforce/apex/ModifiedVisitReportContainerRemote.getBase64fromVisitSummaryReportPage_ModifiedAlumni';
 
 export default class PpPastStudiesResult extends LightningElement {
     @api perid;
@@ -35,8 +36,23 @@ export default class PpPastStudiesResult extends LightningElement {
         });
     }
     openResult(){
-        window.open(
-            '/pp/apex/PatientVisitReportPage?peId=' + this.perid + '&isRTL=' + this.isRTL
-        );
+        if (communityService.isMobileSDK()) {
+            getBase64fromVisitSummaryReportPage_ModifiedAlumni({
+                peId: this.perid,
+                isRTL: this.isRTL
+            })
+                .then((returnValue) => {
+                    // alert(returnValue);
+                    communityService.navigateToPage('mobile-pdf-viewer?pdfData=' + returnValue);
+                })
+                .catch((error) => {
+                    alert('Error occured during report generation', error.message, 'error');
+                });
+        }
+        else{
+            window.open(
+                '/pp/apex/PatientVisitReportPage?peId=' + this.perid + '&isRTL=' + this.isRTL
+            );
+        }
     }
 }
