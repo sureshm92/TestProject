@@ -1,86 +1,33 @@
 public without sharing class Batch_UpsertEprParticipantAndPE implements Database.Batchable<sObject> {
-    private Account tempAccount;
+    
+    private Account tempAccount; 
     public static boolean eprBatchRunning = false;
-
-    public Batch_UpsertEprParticipantAndPE() {
+    
+    public Batch_UpsertEprParticipantAndPE(){
         tempAccount = new Account();
         Blob b = Crypto.GenerateAESKey(128);
         String h = EncodingUtil.ConvertTohex(b);
-        String guid = h.SubString(0, 8);
+        String guid = h.SubString(0,8);
         tempAccount.Name = guid;
         insert tempAccount;
     }
-
-    public Database.QueryLocator start(Database.BatchableContext bc) {
+    
+    public Database.QueryLocator start(Database.BatchableContext bc) {        
         return Database.getQueryLocator(
-            [
-                SELECT
-                    Comorbidities__c,
-                    UTM_campaignSource__c,
-                    UTM_campaignTerm__c,
-                    UTM_campaignCookie__c,
-                    UTM_GCLID__c,
-                    Atid__c,
-                    HighRisk_Indicator__c,
-                    Id,
-                    UTM_campaignMedium__c,
-                    UTM_campaignContent__c,
-                    UTM_campaignName__c,
-                    Referred_Date__c,
-                    acceptedTermsAndConditions__c,
-                    MRR_Survey_Results_URL__c,
-                    ePRPatient_ID_Number__c,
-                    Pass_Fail__c,
-                    Name,
-                    Ethnicity__c,
-                    Batch_consideration__c,
-                    Is_retry_required__c,
-                    Address_AddressLine1__c,
-                    Address_City__c,
-                    Address_Country__c,
-                    Address_State__c,
-                    Address_ZipCode__c,
-                    BirthDate__c,
-                    birthYear__c,
-                    BMI__c,
-                    Preferred_Contact_Time__c,
-                    Data_Source__c,
-                    Delegate_Alternative_Phone_Number__c,
-                    Delegate_Daytime_Phone_Number__c,
-                    Delegate_Email_Address__c,
-                    Delegate_First_Name__c,
-                    Delegate_Last_Name__c,
-                    Delegate_Mailing_City__c,
-                    Delegate_Mailing_State__c,
-                    Delegate_Middle_Name__c,
-                    Delegate_Phone_Number_Type__c,
-                    Delegate_Zip_Postal_Code__c,
-                    email__c,
-                    firstName__c,
-                    Language_Preference__c,
-                    lastName__c,
-                    Middle_Initial__c,
-                    Participant_MobileNumber__c,
-                    phone__c,
-                    Phone_Type__c,
-                    protocolId__c,
-                    referralID__c,
-                    sex__c,
-                    siteSelected__c,
-                    Human_Id__c,
-                    Additional_Information__c,
-                    DataControllerOrg__c
-                FROM Integration_Patient_Referral__c
-                WHERE Batch_consideration__c = 'Not completed'
-                LIMIT 1000
-            ]
+            [SELECT Comorbidities__c,UTM_campaignSource__c,UTM_campaignTerm__c,UTM_campaignCookie__c,UTM_GCLID__c,Atid__c,HighRisk_Indicator__c,
+             Id,UTM_campaignMedium__c,UTM_campaignContent__c,UTM_campaignName__c,Referred_Date__c,acceptedTermsAndConditions__c,
+             MRR_Survey_Results_URL__c,ePRPatient_ID_Number__c, Pass_Fail__c,Name,Ethnicity__c, Batch_consideration__c, Is_retry_required__c,
+             Address_AddressLine1__c, Address_City__c, Address_Country__c, Address_State__c, Address_ZipCode__c, BirthDate__c, birthYear__c, BMI__c,Preferred_Contact_Time__c, 
+             Data_Source__c, Delegate_Alternative_Phone_Number__c, Delegate_Daytime_Phone_Number__c, Delegate_Email_Address__c, Delegate_First_Name__c, 
+             Delegate_Last_Name__c, Delegate_Mailing_City__c, Delegate_Mailing_State__c, Delegate_Middle_Name__c, Delegate_Phone_Number_Type__c, 
+             Delegate_Zip_Postal_Code__c, email__c, firstName__c, Language_Preference__c, lastName__c, Middle_Initial__c, Participant_MobileNumber__c, 
+             phone__c, Phone_Type__c, protocolId__c, referralID__c, sex__c, siteSelected__c,Human_Id__c,Additional_Information__c FROM Integration_Patient_Referral__c 
+             WHERE Batch_consideration__c = 'Not completed' limit 1000 ]
         );
+        
     }
-
-    public void execute(
-        Database.BatchableContext bc,
-        List<Integration_Patient_Referral__c> initialScope
-    ) {
+    
+	public void execute(Database.BatchableContext bc, List<Integration_Patient_Referral__c> initialScope) {
         eprBatchRunning = true;
         Map<String, Study_Site__c> ssByPrimaryKeyEPRMap = new Map<String, Study_Site__c>();
         Map<String, Clinical_Trial_Profile__c> ctpByProtocolIdMap = new Map<String, Clinical_Trial_Profile__c>();
@@ -88,18 +35,18 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();
         Map<String, Participant__c> dupParticipantsMap = new Map<String, Participant__c>();
         Map<String, IprEprTriggerHandler.ContactAndSiteType> newDelegateContactsMap = new Map<String, IprEprTriggerHandler.ContactAndSiteType>();
-        Map<String, string> referralAccMap = new Map<String, string>();
-        Map<String, String> IPRContDupKeyPhoneTypeMap = new Map<String, String>();
-        Map<string, string> IPRContDupKeyDelDayTimePhoneNoMap = new Map<string, string>();
-        Map<string, string> IPRContDupKeyDelAltPhoneNoMap = new Map<string, string>();
-
+        Map<String,string> referralAccMap = new Map<String,string>();
+        Map<String, String> IPRContDupKeyPhoneTypeMap = new Map<String, String>(); 
+        Map<string,string> IPRContDupKeyDelDayTimePhoneNoMap = new map<string,string>(); 
+        Map<string,string> IPRContDupKeyDelAltPhoneNoMap = new map<string,string>(); 
+        
         List<String> protocolIds = new List<String>();
         List<String> ssNumbersList = new List<String>();
         Set<Participant__c> duplicatePatientsList = new Set<Participant__c>();
         Set<Id> duplicatePatientsSet = new Set<Id>();
         List<String> uniqueIPRList = new List<String>();
         List<String> uniqueDelList = new List<String>();
-        Map<String, Integration_Patient_Referral__c> iprRPMap = new Map<String, Integration_Patient_Referral__c>();
+        Map<String,Integration_Patient_Referral__c> iprRPMap = new Map<String,Integration_Patient_Referral__c>();
         List<Integration_Patient_Referral__c> scope = new List<Integration_Patient_Referral__c>();
         //For Patient Outreach Flow
         List<String> patientOutrachProtocolIds = new List<String>();
@@ -107,58 +54,24 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         Map<String, Integration_Patient_Referral__c> patientOutrachNewMap = new Map<String, Integration_Patient_Referral__c>();
 
         for (Integration_Patient_Referral__c ipr : initialScope) {
-            if (
-                !uniqueIPRList.contains(
-                    ipr.firstName__c +
-                    '_' +
-                    ipr.lastName__c +
-                    '_' +
-                    ipr.BirthDate__c +
-                    '_' +
-                    ipr.email__c +
-                    '_' +
-                    ipr.phone__c +
-                    '_' +
-                    ipr.protocolId__c
-                )
-            ) {
-                if (
-                    !uniqueDelList.contains(ipr.Delegate_Email_Address__c) ||
-                    ipr.Delegate_Email_Address__c == null
-                ) {
+            if(!uniqueIPRList.contains(ipr.firstName__c+'_'+ipr.lastName__c+'_'+ipr.BirthDate__c+'_'+ipr.email__c+'_'+ipr.phone__c+'_'+ipr.protocolId__c)){
+                if(!uniqueDelList.contains(ipr.Delegate_Email_Address__c) || ipr.Delegate_Email_Address__c== null){
                     //ipr.Batch_consideration__c = 'Completed';
                     //protocolIds.add(ipr.protocolId__c);
                     //ssNumbersList.add(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
                     //newMap.put(ipr.referralID__c, ipr);
                     //scope.add(ipr);
-                    if (ipr.Delegate_Email_Address__c != null)
-                        uniqueDelList.add(ipr.Delegate_Email_Address__c);
-                    uniqueIPRList.add(
-                        ipr.firstName__c +
-                        '_' +
-                        ipr.lastName__c +
-                        '_' +
-                        ipr.BirthDate__c +
-                        '_' +
-                        ipr.email__c +
-                        '_' +
-                        ipr.phone__c +
-                        '_' +
-                        ipr.protocolId__c
-                    );
+                    if(ipr.Delegate_Email_Address__c != null) uniqueDelList.add(ipr.Delegate_Email_Address__c);
+                    uniqueIPRList.add(ipr.firstName__c+'_'+ipr.lastName__c+'_'+ipr.BirthDate__c+'_'+ipr.email__c+'_'+ipr.phone__c+'_'+ipr.protocolId__c);
                     //Store IPR records which are coming from Patient outreach
-                    if (
-                        !String.isBlank(ipr.UTM_campaignName__c) &&
-                        ipr.UTM_campaignName__c.startsWith('REF')
-                    ) {
+                    if(!String.isBlank(ipr.UTM_campaignName__c) && ipr.UTM_campaignName__c.startsWith('REF')) {
                         ipr.Batch_consideration__c = 'Completed';
                         patientOutrachProtocolIds.add(ipr.protocolId__c);
-                        patientOutrachSSNumbersList.add(
-                            IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr)
-                        );
+                        patientOutrachSSNumbersList.add(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
                         patientOutrachNewMap.put(ipr.referralID__c, ipr);
-                        iprRPMap.put(ipr.UTM_campaignName__c, ipr);
-                    } else {
+                        iprRPMap.put(ipr.UTM_campaignName__c,ipr);
+                    }
+                    else {
                         ipr.Batch_consideration__c = 'Completed';
                         protocolIds.add(ipr.protocolId__c);
                         ssNumbersList.add(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
@@ -170,7 +83,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         }
 
         //Process IPR sepratly based on PER records which comes from patient outreach and alreday present in the RH
-        if (!iprRPMap.isEmpty()) {
+        if(!iprRPMap.isEmpty()) {
             ProcessIPRForPatientOutreachHelper.processIPRForPatientOutreach(
                 iprRPMap,
                 tempAccount,
@@ -183,22 +96,22 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         //SS Map
         List<Study_Site__c> ssList = [
             SELECT
-                Id,
-                Protocol_ID__c,
-                Primary_Key_ePR__c,
-                Study_Site_Type__c,
-                Site__c,
-                Override_PI_Referral_Status__c,
-                Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
-                Suppress_Participant_Emails__c,
-                Participant_DOB_format__c
+            Id,
+            Protocol_ID__c,
+            Primary_Key_ePR__c,
+            Study_Site_Type__c,
+            Site__c,
+            Override_PI_Referral_Status__c,
+            Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+            Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+            Suppress_Participant_Emails__c,
+            Participant_DOB_format__c 
             FROM Study_Site__c
             WHERE Primary_Key_ePR__c IN :ssNumbersList
         ];
         for (Study_Site__c ss : ssList)
             ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);
-
+        
         //CTP Map
         List<Clinical_Trial_Profile__c> ctpList = [
             SELECT Id, Override_Recruitment_Status__c, Protocol_ID__c
@@ -206,79 +119,68 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             WHERE Protocol_ID__c IN :protocolIds
         ];
         for (Clinical_Trial_Profile__c ctp : ctpList)
-            ctpByProtocolIdMap.put(ctp.Protocol_ID__c, ctp);
-
+            ctpByProtocolIdMap.put(ctp.Protocol_ID__c, ctp);    
+        
         Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
         Participant__c participantExisting;
-        list<ParticipantDuplicateService.ParticipantWithDelegate> partDelegateWrapperList = new List<ParticipantDuplicateService.ParticipantWithDelegate>();
-        for (Integration_Patient_Referral__c ipr : scope) {
+        list<ParticipantDuplicateService.ParticipantWithDelegate> partDelegateWrapperList =  new list<ParticipantDuplicateService.ParticipantWithDelegate>();
+        for (Integration_Patient_Referral__c ipr : scope) { 
             ParticipantDuplicateService.ParticipantWithDelegate partDelegateWrapper = new ParticipantDuplicateService.ParticipantWithDelegate();
             partDelegateWrapper.participant = new Participant__c();
-            Study_Site__c ss = ssByPrimaryKeyEPRMap.get(
-                IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr)
-            );
-
+            Study_Site__c ss = ssByPrimaryKeyEPRMap.get(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
+            
             //if (!String.isBlank(ipr.BirthDate__c)) {
             List<String> dateOfBirth = ipr.BirthDate__c.split('-');
             String mmValue;
             String ddValue;
             String yyyyValue;
-            if (
-                string.isNotBlank(ss.Participant_DOB_format__c) &&
-                ss.Participant_DOB_format__c == 'DD-MM-YYYY'
-            ) {
-                if (dateOfBirth.size() > 2) {
+            if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                if(dateOfBirth.size() > 2){
                     ddValue = dateOfBirth[2];
                     mmValue = dateOfBirth[1];
-                } else if (dateOfBirth.size() > 1) {
+                }else if(dateOfBirth.size() > 1){
                     mmValue = dateOfBirth[1];
                 }
-            } else if (
-                string.isNotBlank(ss.Participant_DOB_format__c) &&
-                ss.Participant_DOB_format__c == 'MM-YYYY'
-            ) {
-                if (dateOfBirth.size() > 1) {
+            }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                if(dateOfBirth.size() > 1){
                     mmValue = dateOfBirth[1];
                 }
             }
             yyyyValue = dateOfBirth[0];
             Integer mm = String.isNotBlank(mmValue) ? Integer.valueof(mmValue) : 12;
-            Integer dd = String.isNotBlank(ddValue)
-                ? Integer.valueof(ddValue)
-                : Date.daysInMonth(Integer.valueOf(yyyyValue), mm);
-            Date birthDate = Date.newInstance(Integer.valueOf(yyyyValue), mm, dd);
-            Integer participantAge = Date.newInstance(2000, birthDate.month(), birthDate.day()) <=
-                Date.newInstance(2000, Date.today().month(), Date.today().day())
-                ? Date.today().year() - birthDate.year()
-                : Date.today().year() - birthDate.year() - 1;
+            Integer dd = String.isNotBlank(ddValue) ? Integer.valueof(ddValue) : Date.daysInMonth(Integer.valueOf(yyyyValue), mm);
+            Date birthDate = Date.newInstance( 
+                Integer.valueOf(yyyyValue),mm,dd
+            );
+            Integer participantAge = Date.newInstance(
+                2000,
+                birthDate.month(),
+                birthDate.day()
+            ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
+            ? Date.today().year() - birthDate.year()
+            : Date.today().year() - birthDate.year() - 1;
             mmValue = String.valueof(mm);
             ddValue = String.valueof(dd);
-            if (mm < 10) {
-                mmValue = '0' + mm;
+            if(mm < 10){
+               mmValue = '0'+mm;
             }
-            if (dd < 10) {
-                ddValue = '0' + dd;
+            if(dd < 10){
+                ddValue = '0'+dd;
             }
             string tempBrVar = ipr.BirthDate__c;
-            ipr.BirthDate__c = yyyyValue + '-' + mmValue + '-' + ddValue;
+            ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
             Participant__c objParticipant = IprEprTriggerHandler.convertToParticipant(ipr);
-            ipr.BirthDate__c = tempBrVar;
+            ipr.BirthDate__c = tempBrVar ;
             objParticipant.Age__c = participantAge;
-            if (
-                string.isNotBlank(ss.Participant_DOB_format__c) &&
-                ss.Participant_DOB_format__c == 'DD-MM-YYYY'
-            ) {
-                if (dateOfBirth.size() > 2) {
+            if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                if(dateOfBirth.size() > 2){
                     objParticipant.Birth_Day__c = ddValue;
                     objParticipant.Birth_Month__c = mmValue;
-                } else if (dateOfBirth.size() > 1) {
+                }else if(dateOfBirth.size() > 1){
                     objParticipant.Birth_Month__c = mmValue;
                 }
-            } else if (
-                string.isNotBlank(ss.Participant_DOB_format__c) &&
-                ss.Participant_DOB_format__c == 'MM-YYYY'
-            ) {
-                if (dateOfBirth.size() > 1) {
+            }else if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                if(dateOfBirth.size() > 1){
                     objParticipant.Birth_Month__c = mmValue;
                 }
             }
@@ -297,30 +199,17 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                 !String.isEmpty(ipr.firstName__c) &&
                 !String.isEmpty(ipr.lastName__c) &&
                 !String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c) &&
-                !String.isEmpty(ipr.Delegate_Email_Address__c)
-            ) {
+                !String.isEmpty(ipr.Delegate_Email_Address__c))
+            {
                 newDelegateContactsMap.put(
                     ipr.referralID__c,
-                    IprEprTriggerHandler.convertToDelegateContact(
-                        ipr,
-                        participantAccount,
-                        ss.Study_Site_Type__c
-                    )
+                    IprEprTriggerHandler.convertToDelegateContact(ipr, participantAccount, ss.Study_Site_Type__c)
                 );
                 //Populate Maps to udpate the duplicate delegate phone number if delegate comes with different Participant with updated delegate phone number
-                String duplicateKey =
-                    ipr.Delegate_Email_Address__c?.toLowerCase() +
-                    ipr.Delegate_First_Name__c?.toLowerCase() +
-                    ipr.Delegate_Last_Name__c?.toLowerCase();
-                IPRContDupKeyPhoneTypeMap.put(duplicateKey, ipr.Delegate_Phone_Number_Type__c);
-                IPRContDupKeyDelDayTimePhoneNoMap.put(
-                    duplicateKey,
-                    ipr.Delegate_Daytime_Phone_Number__c
-                );
-                IPRContDupKeyDelAltPhoneNoMap.put(
-                    duplicateKey,
-                    ipr.Delegate_Alternative_Phone_Number__c
-                );
+                String duplicateKey = ipr.Delegate_Email_Address__c?.toLowerCase() + ipr.Delegate_First_Name__c?.toLowerCase() + ipr.Delegate_Last_Name__c?.toLowerCase();
+                IPRContDupKeyPhoneTypeMap.put(duplicateKey, ipr.Delegate_Phone_Number_Type__c); 
+                IPRContDupKeyDelDayTimePhoneNoMap.put(duplicateKey, ipr.Delegate_Daytime_Phone_Number__c); 
+                IPRContDupKeyDelAltPhoneNoMap.put(duplicateKey, ipr.Delegate_Alternative_Phone_Number__c);                 
                 partDelegateWrapper.delegate = new Participant__c();
                 partDelegateWrapper.delegate.Email__c = ipr.Delegate_Email_Address__c;
                 partDelegateWrapper.delegate.First_Name__c = ipr.Delegate_First_Name__c;
@@ -335,23 +224,23 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             partDelegateWrapperList
         );
         Map<String, String> participantsByEmailRefid = new Map<String, String>();
-        Map<String, Contact> iprAndContactsToInsert = new Map<String, Contact>();
+        Map<String,Contact> iprAndContactsToInsert = new Map<String,Contact>();
         Map<String, String> conEmailAccMap = new Map<String, String>();
         Map<Id, Id> dupPartContMap = new Map<Id, Id>();
 
         //REF-4741
         Map<Id, Participant__c> dupPartUpdateMap = new Map<Id, Participant__c>();
-        list<Participant__c> dupPartToUpdateList = new List<Participant__c>();
-
+        list<Participant__c> dupPartToUpdateList = new list<Participant__c>();
+        
         for (Integration_Patient_Referral__c ipr : scope) {
             Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
             Participant__c participantDuplicate = duplicateService.findDuplicate(participant);
             Contact contactDuplicate = duplicateService.findDuplicateContact(participant);
-            if (participantDuplicate != null && contactDuplicate != null) {
+            if (participantDuplicate != null && contactDuplicate!= null){
                 dupPartContMap.put(contactDuplicate.Id, participantDuplicate.Id);
             }
-
-            //Append Referral Secondary Source to the duplicate Participant
+            
+			//Append Referral Secondary Source to the duplicate Participant 
             if (participantDuplicate != null) {
                 String refSourceStr = participantDuplicate.Secondary_Source__c;
                 if (refSourceStr == null)
@@ -362,13 +251,13 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     new List<String>(refSources),
                     ';'
                 );
-                if (participant.Birth_Day__c != null) {
+                if(participant.Birth_Day__c!=null){
                     participantDuplicate.Birth_Day__c = participant.Birth_Day__c;
                 }
-                if (participant.Birth_Month__c != null) {
+                if(participant.Birth_Month__c!=null){
                     participantDuplicate.Birth_Month__c = participant.Birth_Month__c;
                 }
-                if (participant.Birth_Year__c != null) {
+                if(participant.Birth_Year__c!=null){
                     participantDuplicate.Birth_Year__c = participant.Birth_Year__c;
                 }
                 newParticipantsMap.remove(ipr.referralID__c);
@@ -389,23 +278,19 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     newContact.MailingCountryCode = participantDuplicate.Mailing_Country_Code__c;
                     newContact.MailingStateCode = participantDuplicate.Mailing_State_Code__c;
                     newContact.MailingPostalCode = participantDuplicate.Mailing_Zip_Postal_Code__c;
-                    iprAndContactsToInsert.put(ipr.referralID__c, newContact);
+                    iprAndContactsToInsert.put(ipr.referralID__c,newContact);
                     participantsByEmailRefid.put(participantDuplicate.Email__c, ipr.referralID__c);
-                    String duplicateKey =
-                        newContact.Email?.toLowerCase() + newContact.LastName?.toLowerCase();
-                    conEmailAccMap.put(duplicateKey, participantDuplicate.Site__c);
-                }
+                    String duplicateKey = newContact.Email?.toLowerCase() + newContact.LastName?.toLowerCase();
+                    conEmailAccMap.put(duplicateKey,participantDuplicate.Site__c);
+                } 
 
                 //REF-4741
                 Participant__c dupPartToUdate = new Participant__c();
                 dupPartToUdate.id = participantDuplicate.Id;
-                if (
-                    participant.Preferred_Contact_Time__c != null ||
-                    String.isNotBlank(participant.Preferred_Contact_Time__c)
-                )
-                    dupPartToUdate.Preferred_Contact_Time__c = participant.Preferred_Contact_Time__c;
-                dupPartUpdateMap.put(dupPartToUdate.id, dupPartToUdate);
-                //
+                if(participant.Preferred_Contact_Time__c != NULL || String.isNotBlank(participant.Preferred_Contact_Time__c))
+                dupPartToUdate.Preferred_Contact_Time__c = participant.Preferred_Contact_Time__c;
+                dupPartUpdateMap.put(dupPartToUdate.id,dupPartToUdate);
+                //               
             } else {
                 if (contactDuplicate != null)
                     participant.Contact__c = contactDuplicate.Id;
@@ -425,31 +310,30 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     newContact.MailingCountryCode = participant.Mailing_Country_Code__c;
                     newContact.MailingStateCode = participant.Mailing_State_Code__c;
                     newContact.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;
-                    iprAndContactsToInsert.put(ipr.referralID__c, newContact);
+                    iprAndContactsToInsert.put(ipr.referralID__c,newContact);
                     participantsByEmailRefid.put(participant.Email__c, ipr.referralID__c);
-                    String duplicateKey =
-                        newContact.Email?.toLowerCase() + newContact.LastName?.toLowerCase();
-                    conEmailAccMap.put(duplicateKey, participant.Site__c);
+                    String duplicateKey = newContact.Email?.toLowerCase() + newContact.LastName?.toLowerCase();
+                    conEmailAccMap.put(duplicateKey,participant.Site__c);
                 }
                 //
             }
+            
         }
         insert iprAndContactsToInsert.values();
-        for (String ipr : iprAndContactsToInsert.keySet()) {
-            if (newParticipantsMap.containsKey(ipr)) {
+        for(String ipr : iprAndContactsToInsert.keySet()) {
+            if(newParticipantsMap.containsKey(ipr)){
                 newParticipantsMap.get(ipr).Contact__c = iprAndContactsToInsert.get(ipr).Id;
             }
-            if (dupParticipantsMap.containsKey(ipr)) {
+            if(dupParticipantsMap.containsKey(ipr)){
                 dupParticipantsMap.get(ipr).Contact__c = iprAndContactsToInsert.get(ipr).Id;
             }
+            
         }
-
-        Set<Participant__c> newParticipantsSet = new Set<Participant__c>(
-            newParticipantsMap.values()
-        );
+        
+        Set<Participant__c> newParticipantsSet = new Set<Participant__c>(newParticipantsMap.values());
         List<Participant__c> newParticipantsList = new List<Participant__c>(newParticipantsSet);
         insert newParticipantsList;
-
+        
         //Insert PE
         List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
         Map<Id, Id> participantIdByParticipantDelegateContactId = new Map<Id, Id>();
@@ -457,48 +341,36 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         List<Participant__c> delegateParticipants = new List<Participant__c>();
         for (Integration_Patient_Referral__c ipr : scope) {
             Participant__c participant = new Participant__c();
-            if (newParticipantsMap.containsKey(ipr.referralID__c)) {
+            if(newParticipantsMap.containsKey(ipr.referralID__c)){
                 participant = newParticipantsMap.get(ipr.referralID__c);
             }
-            if (dupParticipantsMap.containsKey(ipr.referralID__c)) {
+            if(dupParticipantsMap.containsKey(ipr.referralID__c)){
                 participant = dupParticipantsMap.get(ipr.referralID__c);
             }
-
-            Study_Site__c ss = ssByPrimaryKeyEPRMap.get(
-                IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr)
-            );
+            
+            Study_Site__c ss = ssByPrimaryKeyEPRMap.get(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
             participant.Site__c = ss.Site__c;
             if (ss != null)
-                peList.add(
-                    IprEprTriggerHandler.createPE(
-                        ipr,
-                        participant.Id,
-                        ss.Id,
-                        ss,
-                        participant.Adult__c
-                    )
-                );
+                peList.add(IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c));
         }
         List<String> PEErrorMsg = new List<String>();
-        List<Database.SaveResult> saveResults = Database.insert(peList, false);
-
+       List<Database.SaveResult> saveResults = Database.insert(peList, false);
+        
         Set<Id> participantsWithoutErrors = new Set<Id>();
-        list<Integration_Patient_Referral__c> iprListToUpdate = new List<Integration_Patient_Referral__c>();
-        list<contact> contactsToDelete = new List<contact>();
+        list<Integration_Patient_Referral__c> iprListToUpdate = new list<Integration_Patient_Referral__c>();
+        list<contact> contactsToDelete = new list<contact>();
         List<Participant_PrescreenerResponse__c> screenerResponseList = new List<Participant_PrescreenerResponse__c>();
         List<Patient_Delegate_Enrollment__c> patientDelEnrollList = new List<Patient_Delegate_Enrollment__c>();
-        Map<String, String> sourceToConsentMap = new Map<String, String>();
+        Map<String,String> sourceToConsentMap = new Map<String,String>();
 
-        for (Referral_Source_Communication_Consent__mdt ccT : [
-            SELECT id, MasterLabel, DeveloperName, Consent_Values_Delegate__c
-            FROM Referral_Source_Communication_Consent__mdt
-        ]) {
-            if (ccT.Consent_Values_Delegate__c != null) {
-                sourceToConsentMap.put(ccT.DeveloperName, ccT.Consent_Values_Delegate__c);
+        for(Referral_Source_Communication_Consent__mdt	 ccT: [ SELECT id, MasterLabel, DeveloperName, Consent_Values_Delegate__c FROM 
+                                         Referral_Source_Communication_Consent__mdt	 ]){
+            if(ccT.Consent_Values_Delegate__c!=null){
+                sourceToConsentMap.put(ccT.DeveloperName,ccT.Consent_Values_Delegate__c);
             }
         }
         for (Integer i = 0; i < saveResults.size(); i++) {
-            Participant_Enrollment__c pe = peList[i];
+            Participant_Enrollment__c pe = peList[i];	
             Database.SaveResult sr = saveResults[i];
             Integration_Patient_Referral__c ipr = newMap.get(pe.Referral_ID__c);
             if (ipr != null) {
@@ -507,20 +379,17 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     ipr.Batch_consideration__c = 'Completed';
                     ipr.Participant_Enrollment__c = sr.getId();
 
-                    if (dupParticipantsMap.containsKey(pe.Referral_ID__c)) {
+                    if(dupParticipantsMap.containsKey(pe.Referral_ID__c)){
                         Participant__c dupPart = dupParticipantsMap.get(ipr.referralID__c);
                         //REF-4741
-                        if (dupPartUpdateMap.containsKey(pe.Participant__c)) {
-                            dupPart.Preferred_Contact_Time__c = dupPartUpdateMap.get(
-                                    pe.Participant__c
-                                )
-                                .Preferred_Contact_Time__c;
+                        if(dupPartUpdateMap.containsKey(pe.Participant__c)){
+                            dupPart.Preferred_Contact_Time__c = dupPartUpdateMap.get(pe.Participant__c).Preferred_Contact_Time__c;
                         }
                         //
-                        dupPartToUpdateList.add(dupPart);
-                        newParticipantsMap.put(ipr.referralID__c, dupPart);
+                        dupPartToUpdateList.add(dupPart);   
+                        newParticipantsMap.put(ipr.referralID__c, dupPart);                     
                     }
-                    if (String.isNotBlank(ipr.MRR_Survey_Results_URL__c)) {
+                    if(String.isNotBlank(ipr.MRR_Survey_Results_URL__c)) {
                         screenerResponseList.add(
                             new Participant_PrescreenerResponse__c(
                                 Completed_Date__c = Datetime.now(),
@@ -531,38 +400,38 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                             )
                         );
                     }
-                    if (
-                        !String.isBlank(ipr.Delegate_First_Name__c) &&
-                        !String.isBlank(ipr.Delegate_Last_Name__c) &&
-                        !String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c) &&
-                        !String.isEmpty(ipr.Delegate_Email_Address__c)
-                    ) {
-                        patientDelEnrollList.add(
-                            new Patient_Delegate_Enrollment__c(
-                                Status__c = 'Disconnected',
-                                Participant_Enrollment__c = sr.getId(),
-                                Primary_Delegate__c = true,
-                                Study_info_storage_consent__c = true,
-                                Study_Storage_Consent_Time__c = Datetime.now()
-                            )
+                   if( !String.isBlank(ipr.Delegate_First_Name__c) &&
+                       !String.isBlank(ipr.Delegate_Last_Name__c) &&
+                       !String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c) &&
+                       !String.isEmpty(ipr.Delegate_Email_Address__c))
+                    {
+                        Patient_Delegate_Enrollment__c pder=
+                        new Patient_Delegate_Enrollment__c(
+                            Status__c = 'Disconnected',
+                            Participant_Enrollment__c = sr.getId(),
+                            Primary_Delegate__c = true,
+                            Study_info_storage_consent__c=true,
+                            Study_Storage_Consent_Time__c = Datetime.now()
                         );
-                    }
+                        if(sourceToConsentMap.containsKey(ipr.Data_Source__c)){
+                            list<string> lstFields = sourceToConsentMap.get(ipr.Data_Source__c).split(',');
+                            for(String objstr : lstFields)
+                            {
+                            pder.put(objstr,true);
+                            }
+                        }
+                    patientDelEnrollList.add(pder);
+                }
+
                 } else {
                     ipr.Batch_consideration__c = 'Completed';
-                    ipr.Error_Message__c = EPR_Validation_Message__mdt.getinstance(
-                            'enrollment_duplicate'
-                        )
-                        .Error_Message__c;
-                    if (ipr.Error_Message__c != null) {
+                    ipr.Error_Message__c = EPR_Validation_Message__mdt.getinstance('enrollment_duplicate').Error_Message__c;
+                    if(ipr.Error_Message__c != null){
                         PEErrorMsg.add(ipr.Error_Message__c);
                     }
-                    if (dupParticipantsMap.containsKey(pe.Referral_ID__c)) {
-                        if (iprAndContactsToInsert.containsKey(pe.Referral_ID__c))
-                            contactsToDelete.add(
-                                new contact(
-                                    id = dupParticipantsMap.get(pe.Referral_ID__c).Contact__c
-                                )
-                            );
+                    if(dupParticipantsMap.containsKey(pe.Referral_ID__c)){
+                        if(iprAndContactsToInsert.containsKey(pe.Referral_ID__c))
+                            contactsToDelete.add(new contact(id = dupParticipantsMap.get(pe.Referral_ID__c).Contact__c));
                     }
                 }
                 iprListToUpdate.add(ipr);
@@ -571,156 +440,139 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         update iprListToUpdate;
 
         insert screenerResponseList;
-
-        if (!patientDelEnrollList.isEmpty()) {
+        
+        if(!patientDelEnrollList.isEmpty()){
             insert patientDelEnrollList;
         }
         //REF-4741
-        if (!dupPartToUpdateList.isEmpty())
+        if(!dupPartToUpdateList.isEmpty())
             update dupPartToUpdateList;
 
-        if (!contactsToDelete.isEmpty()) {
+        if(!contactsToDelete.isEmpty()){
             delete contactsToDelete;
         }
-
-        set<Contact> updateDelegateContacts = new Set<Contact>();
+        
+        set<Contact> updateDelegateContacts = new set<Contact>();
         List<Contact> newDelegateContacts = new List<Contact>();
         Map<Id, Participant__c> delegateParticipantsMap = new Map<Id, Participant__c>();
         List<IprEprTriggerHandler.ContactAndSiteType> cntList = new List<IprEprTriggerHandler.ContactAndSiteType>();
-        Set<String> duplicateRowCheckSet = new Set<String>();
-        Map<string, Contact> IPRDupContKeyContMap = new Map<string, Contact>();
-
+        Set<String> duplicateRowCheckSet = new Set<String>(); 
+        Map<string,Contact> IPRDupContKeyContMap = new Map<string,Contact>();
+       
+        
         if (!newDelegateContactsMap.isEmpty()) {
-            for (String ref : newParticipantsMap.keySet()) {
-                if (
-                    !duplicatePatientsSet.contains(newParticipantsMap.get(ref).Id) ||
-                    participantsWithoutErrors.contains(newParticipantsMap.get(ref).Id)
-                ) {
-                    if (newDelegateContactsMap.containsKey(ref)) {
-                        IprEprTriggerHandler.ContactAndSiteType cnt = newDelegateContactsMap.get(
-                            ref
-                        );
+            for(String ref : newParticipantsMap.keySet()){
+                if(!duplicatePatientsSet.contains(newParticipantsMap.get(ref).Id) || participantsWithoutErrors.contains(newParticipantsMap.get(ref).Id)){
+                    if(newDelegateContactsMap.containsKey(ref)){
+                        IprEprTriggerHandler.ContactAndSiteType cnt =  newDelegateContactsMap.get(ref); 
                         cntList.add(cnt);
                         newDelegateContacts.add(cnt.contactObj);
-                        //Create Dele
-                        String duplicateKey =
-                            cnt.ContactObj.email?.toLowerCase() +
-                            cnt.ContactObj.firstName?.toLowerCase() +
-                            cnt.ContactObj.lastName?.toLowerCase();
-
+						//Create Dele
+                        String duplicateKey = cnt.ContactObj.email?.toLowerCase() + 
+                            				  cnt.ContactObj.firstName?.toLowerCase() + 
+                            				  cnt.ContactObj.lastName?.toLowerCase();
+                        
                         //For Duplicate Row check in current Payloads
-                        if (!duplicateRowCheckSet.contains(duplicateKey)) {
+                        if(!duplicateRowCheckSet.contains(duplicateKey)){
                             duplicateRowCheckSet.add(duplicateKey);
                             //Duplicate check participant and contact records for existing records in the system
-                            ReferHealthcareProviderRemote.HealthcareProvider hp = ReferHealthcareProviderRemote.checkDuplicate(
-                                null,
-                                cnt.contactObj.Email,
-                                cnt.contactObj.FirstName,
-                                cnt.contactObj.LastName,
-                                null
-                            );
-
+                            ReferHealthcareProviderRemote.HealthcareProvider hp 
+                                = ReferHealthcareProviderRemote.checkDuplicate(null,
+                                                                               cnt.contactObj.Email,
+                                                                               cnt.contactObj.FirstName,
+                                                                               cnt.contactObj.LastName,
+                                                                               null);
+                            
+                            
                             //If Duplicate contact found for delegate.
-                            if (hp.contactId != null) {
-                                String hpDuplicateKey =
-                                    hp.email?.toLowerCase() +
-                                    hp.firstName?.toLowerCase() +
-                                    hp.lastName?.toLowerCase();
+                            if(hp.contactId!=null){
+                                String hpDuplicateKey = hp.email?.toLowerCase() + hp.firstName?.toLowerCase() + hp.lastName?.toLowerCase();
                                 IPRDupContKeyContMap.put(hpduplicateKey, hp.conObject);
+                               
                             }
                         }
                     }
                 }
             }
+            
         }
-
-        contact contactUpdate;
+        
+        contact contactUpdate ;
         for (Contact con : newDelegateContacts) {
-            String duplicateKey =
-                con.email?.toLowerCase() +
-                con.firstName?.toLowerCase() +
-                con.lastName?.toLowerCase();
+            String duplicateKey = con.email?.toLowerCase() + con.firstName?.toLowerCase() + con.lastName?.toLowerCase();
             //Check if the Delegate contact is already present in system
-            if (IPRDupContKeyContMap.containskey(duplicateKey)) {
+            if(IPRDupContKeyContMap.containskey(duplicateKey)){
                 con = IPRDupContKeyContMap.get(duplicateKey);
                 //Update phone number of existing delegate if comes with defferent participant with Updated phone number
                 String delDayTimePhoneNo = IPRContDupKeyDelDayTimePhoneNoMap.get(duplicateKey);
-                String delAltPhoneNo = IPRContDupKeyDelAltPhoneNoMap.get(duplicateKey);
+                String delAltPhoneNo = IPRContDupKeyDelAltPhoneNoMap.get(duplicateKey); 
                 Boolean updateExistingContPhoneNo = false;
-
-                if ('Home' == IPRContDupKeyPhoneTypeMap.get(duplicateKey)) {
-                    //Check if Duplicate delegate came with updated phone number,if yes Update the phone number on contact.
-                    if (!String.isEmpty(delDayTimePhoneNo) && delDayTimePhoneNo != con.HomePhone) {
-                        con.HomePhone = delDayTimePhoneNo;
-                        updateExistingContPhoneNo = true;
+                
+                if ('Home' ==IPRContDupKeyPhoneTypeMap.get(duplicateKey)) {
+                    //Check if Duplicate delegate came with updated phone number,if yes Update the phone number on contact. 
+                    if(!String.isEmpty(delDayTimePhoneNo) && delDayTimePhoneNo!=con.HomePhone){
+                        con.HomePhone = delDayTimePhoneNo; 
+                        updateExistingContPhoneNo=true;
                     }
-                    if (!String.isEmpty(delAltPhoneNo) && delAltPhoneNo != con.MobilePhone) {
+                    if(!String.isEmpty(delAltPhoneNo) && delAltPhoneNo!=con.MobilePhone){
                         con.MobilePhone = delAltPhoneNo;
-                        updateExistingContPhoneNo = true;
+                        updateExistingContPhoneNo=true;
+                    }   
+                }else if ('Mobile' == IPRContDupKeyPhoneTypeMap.get(duplicateKey)) {
+                     //Check if Duplicate delegate came with updated phone number,if yes Update the phone number on contact. 
+                    if(!String.isEmpty(delDayTimePhoneNo) && delDayTimePhoneNo!=con.MobilePhone){
+                        con.MobilePhone = delDayTimePhoneNo; 
+                        updateExistingContPhoneNo=true;
                     }
-                } else if ('Mobile' == IPRContDupKeyPhoneTypeMap.get(duplicateKey)) {
-                    //Check if Duplicate delegate came with updated phone number,if yes Update the phone number on contact.
-                    if (
-                        !String.isEmpty(delDayTimePhoneNo) && delDayTimePhoneNo != con.MobilePhone
-                    ) {
-                        con.MobilePhone = delDayTimePhoneNo;
-                        updateExistingContPhoneNo = true;
-                    }
-                    if (!String.isEmpty(delAltPhoneNo) && delAltPhoneNo != con.HomePhone) {
+                    if(!String.isEmpty(delAltPhoneNo) && delAltPhoneNo!=con.HomePhone){
                         con.HomePhone = delAltPhoneNo;
-                        updateExistingContPhoneNo = true;
-                    }
+                        updateExistingContPhoneNo=true;
+                    }   
                 } else {
-                    //Check if Duplicate delegate came with updated phone number,if yes Update the phone number on contact.
-                    if (!String.isEmpty(delDayTimePhoneNo) && delDayTimePhoneNo != con.Phone) {
-                        con.Phone = delDayTimePhoneNo;
-                        updateExistingContPhoneNo = true;
+                    //Check if Duplicate delegate came with updated phone number,if yes Update the phone number on contact. 
+                    if(!String.isEmpty(delDayTimePhoneNo) && delDayTimePhoneNo!=con.Phone){
+                        con.Phone = delDayTimePhoneNo; 
+                        updateExistingContPhoneNo=true;
                     }
-                    if (!String.isEmpty(delAltPhoneNo) && delAltPhoneNo != con.MobilePhone) {
+                    if(!String.isEmpty(delAltPhoneNo) && delAltPhoneNo!=con.MobilePhone){
                         con.MobilePhone = delAltPhoneNo;
-                        updateExistingContPhoneNo = true;
-                    }
+                        updateExistingContPhoneNo=true;
+                    }  
                 }
-                //If phone number is updated on existing delegate
-                if (updateExistingContPhoneNo == true) {
+                //If phone number is updated on existing delegate 
+                if(updateExistingContPhoneNo==true){
                     string participantAccountId = con.AccountId;
-                    con.AccountId = tempAccount.id;
-                    String duplicateKeyoldCont =
-                        con.email?.toLowerCase() +
-                        con.firstName?.toLowerCase() +
-                        con.lastName?.toLowerCase();
+                    con.AccountId = tempAccount.id;	
+                    String duplicateKeyoldCont = con.email?.toLowerCase() + con.firstName?.toLowerCase() + con.lastName?.toLowerCase();
                     //referralAccMap.put(con.FirstName+'_'+con.MiddleName+'_'+con.LastName+'_'+con.Email, participantAccountid);
                     referralAccMap.put(duplicateKeyoldCont, participantAccountid);
                     updateDelegateContacts.add(con);
+                    
                 }
-            } else {
+            }else{
                 string participantAccountId = con.AccountId;
-                con.AccountId = tempAccount.id;
+                con.AccountId = tempAccount.id;	
                 //referralAccMap.put(con.FirstName+'_'+con.MiddleName+'_'+con.LastName+'_'+con.Email, participantAccountid);
                 referralAccMap.put(duplicateKey, participantAccountid);
                 updateDelegateContacts.add(con);
             }
         }
-
+        
+        
         if (!updateDelegateContacts.isEmpty()) {
-            upsert new List<contact>(updateDelegateContacts);
+            upsert new list<contact>(updateDelegateContacts);
         }
-
+ 
         for (Integration_Patient_Referral__c ipr : scope) {
-            if (newParticipantsMap.containsKey(ipr.referralID__c)) {
+            if(newParticipantsMap.containsKey(ipr.referralID__c)){
                 Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
-                IprEprTriggerHandler.ContactAndSiteType participantDelegateContactAndSiteType = newDelegateContactsMap.get(
-                    ipr.referralID__c
-                );
-
-                if (participantsWithoutErrors.contains(participant.Id)) {
-                    if (participantDelegateContactAndSiteType != null) {
+                IprEprTriggerHandler.ContactAndSiteType participantDelegateContactAndSiteType = newDelegateContactsMap.get(ipr.referralID__c);
+                
+                if(participantsWithoutErrors.contains(participant.Id)){
+                    if (participantDelegateContactAndSiteType != null){
                         contact con = participantDelegateContactAndSiteType.contactObj;
-                        String duplicateKey =
-                            con.email?.toLowerCase() +
-                            con.firstName?.toLowerCase() +
-                            con.lastName?.toLowerCase();
-                        if (!(IPRDupContKeyContMap.containsKey(duplicateKey))) {
+                        String duplicateKey = con.email?.toLowerCase() + con.firstName?.toLowerCase() + con.lastName?.toLowerCase();
+                        if(!(IPRDupContKeyContMap.containsKey(duplicateKey))){
                             delegateParticipantsMap.put(
                                 participant.Id,
                                 IprEprTriggerHandler.createDelegateParticipant(
@@ -728,7 +580,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                                     ipr.Delegate_Phone_Number_Type__c
                                 )
                             );
-
+                            
                             Contact participantDelegateContact = participantDelegateContactAndSiteType.contactObj;
 
                             participantIdByParticipantDelegateContactId.put(
@@ -736,254 +588,214 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                                 participant.Id
                             );
                             delegateIds.add(participantDelegateContact.Id);
-                        } else {
+                        }
+                        else {
                             string contactUpdateId = IPRDupContKeyContMap.get(duplicateKey).Id;
-
-                            participantIdByParticipantDelegateContactId.put(
-                                contactUpdateId,
-                                participant.Id
-                            );
+                            
+                            participantIdByParticipantDelegateContactId.put(contactUpdateId, participant.Id);
                             delegateIds.add(contactUpdateId);
+                            
                         }
                     }
                 }
-            }
+            }            
         }
-
+        
         //Duplicate delegate logic
         if (!delegateParticipantsMap.values().isEmpty()) {
-            ParticipantDuplicateService duplicateDelService = new ParticipantDuplicateService(
-                delegateParticipantsMap.values()
-            );
+            ParticipantDuplicateService duplicateDelService = new ParticipantDuplicateService(delegateParticipantsMap.values());
             for (Id participantId : delegateParticipantsMap.keySet()) {
                 Participant__c delegateParticipant = delegateParticipantsMap.get(participantId);
-                Participant__c delParticipantDuplicate = duplicateService.findDuplicateDelegate(
-                    delegateParticipant
-                );
-                if (
-                    delParticipantDuplicate != null && !duplicatePatientsSet.contains(participantId)
-                ) {
+                Participant__c delParticipantDuplicate = duplicateService.findDuplicateDelegate(delegateParticipant);
+                if (delParticipantDuplicate != null && !duplicatePatientsSet.contains(participantId)){
                     delegateParticipantsMap.put(participantId, delParticipantDuplicate);
                 }
             }
             upsert delegateParticipantsMap.values();
         }
-
-        //Patient Delegate logic
+        
+        
+        
+        //Patient Delegate logic 
         List<Patient_Delegate__c> ptDelegateList = new List<Patient_Delegate__c>();
-        List<Patient_Delegate__c> ptDelegateRefs = new List<Patient_Delegate__c>();
+        List<Patient_Delegate__c> ptDelegateRefs = new List<Patient_Delegate__c>();        
         Map<Id, Id> existingPdMap = new Map<Id, Id>();
         List<String> pdDuplicate = new List<String>();
-
+        
         //If existing participant entering into system without delegate and different study
-        if (!duplicatePatientsSet.isEmpty()) {
-            for (Patient_Delegate__c pd : [
-                SELECT Id, Contact__c, Participant__c, Participant__r.Id, Primary_Delegate__c
-                FROM Patient_Delegate__c
-                WHERE
-                    Participant__c IN :participantsWithoutErrors
-                    AND Participant__c IN :duplicatePatientsSet
-            ]) {
+        if(!duplicatePatientsSet.isEmpty()){    
+            for(Patient_Delegate__c pd:[SELECT Id,
+                                        Contact__c,
+                                        Participant__c,
+                                        Participant__r.Id,
+                                        Primary_Delegate__c
+                                        FROM Patient_Delegate__c
+                                        WHERE Participant__c IN: participantsWithoutErrors 
+                                        AND Participant__c IN: duplicatePatientsSet
+                                       ])
+            {
                 string pddupid = String.ValueOf(pd.Participant__c) + String.ValueOf(pd.Contact__c);
                 pdDuplicate.add(pddupid);
-                if (
-                    pd.Primary_Delegate__c == true &&
-                    !(participantIdByParticipantDelegateContactId.values()
-                        .contains(pd.Participant__r.Id))
-                ) {
-                    pd.Primary_Delegate__c = false;
-                    ptDelegateList.add(pd);
-                }
-            }
+                if(pd.Primary_Delegate__c == True && 
+                   !(participantIdByParticipantDelegateContactId.values().contains(pd.Participant__r.Id))){
+                       pd.Primary_Delegate__c = False;
+                       ptDelegateList.add(pd);
+                   } 
+            }  
             update ptDelegateList;
-        }
-
+        }             
+        
         //Create Patient delegate
         //Bypaass old methods from Patient Delegate Trigger
         TriggerHandlerExecutor.bypassHandler(
             PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
-        );
+            );
         TriggerHandlerExecutor.bypassHandler(
             PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
-        );
+            );
         if (!delegateIds.isEmpty()) {
             Set<Id> ptDelegateContSet = new Set<Id>();
             Set<Id> participantSet = new Set<Id>();
             Map<Id, Id> delegateUsersToCreate = new Map<Id, Id>();
             for (IprEprTriggerHandler.ContactAndSiteType ndc : cntList) {
+                
                 Contact participantDelegateContact = ndc.contactObj;
                 string cntId = participantDelegateContact.Id;
-                String duplicateKey =
-                    participantDelegateContact.email?.toLowerCase() +
-                    participantDelegateContact.firstName?.toLowerCase() +
-                    participantDelegateContact.lastName?.toLowerCase();
-                if (cntId == null || cntId == '') {
-                    cntId = IPRDupContKeyContMap.get(duplicateKey).Id;
-                }
+                String duplicateKey = participantDelegateContact.email?.toLowerCase() + participantDelegateContact.firstName?.toLowerCase() + participantDelegateContact.lastName?.toLowerCase(); 
+                if(cntId == null || cntId == ''){
+                    cntId = IPRDupContKeyContMap.get(duplicateKey).Id;   
+                }  
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
-                ptDelegateRef.Participant__c = participantIdByParticipantDelegateContactId.get(
-                    cntId
-                );
+                ptDelegateRef.Participant__c = participantIdByParticipantDelegateContactId.get(cntId);
                 ptDelegateRef.Contact__c = cntId;
-                ptDelegateRef.Primary_Delegate__c = true;
+                ptDelegateRef.Primary_Delegate__c = True;
                 ptDelegateRef.Status__c = 'Disconnected';
-                if (
-                    !duplicatePatientsSet.contains(ptDelegateRef.Participant__c) ||
-                    participantsWithoutErrors.contains(ptDelegateRef.Participant__c)
-                ) {
-                    string partCont =
-                        String.ValueOf(ptDelegateRef.Participant__c) + String.ValueOf(cntId);
-                    if (!pdDuplicate.contains(partCont)) {
+                if(!duplicatePatientsSet.contains(ptDelegateRef.Participant__c) || participantsWithoutErrors.contains(ptDelegateRef.Participant__c)){
+                    string partCont = String.ValueOf(ptDelegateRef.Participant__c) + String.ValueOf(cntId);
+                    if(!pdDuplicate.contains(partCont)){
                         ptDelegateRefs.add(ptDelegateRef);
                     }
-                }
-
-                ptDelegateContSet.add(ptDelegateRef.Contact__r.Id);
+                }    
+                
+                ptDelegateContSet.add(ptDelegateRef.Contact__r.Id); 
                 participantSet.add(ptDelegateRef.Participant__r.Id);
                 if (
                     ndc != null &&
                     ndc.siteType != 'Virtual' &&
                     ndc.siteType != 'Hybrid' &&
                     !IPRDupContKeyContMap.containsKey(duplicateKey)
+                   
                 ) {
                     delegateUsersToCreate.put(cntId, null);
                 }
             }
-
+            
             if (!participantSet.isEmpty()) {
-                for (Participant_Enrollment__c particpantEnroll : [
-                    SELECT
-                        Id,
-                        Study_Site__r.Study_Site_Type__c,
-                        Study_Site__r.Suppress_Participant_Emails__c,
-                        Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                        Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c
-                    FROM Participant_Enrollment__c
-                    WHERE Participant__c IN :participantSet
-                ]) {
-                    if (
-                        particpantEnroll.Study_Site__r.Study_Site_Type__c ==
-                        StudySiteService.SS_TYPE_TRADITIONAL &&
-                        (particpantEnroll.Study_Site__r.Suppress_Participant_Emails__c ||
-                        particpantEnroll.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c ||
-                        particpantEnroll.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                        CommunityTemplateService.TEMPLATE_JANSSEN)
-                    ) {
-                        TriggerHandlerExecutor.bypassHandler(
-                            PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
-                        );
-                    }
-                }
+                for(Participant_Enrollment__c particpantEnroll : [SELECT
+                                                                  Id,
+                                                                  Study_Site__r.Study_Site_Type__c,
+                                                                  Study_Site__r.Suppress_Participant_Emails__c,
+                                                                  Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                                                                  Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+                                                                  FROM Participant_Enrollment__c
+                                                                  WHERE Participant__c IN :participantSet
+                                                                 ]){
+                                                                     
+                                                                     if (
+                                                                         particpantEnroll.Study_Site__r.Study_Site_Type__c == StudySiteService.SS_TYPE_TRADITIONAL &&
+                                                                         (particpantEnroll.Study_Site__r.Suppress_Participant_Emails__c ||
+                                                                          particpantEnroll.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c ||
+                                                                          particpantEnroll.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == CommunityTemplateService.TEMPLATE_JANSSEN
+                                                                         )
+                                                                     ) {
+                                                                         TriggerHandlerExecutor.bypassHandler(
+                                                                             PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                                                                         );
+                                                                     }
+                                                                 }                                                     
+                
             }
             if (!delegateUsersToCreate.isEmpty()) {
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                    .createParticipantUsers(delegateUsersToCreate);
+                .createParticipantUsers(delegateUsersToCreate);
             }
-
+            
             insert ptDelegateRefs;
-            Map<id, id> participantToPatientDelMap = new Map<id, id>();
+            Map<id,id> participantToPatientDelMap = new map<id,id>();
             if (!participantsWithoutErrors.isEmpty()) {
-                for (Patient_Delegate__c getPatientDelegate : [
-                    SELECT id, Participant__c
-                    FROM Patient_Delegate__c
-                    WHERE
-                        Participant__c IN :participantsWithoutErrors
-                        AND Primary_Delegate__c = TRUE
-                ]) {
-                    participantToPatientDelMap.put(
-                        getPatientDelegate.Participant__c,
-                        getPatientDelegate.id
-                    );
-                }
 
-                List<Patient_Delegate_Enrollment__c> updatePatientDelEnroll = new List<Patient_Delegate_Enrollment__c>();
-                for (Patient_Delegate_Enrollment__c pder : [
-                    SELECT
-                        id,
-                        Participant_Enrollment__c,
-                        Participant_Enrollment__r.Participant__c,
-                        Patient_Delegate__c
-                    FROM Patient_Delegate_Enrollment__c
-                    WHERE
-                        Participant_Enrollment__r.Participant__c IN :participantsWithoutErrors
-                        AND Patient_Delegate__c = NULL
-                ]) {
-                    if (
-                        participantToPatientDelMap.containsKey(
-                            pder.Participant_Enrollment__r.Participant__c
-                        )
-                    ) {
-                        pder.Patient_Delegate__c = ParticipantToPatientDelMap.get(
-                            pder.Participant_Enrollment__r.Participant__c
-                        );
-                        updatePatientDelEnroll.add(pder);
-                    }
-                }
-                if (!updatePatientDelEnroll.isEmpty()) {
-                    update updatePatientDelEnroll;
-                }
+            for(Patient_Delegate__c getPatientDelegate : [Select id, Participant__c from
+                        Patient_Delegate__c where 
+                        Participant__c IN :participantsWithoutErrors  and Primary_Delegate__c=true] ){
+
+                         participantToPatientDelMap.put(getPatientDelegate.Participant__c,getPatientDelegate.id);
+                        }
+            
+            List<Patient_Delegate_Enrollment__c> updatePatientDelEnroll= new List<Patient_Delegate_Enrollment__c> ();
+            for( Patient_Delegate_Enrollment__c pder: [select id,Participant_Enrollment__c,Participant_Enrollment__r.Participant__c ,Patient_Delegate__c
+                                                    from Patient_Delegate_Enrollment__c where 
+                                                    Participant_Enrollment__r.Participant__c in : participantsWithoutErrors 
+                                                    and Patient_Delegate__c=null]){
+                                                        if(participantToPatientDelMap.containsKey(pder.Participant_Enrollment__r.Participant__c))
+                                                        {
+                                                            pder.Patient_Delegate__c=ParticipantToPatientDelMap.get(pder.Participant_Enrollment__r.Participant__c);
+                                                            updatePatientDelEnroll.add(pder);
+                                                        }
+                                                        
             }
+            if(!updatePatientDelEnroll.isEmpty()){
+                update updatePatientDelEnroll;
+            }
+         }
+            
+            
         }
-
-        Map<Id, Contact> contactsToUpdateMap = new Map<Id, Contact>();
-        if (!updateDelegateContacts.isEmpty()) {
-            for (contact con : updateDelegateContacts) {
-                String duplicateKey =
-                    con.email?.toLowerCase() +
-                    con.firstName?.toLowerCase() +
-                    con.lastName?.toLowerCase();
+        
+        Map <Id,Contact> contactsToUpdateMap = new Map <Id,Contact>();
+        if (!updateDelegateContacts.isEmpty()) { 
+            for(contact con : updateDelegateContacts){
+                String duplicateKey = con.email?.toLowerCase() + con.firstName?.toLowerCase() + con.lastName?.toLowerCase();
                 contact c = new contact();
                 c.id = con.id;
                 c.AccountId = referralAccMap.get(duplicateKey);
-                if (!contactsToUpdateMap.containsKey(c.Id)) {
-                    contactsToUpdateMap.put(c.Id, c);
-                }
-            }
+                if(!contactsToUpdateMap.containsKey(c.Id)){
+					contactsToUpdateMap.put(c.Id,c);
+				}
+            }  
         }
-        if (!iprAndContactsToInsert.values().isEmpty()) {
-            for (contact con : iprAndContactsToInsert.values()) {
+        if (!iprAndContactsToInsert.values().isEmpty()) { 
+            for(contact con : iprAndContactsToInsert.values()){
                 String duplicateKey = con.Email?.toLowerCase() + con.LastName?.toLowerCase();
                 contact c = new contact();
                 c.id = con.id;
                 c.AccountId = conEmailAccMap.get(duplicateKey);
-                if (!contactsToUpdateMap.containsKey(c.Id)) {
-                    contactsToUpdateMap.put(c.Id, c);
-                }
+               	if(!contactsToUpdateMap.containsKey(c.Id)){ 
+					contactsToUpdateMap.put(c.Id,c);
+				}
             }
         }
-
-        if (!contactsToUpdateMap.values().isEmpty()) {
-            update contactsToUpdateMap.values();
-        }
+        
+        if(!contactsToUpdateMap.values().isEmpty()){
+			update contactsToUpdateMap.values();
+		}     
+        
     }
-
+ 
     public void finish(Database.BatchableContext bc) {
         //delete the temporary account
-        try {
+        try{
             delete tempAccount;
         } catch (Exception exp) {
             system.debug('ERROR during deleting records: ' + exp.getMessage());
-        } finally {
-            Id ApexClassId = [
-                SELECT Id
-                FROM ApexClass
-                WHERE Name = 'Batch_UpsertEprParticipantAndPE'
-            ]
-            .Id;
-            List<String> lstPendingJobStatus = new List<String>{
-                'Holding',
-                'Preparing',
-                'Processing',
-                'Queued'
-            };
-            List<AsyncApexJob> lstbatchCurrentlyRunning = [
-                SELECT Id, Status
-                FROM AsyncApexJob
-                WHERE ApexClassId = :ApexClassId AND Status IN :lstPendingJobStatus
-            ];
-            String isAbortJob = Label.Abort_Batch_UpsertEprParticipantAndPE;
-            if (!test.isRunningTest() && isAbortJob != 'True' && lstbatchCurrentlyRunning.isEmpty())
-                Database.executeBatch(new Batch_UpsertEprParticipantAndPE(), 7);
         }
+        finally {
+            Id ApexClassId = [Select Id from ApexClass where Name = 'Batch_UpsertEprParticipantAndPE'].Id;
+            List<String> lstPendingJobStatus = new List<String>{'Holding','Preparing','Processing','Queued'};
+            List<AsyncApexJob> lstbatchCurrentlyRunning = [Select Id, Status from AsyncApexJob where ApexClassId = :ApexClassId AND Status IN:lstPendingJobStatus];
+			String isAbortJob =Label.Abort_Batch_UpsertEprParticipantAndPE;
+           if(!test.isRunningTest() && isAbortJob!='True' && lstbatchCurrentlyRunning.isEmpty())
+            	Database.executeBatch(new Batch_UpsertEprParticipantAndPE(), 7);
+        }
+        
     }
 }
