@@ -1,7 +1,3 @@
-/**
- * Created by Olga Skrynnikova on 1/17/2020.
- */
-
 ({
     doInit: function (component, event, helper) {
         helper.init(component, event, helper)  
