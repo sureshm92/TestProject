@@ -753,7 +753,7 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             Permit_IQVIA_to_contact_about_study__c = true,
             Study_PI_Storage_Consent_Time__c = Datetime.now(),
             Human_Id__c = ipr.Human_Id__c,
-            Additional_Information__c = ipr.Additional_Information__c,
+            Additional_Information__c = ipr.Additional_Information__c
             
         );
         if(sourceToConsentMap.containsKey(ipr.Data_Source__c)){
