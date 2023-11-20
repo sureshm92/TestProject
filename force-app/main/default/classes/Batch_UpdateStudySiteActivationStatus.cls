@@ -5,27 +5,27 @@
 global class Batch_UpdateStudySiteActivationStatus implements Database.Batchable<sObject> {
     public List<Id> specificRecordIdList { get; set; }
     Map<String, String> siteActivationStatusMap = new Map<String, String>{
-            'On Hold' => 'On Hold',
-            'On Hold (Admin)' => 'On Hold',
-            'Accepted' => 'Activated',
-            'Accepted (Admin)' => 'Activated (Admin)',
-            'Deactivated (Admin)' => 'Deactivated (Admin)',
-            'Invitation Sent' => 'None',
-            'Non-Responsive (Admin)' => 'Deactivated',
-            'Declined (Acceptance)' => 'Deactivated',
-             Null => 'None'
+        'On Hold' => 'On Hold',
+        'On Hold (Admin)' => 'On Hold',
+        'Accepted' => 'Activated',
+        'Accepted (Admin)' => 'Activated (Admin)',
+        'Deactivated (Admin)' => 'Deactivated (Admin)',
+        'Invitation Sent' => Null,
+        'Non-Responsive (Admin)' => 'Deactivated',
+        'Declined (Acceptance)' => 'Deactivated',
+         Null => Null
     };
                 
     Map<String, String> overrideStatusMap = new Map<String, String>{
-            'On Hold' => 'Accepted',
-            'On Hold (Admin)' => 'Accepted',
-            'Invitation Sent' => 'Invitation Sent',
-            'Accepted' => 'Accepted',
-            'Accepted (Admin)' => 'Accepted',
-            'Deactivated (Admin)' => 'Deactivated',
-            'Non-responsive (Admin)' => 'Deactivated',
-            'Declined (Acceptance)' => 'Deactivated',
-             null => 'None'
+        'On Hold' => 'Accepted',
+        'On Hold (Admin)' => 'Accepted',
+        'Invitation Sent' => 'Invitation Sent',
+        'Accepted' => 'Accepted',
+        'Accepted (Admin)' => 'Accepted',
+        'Deactivated (Admin)' => 'Deactivated',
+        'Non-responsive (Admin)' => 'Deactivated',
+        'Declined (Acceptance)' => 'Deactivated',
+         null => 'None'
     };
                             
                             
