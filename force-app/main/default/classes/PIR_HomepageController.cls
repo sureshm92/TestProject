@@ -679,7 +679,13 @@ public without sharing class PIR_HomepageController {
         }
 
         perList = Database.query(queryString);
-        listViewWrapper = createListViewWrapper(perList, studyIdlist);
+        List<Participant_Enrollment__c> siteactivationperlist = new list<Participant_Enrollment__c>();
+        for(Participant_Enrollment__c per:perList){
+          if(per.Study_Site__r.Site_Activation_Status__c != 'Deactivated' && per.Study_Site__r.Site_Activation_Status__c != 'Deactivated (Admin)' && per.Study_Site__r.Override_PI_Referral_Status__c == 'Accepted'){
+              siteactivationperlist.add(per);
+          }
+        }
+        listViewWrapper = createListViewWrapper(siteactivationperlist, studyIdlist);
       }
       if (totalCountPP == 0) {
         listViewReturnWrapper.isEnablePP = false;
@@ -1603,13 +1609,7 @@ public without sharing class PIR_HomepageController {
         update new Contact(
           Id = pe.Participant_Contact__c,
           Consent_To_Inform_About_Study__c = true,
-          Is_Patient_User_Created__c = true,
-          UserCommunityIsDelegate__c = false
-        );
-      }else{
-          update new Contact(
-          Id = pe.Participant_Contact__c,
-          UserCommunityIsDelegate__c = false
+          Is_Patient_User_Created__c = true
         );
       }
 
@@ -1882,6 +1882,7 @@ public without sharing class PIR_HomepageController {
     public Map<Id, Boolean> studyToPrmoteDCT;
     @AuraEnabled
     public Map<Id, String> studyToFinalStep;
+    // RH-9214
     @AuraEnabled
     public List<Clinical_Trial_Profile__c > allCTP;
   }
@@ -2973,6 +2974,7 @@ public without sharing class PIR_HomepageController {
       }
       return null;
     }
+  //bulk import RH-9214
   @AuraEnabled(cacheable=true)
   public static StudyStudySiteWrapper getStudyStudySiteDetailsV2() {
     StudyStudySiteWrapper sswrap = getStudyStudySiteDetails();
