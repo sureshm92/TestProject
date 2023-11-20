@@ -45,7 +45,6 @@ global class Batch_UpdateStudySiteActivationStatus implements Database.Batchable
             for (Study_Site__c record : ssList) {
                 
                 String existingOverrideStatus = record.Override_PI_Referral_Status__c;
-                if(existingOverrideStatus != null){
                     String newSiteActivationStatus = siteActivationStatusMap.containsKey(existingOverrideStatus) ? siteActivationStatusMap.get(existingOverrideStatus) : null;
                     String newOverrideStatus = overrideStatusMap.containsKey(existingOverrideStatus) ? overrideStatusMap.get(existingOverrideStatus) : null;
                     
@@ -56,7 +55,6 @@ global class Batch_UpdateStudySiteActivationStatus implements Database.Batchable
                     if (newOverrideStatus != null) {
                         record.Override_PI_Referral_Status__c = newOverrideStatus;
                     }
-                }
             }
             
             if(!ssList.isEmpty()){
