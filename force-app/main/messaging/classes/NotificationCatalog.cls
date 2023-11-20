@@ -42,7 +42,6 @@ public without sharing class NotificationCatalog {
     /*Start Email Consent*/
     public static final String MESSAGE_TO_PT_PT_COMPLETE_BL_SURVEY_TYPE = 'Message_to_PT_Complete_BL_Survey_Type';
 
-
     // for patient statuses
     public static final String MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_PT_Ref_Status_Update_Type';
     public static final String MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE = 'Message_to_PT_Enrollment_Success_Type';
@@ -148,8 +147,8 @@ public without sharing class NotificationCatalog {
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE
     };
-        
-     //Updates
+
+    //Updates
     public static final String UPDATE_TO_PT_NEW_ARTICLE_TYPE = 'Update_to_PT_New_Article_Type';
     public static final String UPDATE_TO_PT_NEW_LINK_TYPE = 'Update_to_PT_New_Link_Type';
     public static final String UPDATE_TO_PT_NEW_MULTIMEDIA_TYPE = 'Update_to_PT_New_Multimedia_Type';
@@ -164,4 +163,7 @@ public without sharing class NotificationCatalog {
     public static final String UPDATE_TO_PT_TELEVISIT_SCHEDULED = 'Update_to_PT_Televisit_Scheduled';
     public static final String UPDATE_TO_PT_TELEVISIT_RESCHEDULED = 'Update_to_PT_Televisit_Rescheduled';
     public static final String UPDATE_TO_PT_TELEVISIT_CANCELED = 'Update_to_PT_Televisit_Canceled';
+
+    //push
+    public static final String MESSAGE_TO_PT_DEL_VISIT_RESULT_AVAILAB = 'Message_to_PT_Del_Visit_Result_Availabl';
 }
