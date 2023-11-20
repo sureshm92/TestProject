@@ -21,6 +21,7 @@ import PP_DeletedSucesfully from '@salesforce/label/c.PP_DeletedSucesfully';
 
 export default class PpPastStudiesParent extends LightningElement {
     hideDetailPage = false;
+
     showMenu = false;
     sectionList = [];
     selectedSection = PP_Overview;
@@ -59,6 +60,7 @@ export default class PpPastStudiesParent extends LightningElement {
         PP_DeletedSucesfully
     };
     showPage;
+    isResultPushNotification = false;
     connectedCallback() {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
@@ -84,6 +86,7 @@ export default class PpPastStudiesParent extends LightningElement {
                     this.perList = JSON.parse(JSON.stringify(result.peList));
                     this.hideFilesForPER = JSON.parse(JSON.stringify(result.hideFilesForPER));
                     if (perURLId) {
+                        this.isResultPushNotification = true;
                         this.updateSelectedStudy(perURLId);
                     }
                     this.showPage = true;
@@ -97,12 +100,11 @@ export default class PpPastStudiesParent extends LightningElement {
         this.showMenu = window.innerWidth < 1024;
         this.renderSections();
     };
-    selectStudy(event){
-        if(event.target.dataset.item)
-        this.updateSelectedStudy(event.target.dataset.item);
+    selectStudy(event) {
+        if (event.target.dataset.item) this.updateSelectedStudy(event.target.dataset.item);
     }
-    updateSelectedStudy(perid){
-        if(this.template.querySelector('[data-id="top"]')){
+    updateSelectedStudy(perid) {
+        if (this.template.querySelector('[data-id="top"]')) {
             const topDiv = this.template.querySelector('[data-id="top"]');
             topDiv.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
         }
@@ -115,10 +117,11 @@ export default class PpPastStudiesParent extends LightningElement {
             if (perid == this.perList[i].Id) {
                 this.selectedPER = this.perList[i];
                 this.perList[i].class = 'swt-study selected';
-
                 this.sectionList = [];
                 this.sectionList.push({ id: PP_Overview, class: 'selected' });
-                this.selectedSection = PP_Overview;
+                this.selectedSection = this.isResultPushNotification
+                    ? Visit_Results_Dashboard_My_Results
+                    : PP_Overview;
                 this.renderSections();
                 if (this.selectedPER.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c)
                     this.sectionList.push({ id: PP_Resource_Documents, class: '' });
@@ -291,11 +294,11 @@ export default class PpPastStudiesParent extends LightningElement {
     slectStudyFormTiles(event) {
         this.updateSelectedStudy(event.detail.message);
     }
-    slectStudyFormFiles(event){
-        this.uploadedFilesClass='no-show-link';
-        this.sharedFilesClass='no-show-link';
+    slectStudyFormFiles(event) {
+        this.uploadedFilesClass = 'no-show-link';
+        this.sharedFilesClass = 'no-show-link';
         this.updateSelectedStudy(this.studyPERMap.get(event.detail.message));
-        this.showFilePage=false;
+        this.showFilePage = false;
     }
 
     showdeletetoast() {
