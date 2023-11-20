@@ -15,6 +15,7 @@
         var targetRec = communityService.getUrlParameter('targetRecId');
         var isPast = communityService.getUrlParameter('ispast');
         var perContId = communityService.getUrlParameter('perContactId');
+        var srId_ = communityService.getUrlParameter('srId');
         if (contactRecId != null) {
             communityService.executeAction(
                 component,
@@ -25,10 +26,12 @@
                     peContactId: perContId
                 },
                 function (returnValue) {
-                    if (sessionStorage.getItem('isPushNotification') == null) {
+                    var pageurl = communityService.getFullPageName();
+                    if (srId_ != sessionStorage.getItem('srId')) {
+                        sessionStorage.setItem('srId', srId_);
                         communityService.loadPage();
                     }
-                    var pageurl = communityService.getFullPageName();
+
                     if (pageurl.includes('messages')) {
                         communityService.navigateToPage('messages');
                     } else if (pageurl.includes('televisit')) {

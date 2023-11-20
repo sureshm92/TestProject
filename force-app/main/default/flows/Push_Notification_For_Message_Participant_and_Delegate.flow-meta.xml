@@ -42,7 +42,7 @@
         <inputParameters>
             <name>targetPageRef</name>
             <value>
-                <stringValue>{&quot;type&quot;:&quot;comm__namedPage&quot;,&quot;attributes&quot;:{&quot;pageName&quot;:&quot;messages&quot;},&quot;state&quot;:{&quot;perId&quot;:{!$Record.Notification__r.WhatId__c},&quot;contactId&quot;:{!$Record.Notification__r.Recipient__r.Id},&quot;targetRecId&quot;:&quot;{!$Record.Notification__r.Target_Record_Ids__c}&quot;,&quot;perContactId&quot;:&quot;{!Get_Participant_Enrollment_Record.Participant_Contact__c}&quot;}}</stringValue>
+                <stringValue>{&quot;type&quot;:&quot;comm__namedPage&quot;,&quot;attributes&quot;:{&quot;pageName&quot;:&quot;messages&quot;},&quot;state&quot;:{&quot;perId&quot;:{!$Record.Notification__r.WhatId__c},&quot;contactId&quot;:{!$Record.Notification__r.Recipient__r.Id},&quot;targetRecId&quot;:&quot;{!$Record.Notification__r.Target_Record_Ids__c}&quot;,&quot;perContactId&quot;:&quot;{!Get_Participant_Enrollment_Record.Participant_Contact__c}&quot;,&quot;srId&quot;:&quot;{!$Record.Id}&quot;}}</stringValue>
             </value>
         </inputParameters>
     </actionCalls>
