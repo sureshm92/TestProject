@@ -227,18 +227,18 @@
                                             </template>
                                             <template if:false={emptyExpiredTasks}>
                                                 <lightning-layout>
-                                                    <lightning-layout-item size="2"
+                                                    <lightning-layout-item size="4"
                                                         ><div class="expired">
                                                             {label.taskPPExpired}
                                                         </div></lightning-layout-item
                                                     >
                                                     <template if:true={isMobile}>
-                                                        <lightning-layout-item size="10"
+                                                        <lightning-layout-item size="8"
                                                             ><div class="path-2-copy"></div
                                                         ></lightning-layout-item>
                                                     </template>
                                                     <template if:false={isMobile}>
-                                                        <lightning-layout-item size="10"
+                                                        <lightning-layout-item size="8"
                                                             ><div class="path-2-copy"></div
                                                         ></lightning-layout-item>
                                                     </template>

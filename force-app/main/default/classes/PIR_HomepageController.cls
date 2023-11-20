@@ -256,6 +256,9 @@ public without sharing class PIR_HomepageController {
         'Study_Site__c,' +
         'Study_Site__r.name,' +
         'Study_Site__r.Study_Site_Type__c,' +
+        'Study_Site__r.Site_Activation_Status__c,' +
+        'Study_Site__r.Override_PI_Referral_Status__c,' +
+        'Study_Site__r.Principal_Investigator__c,' +
         'Clinical_Trial_Profile__c,' +
         'Referral_Source__c,' +
         'HighRisk_Indicator__c,' +
@@ -610,7 +613,7 @@ public without sharing class PIR_HomepageController {
         Integer limitOfRecords = (pageNumber * 10);
         List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
         String orderByString = sortOn + ' LIMIT :limitOfRecords ';
-        String queryString2 = 'SELECT Id FROM Participant_Enrollment__c Where ';
+        String queryString2 = 'SELECT Id,Study_Site__r.Site_Activation_Status__c,Study_Site__r.Override_PI_Referral_Status__c FROM Participant_Enrollment__c Where ';
         if(isEnabled){
           queryString2 = queryString2 + ' Id IN :listOfIds' + orderByString;
         }
@@ -636,7 +639,9 @@ public without sharing class PIR_HomepageController {
                 Integer loopStart = limitOfRecords - 10;
                 Integer loopEnd = perList.size();
                 for (Integer i = loopStart; i < loopEnd; i++) {
+                  if(perList[i].Study_Site__r.Site_Activation_Status__c != 'Deactivated' && perList[i].Study_Site__r.Site_Activation_Status__c != 'Deactivated (Admin)' && perList[i].Study_Site__r.Override_PI_Referral_Status__c == 'Accepted'){
                     perIdList.add(perList[i].Id);
+                  }
                 }
                 
                 String fltrStringNew = ' ID IN :perIdList';
@@ -731,15 +736,18 @@ public without sharing class PIR_HomepageController {
     String janssenLabel = system.Label.Janssen_Community_Template_Name;
     List<Study_Site__c> studySiteList = getStudySite();
     for (Study_Site__c s : studySiteList) {
-      if (sponsorName == janssen) {
-        if (s.Clinical_Trial_Profile__r.CommunityTemplate__c == sponsorName) {
-          studyIdlist.add(s.Clinical_Trial_Profile__c);
-          siteIdlist.add(s.Id);
-        }
-      } else {
-        if (s.Clinical_Trial_Profile__r.CommunityTemplate__c != janssen) {
-          studyIdlist.add(s.Clinical_Trial_Profile__c);
-          siteIdlist.add(s.Id);
+      //Site decoupling changes RH-8613
+      if(s.Site_Activation_Status__c != 'Deactivated' && s.Site_Activation_Status__c != 'Deactivated (Admin)' && s.Override_PI_Referral_Status__c == 'Accepted' ){
+        if (sponsorName == janssen) {
+            if (s.Clinical_Trial_Profile__r.CommunityTemplate__c == sponsorName) {
+                  studyIdlist.add(s.Clinical_Trial_Profile__c);
+                  siteIdlist.add(s.Id);
+            }
+        } else {
+            if (s.Clinical_Trial_Profile__r.CommunityTemplate__c != janssen) {
+                  studyIdlist.add(s.Clinical_Trial_Profile__c);
+                  siteIdlist.add(s.Id);
+            }
         }
       }
     }
@@ -1314,6 +1322,7 @@ public without sharing class PIR_HomepageController {
         Clinical_Trial_Profile__r.Promote_to_SH__c,
         Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,
         Clinical_Trial_Profile__r.CommunityTemplate__c,
+        Site_Activation_Status__c,
         Principal_Investigator__c
       FROM Study_Site__c
       WHERE
@@ -1602,7 +1611,7 @@ public without sharing class PIR_HomepageController {
           Id = pe.Participant_Contact__c,
           UserCommunityIsDelegate__c = false
         );
-     }
+      }
 
       List<User> returnUsers = new List<User>();
       if (!pe.Participant_Contact__r.Is_Patient_User_Created__c) {
@@ -1873,6 +1882,8 @@ public without sharing class PIR_HomepageController {
     public Map<Id, Boolean> studyToPrmoteDCT;
     @AuraEnabled
     public Map<Id, String> studyToFinalStep;
+    @AuraEnabled
+    public List<Clinical_Trial_Profile__c > allCTP;
   }
 
   @AuraEnabled
@@ -1955,8 +1966,9 @@ public without sharing class PIR_HomepageController {
   public static List<Study_Site__c> getStudySiteDetails() {
     Id piContactId = CommunityService.getUserContact().Id;
     List<String> acceptedSites = new List<String>();
-    acceptedSites.add('Accepted');
-    acceptedSites.add('Accepted (Admin)');
+    //Site decoupling changes RH-8613
+    acceptedSites.add('Activated');
+    acceptedSites.add('Activated (Admin)');
     List<Study_Site__c> studySiteList = [
       SELECT
         Id,
@@ -1967,10 +1979,11 @@ public without sharing class PIR_HomepageController {
         Clinical_Trial_Profile__c,
         Clinical_Trial_Profile__r.Study_Code_Name__c,
         Clinical_Trial_Profile__r.CommunityTemplate__c,
-        Principal_Investigator__c
+        Principal_Investigator__c,
+        Site_Activation_Status__c
       FROM Study_Site__c
       WHERE
-        Override_PI_Referral_Status__c IN :acceptedSites
+        Site_Activation_Status__c IN :acceptedSites //Site decoupling changes RH-8613
         AND (Principal_Investigator__c = :piContactId
         OR ID IN :DelegateService.getDelegatedStudySiteIds())
     ];
@@ -2960,4 +2973,18 @@ public without sharing class PIR_HomepageController {
       }
       return null;
     }
+  @AuraEnabled(cacheable=true)
+  public static StudyStudySiteWrapper getStudyStudySiteDetailsV2() {
+    StudyStudySiteWrapper sswrap = getStudyStudySiteDetails();
+    sswrap.allCTP = new list<Clinical_Trial_Profile__c>();
+    map<id,Clinical_Trial_Profile__c> allCTPMap = new map<id,Clinical_Trial_Profile__c>();
+    for(Study_Site__c ss : getStudySite()){
+      if(!allCTPMap.containsKey(ss.Clinical_Trial_Profile__c))
+        allCTPMap.put(ss.Clinical_Trial_Profile__c,new Clinical_Trial_Profile__c(id=ss.Clinical_Trial_Profile__c, Study_Code_Name__c = ss.Clinical_Trial_Profile__r.Study_Code_Name__c));
+    }
+    sswrap.allCTP.addAll(allCTPMap.values());
+    sswrap.ctpNoAccess = getStudyAccess(allCTPMap.keyset());
+    return sswrap;
+  }
+   
 }
