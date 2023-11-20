@@ -12206,7 +12206,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message Body New Visit Result Push</shortDescription>
-        <value>You have new results available for your ##StudyCodeName</value>
+        <value>You have new results available for ##StudyCodeName</value>
     </labels>
     <labels>
         <fullName>Title_New_Visit_Result_Push</fullName>
