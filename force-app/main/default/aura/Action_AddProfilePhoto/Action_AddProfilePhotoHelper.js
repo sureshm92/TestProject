@@ -31,7 +31,15 @@
 
             self.upload(component, file, fileContents);
 
-            component.set('v.pictureSrc', fileContents);
+            var length = 5;
+            let result = ' ';
+            const charactersLength = characters.length;
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+
+            component.set('v.pictureSrc', result);
+            component.set('v.hasProfilePic', false);
         };
         reader.readAsDataURL(file);
     },

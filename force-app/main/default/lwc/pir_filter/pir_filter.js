@@ -191,7 +191,7 @@ export default class Filtertest extends LightningElement {
     presetId: "",
     presetName:""
   };
-
+  
   studyToPrmoteDCT;
   studyToFinalStep;
   isAnythingChangedForReset = false;
@@ -249,7 +249,10 @@ export default class Filtertest extends LightningElement {
               if (key == picklist_Value) {
                 var temp = conts1[key];
                 for (var j in temp) {
-                  options1.push({ label: temp[j].Name, value: temp[j].Id });
+                  //Site decoupling changes RH-8613
+                  if(temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+                    options1.push({ label: temp[j].Name, value: temp[j].Id });
+                  }
                 }
               }
             }
@@ -362,7 +365,10 @@ export default class Filtertest extends LightningElement {
         if (key == picklist_Value) {
           var temp = conts[key];
           for (var j in temp) {
-            options.push({ label: temp[j].Name, value: temp[j].Id });
+            //Site decoupling changes RH-8613
+            if(temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+              options.push({ label: temp[j].Name, value: temp[j].Id });
+            }
           }
         }
       }
@@ -370,7 +376,10 @@ export default class Filtertest extends LightningElement {
       for (var key in conts) {
         var temp = conts[key];
         for (var j in temp) {
-          options.push({ label: temp[j].Name, value: temp[j].Id });
+          //Site decoupling changes RH-8613
+          if(temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+                options.push({ label: temp[j].Name, value: temp[j].Id });
+          }
         }
       }
     }
@@ -438,7 +447,10 @@ export default class Filtertest extends LightningElement {
         if (key == picklist_Value) {
           var temp = conts[key];
           for (var j in temp) {
-            options.push({ label: temp[j].Name, value: temp[j].Id });
+            //Site decoupling changes RH-8613
+            if(temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+              options.push({ label: temp[j].Name, value: temp[j].Id });
+            }
           }
         }
       }
@@ -446,7 +458,10 @@ export default class Filtertest extends LightningElement {
       for (var key in conts) {
         var temp = conts[key];
         for (var j in temp) {
-          options.push({ label: temp[j].Name, value: temp[j].Id });
+          //Site decoupling changes RH-8613
+          if(temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+                options.push({ label: temp[j].Name, value: temp[j].Id });
+            }
         }
       }
     }
@@ -896,7 +911,10 @@ export default class Filtertest extends LightningElement {
         if (key == this.defaultStudy) {
           var temp = conts[key];
           for (var j in temp) {
-            options.push({ label: temp[j].Name, value: temp[j].Id });
+            //Site decoupling changes RH-8613
+            if(temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+                options.push({ label: temp[j].Name, value: temp[j].Id });
+              }
           }
         }
       }
