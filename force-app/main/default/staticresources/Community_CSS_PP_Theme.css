@@ -2239,3 +2239,8 @@ user agent stylesheet svg:not(:root) {
 .pastStudiesFiles .slds-tabs_default__item {
     margin-left: -4px;
 }
+.dateTimeContainer input{
+    -moz-appearance: none; 
+        /* for Safari, Chrome, Opera */ 
+    -webkit-appearance: none; 
+}
