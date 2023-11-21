@@ -128,7 +128,7 @@
                             title="chevronleft"
                             class="left-chevro my-icon"
                         ></lightning-icon> </span
-                    ><span class="back">Back</span>
+                    ><span class="back" onclick={handleBack} >Back</span>
                 </lightning-layout-item>
             </template>
             <template if:false={showBack}>
@@ -252,7 +252,7 @@
                         </template>
                     </lightning-layout-item>
                     <div
-                        class="slds-p-horizontal_large box-container mob-box-container"
+                        class={peopleCountBrowser}
                     >
                         <template if:true={nameList}>
                             <template for:each={nameList} for:item="n">
