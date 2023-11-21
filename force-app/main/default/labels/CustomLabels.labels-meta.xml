@@ -29244,6 +29244,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Something went wrong!</value>
     </labels>
     <labels>
+        <fullName>Restricted_Source_Record_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Restricted Source Record Error</shortDescription>
+        <value>Only one record can be added per CTP. Please update the existing record on this CTP.</value>
+    </labels>
+    <labels>
         <fullName>TST_Study_was_successfully_declined</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -32451,5 +32458,19 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Sort By</shortDescription>
         <value>Sort By</value>
+    </labels>
+    <labels>
+        <fullName>Restricted_Source_Updation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restricted Source for {0} is updated successfully.</shortDescription>
+        <value>Restricted Source for {0} is updated successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Restricted_Source_Creation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restricted Source for {0} is created successfully.</shortDescription>
+        <value>Restricted Source for {0} is created successfully.</value>
     </labels>
 </CustomLabels>
