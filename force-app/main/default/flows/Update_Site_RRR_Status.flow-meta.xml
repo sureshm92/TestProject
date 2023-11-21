@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>49.0</apiVersion>
     <assignments>
         <name>myVariable_waitStartTimeAssignment</name>
         <label>myVariable_waitStartTimeAssignment</label>
@@ -69,7 +68,7 @@
             <connector>
                 <targetReference>myRule_1_A1</targetReference>
             </connector>
-            <label>&apos;On Hold&apos;</label>
+            <label>&#39;On Hold&#39;</label>
         </rules>
     </decisions>
     <decisions>
@@ -124,7 +123,7 @@
             <connector>
                 <targetReference>myRule_3_A1</targetReference>
             </connector>
-            <label>&apos;Enrollment Closed&apos;</label>
+            <label>&#39;Enrollment Closed&#39;</label>
         </rules>
     </decisions>
     <decisions>
@@ -176,7 +175,7 @@
             <connector>
                 <targetReference>myRule_5_A1</targetReference>
             </connector>
-            <label>&apos;Early Termination&apos;</label>
+            <label>&#39;Early Termination&#39;</label>
         </rules>
     </decisions>
     <interviewLabel>Update_Site_RRR_Status-10_InterviewLabel</interviewLabel>
@@ -232,7 +231,7 @@
             <name>referenceTargetField</name>
         </processMetadataValues>
         <name>myRule_1_A1</name>
-        <label>Set to &apos;On Hold&apos;</label>
+        <label>Set to &#39;On Hold&#39;</label>
         <locationX>100</locationX>
         <locationY>200</locationY>
         <filterLogic>and</filterLogic>
@@ -362,7 +361,7 @@
             <name>referenceTargetField</name>
         </processMetadataValues>
         <name>myRule_3_A1</name>
-        <label>Set to &apos;On Hold&apos;</label>
+        <label>Set to &#39;On Hold&#39;</label>
         <locationX>300</locationX>
         <locationY>200</locationY>
         <filterLogic>and</filterLogic>
@@ -492,7 +491,7 @@
             <name>referenceTargetField</name>
         </processMetadataValues>
         <name>myRule_5_A1</name>
-        <label>Set to &apos;On Hold&apos;</label>
+        <label>Set to &#39;On Hold&#39;</label>
         <locationX>500</locationX>
         <locationY>200</locationY>
         <filterLogic>and</filterLogic>
