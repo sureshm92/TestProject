@@ -402,6 +402,15 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
         console.error("Error in getInit():" + error);
       });
   }
+  get peopleCountBrowser(){
+    if (/Edg/.test(navigator.userAgent)){
+    return 'slds-p-horizontal_large box-container mob-box-container';
+    }else if (communityService.isMobileSDK()){
+return ' slds-p-horizontal_large box-container mob-box-container-mobileapp';
+    }else{
+return ' slds-p-horizontal_large box-container mob-box-container-browser';
+    }
+   }
   alumniGroups = [
     "Failed Review",
     "Failed Referral",
