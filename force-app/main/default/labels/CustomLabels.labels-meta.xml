@@ -32459,4 +32459,18 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Sort By</shortDescription>
         <value>Sort By</value>
     </labels>
+    <labels>
+        <fullName>Restricted_Source_Updation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restricted Source for {0} is updated successfully.</shortDescription>
+        <value>Restricted Source for {0} is updated successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Restricted_Source_Creation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restricted Source for {0} is created successfully.</shortDescription>
+        <value>Restricted Source for {0} is created successfully.</value>
+    </labels>
 </CustomLabels>
