@@ -86,6 +86,8 @@ public without sharing class RRChangePasswordController {
     public boolean onLoad { get; set; }
     public boolean showErrorMessage { get; set; }
     public static boolean isAttestationUpdated = false;
+    public boolean showIQVIAConsents { get; set; }
+    public Map<Id,Boolean> consentPref { get; set; }
 
     public String maskUserName { get; set; }
     public String maskLastName { get; set; }
@@ -219,6 +221,7 @@ public without sharing class RRChangePasswordController {
         showPassword = true;
         showNewPassword = true;
         Id userId = UserInfo.getUserId();
+        List<Id> contactIds = new List<Id>();
         userVal = [
             SELECT
                 Id,
@@ -264,6 +267,7 @@ public without sharing class RRChangePasswordController {
         ];
 
         contact = userVal.Contact;
+        contactIds.add(contact.Id);
         system.debug('userVal.FullPhotoUrl' + userVal.FullPhotoUrl);
         
         if(contact.IQVIA_Direct_Mail_Consent__c && contact.Participant_Opt_In_Status_SMS__c && contact.Participant_Opt_In_Status_Emails__c && contact.Participant_Phone_Opt_In_Permit_Phone__c){
@@ -379,6 +383,9 @@ public without sharing class RRChangePasswordController {
         isDelegate = contact.UserCommunityIsDelegate__c;
         showErrorMessage = false;
         isSaveButtonDisabled = false;
+        showIQVIAConsents = false;
+        consentPref = RestrictedSourceConfigService.getConsentPreferences(contactIds);
+        showIQVIAConsents = !consentPref.isEmpty() && consentPref != null && consentPref.containskey(contact.Id) ? consentPref.get(contact.Id) : false;
         if (participant != null) {
             maskLastName = participant.Last_Name__c.substring(0, 1) + '************';
 
@@ -779,9 +786,6 @@ public without sharing class RRChangePasswordController {
                         redirPP = '/terms/s/privacy-policy?iscalledfromRegistrationORcommpref=true';
                    }
                }
-               if(per.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
-                   isIQVIAOutreachToggleOn = true;
-               }
               cpr.add( new perListCommPreferences(per,allcons,redirTC,redirPP));  
            }
        }
@@ -811,9 +815,6 @@ public without sharing class RRChangePasswordController {
                    }else{
                       redirPP = '/terms/s/privacy-policy?iscalledfromRegistrationORcommpref=true';
                    }
-               }
-               if(pd.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
-                      isIQVIAOutreachToggleOn = true;
                }
               cprDel.add( new perListCommPreferencesDel(pd,allcons,redirTC,redirPP));  
            }
