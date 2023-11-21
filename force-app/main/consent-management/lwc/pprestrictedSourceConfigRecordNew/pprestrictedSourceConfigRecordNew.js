@@ -7,7 +7,10 @@ import { NavigationMixin } from 'lightning/navigation';
 import BTN_Save from '@salesforce/label/c.RH_RP_Save';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import BTN_Close from '@salesforce/label/c.BTN_Close';
+import TST_Something_went_wrong from '@salesforce/label/c.TST_Something_went_wrong';
 import New_Restricted_Source from '@salesforce/label/c.New_Restricted_Source';
+import Restricted_Source_Record_Error from '@salesforce/label/c.Restricted_Source_Record_Error';
+
 
 
 const fields = [SPONSER_FIELD];
@@ -24,7 +27,9 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
         BTN_Save,
         BTN_Cancel,
         BTN_Close,
-        New_Restricted_Source
+        New_Restricted_Source,
+        TST_Something_went_wrong,
+        Restricted_Source_Record_Error
     };
 
     connectedCallback() {
@@ -63,7 +68,7 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
         getRestrictedSourceConfigData({ recordId: this.parentrecId })
 		.then(result => {
             if(result >= 1){
-              this.showErrorToast('Can not add more than one record . please update the existing record.','error','dismissable');
+              this.showErrorToast(this.label.Restricted_Source_Record_Error,'error','dismissable');
             }
             else{
                 // Here you can execute any logic before submit
@@ -79,7 +84,7 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
     }
     handleError(event) {
         let message = event.detail.detail;
-        message = "Something went wrong!";
+        message = this.label.TST_Something_went_wrong;
         this.showErrorToast(message, 'error','dismissable');
     }
     showErrorToast(theMessage,theVariant,theMode) {
@@ -92,7 +97,7 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
     }
     showSuccessToast() {
         const evt = new ShowToastEvent({
-            message: 'Restricted Source '+this.restrictedconfigToBeShown+ ' was created.',
+            message: 'Restricted Source for '+this.restrictedconfigToBeShown+ ' is created successfully.',
             variant: 'success',
             mode: 'dismissable'
         });

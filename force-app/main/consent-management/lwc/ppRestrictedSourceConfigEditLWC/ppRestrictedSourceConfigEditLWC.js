@@ -7,6 +7,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import BTN_Save from '@salesforce/label/c.RH_RP_Save';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import BTN_Close from '@salesforce/label/c.BTN_Close';
+import TST_Something_went_wrong from '@salesforce/label/c.TST_Something_went_wrong';
 import Edit_Restricted_Source from '@salesforce/label/c.Edit_Restricted_Source';
 
 
@@ -26,7 +27,8 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
         BTN_Save,
         BTN_Cancel,
         BTN_Close,
-        Edit_Restricted_Source
+        Edit_Restricted_Source,
+        TST_Something_went_wrong
     };
 
 
@@ -78,7 +80,7 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
     handleError(event){
         let message = event.detail.detail;
         //do some stuff with message to make it more readable
-        message = "Something went wrong!";
+        message = this.label.TST_Something_went_wrong;
         this.showErrorToast(message,'error','dismissable');
     }
     handleOkay(event){
@@ -98,7 +100,7 @@ export default class ToastNotificationExampleLWC extends NavigationMixin(Lightni
     }
     showSuccessToast() {
         const evt = new ShowToastEvent({
-            message: 'Restricted Source ' +this.recordId+ ' was saved.',
+            message: 'Restricted Source for ' +this.recordId+ ' is updated successfully.',
             variant: 'success',
             mode: 'dismissable'
         });

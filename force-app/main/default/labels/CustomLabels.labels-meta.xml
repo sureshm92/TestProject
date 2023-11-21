@@ -29244,6 +29244,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Something went wrong!</value>
     </labels>
     <labels>
+        <fullName>Restricted_Source_Record_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Restricted Source Record Error</shortDescription>
+        <value>Only one record can be added per CTP. Please update the existing record on this CTP.</value>
+    </labels>
+    <labels>
         <fullName>TST_Study_was_successfully_declined</fullName>
         <language>en_US</language>
         <protected>false</protected>
