@@ -43,7 +43,7 @@
         </div>
         <div if:true={showMenuOpt}>            
             <div class="dropdown" data-key="dropdown" tabindex="0" onfocus={toggleOpt} onblur={toggleOpt}>
-                <div class="dropdown-txt">{selectedSection}
+                <div class="dropdown-txt" onclick ={toggleOpt}>{selectedSection}
                     <span class="dropdown-img">
                         <lightning-icon icon-name="utility:down" class="down-icon"  size="x-small"></lightning-icon>
                     </span>
@@ -142,7 +142,7 @@
                             </div>
                             <div class="box-container slds-align--absolute-center slds-grid slds-wrap small-box"> 
                                 <c-pp-past-studies-result perid={selectedPER.Id} studyid={selectedPER.Clinical_Trial_Profile__c}></c-pp-past-studies-result>
-                                </div>
+                            </div>
                         </div>
                     </template>
                     <div if:true={showComm} class="slds-size--1-of-1 ">
