@@ -799,7 +799,7 @@ public without sharing class CommunityFacadeRemote {
     //RH-6579/RH-6581 - Bell Notification - End Changes
     @AuraEnabled
     public static void updateCurrentContact(String notificationType,String whatId,String recipientId){
-        Contact currentContact = CommunityService.getUserContact();
+        Contact currentContact = new Contact(Id = recipientId );
         List<String> resStdPushNotifications = new List<String>();
         resStdPushNotifications.add(NotificationCatalog.PUSH_TO_PT_NEW_ARTICLE);
         resStdPushNotifications.add(NotificationCatalog.PUSH_TO_PT_NEW_DOCUMENT);
