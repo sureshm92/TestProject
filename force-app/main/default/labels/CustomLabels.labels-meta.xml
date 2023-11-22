@@ -32438,4 +32438,81 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Sort By</shortDescription>
         <value>Sort By</value>
     </labels>
+    <labels>
+        <fullName>Message_Body_New_Article_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Article_Push</shortDescription>
+        <value>A new article is available for the ##StudyCodeName</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Document_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Document_Push</shortDescription>
+        <value>A new document is available for the ##StudyCodeName</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Link_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Link_Push</shortDescription>
+        <value>A new resource is available for the ##StudyCodeName</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Multimedia_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Multimedia_Push</shortDescription>
+        <value>A new resource is available for the ##StudyCodeName</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Article_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Article_Push</shortDescription>
+        <value>A new article is available</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Document_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Document_Push</shortDescription>
+        <value>A new document is available</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Link_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Link_Push</shortDescription>
+        <value>A new resource is available</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Multimedia_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Multimedia_Push</shortDescription>
+        <value>A new resource is available</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Video_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Video_Push</shortDescription>
+        <value>A new video is available</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Video_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Video_Push</shortDescription>
+        <value>A new video is available for the ##StudyCodeName</value>
+    </labels>
+    <labels>
+        <fullName>Title_New_Resource</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title_New_Resource</shortDescription>
+        <value>New Resource Available</value>
+    </labels>
 </CustomLabels>

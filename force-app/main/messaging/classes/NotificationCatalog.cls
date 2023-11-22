@@ -165,5 +165,19 @@ public without sharing class NotificationCatalog {
     public static final String UPDATE_TO_PT_TELEVISIT_CANCELED = 'Update_to_PT_Televisit_Canceled';
 
     //push
+    public static final String PUSH_TO_PT_NEW_ARTICLE = 'Push_To_PT_New_Article';
+    public static final String PUSH_TO_PT_NEW_VIDEO = 'Push_To_PT_New_Video';
+    public static final String PUSH_TO_PT_NEW_LINK = 'Push_To_PT_New_Link';
+    public static final String PUSH_TO_PT_NEW_MULTIMEDIA = 'Push_To_PT_New_Multimedia';
+    public static final String PUSH_TO_PT_NEW_DOCUMENT = 'Push_To_PT_New_Document';
+    
+    
+    
+    public static final String PUSH_TO_PT_NEW_PLATFORM_ARTICLE = 'Push_To_PT_New_Platform_Article';
+    public static final String PUSH_TO_PT_NEW_PLATFORM_VIDEO = 'Push_To_PT_New_Platform_Video';
+    public static final String PUSH_TO_PT_NEW_PLATFORM_LINK = 'Push_To_PT_New_Platform_Link';
+    public static final String PUSH_TO_PT_NEW_PLATFORM_MULTIMEDIA = 'Push_To_PT_New_Platform_Multimedia';
+    public static final String PUSH_TO_PT_NEW_PLATFORM_DOCUMENT = 'Push_To_PT_New_Platform_Document';
+
     public static final String MESSAGE_TO_PT_DEL_VISIT_RESULT_AVAILAB = 'Message_to_PT_Del_Visit_Result_Availabl';
 }
