@@ -4,5 +4,17 @@
 }
 
 .THIS.button-hide {
-    display: none;
+    display: none !important;
 }
+.THIS.back-link-mobile {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+    padding-left: 1rem;
+}
+
+.THIS svg{ fill:#015ff1 !important; }
