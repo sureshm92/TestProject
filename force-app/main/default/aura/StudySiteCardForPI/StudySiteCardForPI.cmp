@@ -15,6 +15,8 @@
     <aura:attribute name="refresh" type="Boolean" default="false" />
     <aura:attribute name="studyListViewComponent" type="Aura.Component" />
     <aura:attribute name="addParticipantInfo" type="Object" />
+    <aura:attribute name="manageParticipantInfo" type="Object" />
+    <aura:attribute name="userTypeInfo" type="Object" />
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -110,14 +112,16 @@
                         <div
                             class="{!'slds-col slds-size_1-of-1 slds-medium-size_3-of-12 ' + if(v.isRTL,'ss-info-detailsRTL','ss-info-details')}"
                         >
+                            <aura:if isTrue="{!v.userTypeInfo.disabled == false}">
                             <button
                                 class="apollo-btn pi-save-btn secondary"
                                 onclick="{!c.saveChanges}"
-                                disabled="{!!v.siteWrapper.studySite.isEmailValid || !v.siteWrapper.studySite.isRecordUpdated || !v.siteWrapper.studySite.Name}"
+                                    disabled="{!!v.siteWrapper.studySite.isEmailValid || !v.siteWrapper.studySite.isRecordUpdated || !v.siteWrapper.studySite.Name || !v.userTypeInfo.disableReason == 'Deactivated' || !v.userTypeInfo.disableReason == 'Deactivated (Admin)'}"
                                 title="{!v.siteWrapper.studySite.isRecordUpdated ? v.siteWrapper.studySite.isEmailValid ? v.siteWrapper.studySite.Name ? $Label.c.SS_Save_Changes : $Label.c.SS_Fill_Location_Name : $Label.c.SS_invalidEmail : $Label.c.SS_No_Changes_Message}"
                             >
                                 {!$Label.c.SS_Btn_Save}
                             </button>
+                            </aura:if>
                         </div>
                     </div>
                     <div
@@ -200,13 +204,15 @@
                             </div>
                         </div>
                     </div>
+
+                    <aura:if isTrue="{!(v.userTypeInfo.disabled == false)}">
                     <div class="slds-col slds-size_1-of-1">
                         <div
                             class="slds-col slds-grid slds-size_1-of-1 slds-medium-size_7-of-7 slds-grid--align-end ss-info-buttons"
                         >
                             <aura:iteration items="{!v.siteWrapper.actions}" var="action">
                                 <aura:if
-                                    isTrue="{!action.id &amp;&amp; action.id != 'openToReceiveReferrals' &amp;&amp; (action.id != 'noThanks' &amp;&amp; action.id != 'addPatient' &amp;&amp; action.id != 'uploadPatient') || (action.id == 'addPatient' &amp;&amp; action.disabled == true)}"
+                                        isTrue="{!action.id &amp;&amp; action.id != 'openToReceiveReferrals' &amp;&amp;  action.id != 'PI_Specific_Action' &amp;&amp; (action.id != 'noThanks' &amp;&amp; action.id != 'addPatient' &amp;&amp; action.id != 'uploadPatient') || (action.id == 'addPatient' &amp;&amp; action.disabled == true)}"
                                 >
                                     <button
                                         id="{!action.id}"
@@ -224,20 +230,22 @@
                             </aura:iteration>
 
                             <!-- builk import page -->
-                            <aura:if isTrue="{!v.addParticipantInfo.disabled == false}">
+                                <!--aura:if isTrue="{!v.addParticipantInfo.disabled == false}"
+                                disabled="{!v.addParticipantInfo.disabled || v.addParticipantInfo.disabled == null }"
+                                -->
                                 <button
                                     id=""
                                     data-gtm=""
                                     value=""
                                     class="apollo-btn secondary slds-align-bottom slds-top-margin-mobile"
-                                    disabled="false"
+                                        disabled="{!v.manageParticipantInfo.disabled || v.manageParticipantInfo.disabled == null}"
                                     title=""
                                     style="{!'background-color: white;color: #297dfd;box-shadow: none;display: inline-block; ' + if(v.isRTL,'margin-left: 15px;','')}"
                                     onclick="{!c.doActionBulkImport}"
                                 >
                                     {!$Label.c.pir_Bulk_Import_History}
                                 </button>
-                            </aura:if>
+                                <!--/aura:if-->
                             <!-- builk import page -->
                             <aura:if isTrue="{!v.addParticipantInfo.disabled == false}">
                                 <div data-gtm="btn_AddParticipant_menu" class="bulk-import-btn">
@@ -280,8 +288,23 @@
                                     </c:uiHeaderMenu>
                                 </div>
                             </aura:if>
+                                <aura:if isTrue="{!v.addParticipantInfo.disabled == null}">
+                                    <button
+                                        id=""
+                                        data-gtm=""
+                                        value=""
+                                        class="apollo-btn secondary slds-align-bottom slds-top-margin-mobile"
+                                        disabled="true"
+                                        title=""
+                                        style="{!'background-color: grey;color: white;box-shadow: none;display: inline-block; ' + if(v.isRTL,'margin-left: 15px;','')}"
+                                        onclick="{!c.doActionBulkImport}"
+                                    >
+                                        {!$Label.c.PG_Add_Patients_Header}
+                                    </button>    
+                                </aura:if>
+                            </div>
                         </div>
-                    </div>
+                    </aura:if>
                 </div>
             </div>
         </aura:if>

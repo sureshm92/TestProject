@@ -50,6 +50,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
         'Name',
         'Site__c',
         'Override_PI_Referral_Status__c',
+        'Site_Activation_Status__c',
         'Is_Virtual_Study_Site__c',
         'Study_Site_Type__c',
         'Study_Site_Phone__c',
@@ -154,7 +155,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
                 DatabaseService.fieldInValues('Id', DelegateService.getDelegatedStudySiteIds()) +
                 ' )';
         }
-        studySitesQuery += ' AND Override_PI_Referral_Status__c !=null)';
+        studySitesQuery += ' AND Override_PI_Referral_Status__c  IN (\'Invitation Sent\',\'Accepted\') )';
         fields.add(studySitesQuery);
         return fields;
     }
