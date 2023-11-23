@@ -170,3 +170,7 @@
         margin-right: 5px !important;
     }
 }
+.THIS .width-align{
+    min-width: 125px;
+    width: auto;
+}

@@ -21,7 +21,8 @@ public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbst
                     Clinical_Trial_Profile__c,
                     Clinical_Trial_Profile__r.Study_Version_GUID__c,
                     Clinical_Trial_Profile__r.Study_GUID__c,
-                    Study_Site__r.ECOA_Site_Guid__c
+                    Study_Site__r.ECOA_Site_Guid__c,
+                    Visit_Plan__c
                 FROM Participant_Enrollment__c
                 WHERE
                     Subject_GUID__c = NULL

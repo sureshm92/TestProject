@@ -1747,28 +1747,28 @@
         <shortDescription>Back</shortDescription>
         <value>Back</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Back_to_eDiaries</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Back to eDiaries</shortDescription>
         <value>Back to eDiaries</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Activate_eDiaries</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Activate eDiaries</shortDescription>
         <value>You will be able to activate eDiaries soon</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>eDiaries_Comm_Preferences</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>eDiaries Comm Preferences</shortDescription>
         <value>Review Communication Preferences</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>eDiaries_Work_Msg</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5575,7 +5575,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
             
             &lt;span style=&quot;color:#444444;&quot;&gt;Your user name is ##UserName.&lt;/span&gt;</value>
     </labels>
-   
+
     <labels>
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
         <language>en_US</language>
@@ -6444,7 +6444,7 @@ Due Date and Time: ##expirationDate</value>
 
 &lt;div&gt;&lt;span&gt;Due Date :&lt;/span&gt; &lt;span style=&quot;color:#444444;&quot;&gt; ##participantExpdate. &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Email_Body_Survey_New_Reminder_PP_ParticipantExp_Date</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7628,7 +7628,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Sign Patient New  PP</shortDescription>
-          <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
+        <value>&lt;p&gt;&lt;/p&gt;&lt;span style=&quot;color:#444444;&quot;&gt;Please note that your decision to register for the ##ShortCommunityName will not affect whether you can take part in the ##isStudyorProgram.&lt;/span&gt;
 
             &lt;span style=&quot;color:#444444;&quot;&gt;Sincerely,&lt;/span&gt;
                         
@@ -9469,6 +9469,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <protected>false</protected>
         <shortDescription>GSK Text Logo</shortDescription>
         <value>Gather &lt;i&gt;Share&lt;/i&gt; Know</value>
+    </labels>
+    <labels>
+        <fullName>GSK_Login_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GSK Login Error</shortDescription>
+        <value>ERROR:</value>
     </labels>
     <labels>
         <fullName>Gather_Share_Know</fullName>
@@ -11313,6 +11320,20 @@ The expected format is REF##### to REF########</value>
         <value>Version Date</value>
     </labels>
     <labels>
+        <fullName>Link_To_All_Televisits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Link To All Televisits</shortDescription>
+        <value>View All Televisits</value>
+    </labels>
+    <labels>
+        <fullName>Link_To_Televisit_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Link To Televisit Details</shortDescription>
+        <value>View Televisit Details</value>
+    </labels>
+    <labels>
         <fullName>Link_Back_To_Home</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11527,6 +11548,48 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Low-density Lipoprotein</shortDescription>
         <value>Low-density lipoprotein</value>
+    </labels>
+    <labels>
+        <fullName>Message_to_PT_Televisit_Cancelled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message to PT Televisit Cancelled</shortDescription>
+        <value>Your televisit with ##PIFullName's team for the ##StudyCodeName is cancelled. Please contact your Care Team for more details.</value>
+    </labels>
+	<labels>
+        <fullName>Message_to_PT_Televisit_Cancelled_title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_to_PT_Televisit_Cancelled_title</shortDescription>
+        <value>A televisit is cancelled</value>
+    </labels>
+    <labels>
+        <fullName>Message_to_PT_Televisit_Rescheduled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message to PT Televisit Rescheduled</shortDescription>
+        <value>Your televisit with ##PIFullName's team for the ##StudyCodeName is rescheduled. If you are unable to make this appointment, please contact your Care Team.</value>
+    </labels>
+    <labels>
+        <fullName>Message_to_PT_Televisit_Rescheduled_title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_to_PT_Televisit_Rescheduled_title</shortDescription>
+        <value>A televisit is rescheduled</value>
+    </labels>
+    <labels>
+        <fullName>Message_to_PT_Televisit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_to_PT_Televisit_Scheduled</shortDescription>
+        <value>Your televisit with ##PIFullName's team for the ##StudyCodeName is scheduled. If you are unable to make this appointment, please contact your Care Team.</value>
+    </labels>
+    <labels>
+        <fullName>Message_to_PT_Televisit_Scheduled_title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_to_PT_Televisit_Scheduled_title</shortDescription>
+        <value>A televisit is scheduled</value>
     </labels>
     <labels>
         <fullName>Low_density_Lipoprotein_Description</fullName>
@@ -12013,6 +12076,13 @@ The expected format is REF##### to REF########</value>
         <value>Medical Record Review</value>
     </labels>
     <labels>
+        <fullName>Medical_Label_Provider</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Medical Label Provider</shortDescription>
+        <value>Provider</value>
+    </labels>
+    <labels>
         <fullName>Mess_Variant_Can_relocate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12102,6 +12172,34 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Message Body for New Certificate Push</shortDescription>
         <value>You have a new reward certificate from the ##StudyCodeName clinical research study available on the ##ShortCommName.</value>
+    </labels>
+    <labels>
+        <fullName>Title_New_Message_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for new Message Push</shortDescription>
+        <value>New Message available</value>
+    </labels>
+    <labels>
+        <fullName>Body_New_Message_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Body for new Message Push</shortDescription>
+        <value>You have a new message from your ##StudyCodeName care team</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Visit_Result_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message Body New Visit Result Push</shortDescription>
+        <value>You have new results available for ##StudyCodeName</value>
+    </labels>
+    <labels>
+        <fullName>Title_New_Visit_Result_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title New Visit Result Push</shortDescription>
+        <value>New Visit Result available</value>
     </labels>
     <labels>
         <fullName>Message_Body_New_Data_Push</fullName>
@@ -14940,7 +15038,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PreTrial Status Title Error Message</shortDescription>
         <value>Please enter Status Title under 200 characters</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>InTrial_Motivational_Error_Msg</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -19572,6 +19670,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Passwords do not match</value>
     </labels>
     <labels>
+        <fullName>PP_About_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP About Study</shortDescription>
+        <value>About</value>
+    </labels>
+    <labels>
+        <fullName>PP_Preview</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Preview</shortDescription>
+        <value>Preview</value>
+    </labels>
+    <labels>
+        <fullName>PP_Rename</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Rename</shortDescription>
+        <value>Rename</value>
+    </labels>
+    <labels>
         <fullName>PP_AS_COMPLETE_TASK</fullName>
         <categories>PPAccountSettings</categories>
         <language>en_US</language>
@@ -20854,13 +20973,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>page or enter a unique email address to add a new delegate.</value>
     </labels>
     <labels>
+        <fullName>PP_Event_Complete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Event_Complete</shortDescription>
+        <value>Event marked as complete</value>
+    </labels>
+    <labels>
         <fullName>PP_FileFormatNotAccept</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_FileFormatNotAccept</shortDescription>
         <value>File format is not accepted</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_FileNameRequired</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -20874,7 +21000,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_File_Size_Exceeded</shortDescription>
         <value>File size cannot exceed 3MB.</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Fileremovedsuccesfully</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -21135,7 +21261,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Last Name</value>
     </labels>
     <labels>
-        <fullName>PP_Limit10Files</fullName> 
+        <fullName>PP_Limit10Files</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Limit10Files</shortDescription>
@@ -21316,7 +21442,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_MustInclude Atleast</shortDescription>
         <value>Your password must include at least:</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_MyFiles</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -21339,7 +21465,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_NO_REMINDER</shortDescription>
         <value>No reminder</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_NeedHelp</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -21988,7 +22114,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_RemoveFile</shortDescription>
         <value>Are you sure you would like to remove "#fileName" file?</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_RemoveFileHeader</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -22094,7 +22220,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Resources Contribute</shortDescription>
         <value>Contribute</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Retry</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -22639,7 +22765,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_UpdateProfileResponse</shortDescription>
         <value>&gt; Profile Information &gt;  Save</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_UploadDate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -22836,7 +22962,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Visit_Time</shortDescription>
         <value>Visit Time</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_WaitTime</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -22951,7 +23077,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_future_date_error_month</shortDescription>
         <value>Value must be current month or earlier</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_or_smallcase</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -23929,6 +24055,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Profile Menu More</shortDescription>
         <value>More</value>
+    </labels>
+    <labels>
+        <fullName>Provider_Not_Authorized</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Provider Not Authorized</shortDescription>
+        <value>You have not yet authorized</value>
     </labels>
     <labels>
         <fullName>Only_PDF_Error_Message</fullName>
@@ -26887,7 +27020,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Report Biomarkers header</shortDescription>
         <value>Biomarkers Summary Table</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Report_Biomarkers_header_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -26936,7 +27069,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Report Fasting Lipid Profile header</shortDescription>
         <value>Fasting Lipid Summary Table</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>Report_Fasting_Lipid_Profile_header_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -26971,7 +27104,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Report Metabolic Panel header</shortDescription>
         <value>Metabolic Panel</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Report_Metabolic_Panel_header_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -27013,7 +27146,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Report Vitals header</shortDescription>
         <value>Vitals Summary Table</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>Report_Vitals_header_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -28125,6 +28258,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Selected Icons</shortDescription>
         <value>Selected Icons</value>
+    </labels>
+    <labels>
+        <fullName>Selected_None</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Selected None</shortDescription>
+        <value>--None--</value>
     </labels>
     <labels>
         <fullName>Send_Emails_Checkbox_on_PE_Info</fullName>
@@ -31916,7 +32056,7 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>PP_Download_Results_Data</shortDescription>
         <value>Download Results Data</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Download_In_Progress_PP</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -32000,7 +32140,7 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Study Data Report</shortDescription>
         <value>Results Data</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>Cumulative_Study_Data_Report</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -32035,7 +32175,7 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Visit Results Report Footer 2</shortDescription>
         <value>This data is being provided as part of your participation in a clinical research study or program. It is for research or program participation purposes only. Values are only available for assessments recorded for the date displayed. Some assessments may have been done at your appointments that are not listed here. If you have questions or concerns about this data or any other assessment, please contact your study or program care team.</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>Report_Randomization_Date</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -32050,7 +32190,7 @@ The IQVIA Referral Hub Support Team</value>
         <value>&lt;span style=&quot;color:#444444;&quot;&gt;Thank you for your interest in the ##StudyName.&lt;/span&gt;
 
             &lt;span style=&quot;color:#444444;&quot;&gt;We are reaching out to you to confirm we received your information from ##PITitle ##PIName. A member of the ##isStudyorProgram team will contact you regarding the next steps in the participation journey.&lt;/span&gt;
-        </value>  
+        </value>
     </labels>
     <labels>
         <fullName>Create_participant_header</fullName>
@@ -32059,7 +32199,7 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Create participant header</shortDescription>
         <value>Participant is being created on eConsent portal</value>
     </labels>
-    
+
     <labels>
         <fullName>Pop_drop_down_label</fullName>
         <language>en_US</language>
@@ -32067,7 +32207,7 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Create participant Pop-drop down label</shortDescription>
         <value>Document collection ID</value>
     </labels>
-    
+
     <labels>
         <fullName>Create_Participant_Technical_Error</fullName>
         <language>en_US</language>
@@ -32075,7 +32215,7 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Create Participant Technical Error</shortDescription>
         <value>A technical error has occured, Please try again.</value>
     </labels>
-    
+
     <labels>
         <fullName>Create_participant_button_label</fullName>
         <language>en_US</language>
@@ -32083,7 +32223,7 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Create participant button label</shortDescription>
         <value>Send to eConsent</value>
     </labels>
-    
+
     <labels>
         <fullName>create_participant_message</fullName>
         <language>en_US</language>
@@ -32091,7 +32231,7 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>create participant message</shortDescription>
         <value>eConsent is available</value>
     </labels>
-    
+
     <labels>
         <fullName>create_participant_updated_message</fullName>
         <language>en_US</language>
@@ -32099,7 +32239,7 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>create participant updated message</shortDescription>
         <value>Sent to eConsent on</value>
     </labels>
-    
+
     <labels>
         <fullName>Informed_consent_heading</fullName>
         <language>en_US</language>
@@ -32107,7 +32247,7 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Informed consent heading</shortDescription>
         <value>Informed Consent</value>
     </labels>
-    
+
     <labels>
         <fullName>Informed_consent_tool_tip_content</fullName>
         <language>en_US</language>
@@ -32115,36 +32255,36 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Informed consent tool-tip content</shortDescription>
         <value>Verification link will provide you with a code to share with your study team to complete the consenting process.</value>
     </labels>
-    
+
     <labels>
         <fullName>consent_verification_btn_name</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>consent verification btn name</shortDescription>
         <value>Access Verification Link</value>
-    </labels> 
+    </labels>
     <labels>
         <fullName>create_Participant_Main_Header</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>create_Participant_Main_Header</shortDescription>
         <value>Participant Creation</value>
-    </labels> 
-     <labels>
+    </labels>
+    <labels>
         <fullName>PP_Contact_Support_Show_More</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Show More Site staff</shortDescription>
         <value>Show More</value>
-    </labels> 
-     <labels>
+    </labels>
+    <labels>
         <fullName>PP_Contact_Support_Show_Less</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Show Less Site staff</shortDescription>
         <value>Show Less</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Visit_Results_Disclaimer_Past_Studies</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -32164,7 +32304,7 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Download_PP</shortDescription>
         <value>Download</value>
-    </labels> 
+    </labels>
     <labels>
         <fullName>Back_to_Past_Studies_and_Programs</fullName>
         <language>en_US</language>
@@ -32262,5 +32402,117 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Past Studies Result Description</shortDescription>
         <value>This data is being provided as part of your participation in a clinical research study or program. It is for research purposes only.</value>
+    </labels>
+    <labels>
+        <fullName>Uploaded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Uploaded</shortDescription>
+        <value>Uploaded</value>
+    </labels>
+    <labels>
+        <fullName>Shared_with_Me</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Shared with Me</shortDescription>
+        <value>Shared with Me</value>
+    </labels>
+    <labels>
+        <fullName>assigned_by</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>assigned by</shortDescription>
+        <value>assigned by</value>
+    </labels>
+    <labels>
+        <fullName>No_modules_available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No modules available</shortDescription>
+        <value>No modules available</value>
+    </labels>
+    <labels>
+        <fullName>Sort_By</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sort By</shortDescription>
+        <value>Sort By</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Article_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Article_Push</shortDescription>
+        <value>A new article is available for the ##StudyCodeName.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Document_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Document_Push</shortDescription>
+        <value>A new document is available for the ##StudyCodeName.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Link_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Link_Push</shortDescription>
+        <value>A new resource is available for the ##StudyCodeName.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Multimedia_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Multimedia_Push</shortDescription>
+        <value>A new resource is available for the ##StudyCodeName.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Article_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Article_Push</shortDescription>
+        <value>A new article is available.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Document_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Document_Push</shortDescription>
+        <value>A new document is available.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Link_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Link_Push</shortDescription>
+        <value>A new resource is available.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Multimedia_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Multimedia_Push</shortDescription>
+        <value>A new resource is available.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Video_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Video_Push</shortDescription>
+        <value>A new video is available.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Video_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Video_Push</shortDescription>
+        <value>A new video is available for the ##StudyCodeName.</value>
+    </labels>
+    <labels>
+        <fullName>Title_New_Resource</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title_New_Resource</shortDescription>
+        <value>New Resource Available</value>
     </labels>
 </CustomLabels>
