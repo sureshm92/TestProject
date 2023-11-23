@@ -14,7 +14,7 @@
         }
 
         if (file.size > this.MAX_FILE_SIZE) {
-            communityService.showToast('error', 'error', $A.get('$Label.c.PP_File_Size_Exceeded'));
+            communityService.showToast('error', 'error', $A.get('$Label.c.Pp_file_size_exceeded_3MB'));
 
             return;
         }
