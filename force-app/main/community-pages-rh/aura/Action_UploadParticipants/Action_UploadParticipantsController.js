@@ -113,7 +113,7 @@
             communityService.showToast(
                 'error',
                 'error',
-                'ERROR: File format not correct. Please use the provided template.'
+                'Error: file format not correct. Please use the provided template.'
             );
             component.find('upModalSpinner').hide();
 
@@ -139,7 +139,7 @@
                 communityService.showToast(
                     'error',
                     'error',
-                    'ERROR: file contains more than 45,000 records; you may split the file. Please correct the problem and try again.'
+                    'Error: file contains more than 45,000 records; you may split the file. Please correct the problem and try again.'
                 );
                 component.find('upModalSpinner').hide();
 
