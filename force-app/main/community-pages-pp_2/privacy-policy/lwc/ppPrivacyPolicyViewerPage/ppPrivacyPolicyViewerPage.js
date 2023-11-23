@@ -58,7 +58,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
             .catch((error) => {
                 this.dispatchEvent(
                     new ShowToastEvent({
-                        title: 'Error Loading RR_COMMUNITY_JS',
+                        title: 'Error loading rr_community_js',
                         message: error.message,
                         variant: 'error'
                     })
@@ -390,7 +390,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
             .catch((error) => {
                 this.dispatchEvent(
                     new ShowToastEvent({
-                        title: 'Unable to Download Privacy Policy PDF',
+                        title: 'Unable to download privacy policy PDF',
                         message: error.message,
                         variant: 'error'
                     })
