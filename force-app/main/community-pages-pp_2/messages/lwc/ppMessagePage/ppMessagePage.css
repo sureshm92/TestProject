@@ -155,19 +155,8 @@
     height: auto;
 }
 .mob-box-container {
-    margin-top: 5.5rem;
-    right: 1.5rem ;
-}
-
-.mob-box-container-browser{
-    position:absolute;
-    top: 25rem;
-    right: 1.5rem ;
-}
-.mob-box-container-mobileapp{
-    position:absolute;
-    top: 27rem;
-    right: 1.5rem;
+    position: unset!important;
+    margin-top:-15px;
 }
 
 .study-team-207192 {
