@@ -15,8 +15,11 @@
         var targetRec = communityService.getUrlParameter('targetRecId');
         var isPast = communityService.getUrlParameter('ispast');
         var perContId = communityService.getUrlParameter('perContactId');
-        var srId_ = communityService.getUrlParameter('srId');
-        if (contactRecId != null) {
+		var whatId_ = communityService.getUrlParameter('whatId');
+        var notificationType_ = communityService.getUrlParameter('notificationType');
+        var recipientId_ = communityService.getUrlParameter('recipientId');
+        var srId_ = communityService.getUrlParameter('srId'); 
+        if (contactRecId != null){
             communityService.executeAction(
                 component,
                 'updateContact',
@@ -45,6 +48,23 @@
                     }
                 }
             );
+        }else if(whatId_!=null && notificationType_!=null && recipientId_!=null){
+            //contact_changed
+            if(srId_!=sessionStorage.getItem('srId')){
+            	sessionStorage.setItem('srId',srId_);
+            	communityService.executeAction(
+                component,
+                'updateCurrentContact',
+                {
+                    whatId: whatId_,
+                    notificationType: notificationType_,
+                    recipientId: recipientId_
+                },
+                function (returnValue) {
+                        communityService.loadPage();
+                }
+            );
+        }
         }
     },
 
