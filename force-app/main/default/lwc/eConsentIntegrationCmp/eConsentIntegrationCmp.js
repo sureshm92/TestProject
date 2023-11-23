@@ -643,7 +643,7 @@ export default class EConsentIntegrationCmp extends LightningElement {
             this.siteWithguid = [];
             const event = new ShowToastEvent({
                 title: 'Success',
-                message: 'Guid updated Successfully',
+                message: 'GUID updated successfully',
                 variant: 'success',
                 mode: 'dismissable'
             });

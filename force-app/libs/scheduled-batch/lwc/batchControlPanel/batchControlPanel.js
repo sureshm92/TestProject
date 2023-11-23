@@ -168,7 +168,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
             if (input.dataset.id === wrapper.detail.Id) currentInput = input;
         });
         if (currentInput && !currentInput.checkValidity()) {
-            this.showToast('', 'Only future date/time are supported!', 'warning');
+            this.showToast('', 'Only future date/time are supported.', 'warning');
             return;
         }
 
@@ -180,7 +180,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
                 .then((data) => {
                     if (data) {
                         this.waitStateChange(jobName, 'RUNNING,SCHEDULED', this.spinner, () => {
-                            this.showToast('', 'Batch launched successfully!', 'success');
+                            this.showToast('', 'Batch launched successfully.', 'success');
                         });
                     } else {
                         this.spinner.hide();
@@ -207,7 +207,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
                 .then((data) => {
                     if (data) {
                         this.waitStateChange(jobName, 'RUNNING,SCHEDULED', this.spinner, () => {
-                            this.showToast('', 'Batch relaunched successfully!', 'success');
+                            this.showToast('', 'Batch relaunched successfully.', 'success');
                         });
                     } else {
                         this.spinner.hide();
@@ -230,7 +230,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
         stopBatch({ jobName: jobName })
             .then(() => {
                 this.waitStateChange(jobName, 'STOPPED', this.spinner, () => {
-                    this.showToast('', 'Batch stopped successfully!', 'success');
+                    this.showToast('', 'Batch stopped successfully.', 'success');
                 });
             })
             .catch((error) => {

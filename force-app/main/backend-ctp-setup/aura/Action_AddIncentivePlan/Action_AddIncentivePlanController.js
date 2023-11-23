@@ -101,7 +101,7 @@
                     communityService.showToast(
                         'Error',
                         'error',
-                        'The incentive program already exists'
+                        'The incentive program already exists.'
                     );
                 } else {
                     component.set('v.disableSave', false);
