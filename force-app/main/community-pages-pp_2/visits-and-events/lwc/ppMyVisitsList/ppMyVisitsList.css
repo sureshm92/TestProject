@@ -151,6 +151,7 @@ a {
 .up-button {
     border-radius: 16px 0 0 16px;
     border: 1px solid #d9d9d9 !important;
+    min-width: 109px;
 }
 
 .active-button-background {
@@ -173,7 +174,7 @@ a {
     line-height: 24px;
     text-align: center;
     height: 32px;
-    width: 109px;
+    min-width: 109px;
     margin-left: -1px;
 }
 
@@ -419,7 +420,7 @@ a {
     color: #a9a9a9;
     margin-top: 8px;
 }
- @media all and (max-width: 486px) {
+@media all and (max-width: 486px) {
     .visit-card-upcoming {
         height: 213px;
         width: auto !important;
@@ -427,4 +428,4 @@ a {
     .scroll-bar {
         margin-right: 0rem !important;
     }
-} 
+}
