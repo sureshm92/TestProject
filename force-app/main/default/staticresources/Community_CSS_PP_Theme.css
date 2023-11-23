@@ -2241,6 +2241,7 @@ user agent stylesheet svg:not(:root) {
 }
 .dateTimeContainer input{
     -moz-appearance: none; 
-        /* for Safari, Chrome, Opera */ 
+    /* for Safari, Chrome, Opera */ 
     -webkit-appearance: none; 
+    appearance: none; 
 }
