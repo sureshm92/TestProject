@@ -20868,10 +20868,10 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>File Name Required</value>
     </labels>
     <labels>
-        <fullName>Pp_file_size_exceeded</fullName>
+        <fullName>Pp_file_size_exceeded_3MB</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Pp_file_size_exceeded</shortDescription>
+        <shortDescription>Pp_file_size_exceeded_3mb</shortDescription>
         <value>File size cannot exceed 3MB.</value>
     </labels>
      <labels>
