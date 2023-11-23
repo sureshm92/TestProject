@@ -147,7 +147,7 @@
     padding-bottom: 16px;
 }
 .small-box{
-    height: 138.3px;
+    height: auto;
     margin-bottom: 16px;
 }
 .msg-box{
@@ -306,8 +306,8 @@
     border-top: 1px solid #E9E9E9;
     height: 48px;
     color: #015FF1;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 500;
     line-height: 24px;
     border: 1px solid #D9D9D9;
     background-color: #FFFFFF;

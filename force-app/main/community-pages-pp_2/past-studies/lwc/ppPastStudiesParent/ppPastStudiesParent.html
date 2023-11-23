@@ -45,10 +45,9 @@
                     class="dropdown"
                     data-key="dropdown"
                     tabindex="0"
-                    onfocus={toggleOpt}
                     onblur={toggleOpt}
                 >
-                    <div class="dropdown-txt">
+                    <div class="dropdown-txt" onclick ={toggleOpt}>
                         {selectedSection}
                         <span class="dropdown-img">
                             <lightning-icon
