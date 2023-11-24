@@ -294,11 +294,12 @@ export default class PpPastStudiesParent extends LightningElement {
     slectStudyFormTiles(event) {
         this.updateSelectedStudy(event.detail.message);
     }
-    slectStudyFormFiles(event) {
-        this.uploadedFilesClass = 'no-show-link';
-        this.sharedFilesClass = 'no-show-link';
-        this.updateSelectedStudy(this.studyPERMap.get(event.detail.message));
-        this.showFilePage = false;
+    slectStudyFormFiles(event){
+        this.uploadedFilesClass='no-show-link';
+        this.sharedFilesClass='no-show-link';
+        this.showFilePage=false;
+        this.selectedPER = null;
+        this.selectedSection = PP_Overview;
     }
 
     showdeletetoast() {
