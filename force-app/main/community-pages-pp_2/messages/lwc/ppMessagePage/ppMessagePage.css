@@ -155,9 +155,10 @@
     height: auto;
 }
 .mob-box-container {
-    top: 23.9rem !important;
-    right: 1.5rem !important;
+    position: unset!important;
+    margin-top:-15px;
 }
+
 .study-team-207192 {
     color: #444444;
     font-size: 18px;
