@@ -182,7 +182,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 this.getConsentData();
             })
             .catch((error) => {
-                this.showCustomToast('', 'Failed To read the Data...', 'error');
+                this.showCustomToast('', 'Failed to read the data.', 'error');
                 this.spinner = false;
             });
 
@@ -1270,7 +1270,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 this.updateErrorOnStudyPostMobileNumberCorrection();
             })
             .catch((error) => {
-                this.showCustomToast('', 'Failed To read the Data...', 'error');
+                this.showCustomToast('', 'Failed to read the data.', 'error');
                 this.spinner = false;
             });
         //}
