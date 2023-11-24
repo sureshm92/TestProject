@@ -226,7 +226,7 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     get whatDelCanSeeSection() {
         return this.isRTL
-            ? 'slds-p-right_medium slds-p-top_medium slds-p-bottom_small'
+            ? 'slds-p-left_medium slds-p-top_medium slds-p-bottom_small'
             : 'slds-p-left_medium slds-p-top_medium slds-p-bottom_small';
     }
     get whatDeleCanSeeText() {
