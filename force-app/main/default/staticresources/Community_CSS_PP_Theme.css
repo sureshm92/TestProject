@@ -2168,9 +2168,6 @@ user agent stylesheet svg:not(:root) {
 .contact-support-popup .slds-modal__container {
     height: auto;
 }
-.update-container .rr-spinner {
-    background-color: transparent;
-}
 .result-container .rr-spinner {
     background: #ffffff;
 }
@@ -2238,4 +2235,10 @@ user agent stylesheet svg:not(:root) {
 }
 .pastStudiesFiles .slds-tabs_default__item {
     margin-left: -4px;
+}
+.dateTimeContainer input{
+    -moz-appearance: none; 
+        /* for Safari, Chrome, Opera */ 
+    -webkit-appearance: none; 
+    appearance: none;
 }
