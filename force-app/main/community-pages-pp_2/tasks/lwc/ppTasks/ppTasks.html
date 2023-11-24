@@ -80,16 +80,25 @@
                                     </article>
                                 </div>
                             </template>
+                            <template if:true={isMobileApp}>
+                                <div class="slds-align_absolute-center">
+                                    <div class="comm-link" onclick={navigateToTasks}>
+                                        <span>{label.viewAllTasks}</span>
+                                    </div>
+                                </div>
+                            </template>
                         </template>
                     </div>
                 </article>
             </template>
         </div>
-       <div class="slds-align_absolute-center">
-            <div class="comm-link" onclick={navigateToTasks}>
-                <span>{label.viewAllTasks}</span>
-            </div>
-        </div>
+        <template if:false={isMobileApp}>
+            <div class="slds-align_absolute-center">
+                <div class="comm-link" onclick={navigateToTasks}>
+                    <span>{label.viewAllTasks}</span>
+                </div>
+            </div></template
+        >
     </template>
     <!--Task detail page-->
     <template if:false={ishomepage}>
@@ -279,16 +288,20 @@
                     </div>
                 </div>
             </div>
-            <div class="slds-col slds-large-size--1-of-3 slds-size_1-of-1 slds-m-top--xx-large task-panel_right">
-            <div class="card-gap">
-              <c-pp-consent-verification-card onsuccessload={handleLoad}
-                oncardremove={handleCardRemove}>
-              </c-pp-consent-verification-card> 
-                <c-pp-medical-record-retrieval-panel
-                    onsuccessload={handleLoad}
-                    oncardremove={handleCardRemove}
-                ></c-pp-medical-record-retrieval-panel>
-            </div>
+            <div
+                class="slds-col slds-large-size--1-of-3 slds-size_1-of-1 slds-m-top--xx-large task-panel_right"
+            >
+                <div class="card-gap">
+                    <c-pp-consent-verification-card
+                        onsuccessload={handleLoad}
+                        oncardremove={handleCardRemove}
+                    >
+                    </c-pp-consent-verification-card>
+                    <c-pp-medical-record-retrieval-panel
+                        onsuccessload={handleLoad}
+                        oncardremove={handleCardRemove}
+                    ></c-pp-medical-record-retrieval-panel>
+                </div>
             </div>
         </div>
     </template>
