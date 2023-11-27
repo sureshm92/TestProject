@@ -12227,14 +12227,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message Body for Visit Reminder Del Push</shortDescription>
-        <value>You have an upcoming visit with ##ParticipantFirstName for the ##StudyCodeName clinical research study. If they are unable to make this appointment, please contact the Study Team.</value>
+        <value>You have an upcoming visit with ##ParticipantFirstName for the ##StudyName clinical research study. If they are unable to make this appointment, please contact the Study Team.</value>
     </labels>
     <labels>
         <fullName>Message_Body_Visit_Reminder_PT_Push</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message Body for Visit Reminder PT Push</shortDescription>
-        <value>You have an upcoming visit for the ##StudyCodeName clinical research study. If you are unable to make this appointment, please contact the Study Team.</value>
+        <value>You have an upcoming visit for the ##StudyName clinical research study. If you are unable to make this appointment, please contact the Study Team.</value>
     </labels>
     <labels>
         <fullName>Message_For_Delegates</fullName>
