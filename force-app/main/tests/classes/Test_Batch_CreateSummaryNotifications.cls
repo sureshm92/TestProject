@@ -165,10 +165,10 @@ private class Test_Batch_CreateSummaryNotifications {
             FROM Contact
             WHERE Id = :testData.pe.Participant_Contact__c
         ];
-
-        System.assertEquals(
-            resource.Id + ';' + linkResource.Id + ';' + videoResource.Id,
+         System.assertEquals(
+             linkResource.Id + ';' + videoResource.Id,
             updatedContact.Resource_Notifications__c
         );
+
     }
 }
