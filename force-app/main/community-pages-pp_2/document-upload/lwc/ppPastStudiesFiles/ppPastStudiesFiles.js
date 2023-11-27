@@ -4,6 +4,7 @@ import fetchUploadedFiles from '@salesforce/apex/PpPastStudiesFilesController.fe
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import PP_MyFiles from '@salesforce/label/c.PP_MyFiles';
 import PP_SwitchStudyProgram from '@salesforce/label/c.PP_SwitchStudyProgram';
+import Backtostudiesandprogramspage from '@salesforce/label/c.Back_to_Past_Studies_and_Programs';
 import formFactor from '@salesforce/client/formFactor';
 
 export default class PpPastStudiesFiles extends LightningElement {
@@ -27,7 +28,7 @@ export default class PpPastStudiesFiles extends LightningElement {
     selectedStudyId;
     isLoaded = false;
 
-    label = { PP_MyFiles, PP_SwitchStudyProgram };
+    label = { PP_MyFiles, PP_SwitchStudyProgram, Backtostudiesandprogramspage };
     connectedCallback() {
         if (formFactor === 'Small') {
             this.isMobile = true;
