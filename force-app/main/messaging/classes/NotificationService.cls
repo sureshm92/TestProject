@@ -415,7 +415,8 @@ public without sharing class NotificationService {
                             n.Task_Id__c != '' &&
                             taskMap.containsKey(n.Task_Id__c)) &&
                             (taskMap.get(n.Task_Id__c).Task_Code__c != null &&
-                            taskMap.get(n.Task_Id__c).Task_Code__c != ''))
+                            taskMap.get(n.Task_Id__c).Task_Code__c != '' && 
+                            taskMap.get(n.Task_Id__c).Task_Code__c != TaskService.TASK_CODE_ECOA_TASK))
                         ) {
                             emailNotifications.add(n);
                             sendResultService.setInProgress(n.Id, nt.Target_Type__c);
@@ -537,7 +538,8 @@ public without sharing class NotificationService {
                         n.Task_Id__c != '' &&
                         taskMap.containsKey(n.Task_Id__c)) &&
                         (taskMap.get(n.Task_Id__c).Task_Code__c != null &&
-                        taskMap.get(n.Task_Id__c).Task_Code__c != ''))
+                        taskMap.get(n.Task_Id__c).Task_Code__c != '' && 
+                        taskMap.get(n.Task_Id__c).Task_Code__c != TaskService.TASK_CODE_ECOA_TASK))
                     ) {
                         smsNotifications.add(n);
                         sendResultService.setInProgress(n.Id, nt.Target_Type__c);
