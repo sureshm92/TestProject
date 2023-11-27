@@ -210,7 +210,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                 }
             })
             .catch((error) => {
-                this.showCustomToast('', 'Failed To read the Data...', 'error');
+                this.showCustomToast('', 'Failed to read the data.', 'error');
                 this.spinner = false;
             });
 
@@ -1048,7 +1048,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                 this.updateErrorOnStudyPostMobileNumberCorrection();
             })
             .catch((error) => {
-                this.showCustomToast('', 'Failed To read the Data...', 'error');
+                this.showCustomToast('', 'Failed to read the data.', 'error');
                 this.spinner = false;
             });
         //}

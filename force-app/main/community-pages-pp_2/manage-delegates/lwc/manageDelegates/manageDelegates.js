@@ -152,7 +152,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
                 communityService.showToast(
                     '',
                     'error',
-                    'Failed To read the Data(study Filter)...',
+                    'Failed to read the data(study filter).',
                     100
                 );
                 this.spinner = false;

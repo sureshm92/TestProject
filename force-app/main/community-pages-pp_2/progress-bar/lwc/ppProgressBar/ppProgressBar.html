@@ -1,10 +1,9 @@
 <template>
-    
+    <c-web-spinner class="main-spinner" fixed="true" show-spinner={showSpinner}></c-web-spinner>
     <div if:true={parentWrapper} class={parentClass}>
         <div class="headerTitle">Progress</div>
         <div class="topBar"></div>
         <div class="slds-grid slds-wrap box">
-            <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium"></lightning-spinner>
             <div class={layoutClass1} if:false={parentWrapper.isPreTiral} >
                 <div class="rightBox">
                     <div class="rightTextPar">
