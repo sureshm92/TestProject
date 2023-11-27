@@ -2243,4 +2243,5 @@ user agent stylesheet svg:not(:root) {
     -moz-appearance: none; 
         /* for Safari, Chrome, Opera */ 
     -webkit-appearance: none; 
+    appearance: none;
 }
