@@ -63,7 +63,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     taskSelectionMode = 'Open';
     taskBtnOpenClass = 'slds-button slds-button_neutral open-task active-button-background';
     // taskBtnOpenClass = 'open-task primaryBtn slds-button';
-    taskBtnCompleteClass = 'slds-button slds-button_brand completed-task inactive-button-background';
+    taskBtnCompleteClass =
+        'slds-button slds-button_brand completed-task inactive-button-background';
     taskOpenTab = true;
     isEnrolled;
     emailOptIn;
@@ -113,6 +114,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     taskParamId;
     showSpinner = true;
     rightPanelComponents = [];
+    isMobileApp;
 
     connectedCallback() {
         if (formFactor === 'Small') {
@@ -120,6 +122,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         } else {
             this.isMobile = false;
         }
+        this.isMobileApp = communityService.isMobileSDK();
         var pageurl = communityService.getFullPageName();
         var pageParam = communityService.getUrlParameter('id');
         this.taskParamId = pageParam;
@@ -341,8 +344,10 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     }
     navigateToCompleted() {
         this.taskSelectionMode = 'Complete';
-        this.taskBtnOpenClass = 'slds-button slds-button_neutral open-task inactive-button-background';
-        this.taskBtnCompleteClass = 'slds-button slds-button_brand completed-task active-button-background';
+        this.taskBtnOpenClass =
+            'slds-button slds-button_neutral open-task inactive-button-background';
+        this.taskBtnCompleteClass =
+            'slds-button slds-button_brand completed-task active-button-background';
         // this.taskBtnCompleteClass = 'completed-task primaryBtn slds-button';
         this.taskOpenTab = this.taskSelectionMode == 'Open';
         this.initializeData();
@@ -350,9 +355,11 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     navigateToOpen() {
         this.taskSelectionMode = 'Open';
         this.taskOpenTab = this.taskSelectionMode == 'Open';
-        this.taskBtnOpenClass = 'slds-button slds-button_neutral open-task active-button-background';
+        this.taskBtnOpenClass =
+            'slds-button slds-button_neutral open-task active-button-background';
         // this.taskBtnOpenClass = 'open-task primaryBtn slds-button';
-        this.taskBtnCompleteClass = 'slds-button slds-button_brand completed-task inactive-button-background';
+        this.taskBtnCompleteClass =
+            'slds-button slds-button_brand completed-task inactive-button-background';
         this.initializeData();
     }
     closeTheTask() {
