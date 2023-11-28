@@ -1,16 +1,16 @@
 <template>
     <template if:true={loaded}>
-        <div if:true={resultsAvailable} class="top"> 
-            <div class="body-block slds-align--absolute-center">
+        <div if:true={resultsAvailable}> 
+            <div class="slds-p-around_medium slds-align--absolute-center">
                 {label.Past_Studies_Result_Text}
             </div>
-            <div class="footer-block slds-align--absolute-center" >
+            <div class="slds-p-around_medium slds-align--absolute-center footer-block">
                 <span class="footer-link" onclick={openResult}>
                     <img src={downloadresulticon}/>{label.PP_Download_Results_Data}
                 </span>
             </div>
         </div>
-        <div if:false={resultsAvailable} class="slds-align--absolute-center slds-grid slds-wrap">
+        <div if:false={resultsAvailable} class="slds-align--absolute-center slds-p-vertical_medium slds-grid slds-wrap">
             <div class="slds-size--1-of-1 no-result-img"><img src={noResultsIcon}/></div>
             <div class="slds-size--1-of-1 no-result-txt">{label.PP_No_results_available}</div>
         </div>

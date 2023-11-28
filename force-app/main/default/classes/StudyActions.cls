@@ -225,15 +225,15 @@ public abstract class StudyActions {
         studySiteNotAcceptedReason = new DisableReason(
             studySite != null &&
             !StudySiteService.STATUS_GROUP_ACCEPTED.contains(
-                studySite.Override_PI_Referral_Status__c
+                studySite.Site_Activation_Status__c
             ),
             REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
-        );
+        );// this is used in StudyActionsHCP and StudyActionsPI
 
         studySiteOnHoldReason = new DisableReason(
             studySite != null &&
             StudySiteService.STATUS_GROUP_ON_HOLD.contains(
-                studySite.Override_PI_Referral_Status__c
+                studySite.Site_Activation_Status__c
             ),
             REASON_LABEL_SS_ON_HOLD
         );

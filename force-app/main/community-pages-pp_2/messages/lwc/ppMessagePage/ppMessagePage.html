@@ -128,7 +128,7 @@
                             title="chevronleft"
                             class="left-chevro my-icon"
                         ></lightning-icon> </span
-                    ><span class="back">Back</span>
+                    ><span class="back" onclick={handleBack} >Back</span>
                 </lightning-layout-item>
             </template>
             <template if:false={showBack}>
@@ -217,7 +217,7 @@
                 size="12"
                 class="mob-msg-box slds-m-top_small hideMobile conversations"
             >
-                <lightning-layout class="slds-grid_align-space border-btm">
+                <lightning-layout multiple-rows="true" class="slds-grid_align-space border-btm">
                     <lightning-layout-item
                         size="2"
                         class="slds-align-middle slds-p-left_large"
@@ -251,9 +251,7 @@
                             >
                         </template>
                     </lightning-layout-item>
-                    <div
-                        class="slds-p-horizontal_large box-container mob-box-container"
-                    >
+                    <lightning-layout-item size="12" class="slds-p-horizontal_large box-container mob-box-container">
                         <template if:true={nameList}>
                             <template for:each={nameList} for:item="n">
                                 <c-pp-people-count
@@ -264,7 +262,7 @@
                                 ></c-pp-people-count>
                             </template>
                         </template>
-                    </div>
+                    </lightning-layout-item>      
                 </lightning-layout>
                 <lightning-layout class="slds-align--absolute-center"
                     ><template if:true={isMessageLoaded}>

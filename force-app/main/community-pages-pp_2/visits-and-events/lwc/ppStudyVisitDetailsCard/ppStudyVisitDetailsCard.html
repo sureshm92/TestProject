@@ -22,7 +22,8 @@
                 <div class="site-phone">{sitephone}</div>
             </div>
             <div>
-                <template if:true={isinitialvisit}>
+                <div class="dateTimeContainer">
+                <template if:true={isinitialvisit} >
                     <div class="read-only-background">
                         <c-pp-date-time-combo
                             data-id="visitDateTime"
@@ -61,6 +62,7 @@
                         ontime={handleOnlyTime}
                     ></c-pp-date-time-combo>
                 </template>
+                </div>
                 <template if:false={dbCompletedDate}>
                     <template if:true={past}>
                         <br />
@@ -174,7 +176,7 @@
                         </a>
                     </div>
                 </div>
-                <div if:false={past}>
+                <div if:false={past} class="dateTimeContainer">
                     <c-pp-date-time-combo
                         if:true={showreminderdatepicker}
                         data-id="reminderDateTime"

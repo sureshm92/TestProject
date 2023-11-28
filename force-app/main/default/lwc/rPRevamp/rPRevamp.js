@@ -564,7 +564,7 @@ export default class RPRevamp extends LightningElement {
                 new ShowToastEvent({
                     title: 'Success!',
                     message:
-                        'Your file was processed successfully. Please check to see if there are any errors in the Rejected table',
+                        'Your file was processed successfully. Please check to see if there are any errors in the rejected table.',
                     variant: 'success'
                 })
             );
