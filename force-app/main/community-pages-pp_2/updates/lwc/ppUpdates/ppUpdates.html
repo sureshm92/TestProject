@@ -1,6 +1,6 @@
 <template>
     <div class={compContainer}>
-        <c-web-spinner id="updateSpinner" fixed="true" class="main-spinner"></c-web-spinner>
+        <c-web-spinner id="updateSpinner" fixed={showFixedSpinner} class="main-spinner"></c-web-spinner>
         <template if:true={desktop}>
             <div class="slds-grid card-wrap">
                 <header class="slds-has-flexi-truncate">
