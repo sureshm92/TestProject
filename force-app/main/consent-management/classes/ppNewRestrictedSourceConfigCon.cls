@@ -9,9 +9,12 @@ public with sharing class ppNewRestrictedSourceConfigCon {
 
     @AuraEnabled(cacheable = false)
     public static Restricted_Source_Config__c getRestrictedSourceConfigRecord(String recordId) {
-        Restricted_Source_Config__c restrictedRecrd = 
+        list<Restricted_Source_Config__c> restrictedRecrd = 
             [SELECT Id,Sponsor__c,Study__c,Referral_Resource__c FROM Restricted_Source_Config__c WHERE Study__c =: recordId];
-        return restrictedRecrd;
+        if(restrictedRecrd!=null && restrictedRecrd.size()>0){
+             return restrictedRecrd[0];
+        }
+        return null;
     }
     
     @AuraEnabled (cacheable=true)

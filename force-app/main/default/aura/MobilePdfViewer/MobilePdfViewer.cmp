@@ -19,8 +19,10 @@
 
     <aura:attribute name="isResourceVisible" type="boolean" default="false" />
 
-    <ui:button aura:id="button" class="button" label="Back" press="{!c.backToPreviousPage}" />
-
+    <div onclick="{!c.backToPreviousPage}"  class="back-link-mobile slds-p-top_x-small slds-p-bottom_xx-small" aura:id="back_button">     
+            <lightning:icon iconName="utility:chevronleft" size="x-small"/>
+            {!$Label.c.Back}
+    </div>
     <iframe
         aura:id="pdfFrame"
         id="pp"

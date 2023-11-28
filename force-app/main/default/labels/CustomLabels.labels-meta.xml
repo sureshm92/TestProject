@@ -2438,7 +2438,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_Suppress_PI_Email</shortDescription>
-        <value>Study Site PI Emails have to be suppressed if Study PI Emails are</value>
+        <value>Study site PI emails have to be suppressed if study PI emails are</value>
     </labels>
     <labels>
         <fullName>CC_TableHeader_CTP</fullName>
@@ -9051,7 +9051,7 @@ Release 4.0 includes additional details around the screening process, which has 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Event_details_updated_successfully</shortDescription>
-        <value>Event details updated successfully!</value>
+        <value>Event details updated successfully.</value>
     </labels>
     <labels>
         <fullName>Events_No_Data_Available</fullName>
@@ -11394,7 +11394,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>ListView_Change_Status</shortDescription>
-        <value>Please select a status in the filter criteria</value>
+        <value>Please select a status in the filter criteria.</value>
     </labels>
     <labels>
         <fullName>ListView_Current_Status</fullName>
@@ -11674,7 +11674,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MO_RecordUpdate</shortDescription>
-        <value>Record Updated Successfully</value>
+        <value>Record updated successfully</value>
     </labels>
     <labels>
         <fullName>MO_Request_ID</fullName>
@@ -12227,14 +12227,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message Body for Visit Reminder Del Push</shortDescription>
-        <value>You have an upcoming visit with ##ParticipantFirstName for the ##StudyCodeName clinical research study. If they are unable to make this appointment, please contact the Study Team.</value>
+        <value>You have an upcoming visit with ##ParticipantFirstName for the ##StudyName clinical research study. If they are unable to make this appointment, please contact the Study Team.</value>
     </labels>
     <labels>
         <fullName>Message_Body_Visit_Reminder_PT_Push</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message Body for Visit Reminder PT Push</shortDescription>
-        <value>You have an upcoming visit for the ##StudyCodeName clinical research study. If you are unable to make this appointment, please contact the Study Team.</value>
+        <value>You have an upcoming visit for the ##StudyName clinical research study. If you are unable to make this appointment, please contact the Study Team.</value>
     </labels>
     <labels>
         <fullName>Message_For_Delegates</fullName>
@@ -13732,7 +13732,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Outreach Message</shortDescription>
-        <value>New Outreach Created Successfully !</value>
+        <value>New outreach created successfully .</value>
     </labels>
     <labels>
         <fullName>PDE_Created_By_for_Data_Load</fullName>
@@ -19734,7 +19734,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AS_DATA_UPDATE</shortDescription>
-        <value>Your data was updated successfully!</value>
+        <value>Your data was updated successfully</value>
     </labels>
     <labels>
         <fullName>PP_AS_DelegateTasks</fullName>
@@ -19766,7 +19766,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AS_Delegate_Removed</shortDescription>
-        <value>You have been succesfully removed from the Delegates list</value>
+        <value>You have been successfully removed from the delegates list.</value>
     </labels>
     <labels>
         <fullName>PP_AS_F_2nd_Choice_Language_Help_Text</fullName>
@@ -19833,7 +19833,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AS_PHOTO_REMOVED</shortDescription>
-        <value>Photo removed successfully!</value>
+        <value>Photo removed successfully</value>
     </labels>
     <labels>
         <fullName>PP_AS_PHOTO_UPLOADED</fullName>
@@ -19841,7 +19841,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_AS_PHOTO_UPLOADED</shortDescription>
-        <value>Photo uploaded successfully!</value>
+        <value>Photo uploaded successfully</value>
     </labels>
     <labels>
         <fullName>PP_AS_RECEIVE_EMAIL</fullName>
@@ -19914,7 +19914,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_ActiveDelegateError</shortDescription>
-        <value>Delegate already exists.</value>
+        <value>Delegate already exists</value>
     </labels>
     <labels>
         <fullName>PP_ActiveDelegates</fullName>
@@ -20662,7 +20662,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Delegate Added Successfully</shortDescription>
-        <value>Delegate added successfully.</value>
+        <value>Delegate added successfully</value>
     </labels>
     <labels>
         <fullName>PP_Delegate_Deactivated</fullName>
@@ -20706,7 +20706,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Delegate Updated</shortDescription>
-        <value>Delegate updated successfully.</value>
+        <value>Delegate updated successfully</value>
     </labels>
     <labels>
         <fullName>PP_Delegates_Permitted_Actions</fullName>
@@ -20734,7 +20734,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_DeletedSucesfully</shortDescription>
-        <value>File deleted succesfully</value>
+        <value>File deleted successfully</value>
     </labels>
     <labels>
         <fullName>PP_Details</fullName>
@@ -21008,10 +21008,10 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>File Name Required</value>
     </labels>
     <labels>
-        <fullName>PP_File_Size_Exceeded</fullName>
+        <fullName>Pp_file_size_exceeded_3MB</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PP_File_Size_Exceeded</shortDescription>
+        <shortDescription>Pp_file_size_exceeded_3mb</shortDescription>
         <value>File size cannot exceed 3MB.</value>
     </labels>
     <labels>
@@ -21019,7 +21019,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Fileremovedsuccesfully</shortDescription>
-        <value>File removed succesfully</value>
+        <value>File removed successfully.</value>
     </labels>
     <labels>
         <fullName>PP_Filerenamedsuccesfully</fullName>
@@ -21818,14 +21818,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_PhotoAdd</shortDescription>
-        <value>Photo uploaded successfully!</value>
+        <value>Photo uploaded successfully</value>
     </labels>
     <labels>
         <fullName>PP_PhotoRemove</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_PhotoRemove</shortDescription>
-        <value>Photo removed successfully!</value>
+        <value>Photo removed successfully</value>
     </labels>
     <labels>
         <fullName>PP_PlatformPrivacyPolicyNote</fullName>
@@ -21952,7 +21952,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Profile_Update_Success</shortDescription>
-        <value>Data Updated Successfully!</value>
+        <value>Data updated successfully.</value>
     </labels>
     <labels>
         <fullName>PP_Program</fullName>
@@ -22154,7 +22154,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Request Submitted Success Message</shortDescription>
-        <value>Your request was submitted successfully!</value>
+        <value>Your request was submitted successfully.</value>
     </labels>
     <labels>
         <fullName>PP_RequiredErrorMessage</fullName>
@@ -22741,7 +22741,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_UploadSuccess</shortDescription>
-        <value>File(s) uploaded succesfully</value>
+        <value>File(s) uploaded successfully.</value>
     </labels>
     <labels>
         <fullName>PP_URL_Error</fullName>
@@ -22812,7 +22812,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_UploadSuccess</shortDescription>
-        <value>File(s) uploaded succesfully</value>
+        <value>File(s) uploaded successfully.</value>
     </labels>
     <labels>
         <fullName>PP_Update_Refresh</fullName>
@@ -23808,7 +23808,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pdf Not Available</shortDescription>
-        <value>Opening this link is only supported using the web browser experience</value>
+        <value>Opening this link is only supported using the web browser experience.</value>
     </labels>
     <labels>
         <fullName>Permissions</fullName>
@@ -24434,7 +24434,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_Bulkimport_HeaderFailed</shortDescription>
-        <value>File format must be .CSV, .XLS or .XLSX; also, the fields must match the ones provided in the Sample Template. Please correct the problem and try again.</value>
+        <value>File format must be .csv, .xls or .xlsx; also, the fields must match the ones provided in the sample template. Please correct the problem and try again.</value>
     </labels>
     <labels>
         <fullName>RH_Bulkimport_MaxiumRecord</fullName>
@@ -24633,7 +24633,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>No record found for Export</shortDescription>
-        <value>No record found for Export</value>
+        <value>No record found for export.</value>
     </labels>
     <labels>
         <fullName>RH_External_Link_Disclaimer</fullName>
@@ -24711,14 +24711,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_HumanAPIEmailError</shortDescription>
-        <value>Please correct email information and retry the request</value>
+        <value>Please correct email information and retry the request.</value>
     </labels>
     <labels>
         <fullName>RH_HumanAPIError</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_HumanAPIError</shortDescription>
-        <value>Unable to process the request- please retry</value>
+        <value>Unable to process the request- please retry.</value>
     </labels>
     <labels>
         <fullName>RH_ImportInformation</fullName>
@@ -24830,14 +24830,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MedicalRecords_NoPermitEmail</shortDescription>
-        <value>Please confirm participant/caregiver consent to be contacted on the Participant Details tab</value>
+        <value>Please confirm participant/caregiver consent to be contacted on the participant details tab.</value>
     </labels>
     <labels>
         <fullName>RH_MedicalRetrieve_EmailError</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_MedicalRetrieve_EmailError</shortDescription>
-        <value>Please complete email information for the participant/caregiver on the Participant Details tab, and retry</value>
+        <value>Please complete email information for the participant/caregiver on the participant details tab, and retry.</value>
     </labels>
     <labels>
         <fullName>RH_MedicalRetrive_Succces</fullName>
@@ -25779,7 +25779,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Record Saved Successfully</shortDescription>
-        <value>Record Saved Successfully</value>
+        <value>Record saved successfully.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Records</fullName>
@@ -26885,14 +26885,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Records all invited</shortDescription>
-        <value>Participants have been invited successfully</value>
+        <value>Participants have been invited successfully.</value>
     </labels>
     <labels>
         <fullName>Records_sent_to_SH</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Records sent to SH</shortDescription>
-        <value>Records have been sent successfully</value>
+        <value>Records have been sent successfully.</value>
     </labels>
     <labels>
         <fullName>ReferralNetwork_NoRNSelected</fullName>
@@ -27971,7 +27971,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Success Save Message</shortDescription>
-        <value>Study Site information was successfully saved</value>
+        <value>Study Site information was successfully saved.</value>
     </labels>
     <labels>
         <fullName>SS_Upload_Participants</fullName>
@@ -29143,28 +29143,28 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Email can`t be empty!</shortDescription>
-        <value>Email can`t be empty!</value>
+        <value>Email can not be empty.</value>
     </labels>
     <labels>
         <fullName>TST_Email_was_successfully_sent</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Email was successfully sent!</shortDescription>
-        <value>Email was successfully sent!</value>
+        <value>Email was successfully sent.</value>
     </labels>
     <labels>
         <fullName>TST_Emails_are_same</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Emails are same!</shortDescription>
-        <value>Emails are same!</value>
+        <value>Emails are same.</value>
     </labels>
     <labels>
         <fullName>TST_Incorrect_enrollment</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Incorrect enrollment!</shortDescription>
-        <value>Incorrect enrollment!</value>
+        <value>Incorrect enrollment.</value>
     </labels>
     <labels>
         <fullName>TST_Incorrect_user_data</fullName>
@@ -29178,14 +29178,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Invalid email address!</shortDescription>
-        <value>Invalid email address!</value>
+        <value>Invalid email address.</value>
     </labels>
     <labels>
         <fullName>TST_JS_Injection_Error</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST JS Injection Error</shortDescription>
-        <value>HTML or JS Code is not permitted for inputs!</value>
+        <value>Html or JS code is not permitted for inputs.</value>
     </labels>
     <labels>
         <fullName>TST_Permissions_should_be_the_same_for_study</fullName>
@@ -29206,14 +29206,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST_SST_Error</shortDescription>
-        <value>Unable to create User</value>
+        <value>Unable to create user</value>
     </labels>
     <labels>
         <fullName>TST_SST_Success</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST_SST_Success</shortDescription>
-        <value>User have been created. Pending Permission Set Assignment</value>
+        <value>User have been created. Pending permission set assignment</value>
     </labels>
     <labels>
         <fullName>TST_Screenshot_Wrong_Format</fullName>
@@ -29227,21 +29227,21 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Screenshot size limit(2MB) exceeded!</shortDescription>
-        <value>Screenshot size limit(2MB) exceeded!</value>
+        <value>Screenshot size limit (2mb) exceeded.</value>
     </labels>
     <labels>
         <fullName>TST_Screenshots_size_limit_10MB_exceeded</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Screenshots size limit(10MB) exceeded!</shortDescription>
-        <value>Screenshots size limit(3MB) exceeded!</value>
+        <value>Screenshots size limit (3mb) exceeded.</value>
     </labels>
     <labels>
         <fullName>TST_Something_went_wrong</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Something went wrong!</shortDescription>
-        <value>Something went wrong!</value>
+        <value>Something went wrong.</value>
     </labels>
     <labels>
         <fullName>Restricted_Source_Record_Error</fullName>
@@ -29255,7 +29255,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Study was successfully declined!</shortDescription>
-        <value>Study was successfully declined!</value>
+        <value>Study was successfully declined.</value>
     </labels>
     <labels>
         <fullName>TST_Thank_you_for_logging_a_problem_We_will_investigate_and_get_back_to_you</fullName>
@@ -29283,7 +29283,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Thank you for your feedback!</shortDescription>
-        <value>Thank you for your feedback!</value>
+        <value>Thank you for your feedback.</value>
     </labels>
     <labels>
         <fullName>TST_The_status_of_this_record_is_locked_by_site_administration_For_more_inform</fullName>
@@ -29346,7 +29346,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Your current password is invalid</shortDescription>
-        <value>Your current password is invalid</value>
+        <value>Your current password is invalid.</value>
     </labels>
     <labels>
         <fullName>TST_Your_email_address_has_been_updated</fullName>
@@ -29409,7 +29409,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST password updated successfully</shortDescription>
-        <value>Password updated successfully!</value>
+        <value>Password updated successfully.</value>
     </labels>
     <labels>
         <fullName>TST_put_On_Hold</fullName>
@@ -31351,7 +31351,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Visit_details_updated_successfully</shortDescription>
-        <value>Visit details updated successfully!</value>
+        <value>Visit details updated successfully.</value>
     </labels>
     <labels>
         <fullName>Visits_Date</fullName>
@@ -31905,7 +31905,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>successType</shortDescription>
-        <value>success</value>
+        <value>Success</value>
     </labels>
     <labels>
         <fullName>success_deleteon</fullName>
@@ -32234,7 +32234,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Create Participant Technical Error</shortDescription>
-        <value>A technical error has occured, Please try again.</value>
+        <value>A technical error has occured, please try again.</value>
     </labels>
 
     <labels>
@@ -32460,6 +32460,83 @@ The IQVIA Referral Hub Support Team</value>
         <value>Sort By</value>
     </labels>
     <labels>
+        <fullName>Message_Body_New_Article_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Article_Push</shortDescription>
+        <value>A new article is available for the ##StudyCodeName.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Document_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Document_Push</shortDescription>
+        <value>A new document is available for the ##StudyCodeName.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Link_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Link_Push</shortDescription>
+        <value>A new resource is available for the ##StudyCodeName.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Multimedia_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Multimedia_Push</shortDescription>
+        <value>A new resource is available for the ##StudyCodeName.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Article_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Article_Push</shortDescription>
+        <value>A new article is available.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Document_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Document_Push</shortDescription>
+        <value>A new document is available.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Link_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Link_Push</shortDescription>
+        <value>A new resource is available.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Multimedia_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Multimedia_Push</shortDescription>
+        <value>A new resource is available.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Platform_Video_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Platform_Video_Push</shortDescription>
+        <value>A new video is available.</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_New_Video_Push</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message_Body_New_Video_Push</shortDescription>
+        <value>A new video is available for the ##StudyCodeName.</value>
+    </labels>
+    <labels>
+        <fullName>Title_New_Resource</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title_New_Resource</shortDescription>
+        <value>New Resource Available</value>
+    </labels>    
+    <labels>    
         <fullName>Restricted_Source_Updation</fullName>
         <language>en_US</language>
         <protected>true</protected>

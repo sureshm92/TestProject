@@ -77,6 +77,7 @@ stayTunedIcon = Stay_Tuned;
     }
     set perid(value) {
         this.peId = value;
+        this.showSpinner = true;
         this.initCmp();
     }
     initCmp(){
