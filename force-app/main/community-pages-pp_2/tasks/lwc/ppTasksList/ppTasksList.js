@@ -21,6 +21,7 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 import formFactor from '@salesforce/client/formFactor';
+import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 
 export default class PpTasksList extends NavigationMixin(LightningElement) {
     isTaskIgnoreModal = false;
@@ -38,11 +39,17 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     paramTaskId;
     spinner;
     showSpinner = true;
+    @api isRTL = false;
 
     @api
     get selectedTasks() {
         return this.uppercaseItemName;
     }
+
+    get rtlMargin() {
+        return this.isRTL ? 'mr-10' : '';
+    }
+
     set selectedTasks(value) {
         if (value !== undefined) {
             this.showSpinner = true;
@@ -195,6 +202,15 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
         } else {
             this.ishomepage = true;
         }
+
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+                console.log('rtl--->'+this.isRTL);
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+        });
     }
 
     taskOpen(event) {

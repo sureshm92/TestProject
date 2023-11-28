@@ -746,6 +746,11 @@ input::placeholder {
     right: 45px;
 }
 
+.customize-exp,
+.rtl lightning-primitive-icon {
+    position: static;
+}
+
 .customize-exp button lightning-primitive-icon {
     position: absolute;
     top: -3px;

@@ -6,6 +6,7 @@ import TIME_ZONE from '@salesforce/i18n/timeZone';
 import { loadScript } from 'lightning/platformResourceLoader';
 import upsertTask from '@salesforce/apex/TaskEditRemote.upsertTask';
 import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
+import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import taskCreationSuccess from '@salesforce/label/c.PP_TaskCreationSuccess';
@@ -53,6 +54,7 @@ export default class PpCreateTask extends LightningElement {
     isSystemOrBusinessTask = false;
     initialRecord;
     updatedRecord;
+    @api isRTL;
 
     labels = { REMIND_USING_REQUIRED };
     label = {
@@ -68,12 +70,26 @@ export default class PpCreateTask extends LightningElement {
     @api
     readOnlyMode = false;
     taskCodeList = ['Complete_Your_Profile', 'Update_Your_Phone_Number', 'Select_COI'];
+
+    get buttonPaddingStyle() {
+        return this.isRTL ? 'pad-left' : 'pad-right';
+    }
+
     connectedCallback() {
         if (formFactor === 'Small') {
             this.isMobile = true;
         } else {
             this.isMobile = false;
         }
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+                console.log('rtl--->'+this.isRTL);
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+            });
+
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 console.log('RR_COMMUNITY_JS loaded');
