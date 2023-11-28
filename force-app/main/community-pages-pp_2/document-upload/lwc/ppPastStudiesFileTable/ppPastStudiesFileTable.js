@@ -555,7 +555,7 @@ export default class PpPastStudiesFileTable extends LightningElement {
     openDeleteModel = false;
     onDelete(event) {
         this.openDeleteModel = true;
-        this.deleteFileID = event.target.dataset.id;
+        this.deleteFileID = event.currentTarget.dataset.id;
     }
 
     handleCancelModel(event) {
