@@ -2173,6 +2173,9 @@ user agent stylesheet svg:not(:root) {
 .contact-support-popup .slds-modal__container {
     height: auto;
 }
+.desktop-update .rr-spinner {
+    background-color: transparent;
+}
 .result-container .rr-spinner {
     background: #ffffff;
 }
