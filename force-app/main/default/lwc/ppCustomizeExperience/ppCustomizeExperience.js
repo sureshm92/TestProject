@@ -5,6 +5,7 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
+import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 
 import PP_Condition_of_Interest_title from '@salesforce/label/c.PP_Condition_of_Interest_title';
 import PP_Customize_Exp_Description from '@salesforce/label/c.PP_Customize_Exp_Description';
@@ -99,6 +100,10 @@ export default class PpCustomizeExperience extends LightningElement {
         }
     }
 
+    get searchInputStyle() {
+        return this.isRTL ? 'profile-info-input customize-exp rtl' : 'profile-info-input customize-exp';
+    }
+
     renderedCallback() {
         if (this.isInitialized == true) {
             this.spinner = this.template.querySelector('c-web-spinner');
@@ -119,6 +124,15 @@ export default class PpCustomizeExperience extends LightningElement {
             })
             .catch((error) => {
                 communityService.showToast('', 'error', error.message, 100);
+            });
+
+            getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+                console.log('rtl--->'+this.isRTL);
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
             });
     }
 
