@@ -69,11 +69,6 @@ import PP_To from "@salesforce/label/c.PP_To";
 import PP_Scheduled from "@salesforce/label/c.PP_Scheduled";
 import PIR_Not_Scheduled from "@salesforce/label/c.PIR_Not_Scheduled";
 import Participant_No_Show from "@salesforce/label/c.Participant_No_Show";
-/*Site decoupling changes RH-8613
-import { getRecord } from 'lightning/uiRecordApi';
-import CONTACT_ID from "@salesforce/schema/User.ContactId";
-import Id from "@salesforce/user/Id";
-End*/
 
 export default class Filtertest extends LightningElement {
   @api maindivcls;
@@ -197,18 +192,6 @@ export default class Filtertest extends LightningElement {
     presetName:""
   };
   
-  /*Site decoupling changes RH-8613
-  error;
-  loggedinusercontactid ;
-  @wire(getRecord, { recordId: Id, fields: [CONTACT_ID]}) 
-  currentUserInfo({error, data}) {
-    if (data) {
-      this.loggedinusercontactid = data.fields.ContactId.value;
-    } else if (error) {
-      this.error = error ;
-    }
-  }
-  End*/
   studyToPrmoteDCT;
   studyToFinalStep;
   isAnythingChangedForReset = false;
