@@ -19,6 +19,7 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     @track resourcedData = [];
     resourcePresent = false;
     desktop = true;
+    showFixedSpinner=true;
     isInitialized = false;
     open_new_tab = pp_community_icons + '/' + 'open_in_new.png';
     empty_state = pp_community_icons + '/' + 'empty_updates.PNG';
@@ -79,7 +80,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         } else if (DEVICE == 'Small') {
             return 'tab-mob-maxWidth position-container update-container';
         } else {
-            return 'position-container update-container';
+            this.showFixedSpinner = false;
+            return 'position-container update-container desktop-update';
         }
     }
     renderedCallback() {

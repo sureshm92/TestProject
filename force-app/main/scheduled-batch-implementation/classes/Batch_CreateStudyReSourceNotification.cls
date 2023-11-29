@@ -145,8 +145,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
             for (Res_study__c res : studyResourcesList) {
                 Set<String> langSet = new Set<String>();
                 if (
-                    res.Resource__r.Languages__c != null &&
-                    res.Resource__r.Languages__c.contains(';')
+                    res.Resource__r.Languages__c != null
                 ) {
                     langSet.addAll(res.Resource__r.Languages__c.split(';'));
                 }
@@ -170,7 +169,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                 }
                 if (
                     pe.Clinical_Trial_Profile__c == res.Clinical_Trial_Profile__c &&
-                    (langSet.isEmpty() || langAvailable)
+                    (langAvailable)
                 ) {
                     for (Contact contact : peContacts) {
                         if (contact != null && pe != null) {
