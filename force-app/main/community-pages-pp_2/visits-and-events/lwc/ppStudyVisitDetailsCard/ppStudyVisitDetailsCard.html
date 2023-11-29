@@ -22,27 +22,29 @@
                 <div class="site-phone">{sitephone}</div>
             </div>
             <div>
-                <template if:true={isinitialvisit}>
-                    <div class="read-only-background">
-                        <c-pp-date-time-combo
-                            data-id="visitDateTime"
-                            if:false={past}
-                            reminder={booleanFalse}
-                            compdate={compDate}
-                            comptime={compTime}
-                            mindate={currentDate}
-                            mintime={currentTime}
-                            ondatechange={handleDate}
-                            ontimechange={handleTime}
-                            onnulldatetime={handleNullDateTime}
-                            oninitialdateload={handleInitialDateLoad}
-                            oninitialtimeload={handleInitialTimeLoad}
-                            ondate={handleOnlyDate}
-                            ontime={handleOnlyTime}
-                            read-only-mode={isinitialvisit}
-                        ></c-pp-date-time-combo>
-                    </div>
-                </template>
+                <div class="dateTimeContainer">
+                    <template if:true={isinitialvisit}>
+                        <div class="read-only-background">
+                            <c-pp-date-time-combo
+                                data-id="visitDateTime"
+                                if:false={past}
+                                reminder={booleanFalse}
+                                compdate={compDate}
+                                comptime={compTime}
+                                mindate={currentDate}
+                                mintime={currentTime}
+                                ondatechange={handleDate}
+                                ontimechange={handleTime}
+                                onnulldatetime={handleNullDateTime}
+                                oninitialdateload={handleInitialDateLoad}
+                                oninitialtimeload={handleInitialTimeLoad}
+                                ondate={handleOnlyDate}
+                                ontime={handleOnlyTime}
+                                read-only-mode={isinitialvisit}
+                            ></c-pp-date-time-combo>
+                        </div>
+                    </template>
+                </div>
                 <template if:false={isinitialvisit}>
                     <c-pp-date-time-combo
                         data-id="visitDateTime"
@@ -164,7 +166,7 @@
                         </a>
                     </div>
                 </div>
-                <div if:false={past}>
+                <div if:false={past} class="dateTimeContainer">
                     <c-pp-date-time-combo
                         if:true={showreminderdatepicker}
                         data-id="reminderDateTime"
