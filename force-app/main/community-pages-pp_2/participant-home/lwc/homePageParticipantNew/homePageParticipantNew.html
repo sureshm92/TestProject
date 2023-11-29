@@ -8,7 +8,7 @@
                     ><lightning-layout-item size="3" class="slds-p-vertical_small pad-left"
                         ><img src={homeIllustration}
                     /></lightning-layout-item>
-                    <lightning-layout-item size="9" class="slds-p-vertical_small slds-m-left_large">
+                    <lightning-layout-item size="9" class={studyProgramOverviewBoxStyle}>
                         <h2 class="po-fontsize">{userName}</h2>
                         <template if:true={showProgramOverview}>
                             <template if:true={isProgram}>
@@ -52,7 +52,7 @@
                                             <template if:true={showVisitCard}>
                                                 <template if:true={isTelevisits}>
                                                     <button
-                                                        class="slds-button slds-button_neutral visit-button inactive-button-background"
+                                                        class={visitButtonStyle}
                                                         onclick={visitsTab}
                                                     >
                                                         <template if:true={isProgram}>
@@ -63,7 +63,7 @@
                                                         </template>
                                                     </button>
                                                     <button
-                                                        class="slds-button slds-button_brand televisit-button active-button-background"
+                                                        class={televisitButtonStyle}
                                                         onclick={televisitsTab}
                                                     >
                                                         {label.TELEVISITS}
@@ -71,7 +71,7 @@
                                                 </template>
                                                 <template if:false={isTelevisits}>
                                                     <button
-                                                        class="slds-button slds-button_neutral visit-button active-button-background"
+                                                        class={visitButtonStyle}
                                                         onclick={visitsTab}
                                                     >
                                                         <template if:true={isProgram}>
@@ -82,7 +82,7 @@
                                                         </template>
                                                     </button>
                                                     <button
-                                                        class="slds-button slds-button_brand televisit-button inactive-button-background"
+                                                        class={televisitButtonStyle}
                                                         onclick={televisitsTab}
                                                     >
                                                     {label.TELEVISITS}
@@ -119,7 +119,7 @@
                     <c-pp-tasks desktop={desktop}></c-pp-tasks>
                 </lightning-layout-item>
                 <template if:true={showUpcomingSection}>
-                    <lightning-layout-item size="4" class="around-small-custom around-right-zero">
+                    <lightning-layout-item size="4" class={upcomingPaddingStyle}>
                         <c-pp-updates
                             showvisitsection={showUpcomingSection}
                             initial-load-time={initialLoadTime}
@@ -384,7 +384,7 @@
                                                 class="slds-button slds-button_brand televisit-button active-button-background"
                                                 onclick={televisitsTab}
                                             >
-                                                Televisits
+                                            {label.TELEVISITS}
                                             </button>
                                         </template>
                                         <template if:false={isTelevisits}>

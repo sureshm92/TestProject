@@ -213,7 +213,7 @@
 .televisit-button {
     box-sizing: border-box;
     border: 1px solid #d9d9d9;
-    border-radius: 0 16px 16px 0;
+    /* border-radius: 0 16px 16px 0; */
     font-family: 'Proxima Nova';
     font-weight: 600;
     letter-spacing: 0;
@@ -228,12 +228,25 @@
 }
 
 .visit-button {
-    border-radius: 16px 0 0 16px;
+    /* border-radius: 16px 0 0 16px; */
     border: 1px solid #d9d9d9;
     font-size: 14px;
     padding: 0px 36px;
     font-weight: 600;
 }
+
+.border-radius-rtl {
+    border-radius: 0 16px 16px 0;
+}
+
+.border-radius {
+    border-radius: 16px 0 0 16px;
+}
+
+.mr-auto {
+    margin-right: auto;
+}
+
 .active-button-background {
     color: white;
     background-color: #015ff1;

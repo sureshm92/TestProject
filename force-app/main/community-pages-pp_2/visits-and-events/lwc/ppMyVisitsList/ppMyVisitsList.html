@@ -5,14 +5,14 @@
             <template if:true={past}>
                 <button
                     data-id="upcoming"
-                    class="slds-button slds-button_neutral up-button inactive-button-background"
+                    class={upButtonStyle}
                     onclick={onUpcomingClick}
                 >
                     {label.upcoming}
                 </button>
                 <button
                     data-id="past"
-                    class="slds-button slds-button_brand past-button active-button-background"
+                    class={pastButtonStyle}
                     onclick={onPastClick}
                 >
                     {label.past}
@@ -21,14 +21,14 @@
             <template if:false={past}>
                 <button
                     data-id="upcoming"
-                    class="slds-button slds-button_brand up-button active-button-background"
+                    class={upButtonStyle}
                     onclick={onUpcomingClick}
                 >
                     {label.upcoming}
                 </button>
                 <button
                     data-id="past"
-                    class="slds-button slds-button_neutral past-button inactive-button-background"
+                    class={pastButtonStyle}
                     onclick={onPastClick}
                 >
                     {label.past}
@@ -50,7 +50,7 @@
                                     data-name={item.ppVisitName}
                                 >
                                     <div class="slds-grid slds-wrap">
-                                        <div class="slds-p-left_x-small slds-size_1-of-12">
+                                        <div class={leftLineStyle}>
                                             <div class="left-line"></div>
                                         </div>
 

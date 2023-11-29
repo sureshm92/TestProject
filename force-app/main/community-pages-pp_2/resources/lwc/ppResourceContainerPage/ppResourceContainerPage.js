@@ -33,7 +33,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     linksGridSize = 3;
     documentGridSize = 3;
     hideFirstColumn = false;
-    rightColumnPadding = 'resource-gutter-left';
+    //rightColumnPadding = 'resource-gutter-left';
     engageHeight = 'res-box-engage-container';
     linkssHeight = 'res-box-relLinks-container pad10';
     docsHeight = 'res-box-document-container';
@@ -76,6 +76,22 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
 
     get cardRTL() {
         return this.isRTL ? 'cardRTL' : '';
+    }
+
+    get cardRTL() {
+        return this.isRTL ? 'cardRTL' : '';
+    }
+
+    get cardRTL() {
+        return this.isRTL ? 'cardRTL' : '';
+    }
+
+    get rightBoxPadding() {
+        return this.isRTL ? 'resource-gutter' : 'resource-gutter-left';
+    }
+
+    get leftBoxPadding() {
+        return this.isRTL ? 'resource-gutter-left' : 'resource-gutter';
     }
 
     connectedCallback() {
