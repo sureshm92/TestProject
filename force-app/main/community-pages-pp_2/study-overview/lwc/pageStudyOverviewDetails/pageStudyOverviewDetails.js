@@ -91,6 +91,16 @@ export default class ProgramOverviewDetails extends LightningElement {
         return this.isRTL ? 'po-mr-16plus' : '';
     }
 
+    get piIconStyle() {
+        return this.isRTL ? 'piIcon mr-20' : 'piIcon';
+    }
+    get phoneIconStyle() {
+        return this.isRTL ? 'phoneIcon mr-20' : 'phoneIcon';
+    }
+    get pinIconStyle() {
+        return this.isRTL ? 'pinIcon mr-20' : 'pinIcon';
+    }
+
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
 
