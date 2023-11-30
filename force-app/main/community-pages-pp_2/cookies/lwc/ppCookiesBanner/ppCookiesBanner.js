@@ -122,7 +122,7 @@ export default class PpCookiesBanner extends LightningElement {
                       communityService.showToast(
                         "",
                         "error",
-                        "Failed To read the Data...",
+                        "Failed to read the data.",
                         100
                       );
                     });
@@ -237,7 +237,7 @@ export default class PpCookiesBanner extends LightningElement {
               communityService.showToast(
                 "",
                 "error",
-                "Failed To read the Data...",
+                "Failed to read the data.",
                 100
               );
             });
@@ -374,7 +374,7 @@ export default class PpCookiesBanner extends LightningElement {
                     communityService.showToast(
                       "",
                       "error",
-                      "Failed To read the Data...",
+                      "Failed to read the data.",
                       100
                     );
                   });
@@ -488,7 +488,7 @@ export default class PpCookiesBanner extends LightningElement {
         communityService.showToast(
           "",
           "error",
-          "Failed To read the Data...",
+          "Failed to read the data.",
           100
         );
       });
@@ -555,7 +555,7 @@ export default class PpCookiesBanner extends LightningElement {
               communityService.showToast(
                 "",
                 "error",
-                "Failed To read the Data...",
+                "Failed to read the data.",
                 100
               );
               this.spinner.hide();
@@ -581,7 +581,7 @@ export default class PpCookiesBanner extends LightningElement {
               communityService.showToast(
                 "",
                 "error",
-                "Failed To read the Data...",
+                "Failed to read the data.",
                 100
               );
               this.spinner.hide();
@@ -609,7 +609,7 @@ export default class PpCookiesBanner extends LightningElement {
             communityService.showToast(
               "",
               "error",
-              "Failed To read the Data...",
+              "Failed to read the data.",
               100
             );
             this.spinner.hide();
@@ -680,7 +680,7 @@ export default class PpCookiesBanner extends LightningElement {
             communityService.showToast(
               "",
               "error",
-              "Failed To read the Data...",
+              "Failed to read the data.",
               100
             );
             this.spinner.hide();
@@ -713,7 +713,7 @@ export default class PpCookiesBanner extends LightningElement {
           communityService.showToast(
             "",
             "error",
-            "Failed To read the Data...",
+            "Failed to read the data.",
             100
           );
           this.spinner.hide();
@@ -742,7 +742,7 @@ export default class PpCookiesBanner extends LightningElement {
             communityService.showToast(
               "",
               "error",
-              "Failed To read the Data...",
+              "Failed to read the data.",
               100
             );
             this.spinner.hide();

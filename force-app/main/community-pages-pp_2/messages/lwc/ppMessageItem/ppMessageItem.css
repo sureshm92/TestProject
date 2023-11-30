@@ -252,3 +252,11 @@
   /*  box-shadow: 3px 9px 0px 0px #015ff1; */
   box-shadow: 0px 17px 0px 0px #015ff1;
 }
+.mob-truncate{
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

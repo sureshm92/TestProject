@@ -31,7 +31,7 @@
                                         <thead>
                                             <tr class="slds-line-height_reset">
                                                 <th
-                                                    class="table-header slds-large-size_7-of-12"
+                                                    class="table-header slds-large-size_6-of-12"
                                                     scope="col"
                                                 >
                                                     <div
@@ -230,16 +230,10 @@
                                                                 class="slds-truncate"
                                                                 title=""
                                                             >
-                                                                <a
+                                                                <a  class="clickbox"
                                                                     href={b.ContentUrl}
                                                                 >
-                                                                    <lightning-icon
-                                                                        icon-name="utility:download"
-                                                                        size="x-small"
-                                                                        alternative-text={label.PIR_Download}
-                                                                        title={label.PIR_Download}
-                                                                    >
-                                                                    </lightning-icon>
+                                                                    <img src={downloadIcon} class="no-click" alt={label.PIR_Download} title={label.PIR_Download}/>
                                                                 </a>
                                                             </div>
                                                         </td>
@@ -252,18 +246,11 @@
                                                                 title=""
                                                             >
                                                                 <div
-                                                                    class="cuPointer"
+                                                                    class="cuPointer clickbox"
                                                                     onclick={onDelete}
                                                                     data-id={b.Id}
                                                                 >
-                                                                    <lightning-icon
-                                                                        data-id={b.Id}
-                                                                        icon-name="utility:delete"
-                                                                        size="x-small"
-                                                                        alternative-text={label.pir_Delete_Btn}
-                                                                        title={label.pir_Delete_Btn}
-                                                                    >
-                                                                    </lightning-icon>
+                                                                    <img data-id={b.Id} src={deleteIcon} class="no-click" alt={label.pir_Delete_Btn} title={label.pir_Delete_Btn}/>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -493,16 +480,10 @@
                                                                 class="slds-truncate"
                                                                 title=""
                                                             >
-                                                                <a
+                                                                <a  class="clickbox"
                                                                     href={b.ContentUrl}
                                                                 >
-                                                                    <lightning-icon
-                                                                        icon-name="utility:download"
-                                                                        size="x-small"
-                                                                        alternative-text={label.PIR_Download}
-                                                                        title={label.PIR_Download}
-                                                                    >
-                                                                    </lightning-icon>
+                                                                    <img src={downloadIcon} class="no-click" alt={label.PIR_Download} title={label.PIR_Download}/>
                                                                 </a>
                                                             </div>
                                                         </td>
@@ -761,27 +742,16 @@
                                     <div
                                         class="slds-col center slds-align-middle slds-size_2-of-12"
                                     >
-                                        <a href={b.ContentUrl}>
-                                            <lightning-icon
-                                                icon-name="utility:download"
-                                                alternative-text={label.PIR_Download}
-                                                size="x-small"
-                                                title={label.PIR_Download}
-                                            ></lightning-icon>
+                                        <a class="clickbox" href={b.ContentUrl}>
+                                            <img src={downloadIcon} class="no-click" alt={label.PIR_Download} title={label.PIR_Download}/>
                                         </a>
                                     </div>
                                     <div
-                                        class="slds-col center slds-align-middle slds-size_2-of-12"
+                                        class="slds-col center slds-align-middle slds-size_2-of-12 clickbox"
                                         onclick={onDelete}
                                         data-id={b.Id}
                                     >
-                                        <lightning-icon
-                                            icon-name="utility:delete"
-                                            alternative-text={label.pir_Delete_Btn}
-                                            size="x-small"
-                                            title={label.pir_Delete_Btn}
-                                            data-id={b.Id}
-                                        ></lightning-icon>
+                                        <img src={deleteIcon} class="no-click" alt={label.pir_Delete_Btn} title={label.pir_Delete_Btn}/>
                                     </div>
 
                                     <!-- </span> -->
@@ -905,13 +875,8 @@
                                     <div
                                         class="slds-col center slds-align-middle slds-size_2-of-12"
                                     >
-                                        <a href={b.ContentUrl}>
-                                            <lightning-icon
-                                                icon-name="utility:download"
-                                                alternative-text={label.PIR_Download}
-                                                size="x-small"
-                                                title={label.PIR_Download}
-                                            ></lightning-icon>
+                                        <a class="clickbox" href={b.ContentUrl}>
+                                            <img src={downloadIcon} class="no-click" alt={label.PIR_Download} title={label.PIR_Download}/>
                                         </a>
                                     </div>
                                     <!-- </span> -->
