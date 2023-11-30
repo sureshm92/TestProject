@@ -120,7 +120,10 @@ public without sharing class ParametrizedMessageService {
                     } else {
                         if (value instanceof Datetime) {
                             DateTime tempDateTime = (DateTime) value;
-                            valueStr = UserService.formatDatebyLocale(tempDateTime.date(), language);
+                            valueStr = UserService.formatDatebyLocale(
+                                tempDateTime.date(),
+                                language
+                            );
                         } else if (value instanceof Date) {
                             valueStr = UserService.formatDatebyLocale((Date) value, language);
                         }
@@ -163,12 +166,9 @@ public without sharing class ParametrizedMessageService {
                         sobj,
                         endDateVisibleField
                     );
-                    if( (Boolean) endDateVisibleFieldValue == false ){
+                    if ((Boolean) endDateVisibleFieldValue == false) {
                         String participantExpdateField = paramsMap.get('participantExpdate');
-                        value = SObjectHelper.getSObjectFieldValue(
-                            sobj,
-                            participantExpdateField
-                        );
+                        value = SObjectHelper.getSObjectFieldValue(sobj, participantExpdateField);
                         if (value instanceof Datetime) {
                             if (userObj == null) {
                                 valueStr = UserService.formatDateTime((Datetime) value, language);
@@ -186,13 +186,14 @@ public without sharing class ParametrizedMessageService {
                     } else {
                         if (value instanceof Datetime) {
                             DateTime tempDateTime = (DateTime) value;
-                            valueStr = UserService.formatDatebyLocale(tempDateTime.date(), language);
+                            valueStr = UserService.formatDatebyLocale(
+                                tempDateTime.date(),
+                                language
+                            );
                         } else if (value instanceof Date) {
                             valueStr = UserService.formatDatebyLocale((Date) value, language);
                         }
                     }
-                    
-                    
                 }
 
                 if (paramName == 'STUDYorPROGRAM') {
@@ -214,6 +215,20 @@ public without sharing class ParametrizedMessageService {
                         valueStr = System.Label.Event_PP;
                     } else {
                         valueStr = System.Label.Visit_PP;
+                    }
+                }
+                if (paramName == 'StudyorProgramHeader') {
+                    if (valueStr == 'true') {
+                        valueStr = System.Label.Program_Header_PP;
+                    } else {
+                        valueStr = System.Label.Study_Header_PP;
+                    }
+                }
+                if (paramName == 'VisitDateorEventDate') {
+                    if (valueStr == 'true') {
+                        valueStr = System.Label.Event_Date_PP;
+                    } else {
+                        valueStr = System.Label.Visit_Date_PP;
                     }
                 }
 
