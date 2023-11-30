@@ -113,7 +113,7 @@
                 text-align: center;
             }
             .btn-container {
-                width: 366px !important;
+                width: 100%;
             }
             /* Mobile modal css */
             .always-active::before {
