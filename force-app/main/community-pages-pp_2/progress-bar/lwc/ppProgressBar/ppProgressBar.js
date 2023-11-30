@@ -66,6 +66,7 @@ export default class PpProgressBar extends LightningElement {
     }
     set perid(value) {
         this.peId = value;
+        this.showSpinner = true;
         this.initCmp();
     }
     initCmp(){
@@ -79,13 +80,15 @@ export default class PpProgressBar extends LightningElement {
                 this.showSpinner = false;
             }
             else{
+                this.showSpinner = false;
                 const emptyEvent = new CustomEvent('progressbarempty', {
                     detail: null
                 });
                 this.dispatchEvent(emptyEvent);
             }
         })
-        .catch(error => {            
+        .catch(error => { 
+            this.showSpinner = false;           
             console.log(error);
             const emptyEvent = new CustomEvent('progressbarempty', {
                 detail: null
