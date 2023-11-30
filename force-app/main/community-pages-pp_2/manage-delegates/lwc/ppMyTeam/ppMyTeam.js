@@ -106,7 +106,7 @@ export default class PpMyTeam extends LightningElement {
                 this.isInitialized = true;
             })
             .catch((error) => {
-                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                communityService.showToast('', 'error', 'Failed to read the data.', 100);
                 this.isLoading = false;
             });
 
