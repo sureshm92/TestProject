@@ -197,7 +197,7 @@ export default class PpNewTeamMember extends LightningElement {
                 })
                 .catch((error) => {
                     this.isLoading = false;
-                    communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                    communityService.showToast('', 'error', 'Failed to read the data.', 100);
                     this.spinner = false;
                 });
             if (
@@ -231,7 +231,7 @@ export default class PpNewTeamMember extends LightningElement {
                     .catch((error) => {
                         //alert('error');
                         this.isLoading = false;
-                        communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                        communityService.showToast('', 'error', 'Failed to read the data.', 100);
                         this.spinner = false;
                     });
             }
@@ -466,7 +466,7 @@ export default class PpNewTeamMember extends LightningElement {
                         }
                     })
                     .catch((error) => {
-                        communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                        communityService.showToast('', 'error', 'Failed to read the data.', 100);
                         this.spinner = false;
                         this.isLoading = false;
                     });

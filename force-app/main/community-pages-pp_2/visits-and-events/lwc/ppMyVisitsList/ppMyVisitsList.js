@@ -1,5 +1,6 @@
 import { LightningElement, track, api } from 'lwc';
 import getParticipantVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsDetails';
+import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 import noVisitsLabel from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
 import noDataAvailable from '@salesforce/label/c.Visits_No_Data_Available';
 import upcoming from '@salesforce/label/c.Visits_Upcoming';
@@ -50,6 +51,7 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     @api upcomingvisits;
     @api visittimezone;
 
+    @api isRTL;
     @api showupcomingvisits;
     @api visitid;
     @api pastvisitid;
@@ -78,8 +80,48 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
 
     empty_state = pp_community_icons + '/' + 'empty_visits.png';
 
+    get upButtonStyle() {
+        if(this.past)
+        {
+            return this.isRTL 
+            ? 'slds-button slds-button_neutral up-button inactive-button-background border-radius-rtl' 
+            : 'slds-button slds-button_neutral up-button inactive-button-background border-radius';
+        } else{
+            return this.isRTL 
+            ? 'slds-button slds-button_brand up-button active-button-background border-radius-rtl' 
+            : 'slds-button slds-button_brand up-button active-button-background border-radius';
+        }
+    }
+
+    get pastButtonStyle() {
+        if(this.past)
+        {
+            return this.isRTL 
+            ? 'slds-button slds-button_brand past-button active-button-background border-radius' 
+            : 'slds-button slds-button_brand past-button active-button-background border-radius-rtl';
+        } else{
+            return this.isRTL 
+            ? 'slds-button slds-button_neutral past-button inactive-button-background border-radius' 
+            : 'slds-button slds-button_neutral past-button inactive-button-background border-radius-rtl';
+        }
+    }
+
+    get leftLineStyle() {
+        return this.isRTL 
+            ? 'slds-p-right_x-small slds-size_1-of-12' 
+            : 'slds-p-left_x-small slds-size_1-of-12';
+    }
+
     connectedCallback() {
         this.visitTimezone = TIME_ZONE;
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+                console.log('rtl--->'+this.isRTL);
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+            });
     }
     renderedCallback() {
         this.handleVisitChange();

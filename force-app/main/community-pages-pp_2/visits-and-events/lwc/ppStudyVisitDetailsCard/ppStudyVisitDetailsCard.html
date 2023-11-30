@@ -3,7 +3,7 @@
     <c-web-spinner fixed="true" show-spinner={showSpinner}></c-web-spinner>
     <lightning-card>
         <div>
-            <div class="location-title">{label.location}</div>
+            <div class={locationtitleStyle}>{label.location}</div>
             <div class="address-section-outer">
                 <div class="address-section">
                     <div class="address-marker">
@@ -166,7 +166,7 @@
                         </a>
                     </div>
                 </div>
-                <div if:false={past}>
+                <div if:false={past} class="dateTimeContainer">
                     <c-pp-date-time-combo
                         if:true={showreminderdatepicker}
                         data-id="reminderDateTime"

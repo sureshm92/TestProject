@@ -746,6 +746,11 @@ input::placeholder {
     right: 45px;
 }
 
+.customize-exp,
+.rtl lightning-primitive-icon {
+    position: static;
+}
+
 .customize-exp button lightning-primitive-icon {
     position: absolute;
     top: -3px;
@@ -2168,7 +2173,7 @@ user agent stylesheet svg:not(:root) {
 .contact-support-popup .slds-modal__container {
     height: auto;
 }
-.update-container .rr-spinner {
+.desktop-update .rr-spinner {
     background-color: transparent;
 }
 .result-container .rr-spinner {
@@ -2243,4 +2248,5 @@ user agent stylesheet svg:not(:root) {
     -moz-appearance: none; 
         /* for Safari, Chrome, Opera */ 
     -webkit-appearance: none; 
+    appearance: none;
 }

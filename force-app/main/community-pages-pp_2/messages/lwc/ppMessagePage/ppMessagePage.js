@@ -402,6 +402,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
         console.error("Error in getInit():" + error);
       });
   }
+  
   alumniGroups = [
     "Failed Review",
     "Failed Referral",

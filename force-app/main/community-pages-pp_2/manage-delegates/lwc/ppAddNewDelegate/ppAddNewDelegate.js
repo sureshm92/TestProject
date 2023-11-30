@@ -226,7 +226,7 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     get whatDelCanSeeSection() {
         return this.isRTL
-            ? 'slds-p-right_medium slds-p-top_medium slds-p-bottom_small'
+            ? 'slds-p-left_medium slds-p-top_medium slds-p-bottom_small'
             : 'slds-p-left_medium slds-p-top_medium slds-p-bottom_small';
     }
     get whatDeleCanSeeText() {
@@ -305,7 +305,7 @@ export default class PpAddNewDelegate extends LightningElement {
                     communityService.showToast(
                         '',
                         'error',
-                        'Failed To read the Data(Max Length)...',
+                        'Failed to read the data(Max Length).',
                         100
                     );
                     this.spinner = false;
@@ -344,7 +344,7 @@ export default class PpAddNewDelegate extends LightningElement {
                         communityService.showToast(
                             '',
                             'error',
-                            'Failed To read the Data(Contact Data)...',
+                            'Failed to read the data(contact data).',
                             100
                         );
                         this.spinner = false;
@@ -570,7 +570,7 @@ export default class PpAddNewDelegate extends LightningElement {
                 }
             })
             .catch((error) => {
-                communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+                communityService.showToast('', 'error', 'Failed to read the data.', 100);
                 this.isLoading = false;
             });
     }
@@ -652,7 +652,7 @@ export default class PpAddNewDelegate extends LightningElement {
                 communityService.showToast(
                     '',
                     'error',
-                    'Failed To read the Data(existing Delegate)...',
+                    'Failed to read the data(existing Delegate).',
                     100
                 );
                 this.spinner = false;
