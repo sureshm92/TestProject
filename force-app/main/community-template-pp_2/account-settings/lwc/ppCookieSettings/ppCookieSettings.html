@@ -163,18 +163,18 @@
                 <div class={cardRTL}></div>
                 <lightning-layout>
                     <lightning-layout-item size="12">
-                        <div class="back-button">
+                        <div class="back-button" onclick={showMenuBar}>
                             <template if:false={isRTL}>
                                 <c-web-icon
                                     icon-size="small"
                                     icon-name={iconChevron}
                                     icon-color="#297dfd"
+                                    data-header="password-change"
                                 >
                                 </c-web-icon>
                             </template>
                             <span
                                 class="slds-p-left_x-small slds-p-right_x-small"
-                                onclick={showMenuBar}
                                 data-header="password-change"
                                 >{label.BACK}</span
                             >
