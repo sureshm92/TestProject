@@ -2236,3 +2236,10 @@ user agent stylesheet svg:not(:root) {
 .manage-pref-spinner-container .rr-spinner {    
     z-index: 15000 !important;
 }
+
+.dateTimeContainer input{
+    -moz-appearance: none; 
+        /* for Safari, Chrome, Opera */ 
+    -webkit-appearance: none; 
+    appearance: none;
+}
