@@ -246,8 +246,9 @@
                 id="mobMessageBody1"
             >
                 <template if:false={isPastStudy}>
-                    <lightning-layout class="slds-m-horizontal_small"
-                        ><lightning-layout-item size="12"
+                    <lightning-layout-item size="12" class="question-item">
+                        <lightning-layout>
+                        <lightning-layout-item size="9"
                             ><lightning-combobox
                                 name="message"
                                 value={messageValue}
@@ -258,13 +259,9 @@
                                 class="mob-selection selection"
                                 dropdown-alignment="bottom-left"
                             >
-                            </lightning-combobox></lightning-layout-item
-                    ></lightning-layout>
-                    <lightning-layout class="slds-m-horizontal_small"
-                        ><lightning-layout-item
-                            size="12"
-                            class="slds-m-top_small"
-                            ><button
+                            </lightning-combobox></lightning-layout-item>
+                        <lightning-layout-item  size="3" class="slds-m-horizontal_large" style="margin-left: 10px; padding-right: 8px;">
+                            <button
                                 class="primaryBtn ms-send-button"
                                 data-gtm="ms-send-pa-button"
                                 onclick={handleSendClick}
@@ -275,9 +272,10 @@
                                 "
                             >
                                 {labels.BTN_Send}
-                            </button></lightning-layout-item
-                        ></lightning-layout
-                    >
+                            </button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
                 </template>
             </lightning-layout-item>
         </lightning-layout>
