@@ -11887,6 +11887,20 @@ The expected format is REF##### to REF########</value>
         <value>Messages</value>
     </labels>
     <labels>
+        <fullName>MS_MessagesAll</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS MessagesAll</shortDescription>
+        <value>All Messages</value>
+    </labels>
+    <labels>
+        <fullName>back_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>back Label</shortDescription>
+        <value>Back To All Messages</value>
+    </labels>
+    <labels>
         <fullName>MS_New_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
