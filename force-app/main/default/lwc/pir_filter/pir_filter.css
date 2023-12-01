@@ -489,6 +489,9 @@ and (max-device-width: 898px)
  .rtl .rtl-width{
     right:-50%
 } 
+.err{
+    color: rgb(234, 0, 30);
+ }
 @media (max-device-width: 767px) {
     .rtl .filter-area{
     margin-right: var(--lwc-spacingXSmall,0.5rem);
