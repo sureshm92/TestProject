@@ -4177,6 +4177,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ECOA_Study_Schedule__c.Visit_Plan__c</field>
+        <readable>true</readable>
+    </fieldPermissions> 
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ECOA_Study_Schedule__c.EproRuleSetGuid__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5170,6 +5175,12 @@
         <field>Integration_Patient_Referral__c.Retry_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.DataControllerOrg__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient__c.External_ID__c</field>
