@@ -19,7 +19,7 @@ public without sharing class StudySiteTriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createPIUserOrSendNotification(newList, (Map<Id, Study_Site__c>) oldMap);
-			assignCommunityPermissions(newList);
+            assignCommunityPermissions(newList);
         }
     }
 
@@ -280,6 +280,7 @@ public without sharing class StudySiteTriggerHandler {
                     defaultJanssenGSKLst.add('Janssen');
                     mapForCommunityPermAssign.put(per.Assignee.contactId,defaultJanssenGSKLst);
                 }else if(per.PermissionSet.Name == CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME){
+                    defaultJanssenGSKLst.add('PatientPortal');
                     defaultJanssenGSKLst.add('Default');
                     mapForCommunityPermAssign.put(per.Assignee.contactId,defaultJanssenGSKLst);
                 }else if(per.PermissionSet.Name == CommunityTemplateService.PERMISSION_COMMUNITY_GSK_NAME){
@@ -675,10 +676,10 @@ public without sharing class StudySiteTriggerHandler {
                 permNamesByPiIds.get(ss.Principal_Investigator__c)
                     .add(CommunityTemplateService.PERMISSION_COMMUNITY_JANSSEN_NAME);
             } else {
-				if(ss.Override_PI_Referral_Status__c == 'Invitation Sent'){
+                if(ss.Override_PI_Referral_Status__c == 'Invitation Sent'){
                 permNamesByPiIds.get(ss.Principal_Investigator__c)
                     .add(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME);
-				}
+                }         
           }
         }
 

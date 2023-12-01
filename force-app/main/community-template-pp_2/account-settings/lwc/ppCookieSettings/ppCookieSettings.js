@@ -121,7 +121,7 @@ export default class PpCookieSettings extends LightningElement {
                 })
         })
         .catch((error) => {
-            communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+            communityService.showToast('', 'error', 'Failed to read the data.', 100);
             this.spinner.hide();
         });
     }
@@ -149,7 +149,7 @@ export default class PpCookieSettings extends LightningElement {
             this.spinner.hide();
         })
         .catch((error) => {
-            communityService.showToast('', 'error', 'Failed To read the Data...', 100);
+            communityService.showToast('', 'error', 'Failed to read the data.', 100);
             this.spinner.hide();
         });
     }

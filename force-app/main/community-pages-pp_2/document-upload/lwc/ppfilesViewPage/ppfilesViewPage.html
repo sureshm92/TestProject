@@ -503,12 +503,12 @@
             </lightning-layout-item>
             <template lwc:if={ShowuploadSection}>
                 <lightning-layout-item size="12">
-                    <div class="backtoFile">
+                    <div class="backtoFile" onclick={handlebacktoFile}>
                         <span class="slds-m-top_large center ">
                             <img src={chevron_left} />
                         </span>
                       
-                        <span   class="backtofilecss slds-m-around_small linkLabelMyFiles" onclick={handlebacktoFile}> {label.PP_Backt_o_My_Files}</span>     
+                        <span   class="backtofilecss slds-m-around_small linkLabelMyFiles" > {label.PP_Backt_o_My_Files}</span>     
                     </div>
                     <div class="backBoarder"> </div>
                         <div class="dis-block mob-upload-rectangle mbllightninglayout"  data-id="browsediv">

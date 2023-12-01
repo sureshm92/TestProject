@@ -39,8 +39,26 @@ public without sharing class TemplatePropertiesService {
 
     @TestVisible
     private String defineTemplateName(Id whatId, String userMode) {
-        if (userMode != CommunityModeService.USER_MODE_PARTICIPANT)
+        if(userMode == CommunityModeService.USER_MODE_PI && whatId.getSobjectType() == Contact.getSObjectType() ){
+                List<PermissionSetAssignment> assignments = [
+                            SELECT PermissionSet.Name
+                            FROM PermissionSetAssignment
+                            WHERE
+                                Assignee.ContactId = :whatId
+                                AND PermissionSet.Name IN :CommunityTemplateService.getAllPermissionSets()
+                        ];
+                if (!assignments.isEmpty() && assignments.size()==1 &&  CommunityTemplateService.getTemplateByPermissionSetName(
+                                    assignments.get(0).PermissionSet.Name
+                                ).templateName==CommunityTemplateService.TEMPLATE_JANSSEN){
+                         return CommunityTemplateService.TEMPLATE_JANSSEN;
+                    }
+                    else{
+                        return CommunityTemplateService.TEMPLATE_DEFAULT;
+                    }
+            }
+        else if (userMode != CommunityModeService.USER_MODE_PARTICIPANT){
             return CommunityTemplateService.TEMPLATE_DEFAULT;
+        }
 
         try {
             if (whatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
