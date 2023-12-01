@@ -463,7 +463,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
             this.isSpinner =false;
             const event = new ShowToastEvent({
                 title: 'Warning!',
-                message: 'Only one televisit provider per Study Site could be selected!',
+                message: 'Only one televisit provider per study site could be selected.',
                 variant: 'warning',
                 mode: 'dismissable'
             });
