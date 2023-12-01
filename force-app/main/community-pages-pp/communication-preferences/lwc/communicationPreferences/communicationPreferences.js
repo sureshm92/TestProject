@@ -769,7 +769,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                 conObj = {};
             })
             .catch((error) => {
-                this.showCustomToast('', 'Failed To save the Record...', 'error');
+                this.showCustomToast('', 'Failed to save the data.', 'error');
                 this.spinner = false;
             });
     }
