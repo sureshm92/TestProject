@@ -13732,7 +13732,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Outreach Message</shortDescription>
-        <value>New outreach created successfully .</value>
+        <value>New outreach created successfully.</value>
     </labels>
     <labels>
         <fullName>PDE_Created_By_for_Data_Load</fullName>
