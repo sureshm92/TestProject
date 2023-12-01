@@ -167,7 +167,7 @@ private class Test_Batch_CreateSummaryNotifications {
         ];
 
         System.assertEquals(
-			linkResource.Id + ';' + videoResource.Id,
+            resource.Id + ';' + linkResource.Id + ';' + videoResource.Id,
             updatedContact.Resource_Notifications__c
         );
     }
