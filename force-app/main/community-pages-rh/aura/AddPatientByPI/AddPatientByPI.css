@@ -57,6 +57,11 @@ text-overflow: ellipsis;
 white-space: nowrap;
 overflow: hidden;
 }
+
+.THIS .cursorType{
+    cursor: text;
+    }
+
 .THIS .textinline{
     display:inline-block;
 }

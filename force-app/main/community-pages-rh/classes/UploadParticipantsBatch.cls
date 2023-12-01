@@ -1056,12 +1056,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             sc = CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(cc)
               .get(stateName);
           }
-
           Contact participantContact = new Contact(
             FirstName = FirstName,
             LastName = LastName,
             AccountId = tempAccount.Id,
-            MiddleName = MiddleName,
             Email = EmailAddress,
             Phone = Phone,
             MobilePhone = Phone2,

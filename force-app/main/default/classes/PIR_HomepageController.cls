@@ -1594,9 +1594,15 @@ public without sharing class PIR_HomepageController {
         update new Contact(
           Id = pe.Participant_Contact__c,
           Consent_To_Inform_About_Study__c = true,
-          Is_Patient_User_Created__c = true
+          Is_Patient_User_Created__c = true,
+          UserCommunityIsDelegate__c = false
         );
-      }
+      }else{
+          update new Contact(
+          Id = pe.Participant_Contact__c,
+          UserCommunityIsDelegate__c = false
+        );
+     }
 
       List<User> returnUsers = new List<User>();
       if (!pe.Participant_Contact__r.Is_Patient_User_Created__c) {

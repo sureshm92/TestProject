@@ -112,7 +112,7 @@ public without sharing class PPMessagePageRemote {
     }
 
     @AuraEnabled
-    public static MSPageData getInitData(String formFactor, Boolean isIE) {
+    public static MSPageData getInitData(String formFactor, Boolean isIE, String studyId) {
         try {
             MSPageData pageData = new MSPageData();
             pageData.userMode = UserContext.getCurrentUserMode().userMode;
@@ -214,7 +214,22 @@ public without sharing class PPMessagePageRemote {
                       participantEnrollments.addAll(pastEnrollments);
                      }
                 }
-
+                //  PEH-14410 : To display the selected Study in top from past studies page.
+                if(studyId != '' && studyId != null && participantEnrollments != null && studyId != participantEnrollments[0].Clinical_Trial_Profile__c){
+                    Participant_Enrollment__c enrfirst;
+                    List<Participant_Enrollment__c> permnlist = new List<Participant_Enrollment__c>();
+                    for(Participant_Enrollment__c pe: participantEnrollments){
+                        if(pe.Clinical_Trial_Profile__c != null && pe.Clinical_Trial_Profile__c == studyId){
+                            enrfirst = pe;
+                        }else{
+                            permnlist.add(pe);
+                        }
+                    }
+                    participantEnrollments = new List<Participant_Enrollment__c>();
+                    participantEnrollments.add(enrfirst);
+                    participantEnrollments.addAll(permnlist);
+                }
+                //End 
                 Set<Id> availablePEIds = new Set<Id>();
                 List<Id> peIds = new List<Id>();
                 pageData.enrollments = new List<Participant_Enrollment__c>();
@@ -263,6 +278,22 @@ public without sharing class PPMessagePageRemote {
                 //Collect Conversations
                  if (sharedConversations != null) {
                  Boolean secondaryDelegate = false;
+                    //PEH-14410 : To display the selected Study in top from past studies page.
+                    if(studyId != '' && studyId != null && sharedConversations[0].Participant_Enrollment__r.Clinical_Trial_Profile__c != studyId){
+                       Conversation__c cnvfirst;
+                       List<Conversation__c> convlist = new List<Conversation__c>();
+                       for(Conversation__c cn: sharedConversations){
+                           if(cn.Participant_Enrollment__r != null && cn.Participant_Enrollment__r.Clinical_Trial_Profile__c == studyId){
+                               cnvfirst = cn;
+                           }else{
+                               convlist.add(cn);
+                           }
+                       }
+                       sharedConversations = new List<Conversation__c>();
+                       sharedConversations.add(cnvfirst);
+                       sharedConversations.addAll(convlist);
+                    }
+                    // End
                     for (Conversation__c con : sharedConversations) {
                         if (availablePEIds.contains(con.Participant_Enrollment__c)){
                             //seggregation of conversation based on primary and secondary delegates
@@ -317,6 +348,16 @@ public without sharing class PPMessagePageRemote {
                                                   MessageService.getMessagesByConversations(new List<Id>(conversationsByIds.keySet()));
                                                                                   
                 //
+                //PEH-14410 : To display the selected Study in top from past studies page.
+                if(studyId != '' && studyId != null && conversations[0].Id != new List<Id>(messagesByConversation.keySet())[0]){
+                    Map<Id, List<Message__c>> mapofselectedstudytop = new Map<Id, List<Message__c>>();
+                    for(Conversation__c con : conversations){
+                        mapofselectedstudytop.put(con.Id,messagesByConversation.get(con.Id));
+                    }
+                    messagesByConversation = new  Map<Id, List<Message__c>>();
+                    messagesByConversation = mapofselectedstudytop;
+                }
+                //End
                if(!messagesByConversation.keySet().isEmpty()){
                 
                 Map<Id, Map<Id, ContentDocumentLink>> documentLinksByMesByCon = MessageService.getAttachmentsByConversation(
@@ -540,7 +581,9 @@ public without sharing class PPMessagePageRemote {
             
             Map<Id,String> nameList = new Map<Id,String>();
             for(Message__c mes:messages){
-               nameList.put(mes.CreatedById,mes.Sender_Name__c);
+               if(!nameList.containsKey(mes.CreatedById)){
+                    nameList.put(mes.CreatedById,mes.Sender_Name__c);
+                }
             }  
             conWr.nameList = nameList;
             conWr.peopleCount = nameList.size();
@@ -949,7 +992,9 @@ public without sharing class PPMessagePageRemote {
             
             Map<Id,String> nameList = new Map<Id,String>();
             for(Message__c mes:messages){
-               nameList.put(mes.CreatedById,mes.Sender_Name__c);
+               if(!nameList.containsKey(mes.CreatedById)){
+                    nameList.put(mes.CreatedById,mes.Sender_Name__c);
+                }
             }  
             conWr.nameList = nameList;
             conWr.peopleCount = nameList.size();
