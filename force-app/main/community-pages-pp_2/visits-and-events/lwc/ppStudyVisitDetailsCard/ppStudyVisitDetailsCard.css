@@ -210,3 +210,11 @@ input[type='date']::-webkit-calendar-picker-indicator,
         padding: 0 1rem;
     }
 }
+
+.dateTimeContainer input{
+    -moz-appearance: none;
+    /* for Safari, Chrome, Opera */
+    -webkit-appearance: none;
+    appearance: none;
+}
+
