@@ -12,6 +12,8 @@ import rr_community_icons from '@salesforce/resourceUrl/rr_community_icons';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import removeCancelledUpdateNotifications from '@salesforce/apex/PPUpdatesController.removeCancelledUpdateNotifications';
 import removeScheduledAndRescheduledUpdateNotifications from '@salesforce/apex/PPUpdatesController.removeScheduledAndRescheduledUpdateNotifications';
+import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
+
 export default class PpTelevisit extends NavigationMixin(LightningElement) {
     @track contentLoaded = false;
     @track upcomingTelevisitslist = [];
@@ -36,6 +38,24 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     reloadupcomingcomponent = false;
     isdelegate = false;
     alreadyCalledRemovalNotif = false;
+    @api isRTL = false;
+
+    get upButtonStyle() {
+        if(past){
+            return this.isRTL ? 'slds-button slds-button_neutral up-button inactive-button-background border-radius' : 'slds-button slds-button_neutral up-button inactive-button-background border-radius-rtl';
+        }else{
+            return this.isRTL ? 'slds-button slds-button_brand up-button active-button-background border-radius' : 'slds-button slds-button_brand up-button active-button-background border-radius-rtl';
+        }
+    }
+
+    get pastButtonStyle() {
+        if(past){
+            return this.isRTL ? 'slds-button slds-button_brand past-button active-button-background border-radius-rtl' : 'slds-button slds-button_brand past-button active-button-background border-radius';
+        }else{
+            return this.isRTL ? 'slds-button slds-button_neutral past-button inactive-button-background border-radius-rtl' : 'slds-button slds-button_neutral past-button inactive-button-background border-radius';
+        }
+    }
+
     selectedNavHandler(event) {
         if (event.detail.filter == 'showblankupcomingtelevisits:false') {
             this.upcomingTelevisitslist = event.detail.upcomingdata;
@@ -159,6 +179,14 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
         } else {
             this.gettelevisitdetails();
         }
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+                console.log('rtl--->'+this.isRTL);
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+        });
     }
     redircttohomepage() {
         this[NavigationMixin.Navigate]({
