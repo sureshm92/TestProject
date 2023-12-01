@@ -297,7 +297,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 }
             })
             .catch((error) => {
-                this.showCustomToast('', 'Failed To read the Data...', 'error');
+                this.showCustomToast('', 'Failed to read the data.', 'error');
                 this.spinner = false;
             });
 
@@ -987,14 +987,14 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                     createCommPrefEvent()
                         .then((responseSuccess) => {})
                         .catch((responseFailure) => {
-                            this.showCustomToast('', 'Failed to publish Platfrom Event', 'error');
+                            this.showCustomToast('', 'Failed to publish platfrom event.', 'error');
                         });
                 }
                 this.currentPERId = '';
                 conObj = {};
             })
             .catch((error) => {
-                this.showCustomToast('', 'Failed To save the Record...', 'error');
+                this.showCustomToast('', 'Failed To save the record.', 'error');
                 this.spinner = false;
             });
     }
@@ -1273,7 +1273,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 this.updateErrorOnStudyPostMobileNumberCorrection();
             })
             .catch((error) => {
-                this.showCustomToast('', 'Failed To read the Data...', 'error');
+                this.showCustomToast('', 'Failed to read the data.', 'error');
                 this.spinner = false;
             });
         //}

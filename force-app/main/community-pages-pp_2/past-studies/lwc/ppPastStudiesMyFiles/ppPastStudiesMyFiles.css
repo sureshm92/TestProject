@@ -135,7 +135,7 @@
 @media (max-width: 396px), (min-width: 64em) and (max-width: 1343px){
     .uploaded .main-sec {
         display: block;
-        padding: 4px 7px 4px 15px;
+        padding: 10px 7px 4px 15px;
     }
     .uploaded .left-sec {
         width: 100%;

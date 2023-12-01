@@ -66,9 +66,6 @@
 }
 .box-container {
     display: none;
-    position: absolute;
-    top: 21rem;
-    right: 4rem;
     z-index: 2;
     box-sizing: border-box;
     max-height: 194px;
@@ -79,6 +76,10 @@
     box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
     overflow-y: auto;
     font-size: 16px;
+}
+.box-container-adjustment{
+    margin-top: -1rem;
+    margin-right: 2rem;
 }
 .team-count {
     font-size: 16px;
@@ -155,9 +156,10 @@
     height: auto;
 }
 .mob-box-container {
-    top: 23.9rem !important;
-    right: 1.5rem !important;
+    position: unset!important;
+    margin-top:-15px;
 }
+
 .study-team-207192 {
     color: #444444;
     font-size: 18px;

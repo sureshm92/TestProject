@@ -15,7 +15,7 @@
                 <div class="slds-card__body slds-card__body_inner slds-scrollable_y" style="height:50rem;width:24rem">
                 -->
                 <template if:true={isLoading}>
-                    <c-web-spinner show-spinner={isLoading}></c-web-spinner>
+                    <c-web-spinner show-spinner={isLoading} fixed="true"></c-web-spinner>
                 </template>
                     <template if:false={showBlankTelevisit}>
                         <template for:each={allActiveVisits} for:item="visit" >
