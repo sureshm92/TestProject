@@ -69,7 +69,8 @@ public without sharing class ReferringClinicsFilter implements SearchFilter {
         'Study_Site__r.Study_Site_Type__c',
         'Override_PI_Status__c',
         'Orientation_Date__c',
-        'HCP_Full_Name__c'
+        'HCP_Full_Name__c',
+        'Study_Site__r.Site_Activation_Status__c'
     };
 
     private static List<String> REFERRING_CLINICS_SEARCH_FIELDS = new List<String>{

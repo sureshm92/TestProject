@@ -1,8 +1,8 @@
 public without sharing class IprEprTriggerHandler {
     private static final List<String> SS_STATUSES_ACCEPT_REFERRALS = new List<String>{
-        StudySiteService.PI_S_ACCEPTED,
-            StudySiteService.PI_S_ACCEPTED_A,
-            StudySiteService.PI_S_INVITATION_SENT
+        StudySiteService.SITE_ACTIVATED,
+            StudySiteService.SITE_ACTIVATED_A
+           // StudySiteService.PI_S_INVITATION_SENT RH-6295 changes
             };
                 
     private static final Map<String, EPR_Validation_Message__mdt> err = EPR_Validation_Message__mdt.getAll();
@@ -68,7 +68,7 @@ public without sharing class IprEprTriggerHandler {
             }
             
             //SS Map
-            for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c,Participant_DOB_format__c, 
+            for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c,Site_Activation_Status__c,Participant_DOB_format__c, 
                                      Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c
                                      FROM Study_Site__c WHERE Primary_Key_ePR__c IN :ssNumbersList ])
             {ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);}      
@@ -224,7 +224,7 @@ public without sharing class IprEprTriggerHandler {
                     if (ss == null) {
                         errorsLog.add(err.get('study_site_not_found').Error_Message__c.replace('SSNo',studySiteNumber));
                     } else if (
-                        !SS_STATUSES_ACCEPT_REFERRALS.contains(ss.Override_PI_Referral_Status__c)
+                        !SS_STATUSES_ACCEPT_REFERRALS.contains(ss.Site_Activation_Status__c)
                     ) {
                         errorsLog.add(err.get('study_site_no_referrals').Error_Message__c);
                     }
@@ -233,11 +233,12 @@ public without sharing class IprEprTriggerHandler {
                     Clinical_Trial_Profile__c ctp = ctpByProtocolIdMap.get(ipr.protocolId__c);
                     if (ctp == null) {
                         errorsLog.add(err.get('study_not_found').Error_Message__c.replace('SNo',ipr.protocolId__c));
-                    } else if (
+                    } 
+                    /*RH-6295 else if (
                         ctp.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING
                     ) {
                         errorsLog.add(err.get('study_no_referrals').Error_Message__c);
-                    }
+                    }*/
                     
                     if (errorsLog.size() > 0) {
                         ipr.Error_Message__c = String.join(errorsLog, '\n');
@@ -260,7 +261,7 @@ public without sharing class IprEprTriggerHandler {
                 ssNumbersList.add(objIPR.protocolId__c + '_' + objIPR.Address_Country__c + '_' + objIPR.siteSelected__c);
                 protocolIds.add(objIPR.protocolId__c);
             }
-            for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c, 
+            for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c, Site_Activation_Status__c,
                                      Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c
                                      FROM Study_Site__c WHERE Primary_Key_ePR__c IN :ssNumbersList ])
             {	
@@ -316,7 +317,7 @@ public without sharing class IprEprTriggerHandler {
             if (ss == null) {
                 errorsLog.add(err.get('study_site_not_found').Error_Message__c.replace('SSNo',studySiteNumber));
             } else if (
-                !SS_STATUSES_ACCEPT_REFERRALS.contains(ss.Override_PI_Referral_Status__c)
+                !SS_STATUSES_ACCEPT_REFERRALS.contains(ss.Site_Activation_Status__c)
             ) {
                 errorsLog.add(err.get('study_site_no_referrals').Error_Message__c);
             }
@@ -325,11 +326,12 @@ public without sharing class IprEprTriggerHandler {
             Clinical_Trial_Profile__c ctp = ctpByProtocolIdMap_batch.get(ipr.protocolId__c);
             if (ctp == null) {
                 errorsLog.add(err.get('study_not_found').Error_Message__c.replace('SNo',ipr.protocolId__c));
-            } else if (
+            } 
+            /* RH-6295else if (
                 ctp.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING
             ) {
                 errorsLog.add(err.get('study_no_referrals').Error_Message__c);
-            }
+            }*/
             system.debug('>>>errorsLog>>'+errorsLog);
             if (errorsLog.size() > 0) {
                 String strError = String.join(errorsLog, '\n');
@@ -352,7 +354,7 @@ public without sharing class IprEprTriggerHandler {
 			for (Integration_Patient_Referral__c ipr : newList) {
 				ssNumbersList.add(ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c);
 			}
-			for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c,Participant_DOB_format__c, 
+			for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c,Site_Activation_Status__c,Participant_DOB_format__c, 
                                      Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c
                                      FROM Study_Site__c WHERE Primary_Key_ePR__c IN :ssNumbersList ])
             {ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);}
