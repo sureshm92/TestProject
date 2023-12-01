@@ -195,6 +195,7 @@ export default class Filtertest extends LightningElement {
   studyToPrmoteDCT;
   studyToFinalStep;
   isAnythingChangedForReset = false;
+  showStudyErr = false;
   @api
   filterFetched = false;
   @api
@@ -257,10 +258,19 @@ export default class Filtertest extends LightningElement {
               }
             }
             this.studySiteList = options1;
-            if (this.urlsiteid != null) {
-              this.defaultSite = this.urlsiteid;
-            } else {
-              this.defaultSite = options1[0].value;
+            this.showStudyErr = false;
+            this.isbuttonenabled = false;
+            if(options1[1] == undefined){
+              this.showStudyErr = true;
+              this.defaultSite = '';
+              this.studySiteList = '';
+              this.isbuttonenabled = true;
+            }else{
+              if (this.urlsiteid != null) {
+                this.defaultSite = this.urlsiteid;
+              } else {
+                this.defaultSite = options1[0].value;
+              }
             }
             this.selectedSite = this.defaultSite;
             this.filterWrapper.siteList=[];
@@ -383,7 +393,7 @@ export default class Filtertest extends LightningElement {
         }
       }
     }
-
+    
     this.studySiteList = options;
 
     if(presetSellection.siteList.length == 1){
@@ -466,10 +476,20 @@ export default class Filtertest extends LightningElement {
       }
     }
 
-    this.studySiteList = options;
+    this.showStudyErr = false;
+    this.isbuttonenabled = false;
+    if(options[1] == undefined){
+      this.showStudyErr = true;
+      this.isbuttonenabled = true;
+      this.studySiteList = '';
+      this.defaultSite = '';
+      this.selectedSite = '';
+    }else{
+      this.studySiteList = options;
+      this.defaultSite = "All Study Site";
+      this.selectedSite = "All Study Site";
+    }
     this.selectedStudy = picklist_Value;
-    this.defaultSite = "All Study Site";
-    this.selectedSite = "All Study Site";
     this.createStatusOption();
     this.sendFilterUpdates();
   }
@@ -920,7 +940,16 @@ export default class Filtertest extends LightningElement {
       }
 
     this.studySiteList = options;
-    this.defaultSite = this.studySiteList[0].value;
+    this.showStudyErr = false;
+    this.isbuttonenabled = false;
+    if(options[1] == undefined){
+      this.defaultSite = '';
+      this.showStudyErr = true;
+      this.isbuttonenabled = true;
+      this.studySiteList = '';
+    }else{
+      this.defaultSite = this.studySiteList[0].value;
+    }
     this.selectedSite = this.defaultSite;
 
     this.createStatusOption();
