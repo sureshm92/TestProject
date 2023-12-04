@@ -402,13 +402,14 @@
 .comm-link {
     height: 24px;
     width: auto;
-    color: #015ff1;
+    color: #0768fd;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
+    margin-top: 16px;
 }
 .comm-link:hover {
     cursor: pointer;
@@ -550,7 +551,7 @@
         margin: inherit;
         margin-top: 50px;
     }
-    .card-gap{
-        margin-top:18px;
+    .card-gap {
+        margin-top: 18px;
     }
 }

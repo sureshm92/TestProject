@@ -305,7 +305,7 @@ export default class PpAddNewDelegate extends LightningElement {
                     communityService.showToast(
                         '',
                         'error',
-                        'Failed to read the data(Max Length).',
+                        'Failed to read the data(max length).',
                         100
                     );
                     this.spinner = false;
@@ -652,7 +652,7 @@ export default class PpAddNewDelegate extends LightningElement {
                 communityService.showToast(
                     '',
                     'error',
-                    'Failed to read the data(existing Delegate).',
+                    'Failed to read the data(existing delegate).',
                     100
                 );
                 this.spinner = false;
@@ -724,7 +724,7 @@ export default class PpAddNewDelegate extends LightningElement {
                         this.goBackToManageDelegate();
                     })
                     .catch((error) => {
-                        communityService.showToast('', 'error', 'Failed To save the Data...', 100);
+                        communityService.showToast('', 'error', 'Failed to save the data.', 100);
                         this.isLoading = false;
                         //alert('error:::' + error);
                     });
