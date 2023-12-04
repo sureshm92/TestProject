@@ -90,7 +90,7 @@ export default class PpPastStudiesParent extends LightningElement {
     };
     selectStudy(event){
         if(event.target.dataset.item)
-        this.updateSelectedStudy(event.target.dataset.item);
+            this.updateSelectedStudy(event.target.dataset.item);
     }
     updateSelectedStudy(perid){
         if(this.template.querySelector('[data-id="top"]')){
@@ -263,8 +263,9 @@ export default class PpPastStudiesParent extends LightningElement {
     slectStudyFormFiles(event){
         this.uploadedFilesClass='no-show-link';
         this.sharedFilesClass='no-show-link';
-        this.updateSelectedStudy(this.studyPERMap.get(event.detail.message));
         this.showFilePage=false;
+        this.selectedPER = null;
+        this.selectedSection = PP_Overview;
     }
     
     showdeletetoast(){

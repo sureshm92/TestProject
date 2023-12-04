@@ -8,8 +8,8 @@
         const urlParams = new URLSearchParams(queryString);
         const updates = urlParams.get('updates');
         if (updates) {
-            var button = component.find('button');
-            $A.util.addClass(button, 'button-hide');
+            var boxDiv = component.find('back_button');
+            $A.util.addClass(boxDiv, 'button-hide');
         }
         console.log('idParamValue' + idParamValue);
         console.log('resId::' + resId + 'lang::' + lang);

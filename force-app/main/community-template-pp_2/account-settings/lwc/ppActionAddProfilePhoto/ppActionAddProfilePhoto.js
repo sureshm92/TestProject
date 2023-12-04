@@ -8,7 +8,7 @@ import EDIT_PHOTO from '@salesforce/label/c.PP_AddProfilePhoto';
 import ADD_PHOTO from '@salesforce/label/c.PP_EditProfilePhoto';
 import REMOVE_PHOTO from '@salesforce/label/c.PP_Remove_Photo';
 import WRONG_FORMAT from '@salesforce/label/c.TST_Screenshot_Wrong_Format';
-import FILE_SIZE_EXCEEDED from '@salesforce/label/c.PP_File_Size_Exceeded';
+import FILE_SIZE_EXCEEDED from '@salesforce/label/c.Pp_file_size_exceeded_3MB';
 import PHOTO_UPLOADED from '@salesforce/label/c.PP_AS_PHOTO_UPLOADED';
 import PHOTO_REMOVED from '@salesforce/label/c.PP_AS_PHOTO_REMOVED';
 import getProfilePicture from '@salesforce/apex/ProfilePictureController.getProfilePicture';
@@ -134,7 +134,7 @@ export default class PpActionAddProfilePhoto extends LightningElement {
 
                 fileContents = fileContents.substring(dataStart);
                 parentRef.uploadFile(uploadedFile, fileContents);
-                parentRef.pictureSrc = fileContents;
+                this.hasProfilePic = false;
             };
             reader.readAsDataURL(uploadedFile);
         }

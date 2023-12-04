@@ -54,7 +54,7 @@
                                                         <template if:false={phoneNotAvailable}>
                                                             <lightning-layout-item size="12" class="mob-ph-content1" >
                                                                 <div class="param">{studySitePhone}</div>
-                                                                <textarea class="phone-value-ele textarea-style noselect" readonly>{studySitePhone}</textarea>
+                                                                <textarea class="phone-value-ele textarea-style noselect ml" inputmode='none'>{studySitePhone}</textarea>
                                                             </lightning-layout-item>
                                                         </template>
                                                     </lightning-layout>
@@ -89,7 +89,7 @@
                                                         </lightning-layout-item>
                                                         <lightning-layout-item size="12" class="addressContent">
                                                             <div class="param2">{siteAddress}</div>
-                                                            <textarea class="address-value-ele textarea-style noselect" readonly>{siteName}&nbsp;{siteAddress}</textarea>
+                                                            <textarea class="address-value-ele textarea-style noselect ml" inputmode='none'>{siteName}&nbsp;{siteAddress}</textarea>
                                                         </lightning-layout-item>
                                                     </lightning-layout>
                                                 </lightning-layout-item>
