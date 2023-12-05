@@ -202,6 +202,7 @@
 }
 .ppLabel:hover {
     cursor: pointer;
+    color: #135F90;
 }
 .slds-button_icon-inverse {
     fill: black;
