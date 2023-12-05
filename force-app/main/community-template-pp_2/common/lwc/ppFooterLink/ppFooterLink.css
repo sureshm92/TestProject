@@ -11,3 +11,6 @@
 .imgclass {
     margin-left: 3px;
 }
+.pagelink:hover {
+    font-weight: 600;
+}
