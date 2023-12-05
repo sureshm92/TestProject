@@ -119,7 +119,7 @@
                 <behavior>Edit</behavior>
                 <field>PPMID__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>ParticipantGUID__c</field>
             </layoutItems>
@@ -317,6 +317,10 @@
                 <field>Referral_Completed_by__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>DataControllerOrg__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Patient_ID__c</field>
             </layoutItems>
@@ -487,7 +491,7 @@
                 <behavior>Edit</behavior>
                 <field>Final_Consent_Date__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Re_consent__c</field>
             </layoutItems>
