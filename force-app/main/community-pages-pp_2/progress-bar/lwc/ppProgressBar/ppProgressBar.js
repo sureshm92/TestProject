@@ -2,21 +2,28 @@ import { api, LightningElement } from 'lwc';
 import generateProgressBar from '@salesforce/apex/PP_ProgressBarUtility.generateProgressBar';
 import updatePatientVisit from '@salesforce/apex/PP_ProgressBarUtility.updatePatientVisit';
 import ppProgressBarIcons from '@salesforce/resourceUrl/ppProgressBarIcons';
+import Stay_Tuned from '@salesforce/resourceUrl/Pre_Trial_Stay_Tuned';
+import Status_Check from '@salesforce/resourceUrl/Pre_Trial_Status_Show';
 import PP_Event_Completion_Warning_Message from '@salesforce/label/c.PP_Event_Completion_Warning_Message';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import Mark_As_Completed from '@salesforce/label/c.BTN_Mark_As_Completed';
 import BTN_Continue from '@salesforce/label/c.Continue';
 import PP_ProgressBar_No_Visit from '@salesforce/label/c.PP_ProgressBar_No_Visit';
 import PP_ProgressBar_Event_Complete from '@salesforce/label/c.PP_ProgressBar_Event_Complete';
+import Stay_Tune_Label from '@salesforce/label/c.Pre_Trial_Stay_Tune';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 
 export default class PpProgressBar extends LightningElement {
-    userTimezone = TIME_ZONE;
+    userTimeZone = TIME_ZONE;
+stayTunedIcon = Stay_Tuned;
+    statusCheckIcon = Status_Check;
     @api
     parentClass = 'big';
     layoutClass1 = 'slds-col slds-large-size_2-of-5 slds-size_1-of-1';
     layoutClass2 = 'slds-col slds-large-size_3-of-5 slds-size_1-of-1';
+    layoutClass3 = 'slds-col slds-large-size_2-of-7 slds-size_1-of-1';
+    
     icon = {
         recentlyCompletedActive : ppProgressBarIcons+'/recentlyCompletedActive.svg',
         recentlycompleted : ppProgressBarIcons+'/recentlycompleted.svg',
@@ -50,7 +57,8 @@ export default class PpProgressBar extends LightningElement {
         Mark_As_Completed,
         BTN_Continue,
         PP_ProgressBar_No_Visit,
-        PP_ProgressBar_Event_Complete
+        PP_ProgressBar_Event_Complete,
+        Stay_Tune_Label
     };
     @api
     parentWrapper ;
@@ -98,6 +106,7 @@ export default class PpProgressBar extends LightningElement {
         if(this.parentClass!='big'){
             this.layoutClass1 = 'slds-col slds-size_1-of-1';
             this.layoutClass2 = 'slds-col slds-size_1-of-1';
+            this.layoutClass3 = 'slds-col slds-size_1-of-1';
         }
     }
     setBars(setActive){
@@ -225,17 +234,64 @@ export default class PpProgressBar extends LightningElement {
             return this.parentWrapper.progressWrapperList[this.currentCard-1].statusDate;
         return null;
     }
-    get leftDesktopClass(){
-        if(this.currentCard==1){
-            return "arrowCont slds-align-top disableClick"; 
+get showMarkAsComplete(){
+        if(this.parentWrapper.progressWrapperList[this.currentCard-1] && !this.parentWrapper.isPreTiral)
+            return (this.parentWrapper.isEvent && (!this.parentWrapper.progressWrapperList[this.currentCard-1].statusDate));
+        return null;
+    }
+    get markAsCompleteWarnMessage(){
+        if(this.parentWrapper.progressWrapperList[this.currentCard-1])
+            return this.label.PP_Event_Completion_Warning_Message.replace("--",this.parentWrapper.progressWrapperList[this.currentCard-1].title);
+        return null;
+    }
+    get subStatusAvailable(){
+        if(this.parentWrapper.progressWrapperList[this.currentCard-1])
+            return this.parentWrapper.progressWrapperList[this.currentCard-1].statusWrapperList != undefined ? this.parentWrapper.progressWrapperList[this.currentCard-1].statusWrapperList : null;
+        return null;
+    }
+    get isPreTrial(){
+        if(this.parentWrapper)
+            return this.parentWrapper.isPreTiral;
+        return false;
+    }
+    get showStatus(){
+        if(this.parentWrapper.progressWrapperList[this.currentCard-1] && !this.parentWrapper.isPreTiral)
+            return (!this.parentWrapper.isEvent  || (this.parentWrapper.isEvent && (this.parentWrapper.progressWrapperList[this.currentCard-1].statusDate)));
+        return false;
+    }
+    get totalProgressSteps(){
+        return (this.bars!=null ? this.bars.length : '');
+    }
+    get layout2Class(){
+        if(this.parentWrapper.isPreTiral && this.parentClass=='big'){
+            this.layoutClass2 = 'slds-col slds-large-size_5-of-7 slds-size_1-of-1';
         }
-        return "arrowCont slds-align-top";
+        return this.layoutClass2;
+    }
+    get leftDesktopClass(){
+        if(this.parentWrapper.progressWrapperList[this.currentCard-1] && !this.parentWrapper.isPreTiral){
+            if(this.currentCard==1){
+                return "arrowCont slds-align-top disableClick"; 
+            }
+            return "arrowCont slds-align-top";
+        }
+        if(this.currentCard==1){
+            return "arrowContOptB slds-align-top disableClick"; 
+        }
+        return "arrowContOptB slds-align-top";
     }
     get rightDesktopClass(){
-        if(this.currentCard==this.parentWrapper.progressWrapperList.length){
-            return "arrowCont tRight slds-align-top disableClick"; 
+let customCSS = 'tRight slds-align-top';
+        if(this.parentWrapper.progressWrapperList[this.currentCard-1] && !this.parentWrapper.isPreTiral){
+            customCSS = 'arrowCont '+customCSS;
+        }else{
+            customCSS = 'arrowContOptB '+customCSS;
         }
-        return "arrowCont tRight slds-align-top";
+        if(this.currentCard==this.parentWrapper.progressWrapperList.length){
+            return customCSS+' disableClick'; 
+        }
+        return customCSS;
+        
     }
     get leftMobileClass(){
         if(this.currentCard==1){
@@ -249,14 +305,31 @@ export default class PpProgressBar extends LightningElement {
         }
         return "arrowMob tRight";
     }
-    get showMarkAsComplete(){
-        if(this.parentWrapper.progressWrapperList[this.currentCard-1])
-            return (this.parentWrapper.isEvent && (!this.parentWrapper.progressWrapperList[this.currentCard-1].statusDate));
-        return null;
+    get middleDesktopClass(){
+        if(this.parentWrapper.isPreTiral){
+            return "rBMain tCenter orderA"; 
+        }
+        return "rMain";
     }
-    get markAsCompleteWarnMessage(){
-        if(this.parentWrapper.progressWrapperList[this.currentCard-1])
-            return this.label.PP_Event_Completion_Warning_Message.replace("--",this.parentWrapper.progressWrapperList[this.currentCard-1].title);
-        return null;
+    get progressSteps(){
+        if(this.parentWrapper.isPreTiral){
+            return "progressBPath orderB";
+        }
+        return "progress"; 
+    }
+	get leftBoxClass(){
+        if(this.parentWrapper.isPreTiral){
+            return "leftBBox";
+        }
+        return "leftBox"; 
+    }
+	get leftSectionDescription(){
+        if(this.parentWrapper.isPreTiral){
+            return "leftBSectionDescription";
+        }
+        return "leftDescription";
+    }
+    get leftTitle() {
+        return (this.parentWrapper.isPreTiral? "leftPreTrailTitle" : "leftTitle");
     }
 }

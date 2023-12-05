@@ -846,7 +846,7 @@ export default class TelevisitConfigurationCmp extends LightningElement {
             if(result === 'Success'){
                 const event = new ShowToastEvent({
                     title: 'Success',
-                    message: 'Televisit vendor setting details record saved successfully',
+                    message: 'Televisit vendor setting details record saved successfully.',
                     variant: 'success',
                     mode: 'dismissable'
                 });
