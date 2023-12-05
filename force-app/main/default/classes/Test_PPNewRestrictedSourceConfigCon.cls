@@ -12,7 +12,7 @@ private class Test_PPNewRestrictedSourceConfigCon {
         Test.startTest();
         testData.ctp.Study_Sponsor__c = 'Janseen';
         update testData.ctp; 
-
+        
         Restricted_Source_Config__c restrictedRecrd = new Restricted_Source_Config__c();
         restrictedRecrd.study__c = testData.ctp.Id;
         restrictedRecrd.Sponsor__c = testData.ctp.Study_Sponsor__c;
@@ -20,6 +20,7 @@ private class Test_PPNewRestrictedSourceConfigCon {
         ppNewRestrictedSourceConfigCon.getRestrictedSourceConfigData(testData.ctp.Id);
         ppNewRestrictedSourceConfigCon.getRestrictedSourceConfigRecord(testData.ctp.Id);
         Test.stopTest();
-        //Assert.isTrue(1, restrictedRecrd.size());
+        Assert.isNotNull(restrictedRecrd, 'Expected the Restricted Record to not be null');
     }
+    
 }
