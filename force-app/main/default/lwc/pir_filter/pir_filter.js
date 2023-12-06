@@ -251,7 +251,7 @@ export default class Filtertest extends LightningElement {
                 var temp = conts1[key];
                 for (var j in temp) {
                   //Site decoupling changes RH-8613
-                  if(temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+                  if(temp[j].Site_Activation_Status__c != undefined && temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
                     options1.push({ label: temp[j].Name, value: temp[j].Id });
                   }
                 }
@@ -376,7 +376,7 @@ export default class Filtertest extends LightningElement {
           var temp = conts[key];
           for (var j in temp) {
             //Site decoupling changes RH-8613
-            if(temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+            if(temp[j].Site_Activation_Status__c != undefined && temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
               options.push({ label: temp[j].Name, value: temp[j].Id });
             }
           }
@@ -387,7 +387,7 @@ export default class Filtertest extends LightningElement {
         var temp = conts[key];
         for (var j in temp) {
           //Site decoupling changes RH-8613
-          if(temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+          if(temp[j].Site_Activation_Status__c != undefined && temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
                 options.push({ label: temp[j].Name, value: temp[j].Id });
           }
         }
@@ -458,7 +458,7 @@ export default class Filtertest extends LightningElement {
           var temp = conts[key];
           for (var j in temp) {
             //Site decoupling changes RH-8613
-            if(temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+            if(temp[j].Site_Activation_Status__c != undefined && temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
               options.push({ label: temp[j].Name, value: temp[j].Id });
             }
           }
@@ -469,7 +469,7 @@ export default class Filtertest extends LightningElement {
         var temp = conts[key];
         for (var j in temp) {
           //Site decoupling changes RH-8613
-          if(temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+          if(temp[j].Site_Activation_Status__c != undefined && temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
                 options.push({ label: temp[j].Name, value: temp[j].Id });
             }
         }
@@ -932,7 +932,7 @@ export default class Filtertest extends LightningElement {
           var temp = conts[key];
           for (var j in temp) {
             //Site decoupling changes RH-8613
-            if(temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+            if(temp[j].Site_Activation_Status__c != undefined && temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
                 options.push({ label: temp[j].Name, value: temp[j].Id });
               }
           }
