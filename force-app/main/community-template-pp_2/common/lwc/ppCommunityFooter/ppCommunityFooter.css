@@ -48,6 +48,10 @@
     background: transparent;
     border: none;
 }
+.contact-support-btn:hover{
+    font-weight: 600;
+}
+
 
 @media all and (max-width: 500px) {
     .cf-links {
