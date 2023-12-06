@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
-	    <apexClass>AccountSettingsController</apexClass>
+        <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -620,7 +620,7 @@
         <apexClass>DashboardRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-	<classAccesses>
+    <classAccesses>
         <apexClass>DashboardRemoteNew</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -813,7 +813,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-	    <apexClass>FetchCallDispositions</apexClass>
+        <apexClass>FetchCallDispositions</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -932,7 +932,7 @@
         <apexClass>IntegrationPatientRefCovidTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    
+
     <classAccesses>
         <apexClass>IntegrationPatientTriggerHandler</apexClass>
         <enabled>true</enabled>
@@ -1017,7 +1017,7 @@
         <apexClass>LightningSelfRegisterControllerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-	<classAccesses>
+    <classAccesses>
         <apexClass>ListViewParticipantController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1056,7 +1056,7 @@
     <classAccesses>
         <apexClass>MedicalHistryTabController</apexClass>
         <enabled>true</enabled>
-    </classAccesses>    
+    </classAccesses>
     <classAccesses>
         <apexClass>MedicalRecordReviewLogController</apexClass>
         <enabled>true</enabled>
@@ -1072,8 +1072,8 @@
     <classAccesses>
         <apexClass>MedicalRecordUploadRemote</apexClass>
         <enabled>true</enabled>
-    </classAccesses>    
-      <classAccesses>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MedicalRecordVendorPanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1289,7 +1289,7 @@
         <apexClass>ParticipantItem</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>ParticipantParagraphController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1612,7 +1612,7 @@
     <classAccesses>
         <apexClass>SSMedicalRecordUploadConfigResponse</apexClass>
         <enabled>true</enabled>
-    </classAccesses>    
+    </classAccesses>
     <classAccesses>
         <apexClass>SSMessageConfigResponse</apexClass>
         <enabled>true</enabled>
@@ -1722,7 +1722,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-	    <apexClass>StudySiteInformationController</apexClass>
+        <apexClass>StudySiteInformationController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1761,7 +1761,7 @@
         <apexClass>StudyListViewController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>StudySiteCountryWarning</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1800,7 +1800,7 @@
     <classAccesses>
         <apexClass>StudySiteItemRemote</apexClass>
         <enabled>true</enabled>
-    </classAccesses> 
+    </classAccesses>
     <classAccesses>
         <apexClass>StudySiteVisitConfigRemote</apexClass>
         <enabled>true</enabled>
@@ -2101,7 +2101,7 @@
         <apexClass>ModifiedVisitResultsService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-     <classAccesses>
+    <classAccesses>
         <apexClass>ModifiedVisitResultsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2129,7 +2129,7 @@
         <apexClass>XLF_TweakerRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-	 <classAccesses>
+    <classAccesses>
         <apexClass>LibraryRPRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2229,22 +2229,27 @@
         <field>Study_Site__c.Enable_RP_Outreach_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Medical_Record_Upload__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Patient_Outreach_Info__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.StudyGUID__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.DataControllerOrg__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.PPTemplate__c</field>
         <readable>true</readable>
@@ -2258,8 +2263,8 @@
         <editable>false</editable>
         <field>Study_Site__c.Opt_in_for_warm_transfer__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
-      <fieldPermissions>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>MedicalVendorSettings__c.By_Country__c</field>
         <readable>true</readable>
@@ -2314,7 +2319,7 @@
         <field>Call_Dispositions__c.Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Call_Dispositions__c.IQVIA_intervention_completed__c</field>
         <readable>true</readable>
@@ -2444,9 +2449,9 @@
         <field>PreScreener_Survey__c.ProviderName__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    
-    
-	<fieldPermissions>
+
+
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Chatbot_optout__c</field>
         <readable>true</readable>
@@ -2476,7 +2481,7 @@
         <field>Participant_Enrollment__c.Participant_Phone_Opt_In_Permit_Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Site_Communication_Preference__c</field>
         <readable>true</readable>
@@ -2511,7 +2516,7 @@
         <field>Participant_Enrollment__c.PPMID__c</field>
         <readable>true</readable>
     </fieldPermissions>
-       <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.DocumentCollectionId__c</field>
         <readable>true</readable>
@@ -2521,7 +2526,7 @@
         <field>Participant_Enrollment__c.DocumentCollectionName__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.DocumentCollectionTitle__c</field>
         <readable>true</readable>
@@ -2546,32 +2551,32 @@
         <field>Integration_Callout_Log__c.Comment__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Callout_Log__c.Reference_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Callout_Log__c.Server_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Callout_Log__c.Server_Status_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Callout_Log__c.Status_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Callout_Log__c.success__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Callout_Log__c.third_party_Id__c</field>
         <readable>true</readable>
@@ -2581,17 +2586,17 @@
         <field>LL_RH_event__e.Appointment_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	 <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>LL_RH_event__e.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	 <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>LL_RH_event__e.ParticipantEnrollment_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate__c.Participant_Delegate__c</field>
         <readable>true</readable>
@@ -2619,7 +2624,7 @@
         <object>LL_RH_event__e</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
-      <objectPermissions>
+    <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
@@ -2662,7 +2667,7 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>CC_Staff__c</object>
-		<viewAllRecords>false</viewAllRecords>
+        <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -2671,7 +2676,7 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Integration_Callout_Log__c </object>
-		<viewAllRecords>true</viewAllRecords>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -2691,8 +2696,8 @@
         <object>PreScreener_Survey__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
-    
-    
+
+
     <tabVisibilities>
         <tab>Terms_And_Conditions__c</tab>
         <visibility>DefaultOn</visibility>
@@ -2717,9 +2722,9 @@
         <tab>Participant_PrescreenerResponse__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-     
+
     <layoutAssignments>
         <layout>PreScreener_Survey__c-PreScreener Survey Layout</layout>
     </layoutAssignments>
-     
+
 </Profile>
