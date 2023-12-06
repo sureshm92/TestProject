@@ -391,6 +391,7 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                                     new Notification__c(
                                         Recipient__c = del.Id,
                                         WhatId__c = pe.Id,
+                                        IsDelegate__c = true,
                                         Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE,
                                         Target_Record_Ids__c = '' + res.Id,
                                         Task_Id__c	= contact.Id
