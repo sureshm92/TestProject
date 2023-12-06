@@ -22,8 +22,11 @@ public without sharing class PIR_BulkActionController {
            
            for(Participant_Enrollment__c pe: per){
                if (sendEmails) {
-                   Contact con = new Contact(id =pe.Participant_Contact__c,Consent_To_Inform_About_Study__c = true);
+                   Contact con = new Contact(id =pe.Participant_Contact__c,Consent_To_Inform_About_Study__c = true,UserCommunityIsDelegate__c = false);
                    lstContact.add(con);           
+               }else{
+                   Contact con = new Contact(id =pe.Participant_Contact__c,UserCommunityIsDelegate__c = false);
+                   lstContact.add(con); 
                }
                if(communityTemplatename!=null){
                 if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'){

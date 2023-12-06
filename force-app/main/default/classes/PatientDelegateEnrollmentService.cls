@@ -77,7 +77,7 @@ public without sharing class PatientDelegateEnrollmentService {
         ];
         return pdEnrollments;
     }
-
+    
     public static List<Patient_Delegate_Enrollment__c> getPatientDelegateEnrollmentsActive(
         Id participantConId,
         Id delContactId,
@@ -156,11 +156,11 @@ public without sharing class PatientDelegateEnrollmentService {
             },
             Patient_Delegate_Enrollment__c.getSObjectType(),
             DatabaseService.fieldEqual(
-                'Patient_Delegate__r.Participant__r.Contact__c',
-                CommunityService.getInstance().getCurrentContactId()
-            ) +
-            ' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c= true' +
-            ' AND Participant_Enrollment__r.Invited_To_PP_Date__c != null'
+                    'Patient_Delegate__r.Participant__r.Contact__c',
+                    CommunityService.getInstance().getCurrentContactId()
+                ) +
+                ' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c= true' +
+                ' AND Participant_Enrollment__r.Invited_To_PP_Date__c != null'
         );
         isDelegate = lstPDE.size() > 0;
         participant = ParticipantContext.getCurrentParticipant();
@@ -431,10 +431,9 @@ public without sharing class PatientDelegateEnrollmentService {
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 Primary_Delegate__c
             FROM Patient_Delegate_Enrollment__c
-            WHERE
-                Patient_Delegate__r.Contact__c = :pdContactId
-                AND Status__c = 'Active'
-                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+            WHERE  Patient_Delegate__r.Contact__c = :pdContactId 
+            AND Status__c = 'Active'
+            AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
         ];
         return pdeList;
     }
@@ -481,7 +480,7 @@ public without sharing class PatientDelegateEnrollmentService {
                 Patient_Delegate__r.Contact__c = :pdContactId
                 AND Patient_Delegate__r.Participant__r.Contact__c = :parContactId
                 AND Status__c = 'Active'
-                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c =  true
         ];
         return pdeList;
     }
@@ -521,6 +520,9 @@ public without sharing class PatientDelegateEnrollmentService {
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.Privacy_Policy_ID__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                 Primary_Delegate__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Patient_Delegate__r.Contact__c = :pdContactId
@@ -936,14 +938,14 @@ public without sharing class PatientDelegateEnrollmentService {
             pdFields,
             Patient_Delegate_Enrollment__c.getSObjectType(),
             DatabaseService.fieldInValues(
-                'Patient_Delegate__r.Participant__r.Contact__c',
-                partContactsIds
-            ) +
-            ' AND ' +
-            ((perIdlst != null && !perIdlst.isEmpty())
+                    'Patient_Delegate__r.Participant__r.Contact__c',
+                    partContactsIds
+                ) +
+                ' AND ' +
+                ((perIdlst != null && !perIdlst.isEmpty())
                 ? (DatabaseService.fieldInValues('Participant_Enrollment__c', perIdlst) + ' AND ')
-                : '') +
-            DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
+                    : '') +
+                DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
         );
 
         Map<Id, List<Contact>> delContactsByPartCnt = new Map<Id, List<Contact>>();

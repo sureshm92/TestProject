@@ -691,6 +691,72 @@
         );
     },
     
+    uploadNextChunk : function (component, file, fileContents) {
+        var fromPos = 0;
+        var CHUNK_SIZE= 750000;
+        var toPos = Math.min(fileContents.length, fromPos + CHUNK_SIZE);
+         component.set("v.percentDone", 50);
+         
+        uploadChunk(component, file, fileContents, fromPos, toPos);
+ 
+         function  uploadChunk(component, file, fileContents, fromPos, toPos) {
+         component.find('mainSpinner').show();
+        var file = component.get('v.fileList')[0];
+         var extension = file.name.split('.').pop().toLowerCase();
+         var fileName = file.name.split('.')[0];
+        
+        var chunk = fileContents.substring(fromPos, toPos);
+         let conDocId=component.get("v.contentDocId");  
+            let conVerId=component.get("v.contentVersionId"); 
+           
+        communityService.executeAction(
+             component,
+                    'saveTheChunkFile',
+                    {        
+            fileName: file.name,
+            base64Data: encodeURIComponent(chunk) ,
+               fileId : conVerId ,
+              contentDocumentId : conDocId       
+                    },
+      
+            
+   function (returnValue) {
+                fromPos = toPos;
+                toPos = Math.min(fileContents.length, fromPos + CHUNK_SIZE);
+       
+                 component.set('v.contentDocId', returnValue.contentDocumentId);
+                 component.set('v.contentVersionId', returnValue.contentVersionId);
+       
+                if (fromPos < toPos) {
+                     var progressMultiplier = 0;
+                     progressMultiplier++;        
+                    var base = 1;
+                    var progress;
+                    component.set("v.percentDone", 75);
+                    if (base * (progressMultiplier) < 100) {
+                         progress = base * progressMultiplier;;
+                    } else {
+                        component.set("v.percentDone", 99);
+                    }
+                    
+                    uploadChunk(component,file, fileContents ,fromPos, toPos);
+                } else {  
+                    component.set('v.blobData', fileContents);
+                     component.set('v.pdfData', fileContents);
+                     component.set('v.fileName', fileName);
+                    component.set('v.fileType', extension);
+                        component.set('v.fullFileName', fileName + '.' + extension);
+                        component.set("v.percentDone", 100);
+                        component.set('v.fileRequired', true);
+                        component.set('v.fileUploaded', true);
+                }
+            }
+                );
+    component.find('mainSpinner').hide(); 
+            
+        
+    }
+  } ,             
     checkParticipantNeedsGuardian: function (component, event, helper) {
         var spinner = component.find('mainSpinner');
         spinner.show();

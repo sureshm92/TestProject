@@ -1,7 +1,13 @@
 <template>
-    <template if:true={loadResults}>
-        <c-pp-download-results-data alumni-pe-id={enrollId}></c-pp-download-results-data>
-    </template>
+    <div onclick={backToDetail} class="fit">
+        <span class="pointer-cursor">
+            <lightning-icon icon-name="utility:chevronleft" class="chevronleft-icon"  size="x-small"></lightning-icon>
+            <span class="back-link">
+                {label.Backtostudiesandprogramspage}
+            </span>
+        </span>
+    </div>
+    <div class="seperator-v"></div>
     <div class="my-files">{label.PP_MyFiles}</div>
     <lightning-layout multiple-rows>
         <lightning-layout-item size="12">
@@ -64,7 +70,7 @@
                                             <a
                                                 href="#"
                                                 onmousedown={callMethod}
-                                                class="liscroll"
+                                                class={sList.class}
                                                 data-key={sList.id}
                                                 role="menuitem"
                                                 data-id={index}

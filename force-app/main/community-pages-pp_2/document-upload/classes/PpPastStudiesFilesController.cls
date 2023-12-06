@@ -40,6 +40,7 @@ public with sharing class PpPastStudiesFilesController {
                     AND Patient_Delegate__r.Contact__c = :getUserContact
                     AND Primary_Delegate__c = TRUE
                     AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
+                    AND Status__c = 'Active'
                 LIMIT 10000])
             {
                     setPrimaryPER.add(objPDER.Participant_Enrollment__c);

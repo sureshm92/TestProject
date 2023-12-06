@@ -42,6 +42,8 @@ import PP_Phone_Numeric from '@salesforce/label/c.PP_Phone_Numeric';
 import Mob_Phone_Field from '@salesforce/label/c.Mob_Phone_Field';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
 import BACK from '@salesforce/label/c.Back';
+import Footer_Link_Terms_Of_Use from '@salesforce/label/c.Footer_Link_Terms_Of_Use';
+import Email_Footer_Privacy_Policy from '@salesforce/label/c.Email_Footer_Privacy_Policy';
 
 //END TO DO
 
@@ -55,6 +57,7 @@ import createCommPrefEvent from '@salesforce/apex/PreferenceManagementController
 
 import { loadScript } from 'lightning/platformResourceLoader';
 import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
+import communityPath from '@salesforce/community/basePath';
 
 export default class PpCommunicationPreferences extends NavigationMixin(LightningElement) {
     @api isDelegate;
@@ -104,7 +107,9 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         PP_Phone_Numeric,
         Mob_Phone_Field,
         BTN_Save,
-        BACK
+        BACK,
+        Email_Footer_Privacy_Policy,
+        Footer_Link_Terms_Of_Use
     };
 
     @track studyDetails = [];
@@ -165,11 +170,13 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         // Get Initial Load Data
         this.spinner = true;
         this.retUrl = communityService.createRetString();
+        
         getInitData({ userMode: this.userMode })
             .then((result) => {
                 this.spinner = false;
                 let data = JSON.parse(result).consentPreferenceData;
                 this.consentPreferenceDataLocal = data;
+                
                 this.setConsentVisibility();
                 let isParticipantLoggedIn = this.isParticipantLoggedIn;
                 let isDelegateSelfView = this.isDelegateSelfView;
@@ -180,7 +187,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                         study['all'] = false;
                         study['error'] = false;
                         study['ppEnabledAndInvitedPER'] = false;
-                        console.log('The Invited Date for PP   ' + study.Invited_To_PP_Date__c);
+                        
                         if (
                             isParticipantLoggedIn &&
                             study.Invited_To_PP_Date__c != null &&
@@ -203,7 +210,6 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                                 showIQIVAOutreachConsentFlag = true;
                             }
                         }
-                        console.log('The PER Consents   ' + study);
                     });
                 }
                 if (this.ShowPDEConsents) {
@@ -289,7 +295,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 }
             })
             .catch((error) => {
-                this.showCustomToast('', 'Failed To read the Data...', 'error');
+                this.showCustomToast('', 'Failed to read the data.', 'error');
                 this.spinner = false;
             });
 
@@ -308,8 +314,76 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 });
         }
     }
+    openStudyPrivacyPolicy(event){
+        let studyId = event.currentTarget.dataset.id; 
+        let policyId = event.currentTarget.dataset.name; 
+        let ctemp = event.currentTarget.dataset.title; 
+        if(policyId != null && policyId != undefined){ 
+            var link = 'privacy-policy?id=' + studyId + '&iscalledfromRegistrationORcommpref=true' + '&';
+            var finallink = link+ 'ret='+ this.retUrl;
+            const config = {
+                type: 'standard__webPage',
+                attributes: {
+                    url: finallink
+                }
+            };
+            this[NavigationMixin.GenerateUrl](config).then((url) => {
+                window.open(url, '_blank');
+            });
+       }else{
+           
+            var link = 'privacy-policy?ret=' + this.retUrl +  '&iscalledfromRegistrationORcommpref=true' ;
+            if(ctemp == 'Janssen'){
+                link = link+'&isJanssen=true';
+            }
+            const config = {
+                type: 'standard__webPage',
+                attributes: {
+                    url: link
+                }
+            };
+            this[NavigationMixin.GenerateUrl](config).then((url) => {
+                window.open(url, '_blank');
+            });
+       }
+    }
+
+    openStudyTermsOfUse(event){
+        
+        let studyId = event.currentTarget.dataset.id; 
+        let termsId = event.currentTarget.dataset.name; 
+        let ctemp = event.currentTarget.dataset.title; 
+        if(termsId != null && termsId != undefined){ 
+            var link = 'terms-and-conditions?id=' + studyId + '&';
+            var finallink = link+ 'ret='+ this.retUrl;
+            const config = {
+                type: 'standard__webPage',
+                attributes: {
+                    url: finallink
+                }
+            };
+            this[NavigationMixin.GenerateUrl](config).then((url) => {
+                window.open(url, '_blank');
+            });
+       }else{ console.log('>>policy null>>');
+            var link = 'terms-and-conditions?ret=' + this.retUrl +'&iscalledfromRegistrationORcommpref=true';
+            if(ctemp == 'Janssen'){
+                link = link+'&isJanssen=true';
+            }
+            const config = {
+                type: 'standard__webPage',
+                attributes: {
+                    url: link
+                }
+            };
+            this[NavigationMixin.GenerateUrl](config).then((url) => {
+                window.open(url, '_blank');
+            });
+       }
+    }
 
     openPrivacyPolicy() {
+
         var link = 'privacy-policy?ret=' + this.retUrl + '&iscommpref=true';
 
         const config = {
@@ -414,7 +488,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     }
 
     get borderStyle() {
-        return this.isRTL ? 'study-paramters border-left' : 'study-paramters border-right';
+        return this.isRTL ? 'study-paramters border-right' : 'study-paramters border-left';
     }
 
     get borderStyleMobile() {
@@ -468,11 +542,13 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             ? 'study-content study-content-mobile-rtl'
             : 'study-content study-content-mobile';
     }
-
     get ECOAPad11() {
         return !this.isDesktop && this.showBackButton
             ? 'communication-pref-no-margin'
             : 'communication-pref';
+    }
+    get TermUseStudyConsentClass() {
+        return this.isRTL ? 'study-content study-content-mobile-rtl' : 'study-content';
     }
 
     renderedCallback() {}
@@ -506,6 +582,9 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             );
             this.isInitialized = false;
         }
+    }
+    get studyParameterStyle(){
+        return this.isRTL ? 'study-paramters' : 'study-paramters';
     }
 
     selectIndividualOptions(event) {
@@ -1184,7 +1263,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 this.updateErrorOnStudyPostMobileNumberCorrection();
             })
             .catch((error) => {
-                this.showCustomToast('', 'Failed To read the Data...', 'error');
+                this.showCustomToast('', 'Failed to read the data.', 'error');
                 this.spinner = false;
             });
         //}

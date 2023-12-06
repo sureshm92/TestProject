@@ -58,9 +58,16 @@ width: 9rem;
 text-overflow: ellipsis;
 white-space: nowrap;
 overflow: hidden;
+color: #444;
+font-size: .875rem;
+font-weight: 400;
+line-height: 24px;
 }
 .middle-initial{
   width:4rem !important;
+}
+.cursorType{
+  cursor: default;
 }
 
 /* ----------------END-----------*/

@@ -168,7 +168,7 @@
                  <div style="{!IF(isRTL,'display:block;', 'display:none;')}">
                     <a style="color: #015FF1;
                             text-decoration: none;
-                            font-weight: 600;" href="{!IF(isJanssenValue, emailCommunityURL + '/s/janssen-privacy-policy', emailCommunityURL + '/s/privacy-policy')}">{!$Label.Email_Footer_Privacy_Policy}</a>&nbsp;&nbsp;|&nbsp;&nbsp;{!$Label.Email_Footer_Address}
+                            font-weight: 600;" href="{!IF((isJanssenValue || StudyTemplate=='Janssen'), emailCommunityURL + '/s/janssen-privacy-policy', emailCommunityURL + '/s/privacy-policy')}">{!$Label.Email_Footer_Privacy_Policy}</a>&nbsp;&nbsp;|&nbsp;&nbsp;{!$Label.Email_Footer_Address}
                 </div>
                 <div style="{!IF(!isRTL,'display:block;', 'display:none;')}">
                     {!$Label.Email_Footer_Address}&nbsp;&nbsp;|&nbsp; 
