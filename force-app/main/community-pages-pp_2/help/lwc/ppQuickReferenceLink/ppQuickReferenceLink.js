@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import LOCALE from '@salesforce/i18n/locale';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import pdfjs_dist from '@salesforce/resourceUrl/pdfjs_dist';
+import FORM_FACTOR from '@salesforce/client/formFactor';
 import getInitData from '@salesforce/apex/ApplicationHelpRemote.getInitData';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
@@ -52,6 +53,9 @@ export default class PpQuickReferenceLink extends NavigationMixin(LightningEleme
             });
     }
 
+    get isMobile() {
+        return FORM_FACTOR == 'Small';
+    }
     openQuickReference() {
         if (communityService.isMobileSDK() ) {
             this[NavigationMixin.Navigate]({
@@ -67,13 +71,17 @@ export default class PpQuickReferenceLink extends NavigationMixin(LightningEleme
         }
         var webViewer = pdfjs_dist + '/web/viewer.html';
         console.log('webViewer', webViewer);
+        const SUCCESS_VARIANT = 'warning';
+        const MESSAGE_Quick_Refernce = 'Check back later, coming soon';
         getResourceURL({ resourceName: this.quickReference }).then((result) => {
-            setTimeout(() => {
-                window.open(
-                    webViewer + '?file=' + result + '&fileName=' + quickRefernceCard,
-                    '_blank'
-                );
-            });
-        });
+            this.template
+            .querySelector('c-custom-toast-files-p-p')
+            .showToast(
+                SUCCESS_VARIANT,
+                MESSAGE_Quick_Refernce,
+                'utility:warning',
+                8000
+            );
+    });
     }
 }
