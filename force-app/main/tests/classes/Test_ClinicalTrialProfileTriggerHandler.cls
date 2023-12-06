@@ -2,7 +2,7 @@
  * Created by AlexKetch on 4/17/2019.
  */
 @IsTest(IsParallel=true)
-public with sharing class Test_ClinicalTrialProfileTriggerHandler {
+public with sharing class Test_ClinicalTrialProfileTriggerHandler { 
     public static void setup() {
         Account singleAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType());
         Account participantAccount = (Account) TestDataFactory.getSObject(
@@ -646,5 +646,107 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         ];
         test.stopTest();
         System.assertEquals(5, resStudeis.size());
+    }
+    @IsTest
+    public static void updateCTP_Restricted_Test() { // Insert on update of ctp and no child recrds and normal insert and sponser matched
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(
+            CommunityService.class,
+            StubBuilder.newInstance(CommunityService.class)
+            .when('createPortalUsers')
+            .then(null)
+            .when('createParticipantUsers')
+            .then(null)
+            .build()
+        );
+        setup();
+        List<Clinical_Trial_Profile__c> cTPs = [
+            SELECT Id, Study_Sponsor__c
+            FROM Clinical_Trial_Profile__c
+            ORDER BY Name
+        ];
+        cTPs[1].Study_Sponsor__c = 'Janssen';
+        Test.startTest();
+        update cTPs;
+        Test.stopTest();
+    }
+     @IsTest
+    public static void updateCTP_Restricted_SponserNotMatched_Test() { // Insert on update of ctp and no child recrds and normal insert and sponser matched
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(
+            CommunityService.class,
+            StubBuilder.newInstance(CommunityService.class)
+            .when('createPortalUsers')
+            .then(null)
+            .when('createParticipantUsers')
+            .then(null)
+            .build()
+        );
+        setup();
+        List<Clinical_Trial_Profile__c> cTPs = [
+            SELECT Id, Study_Sponsor__c
+            FROM Clinical_Trial_Profile__c
+            ORDER BY Name
+        ];
+        cTPs[1].Study_Sponsor__c = 'Iqvia';
+        Test.startTest();
+        update cTPs;
+        Test.stopTest();
+    }
+ @IsTest
+    public static void updateCTP_Restricted_Insert_Test() { // // Update case and restricted source are not empty and sponser matched
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(
+            CommunityService.class,
+            StubBuilder.newInstance(CommunityService.class)
+            .when('createPortalUsers')
+            .then(null)
+            .when('createParticipantUsers')
+            .then(null)
+            .build()
+        );
+        setup();
+        List<Clinical_Trial_Profile__c> cTPs = [
+            SELECT Id, Study_Sponsor__c
+            FROM Clinical_Trial_Profile__c
+            ORDER BY Name
+        ];
+        Restricted_Source_Config__c restrictedRecrd = new Restricted_Source_Config__c();
+        restrictedRecrd.study__c = cTPs[1].Id;
+        restrictedRecrd.Sponsor__c = cTPs[1].Study_Sponsor__c;
+        insert restrictedRecrd;
+        cTPs[1].Study_Sponsor__c = 'Janssen Research and Development';
+        Test.startTest();
+        update cTPs;
+        
+        Test.stopTest();
+    }
+    @IsTest
+    public static void updateCTP_Restricted_Sponser_NotMatched_Test() { // 
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(
+            CommunityService.class,
+            StubBuilder.newInstance(CommunityService.class)
+            .when('createPortalUsers')
+            .then(null)
+            .when('createParticipantUsers')
+            .then(null)
+            .build()
+        );
+        setup();
+        List<Clinical_Trial_Profile__c> cTPs = [
+            SELECT Id, Study_Sponsor__c
+            FROM Clinical_Trial_Profile__c
+            ORDER BY Name
+        ];
+        Restricted_Source_Config__c restrictedRecrd = new Restricted_Source_Config__c();
+        restrictedRecrd.study__c = cTPs[1].Id;
+        restrictedRecrd.Sponsor__c = cTPs[1].Study_Sponsor__c;
+        insert restrictedRecrd;
+        cTPs[1].Study_Sponsor__c = 'Iqvia Research and Development';
+        Test.startTest();
+        update cTPs;
+        
+        Test.stopTest();
     }
 }
