@@ -41,15 +41,15 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
     @api isRTL = false;
 
     get upButtonStyle() {
-        if(past){
-            return this.isRTL ? 'slds-button slds-button_neutral up-button inactive-button-background border-radius' : 'slds-button slds-button_neutral up-button inactive-button-background border-radius-rtl';
-        }else{
+        if(this.past == false){
             return this.isRTL ? 'slds-button slds-button_brand up-button active-button-background border-radius' : 'slds-button slds-button_brand up-button active-button-background border-radius-rtl';
+        }else{
+            return this.isRTL ? 'slds-button slds-button_neutral up-button inactive-button-background border-radius' : 'slds-button slds-button_neutral up-button inactive-button-background border-radius-rtl';
         }
     }
 
     get pastButtonStyle() {
-        if(past){
+        if(this.past == true){
             return this.isRTL ? 'slds-button slds-button_brand past-button active-button-background border-radius-rtl' : 'slds-button slds-button_brand past-button active-button-background border-radius';
         }else{
             return this.isRTL ? 'slds-button slds-button_neutral past-button inactive-button-background border-radius-rtl' : 'slds-button slds-button_neutral past-button inactive-button-background border-radius';
