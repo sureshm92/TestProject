@@ -20,7 +20,7 @@ public with sharing class ResStudyTriggerHandler {
     public class CertificateResourceProcessor extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             List<SObject> resStudyList = new List<SObject> ();
-            notifyParticipantAndDelegateAboutCertificate(newList);
+            //notifyParticipantAndDelegateAboutCertificate(newList);
             for(SObject resStudy : newList){
                 Res_study__c resourceStudy = (Res_study__c)resStudy;
                 if(resourceStudy.Visible_To_PI__c){
