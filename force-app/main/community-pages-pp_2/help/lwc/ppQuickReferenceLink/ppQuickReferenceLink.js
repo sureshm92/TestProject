@@ -3,6 +3,7 @@ import LOCALE from '@salesforce/i18n/locale';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import pdfjs_dist from '@salesforce/resourceUrl/pdfjs_dist';
 import FORM_FACTOR from '@salesforce/client/formFactor';
+import Quick_Refernce from '@salesforce/label/c.Quick_Refernce';
 import getInitData from '@salesforce/apex/ApplicationHelpRemote.getInitData';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
@@ -27,7 +28,8 @@ export default class PpQuickReferenceLink extends NavigationMixin(LightningEleme
     @api showGetSupport;
 
     label = {
-        Quick_Reference_Guide
+        Quick_Reference_Guide,
+        Quick_Refernce
     }
 
     renderedCallback() {}
@@ -58,7 +60,7 @@ export default class PpQuickReferenceLink extends NavigationMixin(LightningEleme
     }
     openQuickReference() {
         const SUCCESS_VARIANT = 'warning';
-        const MESSAGE_Quick_Refernce = 'Check back later, coming soon';
+        const MESSAGE_Quick_Refernce = this.label.Quick_Refernce;
         if (communityService.isMobileSDK() ) {
             this.template
             .querySelector('c-custom-toast-files-p-p')
