@@ -903,7 +903,7 @@
                         <template if:false={item.isClosed}>
                             <!--Arrow Icon for System Tasks as Home Page-->
                             <template if:true={ishomepage}>
-                                <template if:false={item.businessTask}> 
+                                <template if:true={item.displayChevron}> 
                                     <img
                                         src={task_arrow}
                                         class="curpointer"
