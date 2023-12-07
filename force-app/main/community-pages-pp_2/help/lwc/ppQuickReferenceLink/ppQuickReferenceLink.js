@@ -57,22 +57,21 @@ export default class PpQuickReferenceLink extends NavigationMixin(LightningEleme
         return FORM_FACTOR == 'Small';
     }
     openQuickReference() {
+        const SUCCESS_VARIANT = 'warning';
+        const MESSAGE_Quick_Refernce = 'Check back later, coming soon';
         if (communityService.isMobileSDK() ) {
-            this[NavigationMixin.Navigate]({
-                type: 'comm__namedPage',
-                attributes: {
-                    pageName: 'mobile-pdf-viewer'
-                },
-                state: {
-                    'resourceName': this.quickReference
-                }
-            });
+            this.template
+            .querySelector('c-custom-toast-files-p-p')
+            .showToast(
+                SUCCESS_VARIANT,
+                MESSAGE_Quick_Refernce,
+                'utility:warning',
+                8000
+            );
             return;
         }
         var webViewer = pdfjs_dist + '/web/viewer.html';
         console.log('webViewer', webViewer);
-        const SUCCESS_VARIANT = 'warning';
-        const MESSAGE_Quick_Refernce = 'Check back later, coming soon';
         getResourceURL({ resourceName: this.quickReference }).then((result) => {
             this.template
             .querySelector('c-custom-toast-files-p-p')
