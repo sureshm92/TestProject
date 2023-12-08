@@ -322,6 +322,9 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
             ? tasks[i].task.Task_Code__c == 'Complete_Survey'
             : true;    
             if(tasks[i].ecoaTask) tasks[i].businessTask = false;
+            tasks[i].displayChevron = (tasks[i].ecoaTask ||  tasks[i].activateEcoaTask || tasks[i].systemTask )
+            ? true
+            : false;
 
             if (tasks[i].task.Status == 'Completed') {
                 tasks[i].subjectClass = 'set-up-your-account complete-header cursor-default';
