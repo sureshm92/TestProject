@@ -3,7 +3,18 @@
 * Also to update override PI referral status field based on mapping provided.
 * */
 global class Batch_UpdateStudySiteActivationStatus implements Database.Batchable<sObject> {
-    public List<Id> specificRecordIdList { get; set; }
+    public List<Id> specificRecordIdList = new List<Id>();
+    public List<String> statusList = new List<String>();
+
+    public Batch_UpdateStudySiteActivationStatus(List<Id> specificRecordIdList,List<String> statusList){
+        if(specificRecordIdList!=null && !specificRecordIdList.isEmpty()){
+            this.specificRecordIdList = specificRecordIdList;
+        }
+        
+        if(statusList!=null && !statusList.isEmpty()){
+            this.statusList = statusList;
+        }
+    }
     Map<String, String> siteActivationStatusMap = new Map<String, String>{
         'On Hold' => 'On Hold',
         'On Hold (Admin)' => 'On Hold',
@@ -23,18 +34,26 @@ global class Batch_UpdateStudySiteActivationStatus implements Database.Batchable
         'Accepted' => 'Accepted',
         'Accepted (Admin)' => 'Accepted',
         'Deactivated (Admin)' => 'Deactivated',
-        'Non-responsive (Admin)' => 'Deactivated',
+        'Non-Responsive (Admin)' => 'Deactivated',
         'Declined (Acceptance)' => 'Deactivated',
          null => 'None'
     };
                             
                             
     global Database.QueryLocator start(Database.BatchableContext bc) {
-         List<String> statusList = new List<String>{'On Hold', 'On Hold (Admin)','Accepted', 'Accepted (Admin)','None', 'Invitation Sent','Deactivated (Admin)','Non-responsive (Admin)','Declined (Acceptance)',Null};
-         String query = 'SELECT Id, Site_Activation_Status__c, Override_PI_Referral_Status__c FROM Study_Site__c WHERE Override_PI_Referral_Status__c IN:statusList and Id IN:specificRecordIdList';
-                                
-               return Database.getQueryLocator(query);
-          }
+        // List<String> statusList = new List<String>{'On Hold', 'On Hold (Admin)','Accepted', 'Accepted (Admin)','None', 'Invitation Sent','Deactivated (Admin)','Non-responsive (Admin)','Declined (Acceptance)',Null};
+        String query='SELECT Id, Site_Activation_Status__c, Override_PI_Referral_Status__c FROM Study_Site__c';
+        if(!specificRecordIdList.isEmpty() && !statusList.isEmpty()){
+        	query += ' WHERE Override_PI_Referral_Status__c IN:statusList and Id IN:specificRecordIdList'; 
+        }
+        else if(!statusList.isEmpty() && specificRecordIdList.isEmpty()){
+            query += ' WHERE Override_PI_Referral_Status__c IN:statusList';
+        }
+        else if(!specificRecordIdList.isEmpty() && statusList.isEmpty()){
+            query += ' WHERE Id IN:specificRecordIdList';
+        }
+        return Database.getQueryLocator(query);
+    }
     
     global void execute(Database.BatchableContext bc, List<Study_Site__c> ssList) {
         
