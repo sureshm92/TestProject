@@ -9492,6 +9492,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <value>Male</value>
     </labels>
     <labels>
+        <fullName>General_Communication</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>General Communication</shortDescription>
+        <value>General Communication</value>
+    </labels>
+    <labels>
         <fullName>General_Screener_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11006,6 +11013,34 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Incorrect data</shortDescription>
         <value>Please input correct data.</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_Outreach</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA Outreach</shortDescription>
+        <value>IQVIA Outreach</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_Outreach_Content_1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA_Outreach_Content_1</shortDescription>
+        <value>I consent to allow IQVIA (in accordance with</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_Outreach_Content_2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA_Outreach_Content_2</shortDescription>
+        <value>to contact me with educational health information and other clinical trial opportunities using my preferences selected below:</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_Privacy_Policy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA's Privacy Policy</shortDescription>
+        <value>IQVIA's Privacy Policy</value>
     </labels>
     <labels>
         <fullName>InitailEmail_stayInformed_illustration</fullName>
@@ -14862,6 +14897,69 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG AS T1 Contact Info</shortDescription>
         <value>Please review your contact information. If any information is incorrect, please</value>
+    </labels>
+    <labels>
+        <fullName>PreTrial_Milestone_Desc_Error_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreTrial Milestone Desc Error Msg</shortDescription>
+        <value>Please enter Milestone Description under 200 characters</value>
+    </labels>
+    <labels>
+        <fullName>PreTrial_Milestone_Table_Heading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreTrial Milestone Table Heading</shortDescription>
+        <value>Pre Enrollment Milestones</value>
+    </labels>
+    <labels>
+        <fullName>PreTrial_Milestone_Title_Error_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreTrial Milestone Title Error Msg</shortDescription>
+        <value>Please enter Milestone Title under 200 characters</value>
+    </labels>
+    <labels>
+        <fullName>PreTrial_Status_Desc_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreTrial Status Desc Error Message</shortDescription>
+        <value>Please enter Status Description under 200 characters</value>
+    </labels>
+    <labels>
+        <fullName>PreTrial_Status_Table_Heading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreTrial Status Table Heading</shortDescription>
+        <value>Pre Enrollment Status</value>
+    </labels>
+    <labels>
+        <fullName>PreTrial_Status_Title_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreTrial Status Title Error Message</shortDescription>
+        <value>Please enter Status Title under 200 characters</value>
+    </labels>
+	<labels>
+        <fullName>InTrial_Motivational_Error_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InTrial Motivational Error Msg</shortDescription>
+        <value>Please enter Status Motivational Message under 100 characters</value>
+    </labels>
+    <labels>
+        <fullName>InTrial_Status_Desc_Error_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InTrial Status Desc Error Msg</shortDescription>
+        <value>Please enter Status Description under 200 characters</value>
+    </labels>
+    <labels>
+        <fullName>InTrial_Table_Heading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InTrial Table Heading</shortDescription>
+        <value>In Study Status</value>
     </labels>
     <labels>
         <fullName>PG_AS_T2_Link_Contact_IQVIA</fullName>
@@ -19807,12 +19905,54 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_ BacktoUpload</shortDescription>
         <value>Back to Upload</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>PP_Browsefiles</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Browsefiles</shortDescription>
         <value>Browse files</value>
+    </labels>
+    <labels>
+        <fullName>PP_Consent_Study_Program_US</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Consent_Study_Program_US</shortDescription>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of keeping me updated with important study/program related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Consent_Study_Program_ROW</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Consent_Study_Program_ROW</shortDescription>
+        <value>I consent to the processing of my personal data by a study/program team, and to be contacted by the study/program team for the purposes of keeping me updated with important study/program related information, according to the terms of the Privacy Policy, by the following means:</value>
+    </labels>
+    <labels>
+        <fullName>PP_Consent_IQVIA_US</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Consent_IQVIA_US</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, via automated dialing and/or artificial or pre-recorded voice, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of</value>
+    </labels>
+    <labels>
+        <fullName>PP_Consent_IQVIA_ROW</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Consent_IQVIA_ROW</shortDescription>
+        <value>I also consent to the processing of my personal data by IQVIA, and to be contacted by the IQVIA team, at the telephone number(s) and/or email provided, for the purposes of sending me updates about new clinical trial opportunities, other opportunities to help advance medical research, and other IQVIA products and services, according to the terms of</value>
+    </labels>
+    <labels>
+        <fullName>PP_IQVIA_s_Privacy_Policy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA&apos;s Privacy Policy</shortDescription>
+        <value>IQVIA&apos;s Privacy Policy</value>
+    </labels>
+    <labels>
+        <fullName>PP_by_the_following_means</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>by the following means</shortDescription>
+        <value>by the following means:</value>
     </labels>
     <labels>
         <fullName>PP_Can_t_rembeber_my_username</fullName>
@@ -20149,7 +20289,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_ConsentRequired</shortDescription>
-        <value>Your consent is not required as a condition of purchasing any property, goods, or services.</value>
+        <value>This consent is not required as a condition of purchasing any property, goods, or services.</value>
     </labels>
     <labels>
         <fullName>PP_ContactInfo_Change</fullName>
@@ -20433,7 +20573,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Delegate Updated</shortDescription>
-        <value>Delegate updated successfully.</value>
+        <value>Delegate updated successfully</value>
     </labels>
     <labels>
         <fullName>PP_Delegates_Permitted_Actions</fullName>
@@ -20731,7 +20871,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <fullName>Pp_file_size_exceeded_3MB</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Pp_file_size_exceeded_3MB</shortDescription>
+        <shortDescription>Pp_file_size_exceeded_3mb</shortDescription>
         <value>File size cannot exceed 3MB.</value>
     </labels>
      <labels>
@@ -20739,7 +20879,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Fileremovedsuccesfully</shortDescription>
-        <value>File removed succesfully</value>
+        <value>File removed successfully.</value>
     </labels>
     <labels>
         <fullName>PP_Filerenamedsuccesfully</fullName>
@@ -21672,7 +21812,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Profile_Update_Success</shortDescription>
-        <value>Data updated successfully</value>
+        <value>Data updated successfully.</value>
     </labels>
     <labels>
         <fullName>PP_Program</fullName>
@@ -21874,7 +22014,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Request Submitted Success Message</shortDescription>
-        <value>Your request was submitted successfully</value>
+        <value>Your request was submitted successfully.</value>
     </labels>
     <labels>
         <fullName>PP_RequiredErrorMessage</fullName>
@@ -22226,7 +22366,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Study Status Unavailable</shortDescription>
-        <value>Description and Motivational message cannot be configured on this study.</value>
+        <value>Progress Bar can not be configured on this study.</value>
+    </labels>
+    <labels>
+        <fullName>PP_Updated_Study_Status_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Study Status Unavailable</shortDescription>
+        <value>Progress Bar can not be configured on this program.</value>
     </labels>
     <labels>
         <fullName>PP_Submit_Button</fullName>
@@ -22525,7 +22672,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_UploadSuccess</shortDescription>
-        <value>File(s) uploaded successfully</value>
+        <value>File(s) uploaded successfully.</value>
     </labels>
     <labels>
         <fullName>PP_Update_Refresh</fullName>
@@ -23662,6 +23809,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Pre-review Passed</shortDescription>
         <value>Pre-review Passed</value>
+    </labels>
+    <labels>
+        <fullName>Pre_Trial_Stay_Tune</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pre_Trial_Stay_Tune</shortDescription>
+        <value>Stay tuned!</value>
     </labels>
     <labels>
         <fullName>Prefer_not_to_say</fullName>
@@ -27818,6 +27972,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>Screen Share</shortDescription>
         <value>Screen Share</value>
+    </labels>
+    <labels>
+        <fullName>Study_Program_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study/Program Consent</shortDescription>
+        <value>Study/Program Consent</value>
     </labels>
     <labels>
         <fullName>Screen_Share_Hover_Message_Off</fullName>
@@ -32003,5 +32164,103 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Download_PP</shortDescription>
         <value>Download</value>
+    </labels> 
+    <labels>
+        <fullName>Back_to_Past_Studies_and_Programs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back to Past Studies and Programs</shortDescription>
+        <value>Back to Past Studies and Programs</value>
+    </labels>
+    <labels>
+        <fullName>PP_Care_Team_Contact</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Care Team Contact</shortDescription>
+        <value>Care Team Contact</value>
+    </labels>
+    <labels>
+        <fullName>PP_Communications</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Communications</shortDescription>
+        <value>Communications</value>
+    </labels>
+    <labels>
+        <fullName>PP_EMAIL_caps</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EMAIL</shortDescription>
+        <value>EMAIL</value>
+    </labels>
+    <labels>
+        <fullName>PP_No_files_available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No files available</shortDescription>
+        <value>No files available</value>
+    </labels>
+    <labels>
+        <fullName>PP_No_messages_available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No messages available</shortDescription>
+        <value>No messages available</value>
+    </labels>
+    <labels>
+        <fullName>PP_No_results_available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No results available</shortDescription>
+        <value>No results available</value>
+    </labels>
+    <labels>
+        <fullName>PP_Past_Messages</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past Messages</shortDescription>
+        <value>Past Messages</value>
+    </labels>
+    <labels>
+        <fullName>PP_Past_Studies_Page_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Past Studies Page Header</shortDescription>
+        <value>Past Studies and Programs</value>
+    </labels>
+    <labels>
+        <fullName>PP_View_Messages</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View Messages</shortDescription>
+        <value>View Messages</value>
+    </labels>
+    <labels>
+        <fullName>Past_Studies_Team</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past Studies Team Deatils</shortDescription>
+        <value>&apos;s Team</value>
+    </labels>
+    <labels>
+        <fullName>Participation_complete_description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participation complete description</shortDescription>
+        <value>Your willingness to volunteer your time and efforts is truly appreciated and will make a difference in the lives of many. Thank you for your contribution.</value>
+    </labels>
+    <labels>
+        <fullName>Your_participation_is_complete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Your participation is complete</shortDescription>
+        <value>Your participation is complete!</value>
+    </labels>
+    <labels>
+        <fullName>Past_Studies_Result_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Past Studies Result Description</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study or program. It is for research purposes only.</value>
     </labels>
 </CustomLabels>

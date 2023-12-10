@@ -4,7 +4,7 @@
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <label>Status Motivational Message</label>
-    <length>100</length>
+    <length>225</length>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Text</type>

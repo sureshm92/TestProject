@@ -2,6 +2,7 @@ import { LightningElement, track, wire } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
 import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesByIdNew';
 import getUnsortedResources from '@salesforce/apex/ResourceRemote.getUnsortedResourcesByType';
+import getPastStudyResources from '@salesforce/apex/ResourceRemote.getPastStudyResources';
 import getDataWrapper from '@salesforce/apex/RelevantLinksRemote.getDataWrapper';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
@@ -9,6 +10,7 @@ import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import VERSION from '@salesforce/label/c.Version_date';
 import POSTING from '@salesforce/label/c.Posting_date';
 import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
+import Back_To_PastStudies from '@salesforce/label/c.Back_to_Past_Studies_and_Programs';
 import Back_To_Home from '@salesforce/label/c.Link_Back_To_Home';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import { NavigationMixin } from 'lightning/navigation';
@@ -50,12 +52,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         VERSION,
         POSTING,
         Back_To_Resources,
-        Back_To_Home
+        Back_To_Home,
+        Back_To_PastStudies
     };
     isMultimedia = false;
     isArticleVideo = false;
     @track landscape = false;
-
+    pe;
+    paststudyname;
     desktop = true;
     spinner;
     resourceForPostingDate = ['Article', 'Video', 'Multimedia'];
@@ -66,7 +70,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     displaySection = "";
     backButtonLandscape = "";
     televisit = false;
-
+    backtopaststudies = false;
     backToRes = pp_community_icons + '/' + 'back_to_resources.png';
 
     /*******Getters******************/
@@ -96,7 +100,9 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     get linkLabel() {
         return this.showHomePage ? this.label.Back_To_Home : this.label.Back_To_Resources;
     } 
-
+    get paststudieslinkLabel() {
+        return this.label.Back_To_PastStudies;
+    }
     timeInterval() {
         setInterval(() => {
             this.televisit = sessionStorage.getItem("televistActive");
@@ -133,7 +139,8 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         this.resourceId = urlParams.get('resourceid');
         this.resourceType = urlParams.get('resourcetype');
         this.showHomePage = urlParams.get('showHomePage');
-
+        this.pe = urlParams.get('pe');
+        this.paststudyname = urlParams.get('studyname');
         this.publishResourceType(true);
 
         // Logic for portrait mode and landscape mode - hide content in case of mediaContent is true
@@ -227,7 +234,80 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                 .catch((error) => {
                     this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                 });
-        } else {
+        }else if(this.pe){
+            this.backtopaststudies = true;
+            getPastStudyResources({
+                resourceType:
+                    this.resourceType == 'Article' || this.resourceType == 'Video'
+                        ? 'Article;Video'
+                        : this.resourceType,
+                participantData: JSON.stringify(participantData),
+                peId :this.pe
+            })
+                .then((result) => {
+                    this.resourcesData = result;
+                    if (this.isArticleVideo) {
+                        this.suggestedArticlesData = result;
+                    }
+                    if (
+                        !this.resourcesData.wrappers.some(
+                            (wrapper) => wrapper.resource.Id === this.resourceId
+                        )
+                    ) {
+                        this.isInvalidResource = true;
+                        this.isInitialized = true;
+                    } else {
+                        //get clicked resource details
+                        getResourceDetails({
+                            resourceId: this.resourceId,
+                            resourceType: this.resourceType
+                        })
+                            .then((result) => {
+                                let resourceData = result.wrappers[0].resource;
+                                this.resUploadDate = this.resourceForPostingDate.includes(
+                                    this.resourceType
+                                )
+                                    ? resourceData.Posting_Date__c
+                                    : resourceData.Version_Date__c;
+                                this.resourceTitle = resourceData.Title__c;
+                                this.resourceSummary = resourceData.Body__c;
+                                this.resourceLink =
+                                    this.resourceType == 'Article'
+                                        ? resourceData.Image__c
+                                        : resourceData.Video__c;
+                                if (this.resourceType == 'Multimedia') {
+                                    this.resourceLink = resourceData.Multimedia__c;
+                                    this.isMultimedia = true;
+                                }
+                                this.isFavourite = result.wrappers[0].isFavorite;
+                                this.isVoted = result.wrappers[0].isVoted;
+
+                                //get study Title
+                                if (
+                                    (resourceData.Content_Class__c == 'Study-Specific' ||
+                                        this.isDocument)
+                                ) {
+                                    this.studyTitle = this.paststudyname;
+                                    if (this.isDocument) {
+                                        this.handleDocumentLoad();
+                                    }
+                                }
+                                this.isInitialized = true;
+                            })
+                            .catch((error) => {
+                                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                            });
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+                })
+                .finally(() => {
+                    if (this.spinner) {
+                        this.spinner.hide();
+                    }
+                });
+        }else {
             getUnsortedResources({
                 resourceType:
                     this.resourceType == 'Article' || this.resourceType == 'Video'
@@ -292,7 +372,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                             });
                     }
-                })
+                }) 
                 .catch((error) => {
                     this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
                 })
@@ -354,6 +434,15 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
             })
         }
         this.publishResourceType(false);
+    }
+
+    handleBackToPastStudies(event) {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'past-studies'
+            }
+        })
     }
 
     handleFavourite() {

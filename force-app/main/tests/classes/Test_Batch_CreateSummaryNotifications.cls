@@ -170,5 +170,6 @@ private class Test_Batch_CreateSummaryNotifications {
 			linkResource.Id + ';' + videoResource.Id,
             updatedContact.Resource_Notifications__c
         );
+
     }
 }

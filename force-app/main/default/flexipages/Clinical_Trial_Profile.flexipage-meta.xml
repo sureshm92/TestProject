@@ -83,7 +83,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                 <fieldItem>Record.PPTemplate__c</fieldItem>
+                <fieldItem>Record.PPTemplate__c</fieldItem>
                 <identifier>RecordPPTemplate_cField2</identifier>
                 <visibilityRule>
                     <criteria>
@@ -174,7 +174,7 @@
                 <identifier>RecordBell_Notification_Reminder_cField</identifier>
             </fieldInstance>
         </itemInstances>
-         <itemInstances>
+        <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
@@ -2047,7 +2047,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Status Description Configuration</value>
+                    <value>Progress Bar Configuration</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab4</identifier>
