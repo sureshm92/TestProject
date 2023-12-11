@@ -148,7 +148,7 @@
         </lightning-layout>
     </template>
     <template if:true={isMobile}>
-        <lightning-layout>
+        <lightning-layout class="slds-m-around_medium">
             <lightning-layout-item
                 size="12"
                 class={headerHandlePadding}
@@ -231,51 +231,6 @@
                             </template>
                         </div>
                     </div>
-                </template>
-            </lightning-layout-item>
-        </lightning-layout>
-        <template if:false={isPastStudy}>
-                    <lightning-layout
-                        class="slds-m-bottom_small mob-question-item"
-                    ></lightning-layout>
-        </template>
-        <lightning-layout>
-            <lightning-layout-item
-                size="12"
-                class={handlePadding}
-                id="mobMessageBody1"
-            >
-                <template if:false={isPastStudy}>
-                    <lightning-layout-item size="12" class="question-item">
-                        <lightning-layout>
-                        <lightning-layout-item size="9"
-                            ><lightning-combobox
-                                name="message"
-                                value={messageValue}
-                                placeholder={labels.PP_Select_Question}
-                                options={options}
-                                onchange={handleChange}
-                                onfocus={handleChanges}
-                                class="mob-selection selection"
-                                dropdown-alignment="bottom-left"
-                            >
-                            </lightning-combobox></lightning-layout-item>
-                        <lightning-layout-item  size="3" class="slds-m-horizontal_large" style="margin-left: 10px; padding-right: 8px;">
-                            <button
-                                class="primaryBtn ms-send-button"
-                                data-gtm="ms-send-pa-button"
-                                onclick={handleSendClick}
-                                disabled={handleValidation}
-                                style="
-                                    border-radius: 20px;
-                                    width: -webkit-fill-available;
-                                "
-                            >
-                                {labels.BTN_Send}
-                            </button>
-                            </lightning-layout-item>
-                        </lightning-layout>
-                    </lightning-layout-item>
                 </template>
             </lightning-layout-item>
         </lightning-layout>
