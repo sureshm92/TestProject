@@ -24,11 +24,14 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
   @track selectConWrap;
   @api partTodayDate;
   @api usrPic;
+  @api displaybuttonsection;
   @api messageTemplates;
   @api userId = Id;
   @api isLoaded = false;
   @api studyName;
   @api deviceSize;
+  @api studyConfiguartion;
+  @api isPastStudy;
   @wire(CurrentPageReference)
   currentPageRef;
   backtopaststudies = false;
@@ -108,6 +111,11 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
   }
   refreshPage(event) {
     this.refreshConversation(event.detail);
+  }
+  handleIsPastStudyChanged(event){
+    var paststudy = event.detail;
+    this.displaybuttonsection = paststudy;
+   this.template.querySelector('c-pp-show-button').isPastStudy = event.detail;
   }
   handleGroupMenu() {
     if (this.showParticipantsList) {
@@ -447,6 +455,14 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
     }
   }
   
+  get visibleOfButton(){
+    if (this.displaybuttonsection == false){
+    return "slds-p-horizontal_medium slds-p-vertical_medium box-button-container";
+    }else{
+    return '';
+    }
+  }
+
   get isMessageLoaded() {
     if (this.selectConWrap != null || this.firstEnrollments != null) {
       return true;
@@ -636,6 +652,8 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
 
         this.template.querySelector("c-pp-message-board").selectConWrap =
           selectedCon;
+        this.studyConfiguartion = JSON.parse(
+          JSON.stringify(selectedCon));
         this.studyName =
           selectedCon.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
 
