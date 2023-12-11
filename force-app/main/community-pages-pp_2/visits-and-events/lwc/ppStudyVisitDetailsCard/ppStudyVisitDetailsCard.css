@@ -24,6 +24,10 @@
     padding: 0 0 1rem 1.2rem;
 }
 
+.location-title-rtl {
+    padding: 0 1.2rem 1rem 0;
+}
+
 .site-name {
     padding: 0 0.5rem;
 }
@@ -147,7 +151,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
 
 .card-btn {
     height: 35px;
-    width: 90px;
+    min-width: 90px;
     font-weight: 500;
     padding: 0 1rem;
 }

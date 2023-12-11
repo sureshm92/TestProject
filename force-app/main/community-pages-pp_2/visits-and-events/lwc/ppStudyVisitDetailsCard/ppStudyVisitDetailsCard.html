@@ -3,7 +3,7 @@
     <c-web-spinner fixed="true" show-spinner={showSpinner}></c-web-spinner>
     <lightning-card>
         <div>
-            <div class="location-title">{label.location}</div>
+            <div class={locationtitleStyle}>{label.location}</div>
             <div class="address-section-outer">
                 <div class="address-section">
                     <div class="address-marker">
@@ -63,7 +63,6 @@
                         ontime={handleOnlyTime}
                     ></c-pp-date-time-combo>
                 </template>
-                </div>
                 <template if:false={dbCompletedDate}>
                     <template if:true={past}>
                         <br />
