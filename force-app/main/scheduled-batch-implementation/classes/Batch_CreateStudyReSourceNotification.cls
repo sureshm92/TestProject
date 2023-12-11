@@ -321,14 +321,25 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
     public void createPushnotifications(List<Contact> delegates,Contact contact,List<Notification__c> notifications,Participant_Enrollment__c pe,Res_study__c res){
         if(!(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c) && pe.participant__r.Has_Studies_In_Progress__c)){
             if (res.Resource__r.Content_Type__c == 'Study_Document' && pe.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c) {
-                notifications.add(
-                    new Notification__c(
-                        Recipient__c = contact.Id,
-                        WhatId__c = pe.Id,
-                        Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_DOCUMENT,
-                        Target_Record_Ids__c = '' + res.Id
-                    )
-                );
+                if(res.Notify_On_Availability__c && res.Resource__r.document_type__c == 'Certificate'){
+                    notifications.add(
+                        new Notification__c(
+                            Recipient__c = contact.Id,
+                            WhatId__c = pe.Id,
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE,
+                            Target_Record_Ids__c = '' + res.Id
+                        )
+                    );
+                }else{
+                    notifications.add(
+                        new Notification__c(
+                            Recipient__c = contact.Id,
+                            WhatId__c = pe.Id,
+                            Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_DOCUMENT,
+                            Target_Record_Ids__c = '' + res.Id
+                        )
+                    );
+            	}
             }
             if (res.Resource__r.Content_Type__c == 'Article' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
                 notifications.add(
@@ -375,15 +386,28 @@ public class Batch_CreateStudyReSourceNotification implements Database.Batchable
                 for(Contact del : delegates){
                     if(res.Visible_To_Delegates__c){
                         if (res.Resource__r.Content_Type__c == 'Study_Document' && pe.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c) {
-                            notifications.add(
-                                new Notification__c(
-                                    Recipient__c = del.Id,
-                                    WhatId__c = pe.Id,
-                                    Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_DOCUMENT,
-                                    Target_Record_Ids__c = '' + res.Id,
-                                    Task_Id__c	= contact.Id
-                                ) 
-                            );
+                            if(res.Notify_On_Availability__c && res.Resource__r.document_type__c == 'Certificate'){
+                                notifications.add(
+                                    new Notification__c(
+                                        Recipient__c = del.Id,
+                                        WhatId__c = pe.Id,
+                                        IsDelegate__c = true,
+                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE,
+                                        Target_Record_Ids__c = '' + res.Id,
+                                        Task_Id__c	= contact.Id
+                                    ) 
+                                );
+                            }else{
+                                notifications.add(
+                                    new Notification__c(
+                                        Recipient__c = del.Id,
+                                        WhatId__c = pe.Id,
+                                        Notification_Type__c = NotificationCatalog.PUSH_TO_PT_NEW_DOCUMENT,
+                                        Target_Record_Ids__c = '' + res.Id,
+                                        Task_Id__c	= contact.Id
+                                    ) 
+                                );
+                        	}
                         }
                         if (res.Resource__r.Content_Type__c == 'Article' && pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c) {
                             notifications.add(

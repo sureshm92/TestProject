@@ -80,7 +80,7 @@
                                     </article>
                                 </div>
                             </template>
-                            <template if:true={isMobileApp}>
+                            <template if:true={isMobile}>
                                 <div class="slds-align_absolute-center">
                                     <div class="comm-link" onclick={navigateToTasks}>
                                         <span>{label.viewAllTasks}</span>
@@ -92,13 +92,13 @@
                 </article>
             </template>
         </div>
-        <template if:false={isMobileApp}>
+        <template if:false={isMobile}>
             <div class="slds-align_absolute-center">
                 <div class="comm-link" onclick={navigateToTasks}>
                     <span>{label.viewAllTasks}</span>
                 </div>
-            </div></template
-        >
+            </div>
+        </template>
     </template>
     <!--Task detail page-->
     <template if:false={ishomepage}>
@@ -206,7 +206,10 @@
                                                 system-icon-class="sys-task"
                                             ></c-pp-tasks-list>
                                             <template if:false={emptyIgnoreTasks}>
-                                                <lightning-layout>
+                                                <div class="ignoreExpiredPath">
+                                                    <span class="ignoreExpiredText">{label.taskPPIgnored}</span>
+                                                </div>
+                                                <!-- <lightning-layout>
                                                     <lightning-layout-item size="2"
                                                         ><div class="ignored">
                                                             {label.taskPPIgnored}
@@ -222,7 +225,7 @@
                                                             ><div class="path-2-copy"></div
                                                         ></lightning-layout-item>
                                                     </template>
-                                                </lightning-layout>
+                                                </lightning-layout> -->
                                                 <!-- Dispaying Task Card for Ignored Tasks ignoredTasksList-->
                                                 <c-pp-tasks-list
                                                     container-class="inactive-custom-box slds-align_absolute-center ignore-container"
@@ -235,7 +238,10 @@
                                                 ></c-pp-tasks-list>
                                             </template>
                                             <template if:false={emptyExpiredTasks}>
-                                                <lightning-layout>
+                                                <div class="ignoreExpiredPath">
+                                                    <span class="ignoreExpiredText">{label.taskPPExpired}</span>
+                                                </div>
+                                                <!-- <lightning-layout>
                                                     <lightning-layout-item size="2"
                                                         ><div class="expired">
                                                             {label.taskPPExpired}
@@ -251,7 +257,7 @@
                                                             ><div class="path-2-copy"></div
                                                         ></lightning-layout-item>
                                                     </template>
-                                                </lightning-layout>
+                                                </lightning-layout> -->
                                                 <c-pp-tasks-list
                                                     container-class="inactive-custom-box slds-align_absolute-center expire-container"
                                                     web-icon-class="open-task-icon slds-p-left_medium empty-oval cursor-default"

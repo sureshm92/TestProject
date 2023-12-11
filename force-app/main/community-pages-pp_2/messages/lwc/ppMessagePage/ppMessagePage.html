@@ -56,7 +56,7 @@
             </lightning-layout-item>
 
             <lightning-layout-item size="8">
-                <lightning-layout class="slds-grid_align-space border-btm">
+                <lightning-layout multiple-rows="true" class="slds-grid_align-space border-btm">
                     <lightning-layout-item
                         size="10"
                         class="slds-p-around_large study-txt-ellipse"
@@ -83,7 +83,8 @@
                             >
                         </template>
                     </lightning-layout-item>
-                    <div class="slds-p-horizontal_large box-container">
+
+                    <lightning-layout-item  size="12" class="slds-p-horizontal_large slds-col_bump-left box-container box-container-adjustment">
                         <template if:true={nameList}>
                             <template for:each={nameList} for:item="n">
                                 <c-pp-people-count
@@ -94,7 +95,7 @@
                                 ></c-pp-people-count>
                             </template>
                         </template>
-                    </div>
+                   </lightning-layout-item>   
                 </lightning-layout>
                 <template if:true={isMessageLoaded}>
                     <c-pp-message-board
@@ -128,7 +129,7 @@
                             title="chevronleft"
                             class="left-chevro my-icon"
                         ></lightning-icon> </span
-                    ><span class="back" onclick={handleBack} >Back</span>
+                    ><span class="back" onclick={handleBack} >{labels.backLabel}</span>
                 </lightning-layout-item>
             </template>
             <template if:false={showBack}>
@@ -167,9 +168,12 @@
                     </div>
                 </template>
             </template>
+            <template if:true={messageLabelShow}>
             <lightning-layout-item size="12" class="">
                 <div class="mob-pp-message-txt">{labels.messagesLabel}</div>
             </lightning-layout-item>
+        </template>
+            <template if:true={messageDescriptionShow}>
             <lightning-layout-item
                 size="12"
                 class="mob-rectangle-box slds-p-around--small"
@@ -185,6 +189,7 @@
                     ></lightning-layout
                 >
             </lightning-layout-item>
+        </template>
             <template if:true={loaded}>
                 <c-web-spinner
                     class="main-spinner"
@@ -197,7 +202,7 @@
                 class="mob-msg-list-box slds-m-top_small L"
             >
                 <lightning-layout class="border-btm slds-p-around--large"
-                    >{labels.messagesLabel}</lightning-layout
+                    >{labels.messagesLabelAll}</lightning-layout
                 >
                 <lightning-layout
                     class="slds-p-horizontal--large1 slds-grid_vertical list-border-btm1"
@@ -262,7 +267,8 @@
                                 ></c-pp-people-count>
                             </template>
                         </template>
-                    </lightning-layout-item>      
+                    </lightning-layout-item>
+                    
                 </lightning-layout>
                 <lightning-layout class="slds-align--absolute-center"
                     ><template if:true={isMessageLoaded}>
