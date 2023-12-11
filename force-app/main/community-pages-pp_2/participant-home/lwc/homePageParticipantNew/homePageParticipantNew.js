@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import getParticipantData from '@salesforce/apex/HomePageParticipantRemote.getInitDataAndCount';
 import showProgress from '@salesforce/apex/PP_ProgressBarUtility.showProgress';
 import DEVICE from '@salesforce/client/formFactor';
+import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 // importing Custom Label
 import PPWELCOME from '@salesforce/label/c.PP_Welcome';
 import VISITS from '@salesforce/label/c.PG_SW_Tab_Visits';
@@ -43,6 +44,7 @@ export default class HomePageParticipantNew extends LightningElement {
     userName = 'Sarah';
     @api currentMode;
     spinner;
+    @api isRTL;
     isInitialized = false;
     isProgram = false;
     showVisitCard = false;
@@ -82,6 +84,44 @@ export default class HomePageParticipantNew extends LightningElement {
             return 'slds-col slds-m-horizontal_xxx-small';
         }
     }
+
+    get upcomingPaddingStyle() {
+        return this.isRTL 
+            ? 'around-small-custom' 
+            : 'around-small-custom around-right-zero';
+    }
+
+    get visitButtonStyle() {
+        if(this.isTelevisits)
+        {
+            return this.isRTL 
+            ? 'slds-button slds-button_neutral visit-button inactive-button-background border-radius-rtl' 
+            : 'slds-button slds-button_neutral visit-button inactive-button-background border-radius';
+        } else{
+            return this.isRTL 
+            ? 'slds-button slds-button_neutral visit-button active-button-background border-radius-rtl' 
+            : 'slds-button slds-button_neutral visit-button active-button-background border-radius';
+        }
+    }
+
+    get televisitButtonStyle() {
+        if(this.isTelevisits)
+        {
+            return this.isRTL 
+            ? 'slds-button slds-button_brand televisit-button active-button-background border-radius' 
+            : 'slds-button slds-button_brand televisit-button active-button-background border-radius-rtl';
+        } else{
+            return this.isRTL 
+            ? 'slds-button slds-button_brand televisit-button inactive-button-background border-radius' 
+            : 'slds-button slds-button_brand televisit-button inactive-button-background border-radius-rtl';
+        }
+    }
+
+    get studyProgramOverviewBoxStyle() {
+        return this.isRTL 
+            ? 'slds-p-vertical_small slds-m-left_large mr-auto' 
+            : 'slds-p-vertical_small slds-m-left_large';
+    }
     connectedCallback() {
         DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
         this.spinner = this.template.querySelector('c-web-spinner');
@@ -91,6 +131,14 @@ export default class HomePageParticipantNew extends LightningElement {
         //this.getVisits();
         this.getUpdatesCount();
         this.initializeData();
+            getisRTL()
+                .then((data) => {
+                    this.isRTL = data;
+                    console.log('rtl--->'+this.isRTL);
+                })
+                .catch(function (error) {
+                    console.error('Error RTL: ' + JSON.stringify(error));
+                });
     }
     get tabletUpcomingCard() {
         if (DEVICE == 'Medium') {
@@ -106,6 +154,7 @@ export default class HomePageParticipantNew extends LightningElement {
             return 'progressTab';
         }
     }
+
     getVisitsPreviewAndCount() {
         setTimeout(() => {
             getVisitsPreviewAndCount({})

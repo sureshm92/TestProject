@@ -8,7 +8,7 @@
         const urlParams = new URLSearchParams(queryString);
         const updates = urlParams.get('updates');
         if (updates) {
-            var boxDiv = component.find('back_button');      
+            var boxDiv = component.find('back_button');
             $A.util.addClass(boxDiv, 'button-hide');
         }
         console.log('idParamValue' + idParamValue);

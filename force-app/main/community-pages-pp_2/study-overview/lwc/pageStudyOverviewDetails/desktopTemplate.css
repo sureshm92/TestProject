@@ -383,6 +383,10 @@ span:hover {
     /* margin-left: 13px; */
 }
 
+.mr-20 {
+    margin-right: 20px;
+}
+
 .marginLeft-12 {
     margin-left: 10px;
 }
