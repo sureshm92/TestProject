@@ -4212,12 +4212,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>HCP_Enrollment__c.Divulge_Name__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-
-    <fieldPermissions>
-        <editable>false</editable>
         <field>HCP_Enrollment__c.Divulged_Name__c</field>
         <readable>false</readable>
     </fieldPermissions>
