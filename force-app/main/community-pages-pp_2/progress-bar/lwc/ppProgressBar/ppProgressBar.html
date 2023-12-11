@@ -4,7 +4,7 @@
         <div class="headerTitle">Progress</div>
         <div class="topBar"></div>
         <div class="slds-grid slds-wrap box">
-            <div class={layoutClass1}>
+            <div class={layoutClass1} if:false={parentWrapper.isPreTiral} >
                 <div class="rightBox">
                     <div class="rightTextPar">
                         <div class="rightTitle">
@@ -27,29 +27,38 @@
                 </div>
                 <span class="divider"></span>
             </div>
-            <div class={layoutClass2}>
-                <span class="leftBox">
+            <div class={layout2Class}>
+                <span class={leftBoxClass}>
                     <div class="tCenter" if:false={parentWrapper.progressWrapperList}>
                         {label.PP_ProgressBar_No_Visit}
                     </div>
-                    <div if:true={parentWrapper.progressWrapperList}>
+                    <div class="displayGrid" if:true={parentWrapper.progressWrapperList}>
                     <span class={leftDesktopClass} onclick={prev}>                
                         <lightning-icon size="small" icon-name="utility:chevronleft" alternative-text="left" class="chevronL disableCursor" onclick={goLeft}></lightning-icon>
                     </span>
-                    <span class="rMain">
+                    <span class={middleDesktopClass}>
                         <div class={leftMobileClass} onclick={prev}>                
                             <lightning-icon size="small" icon-name="utility:chevronleft" alternative-text="left" class="chevronL disableCursor" onclick={goLeft}></lightning-icon>
                         </div>
-                        <div class="leftTitle">
+                        <div if:false={parentWrapper.isPreTiral} class="leftTitle">
                             {title}
+                        </div>
+                        <div if:true={parentWrapper.isPreTiral} class="leftPreTrailTitle">
+                            {title}
+                        </div>
+                        <div if:true={parentWrapper.isPreTiral} class="leftOrdering">
+                            <span class="leftOrderingFont">{currentCard}</span>&nbsp;<span>/&nbsp;{totalProgressSteps}</span>
                         </div>
                         <div class={rightMobileClass} onclick={next}>
                             <lightning-icon size="small" icon-name="utility:chevronright" alternative-text="right" onclick={goRight} class="chevronR"></lightning-icon>
                         </div>
-                        <div class="leftDescription">
+                        <div if:true={parentWrapper.isPreTiral} class="leftPreTrailTitleMob">
+                            {title}
+                        </div>
+                        <div class={leftSectionDescription}>
                             {description}
                         </div>
-                        <div class="progress">
+                        <div class={progressSteps}  if:false={parentWrapper.isPreTiral}>
                             <span class="iconCont">
                                 <template if:true={barsToShow} for:each={barsToShow} for:item="bar" for:index="index">
                                     <span key={bar.id} class={bar.iconClass}>
@@ -57,35 +66,72 @@
                                     </span>
                                 </template>
                             </span>
-                            <template if:false={showMarkAsComplete}>
-                                <span class="progressText slds-align-middle">
-                                    {barStatus}
-                                    <template if:true={barStatusDate}>
-                                        <span>
-                                            &nbsp;|&nbsp;<lightning-formatted-date-time value={barStatusDate} 
-                                             year="numeric"
-                                            month="long"
-                                            day="numeric"
-                                            time-zone={userTimeZone}
-                                            ></lightning-formatted-date-time>
-                                        </span>
-                                    </template>
-                                </span>
-                            </template>
-                            <template if:true={showMarkAsComplete}>
-                                <span class="slds-align-middle">
-                                    <div  class="btnmac">
-                                        <button class="slds-button slds-button_neutral evtBtn" onclick={handleMarkAsComplete}>Mark as Complete</button>
-                                    </div>
-                                </span>
-                            </template>
+                            <span if:true={showStatus} class="progressText slds-align-middle">
+                                {barStatus}
+                                <template if:true={barStatusDate}>
+                                    <span>
+                                        &nbsp;|&nbsp;<lightning-formatted-date-time value={barStatusDate} 
+                                            year="numeric"
+                                        month="long"
+                                        day="numeric"
+                                        time-zone={userTimeZone}
+                                        ></lightning-formatted-date-time>
+                                    </span>
+                                </template>
+                            </span>
+                            <span if:true={showMarkAsComplete} class="slds-align-middle">
+                                <div  class="btnmac">
+                                    <button class="slds-button slds-button_neutral evtBtn" onclick={handleMarkAsComplete}>Mark as Complete</button>
+                                </div>
+                            </span>
                         </div>
                     </span>
-                    <span class={rightDesktopClass} onclick={next}>
-                        <lightning-icon size="small" icon-name="utility:chevronright" alternative-text="right" onclick={goRight} class="chevronR"></lightning-icon>
+                    <span  class={rightDesktopClass} onclick={next}>
+                        <lightning-icon  size="small" icon-name="utility:chevronright" alternative-text="right" onclick={goRight} class="chevronR"></lightning-icon>
                     </span>
+                    <div class={progressSteps}  if:true={parentWrapper.isPreTiral}>
+                        <span>
+                                <template if:true={barsToShow} for:each={barsToShow} for:item="bar" for:index="index">
+                                        <span key={bar.id} class={bar.iconClass}>
+                                                <img class="" src={bar.iconUrl} />
+                                        </span>
+                                </template>
+                        </span>
+                        <span class="sectionBMountain">
+                                <img src={icon.mountain} />
+                        </span>
+                    </div>
                     </div>
                 </span>
+            </div>
+            <div class={layoutClass3} if:true={parentWrapper.isPreTiral} >
+                <!--span class="rightDivider"></span-->
+                <div class="rightBBox">
+					<span class="rightDivider"></span>
+                    <div if:true={subStatusAvailable} class="padBottom">
+                        <template for:each={subStatusAvailable} for:item="status" >
+                            <div key={status.statusName} class="sub-status-box">
+                                <div><img src={statusCheckIcon} /></div>
+                                <div class="sub-status-sectionb">
+                                    <div class="sub-status-text">{status.statusName}</div> 
+                                    <div class="sub-status-date">
+                                        <lightning-formatted-date-time value={status.statusDate} 
+                                            year="numeric"
+                                        month="long"
+                                        day="numeric"
+                                        time-zone="UTC"></lightning-formatted-date-time>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <template if:false={subStatusAvailable}>
+                        <div class="slds-text-align_center stayTuned">
+                            <div class = "slds-m-around--x-large"><img src={stayTunedIcon}/></div>
+                            <div class="slds-m-around--medium">{label.Stay_Tune_Label}</div>
+                        </div>
+                    </template>
+                </div>
             </div>
         </div>
     </div>  

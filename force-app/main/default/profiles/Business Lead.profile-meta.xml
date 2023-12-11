@@ -2510,6 +2510,10 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <field>Clinical_Trial_Profile__c.Status_Milestone_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Comorbidities__c.Comorbidity_Name__c</field>
         <readable>true</readable>
@@ -3394,6 +3398,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_status_description_motivation__c.Status_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_status_description_motivation__c.Status_Developer_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_status_description_motivation__c.Status_Label__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

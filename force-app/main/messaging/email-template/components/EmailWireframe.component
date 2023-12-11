@@ -101,10 +101,10 @@
             <div style="border-top: 2px solid #CCCCCC; border-bottom: 2px solid #CCCCCC; padding-top: 10px; padding-bottom: 10px;">
                 <div style="{!IF(isRTL=true,'display:block', 'display:none')}">
                     <a href="{!emailCommunityURL + '/s/privacy-policy?lanCode='+UserLanguageCode}">{!IF(communityTemplate == 'Janssen', $Label.Email_Footer_Privacy_Policy_Janssen, $Label.Email_Footer_Privacy_Policy)}</a>|&nbsp;
-                     {!IF(shouldDisplayAddressFooter == true, $Label.Email_Footer_Address_RH, $Label.Email_Footer_Address)} <!--{!$Label.Email_Footer_Address} -->
+                     {!$Label.Email_Footer_Address}
                 </div>
                 <div style="{!IF(isRTL=false,'display:block', 'display:none')}">
-                    {!IF(shouldDisplayAddressFooter == true, $Label.Email_Footer_Address_RH, $Label.Email_Footer_Address)}<!--{!$Label.Email_Footer_Address} --> |&nbsp;
+                   {!$Label.Email_Footer_Address} |&nbsp;
                     <a href="{!emailCommunityURL + '/s/privacy-policy'}">{!IF(communityTemplate == 'Janssen', $Label.Email_Footer_Privacy_Policy_Janssen, $Label.Email_Footer_Privacy_Policy)}</a>
                 </div>
             </div>

@@ -2236,7 +2236,9 @@ user agent stylesheet svg:not(:root) {
 .manage-pref-spinner-container .rr-spinner {    
     z-index: 15000 !important;
 }
-
+.pastStudiesFiles .slds-tabs_default__item {
+    margin-left: -4px;
+}
 .dateTimeContainer input{
     -moz-appearance: none; 
         /* for Safari, Chrome, Opera */ 
