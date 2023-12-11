@@ -226,7 +226,7 @@
             <targetReference>Get_Custom_Notification_Id</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>1 AND 2 AND (3 OR 4 OR 5 OR 6 OR 7 OR 8 OR 9 OR 10 OR 11 OR 12)</filterLogic>
+        <filterLogic>1 AND 2 AND (3 OR 4 OR 5 OR 6 OR 7 OR 8 OR 9 OR 10 OR 11 OR 12 OR 13)</filterLogic>
         <filters>
             <field>Status__c</field>
             <operator>EqualTo</operator>
@@ -309,6 +309,13 @@
             <operator>EqualTo</operator>
             <value>
                 <stringValue>Push_To_PT_New_Platform_Document</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Notification_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Message_to_PT_StdDoc_Certificate_Type</stringValue>
             </value>
         </filters>
         <object>Send_Result__c</object>

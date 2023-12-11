@@ -370,7 +370,7 @@
                                     >
                                         <template if:true={isTelevisits}>
                                             <button
-                                                class="slds-button slds-button_neutral visit-button inactive-button-background"
+                                                class={visitButtonStyle}
                                                 onclick={visitsTab}
                                             >
                                                 <template if:true={isProgram}>
@@ -381,7 +381,7 @@
                                                 </template>
                                             </button>
                                             <button
-                                                class="slds-button slds-button_brand televisit-button active-button-background"
+                                                class={televisitButtonStyle}
                                                 onclick={televisitsTab}
                                             >
                                             {label.TELEVISITS}
@@ -389,7 +389,7 @@
                                         </template>
                                         <template if:false={isTelevisits}>
                                             <button
-                                                class="slds-button slds-button_neutral visit-button active-button-background"
+                                                class={visitButtonStyle}
                                                 onclick={visitsTab}
                                             >
                                                 <template if:true={isProgram}>
@@ -400,7 +400,7 @@
                                                 </template>
                                             </button>
                                             <button
-                                                class="slds-button slds-button_brand televisit-button inactive-button-background"
+                                                class={televisitButtonStyle}
                                                 onclick={televisitsTab}
                                             >
                                             {label.TELEVISITS}
