@@ -139,6 +139,7 @@
                                 for:item="study"
                                 for:index="index"
                             >
+                            <template if:true={study.ppEnabled}>
                                 <lightning-layout
                                     key={study.Id}
                                     multiple-rows="true"
@@ -301,11 +302,13 @@
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </template>
+                     </template>
                             <template if:true={ShowPDEConsents}
                                 for:each={consentPreferenceDataLocal.pdeList}
                                 for:item="pde"
                                 for:index="index"
                             >
+                            <template if:true={pde.ppEnabledPD}>
                                 <lightning-layout
                                     key={pde.Id}
                                     multiple-rows="true"
@@ -465,6 +468,7 @@
                                         </lightning-layout>
                                     </lightning-layout-item>
                                 </lightning-layout>
+                            </template>
                             </template>
 
                             <!-- <div class={getStudyConsentMargin}> -->
@@ -786,6 +790,7 @@
                                 for:item="study"
                                 for:index="index"
                             >
+                            <template if:true={study.ppEnabled}>
                                 <div key={study.study_id} class="mobile">
                                     <lightning-layout
                                         key={study.Id}
@@ -941,11 +946,13 @@
                                      
                                 </div>
                             </template>
+                            </template>
                             <template if:true={ShowPDEConsents}
                                 for:each={consentPreferenceDataLocal.pdeList}
                                 for:item="pde"
                                 for:index="index"
                             >
+                            <template if:true={pde.ppEnabledPD}>
                                 <div key={pde.pde_id} class="mobile">
                                     <lightning-layout
                                         key={pde.Id}
@@ -1098,6 +1105,7 @@
                                     </div>
                                      
                                 </div>
+                            </template>
                             </template>
                             <!-- <div class={getStudyConsentMargin}> -->
                             <div class={getPurchaseProptyTxt}>
