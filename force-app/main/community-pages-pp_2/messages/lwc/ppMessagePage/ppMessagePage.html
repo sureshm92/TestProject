@@ -129,7 +129,7 @@
                             title="chevronleft"
                             class="left-chevro my-icon"
                         ></lightning-icon> </span
-                    ><span class="back" onclick={handleBack} >{label.backLabel}</span>
+                    ><span class="back" onclick={handleBack} >{labels.backLabel}</span>
                 </lightning-layout-item>
             </template>
             <template if:false={showBack}>
@@ -273,6 +273,7 @@
                 <lightning-layout class="slds-align--absolute-center"
                     ><template if:true={isMessageLoaded}>
                         <c-pp-message-board
+                            onispaststudychanged={handleIsPastStudyChanged}
                             onsavemessage={handleSpinner}
                             message-templates={messageTemplates}
                             select-con-wrap={selectConWrap}
@@ -290,5 +291,32 @@
                         ></c-pp-message-board> </template></lightning-layout
             ></lightning-layout-item>
         </lightning-layout>
+        <template if:true={showBack}>
+        <lightning-layout>      
+            <lightning-layout-item class={visibleOfButton} size="12">
+                <c-pp-show-button  
+                onsavemessage={handleSpinner}
+                is-past-study={isPastStudy}
+                study-configuartion={studyConfiguartion}
+                            message-templates={messageTemplates}
+                            select-con-wrap={selectConWrap}
+                            first-enrollments={firstEnrollments}
+                            oncalltoparent={mobileViewToggle}
+                            onmessageboardcmp={refreshPage}
+                            onmessagetemplateselection={handleGroupMenu}
+                            device-size={deviceSize}
+                            is-i-e={isIE}
+                            pi-contact-names={piContactNames}
+                            is-secondary={isSecondary}
+                            is-mobile={isMobile}
+                            is-single-part-alumni={isSinglePartAlumni}
+                            class="mob-msg-board" >
+            </c-pp-show-button>
+      
+        </lightning-layout-item>
+       
+    
+    </lightning-layout>
+</template>
     </template>
 </template>
