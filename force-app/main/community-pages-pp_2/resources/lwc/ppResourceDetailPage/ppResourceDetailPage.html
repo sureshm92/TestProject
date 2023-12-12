@@ -10,15 +10,28 @@
                         <lightning-layout multiple-rows="true">
                             <!-- ************** Back To Resources *************** -->
                             <lightning-layout-item size="12">
-                                <span onclick={handleBackClick} class="back-link slds-p-vertical_small">
-                                    <c-web-icon
-                                        icon-size="medium-large"
-                                        icon-name="chevron-left"
-                                        icon-color="#015ff1"
-                                        class="slds-p-right_xx-small"
-                                    ></c-web-icon
-                                    >{linkLabel}
-                                </span>
+                                <template if:true = {backtopaststudies}>
+                                    <span onclick={handleBackToPastStudies} class="back-link slds-p-vertical_small">
+                                        <c-web-icon
+                                            icon-size="medium-large"
+                                            icon-name="chevron-left"
+                                            icon-color="#015ff1"
+                                            class="slds-p-right_xx-small"
+                                        ></c-web-icon
+                                        >{paststudieslinkLabel}
+                                    </span>
+                                </template>
+                                <template if:false = {backtopaststudies}>
+                                    <span onclick={handleBackClick} class="back-link slds-p-vertical_small">
+                                        <c-web-icon
+                                            icon-size="medium-large"
+                                            icon-name="chevron-left"
+                                            icon-color="#015ff1"
+                                            class="slds-p-right_xx-small"
+                                        ></c-web-icon
+                                        >{linkLabel}
+                                    </span>
+                                </template>
                                 <hr />
                             </lightning-layout-item>
                             <!-- ***************** Resource Title ******************* -->
@@ -178,18 +191,34 @@
                             <!-- ************** Back To Resources *************** -->
                             <div class={displaySection} style="width:100%">
                                 <lightning-layout-item size="12">
-                                    <span
+                                    <template if:true = {backtopaststudies}>
+                                        <span
+                                        onclick={handleBackToPastStudies}
+                                        class="back-link-mobile slds-p-vertical_small"
+                                        >
+                                            <c-web-icon
+                                                icon-size="medium-large"
+                                                icon-name="chevron-left"
+                                                icon-color="#015ff1"
+                                                class="slds-p-right_xx-small"
+                                            ></c-web-icon
+                                        >   {paststudieslinkLabel}
+                                        </span>
+                                    </template>
+                                    <template if:false = {backtopaststudies}>
+                                        <span
                                         onclick={handleBackClick}
                                         class="back-link-mobile slds-p-vertical_small"
-                                    >
-                                        <c-web-icon
-                                            icon-size="medium-large"
-                                            icon-name="chevron-left"
-                                            icon-color="#015ff1"
-                                            class="slds-p-right_xx-small"
-                                        ></c-web-icon
+                                        >
+                                            <c-web-icon
+                                                icon-size="medium-large"
+                                                icon-name="chevron-left"
+                                                icon-color="#015ff1"
+                                                class="slds-p-right_xx-small"
+                                            ></c-web-icon
                                         >{linkLabel}
-                                    </span>
+                                        </span>                                               
+                                    </template>                                   
                                     <hr />
                                 </lightning-layout-item>
 

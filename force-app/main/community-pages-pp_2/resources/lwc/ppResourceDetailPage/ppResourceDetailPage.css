@@ -71,6 +71,7 @@
     cursor: pointer;
     color: #015ff1;
     width: fit-content;
+    padding-left: 25px;
 }
 .back-link-mobile {
     font-size: 16px;
@@ -80,7 +81,7 @@
     cursor: pointer;
     color: #015ff1;
     width: fit-content;
-    padding-left: 1.5rem;
+    margin-left: 16px;
 }
 .ah-video-iframe {
     position: relative;

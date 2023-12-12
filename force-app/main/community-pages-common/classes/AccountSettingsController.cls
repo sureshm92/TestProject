@@ -1538,6 +1538,9 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 Clinical_Trial_Profile__r.IQVIA_Outreach__c,
                 Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                 Clinical_Trial_Profile__c,
+                Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                Clinical_Trial_Profile__r.Privacy_Policy_ID__c,
+                Clinical_Trial_Profile__r.CommunityTemplate__c,
                 Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 Study_Site__r.Participant_DOB_format__c
             FROM Participant_Enrollment__c

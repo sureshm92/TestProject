@@ -56,7 +56,12 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
         this.timeInterval();
     }
    joinmeeting (event){
+        if (communityService.isMobileSDK()) {
+        this.urlPathPrefix = communityService.getCommunityURLPathPrefix();
+        }
+        else{
         this.urlPathPrefix = '/pp/s';
+        }  
         let url = this.urlPathPrefix.replace('/s', '') + event.currentTarget.dataset.id;
         window.open(url, '_blank');
     }
@@ -234,7 +239,12 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
 
     handleSingleMeetJoin(event) {
         console.log(this.urlPathPrefix);
-        this.urlPathPrefix = '/pp/s';
+        if (communityService.isMobileSDK()) {
+            this.urlPathPrefix = communityService.getCommunityURLPathPrefix();
+        }
+        else{
+            this.urlPathPrefix = '/pp/s';
+        }  
         let url = this.urlPathPrefix.replace('/s', '') + this.meetLinkUrl;
         window.open(url, '_blank');
     }
@@ -289,7 +299,12 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
     }
   
     handleJoinClick(event) {
-        this.urlPathPrefix = '/pp/s';
+        if (communityService.isMobileSDK()) {
+            this.urlPathPrefix = communityService.getCommunityURLPathPrefix();
+        }
+        else{
+            this.urlPathPrefix = '/pp/s';
+        }  
         let url = this.urlPathPrefix.replace('/s', '') + event.target.dataset.name;
         window.open(url, '_blank');
     }
