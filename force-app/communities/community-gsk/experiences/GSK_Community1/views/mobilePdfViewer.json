@@ -1,19 +1,19 @@
 {
-  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
-  "componentName" : "c:PPOneColumnLayout",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "c:OneColumnLayout",
   "dataProviders" : [ ],
-  "id" : "6cd6f18d-1cb2-4956-9796-a3cab4317b7f",
-  "label" : "Resource Detail",
+  "id" : "e946f48f-fe1a-4533-b733-68c13f82b79f",
+  "label" : "Mobile Pdf Viewer",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:ppResourceDetailPage",
-      "id" : "34e3648c-c7d6-48dc-a033-7924f42e8115",
+      "componentName" : "c:MobilePdfViewer",
+      "id" : "1a954871-0b05-490d-a09c-d6e80ffdc8f0",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "8a2f7918-7b23-45e6-b5c1-2debe7a2018b",
+    "id" : "06e50d4c-429e-4961-91c2-c2c69577a8ed",
     "regionName" : "column1",
     "type" : "region"
   }, {
@@ -21,18 +21,18 @@
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "Resource Detail"
+        "title" : "Mobile Pdf Viewer"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "5fd2741e-d729-4b96-b6f6-42fa56098b19",
+      "id" : "b48212d2-dbce-42fd-a0d9-131f107c76db",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "235c9ea5-cddd-4854-96d0-3459f59e07da",
+    "id" : "fdbf009f-e5ba-44d0-af13-236a5f5521c1",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
-  "viewType" : "custom-resource-detail"
+  "viewType" : "custom-mobile-pdf-viewer"
 }

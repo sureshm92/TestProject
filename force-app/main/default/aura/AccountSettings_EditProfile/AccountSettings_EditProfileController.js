@@ -536,67 +536,53 @@
                 }
             }
             component.set('v.showSpinner', true);
-            communityService.executeAction(
-                component,
-                'changeEmail',
-                {
-                    newEmail: newEmail,
-                    userMode: component.get('v.userMode')
-                },
-                function (returnValue) {
-                    component.set('v.currentEmail', newEmail);
-                    console.log('saving::'+JSON.stringify(component.get('v.personWrapper')));
-                    communityService.executeAction(
-                        component,
-                        'updatePersonMain',
-                        {
-                            wrapperJSON: JSON.stringify(component.get('v.personWrapper')),
-                            commPrefWrapperJSON: JSON.stringify(component.get('v.consentPreferenceData')),
-                            userMode: component.get('v.userMode')
-                        },
-                        function () {
-                            component.find('spinner').hide();
-                            component.set('v.participantHasUpdateTasks', false);
-                            helper.setPersonSnapshot(component);
-                            communityService.navigateToPage('account-settings');
-                            communityService.showToast(
-                                'success',
-                                'success',
-                                $A.get('$Label.c.PP_Profile_Update_Success'),
-                                100
-                            );
-                            sessionStorage.setItem('Cookies', 'Accepted');
-                            window.location.reload(true);
-                        }
-                    );
-                },
-                null,
-                function () {
-                    component.set('v.showSpinner', false);
-                }
-            );
-            
-            var inst = component.get('v.institute');
-            console.log(inst.Name);
-            // console.log(v.institute.Name)
-            
-            communityService.executeAction(
-                component,
-                'updateAccount',
-                {
-                    AccName: inst.Name
-                },
-                function (returnValue) {},
-                null,
-                function () {}
-            );
-            /*communityService.executeAction(component, 'changeEmail', {
-                newEmail: newEmail
-            }, function (returnValue) {
-                component.set('v.currentEmail', newEmail);
-            }, null, function () {
-                component.set('v.showSpinner', false);
-            })*/
+			
+			var action1 = component.get('c.changeEmail');
+			
+			action1.setParams({
+				 newEmail: newEmail,
+                 userMode: component.get('v.userMode')
+			});
+				 
+			action1.setCallback(this, function(response) {
+				var state = response.getState();
+				if (state == "SUCCESS") {
+					component.set('v.currentEmail', newEmail);
+				}
+				else{
+					console.log("Error: " + errorMessage);
+				}
+			});
+			var action2 = component.get('c.updatePersonMain');
+			
+			action2.setParams({
+			  wrapperJSON: JSON.stringify(component.get('v.personWrapper')),
+			  commPrefWrapperJSON: JSON.stringify(component.get('v.consentPreferenceData')),
+			  userMode: component.get('v.userMode')
+			});
+				 
+			action2.setCallback(this, function(response) {
+				var state = response.getState();
+				if (state == "SUCCESS") {
+					component.find('spinner').hide();
+                    component.set('v.participantHasUpdateTasks', false);
+					helper.setPersonSnapshot(component);
+					communityService.navigateToPage('account-settings');
+					communityService.showToast(
+						'success',
+						'success',
+						$A.get('$Label.c.PP_Profile_Update_Success'),
+						100
+					);
+					sessionStorage.setItem('Cookies', 'Accepted');
+					window.location.reload(true);
+				}
+				else{
+					console.log("Error: " + errorMessage);
+				}
+			});
+			$A.enqueueAction(action1);
+    		$A.enqueueAction(action2);
         }
     },
     handleMobileValidation: function (component, event) {
