@@ -212,7 +212,7 @@ export default class PpStatusDescConfig extends LightningElement {
         else{
             let draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues;
                 
-            if(!this.isProgram && this.isStatusMilestoneAvailable){
+            if(!this.isProgram && this.isPreTrialStatusAvailable){
                     draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues);
                     draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues);
             }
@@ -289,6 +289,10 @@ export default class PpStatusDescConfig extends LightningElement {
 
     get showStatusMilestoneTab(){
         return (!this.isProgram && this.isPreTrialStatusAvailable && this.configResult != null && this.statusilestoneData!=null);
+    }
+
+    get showInTrialConfig(){
+        return (this.isStatusMilestoneAvailable && this.data!=null);
     }
 
     get featureUnavailaleMessage(){

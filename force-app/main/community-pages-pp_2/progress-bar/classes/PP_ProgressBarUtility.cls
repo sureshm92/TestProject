@@ -57,7 +57,7 @@ public with sharing class PP_ProgressBarUtility {
                 pw = generateBarForInTrial(pe,pw,peId);
                 return pw;
             }
-            else if((PreTrialStatus.contains(pe.Participant_Status__c) && pe.Clinical_Trial_Profile__r.Status_Milestone_Available__c 
+            else if((PreTrialStatus.contains(pe.Participant_Status__c) && pe.Clinical_Trial_Profile__r.Pre_Trial_Status_Config__c 
             && !pe.Clinical_Trial_Profile__r.Is_Program__c) || pe.Participant_Status__c == 'Participant No Show'){
                 pw.isPreTiral = true;
                 pw = generateBarForPreTrial(pe,pw,peId);
