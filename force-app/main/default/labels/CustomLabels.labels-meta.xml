@@ -8,6 +8,13 @@
         <value>View All Events</value>
     </labels>
     <labels>
+        <fullName>Quick_Refernce</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Quick Refernce</shortDescription>
+        <value>Check back later, coming soon</value>
+    </labels>
+    <labels>
         <fullName>View_All_Visits</fullName>
         <language>en_US</language>
         <protected>false</protected>
