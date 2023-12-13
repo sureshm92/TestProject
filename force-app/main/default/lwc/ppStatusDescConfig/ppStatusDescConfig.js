@@ -2,6 +2,7 @@ import { LightningElement,api, track,wire } from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import Is_Program from '@salesforce/schema/Clinical_Trial_Profile__c.Is_Program__c';
 import Status_Milestone_Available from '@salesforce/schema/Clinical_Trial_Profile__c.Status_Milestone_Available__c';
+import Pre_Trial_Status_Config from '@salesforce/schema/Clinical_Trial_Profile__c.Pre_Trial_Status_Config__c';
 import Community_Template from '@salesforce/schema/Clinical_Trial_Profile__c.CommunityTemplate__c';
 import PP_Template from '@salesforce/schema/Clinical_Trial_Profile__c.PPTemplate__c';
 import fetchStatusConfig from '@salesforce/apex/ppStatusDescConfigController.fetchStatusConfig';
@@ -47,6 +48,7 @@ export default class PpStatusDescConfig extends LightningElement {
     data = null;
     @track isProgram;
     @track isStatusMilestoneAvailable;
+    @track isPreTrialStatusAvailable;
     @track communityTemplate;
     @track PPTemplate;
     ctpData;
@@ -78,7 +80,7 @@ export default class PpStatusDescConfig extends LightningElement {
     subscription = null;
     context = createMessageContext();
 
-    @wire(getRecord,{recordId:'$recordId', fields:[Is_Program,Status_Milestone_Available,Community_Template,PP_Template]})
+    @wire(getRecord,{recordId:'$recordId', fields:[Is_Program,Status_Milestone_Available,Pre_Trial_Status_Config,Community_Template,PP_Template]})
     ctpDetail(response) {
         this.ctpData = response;
         const { data, error } = response; // destructure the provisioned value
@@ -87,6 +89,7 @@ export default class PpStatusDescConfig extends LightningElement {
             this.ctpRecord = data;
             this.isProgram = getFieldValue(response.data,Is_Program);
             this.isStatusMilestoneAvailable = getFieldValue(response.data,Status_Milestone_Available);
+            this.isPreTrialStatusAvailable = getFieldValue(response.data,Pre_Trial_Status_Config);
             this.communityTemplate = getFieldValue(response.data,Community_Template);
             this.PPTemplate = getFieldValue(response.data,PP_Template);
              this.getData();
@@ -281,11 +284,11 @@ export default class PpStatusDescConfig extends LightningElement {
     }
 
     get showStatusTitleTab(){
-        return (!this.isProgram && this.isStatusMilestoneAvailable && this.configResult != null && this.statusTitleData!=null);
+        return (!this.isProgram && this.isPreTrialStatusAvailable && this.configResult != null && this.statusTitleData!=null);
     }
 
     get showStatusMilestoneTab(){
-        return (!this.isProgram && this.isStatusMilestoneAvailable && this.configResult != null && this.statusilestoneData!=null);
+        return (!this.isProgram && this.isPreTrialStatusAvailable && this.configResult != null && this.statusilestoneData!=null);
     }
 
     get featureUnavailaleMessage(){

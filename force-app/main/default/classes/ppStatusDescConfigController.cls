@@ -3,7 +3,7 @@ public without sharing class ppStatusDescConfigController {
     @AuraEnabled
     public static List<List<Study_status_description_motivation__c>> fetchStatusConfig(Id recId){
         try {
-            Clinical_Trial_Profile__c ctp = [select Id,PPTemplate__c,Is_Program__c,Participant_Workflow_Final_Step__c,Initial_Visit_Required__c,CommunityTemplate__c,Status_Milestone_Available__c,Visit_Schedule_Is_Available__c from Clinical_Trial_Profile__c where Id=:recId];
+            Clinical_Trial_Profile__c ctp = [select Id,PPTemplate__c,Is_Program__c,Participant_Workflow_Final_Step__c,Initial_Visit_Required__c,CommunityTemplate__c,Status_Milestone_Available__c,Visit_Schedule_Is_Available__c,Pre_Trial_Status_Config__c from Clinical_Trial_Profile__c where Id=:recId];
             if((ctp.CommunityTemplate__c != 'PatientPortal' || (ctp.CommunityTemplate__c == 'PatientPortal' && !ctp.Status_Milestone_Available__c))
                 && (ctp.PPTemplate__c != 'PP 2.0' || ((ctp.CommunityTemplate__c != 'Janssen' || (ctp.CommunityTemplate__c == 'Janssen' && !ctp.Status_Milestone_Available__c))))){
                 return null;
