@@ -112,10 +112,13 @@
                                         <aura:if isTrue="{!v.isCPRAavailable}">
                                         <div class="slds-col slds-p-left--medium slds-size_1-of-2 alignprivacychoice">
                                           
-                                                    <span class="page-link" onclick="{!c.onLinkClick}">
+                                                 <span class="page-link" onclick="{!c.onLinkClick}">
+                                                        <span class="containercpra">
                                                         {!v.CPRAlabel}
                                                         <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                                                        <img src="{!$Resource.CCPA_icon_hover}" class="overlay" />
                                                     </span>
+                                              </span>
                                         </div>
                                     </aura:if>
 
@@ -148,8 +151,11 @@
                                         <div class="divider iqviadivider slds-size_1-of-6" ></div> 
                                         <div class="slds-col slds-size_1-of-3 slds-p-right--small">
                                             <div class="page-link" onclick="{!c.onLinkClick}">
-                                                {!v.CPRAlabel}
-                                                <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                                                <span class="containercpra">
+                                                    {!v.CPRAlabel}
+                                                    <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                                                    <img src="{!$Resource.CCPA_icon_hover}" class="overlay" />
+                                                </span>
                                             </div>
                                         </div>
                                         </aura:if>
