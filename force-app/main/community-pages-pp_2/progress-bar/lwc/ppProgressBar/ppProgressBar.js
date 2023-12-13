@@ -61,7 +61,8 @@ stayTunedIcon = Stay_Tuned;
         PP_ProgressBar_No_Visit,
         PP_ProgressBar_Event_Complete,
         Mark_Complete,
-        PP_Event_Complete
+        PP_Event_Complete,
+        Stay_Tune_Label
     };
     @api
     parentWrapper ;
