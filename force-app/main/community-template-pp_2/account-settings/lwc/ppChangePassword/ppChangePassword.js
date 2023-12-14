@@ -24,6 +24,8 @@ import PP_PasswordCriteriaNotMet from '@salesforce/label/c.PP_PasswordCriteriaNo
 import PPLite_PasswordsMismatch from '@salesforce/label/c.PPLite_PasswordsMismatch';
 import PP_Password_Requirements from '@salesforce/label/c.PP_Password_Requirements';
 import BACK from '@salesforce/label/c.Back';
+import Show from '@salesforce/label/c.Login_Form_Show'
+import Hide from '@salesforce/label/c.Login_Form_Hide'
 
 import getInitData from '@salesforce/apex/AccountSettingsController.getInitData';
 import changePassword from '@salesforce/apex/AccountSettingsController.changePassword';
@@ -83,7 +85,9 @@ export default class PpChangePassword extends LightningElement {
         Pswd_Lowercase,
         Pswd_Special_Characters,
         PG_AS_F_Update_Password,
-        BACK
+        BACK,
+        Show,
+        Hide
     };
 
     // Getter for back icon
@@ -173,13 +177,13 @@ export default class PpChangePassword extends LightningElement {
     }
 
     get currentPasswordEyeIconTitle() {
-        return this.showCurrentPassword ? 'hide' : 'show';
+        return this.showCurrentPassword ? this.label.Hide : this.label.Show;
     }
     get newCurrentPasswordEyeIconTitle() {
-        return this.showNewPassword ? 'hide' : 'show';
+        return this.showNewPassword ? this.label.Hide : this.label.Show;
     }
     get reNewCurrentPasswordEyeIconTitle() {
-        return this.showReNewPassword ? 'hide' : 'show';
+        return this.showReNewPassword ? this.label.Hide : this.label.Show;
     }
 
     get checkIcon() {
