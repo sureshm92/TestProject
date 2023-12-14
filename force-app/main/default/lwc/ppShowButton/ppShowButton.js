@@ -13,8 +13,10 @@ export default class PpMessageBoard extends LightningElement {
   value = "inProgress";
   @api selectConWrap;
   @api msgWrapper;
+  @api studyConfiguartion;
   @api userId = Id;
   @api messageTemplates;
+  @api isPastStudy;
   @api messageTemplatesOption = [];
   @api messageValue = "";
   @api isLoaded = false;
@@ -50,17 +52,10 @@ export default class PpMessageBoard extends LightningElement {
     }
     return this.messageTemplatesOption;
   }
-
-renderedCallback(){
-    var  paststudy;
-    paststudy =  this.isPastStudy;
-   const event = new CustomEvent('ispaststudychanged',{
-    detail:paststudy
-   });
-  this.dispatchEvent(event);
-  }
+  
 
   connectedCallback() {
+    this.selectConWrap = this.studyConfiguartion ;
     if (this.selectConWrap != null) {
       if (!this.selectConWrap.noConversation) {
         this.msgWrapper = this.selectConWrap.messages;
@@ -97,51 +92,8 @@ renderedCallback(){
     const focusEventHeader = new CustomEvent("messagetemplateselection", {});
     this.dispatchEvent(focusEventHeader);
   }
-  get isPastStudy() {
-    if (this.selectConWrap) {
-      if (this.selectConWrap.isPastStudy) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      if(!this.isSinglePartAlumni){
-        return false;
-      }else{
-        return true;
-      }
-    }
-  }
-  get handlePadding(){
-    if (this.selectConWrap) {
-      if (this.selectConWrap.isPastStudy) {
-        return 'mob-parent-chat-item-sec-past';
-      } else {
-        return 'mob-parent-chat-item-sec';
-      }
-    } else {
-      if(!this.isSinglePartAlumni){
-        return 'mob-parent-chat-item-sec';
-      }else{
-        return 'mob-parent-chat-item-sec-past';
-      }
-    }
-  }
-  get headerHandlePadding(){
-    if (this.selectConWrap) {
-      if (this.selectConWrap.isPastStudy) {
-        return 'mob-parent-chat-item-sec-past';
-      } else {
-        return 'mob-parent-chat-item-header-sec';
-      }
-    } else {
-      if(!this.isSinglePartAlumni){
-        return 'mob-parent-chat-item-header-sec';
-      }else{
-        return 'mob-parent-chat-item-sec-past';
-      }
-    }
-  }
+
+  
   get handleValidation() {
     if (this.messageValue != "Select question" && this.messageValue != "") {
       return false;
@@ -180,7 +132,6 @@ renderedCallback(){
             );
           });
       } else {
-
         let addspinner = new CustomEvent("savemessage");
         this.dispatchEvent(addspinner);
 
