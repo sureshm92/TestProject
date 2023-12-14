@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "2786d7e1-bf98-44a8-b807-6c904615b171",
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "configurationTags" : [ ],
+  "id" : "cc3c78f1-7b45-4af2-b271-20c61140296d",
+  "label" : "eDiaries",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-ediaries",
+  "type" : "route",
+  "urlPrefix" : "e-diaries"
+}

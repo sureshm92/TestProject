@@ -45,8 +45,11 @@
                         <aura:if isTrue="{!v.isCPRAavailable}">
                             
                                 <div class="page-link" onclick="{!c.onLinkClick}">
-                                    {!v.CPRAlabel}
-                                    <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                                    <span class="container"> 
+                                    <span>{!v.CPRAlabel}</span>
+                                    <img src="{!$Resource.CCPA_icon}" class="imgclass" />
+                                    <img src="{!$Resource.CCPA_icon_hover}" class="overlay" />
+                                    </span>
                                 </div>
                             
                         </aura:if>

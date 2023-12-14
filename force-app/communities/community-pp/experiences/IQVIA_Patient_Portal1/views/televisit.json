@@ -2,18 +2,26 @@
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
   "componentName" : "c:PPOneColumnLayout",
   "dataProviders" : [ ],
-  "id" : "e9e25133-304d-4261-9fe1-4082b6ed561f",
-  "label" : "results",
+  "id" : "0d9211da-2f8a-480b-80df-7b273045c385",
+  "label" : "Televisit",
   "regions" : [ {
-    "id" : "3c0d6de4-b497-4e5f-9f07-049ad089127a",
+    "id" : "45b3fb07-f936-4493-aed5-6c04a32f3258",
     "regionName" : "header",
     "type" : "region"
   }, {
-    "id" : "a034ac4b-0c02-4106-94cb-fdd9bac60ba6",
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ppTelevisit",
+      "id" : "1b1dab91-26fe-474c-bcf1-681a472f7aa5",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "5f7bc12e-db2e-474b-b7da-f5a87ee92d7d",
     "regionName" : "content",
     "type" : "region"
   }, {
-    "id" : "e3060cc9-b8db-420d-b53b-56a7053a2d43",
+    "id" : "c103e76e-729a-4040-bdde-af2f3d06c5ec",
     "regionName" : "footer",
     "type" : "region"
   }, {
@@ -21,30 +29,30 @@
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "Results"
+        "title" : "Televisits"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "46981574-b26b-4925-8bc2-17bcb499ebd0",
+      "id" : "5074b9d2-3637-4441-aa95-aa6e5f09d9b7",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "66101684-6dbd-46f1-887f-4035223f977c",
+    "id" : "a1438dac-4e1e-463c-87fa-ce83618ada20",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   }, {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:ppMyResultsCard",
-      "id" : "134cf295-cd29-4753-a894-3cb45ecf8369",
+      "componentName" : "c:ppTelevisit",
+      "id" : "cdf83058-f2b6-4882-a5ca-2ac16d61a024",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "7cd27345-6c6b-4652-8014-068045061bf7",
+    "id" : "ed068165-296e-4de3-b840-2527b7bbc4d4",
     "regionName" : "column1",
     "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
-  "viewType" : "custom-results"
+  "viewType" : "custom-televisit"
 }

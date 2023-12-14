@@ -2,18 +2,18 @@
   "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
   "componentName" : "c:PPOneColumnLayout",
   "dataProviders" : [ ],
-  "id" : "6cd6f18d-1cb2-4956-9796-a3cab4317b7f",
-  "label" : "Resource Detail",
+  "id" : "2786d7e1-bf98-44a8-b807-6c904615b171",
+  "label" : "eDiaries",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:ppResourceDetailPage",
-      "id" : "34e3648c-c7d6-48dc-a033-7924f42e8115",
+      "componentName" : "c:ppViewEcoaDiaries",
+      "id" : "4ca156ef-f4f6-4664-9c56-2938a4150fc7",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "8a2f7918-7b23-45e6-b5c1-2debe7a2018b",
+    "id" : "3c241753-2eb5-40e1-a2da-12f9ac6bbd81",
     "regionName" : "column1",
     "type" : "region"
   }, {
@@ -21,18 +21,18 @@
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "Resource Detail"
+        "title" : "eDiaries"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "5fd2741e-d729-4b96-b6f6-42fa56098b19",
+      "id" : "93aec29d-fa4a-4d72-bb00-cab5f82d1834",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "235c9ea5-cddd-4854-96d0-3459f59e07da",
+    "id" : "bc74c024-6308-4b13-828e-dd34d8070b04",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
   "themeLayoutType" : "Inner",
   "type" : "view",
-  "viewType" : "custom-resource-detail"
+  "viewType" : "custom-ediaries"
 }
