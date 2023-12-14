@@ -1,0 +1,38 @@
+{
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "componentName" : "c:EmptyLayout",
+  "dataProviders" : [ ],
+  "id" : "a8c01d7d-5892-4e69-a396-175e318bd9a5",
+  "label" : "Janssen Privacy Policy",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ppPrivacyPolicyViewerPageJanssen",
+      "id" : "b2cf4a41-5210-4986-ba38-ac5af86444d8",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "7ce7480a-065c-4d83-af4f-46ff418ca4e8",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Janssen Privacy Policy"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "3acbc423-e6ab-4547-99bc-0577bbf9f39d",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "47d4abc3-c3ca-4892-8b7f-997562f8841b",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "plAm3nHzp9j4TqsN4DBW97xONJ8WJG",
+  "type" : "view",
+  "viewType" : "custom-janssen-privacy-policy"
+}
