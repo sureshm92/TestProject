@@ -30,6 +30,8 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     urlsiteId = null;
     isResetPagination=false;
     calledfrombulkimporthistry = false;
+    deactivatedsitelist = [];
+    enableimportparticipantbutton = false;
     @api selectedStudyChild;
     @api selectedStudySiteChild;
     @api pageNumberChild=1;
@@ -56,6 +58,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
             var accesslevels = Object.keys(this.siteAccessLevels).length;
             var conts = this.studyToStudySite;
             let options = [];
+            this.deactivatedsitelist = [];
             options.push({ label: this.label.AllStudySite, value: "All Study Site" });
             var i = this.siteAccessLevels;
             for (var key in conts) {
@@ -64,10 +67,16 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                 for (var j in temp) {
                     if(accesslevels == 0){
                         options.push({ label: temp[j].Name, value: temp[j].Id });
+                        if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
+                          this.deactivatedsitelist.push(temp[j].Id);
+                        }
                     }else{
                         var level = this.siteAccessLevels[temp[j].Id];
                         if(level != 'Level 3' && level != 'Level 2'){
                             options.push({ label: temp[j].Name, value: temp[j].Id });
+                            if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
+                              this.deactivatedsitelist.push(temp[j].Id);
+                            }
                         }
                     }
                 }
@@ -186,10 +195,16 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                             for (var j in temp) {
                                 if(accesslevels == 0){
                                     options.push({ label: temp[j].Name, value: temp[j].Id });
+                                    if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
+                                      this.deactivatedsitelist.push(temp[j].Id);
+                                    }
                                 }else{
                                     var level = this.siteAccessLevels[temp[j].Id];
                                     if(level != 'Level 3' && level != 'Level 2'){
                                         options.push({ label: temp[j].Name, value: temp[j].Id });
+                                        if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
+                                          this.deactivatedsitelist.push(temp[j].Id);
+                                        }
                                     }
                                 }
                             }
@@ -201,7 +216,9 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                         this.selectedStudySiteChild=this.selectedStudy;
                         this.selectedStudyChild=this.selectedSite;
                         this.stopSpinnerChild=false;
-                      
+                        if(this.deactivatedsitelist.length > 0 && this.deactivatedsitelist.includes(this.selectedSite)){
+                          this.enableimportparticipantbutton = true;
+                        }
                       
                       } 
                     else{
@@ -221,10 +238,16 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                                 for (var j in temp) {
                                     if(accesslevels == 0){
                                         options.push({ label: temp[j].Name, value: temp[j].Id });
+                                        if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
+                                          this.deactivatedsitelist.push(temp[j].Id);
+                                        }
                                     }else{
                                         var level = this.siteAccessLevels[temp[j].Id];
                                         if(level != 'Level 3' && level != 'Level 2'){
                                             options.push({ label: temp[j].Name, value: temp[j].Id });
+                                            if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
+                                              this.deactivatedsitelist.push(temp[j].Id);
+                                            }
                                         }
                                     }
                                 }
@@ -236,10 +259,16 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                               for (var j in temp) {
                                 if(accesslevels == 0){
                                     options.push({ label: temp[j].Name, value: temp[j].Id });
+                                    if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
+                                      this.deactivatedsitelist.push(temp[j].Id);
+                                    }
                                 }else{
                                     var level = this.siteAccessLevels[temp[j].Id];
                                     if(level != 'Level 3' && level != 'Level 2'){
                                         options.push({ label: temp[j].Name, value: temp[j].Id });
+                                        if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
+                                          this.deactivatedsitelist.push(temp[j].Id);
+                                        }
                                     }
                                 }
                               }
@@ -275,7 +304,8 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
         var picklist_Value = event.target.value;
         this.selectedStudy = picklist_Value;
         
-        
+
+        this.deactivatedsitelist = [];
         var accesslevels = Object.keys(this.siteAccessLevels).length;
         var conts = this.studyToStudySite;
         let options = [];
@@ -289,10 +319,16 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                 for (var j in temp) {
                     if(accesslevels == 0){
                         options.push({ label: temp[j].Name, value: temp[j].Id });
+                        if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
+                          this.deactivatedsitelist.push(temp[j].Id);
+                        }
                     }else{
                         var level = this.siteAccessLevels[temp[j].Id];
                         if(level != 'Level 3' && level != 'Level 2'){
                             options.push({ label: temp[j].Name, value: temp[j].Id });
+                            if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
+                              this.deactivatedsitelist.push(temp[j].Id);
+                            }
                         }
                     }
                 }
@@ -304,17 +340,24 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
               for (var j in temp) {
                 if(accesslevels == 0){
                     options.push({ label: temp[j].Name, value: temp[j].Id });
+                    if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
+                      this.deactivatedsitelist.push(temp[j].Id);
+                    }
                 }else{
                     var level = this.siteAccessLevels[temp[j].Id];
                     if(level != 'Level 3' && level != 'Level 2'){
                         options.push({ label: temp[j].Name, value: temp[j].Id });
+                        if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
+                          this.deactivatedsitelist.push(temp[j].Id);
+                        }
                     }
                 }
               }
             }
           }
         this.studySiteList = options;
-       
+        
+        this.enableimportparticipantbutton = false;
         this.selectedSite= this.studySiteList[0].value;
         this.studysiteaccess = false;
         this.template.querySelector("c-pir_-bulk-import-files").getStudy=this.selectedStudy;
@@ -342,6 +385,11 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     studysitehandleChange(event) {
         this.selectedSite = event.target.value;
         var getStudySiteList=[];
+        this.enableimportparticipantbutton = false;
+        if(this.deactivatedsitelist.length > 0 && this.deactivatedsitelist.includes(this.selectedSite)){
+          this.enableimportparticipantbutton = true;
+        }
+     
         if (this.selectedSite != null && this.selectedSite == "All Study Site") {
             for (var i = 1; i < this.studySiteList.length; i++) {
               getStudySiteList.push(this.studySiteList[i].value);
