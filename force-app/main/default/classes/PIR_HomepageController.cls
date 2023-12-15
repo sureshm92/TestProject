@@ -1967,9 +1967,8 @@ public without sharing class PIR_HomepageController {
   public static List<Study_Site__c> getStudySiteDetails() {
     Id piContactId = CommunityService.getUserContact().Id;
     List<String> acceptedSites = new List<String>();
-    //Site decoupling changes RH-8613
-    acceptedSites.add('Activated');
-    acceptedSites.add('Activated (Admin)');
+    acceptedSites.add('Accepted');
+    acceptedSites.add('Accepted (Admin)');
     List<Study_Site__c> studySiteList = [
       SELECT
         Id,
@@ -1984,7 +1983,7 @@ public without sharing class PIR_HomepageController {
         Site_Activation_Status__c
       FROM Study_Site__c
       WHERE
-        Site_Activation_Status__c IN :acceptedSites //Site decoupling changes RH-8613
+        Override_PI_Referral_Status__c IN :acceptedSites
         AND (Principal_Investigator__c = :piContactId
         OR ID IN :DelegateService.getDelegatedStudySiteIds())
     ];

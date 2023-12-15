@@ -67,14 +67,14 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                 for (var j in temp) {
                     if(accesslevels == 0){
                         options.push({ label: temp[j].Name, value: temp[j].Id });
-                        if(temp[j].Site_Activation_Status__c == null || temp[j].Site_Activation_Status__c == 'Deactivated' || temp[j].Site_Activation_Status__c == 'Deactivated (Admin)'){
+                        if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
                           this.deactivatedsitelist.push(temp[j].Id);
                         }
                     }else{
                         var level = this.siteAccessLevels[temp[j].Id];
                         if(level != 'Level 3' && level != 'Level 2'){
                             options.push({ label: temp[j].Name, value: temp[j].Id });
-                            if(temp[j].Site_Activation_Status__c == null || temp[j].Site_Activation_Status__c == 'Deactivated' || temp[j].Site_Activation_Status__c == 'Deactivated (Admin)'){
+                            if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
                               this.deactivatedsitelist.push(temp[j].Id);
                             }
                         }
@@ -195,14 +195,14 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                             for (var j in temp) {
                                 if(accesslevels == 0){
                                     options.push({ label: temp[j].Name, value: temp[j].Id });
-                                    if(temp[j].Site_Activation_Status__c == null || temp[j].Site_Activation_Status__c == 'Deactivated' || temp[j].Site_Activation_Status__c == 'Deactivated (Admin)'){
+                                    if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
                                       this.deactivatedsitelist.push(temp[j].Id);
                                     }
                                 }else{
                                     var level = this.siteAccessLevels[temp[j].Id];
                                     if(level != 'Level 3' && level != 'Level 2'){
                                         options.push({ label: temp[j].Name, value: temp[j].Id });
-                                        if(temp[j].Site_Activation_Status__c == null || temp[j].Site_Activation_Status__c == 'Deactivated' || temp[j].Site_Activation_Status__c == 'Deactivated (Admin)'){
+                                        if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
                                           this.deactivatedsitelist.push(temp[j].Id);
                                         }
                                     }
@@ -216,7 +216,9 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                         this.selectedStudySiteChild=this.selectedStudy;
                         this.selectedStudyChild=this.selectedSite;
                         this.stopSpinnerChild=false;
-                      
+                        if(this.deactivatedsitelist.length > 0 && this.deactivatedsitelist.includes(this.selectedSite)){
+                          this.enableimportparticipantbutton = true;
+                        }
                       
                       } 
                     else{
@@ -236,14 +238,14 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                                 for (var j in temp) {
                                     if(accesslevels == 0){
                                         options.push({ label: temp[j].Name, value: temp[j].Id });
-                                        if(temp[j].Site_Activation_Status__c == null || temp[j].Site_Activation_Status__c == 'Deactivated' || temp[j].Site_Activation_Status__c == 'Deactivated (Admin)'){
+                                        if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
                                           this.deactivatedsitelist.push(temp[j].Id);
                                         }
                                     }else{
                                         var level = this.siteAccessLevels[temp[j].Id];
                                         if(level != 'Level 3' && level != 'Level 2'){
                                             options.push({ label: temp[j].Name, value: temp[j].Id });
-                                            if(temp[j].Site_Activation_Status__c == null || temp[j].Site_Activation_Status__c == 'Deactivated' || temp[j].Site_Activation_Status__c == 'Deactivated (Admin)'){
+                                            if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
                                               this.deactivatedsitelist.push(temp[j].Id);
                                             }
                                         }
@@ -257,14 +259,14 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                               for (var j in temp) {
                                 if(accesslevels == 0){
                                     options.push({ label: temp[j].Name, value: temp[j].Id });
-                                    if(temp[j].Site_Activation_Status__c == null || temp[j].Site_Activation_Status__c == 'Deactivated' || temp[j].Site_Activation_Status__c == 'Deactivated (Admin)'){
+                                    if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
                                       this.deactivatedsitelist.push(temp[j].Id);
                                     }
                                 }else{
                                     var level = this.siteAccessLevels[temp[j].Id];
                                     if(level != 'Level 3' && level != 'Level 2'){
                                         options.push({ label: temp[j].Name, value: temp[j].Id });
-                                        if(temp[j].Site_Activation_Status__c == null || temp[j].Site_Activation_Status__c == 'Deactivated' || temp[j].Site_Activation_Status__c == 'Deactivated (Admin)'){
+                                        if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
                                           this.deactivatedsitelist.push(temp[j].Id);
                                         }
                                     }
@@ -301,7 +303,7 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
     studyhandleChange(event) {
         var picklist_Value = event.target.value;
         this.selectedStudy = picklist_Value;
-
+        
 
         this.deactivatedsitelist = [];
         var accesslevels = Object.keys(this.siteAccessLevels).length;
@@ -317,14 +319,14 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
                 for (var j in temp) {
                     if(accesslevels == 0){
                         options.push({ label: temp[j].Name, value: temp[j].Id });
-                        if(temp[j].Site_Activation_Status__c == null || temp[j].Site_Activation_Status__c == 'Deactivated' || temp[j].Site_Activation_Status__c == 'Deactivated (Admin)'){
+                        if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
                           this.deactivatedsitelist.push(temp[j].Id);
                         }
                     }else{
                         var level = this.siteAccessLevels[temp[j].Id];
                         if(level != 'Level 3' && level != 'Level 2'){
                             options.push({ label: temp[j].Name, value: temp[j].Id });
-                            if(temp[j].Site_Activation_Status__c == null || temp[j].Site_Activation_Status__c == 'Deactivated' || temp[j].Site_Activation_Status__c == 'Deactivated (Admin)'){
+                            if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
                               this.deactivatedsitelist.push(temp[j].Id);
                             }
                         }
@@ -338,14 +340,14 @@ export default class Pir_BulkImport extends NavigationMixin(LightningElement) {
               for (var j in temp) {
                 if(accesslevels == 0){
                     options.push({ label: temp[j].Name, value: temp[j].Id });
-                    if(temp[j].Site_Activation_Status__c == null || temp[j].Site_Activation_Status__c == 'Deactivated' || temp[j].Site_Activation_Status__c == 'Deactivated (Admin)'){
+                    if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
                       this.deactivatedsitelist.push(temp[j].Id);
                     }
                 }else{
                     var level = this.siteAccessLevels[temp[j].Id];
                     if(level != 'Level 3' && level != 'Level 2'){
                         options.push({ label: temp[j].Name, value: temp[j].Id });
-                        if(temp[j].Site_Activation_Status__c == null || temp[j].Site_Activation_Status__c == 'Deactivated' || temp[j].Site_Activation_Status__c == 'Deactivated (Admin)'){
+                        if(temp[j].Site_Activation_Status__c != 'Activated' && temp[j].Site_Activation_Status__c != 'Activated (Admin)'){
                           this.deactivatedsitelist.push(temp[j].Id);
                         }
                     }
