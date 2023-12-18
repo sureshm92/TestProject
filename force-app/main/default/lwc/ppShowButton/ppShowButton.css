@@ -1,0 +1,24 @@
+.question-item {
+    height: 88px;
+    border-top: 1px solid #d9d9d9;
+}
+.ms-send-button {
+    height: 35px;
+    width: 96px;
+    border: none;
+    border-radius: 1rem;
+}
+.selection {
+    box-sizing: border-box;
+    --sds-c-input-radius-border: 20px;
+    height: 40px;
+    margin: 1.2rem 0 0 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+}
+.mob-selection {
+    --sds-c-input-radius-border: 20px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+    margin: 0;
+    background-color:white;
+}

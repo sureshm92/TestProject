@@ -59,8 +59,9 @@
               p-left-none
             ">
               <div title={label.Study_Sites} class="text-overflow margin-top">{label.Study_Sites}</div>
-              <lightning-combobox name="StudySites" variant="label-hidden" value={defaultSite} placeholder=""
+              <lightning-combobox name="StudySites" variant="label-hidden" value={defaultSite} placeholder="Select..."
                 options={studySiteList} onchange={studysiteshandleChange}></lightning-combobox>
+                <div if:true={showStudyErr} class="slds-form-element__help err">No active study sites available for selection</div>
             </div>
             <div class="
               slds-col

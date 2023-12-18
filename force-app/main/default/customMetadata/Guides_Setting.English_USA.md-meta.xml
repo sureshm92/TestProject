@@ -40,7 +40,7 @@
     </values>
     <values>
         <field>Participant_Quick_Reference__c</field>
-        <value xsi:type="xsd:string">Participant_quick_reference</value>
+        <value xsi:type="xsd:string">Participant_quick_reference_Default</value>
     </values>
     <values>
         <field>Participant_User_Manual__c</field>

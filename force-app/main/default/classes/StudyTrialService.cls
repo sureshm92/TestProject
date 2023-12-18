@@ -234,7 +234,8 @@ public without sharing class StudyTrialService {
                 '  AND Clinical_Trial_Profile__r.CommunityTemplate__c != \'' +
                 CommunityTemplateService.TEMPLATE_JANSSEN +
                 '\' ' +
-                '  AND Override_PI_Referral_Status__c IN (\'' +
+                '  AND Site_Activation_Status__c IN (\'' +
+                //'  AND Override_PI_Referral_Status__c IN (\'' +
                 String.join(StudySiteService.STATUS_GROUP_ACCEPTED, '\',\'') +
                 '\')' +
                 '  AND Principal_Investigator__r.Account.BillingCountry = :userCountry ' +

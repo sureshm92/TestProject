@@ -71,6 +71,10 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
         return this.isRTL ? 'mr-10' : '';
     }
 
+    get padExclamationIcon(){
+        return this.isRTL ? 'pad-l-10  exclamation_mobile' : 'pad-r-10  exclamation_mobile';
+    }
+
     handleHomePage() {
         communityService.navigateToPage('');
     }

@@ -391,7 +391,7 @@
                         >{pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
                       >
                       <p class="part-name">
-                        assigned by
+                        {label.assigned_by}
                         {pde.Patient_Delegate__r.Participant__r.First_Name__c}
                         {pde.parLastNameInitial}.
                       </p>
@@ -1015,7 +1015,7 @@
                             target="_blank"
                             style="text-decoration: none"
                           >
-                            <span class="slds-p-right--medium txt-color"
+                            <span class={padFooterLinkMobile}
                               >{label.Footer_Link_Terms_Of_Use}</span
                             >
                           </a>
@@ -1028,7 +1028,7 @@
                             target="_blank"
                             style="text-decoration: none"
                           >
-                            <span class="slds-p-left--medium txt-color"
+                            <span class={padPrivacyLinkMobile}
                               >{label.Email_Footer_Privacy_Policy}</span
                             >
                           </a>
@@ -1210,7 +1210,7 @@
                           >{pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
                         >
                         <p class="part-name">
-                          assigned by
+                          {label.assigned_by}
                           {pde.Patient_Delegate__r.Participant__r.First_Name__c}
                           {pde.parLastNameInitial}.
                         </p>
@@ -1223,7 +1223,7 @@
                             target="_blank"
                             style="text-decoration: none"
                           >
-                            <span class="slds-p-right--medium txt-color"
+                            <span class={padFooterLinkMobile}
                               >{label.Footer_Link_Terms_Of_Use}</span
                             >
                           </a>
@@ -1236,7 +1236,7 @@
                             target="_blank"
                             style="text-decoration: none"
                           >
-                            <span class="slds-p-left--medium txt-color"
+                            <span class={padPrivacyLinkMobile}
                               >{label.Email_Footer_Privacy_Policy}</span
                             >
                           </a>
