@@ -57,7 +57,12 @@
         </div>
 
         <div class="rr-width-limiter side-padding">
-            <c:CommunityFooter />
+            <aura:if isTrue="{!v.communityName != 'IQVIA Patient Portal'}">
+                <c:CommunityFooter />
+                <aura:set attribute="else">
+                    <c:ppCommunityFooter aura:id="ppFooter" />
+                </aura:set>
+             </aura:if>
         </div>
     </aura:if>
 

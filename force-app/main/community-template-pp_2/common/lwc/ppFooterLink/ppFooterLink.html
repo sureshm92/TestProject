@@ -1,8 +1,15 @@
 <template>
     <button class="pagelink" onclick={onClick}>
-        {label}
+       
         <template if:true={iscpraAvailable}>
-            <img src={CCPA_icon} class="imgclass" />
+            <span class="container">
+                {label}
+                <img src={CCPA_icon} class="imgclass" />
+                <img src={CCPA_icon_hover} class="overlay" />
+            </span>
+        </template>
+        <template if:false={iscpraAvailable}>
+            {label}
         </template>
     </button>
 </template>
