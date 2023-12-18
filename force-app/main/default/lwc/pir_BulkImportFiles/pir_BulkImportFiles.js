@@ -66,6 +66,8 @@ export default class Pir_BulkImportFiles extends LightningElement {
     urltrialId = null;
     urlsiteId = null;
     @api myStudiesPg = false;
+    @api showparticipantimport = false;
+    buttoncss = 'slds-button slds-button_neutral bulk-importButton btn_height';
     isInstrModalOpen = false;
     showInstruction = false;
     batchStartIntervalId;
@@ -493,6 +495,15 @@ export default class Pir_BulkImportFiles extends LightningElement {
             mode: 'dismissable'
         });
         this.dispatchEvent(evt);
+    }
+
+    get showImport() {
+        if(this.showparticipantimport){
+            this.buttoncss = 'slds-button slds-button_neutral btn_height';
+        }else{
+            this.buttoncss = 'slds-button slds-button_neutral bulk-importButton btn_height';
+        }
+        return this.showparticipantimport;
     }
 
 
