@@ -12,20 +12,21 @@
     <div class="page-link" onclick="{!c.onClick}">
         <aura:if isTrue="{!v.enablePrivacyChoice}"> 
             <aura:if isTrue="{!v.isRTL}" >
-                <img src="{!$Resource.CCPA_icon}" class="imgclassRTL"/> 
-                    {!v.label}
+                <span class="container">
+                <img src="{!$Resource.CCPA_icon}" class="imgclassRTL" />
+                  <img src="{!$Resource.CCPA_icon_hover}" class="overlay" />
+                {!v.label}
+                </span>
                 <aura:set attribute="else">
-                    {!v.label}
-            <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+                    <span class="container">
+                        <span>{!v.label}</span>
+                        <img src="{!$Resource.CCPA_icon}" class="imgclass" />
+                        <img src="{!$Resource.CCPA_icon_hover}" class="overlay" />
+                    </span>
                 </aura:set>
 
             </aura:if>
-            <aura:set attribute="else">
-                {!v.label}
-            </aura:set>
-        </aura:if> 
-        <!-- <aura:if isTrue="{!v.enablePrivacyChoice}">
-            <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
-        </aura:if> -->
+            <aura:set attribute="else"> {!v.label} </aura:set>
+        </aura:if>
     </div>
 </aura:component>
