@@ -64,7 +64,7 @@
 
                                       
                                         
-                                    <p class="tvbody" style="text-align:center; padding:10px"><a onclick={navigateToTelevisit}>View Televisit Details</a> </p>
+                                    <p class="tvbody" style="text-align:center; padding:10px"><a onclick={navigateToTelevisit}>{labels.LINK_TELEVISIT}</a> </p>
                                     <!--{visit.eachMeetInfo} &nbsp;-->
                                     
                                     <!--<lightning-button data-name={visit.Televisit__r.Meeting_URL__c} label={labels.JOIN_MEET}
@@ -85,10 +85,10 @@
                             <span class="center-align">
                                 <img src={televisitNoUpcomingRecord} />
                             </span>
-                           <span class="text-colour"> No upcoming televisits </span>
+                           <span class="text-colour"> {labels.NO_TELEVISIT} </span>
                            <div class="noupcomingcard">
                                 <a class="label" onclick={navigateToTelevisit}>
-                                    View All Televisits
+                                    {labels.LINK_ALL_TELEVISIT}
                                 </a>
                             </div>
                         </div>

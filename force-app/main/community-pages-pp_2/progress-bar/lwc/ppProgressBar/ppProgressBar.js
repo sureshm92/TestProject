@@ -12,6 +12,8 @@ import PP_ProgressBar_No_Visit from '@salesforce/label/c.PP_ProgressBar_No_Visit
 import PP_ProgressBar_Event_Complete from '@salesforce/label/c.PP_ProgressBar_Event_Complete';
 import Stay_Tune_Label from '@salesforce/label/c.Pre_Trial_Stay_Tune';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import Mark_Complete from '@salesforce/label/c.BTN_Mark_As_Completed';
+import PP_Event_Complete from '@salesforce/label/c.PP_Event_Complete';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
 
 export default class PpProgressBar extends LightningElement {
@@ -58,7 +60,8 @@ stayTunedIcon = Stay_Tuned;
         BTN_Continue,
         PP_ProgressBar_No_Visit,
         PP_ProgressBar_Event_Complete,
-        Stay_Tune_Label
+        Mark_Complete,
+        PP_Event_Complete
     };
     @api
     parentWrapper ;
@@ -192,7 +195,7 @@ stayTunedIcon = Stay_Tuned;
     markEventAsComplete(event){
         updatePatientVisit({ patientVisitId: this.parentWrapper.progressWrapperList[this.currentCard-1].recordId })
         .then(result => {
-            this.showNotification('',"Event marked as complete","success");
+            this.showNotification('',this.label.PP_Event_Complete,"success");
         })
         .catch(error => {
             this.showNotification('',"Event could not be marked as complete","error");

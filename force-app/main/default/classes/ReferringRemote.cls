@@ -1,5 +1,5 @@
 /**
- * Created by Leonid Bartenev
+ * Created by Leonid Bartenev.
  */
 
 public without sharing class ReferringRemote {

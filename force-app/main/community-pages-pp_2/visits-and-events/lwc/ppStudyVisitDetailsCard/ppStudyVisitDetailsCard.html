@@ -3,7 +3,7 @@
     <c-web-spinner fixed="true" show-spinner={showSpinner}></c-web-spinner>
     <lightning-card>
         <div>
-            <div class="location-title">{label.location}</div>
+            <div class={locationtitleStyle}>{label.location}</div>
             <div class="address-section-outer">
                 <div class="address-section">
                     <div class="address-marker">
@@ -23,27 +23,28 @@
             </div>
             <div>
                 <div class="dateTimeContainer">
-                <template if:true={isinitialvisit} >
-                    <div class="read-only-background">
-                        <c-pp-date-time-combo
-                            data-id="visitDateTime"
-                            if:false={past}
-                            reminder={booleanFalse}
-                            compdate={compDate}
-                            comptime={compTime}
-                            mindate={currentDate}
-                            mintime={currentTime}
-                            ondatechange={handleDate}
-                            ontimechange={handleTime}
-                            onnulldatetime={handleNullDateTime}
-                            oninitialdateload={handleInitialDateLoad}
-                            oninitialtimeload={handleInitialTimeLoad}
-                            ondate={handleOnlyDate}
-                            ontime={handleOnlyTime}
-                            read-only-mode={isinitialvisit}
-                        ></c-pp-date-time-combo>
-                    </div>
-                </template>
+                    <template if:true={isinitialvisit}>
+                        <div class="read-only-background">
+                            <c-pp-date-time-combo
+                                data-id="visitDateTime"
+                                if:false={past}
+                                reminder={booleanFalse}
+                                compdate={compDate}
+                                comptime={compTime}
+                                mindate={currentDate}
+                                mintime={currentTime}
+                                ondatechange={handleDate}
+                                ontimechange={handleTime}
+                                onnulldatetime={handleNullDateTime}
+                                oninitialdateload={handleInitialDateLoad}
+                                oninitialtimeload={handleInitialTimeLoad}
+                                ondate={handleOnlyDate}
+                                ontime={handleOnlyTime}
+                                read-only-mode={isinitialvisit}
+                            ></c-pp-date-time-combo>
+                        </div>
+                    </template>
+                </div>
                 <template if:false={isinitialvisit}>
                     <c-pp-date-time-combo
                         data-id="visitDateTime"

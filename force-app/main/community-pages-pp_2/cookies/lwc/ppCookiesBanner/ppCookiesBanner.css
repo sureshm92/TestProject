@@ -5,7 +5,7 @@
     position: fixed;
     z-index: 99999;
     background: rgba(0, 0, 0, 0.8);
-    height: 344px;
+    height: auto;
     width: 900px;
     border-radius: 16px;
     background-color: #ffffff;
@@ -75,7 +75,7 @@
 
 .btn-label {
     color: #ffffff !important;
-    font-size: 1rem !important;
+    font-size: 18px !important;
     font-weight: 600 !important;
     letter-spacing: 0;
     line-height: 24px;
@@ -183,10 +183,9 @@
         bottom: 0;
         position: fixed;
         z-index: 99999;
-        background: rgba(0, 0, 0, 0.8);
-        min-height: 602px;
+        background: rgba(0, 0, 0, 0.9);
+        min-height: 550px;
         height: auto;
-        border-radius: 16px;
         box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
         left: 0;
         transform: none;
@@ -237,7 +236,7 @@
         text-align: center;
     }
     .btn-container {
-        width: 100% !important;
+        width: 92% !important;
     }
     /* Mobile modal css */
     .always-active::before {
