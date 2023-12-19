@@ -12192,7 +12192,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message Body for New Certificate Push</shortDescription>
-        <value>You have a new reward certificate from the ##StudyCodeName clinical research study available on the ##ShortCommName.</value>
+        <value>You have a new certificate from the ##StudyCodeName available on the IQVIA Patient Portal.</value>
     </labels>
     <labels>
         <fullName>Title_New_Message_Push</fullName>
@@ -12220,7 +12220,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Title New Visit Result Push</shortDescription>
-        <value>New Visit Result available</value>
+        <value>New result available</value>
     </labels>
     <labels>
         <fullName>Message_Body_New_Data_Push</fullName>
@@ -30222,7 +30222,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Title for new_Certificate Push</shortDescription>
-        <value>New gift certificate</value>
+        <value>New certificate</value>
     </labels>
     <labels>
         <fullName>Title_new_visit_data_push</fullName>
