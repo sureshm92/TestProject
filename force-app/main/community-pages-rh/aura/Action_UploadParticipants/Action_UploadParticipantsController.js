@@ -113,7 +113,7 @@
             communityService.showToast(
                 'error',
                 'error',
-                'Error: file format not correct. Please use the provided template.'
+                'Error: File format not correct. Please use the provided template.'
             );
             component.find('upModalSpinner').hide();
 

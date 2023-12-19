@@ -75,7 +75,7 @@
 
 .btn-label {
     color: #ffffff !important;
-    font-size: 1rem !important;
+    font-size: 18px !important;
     font-weight: 600 !important;
     letter-spacing: 0;
     line-height: 24px;
@@ -155,6 +155,9 @@
 
 /** RH End **/
 @media screen and (max-width: 768px) {
+    .manage{
+        margin-bottom: 24px
+    }
     .footer-m-top{
         margin-top: 1.5rem;
     }
@@ -170,7 +173,6 @@
         position: fixed;
         z-index: 99999;
         background: rgba(0, 0, 0, 0.8);
-        min-height: 602px;
         height: auto;
         border-radius: 16px;
         background-color: #ffffff;
@@ -183,10 +185,8 @@
         bottom: 0;
         position: fixed;
         z-index: 99999;
-        background: rgba(0, 0, 0, 0.8);
-        min-height: 602px;
+        background: rgba(0, 0, 0, 0.9);
         height: auto;
-        border-radius: 16px;
         box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
         left: 0;
         transform: none;
@@ -226,7 +226,7 @@
     .footer_logo_login_cookie_pos_mobile {
         width: 100%;
         text-align: center;
-        margin-bottom: 15px;
+        margin-bottom: 32px;
     }
     .login-close {
         margin-top: 18px;
@@ -237,7 +237,7 @@
         text-align: center;
     }
     .btn-container {
-        width: 100% !important;
+        width: 92% !important;
     }
     /* Mobile modal css */
     .always-active::before {
@@ -497,4 +497,8 @@
 .desk-cookies-banner-post-login .we-care-about-your-p-new{
     color: #000;
     margin: 14px 0px 24px 56px;
+}
+.modal_bottom_css{
+    border-bottom-left-radius : 16px !important;
+    border-bottom-right-radius : 16px !important;
 }

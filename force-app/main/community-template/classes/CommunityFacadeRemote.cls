@@ -806,6 +806,7 @@ public without sharing class CommunityFacadeRemote {
         resStdPushNotifications.add(NotificationCatalog.PUSH_TO_PT_NEW_LINK);
         resStdPushNotifications.add(NotificationCatalog.PUSH_TO_PT_NEW_VIDEO);
         resStdPushNotifications.add(NotificationCatalog.PUSH_TO_PT_NEW_MULTIMEDIA);
+        resStdPushNotifications.add(NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE);
         List<String> resPlatPushNotifications = new List<String>();
         resPlatPushNotifications.add(NotificationCatalog.PUSH_TO_PT_NEW_PLATFORM_ARTICLE);
         resPlatPushNotifications.add(NotificationCatalog.PUSH_TO_PT_NEW_PLATFORM_DOCUMENT);

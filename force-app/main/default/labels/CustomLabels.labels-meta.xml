@@ -8,6 +8,13 @@
         <value>View All Events</value>
     </labels>
     <labels>
+        <fullName>Quick_Refernce</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Quick Refernce</shortDescription>
+        <value>Check back later, coming soon</value>
+    </labels>
+    <labels>
         <fullName>View_All_Visits</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11887,6 +11894,20 @@ The expected format is REF##### to REF########</value>
         <value>Messages</value>
     </labels>
     <labels>
+        <fullName>MS_MessagesAll</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS MessagesAll</shortDescription>
+        <value>All Messages</value>
+    </labels>
+    <labels>
+        <fullName>back_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>back Label</shortDescription>
+        <value>Back To All Messages</value>
+    </labels>
+    <labels>
         <fullName>MS_New_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12171,7 +12192,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message Body for New Certificate Push</shortDescription>
-        <value>You have a new reward certificate from the ##StudyCodeName clinical research study available on the ##ShortCommName.</value>
+        <value>You have a new certificate from the ##StudyCodeName available on the IQVIA Patient Portal.</value>
     </labels>
     <labels>
         <fullName>Title_New_Message_Push</fullName>
@@ -12199,7 +12220,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Title New Visit Result Push</shortDescription>
-        <value>New Visit Result available</value>
+        <value>New result available</value>
     </labels>
     <labels>
         <fullName>Message_Body_New_Data_Push</fullName>
@@ -13718,7 +13739,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Outreach Message</shortDescription>
-        <value>New outreach created successfully .</value>
+        <value>New outreach created successfully.</value>
     </labels>
     <labels>
         <fullName>PDE_Created_By_for_Data_Load</fullName>
@@ -30201,7 +30222,7 @@ The IQVIA Referral Hub Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Title for new_Certificate Push</shortDescription>
-        <value>New gift certificate</value>
+        <value>New certificate</value>
     </labels>
     <labels>
         <fullName>Title_new_visit_data_push</fullName>
