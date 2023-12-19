@@ -14,18 +14,21 @@
     <!-- component body: -->
   <!--  <apex:outputpanel rendered="{!(communityName != 'IQVIA Referral Hub') && !(communityName != 'Janssen Community')}"> -->
     <apex:outputpanel rendered="{!!enableNewStyle}">
-    <apex:outputLink value="{!resultURL}"
+      <div>
+        <a href="{!resultURL}" target="_blank" 
                      style="border-radius: 4px; background: #297DFD; color: #FFFFFF; padding: 9px 16px;
                                                 border: 1px; font-size: 14px; letter-spacing: 0; line-height: 20px;
                                                 user-select: none; cursor: pointer; min-width: 100px; text-decoration: none;
                                                 box-shadow: 0 8px 10px 0 rgba(0,0,0,0.1), 0 8px 20px 0 rgba(41,125,253,0.4);">
         {!buttonLabelValue}
-    </apex:outputLink>
+        </a>
+      </div>
     </apex:outputpanel>
      <!--<apex:outputpanel rendered="{!(communityName == 'IQVIA Referral Hub') || !(communityName == 'Janssen Community')}">-->
     <apex:outputpanel rendered="{!enableNewStyle}">
      <!-- component body: -->
-    <apex:outputLink value="{!resultURL}"
+     <div>
+       <a href="{!resultURL}"  target="_blank"
                      style="border: 1px solid #ffffff;border-radius: 30px;
    color: #ffffff;
                             /** display: inline-block; **/
@@ -53,7 +56,8 @@
     text-decoration: none;
     box-shadow: 0 8px 10px 0 rgba(0,0,0,0.1), 0 8px 20px 0 rgba(41,125,253,0.4);">
         {!buttonLabelValue}
-    </apex:outputLink>
+    </a>
+ </div>
     </apex:outputpanel>
 
 </apex:component>
