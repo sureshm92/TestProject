@@ -107,7 +107,7 @@
 }
 
 .po-tab-content {
-    height: 316px;
+    height: auto;
     overflow-y: auto;
     padding-right: 15px;
 }
