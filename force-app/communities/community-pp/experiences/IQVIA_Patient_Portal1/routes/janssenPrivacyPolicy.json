@@ -1,0 +1,11 @@
+{
+    "activeViewId" : "a8c01d7d-5892-4e69-a396-175e318bd9a5",
+    "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+    "configurationTags" : [ ],
+    "id" : "bf508d12-c5d5-4302-b7d4-3bd6baa6fbe0",
+    "label" : "Janssen Privacy Policy",
+    "pageAccess" : "Public",
+    "routeType" : "custom-janssen-privacy-policy",
+    "type" : "route",
+    "urlPrefix" : "janssen-privacy-policy"
+  } 
