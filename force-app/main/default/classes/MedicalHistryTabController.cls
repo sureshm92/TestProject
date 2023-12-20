@@ -141,10 +141,10 @@ public without sharing class MedicalHistryTabController {
                 {
                     objWrapper.MedicalreportList = HumanAPIcontroller.getReportList(objPer.Unique_HumanId__c);
                     objWrapper.isSiteEnabledHumanAPI = true;
-                    if(objWrapper.MedicalreportList.reportList == Null)
-                    { 
+                  //  if(objWrapper.MedicalreportList.reportList == Null)
+                  //  { 
                         objWrapper.lstParticipantEnrollmentHstry = HumanAPIcontroller.getRequestHistory(objPer.id);
-                    }
+                  //  }
                 } 
             }   
            

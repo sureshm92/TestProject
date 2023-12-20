@@ -5,10 +5,9 @@
         ></lightning-layout>
 </template>
     <template if:false={isPastStudy}>
-        <lightning-layout-item size="12" class="question-item">
-            <lightning-layout>
-            <lightning-layout-item size="9"
-                ><lightning-combobox
+        <lightning-layout
+        ><lightning-layout-item size="12"
+            ><lightning-combobox
                     name="message"
                     value={messageValue}
                     placeholder={labels.PP_Select_Question}
@@ -18,9 +17,13 @@
                     class="mob-selection selection"
                     dropdown-alignment="bottom-left"
                 >
-                </lightning-combobox></lightning-layout-item>
-            <lightning-layout-item  size="3" class="slds-m-horizontal_large" style="margin-left: 7px; padding-right: 11px;">
-                <button
+            </lightning-combobox></lightning-layout-item
+            ></lightning-layout>
+            <lightning-layout
+                ><lightning-layout-item
+                    size="12"
+                    class="slds-m-top_small"
+                    ><button
                     class="primaryBtn ms-send-button"
                     data-gtm="ms-send-pa-button"
                     onclick={handleSendClick}
@@ -31,9 +34,8 @@
                     "
                 >
                     {labels.BTN_Send}
-                </button>
-                </lightning-layout-item>
-            </lightning-layout>
-        </lightning-layout-item>
+                </button></lightning-layout-item
+                ></lightning-layout
+            >
     </template>
 </template>
