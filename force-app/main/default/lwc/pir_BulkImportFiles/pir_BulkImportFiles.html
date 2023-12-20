@@ -21,9 +21,9 @@
                                     title={label.BulkImport_File_Template}>{label.BulkImport_File_Template}</span></a>
                         </button>
                     </div>
-                    <div class="slds-col slds-size_1-of-1 btn-width_Participants">
-                        <button class="slds-button slds-button_neutral bulk-importButton btn_height"
-                            onclick={handleImportModal}>
+                    <div class="slds-col slds-size_1-of-1 btn-width_Participants"> 
+                        <button class={buttoncss}
+                            onclick={handleImportModal} disabled ={showImport}>
                             <img src={impotrtSvgURL} /><span
                                 class="slds-p-left_small">{label.PIR_Import_Participants}</span>
                         </button>
