@@ -138,11 +138,13 @@ public without sharing class Action_InviteRPRemote {
             piContactIds.add(sstaff.Study_Site__r.Principal_Investigator__c);
             //inviteDetail.PIForInvetation.add(new PIOptionWrapper(sstaff.Study_Site__r.Principal_Investigator__c, sstaff.Study_Site__r.Principal_Investigator__r.Name));
         }
-        Map<Id,String> piIdNames = ParticipantWorkflowService.getPIContactSalutationAndNames(piContactIds);
+        Map<Id, String> piIdNames = ParticipantWorkflowService.getPIContactSalutationAndNames(
+            piContactIds
+        );
         for (Id i : piOtions.keySet()) {
-            if(piIdNames.containsKey(i) && piIdNames.get(i)!=null){
+            if (piIdNames.containsKey(i) && piIdNames.get(i) != null) {
                 result.add(new PIOptionWrapper(piIdNames.get(i), i));
-            }else{
+            } else {
                 result.add(new PIOptionWrapper(piOtions.get(i), i));
             }
         }
@@ -153,6 +155,12 @@ public without sharing class Action_InviteRPRemote {
         Set<Id> piContactIds = new Set<Id>();
         List<PIOptionWrapper> result = new List<PIOptionWrapper>();
         Map<Id, String> piOtions = new Map<Id, String>();
+        List<String> communityTemplateNames = new List<String>();
+        communityTemplateNames.add(communityTemplateName);
+        if (communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT) {
+            communityTemplateNames.add(CommunityTemplateService.TEMPLATE_GSK);
+            communityTemplateNames.add(CommunityTemplateService.TEMPLATE_PP);
+        }
         for (Site_Staff__c sstaff : [
             SELECT
                 Study_Site__r.Principal_Investigator__c,
@@ -161,7 +169,7 @@ public without sharing class Action_InviteRPRemote {
             WHERE
                 Site_Contact__c = :CommunityService.getUserContact().Id
                 AND Delegate_Level__c = 'Level 1'
-                AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplateName
+                AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c IN :communityTemplateNames
         ]) {
             piOtions.put(
                 sstaff.Study_Site__r.Principal_Investigator__c,
@@ -170,11 +178,13 @@ public without sharing class Action_InviteRPRemote {
             piContactIds.add(sstaff.Study_Site__r.Principal_Investigator__c);
             //inviteDetail.PIForInvetation.add(new PIOptionWrapper(sstaff.Study_Site__r.Principal_Investigator__c, sstaff.Study_Site__r.Principal_Investigator__r.Name));
         }
-        Map<Id,String> piIdNames = ParticipantWorkflowService.getPIContactSalutationAndNames(piContactIds);
+        Map<Id, String> piIdNames = ParticipantWorkflowService.getPIContactSalutationAndNames(
+            piContactIds
+        );
         for (Id i : piOtions.keySet()) {
-            if(piIdNames.containsKey(i) && piIdNames.get(i)!=null){
+            if (piIdNames.containsKey(i) && piIdNames.get(i) != null) {
                 result.add(new PIOptionWrapper(piIdNames.get(i), i));
-            }else{
+            } else {
                 result.add(new PIOptionWrapper(piOtions.get(i), i));
             }
         }
