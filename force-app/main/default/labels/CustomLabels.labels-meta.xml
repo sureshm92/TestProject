@@ -23815,7 +23815,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pre_Trial_Stay_Tune</shortDescription>
-        <value>Stay Tuned!</value>
+        <value>Stay tuned!</value>
     </labels>
     <labels>
         <fullName>Prefer_not_to_say</fullName>
