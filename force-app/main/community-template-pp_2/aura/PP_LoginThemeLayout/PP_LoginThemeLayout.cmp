@@ -20,6 +20,7 @@
     <aura:attribute name="isCPRAavailable" type="Boolean" default="false" />
     <aura:attribute name="CPRAlabel" type="String" />
     <aura:attribute name="CPRALinkToredirect" type="String" />
+    <aura:attribute name="footerLabel" type="String" default="{!$Label.c.Footer_T_Copyright}" />
 
     <aura:if isTrue="{!v.languageChecked}">
         <div class="body-content slds-grid slds-wrap body-image">
@@ -68,7 +69,7 @@
                         class="slds-col slds-size_1-of-1 slds-text-align_center footer-powered slds-m-vertical_x-small"
                     >
                         <span class="footer-label"
-                            >Powered by IQVIA © 2024. All rights reserved.</span
+                            >{!v.footerLabel}</span
                         >
                     </div>
                 </div>
