@@ -47,6 +47,7 @@ public without sharing class ResourceRemote {
             'id ,'+
             'Enrolled_DateTime__c ,'+
             'Participant_Status__c ,'+
+            'Days_After_Enrolled__c ,'+
             'Study_Site__r.Principal_Investigator__r.Name ,'+
             'Study_Site__r.Site__r.Name ,'+
             'Clinical_Trial_Profile__c ,'+
@@ -58,7 +59,9 @@ public without sharing class ResourceRemote {
             'Study_Site__r.Messages_Are_Available__c ,'+
             'Study_Site__r.Study_Site_Phone__c ,'+
             'Study_Site__r.Study_Site_Email__c ,'+
-            'Study_Site__r.Approved_Lng__c '+
+            'Study_Site__r.Approved_Lng__c ,'+
+            'Study_Site__r.Override_PI_Referral_Status__c ,'+
+            'Study_Site__r.Site__r.BillingCountryCode '+
             'FROM Participant_Enrollment__c '+
             'WHERE Id =: peId ';
             Participant_Enrollment__c  alumiPer =  Database.query(queryString);

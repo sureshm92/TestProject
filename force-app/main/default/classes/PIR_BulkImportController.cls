@@ -143,6 +143,7 @@ public without sharing class PIR_BulkImportController {
          Name,
          Site__c,
          Override_PI_Referral_Status__c,
+         Site_Activation_Status__c,
          Site__r.Name,
          Clinical_Trial_Profile__c,
          Clinical_Trial_Profile__r.Study_Code_Name__c,
