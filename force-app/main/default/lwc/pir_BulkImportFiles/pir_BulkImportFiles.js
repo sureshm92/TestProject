@@ -499,7 +499,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
 
     get showImport() {
         if(this.showparticipantimport){
-            this.buttoncss = 'slds-button slds-button_neutral btn_height';
+            this.buttoncss = 'slds-button slds-button_brand btn_height';
         }else{
             this.buttoncss = 'slds-button slds-button_neutral bulk-importButton btn_height';
         }

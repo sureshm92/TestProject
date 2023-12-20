@@ -18,6 +18,11 @@
                 console.log(action);
                 component.set('v.userTypeInfo', action);
             }
+            //Bulk Import History
+            if(action != null && 'importhistory' == action.id){
+                component.set('v.manageimporthistory', action);
+            }
+            //Ends
 
         });
     },

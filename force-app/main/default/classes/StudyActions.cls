@@ -67,6 +67,7 @@ public abstract class StudyActions {
     public static final String ACT_NO_THANKS = 'noThanks';
     public static final String ACT_DELEGATE = 'delegate';
     public static final String ACT_ADD_PATIENT = 'addPatient';
+    public static final String ACT_BULK_IMPORT_HISTORY = 'importhistory';
     public static final String ACT_UPLOAD_PATIENT = 'uploadPatient';
     public static final String ACT_DOWNLOAD_CONSENT = 'downloadConsent';
     public static final String ACT_HOME = 'backHome';
@@ -111,6 +112,7 @@ public abstract class StudyActions {
     public static final String LABEL_NO_THANKS = Label.BTN_No_thanks;
     public static final String LABEL_DELEGATE = Label.BTN_Delegate;
     public static final String LABEL_ADD_PATIENT = Label.PG_Add_Patients_Header;
+    public static final String LABEL_IMPORT_HISTORY = Label.pir_Bulk_Import_History;
     public static final String LABEL_UPLOAD_PATIENT = Label.PIR_Import_Participants;
     public static final String LABEL_DOWNLOAD_CONSENT = Label.BTN_View_Download_Consent;
     public static final String LABEL_HOME = Label.Link_Back_To_Home;
