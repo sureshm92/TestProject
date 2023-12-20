@@ -291,7 +291,23 @@ public class StudyActionsPI extends StudyActions {
                 }
             )
         );
-
+        //For bulk import history starts
+        DisableReason bulkimporthistory = new DisableReason(
+            studySite.Override_PI_Referral_Status__c != 'Accepted',
+            REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
+        );
+        actions.put(
+            ACT_BULK_IMPORT_HISTORY,
+            new Action(
+                ACT_BULK_IMPORT_HISTORY,
+                LABEL_IMPORT_HISTORY,
+                'icon-user-add',
+                new List<DisableReason>{
+                    bulkimporthistory
+                }
+            )
+        );
+        //Ends
         actions.put(
             ACT_UPLOAD_PATIENT,
             new Action(
@@ -400,6 +416,7 @@ public class StudyActionsPI extends StudyActions {
 
         //if (manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)) { //commented as part of site decoupling
             studySitePiActions.add(actions.get(ACT_MANAGE_REFERRALS_BY_SS));
+            studySitePiActions.add(actions.get(ACT_BULK_IMPORT_HISTORY));
             studySitePiActions.add(actions.get(ACT_MANAGE_REFERRING_CLINICS_BY_SS));
             studySitePiActions.add(actions.get('PI_Specific_Action'));
         //}
