@@ -437,7 +437,6 @@ public class StudyActionsPI extends StudyActions {
             studySitePiActions.add(actions.get(ACT_NO_THANKS));
         }
         
-        studySitePiActions.add(actions.get(ACT_BULK_IMPORT_HISTORY));
         //if(!actions.get(ACT_ADD_PATIENT).disabled)studyListViewItemActions.add(actions.get(ACT_ADD_PATIENT));
         //if (!actions.get(ACT_ADD_PATIENT).disabled)
             studySitePiActions.add(actions.get(ACT_ADD_PATIENT));
