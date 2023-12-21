@@ -153,7 +153,7 @@ public abstract class StudyActions {
     public static final String REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_HCP_STATUS = Label.RSN_Current_status_of_referring_provider_does_not_permit_this_action;
     public static final String REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS = Label.RSN_Study_Site_permissions_do_not_permit_this_action;
     public static final String REASON_LABEL_LOCKED_BY_ADMIN = Label.RSN_The_status_of_this_record_is_locked_by_site_administration_For_more_informa;
-
+    public static final String REASON_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL = 'Role Based Restriction';
     public List<Action> studyListViewItemActions = new List<Action>();
     public List<Action> studySitePiActions = new List<Action>();
     public List<Action> studyDetailActions = new List<Action>();
@@ -178,6 +178,7 @@ public abstract class StudyActions {
     protected transient DisableReason supportLevelReason;
     protected transient DisableReason level2AndLowReason;
     protected transient DisableReason level1AndLowReason;
+    protected transient DisableReason level2AndLowEngReason;
     protected transient DisableReason tcAcceptanceRequiredReason;
 
     private static Map<Id, Boolean> tcAcceptanceMap;
@@ -270,6 +271,11 @@ public abstract class StudyActions {
         level1AndLowReason = new DisableReason(
             DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(studyAccessLevel),
             REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
+        );
+
+        level2AndLowEngReason = new DisableReason(
+            DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(studyAccessLevel),
+            REASON_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
         );
 
         tcAcceptanceRequiredReason = new DisableReason(
