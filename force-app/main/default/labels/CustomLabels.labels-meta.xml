@@ -27834,6 +27834,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Study Site information was successfully saved.</value>
     </labels>
     <labels>
+        <fullName>StudyClosure_RITM</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study Closure RITM</shortDescription>
+        <value>RITM123</value>
+    </labels>
+    <labels>
         <fullName>SS_Upload_Participants</fullName>
         <language>en_US</language>
         <protected>true</protected>
