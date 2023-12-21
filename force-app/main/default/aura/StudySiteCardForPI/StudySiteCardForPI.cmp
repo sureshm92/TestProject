@@ -213,7 +213,7 @@
                         >
                             <aura:iteration items="{!v.siteWrapper.actions}" var="action">
                                 <aura:if
-                                        isTrue="{!action.id &amp;&amp; action.id != 'openToReceiveReferrals' &amp;&amp; action.id != 'importhistory' &amp;&amp; action.id != 'PI_Specific_Action' &amp;&amp; (action.id != 'noThanks' &amp;&amp; action.id != 'addPatient' &amp;&amp; action.id != 'uploadPatient') || (action.id == 'addPatient' &amp;&amp; action.disabled != true)}"
+                                        isTrue="{!action.id &amp;&amp; action.id != 'openToReceiveReferrals' &amp;&amp; action.id != 'importhistory' &amp;&amp; action.id != 'PI_Specific_Action' &amp;&amp; (action.id != 'noThanks' &amp;&amp; action.id != 'addPatient' &amp;&amp; action.id != 'uploadPatient') }"
                                 >
                                     <button
                                         id="{!action.id}"
@@ -252,7 +252,17 @@
                                 <div data-gtm="btn_AddParticipant_menu" class="bulk-import-btn">
                                     <c:uiHeaderMenu aura:id="menuId" class="mode-block">
                                         <aura:set attribute="title">
-                                     
+                                            <div
+                                                class="apollo-btn primary slds-align-bottom slds-top-margin-mobiles"
+                                            >
+                                                <div title="Add Participant">
+                                                    {!v.addParticipantInfo.label}
+                                                </div>
+                                                <c:RRIcon
+                                                    iconName="icon-chevron-down"
+                                                    class="icon-chevron-down-resources"
+                                                />
+                                            </div>
                                         </aura:set>
                                         <aura:iteration
                                             items="{!v.siteWrapper.actions}"
