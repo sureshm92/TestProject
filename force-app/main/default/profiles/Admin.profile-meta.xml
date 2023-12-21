@@ -9921,6 +9921,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Study_Closure__c.Only_Selected_Participants__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Televisit__c.Exception__c</field>
         <readable>true</readable>
     </fieldPermissions>
