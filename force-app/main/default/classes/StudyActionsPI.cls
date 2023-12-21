@@ -282,6 +282,7 @@ public class StudyActionsPI extends StudyActions {
                 LABEL_ADD_PATIENT,
                 'icon-user-add',
                 new List<DisableReason>{
+                    level2AndLowEngReason,
                     level2AndLowReason,
                     hcpLockedByAdmin,
                     studySiteOnHoldReason,
@@ -291,7 +292,23 @@ public class StudyActionsPI extends StudyActions {
                 }
             )
         );
-
+        //For bulk import history starts
+        DisableReason bulkimporthistory = new DisableReason(
+            studySite.Override_PI_Referral_Status__c != 'Accepted',
+            REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
+        );
+        actions.put(
+            ACT_BULK_IMPORT_HISTORY,
+            new Action(
+                ACT_BULK_IMPORT_HISTORY,
+                LABEL_IMPORT_HISTORY,
+                'icon-user-add',
+                new List<DisableReason>{
+                    bulkimporthistory
+                }
+            )
+        );
+        //Ends
         actions.put(
             ACT_UPLOAD_PATIENT,
             new Action(
@@ -418,8 +435,10 @@ public class StudyActionsPI extends StudyActions {
             // studySitePiActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
             studySitePiActions.add(actions.get(ACT_NO_THANKS));
         }
+        
+        studySitePiActions.add(actions.get(ACT_BULK_IMPORT_HISTORY));
         //if(!actions.get(ACT_ADD_PATIENT).disabled)studyListViewItemActions.add(actions.get(ACT_ADD_PATIENT));
-        if (!actions.get(ACT_ADD_PATIENT).disabled)
+        //if (!actions.get(ACT_ADD_PATIENT).disabled)
             studySitePiActions.add(actions.get(ACT_ADD_PATIENT));
         if (!actions.get(ACT_UPLOAD_PATIENT).disabled)
             studySitePiActions.add(actions.get(ACT_UPLOAD_PATIENT));
