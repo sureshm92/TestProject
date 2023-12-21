@@ -65,7 +65,30 @@
                             </div>
                         </div>
                     </div>
-                    <div class="group-title">Progress Timeline</div>
+                    <aura:if isTrue="{!v.isPP}">
+                        <div class="group-title">Pre-Enrollment progress bar</div>
+                        <div class="global-data">
+                            <div class="global-element">
+                                <lightning:input aura:id="preToggle" type="toggle" label="Status/Milestones PP2"
+                                    name="preTrialStatusToggle" checked="{!v.ctp.Pre_Trial_Status_Config__c}"
+                                    onchange="{!c.saveCTP}" variant="label-hidden" />
+                                <div style="margin-left: 10px">
+                                    <span>
+                                        Status/Milestones
+                                        <lightning:helptext class="helpTxt" content="This toggle populates configured 'Pre-Trial' status title and its description on pre-enrollment progress bar to participant, when enabled."/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.isPP}">
+                        <div class="group-title">Post-Enrollment progress bar</div>
+                        <aura:set attribute="else">
+                            <div class="group-title">Progress Timeline</div>
+                        </aura:set>
+                    </aura:if>
+
                     <div class="global-data">
                         <aura:if isTrue="{!v.isPP}">
                             <div class="global-element">
@@ -75,7 +98,7 @@
                                 <div style="margin-left: 10px">
                                     <span>
                                         Status/Milestones
-                                        <lightning:helptext class="helpTxt" content="Provide the status description and motivational message under Status Description tab to populate on the progress bar for the participant and their delegate."/>
+                                        <lightning:helptext class="helpTxt" content="This toggle populates configured 'In-Study/Program' status/milestone motivational message and description on post-enrollment progress bar to participant, when enabled."/>
                                     </span>
                                 </div>
                             </div>
@@ -98,7 +121,7 @@
                                     Visits/Events
                                     <aura:if isTrue="{!v.isPP}">
                                         <lightning:helptext class="helpTxt"
-                                            content="Provide the visit/event description and motivational message to populate on the progress bar for the participant and their delegate."
+                                            content="This toggle populates configured 'In-Study/Program' visit/event motivational message and description on post-enrollment progress bar to participant, when enabled."
                                         />
                                     </aura:if>
                                 </span>
