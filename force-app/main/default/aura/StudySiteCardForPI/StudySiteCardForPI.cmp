@@ -213,7 +213,7 @@
                         >
                             <aura:iteration items="{!v.siteWrapper.actions}" var="action">
                                 <aura:if
-                                        isTrue="{!action.id &amp;&amp; action.id != 'openToReceiveReferrals'   &amp;&amp; action.id != 'PI_Specific_Action' &amp;&amp; (action.id != 'noThanks' &amp;&amp; action.id != 'addPatient' &amp;&amp; action.id != 'uploadPatient') || (action.id == 'addPatient' &amp;&amp; action.disabled != true)}"
+                                        isTrue="{!action.id &amp;&amp; action.id != 'openToReceiveReferrals' &amp;&amp; action.id != 'importhistory' &amp;&amp; action.id != 'PI_Specific_Action' &amp;&amp; (action.id != 'noThanks' &amp;&amp; action.id != 'addPatient' &amp;&amp; action.id != 'uploadPatient') || (action.id == 'addPatient' &amp;&amp; action.disabled != true)}"
                                 >
                                     <button
                                         id="{!action.id}"
@@ -233,7 +233,7 @@
                             <!-- builk import page -->
                                 <!--aura:if isTrue="{!v.addParticipantInfo.disabled == false}"
                                 disabled="{!v.addParticipantInfo.disabled || v.addParticipantInfo.disabled == null }"
-                                >
+                                -->
                                 <button
                                     id=""
                                     data-gtm=""
@@ -246,7 +246,7 @@
                                 >
                                     {!$Label.c.pir_Bulk_Import_History}
                                 </button>
-                                </aura:if-->
+                                <!--/aura:if-->
                             <!-- builk import page -->
                             <aura:if isTrue="{!v.addParticipantInfo.disabled == false}">
                                 <div data-gtm="btn_AddParticipant_menu" class="bulk-import-btn">
