@@ -60,7 +60,24 @@ private class Test_Batch_CreateSummaryNotifications {
             Language__c = 'en_US'
         );
         insert videoResource;
-
+		Resource__c artResource = new Resource__c(
+            Content_Type__c = 'Article',
+            Description__c = 'testBehavior',
+            Title__c = 'TestRes',
+            Content_Class__c = 'Study-Specific',
+            Resource_Type__c = 'Study Document',
+            Language__c = 'en_US'
+        );
+        insert artResource;
+        Resource__c multiResource = new Resource__c(
+            Content_Type__c = 'Multimedia',
+            Description__c = 'testBehavior',
+            Title__c = 'TestRes',
+            Content_Class__c = 'Study-Specific',
+            Resource_Type__c = 'Study Document',
+            Language__c = 'en_US'
+        );
+        insert multiResource;
         Id docId = [
             SELECT Id, ContentDocumentId
             FROM ContentVersion
@@ -77,6 +94,9 @@ private class Test_Batch_CreateSummaryNotifications {
         TestData testData = new TestData();
         Clinical_Trial_Profile__c currentCtp = new Clinical_Trial_Profile__c(Id = testData.ctp.Id);
         currentCtp.CommunityTemplate__c = CommunityTemplateService.TEMPLATE_PP;
+        currentCtp.Relevant_Links_Are_Available__c = true;
+        currentCtp.Study_Documents_Are_Available__c = true;
+        currentCtp.Video_And_Articles_Are_Available__c = true;
         update currentCtp;
         Res_study__c resStudy = new Res_study__c(
             Active_After_Days__c = 0.00,
@@ -119,6 +139,35 @@ private class Test_Batch_CreateSummaryNotifications {
             Visible_To_Participant__c = true
         );
         insert resStudy3;
+        
+        Res_study__c resStudy4 = new Res_study__c(
+            Active_After_Days__c = 0.00,
+            Active_On_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
+            Clinical_Trial_Profile__c = testData.ctp.Id,
+            Expires_After_Days__c = 5,
+            Expires_On_Status__c = PEStatusState.PE_STATUS_TREATMENT_PERIOD_STARTED,
+            Notify_On_Availability__c = true,
+            Resource__c = artResource.Id,
+            Visible_In_Alumni__c = false,
+            Visible_To_Delegates__c = true,
+            Visible_To_Participant__c = true
+        );
+        insert resStudy4;
+        
+        Res_study__c resStudy5 = new Res_study__c(
+            Active_After_Days__c = 0.00,
+            Active_On_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
+            Clinical_Trial_Profile__c = testData.ctp.Id,
+            Expires_After_Days__c = 5,
+            Expires_On_Status__c = PEStatusState.PE_STATUS_TREATMENT_PERIOD_STARTED,
+            Notify_On_Availability__c = true,
+            Resource__c = multiResource.Id,
+            Visible_In_Alumni__c = false,
+            Visible_To_Delegates__c = true,
+            Visible_To_Participant__c = true
+        );
+        insert resStudy5;
+        
 
         testData.ss.Approved_Lng__c = 'en_US';
         update testData.ss;
@@ -151,13 +200,22 @@ private class Test_Batch_CreateSummaryNotifications {
                 AND Resource__r.Content_Type__c = 'Study_Document'
                 AND Clinical_Trial_Profile__r.Study_Documents_Are_Available__c = TRUE
         ];
-
+		User delegateUser = testData.createPatientDelegate();
         //new Batch_CreateSummaryNotifications().execute(null, resStudies);
+        System.runAs(testData.participantUser) {
+            List<Patient_Delegate__c> patientDelegates = PatientDelegateService.getInstance().getPDelegates();
+            Patient_Delegate_Enrollment__c pde2 = new Patient_Delegate_Enrollment__c(
+                    Patient_Delegate__c = patientDelegates[0].Id,
+                    Status__c='Active',
+                    Participant_Enrollment__c =testData.pe.id
+            );
+            insert pde2;
         Batch_CreateSummaryNotifications batchInstance = new Batch_CreateSummaryNotifications();
         Database.executeBatch(batchInstance);
         batchInstance.getBatchDescription();
         batchInstance.getRecommendedIntervalMode();
         batchInstance.getRecommendedRelaunchInterval();
+        }
         Test.stopTest();
 
         Contact updatedContact = [
@@ -165,8 +223,9 @@ private class Test_Batch_CreateSummaryNotifications {
             FROM Contact
             WHERE Id = :testData.pe.Participant_Contact__c
         ];
-         System.assertEquals(
-             linkResource.Id + ';' + videoResource.Id,
+
+        System.assertEquals(
+			linkResource.Id + ';' + videoResource.Id+';'+artResource.Id+';'+multiResource.Id,
             updatedContact.Resource_Notifications__c
         );
 

@@ -8,7 +8,7 @@ export default class PpWebSelect extends LightningElement {
     @api isRTL = false;
     @api labelHidden = false;
     @api label = '';
-    @api placeHolder = 'Select';
+    @api placeHolder = this.labels.SELECT;
     @api selectedValue = '';
     selectedLabel = '';
     @api options = [];
@@ -52,11 +52,11 @@ export default class PpWebSelect extends LightningElement {
             let currentOption = optionArray.filter((option) => {
                 return option.value === this.selectedValue;
             });
-            //return currentOption.length ? currentOption[0].label : this.placeHolder;
-            return currentOption.length ? currentOption[0].label : this.labels.SELECT;
+            return currentOption.length ? currentOption[0].label : this.placeHolder;
+            //return currentOption.length ? currentOption[0].label : this.labels.SELECT;
         } else {
-            //return this.placeHolder;
-            return this.labels.SELECT;
+            return this.placeHolder;
+            //return this.labels.SELECT;
         }
     }
 

@@ -61,7 +61,8 @@ stayTunedIcon = Stay_Tuned;
         PP_ProgressBar_No_Visit,
         PP_ProgressBar_Event_Complete,
         Mark_Complete,
-        PP_Event_Complete
+        PP_Event_Complete,
+        Stay_Tune_Label
     };
     @api
     parentWrapper ;
@@ -91,13 +92,15 @@ stayTunedIcon = Stay_Tuned;
                 this.showSpinner = false;
             }
             else{
+                this.showSpinner = false;
                 const emptyEvent = new CustomEvent('progressbarempty', {
                     detail: null
                 });
                 this.dispatchEvent(emptyEvent);
             }
         })
-        .catch(error => {            
+        .catch(error => { 
+            this.showSpinner = false;           
             console.log(error);
             const emptyEvent = new CustomEvent('progressbarempty', {
                 detail: null

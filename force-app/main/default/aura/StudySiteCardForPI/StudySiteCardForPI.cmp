@@ -16,6 +16,7 @@
     <aura:attribute name="studyListViewComponent" type="Aura.Component" />
     <aura:attribute name="addParticipantInfo" type="Object" />
     <aura:attribute name="manageParticipantInfo" type="Object" />
+    <aura:attribute name="manageimporthistory" type="Object" />
     <aura:attribute name="userTypeInfo" type="Object" />
 
     <!-- handlers: -->

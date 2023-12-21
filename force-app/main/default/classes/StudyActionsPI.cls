@@ -417,6 +417,7 @@ public class StudyActionsPI extends StudyActions {
 
         //if (manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)) { //commented as part of site decoupling
             studySitePiActions.add(actions.get(ACT_MANAGE_REFERRALS_BY_SS));
+            studySitePiActions.add(actions.get(ACT_BULK_IMPORT_HISTORY));
             studySitePiActions.add(actions.get(ACT_MANAGE_REFERRING_CLINICS_BY_SS));
             studySitePiActions.add(actions.get('PI_Specific_Action'));
         //}
