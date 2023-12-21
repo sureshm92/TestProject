@@ -282,6 +282,7 @@ public class StudyActionsPI extends StudyActions {
                 LABEL_ADD_PATIENT,
                 'icon-user-add',
                 new List<DisableReason>{
+                    level2AndLowEngReason,
                     level2AndLowReason,
                     hcpLockedByAdmin,
                     studySiteOnHoldReason,
@@ -435,8 +436,9 @@ public class StudyActionsPI extends StudyActions {
             // studySitePiActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
             studySitePiActions.add(actions.get(ACT_NO_THANKS));
         }
+        
         //if(!actions.get(ACT_ADD_PATIENT).disabled)studyListViewItemActions.add(actions.get(ACT_ADD_PATIENT));
-        if (!actions.get(ACT_ADD_PATIENT).disabled)
+        //if (!actions.get(ACT_ADD_PATIENT).disabled)
             studySitePiActions.add(actions.get(ACT_ADD_PATIENT));
         if (!actions.get(ACT_UPLOAD_PATIENT).disabled)
             studySitePiActions.add(actions.get(ACT_UPLOAD_PATIENT));
