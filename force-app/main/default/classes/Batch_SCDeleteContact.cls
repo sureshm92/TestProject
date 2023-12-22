@@ -109,9 +109,9 @@ public without sharing class Batch_SCDeleteContact implements Database.Batchable
                  uniqueId = uniqueId.replaceAll('[-: ]','');
                  String rNum = keyStr+uniqueId;
                 userRec.IsPortalEnabled = false;
-                userRec.Email = 'invalidiqvia@iqvia.com.invalid.'+System.Label.StudyClosure_RITM+rNum;
-                userRec.Username = 'invalidiqvia@iqvia.com.invalid.'+System.Label.StudyClosure_RITM+rNum;
-                userRec.LastName = 'invalidiqvia@iqvia.com.invalid.'+System.Label.StudyClosure_RITM+rNum;
+                userRec.Email = 'invalidiqvia@iqvia.com.invalid.'+rNum;
+                userRec.Username = 'invalidiqvia@iqvia.com.invalid.'+rNum;
+                userRec.LastName = 'invalidiqvia@iqvia.com.invalid.'+rNum;
                 }
                 TriggerHandlerExecutor.bypassHandler(
                 UserTriggerHandler.UpdateLanguageOnRelatedContactsHandler.class
