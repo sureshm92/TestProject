@@ -99,7 +99,7 @@ public without sharing class Batch_SCDeleteContact implements Database.Batchable
             lstIds.add('0052o000009SevCAAS');
             
             List<User> lstUser = [Select Id,LastName,Email,Username,IsPortalEnabled,IsActive from User 
-                                  where IsPortalEnabled = false AND IsActive = false AND Id IN:lstIds ];
+                                  where IsPortalEnabled = false AND IsActive = false AND Id IN:lstIds limit 14];
             if(lstUser.isEmpty() == false) {
                  for (User userRec : lstUser) {
                  Blob keyBlob = Crypto.GenerateAESKey(128);

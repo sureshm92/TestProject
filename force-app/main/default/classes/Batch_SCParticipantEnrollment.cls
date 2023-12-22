@@ -61,6 +61,7 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
         return Database.getQueryLocator(query);
     }
     public void execute(Database.BatchableContext bc, List<Participant_Enrollment__c> records) {
+        if(records.isEmpty() == false){
         
         // Mapping of Participant and related contact Id
         Map<Id,Id> participantandContactIdsMap = new Map<Id,Id>();
@@ -107,6 +108,8 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
         }
         // Delete all the Participant Enrollment records
         deleteParticipantEnrollments(isStudyToDelete, records, participantEnrollmentIds);
+        
+       } 
     }
     public void finish(Database.BatchableContext bc) {
     
