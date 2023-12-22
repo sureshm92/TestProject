@@ -43,22 +43,29 @@ global class IntegrationBioMarkerFileBatchDeletion implements Database.Batchable
     global void execute(Database.BatchableContext BC, List<Participant_Enrollment__c> enrollmentList){
     
         Set<Id> integrationBioMarkerIds = new Set<Id>();
-        
+        List<ContentDocumentLink> cdl = new List<ContentDocumentLink>();
+        List<Id> cdIds = new List<Id>();
         for(RH_Biomarker__c bioMarker : [
             SELECT Id, Integration_Biomarker__c 
             FROM RH_Biomarker__c 
             WHERE Participant_Enrollment__c IN :enrollmentList AND Integration_Biomarker__c != null
-        ]) {
+        ]){
             
             integrationBioMarkerIds.add(bioMarker.Integration_Biomarker__c);
         }
+        cdl = [SELECT ContentDocumentId,Id,LinkedEntityId FROM ContentDocumentLink WHERE LinkedEntityId IN:integrationBioMarkerIds];
         
+        if(cdl.isEmpty() == false){
+            for(ContentDocumentLink  cd:cdl){
+                cdIds.add(cd.ContentDocumentId);
+            } 
+         } 
         if(isStudyToDelete) {
-            delete [SELECT Id FROM ContentDocument WHERE ParentId IN : integrationBioMarkerIds];
+            delete [SELECT Id FROM ContentDocument WHERE ID IN : cdIds];
         } else {
         
            contentDocumentIds.addAll((new Map<Id, ContentDocument>(
-               [SELECT Id FROM ContentDocument WHERE ParentId IN : integrationBioMarkerIds]
+               [SELECT Id FROM ContentDocument WHERE ID IN : cdIds]
            )).keySet());
         }
     }
