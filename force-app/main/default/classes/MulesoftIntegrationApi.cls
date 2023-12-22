@@ -95,9 +95,10 @@ public with sharing class MulesoftIntegrationApi {
          Blob keyBlob = Crypto.GenerateAESKey(128);
          String keyStr = EncodingUtil.ConvertTohex(keyBlob);
          String guid = keyStr.SubString(0,8)+ '-' + keyStr.SubString(8,12) + '-' + keyStr.SubString(12,16) + '-' + keyStr.SubString(16,20) + '-' + keyStr.substring(20);
+         guid = guid.replaceAll('[-: ]','');
          String uniqueId = String.valueof(DateTime.now());
          uniqueId = uniqueId.replaceAll('[-: ]','');
-         return (keyStr+'_'+uniqueId );
+         return (guid+'_'+uniqueId );
     }
     
     
