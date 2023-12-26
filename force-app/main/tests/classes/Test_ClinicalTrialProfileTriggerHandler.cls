@@ -36,7 +36,8 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
                     'Study_Code_Name__c' => 'CTP 1',
                     'NCT_Number__c' => 'NCT00000001',
                     'Therapeutic_Area__c' => tA.Id,
-                    'Synch_with_TMDH__c' => true
+                    'Synch_with_TMDH__c' => true,
+                    'Recruitment_Status__c' => 'Enrolling'
                 }
             )
         );
@@ -49,7 +50,9 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
                     'Study_Code_Name__c' => 'CTP 2',
                     'NCT_Number__c' => 'NCT00000002',
                     'Therapeutic_Area__c' => tA.Id,
-                    'Synch_with_TMDH__c' => true
+                    'Synch_with_TMDH__c' => true,
+                    'Recruitment_Status__c' => 'Closed to Enrollment',
+                    'Travel_Vendor_Is_Available__c' => True
                 }
             )
         );
@@ -62,7 +65,8 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
                     'Study_Code_Name__c' => 'CTP 3',
                     'NCT_Number__c' => 'NCT00000003',
                     'Therapeutic_Area__c' => tA.Id,
-                    'Synch_with_TMDH__c' => true
+                    'Synch_with_TMDH__c' => true,
+                    'Recruitment_Status__c' => 'Discontinued'
                 }
             )
         );
@@ -139,6 +143,16 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
             )
         );
         insert participants;
+        
+        Participant__c part = [Select id ,Contact__c from Participant__c where id=:participants[1].Id];
+        
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+            Contact__c = part.Contact__c,
+            Participant__c = part.Id,
+            Participant__r = part,
+            Status__c = 'Active'
+        );
+        insert patientDelegate;
 
         List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>();
         enrollments.add(
@@ -203,6 +217,12 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         System.assertEquals(3, cTPs.size());
         cTPs[1].Therapeutic_Area__c = newTA.Id;
         cTPs[1].Override_Recruitment_Status__c = 'Actively Enrolling';
+        cTPs[1].Travel_Vendor_Is_Available__c = false;
+        cTPs[1].Logged_Out_Days_Notification__c = 1;
+        cTPs[1].Suppress_PI_Emails__c=true;
+        cTPs[1].Enable_for_Call_Center_Support__c=true;
+        cTPs[1].Received_Until_Consent_Is_Available__c=true;
+        cTPs[1].CommunityTemplate__c='Janssen';
 
         Test.startTest();
         update cTPs;
@@ -312,6 +332,8 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         );
         t1.NCT_Number__c = 'NCT00000000';
         t1.Protocol_ID__c = 'NCT00000000';
+        t1.Recruitment_Status__c = 'In Development';
+        t1.Detailed_Description__c = 'Description';
         //t1.Status__c = 'Completed';
         Clinical_Trial_Profile__c t2 = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(
             Clinical_Trial_Profile__c.getSObjectType()

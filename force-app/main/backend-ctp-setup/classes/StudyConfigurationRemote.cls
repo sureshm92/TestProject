@@ -24,6 +24,7 @@ public with sharing class StudyConfigurationRemote {
                     Visit_Schedule_Is_Available__c,
                     Is_Program__c,
                     Study_Documents_Are_Available__c,
+                    Pre_Trial_Status_Config__c,
                     Video_And_Articles_Are_Available__c,
                     Tasks_Are_Available__c,
                     Travel_Vendor_Is_Available__c,

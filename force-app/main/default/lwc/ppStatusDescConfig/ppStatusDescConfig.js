@@ -208,11 +208,9 @@ export default class PpStatusDescConfig extends LightningElement {
         }
         else{
             let draftConfigurations = this.template.querySelector("lightning-datatable[data-tabid=inTrialStatusTab]").draftValues;
-                
-            if(!this.isProgram && this.isStatusMilestoneAvailable){
-                    draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues);
-                    draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues);
-            }
+            draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues);
+            draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues);
+            
             
             updateStatusConfig({ recs: draftConfigurations })
                 .then(result => {
@@ -278,14 +276,6 @@ export default class PpStatusDescConfig extends LightningElement {
 
     get buttonDisabled(){
         return this.isDisabled;
-    }
-
-    get showStatusTitleTab(){
-        return (!this.isProgram && this.isStatusMilestoneAvailable && this.configResult != null && this.statusTitleData!=null);
-    }
-
-    get showStatusMilestoneTab(){
-        return (!this.isProgram && this.isStatusMilestoneAvailable && this.configResult != null && this.statusilestoneData!=null);
     }
 
     get featureUnavailaleMessage(){
