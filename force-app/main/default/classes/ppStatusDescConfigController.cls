@@ -86,7 +86,6 @@ public without sharing class ppStatusDescConfigController {
         return null;
     }
     
-    
 }
 
 @AuraEnabled

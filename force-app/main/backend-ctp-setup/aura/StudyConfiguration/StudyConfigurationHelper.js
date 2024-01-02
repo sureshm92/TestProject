@@ -103,7 +103,6 @@
             let stValue = component.find('tasksToggle').get('v.checked');
             component.find('tasksToggle').set('v.checked', stValue);
         }
-        
     },
     fireProgressBarUpdateEvents : function (component, event) {
         const ppStatusBarChange = {
