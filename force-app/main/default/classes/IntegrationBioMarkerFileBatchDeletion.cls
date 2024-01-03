@@ -53,8 +53,9 @@ global class IntegrationBioMarkerFileBatchDeletion implements Database.Batchable
             
             integrationBioMarkerIds.add(bioMarker.Integration_Biomarker__c);
         }
+        if(integrationBioMarkerIds.isEmpty() == false){
         cdl = [SELECT ContentDocumentId,Id,LinkedEntityId FROM ContentDocumentLink WHERE LinkedEntityId IN:integrationBioMarkerIds];
-        
+        }
         if(cdl.isEmpty() == false){
             for(ContentDocumentLink  cd:cdl){
                 cdIds.add(cd.ContentDocumentId);
