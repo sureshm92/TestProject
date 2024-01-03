@@ -1,0 +1,41 @@
+<template>
+    <template if:false={isPastStudy}>
+        <lightning-layout
+            class="slds-m-bottom_x-small mob-question-item slds-grid"
+        ></lightning-layout>
+</template>
+    <template if:false={isPastStudy}>
+        <lightning-layout
+        ><lightning-layout-item size="12"
+            ><lightning-combobox
+                    name="message"
+                    value={messageValue}
+                    placeholder={labels.PP_Select_Question}
+                    options={options}
+                    onchange={handleChange}
+                    onfocus={handleChanges}
+                    class="mob-selection selection"
+                    dropdown-alignment="bottom-left"
+                >
+            </lightning-combobox></lightning-layout-item
+            ></lightning-layout>
+            <lightning-layout
+                ><lightning-layout-item
+                    size="12"
+                    class="slds-m-top_small"
+                    ><button
+                    class="primaryBtn ms-send-button"
+                    data-gtm="ms-send-pa-button"
+                    onclick={handleSendClick}
+                    disabled={handleValidation}
+                    style="
+                        border-radius: 20px;
+                        width: -webkit-fill-available;
+                    "
+                >
+                    {labels.BTN_Send}
+                </button></lightning-layout-item
+                ></lightning-layout
+            >
+    </template>
+</template>

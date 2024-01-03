@@ -148,6 +148,12 @@
     border-radius: 16px;
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
 }
+.box-button-container{
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+    border-top: 1px solid lightgrey;
+    margin-top: 0%;
+    margin-bottom: -11%;
+}
 .mob-msg-list-box {
     box-sizing: border-box;
     border: 1px solid #d9d9d9;
