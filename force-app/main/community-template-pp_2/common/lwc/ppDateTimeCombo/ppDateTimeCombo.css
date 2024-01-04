@@ -10,11 +10,11 @@
     padding-left: unset;
 }
 
-.date-time-left-space-rtl{
+.date-time-left-space-rtl {
     padding-left: 1rem;
     padding-right: 0rem;
 }
-.date-time-right-space-rtl{
+.date-time-right-space-rtl {
     padding-right: 1rem;
     padding-left: 0rem;
 }
@@ -101,7 +101,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
 @media all and (min-width: 768px) and (max-width: 870px) {
     .slds-small-size_1-of-2.slds-p-right_xx-small,
     .slds-small-size_1-of-2.slds-p-left_xx-small {
-        min-width: 100%;
+        /* min-width: 100%; */
         margin-bottom: 1rem;
         padding-left: 0;
     }
