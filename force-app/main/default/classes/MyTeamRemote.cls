@@ -649,7 +649,12 @@ public without sharing class MyTeamRemote {
                     }
                 }            
                 //To check existing data present or not
-
+                lstss = [
+                    SELECT id, Site_Contact__c, is_Invited__c, Study_Site__c
+                    FROM Site_Staff__c
+                    WHERE Site_Contact__c IN :ConId AND is_Invited__c = TRUE
+                    LIMIT 5
+                ];
                 String PI = '';
                 Boolean isHCP = false;
                 List<Study_Site__c> lstSSites = new List<Study_Site__c>();
@@ -684,12 +689,6 @@ public without sharing class MyTeamRemote {
                     hasDelegateLevels = saveHCPDelegate(dw, parentId);
                     isHCP = true;     
                 }
-                lstss = [
-                    SELECT id, Site_Contact__c, is_Invited__c, Study_Site__c
-                    FROM Site_Staff__c
-                    WHERE Site_Contact__c IN :ConId AND is_Invited__c = TRUE
-                    LIMIT 5
-                ];
                 
                 if (lstss.size() > 0 || lstUsr.size() > 0 || isHCP) {
                     if (
