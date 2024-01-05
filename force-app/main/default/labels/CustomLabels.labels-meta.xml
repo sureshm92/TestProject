@@ -9425,7 +9425,7 @@ Release 4.0 includes additional details around the screening process, which has 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Footer T Copyright</shortDescription>
-        <value>Powered by IQVIA © 2023. All rights reserved.</value>
+        <value>Powered by IQVIA © 2024. All rights reserved.</value>
     </labels>
     <labels>
         <fullName>Fulfilled</fullName>
@@ -21798,7 +21798,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Privacypolicy</shortDescription>
-        <value>Powered by IQVIA © 2023. All rights reserved.</value>
+        <value>Powered by IQVIA © 2024. All rights reserved.</value>
     </labels>
     <labels>
         <fullName>PP_ProfileInformation</fullName>
@@ -27832,6 +27832,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>SS Success Save Message</shortDescription>
         <value>Study Site information was successfully saved.</value>
+    </labels>
+    <labels>
+        <fullName>StudyClosure_RITM</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study Closure RITM</shortDescription>
+        <value>RITM123</value>
     </labels>
     <labels>
         <fullName>SS_Upload_Participants</fullName>
