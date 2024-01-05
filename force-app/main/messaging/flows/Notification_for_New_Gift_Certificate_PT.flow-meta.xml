@@ -228,7 +228,7 @@
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <variables>
         <description>Collection variable that will hold the push notification recipient  ids</description>
         <name>NotificationRecipients</name>

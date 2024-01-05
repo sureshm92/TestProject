@@ -204,7 +204,7 @@ p {
 
 .change-preferences {
     height: 24px;
-    width: 118px;
+    min-width: 118px;
     color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 13px;
