@@ -268,7 +268,7 @@ public without sharing class IncentiveProgramService {
         public String id;
 
         public CompletedTaskWrapper(Completed_Incentive_Task__c completedTask) {
-            this.dateCompleted = completedTask.Completed_Date__c.date().format();
+            this.dateCompleted = completedTask.Completed_Date__c.format('dd/MM/YYYY');
             this.points = Math.round(completedTask.Points__c);
             if (getTaskCatalogMap().containsKey(completedTask.Incentive_Task_Catalog__c)) {
                 this.description = TranslateHelper.getLabelValue(

@@ -83,7 +83,7 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
     connectedCallback() {
         let currentDelgId = communityService.getCurrentCommunityMode().currentDelegateId;
         this.showGetSupport = currentDelgId == null ? true : false;
-        DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
+        DEVICE == 'Large' ? (this.isMobile = false) : (this.isMobile = true);
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 Promise.all([loadStyle(this, communityPPTheme)])
