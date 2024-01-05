@@ -11,7 +11,7 @@
                 <div class="step-status"><lightning-formatted-date-time value={groupdate}  month="short" day="2-digit" year="numeric" time-zone="UTC" ></lightning-formatted-date-time></div>
             </template>
             <template if:false={isInitialVisit}>
-                <div class="step-status"> <lightning-formatted-date-time value={groupdate}  ></lightning-formatted-date-time></div>
+                <div class="step-status"> <lightning-formatted-date-time value={groupdate} month="short" day="2-digit" year="numeric" ></lightning-formatted-date-time></div>
             </template>
         </div> 
     </button> 
