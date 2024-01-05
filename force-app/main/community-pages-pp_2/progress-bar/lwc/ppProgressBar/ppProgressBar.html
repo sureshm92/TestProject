@@ -71,9 +71,9 @@
                                 <template if:true={barStatusDate}>
                                     <span>
                                         &nbsp;|&nbsp;<lightning-formatted-date-time value={barStatusDate} 
-                                            year="numeric"
-                                        month="long"
-                                        day="numeric"
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
                                         time-zone={userTimeZone}
                                         ></lightning-formatted-date-time>
                                     </span>
@@ -117,8 +117,8 @@
                                     <div class="sub-status-date">
                                         <lightning-formatted-date-time value={status.statusDate} 
                                             year="numeric"
-                                        month="long"
-                                        day="numeric"
+                                            month="short"
+                                            day="2-digit"
                                         time-zone="UTC"></lightning-formatted-date-time>
                                     </div>
                                 </div>
