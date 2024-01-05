@@ -82,6 +82,9 @@
                                                 <template if:true={pathItem.complDate}>
                                                     <lightning-formatted-date-time
                                                         value={pathItem.complDate}
+                                                        year="numeric"
+                                                        month="short"
+                                                        day="2-digit"
                                                         time-zone={userTimezone}
                                                     >
                                                     </lightning-formatted-date-time>

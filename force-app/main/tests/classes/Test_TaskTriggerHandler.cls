@@ -95,6 +95,16 @@ public class Test_TaskTriggerHandler {
             Status__c = 'Active'
         );
         insert patientDelegate;
+        
+        Patient_delegate_enrollment__c patientEnrollment =new Patient_delegate_enrollment__c(
+            Participant_Enrollment__c = testData.pe.Id,
+            Patient_Delegate__c= patientDelegate.id,
+            Study_Email_Consent__c=true,
+            Study_SMS_Consent__c=true,
+            Study_Phone_Consent__c=true,
+            Study_Direct_Mail_Consent__c=true
+        ); 
+        insert patientEnrollment;
 
         User delegateUser = CommunityService.createUser(delegate, null, null, null);
 
@@ -143,12 +153,24 @@ public class Test_TaskTriggerHandler {
             task6.Task_Type__c = 'Not Selected';
             task6.InitialTaskNotification__c = true;
             task6.WhoId = testData.participant.Contact__r.Id;
+            
+            Task task7 = new Task();
+            task7.Subject = 'testECOA';
+            task7.Task_Type__c= 'Ecoa';
+            task7.InitialTaskNotification__c= true;
+            task7.Visible_For__c = 'Owner;Delegates';
+            task7.Action_URL__c = 'e-diaries';
+            task7.Task_Code__c = 'Activate_Ecoa_Ediaries';
+            task7.Community_Template_Name__c = 'PatientPortal';
+            task7.WhatId = testData.participant.Id;
+            task7.WhoId = testData.participant.Contact__r.Id;
 
             tasks.add(task);
             tasks.add(task2);
             tasks.add(task4);
             tasks.add(task5);
             tasks.add(task6);
+            tasks.add(task7);
             try {
                 insert tasks;
             } catch (Exception e) {
@@ -160,6 +182,7 @@ public class Test_TaskTriggerHandler {
             tsHandler.beforeInsert(new List<Task>{ task4 });
             tsHandler.beforeInsert(new List<Task>{ task5 });
             tsHandler.beforeInsert(new List<Task>{ task6 });
+            tsHandler.beforeInsert(new List<Task>{ task7 });
 
             TaskTriggerHandler.SendImmediateEmailsForTaskCodeHandler tsHandler1 = new TaskTriggerHandler.SendImmediateEmailsForTaskCodeHandler();
             tsHandler1.afterInsert(new List<Task>{ task });
@@ -167,6 +190,7 @@ public class Test_TaskTriggerHandler {
             tsHandler1.afterInsert(new List<Task>{ task4 });
             tsHandler1.afterInsert(new List<Task>{ task5 });
             tsHandler1.afterInsert(new List<Task>{ task6 });
+            tsHandler1.afterInsert(new List<Task>{ task7 });
 
             task.Remind_Me__c = '2 day before';
             task2.Remind_Me__c = '2 day before';

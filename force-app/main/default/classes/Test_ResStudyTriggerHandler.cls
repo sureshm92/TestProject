@@ -86,6 +86,10 @@ public class Test_ResStudyTriggerHandler {
         
         Resource__c r4 = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
         r4.Content_Class__c = 'Study-Specific';
+        
+        Resource__c r5 = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
+        r5.document_type__c = 'Certificate';
+        
         r1StudyDoc.RecordTypeId = [
             SELECT Id
             FROM RecordType
@@ -98,10 +102,17 @@ public class Test_ResStudyTriggerHandler {
             WHERE DeveloperName = :ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT
         ]
         .Id;
+        r5.RecordTypeId = [
+            SELECT Id
+            FROM RecordType
+            WHERE DeveloperName = :ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT
+        ]
+        .Id;
         resources.add(r1StudyDoc);
         resources.add(r2StudyDoc);
         resources.add(r3);
         resources.add(r4);
+        resources.add(r5);
         insert resources;
         List<Res_study__c> resStudies = new List<Res_study__c>();
         test.startTest();
@@ -131,12 +142,20 @@ public class Test_ResStudyTriggerHandler {
         resStudy5.Resource__c = r4.Id;
         resStudy5.Clinical_Trial_Profile__c = t1.Id;
 		resStudy5.Visible_To_PI__c = true;
+        
+        Res_study__c resStudy6 = new Res_study__c();
+        resStudy6.Resource__c = r5.Id;
+        resStudy6.Clinical_Trial_Profile__c = t1.Id;
+		resStudy6.Visible_To_Participant__c = true;
+        resStudy6.Notify_On_Availability__c = true;
+        
         resStudies.add(resStudy);
         resStudies.add(resStudy1);
         resStudies.add(resStudy2);
         resStudies.add(resStudy3);
         resStudies.add(resStudy4);
         resStudies.add(resStudy5);
+        resStudies.add(resStudy6);
         insert resStudies;
         test.stopTest();
         for(Res_study__c res: resStudies){
