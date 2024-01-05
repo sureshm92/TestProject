@@ -30,14 +30,22 @@ public class StudyActionsPI extends StudyActions {
 
         //init reasons:
         List<String> manageReferralsStatuses = new List<String>{
-            StudySiteService.PI_S_ACCEPTED,
-            StudySiteService.PI_S_ACCEPTED_A,
-            StudySiteService.PI_S_ON_HOLD,
-            StudySiteService.PI_S_ON_HOLD_A
+            //StudySiteService.PI_S_ACCEPTED,
+            //StudySiteService.PI_S_ACCEPTED_A,
+            //StudySiteService.PI_S_ON_HOLD,
+            //StudySiteService.PI_S_ON_HOLD_A,
+            StudySiteService.SITE_ACTIVATED,
+            StudySiteService.SITE_ON_HOLD,
+            StudySiteService.SITE_ACTIVATED_A
+            
+        };
+
+        List<String> showActionsPIStatuses = new List<String>{
+            StudySiteService.PI_S_ACCEPTED
         };
 
         DisableReason manageReferralsStatusesReason = new DisableReason(
-            !manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c),
+            !manageReferralsStatuses.contains(studySite.Site_Activation_Status__c),
             REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
         );
 
@@ -49,6 +57,14 @@ public class StudyActionsPI extends StudyActions {
             REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
         );
 
+        //If you have to check the user mode for each study then check DelegateService.DELEGATE_LEVEL_1_AND_LOW.contains(studyAccessLevel)  if its PI then its false if its SiteStaff then its true
+        DisableReason showStudyActionsInfo = new DisableReason(
+            (studySite.Override_PI_Referral_Status__c == 'Invitation Sent' 
+            || studySite.Override_PI_Referral_Status__c == 'None'
+            || studySite.Override_PI_Referral_Status__c == 'Deactivated' ),
+            studySite.Site_Activation_Status__c
+        );
+
         //init actions:
         actions.put(
             ACT_MANAGE_REFERRALS,
@@ -57,7 +73,7 @@ public class StudyActionsPI extends StudyActions {
                 LABEL_MANAGE_REFERRALS,
                 'referrals',
                 new List<DisableReason>{
-                    studyNoLongerEnrollingReason,
+                    //studyNoLongerEnrollingReason, Site Decoupling changes : removed to remove depedency from study Override_Recruitment_Status__c status
                     manageReferralsStatusesReason
                 }
             )
@@ -70,7 +86,7 @@ public class StudyActionsPI extends StudyActions {
                     LABEL_MANAGE_REFERRING_CLINICS,
                     'referring-clinic',
                     new List<DisableReason>{
-                        studyNoLongerEnrollingReason,
+                        //studyNoLongerEnrollingReason, Site Decoupling changes : removed to remove depedency from study Override_Recruitment_Status__c status
                         manageReferralsStatusesReason
                     }
                 )
@@ -266,16 +282,33 @@ public class StudyActionsPI extends StudyActions {
                 LABEL_ADD_PATIENT,
                 'icon-user-add',
                 new List<DisableReason>{
+                    level2AndLowEngReason,
                     level2AndLowReason,
                     hcpLockedByAdmin,
                     studySiteOnHoldReason,
                     studySiteNotAcceptedReason,
-                    studyNoLongerEnrollingReason,
+                    //studyNoLongerEnrollingReason, Site decoupling changes, this has been removed to remove dependency from study
                     tcAcceptanceRequiredReason
                 }
             )
         );
-
+        //For bulk import history starts
+        DisableReason bulkimporthistory = new DisableReason(
+            studySite.Override_PI_Referral_Status__c != 'Accepted',
+            REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
+        );
+        actions.put(
+            ACT_BULK_IMPORT_HISTORY,
+            new Action(
+                ACT_BULK_IMPORT_HISTORY,
+                LABEL_IMPORT_HISTORY,
+                'icon-user-add',
+                new List<DisableReason>{
+                    bulkimporthistory
+                }
+            )
+        );
+        //Ends
         actions.put(
             ACT_UPLOAD_PATIENT,
             new Action(
@@ -287,7 +320,7 @@ public class StudyActionsPI extends StudyActions {
                     hcpLockedByAdmin,
                     studySiteOnHoldReason,
                     studySiteNotAcceptedReason,
-                    studyNoLongerEnrollingReason,
+                    //studyNoLongerEnrollingReason, Site Decoupling changes : removed to remove depedency from study Override_Recruitment_Status__c status
                     tcAcceptanceRequiredReason
                 }
             )
@@ -336,13 +369,27 @@ public class StudyActionsPI extends StudyActions {
                 LABEL_MANAGE_REFERRALS_BY_SS,
                 null,
                 new List<DisableReason>{
-                    studySiteOnHoldReason,
-                    studyNoLongerEnrollingReason,
+                   // studySiteOnHoldReason,
+                    //studyNoLongerEnrollingReason, Site Decoupling changes : removed to remove depedency from study Override_Recruitment_Status__c status
                     manageReferralsStatusesReason,
                     tcAcceptanceRequiredReason
                 }
             )
         );
+        //below is change for Site activation change, diabled reason if resolves as true then its delegate and false means PI
+        //this is not an actual action and is only for distinguish PI/Delegate
+        actions.put(
+            'PI_Specific_Action',
+            new Action(
+                'PI_Specific_Action',
+                null,
+                null,
+                new List<DisableReason>{
+                    showStudyActionsInfo
+                }
+            )
+        );
+
 
         if (CommunityTemplateService.TEMPLATE_JANSSEN != study.CommunityTemplate__c) {
             actions.put(
@@ -352,8 +399,8 @@ public class StudyActionsPI extends StudyActions {
                     LABEL_MANAGE_REFERRING_CLINICS_BY_SS,
                     null,
                     new List<DisableReason>{
-                        studySiteOnHoldReason,
-                        studyNoLongerEnrollingReason,
+                       // studySiteOnHoldReason,
+                        //studyNoLongerEnrollingReason, Site Decoupling changes : removed to remove depedency from study Override_Recruitment_Status__c status
                         manageReferralsStatusesReason,
                         tcAcceptanceRequiredReason
                     }
@@ -368,10 +415,12 @@ public class StudyActionsPI extends StudyActions {
             studyListViewItemActions.add(actions.get(ACT_MANAGE_REFERRING_CLINICS));
         }*/
 
-        if (manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)) {
+        //if (manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)) { //commented as part of site decoupling
             studySitePiActions.add(actions.get(ACT_MANAGE_REFERRALS_BY_SS));
+            studySitePiActions.add(actions.get(ACT_BULK_IMPORT_HISTORY));
             studySitePiActions.add(actions.get(ACT_MANAGE_REFERRING_CLINICS_BY_SS));
-        }
+            studySitePiActions.add(actions.get('PI_Specific_Action'));
+        //}
 
         //if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
         if (isTCAcceptanceRequired) {
@@ -387,8 +436,9 @@ public class StudyActionsPI extends StudyActions {
             // studySitePiActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
             studySitePiActions.add(actions.get(ACT_NO_THANKS));
         }
+        
         //if(!actions.get(ACT_ADD_PATIENT).disabled)studyListViewItemActions.add(actions.get(ACT_ADD_PATIENT));
-        if (!actions.get(ACT_ADD_PATIENT).disabled)
+        //if (!actions.get(ACT_ADD_PATIENT).disabled)
             studySitePiActions.add(actions.get(ACT_ADD_PATIENT));
         if (!actions.get(ACT_UPLOAD_PATIENT).disabled)
             studySitePiActions.add(actions.get(ACT_UPLOAD_PATIENT));
