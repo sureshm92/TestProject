@@ -75,7 +75,7 @@
                                 <div style="margin-left: 10px">
                                     <span>
                                         Status/Milestones
-                                        <lightning:helptext class="helpTxt" content="This toggle populates configured 'Pre-Trial' status title & its description on pre-enrollment progress bar to participant, when enabled."/>
+                                        <lightning:helptext class="helpTxt" content="This toggle populates configured 'Pre-Trial' status title &amp; its description on pre-enrollment progress bar to participant, when enabled."/>
                                     </span>
                                 </div>
                             </div>
@@ -98,7 +98,7 @@
                                 <div style="margin-left: 10px">
                                     <span>
                                         Status/Milestones
-                                        <lightning:helptext class="helpTxt" content="This toggle populates configured 'In-Study/Program' status/milestone, motivational message & description on post-enrollment progress bar to participant, when enabled."/>
+                                        <lightning:helptext class="helpTxt" content="This toggle populates configured 'In-Study/Program' status/milestone, motivational message &amp; description on post-enrollment progress bar to participant, when enabled."/>
                                     </span>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                                     Visits/Events
                                     <aura:if isTrue="{!v.isPP}">
                                         <lightning:helptext class="helpTxt"
-                                        content="This toggle populates configured 'In-Study/Program' visit/event motivational message & description on post-enrollment progress bar to participant, when enabled."                                        />
+                                        content="This toggle populates configured 'In-Study/Program' visit/event motivational message &amp; description on post-enrollment progress bar to participant, when enabled."                                        />
                                     </aura:if>
                                 </span>
                             </div>
