@@ -59,4 +59,31 @@ public class Test_SurveyInvitationDeletionBatch {
         List<SurveyInvitation> survetInvLst=[SELECT Id from SurveyInvitation where Participant_Enrollment__c =:testData.pe.Id limit 10];
         System.assertEquals(0,survetInvLst.size());
     }
+     @IsTest
+    static void testSurveyInvitationDel_OnlyPart() {
+        
+
+        TestData.loadTestData();
+        TestData testData = new TestData();
+        Test.startTest();
+        Study_Closure__c studClTest= new Study_Closure__c(Clinical_Trial_Profile_Id__c=testData.ctp.Id,Clinical_Trial_Profile_Name__c='test surveyInvt',Only_Selected_Participants__c=true);
+        insert studClTest;
+         Participant_Closure__c partCls= new Participant_Closure__c(Name='REF00000',Study_Closure__c=studClTest.id);
+        insert partCls;
+        List<Survey> survey = [SELECT Id, Name FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
+        if (survey.isEmpty())
+            return;
+
+        Id communityId = CommunityService.getCommunityId(null);
+        List<SurveyInvitation> invitations = new List<SurveyInvitation>();
+        invitations.add(
+            SurveyService.getInstance()
+                .generateInvitation(survey.get(0), null, 5, false, testData.pe.Id, communityId)
+        );
+        insert invitations;
+        Database.executeBatch(new SurveyInvitationDeletionBatch(testData.ctp.Id,false),10);
+        Test.stopTest();
+        List<SurveyInvitation> survetInvLst=[SELECT Id from SurveyInvitation where Participant_Enrollment__c =:testData.pe.Id limit 10];
+        System.assertEquals(1,survetInvLst.size());
+    }
 }

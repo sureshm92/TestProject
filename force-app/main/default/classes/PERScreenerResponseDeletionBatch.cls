@@ -2,6 +2,8 @@ global class PERScreenerResponseDeletionBatch implements Database.Batchable<sObj
     private String ctpId;
     private Boolean isStudyToDelete = false;
     private Set<Id> perScreenerResponseId = new Set<Id>();
+    private Set<String> RefIds = new Set<String>();
+    private Boolean onlySelectedPart = false;
     
     global PERScreenerResponseDeletionBatch(String ctpId){
         this.ctpId = ctpId;
@@ -10,11 +12,29 @@ global class PERScreenerResponseDeletionBatch implements Database.Batchable<sObj
         this.ctpId = ctpId;
         this.isStudyToDelete = isStudyToDelete;
     }
+    public class BatchControlException extends Exception{}
     global Database.QueryLocator start(Database.BatchableContext BC){
-        
-        String query = 'SELECT ID FROM Participant_PrescreenerResponse__c ';
+        List<Study_Closure__c> studyClosureList = [
+                SELECT Id,Only_Selected_Participants__c FROM Study_Closure__c WHERE Clinical_Trial_Profile_Id__c = :ctpId LIMIT 1
+            ];
+        if(studyClosureList.isEmpty() == false){
+              if(studyClosureList[0].Only_Selected_Participants__c){
+                    onlySelectedPart = true;
+                    List<Participant_Closure__c> partClosureList = [Select Name from Participant_Closure__c ];
+                    for(Participant_Closure__c pc:partClosureList){
+                        RefIds.add(pc.Name);
+                    }
+              }else{ onlySelectedPart = false;}
+         }else{
+                throw new BatchControlException('Please check the studyclosure record created or not for the study.');
+         }
+         
+        String query = 'SELECT ID,Participant_enrollment__r.Name FROM Participant_PrescreenerResponse__c ';
         if(String.isNotBlank(ctpId)) {
             query += 'WHERE Participant_enrollment__r.Clinical_Trial_Profile__c = :ctpId ';
+            if(onlySelectedPart){
+                     query += ' AND Participant_enrollment__r.Name IN:RefIds';
+            }
         } else {
             query += 'LIMIT 0';
         }
