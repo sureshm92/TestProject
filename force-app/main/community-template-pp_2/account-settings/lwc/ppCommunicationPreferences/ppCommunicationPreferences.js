@@ -44,6 +44,7 @@ import BTN_Save from '@salesforce/label/c.BTN_Save';
 import BACK from '@salesforce/label/c.Back';
 import Footer_Link_Terms_Of_Use from '@salesforce/label/c.Footer_Link_Terms_Of_Use';
 import Email_Footer_Privacy_Policy from '@salesforce/label/c.Email_Footer_Privacy_Policy';
+import assigned_by from '@salesforce/label/c.assigned_by';
 
 //END TO DO
 
@@ -109,7 +110,8 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         BTN_Save,
         BACK,
         Email_Footer_Privacy_Policy,
-        Footer_Link_Terms_Of_Use
+        Footer_Link_Terms_Of_Use,
+        assigned_by
     };
 
     @track studyDetails = [];
@@ -549,6 +551,14 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     }
     get TermUseStudyConsentClass() {
         return this.isRTL ? 'study-content study-content-mobile-rtl' : 'study-content';
+    }
+
+    get padFooterLinkMobile(){
+        return this.isRTL ? 'slds-p-left--medium txt-color' : 'slds-p-right--medium txt-color';
+    }
+
+    get padPrivacyLinkMobile(){
+        return this.isRTL ? 'slds-p-right--medium txt-color' : 'slds-p-left--medium txt-color';
     }
 
     renderedCallback() {}

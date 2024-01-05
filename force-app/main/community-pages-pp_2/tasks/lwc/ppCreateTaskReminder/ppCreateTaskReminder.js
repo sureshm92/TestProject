@@ -137,11 +137,6 @@ export default class PpCreateTaskReminder extends LightningElement {
                                     this.maxReminderDate != null
                                         ? this.maxReminderDate
                                         : this.taskDueDate;
-                                this.maxReminderDate = new Date(
-                                    this.maxReminderDate
-                                ).toLocaleString('en-US', {
-                                    timeZone: TIME_ZONE
-                                });
                                 this.taskId = this.taskInfo.Id;
                                 this.systemTask =
                                     this.taskInfo.Originator__c != 'Participant'
@@ -181,7 +176,9 @@ export default class PpCreateTaskReminder extends LightningElement {
                                 ) {
                                     this.isTaskDueDateTimeSelected = false;
                                 }
+                                this.maxremtime();
                                 this.selectedReminderDate = this.initData.reminderDate;
+                                this.maxReminderDate = this.getDateFromDateTime(this.maxReminderDate);
                                 this.selectedReminderDateTime = this.initData.reminderDate;
                             }
                             this.handleCommPrefChange();
@@ -287,6 +284,29 @@ export default class PpCreateTaskReminder extends LightningElement {
         return this.selectedReminderDate == currentDateTimeString ? this.currentTime : null;
     }
 
+    maxremtime(){
+        this.maxReminderTime = new Date(
+            this.maxReminderTime
+        ).toLocaleString('en-US', {
+            timeZone: TIME_ZONE
+        });
+        var processlocaltimezonedate = new Date(this.maxReminderTime);
+        if (!isNaN(processlocaltimezonedate.valueOf())) {
+            var hh = String(
+                (processlocaltimezonedate.getHours() < 10 ? '0' : '') +
+                    processlocaltimezonedate.getHours()
+            );
+            var mm = String(
+                (processlocaltimezonedate.getMinutes() < 10 ? '0' : '') +
+                    processlocaltimezonedate.getMinutes()
+            );
+            var ss = String(
+                (processlocaltimezonedate.getSeconds() < 10 ? '0' : '') +
+                    processlocaltimezonedate.getSeconds()
+            );
+            this.maxReminderTime = hh + ':' + mm + ':' + ss;
+        } 
+    }
     get maximumReminderTime() {
         if (this.maxReminderTime != null) {
             return this.selectedReminderDate == this.maxReminderDate ? this.maxReminderTime : null;

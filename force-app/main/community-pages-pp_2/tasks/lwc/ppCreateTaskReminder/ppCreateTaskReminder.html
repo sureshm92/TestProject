@@ -51,6 +51,7 @@
                         task-reminder={isCustomReminderOptionSelected}
                         ondatechange={handleReminderDate}
                         ontimechange={handleReminderTime}
+                        oninitialdateload={handleReminderDate}
                         ondate={handleOnlyDate}
                         ontime={handleOnlyTime}
                         onnulldatetime={handleNullDateTimeReminder}
@@ -83,7 +84,7 @@
                                 >
                             </label>
                         </div>
-                        <div class="slds-checkbox slds-p-left_medium">
+                        <div class="slds-checkbox">
                             <input
                                 type="checkbox"
                                 data-id="smsReminder"
