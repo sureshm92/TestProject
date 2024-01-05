@@ -211,7 +211,6 @@ export default class PpStatusDescConfig extends LightningElement {
             draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preMileTab]").draftValues);
             draftConfigurations = draftConfigurations.concat(this.template.querySelector("lightning-datatable[data-tabid=preStatusTab]").draftValues);
             
-            
             updateStatusConfig({ recs: draftConfigurations })
                 .then(result => {
                     if(result){
