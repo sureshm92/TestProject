@@ -3,6 +3,8 @@ global class TelevisitBatchDeletion implements Database.Batchable<sObject>, Data
     private Boolean isStudyToDelete = false;
     private Set<Id> alltTelevisitIds = new Set<Id>();
     private Set<Id> allTVConnectionIds = new Set<Id>();
+    private Set<String> RefIds = new Set<String>();
+    private Boolean onlySelectedPart = false;
     
     global TelevisitBatchDeletion(String ctpId){
         this.ctpId = ctpId;
@@ -11,9 +13,30 @@ global class TelevisitBatchDeletion implements Database.Batchable<sObject>, Data
         this.ctpId = ctpId;
         this.isStudyToDelete = isStudyToDelete;
     }
+    public class BatchControlException extends Exception{}
     
     global Database.QueryLocator start(Database.BatchableContext BC){
-        String query='SELECT Id, Name, (SELECT Id, Name FROM Televisits__r) FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c = :ctpId';
+        List<Study_Closure__c> studyClosureList = [
+                SELECT Id,Only_Selected_Participants__c FROM Study_Closure__c WHERE Clinical_Trial_Profile_Id__c = :ctpId LIMIT 1
+            ];
+        if(studyClosureList.isEmpty() == false){
+              if(studyClosureList[0].Only_Selected_Participants__c){
+                    onlySelectedPart = true;
+                    List<Participant_Closure__c> partClosureList = [Select Name from Participant_Closure__c ];
+                    for(Participant_Closure__c pc:partClosureList){
+                        RefIds.add(pc.Name);
+                    }
+              }else{ onlySelectedPart = false;}
+         }else{
+                throw new BatchControlException('Please check the studyclosure record created or not for the study.');
+         }
+         String query;
+         if(onlySelectedPart){
+              query='SELECT Id, Name, (SELECT Id, Name FROM Televisits__r) FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c = :ctpId';
+              query += ' AND Name IN:RefIds';
+         }else{
+            query='SELECT Id, Name, (SELECT Id, Name FROM Televisits__r) FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c = :ctpId';
+        }
         return Database.getQueryLocator(query);
     }
     global void execute(Database.BatchableContext BC, List<Participant_Enrollment__c> partEnrollRecords){
