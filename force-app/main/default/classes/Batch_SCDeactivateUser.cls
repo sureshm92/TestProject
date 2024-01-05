@@ -33,7 +33,7 @@ public without sharing class Batch_SCDeactivateUser implements Database.Batchabl
             }
         }   
         
-        String query = 'SELECT Id FROM User '
+        String query = 'SELECT Id,Username,Email,LastName FROM User '
             +'WHERE ContactId IN :studyContactIds AND IsActive = true AND IsPortalEnabled = true';
         return Database.getQueryLocator(query);
     }
@@ -115,11 +115,26 @@ public without sharing class Batch_SCDeactivateUser implements Database.Batchabl
         if(isStudyToDelete) {
         
             for (User userRec : records) {
-            
+                 Blob keyBlob = Crypto.GenerateAESKey(128);
+                 String keyStr = EncodingUtil.ConvertTohex(keyBlob);
+                 keyStr = keyStr.SubString(0,8);
+                 String uniqueId = String.valueof(DateTime.now());
+                 uniqueId = uniqueId.replaceAll('[-: ]','');
+                 String rNum = keyStr+uniqueId;
+                
                 userRec.IsPortalEnabled = false;
+                userRec.Email = 'invalidiqvia@iqvia.com.invalid.'+System.Label.StudyClosure_RITM+rNum;
+                userRec.Username = 'invalidiqvia@iqvia.com.invalid.'+System.Label.StudyClosure_RITM+rNum;
+                userRec.LastName = 'invalidiqvia@iqvia.com.invalid.'+System.Label.StudyClosure_RITM+rNum;
             }
+            TriggerHandlerExecutor.bypassHandler(
+            UserTriggerHandler.UpdateLanguageOnRelatedContactsHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+            UserTriggerHandler.UpdateEmailOnRelatedContactsHandler.class
+            );
             update records;
-            System.debug('User records -->'+[SELECT Id, ContactId, IsPortalEnabled, IsActive FROM User WHERE Id IN :records]);
+            
         } else {
             
             userIds.addAll((new Map<Id,User>(records)).keySet());
