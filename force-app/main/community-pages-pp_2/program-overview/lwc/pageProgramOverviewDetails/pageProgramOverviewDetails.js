@@ -16,7 +16,7 @@ import PPELIGIBLECRITERIA from '@salesforce/label/c.PP_Participant_Eligible_Crit
 import PPINCLUSIONCRITERIA from '@salesforce/label/c.PP_Inclusion_Criteria';
 import PPEXCLUSIONCRITERIA from '@salesforce/label/c.PP_Exclusion_Criteria';
 import PI_Post_Fix from '@salesforce/label/c.PP_PI_Post_Fix';
-
+import NOT_AVAILABLE from '@salesforce/label/c.Not_Available';
 
 export default class ProgramOverviewDetails extends LightningElement {
     label = {
@@ -27,7 +27,8 @@ export default class ProgramOverviewDetails extends LightningElement {
         PPELIGIBLECRITERIA,
         PPINCLUSIONCRITERIA,
         PPEXCLUSIONCRITERIA,
-        PI_Post_Fix
+        PI_Post_Fix,
+        NOT_AVAILABLE
     };
 
     programname;
@@ -90,7 +91,7 @@ export default class ProgramOverviewDetails extends LightningElement {
     }
 
     connectedCallback() {
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
 
         let ctpaccordionDatalist = [];
         //code
@@ -140,7 +141,10 @@ export default class ProgramOverviewDetails extends LightningElement {
                         if(this.participantState.pe.Study_Site__r){
                             this.piName = this.participantState.pe.Study_Site__r.Principal_Investigator__r.Name;
                             console.log('piName--->'+this.piName);
-                            this.studySitePhone = this.participantState.pe.Study_Site__r.Study_Site_Phone__c;
+                            this.studySitePhone = this.participantState.pe.Study_Site__r
+                            .Study_Site_Phone__c
+                            ? this.participantState.pe.Study_Site__r.Study_Site_Phone__c
+                            : NOT_AVAILABLE;
                             console.log('studySitePhone--->'+this.studySitePhone);
                             this.siteName = this.participantState.pe.Study_Site__r.Site__r.Name;
                             console.log('siteName--->'+this.siteName);
