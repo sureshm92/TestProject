@@ -87,7 +87,7 @@
 }
 
 .dropdown-menu {
-    z-index: 2 !important;
+    z-index: 3 !important;
     width: 100%;
     min-width: 7.5rem;
     max-height: 12rem;
@@ -149,7 +149,7 @@
 }
 
 .placeholder-label {
-    color: #999999 !important;
+    color: #757575 !important;
 }
 
 .dropdown-span {

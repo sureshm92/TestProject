@@ -512,7 +512,11 @@ input::placeholder {
 }
 
 .support-combobox.opacity .slds-truncate {
-    opacity: 0.5;
+    /* opacity: 0.5; */
+    color: #757575;
+    font-family: 'Proxima Nova' !important;
+    font-weight: 600;
+    font-size: 1rem;
 }
 .support-combobox.opacity .slds-media__body .slds-truncate {
     opacity: 1;
@@ -663,6 +667,13 @@ input::placeholder {
     flex-shrink: 0;
     width: 232px;
 }
+/* 
+@media all and (max-width: 1024px) and (min-width: 768px)  {
+    .logo-container-pp {
+        width: 80% !important; 
+    }
+
+} */
 
 .cookie-accordion-border .slds-accordion__summary-action {
     padding-left: 16px;
