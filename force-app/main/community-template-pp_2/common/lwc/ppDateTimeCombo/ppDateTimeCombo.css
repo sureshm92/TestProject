@@ -123,3 +123,8 @@ input[type='date']::-webkit-calendar-picker-indicator,
         margin-bottom: unset;
     }
 }
+@media all and (min-width: 768px) and (max-width: 1024px) {
+    .time-curve-input {
+        height: 2.1rem !important;
+    }
+}
