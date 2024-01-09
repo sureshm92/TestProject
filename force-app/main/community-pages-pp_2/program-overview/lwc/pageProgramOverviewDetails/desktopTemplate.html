@@ -32,9 +32,22 @@
                                                 <lightning-layout-item size="2">
                                                     <img src={phone_Icon} class="phoneIcon"/>
                                                 </lightning-layout-item>
-                                                <lightning-layout-item size="10" class="marginLeft-12">
-                                                    {studySitePhone}
-                                                </lightning-layout-item>
+                                                <template lwc:if={phoneNotAvailable}>
+                                                    <lightning-layout-item
+                                                        size="10"
+                                                        class="marginLeft-12 no-phone"
+                                                    >
+                                                        {label.NOT_AVAILABLE}
+                                                    </lightning-layout-item>
+                                                </template>
+                                                <template lwc:else>
+                                                    <lightning-layout-item
+                                                        size="10"
+                                                        class="marginLeft-12"
+                                                    >
+                                                        {studySitePhone}
+                                                    </lightning-layout-item>
+                                                </template>
                                             </lightning-layout>
                                         </lightning-layout-item>
                                         <lightning-layout-item size="5" class="piAddr border-left border-right">
