@@ -231,9 +231,7 @@
                             </aura:iteration>
 
                             <!-- builk import page -->
-                                <!--aura:if isTrue="{!v.addParticipantInfo.disabled == false}"
-                                disabled="{!v.addParticipantInfo.disabled || v.addParticipantInfo.disabled == null }"
-                                -->
+                            <aura:if isTrue="{!v.manageimporthistory.disabled == false}">
                                 <button
                                     id=""
                                     data-gtm=""
@@ -246,7 +244,7 @@
                                 >
                                     {!$Label.c.pir_Bulk_Import_History}
                                 </button>
-                                <!--/aura:if-->
+                            </aura:if>
                             <!-- builk import page -->
                             <aura:if isTrue="{!v.addParticipantInfo.disabled == false}">
                                 <div data-gtm="btn_AddParticipant_menu" class="bulk-import-btn">

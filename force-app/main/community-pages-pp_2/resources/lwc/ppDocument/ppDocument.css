@@ -80,3 +80,35 @@
     margin-top: -2px;
     margin-right: -85px;
 }
+@media only screen and (min-device-width: 768px) and (max-device-width: 819px) {
+    .thumnail-img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain;
+        padding: 3px;
+    }
+    .thumbnail-box {
+        width: fit-content;
+    }
+    .document-details {
+        padding: 12px 15px 0 0px !important;
+    }
+}
+@media only screen and (min-device-width: 820px) and (max-device-width: 1024px) {
+    .document-details {
+        padding: 5px 5px 0 9px !important;
+    }
+    .card-border {
+        height: 77px;
+    }
+    .version-date {
+        line-height: 14px;
+        margin-top: 4px;
+    }
+    .thumbnail-outerbox {
+        padding: 10px 0 0 3px;
+    }
+    .thumnail-img {
+        padding: 3px;
+    }
+}
