@@ -390,3 +390,6 @@ span:hover {
 .site-Name-Addr {
     margin-left: -20px;
 }
+.no-phone {
+    color: #999999;
+}

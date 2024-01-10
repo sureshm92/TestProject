@@ -198,3 +198,18 @@
 .pad10 {
     text-align: center;
 }
+
+@media all and (max-width: 1024px) and (min-width: 768px)  {
+
+    .exclamation_green{
+        padding-top: 13px;
+        height: 100%;
+        width: 83%;
+    }
+    .ml-12 {
+        margin-left: 0px !important;
+    }
+    .exclamation_mobile{
+        width : 75% !important;
+    }
+}

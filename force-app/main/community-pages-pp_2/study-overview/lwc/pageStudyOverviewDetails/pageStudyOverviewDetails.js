@@ -17,7 +17,7 @@ import PPINCLUSIONCRITERIA from '@salesforce/label/c.PP_Inclusion_Criteria';
 import PPEXCLUSIONCRITERIA from '@salesforce/label/c.PP_Exclusion_Criteria';
 import PI_Post_Fix from '@salesforce/label/c.PP_PI_Post_Fix';
 import PPABOUTSTUDY from '@salesforce/label/c.PP_About_Study';
-
+import NOT_AVAILABLE from '@salesforce/label/c.Not_Available';
 export default class ProgramOverviewDetails extends LightningElement {
     label = {
         PPOVERVIEW,
@@ -28,7 +28,8 @@ export default class ProgramOverviewDetails extends LightningElement {
         PPINCLUSIONCRITERIA,
         PPEXCLUSIONCRITERIA,
         PI_Post_Fix,
-        PPABOUTSTUDY
+        PPABOUTSTUDY,
+        NOT_AVAILABLE
     };
 
     programname;
@@ -46,6 +47,7 @@ export default class ProgramOverviewDetails extends LightningElement {
     studySitePhone;
     siteName;
     siteAddress;
+    phoneNotAvailable;
 
     desktop = true;
     tabContent = true;
@@ -102,7 +104,7 @@ export default class ProgramOverviewDetails extends LightningElement {
     }
 
     connectedCallback() {
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
 
         let ctpaccordionDatalist = [];
         //code
@@ -154,8 +156,11 @@ export default class ProgramOverviewDetails extends LightningElement {
                                 this.participantState.pe.Study_Site__r.Principal_Investigator__r.Name;
                             console.log('piName--->' + this.piName);
                             this.piTitle = this.piName + ' ' + this.label.PI_Post_Fix;
-                            this.studySitePhone =
-                                this.participantState.pe.Study_Site__r.Study_Site_Phone__c;
+                            this.studySitePhone = this.participantState.pe.Study_Site__r.Study_Site_Phone__c;
+                            this.phoneNotAvailable = this.participantState.pe.Study_Site__r
+                                .Study_Site_Phone__c
+                                ? false
+                                : true;
                             console.log('studySitePhone--->' + this.studySitePhone);
                             this.siteName = this.participantState.pe.Study_Site__r.Site__r.Name;
                             console.log('siteName--->' + this.siteName);
