@@ -45,18 +45,31 @@
     },
     setMM: function (component, event, helper) {
         var opt = [];
-        opt.push({ label: 'January', value: '01' });
-        opt.push({ label: 'February', value: '02' });
-        opt.push({ label: 'March', value: '03' });
-        opt.push({ label: 'April', value: '04' });
-        opt.push({ label: 'May', value: '05' });
-        opt.push({ label: 'June', value: '06' });
-        opt.push({ label: 'July', value: '07' });
-        opt.push({ label: 'August', value: '08' });
-        opt.push({ label: 'September', value: '09' });
-        opt.push({ label: 'October', value: '10' });
-        opt.push({ label: 'November', value: '11' });
-        opt.push({ label: 'December', value: '12' });
+        var jan = $A.get("$Label.c.January");
+        var feb = $A.get("$Label.c.February");
+        var mar = $A.get("$Label.c.March");
+        var apr = $A.get("$Label.c.April");
+        var may = $A.get("$Label.c.May");
+        var jun = $A.get("$Label.c.June");
+        var jul = $A.get("$Label.c.July");
+        var aug = $A.get("$Label.c.August");
+        var sep = $A.get("$Label.c.September");
+        var oct = $A.get("$Label.c.October");
+        var nov = $A.get("$Label.c.November");
+        var dec = $A.get("$Label.c.December");
+
+        opt.push({label: jan, value:'01' });
+        opt.push({label: feb, value:'02' });
+        opt.push({label: mar, value:'03' });
+        opt.push({label: apr, value:'04' });
+        opt.push({label: may, value:'05' });
+        opt.push({label: jun, value:'06' });
+        opt.push({label: jul, value:'07' });
+        opt.push({label: aug, value:'08' });
+        opt.push({label: sep, value:'09' });
+        opt.push({label: oct, value:'10' });
+        opt.push({label: nov, value:'11' });
+        opt.push({label: dec, value:'12' });   
         component.set('v.optionsMM', opt);
         helper.loadMMLeapYear(component, event, helper);
     },

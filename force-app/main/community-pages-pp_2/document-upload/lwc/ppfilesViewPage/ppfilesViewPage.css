@@ -161,7 +161,7 @@
 }
 .browse-btn {
     height: 32px;
-    width: 132px;
+    min-width: 132px;
     border-radius: 16px;
     background-color: #0557d5;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 2px 8px 0 rgba(7, 104, 253, 0.32);
@@ -241,7 +241,7 @@
     /* width: 382px; */
     width: 100%;
     /* height: 280px; */
-    height: 265px;
+    height: auto;
     border: 1px dashed #979797;
     border-radius: 16px;
     background-color: #f2f2f2;
@@ -516,6 +516,12 @@
     padding-right: 2rem;
 }
 .uploadinfo {
+    height: 20px;
+    text-wrap: nowrap;
+    overflow: hidden;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-overflow: ellipsis;
     font-size: 14px;
 }
 .action-menu {
@@ -551,6 +557,12 @@
 }
 /* testing end */
 .wait-time {
+    height: 20px;
+    text-wrap: nowrap;
+    overflow: hidden;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-overflow: ellipsis;
     color: #757575;
     font-size: 13px;
     font-style: italic;
@@ -881,6 +893,12 @@
     .btn-position {
         /* position: absolute; */
         /* bottom: 7rem; */
+    }
+    .float-btns {
+        position: absolute;
+        bottom: 0;
+        background: #f2f2f2;
+        padding-bottom: 3%;
     }
 }
 @media all and (min-width: 768px) and (max-width: 1024px) {

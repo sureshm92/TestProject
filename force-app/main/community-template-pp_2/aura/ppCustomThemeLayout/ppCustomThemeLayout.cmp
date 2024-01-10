@@ -1,6 +1,6 @@
 <aura:component
     description="ppCustomThemeLayout"
-    implements="forceCommunity:themeLayout"
+    implements="forceCommunity:themeLayout,lightning:hasPageReference,lightning:isUrlAddressable"
     controller="CommunityFacadeRemote"
 >
     <ltng:require
@@ -27,6 +27,7 @@
     <aura:attribute name="mediaContent" type="Boolean" default="false" />
     <aura:attribute name="innerWidth" type="Integer" />
     <aura:attribute name="innerHeight" type="Integer" />
+    <aura:attribute name="pageReference" type="Object" />
     <lightning:messageChannel type="ppLightningMessageService__c" onMessage="{!c.handleMessage}" />
 
     <!-- events: -->
@@ -34,6 +35,7 @@
     <aura:handler event="c:ppCloseNavMenu" action="{!c.handleClickCloseNavMenu}" />
 
     <aura:handler event="c:PPMobileMenu" action="{!c.handleClickCloseNavMenu}" />
+    <aura:handler event="forceCommunity:routeChange" action="{!c.handleRouteChange}" />
 
     <!-- methods: -->
     <aura:method name="init" action="{!c.doInit}" access="public" />
@@ -66,7 +68,7 @@
                                     <img
                                         src="{!$Resource.icon_hamburgerMenu}"
                                         onclick="{!c.handleClick}"
-                                        class="barsIcon"
+                                        class="{!v.isRTL? ' barsIconrtl':'barsIcon'}"
                                     />
                                 </aura:set>
                             </aura:if>

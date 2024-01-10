@@ -51,6 +51,15 @@ export default class PpMessageBoard extends LightningElement {
     return this.messageTemplatesOption;
   }
 
+renderedCallback(){
+    var  paststudy;
+    paststudy =  this.isPastStudy;
+   const event = new CustomEvent('ispaststudychanged',{
+    detail:paststudy
+   });
+  this.dispatchEvent(event);
+  }
+
   connectedCallback() {
     if (this.selectConWrap != null) {
       if (!this.selectConWrap.noConversation) {
