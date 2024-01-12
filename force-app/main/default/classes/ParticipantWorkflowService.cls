@@ -884,7 +884,7 @@ public without sharing class ParticipantWorkflowService {
                     ' ' +
                     TranslateHelper.getLabelValue('PE_Status_History_On_Date') +
                     ' ' +
-                    pesh.Date__c.format() +
+                    pesh.Date__c.format('dd/MM/YYYY hh:mm:ss a') +
                     ' ' +
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
@@ -916,7 +916,7 @@ public without sharing class ParticipantWorkflowService {
             historyWrapper.detail =
                 ' ' +
                 TranslateHelper.getLabelValue(step.History_Item_Details_Template_Label__c)
-                    .replace('##Date', pesh.Date__c.format())
+                    .replace('##Date', pesh.Date__c.format('dd/MM/YYYY hh:mm:ss a'))
                     .replace('##ByUser', createdbyName)
                     .replace('##Source', sourceString);
             historyWrapper.detailDate = pesh.Date__c;
