@@ -1176,7 +1176,9 @@
                                 <slot name="body">
                                     <p class="fovCancel">{utilLabels.CancelfovWarning} &nbsp;<strong>
                                             <lightning-formatted-date-time
-                                                value={participantrecord.Initial_visit_scheduled_date__c}>
+                                                value={participantrecord.Initial_visit_scheduled_date__c} year="numeric"
+                                                month="short"
+                                                day="2-digit"> 
                                             </lightning-formatted-date-time><template if:false={isfovNull}>, </template>
                                             <lightning-formatted-time
                                                 value={participantrecord.Initial_visit_scheduled_time__c}>
