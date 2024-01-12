@@ -113,7 +113,7 @@ public without sharing class ParticipantInformationRemote {
                   pi.detail =  ' ' +
                     TranslateHelper.getLabelValue('PE_Status_History_On_Date') +
                     ' ' +
-                    pehistory[0].Date__c.format() +
+                    pehistory[0].Date__c.format('dd/MM/YYYY hh:mm:ss a') +
                     ' ' +
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
@@ -152,7 +152,7 @@ public without sharing class ParticipantInformationRemote {
                   pi.detail =  ' ' +
                     TranslateHelper.getLabelValue('PE_Status_History_On_Date') +
                     ' ' +
-                    pehistory[0].Date__c.format() +
+                    pehistory[0].Date__c.format('dd/MM/YYYY hh:mm:ss a') +
                     ' ' +
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
