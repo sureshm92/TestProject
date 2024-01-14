@@ -7,7 +7,7 @@
     margin: 1rem 1rem 0 1rem;
 }
 .check-for-results-on {
-    height: 32px;
+    min-height: 32px;
     width: 348px;
     color: #999999;
     font-family: 'Proxima Nova';

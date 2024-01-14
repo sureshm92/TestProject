@@ -320,6 +320,7 @@
 .saveBtn {
     font-family: 'Proxima Nova';
     width: 90%;
+    min-width: max-content;
     color: #0070d2;
     margin-top: 0;
     background-color: #fff;

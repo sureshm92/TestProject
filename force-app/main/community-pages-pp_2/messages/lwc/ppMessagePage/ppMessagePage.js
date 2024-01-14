@@ -9,6 +9,8 @@ import pp_icons from "@salesforce/resourceUrl/pp_community_icons";
 import rr_community_icons from "@salesforce/resourceUrl/rr_community_icons";
 import disclaimerLabel from "@salesforce/label/c.MS_Chat_Disclaimer";
 import messagesLabel from "@salesforce/label/c.MS_Messages";
+import messagesLabelAll from "@salesforce/label/c.MS_MessagesAll";
+import backLabel from "@salesforce/label/c.back_Label";
 import profileTZ from "@salesforce/i18n/timeZone";
 import { CurrentPageReference } from 'lightning/navigation';
 import Back_To_PastStudies from '@salesforce/label/c.Back_to_Past_Studies_and_Programs';
@@ -22,15 +24,20 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
   @track selectConWrap;
   @api partTodayDate;
   @api usrPic;
+  @api displaybuttonsection;
   @api messageTemplates;
   @api userId = Id;
   @api isLoaded = false;
   @api studyName;
   @api deviceSize;
+  @api studyConfiguartion;
+  @api isPastStudy;
   @wire(CurrentPageReference)
   currentPageRef;
   backtopaststudies = false;
   isMobile;
+  messageDescriptionShow;
+  messageLabelShow;
   message_disclaimer = pp_icons + "/" + "message_disclaimer.svg";
   team_Selected = pp_icons + "/" + "team_Selected_icon.svg";
   televisitAttendees_icon = pp_icons + "/" + "televisitAttendees_icon.svg";
@@ -40,6 +47,8 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
   labels = {
     disclaimerLabel,
     messagesLabel,
+    messagesLabelAll,
+    backLabel,
     Back_To_PastStudies
   };
   mobileViewToggle() {
@@ -78,6 +87,8 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
     }
     if (formFactor === "Small" || formFactor === "Medium") {
       this.isMobile = true;
+      this.messageDescriptionShow = true;
+      this.messageLabelShow = true;
     } else {
       this.isMobile = false;
     }
@@ -101,6 +112,11 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
   refreshPage(event) {
     this.refreshConversation(event.detail);
   }
+  handleIsPastStudyChanged(event){
+    var paststudy = event.detail;
+    this.displaybuttonsection = paststudy;
+   this.template.querySelector('c-pp-show-button').isPastStudy = event.detail;
+  }
   handleGroupMenu() {
     if (this.showParticipantsList) {
       this.template.querySelector(".box-container").style.display = "none";
@@ -120,6 +136,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
   }
   @api loaded = false;
   isIE;
+  isIE1;
   @track piContactNames;
   @api peopleCount = 0;
   @api nameList = [];
@@ -402,7 +419,7 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
         console.error("Error in getInit():" + error);
       });
   }
-  
+
   alumniGroups = [
     "Failed Review",
     "Failed Referral",
@@ -437,6 +454,15 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
       return false;
     }
   }
+  
+  get visibleOfButton(){
+    if (this.displaybuttonsection == false){
+    return "slds-p-horizontal_medium slds-p-vertical_medium box-button-container";
+    }else{
+    return '';
+    }
+  }
+
   get isMessageLoaded() {
     if (this.selectConWrap != null || this.firstEnrollments != null) {
       return true;
@@ -460,6 +486,8 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
     }
   }
   handleBack() {
+    this.messageDescriptionShow = true;
+    this.messageLabelShow = true;
     if (this.showParticipantsList) {
       this.template.querySelector(".box-container").style.display = "none";
       this.showParticipantsList = false;
@@ -477,6 +505,8 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
     this.template.querySelector(".conversations").classList.add("hideMobile");
   }
   changeStudyConversation(event) {
+    this.messageDescriptionShow = false;
+    this.messageLabelShow = false;
     if (this.showParticipantsList) {
       this.template.querySelector(".box-container").style.display = "none";
       this.showParticipantsList = false;
@@ -622,6 +652,8 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
 
         this.template.querySelector("c-pp-message-board").selectConWrap =
           selectedCon;
+        this.studyConfiguartion = JSON.parse(
+          JSON.stringify(selectedCon));
         this.studyName =
           selectedCon.conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
 
