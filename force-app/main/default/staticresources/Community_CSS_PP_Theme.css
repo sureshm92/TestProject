@@ -2250,3 +2250,6 @@ user agent stylesheet svg:not(:root) {
     -webkit-appearance: none; 
     appearance: none;
 }
+.quick-reference-toast .slds-notify__content_mobile{
+    color:black!important;
+}

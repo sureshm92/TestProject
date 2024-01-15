@@ -60,9 +60,11 @@
                         <a
                             class="slds-col slds-size_1-of-2 pagelinkcss footer-logo footerOrientPrivacy"
                             onclick="{!c.onLinkClick}"
-                        >
-                            {!v.CPRAlabel}
-                            <img src="{!$Resource.CCPA_icon}" class="imgclass" />
+                            ><span class="container">
+                                <span>{!v.CPRAlabel}</span>
+                                <img src="{!$Resource.CCPA_icon}" class="imgclass" />
+                                <img src="{!$Resource.CCPA_icon_hover}" class="overlay" />
+                            </span>
                         </a>
                     </aura:if>
                     <div

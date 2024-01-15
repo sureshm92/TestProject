@@ -12,9 +12,22 @@
 .THIS .imgclass{
     margin-left: 5px;
     padding-bottom : 3px;
+    display: inline-block;
 }
 .THIS .page-link:hover{
     color: #135F90;
+}
+.THIS .overlay {
+    position: absolute;
+    left: 83%;
+    top: 0.02rem;
+    opacity: 0;
+}
+.THIS .containercpra:hover .overlay {
+    opacity: 1;
+}
+.THIS .containercpra {
+    position: relative;
 }
 
 .THIS.mobile-content {
