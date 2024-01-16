@@ -621,7 +621,7 @@ export default class Medicalinformation extends LightningElement {
       }
     } else {
       this.fileNameErr = true;
-      this.fireSaveMedicalBtnEvnt(false);
+      this.fireSaveMedicalBtnEvnt(true);
     }
     
   }
