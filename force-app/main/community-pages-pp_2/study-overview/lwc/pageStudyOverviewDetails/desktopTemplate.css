@@ -390,3 +390,6 @@ span:hover {
 .marginLeft-12 {
     margin-left: 10px;
 }
+.no-phone {
+    color: #999999;
+}

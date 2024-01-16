@@ -45,6 +45,7 @@ export default class ProgramOverviewDetails extends LightningElement {
     studySitePhone;
     siteName;
     siteAddress;
+    phoneNotAvailable;
 
     desktop = true;
     tabContent = true;
@@ -141,10 +142,11 @@ export default class ProgramOverviewDetails extends LightningElement {
                         if(this.participantState.pe.Study_Site__r){
                             this.piName = this.participantState.pe.Study_Site__r.Principal_Investigator__r.Name;
                             console.log('piName--->'+this.piName);
-                            this.studySitePhone = this.participantState.pe.Study_Site__r
-                            .Study_Site_Phone__c
-                            ? this.participantState.pe.Study_Site__r.Study_Site_Phone__c
-                            : NOT_AVAILABLE;
+                            this.studySitePhone = this.participantState.pe.Study_Site__r.Study_Site_Phone__c;
+                            this.phoneNotAvailable = this.participantState.pe.Study_Site__r
+                                .Study_Site_Phone__c
+                                ? false
+                                : true;
                             console.log('studySitePhone--->'+this.studySitePhone);
                             this.siteName = this.participantState.pe.Study_Site__r.Site__r.Name;
                             console.log('siteName--->'+this.siteName);
