@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Referral_Resource__c</fullName>
     <externalId>false</externalId>
-    <label>Referral Resource</label>
+    <label>Referral Sources</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
