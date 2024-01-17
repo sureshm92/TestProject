@@ -94,21 +94,20 @@
         padding: 12px 15px 0 0px !important;
     }
 }
-@media only screen and (min-device-width: 820px) and (max-device-width: 1024px) {
-    .document-details {
-        padding: 5px 5px 0 9px !important;
-    }
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
     .card-border {
-        height: 77px;
+        height: auto !important;
+    }
+    .document-details {
+        height: auto !important;
+        padding: 10px !important;
     }
     .version-date {
-        line-height: 14px;
-        margin-top: 4px;
+        line-height: 14px !important;
+        margin-top: 0.2rem !important;
     }
     .thumbnail-outerbox {
-        padding: 10px 0 0 3px;
-    }
-    .thumnail-img {
-        padding: 3px;
+        margin: 11px 0 0 0px;
     }
 }

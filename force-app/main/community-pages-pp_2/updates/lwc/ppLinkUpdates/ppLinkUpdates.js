@@ -14,6 +14,10 @@ export default class PpLinkUpdates extends NavigationMixin(LightningElement) {
         helpfulLinks,
         Open_In_New_Tab
     };
+    isIPAD;
+    connectedCallback() {
+        this.isIpad();
+    }
     get cardElement() {
         if (DEVICE == 'Medium') {
             return 'slds-col slds-size_3-of-12 card-element';
@@ -27,6 +31,12 @@ export default class PpLinkUpdates extends NavigationMixin(LightningElement) {
         } else {
             return 'slds-col slds-size_4-of-6';
         }
+    }
+
+    get openNewTabCss() {
+        return  this.isIPAD
+            ? 'open-tab-horizontal hide-icon'
+            : 'open-tab-horizontal' ;
     }
     openLink(event) {
         this.removeCardHandler();
@@ -54,5 +64,14 @@ export default class PpLinkUpdates extends NavigationMixin(LightningElement) {
             detail: { sendResultId: this.linkData.sendResultId }
         });
         this.dispatchEvent(removeCardEvent);
+    }
+    isIpad(){
+        if (/ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+            this.isIPAD=true;
+        } else if (/macintel/i.test(navigator.platform.toLowerCase())) {  
+            this.isIPAD=true;      
+        }else{
+            this.isIPAD=false;
+        }
     }
 }
