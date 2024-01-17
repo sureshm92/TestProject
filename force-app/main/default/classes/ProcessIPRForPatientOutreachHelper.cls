@@ -26,11 +26,14 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
         List<String> uniqueIPRList = new List<String>();
         List<String> uniqueDelList = new List<String>();
         Map<String,Id> REFNamePERIdMap = new Map<String,Id>();
+        Map<Id,Participant_Enrollment__c> perIDtoPERMap = new Map<Id,Participant_Enrollment__c>();
         List<Integration_Patient_Referral__c> scope = new List<Integration_Patient_Referral__c>();
-        for(Participant_Enrollment__c per: [SELECT Id, Name FROM Participant_Enrollment__c WHERE Name IN : iprRPMap.keySet()]){
+        for(Participant_Enrollment__c per: [SELECT Id, Name, Permit_SMS_Text_for_this_study__c, Study_SMS_Consent_Time__c
+            FROM Participant_Enrollment__c WHERE Name IN : iprRPMap.keySet()]){
             if(iprRPMap.containsKey(per.Name)){
                 scope.add(iprRPMap.get(per.Name));
                 REFNamePERIdMap.put(per.Name,per.Id);
+                perIDtoPERMap.put(per.id,per);
             }
         }
         list<Integration_Patient_Referral__c> iprListToUpdate = new list<Integration_Patient_Referral__c>();
@@ -262,7 +265,7 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
         Map<Id, Id> participantIdByParticipantDelegateContactId = new Map<Id, Id>();
         Set<Id> delegateIds = new Set<Id>();
         List<Participant__c> delegateParticipants = new List<Participant__c>();
-        
+
         for (Integration_Patient_Referral__c ipr : scope) {
             Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
             Study_Site__c ss = ssByPrimaryKeyEPRMap.get(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
@@ -271,6 +274,9 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
             if (ss != null){
                 Participant_Enrollment__c objPE = IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c);
                  objPE.Id = REFNamePERIdMap.get(ipr.UTM_campaignName__c);
+                 if(perIDtoPERMap.get(objPE.Id)!=null && perIDtoPERMap.get(objPE.Id).Study_SMS_Consent_Time__c !=null){
+                     objPE.Study_SMS_Consent_Time__c= Datetime.now();
+                 }
                  objPE.Participant_Name__c = ipr.firstName__c;
                  objPE.Participant_Surname__c = ipr.lastName__c;
                  peList.add(objPE);
@@ -279,6 +285,14 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
         }
         List<String> PEErrorMsg = new List<String>();
         List<Patient_Delegate_Enrollment__c> patientDelEnrollList = new List<Patient_Delegate_Enrollment__c>();
+        Map<String,String> sourceToConsentMap = new Map<String,String>();
+
+        for(Referral_Source_Communication_Consent__mdt	 ccT: [ SELECT id, MasterLabel, DeveloperName, Consent_Values_Delegate__c FROM 
+                                         Referral_Source_Communication_Consent__mdt	 ]){
+            if(ccT.Consent_Values_Delegate__c!=null){
+                sourceToConsentMap.put(ccT.DeveloperName,ccT.Consent_Values_Delegate__c);
+            }
+        }
 
        List<Database.SaveResult> saveResults = Database.update(peList, false);
         
@@ -303,15 +317,22 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
                        !String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c) &&
                        !String.isEmpty(ipr.Delegate_Email_Address__c))
                     {
-                    patientDelEnrollList.add(
+                        Patient_Delegate_Enrollment__c pder = 
                         new Patient_Delegate_Enrollment__c(
                             Status__c = 'Disconnected',
                             Participant_Enrollment__c = sr.getId(),
                             Primary_Delegate__c = true,
                             Study_info_storage_consent__c=true,
                             Study_Storage_Consent_Time__c = Datetime.now()
-                        )
-                    );
+                        );
+                        if(sourceToConsentMap.containsKey(ipr.Data_Source__c)){
+                            list<string> lstFields = sourceToConsentMap.get(ipr.Data_Source__c).split(',');
+                            for(String objstr : lstFields)
+                            {
+                            pder.put(objstr,true);
+                            }
+                        }
+                    patientDelEnrollList.add(pder);
                     }
                 } else {
                     ipr.Batch_consideration__c = 'Completed';

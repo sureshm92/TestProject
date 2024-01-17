@@ -20,6 +20,7 @@ public without sharing class ppPastStudiesTabUtility {
             'id ,'+
             'Enrolled_DateTime__c ,'+
             'Participant_Status__c ,'+
+            'Days_After_Enrolled__c ,'+
             'Study_Site__r.Principal_Investigator__r.Name ,'+
             'Study_Site__r.Principal_Investigator__r.Salutation ,'+
             'Study_Site__r.Site__r.Name ,'+
@@ -32,7 +33,9 @@ public without sharing class ppPastStudiesTabUtility {
             'Study_Site__r.Messages_Are_Available__c ,'+
             'Study_Site__r.Study_Site_Phone__c ,'+
             'Study_Site__r.Study_Site_Email__c ,'+
-            'Study_Site__r.Override_PI_Referral_Status__c '+
+            'Study_Site__r.Override_PI_Referral_Status__c ,'+
+            'Study_Site__r.Approved_Lng__c ,'+
+            'Study_Site__r.Site__r.BillingCountryCode '+
             'FROM Participant_Enrollment__c '+
             'WHERE Participant_Status__c IN :PE_STATUS_GROUP_ALUMNI AND Participant_Contact__c = :contID ORDER BY Clinical_Trial_Profile__r.Study_Code_Name__c ASC LIMIT 10000';
         Map<Id,Participant_Enrollment__c>  alumiPerMap =  new Map<Id, Participant_Enrollment__c>((List<Participant_Enrollment__c>)Database.query(queryString));
