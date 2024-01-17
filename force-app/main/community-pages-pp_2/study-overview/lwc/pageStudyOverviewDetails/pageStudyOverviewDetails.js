@@ -16,6 +16,7 @@ import PPSTUDYELIGIBLECRITERIA from '@salesforce/label/c.PP_Participant_Study_El
 import PPINCLUSIONCRITERIA from '@salesforce/label/c.PP_Inclusion_Criteria';
 import PPEXCLUSIONCRITERIA from '@salesforce/label/c.PP_Exclusion_Criteria';
 import PI_Post_Fix from '@salesforce/label/c.PP_PI_Post_Fix';
+import PPABOUTSTUDY from '@salesforce/label/c.PP_About_Study';
 
 export default class ProgramOverviewDetails extends LightningElement {
     label = {
@@ -26,7 +27,8 @@ export default class ProgramOverviewDetails extends LightningElement {
         PPSTUDYELIGIBLECRITERIA,
         PPINCLUSIONCRITERIA,
         PPEXCLUSIONCRITERIA,
-        PI_Post_Fix
+        PI_Post_Fix,
+        PPABOUTSTUDY
     };
 
     programname;
@@ -89,6 +91,16 @@ export default class ProgramOverviewDetails extends LightningElement {
         return this.isRTL ? 'po-mr-16plus' : '';
     }
 
+    get piIconStyle() {
+        return this.isRTL ? 'piIcon mr-20' : 'piIcon';
+    }
+    get phoneIconStyle() {
+        return this.isRTL ? 'phoneIcon mr-20' : 'phoneIcon';
+    }
+    get pinIconStyle() {
+        return this.isRTL ? 'pinIcon mr-20' : 'pinIcon';
+    }
+
     connectedCallback() {
         DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
 
@@ -105,7 +117,7 @@ export default class ProgramOverviewDetails extends LightningElement {
                             if (this.clinicaltrailrecrd) {
                                 if (this.clinicaltrailrecrd.Study_Code_Name__c) {
                                     this.programname =
-                                        'About ' + this.clinicaltrailrecrd.Study_Code_Name__c;
+                                    PPABOUTSTUDY +' ' + this.clinicaltrailrecrd.Study_Code_Name__c;
                                 }
                                 if (this.clinicaltrailrecrd.Override_Inclusion_Criteria__c) {
                                     ctpaccordionDatalist.push({

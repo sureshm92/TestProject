@@ -1071,6 +1071,11 @@ public without sharing class Action_SendSMS implements Action {
                             } else {
                                 ctpTemplateName = surveyInvitationMap.get(whatId)
                                     .Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                                    welcomemsgsent = surveyInvitationMap.get(whatId)
+                                    .Participant_Enrollment__r.Welcome_Message_Sent__c; //Added by Anitha
+                            welcomemsgDelivered = surveyInvitationMap.get(whatId)
+                                    .Participant_Enrollment__r.Welcome_Message_Delivered__c; //Added by Anitha
+
                             }
                         }
                     } else if (objType == 'Task') {

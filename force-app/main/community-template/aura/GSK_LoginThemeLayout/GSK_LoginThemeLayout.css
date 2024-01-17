@@ -147,8 +147,22 @@
 .THIS .imgclass{
     margin-left: 5px;
     padding-bottom: 2px;
+    display: inline-block;
 }
 
+.THIS .container {
+    position: relative;
+}
+.THIS .overlay {
+    position: absolute;
+    left: 82%;
+    top: 0.08rem;
+    opacity: 0;
+}
+
+.THIS .container:hover .overlay {
+    opacity: 1;
+}
 @media (max-width: 500px) {
     .THIS.all-content {
         align-items: normal;

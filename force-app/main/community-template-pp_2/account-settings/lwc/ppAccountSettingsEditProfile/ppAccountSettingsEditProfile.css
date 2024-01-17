@@ -121,6 +121,7 @@
     font-size: 0.875rem;
     letter-spacing: 0;
     line-height: 2rem;
+    min-width: max-content;
 }
 .field-error-message {
     color: #e20000;
@@ -193,6 +194,6 @@ a,
     text-align: right;
 }
 
-.customMargin{
+.customMargin {
     margin-left: 14px !important;
 }

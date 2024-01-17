@@ -47,7 +47,7 @@
                                     <lightning-layout>
                                         <lightning-layout-item
                                             size="12"
-                                            class="slds-m-top_medium create-task-input-container"
+                                            class="slds-m-top_medium create-task-input-container dateTimeContainer"
                                         >
                                             <template if:true={displayDateInUi}>
                                                 <c-pp-date-time-combo
@@ -121,7 +121,7 @@
                         </lightning-layout>
                         <p slot="footer">
                             <lightning-layout class="slds-grid_align-end">
-                                <lightning-layout-item class="pad-right"
+                                <lightning-layout-item class={buttonPaddingStyle}
                                     ><button class="task-cancel-btn" onclick={handleCancelTask}>
                                         {label.cancel}
                                     </button>
@@ -177,7 +177,7 @@
                                     <lightning-layout>
                                         <lightning-layout-item
                                             size="12"
-                                            class="slds-m-top_medium create-task-input-container"
+                                            class="slds-m-top_medium create-task-input-container dateTimeContainer"
                                             style="padding-inline: 0"
                                         >
                                             <template if:true={displayDateInUi}>

@@ -26,7 +26,8 @@
 
 .button-confirm {
     justify-content: center;
-    width: 107px;
+    min-width: 107px;
+    width:auto;
     height: 2rem;
     color: #ffffff;
     font-size: 1rem;

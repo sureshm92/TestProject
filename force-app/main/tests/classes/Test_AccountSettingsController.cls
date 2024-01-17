@@ -214,6 +214,33 @@ private class Test_AccountSettingsController {
 
         }
     }
+    
+    @IsTest
+    static void getInitData3(){
+        TestData testData = new TestData();
+        User delegateUser = testData.createPatientDelegate();
+        Contact con = [SELECT Id, userCommunityDelegateId__c FROM Contact Where Id =: delegateUser.ContactId];
+        Patient_Delegate__c pd = [SELECT Id FROM Patient_Delegate__c Where Contact__c =: con.Id];
+        Patient_delegate_enrollment__c patientDelEnrollment =new Patient_delegate_enrollment__c(
+            Participant_Enrollment__c = testData.pe.Id,
+            Patient_Delegate__c= pd.id,
+            Study_Email_Consent__c=true,
+            Study_SMS_Consent__c=true,
+            Study_Phone_Consent__c=true,
+            Study_Direct_Mail_Consent__c=true
+        );
+        insert patientDelEnrollment;
+        System.assert(patientDelEnrollment.id != null);
+        con.userCommunityDelegateId__c = testData.participantUser.ContactId;
+        update con;
+        Test.startTest();
+        System.runAs(delegateUser) {
+            String rawInitData = AccountSettingsController.getInitData(
+                CommunityService.USER_MODE_PARTICIPANT
+            );
+        }
+        Test.stopTest();
+    }
 
     @IsTest
     static void testAccountnew() {
