@@ -10,4 +10,22 @@
 }
 .imgclass {
     margin-left: 3px;
+    display: inline-block;
+}
+.pagelink:hover {
+    font-weight: 600;
+}
+ 
+.container {
+    position: relative;
+}
+.overlay {
+    position: absolute;
+    left: 83%;
+    top: 0.08rem;
+    opacity: 0;
+}
+
+.container:hover .overlay {
+    opacity: 1;
 }

@@ -180,6 +180,7 @@ export default class Medicalinformation extends LightningElement {
         this.lstCommorbitiesToInsert = [];
         this.lstCommorbitiesToDelete = [];
         this.lstExistingCommorbidity = [];
+        this.lstEnrollmenthistry =[];
         this.returnpervalue = result;
         this.lstExistingCommorbidity = JSON.parse(JSON.stringify(result.lstComorbidities));
         let detailedReportTemp = [];
@@ -190,7 +191,7 @@ export default class Medicalinformation extends LightningElement {
         const options = {
           year: "numeric",
           month: "short",
-          day: "numeric",
+          day: "2-digit",
           hour: "numeric",
           minute: "numeric",
           second: "numeric",
@@ -217,8 +218,8 @@ export default class Medicalinformation extends LightningElement {
           this.isReportAvailable = true;
         } else {
           this.isReportAvailable = false;
-          this.lstEnrollmenthistry = result.lstParticipantEnrollmentHstry;
         }
+        this.lstEnrollmenthistry = result.lstParticipantEnrollmentHstry;
         if (result.citizenRecords) {
           this.medicalHistoryRecord = result.citizenRecords;
           this.isfileAvailable = true;

@@ -3,6 +3,7 @@ import TIME_ZONE from '@salesforce/i18n/timeZone';
 import moment from '@salesforce/resourceUrl/moment';
 import momentTZ from '@salesforce/resourceUrl/momenttz';
 import { loadScript } from 'lightning/platformResourceLoader';
+import formFactor from '@salesforce/client/formFactor';
 import date from '@salesforce/label/c.TV_TH_Date';
 import dueDate from '@salesforce/label/c.Due_Date';
 import time from '@salesforce/label/c.TV_TH_Time';
@@ -45,6 +46,7 @@ export default class PpDateTimeCombo extends LightningElement {
     @api isVisitEventTask = 'task';
     @api hideTimeInput;
     isRTL = false;
+    isDesktop = true;
     label = {
         date,
         time,
@@ -81,6 +83,7 @@ export default class PpDateTimeCombo extends LightningElement {
     }
 
     connectedCallback() {
+        formFactor != 'Small' ? (this.isDesktop = true) : (this.isDesktop = false);
         loadScript(this, moment).then(() => {
             loadScript(this, momentTZ).then(() => {
                 var currentBrowserTime = window.moment();
@@ -240,14 +243,14 @@ export default class PpDateTimeCombo extends LightningElement {
         this.createTask = true ? 'task-due-date-time' : 'curve-input';
     }
     get dueDateClass() {
-        if (this.isRTL){
+        if (this.isRTL && this.isDesktop){
             return 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 date-time-left-space-rtl';
         }else{
             return 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-right_xx-small';
         }
     }
     get timeClass() {
-        if (this.isRTL){
+        if (this.isRTL && this.isDesktop){
             return this.hideTimeInput
             ? 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 slds-p-left_xx-small slds-hide'
             : 'slds-size_1-of-1 slds-small-size_1-of-2 slds-large-size_1-of-2 date-time-right-space-rtl';

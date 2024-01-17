@@ -99,6 +99,10 @@ export default class PpFooterContactSupport extends LightningElement {
         return this.isRTL ? 'copyIconRTL' : 'copyIcon';
     }
 
+    get pinIconPaddingStyle() {
+        return this.isRTL ? 'paddingRight-16' : 'paddingLeft-16';
+    }
+
     get getShowLabel() {
         return this.showMoreLableState ? this.label.PP_Contact_Support_Show_More : this.label.PP_Contact_Support_Show_Less;
     }
