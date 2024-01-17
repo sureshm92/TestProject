@@ -1,6 +1,9 @@
 public without sharing class RestrictedSourceConfigService {
     
     private static RestrictedSourceConfigService instance;
+    //For EPR variables
+    public static final String EPR = 'ePR';
+    public static final String EPRCampaign = 'ePRCampaign';
     public static Map<Id,Boolean> displayConsents = new Map<Id,Boolean>();
     
     public static RestrictedSourceConfigService getInstance() {
@@ -15,21 +18,14 @@ public without sharing class RestrictedSourceConfigService {
     public static Map<Id,Boolean> getConsentPreferences(List<Id> contactIdslst) {
         Set<Id> contactIds = new Set<Id>(contactIdslst);
         Map<Id,String> studieslst = new Map<Id,String>();
-        Map<Id,Participant_Enrollment__c> studywithPerlst = new Map<Id,Participant_Enrollment__c>();
-        Map<Id,Patient_Delegate_Enrollment__c> studywithPdelst = new Map<Id,Patient_Delegate_Enrollment__c>();
+        Map<Id,List<Participant_Enrollment__c>> studywithPerlst = new Map<Id,List<Participant_Enrollment__c>>();
+        Map<Id,List<Patient_Delegate_Enrollment__c>> studywithPdelst = new Map<Id,List<Patient_Delegate_Enrollment__c>>();
         
         String filter =
-            ' Clinical_Trial_Profile__r.IQVIA_Outreach__c = TRUE AND Participant_Contact__c IN (\'' + String.join(contactIds, '\',\'') + '\') ';
-        List<Participant_Enrollment__c> perlist = getParticipantEnrollmentsForContact(filter);        
-        for(Participant_Enrollment__c per : perlist){
-            studieslst.put(per.Clinical_Trial_Profile__c,per.Clinical_Trial_Profile__r.CommunityTemplate__c);
-            
-            if (!studywithPerlst.containsKey(per.Clinical_Trial_Profile__c))
-                studywithPerlst.put(per.Clinical_Trial_Profile__c,per);// Each per referal source for each study
-        }
+            ' Clinical_Trial_Profile__r.IQVIA_Outreach__c = TRUE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE AND Invited_To_PP_Date__c != NULL AND Participant_Contact__c IN (\'' + String.join(contactIds, '\',\'') + '\') ';
+        List<Participant_Enrollment__c> perlist = getParticipantEnrollmentsForContact(filter); 
         if(perlist.size()>0)
-            displayConsents = getCTPwithReferalSources(studieslst,studywithPerlst,null);
-        system.debug('displayConsents:::'+displayConsents);
+            displayConsents = getCTPwithReferalSources(perlist,null);
         if(displayConsents != null && !displayConsents.isEmpty()){
             for(Id key : displayConsents.keyset()){
                 if(contactIds.contains(key) && displayConsents.get(key)){
@@ -40,16 +36,9 @@ public without sharing class RestrictedSourceConfigService {
         system.debug('contactIds::'+contactIds);
         //For Delegates
         List<Patient_Delegate_Enrollment__c> pdelst = PatientDelegateEnrollmentService.getPDEnrollmentforDelContactwithFilter(contactIds);
-        for(Patient_Delegate_Enrollment__c pde : pdelst){
-            studieslst.put(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c,pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
-            
-            if (!studywithPdelst.containsKey(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c))
-                studywithPdelst.put(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c,pde);// Earch per referal source for each study
-        }
         if(pdelst.size()>0)
-            displayConsents = getCTPwithReferalSources(studieslst,null,studywithPdelst); 
-        system.debug('displayConsents:::'+displayConsents);
-
+            displayConsents = getCTPwithReferalSources(null,pdelst); 
+        
         return displayConsents;
     }
     public static final List<String> PE_COMMON_FIELDS = new List<String>{
@@ -303,62 +292,72 @@ public without sharing class RestrictedSourceConfigService {
         );
     }
     public static Map<Id,Boolean> getCTPwithReferalSources(
-        Map<Id,String> studieslst,
-        Map<Id,Participant_Enrollment__c> studywithPerlst,
-        Map<Id,Patient_Delegate_Enrollment__c> studywithPdelst
+        List<Participant_Enrollment__c> perLst,
+        List<Patient_Delegate_Enrollment__c> pdeLst
     ) {
         Map<Id,Boolean> displayConsentPref = new Map<Id,Boolean>();
         displayConsentPref = displayConsents;
-        system.debug('studieslst::'+studieslst);
-        system.debug('studieslst key::'+studieslst.keySet());
-        system.debug('studywithPerlst::'+studywithPerlst);
-        Map<ID, Restricted_Source_Config__c> restrictedsourcelst = new Map<ID, Restricted_Source_Config__c>([SELECT Id, Study__c, Sponsor__c, Referral_Resource__c FROM Restricted_Source_Config__c where Study__c	IN : studieslst.keySet()]); //AND Sponsor__c IN : sponserlst.values()
-        system.debug('restrictedsourcelst::'+restrictedsourcelst);
+        Set<Id> studieslst = new Set<Id>();
         Map<Id,String> ctpRestrictedSources = new Map<Id,String>();
+        if(perLst != null && !perLst.isEmpty()){
+            for(Participant_Enrollment__c per : perLst){
+                studieslst.add(per.Clinical_Trial_Profile__c);
+            }
+        }
+        if(pdeLst != null && !pdeLst.isEmpty()){
+            for(Patient_Delegate_Enrollment__c pde : pdeLst){
+                studieslst.add(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c);
+            }
+        }
+        Map<ID, Restricted_Source_Config__c> restrictedsourcelst = new Map<ID, Restricted_Source_Config__c>([SELECT Id, Study__c, Sponsor__c, Referral_Resource__c FROM Restricted_Source_Config__c where Study__c	IN : studieslst]); //AND Sponsor__c IN : sponserlst.values()
         for(Restricted_Source_Config__c resConfig : restrictedsourcelst.values()){
             system.debug(resConfig.Referral_Resource__c);
             if (!ctpRestrictedSources.containsKey(resConfig.Study__c))
                 ctpRestrictedSources.put(resConfig.Study__c, resConfig.Referral_Resource__c);
         }
-        if(studywithPerlst != null && !studywithPerlst.isEmpty()){
-            for(Id key : studywithPerlst.keyset()){ // each CTP
-                if(ctpRestrictedSources.containsKey(key)){ // study with all PERS for that CTP
-                    if(!displayConsentPref.containskey(studywithPerlst.get(key).Participant_Contact__c) || !displayConsentPref.get(studywithPerlst.get(key).Participant_Contact__c)){
-                        displayConsentPref.put(studywithPerlst.get(key).Participant_Contact__c,false);
+        if(perLst != null && !perLst.isEmpty()){
+            for(Participant_Enrollment__c per : perLst){
+                if(ctpRestrictedSources.containsKey(per.Clinical_Trial_Profile__c)){ // study with all PERS for that CTP
+                    if(!displayConsentPref.containskey(per.Participant_Contact__c) || !displayConsentPref.get(per.Participant_Contact__c)){
+                        displayConsentPref.put(per.Participant_Contact__c,false);
                     }
-                    String[] restrictedlst = ctpRestrictedSources.get(key) != null ? ctpRestrictedSources.get(key).split(';') :  null;
-                    system.debug('restrictedlst::'+restrictedlst);
-                    String referralSource = (studywithPerlst.get(key).Referral_Source__c == 'ePR' || studywithPerlst.get(key).Referral_Source__c == 'ePRCampaign')  ? studywithPerlst.get(key).Referral_Source__c +'-'+studywithPerlst.get(key).DataControllerOrg__c :studywithPerlst.get(key).Referral_Source__c; 
-                    system.debug('referralSource::'+referralSource);
+                    else{
+                        continue;
+                    }
+                    String[] restrictedlst = ctpRestrictedSources.get(per.Clinical_Trial_Profile__c) != null ? ctpRestrictedSources.get(per.Clinical_Trial_Profile__c).toUppercase().split(';') :  null;
+                    String referralSource = (per.Referral_Source__c.toUppercase() == EPR || per.Referral_Source__c.toUppercase() == EPRCampaign )  ? per.Referral_Source__c.toUppercase() +'-'+per.DataControllerOrg__c.toUppercase() : per.Referral_Source__c.toUppercase(); 
                     if(restrictedlst != null && !restrictedlst.isEmpty() && !restrictedlst.contains(referralSource)){
-                        displayConsentPref.put(studywithPerlst.get(key).Participant_Contact__c,true);
+                        displayConsentPref.put(per.Participant_Contact__c,true);
                     }
                 }
                 else {
-                    displayConsentPref.put(studywithPerlst.get(key).Participant_Contact__c,true);
+                    displayConsentPref.put(per.Participant_Contact__c,true);
                 }
             }
         }
-        if(studywithPdelst != null && !studywithPdelst.isEmpty()){
-            for(Id key : studywithPdelst.keyset()){ // each CTP
-                if(ctpRestrictedSources.containsKey(key)){ // study with all PERS for that CTP
-                    if(!displayConsentPref.containskey(studywithPdelst.get(key).Patient_Delegate__r.Contact__c)  || !displayConsentPref.get(studywithPdelst.get(key).Patient_Delegate__r.Contact__c)){
-                        displayConsentPref.put(studywithPdelst.get(key).Patient_Delegate__r.Contact__c,false);
+        if(pdeLst != null && !pdeLst.isEmpty()){
+            for(Patient_Delegate_Enrollment__c pde : pdeLst){ // each CTP
+                if(ctpRestrictedSources.containsKey(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c)){ // study with all PERS for that CTP
+                    if(!displayConsentPref.containskey(pde.Patient_Delegate__r.Contact__c)  || !displayConsentPref.get(pde.Patient_Delegate__r.Contact__c)){
+                        displayConsentPref.put(pde.Patient_Delegate__r.Contact__c,false);
                     }
-                    String[] restrictedlst = ctpRestrictedSources.get(key) != null ? ctpRestrictedSources.get(key).split(';') :  null;
-                    String referralSource = (studywithPdelst.get(key).Participant_Enrollment__r.Referral_Source__c == 'ePR' || studywithPdelst.get(key).Participant_Enrollment__r.Referral_Source__c == 'ePRCampaign')?studywithPdelst.get(key).Participant_Enrollment__r.Referral_Source__c +'-'+studywithPdelst.get(key).Participant_Enrollment__r.DataControllerOrg__c :studywithPdelst.get(key).Participant_Enrollment__r.Referral_Source__c; 
+                    else{
+                        continue;
+                    }
+                    String[] restrictedlst = ctpRestrictedSources.get(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c) != null ? ctpRestrictedSources.get(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c).toUppercase().split(';') :  null;
+                    String referralSource = (pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR  || pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPRCampaign )?pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() +'-'+pde.Participant_Enrollment__r.DataControllerOrg__c.toUppercase() :pde.Participant_Enrollment__r.Referral_Source__c.toUppercase(); 
                     if(restrictedlst != null && !restrictedlst.isEmpty() && !restrictedlst.contains(referralSource)){
-                        displayConsentPref.put(studywithPdelst.get(key).Patient_Delegate__r.Contact__c,true);
+                        displayConsentPref.put(pde.Patient_Delegate__r.Contact__c,true);
                     }
                 }
                 else {
-                    displayConsentPref.put(studywithPdelst.get(key).Patient_Delegate__r.Contact__c,true);
+                    displayConsentPref.put(pde.Patient_Delegate__r.Contact__c,true);
                 }
             }
         } 
         return displayConsentPref;
     }
-
+    
     public static List<Participant_Enrollment__c> getParticipantEnrollmentsCustomFields(
         List<String> fieldsList,
         String filter
