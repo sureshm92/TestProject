@@ -64,31 +64,24 @@
                                 <template if:true={toggleLinks}>
                                     <lightning-layout-item size="12">
                                         <div class="rel-header mb-8 resPage">
-                                            <lightning-layout>
-                                                <lightning-layout-item size="6">
-                                                    {labels.DISCOVER_TITLE}
-                                                    <span class="pp-tooltip">
-                                                        <lightning-helptext
-                                                            content={labels.DISCLAIMER}
-                                                        >
-                                                        </lightning-helptext>
-                                                    </span>
-                                                </lightning-layout-item>
-                                                <template if:true={enableChangePref}>
-                                                    <lightning-layout-item
-                                                        size="6"
-                                                        class="right-align"
+                                            <lightning-layout-item size="6">
+                                                {labels.DISCOVER_TITLE}
+                                                <span class="pp-tooltip">
+                                                    <lightning-helptext content={labels.DISCLAIMER}>
+                                                    </lightning-helptext>
+                                                </span>
+                                            </lightning-layout-item>
+                                            <template if:true={enableChangePref}>
+                                                <lightning-layout-item size="6" class="right-align">
+                                                    <div
+                                                        onclick={handleChangePreference}
+                                                        class="change-preferences"
+                                                        style="float: right"
                                                     >
-                                                        <div
-                                                            onclick={handleChangePreference}
-                                                            class="change-preferences"
-                                                            style="float: right"
-                                                        >
-                                                            {labels.CHANGE_PREFERENCES}
-                                                        </div>
-                                                    </lightning-layout-item>
-                                                </template>
-                                            </lightning-layout>
+                                                        {labels.CHANGE_PREFERENCES}
+                                                    </div>
+                                                </lightning-layout-item>
+                                            </template>
                                         </div>
 
                                         <div class="left-column">
