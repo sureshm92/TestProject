@@ -16,6 +16,7 @@ import PP_DeleteFile from "@salesforce/label/c.PP_DeleteFile";
 import PP_DeleteConfirmation from "@salesforce/label/c.PP_DeleteConfirmation";
 import BTN_Cancel from "@salesforce/label/c.BTN_Cancel";
 import No_Documents_Available from "@salesforce/label/c.No_Documents_Available";
+import PP_SharedwithmeMessage from "@salesforce/label/c.PP_SharedwithmeMessage";
 import Uploaded from "@salesforce/label/c.Uploaded";
 import Shared_with_Me from "@salesforce/label/c.Shared_with_Me";
 import Sort_By from "@salesforce/label/c.Sort_By";
@@ -28,6 +29,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
 ) {
   noDocumentAvailable = pp_icons + "/" + "noDocumentAvailable.svg";
   uploadNewDocuments = pp_icons + "/" + "uploadNewDocuments.svg";
+  infocheck = pp_icons + "/" + "infocopy.svg";
   sort = pp_icons + "/" + "sort.svg";
 
   value = "inProgress";
@@ -83,7 +85,8 @@ export default class ppdocmentViewPage extends NavigationMixin(
     Uploaded,
     Shared_with_Me,
     Sort_By,
-    PP_DeletedSucesfully
+    PP_DeletedSucesfully,
+    PP_SharedwithmeMessage
 
   };
 
@@ -272,7 +275,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
       .then((result) => {
         this.isSaving = false;
         this.cvListMsg = result.cdlList;
-
+        console.log('>>>result>>'+JSON.stringify(result));
         var linkMap = new Map();
         if (result.previewLinks != undefined && result.previewLinks != null) {
           for (var key in result.previewLinks) {

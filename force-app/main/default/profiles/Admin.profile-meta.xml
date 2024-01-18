@@ -3570,6 +3570,11 @@
     </fieldPermissions>
      <fieldPermissions>
         <editable>true</editable>
+        <field>ContentVersion.FileSharedbyPI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
         <field>ContentVersion.progress__c</field>
         <readable>true</readable>
     </fieldPermissions>
