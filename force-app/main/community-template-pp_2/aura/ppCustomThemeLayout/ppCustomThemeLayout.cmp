@@ -25,6 +25,7 @@
     <aura:attribute name="hasMessage" type="Boolean" access="public" default="false" />
     <aura:attribute name="paddingChange" type="Boolean" default="false" />
     <aura:attribute name="mediaContent" type="Boolean" default="false" />
+    <aura:attribute name="isIpad" type="Boolean" default="false" />
     <aura:attribute name="innerWidth" type="Integer" />
     <aura:attribute name="innerHeight" type="Integer" />
     <aura:attribute name="pageReference" type="Object" />
@@ -104,9 +105,6 @@
                         ontouchmove="{!c.handleClickCloseNavMenu}"
                         ontouchend="{!c.handleHamberungTouchEnd}"
                     >
-                        <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
-                            <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
-                        </aura:if>
                         <c:ppCommunityModeSwitcherMenu
                             aura:id="modeSwitcher"
                             currentMode="{!v.currentMode}"

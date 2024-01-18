@@ -258,3 +258,7 @@
 .pointer-class {
     cursor: pointer;
 }
+.hide-icon{
+    visibility: hidden;
+}
+
