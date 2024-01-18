@@ -53,6 +53,9 @@
                             <div class="vd">
                                 <lightning-formatted-date-time
                                     value={res.resource.Posting_Date__c}
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
                                     time-zone={userTimeZone}
                                 >
                                 </lightning-formatted-date-time>
