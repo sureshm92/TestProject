@@ -791,19 +791,19 @@ ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
                 {
                     //dateTimeofStatuschng = per.Participant_Status_Last_Changed_Date__c.format('MM/dd/yyyy, hh:mm a');
                     
-                    dateTimeofStatuschng = per.Participant_Status_Last_Changed_Date__c.formatGMT('EEE MMM d HH:mm:ss zz yyyy');
+                    dateTimeofStatuschng = per.Participant_Status_Last_Changed_Date__c.formatGMT('EEE MMM dd HH:mm:ss zz yyyy');
                 }
                 if(per.Referred_Date__c!=null)
                 {
                     Date refdt = per.Referred_Date__c;
                     Datetime dt = datetime.newInstance(refdt.year(), refdt.month(),refdt.day());
-                    ReferredDt = dt.formatGMT('EEE MMM d 00:00:00 zz yyyy');
+                    ReferredDt = dt.formatGMT('EEE MMM dd 00:00:00 zz yyyy');
                 }
                 
                 if(per.Participant_PrescreenerResponses__r.isEmpty() == false) {
 
                     preScreeningDt = per.Participant_PrescreenerResponses__r[0].Completed_Date__c != null 
-                        ? per.Participant_PrescreenerResponses__r[0].Completed_Date__c.formatGMT('EEE MMM d HH:mm:ss zz yyyy')
+                        ? per.Participant_PrescreenerResponses__r[0].Completed_Date__c.formatGMT('EEE MMM dd HH:mm:ss zz yyyy')
                         : '';
                     mrrStatus = per.Participant_PrescreenerResponses__r[0].Status__c;
                     mrrCompletedBy = per.Participant_PrescreenerResponses__r[0].Completed_by__c != null 
