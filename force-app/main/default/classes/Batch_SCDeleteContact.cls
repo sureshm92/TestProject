@@ -81,46 +81,6 @@ public without sharing class Batch_SCDeleteContact implements Database.Batchable
                 studyClosureId, (executeFromPEBatch ? 'PE-' : 'SS-') + 'Contact Content Documents', documentIds
             ));
             Batch_SCParticipantEnrollment.insertContentVersions(studyClosureProcessId, contentVersions);
-        }else{
-            List<Id> lstIds = new List<Id>();
-            lstIds.add('0052o000009SECPAA4');
-            lstIds.add('0052o000009SKTDAA4');
-            lstIds.add('0052o000009SSRtAAO');
-            lstIds.add('0052o000009SUcVAAW');
-            lstIds.add('0052o000009SVzaAAG');
-            lstIds.add('0052o000009SWY0AAO');
-            lstIds.add('0052o000009SXJBAA4');
-            lstIds.add('0052o000009SXPJAA4');
-            lstIds.add('0052o000009SXaHAAW');
-            lstIds.add('0052o000009SdDJAA0');
-            lstIds.add('0052o000009SdR6AAK');
-            lstIds.add('0052o000009Se0fAAC');
-            lstIds.add('0052o000009SePQAA0');
-            lstIds.add('0052o000009SevCAAS');
-            
-            List<User> lstUser = [Select Id,LastName,Email,Username,IsPortalEnabled,IsActive from User 
-                                  where IsPortalEnabled = false AND IsActive = false AND Id IN:lstIds limit 14];
-            if(lstUser.isEmpty() == false) {
-                 for (User userRec : lstUser) {
-                 Blob keyBlob = Crypto.GenerateAESKey(128);
-                 String keyStr = EncodingUtil.ConvertTohex(keyBlob);
-                 keyStr = keyStr.SubString(0,8);
-                 String uniqueId = String.valueof(DateTime.now());
-                 uniqueId = uniqueId.replaceAll('[-: ]','');
-                 String rNum = keyStr+uniqueId;
-                userRec.IsPortalEnabled = false;
-                userRec.Email = 'invalidiqvia@iqvia.com.invalid.'+rNum;
-                userRec.Username = 'invalidiqvia@iqvia.com.invalid.'+rNum;
-                userRec.LastName = 'invalidiqvia@iqvia.com.invalid.'+rNum;
-                }
-                TriggerHandlerExecutor.bypassHandler(
-                UserTriggerHandler.UpdateLanguageOnRelatedContactsHandler.class
-                );
-                TriggerHandlerExecutor.bypassHandler(
-                UserTriggerHandler.UpdateEmailOnRelatedContactsHandler.class
-                );
-                update lstUser;
-            }
         }
     }
     // Delete the Contact related records

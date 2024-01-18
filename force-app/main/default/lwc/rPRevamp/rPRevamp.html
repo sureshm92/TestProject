@@ -93,7 +93,7 @@
                                 <div>{BulkImport_Rejected} : {item.Rejected_Records__c}</div>
                                 <div>{BulkImport_Uploaded_By} : {item.CreatedBy.Name}</div>
                                 <div>{BulkImport_Uploaded_On} : <lightning-formatted-date-time
-                                        value={item.ContentModifiedDate}></lightning-formatted-date-time>
+                                        value={item.ContentModifiedDate} year="numeric" month="short" day="2-digit"></lightning-formatted-date-time>
                                 </div>
                                 <div title={BulkImport_Actions}>{BulkImport_Actions} :
                                     &nbsp; &nbsp;<template if:true={item.ContentUrl}>
