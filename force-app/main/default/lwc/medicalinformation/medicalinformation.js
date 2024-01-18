@@ -191,7 +191,7 @@ export default class Medicalinformation extends LightningElement {
         const options = {
           year: "numeric",
           month: "short",
-          day: "numeric",
+          day: "2-digit",
           hour: "numeric",
           minute: "numeric",
           second: "numeric",
