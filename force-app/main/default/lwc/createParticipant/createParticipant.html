@@ -7,7 +7,10 @@
                 <img src={createParticipantIcon}>
                 <span class="msg_padding">{messages}</span>
                 <template if:true={initialdata.consentDate}>
-                    <lightning-formatted-date-time class="date_padding" value={initialdata.consentDate} time-zone={userTimeZone}></lightning-formatted-date-time>
+                    <lightning-formatted-date-time class="date_padding"  value={initialdata.consentDate} 
+                    year="numeric"
+                    month="short"
+                    day="2-digit" time-zone={userTimeZone}></lightning-formatted-date-time>
                 </template>
             </div>
         </div>
