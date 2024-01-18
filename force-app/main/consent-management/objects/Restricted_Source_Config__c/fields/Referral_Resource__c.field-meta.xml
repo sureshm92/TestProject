@@ -27,9 +27,9 @@
                 <label>ePR-SponsorSpecific</label>
             </value>
             <value>
-                <fullName>ePRCampagin-SponsorSpecific</fullName>
+                <fullName>ePR_Campaign-SponsorSpecific</fullName>
                 <default>false</default>
-                <label>ePRCampagin-SponsorSpecific</label>
+                <label>ePR_Campaign-SponsorSpecific</label>
             </value>
             <value>
                 <fullName>HCP Prescreen Log</fullName>

@@ -2,8 +2,8 @@ public without sharing class RestrictedSourceConfigService {
     
     private static RestrictedSourceConfigService instance;
     //For EPR variables
-    public static final String EPR = 'ePR';
-    public static final String EPRCampaign = 'ePRCampaign';
+    public static final String EPR = 'EPR';
+    public static final String EPR_Campaign = 'EPR_Campaign';
     public static Map<Id,Boolean> displayConsents = new Map<Id,Boolean>();
     
     public static RestrictedSourceConfigService getInstance() {
@@ -325,7 +325,7 @@ public without sharing class RestrictedSourceConfigService {
                         continue;
                     }
                     String[] restrictedlst = ctpRestrictedSources.get(per.Clinical_Trial_Profile__c) != null ? ctpRestrictedSources.get(per.Clinical_Trial_Profile__c).toUppercase().split(';') :  null;
-                    String referralSource = (per.Referral_Source__c.toUppercase() == EPR || per.Referral_Source__c.toUppercase() == EPRCampaign )  ? per.Referral_Source__c.toUppercase() +'-'+per.DataControllerOrg__c.toUppercase() : per.Referral_Source__c.toUppercase(); 
+                    String referralSource = (per.Referral_Source__c.toUppercase() == EPR || per.Referral_Source__c.toUppercase() == EPR_Campaign)  ? per.Referral_Source__c.toUppercase() +'-'+per.DataControllerOrg__c.toUppercase() : per.Referral_Source__c.toUppercase(); 
                     if(restrictedlst != null && !restrictedlst.isEmpty() && !restrictedlst.contains(referralSource)){
                         displayConsentPref.put(per.Participant_Contact__c,true);
                     }
@@ -345,7 +345,7 @@ public without sharing class RestrictedSourceConfigService {
                         continue;
                     }
                     String[] restrictedlst = ctpRestrictedSources.get(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c) != null ? ctpRestrictedSources.get(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c).toUppercase().split(';') :  null;
-                    String referralSource = (pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR  || pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPRCampaign )?pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() +'-'+pde.Participant_Enrollment__r.DataControllerOrg__c.toUppercase() :pde.Participant_Enrollment__r.Referral_Source__c.toUppercase(); 
+                    String referralSource = (pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR  || pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR_Campaign )?pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() +'-'+pde.Participant_Enrollment__r.DataControllerOrg__c.toUppercase() :pde.Participant_Enrollment__r.Referral_Source__c.toUppercase(); 
                     if(restrictedlst != null && !restrictedlst.isEmpty() && !restrictedlst.contains(referralSource)){
                         displayConsentPref.put(pde.Patient_Delegate__r.Contact__c,true);
                     }
