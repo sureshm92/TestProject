@@ -493,7 +493,7 @@
 
 .slds-dropdown-trigger::after {
     position: absolute;
-    content: "";
+    content: '';
     background-color: var(--apollo-color-primary-light, #ecf3ff);
     width: 2rem;
     height: 2rem;
@@ -507,14 +507,24 @@
     transform: scale(0, 0);
     opacity: 0;
     transition: all var(--apollo-transition, 0.2s cubic-bezier(0.38, 0, 1, 1));
-  }
-  
-  .slds-dropdown-trigger:hover::after{
+}
+
+.slds-dropdown-trigger:hover::after {
     transform: scale(1, 1);
     opacity: 1;
     transition: all var(--apollo-transition, 0.2s cubic-bezier(0.38, 0, 1, 1));
-  }
+}
 
 .mr-10 {
     margin-right: 10px;
+}
+
+/* @media all and (min-width: 836px) and (max-width: 836px) {
+   
+    .iPadIcon-hide{
+        visibility: hidden; 
+    }
+} */
+.iPadIcon-hide{
+    visibility: hidden; 
 }
