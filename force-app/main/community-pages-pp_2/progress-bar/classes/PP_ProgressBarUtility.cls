@@ -102,6 +102,7 @@ public with sharing class PP_ProgressBarUtility {
         if(!patientVisits.isEmpty()){
             pw.progressWrapperList = new list<progressWrapper>(); 
             Boolean upComingVisit = false;
+            TranslateHelper.translate(patientVisits);
             for( Integer i=0; i<patientVisits.size(); i++){
                 Patient_Visit__c patientVisit = patientVisits[i];
                 progressWrapper prW = new progressWrapper();
