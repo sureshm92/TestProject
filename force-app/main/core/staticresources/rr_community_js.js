@@ -617,6 +617,14 @@ window.communityService = (function () {
             }
             return false;
         },
+        isIpad: function () {
+            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                return true;
+            } else if (/macintel/i.test(navigator.platform.toLowerCase())) {
+                return true;
+            }
+            return false;
+        },
 
         preLoginPageRedirection: function (currentUrl, redirectPage) {
             sessionStorage.setItem('Cookies', 'Accepted');
