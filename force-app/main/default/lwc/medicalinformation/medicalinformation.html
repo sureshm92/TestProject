@@ -44,7 +44,7 @@
                   <label class="slds-form-element__label text-overflow" for="High Risk" title={label.High_Risk}>
                     {label.High_Risk}
                   </label>
-                  <lightning-input type="checkbox" label="" name="HighRisk" checked={returnpervalue.HighRisk}
+                  <lightning-input type="checkbox" label="" name="HighRisk" checked={returnpervalue.HighRisk}  class="highriskcssclass"
                     onchange={handlevalueupdateRisk}></lightning-input>
                 </div>
                 <div
@@ -53,7 +53,7 @@
                     {label.High_Priority}
                   </label>
                   <lightning-input type="checkbox" label="" name="Highpriority" checked={returnpervalue.Highpriority}
-                    onchange={handlevalueupdatePriority}></lightning-input>
+                   class="highPrioritycssclass" onchange={handlevalueupdatePriority}></lightning-input>
                 </div>
               </div>
             </div>
@@ -265,14 +265,14 @@
                                         <td data-label="Close Date">
                                           <template if:false={attach.isFileFromPatientPortal}>
                                             <div class="slds-truncate checkbox-space">
-                                              <lightning-input type="checkbox" name="input1"
+                                              <lightning-input type="checkbox" name="input1" class="sharepermissioncheckbox"
                                                 data-id={attach.attachment.Id} data-index={index} checked={attach.hasPermission}
                                                 onchange={sharePermission}></lightning-input>
                                             </div>
                                           </template>
                                         </td>
                                       </template>
-                                      <td>
+                                      <td class="optioncss">
                                         <template if:false={attach.isFileFromPatientPortal}>
                                           <div class="slds-dropdown-trigger actiondiv slds-dropdown-trigger_click D"
                                             data-popup={attach.attachment.Id} onclick={showTaskActionMenu} tabindex="0"
@@ -347,7 +347,7 @@
                                 <img src={sort} class="sortIcon" />
                               </span>
                             </button>
-                            <div class="slds-dropdown slds-dropdown_left w-100 dropdown-zindex sortitems">
+                            <div class="slds-dropdown slds-dropdown_right w-100 dropdown-zindex sortitems">
                               <ul class="slds-dropdown__list font-dropdowns" role="menu" aria-label="SortBy">
                                 <template for:each={optionsSort} for:item="sortopt">
                                   <li class="slds-dropdown__item" role="presentation" key={sortopt.value}
@@ -666,7 +666,8 @@
                           <div class="slds-modal slds-fade-in-open slds-modal_medium slds-backdrop">
                             <div class="slds-modal__container setW viewmodelcss">
                               <div class="slds-modal__header">
-                                <b>{label.BulkImport_File_Name} : {fileName}</b>
+                                <div class="modelfilenamecss"> 
+                                <b>{label.BulkImport_File_Name} : {fileName}</b> </div>
                                 <button class="slds-button slds-modal__close slds-button--icon" title="Close"
                                   onclick={closeModal}>
                                   <lightning-icon icon-name="utility:close" size="small">

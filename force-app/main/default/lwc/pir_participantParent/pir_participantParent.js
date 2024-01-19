@@ -70,6 +70,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   @track utilLabels = label;
   isRedirectedFromBellCmp = false;
   setList = true;
+  showStudyErr = false;
   backArrow = pirResources + "/pirResources/icons/triangle-left.svg";
   usericon= pirResources+'/pirResources/icons/user.svg';
   disableMedicalSaveButton = true;
@@ -235,7 +236,11 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
         }
       }
     }
-
+    
+    this.showStudyErr = false;
+    if(options.length == 0){
+      this.showStudyErr = true;
+    }
     this.studySiteList = options;
     this.selectedSite = '';
     this.studysiteaccess = false;
@@ -739,6 +744,7 @@ gotoPartTab(){
   }
   handleCloseParticipant(){
     this.addParticipant = false;
+    this.showStudyErr = false;
     this.selectedSite = '';
     this.selectedStudy = '';
     this.template.querySelector("c-pir_participant-list").hideCheckbox();
