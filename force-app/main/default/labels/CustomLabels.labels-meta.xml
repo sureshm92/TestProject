@@ -22397,6 +22397,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Have an article or a video that you found supportive during your clinical trial experience? Share it with us!</value>
     </labels>
     <labels>
+        <fullName>PP_SharedwithmeMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_SharedwithmeMessage</shortDescription>
+        <value>Your care team has the discretion to remove shared documents at any time. If a shared document is no longer available and you believe this has occurred by mistake, please contact your care team directly.</value>
+    </labels>
+    <labels>
         <fullName>PP_Sort</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -24115,6 +24122,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>File size exceeds 4MB limit.</value>
     </labels>
     <labels>
+        <fullName>RH_FileName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>File Name</shortDescription>
+        <value>File Name</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileNameRequired</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileNameRequired</shortDescription>
+        <value>File name required</value>
+    </labels>
+    <labels>
         <fullName>RH_FileUploadAcceptedConditions</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -24541,6 +24562,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>RH_CountryConstent</shortDescription>
         <value>Please confirm the country of residence for your participants and/or their legal guardians is the same as that of the study center. If there are any country mismatches, those records may not be added.</value>
+    </labels>
+    <labels>
+        <fullName>RH_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Date</shortDescription>
+        <value>Date</value>
     </labels>
     <labels>
         <fullName>RH_DOB</fullName>
@@ -26179,6 +26207,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>RH_ScreenerComplete</shortDescription>
         <value>Screener(s) completed</value>
+    </labels>
+    <labels>
+        <fullName>RH_Share</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Share</shortDescription>
+        <value>Share</value>
+    </labels>
+    <labels>
+        <fullName>RH_Sharing_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Sharing_Label</shortDescription>
+        <value>By sharing a document, Patient Portal participants and/or primary delegates will be able to view and download the file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_Share_to_Patient_Portal</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Share to Patient Portal</shortDescription>
+        <value>Share to Patient Portal</value>
     </labels>
     <labels>
         <fullName>RH_SelectStudy_SIte</fullName>
