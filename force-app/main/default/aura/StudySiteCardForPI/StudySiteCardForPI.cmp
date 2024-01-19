@@ -17,6 +17,7 @@
     <aura:attribute name="addParticipantInfo" type="Object" />
     <aura:attribute name="manageParticipantInfo" type="Object" />
     <aura:attribute name="manageimporthistory" type="Object" />
+    <aura:attribute name="hideaddpatient" type="Object" />
     <aura:attribute name="userTypeInfo" type="Object" />
 
     <!-- handlers: -->
@@ -213,7 +214,7 @@
                         >
                             <aura:iteration items="{!v.siteWrapper.actions}" var="action">
                                 <aura:if
-                                        isTrue="{!action.id &amp;&amp; action.id != 'openToReceiveReferrals' &amp;&amp; action.id != 'importhistory' &amp;&amp; action.id != 'PI_Specific_Action' &amp;&amp; (action.id != 'noThanks' &amp;&amp; action.id != 'addPatient' &amp;&amp; action.id != 'uploadPatient') }"
+                                        isTrue="{!action.id &amp;&amp; action.id != 'openToReceiveReferrals' &amp;&amp; action.id != 'hideaddpatient' &amp;&amp; action.id != 'importhistory' &amp;&amp; action.id != 'PI_Specific_Action' &amp;&amp; (action.id != 'noThanks' &amp;&amp; action.id != 'addPatient' &amp;&amp; action.id != 'uploadPatient') }"
                                 >
                                     <button
                                         id="{!action.id}"
@@ -287,6 +288,7 @@
                                     </c:uiHeaderMenu>
                                 </div>
                             </aura:if>
+                            <aura:if isTrue="{!v.hideaddpatient.disabled == false}">
                                 <aura:if isTrue="{!v.addParticipantInfo.disableReason !='Role Based Restriction' &amp;&amp; v.addParticipantInfo.disabled == true }">
                                     <button
                                         id=""
@@ -301,6 +303,7 @@
                                         {!$Label.c.PG_Add_Patients_Header}
                                     </button>    
                                 </aura:if>
+                            </aura:if>
                             </div>
                         </div>
                     </aura:if>

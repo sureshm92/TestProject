@@ -23,6 +23,10 @@
 }
 .settingHeader {
   width: 10%;
+  text-align: right;
+}
+.optioncss{
+  text-align: right;
 }
 .iconMargin {
   margin-left: 10px;
@@ -192,8 +196,9 @@ a,
 }
 .sortitems {
   max-width: 181px;
-  margin-left: 9.5rem;
-  top: 1.3rem;
+  /* margin-left: 9.5rem; */
+  margin-right: 1rem;
+  top: 1.25rem;
   height: 176px;
 }
 .text-width {
@@ -509,8 +514,8 @@ input[type='number'] {
   font-family: "Proxima Nova";
 }
 .errornameboxred {
-  border: 1px solid #e20000;
-  border-radius: 5px;
+  border: 2px solid #e20000;
+  border-radius: 4px;
   background-color: #fff;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
 }
@@ -698,10 +703,13 @@ input[type='number'] {
 }
 /* Table css start */
 .slds-table thead th {
-  background-color: #f3f3f3;
+  /* background-color: #f3f3f3; */
+  background-color: #F6F7FB;
+  border-radius: 4px;
 }
 .slds-table_bordered {
   border: 1px solid #d4d4d4;
+  border-radius: 4px;
 }
 
 .slds-table_bordered tbody th {
@@ -746,3 +754,17 @@ input[type='number'] {
   letter-spacing: 0;
   line-height: 24px;
 }
+.sharepermissioncheckbox {
+  --lwc-spacingXSmall:0px;
+}
+.highriskcssclass{
+  --lwc-spacingXSmall:0px;
+}
+.highPrioritycssclass{
+  --lwc-spacingXSmall:0px;
+}
+.modelfilenamecss{
+  max-width: 90%;
+  text-align: left;
+}
+ 
