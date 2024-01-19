@@ -64,6 +64,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
   resetPagination = false;
   filePreview = "../apex/MedicalHistoryPreviewVF?resourceId=+";
   sharedFiles = false;
+  maincssclass='';
   get timeZone() {
     return profileTZ;
   }
@@ -98,6 +99,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
       this.isMobile = false;
       this.isDesktop = true;
     }
+    this.maincssclass = 'document-boxDesk pir-parent pp-doc';
 
     this.isSaving = true;
     if (!communityService.isDummy()) {
@@ -175,6 +177,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
         this.resetPagination = false;
         if (this.cvList.length > 0) {
           this.noRecords = false;
+          this.maincssclass = 'document-boxDesk pir-parent pp-doc';
         } else {
           if (this.isDelete) {
             const selectEventnew = new CustomEvent("resetondelete", {
@@ -184,6 +187,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
           }
           if (this.totalRecord == 0) {
             this.noRecords = true;
+            this.maincssclass = 'document-boxDesk pir-parent pp-doc nopagination';
           }
         }
         this.isDelete = false;
@@ -317,8 +321,10 @@ export default class ppdocmentViewPage extends NavigationMixin(
         this.resetPaginationMsg = false;
         if (this.cvListMsg != null && this.cvListMsg.length > 0) {
           this.noMsgRecords = false;
+          this.maincssclass = 'document-boxDesk pir-parent pp-doc';
         } else {
           this.noMsgRecords = true;
+          this.maincssclass = 'document-boxDesk pir-parent pp-doc nopagination';
         }
 
         if (this.isSpinnerRunning) {
