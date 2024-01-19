@@ -40,6 +40,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     spinner;
     showSpinner = true;
     @api isRTL = false;
+    isIPAD;
 
     @api
     get selectedTasks() {
@@ -183,14 +184,15 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     }
 
     get actionButtonCssClass() {
-        return this.ishomepage
-            ? 'slds-p-around_small slds-size_2-of-12'
-            : this.isMobile
+        return this.ishomepage && this.isIPAD
+            ? 'slds-p-around_small slds-size_2-of-12 iPadIcon-hide'
+            : this.ishomepage ?'slds-p-around_small slds-size_2-of-12': this.isMobile
             ? 'slds-p-right_medium slds-size_2-of-12'
             : 'slds-p-right_large slds-size_1-of-12';
     }
 
     connectedCallback() {
+        this.isIpad();
         if (formFactor === 'Small') {
             this.isMobile = true;
         } else {
@@ -543,4 +545,14 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     redirectPage(taskId) {
         communityService.navigateToPage('tasks?id=' + taskId);
     }
+
+isIpad(){
+    if (/ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+        this.isIPAD=true;
+    } else if (/macintel/i.test(navigator.platform.toLowerCase())) {  
+        this.isIPAD=true;      
+    }else{
+        this.isIPAD=false;
+    }
+}
 }

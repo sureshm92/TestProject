@@ -54,11 +54,14 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
     @api 
     uploadonid;
     @api maindivcls;
+    @api isrequirerefreshtable;
+    calledfromclosePopup =false;
 
     handleFilesChange(event) {
         
         if(event.target.files.length > 0) {
             this.template.querySelector('[data-id="browsediv"]').classList.add('disabledrag');
+            this.calledfromclosePopup =false;
             this.filesUploaded = event.target.files;
             event.target.disabled = true;
             this.fileName = event.target.files[0].name; 
@@ -227,6 +230,14 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
             this.isDoneLoading = true;
             this.isFileAdded = false;
             this.template.querySelector('[data-id="browsediv"]').classList.remove('disabledrag');
+            if(this.calledfromclosePopup){
+            let shouldRefreshTable = this.isrequirerefreshtable ? 'success' : 'false';
+            
+            const closemodel = new CustomEvent("closemodelpopup",{
+                detail : shouldRefreshTable
+            }) ;
+            this.dispatchEvent(closemodel); 
+            }
         })
         .catch(error => {
             this.isDoneLoading = true;
@@ -241,8 +252,10 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
         if(this.progress == 100 || this.progress == 0){
             if(this.progress == 100) 
             {
+                this.calledfromclosePopup =true;
                 this.deleteFiles();
             }
+            else{
             this.template.querySelector(".fileInput").value=null; 
             this.template.querySelector(".fileInput").disabled = false;
             this.fileName = '';
@@ -251,8 +264,17 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
             this.base = 1;
             this.progressMultiplier = 0;
             this.isFileAdded = false;
-            const closemodel = new CustomEvent("closemodelpopup" ) ;
-            this.dispatchEvent(closemodel);
+
+            let shouldRefreshTable = this.isrequirerefreshtable ? 'success' : 'false';
+            
+                const closemodel = new CustomEvent("closemodelpopup",{
+                    detail : shouldRefreshTable
+                }) ;
+            this.dispatchEvent(closemodel); 
+            }
+
+            // const closemodel = new CustomEvent("closemodelpopup" ) ;
+            // this.dispatchEvent(closemodel);
         }
     }
 
