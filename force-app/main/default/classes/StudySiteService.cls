@@ -21,7 +21,7 @@ public without sharing class StudySiteService {
     public final static Map<String, Map<String, String>> SS_CHANGE_STATUS_MAP = new Map<String, Map<String, String>>();
 
     public final static List<String> STATUS_GROUP_ACCEPTED = new List<String>{
-        //PI_S_ACCEPTED,
+        PI_S_ACCEPTED,
         //PI_S_ACCEPTED_A,
         SITE_ACTIVATED,
         SITE_ACTIVATED_A
