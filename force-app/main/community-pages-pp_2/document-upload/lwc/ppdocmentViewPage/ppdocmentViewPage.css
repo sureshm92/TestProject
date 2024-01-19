@@ -57,6 +57,9 @@
   background-color: #ffffff;
   margin-top: 8px;
 }
+.nopagination{
+  min-height: 682px!important;
+}
 .uploadfileBtn {
   margin-top: 36rem;
   position: fixed;
