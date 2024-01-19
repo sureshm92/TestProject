@@ -305,10 +305,24 @@ public class StudyActionsPI extends StudyActions {
                 'icon-user-add',
                 new List<DisableReason>{
                     bulkimporthistory,
-                    level2AndLowReason
+                    level2AndLowReason,
+                    tcAcceptanceRequiredReason
                 }
             )
         );
+        //RH-10860 Fix Changes start
+        actions.put(
+            HIDE_ADD_PATIENT,
+            new Action(
+                HIDE_ADD_PATIENT,
+                LABEL_ADD_PATIENT,
+                'icon-user-add',
+                new List<DisableReason>{
+                    tcAcceptanceRequiredReason
+                }
+            )
+        );
+        ////RH-10860 Fix Changes ends
         //Ends
         actions.put(
             ACT_UPLOAD_PATIENT,
@@ -438,6 +452,7 @@ public class StudyActionsPI extends StudyActions {
         }
         
         studySitePiActions.add(actions.get(ACT_BULK_IMPORT_HISTORY));
+        studySitePiActions.add(actions.get(HIDE_ADD_PATIENT));
         //if(!actions.get(ACT_ADD_PATIENT).disabled)studyListViewItemActions.add(actions.get(ACT_ADD_PATIENT));
         //if (!actions.get(ACT_ADD_PATIENT).disabled)
             studySitePiActions.add(actions.get(ACT_ADD_PATIENT));
