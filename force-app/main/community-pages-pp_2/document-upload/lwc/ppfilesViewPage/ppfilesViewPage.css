@@ -916,6 +916,22 @@
     .upload-newFile-btn {
         width: 97%;
     }
+    .wait-time {
+        height: 30px;
+        overflow: visible;
+        text-wrap: wrap;
+    }
+    .uploadinfo {
+        height: 30px;
+        overflow: visible;
+        text-wrap: wrap;
+    }
+    .scrollableclass {
+        height: 235px;
+    }
+    .upload-newdocument-boxNoFiles {
+        height: 620px;
+    }
 }
 
 @media all and (min-width: 769px) and (max-width: 821px) {
@@ -1042,3 +1058,4 @@
         /* margin-top: -4rem; */
     }
 }
+

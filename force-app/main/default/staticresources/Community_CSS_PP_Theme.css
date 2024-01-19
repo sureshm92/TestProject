@@ -259,6 +259,24 @@ input::placeholder {
 .taskName-focus .slds-input:focus-within {
     border: 1px solid #015ff1 !important;
 }
+.taskName-focus .slds-input::placeholder{
+    color: #757575 !important;
+}
+.create-task-input-container .timec::placeholder{
+    color: #757575 !important;
+}
+.create-task-input-container .curve-input input[type='date']{
+    color: #444444 !important;
+}
+.create-task-input-container .curve-input .slds-combobox__input.slds-input{
+    color: #444444 !important;
+}
+.taskName-focus .slds-input{
+    color: #444444 !important;
+}
+.create-task-input-container .curve-input .slds-input[type='time']{
+    color: #444444 !important;
+}
 .time-input .slds-input {
     height: 2rem !important;
     border-left: none !important;
@@ -1518,7 +1536,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .create-task-input-container .slds-input:disabled {
     background: #f2f2f2 !important;
     color: #595959 !important;
-    -webkit-text-fill-color: #595959 !important;
+    -webkit-text-fill-color: #757575 !important;
     opacity: 1 !important; /* required on iOS */
 }
 

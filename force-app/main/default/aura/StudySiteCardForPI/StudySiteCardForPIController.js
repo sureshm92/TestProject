@@ -22,6 +22,9 @@
             if(action != null && 'importhistory' == action.id){
                 component.set('v.manageimporthistory', action);
             }
+            if(action != null && 'hideaddpatient' == action.id){
+                component.set('v.hideaddpatient', action);
+            }
             //Ends
 
         });

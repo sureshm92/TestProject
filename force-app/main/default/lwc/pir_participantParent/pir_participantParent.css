@@ -302,3 +302,6 @@ and (-webkit-min-device-pixel-ratio: 1) {
 .addparticipantcls .slds-p-around_large{
     padding: 20px 20px 10px 20px;
 }
+.err{
+    color: rgb(234, 0, 30);
+ }

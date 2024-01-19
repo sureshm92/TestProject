@@ -304,10 +304,25 @@ public class StudyActionsPI extends StudyActions {
                 LABEL_IMPORT_HISTORY,
                 'icon-user-add',
                 new List<DisableReason>{
-                    bulkimporthistory
+                    bulkimporthistory,
+                    level2AndLowReason,
+                    tcAcceptanceRequiredReason
                 }
             )
         );
+        //RH-10860 Fix Changes start
+        actions.put(
+            HIDE_ADD_PATIENT,
+            new Action(
+                HIDE_ADD_PATIENT,
+                LABEL_ADD_PATIENT,
+                'icon-user-add',
+                new List<DisableReason>{
+                    tcAcceptanceRequiredReason
+                }
+            )
+        );
+        ////RH-10860 Fix Changes ends
         //Ends
         actions.put(
             ACT_UPLOAD_PATIENT,
@@ -417,7 +432,6 @@ public class StudyActionsPI extends StudyActions {
 
         //if (manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)) { //commented as part of site decoupling
             studySitePiActions.add(actions.get(ACT_MANAGE_REFERRALS_BY_SS));
-            studySitePiActions.add(actions.get(ACT_BULK_IMPORT_HISTORY));
             studySitePiActions.add(actions.get(ACT_MANAGE_REFERRING_CLINICS_BY_SS));
             studySitePiActions.add(actions.get('PI_Specific_Action'));
         //}
@@ -437,11 +451,13 @@ public class StudyActionsPI extends StudyActions {
             studySitePiActions.add(actions.get(ACT_NO_THANKS));
         }
         
+        studySitePiActions.add(actions.get(ACT_BULK_IMPORT_HISTORY));
+        studySitePiActions.add(actions.get(HIDE_ADD_PATIENT));
         //if(!actions.get(ACT_ADD_PATIENT).disabled)studyListViewItemActions.add(actions.get(ACT_ADD_PATIENT));
         //if (!actions.get(ACT_ADD_PATIENT).disabled)
             studySitePiActions.add(actions.get(ACT_ADD_PATIENT));
         if (!actions.get(ACT_UPLOAD_PATIENT).disabled)
-            studySitePiActions.add(actions.get(ACT_UPLOAD_PATIENT));
+            studySitePiActions.add(actions.get(ACT_UPLOAD_PATIENT));        
 
         //prepare bottom bar actions:
         if (openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)) {
