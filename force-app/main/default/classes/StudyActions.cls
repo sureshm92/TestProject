@@ -68,6 +68,7 @@ public abstract class StudyActions {
     public static final String ACT_DELEGATE = 'delegate';
     public static final String ACT_ADD_PATIENT = 'addPatient';
     public static final String ACT_BULK_IMPORT_HISTORY = 'importhistory';
+    public static final String HIDE_ADD_PATIENT = 'hideaddpatient';
     public static final String ACT_UPLOAD_PATIENT = 'uploadPatient';
     public static final String ACT_DOWNLOAD_CONSENT = 'downloadConsent';
     public static final String ACT_HOME = 'backHome';
