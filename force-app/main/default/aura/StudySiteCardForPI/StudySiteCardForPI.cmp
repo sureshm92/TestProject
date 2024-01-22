@@ -114,16 +114,14 @@
                         <div
                             class="{!'slds-col slds-size_1-of-1 slds-medium-size_3-of-12 ' + if(v.isRTL,'ss-info-detailsRTL','ss-info-details')}"
                         >
-                            <aura:if isTrue="{!v.userTypeInfo.disabled == false}">
                             <button
                                 class="apollo-btn pi-save-btn secondary"
                                 onclick="{!c.saveChanges}"
-                                    disabled="{!!v.siteWrapper.studySite.isEmailValid || !v.siteWrapper.studySite.isRecordUpdated || !v.siteWrapper.studySite.Name || !v.userTypeInfo.disableReason == 'Deactivated' || !v.userTypeInfo.disableReason == 'Deactivated (Admin)'}"
+                                    disabled="{!!v.siteWrapper.studySite.isEmailValid || !v.siteWrapper.studySite.isRecordUpdated || !v.siteWrapper.studySite.Name}"
                                 title="{!v.siteWrapper.studySite.isRecordUpdated ? v.siteWrapper.studySite.isEmailValid ? v.siteWrapper.studySite.Name ? $Label.c.SS_Save_Changes : $Label.c.SS_Fill_Location_Name : $Label.c.SS_invalidEmail : $Label.c.SS_No_Changes_Message}"
                             >
                                 {!$Label.c.SS_Btn_Save}
                             </button>
-                            </aura:if>
                         </div>
                     </div>
                     <div
