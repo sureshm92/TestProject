@@ -563,8 +563,18 @@ public without sharing class PIR_HomepageController {
         ) {
           //get the study site id's for selected study
           siteIdlist = getStudySiteForaStudy(studyIdlist);
+        }else if(siteIdlist != null){
+          List<Study_Site__c> sitelist = [select id,Site_Activation_Status__c,Override_PI_Referral_Status__c from Study_Site__c where ID IN:siteIdlist];
+          if(sitelist != null && sitelist.size() > 0){
+            siteIdlist = new list<String>();
+            for(Study_Site__c s:sitelist){
+              if(s.Site_Activation_Status__c != 'Deactivated' && s.Site_Activation_Status__c != 'Deactivated (Admin)' && s.Override_PI_Referral_Status__c == 'Accepted'){
+                siteIdlist.add(s.id);
+              }
+              
+            }
+          }
         }
-
         String qcString = qCountString;
         if(isEnabled){
 
