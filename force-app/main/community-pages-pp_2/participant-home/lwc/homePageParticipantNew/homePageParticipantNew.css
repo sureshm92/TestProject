@@ -217,9 +217,9 @@
     font-family: 'Proxima Nova';
     font-weight: 600;
     letter-spacing: 0;
-    line-height: 24px;
+    /* line-height: 24px; */
     text-align: center;
-    height: 32px;
+    /* height: 32px; */
     /*min-width: 109px;*/
     padding: 0 36px;
     width: auto;
