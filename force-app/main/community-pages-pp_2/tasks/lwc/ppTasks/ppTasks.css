@@ -17,9 +17,9 @@
     font-family: 'Proxima Nova';
     font-weight: 600;
     letter-spacing: 0;
-    line-height: 24px;
+    /* line-height: 24px; */
     text-align: center;
-    height: 32px;
+    /* height: 32px; */
     width: 109px;
     margin-left: -1px;
     font-size: 14px;
@@ -571,5 +571,10 @@
     }
     .card-gap {
         margin-top: 18px;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
+    .overflow-scroll {       
+        height: 700px;        
     }
 }
