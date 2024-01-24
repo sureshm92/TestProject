@@ -152,7 +152,7 @@
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
     border-top: 1px solid lightgrey;
     margin-top: 0%;
-    margin-bottom: -11%;
+    /* margin-bottom: -11%; */
 }
 .mob-msg-list-box {
     box-sizing: border-box;
@@ -182,13 +182,20 @@
 }
 /* Ipad css */
 @media (min-width: 768px) and (max-width: 1024px) {
-    .ipad-wdth {
+    /* .ipad-wdth {
         max-width: 500px !important;
-    }
+    } */
     .slds-m-around_medium {
         margin: auto !important;
+        padding-bottom: 20px;
     }
 }
+@media (max-width: 1024px) { 
+    .people-group {
+       text-align: end;
+    }
+}
+
 .back-link {
     font-size: 16px;
     font-weight: 600;
