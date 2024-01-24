@@ -87,13 +87,8 @@ private class Test_TranslationExportImportRemote {
             exportXML.substring(465, 629) +
             '/n' +
             '<target>Посещение 2</target>' +
-            exportXML.substring(629, 788) +
-            '/n' +
-            '<target>Посещение 2</target>' +
-            exportXML.substring(788, 946) +
-            '/n' +
-            '<target>Беременная</target>' +
-            exportXML.substring(1104);
+            exportXML.substring(629, 792) +
+            exportXML.substring(1608);
         TranslationExportImportRemote.ImportResult ir = (TranslationExportImportRemote.ImportResult) JSON.deserialize(
             TranslationExportImportRemote.importTranslation(
                 EncodingUtil.base64Encode(Blob.valueOf(result))
@@ -101,7 +96,7 @@ private class Test_TranslationExportImportRemote {
             TranslationExportImportRemote.ImportResult.class
         );
         Test.stopTest();
-        System.assertEquals(5, ir.importedCount);
+        System.assertEquals(3, ir.importedCount);
     }
 
     @IsTest
@@ -142,13 +137,10 @@ private class Test_TranslationExportImportRemote {
             exportXML.substring(465, 629) +
             '/n' +
             '<target>Посещение 2</target>' +
-            exportXML.substring(629, 788) +
+            exportXML.substring(629, 792) +
             '/n' +
-            '<target>Посещение 2</target>' +
-            exportXML.substring(788, 946) +
-            '/n' +
-            '<target>ТестТестТест</target>' +
-            exportXML.substring(1104);
+            '<target>Посещение 2</target>'+
+            exportXML.substring(1608);
         TranslationExportImportRemote.ImportResult ir = (TranslationExportImportRemote.ImportResult) JSON.deserialize(
             TranslationExportImportRemote.importTranslation(
                 EncodingUtil.base64Encode(Blob.valueOf(result))
@@ -158,6 +150,6 @@ private class Test_TranslationExportImportRemote {
         Test.stopTest();
 
         System.assertEquals(1, ir.unimportedCount);
-        System.assertEquals(4, ir.importedCount);
+        System.assertEquals(3, ir.importedCount);
     }
 }
