@@ -432,7 +432,23 @@ public without sharing class TaskTriggerHandler {
                     List<Contact> delegates = delegatesByPAContact.containskey(task.WhoId)
                         ? delegatesByPAContact.get(task.WhoId)
                         : null;
-                    if (delegates != null && !delegates.isEmpty()) {
+                    List<Patient_Delegate_Enrollment__c> pdEnrollments = new List<Patient_Delegate_Enrollment__c>();
+                    pdEnrollments = perIdPdeMap.containsKey(task.WhatId) 
+                                            ? perIdPdeMap.get(task.WhatId) : null;
+                    if(pdEnrollments != null && !pdEnrollments.isEmpty()){
+                        for(Patient_Delegate_Enrollment__c pde:pdEnrollments){
+                            deDupeNotifications.add(new Notification__c(
+                                    Recipient__c = pde.Patient_Delegate__r.Contact__c,
+                                    WhatId__c = task.Id,
+                                    IsDelegate__c = true,
+                                    Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
+                                    StartDate__c = task.Start_Date__c,
+                                    RemindUsing__c = 'Email'
+                                ));
+                        }
+                    }
+                    
+                    else if (delegates != null && !delegates.isEmpty()) {
                         for (Contact delContact : delegates) {
                             deDupeNotifications.add(
                                 new Notification__c(

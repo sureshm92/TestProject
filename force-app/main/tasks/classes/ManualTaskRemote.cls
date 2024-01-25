@@ -7,9 +7,8 @@ public with sharing class ManualTaskRemote {
         List<Manual_Creation_Panel_Task__c> oneTimeTaskLists = new List<Manual_Creation_Panel_Task__c>();
         try {
             system.debug('******filterLINE8>>'+taskConfig);
-            //system.debug('******filterLINE8>>'+filter + 'ManualTaskFilter.IdTypeOfContactMap: '+ManualTaskFilter.IdTypeOfContactMap);
             //Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig,filter.IdTypeOfContactMap);
-            Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig, ManualTaskFilter.IdTypeOfContactMap);
+            Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig, ManualTaskFilter.IdTypeOfContactMap,filter.isPlatformLevel);
             //return '';
             return 'true';
         } catch (Exception e) {
