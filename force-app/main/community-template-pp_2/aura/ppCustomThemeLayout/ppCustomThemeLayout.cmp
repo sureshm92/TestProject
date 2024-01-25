@@ -76,7 +76,7 @@
                         </div>
                     </aura:if>
                     <div
-                        class="logo-container-pp"
+                        class="{!v.isIpad? 'logo-container-pp-ipad': 'logo-container-pp'}"
                         onclick="{!c.handleClickCloseNavMenu}"
                         ontouchmove="{!c.handleClickCloseNavMenu}"
                         ontouchend="{!c.handleHamberungTouchEnd}"
