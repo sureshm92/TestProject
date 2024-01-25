@@ -335,6 +335,11 @@ a {
     font-size: 1.25rem;
     font-weight: 400;
 }
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    .icon-cont {
+        min-width: 350px;
+    }
+}
 
 @media all and (max-width: 1200px) {
     .col3 {
