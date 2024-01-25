@@ -424,7 +424,10 @@
                                         <lightning-layout-item>
                                         <!-- <lightning-formatted-date-time value={tv.visitDate}>
                                             </lightning-formatted-date-time>-->
-                                            <lightning-formatted-date-time value={tv.visitDateTime}></lightning-formatted-date-time>
+                                            <lightning-formatted-date-time value={tv.visitDateTime} year="numeric"
+                                            month="short"
+                                            day="2-digit" ></lightning-formatted-date-time>
+                                        </lightning-layout-item><span class="tv_span">,&nbsp;</span>
                                         </lightning-layout-item><span class="tv_span">,&nbsp;</span>
                                     </div>
                                     <div
