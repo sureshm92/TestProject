@@ -385,7 +385,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
             ppId: this.tcId
         })
             .then((result) => {
-                location.href = result;
+                window.open(result,"_self");
             })
             .catch((error) => {
                 this.dispatchEvent(
