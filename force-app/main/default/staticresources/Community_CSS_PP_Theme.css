@@ -1467,7 +1467,15 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     top: -2px !important;
     left: -2px !important;
 }
-
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    c-pp-study-visit-details-card .slds-card {
+        width: 100%;
+        padding: 0;
+        border: 1px solid #d9d9d9;
+        border-radius: 16px;
+        min-width: 350px;
+    }
+}
 @media all and (max-width: 768px) {
     .cPpCustomThemeLayout .apollo-btn,
     .cPpCustomThemeLayout .slds-input,
