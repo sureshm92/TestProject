@@ -47,6 +47,10 @@ export default class Documents extends NavigationMixin(LightningElement) {
     }
 
     handleNavigateDefault() {
+        if (communityService.isMobileSDK()) {
+          window.open('../sfc/servlet.shepherd/document/download/' + this.document.thumbnailDocId)
+        }
+        else{
         const clickResource = new CustomEvent('resourceclick', {
             detail: { resourceId: this.id },
             bubbles: true,
@@ -80,6 +84,7 @@ export default class Documents extends NavigationMixin(LightningElement) {
                 }
             });
         }
+    }
     }
 
     doMenuItemSelected(event) {
