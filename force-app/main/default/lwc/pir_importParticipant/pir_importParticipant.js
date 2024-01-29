@@ -305,12 +305,17 @@ studyhandleChange(event) {
         if (key == picklist_Value) {
             var temp = conts[key];
         for (var j in temp) {
-                if(accesslevels == 0){
-                    options.push({ label: temp[j].Name, value: temp[j].Id });
-                }else{
-                    var level = this.siteAccessLevels[temp[j].Id];
-                    if(level != 'Level 3' && level != 'Level 2'){
+                if(temp[j].Site_Activation_Status__c &&
+                    (temp[j].Site_Activation_Status__c == 'Activated' || 
+                    temp[j].Site_Activation_Status__c == 'Activated (Admin)') && 
+                    temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+                    if(accesslevels == 0){
                         options.push({ label: temp[j].Name, value: temp[j].Id });
+                    }else{
+                        var level = this.siteAccessLevels[temp[j].Id];
+                        if(level != 'Level 3' && level != 'Level 2'){
+                            options.push({ label: temp[j].Name, value: temp[j].Id });
+                        }
                     }
                 }
         }
