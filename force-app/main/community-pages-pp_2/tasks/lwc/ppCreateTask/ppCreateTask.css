@@ -68,7 +68,7 @@ input[type='text']:disabled {
     background: #ffff00;
 }
 
-@media all and (max-width: 486px) {
+@media all and (max-width: 1366px) {
     .taskIcon {
         display: none;
     }
@@ -88,9 +88,9 @@ input[type='text']:disabled {
     }
 }
 
-@media all and (min-width: 768px) and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1366px) {
     .task-card-mobile {       
-        width: 510px;        
+        width: 510px; 
     }
 }
 
