@@ -63,7 +63,11 @@ export default class PpCommunityNavigation extends LightningElement {
         window.addEventListener('orientationchange', this.onOrientationChange);
     }
     onOrientationChange = () => {
-        this.forceRefresh();
+        this.participantTabs = [];
+        this.participantTabsOne = [];
+        this.participantTabsTwo = [];
+        this.isTabletMenu();
+        this.populateNavigationItems();
     };
     renderedCallback() {
         if (!this.hasRendered) {
@@ -91,8 +95,8 @@ export default class PpCommunityNavigation extends LightningElement {
     //template toggle
     render() {
         this.count = this.count += 1;
-        this.iosString2 = window.innerWidth;
-        if (this.isTabletMenu()) {
+        this.iosString2 = this.isTabletMenu();
+        if (this.isTablet) {
             return menuTablet;
         }
         return DEVICE == 'Large' ? menuDesktop : menuMobile;
