@@ -232,7 +232,7 @@
                     } else {
                         communityService.executeAction(
                             component,
-                            'savePatientDelegate',
+                            'doSavePatientDelegate',
                             {
                                 delegate: JSON.stringify(delegate.delegateContact)
                             },
