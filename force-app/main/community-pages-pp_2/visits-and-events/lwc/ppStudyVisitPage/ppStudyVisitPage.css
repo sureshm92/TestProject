@@ -16,7 +16,7 @@
     min-height: 185px;
 }
 
-.scroll-position::-webkit-scrollbar{
+.scroll-position::-webkit-scrollbar {
     height: 9px;
 }
 
@@ -335,6 +335,11 @@ a {
     font-size: 1.25rem;
     font-weight: 400;
 }
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    .icon-cont {
+        min-width: 350px;
+    }
+}
 
 @media all and (max-width: 1200px) {
     .col3 {
@@ -397,8 +402,7 @@ a {
     .my-visits {
         margin: 0px 0 16px 0;
         font-size: 24px;
-        font-family: "Proxima Nova"!important;
-
+        font-family: 'Proxima Nova' !important;
     }
 
     .slds-p-horizontal_x-large > .slds-size_1-of-1 {
@@ -435,5 +439,10 @@ a {
     .inactive-custom-box .slds-grid .slds-col:nth-child(-n + 2) {
         padding-left: unset;
         padding-right: unset;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
+    .col1 {
+        height: 540px;
     }
 }

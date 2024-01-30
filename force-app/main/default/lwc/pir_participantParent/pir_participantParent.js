@@ -70,6 +70,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   @track utilLabels = label;
   isRedirectedFromBellCmp = false;
   setList = true;
+  showStudyErr = false;
   backArrow = pirResources + "/pirResources/icons/triangle-left.svg";
   usericon= pirResources+'/pirResources/icons/user.svg';
   disableMedicalSaveButton = true;
@@ -236,6 +237,10 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       }
     }
     
+    this.showStudyErr = false;
+    if(options.length == 0){
+      this.showStudyErr = true;
+    }
     this.studySiteList = options;
     this.selectedSite = '';
     this.studysiteaccess = false;
@@ -390,6 +395,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.disablebtn = event.detail;
   }
 
+  @api medicalTableHasErr = false;
 
   checkMedicalSaveBtn(event){
     if(event.detail.isBMIError){
@@ -398,13 +404,22 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
 
     }
     else {
-    this.disableMedicalSaveButton = !event.detail;
-  this.isMedicalDetailChanged = event.detail;
-
+      if(this.medicalTableHasErr){  
+        this.disableMedicalSaveButton = this.medicalTableHasErr;
+        this.isMedicalDetailChanged = event.detail;
+      }else{
+        this.disableMedicalSaveButton = !event.detail;
+        this.isMedicalDetailChanged = event.detail;
+      }
     }
 
     this.discardMedicalTab = false;
   }
+
+  checkMedicalTable(event){console.log('checkmedicaltable--'+event.detail);
+      this.medicalTableHasErr = event.detail;
+  }
+
   //participant detail
   disableDetailSaveButton =false;
   isDetailsUpdate=false;
@@ -606,6 +621,7 @@ gotoPartTab(){
   this.isMedicalDetailChanged = false;
   this.discardMedicalTab = false;
   this.template.querySelector("c-medicalinformation").dosaveMedicalInfo();
+  
   this.disableMedicalSaveButton = true;
  }
 
@@ -728,6 +744,7 @@ gotoPartTab(){
   }
   handleCloseParticipant(){
     this.addParticipant = false;
+    this.showStudyErr = false;
     this.selectedSite = '';
     this.selectedStudy = '';
     this.template.querySelector("c-pir_participant-list").hideCheckbox();

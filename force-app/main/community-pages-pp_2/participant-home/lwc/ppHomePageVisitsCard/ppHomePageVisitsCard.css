@@ -326,3 +326,8 @@ hr {
         margin-top: 1rem;
     }
 }
+.location-overflow{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

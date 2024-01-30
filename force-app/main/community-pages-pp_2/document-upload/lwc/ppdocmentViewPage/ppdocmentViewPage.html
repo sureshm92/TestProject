@@ -12,7 +12,8 @@
             show-spinner={isSaving}
         ></c-web-spinner>
 
-        <div class="document-boxDesk pir-parent pp-doc">
+        <!-- <div class="document-boxDesk pir-parent pp-doc"> -->
+        <div class={maincssclass}>
             <div class="section-padding all-tabs slds-show_medium">
                 <lightning-tabset active-tab-value="">
                     <lightning-tab label={label.Uploaded} onactive={handleFiles}>
@@ -289,6 +290,12 @@
                         label={label.Shared_with_Me}
                         onactive={handleMessageFiles}
                     >
+                    <div class="rectangle-box slds-grid slds-p-around--small slds-m-left--small slds-m-right--x-small slds-align--absolute-center" >
+                        <img src={infocheck} class="infocheckcss" />
+                        <span class="slds-p-left_x-small msg-disclaimer-color">{label.PP_SharedwithmeMessage}</span>
+                        
+                     
+                    </div>
                         <template if:false={noMsgRecords}>
                             <div
                                 class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small ppfont tablePP"
@@ -820,6 +827,13 @@
             </template>
 
             <template if:false={isUploadedTab}>
+                 
+                <div class="mob-rectangle-box slds-grid slds-p-around--small slds-m-left--small slds-m-right--small slds-m-top--small " >
+                    <img src={infocheck} class="infocheckcssMbl" />
+                    <span class="slds-p-left_x-small msg-disclaimer-color">{label.PP_SharedwithmeMessage}</span>   
+                     
+                   
+                </div>
                 <template if:false={noMsgRecords}>
                     <div
                         class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large Sort"
