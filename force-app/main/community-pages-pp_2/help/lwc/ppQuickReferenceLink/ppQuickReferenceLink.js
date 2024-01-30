@@ -58,17 +58,12 @@ export default class PpQuickReferenceLink extends NavigationMixin(LightningEleme
         var webViewer = pdfjs_dist + '/web/viewer.html';
         console.log('webViewer', webViewer);
         getResourceURL({ resourceName: this.quickReference }).then((result) => {
-            if (communityService.isMobileSDK()) {
-                window.open('../..'+result);
-            }
-            else{
             setTimeout(() => {
                 window.open(
                     webViewer + '?file=' + result + '&fileName=' + quickRefernceCard,
                     '_blank'
                 );
             });
-        }
         });
     
     }
