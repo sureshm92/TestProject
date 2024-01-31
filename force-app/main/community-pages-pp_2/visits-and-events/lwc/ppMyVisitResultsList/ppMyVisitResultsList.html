@@ -50,6 +50,9 @@
                                                         <lightning-formatted-date-time
                                                             value={item.Completed_Date__c}
                                                             class="l-padding date-style"
+                                                            year="numeric"
+                                                            month="short"
+                                                            day="2-digit"
                                                             time-zone={userTimezone}
                                                         ></lightning-formatted-date-time>
                                                     </template></div
@@ -73,6 +76,9 @@
                                                     <template if:true={item.Completed_Date__c}>
                                                         <lightning-formatted-date-time
                                                             value={item.Completed_Date__c}
+                                                            year="numeric"
+                                                            month="short"
+                                                            day="2-digit"
                                                             class="l-padding date-style"
                                                             time-zone={userTimezone}
                                                         ></lightning-formatted-date-time>
