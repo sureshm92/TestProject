@@ -56,16 +56,12 @@ public without sharing class ManualTaskFilter {
         List<Participant_Enrollment__c> enrollments = (List<Participant_Enrollment__c>) Database.query(
             peQuery
         );
-        System.debug('countries::'+countries);
         List<String> countryCodes;
         if (!countries.isEmpty())
             countryCodes = getCountryCode();
 
-        System.debug('countryCodes::'+countryCodes);
         Map<Id, List<Participant_Enrollment__c>> peByContactIds = new Map<Id, List<Participant_Enrollment__c>>();
         for (Participant_Enrollment__c pe : enrollments) {
-           // System.debug('countryCodes::'+countryCodes);
-           // System.debug('countryCodes::'+!countryCodes.contains(pe.Participant__r.Mailing_Country_Code__c));
             if (
                 countryCodes != null &&
                 !countryCodes.contains(pe.Participant__r.Mailing_Country_Code__c)
@@ -86,147 +82,17 @@ public without sharing class ManualTaskFilter {
         return peByContactIds;
     }
 
-    @TestVisible
-    private Map<Id, List<Id>> getContactsWithParticipantIds(string visibility) {
-        Map<Id, List<Id>> participantByContactIds = new Map<Id, List<Id>>();
-        Map<Id, List<Id>> delegateParticipantByContactIds = new Map<Id, List<Id>>();
-        Map<Id, List<Id>> delegateOwnerMap = new Map<Id, List<Id>>();
-
-        List<Patient_Delegate__c> patientDelegateLST = new List<Patient_Delegate__c>();
-        set<id> contactIds = new Set<id>();
-        set<id> participantIds = new Set<id>();
-        set<id> ParticipantHavingDelegateIds = new Set<id>();
-        List<Participant_Enrollment__c> pes = new List<Participant_Enrollment__c>();
-
-        if (!studies.isEmpty() || !sites.isEmpty()) {
-            /* If studies or sites were chosen we get Participants from PEs */
-            Map<Id, List<Participant_Enrollment__c>> contactsWithPEs = getContactsWithPE();
-            for (Id id : contactsWithPEs.keySet()) {
-                List<Id> studyparticipantIds = new List<Id>();
-                List<Participant_Enrollment__c> enrollments = contactsWithPEs.get(id);
-                for (Participant_Enrollment__c pe : enrollments) {
-                    studyparticipantIds.add(pe.Participant__c);
-                    ParticipantHavingDelegateIds.add(pe.Participant__c);
-                    IdTypeOfContactMap.put(pe.Participant_Contact__c, 'Participant');
-                }
-                participantByContactIds.put(id, studyparticipantIds);
-            }
-            //return participantByContactIds;
-        }
-
-        List<String> searchStatuses = new List<String>();
-        if (statuses.contains('Referred'))
-            searchStatuses.addAll(PEStatusState.PE_STATUS_GROUP_IN_PROGRESS);
-        if (statuses.contains('Enrolled'))
-            searchStatuses.addAll(PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS);
-        if (statuses.contains('Alumni'))
-            searchStatuses.addAll(PEStatusState.PE_STATUS_GROUP_ALUMNI);
-
-        String filter = '';
-        if (!countries.isEmpty()) {
-            filter =
-                ' AND ' +
-                DatabaseService.fieldInValues(
-                    'Participant__r.Mailing_Country_Code__c',
-                    getCountryCode()
-                );
-        }
-        String peQuery =
-            PEPLATFORM_QUERY +
-            ' AND ' +
-            DatabaseService.fieldInValues('Participant_Status__c', searchStatuses) +
-            filter;
-
-        if (!areas.isEmpty()) {
-            List<String> therapeuticfilters = new List<String>();
-            therapeuticfilters.add(fieldJoin('Therapeutic_Area__c', areas));
-            if (!countries.isEmpty()) {
-                therapeuticfilters.add(
-                    DatabaseService.fieldInValues(
-                        'Participant__r.Mailing_Country_Code__c',
-                        getCountryCode()
-                    )
-                );
-            }
-            String theraQuery =
-                ' AND Participant__c IN (SELECT Participant__c FROM Therapeutic_Area_Patient__c WHERE ' +
-                String.join(therapeuticfilters, ' AND ');
-            theraQuery += ')';
-            peQuery += theraQuery;
-        }
-
-        //List<Participant_Enrollment__c> pes = (List<Participant_Enrollment__c>) Database.query(peQuery);
-        if (studies.isEmpty() && sites.isEmpty()) {
-            pes = Database.query(peQuery);
-
-            for (Participant_Enrollment__c pe : pes) {
-                participantByContactIds.put(
-                    pe.Participant_Contact__c,
-                    new List<Id>{ pe.Participant__c }
-                );
-                ParticipantHavingDelegateIds.add(pe.Participant__c);
-                IdTypeOfContactMap.put(pe.Participant_Contact__c, 'Participant'); //KK
-            }
-        }
-        if (!ParticipantHavingDelegateIds.isEmpty() && visibility != 'Owner') {
-            patientDelegateLST = [
-                SELECT id, Contact__c, Participant__c
-                FROM Patient_Delegate__c
-                WHERE Participant__c IN :ParticipantHavingDelegateIds
-            ];
-        }
-        if (!patientDelegateLST.isEmpty()) {
-            for (Patient_Delegate__c pd : patientDelegateLST) {
-                delegateParticipantByContactIds.put(
-                    pd.Contact__c,
-                    new List<Id>{ pd.Participant__c }
-                );
-                if (
-                    IdTypeOfContactMap.containsKey(pd.Contact__c) &&
-                    IdTypeOfContactMap.get(pd.Contact__c) == 'Participant'
-                ) {
-                    String TypeOfContact = IdTypeOfContactMap.get(pd.Contact__c) + ';Delegate';
-                    IdTypeOfContactMap.put(pd.Contact__c, TypeOfContact); //KK //Participant;Delegate
-                } else {
-                    IdTypeOfContactMap.put(pd.Contact__c, 'Delegate'); //KK
-                }
-            }
-        }
-
-        if (participantByContactIds != null || delegateParticipantByContactIds != null) {
-            delegateOwnerMap.putAll(participantByContactIds);
-            delegateOwnerMap.putAll(delegateParticipantByContactIds);
-        }
-        if (visibility == 'Owner') {
-            return participantByContactIds;
-        } else if (visibility == 'Owner;Delegates') {
-            return delegateOwnerMap;
-        } else if (visibility == 'Delegates') {
-            return delegateParticipantByContactIds;
-        } else {
-            return null;
-        }
-    }
-
     public Map<Id, List<Id>> getContactsWithWhatIds(TaskService.TaskConfig taskConfig) {
         string visibility = taskConfig.visibility;
         // Platform-level tasks
         /* Study-level tasks, added for delegate PEH-4365*/
 
         Map<Id, List<Participant_Enrollment__c>> sObjectsByContact = new Map<Id, List<SObject>>();
-        set<id> extractDelegateId = new Set<id>();
-        List<Patient_Delegate__c> StudyDelegateLST = new List<Patient_Delegate__c>();
         List<Patient_Delegate_Enrollment__c> pdeList = new List<Patient_Delegate_Enrollment__c>();
-        Map<Id, List<Id>> studyDelegateParticipantIds = new Map<Id, List<Id>>();
-        Map<Id, List<Id>> studyDelContactPerIds = new Map<Id, List<Id>>();
-        Map<Id, List<Id>> studyDelegateContactsIds = new Map<Id, List<Id>>(); // dlgtparticipant and list of delegate cont ids
-
-        Map<Id, List<Id>> studyParticipantPErIds = new Map<Id, List<Id>>();
         Map<Id, List<Id>> studyDelegateOwnerMap = new Map<Id, List<Id>>();
         Map<Id, List<Id>> pdeListofPeMap = new Map<Id, List<Id>>();
         sObjectsByContact = getContactsWithPE(); // cont id and list of PE map
         Map<Id, List<Id>> peIdsByContact = new Map<Id, List<Id>>();
-        system.debug('peSet:::'+peSet);
         if (!peSet.isEmpty()) {
             pdeList = [
                 SELECT
@@ -241,17 +107,13 @@ public without sharing class ManualTaskFilter {
                 AND Status__c = 'Active'
             ];
         }
-        system.debug('peSet:::'+peSet);
-        system.debug('pdeList:::'+pdeList);
 
-        //List<Participant_Enrollment__c> participantEnrollmentLST = new List<Participant_Enrollment__c>();
         for (Id id : sObjectsByContact.keySet()) {
             Map<Id, Participant_Enrollment__c> peMap = new Map<Id, Participant_Enrollment__c>(
                 sObjectsByContact.get(id)
             );
             if (!peMap.isEmpty()) {
                 peIdsByContact.put(id, new List<Id>(peMap.keySet()));
-                //extractDelegateId.add(peMap.Values()[0].Participant__c);
                 IdTypeOfContactMap.put(peMap.Values()[0].Participant_Contact__c, 'Participant');
             }
         }
@@ -264,7 +126,6 @@ public without sharing class ManualTaskFilter {
                 parPdeListofPeMap.put(pde.Participant_Enrollment__r.Participant_Contact__c, new List<Id>());
             parPdeListofPeMap.get(pde.Participant_Enrollment__r.Participant_Contact__c)
                 .add(pde.Participant_Enrollment__c);
-            system.debug('parPdeListofPeMap:::'+parPdeListofPeMap);
             
             if (
                 // checks if contact type is delegate or delegate&participant
@@ -282,80 +143,42 @@ public without sharing class ManualTaskFilter {
                 IdTypeOfContactMap.put(pde.Patient_Delegate__r.Contact__c, 'Delegate'); //KK
             }
         }
-        /*if (!extractDelegateId.isEmpty() && visibility != 'Owner') {
-            StudyDelegateLST = [
-                SELECT id, Contact__c, Participant__c
-                FROM Patient_Delegate__c
-                WHERE Participant__c IN :extractDelegateId
-            ];
-        }*/
-        /*if (!StudyDelegateLST.isEmpty()) {
-            for (Patient_Delegate__c pd : StudyDelegateLST) {
-                /*studyDelegateParticipantIds.put(pd.Contact__c, new List<Id>{ pd.Participant__c });
-                if (!studyDelegateContactsIds.containsKey(pd.Participant__c))
-                    studyDelegateContactsIds.put(pd.Participant__c, new List<Id>());
-                studyDelegateContactsIds.get(pd.Participant__c).add(pd.Contact__c);*/
-
-                /*if (
-                    // checks if contact type is delegate or delegate&participant
-                    IdTypeOfContactMap.containsKey(pd.Contact__c) &&
-                    IdTypeOfContactMap.get(pd.Contact__c) == 'Participant'
-                ) {
-                    String TypeOfContact = IdTypeOfContactMap.get(pd.Contact__c) + ';Delegate';
-                    IdTypeOfContactMap.put(pd.Contact__c, TypeOfContact); //KK //Participant;Delegate
-                } else {
-                    IdTypeOfContactMap.put(pd.Contact__c, 'Delegate'); //KK
-                }
-            }
-        }*/
-        /*set<Id> delconIds = new Set<Id>();*/
-        /*if (!studyDelegateContactsIds.isEmpty()) {
-            for (Id parId : studyDelegateContactsIds.keySet()) {
-                if (participantwithContact.containskey(parId)) {
-                    Map<Id, Participant_Enrollment__c> peMap = new Map<Id, Participant_Enrollment__c>(
-                        sObjectsByContact.get(participantwithContact.get(parId))
-                    );
-                    delconIds.addAll(studyDelegateContactsIds.get(parId));
-                    for (Id delcon : delconIds) {
-                        studyDelContactPerIds.put(delcon, new List<Id>(peMap.keySet()));
-                    }
-                }
-            }
-        }*/
         if (peIdsByContact != null || pdeListofPeMap != null) {
-            /*if(isPlatformLevel){
-                studyDelegateOwnerMap.putAll(studyDelContactPerIds);
-            }else{
-                studyDelegateOwnerMap.putAll(pdeListofPeMap);
-            }*/
-            Set<Id> keys = new Set<Id>();
-            keys.addAll(pdeListofPeMap.keySet());
-            keys.addAll(peIdsByContact.keySet());
-            
-            for (Id key : keys) {
-                List<Id> m1 = (List<Id>) peIdsByContact.get(key);
-                List<Id> m2 = (List<Id>) pdeListofPeMap.get(key);
+            Set<Id> commonKey = new Set<Id>(pdeListofPeMap.keySet());
+            commonKey.retainAll(peIdsByContact.keySet());
+            if(commonKey.size() > 0 && !commonKey.isEmpty()){ // For mutirole merge the values and active ones to be in list first
+                Set<Id> parDelConkeys = new Set<Id>();
+                parDelConkeys.addAll(pdeListofPeMap.keySet());
+                parDelConkeys.addAll(peIdsByContact.keySet());
                 
-                List<Id> merged = new List<Id>();
-                if (m1 != null) merged.addAll(m1);
-                if (m2 != null) merged.addAll(m2);
-                
-                studyDelegateOwnerMap.put(key, merged);
+                for (Id key : parDelConkeys) {
+                    List<Id> perConStudyLst = (List<Id>) peIdsByContact.get(key);
+                    List<Id> pdeConStudyLst = (List<Id>) pdeListofPeMap.get(key);
+                    if(parPdeListofPeMap.containskey(key)){ // To make delegate active studies in the list first
+                        Set<Id> parWithDelAssStudSet = new Set<Id>();
+                        List<Id> parWithDelAssStudies = (List<Id>) parPdeListofPeMap.get(key);
+                        parWithDelAssStudSet.addAll(parWithDelAssStudies);
+                        parWithDelAssStudSet.addAll(perConStudyLst);
+                        perConStudyLst.clear();
+                        perConStudyLst.addAll(parWithDelAssStudSet);
+                    }
+                    List<Id> multiRoleConValueMerge = new List<Id>(); // Merging the list for Multirole because of Putall behaviour
+                    if (perConStudyLst != null) multiRoleConValueMerge.addAll(perConStudyLst);
+                    if (pdeConStudyLst != null) multiRoleConValueMerge.addAll(pdeConStudyLst);
+                    
+                    studyDelegateOwnerMap.put(key, multiRoleConValueMerge);
+                } 
             }
-            //studyDelegateOwnerMap.putAll(pdeListofPeMap);
-            //studyDelegateOwnerMap.putAll(peIdsByContact);
+            else{
+                studyDelegateOwnerMap.putAll(pdeListofPeMap);
+                studyDelegateOwnerMap.putAll(peIdsByContact);
+            }
         }
-        system.debug('studyDelegateOwnerMap:::'+studyDelegateOwnerMap);
-        system.debug('pdeListofPeMap:::'+pdeListofPeMap);
-        system.debug('peIdsByContact:::'+peIdsByContact);
         if (visibility == 'Owner') {
             return peIdsByContact;
         } else if (visibility == 'Owner;Delegates') {
             return studyDelegateOwnerMap;
         }
-        /*else if (visibility == 'Delegates' && isPlatformLevel) {
-            return studyDelContactPerIds;
-        }*/
         else if (visibility == 'Delegates') {
             return pdeListofPeMap;
         }
