@@ -25,7 +25,7 @@ import Profile_Information from '@salesforce/label/c.Profile_Information';
 import getContactData from '@salesforce/apex/MyTeamRemote.getContactData';
 import getMaxLength from '@salesforce/apex/MyTeamRemote.getMaxLength';
 import isExistingDelegate from '@salesforce/apex/MyTeamRemote.isExistingDelegate';
-import savePatientDelegate from '@salesforce/apex/MyTeamRemote.savePatientDelegate';
+import doSavePatientDelegate from '@salesforce/apex/MyTeamRemote.doSavePatientDelegate';
 import PP_Attestation_Confirmation_Message_For_Teams from '@salesforce/label/c.PP_Attestation_Confirmation_Message_For_Teams';
 import PP_Email_Error from '@salesforce/label/c.PP_Email_Error';
 import PP_Required_Field from '@salesforce/label/c.PP_Required_Field';
@@ -433,7 +433,7 @@ export default class PpNewTeamMember extends LightningElement {
                             this.isLoading = false;
                             return;
                         } else {
-                            savePatientDelegate({
+                            doSavePatientDelegate({
                                 delegate: JSON.stringify(delegate.delegateContact)
                             })
                                 .then((result) => {
