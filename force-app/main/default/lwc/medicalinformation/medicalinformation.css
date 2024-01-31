@@ -165,6 +165,9 @@ a,
   border-color: var(--lwc-colorBorderInputActive, rgb(27, 150, 255));
   box-shadow: var(--lwc-shadowButtonFocus, 0 0 3px #0176d3);
 }
+.slds-gutters .slds-col .medicaltabmodel{
+  padding-right: 0px;
+}
 .button-content {
   border-radius: 20px;
   box-sizing: border-box;
@@ -374,7 +377,7 @@ a,
 .close-icon {
     cursor: pointer;
     width: 14px;
-    margin-left: 5px;
+    padding-left: 10px;
 }
 .accordion-p-top {
     padding-top: 11px;
