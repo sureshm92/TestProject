@@ -172,6 +172,7 @@ public abstract class StudyActions {
 
     protected transient DisableReason studyNoLongerEnrollingReason;
     protected transient DisableReason studySiteNotAcceptedReason;
+    protected transient DisableReason studySiteNotAcceptedReasonrp;
     protected transient DisableReason studySiteOnHoldReason;
     protected transient DisableReason hcpNotActiveReason;
     protected transient DisableReason hcpOnHoldReason;
@@ -224,6 +225,13 @@ public abstract class StudyActions {
         studyNoLongerEnrollingReason = new DisableReason(
             study.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING,
             REASON_LABEL_STUDY_NO_LONGER_ENROLLING
+        );
+        studySiteNotAcceptedReasonrp = new DisableReason(
+            studySite != null &&
+            !StudySiteService.STATUS_GROUP_ON_HOLD_ACTIVATED.contains(
+                studySite.Site_Activation_Status__c
+            ),
+            REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
         );
 
         studySiteNotAcceptedReason = new DisableReason(

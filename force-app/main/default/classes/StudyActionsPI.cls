@@ -49,6 +49,10 @@ public class StudyActionsPI extends StudyActions {
             REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
         );
 
+        DisableReason bulkimporthistory = new DisableReason(
+            studySite.Override_PI_Referral_Status__c != 'Accepted',
+            REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
+        );
         DisableReason delegateL3CannotAccept = new DisableReason(
             studyAccessLevel == DelegateService.DELEGATE_LEVEL_3 &&
             pe != null &&
@@ -119,8 +123,9 @@ public class StudyActionsPI extends StudyActions {
                 new List<DisableReason>{
                     level2AndLowReason,
                     hcpLockedByAdmin,
-                    studySiteOnHoldReason,
-                    studySiteNotAcceptedReason,
+                    //studySiteOnHoldReason,
+                    studySiteNotAcceptedReasonrp,
+                    bulkimporthistory,
                     studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
@@ -136,8 +141,9 @@ public class StudyActionsPI extends StudyActions {
                 new List<DisableReason>{
                     level2AndLowReason,
                     hcpLockedByAdmin,
-                    studySiteOnHoldReason,
-                    studySiteNotAcceptedReason,
+                    //studySiteOnHoldReason,
+                    studySiteNotAcceptedReasonrp,
+                    bulkimporthistory,
                     studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
@@ -153,8 +159,9 @@ public class StudyActionsPI extends StudyActions {
                 new List<DisableReason>{
                     level2AndLowReason,
                     hcpLockedByAdmin,
-                    studySiteOnHoldReason,
-                    studySiteNotAcceptedReason,
+                    //studySiteOnHoldReason,
+                    studySiteNotAcceptedReasonrp,
+                    bulkimporthistory,
                     studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
@@ -170,8 +177,9 @@ public class StudyActionsPI extends StudyActions {
                 new List<DisableReason>{
                     level2AndLowReason,
                     hcpLockedByAdmin,
-                    studySiteOnHoldReason,
-                    studySiteNotAcceptedReason,
+                    //studySiteOnHoldReason,
+                    studySiteNotAcceptedReasonrp,
+                    bulkimporthistory,
                     studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
@@ -187,8 +195,9 @@ public class StudyActionsPI extends StudyActions {
                 new List<DisableReason>{
                     level2AndLowReason,
                     hcpLockedByAdmin,
-                    studySiteOnHoldReason,
-                    studySiteNotAcceptedReason,
+                    //studySiteOnHoldReason,
+                    studySiteNotAcceptedReasonrp,
+                    bulkimporthistory,
                     studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
@@ -204,8 +213,9 @@ public class StudyActionsPI extends StudyActions {
                 new List<DisableReason>{
                     supportLevelReason,
                     hcpLockedByAdmin,
-                    studySiteOnHoldReason,
-                    studySiteNotAcceptedReason,
+                    //studySiteOnHoldReason,
+                    studySiteNotAcceptedReasonrp,
+                    bulkimporthistory,
                     studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
@@ -221,8 +231,9 @@ public class StudyActionsPI extends StudyActions {
                 new List<DisableReason>{
                     level2AndLowReason,
                     hcpLockedByAdmin,
-                    studySiteOnHoldReason,
-                    studySiteNotAcceptedReason,
+                    //studySiteOnHoldReason,
+                    studySiteNotAcceptedReasonrp,
+                    bulkimporthistory,
                     studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
@@ -293,10 +304,6 @@ public class StudyActionsPI extends StudyActions {
             )
         );
         //For bulk import history starts
-        DisableReason bulkimporthistory = new DisableReason(
-            studySite.Override_PI_Referral_Status__c != 'Accepted',
-            REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
-        );
         actions.put(
             ACT_BULK_IMPORT_HISTORY,
             new Action(
