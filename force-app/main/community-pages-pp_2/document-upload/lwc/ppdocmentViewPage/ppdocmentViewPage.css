@@ -97,7 +97,8 @@
 
 .titleLink {
   height: 24px;
-  width: 183px;
+  /* width: 183px; */
+  width: 305px;
   color: #015ff1;
   font-family: "Proxima Nova";
   font-size: 14px;
@@ -160,6 +161,14 @@
   color: #ffffff;
   border: none;
 }
+.table-Header-Sorted {
+  font-weight: 700 !important;
+  color: #444444;
+}
+.blackArrow {
+  --sds-c-icon-color-foreground-default: #444444;
+  --sds-c-icon-color-background: transparent;
+}
 .cuPointer {
   cursor: pointer;
 }
@@ -167,12 +176,8 @@
   font-weight: 700 !important;
   color: #444444;
 }
-.fileTypealign {
-  margin-left: 28px;
-}
-.UploadedDateAlign {
-  margin-left: 17px;
-}
+
+
 .sortIcon {
   height: 26px;
   width: 17px;
