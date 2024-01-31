@@ -2,7 +2,6 @@ import { LightningElement, api, track } from 'lwc';
 import LOCALE from '@salesforce/i18n/locale';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import pdfjs_dist from '@salesforce/resourceUrl/pdfjs_dist';
-import FORM_FACTOR from '@salesforce/client/formFactor';
 import Quick_Refernce from '@salesforce/label/c.Quick_Refernce';
 import getInitData from '@salesforce/apex/ApplicationHelpRemote.getInitData';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
@@ -55,34 +54,28 @@ export default class PpQuickReferenceLink extends NavigationMixin(LightningEleme
             });
     }
 
-    get isMobile() {
-        return FORM_FACTOR == 'Small';
-    }
     openQuickReference() {
-        const SUCCESS_VARIANT = 'warning';
-        const MESSAGE_Quick_Refernce = this.label.Quick_Refernce;
-        if (communityService.isMobileSDK() ) {
-            this.template
-            .querySelector('c-custom-toast-files-p-p')
-            .showToast(
-                SUCCESS_VARIANT,
-                MESSAGE_Quick_Refernce,
-                'utility:warning',
-                8000
-            );
+        if (communityService.isMobileSDK() ) { 
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'mobile-pdf-viewer'
+                },
+                state: {
+                    'resourceName': this.quickReference
+                }
+            });
             return;
         }
         var webViewer = pdfjs_dist + '/web/viewer.html';
         console.log('webViewer', webViewer);
         getResourceURL({ resourceName: this.quickReference }).then((result) => {
-            this.template
-            .querySelector('c-custom-toast-files-p-p')
-            .showToast(
-                SUCCESS_VARIANT,
-                MESSAGE_Quick_Refernce,
-                'utility:warning',
-                8000
-            );
+            setTimeout(() => {
+                window.open(
+                    webViewer + '?file=' + result + '&fileName=' + quickRefernceCard,
+                    '_blank'
+                );
+            });
     });
     }
 }
