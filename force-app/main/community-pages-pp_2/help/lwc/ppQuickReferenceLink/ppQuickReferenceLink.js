@@ -76,6 +76,6 @@ export default class PpQuickReferenceLink extends NavigationMixin(LightningEleme
                     '_blank'
                 );
             });
-        });
+    });
     }
 }
