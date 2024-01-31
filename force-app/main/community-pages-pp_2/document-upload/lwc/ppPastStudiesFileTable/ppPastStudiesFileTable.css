@@ -79,13 +79,22 @@ a,
 }
 .titleLink {
   height: 24px;
-  width: 350px;
+  /* width: 183px; */
+  width: 340px;
   color: #015ff1;
   font-family: "Proxima Nova";
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0;
   line-height: 24px;
+}
+.table-Header-Sorted {
+  font-weight: 700 !important;
+  color: #444444;
+}
+.blackArrow {
+  --sds-c-icon-color-foreground-default: #444444;
+  --sds-c-icon-color-background: transparent;
 }
 
 /*drpdown css End */

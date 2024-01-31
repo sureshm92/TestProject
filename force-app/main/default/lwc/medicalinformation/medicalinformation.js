@@ -55,6 +55,10 @@ import RH_Sharing_Label from "@salesforce/label/c.RH_Sharing_Label";
 import PP_Rename from "@salesforce/label/c.PP_Rename";
 import pir_Delete_Btn from "@salesforce/label/c.pir_Delete_Btn";
 import RH_Share_to_Patient_Portal from "@salesforce/label/c.RH_Share_to_Patient_Portal";
+import PIR_Save_Changes from '@salesforce/label/c.PIR_Save_Changes';
+import PIR_Unsaved_Changes from '@salesforce/label/c.PIR_Unsaved_Changes';
+import BTN_Save from '@salesforce/label/c.BTN_Save';
+import PIR_Discard from '@salesforce/label/c.PIR_Discard';
 
 import LOCALE from "@salesforce/i18n/locale";
 
@@ -105,7 +109,11 @@ export default class Medicalinformation extends LightningElement {
     RH_Date,
     PP_Rename,
     pir_Delete_Btn,
-    RH_Share_to_Patient_Portal
+    RH_Share_to_Patient_Portal,
+    PIR_Save_Changes,
+    PIR_Unsaved_Changes,
+    BTN_Save,
+    PIR_Discard
   };
 
   ampm = false;
@@ -1102,7 +1110,19 @@ export default class Medicalinformation extends LightningElement {
     } else {
       this.isModalOpen = false;
       this.hasMedicalRecordChanges = false; 
+      if(event.detail.shouldRefreshDeleteTable == "success"){
       this.renderTableModel();
+      }
+      else { 
+        this.isFileRenamed = false;
+        this.ispermissionChanged = false;
+        this.lstFileNameUpdated = [];
+        this.lstPermissionAddedorRemoved = [];
+        this.addPermission = [];
+        this.revokePermission = [];
+        this.fileNameErr = false;
+        this.isrequirerefreshtable = false;
+      }
     }
   }
   closeDeleteModal() {
@@ -1641,6 +1661,7 @@ export default class Medicalinformation extends LightningElement {
         this.addPermission = [];
         this.revokePermission = [];
         this.fileNameErr = false;
+        this.isrequirerefreshtable = false;
         
 
         //this.selectedsortOption = "Sort By";
