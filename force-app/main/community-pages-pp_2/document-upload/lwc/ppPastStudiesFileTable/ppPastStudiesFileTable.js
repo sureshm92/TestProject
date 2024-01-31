@@ -422,6 +422,13 @@ export default class PpPastStudiesFileTable extends LightningElement {
         this.resetPagination = true;
         this.getTableFiles();
     }
+    get isFileNameSorted() {
+        if (this.arrowUpTitle || this.arrowDownTitle) {
+          return "boldfont table-Header-Sorted";
+        } else {
+          return "boldfont";
+        }
+      }
 
     sortByMsgTitle(event) {
        
@@ -443,6 +450,13 @@ export default class PpPastStudiesFileTable extends LightningElement {
         this.resetPaginationMsg = true;
         this.getTableMsgFiles();
     }
+    get isMessageTitleSorted() {
+        if (this.arrowUpTitleMsg || this.arrowDownTitleMsg) {
+          return "boldfont table-Header-Sorted";
+        } else {
+          return "boldfont";
+        }
+      }
 
     sortByDate(event) {
         this.arrowUpTitle = this.arrowDownTitle = this.arrowUpType = this.arrowDownType = false;
@@ -464,6 +478,14 @@ export default class PpPastStudiesFileTable extends LightningElement {
         this.resetPagination = true;
         this.getTableFiles();
     }
+    get isSortedByDate() {
+        if (this.arrowUpDate || this.arrowDownDate) {
+          return "boldfont table-Header-Sorted";
+        } else {
+          return "boldfont";
+        }
+      }
+    
 
     sortByMsgDate(event) {
 
@@ -487,6 +509,13 @@ export default class PpPastStudiesFileTable extends LightningElement {
         this.resetPaginationMsg = true;
         this.getTableMsgFiles();
     }
+    get isMsgDateSorted() {
+        if (this.arrowUpDateMsg || this.arrowDownDateMsg) {
+          return "boldfont table-Header-Sorted";
+        } else {
+          return "boldfont";
+        }
+      }
 
     sortByType(event) {
         this.arrowUpTitle =
@@ -513,6 +542,13 @@ export default class PpPastStudiesFileTable extends LightningElement {
         this.resetPagination = true;
         this.getTableFiles();
     }
+    get isTypeSorted() {
+        if (this.arrowUpType || this.arrowDownType) {
+          return "boldfont table-Header-Sorted";
+        } else {
+          return "boldfont";
+        }
+      }
 
     sortByMsgType(event) { 
        
@@ -540,6 +576,13 @@ export default class PpPastStudiesFileTable extends LightningElement {
         this.resetPaginationMsg = true;
         this.getTableMsgFiles();
     }
+    get isMessageTypeSorted() {
+        if (this.arrowUpTypeMsg || this.arrowDownTypeMsg) {
+          return "boldfont table-Header-Sorted";
+        } else {
+          return "boldfont";
+        }
+      }
 
     
 
