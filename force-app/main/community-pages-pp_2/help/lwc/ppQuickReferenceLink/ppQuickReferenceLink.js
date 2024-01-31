@@ -55,6 +55,18 @@ export default class PpQuickReferenceLink extends NavigationMixin(LightningEleme
     }
 
     openQuickReference() {
+        if (communityService.isMobileSDK() ) { 
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'mobile-pdf-viewer'
+                },
+                state: {
+                    'resourceName': this.quickReference
+                }
+            });
+            return;
+        }
         var webViewer = pdfjs_dist + '/web/viewer.html';
         console.log('webViewer', webViewer);
         getResourceURL({ resourceName: this.quickReference }).then((result) => {
@@ -64,7 +76,6 @@ export default class PpQuickReferenceLink extends NavigationMixin(LightningEleme
                     '_blank'
                 );
             });
-        });
-    
+    });
     }
 }
