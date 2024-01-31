@@ -825,6 +825,7 @@ select.rr-select-error,
 
 .apollo-btn + .apollo-btn{
     margin-left: 15px;
+    margin-right: 15px;
 }
 
 .apollo-btn:disabled{
