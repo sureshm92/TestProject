@@ -277,12 +277,12 @@
                                           <div class="slds-dropdown-trigger actiondiv slds-dropdown-trigger_click D"
                                             data-popup={attach.attachment.Id} onclick={showTaskActionMenu} tabindex="0"
                                             data-id={attach.attachment.Id} onblur={closeActionMenu}>
-                                            <div aria-haspopup="true" aria-expanded="true" tabindex="0" onblur={closeActionMenu}>
-                                              <lightning-icon icon-name="utility:threedots_vertical" size="xx-small">
-                                              </lightning-icon>
+                                            <div aria-haspopup="true" aria-expanded="true" >
+                                              
+                                              <img src={threedots_imgUrl} class="image-result" />
                                             </div>
                                             <div class="slds-dropdown slds-dropdown_right task-action-menu"
-                                              tabindex="0"  >
+                                              >
                                               <ul class="slds-dropdown__list" role="menu">
                                                 <li class="slds-dropdown__item   popup-default "
                                                 role="presentation">
@@ -410,16 +410,15 @@
                                         </lightning-layout-item>
                                         <lightning-layout-item size="4"
                                           class="alignright slds-align-middle slds-m-bottom_small">
-                                          <div class="slds-dropdown-trigger actiondiv slds-dropdown-trigger_click D"
+                                          <div class="slds-dropdown-trigger actiondiv verticaldotsmob slds-dropdown-trigger_click D"
                                             data-popup={it.value.attachment.Id} onclick={showTaskActionMenu}
                                             tabindex="0" data-id={it.value.attachment.Id} onblur={closeActionMenu}>
-                                            <div aria-haspopup="true"  onblur={closeActionMenu} aria-expanded="true" tabindex="0">
-                                              <lightning-icon icon-name="utility:threedots" size="xx-small">
-                                              </lightning-icon>
+                                            <div aria-haspopup="true"  aria-expanded="true" tabindex="0" onblur={closeActionMenu}> 
+                                              <img src={threedots_vertical_imgUrl} class="image-resultmob" />
                                             </div>
-                                            <div class="slds-dropdown slds-dropdown_right task-action-menu-mob"
-                                              tabindex="0">
-                                              <ul class="slds-dropdown__list" role="menu">
+                                            <div class="slds-dropdown slds-dropdown_right task-action-menu-mob" 
+                                            tabindex="0" onblur={closeActionMenu}>
+                                              <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
                                                 
                                                 <li class="slds-dropdown__item   popup-default alignl "
                                                 role="presentation">
@@ -545,15 +544,14 @@
                                         </lightning-layout-item>
                                         <lightning-layout-item size="4"
                                           class="alignright slds-align-middle slds-m-bottom_small">
-                                          <div class="slds-dropdown-trigger actiondiv slds-dropdown-trigger_click D"
+                                          <div class="slds-dropdown-trigger actiondiv verticaldotsmob  slds-dropdown-trigger_click D"
                                             data-popup={it.value.attachment.Id} onclick={showTaskActionMenu}
                                             tabindex="0" data-id={it.value.attachment.Id} onblur={closeActionMenu}>
-                                            <div aria-haspopup="true" aria-expanded="true" tabindex="0"  onblur={closeActionMenu}>
-                                              <lightning-icon icon-name="utility:threedots" size="xx-small">
-                                              </lightning-icon>
+                                            <div aria-haspopup="true" aria-expanded="true" tabindex="0" onblur={closeActionMenu} >
+                                              <img src={threedots_vertical_imgUrl} class="image-resultmob" />
                                             </div>
                                             <div class="slds-dropdown slds-dropdown_right task-action-menu-mob"
-                                              tabindex="0">
+                                            tabindex="0" onblur={closeActionMenu} >
                                               <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
                                                
                                                 <li class="slds-dropdown__item   popup-default alignl "
