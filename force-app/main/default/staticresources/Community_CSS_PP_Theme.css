@@ -36,7 +36,12 @@ a,
     box-shadow: none;
     font-weight: 600;
 }
-
+.forgot-unable-pwd-txt:hover,
+.forgot-unable-pwd-txt:focus {
+    color: #0557d5;
+    box-shadow: none;
+    font-weight: 600;
+}
 a:hover {
     text-decoration: underline;
     text-decoration-style: dashed;
@@ -1475,6 +1480,10 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
         border-radius: 16px;
         min-width: 350px;
     }
+    .manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn {
+        min-width: 100px;
+        margin-right: 50px;
+    }
 }
 @media all and (max-width: 768px) {
     .cPpCustomThemeLayout .apollo-btn,
@@ -2013,6 +2022,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     padding: 5px 0px 5px 0px !important;
     width: 107px !important;
 }
+
 .manage-assignment-acc-setting .manage-assignment-continer .ma-btn-box,
 .ma-btn-box-1,
 .ma-what-I-can-see-card,
