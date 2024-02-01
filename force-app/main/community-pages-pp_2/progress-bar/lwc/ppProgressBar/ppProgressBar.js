@@ -1,4 +1,4 @@
-import { api, LightningElement } from 'lwc';
+import { api,track, LightningElement } from 'lwc';
 import generateProgressBar from '@salesforce/apex/PP_ProgressBarUtility.generateProgressBar';
 import updatePatientVisit from '@salesforce/apex/PP_ProgressBarUtility.updatePatientVisit';
 import ppProgressBarIcons from '@salesforce/resourceUrl/ppProgressBarIcons';
@@ -12,6 +12,7 @@ import PP_ProgressBar_No_Visit from '@salesforce/label/c.PP_ProgressBar_No_Visit
 import PP_ProgressBar_Event_Complete from '@salesforce/label/c.PP_ProgressBar_Event_Complete';
 import Stay_Tune_Label from '@salesforce/label/c.Pre_Trial_Stay_Tune';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { label } from "c/pp_label";
 import Mark_Complete from '@salesforce/label/c.BTN_Mark_As_Completed';
 import PP_Event_Complete from '@salesforce/label/c.PP_Event_Complete';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
@@ -20,6 +21,7 @@ export default class PpProgressBar extends LightningElement {
     userTimeZone = TIME_ZONE;
 stayTunedIcon = Stay_Tuned;
     statusCheckIcon = Status_Check;
+    @track utilLabels = label;
     @api
     parentClass = 'big';
     layoutClass1 = 'slds-col slds-large-size_2-of-5 slds-size_1-of-1';
@@ -220,7 +222,7 @@ stayTunedIcon = Stay_Tuned;
     }
     get title(){
         if(this.parentWrapper.progressWrapperList[this.currentCard-1])
-            return this.parentWrapper.progressWrapperList[this.currentCard-1].title;
+        return this.utilLabels[this.parentWrapper.progressWrapperList[this.currentCard-1].title] ? this.utilLabels[this.parentWrapper.progressWrapperList[this.currentCard-1].title] :this.parentWrapper.progressWrapperList[this.currentCard-1].title;
         return null;
     }
     get description(){
@@ -245,12 +247,28 @@ get showMarkAsComplete(){
     }
     get markAsCompleteWarnMessage(){
         if(this.parentWrapper.progressWrapperList[this.currentCard-1])
-            return this.label.PP_Event_Completion_Warning_Message.replace("--",this.parentWrapper.progressWrapperList[this.currentCard-1].title);
+            return this.label.PP_Event_Completion_Warning_Message.replace("--",this.utilLabels[this.parentWrapper.progressWrapperList[this.currentCard-1].title] ? this.utilLabels[this.parentWrapper.progressWrapperList[this.currentCard-1].title] : this.parentWrapper.progressWrapperList[this.currentCard-1].title);
         return null;
     }
+    get statusRightTitle(){
+        if(this.parentWrapper){
+            return this.utilLabels[this.parentWrapper.message] ? this.utilLabels[this.parentWrapper.message] : this.parentWrapper.message;
+        }
+
+    }
     get subStatusAvailable(){
-        if(this.parentWrapper.progressWrapperList[this.currentCard-1])
-            return this.parentWrapper.progressWrapperList[this.currentCard-1].statusWrapperList != undefined ? this.parentWrapper.progressWrapperList[this.currentCard-1].statusWrapperList : null;
+        if(this.parentWrapper.progressWrapperList[this.currentCard-1]){
+            var statusWrapperList = this.parentWrapper.progressWrapperList[this.currentCard-1].statusWrapperList;
+            if (statusWrapperList && statusWrapperList.length > 0) {
+                const subStatuses = [];
+                statusWrapperList.forEach(statusWrapper => {
+                    var { statusName, statusDate } = statusWrapper;
+                    statusName = this.utilLabels[statusName] ? this.utilLabels[statusName] : statusName;
+                    subStatuses.push({ statusName, statusDate });
+                });
+                return subStatuses;
+            }
+        }
         return null;
     }
     get isPreTrial(){
