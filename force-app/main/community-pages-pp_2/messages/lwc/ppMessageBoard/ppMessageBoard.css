@@ -22,7 +22,7 @@
 }
 .parent-chat-item-sec {
     text-align: justify;
-    padding: 0px 8px 0px 8px;
+    padding: 8px 8px 8px 8px;
 }
 .child-chat-item-sec {
     overflow-y: auto;
@@ -38,7 +38,7 @@
 .mob-parent-chat-item-sec {
     padding: 0px 8px 21px 8px;
 }
-.mob-parent-chat-item-header-sec{
+.mob-parent-chat-item-header-sec {
     padding: 0px 8px 0px 8px;
 }
 .mob-parent-chat-item-sec-past {
@@ -134,5 +134,16 @@
     }
     .hideMobile {
         display: none;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
+    .selection {
+        margin: 1.2rem 0 0 1rem;
+    }
+    .send-button {
+        margin: 1.2rem 0 0 1rem;
+    }
+    .active-study-mob {
+        height: 700px !important;
     }
 }

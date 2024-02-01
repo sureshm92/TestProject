@@ -18,12 +18,11 @@ import STUDIES_AND_PROGRAM_PP from '@salesforce/label/c.Studies_And_Program_PP';
 import { NavigationMixin } from 'lightning/navigation';
 import backToeDiaries from '@salesforce/label/c.Back_to_eDiaries';
 
-
-
 export default class PpAccountSettings extends NavigationMixin(LightningElement) {
     @api userMode;
     @api isRTL = false;
     @api isMobile = false;
+    @api isIpad = false;
     @api isInitialized = false;
     @api isDelegate = false;
     @api isJanssen = false;
@@ -193,7 +192,7 @@ export default class PpAccountSettings extends NavigationMixin(LightningElement)
             .then((result) => {
                 let initialData = JSON.parse(result);
                 this.initData = initialData;
-                this.isJanssen =  this.initData.isJanssen; 
+                this.isJanssen = this.initData.isJanssen;
                 // this.medicalRecordVendorToggle = communityService.getParticipantData().ctp
                 //     ? communityService.getParticipantData().ctp.Medical_Vendor_is_Available__c
                 //     : false;
@@ -223,15 +222,15 @@ export default class PpAccountSettings extends NavigationMixin(LightningElement)
                 this.showToast(this.labels.ERROR_MESSAGE, error.message, 'error');
             });
     }
-    handleBackClick(event){
+    handleBackClick(event) {
         if (this.showBackButton) {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
                     pageName: 'e-diaries'
                 }
-            })
-        } 
+            });
+        }
     }
     displayManageDelegates() {
         let isDelegateSwitchingToParView = false;
@@ -341,11 +340,10 @@ export default class PpAccountSettings extends NavigationMixin(LightningElement)
             this.componentId = 'manage-assignmens';
             window.history.replaceState(null, null, '?manage-assignmens');
         } else {
-            if(this.showBackButton){
+            if (this.showBackButton) {
                 this.componentId = 'communication-preferences';
                 window.history.replaceState(null, null, '?communication-preferences');
-            }
-            else{
+            } else {
                 if (!this.isMobile) {
                     this.componentId = 'profileInformation';
                     window.history.replaceState(null, null, '?profileInformation');
@@ -355,7 +353,7 @@ export default class PpAccountSettings extends NavigationMixin(LightningElement)
                 } else {
                     console.error('We were on a Break!');
                 }
-          }
+            }
         }
     }
 

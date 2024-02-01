@@ -76,6 +76,14 @@ hr {
 .po-mr-36 {
     margin-right: 40px;
 }
+@media only screen   and (min-device-width: 768px)   
+and (max-device-width: 1024px)    
+{
+    .po-custom-box {
+        width: auto !important;
+    }
+}
+
 .po-custom-box {
     margin-top: 24px;
     height: 600px;

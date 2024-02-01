@@ -264,6 +264,24 @@ input::placeholder {
 .taskName-focus .slds-input:focus-within {
     border: 1px solid #015ff1 !important;
 }
+.taskName-focus .slds-input::placeholder {
+    color: #757575 !important;
+}
+.create-task-input-container .timec::placeholder {
+    color: #757575 !important;
+}
+.create-task-input-container .curve-input input[type='date'] {
+    color: #444444 !important;
+}
+.create-task-input-container .curve-input .slds-combobox__input.slds-input {
+    color: #444444 !important;
+}
+.taskName-focus .slds-input {
+    color: #444444 !important;
+}
+.create-task-input-container .curve-input .slds-input[type='time'] {
+    color: #444444 !important;
+}
 .time-input .slds-input {
     height: 2rem !important;
     border-left: none !important;
@@ -517,7 +535,10 @@ input::placeholder {
 }
 
 .support-combobox.opacity .slds-truncate {
-    opacity: 0.5;
+    color: #757575;
+    font-family: 'Proxima Nova' !important;
+    font-weight: 600;
+    font-size: 1rem;
 }
 .support-combobox.opacity .slds-media__body .slds-truncate {
     opacity: 1;
@@ -667,6 +688,20 @@ input::placeholder {
     align-items: center;
     flex-shrink: 0;
     width: 232px;
+}
+.logo-container-pp-ipad {
+    justify-content: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-left: 16px;
+}
+
+@media all and (max-width: 1024px) and (min-width: 768px) {
+    .logo-container-pp {
+        width: 80% !important;
+    }
 }
 
 .cookie-accordion-border .slds-accordion__summary-action {
@@ -1437,7 +1472,15 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     top: -2px !important;
     left: -2px !important;
 }
-
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    c-pp-study-visit-details-card .slds-card {
+        width: 100%;
+        padding: 0;
+        border: 1px solid #d9d9d9;
+        border-radius: 16px;
+        min-width: 350px;
+    }
+}
 @media all and (max-width: 768px) {
     .cPpCustomThemeLayout .apollo-btn,
     .cPpCustomThemeLayout .slds-input,
@@ -1513,7 +1556,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .create-task-input-container .slds-input:disabled {
     background: #f2f2f2 !important;
     color: #595959 !important;
-    -webkit-text-fill-color: #595959 !important;
+    -webkit-text-fill-color: #757575 !important;
     opacity: 1 !important; /* required on iOS */
 }
 
@@ -2249,12 +2292,12 @@ user agent stylesheet svg:not(:root) {
 .pastStudiesFiles .slds-tabs_default__item {
     margin-left: -4px;
 }
-.dateTimeContainer input{
-    -moz-appearance: none; 
-        /* for Safari, Chrome, Opera */ 
-    -webkit-appearance: none; 
+.dateTimeContainer input {
+    -moz-appearance: none;
+    /* for Safari, Chrome, Opera */
+    -webkit-appearance: none;
     appearance: none;
 }
-.quick-reference-toast .slds-notify__content_mobile{
-    color:black!important;
+.quick-reference-toast .slds-notify__content_mobile {
+    color: black !important;
 }

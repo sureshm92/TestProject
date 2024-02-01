@@ -2,23 +2,23 @@
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <template if:true={isInitialized}>
-            <template if:true={showBackButton}>
-                <lightning-layout multiple-rows="true">
-                    <!-- ************** Back To Resources *************** -->
-                    <lightning-layout-item size="12">
-                        <span onclick={handleBackClick} class={backLinkClass}>
-                            <c-web-icon
-                                icon-size="medium-large"
-                                icon-name="chevron-left"
-                                icon-color="#015ff1"
-                                class="slds-p-right_xx-small"
-                            ></c-web-icon
-                            >{labels.backToeDiaries}
-                        </span>
-                          <hr />
-                    </lightning-layout-item>
-                </lightning-layout>  
-            </template>
+        <template if:true={showBackButton}>
+            <lightning-layout multiple-rows="true">
+                <!-- ************** Back To Resources *************** -->
+                <lightning-layout-item size="12">
+                    <span onclick={handleBackClick} class={backLinkClass}>
+                        <c-web-icon
+                            icon-size="medium-large"
+                            icon-name="chevron-left"
+                            icon-color="#015ff1"
+                            class="slds-p-right_xx-small"
+                        ></c-web-icon
+                        >{labels.backToeDiaries}
+                    </span>
+                    <hr />
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
         <div class={bodyContainerClass}>
             <!--Desktop Navigation Menu-->
             <template if:false={isMobile}>
@@ -105,6 +105,7 @@
                                 user-mode={userMode}
                                 is-r-t-l={isRTL}
                                 is-mobile={isMobile}
+                                is-ipad={isIpad}
                                 is-delegate={isDelegate}
                                 onshownavmenubar={showNavigationMenu}
                             ></c-pp-account-settings-edit-profile>
@@ -123,7 +124,7 @@
                             <!--Communication Preferences Component-->
                             <c-pp-communication-preferences
                                 is-delegate={isDelegate}
-                                show-back-button ={showBackButton}
+                                show-back-button={showBackButton}
                                 participant-state={participantState}
                                 person-wrapper={personWrapper}
                                 is-desktop={isDesktopFlag}
@@ -163,7 +164,7 @@
                                 is-mobile={isMobile}
                                 user-mode={userMode}
                                 onshownavmenubar={showNavigationMenu}
-                                is-janssen={isJanssen} 
+                                is-janssen={isJanssen}
                             ></c-pp-cookie-settings>
                         </template>
                         <template if:true={showMedicalRecordAccess}>
