@@ -56,7 +56,6 @@ export default class PpQuickReferenceLink extends NavigationMixin(LightningEleme
 
     openQuickReference() {
         var webViewer = pdfjs_dist + '/web/viewer.html';
-        console.log('webViewer', webViewer);
         getResourceURL({ resourceName: this.quickReference }).then((result) => {
             setTimeout(() => {
                 window.open(
@@ -64,7 +63,6 @@ export default class PpQuickReferenceLink extends NavigationMixin(LightningEleme
                     '_blank'
                 );
             });
-        });
-    
+    });
     }
 }

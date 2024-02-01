@@ -91,3 +91,8 @@
     border-radius: 10px;
     background: #999999;
 }
+.pointer-class{
+    cursor: pointer;
+    color:#015ff1;
+    padding-top : 5px;
+}
