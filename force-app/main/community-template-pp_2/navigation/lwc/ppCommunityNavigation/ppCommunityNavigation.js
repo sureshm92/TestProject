@@ -78,7 +78,11 @@ export default class PpCommunityNavigation extends LightningElement {
         }
     }
     isTabletMenu() {
-        const portrait = window.matchMedia('(orientation: portrait)').matches;
+        let orientation = screen.orientation.type;
+        let portrait = true;
+        if (orientation === 'landscape-primary') {
+            portrait = false;
+        }
         if (window.innerWidth >= 768 && window.innerWidth < 1279 && portrait) {
             if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
                 this.isTablet = true;
