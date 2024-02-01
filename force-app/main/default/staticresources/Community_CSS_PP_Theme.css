@@ -36,7 +36,12 @@ a,
     box-shadow: none;
     font-weight: 600;
 }
-
+.forgot-unable-pwd-txt:hover,
+.forgot-unable-pwd-txt:focus {
+    color: #0557d5;
+    box-shadow: none;
+    font-weight: 600;
+}
 a:hover {
     text-decoration: underline;
     text-decoration-style: dashed;
