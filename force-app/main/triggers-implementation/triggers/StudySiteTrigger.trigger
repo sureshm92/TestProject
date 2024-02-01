@@ -29,8 +29,6 @@ trigger StudySiteTrigger on Study_Site__c(
         StudySiteTriggerHandler.SetEnableCCSupportFieldAccordingToStudy.class
     );
     
-    TriggerHandlerExecutor.execute(StudySiteTriggerHandler.UpdateStudySitePiStatus.class);
-    
     // TODO: FIX FOR TRIGGER CONVENTIONS!
     if (Trigger.isAfter && Trigger.isUpdate) {
         ReferralNetworkService.sendEmails(Trigger.new, Trigger.oldMap);
