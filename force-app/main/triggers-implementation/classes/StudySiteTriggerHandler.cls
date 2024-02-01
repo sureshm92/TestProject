@@ -72,6 +72,15 @@ public without sharing class StudySiteTriggerHandler {
             setCCSupport(newList);
         }
     }
+    
+    public class UpdateStudySitePiStatus extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            handleStudySitePiStatusUpdates(newList);
+        }
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            handleStudySitePiStatusUpdates(newList);
+        }
+    }
 
     public class AssignCommunityPermissionsForUser extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
@@ -324,7 +333,6 @@ public without sharing class StudySiteTriggerHandler {
             .createPortalUsers(contactIdsForCreateUsers);
         if (!notifications.isEmpty())
                 insert notifications;
-            
     }
 
     @TestVisible
@@ -746,5 +754,48 @@ public without sharing class StudySiteTriggerHandler {
             psaToInsert,
             List<PermissionSetAssignment>.class
         );
+    }
+    
+    // ************* This changes is related to RH-6394 *****************//
+   
+    public static void handleStudySitePiStatusUpdates(List<Study_Site__c> newStudySites) {
+        List<String> newStudySiteIds = new List<String>();
+        for(Study_Site__c ss: newStudySites){
+            newStudySiteIds.add(ss.Id);
+        }
+        if(!System.isFuture()){
+        handleStudySitePiStatusUpdatesAsync(newStudySiteIds);
+            }
+    }
+   @future
+   public static void handleStudySitePiStatusUpdatesAsync(List<String> newStudySiteIds) {
+        List<Study_Site__c> studySites = [SELECT Id, Clinical_Trial_Profile__c, Override_PI_Referral_Status__c, Principal_Investigator__c,Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c FROM Study_Site__c
+                                              WHERE id IN :newStudySiteIds AND Override_PI_Referral_Status__c = 'Invitation Sent'];
+        List<Study_Site__c> studySitesToUpdate = new List<Study_Site__c>();
+        set<String> pis = new set<String>();
+        map<String, list<String>> tcPIsMap = new map<String, list<String>>();
+        for(Study_Site__c ss : studySites){
+            pis.add(ss.Principal_Investigator__c);
+        }
+		 List<Terms_And_Conditions_Acceptance__c> tcAcceptList = [SELECT Id, User__c, User__r.ContactId, Terms_And_Conditions__c FROM Terms_And_Conditions_Acceptance__c
+                                                             WHERE Accepted_Date__c != null AND User__r.ContactId IN :pis];
+
+        for (Terms_And_Conditions_Acceptance__c tcAccept : tcAcceptList) {
+            if(!tcPIsMap.containsKey(tcAccept.User__r.ContactId)){
+                tcPIsMap.put(tcAccept.User__r.ContactId,new list<String>{tcAccept.Terms_And_Conditions__c});
+            }
+            else{
+                tcPIsMap.get(tcAccept.User__r.ContactId).add(tcAccept.Terms_And_Conditions__c);
+            }
+        }
+        for(Study_Site__c ss : studySites){
+            if(tcPIsMap.containsKey(ss.Principal_Investigator__c) && tcPIsMap.get(ss.Principal_Investigator__c).contains(ss.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c)){
+                studySitesToUpdate.add(new Study_Site__c(id = ss.id, Override_PI_Referral_Status__c = 'Accepted'));
+            }
+        }
+        if(!studySitesToUpdate.isEmpty()){
+            update studySitesToUpdate;
+        }
+        
     }
 }
