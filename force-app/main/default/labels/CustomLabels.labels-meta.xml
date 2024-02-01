@@ -32543,4 +32543,81 @@ The IQVIA Referral Hub Support Team</value>
         <shortDescription>Title_New_Resource</shortDescription>
         <value>New Resource Available</value>
     </labels>
+    <labels>
+        <fullName>Scheduled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Scheduled</shortDescription>
+        <value>Scheduled</value>
+    </labels>
+    <labels>
+        <fullName>Attended</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Attended</shortDescription>
+        <value>Attended</value>
+    </labels>
+    <labels>
+        <fullName>Consented</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Consented</shortDescription>
+        <value>Consented</value>
+    </labels>
+    <labels>
+        <fullName>UNAVAILABLE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UNAVAILABLE</shortDescription>
+        <value>UNAVAILABLE</value>
+    </labels>
+    <labels>
+        <fullName>COMPLETED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COMPLETED</shortDescription>
+        <value>COMPLETED</value>
+    </labels>
+    <labels>
+        <fullName>FUTURE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FUTURE</shortDescription>
+        <value>FUTURE</value>
+    </labels>
+    <labels>
+        <fullName>UPCOMING</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UPCOMING</shortDescription>
+        <value>UPCOMING</value>
+    </labels>
+    <labels>
+        <fullName>INPROGRESS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>INPROGRESS</shortDescription>
+        <value>IN PROGRESS</value>
+    </labels>
+    <labels>
+        <fullName>Follow_up_Period</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Follow_up_Period</shortDescription>
+        <value>Follow-up Period</value>
+    </labels>
+    <labels>
+        <fullName>Trial_Completion</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trial_Completion</shortDescription>
+        <value>Trial Completion</value>
+    </labels>
+    <labels>
+        <fullName>Treatment_Period</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Treatment_Period</shortDescription>
+        <value>Treatment Period</value>
+    </labels>
 </CustomLabels>
