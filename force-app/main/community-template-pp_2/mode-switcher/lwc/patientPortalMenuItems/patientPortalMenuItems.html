@@ -19,15 +19,12 @@
                 <template if:false={hasSingleCommMode}>
                     <div
                         onclick={handleClick}
-                        class="slds-col slds-align_absolute-center slds-size_1-of-1"
+                        class="slds-col slds-align_absolute-center slds-size_1-of-1 pointer-class"
                     >
-                        <lightning-button
-                            variant="base"
-                            label={label.viewingAs}
-                            title={label.viewingAs}
+                        <span
                             class="slds-m-right_x-small"
-                        >
-                        </lightning-button>
+                        >{label.viewingAs}
+                </span>
                         <template if:false={isToggle}>
                             <lightning-icon
                                 icon-name="utility:chevrondown"
