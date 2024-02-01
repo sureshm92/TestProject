@@ -445,7 +445,11 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
     private static void insertDefaultRestrictedSource(
         List<Clinical_Trial_Profile__c> newList
     ) {
-        defaultRestrictedSource(newList,null,null);
+        for(Clinical_Trial_Profile__c ctp: newList){
+            if((ctp.CommunityTemplate__c == 'Janssen' && ctp.PPTemplate__c == 'PP 2.0') || ctp.CommunityTemplate__c == 'PatientPortal'){
+                defaultRestrictedSource(newList,null,null);
+            }
+        }
     }
     private static void updateDefaultRestrictedSource(
         List<Clinical_Trial_Profile__c> newList,
@@ -456,13 +460,10 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
         List<Clinical_Trial_Profile__c> ctplstUpdate = new List<Clinical_Trial_Profile__c>();
         List<Restricted_Source_Config__c> restrictedsourceLst=new List<Restricted_Source_Config__c> ();
         for (Clinical_Trial_Profile__c ctp : newList) {
-            if (
-                //Update
-                (oldMap != null &&
-                 (ctp.Study_Sponsor__c !=
-                  oldMap.get(ctp.Id).Study_Sponsor__c  
-                 ))
-            ){
+            Boolean communityTemplate = ((ctp.CommunityTemplate__c == 'Janssen' && ctp.PPTemplate__c == 'PP 2.0') || ctp.CommunityTemplate__c == 'PatientPortal') ? true : false;
+            Boolean sponserUpdate = (oldMap != null && (ctp.Study_Sponsor__c != oldMap.get(ctp.Id).Study_Sponsor__c)) ? true : false;
+            //Update
+            if(sponserUpdate && communityTemplate){
                 ctpIdlst.add(ctp.Id);  
                 ctplstUpdate.add(ctp);
             }
