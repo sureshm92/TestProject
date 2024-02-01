@@ -693,10 +693,11 @@ input::placeholder {
     margin-left: 16px;
 }
 
-@media all and (max-width: 1024px) and (min-width: 768px) {
-    .logo-container-pp {
-        width: 80% !important;
-    }
+
+@media only screen and (min-device-width: 1280px) and (max-device-width: 1280px) and (orientation: landscape) {
+    .mob-logo-container-pp{
+       margin-right: 27rem;
+    } 
 }
 
 .cookie-accordion-border .slds-accordion__summary-action {
