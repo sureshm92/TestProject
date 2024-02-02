@@ -21,6 +21,7 @@
                 );
     
                 if (
+                    ps.communityName === 'IQVIA Referral Hub' ||
                     ps.communityName === 'IQVIA Patient Portal'
                 )
                     component.set(
