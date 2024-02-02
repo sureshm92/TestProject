@@ -3,6 +3,14 @@
     <label>Contact Attempted</label>
     <protected>false</protected>
     <values>
+        <field>Master_Custom__c</field>
+        <value xsi:type="xsd:string">Contact Attempted</value>
+    </values>
+    <values>
+        <field>PER_Participant_Label__c</field>
+        <value xsi:type="xsd:string">Contact_Attempted</value>
+    </values>
+    <values>
         <field>PER_Participant_Status__c</field>
         <value xsi:type="xsd:string">Contact Attempted</value>
     </values>

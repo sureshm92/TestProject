@@ -106,9 +106,9 @@ public with sharing class PP_ProgressBarUtility {
             for( Integer i=0; i<patientVisits.size(); i++){
                 Patient_Visit__c patientVisit = patientVisits[i];
                 progressWrapper prW = new progressWrapper();
-                prW.title = ( patientVisit.Visit__c != null ? patientVisit.Visit__r.Patient_Portal_Name__c : (patientVisit.Is_Adhoc__c ? System.Label.Home_Page_StudyVisit_Visit : ''));  
+                prW.title = ( patientVisit.Visit__c != null ? patientVisit.Visit__r.Patient_Portal_Name__c : (patientVisit.Is_Adhoc__c ? System.Label.StudyVisit_Unscheduled_Visit : ''));  
                 prW.description = ( patientVisit.Visit__c != null ? patientVisit.Visit__r.Visit_Description__c : (patientVisit.Is_Adhoc__c ? System.Label.PP_ProgressBar_No_Visit_Adhoc : ''));      
-                prW.status = (patientVisit.Status__c == 'Missed' ? 'UNAVAILABLE' : (patientVisit.Status__c == 'Completed' ? 'COMPLETED' : 'FUTURE'));
+                prW.status = (patientVisit.Status__c == 'Missed' ? System.Label.UNAVAILABLE : (patientVisit.Status__c == 'Completed' ? System.Label.COMPLETED : System.Label.FUTURE));
                 prW.statusDate = patientVisit.Completed_Date__c;
                 if(((patientVisit.Status__c != 'Completed' && patientVisit.Status__c != 'Missed' ) || (patientVisits.size()-1 == i))
                  && (!upComingVisit)){
@@ -117,7 +117,7 @@ public with sharing class PP_ProgressBarUtility {
                     pw.message = ( setMotivationMsg ? patientVisit.Visit__r.Motivational_message__c : pw.message);
                     multiplier = 1;
                     count = 0;
-                    prW.status = (patientVisit.Completed_Date__c == null && patientVisit.Status__c != 'Completed' && patientVisit.Status__c != 'Missed' ? 'UPCOMING' : prW.status );
+                    prW.status = (patientVisit.Completed_Date__c == null && patientVisit.Status__c != 'Completed' && patientVisit.Status__c != 'Missed' ? System.Label.UPCOMING : prW.status );
                 }
                 if(pw.isEvent){
                     prW.recordId = patientVisit.Id;
@@ -132,10 +132,12 @@ public with sharing class PP_ProgressBarUtility {
             pw = null;
         }
         if(!setMotivationMsg){
-            for(Study_status_desc_and_motivational_msg__mdt statusConfig : [select id,MasterLabel,Status_order__c,PER_Participant_Status__c FROM Study_status_desc_and_motivational_msg__mdt where PER_Participant_Status__c =:pe.Participant_Status__c]){
-                pw.message =statusConfig.MasterLabel;
+          for(Study_status_desc_and_motivational_msg__mdt statusConfig : [select id,Master_Custom__c,MasterLabel,Status_order__c,PER_Participant_Status__c,PER_Participant_Label__c FROM Study_status_desc_and_motivational_msg__mdt where PER_Participant_Status__c =:pe.Participant_Status__c]){
+                pw.message =statusConfig.Master_Custom__c;
             } 
-            for(Study_status_description_motivation__c studyDescConfig : [SELECT Status_Description__c FROM Study_status_description_motivation__c WHERE Study__c  =: pe.Clinical_Trial_Profile__c and Status_Name__c =:pe.Participant_Status__c]){
+            List<Study_status_description_motivation__c> studyDescConfigs =  [SELECT Status_Description__c FROM Study_status_description_motivation__c WHERE Study__c  =: pe.Clinical_Trial_Profile__c and Status_Name__c =:pe.Participant_Status__c];
+            Translatehelper.translate(studyDescConfigs);
+            for(Study_status_description_motivation__c studyDescConfig : studyDescConfigs){
                 pw.messageDesc = studyDescConfig.Status_Description__c;
             }
         }
@@ -145,7 +147,9 @@ public with sharing class PP_ProgressBarUtility {
     public static parentWrapper generateStatusBar(Participant_Enrollment__c pe ){
         Map<string,Study_status_description_motivation__c> statusConfigMap = new Map<string,Study_status_description_motivation__c>();
         integer configCount = 0;
-        for(Study_status_description_motivation__c studyDescConfig : [SELECT Status_Name__c,Study__c,Status_Description__c,Status_Motivational_Message__c FROM Study_status_description_motivation__c WHERE Study__c  =: pe.Clinical_Trial_Profile__c]){
+        List<Study_status_description_motivation__c> studyDescConfigees = [SELECT Status_Name__c,Study__c,Status_Description__c,Status_Motivational_Message__c FROM Study_status_description_motivation__c WHERE Study__c  =: pe.Clinical_Trial_Profile__c];
+        Translatehelper.translate(studyDescConfigees);
+        for(Study_status_description_motivation__c studyDescConfig : studyDescConfigees){
             statusConfigMap.put(studyDescConfig.Status_Name__c,studyDescConfig);
             configCount++;
         }
@@ -160,7 +164,7 @@ public with sharing class PP_ProgressBarUtility {
         for(Participant_Enrollment_Status_History__c pesh : pe.Participant_Enrollment_Status_History__r){
             peshDateMap.put(pesh.Status__c,pesh.Date__c);
         }
-        for(Study_status_desc_and_motivational_msg__mdt statusConfig : [select id,MasterLabel,Status_order__c,PER_Participant_Status__c FROM Study_status_desc_and_motivational_msg__mdt where Status_order__c>2 and Status_order__c<3 order by Status_order__c  asc]){
+        for(Study_status_desc_and_motivational_msg__mdt statusConfig : [select id,Master_Custom__c,MasterLabel,Status_order__c,PER_Participant_Status__c,PER_Participant_Label__c FROM Study_status_desc_and_motivational_msg__mdt where Status_order__c>2 and Status_order__c<3 order by Status_order__c  asc]){
             if((statusConfig.MasterLabel == 'Randomization' || statusConfig.MasterLabel == 'Enrollment') && pe.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c != statusConfig.MasterLabel){
                 continue;
             }
@@ -168,19 +172,19 @@ public with sharing class PP_ProgressBarUtility {
             prW.title = statusConfig.MasterLabel;
             if(statusConfigMap.containsKey(statusConfig.PER_Participant_Status__c))
                 prW.description = statusConfigMap.get(statusConfig.PER_Participant_Status__c).Status_Description__c;
-            prW.status = 'FUTURE';
+            prW.status = System.Label.FUTURE;
             if(statusConfig.PER_Participant_Status__c == pe.Participant_Status__c){
                 pw.currentStatusVal = count;                    
                 if(statusConfigMap.containsKey(statusConfig.PER_Participant_Status__c))
                     pw.message = statusConfigMap.get(statusConfig.PER_Participant_Status__c).Status_Motivational_Message__c;
                 multiplier = 1;
                 count = 0;
-                prW.status = 'IN PROGRESS';
+                prW.status = System.Label.INPROGRESS;
             }
             prW.stepVal = count*multiplier;
             
             if(prW.stepVal<0){
-                prW.status = 'COMPLETED';
+                prW.status = System.Label.COMPLETED;
                 if(peshDateMap.containsKey(pe.Participant_Status__c)){
                     prW.statusDate = peshDateMap.get(pe.Participant_Status__c);
                 }
@@ -198,7 +202,9 @@ public with sharing class PP_ProgressBarUtility {
             if(pe.Clinical_Trial_Profile__r.Status_Milestone_Available__c){
                 Map<string,Study_status_description_motivation__c> statusConfigMap = new Map<string,Study_status_description_motivation__c>();
                 integer configCount = 0;
-                for(Study_status_description_motivation__c studyDescConfig : [SELECT Status_Name__c,Study__c,Status_Description__c,Status_Motivational_Message__c,Status_Developer_Name__c   FROM Study_status_description_motivation__c WHERE Study__c  =: pe.Clinical_Trial_Profile__c]){
+                List<Study_status_description_motivation__c> studyDescConfiges = [SELECT Status_Name__c,Study__c,Status_Description__c,Status_Motivational_Message__c,Status_Developer_Name__c   FROM Study_status_description_motivation__c WHERE Study__c  =: pe.Clinical_Trial_Profile__c];
+                Translatehelper.translate(studyDescConfiges);
+                for(Study_status_description_motivation__c studyDescConfig : studyDescConfiges){
                     if(studyDescConfig.Status_Developer_Name__c !=null){
                         statusConfigMap.put(studyDescConfig.Status_Developer_Name__c,studyDescConfig);
                     }else{
@@ -234,7 +240,7 @@ public with sharing class PP_ProgressBarUtility {
                         pe.Participant_Status__c = 'Initial Visit';
                     }
                 }
-                for(Study_status_desc_and_motivational_msg__mdt milestoneConfig : [select id,MasterLabel,Status_order__c,PER_Participant_Status__c,DeveloperName   FROM Study_status_desc_and_motivational_msg__mdt where Status_order__c>3 and Status_order__c<4 order by Status_order__c  asc]){
+              for(Study_status_desc_and_motivational_msg__mdt milestoneConfig : [select id,Master_Custom__c,MasterLabel,Status_order__c,PER_Participant_Label__c,PER_Participant_Status__c,DeveloperName   FROM Study_status_desc_and_motivational_msg__mdt where Status_order__c>3 and Status_order__c<4 order by Status_order__c  asc]){
                     if((milestoneConfig.MasterLabel == 'Randomization' || milestoneConfig.MasterLabel == 'Enrollment') && pe.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c != milestoneConfig.MasterLabel){
                         continue;
                     }
@@ -243,10 +249,10 @@ public with sharing class PP_ProgressBarUtility {
                         continue;
                     }
                     progressWrapper prW = new progressWrapper();
-                    prW.title = (statusConfigMap.containsKey(milestoneConfig.DeveloperName) && statusConfigMap.get(milestoneConfig.DeveloperName).Status_Description__c!=null) ?  statusConfigMap.get(milestoneConfig.DeveloperName).Status_Description__c : milestoneConfig.PER_Participant_Status__c;
+                    prW.title = (statusConfigMap.containsKey(milestoneConfig.DeveloperName) && statusConfigMap.get(milestoneConfig.DeveloperName).Status_Description__c!=null) ?  statusConfigMap.get(milestoneConfig.DeveloperName).Status_Description__c : milestoneConfig.PER_Participant_Label__c;
                     prW.description = statusConfigMap.get(milestoneConfig.DeveloperName).Status_Motivational_Message__c;
                     prW.statusWrapperList = null;
-                    prW.status = 'FUTURE';
+                    prW.status = System.Label.FUTURE;
 
                     //internim status
                     List<Study_status_desc_and_motivational_msg__mdt> statusLst = milestonseStatusMapping.get(milestoneConfig.PER_Participant_Status__c);
@@ -258,13 +264,13 @@ public with sharing class PP_ProgressBarUtility {
                             if(peshDateMap.containsKey(statusConfig.PER_Participant_Status__c.toLowerCase())){
                                 statusWrapper sWrp = new statusWrapper();
                                 sWrp.statusDate = peshDateMap.get(statusConfig.PER_Participant_Status__c.toLowerCase());
-                                sWrp.statusName = statusConfig.MasterLabel;
+                                sWrp.statusName = statusConfig.Master_Custom__c;
                                 //sWrpList.add(sWrp);
                                 statusMap.put(sWrp.statusDate, sWrp);
                                 statusDateList.add(sWrp.statusDate);
                             }
                             if(multiplier < 0 ){
-                                prW.title = (statusConfigMap.containsKey(statusConfig.DeveloperName) && statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c!=null) ? statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c : statusConfig.PER_Participant_Status__c;
+                                prW.title = (statusConfigMap.containsKey(statusConfig.DeveloperName) && statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c!=null) ? statusConfigMap.get(statusConfig.DeveloperName).Status_Description__c : statusConfig.PER_Participant_Label__c;
                                 prW.description = (statusConfigMap.containsKey(statusConfig.DeveloperName) ? statusConfigMap.get(statusConfig.DeveloperName).Status_Motivational_Message__c : '');  
                             }
                             if((statusConfig.PER_Participant_Status__c == pe.Participant_Status__c) 
@@ -272,7 +278,7 @@ public with sharing class PP_ProgressBarUtility {
                                 pw.currentStatusVal = count;                    
                                 multiplier = 1;
                                 count = 0;
-                                prW.status = 'IN PROGRESS';
+                                prW.status = System.Label.INPROGRESS; 
                             }
                             
                         }
@@ -315,7 +321,7 @@ public with sharing class PP_ProgressBarUtility {
                     prW.stepVal = count*multiplier;
                     
                     if(prW.stepVal<0){
-                        prW.status = 'COMPLETED';
+                        prW.status = System.Label.COMPLETED; 
                         if(peshDateMap.containsKey(pe.Participant_Status__c.toLowerCase())){
                             prW.statusDate = peshDateMap.get(pe.Participant_Status__c.toLowerCase());
                         }
@@ -339,7 +345,7 @@ public with sharing class PP_ProgressBarUtility {
         Map<String,List<Study_status_desc_and_motivational_msg__mdt>> milestonseStatusMapping = new Map<String,List<Study_status_desc_and_motivational_msg__mdt>>();
        
         try{
-         for(Study_status_desc_and_motivational_msg__mdt statusConfig : [select id,MasterLabel,Status_order__c,PER_Participant_Status__c,DeveloperName FROM Study_status_desc_and_motivational_msg__mdt where Status_order__c>=1 and Status_order__c<2 order by Status_order__c  asc]){
+         for(Study_status_desc_and_motivational_msg__mdt statusConfig : [select id,Master_Custom__c,MasterLabel,PER_Participant_Label__c,Status_order__c,PER_Participant_Status__c,DeveloperName FROM Study_status_desc_and_motivational_msg__mdt where Status_order__c>=1 and Status_order__c<2 order by Status_order__c  asc]){
             if(statusConfig.DeveloperName == 'Received1'){
                 List<Study_status_desc_and_motivational_msg__mdt> statusList = (milestonseStatusMapping.containsKey('Recieved') ? milestonseStatusMapping.get('Recieved') : new List<Study_status_desc_and_motivational_msg__mdt>());
                 statusList.add(statusConfig);
@@ -406,7 +412,7 @@ public with sharing class PP_ProgressBarUtility {
                 Patient_Visit__c patientVisit = new Patient_Visit__c();
                 patientVisit.Id = patientVisitId;
                 patientVisit.Completed_Date__c = Date.today();
-                patientVisit.Status__c = 'Completed';
+                patientVisit.Status__c = System.Label.COMPLETED;
                 update patientVisit;
                 return 'true';
             } catch (Exception ex) {
