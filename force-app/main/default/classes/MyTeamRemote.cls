@@ -991,15 +991,15 @@ public without sharing class MyTeamRemote {
         if(delegateFilterData!=null){
             hasStudyFilter = true;
         }
-        savePatientDelegate(delegate);
+        doSavePatientDelegate(delegate);
         PatientDelegateService.getInstance().createPatientDelegate(delContact,delegateFilterData);  
        
     }
 
     @AuraEnabled
-    public static void savePatientDelegate(String delegate) {
+    public static void doSavePatientDelegate(String delegate) {
         try {
-            System.debug('savePatientDelegate:');
+            System.debug('doSavePatientDelegate:');
             List<User> existingUserPatientDelegate = new List<User>();
             User user;
             Contact contactDelegate = (Contact) JSON.deserialize(delegate, Contact.class);
