@@ -382,14 +382,6 @@ a,
 .accordion-p-top {
     padding-top: 11px;
 }
-.image-result {
-  height: 30px;
-  width: 16px;
-}
-.verticaldotsmob{
-  margin-top: -8px;
-    margin-right: -10px;
-}
 .slds-accordion__summary {
     background: #f6f7fb;
     border-bottom: 1px solid #d9d9d9;
@@ -472,8 +464,8 @@ a,
   z-index: 9999;
 }
 .task-action-menu-mob {
-  margin-top: -41px;
-  margin-right: 20px;
+  margin-top: -14px;
+  margin-right: 15px;
 }
 .deleteCss {
   color: #e20000 !important;
@@ -778,3 +770,4 @@ input[type='number'] {
   max-width: 90%;
   text-align: left;
 }
+ 
