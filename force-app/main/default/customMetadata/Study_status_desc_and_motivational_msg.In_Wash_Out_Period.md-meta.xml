@@ -3,6 +3,14 @@
     <label>In Wash Out Period</label>
     <protected>false</protected>
     <values>
+        <field>Master_Custom__c</field>
+        <value xsi:type="xsd:string">In Wash Out Period</value>
+    </values>
+    <values>
+        <field>PER_Participant_Label__c</field>
+        <value xsi:type="xsd:string">In_Wash_Out_Period</value>
+    </values>
+    <values>
         <field>PER_Participant_Status__c</field>
         <value xsi:type="xsd:string">Screening In Progress - Wash Out Period</value>
     </values>
