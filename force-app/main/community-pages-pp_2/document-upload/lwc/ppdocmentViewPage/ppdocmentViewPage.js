@@ -462,6 +462,14 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.getTableFilesData();
   }
 
+  get isFileNameSorted() {
+    if (this.arrowUpTitle || this.arrowDownTitle) {
+      return "boldfont table-Header-Sorted";
+    } else {
+      return "boldfont";
+    }
+  }
+
   sortByDate(event) {
     this.arrowUpTitle =
       this.arrowDownTitle =
@@ -484,6 +492,13 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.stopSpinner = false;
     this.resetPagination = true;
     this.getTableFilesData();
+  }
+  get isSortedByDate() {
+    if (this.arrowUpDate || this.arrowDownDate) {
+      return "boldfont table-Header-Sorted";
+    } else {
+      return "boldfont";
+    }
   }
 
   sortByType(event) {
@@ -510,6 +525,13 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.resetPagination = true;
     this.getTableFilesData();
   }
+  get isTypeSorted() {
+    if (this.arrowUpType || this.arrowDownType) {
+      return "boldfont table-Header-Sorted";
+    } else {
+      return "boldfont";
+    }
+  }
   sortByMsgDate(event) {
     this.arrowUpTitleMsg =
       this.arrowDownTitleMsg =
@@ -532,6 +554,13 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.stopSpinner = false;
     this.resetPaginationMsg = true;
     this.getTableMsgFilesData();
+  }
+  get isMsgDateSorted() {
+    if (this.arrowUpDateMsg || this.arrowDownDateMsg) {
+      return "boldfont table-Header-Sorted";
+    } else {
+      return "boldfont";
+    }
   }
   sortByMsgType(event) {
     this.arrowUpTitleMsg =
@@ -557,6 +586,13 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.resetPaginationMsg = true;
     this.getTableMsgFilesData();
   }
+  get isMessageTypeSorted() {
+    if (this.arrowUpTypeMsg || this.arrowDownTypeMsg) {
+      return "boldfont table-Header-Sorted";
+    } else {
+      return "boldfont";
+    }
+  }
   sortByMsgTitle(event) {
     this.arrowUpDateMsg =
       this.arrowDownDateMsg =
@@ -579,6 +615,13 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.stopSpinner = false;
     this.resetPaginationMsg = true;
     this.getTableMsgFilesData();
+  }
+  get isMessageTitleSorted() {
+    if (this.arrowUpTitleMsg || this.arrowDownTitleMsg) {
+      return "boldfont table-Header-Sorted";
+    } else {
+      return "boldfont";
+    }
   }
   openDeleteModel = false;
   deleteFileID;

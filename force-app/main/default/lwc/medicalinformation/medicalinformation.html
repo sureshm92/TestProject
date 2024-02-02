@@ -660,7 +660,7 @@
                         
                         <template if:true={ismodelDeletePopup}>
                           <c-pir_deletemedicaldocument maindivcls={popupcls} deleteid={deleteId}
-                            onclosemodelpopupanddelete={deleteAndCloseModal}   ></c-pir_deletemedicaldocument>
+                            onclosemodelpopupanddelete={deleteAndCloseModal} isrequirerefreshtable={isrequirerefreshtable}   ></c-pir_deletemedicaldocument>
                         </template>
                         <template if:true={openmodel}>
                           <div class="slds-modal slds-fade-in-open slds-modal_medium slds-backdrop">
@@ -705,8 +705,8 @@
                                     <div class="slds-p-around_large">
                                       <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                                         <div
-                                          class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                                          <span class="title">Save Changes?</span>
+                                          class="slds-col slds-large-size_11-of-12 slds-medium-size_10-of-12 slds-size_10-of-12">
+                                          <span class="title">{label.PIR_Save_Changes}</span>
                                         </div>
                                         <div class="slds-col slds-size_1-of-12 close-icon">
                                           <div onclick={doDiscardModal}>
@@ -717,20 +717,19 @@
                                         </div>
                                       </div>
                                       <slot name="body">
-                                        <p class="sub-text">You have unsaved changes on this tab. Your changes will be
-                                          lost if they are not saved. </p>
+                                        <p class="sub-text">{label.PIR_Unsaved_Changes} </p>
                                         <div class="slds-grid slds-wrap slds-m-top_large">
                                           <div
-                                            class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                            class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 medicaltabmodel">
                                             <div class="slds-float_right mobile-width">
                                               <button title=""
                                                 class="slds-button apollo-btn primary btn-height save-btn"
                                                 disabled={disablebtn} onclick={dosavemedicalTable}>
-                                                Save
+                                                {label.BTN_Save}
                                               </button>
                                               <button class="slds-button apollo-btn secondary btn-height discard-btn"
                                                 onclick={doDiscard}>
-                                                Discard   
+                                                {label.PIR_Discard}   
                                               </button>
                                             </div>
                                           </div>
@@ -757,8 +756,8 @@
                                     <div class="slds-p-around_large">
                                       <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
                                         <div
-                                          class="slds-col slds-large-size_11-of-12 slds-medium-size_11-of-12 slds-size_10-of-12">
-                                          <span class="title">Save Changes?</span>
+                                          class="slds-col slds-large-size_11-of-12 slds-medium-size_10-of-12 slds-size_10-of-12">
+                                          <span class="title">{label.PIR_Save_Changes}</span>
                                         </div>
                                         <div class="slds-col slds-size_1-of-12 close-icon">
                                           <div onclick={doCloseModalUnsaved}>
@@ -769,20 +768,19 @@
                                         </div>
                                       </div>
                                       <slot name="body">
-                                        <p class="sub-text">You have unsaved changes on this tab. Your changes will be
-                                          lost if they are not saved. </p>
+                                        <p class="sub-text">{label.PIR_Unsaved_Changes} </p>
                                         <div class="slds-grid slds-wrap slds-m-top_large">
                                           <div
-                                            class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                                            class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 medicaltabmodel">
                                             <div class="slds-float_right mobile-width">
                                               <button title=""
                                                 class="slds-button apollo-btn primary btn-height save-btn"
                                                 disabled={disablebtn} onclick={dosavemedicalTableUnsaved}>
-                                                Save
+                                                {label.BTN_Save}
                                               </button>
                                               <button class="slds-button apollo-btn secondary btn-height discard-btn"
                                                 onclick={doDiscardModalUnsaved}>
-                                                Discard   
+                                                {label.PIR_Discard}   
                                               </button>
                                             </div>
                                           </div>
