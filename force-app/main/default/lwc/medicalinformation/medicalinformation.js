@@ -67,8 +67,6 @@ export default class Medicalinformation extends LightningElement {
   download = pirResources + "/pirResources/icons/download.svg";
   deleteIcon = pirResources + "/pirResources/icons/trash-delete.svg";
   sort = pp_icons + "/" + "sort.svg";
-  threedots_imgUrl = pp_icons + '/' + 'three_dots.png';
-  threedots_vertical_imgUrl = pirResources + "/pirResources/icons/three_dots_vertical.svg";
 
   label = {
     High_Risk,
