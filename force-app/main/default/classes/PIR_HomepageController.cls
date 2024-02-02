@@ -562,7 +562,15 @@ public without sharing class PIR_HomepageController {
           (siteIdlist == null || siteIdlist.isEmpty())
         ) {
           //get the study site id's for selected study
-          siteIdlist = getStudySiteForaStudy(studyIdlist);
+          List<Study_Site__c> sitelist = getactiveStudySiteForaStudy(studyIdlist);
+          siteIdlist = new list<String>();
+          if(sitelist!= null && sitelist.size() > 0){
+            for(Study_Site__c s:sitelist){
+              if(s.Site_Activation_Status__c != 'Deactivated' && s.Site_Activation_Status__c != 'Deactivated (Admin)' && s.Override_PI_Referral_Status__c == 'Accepted'){
+                siteIdlist.add(s.id);
+              }
+            }
+          }
         }else if(siteIdlist != null){
           List<Study_Site__c> sitelist = [select id,Site_Activation_Status__c,Override_PI_Referral_Status__c from Study_Site__c where ID IN:siteIdlist];
           if(sitelist != null && sitelist.size() > 0){
@@ -1366,6 +1374,20 @@ public without sharing class PIR_HomepageController {
     }
 
     return siteIdList;
+  }
+
+  public static List<Study_Site__c> getactiveStudySiteForaStudy(List<String> studyIdlist) {
+    List<String> siteIdList = new List<String>();
+    Id piContactId = CommunityService.getUserContact().Id;
+    List<Study_Site__c> studySiteList = [
+      SELECT Id,Site_Activation_Status__c,Override_PI_Referral_Status__c
+      FROM Study_Site__c
+      WHERE
+        (Principal_Investigator__c = :piContactId
+        OR ID IN :DelegateService.getDelegatedStudySiteIds())
+        AND Clinical_Trial_Profile__c IN :studyIdlist
+    ];
+    return studySiteList;
   }
 
   @AuraEnabled
