@@ -46,22 +46,14 @@
                     </button>
                     <div class="slds-grid forgot-unable-link">
                         <div class="slds-col slds-size_6-of-12">
-                            <lightning-button
-                                variant="base"
-                                label={label.forgotPassword}
-                                onclick={handleForgotPassword}
-                                class="forgot-unable-pwd-txt font-thickness"
-                            >
-                            </lightning-button>
+                            <span onclick={handleForgotPassword} class="forgot-unable-pwd-txt font-thickness">
+                                {label.forgotPassword}
+                            </span>
                         </div>
                         <div class="slds-col slds-size_6-of-12">
-                            <lightning-button
-                                variant="base"
-                                label={label.unableToLogin}
-                                onclick={handleUnableToLogin}
-                                class="forgot-unable-pwd-txt unable-login font-thickness"
-                            >
-                            </lightning-button>
+                            <span onclick={handleUnableToLogin} class="forgot-unable-pwd-txt unable-login font-thickness" >
+                                {label.unableToLogin}
+                            </span>
                             <template if:true={showPopup}>
                                 <c-pp-unable-to-login
                                     user-id={userNam}
