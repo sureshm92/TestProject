@@ -1,6 +1,6 @@
 <template>
     <template if:false={desktop}>
-        <div class="slds-grid slds-wrap card-border" onclick={navigateResourceDetail}>
+        <div if:false={hideCmp} class="slds-grid slds-wrap card-border" onclick={navigateResourceDetail}>
             <div class={cardElement}>
                 <div class="slds-align_absolute-center icon-container">
                     <div
@@ -41,7 +41,10 @@
                         </p>
                     </div>
                 </div>
-                <div class="slds-grid">
+                <div if:true={isAppDoc} class="slds-grid">
+                    <a class="view-resource-label-vertical">{label.DOWNLOAD_RESOURCE} </a>
+                </div>
+                <div if:false={isAppDoc} class="slds-grid">
                     <a class="view-resource-label-vertical"> {label.VIEW_RESOURCE} </a>
                 </div>
             </div>
