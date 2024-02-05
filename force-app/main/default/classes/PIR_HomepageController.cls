@@ -1371,7 +1371,6 @@ public without sharing class PIR_HomepageController {
   }
 
   public static List<String> getactiveStudySiteForaStudy(List<String> studyIdlist) {
-    system.debug('+++++++++++++++studyIdlist'+studyIdlist);
     List<String> siteIdList = new List<String>();
     Id piContactId = CommunityService.getUserContact().Id;
     List<Study_Site__c> studySiteList = [
@@ -1386,7 +1385,6 @@ public without sharing class PIR_HomepageController {
     for (Study_Site__c ss : studySiteList) {
       siteIdList.add(ss.Id);
     }
-    system.debug('+++++++++++++++siteIdList'+siteIdList);
     return siteIdList;
   }
 
