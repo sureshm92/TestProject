@@ -124,6 +124,7 @@
                             showvisitsection={showUpcomingSection}
                             initial-load-time={initialLoadTime}
                             counter={counter}
+                            ondecrimentcountupdate={handleDecrimentCount}
                         ></c-pp-updates>
                     </lightning-layout-item>
                 </template>
@@ -136,6 +137,7 @@
                             showvisitsection={updateCardLayoutSmall}
                             initial-load-time={initialLoadTime}
                             counter={counter}
+                            ondecrimentcountupdate={handleDecrimentCount}
                         ></c-pp-updates>
                     </lightning-layout-item>
                     <lightning-layout-item size="4" class={progressBarLayoutClass}>
@@ -466,6 +468,7 @@
                     counter={counter}
                     initial-load-time={initialLoadTime}
                     desktop={desktop}
+                    ondecrimentcountupdate={handleDecrimentCount}
                 ></c-pp-updates>
             </template>
             <div if:true={showProgress}>
