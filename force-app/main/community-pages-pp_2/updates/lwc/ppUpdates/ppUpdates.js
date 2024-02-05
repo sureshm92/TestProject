@@ -207,4 +207,11 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
                 console.log('error message ' + JSON.stringify(error));
             });
     }
+    handleDecrimentCount(){
+        this.counter--;
+        const decrimentCountEvent = new CustomEvent('decrimentcountupdate', {
+            detail: this.counter
+        });
+        this.dispatchEvent(decrimentCountEvent);
+    }
 }
