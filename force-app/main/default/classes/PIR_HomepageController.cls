@@ -536,7 +536,8 @@ public without sharing class PIR_HomepageController {
                     status.add('Randomization Success');
                   }
                 }
-                if(firstStudy == s.Clinical_Trial_Profile__c){
+                if(firstStudy == s.Clinical_Trial_Profile__c && s.Site_Activation_Status__c != 'Deactivated' && 
+                   s.Site_Activation_Status__c != 'Deactivated (Admin)' && s.Override_PI_Referral_Status__c == 'Accepted'){
                   siteIdlist.add(s.Id);
                 }
               }
@@ -551,7 +552,8 @@ public without sharing class PIR_HomepageController {
                     status.add('Randomization Success');
                   }
                 }
-                if(firstStudy == s.Clinical_Trial_Profile__c){
+                if(firstStudy == s.Clinical_Trial_Profile__c && s.Site_Activation_Status__c != 'Deactivated' && 
+                   s.Site_Activation_Status__c != 'Deactivated (Admin)' && s.Override_PI_Referral_Status__c == 'Accepted'){
                   siteIdlist.add(s.Id);
                 }
               }
@@ -1369,6 +1371,7 @@ public without sharing class PIR_HomepageController {
   }
 
   public static List<String> getactiveStudySiteForaStudy(List<String> studyIdlist) {
+    system.debug('+++++++++++++++studyIdlist'+studyIdlist);
     List<String> siteIdList = new List<String>();
     Id piContactId = CommunityService.getUserContact().Id;
     List<Study_Site__c> studySiteList = [
@@ -1377,12 +1380,13 @@ public without sharing class PIR_HomepageController {
       WHERE
         (Principal_Investigator__c = :piContactId
         OR ID IN :DelegateService.getDelegatedStudySiteIds())
-        AND Site_Activation_Status__c != 'Deactivated' AND Site_Activation_Status__c != 'Deactivated (Admin)' AND Override_PI_Referral_Status__c = 'Accepted'
         AND Clinical_Trial_Profile__c IN :studyIdlist
+        AND Site_Activation_Status__c != 'Deactivated' AND Site_Activation_Status__c != 'Deactivated (Admin)' AND Override_PI_Referral_Status__c = 'Accepted'
     ];
     for (Study_Site__c ss : studySiteList) {
       siteIdList.add(ss.Id);
     }
+    system.debug('+++++++++++++++siteIdList'+siteIdList);
     return siteIdList;
   }
 
