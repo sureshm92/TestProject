@@ -536,7 +536,7 @@ public without sharing class PIR_HomepageController {
                     status.add('Randomization Success');
                   }
                 }
-                if(firstStudy == s.Clinical_Trial_Profile__c && s.Site_Activation_Status__c != 'Deactivated' && 
+                if(firstStudy == s.Clinical_Trial_Profile__c && s.Site_Activation_Status__c != null && s.Site_Activation_Status__c != 'Deactivated' && 
                    s.Site_Activation_Status__c != 'Deactivated (Admin)' && s.Override_PI_Referral_Status__c == 'Accepted'){
                   siteIdlist.add(s.Id);
                 }
@@ -552,7 +552,7 @@ public without sharing class PIR_HomepageController {
                     status.add('Randomization Success');
                   }
                 }
-                if(firstStudy == s.Clinical_Trial_Profile__c && s.Site_Activation_Status__c != 'Deactivated' && 
+                if(firstStudy == s.Clinical_Trial_Profile__c && s.Site_Activation_Status__c != null && s.Site_Activation_Status__c != 'Deactivated' && 
                    s.Site_Activation_Status__c != 'Deactivated (Admin)' && s.Override_PI_Referral_Status__c == 'Accepted'){
                   siteIdlist.add(s.Id);
                 }
@@ -570,7 +570,7 @@ public without sharing class PIR_HomepageController {
           if(sitelist != null && sitelist.size() > 0){
             siteIdlist = new list<String>();
             for(Study_Site__c s:sitelist){
-              if(s.Site_Activation_Status__c != 'Deactivated' && s.Site_Activation_Status__c != 'Deactivated (Admin)' && s.Override_PI_Referral_Status__c == 'Accepted'){
+              if(s.Site_Activation_Status__c != null && s.Site_Activation_Status__c != 'Deactivated' && s.Site_Activation_Status__c != 'Deactivated (Admin)' && s.Override_PI_Referral_Status__c == 'Accepted'){
                 siteIdlist.add(s.id);
               }
               
@@ -651,7 +651,7 @@ public without sharing class PIR_HomepageController {
                 Integer loopStart = limitOfRecords - 10;
                 Integer loopEnd = perList.size();
                 for (Integer i = loopStart; i < loopEnd; i++) {
-                  if(perList[i].Study_Site__r.Site_Activation_Status__c != 'Deactivated' && perList[i].Study_Site__r.Site_Activation_Status__c != 'Deactivated (Admin)' && perList[i].Study_Site__r.Override_PI_Referral_Status__c == 'Accepted'){
+                  if(perList[i].Study_Site__r.Site_Activation_Status__c != null && perList[i].Study_Site__r.Site_Activation_Status__c != 'Deactivated' && perList[i].Study_Site__r.Site_Activation_Status__c != 'Deactivated (Admin)' && perList[i].Study_Site__r.Override_PI_Referral_Status__c == 'Accepted'){
                     perIdList.add(perList[i].Id);
                   }
                 }
@@ -1380,7 +1380,7 @@ public without sharing class PIR_HomepageController {
         (Principal_Investigator__c = :piContactId
         OR ID IN :DelegateService.getDelegatedStudySiteIds())
         AND Clinical_Trial_Profile__c IN :studyIdlist
-        AND Site_Activation_Status__c != 'Deactivated' AND Site_Activation_Status__c != 'Deactivated (Admin)' AND Override_PI_Referral_Status__c = 'Accepted'
+        AND Site_Activation_Status__c != null AND Site_Activation_Status__c != 'Deactivated' AND Site_Activation_Status__c != 'Deactivated (Admin)' AND Override_PI_Referral_Status__c = 'Accepted'
     ];
     for (Study_Site__c ss : studySiteList) {
       siteIdList.add(ss.Id);
