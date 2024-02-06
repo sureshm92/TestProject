@@ -77,15 +77,6 @@
     overflow-y: auto;
     font-size: 16px;
 }
-/* @media (min-width: 768px) and (max-width: 1024px) {
-    .box-container {
-        position: absolute;
-        top: 15rem;
-        right:3.2rem; 
-    }
-} */
-
-
 .box-container-adjustment{
     margin-top: -1rem;
     margin-right: 2rem;
