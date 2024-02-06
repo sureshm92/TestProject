@@ -404,6 +404,12 @@ export default class Filtertest extends LightningElement {
       this.selectedSite = 'All Study Site';
     }
 
+    this.showStudyErr = false;
+    if(options.lenght == 0){
+      this.showStudyErr = true;
+      this.defaultSite = '';
+      this.selectedSite = '';
+    }
     this.createStatusOption();
     if (presetSellection.activeInactive == "Active") {
       if(presetSellection.status.length == 1){
