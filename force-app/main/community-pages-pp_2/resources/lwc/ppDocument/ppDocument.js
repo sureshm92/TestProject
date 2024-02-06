@@ -1,4 +1,4 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api,track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import versionDate from '@salesforce/label/c.Version_date';
@@ -19,10 +19,16 @@ export default class Documents extends NavigationMixin(LightningElement) {
     label = {
         versionDate
     };
+    @track isTabLandscape;
 
     connectedCallback() {
+        this.isTabLandscape=this.isTabletLandscape();
+        window.addEventListener('orientationchange', this.onOrientationChange);
         this.processData();
     }
+    onOrientationChange = () => {
+        this.isTabLandscape=this.isTabletLandscape();
+        };
 
     processData() {
         this.id = this.document.resource.Id;
@@ -113,5 +119,22 @@ export default class Documents extends NavigationMixin(LightningElement) {
             radioTask.classList.add('slds-is-open');
             this.dropdownOpen = true;
         }
+    }
+    isTabletLandscape(){
+        let orientation = screen.orientation.type;
+        if(window.innerWidth >= 768 && window.innerWidth <= 1280 ){  
+        if(/android/i.test(navigator.userAgent.toLowerCase())){            
+            if(orientation.startsWith('landscape')){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }else{
+            return false;
+        }            
+        }else{
+            return false;
+        } 
     }
 }
