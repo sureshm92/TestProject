@@ -117,7 +117,7 @@ public with sharing class PP_ProgressBarUtility {
                     pw.message = ( setMotivationMsg ? patientVisit.Visit__r.Motivational_message__c : pw.message);
                     multiplier = 1;
                     count = 0;
-                    prW.status = (patientVisit.Completed_Date__c == null && patientVisit.Status__c != 'Completed' && patientVisit.Status__c != 'Missed' ? System.Label.UPCOMING : prW.status );
+                    prW.status = (patientVisit.Completed_Date__c == null && patientVisit.Status__c != 'Completed' && patientVisit.Status__c != 'Missed' ? System.Label.PP_Upcoming_Caps : prW.status );
                 }
                 if(pw.isEvent){
                     prW.recordId = patientVisit.Id;
@@ -298,19 +298,19 @@ public with sharing class PP_ProgressBarUtility {
                         ){
                             if(pe.Initial_visit_scheduled_flag__c){
                                 statusWrapper sWrp = new statusWrapper();
-                                sWrp.statusName = 'Scheduled';
+                                sWrp.statusName = System.Label.PP_Scheduled;
                                 sWrp.statusDate = pe.Initial_visit_scheduled_date__c;
                                 sWrpList.add(sWrp);
                             }
                             if(pe.Initial_visit_occurred_flag__c){
                                 statusWrapper sWrp = new statusWrapper();
-                                sWrp.statusName = 'Attended';
+                                sWrp.statusName = System.Label.PG_Or_R_Attended;
                                 sWrp.statusDate = pe.Initial_visit_occurred_date__c;
                                 sWrpList.add(sWrp);
                             }
                             if(pe.Informed_Consent__c){
                                 statusWrapper sWrp = new statusWrapper();
-                                sWrp.statusName = 'Consented';
+                                sWrp.statusName = System.Label.Consented;
                                 sWrp.statusDate = pe.Informed_Consent_Date__c;
                                 sWrpList.add(sWrp);
                             }

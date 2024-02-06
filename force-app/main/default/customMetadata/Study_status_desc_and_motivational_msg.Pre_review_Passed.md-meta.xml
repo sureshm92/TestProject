@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Master_Custom__c</field>
-        <value xsi:type="xsd:string">Pre-review Passed</value>
+        <value xsi:type="xsd:string">Pre_review_Passed</value>
     </values>
     <values>
         <field>PER_Participant_Label__c</field>

@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Master_Custom__c</field>
-        <value xsi:type="xsd:string">Successfully Contacted</value>
+        <value xsi:type="xsd:string">Successfully_Contacted</value>
     </values>
     <values>
         <field>PER_Participant_Label__c</field>
