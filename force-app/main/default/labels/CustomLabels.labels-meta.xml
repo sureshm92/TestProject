@@ -32544,20 +32544,6 @@ The IQVIA Referral Hub Support Team</value>
         <value>New Resource Available</value>
     </labels>
     <labels>
-        <fullName>Scheduled</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Scheduled</shortDescription>
-        <value>Scheduled</value>
-    </labels>
-    <labels>
-        <fullName>Attended</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Attended</shortDescription>
-        <value>Attended</value>
-    </labels>
-    <labels>
         <fullName>Consented</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -32584,13 +32570,6 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>FUTURE</shortDescription>
         <value>FUTURE</value>
-    </labels>
-    <labels>
-        <fullName>UPCOMING</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>UPCOMING</shortDescription>
-        <value>UPCOMING</value>
     </labels>
     <labels>
         <fullName>INPROGRESS</fullName>
