@@ -1,4 +1,7 @@
 import { LightningElement } from 'lwc';
+import PP_Scheduled from'@salesforce/label/c.PP_Scheduled';
+import PG_Or_R_Attended from'@salesforce/label/c.PG_Or_R_Attended';
+import Consented from'@salesforce/label/c.Consented';
 import Received from '@salesforce/label/c.Received';
 import Contact_Attempted from '@salesforce/label/c.Contact_Attempted';
 import PWS_Contact_Card_Name from '@salesforce/label/c.PWS_Contact_Card_Name';
@@ -31,6 +34,9 @@ import Trial_Completion from '@salesforce/label/c.Trial_Completion';
 
 
 const label = {
+    PP_Scheduled:PP_Scheduled,
+    PG_Or_R_Attended : PG_Or_R_Attended,
+    Consented:Consented,
     Received: Received,
     Contact_Attempted: Contact_Attempted,
     PWS_Contact_Card_Name:PWS_Contact_Card_Name,
