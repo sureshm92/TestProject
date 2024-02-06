@@ -33,7 +33,12 @@ public without sharing class StudySiteService {
         //PI_S_ON_HOLD_A,
         SITE_ON_HOLD
     };
-
+       
+    public final static List<String> STATUS_GROUP_ON_HOLD_ACTIVATED = new List<String>{
+        SITE_ON_HOLD,
+        SITE_ACTIVATED_A,
+        SITE_ACTIVATED
+    };
     public final static String SS_TYPE_TRADITIONAL = 'Traditional';
     public final static String SS_TYPE_VIRTUAL = 'Virtual';
     public final static String SS_TYPE_HYBRID = 'Hybrid';

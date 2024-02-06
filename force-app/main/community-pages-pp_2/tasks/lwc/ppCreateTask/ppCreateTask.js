@@ -76,10 +76,10 @@ export default class PpCreateTask extends LightningElement {
     }
 
     connectedCallback() {
-        if (formFactor === 'Small') {
-            this.isMobile = true;
-        } else {
+        if (formFactor === 'Large') {
             this.isMobile = false;
+        } else {
+            this.isMobile = true;
         }
         getisRTL()
             .then((data) => {
