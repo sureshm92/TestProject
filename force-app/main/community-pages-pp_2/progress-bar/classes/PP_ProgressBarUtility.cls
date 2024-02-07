@@ -169,7 +169,7 @@ public with sharing class PP_ProgressBarUtility {
                 continue;
             }
             progressWrapper prW = new progressWrapper();
-            prW.title = statusConfig.MasterLabel;
+            prW.title = statusConfig.Master_Custom__c;
             if(statusConfigMap.containsKey(statusConfig.PER_Participant_Status__c))
                 prW.description = statusConfigMap.get(statusConfig.PER_Participant_Status__c).Status_Description__c;
             prW.status = System.Label.FUTURE;
