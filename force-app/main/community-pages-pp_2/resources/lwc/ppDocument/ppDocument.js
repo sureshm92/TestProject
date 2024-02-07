@@ -20,6 +20,7 @@ export default class Documents extends NavigationMixin(LightningElement) {
         versionDate
     };
     @track isTabLandscape;
+    @track isTabPortrait=false;
 
     connectedCallback() {
         this.isTabLandscape=this.isTabletLandscape();
@@ -120,20 +121,28 @@ export default class Documents extends NavigationMixin(LightningElement) {
             this.dropdownOpen = true;
         }
     }
+
+    get thumbnailClass(){
+        return this.isTabPortrait?'slds-col slds-size_1-of-6 thumbnail-outerbox-tab':'slds-col slds-size_1-of-6 thumbnail-outerbox';
+    }
     isTabletLandscape(){
         let orientation = screen.orientation.type;
         if(window.innerWidth >= 768 && window.innerWidth <= 1280 ){  
         if(/android/i.test(navigator.userAgent.toLowerCase())){            
             if(orientation.startsWith('landscape')){
+                this.isTabPortrait=false;
                 return true;
             }
             else{
+                this.isTabPortrait=true;
                 return false;
             }
         }else{
+            this.isTabPortrait=false;
             return false;
         }            
         }else{
+               this.isTabPortrait=false;
             return false;
         } 
     }

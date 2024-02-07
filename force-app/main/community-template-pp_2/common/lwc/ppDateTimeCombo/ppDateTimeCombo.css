@@ -101,11 +101,14 @@ input[type='date']::-webkit-calendar-picker-indicator,
 @media all and (min-width: 768px) and (max-width: 870px) {
     .slds-small-size_1-of-2.slds-p-right_xx-small,
     .slds-small-size_1-of-2.slds-p-left_xx-small {
-        /* min-width: 100%; */
+        min-width: 100%;
         margin-bottom: 1rem;
         padding-left: 0;
     }
-
+    .curve-input input[type='date'] {        
+        width: 448px;
+    }
+    
     .slds-grid-visit {
         margin-bottom: unset;
     }

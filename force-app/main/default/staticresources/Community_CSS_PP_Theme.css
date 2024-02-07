@@ -1485,6 +1485,9 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
         min-width: 100px;
         margin-right: 50px;
     }
+    .cPpCustomThemeLayout .curve-input .slds-input[type='time']{
+        width:448px ;
+    }
 }
 @media all and (max-width: 768px) {
     .cPpCustomThemeLayout .apollo-btn,
