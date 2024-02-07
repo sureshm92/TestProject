@@ -405,10 +405,11 @@ export default class Filtertest extends LightningElement {
     }
 
     this.showStudyErr = false;
-    if(options.lenght == 0){
+    if(options.length == 1){
       this.showStudyErr = true;
       this.defaultSite = '';
       this.selectedSite = '';
+      this.studySiteList = '';
     }
     this.createStatusOption();
     if (presetSellection.activeInactive == "Active") {
