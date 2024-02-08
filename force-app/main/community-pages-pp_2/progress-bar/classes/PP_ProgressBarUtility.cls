@@ -47,7 +47,7 @@ public with sharing class PP_ProgressBarUtility {
             Set<String> InTrialStatus = new Set<String>{'Enrollment Success','Randomization Success','Treatment Period Started','Follow-Up Period Started','Participation Complete','Trial Complete'};
             Set<String> PreTrialStatus = new Set<String>{'Received','Pre-review Passed','Contact Attempted','Successfully re-engaged','Successfully Contacted','Participant No Show','Eligibility Passed','Ready to Screen','Screening In Progress - Wash Out Period','Screening In Progress','Screening Passed'};
             Participant_Enrollment__c pe = [select id,Participant_Status__c,Initial_Visit_Scheduled_DateTime__c,Initial_visit_scheduled_flag__c,Initial_visit_occurred_flag__c,Informed_Consent__c,Initial_visit_scheduled_date__c,Informed_Consent_Date__c,Initial_visit_occurred_date__c,Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c,Clinical_Trial_Profile__r.Is_Program__c,
-                    Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Status_Milestone_Available__c,Clinical_Trial_Profile__r.Study_External_URL__c,Clinical_Trial_Profile__c,
+                    Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c,Clinical_Trial_Profile__r.Pre_Trial_Status_Config__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Status_Milestone_Available__c,Clinical_Trial_Profile__r.Study_External_URL__c,Clinical_Trial_Profile__c,
                     (select id,Status__c, Date__c FROM Participant_Enrollment_Status_History__r order by Date__c asc) 
                     FROM Participant_Enrollment__c where id=:peId];
             if(([select count() FROM Study_status_desc_and_motivational_msg__mdt where PER_Participant_Status__c =:pe.Participant_Status__c]==0) && pe.Participant_Status__c != 'Participant No Show'){
@@ -57,7 +57,7 @@ public with sharing class PP_ProgressBarUtility {
                 pw = generateBarForInTrial(pe,pw,peId);
                 return pw;
             }
-            else if((PreTrialStatus.contains(pe.Participant_Status__c) && pe.Clinical_Trial_Profile__r.Status_Milestone_Available__c 
+            else if((PreTrialStatus.contains(pe.Participant_Status__c) && pe.Clinical_Trial_Profile__r.Pre_Trial_Status_Config__c 
             && !pe.Clinical_Trial_Profile__r.Is_Program__c) || pe.Participant_Status__c == 'Participant No Show'){
                 pw.isPreTiral = true;
                 pw = generateBarForPreTrial(pe,pw,peId);
@@ -199,7 +199,7 @@ public with sharing class PP_ProgressBarUtility {
         try{
             Boolean isProgram = pe.Clinical_Trial_Profile__r.Is_Program__c;
             Map<String,List<Study_status_desc_and_motivational_msg__mdt>> milestonseStatusMapping = new Map<String,List<Study_status_desc_and_motivational_msg__mdt>>();
-            if(pe.Clinical_Trial_Profile__r.Status_Milestone_Available__c){
+            if(pe.Clinical_Trial_Profile__r.Pre_Trial_Status_Config__c){
                 Map<string,Study_status_description_motivation__c> statusConfigMap = new Map<string,Study_status_description_motivation__c>();
                 integer configCount = 0;
                 List<Study_status_description_motivation__c> studyDescConfiges = [SELECT Status_Name__c,Study__c,Status_Description__c,Status_Motivational_Message__c,Status_Developer_Name__c   FROM Study_status_description_motivation__c WHERE Study__c  =: pe.Clinical_Trial_Profile__c];
