@@ -23,6 +23,13 @@ import Sort_By from "@salesforce/label/c.Sort_By";
 import PP_DeletedSucesfully from "@salesforce/label/c.PP_DeletedSucesfully";
 import formFactor from "@salesforce/client/formFactor";
 import profileTZ from "@salesforce/i18n/timeZone";
+import PP_Sort_Title_Desc from "@salesforce/label/c.PP_Sort_Title_Desc";
+import PP_Sort_Title_Asc from "@salesforce/label/c.PP_Sort_Title_Asc";
+import PP_Sort_Type_Asc from "@salesforce/label/c.PP_Sort_Type_Asc";
+import PP_Sort_Type_Desc from "@salesforce/label/c.PP_Sort_Type_Desc";
+import PP_Sort_Date_Desc from "@salesforce/label/c.PP_Sort_Date_Desc";
+import PP_Sort_Date_Asc from "@salesforce/label/c.PP_Sort_Date_Asc";
+import Sort_Detail_By from "@salesforce/label/c.Sort_Detail_By";
 
 export default class ppdocmentViewPage extends NavigationMixin(
   LightningElement
@@ -87,8 +94,14 @@ export default class ppdocmentViewPage extends NavigationMixin(
     Shared_with_Me,
     Sort_By,
     PP_DeletedSucesfully,
-    PP_SharedwithmeMessage
-
+    PP_SharedwithmeMessage,
+    PP_Sort_Title_Desc,
+    PP_Sort_Title_Asc,
+    PP_Sort_Type_Asc,
+    PP_Sort_Type_Desc,
+    PP_Sort_Date_Desc,
+    PP_Sort_Date_Asc,
+    Sort_Detail_By
   };
 
   connectedCallback() {
@@ -676,12 +689,12 @@ export default class ppdocmentViewPage extends NavigationMixin(
   }
   get optionsSort() {
     return [
-      { label: "Title: A-Z", value: "titleasc" },
-      { label: "Title: Z-A", value: "titledesc" },
-      { label: "File Type: A-Z", value: "filetypeasc" },
-      { label: "File Type: Z-A", value: "filetypedesc" },
-      { label: "Date: Last Uploaded", value: "datedesc" },
-      { label: "Date: First Uploaded", value: "dateasc" }
+      { label: this.label.PP_Sort_Title_Asc, value: "titleasc" },
+      { label: this.label.PP_Sort_Title_Desc, value: "titledesc" },
+      { label: this.label.PP_Sort_Type_Asc, value: "filetypeasc" },
+      { label: this.label.PP_Sort_Type_Desc, value: "filetypedesc" },
+      { label: this.label.PP_Sort_Date_Desc, value: "datedesc" },
+      { label: this.label.PP_Sort_Date_Asc, value: "dateasc" }
     ];
   }
   opendropdown(event) {
@@ -721,7 +734,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
       this.isInitial = true;
       this.firstClick = true;
       this.sortOn = "CreatedDate";
-      this.selectedsortOption = "Sort By";
+      this.selectedsortOption = this.label.Sort_By;
 
       this.getTableFilesData();
     } else {
@@ -736,7 +749,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
       this.isInitialMsg = true;
       this.firstClickMsg = true;
       this.sortOnMsg = "ContentDocument.CreatedDate";
-      this.selectedsortOption = "Sort By";
+      this.selectedsortOption = this.label.Sort_By;
       this.getTableMsgFilesData();
     }
     this.handleonblur();
@@ -750,7 +763,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
   }
   handlenewOnSelectSort(event) {
     this.handleonblur();
-    this.selectedsortOption = "By: " + event.target.dataset.title;
+    this.selectedsortOption = this.label.Sort_Detail_By + " " + event.target.dataset.title;
     this.template.querySelectorAll(".fBold").forEach(function (L) {
       L.classList.add("fw-550");
     });
@@ -811,7 +824,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
   }
   handlenewOnSelectSortMsg(event) {
     this.handleonblur();
-    this.selectedsortOption = "By: " + event.target.dataset.title;
+    this.selectedsortOption = this.label.Sort_Detail_By + " "  + event.target.dataset.title;
     if (event.target.dataset.id == "titleasc") {
       this.isInitialMsg = false;
       this.firstClickMsg = true;
