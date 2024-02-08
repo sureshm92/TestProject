@@ -153,6 +153,9 @@
 .w-100 {
   width: 100%;
 }
+.sortdropdown{
+  color: unset;
+}
 a,
 .slds-button {
   /* color: unset; */
@@ -475,6 +478,15 @@ a,
   margin-top: -41px;
   margin-right: 20px;
 }
+tr.bordercss td {
+  border-bottom: 1px solid #F6F7FB;
+   
+}
+tr:last-child td{
+  border-bottom: none;
+}
+
+   
 .deleteCss {
   color: #e20000 !important;
 }
