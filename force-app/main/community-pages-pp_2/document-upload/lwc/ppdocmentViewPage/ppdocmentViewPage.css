@@ -120,6 +120,10 @@
   padding-left: 10px;
   padding-right: 16px;
 }
+.bordercss:last-child{
+  display:none!important;
+ }
+ 
 .dis-block {
   display: inline-grid;
 }
@@ -656,5 +660,10 @@ a,
     /* width: 300px !important; */
     width: 84%;
     margin-left: 7px;
+  }
+}
+@media screen and (orientation: portrait) and (min-width: 770px) and (max-width: 1024px) {
+  .sharetabtitlelink {
+    width: 193px;
   }
 }
