@@ -12,6 +12,7 @@ export default class PpPageAccountSettings extends LightningElement {
     isRTL = false;
     isDelegate = false;
     spinner;
+    isIpad;
 
     labels = { ERROR_MESSAGE };
 
@@ -36,6 +37,7 @@ export default class PpPageAccountSettings extends LightningElement {
     initializeData() {
         if (!communityService.isDummy()) {
             this.userMode = communityService.getUserMode();
+            this.isIpad = communityService.isIpad();
             this.isDelegate = communityService.isDelegate();
             this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
             this.isInitialized = communityService.isInitialized();
