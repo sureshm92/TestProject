@@ -825,6 +825,9 @@ export default class ppdocmentViewPage extends NavigationMixin(
   handlenewOnSelectSortMsg(event) {
     this.handleonblur();
     this.selectedsortOption = this.label.Sort_Detail_By + " "  + event.target.dataset.title;
+    this.template.querySelectorAll(".fBold").forEach(function (L) {
+      L.classList.add("fw-550");
+    });
     if (event.target.dataset.id == "titleasc") {
       this.isInitialMsg = false;
       this.firstClickMsg = true;
