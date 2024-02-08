@@ -245,7 +245,8 @@
                             >
                         </template>
                     </lightning-layout-item>
-                    <lightning-layout-item size="12" class="slds-p-horizontal_large box-container mob-box-container">
+                
+                    <lightning-layout-item size="12" class="slds-p-horizontal_large box-container slds-col_bump-left slds-m-right_medium mob-box-container">
                         <template if:true={nameList}>
                             <template for:each={nameList} for:item="n">
                                 <c-pp-people-count
@@ -257,7 +258,7 @@
                             </template>
                         </template>
                     </lightning-layout-item>
-                    
+                
                 </lightning-layout>
                 <lightning-layout class="slds-align--absolute-center"
                     ><template if:true={isMessageLoaded}>
