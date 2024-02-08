@@ -190,3 +190,24 @@
 .pointer-class {
     cursor: pointer;
 }
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+     .card-border-desktop {
+        height: auto !important;
+        
+    }
+    /*.card-element {
+        height: auto !important;
+        padding-top: 2px;
+    }*/
+    .title-section {
+        height: auto !important;
+    }
+    .date-section {
+        height: auto !important;
+    } 
+    .thumnail-img-desktop-vertical{
+        margin-left: 0%; 
+        padding: 0px 5px;
+    }
+}
