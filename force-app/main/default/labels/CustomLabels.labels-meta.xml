@@ -22397,6 +22397,48 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Sort</value>
     </labels>
     <labels>
+        <fullName>PP_Sort_Date_Asc</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort_Date_Asc</shortDescription>
+        <value>Date: First Uploaded</value>
+    </labels>
+    <labels>
+        <fullName>PP_Sort_Date_Desc</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort_Date_Desc</shortDescription>
+        <value>Date: Last Uploaded</value>
+    </labels>
+    <labels>
+        <fullName>PP_Sort_Title_Asc</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort_Title_Asc</shortDescription>
+        <value>Title: A-Z</value>
+    </labels>
+    <labels>
+        <fullName>PP_Sort_Title_Desc</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort_Title_Desc</shortDescription>
+        <value>Title: Z-A</value>
+    </labels>
+    <labels>
+        <fullName>PP_Sort_Type_Asc</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort_Type_Asc</shortDescription>
+        <value>File Type: A-Z</value>
+    </labels>
+    <labels>
+        <fullName>PP_Sort_Type_Desc</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort_Type_Desc</shortDescription>
+        <value>File Type: Z-A</value>
+    </labels>
+    <labels>
         <fullName>PP_Site_And_Location_Caps</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -32514,6 +32556,13 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Sort By</shortDescription>
         <value>Sort By</value>
+    </labels>
+    <labels>
+        <fullName>Sort_Detail_By</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sort_Detail_By</shortDescription>
+        <value>By:</value>
     </labels>
     <labels>
         <fullName>Message_Body_New_Article_Push</fullName>
