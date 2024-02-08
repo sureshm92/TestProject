@@ -73,6 +73,9 @@ a,
 .font-dropdowns {
   font-size: 14px;
 }
+.bordercss:last-child{
+  display:none!important;
+ }
 .m-grid {
   margin-top: 1rem;
   border-bottom: 1px solid #f6f7fb;

@@ -458,7 +458,7 @@
                                                     >
                                                         <td data-label="ftitle">
                                                             <div
-                                                                class="slds-truncate titleLink"
+                                                                class="slds-truncate titleLink sharetabtitlelink"
                                                                 title={b.ContentDocument.Title}
                                                                 data-id={b.Id}
                                                                 data-title={b.ContentDocument.Title}
@@ -626,7 +626,7 @@
             <!-- Uplaoded by picklist -->
             <div
                 class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large D"
-            >
+                onblur={handleonblur} tabindex="0">
                 <button
                     class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small button-content actionsList"
                     aria-haspopup="true"
@@ -634,6 +634,7 @@
                     title="Uploaded"
                     onclick={opendropdown}
                     onblur={handleonblur}
+                    tabindex="0"
                 >
                     <span class="slds-truncate w-100">{selectedmenu}</span>
                     <span>
@@ -687,7 +688,7 @@
                 <template if:false={noRecords}>
                     <div
                         class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large Sort"
-                    >
+                        onblur={handleonblur} tabindex="0">
                         <button
                             class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small sortbutton-content actionsList"
                             aria-haspopup="true"
@@ -695,9 +696,10 @@
                             title="Uploaded"
                             onclick={opendropdownSort}
                             onblur={handleonblur}
+                            tabindex="0"
                         >
                             <span class="slds-truncate w-100 fBold"
-                                >{label.Sort_By}</span
+                                >{selectedsortOption}</span
                             >
                             <span>
                                 <img src={sort} class="sortIcon" />
@@ -731,7 +733,7 @@
                                             onmousedown={handlenewOnSelectSort}
                                         >
                                             <span
-                                                class="slds-truncate drag-drop-txt"
+                                                class="slds-truncate"
                                                 title={sortopt.label}
                                                 data-title={sortopt.label}
                                                 data-id={sortopt.value}
@@ -806,6 +808,11 @@
 
                                     <!-- </span> -->
                                 </div>
+                                <div  key={b.Id}
+                                class="slds-p-left--medium slds-p-right--medium slds-m-top--large bordercss"
+                                style="width: 100%; height: 100%;  display: inline-flex">
+                                <span class="borderinnercss" style="width: 100%; height: 1px; background: #F6F7FB"></span>
+                              </div>
                             </template>
                         </template>
                     </div>
@@ -837,7 +844,7 @@
                 <template if:false={noMsgRecords}>
                     <div
                         class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large Sort"
-                    >
+                        onblur={handleonblur} tabindex="0">
                         <button
                             class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small sortbutton-content actionsList"
                             aria-haspopup="true"
@@ -845,9 +852,10 @@
                             title="Uploaded"
                             onclick={opendropdownSort}
                             onblur={handleonblur}
+                            tabindex="0"
                         >
                             <span class="slds-truncate w-100 fBold"
-                                >{label.Sort_By}</span
+                                >{selectedsortOption}</span
                             >
                             <span>
                                 <img src={sort} class="sortIcon" />
@@ -944,6 +952,11 @@
                                     </div>
                                     <!-- </span> -->
                                 </div>
+                                <div  key={b.Id}
+                                class="slds-p-left--medium slds-p-right--medium slds-p-top--large bordercss"
+                                style="width: 100%; height: 100%;  display: inline-flex">
+                                <span class="borderinnercss" style="width: 100%; height: 1px; background:#F6F7FB"></span>
+                              </div>
                             </template>
                         </template>
                     </div>
