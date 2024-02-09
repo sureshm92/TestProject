@@ -230,8 +230,14 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                             String.isNotBlank(TypeOfContactTemp) &&
                             TypeOfContactTemp.contains('Participant')
                         ) {
-                            TypeOfContactTemp = TypeOfContactTemp.remove('Participant');
-                            VisibleFor = 'Owner; Delegates';
+                            if(parPdeListofPeMap.containskey(contactIds) && parPdeListofPeMap.get(contactIds) != null && parPdeListofPeMap.get(contactIds).contains(whatId)){
+                                VisibleFor = 'Owner; Delegates';
+                            }
+                            else{
+                                TypeOfContactTemp = TypeOfContactTemp.remove('Participant');
+                                system.debug('TypeOfContactTemp:::'+TypeOfContactTemp);
+                                VisibleFor = 'Owner';
+                            }
                         } else if (
                             String.isNotBlank(TypeOfContactTemp) &&
                             TypeOfContactTemp.contains('Delegate')

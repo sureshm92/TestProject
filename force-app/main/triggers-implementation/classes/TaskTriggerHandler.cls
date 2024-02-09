@@ -365,20 +365,6 @@ public without sharing class TaskTriggerHandler {
                                         ));
                                 }
                             }        
-                            else if (delegates != null && !delegates.isEmpty()) {
-                                for (Contact delContact : delegates) {
-                                    notifications.add(
-                                        new Notification__c(
-                                            Recipient__c = delContact.Id,
-                                            WhatId__c = task.Id,
-                                            IsDelegate__c = true,
-                                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ACTIVATE_ECOA_TASK_INSTANT_TYPE,
-                                            StartDate__c = task.Start_Date__c,
-                                            RemindUsing__c = 'Email'
-                                        )
-                                    );
-                                }
-                            }
                         }
                     //End
                 }
@@ -419,21 +405,6 @@ public without sharing class TaskTriggerHandler {
                                         StartDate__c = task.Start_Date__c,
                                         RemindUsing__c = 'Email'
                                     ));
-                            }
-                        }        
-                        else if (delegates != null && !delegates.isEmpty()) {
-                            for (Contact delContact : delegates) {
-                                notifications.add(
-                                    new Notification__c(
-                                        Recipient__c = delContact.Id,
-                                        IsDelegate__c = true,
-                                        Task_Id__c = task.Id,
-                                        WhatId__c = task.Id,
-                                        Notification_Type__c = 'Message_To_PT_Ecoa_Task_Instant_Del_Type',
-                                        StartDate__c = task.Start_Date__c,
-                                        RemindUsing__c = 'Email'
-                                    )
-                                );
                             }
                         }
                 }
