@@ -3,6 +3,7 @@ import getTrialDetail from '@salesforce/apex/StudyDetailViewController.getTrialD
 import gettelevisitData from '@salesforce/apex/StudyDetailViewController.gettelevisitData';
 import menuDesktop from './ppCommunityNavigation.html';
 import menuMobile from './ppCommunityNavigationMobile.html';
+import menuTablet from './ppCommunityNavigationTab.html';
 import navigationHelp from '@salesforce/label/c.Navigation_Help';
 import navigationHome from '@salesforce/label/c.Navigation_Home';
 import navigationMyStudy from '@salesforce/label/c.Navigation_My_Study';
@@ -30,6 +31,8 @@ export default class PpCommunityNavigation extends LightningElement {
     @api isRTL;
     @api showSideMenu;
     @track participantTabs = [];
+    @track participantTabsOne = [];
+    @track participantTabsTwo = [];
     currentPageName;
     navDivider = desktopLogos + '/Nav_Tab_Divider.svg';
     allPagesMap = [];
@@ -38,6 +41,7 @@ export default class PpCommunityNavigation extends LightningElement {
     baseLink;
     showVisits = false;
     showResults = false;
+    showMore = false;
     showAboutProgram = false;
     showAboutStudy = false;
     showEdaries = false;
@@ -50,6 +54,21 @@ export default class PpCommunityNavigation extends LightningElement {
     hasRendered = false;
     shouldDisplayFilesTab = false;
     shouldDisplayPastStudyTab = false;
+    @track isTablet;
+    iosString;
+    @track iosString2;
+    msgs;
+    count = 0;
+    connectedCallback() {
+        window.addEventListener('orientationchange', this.onOrientationChange);
+    }
+    onOrientationChange = () => {
+        this.participantTabs = [];
+        this.participantTabsOne = [];
+        this.participantTabsTwo = [];
+        this.isTabletMenu();
+        this.populateNavigationItems();
+    };
     renderedCallback() {
         if (!this.hasRendered) {
             this.hasRendered = true;
@@ -58,8 +77,32 @@ export default class PpCommunityNavigation extends LightningElement {
             DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
         }
     }
+    isTabletMenu() {
+        let orientation = screen.orientation.type;
+        let portrait = true;
+        if (orientation === 'landscape-primary') {
+            portrait = false;
+        }
+        if (window.innerWidth >= 768 && window.innerWidth < 1279 && portrait) {
+            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                this.isTablet = true;
+                return true;
+            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                this.isTablet = true;
+                return true;
+            }
+        } else {
+            this.isTablet = false;
+        }
+        return false;
+    }
     //template toggle
     render() {
+        this.count = this.count += 1;
+        this.iosString2 = this.isTabletMenu();
+        if (this.isTablet) {
+            return menuTablet;
+        }
         return DEVICE == 'Large' ? menuDesktop : menuMobile;
     }
     @api
@@ -69,6 +112,9 @@ export default class PpCommunityNavigation extends LightningElement {
             mobileDiv.classList.add('slds-hide');
         }
         this.showSubMenu = false;
+    }
+    get handleDynamicCSS() {
+        return 'font-size: 50px;color: #FFFFFF;';
     }
     @api
     handleClick() {
@@ -93,6 +139,16 @@ export default class PpCommunityNavigation extends LightningElement {
             this.communityServic.navigateToPage(event.currentTarget.dataset.pagename);
         }
         let element = this.template.querySelector('.my-submenuopen');
+        if (element) {
+            element.classList.remove('block-submenu-onblur');
+            this.removeElementFocus();
+        }
+    }
+    handleNavigationMoreButton(event) {
+        if (event.currentTarget.dataset.pagename) {
+            this.communityServic.navigateToPage(event.currentTarget.dataset.pagename);
+        }
+        let element = this.template.querySelector('.my-submenuopenone');
         if (element) {
             element.classList.remove('block-submenu-onblur');
             this.removeElementFocus();
@@ -136,7 +192,9 @@ export default class PpCommunityNavigation extends LightningElement {
                             );
                             this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
                             this.showAboutStudy = !this.showAboutProgram;
-                            this.showEdaries = td.perInTrail && td.pe?.Clinical_Trial_Profile__r?.ECOA_Is_Avaialble__c;
+                            this.showEdaries =
+                                td.perInTrail &&
+                                td.pe?.Clinical_Trial_Profile__r?.ECOA_Is_Avaialble__c;
                             if (this.showAboutStudy) {
                                 this.setVisResultsAvailable();
                             }
@@ -286,7 +344,33 @@ export default class PpCommunityNavigation extends LightningElement {
                 parentMenu: this.showAboutProgram ? navigationMyProgram : navigationMyStudy
             }
         };
-
+        this.allPagesSubMenuTwo = {
+            resources: {
+                page: 'resources',
+                label: navigationResources,
+                icon: 'folder_study',
+                visible: true
+            },
+            'trial-match': {
+                page: 'trial-match',
+                label: trailMatch,
+                icon: 'trial-match-mob',
+                visible: true
+            },
+            messages: {
+                page: 'messages',
+                label: navigationMessages,
+                icon: '',
+                visible: true
+            },
+            help: {
+                page: 'help',
+                label: navigationHelp,
+                icon: '',
+                visible: true
+            }
+        };
+        this.isTabletMenu();
         this.participantTabs.push(this.allPagesMap['participant-home']);
         if (this.communityServic.getCurrentCommunityMode().currentPE) {
             this.participantTabs.push(this.allPagesMap['my-study']);
@@ -319,6 +403,14 @@ export default class PpCommunityNavigation extends LightningElement {
             }
         }
         this.participantTabs.push(this.allPagesMap['help']);
+        const i = this.participantTabs.findIndex((e) => e.page === 'messages');
+        if (i > -1 && this.isTablet) {
+            this.msgs = this.participantTabs[i];
+            this.participantTabs[i] = this.participantTabs[2];
+            this.participantTabs[2] = this.msgs;
+        }
+        this.participantTabsOne = this.participantTabs.slice(0, 3);
+        this.participantTabsTwo = this.participantTabs.slice(3, this.participantTabs.length);
         this.submenu = Object.keys(this.allPagesSubMenu).map((key) => ({
             key: key,
             ...this.allPagesSubMenu[key]
@@ -398,11 +490,35 @@ export default class PpCommunityNavigation extends LightningElement {
         element.classList.toggle('slds-is-open', !isOpen);
         event.stopPropagation();
     }
+    dropdownMenuTwo(event) {
+        this.newVar = !this.newVar;
+        var element = this.template.querySelector('.my-menuOne');
+        var headerMenu = element.getAttribute('data-key');
+        var subMenu = Object.keys(this.allPagesSubMenuTwo).map((key) => ({
+            key: key,
+            ...this.allPagesSubMenuTwo[key]
+        }));
+        //filtering submenu based on parentmenu clicked
+        this.submenu = subMenu.filter((subItem) => subItem.parentMenu == headerMenu);
+        if (this.submenu && DEVICE != 'Large') {
+            this.showSubMenu = !this.showSubMenu;
+        }
+        var isOpen = element.classList.contains('slds-is-open');
+        //dropdown toggle->adds class if second param true and remove if false
+        element.classList.toggle('slds-is-open', !isOpen);
+        event.stopPropagation();
+    }
     handleOnMouseOver(event) {
         this.template.querySelector('.my-submenuopen').classList.add('block-submenu-onblur');
     }
     handleOnMouseLeave(event) {
         this.template.querySelector('.my-submenuopen').classList.remove('block-submenu-onblur');
+    }
+    handleOnMouseOverOne(event) {
+        this.template.querySelector('.my-submenuopenone').classList.add('block-submenu-onblur');
+    }
+    handleOnMouseLeaveOne(event) {
+        this.template.querySelector('.my-submenuopenone').classList.remove('block-submenu-onblur');
     }
     //on removing focus from dropdown
     removeElementFocus(event) {

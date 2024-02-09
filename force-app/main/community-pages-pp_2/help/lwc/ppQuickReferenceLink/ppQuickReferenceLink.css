@@ -33,7 +33,7 @@
 
 .custom-btn {
     box-sizing: border-box;
-    height: 48px;
+    min-height: 48px;
     width: 382px;
     border: 1px solid #d9d9d9;
     background-color: #ffffff;
