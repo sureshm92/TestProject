@@ -8,7 +8,7 @@ public with sharing class ManualTaskRemote {
         try {
             system.debug('******filterLINE8>>'+taskConfig);
             //Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig,filter.IdTypeOfContactMap);
-            Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig, ManualTaskFilter.IdTypeOfContactMap,filter.isPlatformLevel);
+            Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig, ManualTaskFilter.IdTypeOfContactMap,filter.parPdeListofPeMap,filter.isPlatformLevel);
             //return '';
             return 'true';
         } catch (Exception e) {
