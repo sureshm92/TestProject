@@ -267,7 +267,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                             resourceType: this.resourceType
                         })
                             .then((result) => {
-                                console.log('result '+JSON.stringify(result));
                                 let resourceData = result.wrappers[0].resource;
                                 this.resUploadDate = this.resourceForPostingDate.includes(
                                     this.resourceType
