@@ -2310,3 +2310,7 @@ user agent stylesheet svg:not(:root) {
 .quick-reference-toast .slds-notify__content_mobile {
     color: black !important;
 }
+.past-results .custom-notify-container-mobile{
+    left: 0;
+    top: 33px !important;
+}

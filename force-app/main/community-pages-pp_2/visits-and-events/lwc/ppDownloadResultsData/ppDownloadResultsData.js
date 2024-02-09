@@ -5,6 +5,7 @@ import Open_In_New_Tab_PP from '@salesforce/label/c.Open_In_New_Tab_PP';
 import myResults from '@salesforce/label/c.Visit_Results_Dashboard_My_Results';
 import Download_In_Progress_PP from '@salesforce/label/c.Download_In_Progress_PP';
 import Visit_Results_Disclaimer_Past_Studies from '@salesforce/label/c.Visit_Results_Disclaimer_Past_Studies';
+import generateVisitResult from '@salesforce/apex/ppPastStudiesTabUtility.generateVisitResult';
 import getBase64fromVisitSummaryReportPage_Modified from '@salesforce/apex/ModifiedVisitReportContainerRemote.getBase64fromVisitSummaryReportPage_Modified';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import mobileTemplate from './ppDownloadResultsDataMobile.html';
@@ -127,18 +128,7 @@ export default class PpDownloadResultsData extends LightningElement {
                 : this.template.querySelectorAll('.download-report');
         }
         if (communityService.isMobileSDK()) {
-            getBase64fromVisitSummaryReportPage_Modified({
-                peId: this.peId,
-                isRTL: this.isRTL,
-                patientVisitNam: this.patientVisitNam,
-                patientVisId: this.patientVisitId
-            })
-                .then((returnValue) => {
-                    communityService.navigateToPage('mobile-pdf-viewer?pdfData=' + returnValue);
-                })
-                .catch((error) => {
-                    console.error('Error occured during report generation', error.message, 'error');
-                });
+            this.downloadResult();            
         } else {
             if (this.patientVisitId != null) {
                 let url =
@@ -193,5 +183,28 @@ export default class PpDownloadResultsData extends LightningElement {
     removeElementFocus() {
         let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
         ddMenu.classList.remove('active');
+    }
+    downloadInProgress =false;
+    downloadResult(){
+        var pvName = this.patientVisitNam;
+        if(!this.patientVisitNam){
+            pvName = 'undefined';
+        }
+        if(!this.downloadInProgress){
+            this.downloadInProgress = true;
+            generateVisitResult({
+                peId: this.peId,
+                isRTL: this.isRTL,
+                patientVisitNam: pvName,
+                patientVisId: this.patientVisitId
+            })
+            .then((result) => {
+                window.open('../sfc/servlet.shepherd/version/download/' + result);
+                this.downloadInProgress = false;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
     }
 }
