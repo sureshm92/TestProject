@@ -3,7 +3,7 @@
 }
 
 .po-custom-card {
-    height: 123px;
+    height: auto;
     border-radius: 16px;
     background-color: #fff;
     border: 1px solid #e9e9e9;

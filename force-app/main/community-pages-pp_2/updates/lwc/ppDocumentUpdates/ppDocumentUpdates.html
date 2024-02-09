@@ -1,6 +1,6 @@
 <template>
     <template if:false={desktop}>
-        <div if:false={hideCmp} class="slds-grid slds-wrap card-border" onclick={navigateResourceDetail}>
+        <div class="slds-grid slds-wrap card-border" onclick={navigateResourceDetail}>
             <div class={cardElement}>
                 <div class="slds-align_absolute-center icon-container">
                     <div
@@ -41,12 +41,7 @@
                         </p>
                     </div>
                 </div>
-                <div if:true={isAppDoc} class="slds-grid">
-                    <a class="view-resource-label-vertical">{label.DOWNLOAD_RESOURCE} </a>
-                </div>
-                <div if:false={isAppDoc} class="slds-grid">
                     <a class="view-resource-label-vertical"> {label.VIEW_RESOURCE} </a>
-                </div>
             </div>
         </div>
     </template>
@@ -79,8 +74,8 @@
                             {documentData.title}
                         </p>
                     </div>
-                    <div class="slds-grid date-section">
-                        <div class="slds-col slds-size_11-of-12">
+                    <div class="slds-grid slds-wrap date-section">
+                        <!-- <div class="slds-col slds-size_11-of-12"> -->
                             <p class="date">
                                 {label.versionDate}&nbsp;
                                 <lightning-formatted-date-time
@@ -90,9 +85,9 @@
                                     day="2-digit"
                                 ></lightning-formatted-date-time>
                             </p>
-                        </div>
+                        <!--</div>-->
                     </div>
-                    <div class="slds-grid">
+                    <div class="slds-grid slds-wrap">
                         <a class="view-resource-label-vertical"> {label.VIEW_RESOURCE} </a>
                     </div>
                 </div>
