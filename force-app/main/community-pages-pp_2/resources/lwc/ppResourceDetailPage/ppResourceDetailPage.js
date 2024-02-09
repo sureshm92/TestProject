@@ -144,7 +144,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         this.showHomePage = urlParams.get('showHomePage');
         this.pe = urlParams.get('pe');
         this.paststudyname = urlParams.get('studyname');
-        //this.docId = urlParams.get('docId');
         this.publishResourceType(true);
 
         // Logic for portrait mode and landscape mode - hide content in case of mediaContent is true
