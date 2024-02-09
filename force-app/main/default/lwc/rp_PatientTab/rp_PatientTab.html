@@ -230,7 +230,7 @@
             <div key={pe.peRecord.Id} style="margin-top: 10px;">
                 <c-consent-manager isaccesslevelthree={isaccesslevelthree} onconsentchange={handleConsentUpdate}
                     call-source="NotReferParticipantTab" pe-updation="true" participant-enrollment={pe.peRecord}
-                    participant-country={pe.peRecord.Mailing_Country_Code__c}  is-study-consent-required="true">
+                    participant-country={pe.peRecord.Mailing_Country_Code__c}  is-study-consent-required="true" consentpref={consentpref}>
                 </c-consent-manager>
             </div>
             </template>
