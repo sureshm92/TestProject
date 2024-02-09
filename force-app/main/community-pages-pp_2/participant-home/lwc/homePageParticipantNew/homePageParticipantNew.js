@@ -502,10 +502,4 @@ export default class HomePageParticipantNew extends LightningElement {
         this.progressBarLayoutClass = 'slds-hide';
     }
 
-    handleDecrimentCount(event) {
-        this.counterLabel  = event.detail;
-        if (event.detail <= 0) {
-            this.displayCounter = false;
-    }
-    }
 }
