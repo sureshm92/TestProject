@@ -597,14 +597,14 @@ private class Test_MyTeamRemote {
             c.FirstName = 'dummy';
             c.LastName = 'd';
             c.Email = 'lol@l.com';
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c));
+            MyTeamRemote.doSavePatientDelegate(JSON.serialize(c));
             Contact c2 = [
                 SELECT Id, FirstName, LastName, EMail
                 FROM Contact
                 WHERE Email = 'lol@l.com'
                 LIMIT 1
             ];
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c2));
+            MyTeamRemote.doSavePatientDelegate(JSON.serialize(c2));
         }
 
         Test.stopTest();
@@ -621,7 +621,7 @@ private class Test_MyTeamRemote {
             c.FirstName = 'dummy';
             c.LastName = 'd';
             c.Email = 'lol@l.com';
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c));
+            MyTeamRemote.doSavePatientDelegate(JSON.serialize(c));
 
             Contact c2 = [
                 SELECT Id, FirstName, LastName, EMail

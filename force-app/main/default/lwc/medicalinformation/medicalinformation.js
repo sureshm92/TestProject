@@ -59,6 +59,11 @@ import PIR_Save_Changes from '@salesforce/label/c.PIR_Save_Changes';
 import PIR_Unsaved_Changes from '@salesforce/label/c.PIR_Unsaved_Changes';
 import BTN_Save from '@salesforce/label/c.BTN_Save';
 import PIR_Discard from '@salesforce/label/c.PIR_Discard';
+import PP_Sort_Title_Desc from "@salesforce/label/c.PP_Sort_Title_Desc";
+import PP_Sort_Title_Asc from "@salesforce/label/c.PP_Sort_Title_Asc";
+import PP_Sort_Date_Desc from "@salesforce/label/c.PP_Sort_Date_Desc";
+import PP_Sort_Date_Asc from "@salesforce/label/c.PP_Sort_Date_Asc";
+import Sort_Detail_By from "@salesforce/label/c.Sort_Detail_By";
 
 import LOCALE from "@salesforce/i18n/locale";
 
@@ -67,6 +72,8 @@ export default class Medicalinformation extends LightningElement {
   download = pirResources + "/pirResources/icons/download.svg";
   deleteIcon = pirResources + "/pirResources/icons/trash-delete.svg";
   sort = pp_icons + "/" + "sort.svg";
+  threedots_imgUrl = pp_icons + '/' + 'three_dots.png';
+  threedots_vertical_imgUrl = pirResources + "/pirResources/icons/three_dots_vertical.svg";
 
   label = {
     High_Risk,
@@ -113,7 +120,12 @@ export default class Medicalinformation extends LightningElement {
     PIR_Save_Changes,
     PIR_Unsaved_Changes,
     BTN_Save,
-    PIR_Discard
+    PIR_Discard,
+    PP_Sort_Title_Desc,
+    PP_Sort_Title_Asc,
+    PP_Sort_Date_Desc,
+    PP_Sort_Date_Asc,
+    Sort_Detail_By
   };
 
   ampm = false;
@@ -190,10 +202,10 @@ export default class Medicalinformation extends LightningElement {
 
   get optionsSort() {
     return [
-      { label: "Title: A-Z", value: "titleasc" },
-      { label: "Title: Z-A", value: "titledesc" },
-      { label: "Date: Last Uploaded", value: "datedesc" },
-      { label: "Date: First Uploaded", value: "dateasc" }
+      { label: this.label.PP_Sort_Title_Asc, value: "titleasc" },
+      { label:this.label.PP_Sort_Title_Desc, value: "titledesc" },
+      { label: this.label.PP_Sort_Date_Desc, value: "datedesc" },
+      { label: this.label.PP_Sort_Date_Asc, value: "dateasc" }
     ];
   }
 
@@ -223,7 +235,7 @@ export default class Medicalinformation extends LightningElement {
 
   handlenewOnSelectSort(event) {
     this.handleonblur();
-    this.selectedsortOption = "By: " + event.target.dataset.title;
+    this.selectedsortOption = this.label.Sort_Detail_By + " " + event.target.dataset.title;
     this.template.querySelectorAll(".fBold").forEach(function (L) {
       L.classList.add("fw-550");
     });

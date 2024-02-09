@@ -231,7 +231,7 @@
                                 <tbody>
                                   <template for:each={medicalHistoryRecord.attachments} for:item="attach"
                                     for:index="index">
-                                    <tr class="slds-hint-parent" key={attach.attachment.Id}>
+                                    <tr class="slds-hint-parent bordercss" key={attach.attachment.Id}>
                                       <td scope="row">
                                         <div class="slds-truncate">
                                           <template lwc:if={attach.isNameReadOnly}>
@@ -277,12 +277,12 @@
                                           <div class="slds-dropdown-trigger actiondiv slds-dropdown-trigger_click D"
                                             data-popup={attach.attachment.Id} onclick={showTaskActionMenu} tabindex="0"
                                             data-id={attach.attachment.Id} onblur={closeActionMenu}>
-                                            <div aria-haspopup="true" aria-expanded="true" tabindex="0" onblur={closeActionMenu}>
-                                              <lightning-icon icon-name="utility:threedots_vertical" size="xx-small">
-                                              </lightning-icon>
+                                            <div aria-haspopup="true" aria-expanded="true" 
+                                            tabindex="0" onblur={closeActionMenu}>
+                                              <img src={threedots_imgUrl} class="image-result" />
                                             </div>
-                                            <div class="slds-dropdown slds-dropdown_right task-action-menu"
-                                              tabindex="0"  >
+                                            <div class="slds-dropdown slds-dropdown_right task-action-menu" tabindex="0"
+                                            onblur={closeActionMenu} >
                                               <ul class="slds-dropdown__list" role="menu">
                                                 <li class="slds-dropdown__item   popup-default "
                                                 role="presentation">
@@ -335,14 +335,14 @@
                           </div>
                         </template>
                         <template if:true={isMobile}>
-                          <div class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 
+                          <div class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 sortdropdown
                                 slds-col slds-size_1-of-1  Sort
                               ">
                             <button
-                              class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small sortbutton-content actionsList"
+                              class="slds-button slds-button_icon slds-button_icon-border-filled w-100 sortdropdown btn-shadow slds-p-left_x-small slds-p-right_x-small sortbutton-content actionsList"
                               aria-haspopup="true" aria-expanded="true" onclick={opendropdownSort}
                               onblur={handleonblur}>
-                              <span class="slds-truncate w-100 fBold">{selectedsortOption}</span>
+                              <span class="slds-truncate w-100 sortdropdown fBold">{selectedsortOption}</span>
                               <span>
                                 <img src={sort} class="sortIcon" />
                               </span>
@@ -387,7 +387,7 @@
                                               onblur={validateandsaveFileName} data-id={it.value.attachment.Id}>
                                             </lightning-input>
                                             <span if:true={it.value.hasNameError}
-                                              class="errorFileNameEmptyMob">{FileErrorMessage}
+                                              class="errorFileNameEmptyMob">{it.value.FileErrorMsg}
                                             </span>
                                           </lightning-layout-item>
                                         </lightning-layout>
@@ -410,16 +410,15 @@
                                         </lightning-layout-item>
                                         <lightning-layout-item size="4"
                                           class="alignright slds-align-middle slds-m-bottom_small">
-                                          <div class="slds-dropdown-trigger actiondiv slds-dropdown-trigger_click D"
+                                          <div class="slds-dropdown-trigger actiondiv verticaldotsmob slds-dropdown-trigger_click D"
                                             data-popup={it.value.attachment.Id} onclick={showTaskActionMenu}
                                             tabindex="0" data-id={it.value.attachment.Id} onblur={closeActionMenu}>
-                                            <div aria-haspopup="true"  onblur={closeActionMenu} aria-expanded="true" tabindex="0">
-                                              <lightning-icon icon-name="utility:threedots" size="xx-small">
-                                              </lightning-icon>
+                                            <div aria-haspopup="true"  aria-expanded="true" tabindex="0" onblur={closeActionMenu}> 
+                                              <img src={threedots_vertical_imgUrl} class="image-resultmob" />
                                             </div>
-                                            <div class="slds-dropdown slds-dropdown_right task-action-menu-mob"
-                                              tabindex="0">
-                                              <ul class="slds-dropdown__list" role="menu">
+                                            <div class="slds-dropdown slds-dropdown_right task-action-menu-mob" 
+                                            tabindex="0" onblur={closeActionMenu}>
+                                              <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
                                                 
                                                 <li class="slds-dropdown__item   popup-default alignl "
                                                 role="presentation">
@@ -482,7 +481,7 @@
                                               onblur={validateandsaveFileName} data-id={it.value.attachment.Id}>
                                             </lightning-input>
                                             <span if:true={it.value.hasNameError}
-                                              class="errorFileNameEmptyMob">{FileErrorMessage}
+                                              class="errorFileNameEmptyMob">{it.value.FileErrorMsg}
                                             </span>
                                           </lightning-layout-item>
                                         </lightning-layout>
@@ -530,7 +529,7 @@
                                               onblur={validateandsaveFileName} data-id={it.value.attachment.Id}>
                                             </lightning-input>
                                             <span if:true={it.value.hasNameError}
-                                              class="errorFileNameEmptyMob">{FileErrorMessage}
+                                              class="errorFileNameEmptyMob">{it.value.FileErrorMsg}
                                             </span>
                                           </lightning-layout-item>
                                         </lightning-layout>
@@ -545,15 +544,14 @@
                                         </lightning-layout-item>
                                         <lightning-layout-item size="4"
                                           class="alignright slds-align-middle slds-m-bottom_small">
-                                          <div class="slds-dropdown-trigger actiondiv slds-dropdown-trigger_click D"
+                                          <div class="slds-dropdown-trigger actiondiv verticaldotsmob  slds-dropdown-trigger_click D"
                                             data-popup={it.value.attachment.Id} onclick={showTaskActionMenu}
                                             tabindex="0" data-id={it.value.attachment.Id} onblur={closeActionMenu}>
-                                            <div aria-haspopup="true" aria-expanded="true" tabindex="0"  onblur={closeActionMenu}>
-                                              <lightning-icon icon-name="utility:threedots" size="xx-small">
-                                              </lightning-icon>
+                                            <div aria-haspopup="true" aria-expanded="true" tabindex="0" onblur={closeActionMenu} >
+                                              <img src={threedots_vertical_imgUrl} class="image-resultmob" />
                                             </div>
                                             <div class="slds-dropdown slds-dropdown_right task-action-menu-mob"
-                                              tabindex="0">
+                                            tabindex="0" onblur={closeActionMenu} >
                                               <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
                                                
                                                 <li class="slds-dropdown__item   popup-default alignl "
@@ -616,7 +614,7 @@
                                               onblur={validateandsaveFileName} data-id={it.value.attachment.Id}>
                                             </lightning-input>
                                             <span if:true={it.value.hasNameError}
-                                              class="errorFileNameEmptyMob">{FileErrorMessage}
+                                              class="errorFileNameEmptyMob">{it.value.FileErrorMsg}
                                             </span>
                                           </lightning-layout-item>
                                         </lightning-layout>
@@ -674,14 +672,15 @@
                                   </lightning-icon>
                                 </button>
                               </div>
-                              <div class="slds-modal__content slds-p-around--small slds-grid slds-wrap">
+                              <div class="slds-modal__content slds-p-around--small slds-grid_vertical ">
                                 <!--  Write Your Content here  -->
-                                <div class="slds-align_absolute-center">
+                                <div class=" slds-align_absolute-center">
                                   <span>
                                     <iframe style="
                                     min-width: 57vw;
                                     height: 400px;
                                     z-index: -999;
+                                    overflow: scroll;
                                   " src={openfileUrl} frameborder="0">
                                     </iframe>
                                   </span>
