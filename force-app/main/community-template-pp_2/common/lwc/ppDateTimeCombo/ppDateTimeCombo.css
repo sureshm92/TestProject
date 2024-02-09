@@ -38,6 +38,7 @@
     .curve-input input[type='date'] {
         padding-left: 0px;
     }
+}
 .curve-input .svg-icon {
     position: absolute;
     top: 45%;
@@ -113,10 +114,10 @@ input[type='date']::-webkit-calendar-picker-indicator,
         margin-bottom: 1rem;
         padding-left: 0;
     }
-    .curve-input input[type='date'] {        
+    .curve-input input[type='date'] {
         width: 448px;
     }
-    
+
     .slds-grid-visit {
         margin-bottom: unset;
     }
