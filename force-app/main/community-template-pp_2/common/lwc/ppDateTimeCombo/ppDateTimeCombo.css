@@ -29,16 +29,6 @@
     border: 1px solid #d9d9d9;
     background-color: #f2f2f2;
 }
-@media all and (min-width: 768px) and (max-width: 1279px) and (orientation: portrait) {
-    .curve-input input[type='date'] {
-        padding-left: 0px;
-    }
-}
-@media all and (min-width: 768px) and (max-width: 1279px) and (orientation: landscape) {
-    .curve-input input[type='date'] {
-        padding-left: 0px;
-    }
-}
 .curve-input .svg-icon {
     position: absolute;
     top: 45%;
@@ -138,5 +128,15 @@ input[type='date']::-webkit-calendar-picker-indicator,
 @media all and (min-width: 768px) and (max-width: 1366px) {
     .time-curve-input {
         height: 2.1rem !important;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1279px) and (orientation: portrait) {
+    .curve-input input[type='date'] {
+        padding-left: 0px;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1279px) and (orientation: landscape) {
+    .curve-input input[type='date'] {
+        padding-left: 0px;
     }
 }
