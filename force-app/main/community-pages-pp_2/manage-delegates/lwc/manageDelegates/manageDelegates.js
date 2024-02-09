@@ -87,6 +87,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     dataInitialized = false;
     isEmailConsentChecked = false;
     isTablet=false;
+    isLandscape = false;
     label = {
         BTN_Add_New_Delegate,
         PP_ManageDelegates,
@@ -129,8 +130,12 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         }
         this.initializeData();
         this.subscribeToMessageChannel();
+        window.addEventListener('orientationchange', this.onOrientationChange);
     }
-
+    onOrientationChange = () => {
+        this.isIpadLandscape();
+        this.isTabletMenu();
+    };
     render() {
         //return this.isDesktop ? manageDelegatesDesktop : manageDelegatesMobile;
         return formFactor === 'Large' ? largeTemplate:mobileTemplate;
@@ -139,6 +144,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     initializeData() {
         this.spinner = true;
         this.isTabletMenu();
+        this.isIpadLandscape();
         //get Available list of studies of participant
         getFilterData({
             userMode: this.userMode
@@ -318,7 +324,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         return this.isTablet ? '6' : '8';
     }
     get studyPicklistGridSize(){
-        return this.isTablet ? '8' : '10';
+        return this.isTablet ? '8' : (this.isLandscape? '9' : '10');
     }
     get addAssignmentGridSize(){
         return this.isTablet ? '6' : '4';
@@ -853,6 +859,24 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
         } else {
             this.isTablet = false;
         }
+        return false;
+    }
+    isIpadLandscape() {
+        let orientation = screen.orientation.type;
+        let landscape = false;
+        if (orientation === 'landscape-primary') {
+            landscape = true;
+        }
+        if (window.innerWidth >= 768 && window.innerWidth < 1279 && landscape) {
+            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                this.isLandscape = true;
+                return true;
+            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                this.isLandscape = true;
+                return true;
+            }
+        }
+        this.isLandscape = false;
         return false;
     }
 }
