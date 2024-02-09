@@ -112,6 +112,8 @@ public without sharing class RPRecordReviewLogController {
         public List<LabelValueItem> altDelPhoneTypeList = SObjectHelper.getPicklistLabelValueList(Participant_Enrollment__c.Primary_Delegate_s_Alt_Phone_Type__c);
         @AuraEnabled 
         public String backendSelectedSite;
+        @AuraEnabled 
+        public Restricted_Source_Config__c restrictedRecrds;
         
         public peProfileSection(Participant_Enrollment__c peRecord,String createdDateFormat) {
             this.peRecord = peRecord;
@@ -131,14 +133,15 @@ public without sharing class RPRecordReviewLogController {
                                                       Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,Participant_Status__c,Primary_Delegate_s_Alt_Phone__c,Primary_Delegate_s_Alt_Phone_Type__c,
                                                       RP_Site_Selected__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c,HCP__c,Delegate_Consent__c,Delegate_SMS_Consent__c,
                                                       Permit_SMS_Text_for_this_study__c,Permit_Voice_Text_contact_for_this_study__c,Permit_Mail_Email_contact_for_this_study__c, Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c,Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c,
-                                                      Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c,Outreach_Email_Status__c,
+                                                      Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c,Outreach_Email_Status__c,DataControllerOrg__c,Referral_Source__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.PPTemplate__c,
                                                       Participant__c,Participant__r.Mailing_Country_Code__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Participant_Contact__c,Participant_Contact__r.Participant_Opt_In_Status_Emails__c,Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
                                                       Participant_Contact__r.Participant_Opt_In_Status_SMS__c ,Participant_Opt_In_Status_Emails__c,Participant_Opt_In_Status_SMS__c,Participant_Phone_Opt_In_Permit_Phone__c,
                                                       IQVIA_Direct_Mail_Consent__c,IQVIA_Contact_info_storage_consent__c
                                                       from Participant_Enrollment__c where Id =: peId];
             
             String isAdult = '';
-            
+            List<Restricted_Source_Config__c> restrictedRecrd = new List<Restricted_Source_Config__c>();
+            restrictedRecrd = [SELECT Id,Study__c,Study__r.IQVIA_Outreach__c,Referral_Resource__c FROM Restricted_Source_Config__c WHERE Study__c =: peList[0].Clinical_Trial_Profile__c limit 1];
             for (Participant_Enrollment__c pe : peList) {
                 
                     String createdDateString = dateFormatChangeForCreatedDate(pe.CreatedDate);
@@ -187,6 +190,11 @@ public without sharing class RPRecordReviewLogController {
             peProfileSectionWrapperList[0].accessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);
             peProfileSectionWrapperList[0].mrrScreener = getMRRSurvey(peList[0].Clinical_Trial_Profile__c);
             peProfileSectionWrapperList[0] = getScreenerResponse(peId, peProfileSectionWrapperList[0]);
+            if(restrictedRecrd!=null && !restrictedRecrd.isEmpty()){
+                peProfileSectionWrapperList[0].restrictedRecrds=restrictedRecrd[0];
+            }else{
+                peProfileSectionWrapperList[0].restrictedRecrds=null;
+            }
             return peProfileSectionWrapperList;
         } 
         catch (Exception e) {
