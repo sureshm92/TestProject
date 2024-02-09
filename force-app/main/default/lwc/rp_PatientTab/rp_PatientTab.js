@@ -80,7 +80,7 @@ export default class Rp_PatientTab extends LightningElement {
     @api isMinor = false;
     @api isaccesslevelthree = false;
     issavesuccess = true;
-
+    @api consentpref;
     @api
     get patientrecordlist() {
         return this.patientrecord;
