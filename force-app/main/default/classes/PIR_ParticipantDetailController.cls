@@ -127,7 +127,7 @@ public without sharing class PIR_ParticipantDetailController {
                         }
                 }
                 else{
-                  pdw.consentPref =  true;
+                  pdw.consentPref =  false;
                   } //non-restricted
                 }
             }
