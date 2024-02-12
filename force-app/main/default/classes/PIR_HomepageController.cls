@@ -2827,8 +2827,9 @@ public without sharing class PIR_HomepageController {
           result.visitPlansLVList =StudySiteService.getVisitPlansLVList(studySiteId);
           result.objStudySite = sites[0];
         }
-        
-        result.consentPref = ConsentManagerController.getConsentPreferences('ImportPart',studySiteId).consentPref;
+        if(studySiteId!=null){
+           result.consentPref = ConsentManagerController.getConsentPreferences('ImportPart',studySiteId).consentPref;
+        }
         return result;
     }
 
