@@ -39,3 +39,16 @@
         bottom: 0px !important;
     }
 }
+.new-message-tab {
+    position: relative;
+    bottom: -1px !important;
+    position: relative;
+    bottom: 2px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+}
+.new-msg-outer-tab {
+    margin: 0.2rem 0 0 0.8rem !important;
+    
+}
