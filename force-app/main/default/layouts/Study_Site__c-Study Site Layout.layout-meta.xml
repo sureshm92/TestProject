@@ -104,7 +104,7 @@
                 <field>Study_Site_Type__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Site_Activation_Status__c</field>
             </layoutItems>
             <layoutItems>
