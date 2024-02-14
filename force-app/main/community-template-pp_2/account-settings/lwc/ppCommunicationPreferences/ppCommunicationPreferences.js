@@ -208,7 +208,6 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         let showIQIVAOutreachConsentFlag = false;
         getConsentPreferences({ contactIdslst: contactIds })
         .then((result) => {
-            console.log('result::'+JSON.stringify(result));
             Object.keys(result).forEach(key => {
                 if(key === contactId){
                     showIQIVAOutreachConsentFlag = result[key];
