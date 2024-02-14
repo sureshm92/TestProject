@@ -5,8 +5,6 @@ public without sharing class Batch_TelevisitReminder extends Batch_ScheduledAbst
         Set<Id> televisitidset = new Set<Id>();
         List<Televisit__c> televisitlist = [Select id,Visit_Date_Time__c,Participant_Enrollment__r.Study_Site__r.First_Reminder__c,Participant_Enrollment__r.Study_Site__r.Second_Reminder__c
         from Televisit__c where Status__c = 'Scheduled'
-        AND Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != null AND Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != 'Deactivated'
-        AND Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != 'Deactivated (Admin)' AND Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c = 'Accepted'
         AND (Participant_Enrollment__r.Study_Site__r.First_Reminder__c != null OR Participant_Enrollment__r.Study_Site__r.Second_Reminder__c != null)
         AND ((Visit_Date_Time__c >=: Datetime.now().addMinutes(-3) AND Visit_Date_Time__c <=: Datetime.now().addMinutes(3))
         OR Visit_Date_Time__c >=: Datetime.now().addMinutes(57) )
