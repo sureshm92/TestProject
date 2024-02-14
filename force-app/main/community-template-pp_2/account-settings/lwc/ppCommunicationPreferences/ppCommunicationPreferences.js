@@ -208,6 +208,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         let showIQIVAOutreachConsentFlag = false;
         getConsentPreferences({ contactIdslst: contactIds })
         .then((result) => {
+            console.log('result::'+JSON.stringify(result));
             Object.keys(result).forEach(key => {
                 if(key === contactId){
                     showIQIVAOutreachConsentFlag = result[key];
@@ -230,13 +231,6 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                         study.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true
                     ) {
                         study.ppEnabledAndInvitedPER = true;
-                    }
-                    else if(
-                        !study.Invited_To_PP_Date__c && 
-                        !showIQIVAOutreachConsentFlag && 
-                        study.Clinical_Trial_Profile__r.IQVIA_Outreach__c
-                    ) {
-                        showIQIVAOutreachConsentFlag = true;
                     }
                     if (!isParticipantLoggedIn && !isDelegateSelfView) {
                         study.ppEnabledAndInvitedPER = true;
