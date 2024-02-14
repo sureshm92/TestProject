@@ -26,6 +26,8 @@ public with sharing class PP_ProgressBarUtility {
         @AuraEnabled
         public String status;
         @AuraEnabled
+        public String statusLabel;
+        @AuraEnabled
         public Datetime statusDate; 
         @AuraEnabled
         public String recordId;   
@@ -92,10 +94,22 @@ public with sharing class PP_ProgressBarUtility {
         return pw;
     }
         
+    private static Map<String,String>  statusNameAndLabel(){
+        Map<String,String> statusNameAndLabel = new Map<String,String>();
+        statusNameAndLabel.put('UNAVAILABLE',System.Label.UNAVAILABLE);
+        statusNameAndLabel.put('COMPLETED',System.Label.COMPLETED);
+        statusNameAndLabel.put('FUTURE',System.Label.FUTURE);
+        statusNameAndLabel.put('INPROGRESS',System.Label.INPROGRESS);
+        statusNameAndLabel.put('UPCOMING',System.Label.PP_Upcoming_Caps);
+        return statusNameAndLabel;
+    }
+
     public static parentWrapper generateVisitData(String peId, parentWrapper pw, Boolean isProgram, Boolean setMotivationMsg, Participant_Enrollment__c pe){
         List<Patient_Visit__c> patientVisits = [select Id,Visit__c,Visit__r.Visit_Description__c,Is_Adhoc__c, Visit__r.Motivational_Message__c,Visit__r.Patient_Portal_Name__c ,Completed_Date__c,Status__c 
                     from Patient_Visit__c where Participant_Enrollment__c =:peId  order by Visit_Number__c ,Visit__r.Visit_Number__c]; 
         
+       Map<String,String> statusNameAndLabel = statusNameAndLabel();
+
         pw.isEvent = isProgram;
         Integer count = 1; 
         Integer multiplier = -1;
@@ -108,7 +122,8 @@ public with sharing class PP_ProgressBarUtility {
                 progressWrapper prW = new progressWrapper();
                 prW.title = ( patientVisit.Visit__c != null ? patientVisit.Visit__r.Patient_Portal_Name__c : (patientVisit.Is_Adhoc__c ? System.Label.StudyVisit_Unscheduled_Visit : ''));  
                 prW.description = ( patientVisit.Visit__c != null ? patientVisit.Visit__r.Visit_Description__c : (patientVisit.Is_Adhoc__c ? System.Label.PP_ProgressBar_No_Visit_Adhoc : ''));      
-                prW.status = (patientVisit.Status__c == 'Missed' ? System.Label.UNAVAILABLE : (patientVisit.Status__c == 'Completed' ? System.Label.COMPLETED : System.Label.FUTURE));
+                prW.status = (patientVisit.Status__c == 'Missed' ? 'UNAVAILABLE' : (patientVisit.Status__c == 'Completed' ? 'COMPLETED' : 'FUTURE'));
+                prW.statusLabel = (statusNameAndLabel.get(prW.status)!=null)?statusNameAndLabel.get(prW.status):prW.status; 
                 prW.statusDate = patientVisit.Completed_Date__c;
                 if(((patientVisit.Status__c != 'Completed' && patientVisit.Status__c != 'Missed' ) || (patientVisits.size()-1 == i))
                  && (!upComingVisit)){
@@ -117,7 +132,8 @@ public with sharing class PP_ProgressBarUtility {
                     pw.message = ( setMotivationMsg ? patientVisit.Visit__r.Motivational_message__c : pw.message);
                     multiplier = 1;
                     count = 0;
-                    prW.status = (patientVisit.Completed_Date__c == null && patientVisit.Status__c != 'Completed' && patientVisit.Status__c != 'Missed' ? System.Label.PP_Upcoming_Caps : prW.status );
+                    prW.status = (patientVisit.Completed_Date__c == null && patientVisit.Status__c != 'Completed' && patientVisit.Status__c != 'Missed' ? 'UPCOMING' : prW.status );
+                    prW.statusLabel = (statusNameAndLabel.get(prW.status)!=null)?statusNameAndLabel.get(prW.status):prW.status;
                 }
                 if(pw.isEvent){
                     prW.recordId = patientVisit.Id;
@@ -168,23 +184,27 @@ public with sharing class PP_ProgressBarUtility {
             if((statusConfig.MasterLabel == 'Randomization' || statusConfig.MasterLabel == 'Enrollment') && pe.Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c != statusConfig.MasterLabel){
                 continue;
             }
+            Map<String,String> statusNameAndLabel = statusNameAndLabel();
             progressWrapper prW = new progressWrapper();
             prW.title = statusConfig.Master_Custom__c;
             if(statusConfigMap.containsKey(statusConfig.PER_Participant_Status__c))
                 prW.description = statusConfigMap.get(statusConfig.PER_Participant_Status__c).Status_Description__c;
-            prW.status = System.Label.FUTURE;
+            prW.status = 'FUTURE';
+            prW.statusLabel = System.Label.FUTURE;
             if(statusConfig.PER_Participant_Status__c == pe.Participant_Status__c){
                 pw.currentStatusVal = count;                    
                 if(statusConfigMap.containsKey(statusConfig.PER_Participant_Status__c))
                     pw.message = statusConfigMap.get(statusConfig.PER_Participant_Status__c).Status_Motivational_Message__c;
                 multiplier = 1;
                 count = 0;
-                prW.status = System.Label.INPROGRESS;
+                prW.status = 'IN PROGRESS';
+                prW.statusLabel = System.Label.INPROGRESS;
             }
             prW.stepVal = count*multiplier;
             
             if(prW.stepVal<0){
-                prW.status = System.Label.COMPLETED;
+                prW.status = 'COMPLETED';
+                prW.statusLabel = System.Label.COMPLETED;
                 if(peshDateMap.containsKey(pe.Participant_Status__c)){
                     prW.statusDate = peshDateMap.get(pe.Participant_Status__c);
                 }
@@ -248,12 +268,13 @@ public with sharing class PP_ProgressBarUtility {
                     (!pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c && milestoneConfig.MasterLabel == 'Initial Visit')){
                         continue;
                     }
+                    Map<String,String> statusNameAndLabel = statusNameAndLabel();
                     progressWrapper prW = new progressWrapper();
                     prW.title = (statusConfigMap.containsKey(milestoneConfig.DeveloperName) && statusConfigMap.get(milestoneConfig.DeveloperName).Status_Description__c!=null) ?  statusConfigMap.get(milestoneConfig.DeveloperName).Status_Description__c : milestoneConfig.PER_Participant_Label__c;
                     prW.description = statusConfigMap.get(milestoneConfig.DeveloperName).Status_Motivational_Message__c;
                     prW.statusWrapperList = null;
-                    prW.status = System.Label.FUTURE;
-
+                    prW.status = 'FUTURE';
+                    prW.statusLabel = System.Label.FUTURE;
                     //internim status
                     List<Study_status_desc_and_motivational_msg__mdt> statusLst = milestonseStatusMapping.get(milestoneConfig.PER_Participant_Status__c);
                     List<statusWrapper> sWrpList = new List<statusWrapper>();
@@ -278,7 +299,8 @@ public with sharing class PP_ProgressBarUtility {
                                 pw.currentStatusVal = count;                    
                                 multiplier = 1;
                                 count = 0;
-                                prW.status = System.Label.INPROGRESS; 
+                                prW.status = 'IN PROGRESS'; 
+                                prW.statusLabel = System.Label.INPROGRESS;
                             }
                             
                         }
@@ -321,7 +343,8 @@ public with sharing class PP_ProgressBarUtility {
                     prW.stepVal = count*multiplier;
                     
                     if(prW.stepVal<0){
-                        prW.status = System.Label.COMPLETED; 
+                        prW.status = 'COMPLETED';
+                        prW.statusLabel = System.Label.COMPLETED;
                         if(peshDateMap.containsKey(pe.Participant_Status__c.toLowerCase())){
                             prW.statusDate = peshDateMap.get(pe.Participant_Status__c.toLowerCase());
                         }
@@ -412,7 +435,7 @@ public with sharing class PP_ProgressBarUtility {
                 Patient_Visit__c patientVisit = new Patient_Visit__c();
                 patientVisit.Id = patientVisitId;
                 patientVisit.Completed_Date__c = Date.today();
-                patientVisit.Status__c = System.Label.COMPLETED;
+                patientVisit.Status__c = 'Completed';
                 update patientVisit;
                 return 'true';
             } catch (Exception ex) {
