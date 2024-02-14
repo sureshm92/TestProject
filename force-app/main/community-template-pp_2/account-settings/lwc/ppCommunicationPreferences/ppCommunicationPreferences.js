@@ -231,6 +231,13 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                     ) {
                         study.ppEnabledAndInvitedPER = true;
                     }
+                    else if(
+                        !study.Invited_To_PP_Date__c && 
+                        !showIQIVAOutreachConsentFlag && 
+                        study.Clinical_Trial_Profile__r.IQVIA_Outreach__c
+                    ) {
+                        showIQIVAOutreachConsentFlag = true;
+                    }
                     if (!isParticipantLoggedIn && !isDelegateSelfView) {
                         study.ppEnabledAndInvitedPER = true;
                     }
