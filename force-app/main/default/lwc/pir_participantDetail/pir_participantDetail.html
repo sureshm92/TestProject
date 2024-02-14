@@ -119,7 +119,7 @@
                                     >
                               </lightning-combobox>
                                           </div>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 outcome-form-element slds-m-bottom_medium slds-p-right_none ltl-r-none rtl-r-none ">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 outcome-form-element slds-m-bottom_medium slds-p-right_none ltl-r-none rtl-r-none slds-form-element__label">
                               <lightning-combobox
                                     name={YOB}
                                     label={YOB}
@@ -458,7 +458,7 @@
 
                               </div>
                               <div if:true={contactPhoneType.data}
-                                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium">
+                                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 outcome-form-element slds-m-bottom_medium slds-form-element__label">
                                     <div if:true={showAltPhType}> 
                                     <lightning-combobox disabled={altIsNotAdult} label={PG_AP_F_Alternative_Phone_Type}
                                           placeholder="--" options={contactPhoneType.data.values} data-lvl="2"
