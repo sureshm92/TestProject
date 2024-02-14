@@ -136,6 +136,7 @@
                                             isrtl={isRTL}
                                             selected-pe={selectedPE.id}
                                             onvalidatemedicalsavebutton={checkMedicalSaveBtn}
+                                            onvalidatemedicaltable={checkMedicalTable}
                                             onhandletabs={handleTabs}
                                         ></c-medicalinformation>
                                     </lightning-tab>
@@ -632,6 +633,7 @@
                                                 onchange={studysitehandleChange}
                                                 disabled={studysiteaccess}
                                             ></lightning-combobox>
+                                            <div if:true={showStudyErr} class="slds-form-element__help err">No active study sites available for selection</div>
                                         </div>
                                     </div>
                                     <div class="slds-grid slds-wrap slds-m-top_large">

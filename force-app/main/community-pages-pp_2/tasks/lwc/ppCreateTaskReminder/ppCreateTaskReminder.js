@@ -108,9 +108,7 @@ export default class PpCreateTaskReminder extends LightningElement {
     @api editMode = false;
 
     get reminderClass() {
-        return DEVICE == 'Small'
-            ? 'slds-size_1-of-1 slds-p-horizontal_none'
-            : 'slds-size_1-of-1';
+        return DEVICE == 'Small' ? 'slds-size_1-of-1 slds-p-horizontal_none' : 'slds-size_1-of-1';
     }
     connectedCallback() {
         if (DEVICE != 'Large') {
@@ -149,6 +147,9 @@ export default class PpCreateTaskReminder extends LightningElement {
                                         : false;
                                 this.emailReminderOptIn = this.initData.task.Remind_Using_Email__c;
                                 this.smsReminderOptIn = this.initData.task.Remind_Using_SMS__c;
+                                if (this.systemTask) {
+                                    this.isEmailReminderDisabled = true;
+                                }
                                 if (this.systemTask || this.businessTask) {
                                     this.oldReminderDateForSystemTask = this.initData.reminderDate;
                                     if (this.oldReminderDateForSystemTask) {
@@ -156,7 +157,8 @@ export default class PpCreateTaskReminder extends LightningElement {
                                         this.taskPlaceholder = this.labels.CUSTOM;
                                     } else {
                                         this.taskPlaceholder = this.labels.SELECT_REMINDER;
-                                        this.selectedReminderOption = this.initData.task.Remind_Me__c;
+                                        this.selectedReminderOption =
+                                            this.initData.task.Remind_Me__c;
                                     }
                                 } else {
                                     this.selectedReminderOption = this.initData.task.Remind_Me__c;

@@ -11,20 +11,34 @@ public without sharing class StudySiteService {
     public final static String PI_S_ON_HOLD_A = 'On Hold (Admin)';
     public final static String PI_S_DEACTIVATED_A = 'Deactivated (Admin)';
     public final static String PI_S_DECLINED_ACCEPTANCE = 'Declined (Acceptance)';
+    public final static String SITE_ACTIVATED = 'Activated';
+    public final static String SITE_ACTIVATED_A = 'Activated (Admin)';
+    public final static String SITE_ON_HOLD = 'On Hold';
+    public final static String SITE_DEACTIVATED = 'Deactivated';
+    public final static String SITE_DEACTIVATED_A = 'Deactivated (Admin)';
 
     //oldStatus/<actionType, newStatus>
     public final static Map<String, Map<String, String>> SS_CHANGE_STATUS_MAP = new Map<String, Map<String, String>>();
 
     public final static List<String> STATUS_GROUP_ACCEPTED = new List<String>{
         PI_S_ACCEPTED,
-        PI_S_ACCEPTED_A
-    };
+        //PI_S_ACCEPTED_A,
+        SITE_ACTIVATED,
+        SITE_ACTIVATED_A
+        //PI_S_INVITATION_SENT
+    };//Check where its use and why its used and replace it if needed, do thorough research
 
     public final static List<String> STATUS_GROUP_ON_HOLD = new List<String>{
-        PI_S_ON_HOLD,
-        PI_S_ON_HOLD_A
+        //PI_S_ON_HOLD,
+        //PI_S_ON_HOLD_A,
+        SITE_ON_HOLD
     };
-
+       
+    public final static List<String> STATUS_GROUP_ON_HOLD_ACTIVATED = new List<String>{
+        SITE_ON_HOLD,
+        SITE_ACTIVATED_A,
+        SITE_ACTIVATED
+    };
     public final static String SS_TYPE_TRADITIONAL = 'Traditional';
     public final static String SS_TYPE_VIRTUAL = 'Virtual';
     public final static String SS_TYPE_HYBRID = 'Hybrid';
@@ -309,7 +323,8 @@ public without sharing class StudySiteService {
         'Principal_Investigator__r.Account.BillingAddress',
         'Principal_Investigator__r.Full_Name__c',
         'Site_Staff__r.Site_Contact__c',
-        'Participant_DOB_format__c'
+        'Participant_DOB_format__c',
+        'Site_Activation_Status__c'
     };
 
     public static List<Study_Site__c> getStudySitesCommon(String filter) {
@@ -375,8 +390,9 @@ public without sharing class StudySiteService {
         Boolean excludeDelegates,
         String delegateId
     ) {
+        List<String> PIStatus = new List<String>{'Accepted','Invitation Sent','Deactivated'};
         String filter =
-            ' Clinical_Trial_Profile__c != NULL ' + ' AND Override_PI_Referral_Status__c != NULL ';
+            ' Clinical_Trial_Profile__c != NULL ' + ' AND Override_PI_Referral_Status__c !=null ' ;
         if (userMode == CommunityService.USER_MODE_PI) {
             if (
                 delegateId == null ||
@@ -841,8 +857,10 @@ public without sharing class StudySiteService {
         }
         if (filter.onlyAcceptedSites) {
             filterString +=
-                ' AND Override_PI_Referral_Status__c != NULL ' +
-                '  AND Override_PI_Referral_Status__c IN (\'' +
+                ' AND Site_Activation_Status__c != NULL ' +
+                '  AND Site_Activation_Status__c IN (\'' +
+                //' AND Override_PI_Referral_Status__c != NULL ' +
+                //'  AND Override_PI_Referral_Status__c IN (\'' +
                 String.join(STATUS_GROUP_ACCEPTED, '\',\'') +
                 '\')';
         }

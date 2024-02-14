@@ -70,6 +70,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
   @track utilLabels = label;
   isRedirectedFromBellCmp = false;
   setList = true;
+  showStudyErr = false;
   backArrow = pirResources + "/pirResources/icons/triangle-left.svg";
   usericon= pirResources+'/pirResources/icons/user.svg';
   disableMedicalSaveButton = true;
@@ -221,16 +222,24 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
       if (key == picklist_Value) {
           var temp = conts[key];
         for (var j in temp) {
-               if(accesslevels == 0){
-                  options.push({ label: temp[j].Name, value: temp[j].Id });
-               }else{
-                  var level = this.siteAccessLevels[temp[j].Id];
-                  if(level != 'Level 3' && level != 'Level 2'){
-                     options.push({ label: temp[j].Name, value: temp[j].Id });
-                  }
-               }
+          //Site decoupling changes RH-8613
+          if((temp[j].Site_Activation_Status__c == 'Activated' || temp[j].Site_Activation_Status__c == 'Activated (Admin)') && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+            if(accesslevels == 0){
+              options.push({ label: temp[j].Name, value: temp[j].Id });
+            }else{
+              var level = this.siteAccessLevels[temp[j].Id];
+              if(level != 'Level 3' && level != 'Level 2'){
+                 options.push({ label: temp[j].Name, value: temp[j].Id });
+              }
+            }
+          }
         }
       }
+    }
+    
+    this.showStudyErr = false;
+    if(options.length == 0){
+      this.showStudyErr = true;
     }
     this.studySiteList = options;
     this.selectedSite = '';
@@ -386,6 +395,7 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
     this.disablebtn = event.detail;
   }
 
+  @api medicalTableHasErr = false;
 
   checkMedicalSaveBtn(event){
     if(event.detail.isBMIError){
@@ -394,13 +404,22 @@ export default class Pir_participantParent extends NavigationMixin(LightningElem
 
     }
     else {
-    this.disableMedicalSaveButton = !event.detail;
-  this.isMedicalDetailChanged = event.detail;
-
+      if(this.medicalTableHasErr){  
+        this.disableMedicalSaveButton = this.medicalTableHasErr;
+        this.isMedicalDetailChanged = event.detail;
+      }else{
+        this.disableMedicalSaveButton = !event.detail;
+        this.isMedicalDetailChanged = event.detail;
+      }
     }
 
     this.discardMedicalTab = false;
   }
+
+  checkMedicalTable(event){console.log('checkmedicaltable--'+event.detail);
+      this.medicalTableHasErr = event.detail;
+  }
+
   //participant detail
   disableDetailSaveButton =false;
   isDetailsUpdate=false;
@@ -602,6 +621,7 @@ gotoPartTab(){
   this.isMedicalDetailChanged = false;
   this.discardMedicalTab = false;
   this.template.querySelector("c-medicalinformation").dosaveMedicalInfo();
+  
   this.disableMedicalSaveButton = true;
  }
 
@@ -724,6 +744,7 @@ gotoPartTab(){
   }
   handleCloseParticipant(){
     this.addParticipant = false;
+    this.showStudyErr = false;
     this.selectedSite = '';
     this.selectedStudy = '';
     this.template.querySelector("c-pir_participant-list").hideCheckbox();

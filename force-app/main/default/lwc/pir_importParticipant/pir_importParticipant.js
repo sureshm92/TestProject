@@ -41,7 +41,7 @@ import getParticipantsStatusesAndVisitPlans from '@salesforce/apex/PIR_HomepageC
 import deleteFile from '@salesforce/apex/PIR_HomepageController.deleteFile';
 import saveTheChunkFile from '@salesforce/apex/PIR_HomepageController.saveTheChunkFile';
 import uploadParticipants from '@salesforce/apex/PIR_HomepageController.uploadParticipants';
-import getStudyStudySiteDetails from "@salesforce/apex/PIR_HomepageController.getStudyStudySiteDetails";
+import getStudyStudySiteDetails from "@salesforce/apex/PIR_HomepageController.getStudyStudySiteDetailsV2";
 import getISOLanguage from "@salesforce/apex/PIR_HomepageController.getISOLanguage";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
@@ -147,6 +147,7 @@ connectedCallback() {
             })
             .then((result) => {
                 var participentStatuses = result.participantStatuses;
+                this.iqviaconsent = !result.consentPref; 
                 if(result.objStudySite.Clinical_Trial_Profile__r.Tokenization_Support__c){
                     for(let i=0 ; i < result.participantStatuses.length ; i++){
                         if(result.participantStatuses[i].value != 'Screening Passed' && result.participantStatuses[i].value != 'Enrollment Success' && result.participantStatuses[i].value != 'Randomization Success'){  
@@ -222,26 +223,9 @@ participantAccess({ error, data }) {
             var conts = studySiteMap.ctpMap;
             let options = [];
             var sites = studySiteMap.studySiteMap; 
-            for (var key in conts) {
-                if(!ctpListNoAccess.includes(conts[key])){ 
-                    var temp = sites[conts[key]];
-                    let z = 0;
-                    for (var j in temp) {
-                         if(accesslevels == 0){
-                            z=z+1;
-                            a=a+1;
-                         }else{
-                            var level = siteAccessLevels[temp[j].Id];
-                            if(level != 'Level 3' && level != 'Level 2'){
-                                z=z+1;
-                                a=a+1;
-                            }
-                         }
-                    }
-                    if(z != 0){
-                        options.push({ label: key, value: conts[key] });
-                        k=k+1;
-                    }
+            for (var i =0; i< data.allCTP.length; i++) {
+                if(!ctpListNoAccess.includes( data.allCTP[i].Id )){ 
+                    options.push({ label: data.allCTP[i].Study_Code_Name__c, value: data.allCTP[i].Id });
                 }
             }
             studylist = options;
@@ -249,14 +233,11 @@ participantAccess({ error, data }) {
                 studyToStudySite = studySiteMap.studySiteMap;
             }
         }
-        if(k != 0 && a != 0){
-                this.studylist= studylist;
-                this.siteAccessLevels = siteAccessLevels;
-                this.studyToStudySite = studyToStudySite;
-                this.studysiteaccess = true;
-        }else{
-            //this.showAddParticipant = false;
-        }
+
+        this.studylist= studylist;
+        this.siteAccessLevels = siteAccessLevels;
+        this.studyToStudySite = studyToStudySite;
+        this.studysiteaccess = true;
         this.isloading = false;
   } else if (error) {
       this.error = error;
@@ -311,12 +292,12 @@ generateISOLanguage(){
       });
 
   } 
-
+  showStudyErr;
 studyhandleChange(event) {
     this.isDataLoading = true;
     var picklist_Value = event.target.value;
     this.selectedStudy = picklist_Value;
-
+    this.showStudyErr=false;
     var accesslevels = Object.keys(this.siteAccessLevels).length;
     var conts = this.studyToStudySite;
     let options = [];
@@ -325,16 +306,24 @@ studyhandleChange(event) {
         if (key == picklist_Value) {
             var temp = conts[key];
         for (var j in temp) {
-                if(accesslevels == 0){
-                    options.push({ label: temp[j].Name, value: temp[j].Id });
-                }else{
-                    var level = this.siteAccessLevels[temp[j].Id];
-                    if(level != 'Level 3' && level != 'Level 2'){
+                if(temp[j].Site_Activation_Status__c &&
+                    (temp[j].Site_Activation_Status__c == 'Activated' || 
+                    temp[j].Site_Activation_Status__c == 'Activated (Admin)') && 
+                    temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+                    if(accesslevels == 0){
                         options.push({ label: temp[j].Name, value: temp[j].Id });
+                    }else{
+                        var level = this.siteAccessLevels[temp[j].Id];
+                        if(level != 'Level 3' && level != 'Level 2'){
+                            options.push({ label: temp[j].Name, value: temp[j].Id });
+                        }
                     }
                 }
         }
         }
+    }
+    if(options.length==0){
+        this.showStudyErr=true;
     }
     this.studySiteList = options;
     this.selectedSite = '';
@@ -355,6 +344,7 @@ studyhandleChange(event) {
 handleppinvite(event){
     this.createUsers = event.target.checked;
 }
+@api iqviaconsent;
 studysitehandleChange(event) {
     this.selectedSite = event.target.value;
     this.isStudyPPEnabled = false;
@@ -373,6 +363,7 @@ studysitehandleChange(event) {
         //  this.template.querySelector('[data-id="mainDivscroll"]').classList.remove('bulkautoScroll');
             var participentStatuses = result.participantStatuses;
             this.participentStatus = [];
+            this.iqviaconsent = !result.consentPref; 
             if(result.objStudySite.Clinical_Trial_Profile__r.Tokenization_Support__c){
                 for(let i=0 ; i < participentStatuses.length ; i++){
                     if(participentStatuses[i].value != 'Screening Passed' && participentStatuses[i].value != 'Enrollment Success' && participentStatuses[i].value != 'Randomization Success'){  
@@ -741,8 +732,8 @@ doImportParticipant(){
     })
 
 }
- 
-  
- 
-  
+
+
+
+
 }

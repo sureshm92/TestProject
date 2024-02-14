@@ -10,6 +10,23 @@
                 console.log(action);
                 component.set('v.addParticipantInfo', action);
             }
+            if (action != null && 'manageReferralsBySS' == action.id) {
+                console.log(action);
+                component.set('v.manageParticipantInfo', action);
+            }
+            if (action != null && 'PI_Specific_Action' == action.id) {
+                console.log(action);
+                component.set('v.userTypeInfo', action);
+            }
+            //Bulk Import History
+            if(action != null && 'importhistory' == action.id){
+                component.set('v.manageimporthistory', action);
+            }
+            if(action != null && 'hideaddpatient' == action.id){
+                component.set('v.hideaddpatient', action);
+            }
+            //Ends
+
         });
     },
 

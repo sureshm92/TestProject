@@ -37,7 +37,6 @@
                         onblur={handlevalueupdateBMI}>
                       </lightning-input>
                     </div>
-
                   </div>
                 </div>
                 <div
@@ -45,7 +44,7 @@
                   <label class="slds-form-element__label text-overflow" for="High Risk" title={label.High_Risk}>
                     {label.High_Risk}
                   </label>
-                  <lightning-input type="checkbox" label="" name="HighRisk" checked={returnpervalue.HighRisk}
+                  <lightning-input type="checkbox" label="" name="HighRisk" checked={returnpervalue.HighRisk}  class="highriskcssclass"
                     onchange={handlevalueupdateRisk}></lightning-input>
                 </div>
                 <div
@@ -54,7 +53,7 @@
                     {label.High_Priority}
                   </label>
                   <lightning-input type="checkbox" label="" name="Highpriority" checked={returnpervalue.Highpriority}
-                    onchange={handlevalueupdatePriority}></lightning-input>
+                   class="highPrioritycssclass" onchange={handlevalueupdatePriority}></lightning-input>
                 </div>
               </div>
             </div>
@@ -164,83 +163,524 @@
                           class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_medium slds-clearfix">
                           <button
                             class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small slds-float_right stretch-btn"
-                            onclick={renderModel}>
+                            onclick={uploadDocs}>
                             <img class="upload-icon" src={upload} />
                             {label.pir_MedicalImport_header}
                           </button>
                         </div>
+                        <!-- New Medical Record Table Start -->
+                        <template if:false={isMobile}>
+                          <div class="slds-col slds-size_1-of-1 slds-m-bottom_medium slds-clearfix maindivtable">
+                            <template if:true={isfileAvailable}>
+                              <table
+                                class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered "> <!--slds-table_fixed-layout-->
+                                <thead>
+                                  <tr class="slds-line-height_reset">
+                                    <th class="fileHeader" scope="col">
+                                      <div class={sortingHover} title={label.RH_FileName} onclick={sortByTitle}
+                                        data-id="title">
+                                        <span class={isFileNameSorted}>
+                                          {label.RH_FileName}
+                                        </span>
+                                        <template if:true={arrowUpTitle}>
+                                          <lightning-icon class="iconMargin blackArrow" icon-name="utility:arrowup"
+                                            size="xx-small" title={label.PP_Sort}>
+                                          </lightning-icon>
+                                        </template>
+                                        <template if:true={arrowDownTitle}>
+                                          <lightning-icon class="iconMargin blackArrow" icon-name="utility:arrowdown"
+                                            size="xx-small" title={label.PP_Sort}>
+                                          </lightning-icon>
+                                        </template>
+                                      </div>
+                                    </th>
+                                    <th class="dateHeader" scope="col">
+                                      <div class={sortingHover} onclick={sortByDate} data-id="createdDate"
+                                        title={label.RH_Date}>
+                                        <span class={isDateSorted}> {label.RH_Date}</span>
+                                        <template if:true={arrowUpDate}>
+                                          <lightning-icon class="iconMargin C blackArrow" icon-name="utility:arrowup"
+                                            size="xx-small" title={label.PP_Sort}>
+                                          </lightning-icon>
+                                        </template>
+                                        <template if:true={arrowDownDate}>
+                                          <lightning-icon class="iconMargin C blackArrow" icon-name="utility:arrowdown"
+                                            size="xx-small" title={label.PP_Sort}>
+                                          </lightning-icon>
+                                        </template>
+                                      </div>
+                                    </th>
+                                    <template if:true={isPPEnabled}>
+                                      <th class="shareHeader" scope="col">
+                                        <div class="lgc-bg">
+                                          <span class="table-Header">{label.RH_Share}</span>
+                                          <lightning-helptext class="shareicon"
+                                            content={label.RH_Sharing_Label}>  
+                                          </lightning-helptext>
+                                        </div>
+                                      </th>
+                                    </template>
+                                    <th class="settingHeader" scope="col">
+                                      <div class="slds-truncate" title="">
+                                        <lightning-icon icon-name="utility:settings" alternative-text="settings"
+                                          size="xx-small"></lightning-icon>
+                                      </div>
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <template for:each={medicalHistoryRecord.attachments} for:item="attach"
+                                    for:index="index">
+                                    <tr class="slds-hint-parent bordercss" key={attach.attachment.Id}>
+                                      <td scope="row">
+                                        <div class="slds-truncate">
+                                          <template lwc:if={attach.isNameReadOnly}>
+                                            <div class="fileName-truncate">
+                                              <a class="attachtitle" onclick={openModelpopup}
+                                                title={attach.attachment.Title} data-name={attach.attachment.Title}
+                                                data-extension={attach.attachment.FileExtension}
+                                                data-id={attach.attachment.Id}
+                                                data-content={attach.attachment.ContentSize}>{attach.attachment.Title}</a>
+                                            </div>
+                                          </template>
+                                          <template lwc:else>
+                                            <span class="pld-file-txtinput deskinput" title={attach.attachment.Title}>
+                                              <lightning-input tabindex="0" type="text" class="file-name-input"
+                                                variant="label-hidden" value={attach.fileNameForEdit} data-index={index}
+                                                onblur={validateandsaveFileName} data-id={attach.attachment.Id}>
+                                              </lightning-input>
+                                              <span if:true={attach.hasNameError}
+                                                class="errorFileNameEmpty">{attach.FileErrorMsg}
+                                              </span>
+                                            </span>
+                                          </template>
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div class="slds-truncate created-date-css" title={attach.attachment.CreatedDate}>
+                                          {attach.attachment.CreatedDate}
+                                        </div> 
+                                      </td>
+                                      <template if:true={isPPEnabled}>
+                                        <td data-label="Close Date">
+                                          <template if:false={attach.isFileFromPatientPortal}>
+                                            <div class="slds-truncate checkbox-space">
+                                              <lightning-input type="checkbox" name="input1" class="sharepermissioncheckbox"
+                                                data-id={attach.attachment.Id} data-index={index} checked={attach.hasPermission}
+                                                onchange={sharePermission}></lightning-input>
+                                            </div>
+                                          </template>
+                                        </td>
+                                      </template>
+                                      <td class="optioncss">
+                                        <template if:false={attach.isFileFromPatientPortal}>
+                                          <div class="slds-dropdown-trigger actiondiv slds-dropdown-trigger_click D"
+                                            data-popup={attach.attachment.Id} onclick={showTaskActionMenu} tabindex="0"
+                                            data-id={attach.attachment.Id} onblur={closeActionMenu}>
+                                            <div aria-haspopup="true" aria-expanded="true" 
+                                            tabindex="0" onblur={closeActionMenu}>
+                                              <img src={threedots_imgUrl} class="image-result" />
+                                            </div>
+                                            <div class="slds-dropdown slds-dropdown_right task-action-menu" tabindex="0"
+                                            onblur={closeActionMenu} >
+                                              <ul class="slds-dropdown__list" role="menu">
+                                                <li class="slds-dropdown__item   popup-default "
+                                                role="presentation">
+                                                <a href="#" onmousedown={DownloadFiles} data-id={attach.attachment.Id}
+                                                                  role="menuitem">
+                                                                  <span class="slds-truncate">
+                                                                      {label.PIR_Download}
+                                                                  </span>
+                                                              </a>
+                                                            </li> 
+                                                <li class="slds-dropdown__item   popup-default"
+                                                role="presentation">
+                                                  <a href="#" onmousedown={renameFile} data-index={index} data-id={attach.attachment.Id} data-filename={attach.attachment.Title}
+                                                  role="menuitem">
+                                                  <span class="slds-truncate">
+                                                    {label.PP_Rename}
+                                                  </span>
+                                                </a>
+                                                </li>
+
+                                                <template if:true={attach.isDeleteAllowed}>
+                                               
+                                                <li class="slds-dropdown__item  popup-default "
+                                                role="presentation">
+                                                  <a href="#" onmousedown={DeleteFiles} class="deleteCss" data-id={attach.attachment.Id} 
+                                                  role="menuitem">
+                                                  <span class="slds-truncate">
+                                                    {label.pir_Delete_Btn}
+                                                  </span>
+                                                </a>
+                                                </li>
+                                                </template>
+                                              </ul>
+                                            </div>
+                                          </div>
+                                        </template>
+                                        <template if:true={attach.isFileFromPatientPortal}>
+                                          <a href={fileDownloadLink} target="_blank" download={attach.attachment.Title}
+                                            data-id={attach.attachment.Id} data-url={medicalHistoryRecord.baseURL}>
+                                            <img class="download-icon" title={label.PIR_Download} onclick={DownloadFile}
+                                              data-id={attach.attachment.Id} src={download} />
+                                          </a>
+                                        </template>
+                                      </td>
+                                    </tr>
+                                  </template>
+                                </tbody>
+                              </table>
+                            </template>
+                          </div>
+                        </template>
+                        <template if:true={isMobile}>
+                          <div class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 sortdropdown
+                                slds-col slds-size_1-of-1  Sort
+                              ">
+                            <button
+                              class="slds-button slds-button_icon slds-button_icon-border-filled w-100 sortdropdown btn-shadow slds-p-left_x-small slds-p-right_x-small sortbutton-content actionsList"
+                              aria-haspopup="true" aria-expanded="true" onclick={opendropdownSort}
+                              onblur={handleonblur}>
+                              <span class="slds-truncate w-100 sortdropdown fBold">{selectedsortOption}</span>
+                              <span>
+                                <img src={sort} class="sortIcon" />
+                              </span>
+                            </button>
+                            <div class="slds-dropdown slds-dropdown_right w-100 dropdown-zindex sortitems">
+                              <ul class="slds-dropdown__list font-dropdowns" role="menu" aria-label="SortBy">
+                                <template for:each={optionsSort} for:item="sortopt">
+                                  <li class="slds-dropdown__item" role="presentation" key={sortopt.value}
+                                    data-id={sortopt.value} data-title={sortopt.label}>
+                                    <a href="#" role="menuitem" data-id={sortopt.value} data-title={sortopt.label}
+                                      onmousedown={handlenewOnSelectSort}>
+                                      <span class="slds-truncate drag-drop-txt" title={sortopt.label}
+                                        data-title={sortopt.label} data-id={sortopt.value}>{sortopt.label}</span>
+                                    </a>
+                                  </li>
+                                </template>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <template if:true={isfileAvailable}>
+                            <template iterator:it={medicalHistoryRecord.attachments} for:index="index">
+                              <template if:true={isPPEnabled}>
+                                <template if:false={it.value.isFileFromPatientPortal}>
+                                  <lightning-layout multiple-rows="true"
+                                    class="container-width slds-m-left_medium slds-m-right_large slds-m-top_small slds-m-bottom_xx-small"
+                                    key={it.value.attachment.Id}>
+                                    <lightning-layout-item size="12">
+                                      <template lwc:if={it.value.isNameReadOnly}>
+                                        <a class="attachtitle" onclick={openModelpopup}
+                                          title={it.value.attachment.Title} data-name={it.value.attachment.Title}
+                                          data-extension={it.value.attachment.FileExtension}
+                                          data-id={it.value.attachment.Id}
+                                          data-content={it.value.attachment.ContentSize}>{it.value.attachment.Title}</a>
+                                      </template>
+                                      <template lwc:else>
+                                        <lightning-layout>
+                                          <lightning-layout-item size="9" class="slds-p-bottom_xx-small">
+                                            <lightning-input tabindex="0" type="text" class="input-mobs"
+                                              title={it.value.attachment.Title} variant="label-hidden"
+                                              value={it.value.fileNameForEdit} data-index={it.index}
+                                              onblur={validateandsaveFileName} data-id={it.value.attachment.Id}>
+                                            </lightning-input>
+                                            <span if:true={it.value.hasNameError}
+                                              class="errorFileNameEmptyMob">{it.value.FileErrorMsg}
+                                            </span>
+                                          </lightning-layout-item>
+                                        </lightning-layout>
+                                      </template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12">
+                                      <div class="doc-date-time datecss">
+                                        {it.value.attachment.CreatedDate}
+                                      </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12" class="slds-p-top_x-small">
+                                      <lightning-layout>
+                                        <lightning-layout-item size="8">
+                                          <div class="slds-m-bottom_small share-to-pp">
+                                            <lightning-input type="checkbox" name="input1"
+                                              data-id={it.value.attachment.Id} checked={it.value.hasPermission}  data-index={it.index}
+                                              onchange={sharePermission} label={label.RH_Share_to_Patient_Portal}>
+                                            </lightning-input>
+                                          </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="4"
+                                          class="alignright slds-align-middle slds-m-bottom_small">
+                                          <div class="slds-dropdown-trigger actiondiv verticaldotsmob slds-dropdown-trigger_click D"
+                                            data-popup={it.value.attachment.Id} onclick={showTaskActionMenu}
+                                            tabindex="0" data-id={it.value.attachment.Id} onblur={closeActionMenu}>
+                                            <div aria-haspopup="true"  aria-expanded="true" tabindex="0" onblur={closeActionMenu}> 
+                                              <img src={threedots_vertical_imgUrl} class="image-resultmob" />
+                                            </div>
+                                            <div class="slds-dropdown slds-dropdown_right task-action-menu-mob" 
+                                            tabindex="0" onblur={closeActionMenu}>
+                                              <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                                
+                                                <li class="slds-dropdown__item   popup-default alignl "
+                                                role="presentation">
+                                                  <a href="#" onmousedown={DownloadFiles} data-id={it.value.attachment.Id}
+                                                                    role="menuitem">
+                                                                    <span class="slds-truncate">
+                                                                        {label.PIR_Download}
+                                                                    </span>
+                                                  </a>
+                                                </li>
+                                                
+                                                <li class="slds-dropdown__item   popup-default alignl "
+                                                role="presentation">
+                                                  <a href="#" onmousedown={renameFile} data-id={it.value.attachment.Id} data-filename={it.value.attachment.Title}
+                                                  data-index={it.index}   role="menuitem">
+                                                                    <span class="slds-truncate">
+                                                                      {label.PP_Rename}
+                                                                    </span>
+                                                  </a>
+                                                </li>
+                                                <template if:true={it.value.isDeleteAllowed}>
+                                                  
+                                                  <li class="slds-dropdown__item   popup-default alignl "
+                                                  role="presentation">
+                                                    <a href="#" onmousedown={DeleteFiles} class="deleteCss" data-id={it.value.attachment.Id} 
+                                                       role="menuitem">
+                                                                      <span class="slds-truncate">
+                                                                        {label.pir_Delete_Btn}
+                                                                      </span>
+                                                    </a>
+                                                  </li>
+                                                </template>
+                                              </ul>
+                                            </div>
+                                          </div>
+                                        </lightning-layout-item>
+                                      </lightning-layout>
+                                    </lightning-layout-item>
+                                  </lightning-layout>
+                                </template>
+
+                                <template if:true={it.value.isFileFromPatientPortal}>
+                                  <lightning-layout multiple-rows="true"
+                                    class="container-width slds-m-left_medium slds-m-right_large slds-m-top_small slds-m-bottom_xx-small"
+                                    key={it.value.attachment.Id}>
+                                    <lightning-layout-item size="12">
+                                      <template lwc:if={it.value.isNameReadOnly}>
+                                        <a class="attachtitle" onclick={openModelpopup}
+                                          title={it.value.attachment.Title} data-name={it.value.attachment.Title}
+                                          data-extension={it.value.attachment.FileExtension}
+                                          data-id={it.value.attachment.Id}
+                                          data-content={it.value.attachment.ContentSize}>{it.value.attachment.Title}</a>
+                                      </template>
+                                      <template lwc:else>
+                                        <lightning-layout>
+                                          <lightning-layout-item size="9" class="slds-p-bottom_xx-small">
+                                            <lightning-input tabindex="0" type="text" class="input-mobs"
+                                              title={it.value.attachment.Title} variant="label-hidden"
+                                              value={it.value.fileNameForEdit} data-index={it.index}
+                                              onblur={validateandsaveFileName} data-id={it.value.attachment.Id}>
+                                            </lightning-input>
+                                            <span if:true={it.value.hasNameError}
+                                              class="errorFileNameEmptyMob">{it.value.FileErrorMsg}
+                                            </span>
+                                          </lightning-layout-item>
+                                        </lightning-layout>
+                                      </template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12">
+                                      <lightning-layout>
+                                        <lightning-layout-item size="8">
+                                          <div class="doc-date-time datecss">
+                                            {it.value.attachment.CreatedDate}
+                                          </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="4" class="alignright slds-align-middle">
+                                          <a href={fileDownloadLink} target="_blank"
+                                            download={it.value.attachment.Title} data-id={it.value.attachment.Id}
+                                            data-url={medicalHistoryRecord.baseURL}>
+                                            <img class="download-icon" title={label.PIR_Download} onclick={DownloadFile}
+                                              data-id={it.value.attachment.Id} src={download} />
+                                          </a>
+                                        </lightning-layout-item>
+                                      </lightning-layout>
+                                    </lightning-layout-item>
+                                  </lightning-layout>
+                                </template>
+                              </template>
+                              <template if:false={isPPEnabled}>
+                                <template if:false={it.value.isFileFromPatientPortal}>
+                                  <lightning-layout multiple-rows="true"
+                                    class="container-width slds-m-left_medium slds-m-right_large slds-m-top_small slds-m-bottom_xx-small"
+                                    key={it.value.attachment.Id}>
+                                    <lightning-layout-item size="12">
+                                      <template lwc:if={it.value.isNameReadOnly}>
+                                        <a class="attachtitle" onclick={openModelpopup}
+                                          title={it.value.attachment.Title} data-name={it.value.attachment.Title}
+                                          data-extension={it.value.attachment.FileExtension}
+                                          data-id={it.value.attachment.Id}
+                                          data-content={it.value.attachment.ContentSize}>{it.value.attachment.Title}</a>
+                                      </template>
+                                      <template lwc:else>
+                                        <lightning-layout>
+                                          <lightning-layout-item size="9" class="slds-p-bottom_xx-small">
+                                            <lightning-input tabindex="0" type="text" class="input-mobs"
+                                              title={it.value.attachment.Title} variant="label-hidden"
+                                              value={it.value.fileNameForEdit} data-index={it.index}
+                                              onblur={validateandsaveFileName} data-id={it.value.attachment.Id}>
+                                            </lightning-input>
+                                            <span if:true={it.value.hasNameError}
+                                              class="errorFileNameEmptyMob">{it.value.FileErrorMsg}
+                                            </span>
+                                          </lightning-layout-item>
+                                        </lightning-layout>
+                                      </template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12">
+                                      <lightning-layout>
+                                        <lightning-layout-item size="8">
+                                          <div class="doc-date-time datecss slds-m-bottom_small">
+                                            {it.value.attachment.CreatedDate}
+                                          </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="4"
+                                          class="alignright slds-align-middle slds-m-bottom_small">
+                                          <div class="slds-dropdown-trigger actiondiv verticaldotsmob  slds-dropdown-trigger_click D"
+                                            data-popup={it.value.attachment.Id} onclick={showTaskActionMenu}
+                                            tabindex="0" data-id={it.value.attachment.Id} onblur={closeActionMenu}>
+                                            <div aria-haspopup="true" aria-expanded="true" tabindex="0" onblur={closeActionMenu} >
+                                              <img src={threedots_vertical_imgUrl} class="image-resultmob" />
+                                            </div>
+                                            <div class="slds-dropdown slds-dropdown_right task-action-menu-mob"
+                                            tabindex="0" onblur={closeActionMenu} >
+                                              <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                               
+                                                <li class="slds-dropdown__item   popup-default alignl "
+                                                role="presentation">
+                                                  <a href="#" onmousedown={DownloadFiles} data-id={it.value.attachment.Id}
+                                                                    role="menuitem">
+                                                                    <span class="slds-truncate">
+                                                                        {label.PIR_Download}
+                                                                    </span>
+                                                  </a>
+                                                </li>
+                                               
+                                                <li class="slds-dropdown__item   popup-default alignl "
+                                                role="presentation">
+                                                  <a href="#" onmousedown={renameFile} data-id={it.value.attachment.Id} data-filename={it.value.attachment.Title}
+                                                  data-index={it.index}   role="menuitem">
+                                                                    <span class="slds-truncate">
+                                                                      {label.PP_Rename}
+                                                                    </span>
+                                                  </a>
+                                                </li>
+                                                <template if:false={it.value.isDeleteAllowed}>
+                                                 
+                                                  <li class="slds-dropdown__item   popup-default alignl "
+                                                  role="presentation">
+                                                    <a href="#" onmousedown={DeleteFiles} class="deleteCss" data-id={it.value.attachment.Id} 
+                                                       role="menuitem">
+                                                                      <span class="slds-truncate">
+                                                                        {label.pir_Delete_Btn}
+                                                                      </span>
+                                                    </a>
+                                                  </li>
+                                                </template>
+                                              </ul>
+                                            </div>
+                                          </div>
+                                        </lightning-layout-item>
+                                      </lightning-layout>
+                                    </lightning-layout-item>
+                                  </lightning-layout>
+                                </template>
+                                <template if:true={it.value.isFileFromPatientPortal}>
+                                  <lightning-layout multiple-rows="true"
+                                    class="container-width slds-m-left_medium slds-m-right_large slds-m-top_small slds-m-bottom_xx-small"
+                                    key={it.value.attachment.Id}>
+                                    <lightning-layout-item size="12">
+                                      <template lwc:if={it.value.isNameReadOnly}>
+                                        <a class="attachtitle" onclick={openModelpopup}
+                                          title={it.value.attachment.Title} data-name={it.value.attachment.Title}
+                                          data-extension={it.value.attachment.FileExtension}
+                                          data-id={it.value.attachment.Id}
+                                          data-content={it.value.attachment.ContentSize}>{it.value.attachment.Title}</a>
+                                      </template>
+                                      <template lwc:else>
+                                        <lightning-layout>
+                                          <lightning-layout-item size="9" class="slds-p-bottom_xx-small">
+                                            <lightning-input tabindex="0" type="text" class="input-mobs"
+                                              title={it.value.attachment.Title} variant="label-hidden"
+                                              value={it.value.fileNameForEdit} data-index={it.index}
+                                              onblur={validateandsaveFileName} data-id={it.value.attachment.Id}>
+                                            </lightning-input>
+                                            <span if:true={it.value.hasNameError}
+                                              class="errorFileNameEmptyMob">{it.value.FileErrorMsg}
+                                            </span>
+                                          </lightning-layout-item>
+                                        </lightning-layout>
+                                      </template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12">
+                                      <lightning-layout>
+                                        <lightning-layout-item size="8">
+                                          <div class="doc-date-time datecss">
+                                            {it.value.attachment.CreatedDate}
+                                          </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="4" class="alignright slds-align-middle">
+                                          <a href={fileDownloadLink} target="_blank"
+                                            download={it.value.attachment.Title} data-id={it.value.attachment.Id}
+                                            data-url={medicalHistoryRecord.baseURL}>
+                                            <img class="download-icon" title={label.PIR_Download} onclick={DownloadFile}
+                                              data-id={it.value.attachment.Id} src={download} />
+                                          </a>
+                                        </lightning-layout-item>
+                                      </lightning-layout> 
+                                    </lightning-layout-item>
+                                  </lightning-layout>
+                                </template>
+                              </template>
+                              <div if:false={it.last} key={it.value.attachment.Id}
+                                class="slds-m-left_x-small  slds-m-right_medium"
+                                style="width: 100%; height: 100%; justify-content: center; align-items: center; display: inline-flex">
+                                <div style="width: 335px; height: 1px; background: #F6F7FB"></div>
+                              </div>
+                            </template>
+                          </template>
+                        </template>
+                        <!-- New Medical Record Table End -->
 
                         <template if:true={ismodelPopup}>
                           <c-pir_uploadmedicaldocument maindivcls={popupcls}
-                            uploadonid={returnpervalue.selectedPER.Participant__c} onclosemodelpopup={renderModel}>
+                            uploadonid={returnpervalue.selectedPER.Participant__c} isrequirerefreshtable={isrequirerefreshtable} onclosemodelpopup={renderModel}>
                           </c-pir_uploadmedicaldocument>
                         </template>
-                        <template if:true={isfileAvailable}>
-                          <template for:each={medicalHistoryRecord.attachments} for:item="attach">
-                            <div
-                              class="slds-truncate slds-col slds-size_11-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-m-bottom_small"
-                              key={attach.attachment.Id}>
-                              <a class="attachtitle" onclick={openModelpopup} title={attach.attachment.Title}
-                                data-name={attach.attachment.Title} data-extension={attach.attachment.FileExtension}
-                                data-id={attach.attachment.Id}
-                                data-content={attach.attachment.ContentSize}>{attach.attachment.Title}</a>
-                            </div>
-                            <div
-                              class="slds-col slds-size_9-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12 slds-m-bottom_small"
-                              key={attach.attachment.Id}>
-                              <div class="doc-date-time">
-                                <strong> {attach.attachment.CreatedDate}</strong>
-                              </div>
-                            </div>
-                            <div
-                              class="slds-size_1-of-12 slds-medium-size_1-of-12 slds-large-size_1-of-12 slds-m-bottom_small"
-                              key={attach.attachment.Id}>
-                              <div class="slds-grid slds-wrap">
-                                <div class=" slds-size_1-of-3">
-                                  <div if:true={attach.isDeleteAllowed}>
-                                    <span class="slds-p-left_medium p-right">
-                                      <img class="download-icon m-icon" src={deleteIcon} onclick={DeleteFile}
-                                        data-id={attach.attachment.Id} />
-                                    </span>
-                                  </div>
-                                </div>
-                                <div class=" slds-size_1-of-3"></div>
-                                <template if:true={ismodelDeletePopup}>
-                                  <c-pir_deletemedicaldocument maindivcls={popupcls} deleteid={deleteId}
-                                    onclosemodelpopupanddelete={deleteAndCloseModal}></c-pir_deletemedicaldocument>
-                                </template>
-                                <div class="slds-float_right slds-size_1-of-3">
-                                  <span class="slds-p-left_medium p-right">
-                                    <a href={fileDownloadLink} target="_blank" download={attach.attachment.Title}
-                                      data-id={attach.attachment.Id} data-url={medicalHistoryRecord.baseURL}>
-                                      <img class="download-icon" title={label.PIR_Download} onclick={DownloadFile}
-                                        data-id={attach.attachment.Id} src={download} />
-                                    </a>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </template>
+                        
+                        <template if:true={ismodelDeletePopup}>
+                          <c-pir_deletemedicaldocument maindivcls={popupcls} deleteid={deleteId}
+                            onclosemodelpopupanddelete={deleteAndCloseModal} isrequirerefreshtable={isrequirerefreshtable}   ></c-pir_deletemedicaldocument>
                         </template>
                         <template if:true={openmodel}>
                           <div class="slds-modal slds-fade-in-open slds-modal_medium slds-backdrop">
-                            <div class="slds-modal__container setW">
+                            <div class="slds-modal__container setW viewmodelcss">
                               <div class="slds-modal__header">
-                                <b>{label.BulkImport_File_Name} : {fileName}</b>
+                                <div class="modelfilenamecss"> 
+                                <b>{label.BulkImport_File_Name} : {fileName}</b> </div>
                                 <button class="slds-button slds-modal__close slds-button--icon" title="Close"
                                   onclick={closeModal}>
                                   <lightning-icon icon-name="utility:close" size="small">
                                   </lightning-icon>
                                 </button>
                               </div>
-                              <div class="slds-modal__content slds-p-around--small slds-grid slds-wrap">
+                              <div class="slds-modal__content slds-p-around--small slds-grid_vertical ">
                                 <!--  Write Your Content here  -->
-                                <div class="slds-align_absolute-center">
+                                <div class=" slds-align_absolute-center">
                                   <span>
                                     <iframe style="
                                     min-width: 57vw;
                                     height: 400px;
                                     z-index: -999;
+                                    overflow: scroll;
                                   " src={openfileUrl} frameborder="0">
                                     </iframe>
                                   </span>
@@ -250,6 +690,110 @@
                             </div>
                           </div>
                         </template>
+
+                        <!--modal warning before upload doc-->
+                        <template if:true={isModalOpen}>
+                          <div class={maindivcls}>
+                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                              aria-describedby="modal-content-id-1"
+                              class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
+                              <div class="slds-modal_small">
+                                <div class="slds-modal__container model-small">
+                                  <div class="slds-modal__content" id="modal-content-id-1">
+                                    <div class="bar"></div>
+                                    <div class="slds-p-around_large">
+                                      <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+                                        <div
+                                          class="slds-col slds-large-size_11-of-12 slds-medium-size_10-of-12 slds-size_10-of-12">
+                                          <span class="title">{label.PIR_Save_Changes}</span>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-12 close-icon">
+                                          <div onclick={doDiscardModal}>
+                                            <lightning-icon icon-name="utility:close" alternative-text="close"
+                                              size="small"></lightning-icon>
+                                            <span class="slds-assistive-text">Close</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <slot name="body">
+                                        <p class="sub-text">{label.PIR_Unsaved_Changes} </p>
+                                        <div class="slds-grid slds-wrap slds-m-top_large">
+                                          <div
+                                            class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 medicaltabmodel">
+                                            <div class="slds-float_right mobile-width">
+                                              <button title=""
+                                                class="slds-button apollo-btn primary btn-height save-btn"
+                                                disabled={disablebtn} onclick={dosavemedicalTable}>
+                                                {label.BTN_Save}
+                                              </button>
+                                              <button class="slds-button apollo-btn secondary btn-height discard-btn"
+                                                onclick={doDiscard}>
+                                                {label.PIR_Discard}   
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </slot>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </section>
+                          </div>
+                          <div class="slds-backdrop slds-backdrop_open"></div>
+                        </template>
+                        <!--modal warning before Delete doc-->
+                        <template if:true={isModalOpenUnsaved}>
+                          <div class={maindivcls}>
+                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                              aria-describedby="modal-content-id-1"
+                              class="slds-modal slds-modal_small slds-align--absolute-center slds-fade-in-open">
+                              <div class="slds-modal_small">
+                                <div class="slds-modal__container model-small">
+                                  <div class="slds-modal__content" id="modal-content-id-12">
+                                    <div class="bar"></div>
+                                    <div class="slds-p-around_large">
+                                      <div class="slds-grid slds-gutters close-arrow-left slds-m-bottom_small">
+                                        <div
+                                          class="slds-col slds-large-size_11-of-12 slds-medium-size_10-of-12 slds-size_10-of-12">
+                                          <span class="title">{label.PIR_Save_Changes}</span>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-12 close-icon">
+                                          <div onclick={doCloseModalUnsaved}>
+                                            <lightning-icon icon-name="utility:close" alternative-text="close"
+                                              size="small"></lightning-icon>
+                                            <span class="slds-assistive-text">Close</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <slot name="body">
+                                        <p class="sub-text">{label.PIR_Unsaved_Changes} </p>
+                                        <div class="slds-grid slds-wrap slds-m-top_large">
+                                          <div
+                                            class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 medicaltabmodel">
+                                            <div class="slds-float_right mobile-width">
+                                              <button title=""
+                                                class="slds-button apollo-btn primary btn-height save-btn"
+                                                disabled={disablebtn} onclick={dosavemedicalTableUnsaved}>
+                                                {label.BTN_Save}
+                                              </button>
+                                              <button class="slds-button apollo-btn secondary btn-height discard-btn"
+                                                onclick={doDiscardModalUnsaved}>
+                                                {label.PIR_Discard}   
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </slot>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </section>
+                          </div>
+                          <div class="slds-backdrop slds-backdrop_open"></div>
+                        </template>
+                        <!-- modal warning end-->
                         <div class="medical-border-bottom"></div>
                       </div>
                     </template>

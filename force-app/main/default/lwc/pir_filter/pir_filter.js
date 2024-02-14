@@ -191,10 +191,11 @@ export default class Filtertest extends LightningElement {
     presetId: "",
     presetName:""
   };
-
+  
   studyToPrmoteDCT;
   studyToFinalStep;
   isAnythingChangedForReset = false;
+  showStudyErr = false;
   @api
   filterFetched = false;
   @api
@@ -249,15 +250,27 @@ export default class Filtertest extends LightningElement {
               if (key == picklist_Value) {
                 var temp = conts1[key];
                 for (var j in temp) {
-                  options1.push({ label: temp[j].Name, value: temp[j].Id });
+                  //Site decoupling changes RH-8613
+                  if(temp[j].Site_Activation_Status__c != undefined && temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+                    options1.push({ label: temp[j].Name, value: temp[j].Id });
+                  }
                 }
               }
             }
             this.studySiteList = options1;
-            if (this.urlsiteid != null) {
-              this.defaultSite = this.urlsiteid;
-            } else {
-              this.defaultSite = options1[0].value;
+            this.showStudyErr = false;
+            this.isbuttonenabled = false;
+            if(options1[1] == undefined){
+              this.showStudyErr = true;
+              this.defaultSite = '';
+              this.studySiteList = '';
+              this.isbuttonenabled = true;
+            }else{
+              if (this.urlsiteid != null) {
+                this.defaultSite = this.urlsiteid;
+              } else {
+                this.defaultSite = options1[0].value;
+              }
             }
             this.selectedSite = this.defaultSite;
             this.filterWrapper.siteList=[];
@@ -362,7 +375,10 @@ export default class Filtertest extends LightningElement {
         if (key == picklist_Value) {
           var temp = conts[key];
           for (var j in temp) {
-            options.push({ label: temp[j].Name, value: temp[j].Id });
+            //Site decoupling changes RH-8613
+            if(temp[j].Site_Activation_Status__c != undefined && temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+              options.push({ label: temp[j].Name, value: temp[j].Id });
+            }
           }
         }
       }
@@ -370,11 +386,14 @@ export default class Filtertest extends LightningElement {
       for (var key in conts) {
         var temp = conts[key];
         for (var j in temp) {
-          options.push({ label: temp[j].Name, value: temp[j].Id });
+          //Site decoupling changes RH-8613
+          if(temp[j].Site_Activation_Status__c != undefined && temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+                options.push({ label: temp[j].Name, value: temp[j].Id });
+          }
         }
       }
     }
-
+    
     this.studySiteList = options;
 
     if(presetSellection.siteList.length == 1){
@@ -385,6 +404,13 @@ export default class Filtertest extends LightningElement {
       this.selectedSite = 'All Study Site';
     }
 
+    this.showStudyErr = false;
+    if(options.length == 1){
+      this.showStudyErr = true;
+      this.defaultSite = '';
+      this.selectedSite = '';
+      this.studySiteList = '';
+    }
     this.createStatusOption();
     if (presetSellection.activeInactive == "Active") {
       if(presetSellection.status.length == 1){
@@ -438,7 +464,10 @@ export default class Filtertest extends LightningElement {
         if (key == picklist_Value) {
           var temp = conts[key];
           for (var j in temp) {
-            options.push({ label: temp[j].Name, value: temp[j].Id });
+            //Site decoupling changes RH-8613
+            if(temp[j].Site_Activation_Status__c != undefined && temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+              options.push({ label: temp[j].Name, value: temp[j].Id });
+            }
           }
         }
       }
@@ -446,15 +475,28 @@ export default class Filtertest extends LightningElement {
       for (var key in conts) {
         var temp = conts[key];
         for (var j in temp) {
-          options.push({ label: temp[j].Name, value: temp[j].Id });
+          //Site decoupling changes RH-8613
+          if(temp[j].Site_Activation_Status__c != undefined && temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+                options.push({ label: temp[j].Name, value: temp[j].Id });
+            }
         }
       }
     }
 
-    this.studySiteList = options;
+    this.showStudyErr = false;
+    this.isbuttonenabled = false;
+    if(options[1] == undefined){
+      this.showStudyErr = true;
+      this.isbuttonenabled = true;
+      this.studySiteList = '';
+      this.defaultSite = '';
+      this.selectedSite = '';
+    }else{
+      this.studySiteList = options;
+      this.defaultSite = "All Study Site";
+      this.selectedSite = "All Study Site";
+    }
     this.selectedStudy = picklist_Value;
-    this.defaultSite = "All Study Site";
-    this.selectedSite = "All Study Site";
     this.createStatusOption();
     this.sendFilterUpdates();
   }
@@ -896,13 +938,25 @@ export default class Filtertest extends LightningElement {
         if (key == this.defaultStudy) {
           var temp = conts[key];
           for (var j in temp) {
-            options.push({ label: temp[j].Name, value: temp[j].Id });
+            //Site decoupling changes RH-8613
+            if(temp[j].Site_Activation_Status__c != undefined && temp[j].Site_Activation_Status__c != 'Deactivated' && temp[j].Site_Activation_Status__c != 'Deactivated (Admin)' && temp[j].Override_PI_Referral_Status__c == 'Accepted'){
+                options.push({ label: temp[j].Name, value: temp[j].Id });
+              }
           }
         }
       }
 
     this.studySiteList = options;
-    this.defaultSite = this.studySiteList[0].value;
+    this.showStudyErr = false;
+    this.isbuttonenabled = false;
+    if(options[1] == undefined){
+      this.defaultSite = '';
+      this.showStudyErr = true;
+      this.isbuttonenabled = true;
+      this.studySiteList = '';
+    }else{
+      this.defaultSite = this.studySiteList[0].value;
+    }
     this.selectedSite = this.defaultSite;
 
     this.createStatusOption();

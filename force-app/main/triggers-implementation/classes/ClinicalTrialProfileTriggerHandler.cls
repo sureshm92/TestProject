@@ -20,6 +20,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>) newList, null);
             updateStudySitesCCSupport(newList, null);
+            insertDefaultRestrictedSource((List<Clinical_Trial_Profile__c>)newList);
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -32,6 +33,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
             updateStudySitesSuppressPIEmails(newList, (Map<Id, Clinical_Trial_Profile__c>) oldMap);
             updateStudySitesCCSupport(newList, (Map<Id, Clinical_Trial_Profile__c>) oldMap);
             createPreEnrollmentPatientVisits(newList, (Map<Id, Clinical_Trial_Profile__c>) oldMap);
+            updateDefaultRestrictedSource(newList, (Map<Id, Clinical_Trial_Profile__c>) oldMap);
         }
 
         public override void beforeDelete(List<SObject> oldList) {
@@ -433,5 +435,114 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
             );
             Database.executeBatch(objBatch, 50);
         }
+    }
+    /**
+     * @description: This mehtod will Create Default Restricted Source Record with Referral source empty when CTP 
+     				 Sponsor is Janssen and  Referral source-23andMe when CTP sponsor has a different or an empty value.
+     * @author Faizaan Baig
+     * @param newList
+     **/
+    private static void insertDefaultRestrictedSource(
+        List<Clinical_Trial_Profile__c> newList
+    ) {
+        for(Clinical_Trial_Profile__c ctp: newList){
+            if((ctp.CommunityTemplate__c == 'Janssen' && ctp.PPTemplate__c == 'PP 2.0') || ctp.CommunityTemplate__c == 'PatientPortal'){
+                defaultRestrictedSource(newList,null,null);
+            }
+        }
+    }
+    private static void updateDefaultRestrictedSource(
+        List<Clinical_Trial_Profile__c> newList,
+        Map<Id, Clinical_Trial_Profile__c> oldMap
+    ) {
+        Set<Id> ctpIdlst = new Set<Id>();
+        Map<Id,Restricted_Source_Config__c> ctpRestrictedSource = new Map<Id,Restricted_Source_Config__c>();
+        List<Clinical_Trial_Profile__c> ctplstUpdate = new List<Clinical_Trial_Profile__c>();
+        List<Restricted_Source_Config__c> restrictedsourceLst=new List<Restricted_Source_Config__c> ();
+        for (Clinical_Trial_Profile__c ctp : newList) {
+            Boolean communityTemplate = ((ctp.CommunityTemplate__c == 'Janssen' && ctp.PPTemplate__c == 'PP 2.0') || ctp.CommunityTemplate__c == 'PatientPortal') ? true : false;
+            Boolean sponserUpdate = (oldMap != null && (ctp.Study_Sponsor__c != oldMap.get(ctp.Id).Study_Sponsor__c)) ? true : false;
+            //Update
+            if(sponserUpdate && communityTemplate){
+                ctpIdlst.add(ctp.Id);  
+                ctplstUpdate.add(ctp);
+            }
+        }
+        if(ctpIdlst != null){
+            restrictedsourceLst = [Select Id,Referral_Resource__c,Study__c,Study__r.Study_Sponsor__c From Restricted_Source_Config__c where Study__c IN :ctpIdlst];
+            for(Restricted_Source_Config__c restrict : restrictedsourceLst){
+                ctpRestrictedSource.put(restrict.Study__c ,restrict);
+            }
+        }
+        if(ctplstUpdate != null){
+            defaultRestrictedSource(ctplstUpdate,oldMap,ctpRestrictedSource);
+        }
+    }
+     private static void defaultRestrictedSource(
+        List<Clinical_Trial_Profile__c> ctplst,
+        Map<Id, Clinical_Trial_Profile__c> oldMap,
+         Map<Id,Restricted_Source_Config__c> ctpRestrictedSource
+    ) {
+        List<String> sponserlst = new List<String>();
+        Set<String> referralSource = new Set<String>();
+        List<Restricted_Source_Config__c> restrictedRecordsToUpdate = new List<Restricted_Source_Config__c> ();
+        Map<Id,Boolean> configSponserMatched = new Map<Id,Boolean>(); 
+        Map<Id,Clinical_Trial_Profile__c> ctpRecord = new Map<Id,Clinical_Trial_Profile__c>();
+        Restricted_Source__mdt[] studyAndReferralRecords = [Select MasterLabel,Study_Sponsor__c,DeveloperName,Referral_source__c from Restricted_Source__mdt];
+        for(Restricted_Source__mdt iterateMetaRecord:studyAndReferralRecords){
+            if(iterateMetaRecord.Study_Sponsor__c != null)
+                sponserlst.add(iterateMetaRecord.Study_Sponsor__c.toUpperCase());
+            if(iterateMetaRecord.Referral_source__c != null)
+                referralSource.add(iterateMetaRecord.Referral_source__c.toUpperCase());
+        }
+        for (Clinical_Trial_Profile__c ctp : ctplst) {
+            ctpRecord.put(ctp.Id,ctp);
+            if(ctp.Study_Sponsor__c != null){
+                string ctpStudySponser = ctp.Study_Sponsor__c.toUpperCase();
+                Set<String> ctpSponser = new Set<String>(ctpStudySponser.split(' '));
+                ctpSponser.retainAll(sponserlst);
+                Boolean sponserMatched=false;
+                if(ctpSponser.Size() >0){
+                    sponserMatched=True;
+                    configSponserMatched.put(ctp.Id,sponserMatched);
+                }
+                else{
+                    configSponserMatched.put(ctp.Id,sponserMatched);
+                }
+            }
+        }
+        for(Id key : configSponserMatched.keyset()){
+            if(configSponserMatched.get(key)){ // sponser matched
+                if(oldMap != null && ctpRestrictedSource != null && ctpRestrictedSource.get(key) != null){ // Update case and restricted source are not empty
+                    Restricted_Source_Config__c restrictedsource = ctpRestrictedSource.get(key);
+                    restrictedsource.Sponsor__c= ctpRecord.get(key).Study_Sponsor__c;
+                    restrictedsource.Referral_Resource__c ='';
+                    restrictedRecordsToUpdate.add(restrictedsource);
+                }
+                else{ // Insert on update of ctp and no child recrds and normal insert
+                    Restricted_Source_Config__c RestrictRecord = new Restricted_Source_Config__c();
+                    RestrictRecord.Sponsor__c= ctpRecord.get(key).Study_Sponsor__c;
+                    RestrictRecord.Study__c=key;
+                    restrictedRecordsToUpdate.add(RestrictRecord);
+                }
+            }
+            else{
+                if(oldMap != null && ctpRestrictedSource != null && ctpRestrictedSource.get(key) != null){ // Update case and restricted source are not empty
+                    Restricted_Source_Config__c restrictedsource = ctpRestrictedSource.get(key);
+                    restrictedsource.Sponsor__c= ctpRecord.get(key).Study_Sponsor__c;
+                    restrictedsource.Referral_Resource__c =String.join(new List<String>(referralSource),';');
+                    restrictedRecordsToUpdate.add(restrictedsource);
+                }
+                else{ // Insert on update of ctp and no child recrds and normal insert
+                    Restricted_Source_Config__c RestrictRecord=new Restricted_Source_Config__c();
+                    RestrictRecord.Sponsor__c= ctpRecord.get(key).Study_Sponsor__c;
+                    RestrictRecord.Study__c=key;
+                    RestrictRecord.Referral_Resource__c =String.join(new List<String>(referralSource),';');
+                    restrictedRecordsToUpdate.add(RestrictRecord);
+                } 
+            }
+        }
+        if(restrictedRecordsToUpdate != null)
+           upsert restrictedRecordsToUpdate;
     }
 }

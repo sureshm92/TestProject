@@ -249,21 +249,24 @@ public without sharing class PIR_BulkActionController {
          string janssen = CommunityTemplateService.TEMPLATE_JANSSEN;
          List<Study_Site__c> studySiteList = PIR_HomepageController.getStudySite();
          for (Study_Site__c s : studySiteList) {
-           if (sponsorName == janssen) {
-             if (
-               s.Clinical_Trial_Profile__r.CommunityTemplate__c == sponsorName
-             ) {
-               studies.add(s.Clinical_Trial_Profile__c);
-               studySites.add(s.Id);
-             }
-           } else {
-             if (s.Clinical_Trial_Profile__r.CommunityTemplate__c != janssen) {
-               studies.add(s.Clinical_Trial_Profile__c);
-               studySites.add(s.Id);
-             }
-           }
+            //Site decoupling changes RH-8613
+            if(s.Site_Activation_Status__c != null && s.Site_Activation_Status__c != 'Deactivated' && s.Site_Activation_Status__c != 'Deactivated (Admin)' && s.Override_PI_Referral_Status__c == 'Accepted'){
+                if (sponsorName == janssen) {
+                    if (
+                        s.Clinical_Trial_Profile__r.CommunityTemplate__c == sponsorName
+                    ) {
+                        studies.add(s.Clinical_Trial_Profile__c);
+                        studySites.add(s.Id);
+                    }
+                } else {
+                    if (s.Clinical_Trial_Profile__r.CommunityTemplate__c != janssen) {
+                        studies.add(s.Clinical_Trial_Profile__c);
+                        studySites.add(s.Id);
+                    }
+                }
+            }
          }
-       }
+        }
            CsvWrapper wrap = new CsvWrapper();
        List<Participant_Enrollment__c> lstPER = new List<Participant_Enrollment__c>();
        List<Participant_Enrollment__c> lstPERs = new List<Participant_Enrollment__c>();
