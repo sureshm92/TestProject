@@ -232,7 +232,7 @@ stayTunedIcon = Stay_Tuned;
     }
     get barStatus(){
         if(this.parentWrapper.progressWrapperList[this.currentCard-1])
-            return this.parentWrapper.progressWrapperList[this.currentCard-1].status;
+            return this.parentWrapper.progressWrapperList[this.currentCard-1].statusLabel;
         return null;
     }
     get barStatusDate(){
