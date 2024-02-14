@@ -12248,7 +12248,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message Body for Visit Reminder Del Push</shortDescription>
-        <value>You have an upcoming ##isEventorVisit with ##ParticipantFirstName for the ##StudyName ##StudyorProgramHeader. If they are unable to make this appointment, please contact the ##STUDYorPROGRAM Team.</value>
+        <value>You have an upcoming ##isEventorVisit with ##ParticipantsFirstName for the ##StudyName ##StudyorProgramHeader. If they are unable to make this appointment, please contact the ##STUDYorPROGRAM Team.</value>
     </labels>
     <labels>
         <fullName>Message_Body_Visit_Reminder_PT_Push</fullName>
