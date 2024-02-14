@@ -3013,8 +3013,14 @@ public without sharing class PIR_HomepageController {
   public static StudyStudySiteWrapper getStudyStudySiteDetailsV2() {
     StudyStudySiteWrapper sswrap = getStudyStudySiteDetails();
     sswrap.allCTP = new list<Clinical_Trial_Profile__c>();
+    list<Study_Site__c> sslist = new list<Study_Site__c>();
+    if(sswrap.studySiteMap.values() != null){
+      for(List<Study_Site__c> ss:sswrap.studySiteMap.values()){
+        sslist.addAll(ss);
+      }
+    }
     map<id,Clinical_Trial_Profile__c> allCTPMap = new map<id,Clinical_Trial_Profile__c>();
-    for(Study_Site__c ss : getStudySite()){
+    for(Study_Site__c ss : sslist){
       if(!allCTPMap.containsKey(ss.Clinical_Trial_Profile__c))
         allCTPMap.put(ss.Clinical_Trial_Profile__c,new Clinical_Trial_Profile__c(id=ss.Clinical_Trial_Profile__c, Study_Code_Name__c = ss.Clinical_Trial_Profile__r.Study_Code_Name__c));
     }
