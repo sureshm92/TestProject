@@ -64,6 +64,7 @@ import PP_Sort_Title_Asc from "@salesforce/label/c.PP_Sort_Title_Asc";
 import PP_Sort_Date_Desc from "@salesforce/label/c.PP_Sort_Date_Desc";
 import PP_Sort_Date_Asc from "@salesforce/label/c.PP_Sort_Date_Asc";
 import Sort_Detail_By from "@salesforce/label/c.Sort_Detail_By";
+import PP_Preview from "@salesforce/label/c.PP_Preview";
 
 import LOCALE from "@salesforce/i18n/locale";
 
@@ -125,7 +126,8 @@ export default class Medicalinformation extends LightningElement {
     PP_Sort_Title_Asc,
     PP_Sort_Date_Desc,
     PP_Sort_Date_Asc,
-    Sort_Detail_By
+    Sort_Detail_By,
+    PP_Preview
   };
 
   ampm = false;
