@@ -95,7 +95,7 @@ export default class PpResourceContainerPage extends NavigationMixin(LightningEl
     }
 
     connectedCallback() {
-        DEVICE != 'Small' && DEVICE != 'Medium' ? (this.desktop = true) : (this.desktop = false);
+        DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
         if (!this.desktop) {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
