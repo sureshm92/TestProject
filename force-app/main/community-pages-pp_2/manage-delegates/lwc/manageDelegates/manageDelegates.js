@@ -111,7 +111,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
     };
 
     connectedCallback() {
-        formFactor != 'Small' ? (this.isDesktop = true) : (this.isDesktop = false);
+        formFactor == 'Large' ? (this.isDesktop = true) : (this.isDesktop = false);
 
         if (!this.loaded) {
             loadScript(this, rrCommunity).then(() => {
@@ -133,7 +133,7 @@ export default class ManageDelegates extends NavigationMixin(LightningElement) {
 
     render() {
         //return this.isDesktop ? manageDelegatesDesktop : manageDelegatesMobile;
-        return formFactor === 'Small' ? mobileTemplate : largeTemplate;
+        return formFactor === 'Large' ? largeTemplate:mobileTemplate;
     }
 
     initializeData() {
