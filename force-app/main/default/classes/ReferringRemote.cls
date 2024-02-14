@@ -38,7 +38,7 @@ public without sharing class ReferringRemote {
         Id trialId,
         Id peId,
         Id hcpeId,
-		Boolean patientDoesNotExist,
+        Boolean patientDoesNotExist,
         String userMode,
         String delegateId,
         String language
@@ -72,7 +72,7 @@ public without sharing class ReferringRemote {
             );
         }
         if (initData.mrrSurvey != null) {
-		List<String> customFields = new List<String>{
+        List<String> customFields = new List<String>{
             'Id',
             'isAuthorized__c',
             'Participant_Surname__c',
@@ -161,7 +161,7 @@ public without sharing class ReferringRemote {
                     delegateId,
                     customFields
                 );
-		    }	
+            }   
             if(initData.pendingPEnrollments != null && !initData.pendingPEnrollments.isEmpty()) {
                 Map<Id, List<Participant_PrescreenerResponse__c>> peIdResponseMap = new Map<Id, List<Participant_PrescreenerResponse__c>>();
                 for(Participant_PrescreenerResponse__c response : [
@@ -254,20 +254,20 @@ public without sharing class ReferringRemote {
                         
                             if(restrictedlst != null && !restrictedlst.isEmpty()){
                                 referralSource = (lstPer[0].Referral_Source__c == 'ePR' || lstPer[0].Referral_Source__c == 'ePRCampaign')  ? lstPer[0].Referral_Source__c +'-'+lstPer[0].DataControllerOrg__c :lstPer[0].Referral_Source__c; 
-                                if(restrictedlst.contains(referralSource)){
-                                initData.iqviaConsentPref =  true; //restricted
+                                if(restrictedlst.contains('HCP')){
+                                initData.iqviaConsentPref =  true; //restricted dnd
                                 }else{
-                                initData.iqviaConsentPref =  false; //non-restricted
+                                initData.iqviaConsentPref =  false; //non restricted
                                 }
                             
                             }else{
                             initData.iqviaConsentPref =  true; // restricted
                             }
-                        }else{initData.iqviaConsentPref =  false;} //non-restricted
+                        }else{initData.iqviaConsentPref =  false;} //non restricted dis
                     }
             }
             else{
-                initData.iqviaConsentPref =  true; 
+                initData.iqviaConsentPref =  true;  //dnd
             }  
         }else{
             list<Clinical_Trial_Profile__c> lstCtp = new list<Clinical_Trial_Profile__c>();
@@ -287,7 +287,7 @@ public without sharing class ReferringRemote {
                     if(restrictedRecrd!=null && !restrictedRecrd.isEmpty()){
                         restrictedlst = restrictedRecrd[0].Referral_Resource__c != null ? restrictedRecrd[0].Referral_Resource__c.split(';') : null;
                         if(restrictedlst != null && !restrictedlst.isEmpty()){
-                        if(restrictedlst.contains('HCP') || restrictedlst.contains('HCP Prescreen Log')){
+                        if(restrictedlst.contains('HCP')){
                             initData.iqviaConsentPref =  true;
                         }else{
                             initData.iqviaConsentPref=  false;
