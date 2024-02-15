@@ -123,7 +123,11 @@ export default class Documents extends NavigationMixin(LightningElement) {
     }
 
     get thumbnailClass(){
-        return this.isTabPortrait?'slds-col slds-size_1-of-6 thumbnail-outerbox-tab':'slds-col slds-size_1-of-6 thumbnail-outerbox';
+        return this.isTabPortrait?'slds-col slds-size_1-of-7 thumbnail-outerbox-tab':'slds-col slds-size_1-of-6 thumbnail-outerbox';
+    }
+
+    get docDetailClass(){
+        return this.isTabPortrait?'slds-col slds-size_6-of-7 document-details':'slds-col slds-size_5-of-6 document-details';
     }
     isTabletLandscape(){
         let orientation = screen.orientation.type;
