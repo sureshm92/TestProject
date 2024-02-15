@@ -399,17 +399,25 @@ a {
 @media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
     .active-custom-box {
         width: 280px;
+        height: 95px;
+        padding-top: 10px;
     }
     .inactive-custom-box {
         width: 280px;
+        height: 95px;
+        padding-top: 10px;
     }
 }
 @media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: landscape) {
     .active-custom-box {
         max-width: 100%;
+        height: 95px;
+        padding-top: 10px;
     }
     .inactive-custom-box {
         max-width: 100%;
+        height: 95px;
+        padding-top: 10px;
     }
     .up-button {
         width: 100px;
