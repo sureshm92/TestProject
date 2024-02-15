@@ -22,6 +22,7 @@
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="documents" type="Object[]" />
     <aura:attribute name="communityName" type="String" />
+    <aura:attribute name="showtc" type="Boolean" />
 
     <!-- actions: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -258,6 +259,7 @@
                                     <aura:if
                                         isTrue="{!v.studyDetail.trial.Terms_And_Conditions_ID__c}"
                                     >
+                                        <aura:if isTrue="{!v.showtc}">
                                         <div class="slds-grid slvi-section">
                                             <div class="slds-col btn-wrapper">
                                                 <div
@@ -272,6 +274,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        </aura:if>
                                     </aura:if>
                                 </div>
                                 <!-- social networks icons -->
