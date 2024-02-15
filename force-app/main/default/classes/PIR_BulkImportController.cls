@@ -134,9 +134,9 @@ public without sharing class PIR_BulkImportController {
    @AuraEnabled
    public static List<Study_Site__c> getStudySiteDetails() {
      Id piContactId = CommunityService.getUserContact().Id;
-     List<String> acceptedSites = new List<String>();
+     /*List<String> acceptedSites = new List<String>();
      acceptedSites.add('Accepted');
-     acceptedSites.add('Accepted (Admin)');
+     acceptedSites.add('Accepted (Admin)');*/
      List<Study_Site__c> studySiteList = [
        SELECT
          Id,
@@ -151,8 +151,8 @@ public without sharing class PIR_BulkImportController {
          Principal_Investigator__c
        FROM Study_Site__c
        WHERE
-         Override_PI_Referral_Status__c IN :acceptedSites
-         AND (Principal_Investigator__c = :piContactId
+         /*Override_PI_Referral_Status__c IN :acceptedSites AND */
+         (Principal_Investigator__c = :piContactId
          OR ID IN :DelegateService.getDelegatedStudySiteIds())
      ];
  
