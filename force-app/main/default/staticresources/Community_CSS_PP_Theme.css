@@ -698,9 +698,9 @@ input::placeholder {
     margin-left: 16px;
 }
 
-@media all and (max-width: 1024px) and (min-width: 768px) {
-    .logo-container-pp {
-        width: 80% !important;
+@media only screen and (min-device-width: 1280px) and (max-device-width: 1280px) and (orientation: landscape) {
+    .mob-logo-container-pp {
+        margin-right: 27rem;
     }
 }
 
@@ -1480,6 +1480,16 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
         border-radius: 16px;
         min-width: 350px;
     }
+    .manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn {
+        min-width: 100px;
+        margin-right: 50px;
+    }
+    .cPpCustomThemeLayout .curve-input .slds-input[type='time'] {
+        width: 448px;
+    }
+    .cPpCustomThemeLayout .curve-input .timc .slds-input {
+        width: 450px !important;
+    }
 }
 @media all and (max-width: 768px) {
     .cPpCustomThemeLayout .apollo-btn,
@@ -1968,7 +1978,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     /* width: auto !important; */
     background-color: transparent !important;
     color: #015ff1 !important;
-    display: block !important;
+    /* display: block !important; */
     padding-top: 41px !important;
 }
 .manage-delegate-acc-setting .profile-information-rectangle {
@@ -2018,6 +2028,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     padding: 5px 0px 5px 0px !important;
     width: 107px !important;
 }
+
 .manage-assignment-acc-setting .manage-assignment-continer .ma-btn-box,
 .ma-btn-box-1,
 .ma-what-I-can-see-card,

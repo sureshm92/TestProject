@@ -279,7 +279,7 @@ a {
 
 .col1 {
     height: 720px;
-    min-width: 380px;
+    /*min-width: 380px;*/
     border-right-width: 1px;
     border-right-color: #999999;
 }
@@ -335,11 +335,6 @@ a {
     font-size: 1.25rem;
     font-weight: 400;
 }
-@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
-    .icon-cont {
-        min-width: 350px;
-    }
-}
 
 @media all and (max-width: 1200px) {
     .col3 {
@@ -371,19 +366,20 @@ a {
         margin: unset;
     }
 }
-
-@media all and (min-width: 1024px) and (max-width: 1200px) {
+/* @media all and (min-width: 768px) and (max-width: 1024px) {
+} */
+/* @media all and (min-width: 1024px) and (max-width: 1200px) { 
     .col1,
     .col2 {
         min-width: 50%;
     }
-}
+}*/
 
-@media all and (min-width: 768px) and (max-width: 850px) {
+/* @media all and (min-width: 768px) and (max-width: 850px) {
     .col2 {
         max-width: 45%;
     }
-}
+} */
 
 @media all and (min-width: 468px) and (max-width: 768px) {
     .active-custom-box-class,
@@ -444,5 +440,10 @@ a {
 @media all and (min-width: 768px) and (max-width: 1024px) {
     .col1 {
         height: 540px;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1279px) and (orientation: landscape) {
+    .col3 {
+        min-width: 0%;
     }
 }

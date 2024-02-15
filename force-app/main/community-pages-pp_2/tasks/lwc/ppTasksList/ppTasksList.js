@@ -40,7 +40,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     spinner;
     showSpinner = true;
     @api isRTL = false;
-    isIPAD;
+    @track isIPAD;
 
     @api
     get selectedTasks() {
@@ -193,11 +193,17 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
 
     connectedCallback() {
         this.isIpad();
-        if (formFactor === 'Small') {
-            this.isMobile = true;
-        } else {
+        window.addEventListener('orientationchange', this.onOrientationChange);
+        // if (formFactor === 'Small') {
+        //     this.isMobile = true;
+        // } else {
+        //     this.isMobile = false;
+        // }
+         if (formFactor === 'Large') {
             this.isMobile = false;
-        }
+         } else {
+             this.isMobile = true;
+         }
         var pageurl = communityService.getFullPageName();
         if (pageurl.includes('tasks')) {
             this.ishomepage = false;
@@ -214,6 +220,11 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
                 console.error('Error RTL: ' + JSON.stringify(error));
         });
     }
+
+    onOrientationChange = () => {
+        this.isIpad();
+    };
+    
 
     taskOpen(event) {
         let selectedTask;
@@ -547,12 +558,22 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     }
 
 isIpad(){
-    if (/ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
-        this.isIPAD=true;
-    } else if (/macintel/i.test(navigator.platform.toLowerCase())) {  
-        this.isIPAD=true;      
-    }else{
-        this.isIPAD=false;
+    let orientation = screen.orientation.type;
+    let portrait = true;
+    if (orientation === 'landscape-primary') {
+        portrait = false;
     }
+    if (window.innerWidth >= 768 && window.innerWidth < 1279 && portrait) {
+        if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+            this.isIPAD = true;
+            return true;
+        } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+            this.isIPAD = true;
+            return true;
+        }
+    } else {
+        this.isIPAD = false;
+    }
+    return false; 
 }
 }
