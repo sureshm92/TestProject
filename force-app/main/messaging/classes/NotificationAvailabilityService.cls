@@ -399,6 +399,7 @@ public without sharing class NotificationAvailabilityService {
                         Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
                         Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Participant_Enrollment__r.Name,
+                        Participant_Enrollment__r.Participant_Status__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
@@ -1215,6 +1216,7 @@ public without sharing class NotificationAvailabilityService {
                 Study_Site__r.SMS_Are_Available__c,
                 Study_Site__r.Suppress_Study_Site_PI_Emails__c,
                 Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                Participant_Status__c
                 HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c,
                 Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
             FROM Participant_Enrollment__c
