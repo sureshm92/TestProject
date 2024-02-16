@@ -184,7 +184,7 @@
 
 .mob-ph-notAvailable {
     height: 17px;
-    width: 81px;
+    /* width: 81px; */
     color: #999999;
     font-family: 'Proxima Nova';
     font-size: 14px;
