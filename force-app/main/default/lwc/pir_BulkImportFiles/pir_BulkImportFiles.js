@@ -315,7 +315,9 @@ export default class Pir_BulkImportFiles extends LightningElement {
         getBulkImportHistoryCompleted({ getStudySite: this.getStudySite, pageNumber: this.pageNumber })
             .then(result => {
                 this.bulkHistoryDataCompleted = result.bulkHistoryDataCompleted;
-                this.totalRecord = result.totalCount;
+                if(this.getStudySite != undefined){
+                    this.totalRecord = result.totalCount;
+                }
                 const selectEvent = new CustomEvent('gettotalrecord', {
                     detail: this.totalRecord
                 });
@@ -325,7 +327,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
                     detail: ''
                 });
                 this.dispatchEvent(selectEventnew);
-                if (result.bulkHistoryDataCompleted.length > 0) {
+                if (result.bulkHistoryDataCompleted.length > 0 && this.getStudySite != undefined) {
                     this.noRecords = false;
                     this.template.querySelectorAll(".nodata").forEach(function (L) {
                         L.classList.remove("table-width-nodata");
@@ -336,6 +338,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
                         L.classList.add("table-width-nodata");
                     });
                     this.noRecords = true;
+                    this.bulkHistoryDataCompleted ='';
                 }
                 for (var i = 0; i < result.bulkHistoryDataCompleted.length; i++) {
                     if (result.bulkHistoryDataCompleted[i].Rejected_Records__c != '0') {
@@ -360,6 +363,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
                 console.log('Error : ' + JSON.stringify(this.err));
                 console.log('Error : ' + error.message);
             });
+        if(this.getStudySite != undefined){
         getBulkImportHistoryInProgress({ getStudySite: this.getStudySite })
             .then(result => {
                 this.bulkHistoryDataInProgress = result;
@@ -418,6 +422,7 @@ export default class Pir_BulkImportFiles extends LightningElement {
                 console.log('Error : ' + error.message);
             });
 
+        }
     }
 
     @api updateInProgressOldData() {
