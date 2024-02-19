@@ -766,7 +766,7 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             Additional_Information__c = ipr.Additional_Information__c
         );
         if(fieldNotVisible!=true){
-            objPE.Study_PI_Storage_Consent_Time__c = Datetime.now(),
+            objPE.Study_PI_Storage_Consent_Time__c = Datetime.now();
         }
         if(sourceToConsentMap.containsKey(ipr.Data_Source__c)){
             list<string> lstFields = sourceToConsentMap.get(ipr.Data_Source__c).split(',');
