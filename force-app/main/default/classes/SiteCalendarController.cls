@@ -46,6 +46,10 @@ global without sharing class SiteCalendarController {
                 AND Status__c != :CANCELLED
                 AND Participant_Enrollment__r.Study_Site__c IN :filterDetails.studySite
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__c IN :filterDetails.study          
+                AND Participant_Enrollment__r.study_Site__r.Override_PI_Referral_Status__c = 'Accepted' 
+                AND Participant_Enrollment__r.study_Site__r.Site_Activation_Status__c != null
+                AND Participant_Enrollment__r.study_Site__r.Site_Activation_Status__c != 'Deactivated'
+                AND Participant_Enrollment__r.study_Site__r.Site_Activation_Status__c != 'Deactivated (Admin)'     
                 ORDER BY Visit_Date_Time__c DESC
             ];
             for (Televisit__c visitData : televisitData) {
@@ -117,6 +121,10 @@ global without sharing class SiteCalendarController {
                 AND Initial_visit_scheduled_date__c = :filterDetails.calendarDate
                 AND Add_televisit_for_Initial_Visit__c = False
                 AND Initial_visit_scheduled_flag__c = True
+                AND study_Site__r.Override_PI_Referral_Status__c = 'Accepted'
+                AND study_Site__r.Site_Activation_Status__c != null
+                AND study_Site__r.Site_Activation_Status__c != 'Deactivated'
+                AND study_Site__r.Site_Activation_Status__c != 'Deactivated (Admin)'
                 ORDER BY Initial_visit_scheduled_date__c DESC
             ];
             
