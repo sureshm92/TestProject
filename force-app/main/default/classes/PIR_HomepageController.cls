@@ -302,7 +302,7 @@ public without sharing class PIR_HomepageController {
         '  LIMIT 1' +
         ' )' +
         'FROM Participant_Enrollment__c WHERE ';
-      String janssenLabel =  UserContext.getCurrentCommunityTemplate().templateName;
+      String janssenLabel = system.Label.Janssen_Community_Template_Name;
       
       String sponsorsName = UserContext.getCurrentCommunityTemplate().templateName;
       String filterStringPP ='';
