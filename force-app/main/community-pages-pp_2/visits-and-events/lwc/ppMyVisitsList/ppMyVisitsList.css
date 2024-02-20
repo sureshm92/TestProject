@@ -428,9 +428,9 @@ a {
     .list-selection {
         justify-content: left;
     }
-    /* .date-style {
-        white-space: break-spaces;
-    } */
+    .scroll-bar {
+        margin-right: 0px;
+    }
 }
 .card-wrap {
     padding: 0;
