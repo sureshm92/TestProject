@@ -146,6 +146,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
     @track
     filesData = [];
+    @track isAndroid;
 
     get options() {
         return [
@@ -158,6 +159,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     }
     getRseult;
     connectedCallback() {
+        this.isAndroid=this.isAndroidApp();
         if (formFactor === 'Small' || formFactor === 'Medium') {
             this.isMobile = true;
             this.isDesktop=false;
@@ -187,7 +189,13 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
             });
         }
     }
-
+    isAndroidApp(){
+        if ( (navigator.userAgent.match(/Android/i)) && communityService.isMobileSDK()) {
+            return true;
+        }  else{
+            return false;
+        }
+    }
     showUploadSectiontoUser(event) {
         this.isSaving = true;
         this.ShowuploadSection = true;

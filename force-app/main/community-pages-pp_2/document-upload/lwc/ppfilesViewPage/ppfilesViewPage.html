@@ -512,7 +512,12 @@
                     </div>
                     <div class="backBoarder"> </div>
                         <div class="dis-block mob-upload-rectangle mbllightninglayout"  data-id="browsediv">
-                        <input onchange={handleFilesChange} type="file" class="fileInputMobile"  title={displaytooltiptitle} multiple  ></input>
+                            <template if:true={isAndroid}>
+                                <input onchange={handleFilesChange} type="file" class="fileInputMobile"  title={displaytooltiptitle} ></input>
+                            </template>
+                            <template if:false={isAndroid}>
+                                <input onchange={handleFilesChange} type="file" class="fileInputMobile"  title={displaytooltiptitle} multiple  ></input>
+                            </template>
                         <!--Changed from slds-m-top-medium to slds-m-top-small-->
                         <span class="slds-m-top--small center">
                         <img src={uploadNewDocuments} class="mob-upload-new-doc-img-size"/>
