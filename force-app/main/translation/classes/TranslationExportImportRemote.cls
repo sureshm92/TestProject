@@ -268,6 +268,14 @@ public without sharing class TranslationExportImportRemote {
                 exportType
             ) +
             generateItemsForSObjectType(
+            Study_status_description_motivation__c.getSObjectType(),
+            ' WHERE Study__c =\'' +
+            studyId +
+            '\'',
+            languageCode,
+            exportType
+        ) +
+            generateItemsForSObjectType(
                 Motivational_Message__c.getSObjectType(),
                 ' WHERE Clinical_Trial_Profile__c =\'' +
                 studyId +
@@ -368,6 +376,18 @@ public without sharing class TranslationExportImportRemote {
                     ((Icon_Details__c) sObjectsMap.get(currId)).Label__c == null
                 ) {
                     sObjectsMap.remove(currId);
+                }
+            }
+        }
+
+        if (sObjectType == Study_status_description_motivation__c.SObjectType) {
+            for (Id currstatusId : sObjectsMap.keySet()) {
+                if (
+                    ((Study_status_description_motivation__c) sObjectsMap.get(currstatusId)).Status_Description__c == null &&
+                   ((Study_status_description_motivation__c) sObjectsMap.get(currstatusId)).Status_Motivational_Message__c == null 
+                    
+                ) {
+                    sObjectsMap.remove(currstatusId);
                 }
             }
         }

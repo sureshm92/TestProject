@@ -133,12 +133,6 @@ public without sharing class ListViewParticipantController {
                     pe.High_Priority__c = true;
                 } else if (noHighPriorityList.contains(pe.id)) {
                     pe.High_Priority__c = false;
-                } else {
-                    if (pe.Initial_visit_scheduled_date__c != null) {
-                        pe.High_Priority__c = true;
-                    } else {
-                        pe.High_Priority__c = false;
-                    }
                 }
                 pe.Participant_Status__c = 'Eligibility Passed';
                 pe.Participant_Status_Last_Changed_Date__c = DateTime.now();
