@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FileSharedbyPI__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This field is getting used when PI share file to Patient Portal via health information tab</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Field will be checked when PI will share file to Patient</inlineHelpText>
+    <label>FileSharedbyPI</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>
