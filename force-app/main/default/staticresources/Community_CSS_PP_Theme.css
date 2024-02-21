@@ -962,9 +962,11 @@ c-pp-study-visit-details-card .slds-card__header {
     color: #595959;
 }
 
+/*
+Commenting for PEH-18268
 .cPpCustomThemeLayout .curve-input .timc .slds-combobox__input.slds-input {
     height: 1.875rem !important;
-}
+} */
 
 .cPpCustomThemeLayout .curve-input .slds-input[type='time']:focus,
 .cPpCustomThemeLayout .curve-input .slds-input[type='time']:focus-visible,
