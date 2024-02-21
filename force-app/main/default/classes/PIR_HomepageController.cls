@@ -1552,11 +1552,6 @@ public without sharing class PIR_HomepageController {
         FROM Participant_Enrollment__c
         WHERE Id = :peId
       ]) {
-        if (pe.Initial_visit_scheduled_date__c != null) {
-          pe.High_Priority__c = true;
-        } else {
-          pe.High_Priority__c = false;
-        }
 
         pe.Participant_Status__c = 'Eligibility Passed';
         pe.ParticipantNoShow__c= false;

@@ -50,7 +50,7 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
 
     //exclamation_green = rr_community_icons + '/' + 'status-exclamation.svg';
     help_section_icon = pp_icons + '/' + 'help-section-icon.png';
-    exclamation = pp_icons + '/' + 'status-exclamation-icon.png';
+    exclamation = pp_icons + '/' + 'status-exclamation.svg';
     homeSvg = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-home-pplite-new';
 
     get cardRTL() {

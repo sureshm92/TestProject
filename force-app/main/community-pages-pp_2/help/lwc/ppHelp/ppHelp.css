@@ -96,7 +96,7 @@
 }
 
 .pad-r-10 {
-    padding-right: 10px;
+    padding-right:5px;
 }
 
 .pad-l-10 {
@@ -107,7 +107,7 @@
 }
 
 .ml-12 {
-    margin-left: -12px;
+    /* margin-left: -12px; */
 }
 
 .mt-20 {
@@ -147,8 +147,7 @@
 }
 
 .exclamation_mobile {
-    height: 100%;
-    width: 100%;
+    
 }
 
 .center-align {
@@ -202,22 +201,31 @@
 @media all and (max-width: 1024px) and (min-width: 768px) and (orientation: portrait) {
 
     .exclamation_green{
-        padding-top: 13px;
-        height: 100%;
-        width: 83%;
+        height: fit-content;
+        width: fit-content;
     }
     .ml-12 {
-        margin-left: 0px !important;
+        /* margin-left: 0px !important; */
     }
     .exclamation_mobile{
-        width : 75% !important;
+        width : fit-content;
     }
 }
 @media only screen   and (min-device-width: 1024px)   and (max-device-width: 1366px)   and (orientation: landscape){
     .exclamation_mobile{
-        width : 50% !important;
+        width : fit-content;
     }
     .img-size{
         width : 25% !important;
+    }
+    .rectangle{
+        padding: 10px 6px;
+    }
+    .exclamation_green{
+        height: fit-content;
+        width: fit-content;
+    }
+    .pad-r-10{
+        padding-right: unset;
     }
 }

@@ -33,7 +33,8 @@ export default class PpDiscoverLinks extends LightningElement {
     }
 
     connectedCallback() {
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        // DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
     }
 
     renderedCallback() {
