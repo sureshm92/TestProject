@@ -27,13 +27,13 @@
                 </div>
                 <div class="slds-grid">
                     <a class="open-in-new-tab-label"> {label.Open_In_New_Tab} </a>
-                    <span>
-                        <img
-                            src={open_new_tab}
-                            data-link={linkData.redirectLink}
-                            class={openNewTabCss}
-                        />
-                    </span>
+                            <span>
+                                <img
+                                    src={open_new_tab}
+                                    data-link={linkData.redirectLink}
+                                    class="open-tab-horizontal"
+                                />
+                            </span>
                 </div>
             </div>
         </div>
@@ -67,6 +67,7 @@
                     </div>
                     <div class="slds-grid">
                         <a class="open-in-new-tab-label"> {label.Open_In_New_Tab} </a>
+                        <template if:false={isIPAD}>
                         <span>
                             <img
                                 src={open_new_tab}
@@ -74,6 +75,7 @@
                                 class="open-tab-horizontal"
                             />
                         </span>
+                        </template>
                     </div>
                 </div>
             </div>
