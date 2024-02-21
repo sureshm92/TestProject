@@ -497,11 +497,11 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
         }
         for (Clinical_Trial_Profile__c ctp : ctplst) {
             ctpRecord.put(ctp.Id,ctp);
+            Boolean sponserMatched=false;
             if(ctp.Study_Sponsor__c != null){
                 string ctpStudySponser = ctp.Study_Sponsor__c.toUpperCase();
                 Set<String> ctpSponser = new Set<String>(ctpStudySponser.split(' '));
                 ctpSponser.retainAll(sponserlst);
-                Boolean sponserMatched=false;
                 if(ctpSponser.Size() >0){
                     sponserMatched=True;
                     configSponserMatched.put(ctp.Id,sponserMatched);
@@ -509,6 +509,9 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
                 else{
                     configSponserMatched.put(ctp.Id,sponserMatched);
                 }
+            }
+            else{
+                configSponserMatched.put(ctp.Id,sponserMatched);
             }
         }
         for(Id key : configSponserMatched.keyset()){
