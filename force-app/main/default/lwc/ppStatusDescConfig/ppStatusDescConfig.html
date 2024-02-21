@@ -4,7 +4,6 @@
             <lightning-button variant="brand" label="Save" title="Save" onclick={handleSave} class="slds-m-left_x-small" disabled={buttonDisabled}></lightning-button>
             <lightning-button variant="Neutral" label="Cancel" title="Canel" onclick={handleCancel} class="slds-m-left_x-small" disabled={buttonDisabled}></lightning-button>
         </div>
-        <template if:true={showStatusTitleTab}>
             <h2 class="table-heading">{label.PreTrial_Status_Table_Heading}</h2>
             <lightning-datatable suppress-bottom-bar="true"
                     name="statusConfig" 
@@ -19,8 +18,6 @@
                     oncancel={handleCancel}
                     onchange={handleCellChange}>
             </lightning-datatable>
-        </template>
-        <template if:true={showStatusMilestoneTab}>
             <h2 class="table-heading">{label.PreTrial_Milestone_Table_Heading}</h2>
             <lightning-datatable suppress-bottom-bar="true"
                     name="milestoneConfig" 
@@ -35,8 +32,6 @@
                     oncancel={handleCancel}
                     onchange={handleCellChange}>
             </lightning-datatable>
-        </template> 
-        <template if:true={data}>
             <h2 class="table-heading">{label.InTrial_Table_Heading}</h2>
             <lightning-datatable suppress-bottom-bar="true"
                     name="studyConfig" 
@@ -51,7 +46,6 @@
                     oncancel={handleCancel}
                     onchange={handleCellChange}>
             </lightning-datatable>
-        </template>
     </template>
     <template if:false={configResult}>
         <template if:true={featureUnavailale}>
