@@ -12234,7 +12234,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message Body for Visit Reminder Del Push</shortDescription>
-        <value>You have an upcoming ##isEventorVisit with ##ParticipantFirstName for the ##StudyName ##StudyorProgramHeader. If they are unable to make this appointment, please contact the ##STUDYorPROGRAM Team.</value>
+        <value>You have an upcoming ##isEventorVisit with ##ParticipantsFirstName for the ##StudyName ##StudyorProgramHeader. If they are unable to make this appointment, please contact the ##STUDYorPROGRAM Team.</value>
     </labels>
     <labels>
         <fullName>Message_Body_Visit_Reminder_PT_Push</fullName>
@@ -21590,6 +21590,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP View Resource</shortDescription>
         <value>View Resource</value>
+    </labels>
+    <labels>
+        <fullName>PP_Download_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP Download Resource</shortDescription>
+        <value>Download Resource</value>
     </labels>
     <labels>
         <fullName>PP_Opt_Out_Category</fullName>
@@ -32640,5 +32647,61 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Title_New_Resource</shortDescription>
         <value>New Resource Available</value>
+    </labels>
+    <labels>
+        <fullName>Consented</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Consented</shortDescription>
+        <value>Consented</value>
+    </labels>
+    <labels>
+        <fullName>UNAVAILABLE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UNAVAILABLE</shortDescription>
+        <value>UNAVAILABLE</value>
+    </labels>
+    <labels>
+        <fullName>COMPLETED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COMPLETED</shortDescription>
+        <value>COMPLETED</value>
+    </labels>
+    <labels>
+        <fullName>FUTURE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FUTURE</shortDescription>
+        <value>FUTURE</value>
+    </labels>
+    <labels>
+        <fullName>INPROGRESS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>INPROGRESS</shortDescription>
+        <value>IN PROGRESS</value>
+    </labels>
+    <labels>
+        <fullName>Follow_up_Period</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Follow_up_Period</shortDescription>
+        <value>Follow-up Period</value>
+    </labels>
+    <labels>
+        <fullName>Trial_Completion</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trial_Completion</shortDescription>
+        <value>Trial Completion</value>
+    </labels>
+    <labels>
+        <fullName>Treatment_Period</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Treatment_Period</shortDescription>
+        <value>Treatment Period</value>
     </labels>
 </CustomLabels>
