@@ -21,6 +21,8 @@ export default class PpDownloadResultsData extends LightningElement {
     @api patientVisitNam;
     @api patientVisitId;
     showDownloadResults;
+    isTab=false;
+    isLandscape = false;
     label = {
         PP_Download_Results_Data,
         Open_In_New_Tab_PP,
@@ -43,8 +45,14 @@ export default class PpDownloadResultsData extends LightningElement {
             this.showDownloadResults = true;
         }
         this.dummy = true;
+        this.isTabletMenu();
+        this.isIpadLandscape();
+        window.addEventListener('orientationchange', this.onOrientationChange);
     }
-
+    onOrientationChange = () => {
+        this.isIpadLandscape();
+        this.isTabletMenu();
+    };
     renderedCallback() {
         if (this.alumniPeId != null) {
             this.peId = this.alumniPeId;
@@ -148,9 +156,13 @@ export default class PpDownloadResultsData extends LightningElement {
                     event.currentTarget.name == 'download-res-tab' ||
                     event.currentTarget.dataset.name == 'download-vis-res'
                 ) {
-                    anchorEle[0].setAttribute('href', url);
-                    if (this.isDesktop) {
-                        anchorEle[0].click();
+                    if(this.isTab || this.isLandscape){
+                        window.open(url);
+                    }else{
+                        anchorEle[0].setAttribute('href', url);
+                        if (this.isDesktop) {
+                            anchorEle[0].click();
+                        }
                     }
                 }
             } else {
@@ -184,6 +196,45 @@ export default class PpDownloadResultsData extends LightningElement {
         let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
         ddMenu.classList.remove('active');
     }
+
+    isTabletMenu() {
+        //alert('coming');
+        let orientation = screen.orientation.type;
+        let portrait = true;
+        if (orientation === 'landscape-primary') {
+            portrait = false;
+        }
+        if (window.innerWidth >= 768 && window.innerWidth < 1279 && portrait) {
+            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                this.isTab = true;
+                return true;
+            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                this.isTab = true;
+                return true;
+            }
+        } else {
+            this.isTab = false;
+        }
+        return false;
+    }
+    isIpadLandscape() {
+        let orientation = screen.orientation.type;
+        let landscape = false;
+        if (orientation === 'landscape-primary') {
+            landscape = true;
+        }
+        if (window.innerWidth >= 768 && window.innerWidth < 1279 && landscape) {
+            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                this.isLandscape = true;
+                return true;
+            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                this.isLandscape = true;
+                return true;
+            }
+        }
+        this.isLandscape = false;
+        return false;
+}
     downloadInProgress =false;
     downloadResult(){
         var pvName = this.patientVisitNam;
