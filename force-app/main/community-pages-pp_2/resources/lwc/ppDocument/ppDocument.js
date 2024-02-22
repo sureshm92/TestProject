@@ -19,17 +19,11 @@ export default class Documents extends NavigationMixin(LightningElement) {
     label = {
         versionDate
     };
-    @track isTabLandscape;
     @track isTabPortrait=false;
 
     connectedCallback() {
-        this.isTabLandscape=this.isTabletLandscape();
-        window.addEventListener('orientationchange', this.onOrientationChange);
         this.processData();
     }
-    onOrientationChange = () => {
-        this.isTabLandscape=this.isTabletLandscape();
-        };
 
     processData() {
         this.id = this.document.resource.Id;
