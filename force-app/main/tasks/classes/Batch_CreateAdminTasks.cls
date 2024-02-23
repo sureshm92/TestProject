@@ -261,7 +261,8 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                             WhoId = contactIds,
                             Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
                             CreatedByAdmin__c = true,
-                            InitialTaskNotification__c = true
+                            InitialTaskNotification__c = true,
+                            isPlatformLevelTask__c = isPlatformTask
                         );
                         if (
                             participantEnrollmentMap != null &&
