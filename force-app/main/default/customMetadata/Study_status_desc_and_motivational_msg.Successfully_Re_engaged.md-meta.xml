@@ -3,6 +3,14 @@
     <label>Successfully Re-engaged</label>
     <protected>false</protected>
     <values>
+        <field>Master_Custom__c</field>
+        <value xsi:type="xsd:string">Successfully_Re_engaged</value>
+    </values>
+    <values>
+        <field>PER_Participant_Label__c</field>
+        <value xsi:type="xsd:string">Successfully_Re_Engaged</value>
+    </values>
+    <values>
         <field>PER_Participant_Status__c</field>
         <value xsi:type="xsd:string">Successfully Re-engaged</value>
     </values>
