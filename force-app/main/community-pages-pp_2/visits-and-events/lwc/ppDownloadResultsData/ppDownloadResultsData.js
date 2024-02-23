@@ -66,6 +66,9 @@ export default class PpDownloadResultsData extends LightningElement {
     get isPastStudies() {
         return this.alumniPeId != null ? true : false;
     }
+    get isIPadView(){
+        return this.isTab || this.isLandscape;
+    }
     @api
     loadData() {
         if (this.alumniPeId != null) {
