@@ -216,14 +216,16 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                             return returnValue;
                         })
                     ) {
-                        window.location.href = link;
                         if (communityService.isMobileSDK() ) {
+                            window.open(link,'_self');
                             this[NavigationMixin.Navigate]({
                                 type: 'comm__namedPage',
                                 attributes: {
                                     pageName: 'home'
                                 }
                             })
+                        }else{
+                            window.location.href = link;
                         }
                         this.isInitialized=true;
                     } else {

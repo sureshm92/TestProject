@@ -806,7 +806,7 @@
                                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4">
 
 
-                                    <div class="label" style="width: auto;">
+                                    <div class="label" style="width: max-content;">
                                         <aura:if isTrue="{!v.screeningRequired}">
                                             <abbr title="required" class="slds-required">*</abbr>
                                         </aura:if>
