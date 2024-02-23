@@ -107,7 +107,7 @@
 }
 
 .po-tab-content {
-    height: 316px;
+    height: auto;
     overflow-y: auto;
     padding-right: 15px;
 }
@@ -366,4 +366,7 @@
 .flex {
     display: flex;
     word-wrap: break-word;
+}
+.no-phone {
+    color: #999999;
 }

@@ -16,7 +16,7 @@
     min-height: 185px;
 }
 
-.scroll-position::-webkit-scrollbar{
+.scroll-position::-webkit-scrollbar {
     height: 9px;
 }
 
@@ -279,7 +279,7 @@ a {
 
 .col1 {
     height: 720px;
-    min-width: 380px;
+    /*min-width: 380px;*/
     border-right-width: 1px;
     border-right-color: #999999;
 }
@@ -366,19 +366,20 @@ a {
         margin: unset;
     }
 }
-
-@media all and (min-width: 1024px) and (max-width: 1200px) {
+/* @media all and (min-width: 768px) and (max-width: 1024px) {
+} */
+/* @media all and (min-width: 1024px) and (max-width: 1200px) { 
     .col1,
     .col2 {
         min-width: 50%;
     }
-}
+}*/
 
-@media all and (min-width: 768px) and (max-width: 850px) {
+/* @media all and (min-width: 768px) and (max-width: 850px) {
     .col2 {
         max-width: 45%;
     }
-}
+} */
 
 @media all and (min-width: 468px) and (max-width: 768px) {
     .active-custom-box-class,
@@ -397,8 +398,7 @@ a {
     .my-visits {
         margin: 0px 0 16px 0;
         font-size: 24px;
-        font-family: "Proxima Nova"!important;
-
+        font-family: 'Proxima Nova' !important;
     }
 
     .slds-p-horizontal_x-large > .slds-size_1-of-1 {
@@ -435,5 +435,10 @@ a {
     .inactive-custom-box .slds-grid .slds-col:nth-child(-n + 2) {
         padding-left: unset;
         padding-right: unset;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
+    .col1 {
+        height: 540px;
     }
 }

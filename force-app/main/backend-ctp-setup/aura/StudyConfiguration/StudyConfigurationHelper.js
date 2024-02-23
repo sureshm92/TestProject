@@ -85,7 +85,7 @@
                         var appEvent = $A.get("e.c:EconsentEvent"); 
                         appEvent.fire(); 
                     }
-                    if (source === 'statusTimelineTogglePP2' || source === 'studyWorkspaceToggle' || source === 'programToggle') {
+                    if (source === 'statusTimelineTogglePP2' || source === 'studyWorkspaceToggle' || source === 'programToggle' || source === 'preTrialStatusToggle') {
                         console.log('Before firing pp toggle event');
                         localHelper.fireProgressBarUpdateEvents(component,event);
                     }
