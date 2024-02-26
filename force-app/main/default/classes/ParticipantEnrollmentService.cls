@@ -1371,10 +1371,12 @@ public without sharing class ParticipantEnrollmentService {
         String sponsorName
     ) {
         //prepare filter string:
-        String filterStr =
-            ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' +
-            String.join(filter.trialIds, '\',\'') +
+        String filterStr = '';
+        if (filter.trialIds != null && !filter.trialIds.isEmpty()) {
+            filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' +
+            String.join(filter.trialIds, '\',\'') +       
             '\') ';
+        }
         if (!String.isEmpty(filter.additionalFilter))
             filterStr += ' AND ' + filter.additionalFilter + ' ';
         if (filter.searchText != null)

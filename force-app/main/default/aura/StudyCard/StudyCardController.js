@@ -81,5 +81,17 @@
         var currentStudy = component.get('v.currentStudy');
         var trialId = currentStudy.trial.Id;
         communityService.navigateToPage('sites-search?id=' + trialId);
+    },
+
+    doinit : function(component, event, helper) {
+        var siteslength = component.get('v.currentStudy.ssList');
+        var currentStudy = component.get('v.currentStudy');
+        var trialId = currentStudy.trial.Id;
+        var showtc = false;
+        if(siteslength.length > 0){
+            showtc = true;
+        }
+        var url = 'study-workspace?id='+trialId+'&showtc='+showtc;
+        component.set('v.showtermsndconditions',url);
     }
 });

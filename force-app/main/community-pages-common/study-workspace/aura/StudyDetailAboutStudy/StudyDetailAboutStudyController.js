@@ -5,6 +5,8 @@
     doInit: function (component, event, helper) {
         console.log(component.get('v.userMode'));
         console.log(component.get('v.studyDetail').trial.Id);
+        const searchParams = new URLSearchParams(window.location.search);
+        component.set('v.showtc',searchParams.get('showtc')),
         component.set('v.communityName', communityService.getCurrentCommunityTemplateName());
         communityService.executeAction(
             component,
