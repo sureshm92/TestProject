@@ -10,7 +10,8 @@
     <aura:attribute name="detailsExpanded" type="Boolean" />
     <aura:attribute name="searchItem" type="Boolean" default="false" />
     <aura:attribute name="accessUserLevel" type="String" />
-    
+    <aura:attribute name="showtermsndconditions" type="String" />
+    <aura:handler  name="init" value="{!this}" action="{!c.doinit}"/>
     <!-- component body: -->
     <div class="rr-white-panel slvi-container">
         <div class="slvi-top-container-hcp slvi-section">
@@ -24,7 +25,7 @@
                         <c:RRLink
                                   class="{!v.isRTL ? 'study-titleRTL':'study-title'}"
                                   label="{!v.currentStudy.trial.Study_Code_Name__c}"
-                                  page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
+                                  page="{!v.showtermsndconditions}"
                                   />
                         <!--    </c:uiLimitTextByLines> -->
                     </div>
@@ -103,7 +104,8 @@
             <div class="slvi-objective-section">
                 <div class="objective-text"><lightning:formattedRichText value="{!v.currentStudy.trial.Brief_Summary__c}"></lightning:formattedRichText></div>
                 <div class="objective-link">
-                    <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
+                   <!-- <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"-->
+                    <c:RRLink page="{!v.showtermsndconditions}"
                               >
                         <aura:if isTrue="{!v.isRTL}">
                             {!$Label.c.BTN_Learn_More}

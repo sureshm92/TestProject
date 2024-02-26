@@ -3,6 +3,14 @@
     <label>Screening In Progress</label>
     <protected>false</protected>
     <values>
+        <field>Master_Custom__c</field>
+        <value xsi:type="xsd:string">Screening_In_Progress</value>
+    </values>
+    <values>
+        <field>PER_Participant_Label__c</field>
+        <value xsi:type="xsd:string">Screening_In_Progress</value>
+    </values>
+    <values>
         <field>PER_Participant_Status__c</field>
         <value xsi:type="xsd:string">Screening In Progress</value>
     </values>
