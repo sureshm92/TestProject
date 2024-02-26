@@ -3,6 +3,14 @@
     <label>Initial Visit</label>
     <protected>false</protected>
     <values>
+        <field>Master_Custom__c</field>
+        <value xsi:type="xsd:string">PWS_Initial_Visit_Card_Name</value>
+    </values>
+    <values>
+        <field>PER_Participant_Label__c</field>
+        <value xsi:type="xsd:string">PWS_Initial_Visit_Card_Name</value>
+    </values>
+    <values>
         <field>PER_Participant_Status__c</field>
         <value xsi:type="xsd:string">Initial Visit</value>
     </values>

@@ -302,7 +302,7 @@ public without sharing class PIR_HomepageController {
         '  LIMIT 1' +
         ' )' +
         'FROM Participant_Enrollment__c WHERE ';
-      String janssenLabel =  UserContext.getCurrentCommunityTemplate().templateName;
+      String janssenLabel = system.Label.Janssen_Community_Template_Name;
       
       String sponsorsName = UserContext.getCurrentCommunityTemplate().templateName;
       String filterStringPP ='';
@@ -1597,11 +1597,6 @@ public without sharing class PIR_HomepageController {
         FROM Participant_Enrollment__c
         WHERE Id = :peId
       ]) {
-        if (pe.Initial_visit_scheduled_date__c != null) {
-          pe.High_Priority__c = true;
-        } else {
-          pe.High_Priority__c = false;
-        }
 
         pe.Participant_Status__c = 'Eligibility Passed';
         pe.ParticipantNoShow__c= false;
@@ -1996,9 +1991,9 @@ public without sharing class PIR_HomepageController {
   @AuraEnabled
   public static List<Study_Site__c> getStudySiteDetails() {
     Id piContactId = CommunityService.getUserContact().Id;
-    List<String> acceptedSites = new List<String>();
+    /*List<String> acceptedSites = new List<String>();
     acceptedSites.add('Accepted');
-    acceptedSites.add('Accepted (Admin)');
+    acceptedSites.add('Accepted (Admin)');*/
     List<Study_Site__c> studySiteList = [
       SELECT
         Id,
@@ -2013,8 +2008,8 @@ public without sharing class PIR_HomepageController {
         Site_Activation_Status__c
       FROM Study_Site__c
       WHERE
-        Override_PI_Referral_Status__c IN :acceptedSites
-        AND (Principal_Investigator__c = :piContactId
+        /*Override_PI_Referral_Status__c IN :acceptedSites AND */
+        (Principal_Investigator__c = :piContactId
         OR ID IN :DelegateService.getDelegatedStudySiteIds())
     ];
 

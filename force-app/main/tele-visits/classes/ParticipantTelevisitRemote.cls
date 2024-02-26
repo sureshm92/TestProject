@@ -23,7 +23,7 @@ public without sharing class ParticipantTelevisitRemote {
                 allPERList.Add(currentPER);
                 if(!isDelegate){
                     //participant View
-                    query += '  where Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Televisit__r.Participant_Enrollment__r.Invited_To_PP_Date__c != null order by Televisit__r.Visit_Date_Time__c desc';
+                    query += '  where Televisit__r.Participant_Enrollment__c = :peId AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Televisit__r.Participant_Enrollment__r.Invited_To_PP_Date__c != null AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c = \'Accepted\' AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != null AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != \'Deactivated\' AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != \'Deactivated (Admin)\' order by Televisit__r.Visit_Date_Time__c desc';
                 }else{
                     //Delegate switched to participant View
                     if(ParticipantContext.getCurrentContact() != null){ // Participant contact
@@ -35,7 +35,7 @@ public without sharing class ParticipantTelevisitRemote {
                             allPERList.AddAll(pastEnrollments);
                         }
                     }
-                    query += '  where Televisit__r.Participant_Enrollment__c = :allPERList AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true  order by Televisit__r.Visit_Date_Time__c desc';
+                    query += '  where Televisit__r.Participant_Enrollment__c = :allPERList AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c = \'Accepted\' AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != null AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != \'Deactivated\' AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != \'Deactivated (Admin)\' order by Televisit__r.Visit_Date_Time__c desc';
                 }     
             }else{ 
                 delegatecheck = true;
@@ -56,17 +56,17 @@ public without sharing class ParticipantTelevisitRemote {
                 
                 //Added for PEH-13732
                 if(minorAlumni){
-                    query += '  where Televisit__r.Participant_Enrollment__r.Participant_Contact__c =:contactId AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true  order by Televisit__r.Visit_Date_Time__c desc';
+                    query += '  where Televisit__r.Participant_Enrollment__r.Participant_Contact__c =:contactId AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c = \'Accepted\' AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != null AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != \'Deactivated\' AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != \'Deactivated (Admin)\' order by Televisit__r.Visit_Date_Time__c desc';
                 }else{
                     if(isDelegate){
                         //Delegate Switch to Participant View.
-                        query += '  where Contact__c =:contactId AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true order by Televisit__r.Visit_Date_Time__c desc';
+                        query += '  where Contact__c =:contactId AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c = \'Accepted\' AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != null AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != \'Deactivated\' AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != \'Deactivated (Admin)\' order by Televisit__r.Visit_Date_Time__c desc';
                     }else{
                         //Delegate self view or Multi Role(self View) for all non Invited study or full alumni. 
                         //Get PER record if Delegate is also a participant.
                         contact currentContact = ParticipantContext.getCurrentContact();
                         perMapForMultiRole = ParticipantEnrollmentService.getPerMapByContactId(currentContact.Id);
-                        query += '  where Contact__c =:contactId AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true order by Televisit__r.Visit_Date_Time__c desc';
+                        query += '  where Contact__c =:contactId AND Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c = \'Accepted\' AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != null AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != \'Deactivated\' AND Televisit__r.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != \'Deactivated (Admin)\' order by Televisit__r.Visit_Date_Time__c desc';
                     }
                     
                 }
