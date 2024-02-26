@@ -399,6 +399,7 @@ public without sharing class NotificationAvailabilityService {
                         Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
                         Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Participant_Enrollment__r.Name,
+                        Participant_Enrollment__r.Participant_Status__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
@@ -636,15 +637,9 @@ public without sharing class NotificationAvailabilityService {
                         Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                             taskrecrd.whatId
                         );
-                        isEmailAvailableAtPER = isPEREmailtoSend(pe, notObj);
+                        isEmailAvailableAtPER = isPERTaskEmailtoSend(pe, notObj);
                     } else if (objType == 'Participant__c') {
-                        Participant__c pe = (Participant__c) objectsByIds.get(taskrecrd.WhatId);
-                        if (
-                            contact.Is_Patient_User_Created__c &&
-                            contact.Participant_Opt_In_Status_Emails__c
-                        ) {
-                            isEmailAvailableAtPER = true;
-                        }
+                           isEmailAvailableAtPER = true;
                     }
                 } else {
                     if (objType == 'Participant_Enrollment__c') {
@@ -703,6 +698,44 @@ public without sharing class NotificationAvailabilityService {
             }
         }
         return isEmailAvailableAtPER;
+    }
+    public Boolean isPERTaskEmailtoSend(Participant_Enrollment__c pe, Notification__c notObj) {
+        Boolean perEmailToSend = false;
+        if (
+            pe != null &&
+            notObj.IsDelegate__c &&
+            delContIdMapOfPerIdPDEnromentMap.containsKey(notObj.recipient__c)
+        ) {
+            Patient_Delegate_Enrollment__c pdelEnrollmentrecrd = delContIdMapOfPerIdPDEnromentMap.get(
+                    notObj.recipient__c
+                )
+                .get(pe.Id);
+                if(pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Participant_Enrollment__c != null && PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pdelEnrollmentrecrd.Participant_Enrollment__r.Participant_Status__c)){
+                    perEmailToSend = true;
+                }
+                else{
+                perEmailToSend =
+                    pdelEnrollmentrecrd != null &&
+                    pdelEnrollmentrecrd.Study_Email_Consent__c &&
+                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                    pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+                }
+        } else {
+            if(pe != null && PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)){
+                perEmailToSend = true;
+            }else{
+           	 	perEmailToSend =
+                pe.Permit_Mail_Email_contact_for_this_study__c &&
+                !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                pe.Invited_To_PP_Date__c != null &&
+                pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+            }
+        }
+        return perEmailToSend;
     }
     public Boolean isPEREmailtoSend(Participant_Enrollment__c pe, Notification__c notObj) {
         Boolean perEmailToSend = false;
@@ -1183,6 +1216,7 @@ public without sharing class NotificationAvailabilityService {
                 Study_Site__r.SMS_Are_Available__c,
                 Study_Site__r.Suppress_Study_Site_PI_Emails__c,
                 Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                Participant_Status__c,
                 HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c,
                 Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
             FROM Participant_Enrollment__c

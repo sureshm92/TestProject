@@ -59,6 +59,8 @@
 
     <aura:attribute name="dupPart" type="String"  />
 
+    <aura:attribute name="iqviaOutreachCons" type="Boolean" default="false" />
+
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
         <aura:attribute name="callback" type="Function" />
@@ -349,7 +351,7 @@
                             class="slds-form-element"
                             style="{!'margin-top: 20px; ' + if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}"
                         >
-                        <c:consentManager aura:id="consent-Manager" callSource="addParticipant" onconsentchange="{!c.handleConsentChange}" participantCountry="{!v.participant.Mailing_Country_Code__c}" studySiteId="{!v.pe.Study_Site__c}" ></c:consentManager></div>
+                        <c:consentManager aura:id="consent-Manager" callSource="addParticipant" onconsentchange="{!c.handleConsentChange}" participantCountry="{!v.participant.Mailing_Country_Code__c}" studySiteId="{!v.pe.Study_Site__c}"  iqviaconstImp="{!v.iqviaOutreachCons}"></c:consentManager></div>
                     </div>
                     <!-- Added for 1936-->
                     <!--div class="slds-grid slds-gutters slds-wrap">

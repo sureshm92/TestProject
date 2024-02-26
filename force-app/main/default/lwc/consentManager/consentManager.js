@@ -19,7 +19,8 @@ import PHONE from '@salesforce/label/c.Phone';
 import SMS_TEXT from '@salesforce/label/c.SMS_Text';
 import DIRECT_MAIL from '@salesforce/label/c.RH_Direct_Mail';
 
-import fetchStudySite from '@salesforce/apex/ConsentManagerController.fetchStudySite'; 
+import fetchStudySite from '@salesforce/apex/ConsentManagerController.fetchStudySite';
+import getConsentPreferences from '@salesforce/apex/ConsentManagerController.getConsentPreferences';  
 
 const consentModel = {};
 consentModel.studyConsent = false;
@@ -74,10 +75,37 @@ export default class ConsentManager extends LightningElement {
     _studySiteId;
     _callSource;
     _countryCode;
+    _consentpref;
     studySite;
     @api isaccesslevelthree = false;
     consentMapping = new Map([['pe',null],['contact',null],['cType',null]]);
     @api isStudyConsentRequired = false;
+    @api rpStudyScreen = false;
+    @api iqviaOutreachConsentRP = false;
+    @api iqviaconstImp = false;
+
+
+    @api 
+    get consentpref(){
+        return this._consentpref;
+    }
+    set consentpref(value){
+        this._consentpref = value;  
+        if(this._callSource == 'NotReferParticipantTab'){
+            this.handleIQVIAConsentPreference();
+        }
+    }
+
+    @api 
+    get rpconsentpref(){
+        return this.iqviaOutreachConsentRP;
+    }
+    set rpconsentpref(value){
+        this.iqviaOutreachConsentRP = value;  
+        if(this._callSource == 'ReferParticipantRP'){
+            this.handleIQVIAConsentPreference();
+        }
+    }
 
     constructor(){
         super();
@@ -95,10 +123,12 @@ export default class ConsentManager extends LightningElement {
             case 'addParticipant':                          
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;                             
                 this.EMAIL_ROW_CONSENT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;                             
+                this.isIqviaOutreachEnabled = this.iqviaconstImp;
             break;
             case 'importParticipant':
                 this.CONSENT_TO_STORE_AND_CONTACT = PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;                
                 this.EMAIL_ROW_CONSENT = PG_Ref_L_Permit_IQVIA_To_Contact_ESP;           
+                this.isIqviaOutreachEnabled = this.iqviaconstImp;
                 this.getStudySite();
             break;
             case 'ReferParticipantRP':
@@ -117,6 +147,14 @@ export default class ConsentManager extends LightningElement {
                 this.PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US = this.SS_RH_ROW_Consent_SMS;
                 this.getStudySite();
             break;
+        }
+    }
+
+    get isOutreachEnabled(){
+        if(this.isIqviaOutreachEnabled){
+            return true;
+        }else{
+            return false;
         }
     }
 
@@ -286,7 +324,7 @@ export default class ConsentManager extends LightningElement {
                 this.consentModel.ranOnce = true;
             }
             if(this.pe.Clinical_Trial_Profile__c != undefined){
-                this.isIqviaOutreachEnabled = this.pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
+                //this.isIqviaOutreachEnabled = this.pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
             }
             if(this.pe.Clinical_Trial_Profile__c == undefined && this.pe.Study_Site__c != undefined){
                 this._studySiteId = this.pe.Study_Site__c;
@@ -507,19 +545,45 @@ export default class ConsentManager extends LightningElement {
     }
 
     getStudySite(){
+        if(this._callSource == 'addParticipant' ){
+            this.isIqviaOutreachEnabled = this.iqviaconstImp;
+        }
+        if( this._callSource == 'ReferParticipantRP'){
+            this.handleIQVIAConsentPreference();
+        }
+        else{
         fetchStudySite({ studySiteId : this._studySiteId })
         .then((result) => {
             this.studySite = result;
-            this.isIqviaOutreachEnabled = this.studySite.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
             if(this._callSource == 'importParticipant'){
+                if(this.studySite.Clinical_Trial_Profile__r.CommunityTemplate__c!='PatientPortal' && (this.studySite.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' || this.studySite.Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0')){
+                    this.isIqviaOutreachEnabled = this.studySite.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
+                }
+                else{
+                    this.isIqviaOutreachEnabled =  this.iqviaconstImp;
+                }
                 let siteCountry = this.studySite.Site__r.BillingCountryCode;
                 this.isCountryUS = (siteCountry == "US" || siteCountry == '' || siteCountry == undefined ? true : false);
                     this.updateStudyConsentChecks();
                     this.updateOutreachConsentChecks();
+            }else{
+                if(this._callSource != 'addParticipant' ){
+                    this.isIqviaOutreachEnabled = this.studySite.Clinical_Trial_Profile__r.IQVIA_Outreach__c;
+                }
             }
         })
         .catch((error) => {
             this.error = error;
         });
     }
+    }
+
+    handleIQVIAConsentPreference(){
+       if(this._callSource == 'NotReferParticipantTab'){
+           this.isIqviaOutreachEnabled = !this._consentpref;
+        }else if(this._callSource == 'ReferParticipantRP'){
+            this.isIqviaOutreachEnabled = !this.iqviaOutreachConsentRP;
+        }
+    }
+
 }

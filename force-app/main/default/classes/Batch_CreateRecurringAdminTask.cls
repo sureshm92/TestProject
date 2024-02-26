@@ -18,7 +18,8 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
         Map<Id, List<Id>> whatIdByContactIds = new Map<Id, List<Id>>();
         set<id> contactWithoutUser = new set<Id>();
         Map<id,String> idTypeOfContactMap = new Map<id,String>();
-        
+        Map<id,List<Id>> parPdeListofPeMap = new Map<id,List<Id>>();
+        Boolean isPlatformLevel = false;
         ManualTaskFilter filter = (ManualTaskFilter) JSON.deserialize(
             manualTasks[0].TaskFilter__c,
             ManualTaskFilter.class
@@ -38,7 +39,9 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
         }
         whatIdByContactIds = filter.getContactsWithWhatIds(taskConfig);
         idTypeOfContactMap = ManualTaskFilter.IdTypeOfContactMap;
-        System.enqueueJob(new BatchQueueableforAdminTasks(whatIdByContactIds,taskConfig,idTypeOfContactMap));
+        isPlatformLevel= filter.isPlatformLevel;  
+        parPdeListofPeMap = filter.parPdeListofPeMap;
+        System.enqueueJob(new BatchQueueableforAdminTasks(whatIdByContactIds,taskConfig,idTypeOfContactMap,parPdeListofPeMap,isPlatformLevel));
         updateManualTaskConfig(manualTasks[0], taskConfig);
     }
     

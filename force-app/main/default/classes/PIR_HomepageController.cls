@@ -2752,6 +2752,8 @@ public without sharing class PIR_HomepageController {
       public List<LabelValueItem> visitPlansLVList;
       @AuraEnabled
       Public Study_Site__c objStudySite;
+      @AuraEnabled
+      public Boolean consentPref;
   }
 
   public class LabelValueItemISO {
@@ -2819,6 +2821,9 @@ public without sharing class PIR_HomepageController {
           }
           result.visitPlansLVList =StudySiteService.getVisitPlansLVList(studySiteId);
           result.objStudySite = sites[0];
+        }
+        if(studySiteId!=null){
+           result.consentPref = ConsentManagerController.getConsentPreferences('ImportPart',studySiteId).consentPref;
         }
         return result;
     }

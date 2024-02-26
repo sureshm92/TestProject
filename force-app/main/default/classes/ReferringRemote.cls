@@ -21,6 +21,7 @@ public without sharing class ReferringRemote {
         public String contentDoc;
         public PreScreener_Survey__c preScreenerSurvey;
         public PreScreener_Survey__c mrrSurvey;
+        public Boolean iqviaConsentPref;
     }
 
     public class AccountWrapper {
@@ -37,7 +38,7 @@ public without sharing class ReferringRemote {
         Id trialId,
         Id peId,
         Id hcpeId,
-		Boolean patientDoesNotExist,
+        Boolean patientDoesNotExist,
         String userMode,
         String delegateId,
         String language
@@ -71,7 +72,7 @@ public without sharing class ReferringRemote {
             );
         }
         if (initData.mrrSurvey != null) {
-		List<String> customFields = new List<String>{
+        List<String> customFields = new List<String>{
             'Id',
             'isAuthorized__c',
             'Participant_Surname__c',
@@ -160,7 +161,7 @@ public without sharing class ReferringRemote {
                     delegateId,
                     customFields
                 );
-		    }	
+            }   
             if(initData.pendingPEnrollments != null && !initData.pendingPEnrollments.isEmpty()) {
                 Map<Id, List<Participant_PrescreenerResponse__c>> peIdResponseMap = new Map<Id, List<Participant_PrescreenerResponse__c>>();
                 for(Participant_PrescreenerResponse__c response : [
@@ -227,6 +228,82 @@ public without sharing class ReferringRemote {
         //            aw.addrCity = getCityString(site);
         //            aw.clinic = site;
         //            initData.studies.add(aw);
+        
+        
+        String[] restrictedlst;  String referralSource;
+        list<Participant_Enrollment__c> lstPer = new list<Participant_Enrollment__c>();
+        
+        if(peId != null) {
+            list<Restricted_Source_Config__c> restrictedRecrd = new list<Restricted_Source_Config__c>();
+            lstPer = [Select Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        Referral_Source__c,DataControllerOrg__c,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Clinical_Trial_Profile__r.PPTemplate__c
+                        from Participant_Enrollment__c where Id=:peId limit 1];
+            
+            if(lstPer[0].Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                  if(lstPer[0].Clinical_Trial_Profile__r.CommunityTemplate__c !='PatientPortal' && (lstPer[0].Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' || lstPer[0].Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0'))
+                  {
+                     initData.iqviaConsentPref =  false;
+                  }
+                  else
+                  {
+                    restrictedRecrd = [SELECT Id,Study__c,Study__r.IQVIA_Outreach__c,Referral_Resource__c FROM Restricted_Source_Config__c WHERE Study__c =: lstPer[0].Clinical_Trial_Profile__c limit 1];
+                        if(restrictedRecrd != null && !restrictedRecrd.isEmpty()){
+                            restrictedlst = restrictedRecrd[0].Referral_Resource__c != null ? restrictedRecrd[0].Referral_Resource__c.split(';') : null;
+                        
+                            if(restrictedlst != null && !restrictedlst.isEmpty()){
+                                referralSource = (lstPer[0].Referral_Source__c == 'ePR' || lstPer[0].Referral_Source__c == 'ePRCampaign')  ? lstPer[0].Referral_Source__c +'-'+lstPer[0].DataControllerOrg__c :lstPer[0].Referral_Source__c; 
+                                if(restrictedlst.contains('HCP')){
+                                initData.iqviaConsentPref =  true; //restricted dnd
+                                }else{
+                                initData.iqviaConsentPref =  false; //non restricted
+                                }
+                            
+                            }else{
+                            initData.iqviaConsentPref =  true; // restricted
+                            }
+                        }else{initData.iqviaConsentPref =  false;} //non restricted dis
+                    }
+            }
+            else{
+                initData.iqviaConsentPref =  true;  //dnd
+            }  
+        }else{
+            list<Clinical_Trial_Profile__c> lstCtp = new list<Clinical_Trial_Profile__c>();
+            List<Restricted_Source_Config__c> restrictedRecrd = new List<Restricted_Source_Config__c> ();
+            lstCtp = [Select Id,IQVIA_Outreach__c,
+                        CommunityTemplate__c,
+                        PPTemplate__c
+                        from Clinical_Trial_Profile__c where Id=:trialId limit 1];
+            restrictedRecrd = [SELECT Id,Study__c,Study__r.IQVIA_Outreach__c,Referral_Resource__c FROM Restricted_Source_Config__c WHERE Study__c =: trialId limit 1];
+            if(lstCtp[0].IQVIA_Outreach__c){
+                if(lstCtp[0].CommunityTemplate__c !='PatientPortal' && (lstCtp[0].CommunityTemplate__c != 'Janssen' || lstCtp[0].PPTemplate__c != 'PP 2.0'))
+                {
+                    initData.iqviaConsentPref =  false;
+                }
+                else
+                {
+                    if(restrictedRecrd!=null && !restrictedRecrd.isEmpty()){
+                        restrictedlst = restrictedRecrd[0].Referral_Resource__c != null ? restrictedRecrd[0].Referral_Resource__c.split(';') : null;
+                        if(restrictedlst != null && !restrictedlst.isEmpty()){
+                        if(restrictedlst.contains('HCP')){
+                            initData.iqviaConsentPref =  true;
+                        }else{
+                            initData.iqviaConsentPref=  false;
+                        }
+                        }else{  
+                            initData.iqviaConsentPref=  true;
+                        } 
+                    }else{
+                        initData.iqviaConsentPref=  false;
+                    }  
+                }
+            }else{
+                initData.iqviaConsentPref=true;
+            }
+        }
+        
         initData.countries = CountryStateUtil.getCountries();
         initData.genders = ParticipantService.getGenderLVList();
         initData.phoneTypes = ParticipantService.getPhoneTypeLVList();
