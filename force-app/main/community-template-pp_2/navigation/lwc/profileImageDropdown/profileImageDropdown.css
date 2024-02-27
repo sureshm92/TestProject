@@ -1,6 +1,6 @@
 .prof-img-icon {
     display: inline-flex;
-    padding-left: 0.5rem;
+    /* padding-left: 0.5rem; */
 }
 .caret-icon {
     margin: 3px 0px 0px 5px;
@@ -26,8 +26,4 @@
     .profile-caret-icon {
         display: none;
     }
-    .prof-img-icon {
-        padding-left: 2rem;
-    }
 }
-

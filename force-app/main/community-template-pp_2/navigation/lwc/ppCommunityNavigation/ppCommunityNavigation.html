@@ -1,10 +1,11 @@
 <!--created by  ->Jayshree
     modified by ->chetna PEH-7098-->
 <template>
-    <div class="mainNav" role="menubar">
+    <!-- <div class="mainNav" role="menubar"> -->
         <template if:true={desktop}>
             <c-web-spinner class="main-spinner"></c-web-spinner>
             <template if:true={isInitialized}>
+                <!-- Desk:Orietation:{iosString}<br /> -->
                 <template for:each={participantTabs} for:item="item">
                     <div class="nav-item" key={item.label} role="menu">
                         <!--Home Page Tab-->
@@ -108,5 +109,5 @@
                 </template>
             </template>
         </template>
-    </div>
+    <!-- </div> -->
 </template>
