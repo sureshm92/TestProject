@@ -194,16 +194,11 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     connectedCallback() {
         this.isIpad();
         window.addEventListener('orientationchange', this.onOrientationChange);
-        // if (formFactor === 'Small') {
-        //     this.isMobile = true;
-        // } else {
-        //     this.isMobile = false;
-        // }
-         if (formFactor === 'Large') {
+        if (formFactor === 'Small') {
+            this.isMobile = true;
+        } else {
             this.isMobile = false;
-         } else {
-             this.isMobile = true;
-         }
+        }
         var pageurl = communityService.getFullPageName();
         if (pageurl.includes('tasks')) {
             this.ishomepage = false;

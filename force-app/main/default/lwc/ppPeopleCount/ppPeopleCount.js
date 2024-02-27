@@ -7,9 +7,7 @@ export default class PpPeopleCount extends LightningElement {
  @api usrPic;
  @track hasImages = false;
  @track imgPath;
- @track isTab;
  connectedCallback() {
-    this.isTab=this.isTablet();
     var usrlst = this.usrPic;
     for(var key in usrlst){
         if(this.userpicId == key){
@@ -40,16 +38,4 @@ export default class PpPeopleCount extends LightningElement {
     ).toUpperCase();
     return initial;
   }
-  
-  isTablet() {
-    if (window.innerWidth >= 768 && window.innerWidth <= 1280) {
-        if (/android/i.test(navigator.userAgent.toLowerCase())) {
-            return true;
-        } else {
-            return false;
-        }
-    } else {
-        return false;
-    }
-    }
 }

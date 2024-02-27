@@ -32,7 +32,6 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
   @api deviceSize;
   @api studyConfiguartion;
   @api isPastStudy;
-  @track isTabLandscape;
   @wire(CurrentPageReference)
   currentPageRef;
   backtopaststudies = false;
@@ -83,8 +82,6 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
   }
   _handler;
   connectedCallback() {
-    this.isTabLandscape = this.isTabletLandscape();
-    window.addEventListener('orientationchange', this.onOrientationChange);
     if(this.currentPageRef.state.c__study){
       this.backtopaststudies = true;
     }
@@ -103,9 +100,6 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
       );
     }
   }
-  onOrientationChange = () => {
-    this.isTabLandscape = this.isTabletLandscape();
-};
   listener() {
     if (!this.isMobile) {
       this.conversationWrappers[0].isLastMsgUnRead = false;
@@ -904,21 +898,4 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
         }
     })
   }
-
-  isTabletLandscape() {
-    let orientation = screen.orientation.type;
-    if (window.innerWidth >= 768 && window.innerWidth <= 1280) {
-        if (/android/i.test(navigator.userAgent.toLowerCase())) {
-            if (orientation.startsWith('landscape')) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    } else {
-        return false;
-    }
-}
 }

@@ -10,12 +10,7 @@
             </template>
             <template if:false={hasImages}>
                 <div class="ms-item-icon-circle">
-                    <template if:true={isTab}>
-                        <span class="lt-initial-pos-tab">{initials} </span></template
-                    >
-                    <template if:false={isTab}>
-                        <span class="lt-initial-pos">{initials} </span>
-                    </template>  
+                    <span class="lt-initial-pos">{initials} </span>
                 </div>
             </template> </lightning-layout-item
         ><lightning-layout-item size="10" title={peopleName} class="slds-p-left_small slds-p-top_xx-small truncate_name"

@@ -1,7 +1,6 @@
 import { LightningElement, track, wire } from 'lwc';
 import setResourceAction from '@salesforce/apex/ResourceRemote.setResourceAction';
 import getResourceDetails from '@salesforce/apex/ResourcesDetailRemote.getResourcesByIdNew';
-import getDocId from '@salesforce/apex/ResourcesDetailRemote.getDocId';
 import getUnsortedResources from '@salesforce/apex/ResourceRemote.getUnsortedResourcesByType';
 import getPastStudyResources from '@salesforce/apex/ResourceRemote.getPastStudyResources';
 import getDataWrapper from '@salesforce/apex/RelevantLinksRemote.getDataWrapper';
@@ -14,7 +13,6 @@ import Back_To_Resources from '@salesforce/label/c.Link_Back_To_Resources';
 import Back_To_PastStudies from '@salesforce/label/c.Back_to_Past_Studies_and_Programs';
 import Back_To_Home from '@salesforce/label/c.Link_Back_To_Home';
 import FORM_FACTOR from '@salesforce/client/formFactor';
-import DOWNLOAD_RESOURCE from '@salesforce/label/c.PP_Download_Resource';
 import { NavigationMixin } from 'lightning/navigation';
 
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
@@ -55,8 +53,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         POSTING,
         Back_To_Resources,
         Back_To_Home,
-        Back_To_PastStudies,
-        DOWNLOAD_RESOURCE
+        Back_To_PastStudies
     };
     isMultimedia = false;
     isArticleVideo = false;
@@ -75,7 +72,7 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
     televisit = false;
     backtopaststudies = false;
     backToRes = pp_community_icons + '/' + 'back_to_resources.png';
-    docId;
+
     /*******Getters******************/
 
     get showSpinner() {
@@ -171,7 +168,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         }
       
         this.initializeData();
-        this.fetchDocId();
     }
 
     publishResourceType(flag){
@@ -220,16 +216,14 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
                             return returnValue;
                         })
                     ) {
+                        window.location.href = link;
                         if (communityService.isMobileSDK() ) {
-                            window.open(link,'_self');
                             this[NavigationMixin.Navigate]({
                                 type: 'comm__namedPage',
                                 attributes: {
                                     pageName: 'home'
                                 }
                             })
-                        }else{
-                            window.location.href = link;
                         }
                         this.isInitialized=true;
                     } else {
@@ -390,18 +384,6 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
         }
     }
 
-    get isAppDoc(){
-        if (communityService.isInitialized()) {
-            if (this.resourceType == 'Study_Document') {
-                return this.label.DOWNLOAD_RESOURCE;
-            }
-        }
-        return false;           
-    }
-    handledownload(event){
-      window.open('../sfc/servlet.shepherd/document/download/' + this.docId);
-        }
-
     handleDocumentLoad() {
         let updates = true;
         this.documentLink =
@@ -487,17 +469,5 @@ export default class PpResourceDetailPage extends NavigationMixin(LightningEleme
 
     goBackToPrevPage() {
         window.history.back();
-    }
-
-    fetchDocId(){
-        if(this.resourceType == 'Study_Document'){
-            getDocId({ resourceId: this.resourceId })
-                .then((returnValue) => {
-                    this.docId = returnValue;
-                })
-                .catch((error) => {
-                    this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
-                });
-        }
     }
 }

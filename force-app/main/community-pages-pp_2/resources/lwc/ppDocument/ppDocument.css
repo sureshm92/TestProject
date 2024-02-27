@@ -81,7 +81,8 @@
     margin-right: -85px;
 }
 
-@media all and (min-width: 768px) and (max-width: 1280px) and (orientation: portrait) {
+
+@media all and (min-width: 768px) and (max-width: 1280px) and (orientation: portrait){
     .card-border {
         height: auto !important;
     }
@@ -97,10 +98,8 @@
         margin: 11px 0 0 0px;
     }
 }
-.thumbnail-outerbox-tab {       
-    padding: 2px ;
-}
 @media all and (min-width: 768px) and (max-width: 1280px) and (orientation: landscape) {
+  
     .document-details {
         height: auto !important;
         padding: 10px !important;
@@ -112,4 +111,5 @@
     .thumbnail-outerbox {
         padding: 2px 0 2px 2px;
     }
+ 
 }

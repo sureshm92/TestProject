@@ -5,7 +5,6 @@ import Open_In_New_Tab_PP from '@salesforce/label/c.Open_In_New_Tab_PP';
 import myResults from '@salesforce/label/c.Visit_Results_Dashboard_My_Results';
 import Download_In_Progress_PP from '@salesforce/label/c.Download_In_Progress_PP';
 import Visit_Results_Disclaimer_Past_Studies from '@salesforce/label/c.Visit_Results_Disclaimer_Past_Studies';
-import generateVisitResult from '@salesforce/apex/ppPastStudiesTabUtility.generateVisitResult';
 import getBase64fromVisitSummaryReportPage_Modified from '@salesforce/apex/ModifiedVisitReportContainerRemote.getBase64fromVisitSummaryReportPage_Modified';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import mobileTemplate from './ppDownloadResultsDataMobile.html';
@@ -21,8 +20,6 @@ export default class PpDownloadResultsData extends LightningElement {
     @api patientVisitNam;
     @api patientVisitId;
     showDownloadResults;
-    isTab=false;
-    isLandscape = false;
     label = {
         PP_Download_Results_Data,
         Open_In_New_Tab_PP,
@@ -45,14 +42,8 @@ export default class PpDownloadResultsData extends LightningElement {
             this.showDownloadResults = true;
         }
         this.dummy = true;
-        this.isTabletMenu();
-        this.isIpadLandscape();
-        window.addEventListener('orientationchange', this.onOrientationChange);
     }
-    onOrientationChange = () => {
-        this.isIpadLandscape();
-        this.isTabletMenu();
-    };
+
     renderedCallback() {
         if (this.alumniPeId != null) {
             this.peId = this.alumniPeId;
@@ -65,9 +56,6 @@ export default class PpDownloadResultsData extends LightningElement {
     }
     get isPastStudies() {
         return this.alumniPeId != null ? true : false;
-    }
-    get isIPadView(){
-        return this.isTab || this.isLandscape;
     }
     @api
     loadData() {
@@ -139,7 +127,18 @@ export default class PpDownloadResultsData extends LightningElement {
                 : this.template.querySelectorAll('.download-report');
         }
         if (communityService.isMobileSDK()) {
-            this.downloadResult();            
+            getBase64fromVisitSummaryReportPage_Modified({
+                peId: this.peId,
+                isRTL: this.isRTL,
+                patientVisitNam: this.patientVisitNam,
+                patientVisId: this.patientVisitId
+            })
+                .then((returnValue) => {
+                    communityService.navigateToPage('mobile-pdf-viewer?pdfData=' + returnValue);
+                })
+                .catch((error) => {
+                    console.error('Error occured during report generation', error.message, 'error');
+                });
         } else {
             if (this.patientVisitId != null) {
                 let url =
@@ -159,13 +158,9 @@ export default class PpDownloadResultsData extends LightningElement {
                     event.currentTarget.name == 'download-res-tab' ||
                     event.currentTarget.dataset.name == 'download-vis-res'
                 ) {
-                    if(this.isTab || this.isLandscape){
-                        window.open(url);
-                    }else{
-                        anchorEle[0].setAttribute('href', url);
-                        if (this.isDesktop) {
-                            anchorEle[0].click();
-                        }
+                    anchorEle[0].setAttribute('href', url);
+                    if (this.isDesktop) {
+                        anchorEle[0].click();
                     }
                 }
             } else {
@@ -198,68 +193,5 @@ export default class PpDownloadResultsData extends LightningElement {
     removeElementFocus() {
         let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
         ddMenu.classList.remove('active');
-    }
-
-    isTabletMenu() {
-        //alert('coming');
-        let orientation = screen.orientation.type;
-        let portrait = true;
-        if (orientation === 'landscape-primary') {
-            portrait = false;
-        }
-        if (window.innerWidth >= 768 && window.innerWidth < 1279 && portrait) {
-            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
-                this.isTab = true;
-                return true;
-            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
-                this.isTab = true;
-                return true;
-            }
-        } else {
-            this.isTab = false;
-        }
-        return false;
-    }
-    isIpadLandscape() {
-        let orientation = screen.orientation.type;
-        let landscape = false;
-        if (orientation === 'landscape-primary') {
-            landscape = true;
-        }
-        if (window.innerWidth >= 768 && window.innerWidth < 1279 && landscape) {
-            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
-                this.isLandscape = true;
-                return true;
-            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
-                this.isLandscape = true;
-                return true;
-            }
-        }
-        this.isLandscape = false;
-        return false;
-}
-    downloadInProgress =false;
-    downloadResult(){
-        var pvName = this.patientVisitNam;
-        if(!this.patientVisitNam){
-            pvName = 'undefined';
-        }
-        if(!this.downloadInProgress){
-            this.downloadInProgress = true;
-            generateVisitResult({
-                peId: this.peId,
-                isRTL: this.isRTL,
-                patientVisitNam: pvName,
-                patientVisId: this.patientVisitId
-            })
-            .then((result) => {
-                window.open('../sfc/servlet.shepherd/version/download/' + result);
-                this.downloadInProgress = false;
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
-
     }
 }

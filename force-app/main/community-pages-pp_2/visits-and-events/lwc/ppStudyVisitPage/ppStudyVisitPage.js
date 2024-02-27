@@ -105,30 +105,11 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     column2 = 'col2';
     column3 = 'col3';
     @track fromOnVisitSelect = false;
-    isLandscape = false;
 
     ctpSharingTiming;
 
     get iconContainerCss() {
         return this.isMobile ? 'icon-cont-mobile' : 'icon-cont';
-    }
-    isIpadLandscape() {
-        let orientation = screen.orientation.type;
-        let landscape = false;
-        if (orientation === 'landscape-primary') {
-            landscape = true;
-        }
-        if (window.innerWidth >= 768 && window.innerWidth < 1279 && landscape) {
-            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
-                this.isLandscape = true;
-                return true;
-            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
-                this.isLandscape = true;
-                return true;
-            }
-        }
-        this.isLandscape = false;
-        return false;
     }
 
     callParticipantVisit(fromVisitSelect) {
@@ -318,7 +299,6 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
     }
 
     connectedCallback() {
-        let t = this.isIpadLandscape();
         if (formFactor === 'Small' || formFactor === 'Medium') {
             this.isMobile = true;
         } else {
@@ -328,11 +308,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
 
         this.fromOnVisitSelect = false;
         this.callParticipantVisit(this.fromOnVisitSelect);
-        window.addEventListener('orientationchange', this.onOrientationChange);
     }
-    onOrientationChange = () => {
-        let isIpadL = this.isIpadLandscape();
-    };
 
     getParams() {
         if (communityService.getUrlParameter('ispast') === 'true') {
@@ -637,16 +613,7 @@ export default class PpStudyVisitPage extends NavigationMixin(LightningElement) 
                 this.showErrorToast('Error occured here', error.message, 'error');
             });
     }
-    get col1CssClass() {
-        return this.isLandscape
-            ? 'slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_3-of-12 col1'
-            : 'slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_4-of-12 col1';
-    }
-    get col2CssClass() {
-        return this.isLandscape
-            ? 'slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-large-size_5-of-12 col2 slds-p-horizontal_large'
-            : 'slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-large-size_4-of-12 col2 slds-p-horizontal_large';
-    }
+
     showErrorToast(titleText, messageText, variantType) {
         this.dispatchEvent(
             new ShowToastEvent({

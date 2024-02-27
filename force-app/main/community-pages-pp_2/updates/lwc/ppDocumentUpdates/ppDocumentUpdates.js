@@ -29,7 +29,6 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
             return 'slds-col slds-size_4-of-6 card-data-element';
         }
     }
-   
     connectedCallback() {
         if (this.documentData.thumbnailDocId) {
             this.subDomain = communityService.getSubDomain();
@@ -51,11 +50,10 @@ export default class PpDocumentUpdates extends NavigationMixin(LightningElement)
         if (communityService.isInitialized()) {
             participantState = communityService.getCurrentCommunityMode().participantState;
         }
-
-            this[NavigationMixin.Navigate]({
-             type: 'comm__namedPage',
-             attributes: {
-                 pageName: 'resource-detail'
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'resource-detail'
             },
             state: {
                 resourceid: this.documentData.recId,

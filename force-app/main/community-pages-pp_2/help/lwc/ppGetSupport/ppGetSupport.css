@@ -66,12 +66,12 @@
 
 .from-date {
     box-sizing: border-box;
-    /*height: 40px;*/
+    height: 40px;
     margin-top: -5px;
     padding: 7px;
     text-align: center;
-    /* margin-left: -11px;
-    margin-right: 12px; */
+    margin-left: -11px;
+    margin-right: 12px;
     border: 1px solid #d9d9d9;
     border-radius: 20px;
     color: #999999;
