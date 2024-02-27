@@ -24,5 +24,9 @@ public without sharing class ResourcesDetailRemote {
         } catch (Exception e) {
             return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }
+    }    
+    @AuraEnabled
+    public static string getDocId(String resourceId){
+        return [select ContentDocumentid from ContentDocumentLink where LinkedEntityId =:resourceId].ContentDocumentid;
     }
 }
