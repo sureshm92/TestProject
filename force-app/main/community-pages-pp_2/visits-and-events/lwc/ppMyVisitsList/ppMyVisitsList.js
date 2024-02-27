@@ -71,7 +71,6 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     @track showList = true;
     @track selectedIndex = 0;
     @track visitTimezone = '';
-    @track isIpad = false;
 
     initialized = '';
     cbload = false;
@@ -82,42 +81,43 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     empty_state = pp_community_icons + '/' + 'empty_visits.png';
 
     get upButtonStyle() {
-        if (this.past) {
-            return this.isRTL
-                ? 'slds-button slds-button_neutral up-button inactive-button-background border-radius-rtl'
-                : 'slds-button slds-button_neutral up-button inactive-button-background border-radius';
-        } else {
-            return this.isRTL
-                ? 'slds-button slds-button_brand up-button active-button-background border-radius-rtl'
-                : 'slds-button slds-button_brand up-button active-button-background border-radius';
+        if(this.past)
+        {
+            return this.isRTL 
+            ? 'slds-button slds-button_neutral up-button inactive-button-background border-radius-rtl' 
+            : 'slds-button slds-button_neutral up-button inactive-button-background border-radius';
+        } else{
+            return this.isRTL 
+            ? 'slds-button slds-button_brand up-button active-button-background border-radius-rtl' 
+            : 'slds-button slds-button_brand up-button active-button-background border-radius';
         }
     }
 
     get pastButtonStyle() {
-        if (this.past) {
-            return this.isRTL
-                ? 'slds-button slds-button_brand past-button active-button-background border-radius'
-                : 'slds-button slds-button_brand past-button active-button-background border-radius-rtl';
-        } else {
-            return this.isRTL
-                ? 'slds-button slds-button_neutral past-button inactive-button-background border-radius'
-                : 'slds-button slds-button_neutral past-button inactive-button-background border-radius-rtl';
+        if(this.past)
+        {
+            return this.isRTL 
+            ? 'slds-button slds-button_brand past-button active-button-background border-radius' 
+            : 'slds-button slds-button_brand past-button active-button-background border-radius-rtl';
+        } else{
+            return this.isRTL 
+            ? 'slds-button slds-button_neutral past-button inactive-button-background border-radius' 
+            : 'slds-button slds-button_neutral past-button inactive-button-background border-radius-rtl';
         }
     }
 
     get leftLineStyle() {
-        return this.isRTL
-            ? 'slds-p-right_x-small slds-size_1-of-12'
+        return this.isRTL 
+            ? 'slds-p-right_x-small slds-size_1-of-12' 
             : 'slds-p-left_x-small slds-size_1-of-12';
     }
 
     connectedCallback() {
         this.visitTimezone = TIME_ZONE;
-        let ipadVal = this.isIpadLogic();
         getisRTL()
             .then((data) => {
                 this.isRTL = data;
-                console.log('rtl--->' + this.isRTL);
+                console.log('rtl--->'+this.isRTL);
             })
             .catch(function (error) {
                 console.error('Error RTL: ' + JSON.stringify(error));
@@ -125,20 +125,6 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     }
     renderedCallback() {
         this.handleVisitChange();
-    }
-    isIpadLogic() {
-        if (window.innerWidth >= 768 && window.innerWidth < 1279) {
-            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
-                this.isIpad = true;
-                return true;
-            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
-                this.isIpad = true;
-                return true;
-            }
-        } else {
-            this.isIpad = false;
-        }
-        return false;
     }
 
     onPastClick() {

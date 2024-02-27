@@ -40,7 +40,7 @@
     color: #0768fd;
     padding: 8px 12px;
     cursor: pointer;
-   /* float: left;  Float the    side by side */
+    float: left; /* Float the buttons side by side */
 }
 
 /* Add a background color on hover */

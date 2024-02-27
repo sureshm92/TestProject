@@ -10,17 +10,8 @@
         </template>
     </template>
     <template if:true={isMessagePage}>
-        <template if:true={counter}>           
-                <template if:true={isTab}>
-                    <div class="new-msg-outer new-msg-outer-tab slds-m-left_xx-small">
-                    <span class="new-message-tab">{labels.New}</span>
-                    </div>
-                </template>  
-                <template if:false={isTab}>
-                    <div class="new-msg-outer slds-m-left_xx-small">
-                    <span class="new-message">{labels.New}</span>
-                    </div>
-                </template>                    
+        <template if:true={counter}>
+            <div class="new-msg-outer slds-m-left_xx-small"><span class="new-message">{labels.New}</span></div>
         </template>
     </template>
 </template>

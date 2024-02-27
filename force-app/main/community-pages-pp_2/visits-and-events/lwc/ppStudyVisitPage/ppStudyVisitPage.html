@@ -9,7 +9,9 @@
                 <h1 class="my-visits">{label.myVisits}</h1>
             </template>
             <div class="slds-grid slds-wrap slds-gutters">
-                <div class={col1CssClass}>
+                <div
+                    class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_4-of-12 col1"
+                >
                     <template if:true={contentLoaded}>
                         <c-pp-my-visits-list
                             pastvisits={pastVisits}
@@ -33,7 +35,10 @@
                     </template>
                 </div>
 
-                <div class={col2CssClass} data-id={column2}>
+                <div
+                    class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-large-size_4-of-12 col2 slds-p-horizontal_large"
+                    data-id={column2}
+                >
                     <h1 if:false={past} class="visit3 slds-truncate" title={visitName}>
                         {visitName}
                         <div class="visit-date-time">

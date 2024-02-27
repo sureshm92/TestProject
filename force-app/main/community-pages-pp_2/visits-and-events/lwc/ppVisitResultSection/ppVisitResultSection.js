@@ -31,11 +31,7 @@ export default class PpVisitResultSection extends LightningElement {
     @track isLabsResultsAvailable = false;
     @track initialised = false;
     @track visResultsList;
-    isTablet=false;
-    isLandscape = false;
-    tabResultCardClass = 'slds-col slds-size_8-of-12 slds-p-right_small slds-p-left_none slds-p-bottom_small card-center-ipad';
-    landscapeResultCardClass = 'slds-col slds-size_1-of-2 slds-p-right_small slds-p-left_none slds-p-bottom_small';
-    desktopResultCardClass = 'slds-col slds-size_4-of-12 slds-p-right_small slds-p-left_none slds-p-bottom_small';
+
     label = {
         Visit_Result_Group_MetabolicPanel,
         Visit_Result_Group_Hematology,
@@ -51,16 +47,6 @@ export default class PpVisitResultSection extends LightningElement {
     connectedCallback() {
         //this.getResultsData();
         this.removeUpdatesCardForVisitResult();
-        this.isTabletMenu();
-        this.isIpadLandscape();
-        window.addEventListener('orientationchange', this.onOrientationChange);
-    }
-    onOrientationChange = () => {
-        this.isIpadLandscape();
-        this.isTabletMenu();
-    };
-    get visitResultCardClass(){
-        return this.isTablet ? this.tabResultCardClass : (this.isLandscape? this.landscapeResultCardClass : this.desktopResultCardClass);
     }
     get isVitalsSelected() {
         return this.selectedResultType == 'Vitals';
@@ -109,7 +95,7 @@ export default class PpVisitResultSection extends LightningElement {
         return FORM_FACTOR == 'Small';
     }
 
-    get isTab() {
+    get isTablet() {
         return FORM_FACTOR == 'Medium';
     }
     removeUpdatesCardForVisitResult() {
@@ -179,43 +165,5 @@ export default class PpVisitResultSection extends LightningElement {
                 this.showSpinner = false;
                 this.initialised = true;
             });
-    }
-    isTabletMenu() {
-        //alert('coming');
-        let orientation = screen.orientation.type;
-        let portrait = true;
-        if (orientation === 'landscape-primary') {
-            portrait = false;
-        }
-        if (window.innerWidth >= 768 && window.innerWidth < 1279 && portrait) {
-            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
-                this.isTablet = true;
-                return true;
-            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
-                this.isTablet = true;
-                return true;
-            }
-        } else {
-            this.isTablet = false;
-        }
-        return false;
-    }
-    isIpadLandscape() {
-        let orientation = screen.orientation.type;
-        let landscape = false;
-        if (orientation === 'landscape-primary') {
-            landscape = true;
-        }
-        if (window.innerWidth >= 768 && window.innerWidth < 1279 && landscape) {
-            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
-                this.isLandscape = true;
-                return true;
-            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
-                this.isLandscape = true;
-                return true;
-            }
-        }
-        this.isLandscape = false;
-        return false;
     }
 }
