@@ -13,7 +13,6 @@
 }
 .THIS .login-card {
     position: absolute;
-    top: 70px;
     right: 48px;
     min-height: 700px;
     width: 414px;
@@ -118,7 +117,6 @@
 @media (min-width: 760px) and (max-width: 1279px) and (orientation: landscape) {
     .THIS .login-card {
         position: absolute;
-        top: 70px;
         right: 48px;
         min-height: 600px;
         width: 414px;
