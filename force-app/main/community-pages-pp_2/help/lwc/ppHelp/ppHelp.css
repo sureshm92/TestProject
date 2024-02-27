@@ -228,4 +228,7 @@
     .pad-r-10{
         padding-right: unset;
     }
+    .help_section_tab{
+        width:75%;
+    }
 }
