@@ -501,4 +501,5 @@ export default class HomePageParticipantNew extends LightningElement {
         this.updateCardLayoutSmall = false;
         this.progressBarLayoutClass = 'slds-hide';
     }
+
 }

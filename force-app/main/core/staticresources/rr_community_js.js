@@ -618,10 +618,12 @@ window.communityService = (function () {
             return false;
         },
         isIpad: function () {
-            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
-                return true;
-            } else if (/macintel/i.test(navigator.platform.toLowerCase())) {
-                return true;
+            if (window.innerWidth >= 768 && window.innerWidth < 1279) {
+                if (/ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                    return true;
+                } else if (/macintel/i.test(navigator.platform.toLowerCase())) {
+                    return true;
+                }
             }
             return false;
         },

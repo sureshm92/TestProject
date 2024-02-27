@@ -19,7 +19,7 @@ public without sharing class IprEprTriggerHandler {
             this.siteType = inSiteType;
         }
     }
-    
+   
     public class CheckRequiredFieldsAndUpsertParticipantAndPEHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             validateReferralsV2(newList);
@@ -706,6 +706,17 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         Id ssId,
         Study_Site__c ss,
         Boolean isAdult
+    ){
+    Boolean fieldNotVisible = false;
+     return createPE(ipr,participantId,ssId,ss,isAdult,fieldNotVisible);
+    }
+    public static Participant_Enrollment__c createPE(
+        Integration_Patient_Referral__c ipr,
+        Id participantId,
+        Id ssId,
+        Study_Site__c ss,
+        Boolean isAdult,
+        Boolean fieldNotVisible
     ) {
         Map<String,String> sourceToConsentMap = new Map<String,String>();
 
@@ -751,10 +762,12 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             Atid__c = ipr.Atid__c,
             HighRisk_Indicator__c = ipr.HighRisk_Indicator__c,
             Permit_IQVIA_to_contact_about_study__c = true,
-            Study_PI_Storage_Consent_Time__c = Datetime.now(),
             Human_Id__c = ipr.Human_Id__c,
             Additional_Information__c = ipr.Additional_Information__c
         );
+        if(fieldNotVisible!=true){
+            objPE.Study_PI_Storage_Consent_Time__c = Datetime.now();
+        }
         if(sourceToConsentMap.containsKey(ipr.Data_Source__c)){
             list<string> lstFields = sourceToConsentMap.get(ipr.Data_Source__c).split(',');
             for(String objstr : lstFields)
