@@ -54,11 +54,3 @@
         height: 122px;
     }
 }
-@media only screen and (min-device-width: 768px) and (max-device-width: 1280px) and (orientation: landscape) {
-    .cover {
-        height: 120px;
-    }
-    .enage-section-horizontal {
-        height: 122px;
-    }
-}

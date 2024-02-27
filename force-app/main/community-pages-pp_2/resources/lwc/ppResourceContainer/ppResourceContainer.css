@@ -59,6 +59,7 @@ img,
 }
 .resource-icon {
     display: block;
+    margin-left: 70%;
 }
 .resource-pointer {
     object-fit: cover;

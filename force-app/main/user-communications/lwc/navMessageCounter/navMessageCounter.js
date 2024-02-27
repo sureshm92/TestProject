@@ -11,7 +11,6 @@ import Message_MaxTime_DoNotTranslate from '@salesforce/label/c.Message_MaxTime_
 export default class NavMessageCounter extends LightningElement {
     @api isOnPage = false;
     @track counter;
-    @track isTab;
     @api isMessagePage = false;
     labels = {
         New,
@@ -20,7 +19,6 @@ export default class NavMessageCounter extends LightningElement {
     };
 
     connectedCallback() {
-        this.isTab=this.isTablet();
         setInterval(
             () => {
                 getCounter()
@@ -45,15 +43,4 @@ export default class NavMessageCounter extends LightningElement {
         // this.isOnPage ? 1000 : 5000
         );
     }
-    isTablet() {
-        if (window.innerWidth >= 768 && window.innerWidth <= 1280) {
-            if (/android/i.test(navigator.userAgent.toLowerCase())) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-        }
 }

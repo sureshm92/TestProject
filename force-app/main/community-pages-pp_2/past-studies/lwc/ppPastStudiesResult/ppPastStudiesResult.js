@@ -6,8 +6,6 @@ import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import PP_Download_Results_Data from '@salesforce/label/c.PP_Download_Results_Data';
 import Past_Studies_Result_Text from '@salesforce/label/c.Past_Studies_Result_Text';
 import getBase64fromVisitSummaryReportPage_Modified from '@salesforce/apex/ModifiedVisitReportContainerRemote.getBase64fromVisitSummaryReportPage_Modified';
-import generateVisitResult from '@salesforce/apex/ppPastStudiesTabUtility.generateVisitResult';
-import Download_In_Progress_PP from '@salesforce/label/c.Download_In_Progress_PP';
 
 export default class PpPastStudiesResult extends LightningElement {
     @api perid;
@@ -19,8 +17,7 @@ export default class PpPastStudiesResult extends LightningElement {
     resultsAvailable;
     label={ PP_No_results_available,
             PP_Download_Results_Data,
-            Past_Studies_Result_Text,
-            Download_In_Progress_PP
+            Past_Studies_Result_Text
           };
     connectedCallback(){
         this.checkResults();
@@ -40,41 +37,23 @@ export default class PpPastStudiesResult extends LightningElement {
     }
     openResult(){
         if (communityService.isMobileSDK()) {
-            this.downloadResult();
+            getBase64fromVisitSummaryReportPage_Modified({
+                peId: this.perid,
+                isRTL: this.isRTL,
+                patientVisitNam: null,
+                patientVisId: null
+            })
+                .then((returnValue) => {
+                    communityService.navigateToPage('mobile-pdf-viewer?pdfData=' + returnValue);
+                })
+                .catch((error) => {
+                    alert('Error occured during report generation', error.message, 'error');
+                });
         }
         else{
             window.open(
                 '/pp/apex/PatientVisitReportPage?peId=' + this.perid + '&isRTL=' + this.isRTL
             );
-        }
-    }
-    
-    downloadInProgress =false;
-    downloadResult(){
-        this.template
-            .querySelector('c-custom-toast-files-p-p')
-            .showToast(
-                'success',
-                this.label.Download_In_Progress_PP,
-                'utility:download',
-                10000
-            );
-        if(!this.downloadInProgress){
-            this.downloadInProgress = true;
-            
-            generateVisitResult({
-                peId: this.perid,
-                isRTL: this.isRTL,
-                patientVisId : null,
-                patientVisId : null
-            })
-            .then((result) => {
-                this.downloadInProgress = false;
-                window.open('../sfc/servlet.shepherd/version/download/' + result);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
         }
     }
 }
