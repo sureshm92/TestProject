@@ -193,9 +193,6 @@ input::placeholder {
     }
 }
 @media (max-width: 390px) {
-    .logo-container-pp {
-        width: 190px !important;
-    }
     .slds-popover_tooltip,
     .slds-popover--tooltip ::after {
         background-color: #444444;
@@ -375,10 +372,7 @@ input::placeholder {
     }
     .menu-block {
         position: relative !important;
-    }
-    .logo-container-pp {
-        margin: 0 0 0 42px !important;
-    }
+    }   
 }
 
 /**Toast Container CSS*/
@@ -679,29 +673,6 @@ input::placeholder {
     word-break: break-word;
     text-align: left;
     margin-top: -2px;
-}
-
-.logo-container-pp {
-    justify-content: center;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    width: 232px;
-}
-.logo-container-pp-ipad {
-    justify-content: center;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    margin-left: 16px;
-}
-
-@media only screen and (min-device-width: 1280px) and (max-device-width: 1280px) and (orientation: landscape) {
-    .mob-logo-container-pp {
-        margin-right: 27rem;
-    }
 }
 
 .cookie-accordion-border .slds-accordion__summary-action {
