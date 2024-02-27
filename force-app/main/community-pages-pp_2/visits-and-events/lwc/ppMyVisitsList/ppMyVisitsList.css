@@ -399,41 +399,9 @@ a {
 @media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
     .active-custom-box {
         width: 280px;
-        height: max-content;
-        display: inline-grid;
-        align-items: center;
     }
     .inactive-custom-box {
         width: 280px;
-        height: max-content;
-        display: inline-grid;
-        align-items: center;
-    }
-}
-@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: landscape) {
-    .active-custom-box {
-        max-width: 100%;
-        height: max-content;
-        display: inline-grid;
-        align-items: center;
-    }
-    .inactive-custom-box {
-        max-width: 100%;
-        height: max-content;
-        display: inline-grid;
-        align-items: center;
-    }
-    .up-button {
-        width: 100px;
-    }
-    .past-button {
-        width: 100px;
-    }
-    .list-selection {
-        justify-content: left;
-    }
-    .scroll-bar {
-        margin-right: 0px;
     }
 }
 .card-wrap {

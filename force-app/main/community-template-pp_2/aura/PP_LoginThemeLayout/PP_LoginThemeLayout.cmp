@@ -23,7 +23,7 @@
     <aura:attribute name="footerLabel" type="String" default="{!$Label.c.Footer_T_Copyright}" />
 
     <aura:if isTrue="{!v.languageChecked}">
-        <div class="body-content slds-grid slds-wrap body-image slds-align_absolute-center">
+        <div class="body-content slds-grid slds-wrap body-image">
             <img
                 class="body-img"
                 src="{!$Resource.PP_DesktopLogos + '/Doctor_checks_patients_breathing.jpg'}"

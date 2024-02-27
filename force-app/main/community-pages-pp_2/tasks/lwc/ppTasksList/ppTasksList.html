@@ -3,7 +3,7 @@
     <template for:each={tasksList} for:item="item" for:index="index">
         <template if:false={item.expandCard}>
             <div key={item} class={containerClass} data-parentdiv={item.task.Id}>
-                <lightning-layout-item size="2" class="slds-align--absolute-center">
+                <lightning-layout-item size="2">
                     <!--System Tasks Icons Section at Home-->
                     <template if:false={isIPAD}>                       
                         <template if:true={ishomepage}>
@@ -104,13 +104,14 @@
                                     </template>
                                 </div>
                             </template>
-                         </template>               
-                    </template> 
+                        </template>
+               
+                  
                     <!--System Tasks Icons Section at Task Page-->
                     <template if:false={ishomepage}>
                         <template if:true={item.systemTask}>
                             <div
-                                class="slds-p-around_xx-small"
+                                class="slds-p-around_medium"
                                 onclick={taskOpen}
                                 data-actionurl={item.task.Action_URL__c}
                                 data-status={item.task.Status}
@@ -181,7 +182,7 @@
                         <!--Ecao task-->
                         <template if:true={item.ecoaTask}>
                             <div
-                                class="slds-p-around_xx-small"
+                                class="slds-p-around_medium"
                                 onclick={taskOpen}
                                 data-actionurl={item.task.Action_URL__c}
                                 data-status={item.task.Status}
@@ -230,116 +231,57 @@
                             </div>
                         </template>
                     </template>
-                    <template if:true={isIPAD}>
-                        <template if:false={ishomepage}>
-                            <template if:false={item.systemTask}>
-                                <template if:false={item.ecoaTask}>
-                                    <template if:false={item.isClosed}>
-                                        <c-web-icon
-                                            class={webIconClass}
-                                            icon-name="icon-opentask"
-                                            icon-color=""
-                                            onclick={showTaskCompleteModal}
-                                            data-index={item.task.Id}
-                                            data-status={item.task.Status}
-                                        >
-                                        </c-web-icon>
-                                    </template>
-                                <!--Mark Task as Complete Modal-->
-                                <template if:true={isShowModal}>
-                                    <c-pp-task-complete-modal
-                                        contact={contact}
-                                        messtext={messText}
-                                        tittext={titText}
-                                        usermode={usermode}
-                                        selectedparent={selectedparent}
-                                        onconfirmmodal={closeTheTask}
-                                        onmodalclose={hideModalBox}
-                                    ></c-pp-task-complete-modal>
-                                </template>
-                                <!--Mark Task as Ignore Modal-->
-                                <template if:true={isTaskIgnoreModal}>
-                                    <c-pp-task-ignore-modal
-                                        contact={contact}
-                                        messtext={messText}
-                                        tittext={titText}
-                                        usermode={usermode}
-                                        selectedparent={selectedparent}
-                                        onconfirmmodal={markTheTaskIgnore}
-                                        onmodalclose={closeModel}
-                                    ></c-pp-task-ignore-modal>
-                                </template>
-                                <template if:true={item.isClosed}>
-                                   <c-web-icon
-                                        class={webIconClass}
-                                        icon-name="icon-completedtask"
-                                        onclick={showTaskCompleteModal}
-                                        data-index={item.task.Id}
-                                        data-status={item.task.Status}
-                                        tabindex="0"
-                                    ></c-web-icon>
-                                </template>
-                               </template>
-                            </template>
-                            </template>
 
-                    </template>
-                    <template if:false={isIPAD}> 
-                        <template if:false={item.systemTask}>
-                            <template if:false={item.ecoaTask}>
-                                <template if:false={item.isClosed}>
-                                    <c-web-icon
-                                        class={webIconClass}
-                                        icon-name="icon-opentask"
-                                        icon-color=""
-                                        onclick={showTaskCompleteModal}
-                                        data-index={item.task.Id}
-                                        data-status={item.task.Status}
-                                    >
-                                    </c-web-icon>
-                                </template>
-                            <!--Mark Task as Complete Modal-->
-                            <template if:true={isShowModal}>
-                                <c-pp-task-complete-modal
-                                    contact={contact}
-                                    messtext={messText}
-                                    tittext={titText}
-                                    usermode={usermode}
-                                    selectedparent={selectedparent}
-                                    onconfirmmodal={closeTheTask}
-                                    onmodalclose={hideModalBox}
-                                ></c-pp-task-complete-modal>
-                            </template>
-                            <!--Mark Task as Ignore Modal-->
-                            <template if:true={isTaskIgnoreModal}>
-                                <c-pp-task-ignore-modal
-                                    contact={contact}
-                                    messtext={messText}
-                                    tittext={titText}
-                                    usermode={usermode}
-                                    selectedparent={selectedparent}
-                                    onconfirmmodal={markTheTaskIgnore}
-                                    onmodalclose={closeModel}
-                                ></c-pp-task-ignore-modal>
-                            </template>
-                            <template if:true={item.isClosed}>
-                               <c-web-icon
+                    <template if:false={item.systemTask}>
+                        <template if:false={item.ecoaTask}>
+                            <template if:false={item.isClosed}>
+                                <c-web-icon
                                     class={webIconClass}
-                                    icon-name="icon-completedtask"
+                                    icon-name="icon-opentask"
+                                    icon-color=""
                                     onclick={showTaskCompleteModal}
                                     data-index={item.task.Id}
                                     data-status={item.task.Status}
-                                    tabindex="0"
-                                ></c-web-icon>
+                                >
+                                </c-web-icon>
                             </template>
-                           </template>
+                        <!--Mark Task as Complete Modal-->
+                        <template if:true={isShowModal}>
+                            <c-pp-task-complete-modal
+                                contact={contact}
+                                messtext={messText}
+                                tittext={titText}
+                                usermode={usermode}
+                                selectedparent={selectedparent}
+                                onconfirmmodal={closeTheTask}
+                                onmodalclose={hideModalBox}
+                            ></c-pp-task-complete-modal>
                         </template>
-
+                        <!--Mark Task as Ignore Modal-->
+                        <template if:true={isTaskIgnoreModal}>
+                            <c-pp-task-ignore-modal
+                                contact={contact}
+                                messtext={messText}
+                                tittext={titText}
+                                usermode={usermode}
+                                selectedparent={selectedparent}
+                                onconfirmmodal={markTheTaskIgnore}
+                                onmodalclose={closeModel}
+                            ></c-pp-task-ignore-modal>
                         </template>
-
-                <!-- <template if:false={isIPAD}> -->
-                   
-                <!-- </template>  -->
+                        <template if:true={item.isClosed}>
+                           <c-web-icon
+                                class={webIconClass}
+                                icon-name="icon-completedtask"
+                                onclick={showTaskCompleteModal}
+                                data-index={item.task.Id}
+                                data-status={item.task.Status}
+                                tabindex="0"
+                            ></c-web-icon>
+                        </template>
+                       </template>
+                    </template>
+                </template> 
                 </lightning-layout-item>
                 <!--Desktop View for Task List Subject, Critical and Due Date Section-->
                 <template if:false={isMobile}>

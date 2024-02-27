@@ -3,7 +3,7 @@
         <template lwc:if={isInitialized}>
             <div class="slds-grid slds-wrap slds-grid_vertical-align-center visit-info">
                 <c-web-spinner class="main-spinner" show-spinner={showSpinner}></c-web-spinner>
-                <div class={visitNameHeaderClass}>
+                <div class="slds-col slds-size_2-of-3 slds-float_left slds-p-horizontal_none">
                     <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
                         <div
                             class="slds-col slds-m-right_medium visit-name slds-grow-none slds-p-horizontal_none"
@@ -25,7 +25,6 @@
                         </div>
                     </div>
                 </div>
-                <template if:false={isIpadView}>
                 <div class="slds-col slds-size_1-of-3 slds-p-horizontal_none">
                     <div class="slds-float_right">
                         <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
@@ -36,15 +35,9 @@
                         </div>
                     </div>
                 </div>
-                </template>
+
                 <div class="slds-col slds-size_1-of-1 slds-m-top_x-small slds-p-horizontal_none">
                     <div class="disclaimer slds-m-bottom_small">{resultTypeDisclaimer}</div>
-                    <template lwc:if={isIpadView}>
-                        <c-pp-download-results-data
-                        patient-visit-nam={patientVisitName}
-                        patient-visit-id={currentVisitId}
-                    ></c-pp-download-results-data>
-                    </template>  
                     <span class="horizontal-line"></span>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-p-around_medium visit-result-buttons">

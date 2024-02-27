@@ -50,29 +50,6 @@
             </lightning-layout>
         </template>
         <template lwc:else>
-            <template lwc:if={isIPadView}> 
-                <lightning-layout-item size="12"
-                            ><a
-                                target="_self"
-                                onclick={generateReport}
-                                class="slds-align_absolute-center slds-p-around_medium"
-                                download
-                                name="download-res"
-                            >
-                                <span class="download-section">
-                                    <lightning-icon
-                                        icon-name="utility:download"
-                                        size="xx-small"
-                                        class="download-icon"
-                                    >
-                                    </lightning-icon>
-                                    <span class="download-res-data slds-p-left_small"
-                                        >{label.PP_Download_Results_Data}
-                                    </span>
-                                </span>
-                            </a></lightning-layout-item>
-            </template>
-            <template lwc:else >
             <div class="btn-group">
                 <button onclick={generateReport} class="download-text" name="download-res">
                     <span
@@ -118,7 +95,6 @@
                     </div>
                 </button>
             </div>
-        </template>
         </template>
     </template>
 </template>

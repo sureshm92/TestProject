@@ -28,22 +28,20 @@
                         <template if:true={isEditYOB}>
                             <lightning-layout-item size="5" class="mt-10">
                                 <lightning-layout multiple-rows="true" class="">
-                                    <lightning-layout-item >
+                                    <lightning-layout-item size="5">
                                         <span class="from">{label.ppFrom}</span>
                                     </lightning-layout-item>
-                                    
-                                    <lightning-layout-item size="8" class="slds-p-left_x-small">
+                                    <lightning-layout-item size="7">
                                         <div class={currentYobClass}>{currentYOB}</div>
                                     </lightning-layout-item>
                                 </lightning-layout>
                             </lightning-layout-item>
 
                             <lightning-layout-item size="7" class="mt-10">
-                                <lightning-layout multiple-rows="true" class="slds-grid_align-end">
-                                    <lightning-layout-item>
+                                <lightning-layout multiple-rows="true" class="">
+                                    <lightning-layout-item size="2">
                                         <span class="to">{label.ppTo}</span>
                                     </lightning-layout-item>
-                                    
                                     <lightning-layout-item size="10" class={YOBOpacityClass}>
                                         <lightning-combobox
                                             value={selectedYOB}
@@ -70,7 +68,7 @@
 
                     <!-- User name and password Match elements -->
                     <lightning-layout multiple-rows="true">
-                        <lightning-layout-item class={marginMatchEmailPass}>
+                        <lightning-layout-item size="1" class={marginMatchEmailPass}>
                             <template if:true={isMatchUsernameEmail}>
                                 <template if:false={isShowUserMatch}>
                                     <lightning-input
@@ -96,7 +94,7 @@
                                 </template>
                             </template>
                         </lightning-layout-item>
-                        <lightning-layout-item size="11" class="slds-p-left_x-small">
+                        <lightning-layout-item size="11">
                             <template if:true={checkMergeUsernameEmail}>
                                 <span class="matchEmailText">{label.PP_Merge_Username}</span>
                             </template>
