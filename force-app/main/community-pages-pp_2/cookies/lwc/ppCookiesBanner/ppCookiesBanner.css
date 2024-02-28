@@ -13,14 +13,14 @@
 }
 
 .desk-cookies-banner-post-login {
-    bottom: 0;
+    bottom: 6px;
     left: 0;
     position: fixed;
     border-radius: 16px 16px 0 0;
     box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
     z-index: 99999;
     background: rgba(0, 0, 0, 0.8);
-    height: 180px;
+    /* height: 180px; */
 }
 
 .rh-cookies-banner {
@@ -56,8 +56,9 @@
     margin-top: 2.2rem;
 }
 .btn-container {
-    height: 40px;
-    width: 264px;
+    /* height: 40px; */
+    padding: 5px 0px;
+    width: 91%;
     border-radius: 20px;
     background-color: #015ff1;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
@@ -180,7 +181,7 @@
 }
 
 /** RH End **/
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
     .manage {
         margin-bottom: 24px;
     }
