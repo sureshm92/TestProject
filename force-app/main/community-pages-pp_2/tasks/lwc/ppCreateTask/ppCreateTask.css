@@ -126,6 +126,8 @@ input[type='text']:disabled {
     }
     .inIpadPotraitShow{
         display:block;
+        padding-left: 24px;
+        padding-right: 24px;
     }
     .inIpadPotraitHide{
         display:none;
@@ -139,7 +141,7 @@ input[type='text']:disabled {
         display:none;
     }
     .inIpadPotraitShow{
-        display:hide;
+        display:none;
     }
     .inIpadPotraitHide{
         display:block;
