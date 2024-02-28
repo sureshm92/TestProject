@@ -67,6 +67,8 @@ public abstract class StudyActions {
     public static final String ACT_NO_THANKS = 'noThanks';
     public static final String ACT_DELEGATE = 'delegate';
     public static final String ACT_ADD_PATIENT = 'addPatient';
+    public static final String ACT_BULK_IMPORT_HISTORY = 'importhistory';
+    public static final String HIDE_ADD_PATIENT = 'hideaddpatient';
     public static final String ACT_UPLOAD_PATIENT = 'uploadPatient';
     public static final String ACT_DOWNLOAD_CONSENT = 'downloadConsent';
     public static final String ACT_HOME = 'backHome';
@@ -111,6 +113,7 @@ public abstract class StudyActions {
     public static final String LABEL_NO_THANKS = Label.BTN_No_thanks;
     public static final String LABEL_DELEGATE = Label.BTN_Delegate;
     public static final String LABEL_ADD_PATIENT = Label.PG_Add_Patients_Header;
+    public static final String LABEL_IMPORT_HISTORY = Label.pir_Bulk_Import_History;
     public static final String LABEL_UPLOAD_PATIENT = Label.PIR_Import_Participants;
     public static final String LABEL_DOWNLOAD_CONSENT = Label.BTN_View_Download_Consent;
     public static final String LABEL_HOME = Label.Link_Back_To_Home;
@@ -151,7 +154,7 @@ public abstract class StudyActions {
     public static final String REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_HCP_STATUS = Label.RSN_Current_status_of_referring_provider_does_not_permit_this_action;
     public static final String REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS = Label.RSN_Study_Site_permissions_do_not_permit_this_action;
     public static final String REASON_LABEL_LOCKED_BY_ADMIN = Label.RSN_The_status_of_this_record_is_locked_by_site_administration_For_more_informa;
-
+    public static final String REASON_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL = 'Role Based Restriction';
     public List<Action> studyListViewItemActions = new List<Action>();
     public List<Action> studySitePiActions = new List<Action>();
     public List<Action> studyDetailActions = new List<Action>();
@@ -169,6 +172,7 @@ public abstract class StudyActions {
 
     protected transient DisableReason studyNoLongerEnrollingReason;
     protected transient DisableReason studySiteNotAcceptedReason;
+    protected transient DisableReason studySiteNotAcceptedReasonrp;
     protected transient DisableReason studySiteOnHoldReason;
     protected transient DisableReason hcpNotActiveReason;
     protected transient DisableReason hcpOnHoldReason;
@@ -176,6 +180,7 @@ public abstract class StudyActions {
     protected transient DisableReason supportLevelReason;
     protected transient DisableReason level2AndLowReason;
     protected transient DisableReason level1AndLowReason;
+    protected transient DisableReason level2AndLowEngReason;
     protected transient DisableReason tcAcceptanceRequiredReason;
 
     private static Map<Id, Boolean> tcAcceptanceMap;
@@ -221,19 +226,26 @@ public abstract class StudyActions {
             study.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING,
             REASON_LABEL_STUDY_NO_LONGER_ENROLLING
         );
-
-        studySiteNotAcceptedReason = new DisableReason(
+        studySiteNotAcceptedReasonrp = new DisableReason(
             studySite != null &&
-            !StudySiteService.STATUS_GROUP_ACCEPTED.contains(
-                studySite.Override_PI_Referral_Status__c
+            !StudySiteService.STATUS_GROUP_ON_HOLD_ACTIVATED.contains(
+                studySite.Site_Activation_Status__c
             ),
             REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
         );
 
+        studySiteNotAcceptedReason = new DisableReason(
+            studySite != null &&
+            !StudySiteService.STATUS_GROUP_ACCEPTED.contains(
+                studySite.Site_Activation_Status__c
+            ),
+            REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
+        );// this is used in StudyActionsHCP and StudyActionsPI
+
         studySiteOnHoldReason = new DisableReason(
             studySite != null &&
             StudySiteService.STATUS_GROUP_ON_HOLD.contains(
-                studySite.Override_PI_Referral_Status__c
+                studySite.Site_Activation_Status__c
             ),
             REASON_LABEL_SS_ON_HOLD
         );
@@ -268,6 +280,11 @@ public abstract class StudyActions {
         level1AndLowReason = new DisableReason(
             DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(studyAccessLevel),
             REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
+        );
+
+        level2AndLowEngReason = new DisableReason(
+            DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(studyAccessLevel),
+            REASON_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
         );
 
         tcAcceptanceRequiredReason = new DisableReason(

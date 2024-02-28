@@ -33,7 +33,7 @@
      <recordTypes>
         <fullName>ReferralHub</fullName>
         <active>true</active>
-        <label>ReferralHub</label>
+        <label>ReferralHub</label>  
     </recordTypes>
     <searchLayouts>
         <searchResultsAdditionalFields>VERSION.TITLE</searchResultsAdditionalFields>

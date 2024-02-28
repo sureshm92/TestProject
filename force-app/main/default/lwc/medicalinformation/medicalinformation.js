@@ -826,9 +826,9 @@ export default class Medicalinformation extends LightningElement {
           JSON.stringify(result.lstComorbidities)
         );
         let detailedReportTemp = [];
-        this.existingBMI = this.returnpervalue.BMI ;
-        this.existingHighRisk = this.returnpervalue.HighRisk ;
-        this.existingHighPriority = this.returnpervalue.Highpriority ;
+        this.existingBMI = this.returnpervalue.BMI;
+        this.existingHighRisk = this.returnpervalue.HighRisk;
+        this.existingHighPriority = this.returnpervalue.Highpriority;
 
         if (
           this.returnpervalue.selectedPER.Clinical_Trial_Profile__r
@@ -969,14 +969,14 @@ export default class Medicalinformation extends LightningElement {
 
       });
   }
-  
+
   get displaySurveyResult (){
     return this.returnpervalue.surveyResponses && this.returnpervalue.surveyResponses.length > 0;
   }
 
   /*Method for HighRisk and High Priority */
   handlevalueupdateRisk(event) {
-    
+
     this.isHighRiskChanged = false ;
 
     if(event.target.checked != this.existingHighRisk)
@@ -1773,11 +1773,10 @@ export default class Medicalinformation extends LightningElement {
         if (result.lstBiomarkerResultWrapper.length != 0) {
           this.isbiomarkerResultAvail = true;
         }
-        if(result.lstbioMarkerMediaFiles.length !=0)
-        {
+        if (result.lstbioMarkerMediaFiles.length != 0) {
           this.isbiomarkerResultAvail = true;
           this.ismediaFileAvailable = true;
-          this.lstmediafiles  = result.lstbioMarkerMediaFiles;
+          this.lstmediafiles = result.lstbioMarkerMediaFiles;
         }
         this.bioMarkerResultData = result.lstBiomarkerResultWrapper;
         this.isBiomarkerRetriveSuccess = true;

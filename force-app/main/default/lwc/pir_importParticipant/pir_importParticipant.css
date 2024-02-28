@@ -300,3 +300,6 @@
 }
 /** RTL code End **/
  /** import code End **/
+ .err{
+    color: rgb(234, 0, 30);
+ }

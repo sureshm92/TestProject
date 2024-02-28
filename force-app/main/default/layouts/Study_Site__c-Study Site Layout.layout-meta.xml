@@ -104,6 +104,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Site_Activation_Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Skip_to_Eligibility_Passed__c</field>
             </layoutItems>
             <layoutItems>
@@ -144,7 +148,7 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Override_PI_Referral_Status__c</field>
             </layoutItems>
             <layoutItems>
@@ -427,5 +431,5 @@
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
- 
+
 </Layout>

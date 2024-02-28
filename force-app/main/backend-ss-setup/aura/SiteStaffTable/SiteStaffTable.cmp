@@ -86,7 +86,7 @@
                             <c:uiCol scrollLeft="{!v.scrollLeft}" width="{!v.levelWidth}">
                                 {!staffMember.accessLevel}
                             </c:uiCol>
-                            <aura:if isTrue="{!v.initData.inInvitationActiveStatus}">
+                            <!--aura:if isTrue="{!v.initData.inInvitationActiveStatus}"-->
                                 <c:uiCol
                                     class="invite-col"
                                     scrollLeft="{!v.scrollLeft}"
@@ -114,7 +114,7 @@
                                         >
                                     </aura:if>
                                 </c:uiCol>
-                            </aura:if>
+                            <!--/aura:if-->
                         </tr>
                     </aura:iteration>
                 </c:uiFixedTable>

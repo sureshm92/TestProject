@@ -655,6 +655,7 @@ public without sharing class MyTeamRemote {
                     WHERE Site_Contact__c IN :ConId AND is_Invited__c = TRUE
                     LIMIT 5
                 ];
+
                 String PI = '';
                 Boolean isHCP = false;
                 List<Study_Site__c> lstSSites = new List<Study_Site__c>();

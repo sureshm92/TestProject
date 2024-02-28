@@ -782,6 +782,7 @@ public without sharing class ParticipantEnrollmentService {
         'Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c',
         'Study_Site__r.Suppress_Participant_Emails__c',
         'Study_Site__r.Participant_DOB_format__c',
+        'Study_Site__r.Site_Activation_Status__c',
         'Screening_ID__c',
         'Washout_Run_In_Applies__c',
         'Final_Consent_Date__c',
@@ -1370,10 +1371,12 @@ public without sharing class ParticipantEnrollmentService {
         String sponsorName
     ) {
         //prepare filter string:
-        String filterStr =
-            ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' +
-            String.join(filter.trialIds, '\',\'') +
+        String filterStr = '';
+        if (filter.trialIds != null && !filter.trialIds.isEmpty()) {
+            filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' +
+            String.join(filter.trialIds, '\',\'') +       
             '\') ';
+        }
         if (!String.isEmpty(filter.additionalFilter))
             filterStr += ' AND ' + filter.additionalFilter + ' ';
         if (filter.searchText != null)
