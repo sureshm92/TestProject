@@ -31,6 +31,12 @@
     font-size: 16px!important;
     letter-spacing: 0;    
 }
+.pir-parent .slds-tabs_default__overflow-button .slds-button {
+    font-size: 16px;
+}
+.pir-parent .slds-tabs_default__overflow-button:after{
+    display:none;  
+}
 .pir-parent .all-tabs .slds-tabs_default__item:after {
     width: 90%;
     margin: 0 auto;
