@@ -49,7 +49,10 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         }
     }
     get hor_scroll() {
-        if (this.counter > 4 && this.desktop && !this.showvisitsection) {
+        if(this.isIpadPortrait && this.counter > 3 && this.desktop && !this.showvisitsection){
+            return 'slds-grid horizontal-scroll';
+        }
+        else if (this.counter > 4 && this.desktop && !this.showvisitsection) {
             return 'slds-grid horizontal-scroll';
         } else if (this.counter <= 4 && this.desktop && !this.showvisitsection) {
             return 'slds-grid';
