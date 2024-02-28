@@ -336,6 +336,7 @@
                           </div>
                         </template>
                         <template if:true={isMobile}>
+                          <template if:true={isfileAvailable}>
                           <div class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 sortdropdown
                                 slds-col slds-size_1-of-1  Sort
                               ">
@@ -363,6 +364,7 @@
                               </ul>
                             </div>
                           </div>
+                          </template>
 
                           <template if:true={isfileAvailable}>
                             <template iterator:it={medicalHistoryRecord.attachments} for:index="index">
