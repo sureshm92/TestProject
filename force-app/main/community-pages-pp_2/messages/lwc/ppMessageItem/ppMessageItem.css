@@ -260,3 +260,24 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.lt-initial-pos-mob {
+    position: relative;
+    top: 5px;
+}
+.rt-initial-pos-mob {
+    position: relative;
+    top: 6px;
+}
+
+@media all and (min-width: 768px) and (max-width: 1280px) {
+    .rt-initial-pos-mob {
+        top: 24%  !important;
+    }
+    .lt-initial-pos-mob {
+        top: 24%  !important;
+    }
+}
+
+
+ 
+
