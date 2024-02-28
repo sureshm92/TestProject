@@ -178,16 +178,37 @@
                 size="12"
                 class="mob-rectangle-box slds-p-around--small"
             >
+            <template if:false={isTabLandscape}>
                 <lightning-layout>
                     <lightning-layout-item
                         size="2"
+                        small-device-size="2"
+                        medium-device-size="1"
+                        large-device-size="2"
                         class="slds-align-middle slds-p-left_small"
                         ><img src={message_disclaimer} class=""
                     /></lightning-layout-item>
-                    <lightning-layout-item size="10"
+                    <lightning-layout-item
+                        size="10"
+                        small-device-size="10"
+                        medium-device-size="11"
+                        large-device-size="10"
                         >{labels.disclaimerLabel}</lightning-layout-item
                     ></lightning-layout
                 >
+            </template>
+            <template if:true={isTabLandscape}>
+                <lightning-layout>
+                    <lightning-layout-item
+                        size="1"
+                        class="slds-align-middle slds-align_absolute-center"
+                        ><img src={message_disclaimer} class=""
+                    /></lightning-layout-item>
+                    <lightning-layout-item size="11"
+                        >{labels.disclaimerLabel}</lightning-layout-item
+                    ></lightning-layout
+                >
+            </template>
             </lightning-layout-item>
         </template>
             <template if:true={loaded}>
@@ -245,7 +266,8 @@
                             >
                         </template>
                     </lightning-layout-item>
-                    <lightning-layout-item size="12" class="slds-p-horizontal_large box-container mob-box-container">
+                
+                    <lightning-layout-item size="12" class="slds-p-horizontal_large box-container slds-col_bump-left slds-m-right_medium mob-box-container">
                         <template if:true={nameList}>
                             <template for:each={nameList} for:item="n">
                                 <c-pp-people-count
@@ -257,7 +279,7 @@
                             </template>
                         </template>
                     </lightning-layout-item>
-                    
+                
                 </lightning-layout>
                 <lightning-layout class="slds-align--absolute-center"
                     ><template if:true={isMessageLoaded}>
@@ -281,7 +303,7 @@
             ></lightning-layout-item>
         </lightning-layout>
         <template if:true={showBack}>
-        <lightning-layout>      
+        <lightning-layout class="new-tab">      
             <lightning-layout-item class={visibleOfButton} size="12">
                 <c-pp-show-button  
                 onsavemessage={handleSpinner}
