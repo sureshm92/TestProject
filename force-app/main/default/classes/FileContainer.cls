@@ -78,7 +78,7 @@ public without sharing class FileContainer {
                                            Id, Study_Site__c,
                                            Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c 
                                            FROM HCP_Enrollment__c 
-                                           WHERE HCP_Contact__c =: delegateId and Clinical_Trial_Profile__r.Override_Recruitment_Status__c = 'Actively Enrolling' and Study_Site__r.Site_Activation_Status__c != 'Deactivated' and Study_Site__r.Site_Activation_Status__c != 'Deactivated (Admin)' and Study_Site__r.Site_Activation_Status__c != '' and Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen'])
+                                           WHERE HCP_Contact__c =: delegateId and Clinical_Trial_Profile__r.Override_Recruitment_Status__c = 'Actively Enrolling' and Study_Site__r.Site_Activation_Status__c != 'Deactivated' and Study_Site__r.Site_Activation_Status__c != 'Deactivated (Admin)' and  Study_Site__r.Site_Activation_Status__c != 'On Hold' Study_Site__r.Site_Activation_Status__c != '' and Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen'])
         {
             if(!ctpIdList.contains(hcpEnroll.Clinical_Trial_Profile__c)){
                 ctpIdList.add(hcpEnroll.Clinical_Trial_Profile__c);
