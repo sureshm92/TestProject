@@ -132,6 +132,7 @@ export default class Pir_participantDetail extends LightningElement {
     @api visitplanoptions = {};
     @api showVisitPlan = false;
     @api perId;
+    @api emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     fieldMap = new Map([["src" , "MRN_Id__c"],
     ["cnt" , "Permit_Mail_Email_contact_for_this_study__c"],
@@ -1023,8 +1024,7 @@ export default class Pir_participantDetail extends LightningElement {
                 }
                 if(initDel == this.newDel){
                     let email =  this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get('demail')];
-                    const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                    if(email.match(emailRegex)){
+                    if(email.match(this.emailRegex)){
                         this.showDelYear = true;
                         this.showDelConsent = true;
                     } else{
@@ -1339,10 +1339,9 @@ export default class Pir_participantDetail extends LightningElement {
                 var email =  this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get('demail')];
                 var firstName =  this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get('dfirstname')];
                 var lastName =  this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get('dlstname')];
-                const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 this.firstvalid = false;
                 this.lastvalid = false;
-                if(email && email.match(emailRegex) && (firstName != null && firstName !="") && (lastName != null && lastName != "") ){
+                if(email && email.match(this.emailRegex) && (firstName != null && firstName !="") && (lastName != null && lastName != "") ){
                    this.showDelYear = true;
                    this.emailvalid = true;
                    this.firstvalid = true;
