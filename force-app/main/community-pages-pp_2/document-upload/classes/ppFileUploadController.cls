@@ -5,7 +5,7 @@ public without sharing class ppFileUploadController {
     public class fileId{
         public string filecontentversion;
         public string FileContentDocId;
-
+        public string prevUrl;
     }
 
     @AuraEnabled
@@ -62,6 +62,10 @@ public without sharing class ppFileUploadController {
             objWrapper = saveFiles(parentId, fileName, base64Data,Progress); 
         } else {
             system.debug('>>inside apend>>'+isRetry);
+            if(String.isBlank(objWrapper.prevUrl)){
+                ContentDistribution  ctDistrId = [SELECT Id,DistributionPublicUrl FROM ContentDistribution WHERE ContentVersionId =: objWrapper.filecontentversion];
+                objWrapper.prevUrl = ctDistrId.DistributionPublicUrl;
+            }
             appendToFile(fileId, base64Data,Progress);
         }
 
@@ -133,15 +137,18 @@ public without sharing class ppFileUploadController {
         sizeStringFileName = sizeStringFileName+'...'; 
         }
         
-        insert new ContentDistribution(
+        ContentDistribution ctDistrId = new ContentDistribution(
             ContentVersionId = contentToInsert.Id,
             Name = sizeStringFileName,
             PreferencesNotifyOnVisit = false,
             PreferencesAllowPDFDownload = false
         );
+        Insert ctDistrId;
+        ctDistrId = [SELECT Id,DistributionPublicUrl FROM ContentDistribution WHERE ContentVersionId =: contentToInsert.Id];
         ppFileUploadController.fileId objWrapper = new ppFileUploadController.fileId();
         objWrapper.filecontentversion = contentToInsert.Id;
         objWrapper.FileContentDocId = contentToInsert.ContentDocumentId;
+        objWrapper.prevUrl = ctDistrId.DistributionPublicUrl;
         // return contentToInsert.id;
         
         return objWrapper;
