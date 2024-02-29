@@ -919,7 +919,7 @@ c-pp-study-visit-details-card .slds-card__header {
 .cPpCustomThemeLayout .curve-input .slds-input[type='time'],
 .cPpCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input,
 .cPpCustomThemeLayout .curve-input .slds-combobox__input.slds-input {
-    height: 2rem;
+    /* height: 2rem; */
     width: 350px;
     display: flex;
     align-items: center;
@@ -2284,4 +2284,8 @@ user agent stylesheet svg:not(:root) {
 }
 .quick-reference-toast .slds-notify__content_mobile {
     color: black !important;
+}
+.past-results .custom-notify-container-mobile{
+    left: 0;
+    top: 33px !important;
 }

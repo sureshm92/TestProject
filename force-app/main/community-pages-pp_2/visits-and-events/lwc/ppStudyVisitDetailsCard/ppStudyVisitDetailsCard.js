@@ -143,6 +143,10 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         return this.isRTL ? 'location-title-rtl' : 'location-title';
     }
 
+    get isTablet(){
+        return DEVICE == 'Medium'?true:false;
+    }
+
     connectedCallback() {
         if (DEVICE != 'Small') {
             this.desktop = true;
