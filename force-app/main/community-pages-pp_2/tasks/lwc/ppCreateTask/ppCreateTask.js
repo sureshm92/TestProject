@@ -20,7 +20,7 @@ import PP_required from '@salesforce/label/c.PP_required';
 import formFactor from '@salesforce/client/formFactor';
 
 export default class PpCreateTask extends LightningElement {
-    task_icon = pp_icons + '/' + 'createtask_mobile.svg';
+    task_icon = pp_icons + '/' + 'createTask_illustration.svg';
     taskNameLeng = 0;
     currentBrowserTime;
     diffInMinutes;
