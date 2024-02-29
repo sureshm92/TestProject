@@ -389,6 +389,12 @@ a,
 .close-icon {
     cursor: pointer;
     width: 14px;
+    margin-left: 5px;
+    /* padding-left: 10px; */
+}
+.close-iconmodal {
+    cursor: pointer;
+    width: 14px;
     /* margin-left: 5px; */
     padding-left: 10px;
 }
