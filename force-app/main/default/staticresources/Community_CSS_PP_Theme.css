@@ -698,11 +698,10 @@ input::placeholder {
     margin-left: 16px;
 }
 
-
 @media only screen and (min-device-width: 1280px) and (max-device-width: 1280px) and (orientation: landscape) {
-    .mob-logo-container-pp{
-       margin-right: 27rem;
-    } 
+    .mob-logo-container-pp {
+        margin-right: 27rem;
+    }
 }
 
 .cookie-accordion-border .slds-accordion__summary-action {
@@ -1487,6 +1486,12 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
         min-width: 100px;
         margin-right: 50px;
     }
+    .cPpCustomThemeLayout .curve-input .slds-input[type='time'] {
+        width: 448px;
+    }
+    .cPpCustomThemeLayout .curve-input .timc .slds-input {
+        width: 450px !important;
+    }
 }
 @media all and (max-width: 768px) {
     .cPpCustomThemeLayout .apollo-btn,
@@ -1975,7 +1980,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     /* width: auto !important; */
     background-color: transparent !important;
     color: #015ff1 !important;
-    display: block !important;
+    /* display: block !important; */
     padding-top: 41px !important;
 }
 .manage-delegate-acc-setting .profile-information-rectangle {
@@ -2308,4 +2313,8 @@ user agent stylesheet svg:not(:root) {
 }
 .quick-reference-toast .slds-notify__content_mobile {
     color: black !important;
+}
+.past-results .custom-notify-container-mobile{
+    left: 0;
+    top: 33px !important;
 }
