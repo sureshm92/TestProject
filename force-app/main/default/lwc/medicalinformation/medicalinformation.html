@@ -655,7 +655,8 @@
 
                         <template if:true={ismodelPopup}>
                           <c-pir_uploadmedicaldocument maindivcls={popupcls}
-                            uploadonid={returnpervalue.selectedPER.Participant__c} isrequirerefreshtable={isrequirerefreshtable} onclosemodelpopup={renderModel}>
+                            uploadonid={returnpervalue.selectedPER.Participant__c} isrequirerefreshtable={isrequirerefreshtable} ismobiledevice = {isMobile}
+                            onclosemodelpopup={renderModel}>
                           </c-pir_uploadmedicaldocument>
                         </template>
                         
@@ -710,7 +711,7 @@
                                           class="slds-col slds-large-size_11-of-12 slds-medium-size_10-of-12 slds-size_10-of-12">
                                           <span class="title">{label.PIR_Save_Changes}</span>
                                         </div>
-                                        <div class="slds-col slds-size_1-of-12 close-icon">
+                                        <div class="slds-col slds-size_1-of-12 close-iconmodal">
                                           <div onclick={doDiscardModal}>
                                             <lightning-icon icon-name="utility:close" alternative-text="close"
                                               size="small"></lightning-icon>
@@ -761,7 +762,7 @@
                                           class="slds-col slds-large-size_11-of-12 slds-medium-size_10-of-12 slds-size_10-of-12">
                                           <span class="title">{label.PIR_Save_Changes}</span>
                                         </div>
-                                        <div class="slds-col slds-size_1-of-12 close-icon">
+                                        <div class="slds-col slds-size_1-of-12 close-iconmodal">
                                           <div onclick={doCloseModalUnsaved}>
                                             <lightning-icon icon-name="utility:close" alternative-text="close"
                                               size="small"></lightning-icon>
