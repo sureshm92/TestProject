@@ -193,9 +193,6 @@ input::placeholder {
     }
 }
 @media (max-width: 390px) {
-    .logo-container-pp {
-        width: 190px !important;
-    }
     .slds-popover_tooltip,
     .slds-popover--tooltip ::after {
         background-color: #444444;
@@ -375,10 +372,7 @@ input::placeholder {
     }
     .menu-block {
         position: relative !important;
-    }
-    .logo-container-pp {
-        margin: 0 0 0 42px !important;
-    }
+    }   
 }
 
 /**Toast Container CSS*/
@@ -681,30 +675,6 @@ input::placeholder {
     margin-top: -2px;
 }
 
-.logo-container-pp {
-    justify-content: center;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    width: 232px;
-}
-.logo-container-pp-ipad {
-    justify-content: center;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    margin-left: 16px;
-}
-
-
-@media only screen and (min-device-width: 1280px) and (max-device-width: 1280px) and (orientation: landscape) {
-    .mob-logo-container-pp{
-       margin-right: 27rem;
-    } 
-}
-
 .cookie-accordion-border .slds-accordion__summary-action {
     padding-left: 16px;
 }
@@ -962,9 +932,11 @@ c-pp-study-visit-details-card .slds-card__header {
     color: #595959;
 }
 
+/*
+Commenting for PEH-18268
 .cPpCustomThemeLayout .curve-input .timc .slds-combobox__input.slds-input {
     height: 1.875rem !important;
-}
+} */
 
 .cPpCustomThemeLayout .curve-input .slds-input[type='time']:focus,
 .cPpCustomThemeLayout .curve-input .slds-input[type='time']:focus-visible,
@@ -1485,6 +1457,12 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
         min-width: 100px;
         margin-right: 50px;
     }
+    .cPpCustomThemeLayout .curve-input .slds-input[type='time'] {
+        width: 448px;
+    }
+    .cPpCustomThemeLayout .curve-input .timc .slds-input {
+        width: 450px !important;
+    }
 }
 @media all and (max-width: 768px) {
     .cPpCustomThemeLayout .apollo-btn,
@@ -1973,7 +1951,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     /* width: auto !important; */
     background-color: transparent !important;
     color: #015ff1 !important;
-    display: block !important;
+    /* display: block !important; */
     padding-top: 41px !important;
 }
 .manage-delegate-acc-setting .profile-information-rectangle {
