@@ -322,6 +322,8 @@ export default class Pir_sharingFormFields extends LightningElement {
                 this.isAdultDelegateUS=true;
                 attestCheckbox.setCustomValidity(this.label.AttestedCheckboxError);                
                 attestCheckbox.reportValidity();
+                this.template.querySelector('[data-name="attestCheckbox"]').checked = false;
+            this.template.querySelector('[data-name="attestCheckboxUS"]').checked = false;
             }
             this.validateForm();
             this.loading = false;    
