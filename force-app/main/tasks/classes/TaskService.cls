@@ -52,6 +52,7 @@ public without sharing class TaskService {
         'Task_Code__c',
         'WhatId',
         'Task_Type__c',
+        'isPlatformLevelTask__c',  
         'Visible_For__c',
         'Action_URL__c',
         'ReminderDateTime',
@@ -317,7 +318,7 @@ public without sharing class TaskService {
                 skipTask =
                     (t.Owner_Contact__c != null &&
                     t.Owner_Contact__c != ParticipantContext.getCurrentContact().Id) ||
-                    (skipPEIds.contains(t.WhatId) && t.Task_Type__c != 'Visit') ||
+                    (skipPEIds.contains(t.WhatId) && t.Task_Type__c != 'Visit' && (t.Task_Type__c == 'Not Selected' && !t.isPlatformLevelTask__c)) ||
                     (!skipPEAlumnIds.contains(t.WhatId) && alumDlgtPtView) ||
                     (curPEId != null &&
                     t.WhatId != curPEId);

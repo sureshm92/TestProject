@@ -1,6 +1,13 @@
 public without sharing class PIR_ParticipantDetailController {
+  public class perDetailWrapper{
+    @AuraEnabled
+    public map<String, sObject> perDetail;
+    @AuraEnabled
+    public Boolean consentPref;
+  }
   @AuraEnabled
-  public static map<String, sObject> getParticipantData(String PEid) {
+  public static perDetailWrapper getParticipantData(String PEid) {
+    perDetailWrapper pdw = new perDetailWrapper();
     map<String, sObject> dataMap = new Map<String, sObject>();
     dataMap.put(
       'pe',
@@ -55,6 +62,7 @@ public without sharing class PIR_ParticipantDetailController {
           Participant__r.Birth_Year__c,
           Clinical_Trial_Profile__r.IQVIA_Outreach__c,
           Participant_Contact__c,
+          DataControllerOrg__c,
           Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
           Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
                 Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
@@ -90,7 +98,44 @@ public without sharing class PIR_ParticipantDetailController {
     } catch (Exception e) {
       dataMap.put('delegate', null);
     }
-    return dataMap;
+    pdw.perDetail = dataMap;
+    list<Participant_Enrollment__c> lstPer = new list<Participant_Enrollment__c>();
+    list<Restricted_Source_Config__c> restrictedRecrd = new list<Restricted_Source_Config__c>();
+    String[] restrictedlst;String referralSource;
+    lstPer = [Select Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              Referral_Source__c,DataControllerOrg__c, Clinical_Trial_Profile__r.CommunityTemplate__c,
+              Clinical_Trial_Profile__r.PPTemplate__c
+              FROM Participant_Enrollment__c where Id=:PEid limit 1];
+        if(lstPer[0].Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+            if(lstPer[0].Clinical_Trial_Profile__r.CommunityTemplate__c !='PatientPortal' && (lstPer[0].Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' || lstPer[0].Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0'))
+            {
+              pdw.consentPref =  false; 
+            }
+            else{
+                restrictedRecrd = [SELECT Id,Sponsor__c,Study__c,Study__r.IQVIA_Outreach__c,Referral_Resource__c FROM Restricted_Source_Config__c WHERE Study__c =: lstPer[0].Clinical_Trial_Profile__c limit 1];
+                if(restrictedRecrd != null && !restrictedRecrd.isEmpty()){
+                      restrictedlst = restrictedRecrd[0].Referral_Resource__c != null ? restrictedRecrd[0].Referral_Resource__c.split(';') : null;
+                        if(restrictedlst != null && !restrictedlst.isEmpty()){
+                          referralSource = (lstPer[0].Referral_Source__c == 'ePR' || lstPer[0].Referral_Source__c == 'ePRCampaign')  ? lstPer[0].Referral_Source__c +'-'+lstPer[0].DataControllerOrg__c :lstPer[0].Referral_Source__c; 
+                          if(restrictedlst.contains(referralSource)){
+                                pdw.consentPref =  true; //restricted
+                          }else{
+                              pdw.consentPref =  false; //non-restricted
+                          }
+                        }else{
+                            pdw.consentPref =  true; // restricted
+                        }
+                }
+                else{
+                  pdw.consentPref =  false;
+                  } //non-restricted
+                }
+            }
+        else{
+             pdw.consentPref =  true;
+        }
+    
+    return pdw;
   }
   public static Map<Id, List<StudySiteVisitPlan__c>> getStudySiteVisitPlansMap(
     List<Id> ssIds
