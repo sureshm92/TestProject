@@ -25,7 +25,7 @@ visitorevent=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__
 StudyorProgramHeader=Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
 VisitDateorEventDate =Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
 STUDYorPROGRAM =Patient_Visit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Is_Program__c
-ParticipantFirstName=Patient_Visit__r.Participant_Enrollment__r.Participant__r.First_Name__c</value>
+ParticipantsFirstName=Patient_Visit__r.Participant_Enrollment__r.Participant__r.First_Name__c</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>

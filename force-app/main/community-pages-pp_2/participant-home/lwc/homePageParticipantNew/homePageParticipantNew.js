@@ -77,12 +77,8 @@ export default class HomePageParticipantNew extends LightningElement {
     get showProgramOverview() {
         return this.clinicalrecord || this.isDelegateSelfview ? true : false;
     }
-    get cardPadding() {
-        if (DEVICE == 'Medium') {
-            return 'slds-col slds-m-horizontal_x-small';
-        } else {
-            return 'slds-col slds-m-horizontal_xxx-small';
-        }
+    get cardPadding() {        
+            return 'slds-col slds-m-horizontal_xxx-small';        
     }
 
     get upcomingPaddingStyle() {
@@ -505,4 +501,5 @@ export default class HomePageParticipantNew extends LightningElement {
         this.updateCardLayoutSmall = false;
         this.progressBarLayoutClass = 'slds-hide';
     }
+
 }

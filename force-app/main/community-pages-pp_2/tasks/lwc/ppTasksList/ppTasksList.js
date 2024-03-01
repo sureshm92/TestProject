@@ -40,6 +40,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     spinner;
     showSpinner = true;
     @api isRTL = false;
+    @track isIPAD;
 
     @api
     get selectedTasks() {
@@ -183,19 +184,26 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     }
 
     get actionButtonCssClass() {
-        return this.ishomepage
-            ? 'slds-p-around_small slds-size_2-of-12'
-            : this.isMobile
+        return this.ishomepage && this.isIPAD
+            ? 'slds-p-around_small slds-size_2-of-12 iPadIcon-hide'
+            : this.ishomepage ?'slds-p-around_small slds-size_2-of-12': this.isMobile
             ? 'slds-p-right_medium slds-size_2-of-12'
             : 'slds-p-right_large slds-size_1-of-12';
     }
 
     connectedCallback() {
-        if (formFactor === 'Small') {
-            this.isMobile = true;
-        } else {
+        this.isIpad();
+        window.addEventListener('orientationchange', this.onOrientationChange);
+        // if (formFactor === 'Small') {
+        //     this.isMobile = true;
+        // } else {
+        //     this.isMobile = false;
+        // }
+         if (formFactor === 'Large') {
             this.isMobile = false;
-        }
+         } else {
+             this.isMobile = true;
+         }
         var pageurl = communityService.getFullPageName();
         if (pageurl.includes('tasks')) {
             this.ishomepage = false;
@@ -212,6 +220,11 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
                 console.error('Error RTL: ' + JSON.stringify(error));
         });
     }
+
+    onOrientationChange = () => {
+        this.isIpad();
+    };
+    
 
     taskOpen(event) {
         let selectedTask;
@@ -543,4 +556,24 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     redirectPage(taskId) {
         communityService.navigateToPage('tasks?id=' + taskId);
     }
+
+isIpad(){
+    let orientation = screen.orientation.type;
+    let portrait = true;
+    if (orientation === 'landscape-primary') {
+        portrait = false;
+    }
+    if (window.innerWidth >= 768 && window.innerWidth < 1279 && portrait) {
+        if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+            this.isIPAD = true;
+            return true;
+        } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+            this.isIPAD = true;
+            return true;
+        }
+    } else {
+        this.isIPAD = false;
+    }
+    return false; 
+}
 }

@@ -165,3 +165,14 @@ height: 70px;
 .label-gap .slds-form-element__label{
     margin-bottom: 8px;
 }
+
+lightning-combobox.labelEllipsis label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+ 
+lightning-combobox.labelEllipsis .slds-form-element__control {
+  margin-top: -4.5px;
+}
