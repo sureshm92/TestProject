@@ -40,7 +40,7 @@ import pir_BMI_Error from "@salesforce/label/c.pir_BMI_Error";
 import pir_BmiHelptext from "@salesforce/label/c.pir_BmiHelptext";
 import RH_MedicalRecords_NoPermitEmail from "@salesforce/label/c.RH_MedicalRecords_NoPermitEmail";
 import PIR_Download from "@salesforce/label/c.PIR_Download";
-import RH_RP_Record_Saved_Successfully  from "@salesforce/label/c.PIR_Record_Save";
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.PIR_Record_Save'; 
 import Prescreener_Name from "@salesforce/label/c.Prescreener_Name";
 import MRR_Screener_Name from "@salesforce/label/c.MRR_Screener_Name";
 import EPR_Screener_Name from "@salesforce/label/c.EPR_Screener_Name";
@@ -1303,8 +1303,8 @@ export default class Medicalinformation extends LightningElement {
         this.isComorbidityyChanged = true;
       }
 
-      if (this.isBMIError) {
-        var BMIErrorParams = { isBMIError: true, disabledSave: false };
+      if(this.isBMIError) {
+        var BMIErrorParams = {isBMIError:true, disabledSave: false };
         this.fireSaveMedicalBtnEvnt(BMIErrorParams);
       } else if (
         this.isBmiValueChanged ||
@@ -2020,8 +2020,8 @@ export default class Medicalinformation extends LightningElement {
     } else if (this.existingBMI == 0 || this.existingBMI) {
        
       isValueChanged = true;
-      event.target.value = "";
-      this.returnpervalue.BMI = "";
+      event.target.value = '';
+      this.returnpervalue.BMI = '';
     }
      
     if (this.isBMIError) {

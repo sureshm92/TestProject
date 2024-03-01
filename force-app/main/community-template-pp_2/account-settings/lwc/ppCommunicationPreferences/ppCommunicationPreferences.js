@@ -561,7 +561,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         return this.isRTL ? 'slds-p-right--medium txt-color' : 'slds-p-left--medium txt-color';
     }
 
-    renderedCallback() {}
+    renderedCallback() { }
 
     selectAllOptions(event) {
         let objName = event.target.dataset.objname;
@@ -579,7 +579,6 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
 
     showMenuBar(event) {
         let queryString = window.location.href;
-        alert(queryString);
         if (queryString.includes('communication-preferenceswithprevtask')) {
             window.close();
         }
@@ -905,9 +904,9 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     updateALLFlag() {
         this.consentPreferenceDataLocal.perList.forEach(function (study) {
             study.Permit_Voice_Text_contact_for_this_study__c &&
-            study.Permit_Mail_Email_contact_for_this_study__c &&
-            study.Permit_SMS_Text_for_this_study__c &&
-            study.Study_Direct_Mail_Consent__c
+                study.Permit_Mail_Email_contact_for_this_study__c &&
+                study.Permit_SMS_Text_for_this_study__c &&
+                study.Study_Direct_Mail_Consent__c
                 ? (study.all = true)
                 : (study.all = false);
         });
@@ -916,9 +915,9 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     updateAllPDEFlag() {
         this.consentPreferenceDataLocal.pdeList.forEach(function (pde) {
             pde.Study_Phone_Consent__c &&
-            pde.Study_Email_Consent__c &&
-            pde.Study_SMS_Consent__c &&
-            pde.Study_Direct_Mail_Consent__c
+                pde.Study_Email_Consent__c &&
+                pde.Study_SMS_Consent__c &&
+                pde.Study_Direct_Mail_Consent__c
                 ? (pde.all = true)
                 : (pde.all = false);
         });
@@ -986,7 +985,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                 this.showCustomToast('', this.label.PP_Profile_Update_Success, 'success');
                 if (this.emailSMSConsent) {
                     createCommPrefEvent()
-                        .then((responseSuccess) => {})
+                        .then((responseSuccess) => { })
                         .catch((responseFailure) => {
                             this.showCustomToast('', 'Failed to publish platfrom event.', 'error');
                         });
@@ -1155,9 +1154,9 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     updateALLOutReachFlag() {
         this.contactDataLocal.forEach(function (con) {
             con.Participant_Phone_Opt_In_Permit_Phone__c &&
-            con.Participant_Opt_In_Status_Emails__c &&
-            con.Participant_Opt_In_Status_SMS__c &&
-            con.IQVIA_Direct_Mail_Consent__c
+                con.Participant_Opt_In_Status_Emails__c &&
+                con.Participant_Opt_In_Status_SMS__c &&
+                con.IQVIA_Direct_Mail_Consent__c
                 ? (con.all = true)
                 : (con.all = false);
         });
