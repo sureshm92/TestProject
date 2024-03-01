@@ -362,7 +362,7 @@ input::placeholder {
 }
 
 .PHONE .profileIcon .rr-icon_default {
-    margin-right: 1rem;
+    /* margin-right: 1rem; */
 }
 
 @media (max-width: 500px) {
