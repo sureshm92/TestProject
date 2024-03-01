@@ -708,7 +708,7 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         Id ssId,
         Study_Site__c ss,
         Boolean isAdult
-    ) {
+    ){
         Map<String,String> sourceToConsentMap = new Map<String,String>();
 
         for(Referral_Source_Communication_Consent__mdt	 ccT: [ SELECT id, MasterLabel, DeveloperName, Consent_Values_Participant__c FROM 

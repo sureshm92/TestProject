@@ -72,6 +72,15 @@ public without sharing class StudySiteTriggerHandler {
             setCCSupport(newList);
         }
     }
+    
+    public class UpdateStudySitePiStatus extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            handleStudySitePiStatusUpdates(newList);
+        }
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            handleStudySitePiStatusUpdates(newList);
+        }
+    }
 
     public class AssignCommunityPermissionsForUser extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
@@ -324,7 +333,6 @@ public without sharing class StudySiteTriggerHandler {
             .createPortalUsers(contactIdsForCreateUsers);
         if (!notifications.isEmpty())
                 insert notifications;
-            
     }
 
     @TestVisible
@@ -747,4 +755,74 @@ public without sharing class StudySiteTriggerHandler {
             List<PermissionSetAssignment>.class
         );
     }
+    
+    // ************* This changes is related to RH-6394 *****************//
+   
+    public static void handleStudySitePiStatusUpdates(List<Study_Site__c> newStudySites) {
+        List<String> newStudySiteIds = new List<String>();
+        for(Study_Site__c ss: newStudySites){
+            if(trigger.isInsert || ((Study_Site__c)trigger.newMap.get(ss.id)).Override_PI_Referral_Status__c != ((Study_Site__c)trigger.oldMap.get(ss.id)).Override_PI_Referral_Status__c  )
+            	newStudySiteIds.add(ss.Id);
+        }
+        if(!System.isFuture() && !System.isBatch()){
+            handleStudySitePiStatusUpdatesAsync(newStudySiteIds);
+        }
+    }
+   @future
+   public static void handleStudySitePiStatusUpdatesAsync(List<String> newStudySiteIds) {
+    List<Study_Site__c> studySites = [SELECT Id, Clinical_Trial_Profile__c, Override_PI_Referral_Status__c, Principal_Investigator__c,
+                                       Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+                                       FROM Study_Site__c WHERE Id IN :newStudySiteIds AND Override_PI_Referral_Status__c = 'Invitation Sent'];
+
+    List<Study_Site__c> studySitesToUpdate = new List<Study_Site__c>();
+    Set<String> pis = new Set<String>();
+    Map<String, Set<String>> tcPIsMap = new Map<String, Set<String>>();
+    Map<String, Set<String>> piTcCommunityMap = new Map<String, Set<String>>();
+
+    for (Study_Site__c ss : studySites) {
+        pis.add(ss.Principal_Investigator__c);
+    }
+
+    List<Terms_And_Conditions_Acceptance__c> tcAcceptList = [SELECT Id, User__c, User__r.ContactId, Terms_And_Conditions__c,Terms_And_Conditions__r.Active__c, Terms_And_Conditions__r.Community_Name__c
+                                                             FROM Terms_And_Conditions_Acceptance__c WHERE Accepted_Date__c != null AND User__r.ContactId IN :pis];
+
+    for (Terms_And_Conditions_Acceptance__c tcAccept : tcAcceptList) {
+        String contactId = tcAccept.User__r.ContactId;
+        String termsAndConditionsId = tcAccept.Terms_And_Conditions__c;
+        if(tcAccept.Terms_And_Conditions__r.Active__c){
+            if (!piTcCommunityMap.containsKey(contactId)) {
+                piTcCommunityMap.put(contactId, new Set<String>());
+            }
+            piTcCommunityMap.get(contactId).add(tcAccept.Terms_And_Conditions__r.Community_Name__c);
+        }
+
+        if (!tcPIsMap.containsKey(contactId)) {
+            tcPIsMap.put(contactId, new Set<String>());
+        }
+        tcPIsMap.get(contactId).add(termsAndConditionsId);
+    }
+
+    for (Study_Site__c ss : studySites) {
+        String contactId = ss.Principal_Investigator__c;
+        String ctpTermsAndConditionsId = ss.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c;
+
+        if (ctpTermsAndConditionsId != null && tcPIsMap.containsKey(contactId) && tcPIsMap.get(contactId).contains(ctpTermsAndConditionsId)) {
+            studySitesToUpdate.add(new Study_Site__c(Id = ss.Id, Override_PI_Referral_Status__c = 'Accepted'));
+        } else if (ctpTermsAndConditionsId == null && piTcCommunityMap.containsKey(contactId)) {
+            boolean acceptedForJanssen = piTcCommunityMap.get(contactId).contains('Janssen Community');
+            boolean acceptedForRefralHub = piTcCommunityMap.get(contactId).contains('IQVIA Referral Hub');
+
+            if (ss.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && acceptedForJanssen) {
+                studySitesToUpdate.add(new Study_Site__c(Id = ss.Id, Override_PI_Referral_Status__c = 'Accepted'));
+            } else if (ss.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' && acceptedForRefralHub) {
+                studySitesToUpdate.add(new Study_Site__c(Id = ss.Id, Override_PI_Referral_Status__c = 'Accepted'));
+            }
+        }
+    }
+
+    if (!studySitesToUpdate.isEmpty()) {
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.StudySiteTriggerHandler.class);
+        update studySitesToUpdate;
+    }
+}
 }

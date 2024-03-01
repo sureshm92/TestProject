@@ -7,27 +7,14 @@
             <div class="full-width">
                 <label class="label-reminder">{labels.REMINDER}</label>
                 <div class="curve-input">
-                    <c-web-icon
-                        class="svg-icon"
-                        icon-size="small"
-                        icon-name="icon_bell"
-                        data-id="icon_bell"
-                        icon-color="#C42EA5"
-                    >
+                    <c-web-icon class="svg-icon" icon-size="small" icon-name="icon_bell" data-id="icon_bell"
+                        icon-color="#C42EA5">
                     </c-web-icon>
-                    <c-pp-web-select
-                        class="full-width"
-                        label-hidden="true"
-                        place-holder={taskPlaceholder}
-                        selected-value={selectedReminderOption}
-                        options={reminderOptions}
-                        custom-class="custom-no-border"
-                        is-disabled-options="true"
-                        is-disabled={isReminderDisabled}
-                        onchangevalue={handleReminderOptionChange}
-                        oncustomreminderdata={handleCustomReminder}
-                        onreminderdata={handleCustomReminder}
-                    ></c-pp-web-select>
+                    <c-pp-web-select class="full-width" label-hidden="true" place-holder={taskPlaceholder}
+                        selected-value={selectedReminderOption} options={reminderOptions}
+                        custom-class="custom-no-border" is-disabled-options="true" is-disabled={isReminderDisabled}
+                        onchangevalue={handleReminderOptionChange} oncustomreminderdata={handleCustomReminder}
+                        onreminderdata={handleCustomReminder}></c-pp-web-select>
                 </div>
             </div>
         </div>
@@ -36,57 +23,35 @@
             <!--Custom Reminder Option Date Time-->
             <template if:true={isCustomReminderOptionSelected}>
                 <div class="slds-size_1-of-1 slds-m-top_medium task-reminder">
-                    <c-pp-date-time-combo
-                        data-id="reminderDateTime"
-                        create-task={isCustomReminderOptionSelected}
-                        reminder={isCustomReminderOptionSelected}
-                        compdate={dbreminderdate}
-                        comptime={dbremindertime}
-                        mindate={currentDate}
-                        maxdate={maxReminderDate}
-                        mintime={minimumReminderTime}
-                        maxtime={maximumReminderTime}
-                        icon-size="small"
-                        icon-color="#C42EA5"
-                        task-reminder={isCustomReminderOptionSelected}
-                        ondatechange={handleReminderDate}
-                        ontimechange={handleReminderTime}
-                        oninitialdateload={handleReminderDate}
-                        ondate={handleOnlyDate}
-                        ontime={handleOnlyTime}
-                        onnulldatetime={handleNullDateTimeReminder}
-                        onnulltimechange={handleNullTimeReminder}
-                        edit-mode={editMode}
-                        is-visit-event-task="task"
-                    ></c-pp-date-time-combo>
+                    <c-pp-date-time-combo data-id="reminderDateTime" create-task={isCustomReminderOptionSelected}
+                        reminder={isCustomReminderOptionSelected} compdate={dbreminderdate} comptime={dbremindertime}
+                        mindate={currentDate} maxdate={maxReminderDate} mintime={minimumReminderTime}
+                        maxtime={maximumReminderTime} icon-size="small" icon-color="#C42EA5"
+                        task-reminder={isCustomReminderOptionSelected} ondatechange={handleReminderDate}
+                        ontimechange={handleReminderTime} oninitialdateload={handleReminderDate} ondate={handleOnlyDate}
+                        ontime={handleOnlyTime} onnulldatetime={handleNullDateTimeReminder}
+                        onnulltimechange={handleNullTimeReminder} edit-mode={editMode} is-visit-event-task="task">
+                    </c-pp-date-time-combo>
                 </div>
             </template>
 
             <!--Email SMS Communication Option-->
-            <div class="slds-col slds-size_1-of-1 slds-p-top_small">
+            <div class="slds-col slds-size_1-of-1 slds-p-top_small ipadLeft">
                 <div class="slds-grid slds-wrap">
-                    <div class="slds-col slds-size_1-of-1">{labels.REMIND_USING}</div>
-                    <div class="slds-col slds-size_1-of-1 task-reminder-pref">
+                    <div class="slds-col slds-size_1-of-1 ipadLeft">{labels.REMIND_USING}</div>
+                    <div class="slds-col slds-size_1-of-1 task-reminder-pref ipadLeft">
                         <div class="slds-checkbox">
-                            <input
-                                type="checkbox"
-                                data-id="emailReminder"
-                                id="emailReminder"
-                                value={emailReminderOptIn}
-                                checked={emailReminderOptIn}
-                                disabled={isEmailReminderDisabled}
-                                onclick={handleEmailReminder}
-                            />
+                            <input type="checkbox" data-id="emailReminder" id="emailReminder" value={emailReminderOptIn}
+                                checked={emailReminderOptIn} disabled={isEmailReminderDisabled}
+                                onclick={handleEmailReminder} />
                             <label class="slds-checkbox__label" for="emailReminder">
                                 <span class="slds-checkbox_faux"></span>
-                                <span class="slds-form-element__label field-title slds-p-left_small"
-                                    >{labels.EMAIL}</span
-                                >
+                                <span
+                                    class="slds-form-element__label field-title slds-p-left_small">{labels.EMAIL}</span>
                             </label>
                         </div>
                         <div class="slds-checkbox">
                             <!-- <input
->>>>>>> force-app/main/community-pages-pp_2/tasks/lwc/ppCreateTaskReminder/ppCreateTaskReminder.html
                                 type="checkbox"
                                 data-id="smsReminder"
                                 id="smsReminder"
@@ -104,21 +69,16 @@
                                 disabled
                                 onclick={handleSMSReminder}
                             />
-
                             <label class="slds-checkbox__label" for="smsReminder">
                                 <span class="slds-checkbox_faux"></span>
-                                <span class="slds-form-element__label field-title slds-p-left_small"
-                                    >{labels.SMS_TEXT_MESSAGE}</span
-                                >
+                                <span
+                                    class="slds-form-element__label field-title slds-p-left_small">{labels.SMS_TEXT_MESSAGE}</span>
                             </label>
                         </div>
                     </div>
-                    <div class="slds-col slds-size_1-of-1 slds-p-top_xx-small update-communication">
-                        <a
-                            href="./account-settings?communication-preferenceswithprevtask"
-                            target={communicationTab}
-                            onclick={setSessionCookie}
-                        >
+                    <div class="slds-col slds-size_1-of-1 slds-p-top_xx-small update-communication ipadLeft">
+                        <a href="./account-settings?communication-preferenceswithprevtask" target={communicationTab}
+                            onclick={setSessionCookie}>
                             {labels.PP_TASK_COMM_PREF}
                         </a>
                     </div>
