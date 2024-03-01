@@ -24,3 +24,14 @@
         border-radius: 3px;
     }
 }
+@media screen and  (orientation: portrait) and (min-width: 769px) and (max-width: 1139px)   {
+    .participants_modal{
+        margin-top: 19rem;
+    }
+}
+@media screen and  (orientation: landscape) and (min-width: 840px) and (max-width: 1280px)   {
+    .modelclosetab{
+        padding-left: 0rem;
+        margin-left: -0.5rem;
+    }
+}

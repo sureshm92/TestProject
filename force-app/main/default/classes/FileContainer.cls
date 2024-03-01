@@ -6,7 +6,7 @@ public without sharing class FileContainer {
         public Study_Site__c studySite = new Study_Site__c();
         @AuraEnabled 
         public LabelValueItem studies;
-	}
+    }
 
     public class HCPInit{
         @AuraEnabled 
@@ -37,7 +37,7 @@ public without sharing class FileContainer {
         try{
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             if(userMode == 'HCP'){
-				//get show instructions flag from contact
+                //get show instructions flag from contact
                 showInstructions = getInstructionStatus(currentContactId);
                 //Check access level
                 delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);  
@@ -46,7 +46,7 @@ public without sharing class FileContainer {
                 trials = getTrials(hcpDelegate); 
                 //Get contact details
                 cntDetails = getContact(hcpDelegate);
-            }		
+            }       
             return new HCPInit(delegateAccessLevel, trials, cntDetails, showInstructions);
         }catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -78,7 +78,7 @@ public without sharing class FileContainer {
                                            Id, Study_Site__c,
                                            Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c 
                                            FROM HCP_Enrollment__c 
-                                           WHERE HCP_Contact__c =: delegateId and Clinical_Trial_Profile__r.Override_Recruitment_Status__c = 'Actively Enrolling'])
+                                           WHERE HCP_Contact__c =: delegateId and Clinical_Trial_Profile__r.Override_Recruitment_Status__c = 'Actively Enrolling' and Study_Site__r.Site_Activation_Status__c != 'Deactivated' and Study_Site__r.Site_Activation_Status__c != 'Deactivated (Admin)' and  Study_Site__r.Site_Activation_Status__c != 'On Hold' and Study_Site__r.Site_Activation_Status__c != '' and Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen'])
         {
             if(!ctpIdList.contains(hcpEnroll.Clinical_Trial_Profile__c)){
                 ctpIdList.add(hcpEnroll.Clinical_Trial_Profile__c);

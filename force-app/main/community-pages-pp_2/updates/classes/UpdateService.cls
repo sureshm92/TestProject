@@ -177,6 +177,25 @@ public without sharing class UpdateService {
         List<Id> patientVisitIds,
         List<UpdateWrapper> updateWrapperlist
     ) {
+        Set<Id> televisitidset = new Set<Id>();
+        for(Send_Result__c sr : sendResults){
+            List<Id> targetIds = (List<Id>) sr.Notification__r.Target_Record_Ids__c.split(',');
+            Id targetId = targetIds[targetIds.size() - 1];
+            String targetType = targetId.getSObjectType().getDescribe().getName().toLowerCase();
+            if (targetType == OBJECT_TYPE_TELEVISIT) {
+                televisitidset.add(targetId);
+            }
+        }
+        Map<ID, Televisit__c> televisitmap;
+        if(televisitidset != null && televisitidset.size()> 0){
+            televisitmap = new Map<ID, Televisit__c>([Select Id from Televisit__c where
+                                            ID IN :televisitidset
+                                            AND Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c = 'Accepted'
+                                            AND Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != null
+                                            AND Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != 'Deactivated'
+                                            AND Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != 'Deactivated (Admin)']);
+
+        } 
         for (Send_Result__c sr : sendResults) {
             List<Id> targetIds = (List<Id>) sr.Notification__r.Target_Record_Ids__c.split(',');
             Id targetId = targetIds[targetIds.size() - 1];
@@ -203,8 +222,12 @@ public without sharing class UpdateService {
                     createPatientVisitWrapper(targetId, wrp);
                 }
             } else if (targetType == OBJECT_TYPE_TELEVISIT) {
-                wrp.sendResultId = sr.Id;
-                createTelevisitWrapper(wrp, sr);
+                if(televisitmap != null && televisitmap.containskey(targetId)){
+                    wrp.sendResultId = sr.Id;
+                    createTelevisitWrapper(wrp, sr);
+                }else{
+                    continue;
+                }
             }
             updateWrapperlist.add(wrp);
         }

@@ -69,6 +69,14 @@
                                     </lightning-layout-item>
                                 </template>
                                 <template lwc:else>
+                                    <div if:true={isAppDoc} class="slds-grid">
+                                        <span
+                                            onclick={handledownload}
+                                            class="back-link-mobile slds-p-vertical_small"
+                                            >
+                                            <a class="view-resource-label-vertical">{isAppDoc} </a>
+                                            </span>                                                    
+                                    </div>
                                     <lightning-layout-item size="12" class="title-row-document">
                                         <div class="ah-video-iframe">
                                             <iframe
@@ -346,6 +354,14 @@
                             </template>
                             <!-- *************** Study Documents ****************** -->
                             <template if:true={isDocument}>
+                                <div if:true={isAppDoc} class="slds-grid">
+                                    <span
+                                        onclick={handledownload}
+                                        class="back-link-mobile slds-p-vertical_small"
+                                        >
+                                        <a class="view-resource-label-vertical">{isAppDoc} </a>
+                                        </span>                                                    
+                                </div>
                                 <lightning-layout-item size="12" class="title-row-document">
                                     <div class="ah-video-iframe">
                                         <iframe frameborder="0" src={documentLink} class="my_iframe">

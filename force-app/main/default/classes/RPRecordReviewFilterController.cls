@@ -48,8 +48,15 @@ public without sharing class  RPRecordReviewFilterController{
       
        
        for(Clinical_Trial_Profile__c trial : TrialService.getAvailableTrials(userMode, currentContactId)) {
-            trialsByName.put(trial.Id, trial.Study_Code_Name__c);
+            if(userMode == 'HCP'){
+                if(trial.CommunityTemplate__c != 'Janssen')
+                    trialsByName.put(trial.Id, trial.Study_Code_Name__c);
+            }else{
+                trialsByName.put(trial.Id, trial.Study_Code_Name__c);
+            }
+            
         }
+       
        for(Id studyId : trialsByName.keySet()) {
             peFilterData.trialIds.add(studyId);
             peFilterData.studies.add(new LabelValueItem(trialsByName.get(studyId), studyId));

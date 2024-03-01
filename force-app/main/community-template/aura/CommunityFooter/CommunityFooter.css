@@ -94,6 +94,25 @@
     /* padding: 10px 0px 10px; */
     }
 }
+@media screen and (min-width: 769px) and (max-width: 1139px) {
+    .THIS.rrc-footer {
+        margin: 10px 0px 25px 0px;
+        overflow: hidden;
+    }
+    .THIS .cf-margin-cutter {
+        display: unset;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin: -10px;
+    }
+    .THIS .cf-copyright,     
+    .THIS .cf-links {
+    text-align: center;
+    width: 100%;
+    padding: 10px 0px;
+}
+}
+
 
 @media all and (min-width: 500px) and (max-width: 768px) {
 

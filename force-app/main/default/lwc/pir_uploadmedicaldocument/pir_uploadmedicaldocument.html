@@ -17,8 +17,11 @@
                         <div class="slds-size_full slds-align_absolute-center slds-p-top--small" > 
                               <lightning-icon  icon-name="utility:upload" alternative-text="Upload" title="Upload"></lightning-icon>
                         </div>
-                        <div class="slds-size_full slds-align_absolute-center uploadLabel">  
+                        <div if:false ={ismobiledevice} class="slds-size_full slds-align_absolute-center uploadLabel">  
                               {BulkImport_Drag_file_here_or} <span class="linkLabel">&nbsp;{BulkImport_browse}</span> 
+                        </div>
+                        <div if:true ={ismobiledevice} class="slds-size_full slds-align_absolute-center uploadLabel">  
+                              <span class="linkLabel">{PP_Browsefiles}</span> 
                         </div>
                         <div class="slds-size_full slds-align_absolute-center uploadLabel "  style="font-style: italic;">  
                               {MedicalImport_MaxSize}
