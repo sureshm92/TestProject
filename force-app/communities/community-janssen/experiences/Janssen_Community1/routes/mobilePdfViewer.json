@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "5d8bdd27-6a55-40ab-8739-cae6b9520bb5",
+  "appPageId" : "5bf37374-2b32-4433-ad3c-73208f1ef38a",
+  "configurationTags" : [ ],
+  "id" : "fa46b494-01c2-48b0-b1dc-8e8c850cec73",
+  "label" : "Mobile Pdf Viewer",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-mobile-pdf-viewer",
+  "type" : "route",
+  "urlPrefix" : "mobile-pdf-viewer"
+}

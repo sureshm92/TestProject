@@ -87,7 +87,7 @@ export default class PpCookiesBanner extends LightningElement {
   @api isAlumni = false;
 
   connectedCallback() {
-    DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
+    (DEVICE == 'Small' && this.isTablet()==false) ? (this.isMobile = true) : (this.isMobile = false);
     var temp = "";
     if(this.loginPage){
         this.loginPg(); 
@@ -783,4 +783,15 @@ export default class PpCookiesBanner extends LightningElement {
     if (preventCookieList.length > 0)
       communityService.deleteCookies(preventCookieList);
   }
+  isTablet() {
+    if (window.innerWidth >= 768 && window.innerWidth <= 1280) {
+        if (/android/i.test(navigator.userAgent.toLowerCase())) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+    }
 }

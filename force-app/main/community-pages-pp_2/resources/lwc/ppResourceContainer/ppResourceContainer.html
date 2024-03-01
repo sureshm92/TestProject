@@ -92,6 +92,9 @@
                                     {showPostingOrVersionLabel}&nbsp;
                                     <lightning-formatted-date-time
                                         value={showPostingOrVersionDate}
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
                                         time-zone={userTimeZone}
                                     >
                                     </lightning-formatted-date-time>
@@ -174,7 +177,7 @@
                                     <!--   STARICON    -->
                                     <lightning-layout-item
                                         size="2"
-                                        alignment-bump="right"
+                                        alignment-bump="left"
                                         class="star-icon-m"
                                     >
                                         <div
@@ -217,6 +220,9 @@
                                     {showPostingOrVersionLabel}&nbsp;
                                     <lightning-formatted-date-time
                                         value={showPostingOrVersionDate}
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
                                         time-zone={userTimeZone}
                                     >
                                     </lightning-formatted-date-time>
