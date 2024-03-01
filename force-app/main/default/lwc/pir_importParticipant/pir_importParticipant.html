@@ -193,6 +193,7 @@
                           </div>
                        </template>
                        <template if:false={shouldDisableImportStatus}>
+                        <template if:false={isPatientPortalEnabled}>
                        <template if:true={isSuppressed}>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small slds-m-bottom_small">
                            <div class="fileUpload">
@@ -220,7 +221,8 @@
                         
                        
                           </template> 
-                       </template> 
+                       </template>
+                     </template> 
                      </template>
                     </div>
                     </div><!-- slds-grid slds-wrap slds-gutters -->
