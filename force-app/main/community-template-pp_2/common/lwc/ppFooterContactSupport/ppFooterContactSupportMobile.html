@@ -1,5 +1,5 @@
 <template>
-    <div class="contact-support-popup">
+    <div class="contact-support-popup">       
         <template if:false={desktop}>
             <template if:true={showmodal}>
                 <c-pp-modal
@@ -34,14 +34,13 @@
                                 >
                                     <span>{label.For_Question_Abt_Participant}</span>
                                 </lightning-layout-item>
-
                                 <lightning-layout-item size="12" class="">
                                     <!-- Phone -->
                                         <lightning-layout class="mob-phoneContainer">
-                                                <lightning-layout-item size="2" class="marginTop-16 paddingLeft-16">
+                                                <lightning-layout-item size="2" small-device-size="2" medium-device-size="1" class="marginTop-16 paddingLeft-16">
                                                     <img src={phone_Icon} />
                                                 </lightning-layout-item>
-                                                <lightning-layout-item size="8" class="marginTop-16">
+                                                <lightning-layout-item size="8"  class="marginTop-16">
                                                     <lightning-layout multiple-rows="true">
                                                         <lightning-layout-item size="12" class="subHeaders marginBottom-4">
                                                             {label.Phone_In_Caps}
@@ -60,7 +59,7 @@
                                                     </lightning-layout>
                                                 </lightning-layout-item>
                                                 <!-- </lightning-layout>  -->
-                                                <lightning-layout-item size="2" class="marginTop-16 padding-top-16">
+                                                <lightning-layout-item size="2" small-device-size="2" medium-device-size="1" class="marginTop-16 padding-top-16">
                                                     <template lwc:if={phoneNotAvailable}>
                                                     </template>
                                                     <template lwc:else>
@@ -76,7 +75,7 @@
 
                                         <!-- Address -->
                                         <lightning-layout multiple-rows="false" class="mob-addressContainer">
-                                                <lightning-layout-item size="2" class="marginTop-16 paddingLeft-16">
+                                                <lightning-layout-item size="2" small-device-size="2" medium-device-size="1" class="marginTop-16 paddingLeft-16">
                                                     <img src={address_Icon} />
                                                 </lightning-layout-item>
                                                 <lightning-layout-item size="8" class="marginTop-16">
@@ -106,7 +105,7 @@
 
                                         <!-- PI -->
                                         <lightning-layout multiple-rows="true" class="mob-careTeamContainer">
-                                            <lightning-layout-item size="2" class="marginTop-16 paddingLeft-16">
+                                            <lightning-layout-item size="2" small-device-size="2" medium-device-size="1" class="marginTop-16 paddingLeft-16">
                                                 <img src={pi_Icon} />
                                             </lightning-layout-item>
                                             <lightning-layout-item size="9" class="marginTop-16">

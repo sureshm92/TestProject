@@ -320,6 +320,9 @@ export default class PpCookiesBanner extends LightningElement {
        return false;
      }
   }
+  get postLoginCookieCard(){
+    return this.isMobile ? 'slds-p-around_small' : 'slds-p-top_small' ;
+  }
   ppCookieBanner(){
     getAlumniTemplate({})
       .then((alumniValue) => {

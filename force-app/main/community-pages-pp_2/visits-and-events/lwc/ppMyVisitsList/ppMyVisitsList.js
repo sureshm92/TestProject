@@ -72,6 +72,8 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     @track selectedIndex = 0;
     @track visitTimezone = '';
     @track isIpad = false;
+    @track isTabLandscape = false;
+    @track isTabletDev=false;
 
     initialized = '';
     cbload = false;
@@ -80,7 +82,7 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     ispastvisits = true;
 
     empty_state = pp_community_icons + '/' + 'empty_visits.png';
-
+  
     get upButtonStyle() {
         if (this.past) {
             return this.isRTL
@@ -114,6 +116,7 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     connectedCallback() {
         this.visitTimezone = TIME_ZONE;
         let ipadVal = this.isIpadLogic();
+        window.addEventListener('orientationchange', this.onOrientationChange);
         getisRTL()
             .then((data) => {
                 this.isRTL = data;
@@ -123,20 +126,38 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
                 console.error('Error RTL: ' + JSON.stringify(error));
             });
     }
+    onOrientationChange = () => {
+        let isLandscape = this.isIpadLogic();
+    };
     renderedCallback() {
         this.handleVisitChange();
     }
+    get inactiveBoxClass(){
+        return this.isTabletDev?'inactive-custom-box tab-css':'inactive-custom-box';
+    }
+
     isIpadLogic() {
-        if (window.innerWidth >= 768 && window.innerWidth < 1279) {
+        if (window.innerWidth >= 768 && window.innerWidth <= 1280) {
             if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
                 this.isIpad = true;
                 return true;
             } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
                 this.isIpad = true;
                 return true;
+            }else if (/android/i.test(navigator.userAgent.toLowerCase())) {
+                this.isTabletDev=true;   
+                let orientation = screen.orientation.type;
+                if (orientation.startsWith('landscape')) {
+                    this.isTabLandscape=true;
+                    return true;
+                } else {
+                    this.isTabLandscape=false;
+                    return false;
+                } 
             }
         } else {
             this.isIpad = false;
+            this.isTabLandscape=false;
         }
         return false;
     }
@@ -147,7 +168,11 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         if (this.visitid) {
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
             if (theDiv) {
-                theDiv.className = 'inactive-custom-box';
+                if(this.isTabletDev){
+                    theDiv.className = 'inactive-custom-box tab-css';
+                }else{
+                    theDiv.className = 'inactive-custom-box';
+                }
             }
         }
         this.showupcomingvisits = false;
@@ -171,7 +196,11 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
             this.template.querySelector('[data-id="' + this.visitid + '"]');
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
             if (theDiv) {
-                theDiv.className = 'active-custom-box';
+                if(this.isTabletDev){
+                    theDiv.className = 'active-custom-box tab-css';
+                }else{
+                    theDiv.className = 'active-custom-box';
+                }
             }
         }
     }
@@ -180,7 +209,11 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         if (this.visitid) {
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
             if (theDiv) {
-                theDiv.className = 'inactive-custom-box';
+                if(this.isTabletDev){
+                    theDiv.className = 'inactive-custom-box tab-css';
+                }else{
+                    theDiv.className = 'inactive-custom-box';
+                }
             }
         }
         this.showupcomingvisits = true;
@@ -253,7 +286,11 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         var index = event.currentTarget.dataset.index;
         var past = event.currentTarget.dataset.past;
         const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-        theDiv.className = 'inactive-custom-box';
+        if(this.isTabletDev){
+            theDiv.className = 'inactive-custom-box tab-css';
+        }else{
+            theDiv.className = 'inactive-custom-box';
+        }
         if (past === 'true') {
             this.past = true;
             this.visitid = this.pastvisits[index].visit.Id;
