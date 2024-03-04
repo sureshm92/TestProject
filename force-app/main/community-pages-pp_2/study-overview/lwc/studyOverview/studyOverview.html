@@ -106,20 +106,17 @@
                 <template if:true={clinicalrecord}>
                     <div class="po-container">
                         <lightning-layout
-                            multiple-rows="true"
-                            vertical-align="center"
-                            horizontal-align="center"
-                            class="po-custom-card-mobile"
+                            class="po-custom-card-mobile slds-p-around_x-small"
                         >
                             <lightning-layout-item size="5" class={borderPOHome}>
                                 <template if:true={clinicalrecord.Profile_Picture__c}>
-                                    <div class="po-center slds-p-right_small slds-p-left_small">
-                                        <img src={clinicalrecord.Profile_Picture__c} />
+                                    <div class="slds-align--absolute-center">
+                                        <img class="study-logo" src={clinicalrecord.Profile_Picture__c}/>
                                     </div>
                                 </template>
                             </lightning-layout-item>
 
-                            <lightning-layout-item size="6" class="slds-align_absolute-center li3">
+                            <lightning-layout-item size="6" small-device-size="6" medium-device-size="7" class="li3 slds-p-horizontal_small">
                                 <lightning-layout class="piPhone" vertical-align="center">
                                     <lightning-layout-item size="1"
                                         ><img src={phone_Icon} class="phoneIcon"
@@ -168,7 +165,7 @@
                         <lightning-layout-item size="5">
                             <div class="po-center slds-p-top_medium slds-p-left_medium">
                                 <template if:true={isIqviaLogo}>
-                                    <img src={iqviaLogoUrl} class="po-logo borderRight" />
+                                    <img src={iqviaLogoUrl} class="po-logo borderRight slds-align--absolute-center" />
                                 </template>
                                 <template if:true={isGskLogo}>
                                     <img src={gskLogoUrl} class="po-logo borderRight" />
