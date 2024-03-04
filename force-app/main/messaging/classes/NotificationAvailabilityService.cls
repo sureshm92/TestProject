@@ -26,6 +26,7 @@ public without sharing class NotificationAvailabilityService {
     private Map<Id, Boolean> piDelegateHasSiteWithEnabledEmailMap;
     private Map<String, List<String>> countryDialCodeMap;
     public Map<Id, String> contactLangZoneMap;
+    public Map<Id, Boolean> restrictedContacts;
     public Set<Id> notificationRecipientIds;
     public Map<string, Participant_Enrollment__c> ctpContactToPer;
     public Map<string, List<Id>> parCTPRecrd;
@@ -37,6 +38,7 @@ public without sharing class NotificationAvailabilityService {
     public NotificationAvailabilityService(List<Id> recipientIds, List<String> whatIds) {
         contactByIdMap = new Map<Id, Contact>();
         contactLangZoneMap = new Map<Id, String>();
+        restrictedContacts = new Map<Id,Boolean>();
 
         List<Contact> contacts = [
             SELECT
@@ -59,6 +61,7 @@ public without sharing class NotificationAvailabilityService {
         allPermissions = new List<String>(CommunityTemplateService.getAllPermissionSets());
         if (recipientIds != null) {
             notificationRecipientIds = new Set<Id>(recipientIds);
+            restrictedContacts = RestrictedSourceConfigService.getConsentPreferences(recipientIds);
         }
         permissionSetsByConIdMap = new Map<Id, List<String>>();
         List<User> users = new List<User>();
@@ -516,7 +519,7 @@ public without sharing class NotificationAvailabilityService {
                 );
                 Boolean perEmailToSend = false;
                 if (
-                    surveyInvitation.IsTrialSurvey__c ||
+                    surveyInvitation.IsTrialSurvey__c &&
                     surveyInvitation.Participant_Enrollment__c != null
                 ) {
                     if (
@@ -549,13 +552,37 @@ public without sharing class NotificationAvailabilityService {
                     if (perEmailToSend) {
                         isEmailAvailableAtPER = true;
                     }
-                } else {
-                    Contact contact = contactByIdMap.get(contactId);
-                    if (
-                        contact.Is_Patient_User_Created__c &&
-                        contact.Participant_Opt_In_Status_Emails__c
-                    )
-                        isEmailAvailableAtPER = true;
+                } 
+                else if(
+                    !surveyInvitation.IsTrialSurvey__c && 
+                    surveyInvitation.Participant_Enrollment__c != null  
+                ) {
+                    if(!restrictedContacts.isEmpty() && restrictedContacts != null){
+                        if(
+                            !restrictedContacts.containskey(contactId)
+                        ){
+                            isEmailAvailableAtPER = false;
+                        }
+                        //If Contact is Restricted
+                        else if(
+                            restrictedContacts.containskey(contactId) &&
+                            !restrictedContacts.get(contactId) // false
+                        ){
+                            isEmailAvailableAtPER = false;
+                        }
+                        //If Contact is unRestricted
+                        else{
+                            Contact contact = contactByIdMap.get(contactId);
+                            if (
+                                contact.Is_Patient_User_Created__c &&
+                                contact.Participant_Opt_In_Status_Emails__c
+                            )
+                                isEmailAvailableAtPER = true;
+                        }
+                    }
+                    else{
+                        isEmailAvailableAtPER = false;
+                    }
                 }
             } else if (objType == TASK_OBJ_NAME) {
                 isEmailAvailableAtPER = isTaskEmailToSend(
