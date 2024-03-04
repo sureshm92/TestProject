@@ -65,6 +65,7 @@ import PP_Sort_Date_Desc from "@salesforce/label/c.PP_Sort_Date_Desc";
 import PP_Sort_Date_Asc from "@salesforce/label/c.PP_Sort_Date_Asc";
 import Sort_Detail_By from "@salesforce/label/c.Sort_Detail_By";
 import PP_Preview from "@salesforce/label/c.PP_Preview";
+import RH_PermissionAcessMessage from "@salesforce/label/c.RH_PermissionAcessMessage";
 
 import LOCALE from "@salesforce/i18n/locale";
 
@@ -127,7 +128,8 @@ export default class Medicalinformation extends LightningElement {
     PP_Sort_Date_Desc,
     PP_Sort_Date_Asc,
     Sort_Detail_By,
-    PP_Preview
+    PP_Preview,
+    RH_PermissionAcessMessage
   };
 
   ampm = false;
@@ -1215,6 +1217,22 @@ export default class Medicalinformation extends LightningElement {
         
       })
       .catch((error) => {
+        let errorMessage = '';
+        let variantlocal = "Error";
+        if (error.body.message) { 
+          errorMessage = error.body.message;
+        }
+        if(error.body.fieldErrors){
+          errorMessage =  this.label.RH_PermissionAcessMessage;
+          variantlocal = "warning";
+        }
+        const event = new ShowToastEvent({
+          title: "Error",
+          message: errorMessage,
+          variant: variantlocal,
+          mode: "sticky",
+        });
+        this.dispatchEvent(event);
         console.log(">>error in save permission>>>" + error);
         console.log(">>error in save permission>>>" + JSON.stringify(error));
       });
@@ -1627,6 +1645,23 @@ export default class Medicalinformation extends LightningElement {
           this.isFilesRetrieved = true;
         })
         .catch((error) => {
+          
+          let errorMessage = '';
+          let variantlocal = "Error";
+          if (error.body.message) { 
+            errorMessage = error.body.message;
+          }
+          if(error.body.fieldErrors){
+            errorMessage =  this.label.RH_PermissionAcessMessage;
+            variantlocal = "warning";
+          }
+          const event = new ShowToastEvent({
+            title: "Error",
+            message: errorMessage,
+            variant: variantlocal,
+            mode: "sticky",
+          });
+          this.dispatchEvent(event);
           this.isFilesRetrieved = true;
           console.log(">>error in retrive files>>>" + JSON.stringify(error));
         });
@@ -2113,6 +2148,22 @@ export default class Medicalinformation extends LightningElement {
         this.renderModel();
       })
       .catch((error) => {
+        let errorMessage = '';
+        let variantlocal = "Error";
+        if (error.body.message) { 
+          errorMessage = error.body.message;
+        }
+        if(error.body.fieldErrors){
+          errorMessage =  this.label.RH_PermissionAcessMessage;
+          variantlocal = "warning";
+        }
+        const event = new ShowToastEvent({
+          title: "Error",
+          message: errorMessage,
+          variant: variantlocal,
+          mode: "sticky",
+        });
+        this.dispatchEvent(event);
         console.log(">>error in save permission>>>" + error);
         console.log(">>error in save permission>>>" + JSON.stringify(error));
         
@@ -2185,13 +2236,18 @@ export default class Medicalinformation extends LightningElement {
       .catch((error) => {
         console.log(">>error in save>>>" + JSON.stringify(error));
         let errorMessage = "";
-        if (error.body.message) {
+        let variantlocal = "Error";
+        if (error.body.message) { 
           errorMessage = error.body.message;
+        }
+        if(error.body.fieldErrors){
+          errorMessage =  this.label.RH_PermissionAcessMessage; 
+          variantlocal = "warning";
         }
         const event = new ShowToastEvent({
           title: "Error",
           message: errorMessage,
-          variant: "Error",
+          variant: variantlocal,
           mode: "sticky",
         });
         this.dispatchEvent(event);
