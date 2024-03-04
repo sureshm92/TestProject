@@ -426,7 +426,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 extension.toLowerCase() != 'png'
             ) {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -455,7 +455,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 continue;
             } else if (fileCon.size > MAX_FILE_SIZE) {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -484,7 +484,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 continue;
             } else {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
