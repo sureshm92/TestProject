@@ -31,6 +31,12 @@
     font-size: 16px!important;
     letter-spacing: 0;    
 }
+.pir-parent .slds-tabs_default__overflow-button .slds-button {
+    font-size: 16px;
+}
+.pir-parent .slds-tabs_default__overflow-button:after{
+    display:none;  
+}
 .pir-parent .all-tabs .slds-tabs_default__item:after {
     width: 90%;
     margin: 0 auto;
@@ -211,4 +217,15 @@ background: #0557D5;;
 
 .label-gap .slds-form-element__label{
     margin-bottom: 8px;
+}
+
+lightning-combobox.labelEllipsis label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+ 
+lightning-combobox.labelEllipsis .slds-form-element__control {
+  margin-top: -4.5px;
 }

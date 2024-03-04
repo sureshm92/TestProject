@@ -100,9 +100,9 @@
     margin-top: 19px;
 }
 
-.sys-task {
+/* .sys-task {
     margin-left: 2px;
-}
+} */
 
 .curpointer {
     cursor: pointer;
@@ -111,7 +111,7 @@
 .open-task-icon {
     box-sizing: border-box;
     background-color: #ffffff;
-    margin-left: 20px;
+    /* margin-left: 20px; */
     cursor: pointer;
 }
 
@@ -425,9 +425,9 @@
         margin-left: 10px;
     }
 
-    .mob-task-sub {
+    /* .mob-task-sub {
         margin-left: 0.75rem;
-    }
+    } */
 
     .tasks {
         margin-left: 1rem;

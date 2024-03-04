@@ -44,8 +44,8 @@ public without sharing class PPUpdatesController {
         notificationsTypeList.add(NotificationCatalog.UPDATE_TO_PT_TELEVISIT_CANCELED);
         DateTime initialDateTime = Datetime.valueOfGMT(initialLoadTime);
         UpdateService.ResourceFilter resFilter = UpdateService.getSendResultFilter();
-        Integer updateCount = [
-            SELECT COUNT()
+        List<Send_Result__c> sendresultlist = [
+            SELECT Id,Notification__r.Target_Record_Ids__c
             FROM Send_Result__c
             WHERE
                 Notification__r.Target_Record_Ids__c != NULL
@@ -63,6 +63,28 @@ public without sharing class PPUpdatesController {
                 OR (Notification__r.whatId__c = :resFilter.currentParticipantId
                 AND Notification__r.Notification_Type__c IN :notificationsTypeList))
         ];
+        Integer updateCount = sendresultlist != null && sendresultlist.size() > 0 ?sendresultlist.size() : 0;
+        Set<Id> televisitidset = new Set<Id>();
+        for(Send_Result__c sr : sendresultlist){
+            List<Id> targetIds = (List<Id>) sr.Notification__r.Target_Record_Ids__c.split(',');
+            Id targetId = targetIds[targetIds.size() - 1];
+            String targetType = targetId.getSObjectType().getDescribe().getName().toLowerCase();
+            if (targetType == 'televisit__c') {
+                televisitidset.add(targetId);
+            }
+        }
+        Map<ID, Televisit__c> televisitmap;
+        if(televisitidset != null && televisitidset.size()> 0){
+            televisitmap = new Map<ID, Televisit__c>([Select Id from Televisit__c where
+                                            ID IN :televisitidset
+                                            AND Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c = 'Accepted'
+                                            AND Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != null
+                                            AND Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != 'Deactivated'
+                                            AND Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c != 'Deactivated (Admin)']);
+            updateCount = updateCount + (televisitmap!= null && televisitmap.keyset() != null && televisitmap.keyset().size()> 0 ? televisitmap.keyset().size() :0) - televisitidset.size();
+                          
+
+        } 
         return updateCount;
     }
     /* Process Resource Updates when clicked */

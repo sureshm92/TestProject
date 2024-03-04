@@ -19,17 +19,11 @@ export default class Documents extends NavigationMixin(LightningElement) {
     label = {
         versionDate
     };
-    @track isTabLandscape;
     @track isTabPortrait=false;
 
     connectedCallback() {
-        this.isTabLandscape=this.isTabletLandscape();
-        window.addEventListener('orientationchange', this.onOrientationChange);
         this.processData();
     }
-    onOrientationChange = () => {
-        this.isTabLandscape=this.isTabletLandscape();
-        };
 
     processData() {
         this.id = this.document.resource.Id;
@@ -60,8 +54,12 @@ export default class Documents extends NavigationMixin(LightningElement) {
             composed: true
         });
         this.dispatchEvent(clickResource);
-        if(this.pe){
-            this[NavigationMixin.Navigate]({
+        if (communityService.isMobileSDK()) {
+            window.open('../sfc/servlet.shepherd/document/download/' + this.document.thumbnailDocId)
+          }
+          else{
+             if(this.pe){
+                this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
                     pageName: 'resource-detail'
@@ -74,8 +72,8 @@ export default class Documents extends NavigationMixin(LightningElement) {
                     studyname:this.pe.Clinical_Trial_Profile__r.Study_Code_Name__c
                 }
             });
-        }else{
-            this[NavigationMixin.Navigate]({
+            }else{
+                this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
                     pageName: 'resource-detail'
@@ -87,6 +85,7 @@ export default class Documents extends NavigationMixin(LightningElement) {
                 }
             });
         }
+    }
     }
 
     doMenuItemSelected(event) {
