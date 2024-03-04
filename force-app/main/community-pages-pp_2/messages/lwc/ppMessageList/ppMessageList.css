@@ -67,3 +67,15 @@
     border-bottom: 1px solid #d9d9d9;
     height: auto;
 }
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    .study-txt-without-msg{
+        width: auto;
+        white-space: pre-wrap;
+    }
+}
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: landscape) {
+    .study-txt-without-msg{
+        width: auto;
+        white-space: pre-wrap;
+    }
+}

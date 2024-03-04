@@ -627,7 +627,38 @@ window.communityService = (function () {
             }
             return false;
         },
-
+        isIpadPortrait() {
+            let orientation = screen.orientation.type;
+            let portrait = true;
+            if (orientation === 'landscape-primary') {
+                portrait = false;
+            }
+            if (window.innerWidth >= 768 && window.innerWidth < 1279 && portrait) {
+                if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                    return true;
+                } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+            return false;
+        },
+        isIpadLandscape() {
+            let orientation = screen.orientation.type;
+            let landscape = false;
+            if (orientation === 'landscape-primary') {
+                landscape = true;
+            }
+            if (window.innerWidth >= 768 && window.innerWidth < 1279 && landscape) {
+                if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                    return true;
+                } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                    return true;
+                }
+            }
+            return false;
+        },
         preLoginPageRedirection: function (currentUrl, redirectPage) {
             sessionStorage.setItem('Cookies', 'Accepted');
             let urlEvent = $A.get('e.force:navigateToURL');

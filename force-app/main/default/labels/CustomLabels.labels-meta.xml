@@ -25015,6 +25015,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Others</value>
     </labels>
     <labels>
+        <fullName>RH_PermissionAcessMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_PermissionAcessMessage</shortDescription>
+        <value>Permissions to access the file in patient portal is granted, please refresh.</value>
+    </labels>
+    <labels>
         <fullName>RH_PI</fullName>
         <categories>RH</categories>
         <language>en_US</language>
