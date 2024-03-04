@@ -165,9 +165,21 @@
                         </div>
                     </div>
                 </div>
+              
                 <div class="slds-col slds-size_1-of-1 slds-p-top_xx-smal acc-pref" if:false={past}>
                     <div if:true={showEmailSms}>
-                        <a
+                        <template if:true={isTablet}>
+                            <a
+                            class="comm-link slds-p-left_medium"
+                            onclick={setSessionCookie}
+                            href={url}
+                            target={communicationTab}
+                        >
+                            <span>{label.PREFERENCES}</span>
+                        </a>
+                        </template>
+                        <template if:false={isTablet}>
+                            <a
                             class="comm-link"
                             onclick={setSessionCookie}
                             href={url}
@@ -175,6 +187,8 @@
                         >
                             <span>{label.PREFERENCES}</span>
                         </a>
+                        </template>
+                      
                     </div>
                 </div>
                 <div if:false={past} class="dateTimeContainer">
