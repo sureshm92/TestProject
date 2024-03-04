@@ -18,6 +18,9 @@ import PP_Past_Messages from '@salesforce/label/c.PP_Past_Messages';
 import Back_to_Past_Studies_and_Programs from '@salesforce/label/c.Back_to_Past_Studies_and_Programs';
 import PP_Communications from '@salesforce/label/c.PP_Communications';
 import PP_DeletedSucesfully from '@salesforce/label/c.PP_DeletedSucesfully';
+import Uploaded from '@salesforce/label/c.Uploaded';
+import Shared_with_Me from '@salesforce/label/c.Shared_with_Me';
+import View_All_Files from '@salesforce/label/c.View_All_Files';
 
 export default class PpPastStudiesParent extends LightningElement {
     hideDetailPage = false;
@@ -57,7 +60,10 @@ export default class PpPastStudiesParent extends LightningElement {
         PP_EMAIL_caps,
         PP_Past_Messages,
         Back_to_Past_Studies_and_Programs,
-        PP_DeletedSucesfully
+        PP_DeletedSucesfully,
+        Uploaded,
+        Shared_with_Me,
+        View_All_Files
     };
     showPage;
     isResultPushNotification = false;

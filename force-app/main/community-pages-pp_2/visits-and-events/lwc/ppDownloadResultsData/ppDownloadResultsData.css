@@ -60,7 +60,7 @@
     right: 0rem;
     top: 41px;
     width: 192px;
-    height: 92px;
+    min-height: 92px;
     z-index: 1;
     padding-top: 8px;
     border: 1px solid var(--neutrals-color-neutral-4, #d9d9d9);
