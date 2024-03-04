@@ -77,7 +77,7 @@ iqviaOutreachSMS = false;
 iqviaOutreachPhone = false;
 iqviaOutreachDirectMail = false;
 isSuppressed = true;
-isPatientPortalEnabled = false;
+isPatientPortalDisable = false;
 isStudyPPEnabled = false;
 disablePatientInvite = true;
 isDataLoading = false;
@@ -162,9 +162,9 @@ connectedCallback() {
                 this.shouldDisableImportStatus = false; 
                 if(result.objStudySite.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == false)
                     {
-                        this.isPatientPortalEnabled = true;
+                        this.isPatientPortalDisable = true;
                     }else{
-                        this.isPatientPortalEnabled = false;
+                        this.isPatientPortalDisable = false;
                     }
                 this.countryDisable=false;
                 if(communityService.getCurrentCommunityTemplateName() ==  this.label.Janssen_Community_Template_Name  && !result.objStudySite.Clinical_Trial_Profile__r.PPTemplate__c ){

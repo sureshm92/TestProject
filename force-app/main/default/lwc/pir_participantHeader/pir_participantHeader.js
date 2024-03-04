@@ -86,7 +86,7 @@ export default class Pir_participantHeader extends LightningElement {
     @api btnToolTip = '';
     @api showPrinticon = false;
     @api isrtl = false;
-    isShowPatientPotalEnabled = false;
+    isShowPatientPotalDisable = false;
     maindivcls;
     initialsName;
 
@@ -138,6 +138,7 @@ export default class Pir_participantHeader extends LightningElement {
         this.surveyInProgress = [];
         this.surveyCompleted = [];
         this.showPreScreen = false;
+        this.isShowPatientPotalDisable = false;
         
         if(this.peId)
         {
@@ -153,9 +154,9 @@ export default class Pir_participantHeader extends LightningElement {
                 // this.preScreenerLink = this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c;
                 let communityWithPPInv = true;
                 if(this.per.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == false){
-                    this.isShowPatientPotalEnabled = true;
+                    this.isShowPatientPotalDisable = true;
                  }else{
-                     this.isShowPatientPotalEnabled = false;
+                     this.isShowPatientPotalDisable = false;
                  }
                 if(this.per.Clinical_Trial_Profile__r.CommunityTemplate__c == this.label.Janssen_Community_Template_Name && !this.per.Clinical_Trial_Profile__r.PPTemplate__c){
                    communityWithPPInv = false;

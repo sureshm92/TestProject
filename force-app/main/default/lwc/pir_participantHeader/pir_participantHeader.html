@@ -35,7 +35,7 @@
                         <template if:true={showPreScreen}>
                             <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small rtl-m-left" title={label.RH_Pre_screen} onclick={doPrescreen}> {label.RH_Pre_screen} </button>
                         </template>
-                        <template if:false={isShowPatientPotalEnabled}>
+                        <template if:false={isShowPatientPotalDisable}>
                         <template if:true={showAction}>
                             <template if:true={showActiondt}>
                                 <button disabled={showActionbtnDisabled} title={btnToolTip} class="apollo-btn primary ipad-mode-btn slds-p-around_x-small rtl-m-left"  onclick={doAction}> 
@@ -57,7 +57,7 @@
                     </div>
                 <div class="slds-grid slds-grid_vertical slds-hide_medium">
                     <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small cursor"> <img onclick={doPrint} src={printIcon} width="32px"></div>
-                    <template if:false={isShowPatientPotalEnabled}>
+                    <template if:false={isShowPatientPotalDisable}>
                     <template if:true={showAction}>
                         <template if:true={showActiondt}>
                             <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small">
