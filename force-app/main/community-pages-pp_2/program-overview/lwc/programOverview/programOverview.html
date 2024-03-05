@@ -88,17 +88,17 @@
                             multiple-rows="true"
                             vertical-align="center"
                             horizontal-align="center"
-                            class="po-custom-card-mobile"
+                            class="po-custom-card-mobile slds-p-around_x-small"
                         >
                             <lightning-layout-item size="5" class={borderPOHome}>
                                 <template if:true={clinicalrecord.Profile_Picture__c}>
-                                    <div class="po-center">
-                                        <img src={clinicalrecord.Profile_Picture__c} />
+                                    <div class="slds-align--absolute-center">
+                                        <img class="prgm-logo" src={clinicalrecord.Profile_Picture__c} />
                                     </div>
                                 </template>
                             </lightning-layout-item>   
 
-                            <lightning-layout-item size="6" class="slds-align_absolute-center li3">
+                            <lightning-layout-item size="6" small-device-size="6" medium-device-size="7" class="slds-p-horizontal_small li3">
                                 <lightning-layout class="piPhone" vertical-align="center">
                                     <lightning-layout-item size="1"><img src={phone_Icon} class="phoneIcon"/></lightning-layout-item>
                                     <lightning-layout-item size="11" class="pad-5">{studySitePhone}</lightning-layout-item>
