@@ -95,12 +95,16 @@
     background: #fff;
     color: #595959;
     text-align: left;
+    /* height: 2rem !important; */
 }
 
 .curve-input input[type='date']:disabled {
     background: #f2f2f2;
     padding-left: 1rem;
 }
+/* .curve-input input[type='time']{
+    height: 2rem !important;
+} */
 
 input[type='date']::-webkit-calendar-picker-indicator,
 .curve-input .slds-input__icon-group_right {

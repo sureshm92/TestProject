@@ -57,6 +57,7 @@ export default class PpCommunityNavigation extends LightningElement {
     @track isTablet;
     iosString;
     @track iosString2;
+    @track portCounter;
     msgs;
     count = 0;
     connectedCallback() {
@@ -80,6 +81,8 @@ export default class PpCommunityNavigation extends LightningElement {
     isTabletMenu() {
         let orientation = screen.orientation.type;
         let portrait = true;
+        this.iosString = orientation;
+        this.iosString = window.innerWidth;
         if (orientation === 'landscape-primary') {
             portrait = false;
         }
@@ -184,17 +187,17 @@ export default class PpCommunityNavigation extends LightningElement {
                             let td = JSON.parse(result);
                             this.shouldDisplayFilesTab = td.tabvisiblity.isFileTabVisiblity;
                             this.shouldDisplayPastStudyTab = td.tabvisiblity.isPastStudyVisible;
-                            this.showVisits = td.tabs?.some(
+                            this.showVisits = td.tabs ?.some(
                                 (studyTab) => studyTab.id == 'tab-visits'
                             );
-                            this.showResults = td.tabs?.some(
+                            this.showResults = td.tabs ?.some(
                                 (resultTab) => resultTab.id == 'tab-lab-results'
                             );
-                            this.showAboutProgram = td.pe?.Clinical_Trial_Profile__r?.Is_Program__c;
+                            this.showAboutProgram = td.pe ?.Clinical_Trial_Profile__r ?.Is_Program__c;
                             this.showAboutStudy = !this.showAboutProgram;
                             this.showEdaries =
                                 td.perInTrail &&
-                                td.pe?.Clinical_Trial_Profile__r?.ECOA_Is_Avaialble__c;
+                                    td.pe ?.Clinical_Trial_Profile__r ?.ECOA_Is_Avaialble__c;
                             if (this.showAboutStudy) {
                                 this.setVisResultsAvailable();
                             }
@@ -422,6 +425,7 @@ export default class PpCommunityNavigation extends LightningElement {
         this.dispatchEvent(valueChangeEvent);
     }
     handleMessageNotification(event) {
+        this.portCounter = event.detail.message;
         if (!this.desktop) {
             this.dispatchEvent(
                 new CustomEvent('msgnotify', {
