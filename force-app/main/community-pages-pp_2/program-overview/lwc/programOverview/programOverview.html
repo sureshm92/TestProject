@@ -13,7 +13,7 @@
                         >
                             <lightning-layout-item size="3" class="border-right">
                                 <template if:true={clinicalrecord.Profile_Picture__c}>
-                                    <div class="po-center">
+                                    <div class="po-center slds-p-top_x-small slds-p-bottom_x-small">
                                         <img src={clinicalrecord.Profile_Picture__c} class="po-logo" />
                                     </div>
                                 </template>
@@ -23,7 +23,7 @@
                                     <lightning-formatted-rich-text class="po-text" value={shortOverview}></lightning-formatted-rich-text>
                                 </template>
                             </lightning-layout-item>
-                            <lightning-layout-item size="3" class="slds-align_absolute-center li3">
+                            <lightning-layout-item size="3" class="slds-align_absolute-center li3 slds-p-top_x-small slds-p-bottom_x-small slds-p-right_medium">
                                 <lightning-layout class="piPhone" multiple-rows="true">
                                     <lightning-layout-item size="1"><img src={phone_Icon} class="phoneIcon"/></lightning-layout-item>
                                     <lightning-layout-item size="11">{studySitePhone}</lightning-layout-item>
