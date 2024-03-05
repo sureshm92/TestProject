@@ -132,7 +132,7 @@ export default class Pir_participantDetail extends LightningElement {
     @api visitplanoptions = {};
     @api showVisitPlan = false;
     @api perId;
-    @api emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     fieldMap = new Map([["src" , "MRN_Id__c"],
     ["cnt" , "Permit_Mail_Email_contact_for_this_study__c"],
