@@ -570,7 +570,9 @@ public without sharing class HCPEnrollmentService {
             piId +
             '\' AND Clinical_Trial_Profile__c = \'' +
             ctpId +
-            '\'';
+            '\''+
+            'AND Study_Site__r.Site_Activation_Status__c IN (\'Activated\', \'Activated (Admin)\', \'On Hold\')' +
+            'AND Study_Site__r.Override_PI_Referral_Status__c =\'Accepted\'';
         hcpeList = Database.query(query);
         if (!hcpeList.isEmpty()) {
             TranslateHelper.translate(hcpeList);
