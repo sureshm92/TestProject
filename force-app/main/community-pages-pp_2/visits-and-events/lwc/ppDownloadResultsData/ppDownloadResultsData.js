@@ -260,6 +260,5 @@ export default class PpDownloadResultsData extends LightningElement {
                 console.error('Error:', error);
             });
         }
-
     }
 }

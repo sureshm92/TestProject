@@ -16,18 +16,27 @@ import PP_DeleteFile from "@salesforce/label/c.PP_DeleteFile";
 import PP_DeleteConfirmation from "@salesforce/label/c.PP_DeleteConfirmation";
 import BTN_Cancel from "@salesforce/label/c.BTN_Cancel";
 import No_Documents_Available from "@salesforce/label/c.No_Documents_Available";
+import PP_SharedwithmeMessage from "@salesforce/label/c.PP_SharedwithmeMessage";
 import Uploaded from "@salesforce/label/c.Uploaded";
 import Shared_with_Me from "@salesforce/label/c.Shared_with_Me";
 import Sort_By from "@salesforce/label/c.Sort_By";
 import PP_DeletedSucesfully from "@salesforce/label/c.PP_DeletedSucesfully";
 import formFactor from "@salesforce/client/formFactor";
 import profileTZ from "@salesforce/i18n/timeZone";
+import PP_Sort_Title_Desc from "@salesforce/label/c.PP_Sort_Title_Desc";
+import PP_Sort_Title_Asc from "@salesforce/label/c.PP_Sort_Title_Asc";
+import PP_Sort_Type_Asc from "@salesforce/label/c.PP_Sort_Type_Asc";
+import PP_Sort_Type_Desc from "@salesforce/label/c.PP_Sort_Type_Desc";
+import PP_Sort_Date_Desc from "@salesforce/label/c.PP_Sort_Date_Desc";
+import PP_Sort_Date_Asc from "@salesforce/label/c.PP_Sort_Date_Asc";
+import Sort_Detail_By from "@salesforce/label/c.Sort_Detail_By";
 
 export default class ppdocmentViewPage extends NavigationMixin(
   LightningElement
 ) {
   noDocumentAvailable = pp_icons + "/" + "noDocumentAvailable.svg";
   uploadNewDocuments = pp_icons + "/" + "uploadNewDocuments.svg";
+  infocheck = pp_icons + "/" + "infocopy.svg";
   sort = pp_icons + "/" + "sort.svg";
 
   value = "inProgress";
@@ -62,6 +71,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
   resetPagination = false;
   filePreview = "../apex/MedicalHistoryPreviewVF?resourceId=+";
   sharedFiles = false;
+  maincssclass='';
   get timeZone() {
     return profileTZ;
   }
@@ -83,8 +93,15 @@ export default class ppdocmentViewPage extends NavigationMixin(
     Uploaded,
     Shared_with_Me,
     Sort_By,
-    PP_DeletedSucesfully
-
+    PP_DeletedSucesfully,
+    PP_SharedwithmeMessage,
+    PP_Sort_Title_Desc,
+    PP_Sort_Title_Asc,
+    PP_Sort_Type_Asc,
+    PP_Sort_Type_Desc,
+    PP_Sort_Date_Desc,
+    PP_Sort_Date_Asc,
+    Sort_Detail_By
   };
 
   connectedCallback() {
@@ -95,6 +112,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
       this.isMobile = false;
       this.isDesktop = true;
     }
+    this.maincssclass = 'document-boxDesk pir-parent pp-doc';
 
     this.isSaving = true;
     if (!communityService.isDummy()) {
@@ -172,6 +190,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
         this.resetPagination = false;
         if (this.cvList.length > 0) {
           this.noRecords = false;
+          this.maincssclass = 'document-boxDesk pir-parent pp-doc';
         } else {
           if (this.isDelete) {
             const selectEventnew = new CustomEvent("resetondelete", {
@@ -181,6 +200,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
           }
           if (this.totalRecord == 0) {
             this.noRecords = true;
+            this.maincssclass = 'document-boxDesk pir-parent pp-doc nopagination';
           }
         }
         this.isDelete = false;
@@ -272,7 +292,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
       .then((result) => {
         this.isSaving = false;
         this.cvListMsg = result.cdlList;
-
+        console.log('>>>result>>'+JSON.stringify(result));
         var linkMap = new Map();
         if (result.previewLinks != undefined && result.previewLinks != null) {
           for (var key in result.previewLinks) {
@@ -314,8 +334,10 @@ export default class ppdocmentViewPage extends NavigationMixin(
         this.resetPaginationMsg = false;
         if (this.cvListMsg != null && this.cvListMsg.length > 0) {
           this.noMsgRecords = false;
+          this.maincssclass = 'document-boxDesk pir-parent pp-doc';
         } else {
           this.noMsgRecords = true;
+          this.maincssclass = 'document-boxDesk pir-parent pp-doc nopagination';
         }
 
         if (this.isSpinnerRunning) {
@@ -453,6 +475,14 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.getTableFilesData();
   }
 
+  get isFileNameSorted() {
+    if (this.arrowUpTitle || this.arrowDownTitle) {
+      return "boldfont table-Header-Sorted";
+    } else {
+      return "boldfont";
+    }
+  }
+
   sortByDate(event) {
     this.arrowUpTitle =
       this.arrowDownTitle =
@@ -475,6 +505,13 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.stopSpinner = false;
     this.resetPagination = true;
     this.getTableFilesData();
+  }
+  get isSortedByDate() {
+    if (this.arrowUpDate || this.arrowDownDate) {
+      return "boldfont table-Header-Sorted";
+    } else {
+      return "boldfont";
+    }
   }
 
   sortByType(event) {
@@ -501,6 +538,13 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.resetPagination = true;
     this.getTableFilesData();
   }
+  get isTypeSorted() {
+    if (this.arrowUpType || this.arrowDownType) {
+      return "boldfont table-Header-Sorted";
+    } else {
+      return "boldfont";
+    }
+  }
   sortByMsgDate(event) {
     this.arrowUpTitleMsg =
       this.arrowDownTitleMsg =
@@ -523,6 +567,13 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.stopSpinner = false;
     this.resetPaginationMsg = true;
     this.getTableMsgFilesData();
+  }
+  get isMsgDateSorted() {
+    if (this.arrowUpDateMsg || this.arrowDownDateMsg) {
+      return "boldfont table-Header-Sorted";
+    } else {
+      return "boldfont";
+    }
   }
   sortByMsgType(event) {
     this.arrowUpTitleMsg =
@@ -548,6 +599,13 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.resetPaginationMsg = true;
     this.getTableMsgFilesData();
   }
+  get isMessageTypeSorted() {
+    if (this.arrowUpTypeMsg || this.arrowDownTypeMsg) {
+      return "boldfont table-Header-Sorted";
+    } else {
+      return "boldfont";
+    }
+  }
   sortByMsgTitle(event) {
     this.arrowUpDateMsg =
       this.arrowDownDateMsg =
@@ -570,6 +628,13 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.stopSpinner = false;
     this.resetPaginationMsg = true;
     this.getTableMsgFilesData();
+  }
+  get isMessageTitleSorted() {
+    if (this.arrowUpTitleMsg || this.arrowDownTitleMsg) {
+      return "boldfont table-Header-Sorted";
+    } else {
+      return "boldfont";
+    }
   }
   openDeleteModel = false;
   deleteFileID;
@@ -624,12 +689,12 @@ export default class ppdocmentViewPage extends NavigationMixin(
   }
   get optionsSort() {
     return [
-      { label: "Title: A-Z", value: "titleasc" },
-      { label: "Title: Z-A", value: "titledesc" },
-      { label: "File Type: A-Z", value: "filetypeasc" },
-      { label: "File Type: Z-A", value: "filetypedesc" },
-      { label: "Date: Last Uploaded", value: "datedesc" },
-      { label: "Date: First Uploaded", value: "dateasc" }
+      { label: this.label.PP_Sort_Title_Asc, value: "titleasc" },
+      { label: this.label.PP_Sort_Title_Desc, value: "titledesc" },
+      { label: this.label.PP_Sort_Type_Asc, value: "filetypeasc" },
+      { label: this.label.PP_Sort_Type_Desc, value: "filetypedesc" },
+      { label: this.label.PP_Sort_Date_Desc, value: "datedesc" },
+      { label: this.label.PP_Sort_Date_Asc, value: "dateasc" }
     ];
   }
   opendropdown(event) {
@@ -669,7 +734,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
       this.isInitial = true;
       this.firstClick = true;
       this.sortOn = "CreatedDate";
-      this.selectedsortOption = "Sort By";
+      this.selectedsortOption = this.label.Sort_By;
 
       this.getTableFilesData();
     } else {
@@ -684,7 +749,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
       this.isInitialMsg = true;
       this.firstClickMsg = true;
       this.sortOnMsg = "ContentDocument.CreatedDate";
-      this.selectedsortOption = "Sort By";
+      this.selectedsortOption = this.label.Sort_By;
       this.getTableMsgFilesData();
     }
     this.handleonblur();
@@ -698,7 +763,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
   }
   handlenewOnSelectSort(event) {
     this.handleonblur();
-    this.selectedsortOption = "By: " + event.target.dataset.title;
+    this.selectedsortOption = this.label.Sort_Detail_By + " " + event.target.dataset.title;
     this.template.querySelectorAll(".fBold").forEach(function (L) {
       L.classList.add("fw-550");
     });
@@ -759,7 +824,10 @@ export default class ppdocmentViewPage extends NavigationMixin(
   }
   handlenewOnSelectSortMsg(event) {
     this.handleonblur();
-    this.selectedsortOption = "By: " + event.target.dataset.title;
+    this.selectedsortOption = this.label.Sort_Detail_By + " "  + event.target.dataset.title;
+    this.template.querySelectorAll(".fBold").forEach(function (L) {
+      L.classList.add("fw-550");
+    });
     if (event.target.dataset.id == "titleasc") {
       this.isInitialMsg = false;
       this.firstClickMsg = true;
