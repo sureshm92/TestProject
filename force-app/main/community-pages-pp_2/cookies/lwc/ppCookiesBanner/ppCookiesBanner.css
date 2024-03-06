@@ -13,7 +13,7 @@
 }
 
 .desk-cookies-banner-post-login {
-    bottom: 6px;
+    bottom: 0px;
     left: 0;
     position: fixed;
     border-radius: 16px 16px 0 0;
@@ -183,7 +183,7 @@
 /** RH End **/
 @media screen and (max-width: 767px) {
     .manage {
-        margin-bottom: 24px;
+        margin-bottom: 40px;
     }
     .footer-m-top {
         margin-top: 1.5rem;
