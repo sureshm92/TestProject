@@ -1220,7 +1220,14 @@ export default class Medicalinformation extends LightningElement {
         let errorMessage = '';
         let variantlocal = "Error";
         if (error.body.message) { 
+          let ErrBdyMsz = error.body.message;
+          if(ErrBdyMsz.toLowerCase().includes('is already linked') || ErrBdyMsz.includes('DUPLICATE_VALUE'))
+          {
+            errorMessage = this.label.RH_PermissionAcessMessage;
+          }
+          else {
           errorMessage = error.body.message;
+          }
         }
         if(error.body.fieldErrors){
           errorMessage =  this.label.RH_PermissionAcessMessage;
@@ -1649,7 +1656,14 @@ export default class Medicalinformation extends LightningElement {
           let errorMessage = '';
           let variantlocal = "Error";
           if (error.body.message) { 
+            let ErrBdyMsz = error.body.message;
+            if(ErrBdyMsz.toLowerCase().includes('is already linked') || ErrBdyMsz.includes('DUPLICATE_VALUE'))
+            {
+              errorMessage = this.label.RH_PermissionAcessMessage;
+            }
+            else {
             errorMessage = error.body.message;
+            }
           }
           if(error.body.fieldErrors){
             errorMessage =  this.label.RH_PermissionAcessMessage;
@@ -2149,7 +2163,14 @@ export default class Medicalinformation extends LightningElement {
         let errorMessage = '';
         let variantlocal = "Error";
         if (error.body.message) { 
+          let ErrBdyMsz = error.body.message;
+          if(ErrBdyMsz.toLowerCase().includes('is already linked') || ErrBdyMsz.includes('DUPLICATE_VALUE'))
+          {
+            errorMessage = this.label.RH_PermissionAcessMessage;
+          }
+          else {
           errorMessage = error.body.message;
+          }
         }
         if(error.body.fieldErrors){
           errorMessage =  this.label.RH_PermissionAcessMessage;
@@ -2235,7 +2256,14 @@ export default class Medicalinformation extends LightningElement {
         let errorMessage = "";
         let variantlocal = "Error";
         if (error.body.message) { 
+          let ErrBdyMsz = error.body.message;
+          if(ErrBdyMsz.toLowerCase().includes('is already linked') || ErrBdyMsz.includes('DUPLICATE_VALUE'))
+          {
+            errorMessage = this.label.RH_PermissionAcessMessage;
+          }
+          else {
           errorMessage = error.body.message;
+          }
         }
         if(error.body.fieldErrors){
           errorMessage =  this.label.RH_PermissionAcessMessage; 
