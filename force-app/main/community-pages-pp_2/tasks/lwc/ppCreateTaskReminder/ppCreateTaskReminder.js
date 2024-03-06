@@ -520,8 +520,7 @@ export default class PpCreateTaskReminder extends LightningElement {
         this.spinner.show();
         checkEmailSMSPreferencesForPPTask({ taskId: this.taskId })
             .then((consentData) => {
-                this.isEmailReminderDisabled = !consentData.emailConsent;
-                this.isSMSReminderDisabled = !consentData.smsConsent;
+                this.checkEmailSMSConsentEnabled(consentData.emailConsent,consentData.smsConsent);
                 this.emailReminderOptIn = this.isEmailReminderDisabled
                     ? false
                     : this.emailReminderOptIn;
@@ -536,5 +535,34 @@ export default class PpCreateTaskReminder extends LightningElement {
     setSessionCookie() {
         localStorage.setItem('Cookies', 'Accepted');
         return true;
+    }
+    //This Method Enables and Disables the Email and SMS Reminder based on Logged IN User Mode and Comm Pref
+    checkEmailSMSConsentEnabled(emailConsent,smsConsent){
+        let currentMode = communityService.getCurrentCommunityMode();
+
+        if(!currentMode.isDelegate){  
+            //participant View or Delegate self View
+            if(currentMode.currentPE != null && currentMode.participantState != 'ALUMNI'){    
+                //Active Participant View/ Half Alumni Participant View
+                this.isEmailReminderDisabled = !emailConsent;
+                this.isSMSReminderDisabled = !smsConsent;
+            }else{             
+                //Alumni Participant View or Delegate self View
+                this.isEmailReminderDisabled = false;
+                this.isSMSReminderDisabled = false;
+            }
+        }
+        else{
+            //Delegate switched to Participant View                                                       
+            if(currentMode.participantState == 'ALUMNI' && currentMode.currentPE == null){
+                //Delegate switched to Full Alumni Participant View
+                this.isEmailReminderDisabled = false;
+                this.isSMSReminderDisabled = false;
+            }else{
+                //Delegate switched to Active Participant View / Half alumni Participant View
+                this.isEmailReminderDisabled = !emailConsent;
+                this.isSMSReminderDisabled = !smsConsent;
+            }
+        }
     }
 }
