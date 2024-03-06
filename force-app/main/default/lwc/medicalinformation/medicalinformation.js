@@ -1224,7 +1224,7 @@ export default class Medicalinformation extends LightningElement {
         }
         if(error.body.fieldErrors){
           errorMessage =  this.label.RH_PermissionAcessMessage;
-          variantlocal = "warning";
+          
         }
         const event = new ShowToastEvent({
           title: "Error",
@@ -1653,7 +1653,6 @@ export default class Medicalinformation extends LightningElement {
           }
           if(error.body.fieldErrors){
             errorMessage =  this.label.RH_PermissionAcessMessage;
-            variantlocal = "warning";
           }
           const event = new ShowToastEvent({
             title: "Error",
@@ -2154,7 +2153,6 @@ export default class Medicalinformation extends LightningElement {
         }
         if(error.body.fieldErrors){
           errorMessage =  this.label.RH_PermissionAcessMessage;
-          variantlocal = "warning";
         }
         const event = new ShowToastEvent({
           title: "Error",
@@ -2241,7 +2239,6 @@ export default class Medicalinformation extends LightningElement {
         }
         if(error.body.fieldErrors){
           errorMessage =  this.label.RH_PermissionAcessMessage; 
-          variantlocal = "warning";
         }
         const event = new ShowToastEvent({
           title: "Error",
