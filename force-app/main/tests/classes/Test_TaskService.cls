@@ -58,10 +58,17 @@ private class Test_TaskService {
         );
         TestData.loadTestData();
         TestData testData = new TestData();
+        Participant_Enrollment__c pe = testData.pe;
+        pe.Participant_Status__c = 'Trial Complete';
+        update pe;
         Task task = new Task();
         task.Subject = 'Test';
         task.OwnerId = testData.participantUser.Id;
+        task.Owner_Contact__c = testData.participantUser.ContactId;
         task.Visible_For__c = 'Owner';
+        task.Task_Type__c='Not Selected';
+        task.isPlatformLevelTask__c = true;
+        task.WhatId = pe.Id;
         Task taskIgnore = new Task();
         taskIgnore.Subject = 'TestI';
         taskIgnore.OwnerId = testData.participantUser.Id;
