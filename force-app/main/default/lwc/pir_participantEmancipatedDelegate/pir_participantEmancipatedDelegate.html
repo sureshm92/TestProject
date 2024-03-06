@@ -19,7 +19,6 @@
             onchange={checkFields} 
             data-name="email"
             data-value="email"
-            onblur={doCheckContact}
             required="" disabled={isConnectedAtLeastOnce}></lightning-input>
         </div>
         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-4 outcome-form-element slds-m-bottom_x-small">
@@ -66,7 +65,7 @@
                data-name='yob'
                class="validate"                  
                value={birthYear}
-               dropdown-alignment="bottom-right"
+               dropdown-alignment="bottom-left"
                onchange={checkDelegateAgeHandler}
                ></lightning-combobox>
                <!--value={sharingObject.Birth_Year__c}-->
