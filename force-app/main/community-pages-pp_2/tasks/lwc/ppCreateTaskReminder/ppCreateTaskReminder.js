@@ -149,6 +149,9 @@ export default class PpCreateTaskReminder extends LightningElement {
                                         : false;
                                 this.emailReminderOptIn = this.initData.task.Remind_Using_Email__c;
                                 this.smsReminderOptIn = this.initData.task.Remind_Using_SMS__c;
+                                if (this.systemTask) {
+                                    this.isEmailReminderDisabled = true;
+                                }
                                 if (this.systemTask || this.businessTask) {
                                     this.oldReminderDateForSystemTask = this.initData.reminderDate;
                                     if (this.oldReminderDateForSystemTask) {
