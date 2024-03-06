@@ -629,7 +629,7 @@ public without sharing class MedicalHistryTabController {
     @AuraEnabled 
     public static medicalHistryWrapper saveAttachmentPermission(String PerId, String addPermission, String revokePermission, String UpdateNamelist){
 
-      // try{  
+       try{  
                 Set<Id> lstAddPermission = (Set<Id>) JSON.deserialize(addPermission,Set<Id>.class);
                 List<Id> lstRevokePermission = (List<Id>) JSON.deserialize(revokePermission,List<Id>.class);
 
@@ -725,20 +725,20 @@ public without sharing class MedicalHistryTabController {
             }
 
             return objwrapper ; 
-       // }
-        // catch (Exception e) {
+       }
+        catch (Exception e) {
 
-        //     throw new AuraHandledException(
+            throw new AuraHandledException(
       
-        //       e.getMessage() +
+              e.getMessage() +
+       
+              '\n' +
       
-        //       '\n' +
+              e.getStackTraceString()
       
-        //       e.getStackTraceString()
+            );
       
-        //     );
-      
-        //   }
+          }
 
     }
            
