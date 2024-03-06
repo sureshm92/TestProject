@@ -25005,7 +25005,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH_PermissionAcessMessage</shortDescription>
-        <value>Permissions to access the file in patient portal is granted, please refresh.</value>
+        <value>This file is currently being viewed on another device or by another Referral Hub user. Please refresh your page and try again.</value>
     </labels>
     <labels>
         <fullName>RH_PI</fullName>
