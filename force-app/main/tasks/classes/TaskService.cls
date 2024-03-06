@@ -36,6 +36,7 @@ public without sharing class TaskService {
 
     public static final String OPEN_TASKS_ORDER = ' ORDER BY Priority DESC, ActivityDate NULLS LAST, CreatedDate DESC';
     public static map<id, Participant_Enrollment__c> pastEnrollmentsMap = new Map<id, Participant_Enrollment__c>();
+    public static  Boolean skipTaskForDelParView = false;
 
     public static final List<String> DEFAULT_FIELDS = new List<String>{
         'Id',
@@ -46,12 +47,14 @@ public without sharing class TaskService {
         'OwnerId',
         'CreatedById',
         'CreatedDate',
+        'CreatedByAdmin__c',    
         'Completed_Date__c',
         'ActivityDate',
         'Activity_Datetime__c',
         'Task_Code__c',
         'WhatId',
         'Task_Type__c',
+        'isPlatformLevelTask__c',  
         'Visible_For__c',
         'Action_URL__c',
         'ReminderDateTime',
@@ -196,6 +199,13 @@ public without sharing class TaskService {
             String alumniFilter;
             alumDlgtPtView = true;
         }
+        else if(
+            currentMode.participantState == 'PARTICIPANT' &&
+            currentMode.isDelegate &&
+            ParticipantContext.getCurrentUserId() != null
+        ){
+            skipTaskForDelParView = true;
+        }
         if (isDecoupled && ParticipantContext.getCurrentUserId() == null) {
             //Added for Minor Participant's Delegates
             tasks = (List<Task>) DatabaseService.query(
@@ -232,6 +242,7 @@ public without sharing class TaskService {
         Set<Id> skipPEIds = new Set<Id>();
         Set<Id> skipSurveyInvIds = new Set<Id>();
         Set<Id> skipPEAlumnIds = new Set<Id>();
+        Set<String> skipPEForActiveDel = new Set<String>();
         if (alumDlgtPtView) {
             for (Patient_Delegate_Enrollment__c pde : [
                 SELECT Participant_Enrollment__c
@@ -243,6 +254,19 @@ public without sharing class TaskService {
                         .Id
             ]) {
                 skipPEAlumnIds.add(pde.Participant_Enrollment__c);
+            }
+        }
+        else if(skipTaskForDelParView){
+            for (Patient_Delegate_Enrollment__c pde : [
+                SELECT Participant_Enrollment__c,Patient_Delegate__r.Contact__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE
+                     Patient_Delegate__r.Participant__r.Contact__c = :ParticipantContext.getCurrentContact()
+                        .Id
+                AND Status__c = 'Active'
+            ]){
+                String conIdAndPerId = pde.Patient_Delegate__r.Contact__c+'_'+pde.Participant_Enrollment__c;
+                skipPEForActiveDel.add(conIdAndPerId); // map will not be empty
             }
         }
         for (Task t : tasks) {
@@ -301,8 +325,13 @@ public without sharing class TaskService {
         contact currentContact = ParticipantContext.getCurrentContact();
         set<Id> peOfCurrentuser = new Set<Id>();
         Map<Id, Participant_Enrollment__c> perMapForMultiRole = new Map<Id, Participant_Enrollment__c>();
+        List<Patient_Delegate_Enrollment__c> pdeRecrds =  new List<Patient_Delegate_Enrollment__c>();
+
         if (UserContext.getCurrentUserMode().userMode == CommunityService.USER_MODE_PARTICIPANT) {
             perMapForMultiRole = ParticipantEnrollmentService.getPerMapByContactId(
+                currentContact.Id
+            );
+            pdeRecrds = PatientDelegateEnrollmentService.getPDEnrollmentforDelContact(
                 currentContact.Id
             );
         }
@@ -317,7 +346,7 @@ public without sharing class TaskService {
                 skipTask =
                     (t.Owner_Contact__c != null &&
                     t.Owner_Contact__c != ParticipantContext.getCurrentContact().Id) ||
-                    (skipPEIds.contains(t.WhatId) && t.Task_Type__c != 'Visit') ||
+                    (skipPEIds.contains(t.WhatId) && t.Task_Type__c != 'Visit' && (t.Task_Type__c == 'Not Selected' && !t.isPlatformLevelTask__c)) ||
                     (!skipPEAlumnIds.contains(t.WhatId) && alumDlgtPtView) ||
                     (curPEId != null &&
                     t.WhatId != curPEId);
@@ -338,6 +367,13 @@ public without sharing class TaskService {
                     Boolean isInvitedToPP = mapPEIds.get(t.WhatId).Invited_To_PP_Date__c != null
                         ? true
                         : false;
+                    Boolean taskToggleAtCTPIsON = mapPEIds.get(t.WhatId)
+                        ?.Clinical_Trial_Profile__r.Tasks_Are_Available__c;
+                    //Boolean skipBusinessTask  = false;
+                    Boolean skipBusinessTask = t.CreatedByAdmin__c && 
+                        t.Task_Type__c == 'Not Selected' &&
+                        !t.isPlatformLevelTask__c && 
+                        !taskToggleAtCTPIsON;
                     //Participant View /Multirole(Self View)/Delegate switch to participant View.
                     Id loggedInUserId = UserInfo.getuserid();
                     if (curPEId != null) {
@@ -354,9 +390,15 @@ public without sharing class TaskService {
                             ) {
                                 //MultiROle(Self View) - task created for himself/herself as particapnt.
                                 skipTask = true;
-                            } else if (t.WhatId != curPEId && !isPatientPortalEnabled) {
-                                //MultiROle(Self View) - task created for himself/herself as delegate.
-                                skipTask = true;
+                            } 
+                            else if (t.WhatId != curPEId) {
+                                //MultiROle(Self View) - task created for himself/herself as particapnt.
+                                if(!isPatientPortalEnabled){
+                                    skipTask = true;
+                                }
+                                else if(isInvitedToPP && !perMapForMultiRole.containskey(t.whatId) && pdeRecrds != null && !pdeRecrds.isEmpty()){
+                                    skipTask = false;
+                                }
                             }
                         } else if (!isPatientPortalEnabled) {
                             //Delegate Switch To participant View.
@@ -381,6 +423,10 @@ public without sharing class TaskService {
                                 skipTask = true;
                             }
                         }
+                    }
+                    String conAndPerId = ParticipantContext.getOwnParticipant().Contact__c+'_'+t.whatId;
+                    if((skipTaskForDelParView  && !skipPEForActiveDel.contains(conAndPerId)) || skipBusinessTask) {
+                        skipTask = true;
                     }
                 }
             } else if (t.Survey_Invitation__c != null) {
