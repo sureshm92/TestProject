@@ -35,7 +35,6 @@
                         <template if:true={showPreScreen}>
                             <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small rtl-m-left" title={label.RH_Pre_screen} onclick={doPrescreen}> {label.RH_Pre_screen} </button>
                         </template>
-                        <template if:false={isShowPatientPotalDisable}>
                         <template if:true={showAction}>
                             <template if:true={showActiondt}>
                                 <button disabled={showActionbtnDisabled} title={btnToolTip} class="apollo-btn primary ipad-mode-btn slds-p-around_x-small rtl-m-left"  onclick={doAction}> 
@@ -53,11 +52,9 @@
                                 <button disabled={showActionbtnDisabled} title={btnToolTip} class="apollo-btn primary ipad-mode-btn slds-p-around_x-small rtl-m-left"  onclick={doAction}> {showActionlabel} </button> 
                             </template>
                         </template>
-                    </template>
                     </div>
                 <div class="slds-grid slds-grid_vertical slds-hide_medium">
                     <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small cursor"> <img onclick={doPrint} src={printIcon} width="32px"></div>
-                    <template if:false={isShowPatientPotalDisable}>
                     <template if:true={showAction}>
                         <template if:true={showActiondt}>
                             <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small">
@@ -76,7 +73,6 @@
                         <template if:false={showActiondt}>
                             <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small rtl-m-left"><button class="apollo-btn primary btn-lrg "  onclick={doAction} title={btnToolTip}>  {showActionlabel} </button></div>
                         </template>
-                    </template>
                 </template>
                     <template if:true={showPreScreen}>
                         <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small rtl-m-left"><button class="apollo-btn secondary btn-lrg"  onclick={doPrescreen} title={label.RH_Pre_screen}> {label.RH_Pre_screen} </button></div>
