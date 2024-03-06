@@ -232,7 +232,7 @@
                                     class="apollo-btn secondary slds-align-bottom slds-top-margin-mobile"
                                     disabled="false"
                                     title=""
-                                    style="{!'background-color: white;color: #297dfd;box-shadow: none;display: inline-block; ' + if(v.isRTL,'margin-left: 15px;','')}"
+                                    style="{!'background-color: white;color: #297dfd;box-shadow: none;display: inline-block; ' + if(v.isRTL,'margin-left: 15px;margin-right: 30px','')}"
                                     onclick="{!c.doActionBulkImport}"
                                 >
                                     {!$Label.c.pir_Bulk_Import_History}
