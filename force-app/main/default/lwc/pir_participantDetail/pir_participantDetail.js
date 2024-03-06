@@ -122,17 +122,12 @@ export default class Pir_participantDetail extends LightningElement {
     alternatePhoneRestore;
     alternatePhoneTypeRestore;
     wipeOutRestore=false;
-    createNewDelButtonClick = false;
-    emailvalid = false;
-    useEnteredEmailDuplicate = false;
-    firstvalid = false;
-    lastvalid = false;
+
     @api selectedPlan = "";
     visitPlan = {};
     @api visitplanoptions = {};
     @api showVisitPlan = false;
     @api perId;
-    emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     fieldMap = new Map([["src" , "MRN_Id__c"],
     ["cnt" , "Permit_Mail_Email_contact_for_this_study__c"],
@@ -223,16 +218,6 @@ export default class Pir_participantDetail extends LightningElement {
                   
                 }    
                  this.pd = peDel;
-                 
-                if(this.pd?.delegate?.Participant_Delegate__r?.demail ){
-                   this.emailvalid = true;
-                }
-                if(this.pd?.delegate?.Participant_Delegate__r?.dfirstname ){
-                    this.firstvalid = true;
-                 }
-                 if(this.pd?.delegate?.Participant_Delegate__r?.dlstname ){
-                    this.lastvalid = true;
-                 }
                 var disableSaveOn = ['Treatment Period Started', 'Follow-Up Period Started', 'Participation Complete', 'Trial Complete'];
                 this.disableEdit = disableSaveOn.includes(this.pd.pe.Participant_Status__c);
                 if (!this.pd['delegate']) {
@@ -481,9 +466,6 @@ export default class Pir_participantDetail extends LightningElement {
             if (field == "dfirstname" || field == "dlstname" || field == "demail") {
                 toggleSaveButton = false;
                 this.saveoffCount = 0;
-                this.firstvalid = false;
-                this.lastvalid = false;
-                this.delegateMinor = false;
                 this.dispatchEvent(new CustomEvent('enabledetailsave', { detail: false }));
             }
             this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get(field)] = val;
@@ -515,12 +497,6 @@ export default class Pir_participantDetail extends LightningElement {
                     var currentyr = new Date().getFullYear();
                     var adultyear = currentyr - adultAge;
                     this.delegateMinor = adultyear < val;
-                    if(this.delegateMinor){
-                        this.checkDelLevelsw = true;
-                        }else{
-                        this.checkDelLevelsw = false; 
-                        }
-
                 }
 
 
@@ -1022,21 +998,6 @@ export default class Pir_participantDetail extends LightningElement {
                     this.noYOB = false;
                     isNew = true;
                 }
-                if(initDel == this.newDel){
-                    let email =  this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get('demail')];
-                    if(email.match(this.emailRegex)){
-                        this.showDelYear = true;
-                        this.showDelConsent = true;
-                    } else{
-                        this.showDelYear = false;
-                        this.showDelConsent = false;
-                    }
-                }    
-               if((this.showDelYear != '') && (this.pd.delegate.Participant_Delegate__r.Phone__c != "")){
-                    this.checkDelLevelsw = true;
-                }else{
-                    this.checkDelLevelsw = false;
-                }
                 this.dupDelConsented = false;
                 checkExisitingParticipant({
                     strFirstName: this.pd.delegate.Participant_Delegate__r.First_Name__c,
@@ -1089,7 +1050,7 @@ export default class Pir_participantDetail extends LightningElement {
                                     this.delOp = 'insertDelegateSiteStaff';
                                     this.hasSiteStaff = true;
                                     this.contactIdSiteStaff = result.contactId;
-
+                                    
                                 }
                               
                             }
@@ -1153,9 +1114,6 @@ export default class Pir_participantDetail extends LightningElement {
             this.showDupMsg = false;
             this.showUpdateMsg = false;
             this.abortDup = true;
-            this.useEnteredEmailDuplicate = true;
-            this.showDelConsent=true;
-            this.showDelYear = false;
             this.hasSiteStaff = false;
             this.setVal(this.pd.delegate.Participant_Delegate__r.Phone__c, '3', 'dphone');
         }else{
@@ -1208,7 +1166,6 @@ export default class Pir_participantDetail extends LightningElement {
             this.showDelYear = true;
             this.showDelConsent=true;
             this.noYOB = false;
-            this.createNewDelButtonClick = true;
             this.delOp = 'insertDelegate';
         }else{ 
             getDupDelegateExistingConsent({
@@ -1236,11 +1193,6 @@ export default class Pir_participantDetail extends LightningElement {
             .catch(error => {
                     console.error('Error:', error);
                 });
-        }
-        if(this.showDelYear != ''){
-            this.checkDelLevelsw = true;
-        }else{
-            this.checkDelLevelsw = false;
         }
         window.clearTimeout(this.delayTimeout);
         this.delayTimeout = setTimeout(this.toggleSave.bind(this), 50);
@@ -1336,28 +1288,6 @@ export default class Pir_participantDetail extends LightningElement {
         }
         else {
             if (this.saveoffCount > 3) {
-                var email =  this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get('demail')];
-                var firstName =  this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get('dfirstname')];
-                var lastName =  this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get('dlstname')];
-                this.firstvalid = false;
-                this.lastvalid = false;
-                if(email && email.match(this.emailRegex) && (firstName != null && firstName !="") && (lastName != null && lastName != "") ){
-                   this.showDelYear = true;
-                   this.emailvalid = true;
-                   this.firstvalid = true;
-                   this.lastvalid = true;
-                   this.showDelConsent = true;
-                   if(this.delegateMinor){
-                    this.delegateMinor = true;
-                   }else{
-                    this.delegateMinor = false;
-                   }
-            } else{
-                this.showDelYear = false;
-                this.emailvalid = false;
-                this.delegateMinor = false;
-                this.showDelConsent = false;
-            }   
                 this.dispatchEvent(new CustomEvent('enabledetailsave', { detail: this.validate() }));
                 var upd = this.isUpdated();
                 var updates = (upd.isDelUpdated || upd.isPartUpdated || upd.isPeUpdated || upd.isIqviaConsentUpdated);
@@ -1367,37 +1297,8 @@ export default class Pir_participantDetail extends LightningElement {
                 this.saveoffCount++;
             }
         }
-    }
-    get dis(){
-        return !this.useEnteredEmailDuplicate && this.checkDelLevelsw;
-    }
-    get showdel(){
-        if(this.firstvalid && this.lastvalid == true){
-        let isDelegatePresentFromStart = (this.pd.delegate==null || this.pd.delegate=='' || this.pd.delegate.Participant_Delegate__c == null || this.pd.delegate.Participant_Delegate__c == '') ;
-        if(this.useEnteredEmailDuplicate == false){
-        return  ( this.createNewDelButtonClick || isDelegatePresentFromStart)&& this.emailvalid;
-        }else{
-            return null;
-        }
-    }else{
-        return null;
-    }
 
-}  
- 
-    get showdelop(){
-        if(this.firstvalid && this.lastvalid == true){
-        let isDelegatePresentFromStart = (this.pd.delegate==null || this.pd.delegate=='' || this.pd.delegate.Participant_Delegate__c == null || this.pd.delegate.Participant_Delegate__c == '') ;
-        let showdelopcontinue =   ( this.createNewDelButtonClick || isDelegatePresentFromStart)&& this.emailvalid;
-        if(showdelopcontinue == true && this.useEnteredEmailDuplicate == false){
-        return showdelopcontinue;
-        }else{
-        return  this.useEnteredEmailDuplicate;
-        }
-    }else{
-            return null;
-        }
-}
+    }
     validate() {
         if (this.showDupMsg || this.showUpdateMsg) {
             return false;
@@ -1411,8 +1312,6 @@ export default class Pir_participantDetail extends LightningElement {
         var inp = this.template.querySelectorAll("lightning-input");
         var inp2 = this.template.querySelectorAll("lightning-combobox");
         var err = 0;
-        this.firstvalid = true;
-        this.lastvalid = true;
         inp.forEach(function (element) {
             if (!element.checkValidity()) {
                 err++;

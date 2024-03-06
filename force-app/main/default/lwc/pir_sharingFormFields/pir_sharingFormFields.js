@@ -28,7 +28,6 @@ export default class Pir_sharingFormFields extends LightningElement {
     @api sharingObject;
     @api participantObject;
     @api selectedPer;
-    emailValidity;
     value = [];
     communityTemplate ='';
     @api isAdultDelegate;
@@ -323,8 +322,6 @@ export default class Pir_sharingFormFields extends LightningElement {
                 this.isAdultDelegateUS=true;
                 attestCheckbox.setCustomValidity(this.label.AttestedCheckboxError);                
                 attestCheckbox.reportValidity();
-                this.template.querySelector('[data-name="attestCheckbox"]').checked = false;
-            this.template.querySelector('[data-name="attestCheckboxUS"]').checked = false;
             }
             this.validateForm();
             this.loading = false;    
@@ -504,14 +501,8 @@ export default class Pir_sharingFormFields extends LightningElement {
         let lastname = this.template.querySelector('[data-name="lastName"]');
        
         if(this.sharingObject.sObjectType == 'Object'){ 
-            const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            let emailvalue =   this.sharingObject.email;
-          if(emailvalue.match(emailRegex)){
-                this.emailValidity = true; 
-            }else{
-                this.emailValidity = false; 
-                  }
-            if(email.checkValidity() && this.emailValidity &&
+
+            if(this.emailValidity &&
             firstname.checkValidity() &&
             lastname.checkValidity() &&
             this.sharingObject.sObjectType == 'Object' &&
@@ -539,7 +530,7 @@ export default class Pir_sharingFormFields extends LightningElement {
                 mergedObj = { ...this.sharingObject, ...obj };
                 this.sharingObject = mergedObj;
             }
-            if(email.checkValidity() && this.emailValidity &&
+            if(this.emailValidity &&
                 firstname &&
                 lastname &&
                 this.sharingObject.sObjectType == 'Healthcare_Provider__c'
