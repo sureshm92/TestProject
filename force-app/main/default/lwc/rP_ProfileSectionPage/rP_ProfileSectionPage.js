@@ -270,24 +270,32 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
                 this.checkPrescreeningStatus(this.peRecordList[0].prescreenerResponse ? this.peRecordList[0].prescreenerResponse.Status__c : undefined);
                 this.error = undefined;
                 this.states = this.peRecordList[0].statesByCountryMap[this.peRecordList[0].peRecord.Mailing_Country_Code__c];
-                if (this.peRecordList[0].peRecord.Participant_Status__c == 'Excluded from Referring') {
-                    this.showInclude = true;
-                    this.showExclude = false;
-                    this.showRefer = false;
-                    this.showMRR = false;
-                } else {
-                    this.showInclude = false;
+                if((this.peRecordList[0].peRecord.Study_Site__r.Site_Activation_Status__c != 'Activated' && this.peRecordList[0].peRecord.Study_Site__r.Site_Activation_Status__c != 'Activated (Admin)') ||
+                   (this.peRecordList[0].peRecord.HCP__r.Status__c != 'Activated' && this.peRecordList[0].peRecord.HCP__r.Status__c != 'Activated (Admin)')){
                     this.showExclude = true;
-                }
-                if (this.peRecordList[0].accessLevel == "Level 2") {
+                    this.showInclude = false;
                     this.referbuttonDisable = true;
-                } else if (this.peRecordList[0].accessLevel == "Level 3") {
-                    this.isaccessLevelthree = true;
-                    this.referbuttonDisable = true;
-                    this.disabledSaveButton = true;
-                }
-                else {
-                    this.referbuttonDisable = false;
+                    this.disabledOutreachButton = true;
+                }else{
+                   if (this.peRecordList[0].peRecord.Participant_Status__c == 'Excluded from Referring') {
+                        this.showInclude = true;
+                        this.showExclude = false;
+                        this.showRefer = false;
+                        this.showMRR = false;
+                    } else {
+                        this.showInclude = false;
+                        this.showExclude = true;
+                    }
+                    if (this.peRecordList[0].accessLevel == "Level 2") {
+                        this.referbuttonDisable = true;
+                    } else if (this.peRecordList[0].accessLevel == "Level 3") {
+                        this.isaccessLevelthree = true;
+                        this.referbuttonDisable = true;
+                        this.disabledSaveButton = true;
+                    }
+                    else {
+                        this.referbuttonDisable = false;
+                    }
                 }
                 this.isLoading = false;
             })

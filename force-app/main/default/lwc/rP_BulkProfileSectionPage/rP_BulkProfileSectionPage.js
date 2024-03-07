@@ -30,6 +30,7 @@ import RH_RP_has_been_included from '@salesforce/label/c.RH_RP_has_been_included
 import excludeStatus from '@salesforce/apex/RPRecordReviewLogController.bulkChangeStatusToExcludeFromReferring';
 import includeStatus from '@salesforce/apex/RPRecordReviewLogController.bulkUndoChangeStatusToExcludeFromReferring';
 import getExportRecords from '@salesforce/apex/RPRecordReviewLogController.getExportRecords';
+import getActivesiteenrollmentrecords from '@salesforce/apex/RPRecordReviewLogController.getactivesiteenrollmentrecords';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import icon_chevron_up_white from '@salesforce/resourceUrl/icon_chevron_up_white'
 
@@ -75,8 +76,6 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
     @api isaccessLevelthree = false;
     @api disableExceldownload = false;
 
-    
-
     openExclude = false;
     openInclude = false;
     disableButton = false;
@@ -92,6 +91,13 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         else{
             this.showExclude = true;
         }
+
+        getActivesiteenrollmentrecords({peids: this.peIds})
+        .then((result) => { 
+            console.log('++++++++result'+result);
+            this.disableExceldownload = this.disableExceldownload || result;
+            this.isaccessLevelthree = this.isaccessLevelthree || result;
+        })
     }
 
     goTop(){
