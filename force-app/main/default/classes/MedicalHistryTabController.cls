@@ -731,7 +731,7 @@ public without sharing class MedicalHistryTabController {
             throw new AuraHandledException(
       
               e.getMessage() +
-       
+      
               '\n' +
       
               e.getStackTraceString()
