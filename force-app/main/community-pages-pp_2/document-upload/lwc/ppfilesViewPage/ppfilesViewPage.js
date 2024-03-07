@@ -47,6 +47,7 @@ import formFactor from '@salesforce/client/formFactor';
 import REMOVE from '@salesforce/label/c.PP_Remove';
 import RENAME from '@salesforce/label/c.PP_Rename';
 import PREVIEW from '@salesforce/label/c.PP_Preview';
+import BulkImport_browse from '@salesforce/label/c.BulkImport_browse';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const MAX_FILE_SIZE = 4500000; //2621440;// 4500000; max file size prog can handle
@@ -98,7 +99,8 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         PP_Fileremovedsuccesfully,
         REMOVE,
         RENAME,
-        PREVIEW
+        PREVIEW,
+        BulkImport_browse
     };
 
     value = 'inProgress';

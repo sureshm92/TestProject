@@ -21,10 +21,11 @@ import PP_DeletedSucesfully from '@salesforce/label/c.PP_DeletedSucesfully';
 import Uploaded from '@salesforce/label/c.Uploaded';
 import Shared_with_Me from '@salesforce/label/c.Shared_with_Me';
 import View_All_Files from '@salesforce/label/c.View_All_Files';
+import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 
 export default class PpPastStudiesParent extends LightningElement {
     hideDetailPage = false;
-
+    isRTL = false;
     showMenu = false;
     sectionList = [];
     selectedSection = PP_Overview;
@@ -67,6 +68,11 @@ export default class PpPastStudiesParent extends LightningElement {
     };
     showPage;
     isResultPushNotification = false;
+
+    get boxRightpading() {
+        return this.isRTL ? 'slds-large-size--2-of-5 slds-size--1-of-1 box-right-rtl contTableCell' : 'slds-large-size--2-of-5 slds-size--1-of-1 box-right contTableCell';
+    }
+
     connectedCallback() {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
@@ -101,6 +107,14 @@ export default class PpPastStudiesParent extends LightningElement {
                     console.error('Error:', error);
                 });
         }
+    
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+            });
     }
     windowResize = () => {
         this.showMenu = window.innerWidth < 1024;
@@ -213,16 +227,33 @@ export default class PpPastStudiesParent extends LightningElement {
     fileContClass = 'slds-large-size--1-of-2 slds-size--1-of-1 file-container';
     docContClass = 'slds-large-size--1-of-2 slds-size--1-of-1 doc-container';
     bottonRightBoxClass = 'slds-large-size--2-of-5 slds-size--1-of-1 slds-grid slds-wrap box-right';
+    
     get docFileClass() {
         if (
             this.selectedPER &&
             this.selectedPER.Clinical_Trial_Profile__r.Study_Documents_Are_Available__c &&
             this.showFiles
         ) {
-            this.fileContClass = 'slds-large-size--1-of-2 slds-size--1-of-1 file-container';
-            this.docContClass = 'slds-large-size--1-of-2 slds-size--1-of-1 doc-container';
-            this.bottonRightBoxClass =
+            if(this.isRTL){
+                this.fileContClass = 'slds-large-size--1-of-2 slds-size--1-of-1 file-container-rtl';
+            }else{
+                this.fileContClass = 'slds-large-size--1-of-2 slds-size--1-of-1 file-container';
+            }
+
+            if(this.isRTL){
+                this.docContClass = 'slds-large-size--1-of-2 slds-size--1-of-1 doc-container-rtl';
+            }else{
+                this.docContClass = 'slds-large-size--1-of-2 slds-size--1-of-1 doc-container';
+            }
+
+            if(this.isRTL){
+                this.bottonRightBoxClass =
+                'slds-large-size--2-of-5 slds-size--1-of-1 slds-grid slds-wrap box-right-rtl';
+            }else{
+                this.bottonRightBoxClass =
                 'slds-large-size--2-of-5 slds-size--1-of-1 slds-grid slds-wrap box-right';
+            }
+            
             return 'slds-large-size--3-of-5 slds-size--1-of-1 slds-grid slds-wrap';
         } else if (
             this.selectedPER &&
