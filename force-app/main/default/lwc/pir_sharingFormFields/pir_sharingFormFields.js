@@ -501,8 +501,7 @@ export default class Pir_sharingFormFields extends LightningElement {
         let lastname = this.template.querySelector('[data-name="lastName"]');
        
         if(this.sharingObject.sObjectType == 'Object'){ 
-
-            if(this.emailValidity &&
+            if(email.checkValidity() &&
             firstname.checkValidity() &&
             lastname.checkValidity() &&
             this.sharingObject.sObjectType == 'Object' &&
@@ -530,7 +529,7 @@ export default class Pir_sharingFormFields extends LightningElement {
                 mergedObj = { ...this.sharingObject, ...obj };
                 this.sharingObject = mergedObj;
             }
-            if(this.emailValidity &&
+            if(email.checkValidity() &&
                 firstname &&
                 lastname &&
                 this.sharingObject.sObjectType == 'Healthcare_Provider__c'
