@@ -1,6 +1,6 @@
 public without sharing class ProcessIPRForPatientOutreachHelper {
 
-    //Process IPR based PER records which comes from patient outreach and alreday present in the RH
+    //Process IPR based PER records which comes from patient outreach and alreday present in the RH.
     public static void processIPRForPatientOutreach (
         Map<String, Integration_Patient_Referral__c> iprRPMap ,
         Account tempAccount,

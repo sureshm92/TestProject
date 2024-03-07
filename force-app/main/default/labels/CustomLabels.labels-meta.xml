@@ -3118,6 +3118,20 @@ We are asking all eligible donors to come forward so we can treat as many patien
         <value>and our</value>
     </labels>
     <labels>
+        <fullName>Edit_Restricted_Source</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Edit Restricted Source</shortDescription>
+        <value>Edit Restricted Source</value>
+    </labels>
+    <labels>
+        <fullName>New_Restricted_Source</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Restricted Source</shortDescription>
+        <value>New Restricted Source</value>
+    </labels>
+    <labels>
         <fullName>CPRA_DoNotSell_GSK</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -29363,6 +29377,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Something went wrong.</value>
     </labels>
     <labels>
+        <fullName>Restricted_Source_Record_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Restricted Source Record Error</shortDescription>
+        <value>Only one record can be added per CTP. Please update the existing record on this CTP.</value>
+    </labels>
+    <labels>
         <fullName>TST_Study_was_successfully_declined</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -32654,6 +32675,20 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Title_New_Resource</shortDescription>
         <value>New Resource Available</value>
+    </labels>
+    <labels>    
+        <fullName>Restricted_Source_Updation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restricted Source for {0} is updated successfully.</shortDescription>
+        <value>Restricted Source for {0} is updated successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Restricted_Source_Creation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restricted Source for {0} is created successfully.</shortDescription>
+        <value>Restricted Source for {0} is created successfully.</value>
     </labels>
     <labels>
         <fullName>Consented</fullName>
