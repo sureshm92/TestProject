@@ -182,6 +182,9 @@ a:hover {
 .toastContainer > .forceToastMessage .toastContent.slds-notify__content{
     width: 100%;
 }
+.toastContainer > .forceToastMessage .toastClose lightning-primitive-icon {
+    color: #FFFFFF!important;
+}
 
 .toastContainer > .slds-theme--success{
     background: #00C221;
