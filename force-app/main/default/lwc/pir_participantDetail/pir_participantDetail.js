@@ -128,6 +128,7 @@ export default class Pir_participantDetail extends LightningElement {
     @api visitplanoptions = {};
     @api showVisitPlan = false;
     @api perId;
+    @api showIqviaOutreach;
 
     fieldMap = new Map([["src" , "MRN_Id__c"],
     ["cnt" , "Permit_Mail_Email_contact_for_this_study__c"],
@@ -204,7 +205,8 @@ export default class Pir_participantDetail extends LightningElement {
         getParticipantData({ PEid: value })
             .then(result => {
 
-                let peDel = result;
+                let peDel = result.perDetail;
+                this.showIqviaOutreach = !result.consentPref; 
                 
                 if (peDel['delegate']) {
                 let pdelegate = peDel['delegate']['Patient_Delegate__r']['Participant_Delegate__r'];
