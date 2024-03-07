@@ -508,7 +508,8 @@ public without sharing class StudySiteService {
             '  AND Override_PI_Referral_Status__c != NULL ' +
             '  AND Override_PI_Referral_Status__c IN (\'' +
             String.join(STATUS_GROUP_ACCEPTED, '\',\'') +
-            '\')';
+            '\')'+
+            'AND Site_Activation_Status__c IN (\'Activated\', \'Activated (Admin)\')';
         return Database.query(query);
     }
     public static List<Study_Site__c> getStudySitesWithDelegateLevelFiltered(

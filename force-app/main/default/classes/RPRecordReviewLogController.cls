@@ -66,6 +66,18 @@ public without sharing class RPRecordReviewLogController {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
+    @AuraEnabled
+    public static boolean getactivesiteenrollmentrecords(List<Id> peids) {
+        List<Participant_enrollment__c> pelist = [Select id from Participant_enrollment__c 
+        where Id IN:peids
+        AND (Study_Site__r.Site_Activation_Status__c = 'Activated' OR Study_Site__r.Site_Activation_Status__c = 'Activated (Admin)')
+        AND (HCP__r.Status__c = 'Activated' OR HCP__r.Status__c = 'Activated (Admin)')];
+
+        if(pelist != null && pelist.size() > 0 && pelist.size() == peids.size()){
+            return false;
+        }
+        return true;
+    }
     
     public class peProfileSection {
         @AuraEnabled 
@@ -131,7 +143,7 @@ public without sharing class RPRecordReviewLogController {
                                                       Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,Participant_Status__c,Primary_Delegate_s_Alt_Phone__c,Primary_Delegate_s_Alt_Phone_Type__c,
                                                       RP_Site_Selected__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c,HCP__c,Delegate_Consent__c,Delegate_SMS_Consent__c,
                                                       Permit_SMS_Text_for_this_study__c,Permit_Voice_Text_contact_for_this_study__c,Permit_Mail_Email_contact_for_this_study__c, Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c,Clinical_Trial_Profile__r.Link_to_ePR_Campaign__c,
-                                                      Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c,Outreach_Email_Status__c,
+                                                      Clinical_Trial_Profile__r.Condition_s_Therapeutic_Area__c,Outreach_Email_Status__c,Study_Site__r.Site_Activation_Status__c,HCP__r.Status__c,
                                                       Participant__c,Participant__r.Mailing_Country_Code__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Participant_Contact__c,Participant_Contact__r.Participant_Opt_In_Status_Emails__c,Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
                                                       Participant_Contact__r.Participant_Opt_In_Status_SMS__c ,Participant_Opt_In_Status_Emails__c,Participant_Opt_In_Status_SMS__c,Participant_Phone_Opt_In_Permit_Phone__c,
                                                       IQVIA_Direct_Mail_Consent__c,IQVIA_Contact_info_storage_consent__c
@@ -493,7 +505,7 @@ public without sharing class RPRecordReviewLogController {
                         WHERE 
                         HCP__r.HCP_Contact__c =:currentContactId  AND
                         Participant_Status__c = 'Excluded from Referring' AND
-                        Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL
+                        Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL AND  Study_Site__r.Site_Activation_Status__c != 'Deactivated' AND  Study_Site__r.Site_Activation_Status__c != 'Deactivated (Admin)' AND   Study_Site__r.Site_Activation_Status__c != 'On Hold' AND Study_Site__r.Site_Activation_Status__c != null
                        ]; 
                        
             medicalreview = [
@@ -756,7 +768,7 @@ ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
                 SELECT Id, Name, Patient_ID__c, MRN_Id__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Study_Code_Name__c, Site__c,
                     PI_Contact__c,PI_Contact__r.Name,Referred_Date__c, Referral_Completedby_Name__c, Participant_Status__c,
                     Non_Referral_Reason__c,Participant_Status_Last_Changed_Date__c, Last_Status_Changed_Notes__c, Study_Site__c,
-                    Study_Site__r.Name, Screening_Date__c,Referral_Source__c, RP_Site_Selected__c,
+                    Study_Site__r.Name,Study_Site__r.Site_Activation_Status__c, Screening_Date__c,Referral_Source__c, RP_Site_Selected__c,
                     (SELECT Id, Completed_by__c, Completed_by__r.Name, Completed_Date__c, Status__c 
                     FROM Participant_PrescreenerResponses__r 
                     WHERE MRR__c = true 
