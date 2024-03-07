@@ -156,6 +156,7 @@
         description="PDF data in base64 encoded format"
     />
     <aura:attribute name="isResourceVisible" type="boolean" default="false" />
+    <aura:attribute name="iqviaOutreachConsent" type="Boolean" default="false" />
 
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
 
@@ -1159,8 +1160,8 @@
                                                     onconsentchange="{!c.handleConsentUpdate}"
                                                     participantEnrollment="{!v.pEnrollment}"
                                                     participantCountry="{!v.mailingCountryCode}"
-                                                    callSource="ReferParticipantRP" studySiteId="{!v.siteId}">
-                                                </c:consentManager>
+                                                    callSource="ReferParticipantRP" studySiteId="{!v.siteId}"
+                                                   rpStudyScreen="true" rpconsentpref="{!v.iqviaOutreachConsent}"></c:consentManager>
                                         <aura:if isTrue="{!v.authorizationForm}">
                                            <div class="signedForm"> 
                                            {!$Label.c.Signed_Auth_Form}
@@ -1799,12 +1800,13 @@
                                                         </div>
                                                     </aura:if>
                                                 </aura:if>
-
+                                                    
                                                     <c:consentManager peUpdation="true"
                                                         onconsentchange="{!c.handleConsentUpdate}"
                                                         participantEnrollment="{!v.pEnrollment}"
                                                         participantCountry="{!v.mailingCountryCode}"
-                                                        callSource="ReferParticipantRP"></c:consentManager>
+                                                        callSource="ReferParticipantRP"
+                                                        rpStudyScreen="true" rpconsentpref="{!v.iqviaOutreachConsent}"></c:consentManager>
                                                <aura:if isTrue="{!v.authorizationForm}">
                                                   <div class="signedForm">
                                                 {!$Label.c.Signed_Auth_Form}

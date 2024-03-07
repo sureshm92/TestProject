@@ -38,6 +38,7 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Type';
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Del_Type';
     public static final String MESSAGE_TO_PT_ACTIVATE_ECOA_TASK_INSTANT_TYPE = 'Message_to_PT_Activate_eDairies';
+    public static final String MESSAGE_TO_PT_FOR_INVALID_NUMBER = 'Message_To_PT_For_Invalid_Number';
 
     /*Start Email Consent*/
     public static final String MESSAGE_TO_PT_PT_COMPLETE_BL_SURVEY_TYPE = 'Message_to_PT_Complete_BL_Survey_Type';
@@ -147,8 +148,20 @@ public without sharing class NotificationCatalog {
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE
     };
+    
+    //List of notifications where we dont need any consent for sending communication.
+    static public Set<String> notificationsNotRequiresAnyConsent = new Set<String>{
+        NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP,
+        NotificationCatalog.MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_FOR_INVALID_NUMBER
+    };
 
-    //Updates
+    //List of system task notifications where we dont need any consent for sending communication.
+    static public Set<String> systemTaskNotificationsNotRequiresAnyConsent = new Set<String>{
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE
+    };
+     //Updates
     public static final String UPDATE_TO_PT_NEW_ARTICLE_TYPE = 'Update_to_PT_New_Article_Type';
     public static final String UPDATE_TO_PT_NEW_LINK_TYPE = 'Update_to_PT_New_Link_Type';
     public static final String UPDATE_TO_PT_NEW_MULTIMEDIA_TYPE = 'Update_to_PT_New_Multimedia_Type';
