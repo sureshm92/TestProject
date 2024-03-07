@@ -72,6 +72,8 @@ export default class PpMyResultsContainer extends LightningElement {
     onLoad = true;
     patientVisitNam;
     isRTL = false;
+    isIpadPortrait = false;
+    isIpadLandscape = false;
 
     toggleOffHeart = pp_icons + '/' + 'heart_Icon.svg';
 
@@ -98,7 +100,17 @@ export default class PpMyResultsContainer extends LightningElement {
         if (!this.isDesktop) {
             this.initializeData();
         }
+
+        this.isIpadPortraitView();
+        this.isIpadLandscapeView();
+        window.addEventListener('orientationchange', this.onOrientationChange);
+
     }
+
+    onOrientationChange = () => {
+        this.isIpadPortraitView();
+        this.isIpadLandscapeView();
+    };
 
     get showTabs() {
         return this.visResultTypeTabs.length > 1 ? true : false;
@@ -141,6 +153,13 @@ export default class PpMyResultsContainer extends LightningElement {
 
     get isInitialized() {
         return this.patientVisitWrapper && this.currentVisit ? true : false;
+    }
+
+    get isIpadView(){
+        return this.isIpadPortrait || this.isIpadLandscape;
+    }
+    get visitNameHeaderClass(){
+        return (this.isIpadPortrait || this.isIpadLandscape)?'slds-col slds-size_3-of-3 slds-float_left slds-p-horizontal_none':'slds-col slds-size_2-of-3 slds-float_left slds-p-horizontal_none';
     }
 
     checkButtonClass() {
@@ -340,4 +359,43 @@ export default class PpMyResultsContainer extends LightningElement {
         });
         this.dispatchEvent(custEvent);
     }
+
+    isIpadPortraitView() {
+        let orientation = screen.orientation.type;
+        let portrait = true;
+        if (orientation === 'landscape-primary') {
+            portrait = false;
+        }
+        if (window.innerWidth >= 768 && window.innerWidth < 1279 && portrait) {
+            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                this.isIpadPortrait = true;
+                return true;
+            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                this.isIpadPortrait = true;
+                return true;
+            }
+        } else {
+            this.isIpadPortrait = false;
+        }
+        return false;
+    }
+    isIpadLandscapeView() {
+        let orientation = screen.orientation.type;
+        let landscape = false;
+        if (orientation === 'landscape-primary') {
+            landscape = true;
+        }
+        if (window.innerWidth >= 768 && window.innerWidth < 1279 && landscape) {
+            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                this.isIpadLandscape = true;
+                return true;
+            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                this.isIpadLandscape = true;
+                return true;
+            }
+        }
+        this.isIpadLandscape = false;
+        return false;
+    }
+
 }
