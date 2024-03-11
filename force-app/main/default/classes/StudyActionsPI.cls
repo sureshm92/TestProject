@@ -126,7 +126,7 @@ public class StudyActionsPI extends StudyActions {
                     //studySiteOnHoldReason,
                     studySiteNotAcceptedReasonrp,
                     bulkimporthistory,
-                    studyNoLongerEnrollingReason,
+                    //studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
                 'green'
@@ -144,7 +144,7 @@ public class StudyActionsPI extends StudyActions {
                     //studySiteOnHoldReason,
                     studySiteNotAcceptedReasonrp,
                     bulkimporthistory,
-                    studyNoLongerEnrollingReason,
+                    //studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
                 'green'
@@ -162,7 +162,7 @@ public class StudyActionsPI extends StudyActions {
                     //studySiteOnHoldReason,
                     studySiteNotAcceptedReasonrp,
                     bulkimporthistory,
-                    studyNoLongerEnrollingReason,
+                    //studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
                 'green'
@@ -180,7 +180,7 @@ public class StudyActionsPI extends StudyActions {
                     //studySiteOnHoldReason,
                     studySiteNotAcceptedReasonrp,
                     bulkimporthistory,
-                    studyNoLongerEnrollingReason,
+                    //studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
                 'green'
@@ -198,7 +198,7 @@ public class StudyActionsPI extends StudyActions {
                     //studySiteOnHoldReason,
                     studySiteNotAcceptedReasonrp,
                     bulkimporthistory,
-                    studyNoLongerEnrollingReason,
+                    //studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
                 'red'
@@ -216,7 +216,7 @@ public class StudyActionsPI extends StudyActions {
                     //studySiteOnHoldReason,
                     studySiteNotAcceptedReasonrp,
                     bulkimporthistory,
-                    studyNoLongerEnrollingReason,
+                    //studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
                 'red'
@@ -234,7 +234,7 @@ public class StudyActionsPI extends StudyActions {
                     //studySiteOnHoldReason,
                     studySiteNotAcceptedReasonrp,
                     bulkimporthistory,
-                    studyNoLongerEnrollingReason,
+                    //studyNoLongerEnrollingReason,
                     tcAcceptanceRequiredReason
                 },
                 'orange'
