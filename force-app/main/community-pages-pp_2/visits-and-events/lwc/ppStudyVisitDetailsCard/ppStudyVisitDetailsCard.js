@@ -118,6 +118,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     spinner;
     desktop = true;
     communicationTab = '_blank';
+    isAndroidTab=false;
 
     initialRecord = {
         Planned_Date__c: '',
@@ -144,11 +145,15 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     }
 
     get isTablet(){
-        return DEVICE == 'Medium'?true:false;
+        if((DEVICE == 'Medium') || (DEVICE == 'Small' && this.isAndroidTab))
+        return true;
+        else 
+        return false;
     }
 
     connectedCallback() {
-        if (DEVICE != 'Small') {
+        this.isAndroidTab=communityService.isAndroidTablet();
+        if (DEVICE == 'Large') {
             this.desktop = true;
         } else {
             this.desktop = false;
