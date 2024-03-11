@@ -123,6 +123,7 @@ public without sharing class StudyActionsHCP extends StudyActions {
                     level2AndLowReason,
                     tcAcceptanceRequiredReason,
                     studyNoLongerEnrollingReason
+
                 }
             )
         );
@@ -137,8 +138,8 @@ public without sharing class StudyActionsHCP extends StudyActions {
                     level2AndLowReason,
                     tcAcceptanceRequiredReason,
                     hcpNotActiveReason,
-                    studySiteNotAcceptedReason,
-                    studyNoLongerEnrollingReason
+                    studySiteNotAcceptedReason//,
+                    //studyNoLongerEnrollingReason
                 }
             )
         );
