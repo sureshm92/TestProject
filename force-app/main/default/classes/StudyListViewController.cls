@@ -532,4 +532,9 @@ public without sharing class StudyListViewController {
             return null;
         }
     }
+    @AuraEnabled
+    public static Boolean isMrrAvaiable(String ctpId) {
+        List<String> activeStudyStatus = new List<String>{StudySiteService.SITE_ACTIVATED,StudySiteService.SITE_ACTIVATED};
+        return 0!=[Select  Count() from Study_Site__c where Clinical_Trial_Profile__c =: ctpId and Site_Activation_Status__c IN: activeStudyStatus];
+    }
 }

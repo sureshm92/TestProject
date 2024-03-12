@@ -93,5 +93,6 @@
         }
         var url = 'study-workspace?id='+trialId+'&showtc='+showtc;
         component.set('v.showtermsndconditions',url);
+        helper.checkIsMrrAvaiable(component, event, helper);
     }
 });
