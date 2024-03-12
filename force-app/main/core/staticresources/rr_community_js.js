@@ -659,6 +659,42 @@ window.communityService = (function () {
             }
             return false;
         },
+        isAndroidTablet: function () {
+            if (window.innerWidth >= 768 && window.innerWidth <= 1280) {
+                if ((navigator.userAgent.match(/Android/i))) {
+                    return true;
+                } 
+            }
+            return false;
+        },
+        isAndroidTabletPortrait() {
+            let orientation = screen.orientation.type;
+            let portrait = true;
+            if (orientation.startsWith('landscape')) {
+                portrait = false;
+            }
+            if (window.innerWidth >= 768 && window.innerWidth <= 1280 && portrait) {
+                if ((navigator.userAgent.match(/Android/i))) {
+                    return true;
+                } 
+            } else {
+                return false;
+            }
+            return false;
+        },
+        isAndroidTabletLandscape() {
+            let orientation = screen.orientation.type;
+            let landscape = false;
+            if (orientation.startsWith('landscape')) {
+                landscape = true;
+            }
+            if (window.innerWidth >= 768 && window.innerWidth <= 1280 && landscape) {
+                if ((navigator.userAgent.match(/Android/i))) {
+                    return true;
+                }
+            }
+            return false;
+        },
         preLoginPageRedirection: function (currentUrl, redirectPage) {
             sessionStorage.setItem('Cookies', 'Accepted');
             let urlEvent = $A.get('e.force:navigateToURL');
