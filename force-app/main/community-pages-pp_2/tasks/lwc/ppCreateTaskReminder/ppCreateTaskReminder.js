@@ -523,7 +523,12 @@ export default class PpCreateTaskReminder extends LightningElement {
         this.spinner.show();
         checkEmailSMSPreferencesForPPTask({ taskId: this.taskId })
             .then((consentData) => {
-                this.checkEmailSMSConsentEnabled(consentData.emailConsent,consentData.smsConsent);
+                if(this.businessTask || this.systemTask){
+                    this.isEmailReminderDisabled = !consentData.emailConsent;
+                    this.isSMSReminderDisabled = !consentData.smsConsent;
+                }else{
+                    this.checkEmailSMSConsentEnabled(consentData.emailConsent,consentData.smsConsent);
+                }
                 this.emailReminderOptIn = this.isEmailReminderDisabled
                     ? false
                     : this.emailReminderOptIn;
