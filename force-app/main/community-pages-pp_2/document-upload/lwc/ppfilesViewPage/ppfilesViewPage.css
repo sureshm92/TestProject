@@ -80,6 +80,10 @@
 .documentuploadempty {
     padding-right: 1.5rem;
 }
+.documentuploadempty-rtl {
+    padding-left: 1.5rem;
+}
+
 .document {
     color: #444444;
     font-size: 18px;

@@ -218,7 +218,7 @@
     <lightning-layout   class="mob-upld-card-center">
        <c-web-spinner class="main-spinner" fixed="true" show-spinner={isSaving}></c-web-spinner>
         <lightning-layout-item
-            class="documentuploadempty"
+            class={documentuploadempty}
             size={getsize}   >
             <div if:false={ShowuploadSection}>  
                 <c-ppdocment-view-page onreccountupdate={recCountUpdate} onpageswap={changePage} ontabchange={handleTabChange} ongettotalrecord={handletotalrecord} ongettotalrecordmsg={handletotalrecordmsg} onresetpagination={handleresetpagination}  onresetpaginationmsg={handleresetpaginationmsg} onresetpageonupdate={handleresetpageonupdate}  onresetondelete={handleresetondelete} stop-spinner={stopSpinnerChild} >
