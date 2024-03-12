@@ -17,7 +17,7 @@
               class="slds-col slds-size_1-of-1 slds-medium-size_11-of-12 slds-large-size_11-of-12 slds-m-bottom_small slds-p-around_none">
               <div class="slds-grid slds-wrap slds-gutters">
                 <div
-                  class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_2-of-12 slds-m-bottom_small">
+                  class="slds-col slds-size_1-of-2 slds-medium-size_3-of-12 slds-large-size_2-of-12 slds-m-bottom_small">
                   <div class="slds-form-element">
                     <!-- <label class="slds-form-element__label" for="form-element-01"> {label.BMI} 
                   <span class="tooltip"> 
@@ -222,7 +222,7 @@
                                       </th>
                                     </template>
                                     <th class="settingHeader" scope="col">
-                                      <div class="slds-truncate" title="">
+                                      <div class="slds-truncate setingiconcss" title="">
                                         <lightning-icon icon-name="utility:settings" alternative-text="settings"
                                           size="xx-small"></lightning-icon>
                                       </div>
@@ -336,6 +336,7 @@
                           </div>
                         </template>
                         <template if:true={isMobile}>
+                          <template if:true={isfileAvailable}>
                           <div class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 sortdropdown
                                 slds-col slds-size_1-of-1  Sort
                               ">
@@ -363,6 +364,7 @@
                               </ul>
                             </div>
                           </div>
+                          </template>
 
                           <template if:true={isfileAvailable}>
                             <template iterator:it={medicalHistoryRecord.attachments} for:index="index">
@@ -653,7 +655,8 @@
 
                         <template if:true={ismodelPopup}>
                           <c-pir_uploadmedicaldocument maindivcls={popupcls}
-                            uploadonid={returnpervalue.selectedPER.Participant__c} isrequirerefreshtable={isrequirerefreshtable} onclosemodelpopup={renderModel}>
+                            uploadonid={returnpervalue.selectedPER.Participant__c} isrequirerefreshtable={isrequirerefreshtable} ismobiledevice = {isMobile}
+                            onclosemodelpopup={renderModel}>
                           </c-pir_uploadmedicaldocument>
                         </template>
                         
@@ -708,7 +711,7 @@
                                           class="slds-col slds-large-size_11-of-12 slds-medium-size_10-of-12 slds-size_10-of-12">
                                           <span class="title">{label.PIR_Save_Changes}</span>
                                         </div>
-                                        <div class="slds-col slds-size_1-of-12 close-icon">
+                                        <div class="slds-col slds-size_1-of-12 close-iconmodal">
                                           <div onclick={doDiscardModal}>
                                             <lightning-icon icon-name="utility:close" alternative-text="close"
                                               size="small"></lightning-icon>
@@ -759,7 +762,7 @@
                                           class="slds-col slds-large-size_11-of-12 slds-medium-size_10-of-12 slds-size_10-of-12">
                                           <span class="title">{label.PIR_Save_Changes}</span>
                                         </div>
-                                        <div class="slds-col slds-size_1-of-12 close-icon">
+                                        <div class="slds-col slds-size_1-of-12 close-iconmodal">
                                           <div onclick={doCloseModalUnsaved}>
                                             <lightning-icon icon-name="utility:close" alternative-text="close"
                                               size="small"></lightning-icon>

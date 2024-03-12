@@ -12,6 +12,7 @@ import BTN_Save from '@salesforce/label/c.BTN_Save';
 import pir_Delete_close from '@salesforce/label/c.pir_Delete_close';
 import PIR_medicalAcceptedFile from '@salesforce/label/c.PIR_medicalAcceptedFile';
 import PIR_uploadFile_exced from '@salesforce/label/c.PIR_uploadFile_exced';
+import PP_Browsefiles from '@salesforce/label/c.PP_Browsefiles';
 import saveTheChunkFile from '@salesforce/apex/nonReferedBulkUpload.saveTheChunkFile'; 
  
 
@@ -27,6 +28,7 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
 
     BulkImport_Drag_file_here_or = BulkImport_Drag_file_here_or;
     BulkImport_browse = BulkImport_browse;
+    PP_Browsefiles = PP_Browsefiles;
     BulkImport_Max_size = BulkImport_Max_size;
     BulkImport_Wait_Warning = BulkImport_Wait_Warning;
     MedicalImport_MaxSize = MedicalImport_MaxSize;
@@ -54,6 +56,7 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
     @api 
     uploadonid;
     @api maindivcls;
+    @api ismobiledevice;
     @api isrequirerefreshtable;
     calledfromclosePopup =false;
 
