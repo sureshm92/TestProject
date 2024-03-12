@@ -209,6 +209,7 @@
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
     border-top-right-radius: 12px;
+    word-break: break-all;
 }
 .mob-left-ms-item-txt-pp:before {
     content: '';
@@ -277,7 +278,3 @@
         top: 24%  !important;
     }
 }
-
-
- 
-
