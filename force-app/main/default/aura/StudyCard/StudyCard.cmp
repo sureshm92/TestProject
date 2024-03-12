@@ -12,6 +12,7 @@
     <aura:attribute name="accessUserLevel" type="String" />
     <aura:attribute name="showtermsndconditions" type="String" />
     <aura:handler  name="init" value="{!this}" action="{!c.doinit}"/>
+    <aura:attribute name="disableMRR" type="Boolean" default="false"/>
     <!-- component body: -->
     <div class="rr-white-panel slvi-container">
         <div class="slvi-top-container-hcp slvi-section">
@@ -173,22 +174,32 @@
                                 {!action.label}
                             </button>
                         <aura:set attribute="else">
-                            <div
-                             class="{!'apollo-btn secondary' + if(action.disabled, ' disabled', '') + if(and(v.userMode=='PI',actionIndex != v.currentStudy.studyActions.length-1), ' btn-pi-border', '')}"
-                             title="{!action.disableReason}"
-                             style="{!if(v.isRTL, 'margin-left: 1.2%;','')}"
-                             >
-                            <div
-                                 id="{!action.id}"
-                                 class="{!if(action.disabled, ' disabled', '')}"
-                                 onclick="{!c.doAction}"
-                                 >
-                                <!--  <div class="btn-content"> -->
-                                <!--  <c:RRIcon iconName="{!action.iconName}"/> -->
-                                {!action.label}
-                                <!--   </div>  -->
-                            </div>
-                        </div>
+                            <aura:if isTrue="{!and(action.id == 'medicalRecordReview', v.disableMRR)}">
+                                <button
+                                class="apollo-btn secondary"
+                                disabled="true"
+                                >
+                                    {!action.label}
+                                </button>
+                                <aura:set attribute="else">
+                                    <div
+                                    class="{!'apollo-btn secondary' + if(action.disabled, ' disabled', '') + if(and(v.userMode=='PI',actionIndex != v.currentStudy.studyActions.length-1), ' btn-pi-border', '')}"
+                                    title="{!action.disableReason}"
+                                    style="{!if(v.isRTL, 'margin-left: 1.2%;','')}"
+                                    >
+                                   <div
+                                        id="{!action.id}"
+                                        class="{!if(action.disabled, ' disabled', '')}"
+                                        onclick="{!c.doAction}"
+                                        >
+                                       <!--  <div class="btn-content"> -->
+                                       <!--  <c:RRIcon iconName="{!action.iconName}"/> -->
+                                       {!action.label}
+                                       <!--   </div>  -->
+                                   </div>
+                                </div>
+                                </aura:set>                                  
+                            </aura:if>
                         </aura:set>   
                     </aura:if>
                 </aura:iteration>
