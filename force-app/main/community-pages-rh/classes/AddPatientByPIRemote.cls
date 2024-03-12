@@ -34,6 +34,8 @@ public without sharing class AddPatientByPIRemote {
         public Study_Site__c ss;
         @AuraEnabled
         public String userLanguage;
+        @AuraEnabled
+        public Boolean prefCons;
 
         public FormData() {
         }
@@ -55,6 +57,7 @@ public without sharing class AddPatientByPIRemote {
                 );
                 initData.userLanguage = getUserLanguage();
                 initData.yearOfBirth = ParticipantService.getYearofBirthList();
+                initData.prefCons = ConsentManagerController.getConsentPreferences('AddPart',ssId).consentPref;
             }
             return initData;
         } catch (Exception e) {

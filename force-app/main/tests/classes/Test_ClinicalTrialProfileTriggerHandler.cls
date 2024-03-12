@@ -367,6 +367,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         r3.Content_Class__c = 'Study-Specific';
         Resource__c r4 = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
         r4.Content_Class__c = 'Study-Specific';
+        test.startTest();
         r1StudyDoc.RecordTypeId = [
             SELECT Id
             FROM RecordType
@@ -385,7 +386,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         resources.add(r4);
         insert resources;
         List<Res_study__c> resStudies = new List<Res_study__c>();
-        test.startTest();
+        
         Res_study__c resStudy = new Res_study__c();
         resStudy.Resource__c = r1StudyDoc.Id;
         resStudy.Clinical_Trial_Profile__c = t1.Id;
@@ -496,6 +497,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         r3.Content_Class__c = 'Study-Specific';
         Resource__c r4 = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
         r4.Content_Class__c = 'Study-Specific';
+        test.startTest();
         r1StudyDoc.RecordTypeId = [
             SELECT Id
             FROM RecordType
@@ -514,7 +516,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         resources.add(r4);
         insert resources;
         List<Res_study__c> resStudies = new List<Res_study__c>();
-        test.startTest();
+        
         Res_study__c resStudy = new Res_study__c();
         resStudy.Resource__c = r1StudyDoc.Id;
         resStudy.Clinical_Trial_Profile__c = t1.Id;
@@ -615,6 +617,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         Resource__c r3 = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
         r3.Content_Class__c = 'Study-Specific';
         Resource__c r4 = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
+        test.startTest();
         r1StudyDoc.RecordTypeId = [
             SELECT Id
             FROM RecordType
@@ -634,7 +637,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         r4.Content_Class__c = 'Study-Specific';
         insert resources;
         List<Res_study__c> resStudies = new List<Res_study__c>();
-        test.startTest();
+        
         Res_study__c resStudy = new Res_study__c();
         resStudy.Resource__c = r1StudyDoc.Id;
         resStudy.Clinical_Trial_Profile__c = t1.Id;
