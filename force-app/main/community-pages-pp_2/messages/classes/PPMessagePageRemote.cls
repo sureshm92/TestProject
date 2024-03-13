@@ -241,8 +241,7 @@ public without sharing class PPMessagePageRemote {
                         pe.Invited_To_PP_Date__c != null &&
                         !participantState.isDelegate
                     ) {
-                        availablePEIds.add(pe.Id);
-                        if (pe.Study_Site__r.Messages_Are_Available__c) {
+                        if (pe.Study_Site__r.Messages_Are_Available__c) { availablePEIds.add(pe.Id);
                             pageData.enrollments.add(pe);
                             peIds.add(pe.Id);
                             pageData.statusByPeMap.put(
@@ -258,8 +257,7 @@ public without sharing class PPMessagePageRemote {
                         participantState.isDelegate &&
                         pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true
                     ) {
-                        availablePEIds.add(pe.Id);
-                        if (pe.Study_Site__r.Messages_Are_Available__c) {
+                        if (pe.Study_Site__r.Messages_Are_Available__c) { availablePEIds.add(pe.Id);
                             pageData.enrollments.add(pe);
                             peIds.add(pe.Id);
                             pageData.statusByPeMap.put(
