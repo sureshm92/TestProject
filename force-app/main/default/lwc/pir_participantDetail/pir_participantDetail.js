@@ -491,7 +491,7 @@ export default class Pir_participantDetail extends LightningElement {
                 this.firstvalid = false;
                 this.lastvalid = false;
                 this.delegateMinor = false;
-                this.yearValue = '';
+                this.yearValue = undefined;
                 this.dispatchEvent(new CustomEvent('enabledetailsave', { detail: false }));
             }
             this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get(field)] = val;
@@ -525,7 +525,7 @@ export default class Pir_participantDetail extends LightningElement {
                     this.delegateMinor = adultyear < val;
                     if(this.delegateMinor){
                         this.checkDelLevelsw = true;
-                        this.yearValue = '';
+                        this.yearValue = undefined;
                         }else{
                         this.checkDelLevelsw = false; 
                         }
@@ -1366,7 +1366,7 @@ export default class Pir_participantDetail extends LightningElement {
                 this.showDelYear = false;
                 this.emailvalid = false;
                 this.delegateMinor = false;
-                this.yearValue = '';
+                this.yearValue = undefined;
                 this.showDelConsent = false;
             }   
                 this.dispatchEvent(new CustomEvent('enabledetailsave', { detail: this.validate() }));
