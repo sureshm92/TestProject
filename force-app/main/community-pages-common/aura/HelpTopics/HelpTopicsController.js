@@ -166,7 +166,9 @@
         component.set('v.didThisHelp', '');
         component.set('v.textValueProblem', '');
         component.set('v.fileList', []);
-        helper.removeElementFocus(component, event, helper);
+        if ($A.get('$Browser.formFactor') !== 'DESKTOP') {
+            helper.removeElementFocus(component, event, helper);
+        }
     },
     doResponseReceived: function (component, event, helper) {
         var didThisHelp = component.get('v.didThisHelp');
