@@ -1293,9 +1293,11 @@ export default class Pir_participantDetail extends LightningElement {
         this.setEth();
     }
     delAttest(event) {
+        if(!this.delegateMinor){
         this.pd.delegate.Participant_Delegate__r.Attestation__c = event.target.checked;
         this.pd.delegate.Participant_Delegate__r.Adult__c = event.target.checked;
         this.toggleSave();
+        }
     }
     @api consentfields={};
     handleConsentChange(event){
@@ -1359,6 +1361,7 @@ export default class Pir_participantDetail extends LightningElement {
                    this.showDelConsent = true;
                    if(this.delegateMinor){
                     this.delegateMinor = true;
+                    this.yearValue = undefined;
                    }else{
                     this.delegateMinor = false;
                    }
