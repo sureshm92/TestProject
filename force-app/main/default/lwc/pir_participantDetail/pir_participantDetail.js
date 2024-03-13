@@ -127,6 +127,8 @@ export default class Pir_participantDetail extends LightningElement {
     useEnteredEmailDuplicate = false;
     firstvalid = false;
     lastvalid = false;
+    checkDelLevelsw = false;
+    yearValue;
     @api selectedPlan = "";
     visitPlan = {};
     @api visitplanoptions = {};
@@ -192,6 +194,12 @@ export default class Pir_participantDetail extends LightningElement {
         this.showDupMsg = false;
         this.showUpdateMsg = false;
         this.showDelYear = false;
+        this.yearValue = '';
+        this.createNewDelButtonClick = false;
+        this.emailvalid = false;
+        this.useEnteredEmailDuplicate = false;
+        this.firstvalid = false;
+        this.lastvalid = false;
         this.showDelConsent=false;
         this.newDel = null;
         this.delOp = '';
@@ -483,6 +491,7 @@ export default class Pir_participantDetail extends LightningElement {
                 this.firstvalid = false;
                 this.lastvalid = false;
                 this.delegateMinor = false;
+                this.yearValue = undefined;
                 this.dispatchEvent(new CustomEvent('enabledetailsave', { detail: false }));
             }
             this.pd['delegate']['Participant_Delegate__r'][this.fieldMap.get(field)] = val;
@@ -516,9 +525,11 @@ export default class Pir_participantDetail extends LightningElement {
                     this.delegateMinor = adultyear < val;
                     if(this.delegateMinor){
                         this.checkDelLevelsw = true;
+                        this.yearValue = undefined;
                         }else{
                         this.checkDelLevelsw = false; 
                         }
+                    this.yearValue = val;
 
                 }
 
@@ -1031,7 +1042,7 @@ export default class Pir_participantDetail extends LightningElement {
                         this.showDelConsent = false;
                     }
                 }    
-               if((this.showDelYear != '') && (this.pd.delegate.Participant_Delegate__r.Phone__c != "")){
+               if((this.yearValue ==null || this.yearValue ==undefined || this.yearValue == ''  || this.yearValue == '--' || this.yearValue.length == 0 ) && (this.pd.delegate.Participant_Delegate__r.Phone__c != "")){
                     this.checkDelLevelsw = true;
                 }else{
                     this.checkDelLevelsw = false;
@@ -1355,6 +1366,7 @@ export default class Pir_participantDetail extends LightningElement {
                 this.showDelYear = false;
                 this.emailvalid = false;
                 this.delegateMinor = false;
+                this.yearValue = undefined;
                 this.showDelConsent = false;
             }   
                 this.dispatchEvent(new CustomEvent('enabledetailsave', { detail: this.validate() }));
