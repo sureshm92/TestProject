@@ -71,7 +71,8 @@ public without sharing class ConversationService {
                 'Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c',
                 'Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
                 'FirstUnreadDate__c',
-                'Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c'
+                'Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c',
+                'Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c'
             },
             Conversation__c.getSObjectType(),
             DatabaseService.fieldInValues('Id', conIds),

@@ -776,7 +776,7 @@ public without sharing class MessagePageRemote {
     private static List<Participant_Enrollment__c> getEnrollmentsForPI(String additionalFiler) {
         Id currentContactId = CommunityService.getInstance().getCurrentContactId();
         String filter =
-            'Study_Site__r.Site_Activation_Status__c != \'\' AND Study_Site__r.Site_Activation_Status__c != \'Deactivated\' AND Study_Site__r.Site_Activation_Status__c != \'Deactivated (Admin)\' AND Study_Site__r.Messages_Are_Available__c = TRUE AND (' +
+            'Study_Site__r.Override_PI_Referral_Status__c != \'\' AND Study_Site__r.Override_PI_Referral_Status__c != \'None\' AND Study_Site__r.Override_PI_Referral_Status__c != \'Deactivated\' AND Study_Site__r.Site_Activation_Status__c != \'\' AND Study_Site__r.Site_Activation_Status__c != \'Deactivated\' AND Study_Site__r.Site_Activation_Status__c != \'Deactivated (Admin)\' AND Study_Site__r.Messages_Are_Available__c = TRUE AND (' +
             DatabaseService.fieldEqual('Study_Site__r.Principal_Investigator__c', currentContactId);
 
         List<Site_Staff__c> siteStaffs = [
