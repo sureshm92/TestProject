@@ -226,7 +226,7 @@ export default class Pir_participantEmancipatedDelegate extends LightningElement
                     this.isDuplicate = false;
                     this.isDisplayFormFields = true;
                     this.isDisplayConsent=true;
-                    if(this.birthYear!=''){
+                    if(this.birthYear ==null || this.birthYear ==undefined || this.birthYear == ''  || this.birthYear == '--' || this.birthYear.length == 0){
                         this.isAdultDelegate = true;
                     }else{
                         this.isAdultDelegate = false;
