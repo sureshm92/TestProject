@@ -4,7 +4,7 @@
         class="manage-del-multi-picklist std outcome-form-element slds-m-bottom_medium p-left std-height"
     >
         <label class="slds-form-element__label add-new-del-input-padding slds-no-flex disflex mb-5"
-            ><span class="text-overflow1 study-p-bottom" title="Studies">{picklistLabel}</span
+            ><span class={textOverFlowClass} title="Studies">{picklistLabel}</span
             ><template if:true={showSelectAll}>
                 <span class="btn select-all-clear-all disable-select-all" onclick={selectAll}
                     >{label.Select_All_PI}</span
@@ -31,7 +31,7 @@
                         <div class="selectedOption">
                             <template if:true={isNoStudySelected}>
                                 <div
-                                    class="padding-placeholder"
+                                    class={placeHolderPadding}
                                     contenteditable="false"
                                     placeholder={getSelectLable}
                                 ></div>
@@ -55,7 +55,7 @@
                                 >
                                     <span
                                         key={study.value}
-                                        class="selectedValue slds-truncate_container_25 slds-truncate"
+                                        class={selectedValueClass}
                                         title={study.label}
                                     >
                                         {study.label}
@@ -66,7 +66,7 @@
                             <span class={studyMoreClass}>{studyCount}</span>
                         </div>
                         <span
-                            class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"
+                            class={iconPadding}
                         >
                             <lightning-icon
                                 icon-name="utility:down"
@@ -78,7 +78,7 @@
                     </div>
                     <div
                         data-id="studyBox"
-                        class="slds-dropdown slds-dropdown_fluid open-width rtl-width"
+                        class={dropdownClass}
                         role="listbox"
                     >
                         <ul class="slds-listbox slds-listbox_vertical" role="presentation">
