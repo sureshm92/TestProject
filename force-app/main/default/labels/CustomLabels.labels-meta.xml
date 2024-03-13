@@ -20815,7 +20815,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_EMAIL_COMMUNICATION_PREFERENCE</shortDescription>
-        <value>We will use your information provided below to notify you of updates or changes to your account.&lt;br /&gt;You can also set your preferences for additional optional study communication in ##COMM_PREF_LINK.</value>
+        <value>We will use your information provided below to notify you of updates or changes to your account.You can also set your preferences for additional optional study communication in ##COMM_PREF_LINK.</value>
     </labels>
     <labels>
         <fullName>PP_EditAllInfo</fullName>
