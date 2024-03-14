@@ -69,6 +69,7 @@ export default class PpMyResultsContainer extends LightningElement {
     isIpadPortrait = false;
     isIpadLandscape = false;
     toggleOffHeart = pp_icons + '/' + 'heart_Icon.svg';
+    @track isAndroidTab;
 
     @api
     get selectedVisit() {
@@ -88,6 +89,7 @@ export default class PpMyResultsContainer extends LightningElement {
         this.patientVisitWrapper = value;
     }
     connectedCallback() {
+        this.isAndroidTab=communityService.isAndroidTablet();
         this.peId = communityService.getParticipantData().pe.Id;
         this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
         if (!this.isDesktop) {
@@ -119,11 +121,11 @@ export default class PpMyResultsContainer extends LightningElement {
     }
 
     get isMobile() {
-        return FORM_FACTOR == 'Small';
+        return FORM_FACTOR == 'Small' && !this.isAndroidTab;
     }
 
     get isTablet() {
-        return FORM_FACTOR == 'Medium';
+        return this.isAndroidTab || FORM_FACTOR == 'Medium' ;
     }
 
     get patientVisitName() {
