@@ -267,6 +267,8 @@ public without sharing class DashboardParticipantCount {
             +'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.PPTemplate__c'
             +' FROM Participant_Enrollment__c'
             +' WHERE Study_Site__c != NULL'
+            +' And Study_Site__r.Site_Activation_Status__c IN (\'Activated\', \'Activated (Admin)\', \'On Hold\')'
+            +'And Study_Site__r.Override_PI_Referral_Status__c =\'Accepted\''
             +' '+whereClause
             +' ORDER BY Createddate DESC';
         return Database.query(query);
@@ -304,7 +306,7 @@ public without sharing class DashboardParticipantCount {
             perWhereClause += ' AND study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c =false AND study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true';
             perWhereClause += ' AND study_Site__r.Clinical_Trial_Profile__c =\''+ String.escapeSingleQuotes(ctpId)+'\' AND Study_Site__r.Principal_Investigator__c = \''+String.escapeSingleQuotes(piId)+'\'';
             perWhereClause += ' And Study_Site__r.Site_Activation_Status__c IN (\'Activated\', \'Activated (Admin)\', \'On Hold\')';
-
+            perWhereClause += 'And Study_Site__r.Override_PI_Referral_Status__c =\'Accepted\'';
             List<Participant_Enrollment__c> perList = DashboardParticipantCount.fetchPerRecords(perWhereClause, new List<Id>());
             for(Participant_Enrollment__c per : perList) {
                 ParticipantDetails parDetail = new ParticipantDetails();
