@@ -589,6 +589,8 @@ public without sharing class DashboardRemoteNew {
                     AND Study_Site__c != NULL
                     AND study_Site__r.Clinical_Trial_Profile__c = :ctpId
                     AND Study_Site__r.Principal_Investigator__c = :piId
+                    AND Study_Site__r.Site_Activation_Status__c IN ('Activated', 'Activated (Admin)', 'On Hold')
+                    AND Study_Site__r.Override_PI_Referral_Status__c='Accepted'
                 ORDER BY Createddate DESC
                 LIMIT 50
             ];
@@ -701,6 +703,8 @@ public without sharing class DashboardRemoteNew {
                     Date__c != NULL
                     AND ParticipantEnrollment__r.Study_Site__r.Principal_Investigator__c = :piId
                     AND ParticipantEnrollment__r.Clinical_Trial_Profile__c = :ctpId
+                    AND ParticipantEnrollment__r.Study_Site__r.Site_Activation_Status__c IN ('Activated', 'Activated (Admin)', 'On Hold')
+                    AND ParticipantEnrollment__r.Study_Site__r.Override_PI_Referral_Status__c='Accepted'
                     AND Status__c IN :(new List<String>{
                         PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED,
                         PEStatusState.PE_STATUS_RECEIVED
@@ -1077,6 +1081,8 @@ public without sharing class DashboardRemoteNew {
                         AND ParticipantEnrollment__r.Participant__c != NULL
                         AND Date__c != NULL
                         AND Status__c IN :(new List<String>{ PE_STATUS_SUCCESSFULLY_CONTACTED })
+                        AND ParticipantEnrollment__r.Study_Site__r.Site_Activation_Status__c IN ('Activated', 'Activated (Admin)', 'On Hold')
+                        AND ParticipantEnrollment__r.Study_Site__r.Override_PI_Referral_Status__c='Accepted'
                         AND ParticipantEnrollment__r.Participant_Status__c  IN :PEStatusState.PE_STATUS_GROUP_POSITIVE_PARTICIPANTS_CONTACTED
                     ORDER BY Createddate DESC
                     LIMIT 40000
@@ -1235,6 +1241,8 @@ public without sharing class DashboardRemoteNew {
                 SELECT COUNT()
                 FROM Study_Site__c
                 WHERE Clinical_Trial_Profile__r.Id = :ctpId
+                AND Site_Activation_Status__c IN ('Activated', 'Activated (Admin)', 'On Hold')
+                AND Override_PI_Referral_Status__c='Accepted'
             ];
             return currentStudySitesCount;
         } catch (Exception e) {
@@ -1365,7 +1373,9 @@ public without sharing class DashboardRemoteNew {
                 WHERE
                     Study_Site__c != NULL
                     AND Study_Site__r.Principal_Investigator__c = :piId
-                    AND Clinical_Trial_Profile__c = :ctpId
+                    AND Clinical_Trial_Profile__c = :ctpId                    
+                    AND Study_Site__r.Site_Activation_Status__c IN ('Activated', 'Activated (Admin)', 'On Hold')
+                    AND Study_Site__r.Override_PI_Referral_Status__c='Accepted'
                 GROUP BY
                     Participant_Status__c,
                     Initial_visit_scheduled_date__c,
@@ -1552,6 +1562,8 @@ public without sharing class DashboardRemoteNew {
                     Count(Id) total
                 FROM Participant_Enrollment__c
                 WHERE Study_Site__c != NULL AND Study_Site__c = :studySites
+                AND Study_Site__r.Site_Activation_Status__c IN ('Activated', 'Activated (Admin)', 'On Hold')
+                AND Study_Site__r.Override_PI_Referral_Status__c='Accepted'
                 GROUP BY
                     Study_Site__c,
                     Participant_Status__c,
