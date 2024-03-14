@@ -20,6 +20,7 @@ export default class PpMyVisitResultsList extends LightningElement {
     @track currentVisit;
     @track showResults;
     @track onLoad;
+    @track isAndroidTab=false;
 
     NO_RESULTS_AVAILABLE = PP_ICONS + '/' + 'results_Illustration.svg';
     userTimezone = TIME_ZONE;
@@ -31,6 +32,7 @@ export default class PpMyVisitResultsList extends LightningElement {
     };
 
     connectedCallback() {
+        this.isAndroidTab=communityService.isAndroidTablet();
         this.urlString = window.location.href;
         if (window.location.href.includes('pvId')) {
             this.currentVisitId = communityService.getUrlParameter('pvId');
@@ -50,11 +52,11 @@ export default class PpMyVisitResultsList extends LightningElement {
     }
 
     get isMobile() {
-        return FORM_FACTOR == 'Small';
+        return FORM_FACTOR == 'Small' && !this.isAndroidTab;
     }
 
-    get isTablet() {
-        return FORM_FACTOR == 'Medium';
+    get isTablet() {   
+        return this.isAndroidTab || FORM_FACTOR == 'Medium';
     }
 
     get isInitiliazed() {
