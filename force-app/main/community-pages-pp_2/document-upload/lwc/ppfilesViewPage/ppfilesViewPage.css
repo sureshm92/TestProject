@@ -895,10 +895,10 @@
         /* bottom: 7rem; */
     }
     .float-btns {
-        position: absolute;
+        /* position: absolute;
         bottom: 0;
         background: #f2f2f2;
-        padding-bottom: 3%;
+        padding-bottom: 3%; */
     }
 }
 @media all and (min-width: 768px) and (max-width: 1024px) {
