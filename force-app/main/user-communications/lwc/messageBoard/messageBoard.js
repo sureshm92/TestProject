@@ -145,6 +145,7 @@ export default class MessageBoard extends LightningElement {
             }, 50);
         }
         this.isActiveStudySite = (this.selectedEnrollment.Study_Site__r.Override_PI_Referral_Status__c == null || this.selectedEnrollment.Study_Site__r.Override_PI_Referral_Status__c == 'None' || this.selectedEnrollment.Study_Site__r.Override_PI_Referral_Status__c == 'Deactivated' || this.selectedEnrollment.Study_Site__r.Site_Activation_Status__c == 'Deactivated' || this.selectedEnrollment.Study_Site__r.Site_Activation_Status__c == 'Deactivated (Admin)' || this.selectedEnrollment.Study_Site__r.Site_Activation_Status__c == null) ? false : true;
+    
     }
 
     @api
