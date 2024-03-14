@@ -354,7 +354,7 @@ public without sharing class CommunityFacadeRemote {
             conversations = [
                 SELECT Id
                 FROM Conversation__c
-                WHERE Participant_Enrollment__c IN :peIds
+                WHERE Participant_Enrollment__c IN :peIds AND Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c = TRUE
             ];
 
             peWithAvailableMessages = [
