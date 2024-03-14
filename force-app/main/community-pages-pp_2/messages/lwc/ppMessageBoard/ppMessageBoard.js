@@ -62,7 +62,7 @@ renderedCallback(){
    });
     this.dispatchEvent(event);
     if(this.selectConWrap != null)
-      this.isActiveStudySite = (this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c == 'Deactivated' || this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c == 'Deactivated (Admin)' || this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c == null) ? false : true; 
+      this.isActiveStudySite = (this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c == 'Deactivated' || this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c == 'None' || this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c == null || this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c == 'Deactivated' || this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c == 'Deactivated (Admin)' || this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c == null) ? false : true; 
     
   }
 
