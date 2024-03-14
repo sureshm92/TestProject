@@ -392,7 +392,13 @@ studysitehandleChange(event) {
                 this.importParticipantStatus = participentStatuses;
             }
             
-            this.shouldDisableImportStatus = false; 
+            this.shouldDisableImportStatus = false;
+            if(result.objStudySite.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == false)
+                    {
+                        this.isPatientPortalDisable = true;
+                    }else{
+                        this.isPatientPortalDisable = false;
+                    } 
             this.countryDisable=false;
             if(this.template.querySelector("c-consent-manager"))
             {
