@@ -1,0 +1,10 @@
+.THIS .restricted-source-edit-form input:disabled {
+    background-color:#f3f3f3 !important;
+    border-color: #c9c9c9 !important;
+    color: #747474 !important;
+    cursor: not-allowed !important;
+}
+
+.THIS .restricted-source-edit-form .slds-spinner_container{
+    background-color: transparent !important; 
+}

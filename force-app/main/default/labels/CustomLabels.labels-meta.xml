@@ -3118,6 +3118,20 @@ We are asking all eligible donors to come forward so we can treat as many patien
         <value>and our</value>
     </labels>
     <labels>
+        <fullName>Edit_Restricted_Source</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Edit Restricted Source</shortDescription>
+        <value>Edit Restricted Source</value>
+    </labels>
+    <labels>
+        <fullName>New_Restricted_Source</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Restricted Source</shortDescription>
+        <value>New Restricted Source</value>
+    </labels>
+    <labels>
         <fullName>CPRA_DoNotSell_GSK</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -22390,11 +22404,60 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Have an article or a video that you found supportive during your clinical trial experience? Share it with us!</value>
     </labels>
     <labels>
+        <fullName>PP_SharedwithmeMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_SharedwithmeMessage</shortDescription>
+        <value>Your care team has the discretion to remove shared documents at any time. If a shared document is no longer available and you believe this has occurred by mistake, please contact your care team directly.</value>
+    </labels>
+    <labels>
         <fullName>PP_Sort</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Sort</shortDescription>
         <value>Sort</value>
+    </labels>
+    <labels>
+        <fullName>PP_Sort_Date_Asc</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort_Date_Asc</shortDescription>
+        <value>Date: First Uploaded</value>
+    </labels>
+    <labels>
+        <fullName>PP_Sort_Date_Desc</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort_Date_Desc</shortDescription>
+        <value>Date: Last Uploaded</value>
+    </labels>
+    <labels>
+        <fullName>PP_Sort_Title_Asc</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort_Title_Asc</shortDescription>
+        <value>Title: A-Z</value>
+    </labels>
+    <labels>
+        <fullName>PP_Sort_Title_Desc</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort_Title_Desc</shortDescription>
+        <value>Title: Z-A</value>
+    </labels>
+    <labels>
+        <fullName>PP_Sort_Type_Asc</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort_Type_Asc</shortDescription>
+        <value>File Type: A-Z</value>
+    </labels>
+    <labels>
+        <fullName>PP_Sort_Type_Desc</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Sort_Type_Desc</shortDescription>
+        <value>File Type: Z-A</value>
     </labels>
     <labels>
         <fullName>PP_Site_And_Location_Caps</fullName>
@@ -24108,6 +24171,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>File size exceeds 4MB limit.</value>
     </labels>
     <labels>
+        <fullName>RH_FileName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>File Name</shortDescription>
+        <value>File Name</value>
+    </labels>
+    <labels>
+        <fullName>RH_FileNameRequired</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_FileNameRequired</shortDescription>
+        <value>File name required</value>
+    </labels>
+    <labels>
         <fullName>RH_FileUploadAcceptedConditions</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -24536,6 +24613,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Please confirm the country of residence for your participants and/or their legal guardians is the same as that of the study center. If there are any country mismatches, those records may not be added.</value>
     </labels>
     <labels>
+        <fullName>RH_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Date</shortDescription>
+        <value>Date</value>
+    </labels>
+    <labels>
         <fullName>RH_DOB</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -24929,6 +25013,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Others</shortDescription>
         <value>Others</value>
+    </labels>
+    <labels>
+        <fullName>RH_PermissionAcessMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_PermissionAcessMessage</shortDescription>
+        <value>This file is currently being viewed on another device or by another Referral Hub user. Please refresh your page and try again.</value>
     </labels>
     <labels>
         <fullName>RH_PI</fullName>
@@ -26172,6 +26263,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>RH_ScreenerComplete</shortDescription>
         <value>Screener(s) completed</value>
+    </labels>
+    <labels>
+        <fullName>RH_Share</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Share</shortDescription>
+        <value>Share</value>
+    </labels>
+    <labels>
+        <fullName>RH_Sharing_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Sharing_Label</shortDescription>
+        <value>By sharing a document, Patient Portal participants and/or primary delegates will be able to view and download the file.</value>
+    </labels>
+    <labels>
+        <fullName>RH_Share_to_Patient_Portal</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Share to Patient Portal</shortDescription>
+        <value>Share to Patient Portal</value>
     </labels>
     <labels>
         <fullName>RH_SelectStudy_SIte</fullName>
@@ -29263,6 +29375,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>TST Something went wrong!</shortDescription>
         <value>Something went wrong.</value>
+    </labels>
+    <labels>
+        <fullName>Restricted_Source_Record_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Restricted Source Record Error</shortDescription>
+        <value>Only one record can be added per CTP. Please update the existing record on this CTP.</value>
     </labels>
     <labels>
         <fullName>TST_Study_was_successfully_declined</fullName>
@@ -32474,6 +32593,13 @@ The IQVIA Referral Hub Support Team</value>
         <value>Sort By</value>
     </labels>
     <labels>
+        <fullName>Sort_Detail_By</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sort_Detail_By</shortDescription>
+        <value>By:</value>
+    </labels>
+    <labels>
         <fullName>Message_Body_New_Article_Push</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -32549,6 +32675,20 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Title_New_Resource</shortDescription>
         <value>New Resource Available</value>
+    </labels>
+    <labels>    
+        <fullName>Restricted_Source_Updation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restricted Source for {0} is updated successfully.</shortDescription>
+        <value>Restricted Source for {0} is updated successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Restricted_Source_Creation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restricted Source for {0} is created successfully.</shortDescription>
+        <value>Restricted Source for {0} is created successfully.</value>
     </labels>
     <labels>
         <fullName>Consented</fullName>
