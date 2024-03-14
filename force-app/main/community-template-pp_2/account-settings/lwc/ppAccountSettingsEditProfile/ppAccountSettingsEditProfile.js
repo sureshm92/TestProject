@@ -569,7 +569,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     get emailContainerClass() {
         return this.isMobile
             ? 'slds-form-element slds-col slds-size_4-of-4 slds-p-vertical_x-small'
-            : 'slds-form-element slds-col slds-size_5-of-7 slds-p-vertical_x-small';
+            : 'slds-form-element slds-col slds-size_4-of-7 slds-p-vertical_x-small';
     }
 
     get mobileContainerClass() {
