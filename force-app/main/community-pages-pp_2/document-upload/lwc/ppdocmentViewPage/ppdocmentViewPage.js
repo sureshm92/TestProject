@@ -722,7 +722,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
   }
   handlenewOnSelect(event) {
     this.selectedmenu = event.target.dataset.title;
-    if (this.selectedmenu == Uploaded) {
+    if (this.selectedmenu == this.label.Uploaded) {
       this.pageNumber = 1;
       this.stopSpinner = false;
       this.resetPagination = true;
@@ -755,7 +755,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.handleonblur();
   }
   get isUploadedTab() {
-    if (this.selectedmenu == Uploaded) {
+    if (this.selectedmenu == this.label.Uploaded) {
       return true;
     } else {
       return false;
