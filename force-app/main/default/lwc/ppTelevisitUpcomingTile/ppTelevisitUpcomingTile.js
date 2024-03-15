@@ -204,7 +204,7 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
 
                                     if (visitInfo.Televisit__c === resultInfo.televisitId) {
                                         console.log('Inside');
-                                        visitInfo.numberOfParticipants = '+ ' + resultInfo.numberOfParticipants + ' more';
+                                        visitInfo.numberOfParticipants = '+ ' + resultInfo.numberOfParticipants + ' '+ this.labels.more;
                                         visitInfo.televisitAttendees = resultInfo.televisitAttendees;
                                         visitInfo.relatedAttendees = resultInfo.relatedAttendees;
                                         for (var i = 0; i < resultInfo.relatedAttendees.length; i++) {
