@@ -12,6 +12,8 @@ import USER_LOCALE from '@salesforce/i18n/locale';
 import USER_TIME_ZONE from '@salesforce/i18n/timeZone';
 import USER_ID from '@salesforce/user/Id';
 import getParticipantDetails from '@salesforce/apex/ParticipantTelevisitRemote.getParticipantTelevisits';
+import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
+
 export default class PpMyTelevisitsList extends NavigationMixin (LightningElement) {
     showupcomingtelevisits = false;
     upcomingtelevisitdata = [];
@@ -44,6 +46,17 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
         PI_TV_MEET_INFO,
         JOIN_MEET
     };
+    isRTL = false;
+
+    get leftLine1Style(){
+        return this.isRTL ? 'left-line1-rtl' : 'left-line1';
+
+    }
+
+    get leftLine2Style(){
+        return this.isRTL ? 'left-line2-rtl' : 'left-line2';
+
+    }
     
     connectedCallback() {
         this.upcomingtelevisitdata = this.upcomingtelevisitsrecords;
@@ -54,6 +67,15 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
         this.getVisits(); 
         this.loadCometdScript();
         this.timeInterval();
+
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+                console.log('rtl--->'+this.isRTL);
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+        });
     }
    joinmeeting (event){
         if (communityService.isMobileSDK()) {

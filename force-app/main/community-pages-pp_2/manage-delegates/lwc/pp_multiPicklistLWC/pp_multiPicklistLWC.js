@@ -5,6 +5,7 @@ import More from '@salesforce/label/c.PIR_more';
 import PG_MS_L_Studies_up from '@salesforce/label/c.PG_MS_L_Studies_up';
 import Select from '@salesforce/label/c.Select';
 import messageChannel from '@salesforce/messageChannel/ppLightningMessageService__c';
+import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import {
     publish,
     subscribe,
@@ -27,7 +28,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     @api isDesktop;
     @api addNewDelegate;
     @api picklistLabel;
-    @api isRTL;
+    isRTL;
 
     @track firstThreeselectedStudyies = [];
     subscription = null;
@@ -39,6 +40,7 @@ export default class Pp_multiPicklistLWC extends LightningElement {
 
     connectedCallback() {
         this.subscribeToMessageChannel();
+        this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
     }
     disconnectedCallback() {
         this.unsubscribeToMessageChannel();
@@ -195,6 +197,31 @@ export default class Pp_multiPicklistLWC extends LightningElement {
     get studyMoreClass() {
         return this.isRTL ? 'study-more-class-p-right' : 'study-more-class-p-left';
     }
+
+    get placeHolderPadding() {
+        return this.isRTL ? 'padding-placeholder-rtl' : 'padding-placeholder';
+    }
+
+    get textOverFlowClass() {
+        return this.isRTL ? 'text-overflow-rtl study-p-bottom' : 'text-overflow1 study-p-bottom';
+    }
+
+    get iconPadding(){
+        return this.isRTL ? 'slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_left' : 'slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right';
+    }
+
+    get dropdownClass(){
+        return this.isRTL ? 'slds-dropdown slds-dropdown_fluid open-width rtl-width dropdown-rtl' : 'slds-dropdown slds-dropdown_fluid open-width rtl-width';
+    }
+
+    get selectedValueClass(){
+        return this.isRTL ? 'selectedValue-rtl slds-truncate_container_25 slds-truncate' : 'selectedValue slds-truncate_container_25 slds-truncate';
+    }
+
+    get selectedValueMobileClass(){
+        return this.isRTL ? 'selectedValue-rtl slds-truncate_container_50 slds-truncate' : 'selectedValue slds-truncate_container_50 slds-truncate';
+    }
+
     // get manageMarginCustom() {
     //     return this.isDesktop ? 'manage-margin-custom-desktop' : 'manage-margin-custom-mobile';
     // }
