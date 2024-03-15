@@ -39,7 +39,7 @@
                             <template if:false={isDesktop}>
                                 <template if:true={getFirstSelecedStudy}>
                                     <span
-                                        class="selectedValue slds-truncate_container_50 slds-truncate"
+                                        class={selectedValueMobileClass}
                                         title={getFirstSelecedStudy}
                                     >
                                         {getFirstSelecedStudy}

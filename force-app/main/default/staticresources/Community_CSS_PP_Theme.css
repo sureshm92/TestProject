@@ -2318,3 +2318,7 @@ user agent stylesheet svg:not(:root) {
     left: 0;
     top: 33px !important;
 }
+/* icon Overlapping issue on Questionnaire Dropdown*/
+.help-support lightning-icon{  
+    z-index: 1 !important;
+}
