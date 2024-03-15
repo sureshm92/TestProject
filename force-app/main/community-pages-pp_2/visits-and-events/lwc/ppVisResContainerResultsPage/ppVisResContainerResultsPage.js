@@ -20,6 +20,9 @@ import FORM_FACTOR from '@salesforce/client/formFactor';
 import Back from '@salesforce/label/c.BTN_Back';
 import UNSCHEDULED_VISIT from '@salesforce/label/c.StudyVisit_Unscheduled_Visit';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+import Visit_Results_Tab_Vitals from '@salesforce/label/c.Visit_Results_Tab_Vitals';
+import Visit_Results_Tab_Labs from '@salesforce/label/c.Visit_Results_Tab_Labs';
+import Visit_Results_Tab_Biomarkers from '@salesforce/label/c.Visit_Results_Tab_Biomarkers';
 export default class PpMyResultsContainer extends LightningElement {
     label = {
         PP_Download_Results_Data,
@@ -34,7 +37,10 @@ export default class PpMyResultsContainer extends LightningElement {
         Biomarkers_Toggle_Off,
         Back,
         PP_Visit_Result_Toggle_Helptext,
-        UNSCHEDULED_VISIT
+        UNSCHEDULED_VISIT,
+        Visit_Results_Tab_Vitals,
+        Visit_Results_Tab_Labs,
+        Visit_Results_Tab_Biomarkers
     };
     group2;
     group3;
@@ -154,14 +160,14 @@ export default class PpMyResultsContainer extends LightningElement {
             this.selectedResultType = this.visResultTypeTabs[0];
         } else if (this.visResultTypeTabs.length == 2) {
             this.group2 = true;
-            if (this.visResultTypeTabs.includes('Vitals')) {
-                this.Button1Label = 'Vitals';
-                this.Button2Label = this.visResultTypeTabs.includes('Labs') ? 'Labs' : 'Biomarkers';
-                this.selectedResultType = 'Vitals';
+            if (this.visResultTypeTabs.includes(this.label.Visit_Results_Tab_Vitals)) {
+                this.Button1Label = this.label.Visit_Results_Tab_Vitals;
+                this.Button2Label = this.visResultTypeTabs.includes(this.label.Visit_Results_Tab_Labs) ? this.label.Visit_Results_Tab_Labs : this.label.Visit_Results_Tab_Biomarkers;
+                this.selectedResultType = this.label.Visit_Results_Tab_Vitals;
             } else {
-                this.Button1Label = 'Labs';
-                this.Button2Label = 'Biomarkers';
-                this.selectedResultType = 'Labs';
+                this.Button1Label = this.label.Visit_Results_Tab_Labs;
+                this.Button2Label = this.label.Visit_Results_Tab_Biomarkers;
+                this.selectedResultType = this.label.Visit_Results_Tab_Labs;
             }
             this.isButton1Group2 = true;
             this.isButton2Group2 = false;
@@ -170,44 +176,44 @@ export default class PpMyResultsContainer extends LightningElement {
             this.isButton1Group3 = true;
             this.isButton2Group3 = false;
             this.isButton3Group3 = false;
-            this.Button1Label = 'Vitals';
-            this.Button2Label = 'Labs';
-            this.Button3Label = 'Biomarkers';
-            this.selectedResultType = 'Vitals';
+            this.Button1Label = this.label.Visit_Results_Tab_Vitals;
+            this.Button2Label = this.label.Visit_Results_Tab_Labs;
+            this.Button3Label = this.label.Visit_Results_Tab_Biomarkers;
+            this.selectedResultType = this.label.Visit_Results_Tab_Vitals;
         }
     }
     get toggleLabel() {
-        if (this.selectedResultType === 'Vitals') {
+        if (this.selectedResultType === this.label.Visit_Results_Tab_Vitals) {
             return this.label.Show_Vitals;
-        } else if (this.selectedResultType === 'Labs') {
+        } else if (this.selectedResultType === this.label.Visit_Results_Tab_Labs) {
             return this.label.Show_Labs;
-        } else if (this.selectedResultType === 'Biomarkers') {
+        } else if (this.selectedResultType === this.label.Visit_Results_Tab_Biomarkers) {
             return this.label.Show_Biomarkers;
         }
     }
     get toggleValue() {
-        if (this.selectedResultType === 'Vitals') {
+        if (this.selectedResultType === this.label.Visit_Results_Tab_Vitals) {
             return this.isVitalsToggleOn;
-        } else if (this.selectedResultType === 'Labs') {
+        } else if (this.selectedResultType === this.label.Visit_Results_Tab_Labs) {
             return this.isLabsToggleOn;
-        } else if (this.selectedResultType === 'Biomarkers') {
+        } else if (this.selectedResultType === this.label.Visit_Results_Tab_Biomarkers) {
             return this.isBiomarkersToggleOn;
         }
     }
     get isVitalsSelected() {
-        return this.selectedResultType === 'Vitals';
+        return this.selectedResultType === this.label.Visit_Results_Tab_Vitals;
     }
 
     get isLabsSelected() {
-        return this.selectedResultType === 'Labs';
+        return this.selectedResultType === this.label.Visit_Results_Tab_Labs;
     }
 
     get isBiomarkersSelected() {
-        return this.selectedResultType === 'Biomarkers';
+        return this.selectedResultType === this.label.Visit_Results_Tab_Biomarkers;
     }
 
     get isVitalsSelected() {
-        return this.selectedResultType === 'Vitals';
+        return this.selectedResultType === this.label.Visit_Results_Tab_Vitals;
     }
     handleResultTypeSelection(event) {
         this.showSpinnerResults = true;
@@ -281,11 +287,11 @@ export default class PpMyResultsContainer extends LightningElement {
             isToggleOn: event.target.checked
         })
             .then((result) => {
-                if (this.selectedResultType === 'Vitals') {
+                if (this.selectedResultType === this.label.Visit_Results_Tab_Vitals) {
                     this.isVitalsToggleOn = !this.isVitalsToggleOn;
-                } else if (this.selectedResultType === 'Labs') {
+                } else if (this.selectedResultType === this.label.Visit_Results_Tab_Labs) {
                     this.isLabsToggleOn = !this.isLabsToggleOn;
-                } else if (this.selectedResultType === 'Biomarkers') {
+                } else if (this.selectedResultType === this.label.Visit_Results_Tab_Biomarkers) {
                     this.isBiomarkersToggleOn = !this.isBiomarkersToggleOn;
                 }
                 this.showToggleSpinner = false;
@@ -331,11 +337,11 @@ export default class PpMyResultsContainer extends LightningElement {
         }
     }
     get resultTypeDisclaimer() {
-        if (this.selectedResultType === 'Vitals') {
+        if (this.selectedResultType === this.label.Visit_Results_Tab_Vitals) {
             return this.label.Visit_Results_Tab_Vit_Disclaimer;
-        } else if (this.selectedResultType === 'Labs') {
+        } else if (this.selectedResultType === this.label.Visit_Results_Tab_Labs) {
             return this.label.Visit_Results_Tab_Lab_Disclaimer;
-        } else if (this.selectedResultType === 'Biomarkers') {
+        } else if (this.selectedResultType === this.label.Visit_Results_Tab_Biomarkers) {
             return this.label.Visit_Results_Tab_Bio_Disclaimer;
         }
     }
