@@ -23,7 +23,7 @@ import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 import televisitNoUpcomingRecord from '@salesforce/resourceUrl/TelevisitNoUpcomingRecord';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 
-export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningElement)  {
+export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningElement) {
     @track status;
     @track message;
     @track recordId;
@@ -57,6 +57,7 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
     televisitAttendeePP2 = televisitAttendeePP2;
     televisitNoUpcomingRecord = televisitNoUpcomingRecord;
     isPIAttendee = false;
+    @track isTablet;
     siteStaffName;
     desktop;
     mainDiv;
@@ -75,289 +76,310 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
 
     @api
     get currentMode() {
-        return this._currentMode;        
+        return this._currentMode;
     }
-    set currentMode(value) {  
+    set currentMode(value) {
         this._currentMode = value;
         this.getVisits();
     }
     connectedCallback() {
         // Register error listener    
-        this.getVisits(); 
+        this.getVisits();
         this.loadCometdScript();
         //this.loadSessionId();
         this.timeInterval();
-        if(FORM_FACTOR == 'Large'){
+        let ipad = this.isIpad();
+        if (FORM_FACTOR == 'Large') {
             this.desktop = true;
             this.mainDiv = '';
             this.keydiv = '';
-        }else{
+        } else {
             this.desktop = false;
             this.mainDiv = 'mainDiv';
             this.keydiv = 'keydiv';
         }
-        
+
     }
- 
-    
+    isIpad() {
+        let orientation = screen.orientation.type;
+        let portrait = true;
+        this.iosString = orientation;
+        if (orientation === 'landscape-primary') {
+            portrait = false;
+        }
+        if (window.innerWidth >= 768 && window.innerWidth < 1279 && portrait) {
+            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                this.isTablet = true;
+                return true;
+            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                this.isTablet = true;
+                return true;
+            }
+        } else {
+            this.isTablet = false;
+        }
+        return false;
+    }
+
+
 
     loadCometdScript() {
-        
-            Promise.all([loadScript(this, cometdStaticResource)])
-                .then(() => {
-                    this.loadSessionId();
-                })
-                .catch((error) => {
-                    let message = error.message || error.body.message;
-                    console.log('Error::' + message);
-                });
-        } 
-    
-        loadSessionId() {
-            getSessionId()
-                .then((sessionId) => {
-                    console.log(sessionId);
-                    this.cometd = new window.org.cometd.CometD();
-                    this.cometd.configure({
-                        url:
-                            window.location.protocol +
-                            '//' +
-                            window.location.hostname +
-                            '/cometd/49.0/',
-                        requestHeaders: { Authorization: 'OAuth ' + sessionId },
-                        appendMessageTypeToURL: false
-                    });
-                    this.cometd.websocketEnabled = false;
-                    this.cometd.handshake((status) => {
-                        console.log('Status',status);
-                        this.cometd.subscribe(this.channel, (message) => {
-                            let reLoadRequired = message.data.payload.Payload__c.includes(USER_ID);
-                            console.log(message);
-                            console.log('Televisit event Fired');
-                            //TODO check update banner cases
-                            if (reLoadRequired) {
-                                console.log('Televisit event Fired on banner : reload requested');
-                                this.getVisits();
-                            }
-                            
-                        });
-                    });
-                })
-                .catch((error) => {
-                    let message = error.message || error.body.message;
-                    console.log('Error ;;' + message);
-                    //TODO
-                });
-        }
 
-        getVisits() {
-            console.log('Televisit Get visits called');
-            this.hasVisits = true;
-            this.showMoreVisits = false;
-            setTimeout(()=>{
-                getVisits({communityMode : 'IQVIA Patient Portal', userMode : 'Participant'})
+        Promise.all([loadScript(this, cometdStaticResource)])
+            .then(() => {
+                this.loadSessionId();
+            })
+            .catch((error) => {
+                let message = error.message || error.body.message;
+                console.log('Error::' + message);
+            });
+    }
+
+    loadSessionId() {
+        getSessionId()
+            .then((sessionId) => {
+                console.log(sessionId);
+                this.cometd = new window.org.cometd.CometD();
+                this.cometd.configure({
+                    url:
+                        window.location.protocol +
+                        '//' +
+                        window.location.hostname +
+                        '/cometd/49.0/',
+                    requestHeaders: { Authorization: 'OAuth ' + sessionId },
+                    appendMessageTypeToURL: false
+                });
+                this.cometd.websocketEnabled = false;
+                this.cometd.handshake((status) => {
+                    console.log('Status', status);
+                    this.cometd.subscribe(this.channel, (message) => {
+                        let reLoadRequired = message.data.payload.Payload__c.includes(USER_ID);
+                        console.log(message);
+                        console.log('Televisit event Fired');
+                        //TODO check update banner cases
+                        if (reLoadRequired) {
+                            console.log('Televisit event Fired on banner : reload requested');
+                            this.getVisits();
+                        }
+
+                    });
+                });
+            })
+            .catch((error) => {
+                let message = error.message || error.body.message;
+                console.log('Error ;;' + message);
+                //TODO
+            });
+    }
+
+    getVisits() {
+        console.log('Televisit Get visits called');
+        this.hasVisits = true;
+        this.showMoreVisits = false;
+        setTimeout(() => {
+            getVisits({ communityMode: 'IQVIA Patient Portal', userMode: 'Participant' })
                 .then((result) => {
-                    console.log('result',result);
+                    console.log('result', result);
                     var televisitInformation = JSON.parse(result);
-                if (televisitInformation) {
-                    let visitData = Object.assign(televisitInformation);
+                    if (televisitInformation) {
+                        let visitData = Object.assign(televisitInformation);
 
-                    var televisitIds = [];
-                    visitData.forEach((visitInfo) => {
-                        televisitIds.push(visitInfo.Televisit__c);
-                        visitInfo.timezone = USER_TIME_ZONE;
-                    });
-                    console.log('televisitIds :',televisitIds);
-                    
-                    
-                    fetchTelevisitAttendees({lstTelevisitIds:televisitIds}).then((result) => {
-                        console.log('fetchTelevisitAttendees',result);
-                        result.forEach((resultInfo) => {
-                            console.log('resultInfo',resultInfo);
-                            console.log('resultInfo',resultInfo.televisitId);
-                            console.log('resultInfo',resultInfo.numberOfParticipants);
-                            console.log('resultInfo',resultInfo.televisitAttendees);
-                            console.log('resultInfo',resultInfo.relatedAttendees);
-                            visitData.forEach((visitInfo) => {
+                        var televisitIds = [];
+                        visitData.forEach((visitInfo) => {
+                            televisitIds.push(visitInfo.Televisit__c);
+                            visitInfo.timezone = USER_TIME_ZONE;
+                        });
+                        console.log('televisitIds :', televisitIds);
 
-                                if(visitInfo.Televisit__c === resultInfo.televisitId){
-                                    console.log('Inside');
-                                    visitInfo.numberOfParticipants ='+ ' + resultInfo.numberOfParticipants + ' '+ this.labels.more;
-                                    visitInfo.televisitAttendees = resultInfo.televisitAttendees;
-                                    visitInfo.relatedAttendees = resultInfo.relatedAttendees;
-                                    for(var i=0; i < resultInfo.relatedAttendees.length; i++){
-                                        if(resultInfo.relatedAttendees[i].attendeeType == 'PI'){
-                                            visitInfo.isPIAttendee = true;
-                                            break;
-                                        }else if(resultInfo.relatedAttendees[i].attendeeType == 'Site Staff'){
-                                            visitInfo.isPIAttendee = false;
-                                            visitInfo.siteStaffName = resultInfo.relatedAttendees[i].firstname + ' ' + resultInfo.relatedAttendees[i].lastname;
-        
+
+                        fetchTelevisitAttendees({ lstTelevisitIds: televisitIds }).then((result) => {
+                            console.log('fetchTelevisitAttendees', result);
+                            result.forEach((resultInfo) => {
+                                console.log('resultInfo', resultInfo);
+                                console.log('resultInfo', resultInfo.televisitId);
+                                console.log('resultInfo', resultInfo.numberOfParticipants);
+                                console.log('resultInfo', resultInfo.televisitAttendees);
+                                console.log('resultInfo', resultInfo.relatedAttendees);
+                                visitData.forEach((visitInfo) => {
+
+                                    if (visitInfo.Televisit__c === resultInfo.televisitId) {
+                                        console.log('Inside');
+                                        visitInfo.numberOfParticipants = '+ ' + resultInfo.numberOfParticipants + ' '+ this.labels.more;
+                                        visitInfo.televisitAttendees = resultInfo.televisitAttendees;
+                                        visitInfo.relatedAttendees = resultInfo.relatedAttendees;
+                                        for (var i = 0; i < resultInfo.relatedAttendees.length; i++) {
+                                            if (resultInfo.relatedAttendees[i].attendeeType == 'PI') {
+                                                visitInfo.isPIAttendee = true;
+                                                break;
+                                            } else if (resultInfo.relatedAttendees[i].attendeeType == 'Site Staff') {
+                                                visitInfo.isPIAttendee = false;
+                                                visitInfo.siteStaffName = resultInfo.relatedAttendees[i].firstname + ' ' + resultInfo.relatedAttendees[i].lastname;
+
+                                            }
                                         }
                                     }
-                                }
+                                });
+
+
+
                             });
+                            //visitData.push(visitInfo); 
+                            console.log('visitData :', visitData);
+                            this.loadVisitData(visitData);
+                        }).catch((error) => {
+                            let message = error.message || error.body.message;
+                            console.log('Error' + message);
+                        });
 
-                            
-                            
-                        });   
-                        //visitData.push(visitInfo); 
-                        console.log('visitData :',visitData);
-                        this.loadVisitData(visitData);
-                    }).catch((error) => {
-                        let message = error.message || error.body.message;
-                        console.log('Error' + message);
-                    });
-                    
 
-                    //this.loadVisitData(visitData);
-                }
+                        //this.loadVisitData(visitData);
+                    }
                 })
                 .catch((error) => {
                     let message = error.message || error.body.message;
                     console.log('Error' + message);
                 });
-            },30);
-           
-        }
+        }, 30);
 
-        loadVisitData(visitData) {
-            this.allVisits = visitData;
-            this.hasActiveVisits = false;
-            let activeVisits = [];
-            visitData.forEach((visitInfo) => {
-                let visitDetail = visitInfo;
-                var now = new Date();
-                let dateNow = new Date(now);
-                let meetInfo = this.getIsPTorPTDelegate(visitInfo.Attendee_Type__c)
-                    ? this.labels.PT_TV_MEET_INFO
-                    : this.labels.PI_TV_MEET_INFO;
-                meetInfo = this.getTelevisitMeetInfo(meetInfo, visitInfo);
-                visitDetail.eachMeetInfo = meetInfo;
-    
-                let bannerStartTime = new Date(
-                    visitInfo.Televisit__r.Visit_Link_Activation_Start_Time__c
-                );
-                    
-                //visitDetail.PINameWithoutSalutation = visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c.split('Mr.')[1];
-                visitDetail.PINameWithoutSalutation = visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c;
+    }
 
-                let bannerEndTime = new Date(visitInfo.Televisit__r.Visit_Link_Activation_End_Time__c);
-                //if (dateNow >= bannerStartTime && dateNow <= bannerEndTime) {
-                if (dateNow <= bannerEndTime) {
-                    activeVisits.push(visitDetail);
-                }
-            });
-            this.allActiveVisits = activeVisits;
-            if(this.allActiveVisits.length === 0){
-                this.showBlankTelevisit = true;
-                
-            }else{
-                this.showBlankTelevisit = false; 
-                
-            }
-            this.showMoreVisits =
-                this.showMoreVisits && (activeVisits.length === 0 || activeVisits.length === 1)
-                    ? false
-                    : this.showMoreVisits;
-            if (activeVisits.length > 0) {
-                this.hasActiveVisits = true;
-            }
-            if (activeVisits.length === 1) {
-                this.singleMeetDetail = activeVisits[0];
-                this.meetMainInfo = this.getIsPTorPTDelegate(activeVisits[0].Attendee_Type__c)
-                    ? this.labels.PT_TV_MEET_INFO
-                    : this.labels.PI_TV_MEET_INFO;
-                this.meetMainInfo = this.getTelevisitMeetInfo(this.meetMainInfo, activeVisits[0]);
-                this.singleActiveVisit = true;
-                this.meetLinkUrl = activeVisits[0].Televisit__r.Meeting_URL__c;
-            } else if (activeVisits.length > 1) {
-                this.singleActiveVisit = false;
-                this.meetMainInfo = this.labels.UPCOMING_VISIT.replace('##NoOfTV', activeVisits.length);
-            }
-            this.isLoading = false;
-        }
+    loadVisitData(visitData) {
+        this.allVisits = visitData;
+        this.hasActiveVisits = false;
+        let activeVisits = [];
+        visitData.forEach((visitInfo) => {
+            let visitDetail = visitInfo;
+            var now = new Date();
+            let dateNow = new Date(now);
+            let meetInfo = this.getIsPTorPTDelegate(visitInfo.Attendee_Type__c)
+                ? this.labels.PT_TV_MEET_INFO
+                : this.labels.PI_TV_MEET_INFO;
+            meetInfo = this.getTelevisitMeetInfo(meetInfo, visitInfo);
+            visitDetail.eachMeetInfo = meetInfo;
 
-        handleSingleMeetJoin(event) {
-            console.log('this.meetLinkUrl',this.meetLinkUrl);
-            console.log(this.urlPathPrefix);
-            this.urlPathPrefix = '/pp/s';
-            let url = this.urlPathPrefix.replace('/s', '') + this.meetLinkUrl;
-            window.open(url, '_blank');
-        }
-
-        getIsPTorPTDelegate(attendeeType) {
-            let isPTorPTDelegate =
-                attendeeType === 'Participant' || attendeeType === 'Participant Delegate'
-                    ? true
-                    : false;
-            return isPTorPTDelegate;
-        }
-    
-        getTelevisitMeetInfo(label, visitInfo) {
-            let teleMeetMainInfo = label.replace('##TVName', visitInfo.Televisit__r.Title__c);
-            teleMeetMainInfo = teleMeetMainInfo.replace(
-                '##PIName',
-                visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c
+            let bannerStartTime = new Date(
+                visitInfo.Televisit__r.Visit_Link_Activation_Start_Time__c
             );
-            let participantFullName;
-            if (
-                visitInfo.Attendee_Type__c === 'Participant' &&
-                visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
-            ) {
-                participantFullName =
-                    visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c +
-                    ' ' +
-                    visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Full_Name__c;
-            } else {
-                participantFullName =
-                    visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Full_Name__c;
+
+            //visitDetail.PINameWithoutSalutation = visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c.split('Mr.')[1];
+            visitDetail.PINameWithoutSalutation = visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c;
+
+            let bannerEndTime = new Date(visitInfo.Televisit__r.Visit_Link_Activation_End_Time__c);
+            //if (dateNow >= bannerStartTime && dateNow <= bannerEndTime) {
+            if (dateNow <= bannerEndTime) {
+                activeVisits.push(visitDetail);
             }
-            teleMeetMainInfo = teleMeetMainInfo.replace('##PTName', participantFullName);
-            teleMeetMainInfo = teleMeetMainInfo.replace(
-                '##StartTime',
-                this.getLocaleTime(visitInfo.Televisit__r.Visit_Date_Time__c)
-            );
-            teleMeetMainInfo = teleMeetMainInfo.replace(
-                '##EndTime',
-                this.getLocaleTime(visitInfo.Televisit__r.Visit_End_Date_Time__c)
-            );
-            return teleMeetMainInfo;
-        }
+        });
+        this.allActiveVisits = activeVisits;
+        if (this.allActiveVisits.length === 0) {
+            this.showBlankTelevisit = true;
 
-        getLocaleTime(televisitDate) {
-            let dateValue = new Date(televisitDate);
-            return dateValue.toLocaleString(USER_LOCALE, {
-                timeZone: USER_TIME_ZONE,
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true
-            });
-        }
+        } else {
+            this.showBlankTelevisit = false;
 
-        handleJoinClick(event) {
-            this.urlPathPrefix = '/pp/s';
-            let url = this.urlPathPrefix.replace('/s', '') + event.target.dataset.name;
-            window.open(url, '_blank');
         }
+        this.showMoreVisits =
+            this.showMoreVisits && (activeVisits.length === 0 || activeVisits.length === 1)
+                ? false
+                : this.showMoreVisits;
+        if (activeVisits.length > 0) {
+            this.hasActiveVisits = true;
+        }
+        if (activeVisits.length === 1) {
+            this.singleMeetDetail = activeVisits[0];
+            this.meetMainInfo = this.getIsPTorPTDelegate(activeVisits[0].Attendee_Type__c)
+                ? this.labels.PT_TV_MEET_INFO
+                : this.labels.PI_TV_MEET_INFO;
+            this.meetMainInfo = this.getTelevisitMeetInfo(this.meetMainInfo, activeVisits[0]);
+            this.singleActiveVisit = true;
+            this.meetLinkUrl = activeVisits[0].Televisit__r.Meeting_URL__c;
+        } else if (activeVisits.length > 1) {
+            this.singleActiveVisit = false;
+            this.meetMainInfo = this.labels.UPCOMING_VISIT.replace('##NoOfTV', activeVisits.length);
+        }
+        this.isLoading = false;
+    }
 
-        timeInterval() {
-            setInterval(() => {
-                this.loadVisitData(this.allVisits);
-            }, 60 * 1000);
-        }
+    handleSingleMeetJoin(event) {
+        console.log('this.meetLinkUrl', this.meetLinkUrl);
+        console.log(this.urlPathPrefix);
+        this.urlPathPrefix = '/pp/s';
+        let url = this.urlPathPrefix.replace('/s', '') + this.meetLinkUrl;
+        window.open(url, '_blank');
+    }
 
-        setSessionCookie() {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            return true;
+    getIsPTorPTDelegate(attendeeType) {
+        let isPTorPTDelegate =
+            attendeeType === 'Participant' || attendeeType === 'Participant Delegate'
+                ? true
+                : false;
+        return isPTorPTDelegate;
+    }
+
+    getTelevisitMeetInfo(label, visitInfo) {
+        let teleMeetMainInfo = label.replace('##TVName', visitInfo.Televisit__r.Title__c);
+        teleMeetMainInfo = teleMeetMainInfo.replace(
+            '##PIName',
+            visitInfo.Televisit__r.Participant_Enrollment__r.PI_Contact__r.Salutation_With_Name__c
+        );
+        let participantFullName;
+        if (
+            visitInfo.Attendee_Type__c === 'Participant' &&
+            visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c
+        ) {
+            participantFullName =
+                visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Salutation__c +
+                ' ' +
+                visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Full_Name__c;
+        } else {
+            participantFullName =
+                visitInfo.Televisit__r.Participant_Enrollment__r.Participant__r.Full_Name__c;
         }
-        navigateToTelevisit() {
-            this[NavigationMixin.Navigate]({
-                type: 'comm__namedPage',
-                attributes: {
-                    pageName: 'televisit'
-                }
-            });
-        }    
+        teleMeetMainInfo = teleMeetMainInfo.replace('##PTName', participantFullName);
+        teleMeetMainInfo = teleMeetMainInfo.replace(
+            '##StartTime',
+            this.getLocaleTime(visitInfo.Televisit__r.Visit_Date_Time__c)
+        );
+        teleMeetMainInfo = teleMeetMainInfo.replace(
+            '##EndTime',
+            this.getLocaleTime(visitInfo.Televisit__r.Visit_End_Date_Time__c)
+        );
+        return teleMeetMainInfo;
+    }
+
+    getLocaleTime(televisitDate) {
+        let dateValue = new Date(televisitDate);
+        return dateValue.toLocaleString(USER_LOCALE, {
+            timeZone: USER_TIME_ZONE,
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
+    }
+
+    handleJoinClick(event) {
+        this.urlPathPrefix = '/pp/s';
+        let url = this.urlPathPrefix.replace('/s', '') + event.target.dataset.name;
+        window.open(url, '_blank');
+    }
+
+    timeInterval() {
+        setInterval(() => {
+            this.loadVisitData(this.allVisits);
+        }, 60 * 1000);
+    }
+
+    setSessionCookie() {
+        sessionStorage.setItem('Cookies', 'Accepted');
+        return true;
+    }
+    navigateToTelevisit() {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'televisit'
+            }
+        });
+    }
 
 }

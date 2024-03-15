@@ -13,6 +13,7 @@ export default class NavMessageCounter extends LightningElement {
     @track counter;
     @track isTab;
     @api isMessagePage = false;
+    @api portraitCount;
     labels = {
         New,
         Message_MinTime_DoNotTranslate,
@@ -20,7 +21,10 @@ export default class NavMessageCounter extends LightningElement {
     };
 
     connectedCallback() {
-        this.isTab=this.isTablet();
+        this.isTab = this.isTablet();
+        if (this.portraitCount > 0) {
+            this.counter = this.portraitCount;
+        }
         setInterval(
             () => {
                 getCounter()
@@ -33,7 +37,7 @@ export default class NavMessageCounter extends LightningElement {
                         }
                         this.dispatchEvent(new CustomEvent('msgnotify', {
                             detail: {
-                                message:  this.counter
+                                message: this.counter
                             }
                         }));
                     })
@@ -41,8 +45,8 @@ export default class NavMessageCounter extends LightningElement {
                         console.error('Error in getCounter():' + JSON.stringify(error));
                     });
             },
-        this.isOnPage ? this.labels.Message_MinTime_DoNotTranslate : this.labels.Message_MaxTime_DoNotTranslate
-        // this.isOnPage ? 1000 : 5000
+            this.isOnPage ? this.labels.Message_MinTime_DoNotTranslate : this.labels.Message_MaxTime_DoNotTranslate
+            // this.isOnPage ? 1000 : 5000
         );
     }
     isTablet() {
@@ -55,5 +59,5 @@ export default class NavMessageCounter extends LightningElement {
         } else {
             return false;
         }
-        }
+    }
 }

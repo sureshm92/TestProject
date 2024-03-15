@@ -185,7 +185,7 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
 
     get actionButtonCssClass() {
         return this.ishomepage && this.isIPAD
-            ? 'slds-p-around_small slds-size_2-of-12 iPadIcon-hide'
+            ? 'iPadIcon-hide'
             : this.ishomepage ?'slds-p-around_small slds-size_2-of-12': this.isMobile
             ? 'slds-p-right_medium slds-size_2-of-12'
             : 'slds-p-right_large slds-size_1-of-12';
