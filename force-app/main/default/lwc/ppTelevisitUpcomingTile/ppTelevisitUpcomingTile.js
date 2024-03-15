@@ -11,6 +11,7 @@ import UPCOMING_VISIT from '@salesforce/label/c.Televisit_Upcoming_Meet';
 import LINK_TELEVISIT from '@salesforce/label/c.Link_To_Televisit_Details';
 import NO_TELEVISIT from '@salesforce/label/c.No_upcoming_televisits';
 import LINK_ALL_TELEVISIT from '@salesforce/label/c.Link_To_All_Televisits';
+import more from '@salesforce/label/c.PIR_more';
 import USER_LOCALE from '@salesforce/i18n/locale';
 import USER_TIME_ZONE from '@salesforce/i18n/timeZone';
 import USER_ID from '@salesforce/user/Id';
@@ -68,7 +69,8 @@ export default class PpTelevisitUpcomingTile extends NavigationMixin(LightningEl
         JOIN_MEET,
         LINK_TELEVISIT,
         NO_TELEVISIT,
-        LINK_ALL_TELEVISIT
+        LINK_ALL_TELEVISIT,
+        more
     };
     isLoading = true;
 
