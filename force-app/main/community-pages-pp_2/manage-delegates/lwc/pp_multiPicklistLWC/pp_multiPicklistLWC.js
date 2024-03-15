@@ -218,6 +218,10 @@ export default class Pp_multiPicklistLWC extends LightningElement {
         return this.isRTL ? 'selectedValue-rtl slds-truncate_container_25 slds-truncate' : 'selectedValue slds-truncate_container_25 slds-truncate';
     }
 
+    get selectedValueMobileClass(){
+        return this.isRTL ? 'selectedValue-rtl slds-truncate_container_50 slds-truncate' : 'selectedValue slds-truncate_container_50 slds-truncate';
+    }
+
     // get manageMarginCustom() {
     //     return this.isDesktop ? 'manage-margin-custom-desktop' : 'manage-margin-custom-mobile';
     // }

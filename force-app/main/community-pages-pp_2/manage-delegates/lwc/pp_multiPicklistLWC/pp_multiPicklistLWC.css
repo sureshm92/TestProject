@@ -302,6 +302,8 @@
 }
 .slds-input__icon_left{
     padding-left: 18px !important;
+    left: 0.75rem;
+    right: unset;
 }
 
 .dropdown-rtl{
