@@ -176,6 +176,7 @@ a {
     height: 32px;
     min-width: 109px;
     margin-left: -1px;
+    margin-right: -1px;
 }
 
 .border-radius-rtl {
