@@ -94,6 +94,20 @@ a:hover {
     text-align: left;
     margin-top: 25px;
 }
+.allVisitsPP2-rtl {
+    z-index: 100;
+    position: absolute;
+    top: 95px;
+    background: white;
+    box-shadow: 0 0 3px rgb(116 116 116);
+    border-radius: 4px;
+    margin-right: 20%;
+    width: 60%;
+    padding-left: 10px;
+    /*padding-top: 8px;*/
+    text-align: left;
+    margin-top: 25px;
+}
 .singleMeet{
     font-size: 16px;
     display: flex;
@@ -118,6 +132,12 @@ a:hover {
 }
 .desktop{
     display: initial;
+}
+.Padding{
+    padding-left: 20%;
+}
+.Padding-rtl{
+    padding-right: 20%;
 }
 
 

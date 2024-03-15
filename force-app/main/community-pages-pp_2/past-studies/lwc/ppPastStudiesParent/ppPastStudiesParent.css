@@ -354,6 +354,9 @@
     }
     .box-right {
         padding-left: 32px;
+    }
+    .box-right-rtl {
+        padding-right: 32px;
     }    
     .show-link .box-container {
         height: 429px !important;
@@ -374,7 +377,10 @@
     }
     .doc-container{
         padding-right: 12px;
-    }    
+    }  
+    .doc-container-rtl{
+        padding-left: 12px;
+    }  
     .doc-container-right{
         padding-right: 32px;
     }
@@ -383,6 +389,9 @@
     }
     .file-container{
         padding-left: 12px;
+    }
+    .file-container-rtl{
+        padding-right: 12px;
     }
     .file-container-left {
         padding-left: 0px ;

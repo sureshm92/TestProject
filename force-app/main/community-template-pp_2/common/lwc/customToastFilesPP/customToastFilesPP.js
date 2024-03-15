@@ -1,6 +1,8 @@
 import { LightningElement, track, api } from 'lwc';
+import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 
 export default class CommonToast extends LightningElement {
+    isRTL;
     @api isMobile;
     @track type = 'success';
     @track message;
@@ -20,6 +22,10 @@ export default class CommonToast extends LightningElement {
         setTimeout(() => {
             this.closeModel();
         }, this.autoCloseTime);
+    }
+
+    connectedCallback() {
+        this.isRTL = rtlLanguages.includes(communityService.getLanguage()) ? true : false;
     }
 
     closeModel() {
@@ -52,5 +58,8 @@ export default class CommonToast extends LightningElement {
         } else {
             return 'cust-pad slds-theme_' + this.type;
         }
+    }
+    get closeButtonStyle() {
+        return this.isRTL ? 'slds-notify__close-rtl toastCloseF custom-icon custom-close' : 'slds-notify__close toastCloseF custom-icon custom-close';
     }
 }
