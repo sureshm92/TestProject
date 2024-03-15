@@ -1550,8 +1550,8 @@ public without sharing class DashboardRemoteNew {
                     Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c
                 FROM Study_Site__c
                 WHERE Clinical_Trial_Profile__r.Id = :studyid
-                AND Study_Site__r.Site_Activation_Status__c IN ('Activated', 'Activated (Admin)', 'On Hold')
-                AND Study_Site__r.Override_PI_Referral_Status__c='Accepted'
+                AND Site_Activation_Status__c IN ('Activated', 'Activated (Admin)', 'On Hold')
+                AND Override_PI_Referral_Status__c='Accepted'
                 ORDER BY Study_Site_Number__c ASC NULLS LAST
             ];
 
