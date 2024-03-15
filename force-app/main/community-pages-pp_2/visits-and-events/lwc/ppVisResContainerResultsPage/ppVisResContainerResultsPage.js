@@ -74,6 +74,7 @@ export default class PpMyResultsContainer extends LightningElement {
     isRTL = false;
     isIpadPortrait = false;
     isIpadLandscape = false;
+
     toggleOffHeart = pp_icons + '/' + 'heart_Icon.svg';
 
     @api
@@ -99,14 +100,18 @@ export default class PpMyResultsContainer extends LightningElement {
         if (!this.isDesktop) {
             this.initializeData();
         }
+
         this.isIpadPortraitView();
         this.isIpadLandscapeView();
         window.addEventListener('orientationchange', this.onOrientationChange);
+
     }
+
     onOrientationChange = () => {
         this.isIpadPortraitView();
         this.isIpadLandscapeView();
     };
+
     get showTabs() {
         return this.visResultTypeTabs.length > 1 ? true : false;
     }
@@ -149,12 +154,14 @@ export default class PpMyResultsContainer extends LightningElement {
     get isInitialized() {
         return this.patientVisitWrapper && this.currentVisit ? true : false;
     }
+
     get isIpadView(){
         return this.isIpadPortrait || this.isIpadLandscape;
     }
     get visitNameHeaderClass(){
         return (this.isIpadPortrait || this.isIpadLandscape)?'slds-col slds-size_3-of-3 slds-float_left slds-p-horizontal_none':'slds-col slds-size_2-of-3 slds-float_left slds-p-horizontal_none';
     }
+
     checkButtonClass() {
         if (this.visResultTypeTabs.length == 1) {
             this.selectedResultType = this.visResultTypeTabs[0];
@@ -352,6 +359,7 @@ export default class PpMyResultsContainer extends LightningElement {
         });
         this.dispatchEvent(custEvent);
     }
+
     isIpadPortraitView() {
         let orientation = screen.orientation.type;
         let portrait = true;
@@ -389,4 +397,5 @@ export default class PpMyResultsContainer extends LightningElement {
         this.isIpadLandscape = false;
         return false;
     }
+
 }

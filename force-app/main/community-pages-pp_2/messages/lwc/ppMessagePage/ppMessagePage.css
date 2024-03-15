@@ -54,6 +54,11 @@
     height: auto;
     border-right: 1px solid #d9d9d9;
 }
+.divider-rtl {
+    height: auto;
+    border-left: 1px solid #d9d9d9;
+}
+
 .border-btm {
     border-bottom: 1px solid #d9d9d9;
     height: 4.5rem;
@@ -80,6 +85,10 @@
 .box-container-adjustment{
     margin-top: -1rem;
     margin-right: 2rem;
+}
+.box-container-adjustment-rtl{
+    margin-top: -1rem;
+    margin-left: 2rem;
 }
 .team-count {
     font-size: 16px;

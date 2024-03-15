@@ -47,7 +47,9 @@ import formFactor from '@salesforce/client/formFactor';
 import REMOVE from '@salesforce/label/c.PP_Remove';
 import RENAME from '@salesforce/label/c.PP_Rename';
 import PREVIEW from '@salesforce/label/c.PP_Preview';
+import BulkImport_browse from '@salesforce/label/c.BulkImport_browse';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 
 const MAX_FILE_SIZE = 4500000; //2621440;// 4500000; max file size prog can handle
 const CHUNK_SIZE = 750000; // 500000; //9000;//750000; max chunk size prog can handle 500000
@@ -98,7 +100,8 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         PP_Fileremovedsuccesfully,
         REMOVE,
         RENAME,
-        PREVIEW
+        PREVIEW,
+        BulkImport_browse
     };
 
     value = 'inProgress';
@@ -148,6 +151,12 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     filesData = [];
     @track isAndroid;
 
+    isRTL = false;
+
+    get documentuploadempty() {
+        return this.isRTL ? 'documentuploadempty-rtl' : 'documentuploadempty';
+    }
+
     get options() {
         return [
             { label: 'Uploaded', value: 'uploaded' },
@@ -188,6 +197,14 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 this.isSaving = false;
             });
         }
+
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+            });
     }
     isAndroidApp(){
         if ( (navigator.userAgent.match(/Android/i)) && communityService.isMobileSDK()) {
