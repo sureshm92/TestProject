@@ -1,6 +1,6 @@
 <template>
     <div class="contact-support-popup">       
-        <template if:false={desktop}>
+        <template if:false={desktop}>         
             <template if:true={showmodal}>
                 <c-pp-modal
                     header-text={tittext}
@@ -88,7 +88,7 @@
                                                         </lightning-layout-item>
                                                         <lightning-layout-item size="12" class="addressContent">
                                                             <div class="param2">{siteAddress}</div>
-                                                            <textarea class="address-value-ele textarea-style noselect ml" inputmode='none'>{siteName}&nbsp;{siteAddress}</textarea>
+                                                            <textarea class="address-value-ele textarea-style noselect" inputmode='none'>{siteName}&nbsp;{siteAddress}</textarea>
                                                         </lightning-layout-item>
                                                     </lightning-layout>
                                                 </lightning-layout-item>
