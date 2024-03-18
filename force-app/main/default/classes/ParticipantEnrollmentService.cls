@@ -115,7 +115,7 @@ public without sharing class ParticipantEnrollmentService {
         String delegateId,
         Boolean translationNeeded
     ) {
-        String defaultFilter = getDefaultFilter(userMode, delegateId, filter);
+        String defaultFilter = getDefaultFilter(userMode, delegateId, filter);  
         //if(filter != null) defaultFilter += ' ' + filter;
         List<Participant_Enrollment__c> peList = DatabaseService.query(
             customFields,
@@ -222,7 +222,7 @@ public without sharing class ParticipantEnrollmentService {
         );
     }
 
-    	
+        
     public List<Participant_Enrollment__c> getPendingParticipantEnrollmentsImpl(
         Id trialId,
         Id hcpEnrollmentId,
@@ -833,6 +833,143 @@ public without sharing class ParticipantEnrollmentService {
         'Consulted_Date__c',
         'Have_you_Documented_the_Discussion__c',
         'Discussion_Documented_Date__c'
+       
+    };
+     public static final List<String> PE_COMMON_FIELDSETS = new List<String>{
+        'Id',
+        'Invited_To_PP_Date__c',
+        'Clinical_Trial_Profile__c',
+        'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
+        'Clinical_Trial_Profile__r.Study_Sponsor__c',
+        'Clinical_Trial_Profile__r.Study_Title__c',
+        'Clinical_Trial_Profile__r.Study_Code_Name__c',
+        'Clinical_Trial_Profile__r.Protocol_ID__c',
+        'Clinical_Trial_Profile__r.Study_Documents_Are_Available__c',
+        'Clinical_Trial_Profile__r.CommunityTemplate__c',
+        'Clinical_Trial_Profile__r.PPTemplate__c',
+        'Clinical_Trial_Profile__r.Promote_to_SH__c',
+        'Clinical_Trial_Profile__r.IQVIA_Outreach__c',
+        'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
+        'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
+        'CreatedDate',
+        'Enrolled_Date__c',
+        'Enrolled_DateTime__c',
+        'HCP__c',
+        'HCP__r.Status__c',
+        'HCP__r.Study_Site__c',
+        'HCP__r.HCP_Contact__c',
+        'HCP__r.HCP_Contact__r.Name',
+        'HCP__r.HCP_Contact__r.FirstName',
+        'HCP__r.HCP_Contact__r.LastName',
+        'HCP__r.HCP_Contact__r.Email',
+        'HCP__r.HCP_Contact__r.Salutation',
+        'HCP__r.HCP_Contact__r.Language__c',
+        'HCP__r.HCP_Contact__r.AccountId',
+        'HCP__r.HCP_Contact__r.Account.Name',
+        'Informed_Consent__c',
+        'Name',
+        'Non_Referral_Reason__c',
+        'Patient_ID__c',
+        'Participant_Status__c',
+        'Participant_Status_Last_Changed_Date__c',
+        'Participant_Name__c',
+        'Participant_Surname__c',
+        'Participant__c',
+        'Participant__r.Adult__c',
+        'Participant__r.First_Name__c',
+        'Participant__r.Last_Name__c',
+        'Participant__r.Middle_Name__c',
+        'Participant__r.Full_Name__c',
+        'Participant__r.Nickname__c',
+        'Participant__r.Suffix__c',
+        'Participant__r.Preferred_Language__c',
+        'Participant__r.Date_of_Birth__c',
+        'Participant__r.Birth_Year__c',
+        'Participant__r.Gender__c',
+        'Participant__r.Email__c',
+        'Participant__r.IsCountry_NOT_Eligible_for_Emails__c',
+        'Participant__r.Phone__c',
+        'Participant__r.Phone_Type__c',
+        'Participant__r.Alternative_Phone_Number__c',
+        'Participant__r.Alternative_Phone_Type__c',
+        'Participant__r.Mailing_State__c',
+        'Participant__r.Mailing_City__c',
+        'Participant__r.Mailing_State_Code__c',
+        'Participant__r.Mailing_Country__c',
+        'Participant__r.Mailing_Country_Code__c',
+        'Participant__r.Mailing_Zip_Postal_Code__c',
+        'Participant__r.Contact__c',
+        'Participant__r.Conditions__c',
+        'Participant__r.Contact__r.Language__c',
+        'Participant_Contact__c',
+        'Participant_Contact__r.Visit_Results_OptIn__c',
+        'Participant_Opt_In_Status_Emails__c',
+        'IQVIA_Direct_Mail_Consent__c',
+        'PI_Contact__c',
+        'PI_Contact__r.Id',
+        'PI_Contact__r.Name',
+        'PI_Contact__r.Phone',
+        'Pre_screening_Status__c',
+        'Pre_Eligibility_Date__c',
+        'Referred_Date__c',
+        'Referred_By__c',
+        'HCP_Contact_HCPEnroll__c',
+        'HCP_Contact_HCPEnroll__r.Name',
+        'Referral_ID__c',
+        'Referral_Source__c',
+        'Referral_Completed_by__r.Id',
+        'Referral_Completedby_Name__c',
+        'Source_Type__c',
+        'Study_Name__c',
+        'Study_Site__c',
+        'Study_Site__r.Name',
+        'Study_Site__r.Is_Virtual_Study_Site__c',
+        'Study_Site__r.Study_Site_Type__c',
+        'Study_Site__r.Override_PI_Referral_Status__c',
+        'Study_Site__r.Clinical_Trial_Profile__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
+        'Study_Site__r.Site__r.Name',
+        'Study_Site__r.Site__r.Phone',
+        'Study_Site__r.Principal_Investigator__c',
+        'Study_Site__r.Principal_Investigator__r.Name',
+        'Study_Site__r.Messages_Are_Available__c',
+        'Study_Site__r.SMS_Are_Available__c',
+        'Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c',
+        'Study_Site__r.Suppress_Participant_Emails__c',
+        'Study_Site__r.Participant_DOB_format__c',
+        'Screening_ID__c',
+        'Washout_Run_In_Applies__c',
+        'Initial_visit_occurred_flag__c',
+        'Initial_visit_occurred_date__c',
+        'Initial_visit_scheduled_date__c',
+        'Initial_visit_scheduled_time__c',
+        'Initial_visit_scheduled_flag__c',
+        'Non_Enrollment_Reason__c',
+        'Last_Status_Changed_Notes__c',
+        'Permit_SMS_Text_for_this_study__c',
+        'Permit_Voice_Text_contact_for_this_study__c',
+        'Permit_Mail_Email_contact_for_this_study__c',
+        'Delegate_Consent__c',
+        'Delegate_SMS_Consent__c',
+        'Study_Direct_Mail_Consent__c',
+        'Permit_IQVIA_to_contact_about_study__c',
+        'Email__c',
+        'Patient_Middle_Name_Initial__c',
+        'Patient_Sex__c',
+        'Primary_Delegate_Email__c',
+        'Primary_Delegate_Phone_Number__c',
+        'Primary_Delegate_Phone_Type__c'
+       
     };
     public static final List<String> ACTIVE_PE_FIELDS_FOR_CTP_SS = new List<String>{
         'Id',
@@ -864,7 +1001,7 @@ public without sharing class ParticipantEnrollmentService {
         String filter,
         String delegateId,
         Boolean translationNeeded
-    ) {
+    ) {   
         return getInstance()
             .getPEnrolmentsCommonCustomFieldsImpl(
                 userMode,
@@ -1338,9 +1475,21 @@ public without sharing class ParticipantEnrollmentService {
         PEFilter filter,
         String delegateId,
         String sponsorName
-    ) {
+    ) { 
         return getParticipantEnrollmentsCustomFields(
             PE_COMMON_FIELDS,
+            filter,
+            delegateId,
+            sponsorName
+        );
+    }
+     public static List<Participant_Enrollment__c> getParticipantEnrollmentsRP(
+        PEFilter filter,
+        String delegateId,
+        String sponsorName
+    ) { 
+        return getParticipantEnrollmentsCustomFields(
+            PE_COMMON_FIELDSETS,
             filter,
             delegateId,
             sponsorName
@@ -1352,7 +1501,7 @@ public without sharing class ParticipantEnrollmentService {
         PEFilter filter,
         String delegateId,
         String sponsorName
-    ) {
+    ) { 
         return getParticipantEnrollmentsCustomFields(
             fieldsList,
             filter,
@@ -1441,7 +1590,7 @@ public without sharing class ParticipantEnrollmentService {
         if (!filter.sortType.contains('Alphabetical'))
             filterStr += ' ORDER BY ' + filter.sortType;
         System.debug('FILTER STRING: ' + filterStr);
-
+ 
         //get PE List:
         List<Participant_Enrollment__c> peList = getPEnrolmentsCommonCustomFields(
             filter.mode,
@@ -1612,7 +1761,7 @@ public without sharing class ParticipantEnrollmentService {
         }
         //Use ORDER BY clause for sorting based on created/ modified date
         if (!filter.sortType.contains('Alphabetical'))
-            filterStr += ' ORDER BY ' + filter.sortType;
+            filterStr += ' ORDER BY ' + filter.sortType;  
         //Modified for performance tuning - get PE List based on the offset
         List<Participant_Enrollment__c> peList;
         if (noSearchResult) {
@@ -1714,7 +1863,7 @@ public without sharing class ParticipantEnrollmentService {
         Integer currentpage = paginationData.currentPage;
         Integer size = currentpage - 1;
         Integer offsetvalue = size * limitvalue;
-
+   
         List<Participant_Enrollment__c> peList = DatabaseService.query(
             customFields,
             Participant_Enrollment__c.getSObjectType(),
