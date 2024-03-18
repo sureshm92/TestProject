@@ -3,6 +3,8 @@ public class Test_TelevisitAttendeeTriggerHandler {
     @IsTest
     static void taskTest()
     {
+         TriggerHandlerExecutor.bypassHandler(NotificationTriggerHandler.UpdateNotificationHandler.class);
+         Test.startTest();
         TestData.loadTestData();
         TestData testData = new TestData();
         Televisit_Record_Vendor__c trv = new Televisit_Record_Vendor__c(API_Key__c = 'test',API_Secret__c='test1', Clinical_Trial_Profile__c=testData.ctp.id);
@@ -33,6 +35,7 @@ public class Test_TelevisitAttendeeTriggerHandler {
         taObj2.Contact__c =  testData.pe.Participant_Contact__c;
         insert taObj2;
 delete taObj2;
+        List<Id> targetIds = new List<Id>();
         TelevisitAttendeeTriggerHandler.ManageAttendees manageAttendee = new TelevisitAttendeeTriggerHandler.ManageAttendees();
         manageAttendee.afterDelete(new List<Televisit_Attendee__c>{taObj,taObj1,taObj2});
         manageAttendee.afterInsert(new List<Televisit_Attendee__c>{taObj,taObj1});
@@ -41,7 +44,9 @@ delete taObj2;
         TelevisitAttendeeTriggerHandler.TelevisitAttendeeTrigger taTrigger = new TelevisitAttendeeTriggerHandler.TelevisitAttendeeTrigger();
         taTrigger.afterDelete(new List<Televisit_Attendee__c>{taObj,taObj1,taObj2});
                 taTrigger.afterInsert(new List<Televisit_Attendee__c>{taObj,taObj1});
-
+        TelevisitAttendeeTriggerHandler.gettrimmedTargetRecordIds(targetIds);
+        
+ Test.stopTest();
         
     }
 }

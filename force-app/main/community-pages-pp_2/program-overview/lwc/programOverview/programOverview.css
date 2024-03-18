@@ -9,14 +9,9 @@
     border: 1px solid #e9e9e9;
     font-family: Proxima Nova Medium;
 }
-.prgm-logo{
-    height:75px;
-}
+
 .po-custom-card-mobile {
-    /* height: auto;
-    min-height: 114px;
-    max-height: 120px;
-    padding: 8px 0px; */
+    height: auto;
     background-color: #fff;
     font-family: Proxima Nova Medium;
 }
@@ -25,10 +20,10 @@
     text-align: center;
 }
 
-/* .po-logo {
-    width: 110px;
-    height: 69px;
+ .po-logo {
+    max-height: 120px;
 }
+/*
 
 .po-logo-mobile {
     width: 76px;
@@ -126,18 +121,20 @@
 .piIcon {
     height: 13.33px;
     width: 12px;
-    margin-right: 12px;
+    /* margin-right: 12px; */
 }
 
 .piNameText {
     width: 100%;
+    /* padding-right: 16px; */
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
 }
 @media (max-width: 500px) {
     .piNameText {
-        max-width: 200px;
+        width: 100%;
+        /* padding-right: 10px; */
     }
 }
 .piIcon-li {
@@ -146,4 +143,23 @@
 
 .pad-5{
     padding-left: 5px;
+}
+@media (max-width:767px){
+    .prgm-logo{
+        max-height:95px;
+    }
+}
+@media (min-width:768px) and (max-width:1280px){
+    .prgm-logo{
+        max-height:102px;
+    }
+    .po-more{
+        padding-left:.8rem;
+    }
+    .phoneIcon,.piIcon {
+        margin-left: 13px
+    }
+}
+.marginClass{
+    margin-right:10px;
 }
