@@ -12,6 +12,7 @@ import USER_ID from '@salesforce/user/Id';
 import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import getSessionId from '@salesforce/apex/TelevisitMeetBannerController.getSessionId';
 import checkEmailSMSPreferencesForPPTask from '@salesforce/apex/TaskEditRemote.checkEmailSMSPreferencesForPPTask';
+import getConsentPreferences from '@salesforce/apex/RestrictedSourceConfigService.getConsentPreferences';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import REMINDER from '@salesforce/label/c.Remind_Me';
 import SELECT_REMINDER from '@salesforce/label/c.PP_SELECT_REMINDER';
@@ -40,6 +41,7 @@ export default class PpCreateTaskReminder extends LightningElement {
     @api taskInfo;
     @api maxReminderDate;
     @api maxReminderTime;
+    restricrtedContact;
 
     isInitialized = false;
     spinner;
@@ -310,6 +312,33 @@ export default class PpCreateTaskReminder extends LightningElement {
             this.maxReminderTime = hh + ':' + mm + ':' + ss;
         } 
     }
+    restrictedConData(){
+        var conlst = new Array();
+        this.restricrtedContact = false;
+        conlst.push(this.taskInfo.WhoId);
+        getConsentPreferences({ contactIdslst: conlst})
+        .then((result) => {
+            let restrictedLst = result;
+            let recordCount= Object.keys(restrictedLst).length; 
+            if(recordCount > 0){
+                if(restrictedLst.hasOwnProperty(this.taskInfo.WhoId) && !restrictedLst[this.taskInfo.WhoId]){
+                    this.isEmailReminderDisabled = true;
+                }
+                else if(!restrictedLst.hasOwnProperty(this.taskInfo.WhoId)){ // My Map{"0033O000017FxHjQAK":true} // 0033O000017FxHjQAK
+                    this.isEmailReminderDisabled = true;
+                }
+                else{
+                    this.isEmailReminderDisabled = false;
+                }
+            }
+            else{
+                this.isEmailReminderDisabled = true;
+            }
+        })
+        .catch((error) => {
+            this.showToast('', error.message, 'error');
+        });
+    }
     get maximumReminderTime() {
         if (this.maxReminderTime != null) {
             return this.selectedReminderDate == this.maxReminderDate ? this.maxReminderTime : null;
@@ -390,6 +419,7 @@ export default class PpCreateTaskReminder extends LightningElement {
             .then((result) => {
                 let initialData = result;
                 this.handleCommPrefChange();
+                this.restrictedConData();
                 this.isInitialized = true;
                 this.spinner.hide();
             })
@@ -534,6 +564,11 @@ export default class PpCreateTaskReminder extends LightningElement {
                     : this.emailReminderOptIn;
                 this.smsReminderOptIn = this.isSMSReminderDisabled ? false : this.smsReminderOptIn;
                 this.handleReminderDataChange();
+                if(this.taskInfo)
+                {
+                this.restrictedConData();
+                }
+
                 this.spinner.hide();
             })
             .catch((error) => {
