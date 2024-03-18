@@ -20,6 +20,7 @@ import No_Past_Visit from '@salesforce/label/c.Visit_No_Past_Visit';
 import No_Past_Event from '@salesforce/label/c.Event_No_Past_Event';
 import unscheduledVisit from '@salesforce/label/c.StudyVisit_Unscheduled_Visit';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+import DEVICE from '@salesforce/client/formFactor';
 
 export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     label = {
@@ -72,7 +73,6 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     @track selectedIndex = 0;
     @track visitTimezone = '';
     @track isIpad = false;
-    @track isTabLandscape = false;
     @track isTabletDev=false;
 
     initialized = '';
@@ -113,10 +113,15 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
             : 'slds-p-left_x-small slds-size_1-of-12';
     }
 
+    get borderClass() {
+        return DEVICE=='Medium'
+            ? ''
+            : 'slds-border_right';
+    }
+
     connectedCallback() {
         this.visitTimezone = TIME_ZONE;
         let ipadVal = this.isIpadLogic();
-        window.addEventListener('orientationchange', this.onOrientationChange);
         getisRTL()
             .then((data) => {
                 this.isRTL = data;
@@ -126,15 +131,15 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
                 console.error('Error RTL: ' + JSON.stringify(error));
             });
     }
-    onOrientationChange = () => {
-        let isLandscape = this.isIpadLogic();
-    };
+   
     renderedCallback() {
         this.handleVisitChange();
     }
     get inactiveBoxClass(){
         return this.isTabletDev?'inactive-custom-box tab-css':'inactive-custom-box';
     }
+
+   
 
     isIpadLogic() {
         if (window.innerWidth >= 768 && window.innerWidth <= 1280) {
@@ -145,19 +150,13 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
                 this.isIpad = true;
                 return true;
             }else if (/android/i.test(navigator.userAgent.toLowerCase())) {
-                this.isTabletDev=true;   
-                let orientation = screen.orientation.type;
-                if (orientation.startsWith('landscape')) {
-                    this.isTabLandscape=true;
-                    return true;
-                } else {
-                    this.isTabLandscape=false;
-                    return false;
-                } 
+                this.isTabletDev=true;                
+                return true;                
             }
         } else {
             this.isIpad = false;
-            this.isTabLandscape=false;
+            this.isTabletDev=false;              
+
         }
         return false;
     }

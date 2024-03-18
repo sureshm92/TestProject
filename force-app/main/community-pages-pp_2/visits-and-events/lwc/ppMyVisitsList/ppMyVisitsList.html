@@ -1,6 +1,6 @@
 <template>
     <c-web-spinner fixed="true"></c-web-spinner>
-    <div class="slds-border_right">
+    <div class={borderClass}>
         <div class="list-selection">
             <template if:true={past}>
                 <button data-id="upcoming" class={upButtonStyle} onclick={onUpcomingClick}>
