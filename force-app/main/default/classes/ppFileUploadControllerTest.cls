@@ -18,7 +18,20 @@ public class ppFileUploadControllerTest {
         
         ppFileUploadController.fetchFiles(u.ContactId);
         string fIdn = nonReferedBulkUpload.saveTheChunkFile(u.ContactId, 'Test.xlsx', EncodingUtil.base64Encode(blob.valueOf('File test data')) , '.xlsx', ''); 
-        
+         ContentVersion contentVersionInsert = new ContentVersion(
+             Title = 'Test File',
+            PathOnClient = 'testFile.jpg',
+            VersionData = Blob.valueOf('Test Content'),
+            IsMajorVersion = true
+              
+        );
+        Insert contentVersionInsert;
+		Id newId = Id.valueOf(fIdn);
+        ContentDistribution cdist = new ContentDistribution(
+                                        Name = contentVersionInsert.Title,
+                                        ContentVersionId = newId
+                                        );
+        insert cdist;
         ppFileUploadController.saveTheChunkFile(u.ContactId, 'Test.pdf', EncodingUtil.base64Encode(blob.valueOf('File test data')) , 'pdf', fIdn,'',false,false,'99',false);
         ppFileUploadController.saveTheChunkFile(u.ContactId, 'Test.pdf', EncodingUtil.base64Encode(blob.valueOf('File test data')) , 'pdf', fIdn,'',false,true,'99',false);
         Test.stopTest();
