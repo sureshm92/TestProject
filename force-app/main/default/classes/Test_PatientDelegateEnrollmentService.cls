@@ -119,6 +119,14 @@ public class Test_PatientDelegateEnrollmentService {
     static void patientDelegateServiceTest() {
         //refreshTestData();
         TestData testData = new TestData();
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_TRIAL_COMPLETE;
+        update testData.pe;
+        Conversation__c conversation = new Conversation__c(
+            Participant_Enrollment__c = testData.pe.Id,
+            haveUnreadForPI__c = true,
+            FirstUnreadDate__c = Datetime.now().addDays(-6)
+        );
+        insert conversation;
         List<Contact> delegateContacts;
         Participant__c participant;
         Boolean isDelegate;
@@ -138,6 +146,7 @@ public class Test_PatientDelegateEnrollmentService {
             delegateContacts = PatientDelegateService.getInstance().getDelegates();
             participant = PatientDelegateService.getInstance().getParticipant();
             patientDelegates = PatientDelegateService.getInstance().getPDelegates();
+            Patient_Delegate__c patientdel=[select id,Attested_by__c,Attestation_TimeStamp__c from Patient_Delegate__c where id=:patientDelegates[0].id];
             patientDelegates[0].Attestation_TimeStamp__c = String.ValueOf(system.now());
             //update patientDelegates; 
             //patientDelegates = PatientDelegateService.getInstance().getPDelegates();
@@ -154,7 +163,7 @@ public class Test_PatientDelegateEnrollmentService {
             PatientDelegateEnrollmentService.getPatientDelegateEnrollments(patientDelegates[0].Participant__r.Contact__c, patientDelegates[0].Contact__c);
             PatientDelegateEnrollmentService.getPEList(patientDelegates[0].Participant__r.Contact__c, patientDelegates[0].Contact__c);
             PatientDelegateEnrollmentService.getInstance();
-            PatientDelegateEnrollmentService.getParAndStdAssociatedList();
+            //PatientDelegateEnrollmentService.getParAndStdAssociatedList();
             PatientDelegateEnrollmentService.getPDForMinorOrAdultWithoutEmailPar(patientDelegates[0].Contact__c);
             PatientDelegateEnrollmentService.getPDEnrollmentforDelContact(patientDelegates[0].Contact__c,patientDelegates[0].Participant__r.Contact__c);
             PatientDelegateEnrollmentService.getAllPDEnrollmentforDelContact(patientDelegates[0].Contact__c);
@@ -183,7 +192,13 @@ public class Test_PatientDelegateEnrollmentService {
            PatientDelegateEnrollmentService.getPEIdSet(patientDelegates[0].Participant__r.Contact__c, patientDelegates[0].Contact__c);
            PatientDelegateEnrollmentService.reActivateAssignment(idList);
            PatientDelegateEnrollmentService.reActivateAssignmentForDeletedOrWithDrawnDel(patientDelegates[0],new List<Id>{testData.pe.id});
-        //    PatientDelegateEnrollmentService.removeAssignment(pdeList[0].Id);
+           PatientDelegateEnrollmentService.getPEIdSetActive(patientDelegates[0].Participant__r.Contact__c, patientDelegates[0].Contact__c);
+           PatientDelegateEnrollmentService.getPatientDelegateEnrollmentsActive(patientDelegates[0].Participant__r.Contact__c, patientDelegates[0].Contact__c);
+           PatientDelegateEnrollmentService.getPatientDelegateEnrollmentsActive(patientDelegates[0].Participant__r.Contact__c, patientDelegates[0].Contact__c,pde1.Participant_Enrollment__c);
+           PatientDelegateEnrollmentService.isActiveDelegate(patientDelegates[0].Contact__c);
+           PatientDelegateEnrollmentService.createPDEObject(patientdel,testData.pe.id);
+           PatientDelegateEnrollmentService.removeAssignment(pdeList[0].Id);
+           PatientDelegateEnrollmentService.getDelegatedParticipantIds(patientDelegates[0].Participant__r.Contact__c);
         //    PatientDelegateEnrollmentService.WithdrawAssignment(pdeList[0].Id);
         //    PatientDelegateEnrollmentService.deleteDelegates(patientDelegates[0].Id);
 
@@ -247,12 +262,36 @@ public class Test_PatientDelegateEnrollmentService {
             PatientDelegateEnrollmentService.getPatientDelegateEnrollments(patientDelegates[0].Participant__r.Contact__c, patientDelegates[0].Contact__c);
                  PatientDelegateEnrollmentService.getPEList(patientDelegates[0].Participant__r.Contact__c, patientDelegates[0].Contact__c);
                  PatientDelegateEnrollmentService.getInstance();
-                 PatientDelegateEnrollmentService.removeAssignment(pdeList[0].Id);
+                 //PatientDelegateEnrollmentService.removeAssignment(pdeList[0].Id);
                  PatientDelegateEnrollmentService.WithdrawAssignment(pdeList[0].Id);
                  PatientDelegateEnrollmentService.deleteDelegates(patientDelegates[0].Id);
              }
             Test.stopTest();
          
      }
+     @IsTest
+    static void loggedInContactPDETest() {
+        TestData testData = new TestData();
+        User delegateUser = testData.createPatientDelegate();
+        Contact con = [SELECT Id, userCommunityDelegateId__c FROM Contact Where Id =: delegateUser.ContactId];
+        Patient_Delegate__c pd = [SELECT Id FROM Patient_Delegate__c Where Contact__c =: con.Id];
+        Patient_delegate_enrollment__c patientDelEnrollment =new Patient_delegate_enrollment__c(
+            Participant_Enrollment__c = testData.pe.Id,
+            Patient_Delegate__c= pd.id,
+            Study_Email_Consent__c=true,
+            Study_SMS_Consent__c=true,
+            Study_Phone_Consent__c=true,
+            Study_Direct_Mail_Consent__c=true
+        );
+        insert patientDelEnrollment;
+        System.assert(patientDelEnrollment.id != null);
+        con.userCommunityDelegateId__c = testData.participantUser.ContactId;
+        update con;
+        Test.startTest();
+        System.runAs(delegateUser) {
+            PatientDelegateEnrollmentService.getParAndStdAssociatedList();
+        }
+        Test.stopTest();
+    }
  
 }
