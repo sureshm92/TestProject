@@ -74,6 +74,7 @@ public without sharing class TaskService {
         'Survey_Invitation__r.Trial_Survey__r.Display_in_UI__c',
         'Survey_Invitation__r.Participant_Due_Date__c',
         'Start_Date__c',
+        'whoId',
         'Survey_Invitation__r.ExpireDateTime__c',
         'Survey_Invitation__r.Is_End_Date_Visible__c',
         'Survey_Invitation__r.Participant_Enrollment__r.Invited_To_PP_Date__c',
