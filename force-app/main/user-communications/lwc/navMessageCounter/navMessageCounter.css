@@ -63,6 +63,6 @@
     .new-message {
         display: grid;
         align-items: center;
-        bottom: none;
+        bottom: auto !important;
     }
 }

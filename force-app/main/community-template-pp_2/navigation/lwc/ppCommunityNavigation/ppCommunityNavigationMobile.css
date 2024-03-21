@@ -94,3 +94,6 @@ a:visited {
     /* width: 100%; */
     width: auto;
 }
+.text-color{
+    color: #fff !important;
+}
