@@ -41,7 +41,7 @@ export default class DashboardParticipantCount extends LightningElement {
     popupLoading = false;
     isParticipantModalOpen = false;
     isParticipantModalOpenlogin = false;
-
+    hideFooter = false;
     disableButton = false;
     selectedPEList = [];
 
@@ -76,7 +76,7 @@ export default class DashboardParticipantCount extends LightningElement {
             this.ModalRender= this.retrieveNotLoginParticipants();
 
         }    
-        this.fetchDashboardValues();        
+        this.fetchDashboardValues();     
     }
 
     @api
@@ -132,6 +132,7 @@ export default class DashboardParticipantCount extends LightningElement {
         }
         this.participantText = this.label.CountOfParticipants;
         this.loading = false;
+        this.hideFootersInvitationDB();
     }
 
     openParticipantModal() {
@@ -296,5 +297,13 @@ export default class DashboardParticipantCount extends LightningElement {
         }
         this.peList = allRows;
         this.popupLoading = false;
+    }
+
+    hideFootersInvitationDB() {
+        if (this.topBarRec.count == 0 && this.secondBarRec.count == 0) {
+           this.hideFooter = true;
+        } else{
+            this.hideFooter = false;
+        }
     }
 }
