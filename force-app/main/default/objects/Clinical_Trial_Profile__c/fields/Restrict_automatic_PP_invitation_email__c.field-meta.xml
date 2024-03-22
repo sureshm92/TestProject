@@ -44,11 +44,6 @@
                 <label>IQVIA registry</label>
             </value>
             <value>
-                <fullName>IQVIA registry</fullName>
-                <default>false</default>
-                <label>IQVIA registry</label>
-            </value>
-            <value>
                 <fullName>Ciitizen</fullName>
                 <default>false</default>
                 <label>Ciitizen</label>
