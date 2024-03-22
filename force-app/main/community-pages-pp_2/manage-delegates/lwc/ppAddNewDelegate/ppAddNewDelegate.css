@@ -83,7 +83,8 @@
     font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
-    display: flex;
+    display: inline-block;
+    width: auto;
     align-items: center;
     cursor: pointer;
     color: #3374ee;
