@@ -127,12 +127,6 @@ input[type='date']::-webkit-calendar-picker-indicator,
     }
 }
 
-@media all and (min-width: 768px) and (max-width: 1366px) {
-    .time-curve-input {
-        height: 2.1rem !important;
-    }
-}
-
 @media all and (min-width: 768px) and (max-width: 1279px) and (orientation: portrait) {
     .curve-input input[type='date'] {
         padding-left: 0px;
@@ -142,4 +136,8 @@ input[type='date']::-webkit-calendar-picker-indicator,
     .curve-input input[type='date'] {
         padding-left: 0px;
     }
+}
+
+.time-curve-input {
+    height: 2.1rem !important;
 }
