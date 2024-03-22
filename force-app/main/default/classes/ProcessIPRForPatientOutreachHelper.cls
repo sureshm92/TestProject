@@ -56,6 +56,7 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
             Site__c,
             Override_PI_Referral_Status__c,
             Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+            Clinical_Trial_Profile__r.Restrict_automatic_Patient_Portal_Invitation_email__c,
             Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
             Suppress_Participant_Emails__c,
             Participant_DOB_format__c
@@ -277,7 +278,7 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
                 Participant_Enrollment__c objPE = IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c,fieldNotVisible);
                  objPE.Id = REFNamePERIdMap.get(ipr.UTM_campaignName__c);
                  objPE.Participant_Name__c = ipr.firstName__c;
-                 objPE.Participant_Surname__c = ipr.lastName__c;
+                 objPE.Participant_Surname__c = ipr.lastName__c; 
                  peList.add(objPE);
             }
             //peList.add(IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c));
