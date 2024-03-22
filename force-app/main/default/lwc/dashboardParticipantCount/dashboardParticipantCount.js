@@ -300,7 +300,7 @@ export default class DashboardParticipantCount extends LightningElement {
     }
 
     hideFootersInvitationDB() {
-        if (this.topBarRec.count == 0 && this.secondBarRec.count == 0) {
+        if (this.secondBarRec.count == 0) {
            this.hideFooter = true;
         } else{
             this.hideFooter = false;
