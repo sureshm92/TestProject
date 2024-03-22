@@ -469,3 +469,7 @@
         padding-top: 8px !important;
     }
 }
+
+.custom-pad{
+    padding-left: 0;
+}
