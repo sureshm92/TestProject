@@ -317,6 +317,10 @@
                 <field>Referral_Completed_by__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>DataControllerOrg__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Patient_ID__c</field>
             </layoutItems>

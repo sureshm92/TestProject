@@ -52,3 +52,17 @@
     margin: 0.2rem 0 0 0.8rem !important;
     
 }
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    .new-message {
+        display: grid;
+        align-items: center;
+        bottom: none;
+    }
+}
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: landscape) {
+    .new-message {
+        display: grid;
+        align-items: center;
+        bottom: auto !important;
+    }
+}

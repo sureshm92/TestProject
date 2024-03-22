@@ -23,14 +23,14 @@
                                     <lightning-formatted-rich-text class="po-text" value={shortOverview}></lightning-formatted-rich-text>
                                 </template>
                             </lightning-layout-item>
-                            <lightning-layout-item size="3" class="slds-align_absolute-center li3">
+                            <lightning-layout-item size="3" class="slds-align_absolute-center li3 slds-p-top_x-small slds-p-bottom_x-small slds-p-right_medium">
                                 <lightning-layout class="piPhone" multiple-rows="true">
-                                    <lightning-layout-item size="1"><img src={phone_Icon} class="phoneIcon"/></lightning-layout-item>
-                                    <lightning-layout-item size="11">{studySitePhone}</lightning-layout-item>
+                                    <lightning-layout-item size="1" class="marginClass1"><img src={phone_Icon} class="phoneIcon"/></lightning-layout-item>
+                                    <lightning-layout-item size="11" >{studySitePhone}</lightning-layout-item>
                                 </lightning-layout>
                                 <lightning-layout class="piName" multiple-rows="true">
-                                    <lightning-layout-item class="" size="1"><img src={pi_Icon} class="piIcon"/></lightning-layout-item>
-                                    <lightning-layout-item size="11">
+                                    <lightning-layout-item class="marginClass1" size="1"><img src={pi_Icon} class="piIcon"/></lightning-layout-item>
+                                    <lightning-layout-item size="11" >
                                         <p title={piTitle} class="piNameText">
                                         {piName}&nbsp;{label.PI_Post_Fix}
                                         </p>
@@ -88,24 +88,24 @@
                             multiple-rows="true"
                             vertical-align="center"
                             horizontal-align="center"
-                            class="po-custom-card-mobile"
+                            class="po-custom-card-mobile slds-p-around_x-small"
                         >
                             <lightning-layout-item size="5" class={borderPOHome}>
                                 <template if:true={clinicalrecord.Profile_Picture__c}>
-                                    <div class="po-center">
-                                        <img src={clinicalrecord.Profile_Picture__c} />
+                                    <div class="slds-align--absolute-center">
+                                        <img class="prgm-logo" src={clinicalrecord.Profile_Picture__c} />
                                     </div>
                                 </template>
                             </lightning-layout-item>   
 
-                            <lightning-layout-item size="6" class="slds-align_absolute-center li3">
+                            <lightning-layout-item size="7" class="slds-align-content-center slds-p-left_small li3">
                                 <lightning-layout class="piPhone" vertical-align="center">
                                     <lightning-layout-item size="1"><img src={phone_Icon} class="phoneIcon"/></lightning-layout-item>
-                                    <lightning-layout-item size="11" class="pad-5">{studySitePhone}</lightning-layout-item>
+                                    <lightning-layout-item size="11">{studySitePhone}</lightning-layout-item>
                                 </lightning-layout>
                                 <lightning-layout class="piName" vertical-align="center">
                                     <lightning-layout-item size="1"><img src={pi_Icon} class="piIcon"/></lightning-layout-item>
-                                    <lightning-layout-item size="11" class="pad-5">
+                                    <lightning-layout-item size="11">
                                         <p title={piTitle} class="piNameText">
                                             {piName}&nbsp;{label.PI_Post_Fix}
                                         </p>
