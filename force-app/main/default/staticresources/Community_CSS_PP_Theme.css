@@ -2228,7 +2228,7 @@ user agent stylesheet svg:not(:root) {
 
 .support-container button {
     height: 40px;
-    line-height: 40px;
+    line-height: 40px !important;
 }
 
 .support-container lightning-base-combobox-item span.slds-media__body span {
