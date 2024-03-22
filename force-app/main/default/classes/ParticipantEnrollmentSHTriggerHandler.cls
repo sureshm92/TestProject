@@ -323,7 +323,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     HCP__c,
                     HCP__r.HCP_Contact__c,
                     Referral_Source__c,
-                    Clinical_Trial_Profile__r.Restrict_automatic_Patient_Portal_Invitation_email__c,
+                    Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c,
                     Participant_Status__c
                 FROM Participant_Enrollment__c
                 WHERE Id IN :peIds
@@ -375,7 +375,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 if (participant != null && participant.Contact__c != null)
                     participantUser = usersByContactId.get(participant.Contact__c);
 
-                    String restrictFieldOnCtp = newPE.Clinical_Trial_Profile__r.Restrict_automatic_Patient_Portal_Invitation_email__c;
+                    String restrictFieldOnCtp = newPE.Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c;
                     String referralSource = newPE.Referral_Source__c;
                     if(Batch_UpsertEprParticipantAndPE.eprBatchRunning && restrictFieldOnCtp != null){
                         if(restrictFieldOnCtp.equals(referralSource)){

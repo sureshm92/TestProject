@@ -618,8 +618,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Restrict_automatic_Patient_Portal_Invitation_email__c</fieldItem>
-                <identifier>RecordPatient_Restrict_automatic_Patient_Portal_Invitation_email__cField</identifier>
+                <fieldItem>Record.Restrict_automatic_PP_invitation_email__c</fieldItem>
+                <identifier>RecordPatient_Restrict_automatic_PP_invitation_email__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>

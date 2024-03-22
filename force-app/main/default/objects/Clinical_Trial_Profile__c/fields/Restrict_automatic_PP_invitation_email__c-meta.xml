@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Restrict_automatic_Patient_Portal_Invitation_email__c</fullName>
+    <fullName>Restrict_automatic_PP_invitation_email__c</fullName>
     <externalId>false</externalId>
     <inlineHelpText>Ability for Business admins or System admins to restrict the auto-invite patient portal email for API referrals per study.</inlineHelpText>
-    <label>Restrict automatic Patient Portal Invitation email</label>
+    <label>Restrict automatic PP Invitation email</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>

@@ -3186,7 +3186,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Restrict_automatic_Patient_Portal_Invitation_email__c</field>
+        <field>Clinical_Trial_Profile__c.Restrict_automatic_PP_invitation_email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

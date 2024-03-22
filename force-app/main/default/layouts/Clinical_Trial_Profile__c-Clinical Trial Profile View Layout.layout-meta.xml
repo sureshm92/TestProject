@@ -217,7 +217,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Restrict_automatic_Patient_Portal_Invitation_email__c</field>
+                <field>Restrict_automatic_PP_invitation_email__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
