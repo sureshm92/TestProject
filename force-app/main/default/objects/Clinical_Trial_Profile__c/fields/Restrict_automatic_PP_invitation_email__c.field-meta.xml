@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Restrict_automatic_PP_invitation_email__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Ability for Business admins or System admins to restrict the auto-invite patient portal email for API referrals per study.</inlineHelpText>
+    <label>Restrict automatic PP Invitation email</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending> 
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>false</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ePR_Campaign</fullName>
+                <default>false</default>
+                <label>ePR_Campaign</label>
+            </value>
+            <value>
+                <fullName>ePR</fullName>
+                <default>false</default>
+                <label>ePR</label>
+            </value>
+            <value>
+                <fullName>ACOE</fullName>
+                <default>false</default>
+                <label>ACOE</label>
+            </value>
+            <value>
+                <fullName>3rd Party</fullName>
+                <default>false</default>
+                <label>3rd Party</label>
+            </value>
+            <value>
+                <fullName>23andMe</fullName>
+                <default>false</default>
+                <label>23andMe</label>
+            </value>
+            <value>
+                <fullName>IQVIA registry</fullName>
+                <default>false</default>
+                <label>IQVIA registry</label>
+            </value>
+            <value>
+                <fullName>IQVIA registry</fullName>
+                <default>false</default>
+                <label>IQVIA registry</label>
+            </value>
+            <value>
+                <fullName>Ciitizen</fullName>
+                <default>false</default>
+                <label>Ciitizen</label>
+            </value>
+            <value>
+                <fullName>MassiveBio</fullName>
+                <default>false</default>
+                <label>MassiveBio</label>
+            </value>
+            <value>
+                <fullName>SubjectWell</fullName>
+                <default>false</default>
+                <label>SubjectWell</label>
+            </value>
+            <value>
+                <fullName>Piper</fullName>
+                <default>false</default>
+                <label>Piper</label>
+            </value>
+            <value>
+                <fullName>James Lind Care</fullName>
+                <default>false</default>
+                <label>James Lind Care</label>
+            </value>
+            <value>
+                <fullName>Spectrum</fullName>
+                <default>false</default>
+                <label>Spectrum</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>
