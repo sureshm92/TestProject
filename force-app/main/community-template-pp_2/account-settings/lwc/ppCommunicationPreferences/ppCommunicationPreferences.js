@@ -490,7 +490,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     }
 
     get borderStyle() {
-        return this.isRTL ? 'study-paramters border-right' : 'study-paramters border-left';
+        return this.isRTL ? 'study-content custom-pad border-right' : 'study-content custom-pad border-left';
     }
 
     get borderStyleMobile() {
