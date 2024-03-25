@@ -323,6 +323,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     HCP__c,
                     HCP__r.HCP_Contact__c,
                     Referral_Source__c,
+                    Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c,
                     Participant_Status__c
                 FROM Participant_Enrollment__c
                 WHERE Id IN :peIds
@@ -365,6 +366,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 recipientIds,
                 whatIds
             );
+            Boolean fieldMatch;
             for (Participant_Enrollment__c newPE : participantEnrollments) {
                 Participant__c participant = newPE.Participant__c != null
                     ? participantMap.get(newPE.Participant__c)
@@ -372,6 +374,18 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 User participantUser;
                 if (participant != null && participant.Contact__c != null)
                     participantUser = usersByContactId.get(participant.Contact__c);
+
+                    String restrictFieldOnCtp = newPE.Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c;
+                    String referralSource = newPE.Referral_Source__c;
+                    if(Batch_UpsertEprParticipantAndPE.eprBatchRunning && restrictFieldOnCtp != null){
+                        if(restrictFieldOnCtp.equals(referralSource)){
+                            fieldMatch = false;
+                        }else{
+                            fieldMatch = true;
+                        }
+                }else{
+                    fieldMatch = true; 
+                }  
                 Boolean filterCriteria =
                     !newPE.Is_Virtual_Study_Site__c &&
                     newPE.Study_Site__c != null &&
@@ -381,7 +395,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     newPE.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
                     participant != null &&
                     !participant.IsCountry_NOT_Eligible_for_Emails__c &&
-                    participant.Contact__c != null;
+                    participant.Contact__c != null && fieldMatch;
                 if (filterCriteria && participant.Adult__c) {
                     if (participantUser == null) {
                         System.debug('CREATE USER');
