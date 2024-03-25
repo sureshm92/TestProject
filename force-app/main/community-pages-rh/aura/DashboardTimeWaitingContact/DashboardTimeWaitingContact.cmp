@@ -11,7 +11,8 @@
     <aura:attribute name="childLoad" type="String" />
     <aura:attribute name="recordChanged" type="String" default="" access="public" />
     <aura:attribute name="loaded" type="Boolean" default="false" />
-    
+    <aura:attribute name="totalcount" type="Integer"/>
+
     <!-- handler -->
     <aura:handler name="change" value="{!v.childLoad}" action="{!c.recordChange}" />
     <aura:handler name="change" value="{!v.recordChanged}" action="{!c.recordChange}" />
@@ -71,10 +72,12 @@
                 </aura:iteration>
             </div>
         </div>
+        <aura:if isTrue="{!v.totalcount &gt;0}">
         <div class="dqa-view-more" data-gtm="LNK_View_All">
             <c:RRLink page="my-referrals" class="apollo-btn text"
                       >{!$Label.c.BTN_View_all}</c:RRLink
                 >
         </div>
+        </aura:if>
     </div>
 </aura:component>

@@ -241,8 +241,7 @@ public without sharing class PPMessagePageRemote {
                         pe.Invited_To_PP_Date__c != null &&
                         !participantState.isDelegate
                     ) {
-                        availablePEIds.add(pe.Id);
-                        if (pe.Study_Site__r.Messages_Are_Available__c) {
+                        if (pe.Study_Site__r.Messages_Are_Available__c) { availablePEIds.add(pe.Id);
                             pageData.enrollments.add(pe);
                             peIds.add(pe.Id);
                             pageData.statusByPeMap.put(
@@ -258,8 +257,7 @@ public without sharing class PPMessagePageRemote {
                         participantState.isDelegate &&
                         pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true
                     ) {
-                        availablePEIds.add(pe.Id);
-                        if (pe.Study_Site__r.Messages_Are_Available__c) {
+                        if (pe.Study_Site__r.Messages_Are_Available__c) { availablePEIds.add(pe.Id);
                             pageData.enrollments.add(pe);
                             peIds.add(pe.Id);
                             pageData.statusByPeMap.put(
@@ -734,7 +732,7 @@ public without sharing class PPMessagePageRemote {
     ) {
         try {
              // check if conversation is already present for enrollment
-            List<Conversation__c> conversation = [select Id,Participant_Enrollment__c from Conversation__c where Participant_Enrollment__c =:enrollment.Id];
+            List<Conversation__c> conversation = [select Id,Participant_Enrollment__c,Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c  from Conversation__c where Participant_Enrollment__c =:enrollment.Id];
             Conversation__c newConversation;
             if(conversation.isEmpty()){
                 newConversation = new Conversation__c(

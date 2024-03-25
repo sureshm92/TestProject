@@ -50,7 +50,7 @@ public class Test_StudyDetailAboutStudyRemote {
         ];
         ctpList[0].CommunityTemplate__c = 'Janssen';
         update ctpList;
-        testData.ss.Override_PI_Referral_Status__c = 'On Hold';
+        testData.ss.Override_PI_Referral_Status__c = 'None';
         update testData.ss;
         Resource__c docPtRes = new Resource__c(
             Content_Type__c = 'Study_Document',
@@ -100,7 +100,7 @@ public class Test_StudyDetailAboutStudyRemote {
         ctpList[0].CommunityTemplate__c = 'Janssen';
         update ctpList;
 
-        testData.ss.Override_PI_Referral_Status__c = 'On Hold';
+        testData.ss.Override_PI_Referral_Status__c = 'None';
         update testData.ss;
         Resource__c docPtRes = new Resource__c(
             Content_Type__c = 'Study_Document',
@@ -168,7 +168,7 @@ public class Test_StudyDetailAboutStudyRemote {
         ctpList[0].CommunityTemplate__c = 'Janssen';
         update ctpList;
 
-        testData.ss.Override_PI_Referral_Status__c = 'On Hold';
+        testData.ss.Override_PI_Referral_Status__c = 'None';
         update testData.ss;
         Test.startTest();
         System.runAs(testData.piUser) {

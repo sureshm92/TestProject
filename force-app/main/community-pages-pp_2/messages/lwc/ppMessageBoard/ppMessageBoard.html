@@ -117,33 +117,35 @@
             </lightning-layout-item>
 
             <template if:false={isPastStudy}>
-                <lightning-layout-item size="12" class="question-item">
-                    <lightning-layout>
-                        <lightning-layout-item size="9">
-                            <lightning-combobox
-                                name="message"
-                                value={messageValue}
-                                placeholder={labels.PP_Select_Question}
-                                options={options}
-                                onchange={handleChange}
-                                class="selection"
-                                onfocus={handleChanges}
-                                dropdown-alignment="bottom-left"
-                            >
-                            </lightning-combobox>
-                        </lightning-layout-item>
-                        <lightning-layout-item size="3" class="send-button">
-                            <button
-                                class="primaryBtn ms-send-button"
-                                data-gtm="ms-send-pa-button"
-                                onclick={handleSendClick}
-                                disabled={handleValidation}
-                            >
-                                {labels.BTN_Send}
-                            </button>
-                        </lightning-layout-item>
-                    </lightning-layout>
-                </lightning-layout-item>
+                <template if:true={isActiveStudySite}>
+                    <lightning-layout-item size="12" class="question-item">
+                        <lightning-layout>
+                            <lightning-layout-item size="9">
+                                <lightning-combobox
+                                    name="message"
+                                    value={messageValue}
+                                    placeholder={labels.PP_Select_Question}
+                                    options={options}
+                                    onchange={handleChange}
+                                    class="selection"
+                                    onfocus={handleChanges}
+                                    dropdown-alignment="bottom-left"
+                                >
+                                </lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="3" class="send-button">
+                                <button
+                                    class="primaryBtn ms-send-button"
+                                    data-gtm="ms-send-pa-button"
+                                    onclick={handleSendClick}
+                                    disabled={handleValidation}
+                                >
+                                    {labels.BTN_Send}
+                                </button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </template>
             </template>
         </lightning-layout>
     </template>

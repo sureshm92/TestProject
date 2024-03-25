@@ -28,5 +28,21 @@
         window.open(
             'https://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(url)
         );
+    },
+
+    checkIsMrrAvaiable: function(component, event, helper) {
+        var action = component.get("c.isMrrAvaiable");
+        var currentStudy = component.get('v.currentStudy');
+        var trialId = currentStudy.trial.Id;
+        action.setParams({ ctpId :trialId});
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                if(!response.getReturnValue()){
+                    component.set('v.disableMRR',true);
+                }
+            }
+        });
+        $A.enqueueAction(action);
     }
 });

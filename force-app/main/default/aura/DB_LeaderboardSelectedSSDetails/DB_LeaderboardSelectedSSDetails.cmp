@@ -17,6 +17,7 @@
     <aura:attribute name="siteRankWrapper" type="object" />
     <aura:attribute name="recordChanged" type="String" default="" access="public" />
     <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="totalcountpisites" type="Integer" />
     
     <!-- handler -->
     <aura:handler name="change" value="{!v.childLoad}" action="{!c.recordChange}" />
@@ -31,7 +32,7 @@
                     {!v.dashboardTitle}
                 </span>
                 <span class="slds-p-top_medium totalcount" style="{!if(v.isRTL, 'float:left;padding-left:', '')}">
-                    {!v.totalSSCount} :{!$Label.c.Dashboard_Total_Sites}
+                    {!v.totalcountpisites} :{!$Label.c.Dashboard_Total_Sites}
                 </span>                
                 <aura:set attribute="else">
                     <span class="slds-float_left slds-p-left_medium slds-p-top_medium leaderboard-title" >
@@ -39,7 +40,7 @@
                     </span>
                     <!--aura:if isTrue="{!v.show}"-->
                     <span class="slds-float_right slds-p-right_medium slds-p-top_medium totalcount" style="width: fit-content;">
-                        {!$Label.c.Dashboard_Total_Sites}: {!v.totalSSCount}
+                        {!$Label.c.Dashboard_Total_Sites}: {!v.totalcountpisites}
                     </span>
                     <!--/aura:if-->
                 </aura:set>                

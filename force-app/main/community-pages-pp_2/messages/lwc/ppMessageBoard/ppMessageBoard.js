@@ -1,4 +1,4 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api, track } from "lwc";
 import Id from "@salesforce/user/Id";
 import sendMessages from "@salesforce/apex/PPMessagePageRemote.sendMessages";
 import createConversations from "@salesforce/apex/PPMessagePageRemote.createConversations";
@@ -25,6 +25,9 @@ export default class PpMessageBoard extends LightningElement {
   @api isSecondary;
   @api isMobile;
   @api isSinglePartAlumni = false;
+
+  @track isActiveStudySite = true;
+
   spinner;
   msgIllustration = pp_icons + "/" + "messages_Illustration.svg";
   message_attachment = pp_icons + "/" + "message_attachment.svg";
@@ -57,10 +60,16 @@ renderedCallback(){
    const event = new CustomEvent('ispaststudychanged',{
     detail:paststudy
    });
-  this.dispatchEvent(event);
+    this.dispatchEvent(event);
+    if(this.selectConWrap != null)
+      this.isActiveStudySite = (this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c == 'Deactivated' || this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c == 'None' || this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c == null || this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c == 'Deactivated' || this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c == 'Deactivated (Admin)' || this.selectConWrap.conversation.Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c == null) ? false : true; 
+    
   }
 
   connectedCallback() {
+
+    
+
     if (this.selectConWrap != null) {
       if (!this.selectConWrap.noConversation) {
         this.msgWrapper = this.selectConWrap.messages;
