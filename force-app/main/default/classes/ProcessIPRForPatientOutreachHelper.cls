@@ -117,8 +117,10 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
             if(dd < 10){
                 ddValue = '0'+dd;
             }
-            //ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
+            string tempBrVar = ipr.BirthDate__c;
+            ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
             Participant__c objParticipant = IprEprTriggerHandler.convertToParticipant(ipr);
+            ipr.BirthDate__c = tempBrVar ;
             objParticipant.Age__c = participantAge;
             if(string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
                 if(dateOfBirth.size() > 2){
@@ -270,12 +272,10 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
             Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
             Study_Site__c ss = ssByPrimaryKeyEPRMap.get(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
             participant.Site__c = ss.Site__c;
+            Boolean fieldNotVisible = true;
             if (ss != null){
-                Participant_Enrollment__c objPE = IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c);
+                Participant_Enrollment__c objPE = IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c,fieldNotVisible);
                  objPE.Id = REFNamePERIdMap.get(ipr.UTM_campaignName__c);
-                 if(perIDtoPERMap.get(objPE.Id)!=null && perIDtoPERMap.get(objPE.Id).Study_SMS_Consent_Time__c !=null){
-                    objPE.Study_SMS_Consent_Time__c= Datetime.now();
-                 }
                  objPE.Participant_Name__c = ipr.firstName__c;
                  objPE.Participant_Surname__c = ipr.lastName__c;
                  peList.add(objPE);
