@@ -1,5 +1,5 @@
 <!--
- - Created by D.Yasinsky on 15.03.2018.
+ -  Created by D.Yasinsky on 15.03.2018.
  -->
 <aura:component description="rrSelect" extends="c:CommunityContext">
     <!-- attributes: -->
