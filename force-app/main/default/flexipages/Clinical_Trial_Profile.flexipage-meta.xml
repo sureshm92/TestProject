@@ -618,6 +618,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Restrict_automatic_PP_invitation_email__c</fieldItem>
+                <identifier>RecordPatient_Restrict_automatic_PP_invitation_email__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Patient_study_search__c</fieldItem>
                 <identifier>RecordPatient_study_search_cField</identifier>
             </fieldInstance>
