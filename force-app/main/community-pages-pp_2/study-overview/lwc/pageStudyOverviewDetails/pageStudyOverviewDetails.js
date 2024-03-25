@@ -16,7 +16,8 @@ import PPSTUDYELIGIBLECRITERIA from '@salesforce/label/c.PP_Participant_Study_El
 import PPINCLUSIONCRITERIA from '@salesforce/label/c.PP_Inclusion_Criteria';
 import PPEXCLUSIONCRITERIA from '@salesforce/label/c.PP_Exclusion_Criteria';
 import PI_Post_Fix from '@salesforce/label/c.PP_PI_Post_Fix';
-
+import PPABOUTSTUDY from '@salesforce/label/c.PP_About_Study';
+import NOT_AVAILABLE from '@salesforce/label/c.Not_Available';
 export default class ProgramOverviewDetails extends LightningElement {
     label = {
         PPOVERVIEW,
@@ -26,7 +27,9 @@ export default class ProgramOverviewDetails extends LightningElement {
         PPSTUDYELIGIBLECRITERIA,
         PPINCLUSIONCRITERIA,
         PPEXCLUSIONCRITERIA,
-        PI_Post_Fix
+        PI_Post_Fix,
+        PPABOUTSTUDY,
+        NOT_AVAILABLE
     };
 
     programname;
@@ -44,6 +47,7 @@ export default class ProgramOverviewDetails extends LightningElement {
     studySitePhone;
     siteName;
     siteAddress;
+    phoneNotAvailable;
 
     desktop = true;
     tabContent = true;
@@ -89,8 +93,18 @@ export default class ProgramOverviewDetails extends LightningElement {
         return this.isRTL ? 'po-mr-16plus' : '';
     }
 
+    get piIconStyle() {
+        return this.isRTL ? 'piIcon mr-20' : 'piIcon';
+    }
+    get phoneIconStyle() {
+        return this.isRTL ? 'phoneIcon mr-20' : 'phoneIcon';
+    }
+    get pinIconStyle() {
+        return this.isRTL ? 'pinIcon mr-20' : 'pinIcon';
+    }
+
     connectedCallback() {
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
 
         let ctpaccordionDatalist = [];
         //code
@@ -105,7 +119,7 @@ export default class ProgramOverviewDetails extends LightningElement {
                             if (this.clinicaltrailrecrd) {
                                 if (this.clinicaltrailrecrd.Study_Code_Name__c) {
                                     this.programname =
-                                        'About ' + this.clinicaltrailrecrd.Study_Code_Name__c;
+                                    PPABOUTSTUDY +' ' + this.clinicaltrailrecrd.Study_Code_Name__c;
                                 }
                                 if (this.clinicaltrailrecrd.Override_Inclusion_Criteria__c) {
                                     ctpaccordionDatalist.push({
@@ -142,8 +156,11 @@ export default class ProgramOverviewDetails extends LightningElement {
                                 this.participantState.pe.Study_Site__r.Principal_Investigator__r.Name;
                             console.log('piName--->' + this.piName);
                             this.piTitle = this.piName + ' ' + this.label.PI_Post_Fix;
-                            this.studySitePhone =
-                                this.participantState.pe.Study_Site__r.Study_Site_Phone__c;
+                            this.studySitePhone = this.participantState.pe.Study_Site__r.Study_Site_Phone__c;
+                            this.phoneNotAvailable = this.participantState.pe.Study_Site__r
+                                .Study_Site_Phone__c
+                                ? false
+                                : true;
                             console.log('studySitePhone--->' + this.studySitePhone);
                             this.siteName = this.participantState.pe.Study_Site__r.Site__r.Name;
                             console.log('siteName--->' + this.siteName);

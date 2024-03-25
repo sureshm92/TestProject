@@ -54,14 +54,24 @@
                                         <lightning-layout-item size="3" class="piPhone">
                                             <lightning-layout size="12">
                                                 <lightning-layout-item size="2">
-                                                    <img src={phone_Icon} class="phoneIcon" />
+                                                    <img src={phone_Icon} class={phoneIconStyle} />
                                                 </lightning-layout-item>
-                                                <lightning-layout-item
-                                                    size="10"
-                                                    class="marginLeft-12"
-                                                >
-                                                    {studySitePhone}
-                                                </lightning-layout-item>
+                                                <template lwc:if={phoneNotAvailable}>
+                                                    <lightning-layout-item
+                                                        size="10"
+                                                        class="marginLeft-12 no-phone"
+                                                    >
+                                                        {label.NOT_AVAILABLE}
+                                                    </lightning-layout-item>
+                                                </template>
+                                                <template lwc:else>
+                                                    <lightning-layout-item
+                                                        size="10"
+                                                        class="marginLeft-12"
+                                                    >
+                                                        {studySitePhone}
+                                                    </lightning-layout-item>
+                                                </template>
                                             </lightning-layout>
                                         </lightning-layout-item>
                                         <lightning-layout-item
@@ -70,7 +80,7 @@
                                         >
                                             <lightning-layout size="12">
                                                 <lightning-layout-item size="2" class="tdpiIcon">
-                                                    <img src={address_Icon} class="pinIcon" />
+                                                    <img src={address_Icon} class={pinIconStyle} />
                                                 </lightning-layout-item>
                                                 <lightning-layout-item
                                                     size="10"
@@ -99,7 +109,7 @@
                                         <lightning-layout-item size="4" class="piName">
                                             <lightning-layout size="12" multiple-rows="true">
                                                 <lightning-layout-item size="2">
-                                                    <img src={pi_Icon} class="piIcon" />
+                                                    <img src={pi_Icon} class={piIconStyle} />
                                                 </lightning-layout-item>
                                                 <lightning-layout-item size="10">
                                                     <p title={piTitle} class="piName-text">

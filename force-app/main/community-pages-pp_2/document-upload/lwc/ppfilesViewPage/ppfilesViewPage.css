@@ -26,8 +26,8 @@
 }
 .tablePPn .pg {
     width: 790px;
-    bottom: 4.25rem;
-    /* bottom: 3.5rem; */
+    bottom: 0.75rem;
+    
 }
 .pg {
     position: relative;
@@ -161,7 +161,7 @@
 }
 .browse-btn {
     height: 32px;
-    width: 132px;
+    min-width: 132px;
     border-radius: 16px;
     background-color: #0557d5;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 2px 8px 0 rgba(7, 104, 253, 0.32);
@@ -241,7 +241,7 @@
     /* width: 382px; */
     width: 100%;
     /* height: 280px; */
-    height: 265px;
+    height: auto;
     border: 1px dashed #979797;
     border-radius: 16px;
     background-color: #f2f2f2;
@@ -285,23 +285,23 @@
 }
 
 .imgname {
-    padding-left: 0.5rem;
+    /* padding-left: 0.5rem; */
     /* padding-top: 4px; */
     padding-top: 5px;
 }
 .progressBar {
     /* width: 95%; */
     /* padding-top: 7px; */
-    display: inline-block;
+    /* display: inline-block;
     padding-left: 1rem;
-    padding-top: 0.85rem;
+    padding-top: 0.85rem; */
     /* padding-top: 0.75rem; */
 }
 .progressBarMbl {
     /* width: 95%; */
     /* padding-top: 7px; */
     display: inline-block;
-    padding-left: 1rem;
+    /* padding-left: 1rem; */
     /* padding-top: 0.85rem; */
     /* padding-top: 0.75rem; */
 }
@@ -478,7 +478,7 @@
 }
 .errorMessage {
     font-size: 13px;
-    padding-left: 1rem;
+    /* padding-left: 1rem; */
     color: #e20000;
     font-style: italic;
     font-family: 'Proxima Nova';
@@ -516,6 +516,12 @@
     padding-right: 2rem;
 }
 .uploadinfo {
+    height: 20px;
+    text-wrap: nowrap;
+    overflow: hidden;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-overflow: ellipsis;
     font-size: 14px;
 }
 .action-menu {
@@ -530,14 +536,14 @@
     line-height: 24px;
 }
 .imagecss {
-    margin-bottom: 3px;
+    /* margin-bottom: 3px; */
     /* padding-left: 0.5rem; */
-    padding-left: 0.25rem;
+    /* padding-left: 0.25rem; */
 }
 .imagecsscrossicon {
-    padding-top: 5px;
-    margin-bottom: 3px;
-    padding-left: 0.5rem;
+    /* padding-top: 5px;
+    margin-bottom: 3px; */
+    /* padding-left: 0.5rem; */
 }
 .retryimageicon {
     /* padding-top: 5px; */
@@ -545,12 +551,18 @@
     padding-left: 0.2rem;
 }
 .imagecsscrossiconinvalid {
-    padding-top: 13px;
-    margin-bottom: 3px;
-    padding-left: 0.5rem;
+    /* padding-top: 13px;
+    margin-bottom: 3px; */
+    /* padding-left: 0.5rem; */
 }
 /* testing end */
 .wait-time {
+    height: 20px;
+    text-wrap: nowrap;
+    overflow: hidden;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-overflow: ellipsis;
     color: #757575;
     font-size: 13px;
     font-style: italic;
@@ -582,7 +594,7 @@
     color: #444444;
     font-size: 14px;
     font-weight: 600;
-    padding-left: 1rem;
+    /* padding-left: 1rem; */
     font-family: 'Proxima Nova';
     letter-spacing: 0;
 }
@@ -882,6 +894,12 @@
         /* position: absolute; */
         /* bottom: 7rem; */
     }
+    .float-btns {
+        /* position: absolute;
+        bottom: 0;
+        background: #f2f2f2;
+        padding-bottom: 3%; */
+    }
 }
 @media all and (min-width: 768px) and (max-width: 1024px) {
     .mbllightninglayout {
@@ -897,6 +915,22 @@
     }
     .upload-newFile-btn {
         width: 97%;
+    }
+    .wait-time {
+        height: 30px;
+        overflow: visible;
+        text-wrap: wrap;
+    }
+    .uploadinfo {
+        height: 30px;
+        overflow: visible;
+        text-wrap: wrap;
+    }
+    .scrollableclass {
+        height: 235px;
+    }
+    .upload-newdocument-boxNoFiles {
+        height: 620px;
     }
 }
 
@@ -1024,3 +1058,4 @@
         /* margin-top: -4rem; */
     }
 }
+

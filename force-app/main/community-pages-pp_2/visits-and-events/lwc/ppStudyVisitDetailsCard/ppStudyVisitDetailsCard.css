@@ -24,6 +24,10 @@
     padding: 0 0 1rem 1.2rem;
 }
 
+.location-title-rtl {
+    padding: 0 1.2rem 1rem 0;
+}
+
 .site-name {
     padding: 0 0.5rem;
 }
@@ -91,12 +95,16 @@
     background: #fff;
     color: #595959;
     text-align: left;
+    /* height: 2rem !important; */
 }
 
 .curve-input input[type='date']:disabled {
     background: #f2f2f2;
     padding-left: 1rem;
 }
+/* .curve-input input[type='time']{
+    height: 2rem !important;
+} */
 
 input[type='date']::-webkit-calendar-picker-indicator,
 .curve-input .slds-input__icon-group_right {
@@ -147,7 +155,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
 
 .card-btn {
     height: 35px;
-    width: 90px;
+    min-width: 90px;
     font-weight: 500;
     padding: 0 1rem;
 }

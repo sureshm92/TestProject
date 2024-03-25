@@ -149,8 +149,9 @@ a {
 }
 */
 .up-button {
-    border-radius: 16px 0 0 16px;
+    /* border-radius: 16px 0 0 16px; */
     border: 1px solid #d9d9d9 !important;
+    min-width: 109px;
 }
 
 .active-button-background {
@@ -166,19 +167,27 @@ a {
 .past-button {
     box-sizing: border-box;
     border: 1px solid #d9d9d9;
-    border-radius: 0 16px 16px 0 !important;
+    /* border-radius: 0 16px 16px 0 !important; */
     font-family: 'Proxima Nova';
     font-weight: 400;
     letter-spacing: 0;
-    line-height: 24px;
+    /* line-height: 24px; */
     text-align: center;
-    height: 32px;
-    width: 109px;
+    /* height: 32px; */
+    min-width: 109px;
     margin-left: -1px;
 }
 
+.border-radius-rtl {
+    border-radius: 0 16px 16px 0;
+}
+
+.border-radius {
+    border-radius: 16px 0 0 16px;
+}
+
 .scroll-bar {
-    height: 39rem;
+    height: 39rem;   
     border-radius: 4px;
     margin-right: 1rem;
 }
@@ -325,7 +334,7 @@ a {
     .active-custom-box,
     .inactive-custom-box {
         margin-inline: auto;
-        max-width: 340px;
+        /* max-width: 340px; */
     }
 }
 
@@ -387,6 +396,46 @@ a {
         width: 100%;
     }
 }
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    .active-custom-box {
+        width: 280px;
+        height: max-content;
+        display: inline-grid;
+        align-items: center;
+    }
+    .inactive-custom-box {
+        width: 280px;
+        height: max-content;
+        display: inline-grid;
+        align-items: center;
+    }
+}
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: landscape) {
+    .active-custom-box {
+        max-width: 100%;
+        height: max-content;
+        display: inline-grid;
+        align-items: center;
+    }
+    .inactive-custom-box {
+        max-width: 100%;
+        height: max-content;
+        display: inline-grid;
+        align-items: center;
+    }
+    .up-button {
+        width: 100px;
+    }
+    .past-button {
+        width: 100px;
+    }
+    .list-selection {
+        justify-content: left;
+    }
+    .scroll-bar {
+        margin-right: 0px;
+    }
+}
 .card-wrap {
     padding: 0;
 }
@@ -419,7 +468,7 @@ a {
     color: #a9a9a9;
     margin-top: 8px;
 }
- @media all and (max-width: 486px) {
+@media all and (max-width: 486px) {
     .visit-card-upcoming {
         height: 213px;
         width: auto !important;
@@ -427,4 +476,7 @@ a {
     .scroll-bar {
         margin-right: 0rem !important;
     }
-} 
+}
+.tab-css {
+    width: 468px ;
+}

@@ -30,12 +30,39 @@
 .nav-item:nth-child(5) {
     padding: 0px 10px !important;
 }
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .new-msg-outer {
         margin: 0.2rem 0 0 0.8rem;
     }
     .new-message {
         position: relative;
         bottom: 0px !important;
+    }
+}
+.new-message-tab {
+    position: relative;
+    bottom: -1px !important;
+    position: relative;
+    bottom: 2px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+}
+.new-msg-outer-tab {
+    margin: 0.2rem 0 0 0.8rem !important;
+    
+}
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    .new-message {
+        display: grid;
+        align-items: center;
+        bottom: none;
+    }
+}
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: landscape) {
+    .new-message {
+        display: grid;
+        align-items: center;
+        bottom: auto !important;
     }
 }

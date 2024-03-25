@@ -11,7 +11,7 @@
 
                     <!-- Left Column -->
                     <template if:false={hideFirstColumn}>
-                        <lightning-layout-item size={linksGridSize} class="resource-gutter">
+                        <lightning-layout-item size={linksGridSize} class={leftBoxPadding}>
                             <lightning-layout multiple-rows="true" vertical-align="center">
                                 <template if:true={toggleExplore}>
                                     <lightning-layout-item size="12">
@@ -33,7 +33,7 @@
                                                             src={empty_state}
                                                         />
                                                         <p class="no-links-available">
-                                                            No modules available
+                                                            {labels.No_modules_available}
                                                         </p>
                                                     </template>
                                                     <template if:false={toggleLinks}>
@@ -42,7 +42,7 @@
                                                             src={empty_state}
                                                         />
                                                         <p class="no-links-availables mt-15">
-                                                            No modules available
+                                                            {labels.No_modules_available}
                                                         </p>
                                                     </template>
                                                 </template>
@@ -64,31 +64,24 @@
                                 <template if:true={toggleLinks}>
                                     <lightning-layout-item size="12">
                                         <div class="rel-header mb-8 resPage">
-                                            <lightning-layout>
-                                                <lightning-layout-item size="6">
-                                                    {labels.DISCOVER_TITLE}
-                                                    <span class="pp-tooltip">
-                                                        <lightning-helptext
-                                                            content={labels.DISCLAIMER}
-                                                        >
-                                                        </lightning-helptext>
-                                                    </span>
-                                                </lightning-layout-item>
-                                                <template if:true={enableChangePref}>
-                                                    <lightning-layout-item
-                                                        size="6"
-                                                        class="right-align"
+                                            <lightning-layout-item size="6">
+                                                {labels.DISCOVER_TITLE}
+                                                <span class="pp-tooltip">
+                                                    <lightning-helptext content={labels.DISCLAIMER}>
+                                                    </lightning-helptext>
+                                                </span>
+                                            </lightning-layout-item>
+                                            <template if:true={enableChangePref}>
+                                                <lightning-layout-item size="6" class="right-align">
+                                                    <div
+                                                        onclick={handleChangePreference}
+                                                        class="change-preferences"
+                                                        style="float: right"
                                                     >
-                                                        <div
-                                                            onclick={handleChangePreference}
-                                                            class="change-preferences"
-                                                            style="float: right"
-                                                        >
-                                                            {labels.CHANGE_PREFERENCES}
-                                                        </div>
-                                                    </lightning-layout-item>
-                                                </template>
-                                            </lightning-layout>
+                                                        {labels.CHANGE_PREFERENCES}
+                                                    </div>
+                                                </lightning-layout-item>
+                                            </template>
                                         </div>
 
                                         <div class="left-column">
@@ -153,7 +146,7 @@
 
                     <!-- Right Column -->
                     <template if:true={toggleDocs}>
-                        <lightning-layout-item size={documentGridSize} class={rightColumnPadding}>
+                        <lightning-layout-item size={documentGridSize} class={rightBoxPadding}>
                             <lightning-layout multiple-rows="true">
                                 <lightning-layout-item size="12">
                                     <lightning-layout multiple-rows="true" vertical-align="center">

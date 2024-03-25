@@ -1,53 +1,53 @@
-<apex:page controller="OpenTokClientController"
-    showHeader="false"
-    sidebar="false"
-    standardStylesheets="false"
-    lightningStylesheets="true"
-    applyBodyTag="False"
-    applyHtmlTag="False"
-    docType="html-5.0"
->
+<apex:page controller="OpenTokClientController" showHeader="false" sidebar="false" standardStylesheets="false" lightningStylesheets="true"
+    applyBodyTag="False" applyHtmlTag="False" docType="html-5.0">
     <style>
         span#audio-toggle-background::after {
-            background-color:white;
+            background-color: white;
             margin-top: 2px;
             margin-left: 2px;
-            height:16px;
-            width:16px;
+            height: 16px;
+            width: 16px;
         }
+
         span#audio-toggle-background::before {
-            background-color:white;
+            background-color: white;
             margin-top: 2px;
             margin-right: 2px;
-            height:16px;
-            width:16px;
+            height: 16px;
+            width: 16px;
         }
-        span#audio-toggle-background{
-            height:24px;
-            width:48px;  
+
+        span#audio-toggle-background {
+            height: 24px;
+            width: 48px;
         }
+
         span#video-toggle-background::after {
-            background-color:white;
+            background-color: white;
             margin-top: 2px;
             margin-left: 2px;
-            height:16px;
-            width:16px;
+            height: 16px;
+            width: 16px;
         }
+
         span#video-toggle-background::before {
-            background-color:white;
+            background-color: white;
             margin-top: 2px;
             margin-right: 2px;
-            height:16px;
-            width:16px;
+            height: 16px;
+            width: 16px;
         }
-        span#video-toggle-background{
-            height:24px;
-            width:48px;  
+
+        span#video-toggle-background {
+            height: 24px;
+            width: 48px;
         }
-        .all-button-disabled{
+
+        .all-button-disabled {
             opacity: 0.5;
         }
-        .backdrop{
+
+        .backdrop {
             visibility: visible;
             opacity: 1;
             transition: opacity .4s linear;
@@ -58,8 +58,9 @@
             right: 0;
             bottom: 0;
             left: 0;
-            background-color: rgba(0,0,0,0.56) !important;
+            background-color: rgba(0, 0, 0, 0.56) !important;
         }
+
         .titleT {
             color: #000000;
             font-family: "Proxima Nova";
@@ -68,98 +69,113 @@
             letter-spacing: 0;
             line-height: 20px;
         }
-        .subTextT{
-                height: 14px;
-                width: 373px;
-                color: #444444;
-                font-family: "Proxima Nova";
-                font-size: 14px;
-                letter-spacing: 0;
-                line-height: 14px;
-                text-align: center;
-                padding-top: 10px;
-                padding-bottom: 12px;
+
+        .subTextT {
+            height: 14px;
+            width: 373px;
+            color: #444444;
+            font-family: "Proxima Nova";
+            font-size: 14px;
+            letter-spacing: 0;
+            line-height: 14px;
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom: 24px;
         }
+
         .join-button {
             font-size: 16px !important;
             box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32) !important;
         }
+
         .back-button {
             font-size: 16px !important;
         }
+
         @media all and (max-width: 430px) {
-            .subTextT{
+            .subTextT {
                 margin-bottom: 24px;
                 line-height: 21px;
                 padding-bottom: 16px;
             }
-            .preview-tv{
+            .preview-tv {
                 height: 680px !important;
             }
         }
+
         .slds-scope .slds-modal__container {
-			margin: 0 24px;
+            margin: 0 24px;
         }
-       	@media (orientation: portrait) {
-            .previewContainerFull{
+
+        @media (orientation: portrait) {
+            .previewContainerFull {
                 height: calc(100vh - 62px) !important;
-            } 
+            }
         }
+
         @media all and (max-width: 900px) {
             .preview-tv-error .height-full {
                 height: 580px !important;
             }
         }
+
         @media all and (max-width: 492px) {
-            .previewContainer{
-        		/* padding-top: 24px; */
+            .previewContainer {
+                /* padding-top: 24px; */
             }
-            .preview-tv-error{
+            .preview-tv-error {
                 height: 740px !important;
             }
             .preview-tv-error .height-full {
                 height: 650px !important;
             }
         }
+
         @media all and (max-width: 430px) {
-            .previewContainer{
-        		/* padding-top: 32px; */
-             }
-            .preview-tv-error{
+            .previewContainer {
+                /* padding-top: 32px; */
+            }
+            .preview-tv-error {
                 height: 760px !important;
             }
         }
-        
+
         @media all and (max-width: 388px) {
-            .previewContainer{
-               padding-top: 90px;
-          }
-            .preview-tv-error{
+            .previewContainer {
+                padding-top: 90px;
+            }
+            .preview-tv-error {
                 height: 785px !important;
             }
         }
-        @media screen and (max-width: 768px) and (orientation: landscape){
+
+        @media screen and (max-width: 768px) and (orientation: landscape) {
             .speaker-feed .OT_edge-bar-item.OT_mode-off {
                 min-height: 21px;
             }
         }
-        .speaker-feed .OT_edge-bar-item.OT_mode-off{
-            top:unset !important;
+
+        .speaker-feed .OT_edge-bar-item.OT_mode-off {
+            top: unset !important;
         }
-        .people-container-heading{
+
+        .people-container-heading {
             color: #444444;
             font-weight: 600;
             line-height: 32px !important;
         }
-        .people-container-heading img{
+
+        .people-container-heading img {
             margin-right: 16px;
             margin-left: 8px;
         }
-        .top-margin-rejoin{
+
+        .top-margin-rejoin {
             align-items: center;
         }
-        @media screen and (max-width: 1024px){
-            .top-margin-rejoin{
+
+        @media screen and (max-width: 1024px) {
+            .top-margin-rejoin {
                 align-items: unset;
                 margin-top: 156px;
             }
@@ -169,23 +185,27 @@
             .televisit-end {
                 line-height: 24px !important;
             }
-	     }
-        .firstAttendeeText{
-        	width: 262px;
+        }
+
+        .firstAttendeeText {
+            width: 262px;
             color: #999999;
             font-size: 24px !important;
             font-weight: 600;
             line-height: 37px;
-        }        
-        .non-attendee-screen .televisit-end{
-        	padding: 0px 24px;
         }
-        .non-attendee-screen .rejoin-container{
-        	height: 96vh;
+
+        .non-attendee-screen .televisit-end {
+            padding: 0px 24px;
         }
-        @media screen and (max-width: 401px){
-            .non-attendee-screen .televisit-rejoin{
-            	width: unset !important;
+
+        .non-attendee-screen .rejoin-container {
+            height: 96vh;
+        }
+
+        @media screen and (max-width: 401px) {
+            .non-attendee-screen .televisit-rejoin {
+                width: unset !important;
             }
         }
     </style>
@@ -199,38 +219,21 @@
     <apex:includeScript value="{!$Resource.jsonTV1}" />
     <apex:includeScript value="{!$Resource.jqueryCometdTV1}" />
     <link id="themeCSS" href="{!$Resource.Community_CSS_Stub}" rel="stylesheet" type="text/css" />
-    <apex:form >
+    <apex:form>
         <apex:actionPoller action="{!maintainSession}" interval="180" />
-        <apex:actionFunction name="rerenderControllerValues"
-            action="{!rerenderControllerValues}"
-            rerender="controller-values"
+        <apex:actionFunction name="rerenderControllerValues" action="{!rerenderControllerValues}" rerender="controller-values" />
+        <apex:actionFunction name="updateSharingUserName" action="{!updateSharingUserName}" rerender="screen-sharing-username-text"
         />
-        <apex:actionFunction name="updateSharingUserName"
-            action="{!updateSharingUserName}"
-            rerender="screen-sharing-username-text"
-        />
-        <apex:actionFunction name="updateAttendees"
-            action="{!updateAttendees}"
-            rerender="participant-list,attendee-list"
-        >
+        <apex:actionFunction name="updateAttendees" action="{!updateAttendees}" rerender="participant-list,attendee-list">
             <apex:param name="attendeesJson" assignTo="{!attendeesJson}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction name="validateAttendeeEmail"
-            action="{!validateAttendeeEmail}"
-            rerender="controller-values"
-            oncomplete="completeValidateAttendeeEmail();"
-        >
+        <apex:actionFunction name="validateAttendeeEmail" action="{!validateAttendeeEmail}" rerender="controller-values" oncomplete="completeValidateAttendeeEmail();">
             <apex:param name="attendeeEmailAddress" assignTo="{!attendeeEmailAddress}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction name="extendedMeetingInterval"
-            action="{!extendedMeetingInterval}"
-            rerender="jspanel,televisitBanner,controller-values"
-        >
+        <apex:actionFunction name="extendedMeetingInterval" action="{!extendedMeetingInterval}" rerender="jspanel,televisitBanner,controller-values">
             <apex:param name="meetingInterval" assignTo="{!meetingInterval}" value="" />
         </apex:actionFunction>
-        <apex:actionFunction name="fetchUpdatedTelevisitDetails"
-            action="{!fetchUpdatedTelevisitDetails}"
-            rerender="jspanel,televisitBanner,controller-values"
+        <apex:actionFunction name="fetchUpdatedTelevisitDetails" action="{!fetchUpdatedTelevisitDetails}" rerender="jspanel,televisitBanner,controller-values"
         />
 
         <apex:outputPanel id="jspanel">
@@ -250,8 +253,8 @@
                     option.disabled = 'true';
                     var select = document.getElementById('extendcallminutes');
                     var existingOption = document.getElementById('optionExtendCall');
-                    if(existingOption!=null && existingOption.text != 'Extend Call')
-                    select.appendChild(option);
+                    if (existingOption != null && existingOption.text != 'Extend Call')
+                        select.appendChild(option);
                     else
                         existingOption.selected = 'true';
                 }
@@ -412,7 +415,7 @@
                 var communityUser = '{!attendeeType}';
                 var firstAttendeeMsg = document.getElementById("firstAttendeeMsg");
                 if (session.currentState === "disconnected") {
-                    if(firstAttendeeMsg != null && firstAttendeeMsg != undefined){
+                    if (firstAttendeeMsg != null && firstAttendeeMsg != undefined) {
                         firstAttendeeMsg.style.display = "none";
                         connectToSession();
                     }
@@ -421,7 +424,7 @@
                     toggle('#call-end-screen-container', 'slds-hide');
                     removeParticipant(publisher);
                     disconnectFromSession();
-                }else if (jsAutoDisconnectMeetingTime < currentTime) {
+                } else if (jsAutoDisconnectMeetingTime < currentTime) {
                     toggle('#main', 'slds-hide');
                     toggle('#tv-end-screen-container', 'slds-hide');
                     disconnectFromSession();
@@ -524,7 +527,7 @@
 
             function handleSubscriberStreamDestroyed(event) {
 
-                if(document.getElementById(getBlokId(event.stream))){
+                if (document.getElementById(getBlokId(event.stream))) {
                     document.getElementById(getBlokId(event.stream)).remove();
                 }
 
@@ -622,8 +625,8 @@
                 disconnectFromSession();
                 window.close();
             }
-            
-            
+
+
 
             function toggleDeviceSettingsVisible() {
                 let settingsContainerId = sessionJoined ? '#in-call-device-settings-container' : '#device-settings-container'
@@ -726,7 +729,7 @@
                     parentEle = sharingId;
                 } else {
                     if (subsCounts <= MAX_VISIBLE_SUBS) {
-                        let selfFeed = document.getElementById(selfContainerId)!=null ? document.getElementById(selfContainerId).firstChild : '';
+                        let selfFeed = document.getElementById(selfContainerId) != null ? document.getElementById(selfContainerId).firstChild : '';
                         let speakerFeed = document.getElementById(speakerId) ? document.getElementById(speakerId).firstChild : '';
                         let previousSpeakerFeed = document.getElementById(lastActiveId) ? document.getElementById(lastActiveId).firstChild : '';
 
@@ -749,7 +752,7 @@
 
                 feed = document.createElement('span');
                 feed.id = getBlokId(stream);
-                if(document.getElementById(parentEle)){
+                if (document.getElementById(parentEle)) {
                     document.getElementById(parentEle).appendChild(feed);
                 }
                 return feed;
@@ -925,31 +928,31 @@
                 toggle('.video-container', 'slds-medium-size_3-of-4');
                 toggle('.controls', 'slds-size_4-of-4');
                 toggle('.callbuttons', 'shareWidth');
-                
-                
+
+
 
                 toggle('.ctrls-feeds-action-bar', 'speaker-view');
                 toggle('.ctrls-feeds-action-bar', 'share-view');
 
                 if (isSubscribedScreenShare) {
                     addClass('.button--sharing', 'slds-hide');
-                    
+
                     var myDiv = document.getElementsByClassName("OT_name");
                     for (var i = 0; i < myDiv.length; i++) {
-                       myDiv[i].setAttribute("style", "visibility: hidden;");
+                        myDiv[i].setAttribute("style", "visibility: hidden;");
                     }
-                    
-                    
-                    
+
+
+
                 } else {
                     removeClass('.button--sharing', 'slds-hide');
-                    
+
                     var myDiv = document.getElementsByClassName("OT_name");
                     for (var i = 0; i < myDiv.length; i++) {
-                       myDiv[i].setAttribute("style", "visibility: none;");
+                        myDiv[i].setAttribute("style", "visibility: none;");
                     }
-                    
-                    
+
+
                 }
 
                 if (stream) {
@@ -1015,13 +1018,13 @@
 
                 if (attendees.length === 1 && countFlag !== true) {
                     countFlag = true;
-                    if(document.getElementById("firstAttendeeMsg") != null && document.getElementById("firstAttendeeMsg") != undefined){
-                    document.getElementById("firstAttendeeMsg").style.display = "block";
+                    if (document.getElementById("firstAttendeeMsg") != null && document.getElementById("firstAttendeeMsg") != undefined) {
+                        document.getElementById("firstAttendeeMsg").style.display = "block";
                     }
                 }
                 else {
-                    if(document.getElementById("firstAttendeeMsg") != null && document.getElementById("firstAttendeeMsg") != undefined){
-                    document.getElementById("firstAttendeeMsg").style.display = "none";
+                    if (document.getElementById("firstAttendeeMsg") != null && document.getElementById("firstAttendeeMsg") != undefined) {
+                        document.getElementById("firstAttendeeMsg").style.display = "none";
                     }
                 }
 
@@ -1091,12 +1094,12 @@
                     let newElement = document.getElementById(getBlokId(stream));
                     let oldElementContainer = document.getElementById(targetClass);
                     //let oldElement = oldElementContainer.firstChild;
-                    
-                    let oldElement = (oldElementContainer != null ?oldElementContainer.firstChild:null);
-                    if(oldElement != null){
+
+                    let oldElement = (oldElementContainer != null ? oldElementContainer.firstChild : null);
+                    if (oldElement != null) {
                         hiddenFeedsElement.appendChild(oldElement);
                     }
-                    
+
                     if (newElement != null) {
                         oldElementContainer.appendChild(newElement);
                     }
@@ -1160,7 +1163,7 @@
                 let headerHeight = document.getElementsByClassName('page-header')[0].clientHeight;
 
                 let activeSpeakerTileHeight = (window.innerHeight) - inCallHeaderHeight - actionBarHeight - headerHeight - 76;
-                if(window.innerHeight<=480 && window.innerWidth<=766){
+                if (window.innerHeight <= 480 && window.innerWidth <= 766) {
                     activeSpeakerTileHeight = 225;
                 }
                 document.getElementsByClassName('speaker-feed')[0].style.height = activeSpeakerTileHeight + 'px';
@@ -1259,7 +1262,7 @@
                     //&& currentTime < jsAutoDisconnectMeetingTime
                     if (currentTime > jsBannerEndTime) {
                         //Need to remove this if condition because banner is not display in multiple screens - Its resolved
-                        if (!enableExtendCallDropDown && document.getElementById("televisitBanner")!=null) {
+                        if (!enableExtendCallDropDown && document.getElementById("televisitBanner") != null) {
                             enableExtendCallDropDown = true;
                             document.getElementById("televisitBanner").removeAttribute("class", "hideBanner");
                             document.getElementById("televisitBanner").setAttribute("class", "televisitBanner");
@@ -1267,33 +1270,33 @@
                             document.getElementById("closeButton").setAttribute("class", "extendCallListUpdatedClass");
                             //document.getElementById("televisitBanner").innerHTML += currentTime +':'+ jsBannerEndTime;
                         }
-                    } else if(document.getElementById("televisitBanner")!=null){
+                    } else if (document.getElementById("televisitBanner") != null) {
                         document.getElementById("televisitBanner").setAttribute("class", "hideBanner");
                     }
 
-                    
+
                     var visitDate = '{!visitDate}';
                     var today = new Date();
                     today = today.toLocaleString('en-US', { timeZone: '{!userTimeZone}' });
                     today = new Date(today);
-                    
+
                     var dd = String(today.getDate()).padStart(2, '0');
-                    var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+                    var mm = String(today.getMonth() + 1).padStart(2, '0');
                     var yyyy = today.getFullYear();
-                    today = yyyy +'-'+ mm +'-'+ dd;
-                    
-                    if(visitDate < today){
-                       if (!callDisconnected) {
-                            manageCall();
-                            callDisconnected = true;
-                        }
-                    }else if (currentTime > jsAutoDisconnectMeetingTime) {
-                        fetchUpdatedTelevisitDetails();
-                        if (currentTime > jsAutoDisconnectMeetingTime) {
+                    today = yyyy + '-' + mm + '-' + dd;
+
+                    if (visitDate < today) {
                         if (!callDisconnected) {
                             manageCall();
                             callDisconnected = true;
                         }
+                    } else if (currentTime > jsAutoDisconnectMeetingTime) {
+                        fetchUpdatedTelevisitDetails();
+                        if (currentTime > jsAutoDisconnectMeetingTime) {
+                            if (!callDisconnected) {
+                                manageCall();
+                                callDisconnected = true;
+                            }
                         }
                     }
 
@@ -1324,7 +1327,7 @@
                 return element ? element.value : null;
             }
 
-            function getCurrentTime(){
+            function getCurrentTime() {
                 const date = new Date();
                 var currentHours = date.getUTCHours();
                 var currentMinutes = date.getUTCMinutes();
@@ -1342,115 +1345,116 @@
                 apiKey = "{!ApiKey}";
                 sessionId = "{!JSENCODE(sessionId)}";
                 userName = "{!JSENCODE(userName)}";
-                isExternalUser = {!isExternalUser};
+                isExternalUser = {!isExternalUser
+            };
 
-                sfSessionId = "{!session}";
+            sfSessionId = "{!session}";
 
-                selfId = "self-feed";
-                speakerId = "speaker-feed";
-                lastActiveId = "last-active-feed";
-                sharingId = "screen-sharing-feed";
-                hiddenId = "hidden-feeds";
-                selfContainerId = "self-feed-container";
+            selfId = "self-feed";
+            speakerId = "speaker-feed";
+            lastActiveId = "last-active-feed";
+            sharingId = "screen-sharing-feed";
+            hiddenId = "hidden-feeds";
+            selfContainerId = "self-feed-container";
 
-                countFlag = false;
-                subsCounts = 0;
-                audioSourceChanged = false;
-                videoSourceChanged = false;
-                publishAudio = false;
-                publishVideo = false;
-                sessionJoined = false;
-                deviceSettingsOpen = false;
-                isPublishingScreenShare = false;
-                isSubscribedScreenShare = false;
-                isScreenShareLocked = false;
+            countFlag = false;
+            subsCounts = 0;
+            audioSourceChanged = false;
+            videoSourceChanged = false;
+            publishAudio = false;
+            publishVideo = false;
+            sessionJoined = false;
+            deviceSettingsOpen = false;
+            isPublishingScreenShare = false;
+            isSubscribedScreenShare = false;
+            isScreenShareLocked = false;
 
-                timer.init();
+            timer.init();
 
-                session = OT.initSession(apiKey, sessionId);
+            session = OT.initSession(apiKey, sessionId);
 
-                // listeners for subscribed streams
-                session.on(STREAM_CREATED_EVT, handleSubscriberStreamCreated);
-                session.on(STREAM_DESTROYED_EVT, handleSubscriberStreamDestroyed);
-                session.on(SIGNAL_EVT_PREFIX + SCREENSHARE_LOCK_EVT, handleLockScreenShare);
+            // listeners for subscribed streams
+            session.on(STREAM_CREATED_EVT, handleSubscriberStreamCreated);
+            session.on(STREAM_DESTROYED_EVT, handleSubscriberStreamDestroyed);
+            session.on(SIGNAL_EVT_PREFIX + SCREENSHARE_LOCK_EVT, handleLockScreenShare);
 
-                activeSpeakerArray = new KeyArray(2);
-                var currTime = getCurrentTime();
-                /** Checking if Meeting Time has ended or not before joining*/
-                var visitDate = '{!visitDate}';
-                var today = new Date();
-                today = today.toLocaleString('en-US', { timeZone: '{!userTimeZone}' });
-                today = new Date(today);
-                var dd = String(today.getDate()).padStart(2, '0');
-                var mm = String(today.getMonth() + 1).padStart(2, '0'); 
-                var yyyy = today.getFullYear();
-                today = yyyy +'-'+ mm +'-'+ dd;
-                  
-                
-                var statusCanceled = '{!statusCanceled}';
-                   
-                if(visitDate < today){
-                   toggle('#tv-end-screen-container', 'slds-hide');
-                }else if(currTime > jsAutoDisconnectMeetingTime){
-                   toggle('#tv-end-screen-container', 'slds-hide');
-                }else if(statusCanceled == 'true'){
-                    toggle('#tv-end-screen-container', 'slds-hide');
-                }else{
-                    toggle('#call-preview-screen-container', 'slds-hide');
-                    OT.getUserMedia().then(() => {
-                        var publisherProperties = {showControls: false};
-                        previewPublisher = OT.initPublisher('cameraOnContainer', publisherProperties);
-                        document.getElementById("microphone-toggle").disabled = false;
-                        document.getElementById("camera-toggle").disabled = false;
-                        document.getElementById("tv-join-button").disabled = false;
-                    	document.getElementById("preview-buttons").classList.remove("all-button-disabled");
-                        document.getElementById("tv-join-button").classList.remove("join-button-disabled");
-                        previewPublisher.on('streamCreated', function(event) {
+            activeSpeakerArray = new KeyArray(2);
+            var currTime = getCurrentTime();
+            /** Checking if Meeting Time has ended or not before joining*/
+            var visitDate = '{!visitDate}';
+            var today = new Date();
+            today = today.toLocaleString('en-US', { timeZone: '{!userTimeZone}' });
+            today = new Date(today);
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
 
-                        });
-                    }).catch((error) => {
-                        if(error.name == 'OT_USER_MEDIA_ACCESS_DENIED'){
-                            let previewScreen = document.getElementById("preview-screen");
-                        	let previewCont = document.getElementById("previewContainer");
-                            if(previewScreen!= null && previewScreen.classList.contains('preview-tv')){
-                                previewScreen.classList.remove('preview-tv');
-                                previewScreen.classList.add('preview-tv-error');
-                            }
-                            if(previewCont){
-                        		previewCont.classList.add('previewContainer');
-                    		}
-                            toggle('#permission-error', 'slds-hide');
+
+            var statusCanceled = '{!statusCanceled}';
+
+            if (visitDate < today) {
+                toggle('#tv-end-screen-container', 'slds-hide');
+            } else if (currTime > jsAutoDisconnectMeetingTime) {
+                toggle('#tv-end-screen-container', 'slds-hide');
+            } else if (statusCanceled == 'true') {
+                toggle('#tv-end-screen-container', 'slds-hide');
+            } else {
+                toggle('#call-preview-screen-container', 'slds-hide');
+                OT.getUserMedia().then(() => {
+                    var publisherProperties = { showControls: false };
+                    previewPublisher = OT.initPublisher('cameraOnContainer', publisherProperties);
+                    document.getElementById("microphone-toggle").disabled = false;
+                    document.getElementById("camera-toggle").disabled = false;
+                    document.getElementById("tv-join-button").disabled = false;
+                    document.getElementById("preview-buttons").classList.remove("all-button-disabled");
+                    document.getElementById("tv-join-button").classList.remove("join-button-disabled");
+                    previewPublisher.on('streamCreated', function (event) {
+
+                    });
+                }).catch((error) => {
+                    if (error.name == 'OT_USER_MEDIA_ACCESS_DENIED') {
+                        let previewScreen = document.getElementById("preview-screen");
+                        let previewCont = document.getElementById("previewContainer");
+                        if (previewScreen != null && previewScreen.classList.contains('preview-tv')) {
+                            previewScreen.classList.remove('preview-tv');
+                            previewScreen.classList.add('preview-tv-error');
                         }
-                    });
+                        if (previewCont) {
+                            previewCont.classList.add('previewContainer');
+                        }
+                        toggle('#permission-error', 'slds-hide');
+                    }
+                });
 
-                    window.addEventListener('resize', function (event) {
-                        resizeSpeakerTile();
-                    });
-                    // setup hover states
-                    [
-                        document.querySelector('.button--video'),
-                        document.querySelector('.button--audio'),
-                        document.querySelector('.button--sharing')
+                window.addEventListener('resize', function (event) {
+                    resizeSpeakerTile();
+                });
+                // setup hover states
+                [
+                    document.querySelector('.button--video'),
+                    document.querySelector('.button--audio'),
+                    document.querySelector('.button--sharing')
 
-                    ].forEach(item => {
-                        item.addEventListener('mouseover', event => {
-                            if (!item.classList.contains('active')) {
-                                item.classList.add('button-hover-state');
-                            }
-                        })
+                ].forEach(item => {
+                    item.addEventListener('mouseover', event => {
+                        if (!item.classList.contains('active')) {
+                            item.classList.add('button-hover-state');
+                        }
+                    })
 
-                        item.addEventListener('mouseout', event => {
-                            item.classList.remove('button-hover-state');
-                        })
-                    });
-                }
+                    item.addEventListener('mouseout', event => {
+                        item.classList.remove('button-hover-state');
+                    })
+                });
+            }
             }
 
-            function toggleAudioPreview(){
+            function toggleAudioPreview() {
                 let audioToggle = document.getElementById("audio-toggle-background");
-                if(audioToggle.classList.contains('active-toggle-background')){
+                if (audioToggle.classList.contains('active-toggle-background')) {
                     audioToggle.classList.remove('active-toggle-background');
-                }else{
+                } else {
                     audioToggle.classList.add('active-toggle-background');
                 }
                 toggle('#audio-off-icon', 'slds-hide');
@@ -1458,13 +1462,13 @@
                 toggleAudio();
             }
 
-            function toggleVideoPreview(){
+            function toggleVideoPreview() {
                 let videoToggle = document.getElementById("video-toggle-background");
                 toggle('#video-off-icon', 'slds-hide');
                 toggle('#video-on-icon', 'slds-hide');
-                if(videoToggle.classList.contains('active-toggle-background')){
+                if (videoToggle.classList.contains('active-toggle-background')) {
                     videoToggle.classList.remove('active-toggle-background');
-                }else{
+                } else {
                     videoToggle.classList.add('active-toggle-background');
                 }
                 toggle('#cameraOnContainer', 'slds-hide');
@@ -1536,35 +1540,35 @@
             }
         </script>
         <script>
-           window.onload = function checkInternetDisconnect() {
-              
-              window.addEventListener('online', () => onlineCall());
-              window.addEventListener('offline', () => offlineCall());
-              var isOffline = false;
-              var myTimeout;
-              function offlineCall(){
-                 myTimeout  = setTimeout(checkTimer, 10000);
-              }
-              
-              function checkTimer() {
-                  isOffline = true;
-              }
-              
-              
-              function onlineCall(){
-                  if(isOffline){
-                      isOffline = false;
-                      disconnectFromSession();
-                      toggle('#main', 'slds-hide');
-                      toggle('#call-end-screen-container', 'slds-hide');
-                      //removeParticipant(publisher);
-                      
-                  }else{
-                      clearTimeout(myTimeout);
-                  }
-              }
+            window.onload = function checkInternetDisconnect() {
+
+                window.addEventListener('online', () => onlineCall());
+                window.addEventListener('offline', () => offlineCall());
+                var isOffline = false;
+                var myTimeout;
+                function offlineCall() {
+                    myTimeout = setTimeout(checkTimer, 10000);
+                }
+
+                function checkTimer() {
+                    isOffline = true;
+                }
+
+
+                function onlineCall() {
+                    if (isOffline) {
+                        isOffline = false;
+                        disconnectFromSession();
+                        toggle('#main', 'slds-hide');
+                        toggle('#call-end-screen-container', 'slds-hide');
+                        //removeParticipant(publisher);
+
+                    } else {
+                        clearTimeout(myTimeout);
+                    }
+                }
             }
-            
+
         </script>
 
         <apex:outputPanel layout="none" rendered="{!isSessionJoinable == true}">
@@ -1590,6 +1594,7 @@
             #last-active-feed h1 {
                 font-weight: bold;
             }
+
             .hideBanner {
                 display: none;
             }
@@ -1609,19 +1614,23 @@
                 text-align: center;
                 width: 75%;
             }
-             .tv_banner {
+
+            .tv_banner {
                 padding-right: 0.5rem !important;
                 padding-right: 0 !important;
             }
+
             .tv_banner::before {
                 content: '';
                 flex-basis: 100%;
             }
-             .warning_content{
+
+            .warning_content {
                 content: '';
                 flex-basis: 100%;
             }
-            .extent_time{
+
+            .extent_time {
                 content: '';
                 flex-basis: 100%;
                 text-align: right;
@@ -1668,14 +1677,14 @@
                 font-weight: 600;
                 letter-spacing: 0;
                 line-height: 30px;
-                
+
             }
 
             .extendCallListUpdatedClass {
                 background: rgb(254, 147, 57);
                 border: none;
                 margin-left: 20px;
-                 width: 102px;
+                width: 102px;
             }
 
             .cp-main-logo {
@@ -1703,7 +1712,7 @@
                 font-size: 14px !important;
                 font-weight: 600 !important;
                 margin-left: 10px !important;
-                
+
             }
 
             .close-tv-button {
@@ -1761,13 +1770,13 @@
             .headerbg-pp {
                 background: linear-gradient(to right, #230559 0%, #036ca7 100%);
             }
-            
+
             .headerbg-pp2 {
                 background: linear-gradient(to top, #005587 0%, #008299 100%);
-                border-radius:0 0 20px 0;
-                
+                border-radius: 0 0 20px 0;
+
             }
-            
+
 
             .top-margin-container {
                 margin: 2.5em;
@@ -1832,8 +1841,7 @@
             }
 
             .firstAttendeeMsg {
-                max-width: 960px;
-                //width: 25%;
+                max-width: 960px; //width: 25%;
                 background-color: #f6f7fb;
                 vertical-align: middle;
                 position: absolute;
@@ -1841,10 +1849,12 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
             }
-			.callButtonsContainer{
-            	max-width: 960px;
-            	width: 100%;
+
+            .callButtonsContainer {
+                max-width: 960px;
+                width: 100%;
             }
+
             .video-container {
                 background: #f6f7fb;
             }
@@ -1885,14 +1895,14 @@
                 background-color: #df216d;
                 border-color: #df216d;
                 color: white;
-               
+
             }
 
             .slds-button-circle.button_white {
                 background-color: white;
                 border-color: #b5b5b5;
                 color: #0768fd;
-                margin-right:12px;
+                margin-right: 12px;
             }
 
             .slds-button-circle.button_white svg {
@@ -1903,7 +1913,7 @@
                 background-color: #0768fd;
                 border-color: #0768fd;
                 color: white;
-                margin-right:12px;
+                margin-right: 12px;
             }
 
             .slds-button-circle.button_blue svg {
@@ -1947,24 +1957,25 @@
                     display: none;
                 }
             }
-			@media (max-width: 767px){
-            	.people-icon-wrapper {
+
+            @media (max-width: 767px) {
+                .people-icon-wrapper {
                     display: inline-block;
                     padding: 10px;
                     margin-right: -10px;
                     padding-left: 17px;
                     padding-top: 8px;
-                }                
+                }
                 .people-button {
                     height: 24px;
                     width: 24px;
                 }
-            	.share-container {
-                	width: 100% !important;
+                .share-container {
+                    width: 100% !important;
                 }
-            	.callButtonsContainer{
-            		width: 100% !important;
-            	}
+                .callButtonsContainer {
+                    width: 100% !important;
+                }
             }
 
             @media screen and (max-width: 576px) {
@@ -1985,19 +1996,28 @@
                 .height-full {
                     height: 550px !important;
                 }
-                 .tv_banner::before{
+                .tv_banner::before {
                     display: none;
                 }
-                .warning_content{
+                .warning_content {
                     display: flex;
                     justify-content: right;
                     align-items: center;
                 }
-                button.extendCallListUpdatedClass{width : auto}
-                select.extendCallListUpdatedClass{margin-left: 20px !important;margin-right: 10px;width: 98px}
-                .extent_time{display: flex}
-                
+                button.extendCallListUpdatedClass {
+                    width: auto
+                }
+                select.extendCallListUpdatedClass {
+                    margin-left: 20px !important;
+                    margin-right: 10px;
+                    width: 98px
+                }
+                .extent_time {
+                    display: flex
+                }
+
             }
+
             @media only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 1),
             only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-device-pixel-ratio: 2),
             only screen and (min-device-width: 320px) and (max-device-height: 568px) and (-webkit-device-pixel-ratio: 2),
@@ -2008,7 +2028,11 @@
             only screen and (min-device-width: 414px) and (max-device-height: 896px) and (-webkit-device-pixel-ratio: 2),
             only screen and (min-device-width: 414px) and (max-device-height: 896px) and (-webkit-device-pixel-ratio: 3),
             only screen and (min-device-width: 428px) and (max-device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
-                select.extendCallListUpdatedClass{margin-left: 20px !important;margin-right: 10px;width: 110px}
+                select.extendCallListUpdatedClass {
+                    margin-left: 20px !important;
+                    margin-right: 10px;
+                    width: 110px
+                }
             }
 
             @media screen and (max-width: 900px) {
@@ -2028,8 +2052,12 @@
                 .height-full {
                     height: 520px !important;
                 }
-                .extent_time{display: flex}
-                .televisitBanner{width: 90%}
+                .extent_time {
+                    display: flex
+                }
+                .televisitBanner {
+                    width: 90%
+                }
             }
 
             .main-container-open {
@@ -2132,11 +2160,9 @@
                 height: 0.5em;
                 border-radius: 0.25em 0.25em 0 0;
                 background: rgb(0, 118, 174);
-                background: linear-gradient(
-                    270deg,
-                    rgba(0, 118, 174, 1) 0%,
-                    rgba(37, 0, 86, 1) 100%
-                );
+                background: linear-gradient( 270deg,
+                rgba(0, 118, 174, 1) 0%,
+                rgba(37, 0, 86, 1) 100%);
             }
 
             .slds-modal__container .gradient {
@@ -2144,11 +2170,9 @@
                 height: 0.5em;
                 border-radius: 0.25em 0.25em 0 0;
                 background: #005587;
-                background: linear-gradient(
-                    90deg,
-                    #005587 0%,
-                    #008D9E 100%
-                );
+                background: linear-gradient( 90deg,
+                #005587 0%,
+                #008D9E 100%);
             }
 
             @media (min-width: 48em) {
@@ -2201,7 +2225,7 @@
                 flex-direction: column;
             }
 
-            .welcome-fields > .slds-col {
+            .welcome-fields>.slds-col {
                 padding-top: 1em;
                 padding-bottom: 1em;
             }
@@ -2211,7 +2235,7 @@
                     flex-direction: row;
                 }
 
-                .welcome-fields > .slds-col {
+                .welcome-fields>.slds-col {
                     padding-top: 0;
                     padding-bottom: 0;
                 }
@@ -2290,7 +2314,7 @@
                 border-radius: 3px;
                 border: 1px solid #ccc;
                 margin-left: 10px;
-            	font-size: 12px;
+                font-size: 12px;
             }
 
             .OT_video-poster {
@@ -2298,55 +2322,55 @@
                 background-color: #595959;
                 opacity: 1;
             }
-            
+
             .OT_name.OT_mode-off {
                 display: block !important;
                 opacity: 100 !important;
-                
-                
+
+
                 /*
                 top: 0 !important;
                 margin-top:45%;
                 margin-left:10px;*/
-                
             }
-            
+
             .self-feed-container .OT_name.OT_mode-off {
                 top: 75% !important;
                 bottom: 0;
                 margin-left: 10px;
                 margin-bottom: 10px;
             }
-            
+
             .speaker-feed .OT_name.OT_mode-off {
                 top: 92.5%;
                 bottom: 0;
                 margin-left: 10px;
                 margin-bottom: 10px;
-            
+
             }
-            
+
             .last-active-feed .OT_name.OT_mode-off {
                 top: 75% !important;
                 bottom: 0;
                 margin-left: 10px;
                 margin-bottom: 10px;
             }
+
             .camera-screen .OT_name.OT_mode-off {
-                visibility:hidden;
+                visibility: hidden;
             }
 
             @media screen and (min-width: 48em) {
                 .video-container {
                     background-color: #f6f7fb;
                 }
-                .communityTitle{
+                .communityTitle {
                     width: 142px;
                     margin-left: 21px;
                     height: 36px !important;
                     display: flex;
                 }
-                 
+
             }
 
             @media screen and (max-width: 768px) {
@@ -2383,16 +2407,16 @@
                     height: 600px !important;
                 }
                 .communityTitle {
-                     width: 142px;
-                     height: 36px !important;
+                    width: 142px;
+                    height: 36px !important;
                 }
-                .televisitleftcss{
-                    margin-left:50px;
+                .televisitleftcss {
+                    margin-left: 50px;
                 }
-                .heading-container{
-                    padding-top:12px !important;
+                .heading-container {
+                    padding-top: 12px !important;
                 }
-                .slds-has-flexi-truncate{
+                .slds-has-flexi-truncate {
                     background: #f6f7fb;
                     padding: 0px !important;
                 }
@@ -2401,37 +2425,38 @@
                     bottom: 0;
                     margin-left: 10px;
                     margin-bottom: 10px;
-                
+
                 }
-                
-                .in-meeting-device-settings{
-                    right: -22px !important; 
+
+                .in-meeting-device-settings {
+                    right: -22px !important;
                 }
-                .icon-settings{
+                .icon-settings {
                     margin-top: 0px !important;
                     height: 20px;
                     width: 20px;
                     padding: 0px;
                 }
-                .icon-settings svg{ 
+                .icon-settings svg {
                     width: 20px;
                     height: 20px;
                 }
-                .video-container{
-                    padding:8px 0px !important;
+                .video-container {
+                    padding: 8px 0px !important;
                 }
-                .top-margin-container{
-                    margin:1.5em;
+                .top-margin-container {
+                    margin: 1.5em;
                 }
-                
-                
+
+
             }
 
-            .icon-settings{
-                margin-top:4px;
+            .icon-settings {
+                margin-top: 4px;
             }
-          
-             .OT_publisher .OT_name, .OT_name.OT_edge-bar-item.OT_mode-off {
+
+            .OT_publisher .OT_name,
+            .OT_name.OT_edge-bar-item.OT_mode-off {
                 background-color: white;
                 color: #000;
                 font-size: 12px;
@@ -2441,8 +2466,8 @@
                 padding: 2px 5px 2px 0;
                 letter-spacing: normal;
                 border: 1px solid #ccc;
-                border-radius: 3px;               
-                padding-left: 5px;               
+                border-radius: 3px;
+                padding-left: 5px;
                 left: 0;
                 right: auto;
                 height: auto;
@@ -2451,14 +2476,15 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
-            
+
             .share-container {
                 width: 76%;
             }
+
             .shareWidth {
                 width: 76%;
             }
-            
+
             /*
             .OT_subscriber .OT_video-element{
                 height: 90%;
@@ -2487,7 +2513,8 @@
                 color: #000;
                 padding-right: 20px;
             }
-             .tv_closeBtn{
+
+            .tv_closeBtn {
                 font-size: 16px;
             }
 
@@ -2503,12 +2530,13 @@
                 height: 260px !important;
             }
 
-            .camera-screen > .OT_widget-container {
+            .camera-screen>.OT_widget-container {
                 border-top-left-radius: 8px !important;
                 border-top-right-radius: 8px !important;
                 border-bottom-left-radius: 0px !important;
                 border-bottom-right-radius: 0px !important;
             }
+
             .camera-off-message {
                 color: #b5b5b5;
                 text-align: center;
@@ -2516,13 +2544,16 @@
                 letter-spacing: 0;
                 line-height: 28px;
             }
+
             .preview-buttons {
                 height: 55px;
             }
+
             .preview-buttons-container {
                 height: 100%;
                 border-top: 1px solid #f2f2f2;
             }
+
             .preview-left-button {
                 height: 100%;
                 width: 100%;
@@ -2533,6 +2564,7 @@
                 height: 100%;
                 width: 100%;
             }
+
             .join-button {
                 background-color: #0768fd !important;
                 border-color: #0768fd !important;
@@ -2540,16 +2572,19 @@
                 height: 42px;
                 width: 100%;
                 box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
-            	font-weight: 600 !important;
+                font-weight: 600 !important;
             }
+
             .join-button-disabled {
                 opacity: 0.4;
             }
-            .close-window-button{
+
+            .close-window-button {
                 background-color: #0768fd !important;
                 font-weight: 600 !important;
                 border-radius: 30px !important;
             }
+
             .back-button {
                 height: 40px;
                 color: #0768fd !important;
@@ -2559,26 +2594,28 @@
                 text-align: center;
                 border-radius: 14px !important;
             }
+
             .active-toggle-background {
                 background-color: #00c221 !important;
                 border-color: #00c221 !important;
             }
-            
+
             @media all and (orientation: landscape) and (max-width: 1024px) {
-                .button--sharing{
-                    display:none;
+                .button--sharing {
+                    display: none;
                 }
             }
-            
+
+            @media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+                .callButtonsContainer {
+                    max-width: 40vh;
+                }
+            }
         </style>
-        
+
     </head>
 
-    <body
-        class="slds-scope"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-    >
+    <body class="slds-scope" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <!--OMSF-5206-->
         <header id="header" class="page-header {!headerbg}">
             <apex:outputPanel rendered="{!(commTemplate=='Default') || (commTemplate == 'Janssen' && commPPTemplate == 'PP 1.0')}">
@@ -2591,259 +2628,114 @@
                 <img src="{!$Resource.GSK_Logos + '/gsk-text.svg'}" style="width:165px" />
             </apex:outputPanel>
             <apex:outputPanel rendered="{!(attendeeType=='RH')}">
-            <h1 class="slds-text-heading_small">{!appNamestr}</h1>
+                <h1 class="slds-text-heading_small">{!appNamestr}</h1>
             </apex:outputPanel>
             <apex:outputPanel rendered="{!(commTemplate=='PatientPortal') || (commTemplate == 'Janssen' && commPPTemplate == 'PP 2.0')}">
                 <!--<h1 class="slds-text-heading_small">{!appNamestr}</h1>-->
                 <img src="{!$Resource.PP_DesktopLogos + '/Patient_Portal_Logo.svg'}" class="communityTitle" />
             </apex:outputPanel>
-            
+
         </header>
 
         <!--Call Preview Screen -->
-        <apex:outputPanel rendered="{!isSessionJoinable == true}" >
+        <apex:outputPanel rendered="{!isSessionJoinable == true}">
             <div class="call-preview-screen slds-hide" id="call-preview-screen-container">
                 <div id="welcome-container">
                     <apex:outputPanel rendered="{!isSessionJoinable == true}">
-                        <div
-                            class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container previewContainerFull"
-                        	id="previewContainer" 
-                        >
+                        <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container previewContainerFull" id="previewContainer">
                             <div class="slds-col">
                                 <div class="slds-grid">
                                     <div class="slds-col slds-size_1-of-1">
-                                        <div
-                                            id="preview-screen"
-                                            class="slds-text-align_center preview-tv"
-                                        >
+                                        <div id="preview-screen" class="slds-text-align_center preview-tv">
                                             <div class="backdrop" role="presentation"></div>
                                             <div class="slds-modal__container visit-preview">
                                                 <div class="gradient"></div>
-                                                <div
-                                                    class="slds-modal__content slds-p-around_medium height-full"
-                                                >
-                                                    <div
-                                                        class="slds-col titleT slds-text-align_left"
-                                                    >
+                                                <div class="slds-modal__content slds-p-around_medium height-full">
+                                                    <div class="slds-col titleT slds-text-align_left">
                                                         {!$Label.Visit_Preview}
-                                                        
-                                                        <div
-                                                            id="permission-error"
-                                                            class="permission-error-message slds-p-top_small slds-hide"
-                                                        >
-                                                            <div
-                                                                class="slds-col slds-size_1-of-6"
-                                                            ></div>
-                                                            <div
-                                                                class="slds-col slds-size_6-of-6"
-                                                            >
+
+                                                        <div id="permission-error" class="permission-error-message slds-p-top_small slds-hide">
+                                                            <div class="slds-col slds-size_1-of-6"></div>
+                                                            <div class="slds-col slds-size_6-of-6">
                                                                 {!$Label.You_must_grant_microphone_permission_to_join_televisit}
                                                             </div>
-                                                            <div
-                                                                class="slds-col slds-size_1-of-6"
-                                                            ></div>
+                                                            <div class="slds-col slds-size_1-of-6"></div>
                                                         </div>
-                                                        
+
                                                     </div>
-                                                    <div
-                                                        class="slds-size_1-of-1 slds-m-top_small preview-container"
-                                                    >
-                                                        <div
-                                                            id="cameraOnContainer"
-                                                            class="camera-screen slds-hide"
-                                                        ></div>
-                                                        <div
-                                                            id="cameraOffContainer"
-                                                            class="camera-screen slds-align_absolute-center"
-                                                        >
+                                                    <div class="slds-size_1-of-1 slds-m-top_small preview-container">
+                                                        <div id="cameraOnContainer" class="camera-screen slds-hide"></div>
+                                                        <div id="cameraOffContainer" class="camera-screen slds-align_absolute-center">
                                                             <div class="slds-grid slds-wrap">
-                                                                <div
-                                                                    class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-bottom_small"
-                                                                >
-                                                                    <svg
-                                                                        width="26"
-                                                                        height="26"
-                                                                        fill="currentColor"
-                                                                        class="camera-off-message"
-                                                                        viewBox="0 0 16 16"
-                                                                    >
-                                                                        <path
-                                                                            fill-rule="evenodd"
-                                                                            d="M10.961 12.365a1.99 1.99 0 0 0 .522-1.103l3.11 1.382A1 1 0 0 0 16 11.731V4.269a1 1 0 0 0-1.406-.913l-3.111 1.382A2 2 0 0 0 9.5 3H4.272l6.69 9.365zm-10.114-9A2.001 2.001 0 0 0 0 5v6a2 2 0 0 0 2 2h5.728L.847 3.366zm9.746 11.925-10-14 .814-.58 10 14-.814.58z"
-                                                                        ></path>
+                                                                <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-bottom_small">
+                                                                    <svg width="26" height="26" fill="currentColor" class="camera-off-message" viewBox="0 0 16 16">
+                                                                        <path fill-rule="evenodd" d="M10.961 12.365a1.99 1.99 0 0 0 .522-1.103l3.11 1.382A1 1 0 0 0 16 11.731V4.269a1 1 0 0 0-1.406-.913l-3.111 1.382A2 2 0 0 0 9.5 3H4.272l6.69 9.365zm-10.114-9A2.001 2.001 0 0 0 0 5v6a2 2 0 0 0 2 2h5.728L.847 3.366zm9.746 11.925-10-14 .814-.58 10 14-.814.58z"></path>
                                                                     </svg>
                                                                 </div>
-                                                                <div
-                                                                    class="slds-col slds-size_1-of-1"
-                                                                >
-                                                                    <label
-                                                                        class="slds-align_absolute-center camera-off-message"
-                                                                        >{!$Label.TV_CAMERA_OFF}</label
-                                                                    >
+                                                                <div class="slds-col slds-size_1-of-1">
+                                                                    <label class="slds-align_absolute-center camera-off-message">{!$Label.TV_CAMERA_OFF}</label>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            id="preview-buttons"
-                                                            class="preview-buttons all-button-disabled"
-                                                        >
-                                                            <div
-                                                                class="slds-grid preview-buttons-container"
-                                                            >
-                                                                <div
-                                                                    class="slds-col slds-align_absolute-center preview-left-button"
-                                                                >
-                                                                    <span
-                                                                        class="slds-icon_container slds-icon-utility-groups"
-                                                                    >
-                                                                        <img
-                                                                            src="{!$Resource.televisit_icons + '/Camera.svg'}"
-                                                                            class="cp-main-logo"
-                                                                            id="video-off-icon"
-                                                                        />
-                                                                        <svg
-                                                                            id="video-on-icon"
-                                                                            class="cp-main-logo slds-hide"
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 24 24"
-                                                                        >
-                                                                            <rect
-                                                                                x="0.25"
-                                                                                y="5.499"
-                                                                                width="15"
-                                                                                height="13"
-                                                                                rx="1"
-                                                                                ry="1"
-                                                                            />
-                                                                            <path
-                                                                                d="M23.513,6.074a.5.5,0,0,0-.487-.022l-6,3a.5.5,0,0,0-.276.448v5a.5.5,0,0,0,.276.447l6,3a.5.5,0,0,0,.724-.447V6.5A.5.5,0,0,0,23.513,6.074Z"
+                                                        <div id="preview-buttons" class="preview-buttons all-button-disabled">
+                                                            <div class="slds-grid preview-buttons-container">
+                                                                <div class="slds-col slds-align_absolute-center preview-left-button">
+                                                                    <span class="slds-icon_container slds-icon-utility-groups">
+                                                                        <img src="{!$Resource.televisit_icons + '/Camera.svg'}" class="cp-main-logo" id="video-off-icon" />
+                                                                        <svg id="video-on-icon" class="cp-main-logo slds-hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                                            <rect x="0.25" y="5.499" width="15" height="13" rx="1" ry="1" />
+                                                                            <path d="M23.513,6.074a.5.5,0,0,0-.487-.022l-6,3a.5.5,0,0,0-.276.448v5a.5.5,0,0,0,.276.447l6,3a.5.5,0,0,0,.724-.447V6.5A.5.5,0,0,0,23.513,6.074Z"
                                                                             />
                                                                         </svg>
                                                                     </span>
-                                                                    <div
-                                                                        class="slds-form-element slds-p-around_x-small"
-                                                                    >
-                                                                        <label
-                                                                            class="slds-checkbox_toggle slds-grid"
-                                                                        >
-                                                                            <input
-                                                                                id="camera-toggle"
-                                                                                type="checkbox"
-                                                                                name="camera-checkbox-toggle"
-                                                                                value="checkbox-toggle-15"
-                                                                                disabled="true"
-                                                                                aria-describedby="checkbox-toggle-15"
-                                                                                onclick="toggleVideoPreview();"
-                                                                            />
-                                                                            <span
-                                                                                id="checkbox-toggle-15"
-                                                                                class="slds-checkbox_faux_container"
-                                                                                aria-live="assertive"
-                                                                            >
-                                                                                <span
-                                                                                    id="video-toggle-background"
-                                                                                    class="slds-checkbox_faux"
-                                                                                ></span>
+                                                                    <div class="slds-form-element slds-p-around_x-small">
+                                                                        <label class="slds-checkbox_toggle slds-grid">
+                                                                            <input id="camera-toggle" type="checkbox" name="camera-checkbox-toggle" value="checkbox-toggle-15" disabled="true" aria-describedby="checkbox-toggle-15"
+                                                                                onclick="toggleVideoPreview();" />
+                                                                            <span id="checkbox-toggle-15" class="slds-checkbox_faux_container" aria-live="assertive">
+                                                                                <span id="video-toggle-background" class="slds-checkbox_faux"></span>
                                                                             </span>
                                                                         </label>
                                                                     </div>
                                                                 </div>
-                                                                <div
-                                                                    class="slds-col slds-align_absolute-center preview-right-button"
-                                                                >
-                                                                    <span
-                                                                        class="slds-icon_container slds-icon-utility-groups"
-                                                                    >
-                                                                        <img
-                                                                            src="{!$Resource.televisit_icons + '/Microphone.svg'}"
-                                                                            class="cp-main-logo"
-                                                                            id="audio-off-icon"
-                                                                        />
-                                                                        <svg
-                                                                            id="audio-on-icon"
-                                                                            class="cp-main-logo slds-hide"
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 24 24"
-                                                                        >
-                                                                            <path
-                                                                                d="M18,6.25a6,6,0,0,0-12,0V11a.5.5,0,0,0,.5.5h11A.5.5,0,0,0,18,11Z"
-                                                                            />
-                                                                            <path
-                                                                                d="M12,18a6,6,0,0,0,5.77-4.364A.5.5,0,0,0,17.289,13H6.711a.5.5,0,0,0-.481.636A6,6,0,0,0,12,18Z"
-                                                                            />
-                                                                            <path
-                                                                                d="M21,8.25a1,1,0,0,0-1,1V11.5a7.915,7.915,0,0,1-8,8,7.915,7.915,0,0,1-8-8V9.25a1,1,0,0,0-2,0V11.5a9.878,9.878,0,0,0,8.779,9.929.25.25,0,0,1,.221.248V22.75a1,1,0,0,0,2,0V21.677a.251.251,0,0,1,.221-.248A9.878,9.878,0,0,0,22,11.5V9.25A1,1,0,0,0,21,8.25Z"
+                                                                <div class="slds-col slds-align_absolute-center preview-right-button">
+                                                                    <span class="slds-icon_container slds-icon-utility-groups">
+                                                                        <img src="{!$Resource.televisit_icons + '/Microphone.svg'}" class="cp-main-logo" id="audio-off-icon" />
+                                                                        <svg id="audio-on-icon" class="cp-main-logo slds-hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                                            <path d="M18,6.25a6,6,0,0,0-12,0V11a.5.5,0,0,0,.5.5h11A.5.5,0,0,0,18,11Z" />
+                                                                            <path d="M12,18a6,6,0,0,0,5.77-4.364A.5.5,0,0,0,17.289,13H6.711a.5.5,0,0,0-.481.636A6,6,0,0,0,12,18Z" />
+                                                                            <path d="M21,8.25a1,1,0,0,0-1,1V11.5a7.915,7.915,0,0,1-8,8,7.915,7.915,0,0,1-8-8V9.25a1,1,0,0,0-2,0V11.5a9.878,9.878,0,0,0,8.779,9.929.25.25,0,0,1,.221.248V22.75a1,1,0,0,0,2,0V21.677a.251.251,0,0,1,.221-.248A9.878,9.878,0,0,0,22,11.5V9.25A1,1,0,0,0,21,8.25Z"
                                                                             />
                                                                         </svg>
                                                                     </span>
-                                                                    <div
-                                                                        class="slds-form-element slds-p-around_x-small"
-                                                                    >
-                                                                        <label
-                                                                            class="slds-checkbox_toggle slds-grid"
-                                                                        >
-                                                                            <input
-                                                                                id="microphone-toggle"
-                                                                                type="checkbox"
-                                                                                name="microphone-checkbox-toggle"
-                                                                                value="checkbox-toggle-15"
-                                                                                disabled="true"
-                                                                                aria-describedby="microphone-permission"
-                                                                                onclick="toggleAudioPreview();"
+                                                                    <div class="slds-form-element slds-p-around_x-small">
+                                                                        <label class="slds-checkbox_toggle slds-grid">
+                                                                            <input id="microphone-toggle" type="checkbox" name="microphone-checkbox-toggle" value="checkbox-toggle-15" disabled="true"
+                                                                                aria-describedby="microphone-permission" onclick="toggleAudioPreview();"
                                                                             />
-                                                                            <span
-                                                                                id="checkbox-toggle-15"
-                                                                                class="slds-checkbox_faux_container"
-                                                                                aria-live="assertive"
-                                                                            >
-                                                                                <span
-                                                                                    id="audio-toggle-background"
-                                                                                    class="slds-checkbox_faux"
-                                                                                ></span>
+                                                                            <span id="checkbox-toggle-15" class="slds-checkbox_faux_container" aria-live="assertive">
+                                                                                <span id="audio-toggle-background" class="slds-checkbox_faux"></span>
                                                                             </span>
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            id="adjust-message"
-                                                            class="adjust-message slds-p-around_small slds-p-bottom_none"
-                                                        >
-                                                            <div
-                                                                class="slds-col slds-size_1-of-6"
-                                                            ></div>
-                                                            <div
-                                                                class="slds-col slds-size_6-of-6 subTextT"
-                                                            >
+                                                        <div id="adjust-message" class="adjust-message slds-p-around_small slds-p-bottom_none">
+                                                            <div class="slds-col slds-size_1-of-6"></div>
+                                                            <div class="slds-col slds-size_6-of-6 subTextT">
                                                                 {!$Label.You_can_also_adjust_these_options_during_the_visit}
                                                             </div>
-                                                            <div
-                                                                class="slds-col slds-size_1-of-6"
-                                                            ></div>
+                                                            <div class="slds-col slds-size_1-of-6"></div>
                                                         </div>
-                                                        <div
-                                                            id="join-button-container"
-                                                            class="slds-align_absolute-center slds-p-top_small"
-                                                        >
-                                                            <div
-                                                                class="slds-col slds-size_1-of-6"
-                                                            ></div>
-                                                            <div
-                                                                class="slds-col slds-size_6-of-6 slds-align_absolute-center"
-                                                            >
-                                                                <button
-                                                                    id="tv-join-button"
-                                                                    disabled="true"
-                                                                    onclick="confirmJoin();"
-                                                                    class="slds-button slds-button_brand slds-col slds-align_absolute-center join-button join-button-disabled"
-                                                                >
+                                                        <div id="join-button-container" class="slds-align_absolute-center slds-p-top_small">
+                                                            <div class="slds-col slds-size_1-of-6"></div>
+                                                            <div class="slds-col slds-size_6-of-6 slds-align_absolute-center">
+                                                                <button id="tv-join-button" disabled="true" onclick="confirmJoin();" class="slds-button slds-button_brand slds-col slds-align_absolute-center join-button join-button-disabled">
                                                                     {!$Label.Join_Visit}
                                                                 </button>
                                                             </div>
-                                                            <div
-                                                                class="slds-col slds-size_1-of-6"
-                                                            ></div>
+                                                            <div class="slds-col slds-size_1-of-6"></div>
                                                         </div>
                                                         <!--
                                                         <div
@@ -2863,27 +2755,14 @@
                                                             ></div>
                                                         </div>
                                                         -->
-                                                        <div
-                                                            id="back-button"
-                                                            class="slds-p-top_small slds-p-bottom_small"
-                                                        >
-                                                            <div
-                                                                class="slds-col slds-size_3-of-8"
-                                                            ></div>
-                                                            <div
-                                                                class="slds-col slds-size_2-of-8 slds-align_absolute-center slds-text-align_center"
-                                                            >
-                                                                <button
-                                                                    id="tv-back-button"
-                                                                    class="slds-button slds-col slds-align_absolute-center back-button"
-                                                                    onclick="confirmCancel();"
-                                                                >
+                                                        <div id="back-button" class="slds-p-top_small slds-p-bottom_small">
+                                                            <div class="slds-col slds-size_3-of-8"></div>
+                                                            <div class="slds-col slds-size_2-of-8 slds-align_absolute-center slds-text-align_center">
+                                                                <button id="tv-back-button" class="slds-button slds-col slds-align_absolute-center back-button" onclick="confirmCancel();">
                                                                     {!$Label.BTN_Close}
                                                                 </button>
                                                             </div>
-                                                            <div
-                                                                class="slds-col slds-size_3-of-8"
-                                                            ></div>
+                                                            <div class="slds-col slds-size_3-of-8"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2897,74 +2776,43 @@
                 </div>
             </div>
             <!--class="slds-container_large slds-container_center top-margin-container slds-hide"-->
-            <div
-                class="top-margin-container slds-hide"
-                id="main"
-            >
+            <div class="top-margin-container slds-hide" id="main">
                 <div id="call-container" class="slds-grid slds-wrap">
                     <div class="slds-col">
-                        <div
-                            class="in-call-header slds-grid slds-align_absolute-center heading-container slds-has-flexi-truncate"
-                        >
+                        <div class="in-call-header slds-grid slds-align_absolute-center heading-container slds-has-flexi-truncate">
                             <div class="slds-col">
-                                <h1
-                                    class="slds-text-heading_medium slds-truncate"
-                                    title="{!sessionName}"
-                                >
+                                <h1 class="slds-text-heading_medium slds-truncate" title="{!sessionName}">
                                     <b>{!sessionName}</b>
                                 </h1>
                             </div>
 
                             <div style="{!IF( attendeeType == 'PP', 'display:none', '')}">
                                 <div id="televisitBanner" class="hideBanner">
-                                    <div
-                                        class="slds-notify slds-notify_alert slds-alert_warning tv_banner"
-                                        role="alert"
-                                        style="color:#fff;background:#fe9339"
-                                    >
-                                    <div class="warning_content">
-                                        <span
-                                            class="slds-icon_container slds-icon-utility-warning slds-current-color"
-                                        >
-                                            <svg aria-hidden="true" class="slds-icon_xx-small">
-                                                <use
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                    style="fill: #fff"
-                                                    xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#warning"
-                                                ></use>
-                                            </svg>
-                                            <span class="slds-assistive-text">Warning</span> </span
-                                        >&nbsp;
-                                        <span class="tv_warning"
-                                            >Warning - 5 minutes left in call.</span
-                                        >
+                                    <div class="slds-notify slds-notify_alert slds-alert_warning tv_banner" role="alert" style="color:#fff;background:#fe9339">
+                                        <div class="warning_content">
+                                            <span class="slds-icon_container slds-icon-utility-warning slds-current-color">
+                                                <svg aria-hidden="true" class="slds-icon_xx-small">
+                                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" style="fill: #fff" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+                                                </svg>
+                                                <span class="slds-assistive-text">Warning</span>
+                                            </span>&nbsp;
+                                            <span class="tv_warning">Warning - 5 minutes left in call.</span>
                                         </div>
-                                    <div class="extent_time">
-                                        <select
-                                            name="extendcallminutes"
-                                            id="extendcallminutes"
-                                            style="margin-left: 30px"
-                                            onchange="callExtendedMinutes()"
-                                        >
-                                            <option
-                                                id="optionExtendCall"
-                                                value=""
-                                                disabled="true"
-                                                selected="true"
-                                                hidden="true"
-                                            >
-                                                Extend Call
-                                            </option>
-                                            <apex:repeat value="{!extendMeetingOptions}" var="str">
-                                                <option value="{!str}">Extend {!str} minutes</option>
-                                            </apex:repeat>
-                                        </select>
-                                        <span>
-                                            <button id="closeButton" class="tv_closeBtn" onclick="closeBannerPopup()">
-                                                X
-                                            </button>
-                                        </span>
-                                         </div>
+                                        <div class="extent_time">
+                                            <select name="extendcallminutes" id="extendcallminutes" style="margin-left: 30px" onchange="callExtendedMinutes()">
+                                                <option id="optionExtendCall" value="" disabled="true" selected="true" hidden="true">
+                                                    Extend Call
+                                                </option>
+                                                <apex:repeat value="{!extendMeetingOptions}" var="str">
+                                                    <option value="{!str}">Extend {!str} minutes</option>
+                                                </apex:repeat>
+                                            </select>
+                                            <span>
+                                                <button id="closeButton" class="tv_closeBtn" onclick="closeBannerPopup()">
+                                                    X
+                                                </button>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2972,28 +2820,13 @@
                                 <span class="timer mob-timer">
                                     <div id="time">00:00</div>
                                 </span>
-                                <div
-                                    class="slds-form-element settings-icon-wrapper setting-icon-show"
-                                >
-                                    <button
-                                        id="settings-button-in-call"
-                                        class="settings-button slds-button slds-button--icon slds-hide"
-                                        onclick="toggleDeviceSettingsVisible();"
-                                        title="{!$Label.Session_Settings}"
-                                    >
+                                <div class="slds-form-element settings-icon-wrapper setting-icon-show">
+                                    <button id="settings-button-in-call" class="settings-button slds-button slds-button--icon slds-hide" onclick="toggleDeviceSettingsVisible();"
+                                        title="{!$Label.Session_Settings}">
                                         <span class="icon-settings">
-                                            <svg
-                                                id="in-meeting-settings-svg"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="16px"
-                                                height="16px"
-                                                viewBox="0 0 24 24"
-                                                fill="#706e6b"
-                                            >
+                                            <svg id="in-meeting-settings-svg" xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="#706e6b">
                                                 <g>
-                                                    <path
-                                                        d="M22.5,9.5 L20.638,9.5 C20.4528844,8.86020053 20.1969683,8.24305021 19.875,7.66 L21.192,6.344 C21.4735125,6.06266785 21.6316798,5.6809913 21.6316798,5.283 C21.6316798,4.8850087 21.4735125,4.50333215 21.192,4.222 L19.777,2.809 C19.1912502,2.22342709 18.2417498,2.22342709 17.656,2.809 L16.338,4.126 C15.7557624,3.80379909 15.1392478,3.54786836 14.5,3.363 L14.5,1.5 C14.5,0.671572875 13.8284271,5.07265313e-17 13,0 L11,0 C10.1715729,-5.07265313e-17 9.5,0.671572875 9.5,1.5 L9.5,3.363 C8.86058285,3.54829525 8.24378346,3.80420495 7.661,4.126 L6.343,2.809 C5.75725022,2.22342709 4.80774978,2.22342709 4.222,2.809 L2.807,4.223 C2.52548749,4.50433215 2.36732023,4.8860087 2.36732023,5.284 C2.36732023,5.6819913 2.52548749,6.06366785 2.807,6.345 L4.125,7.662 C3.80258623,8.24413488 3.54664535,8.86067399 3.362,9.5 L1.5,9.5 C0.671572875,9.5 8.37244157e-16,10.1715729 0,11 L0,13 C1.01453063e-16,13.8284271 0.671572875,14.5 1.5,14.5 L3.362,14.5 C3.54657493,15.1396698 3.80251731,15.756548 4.125,16.339 L2.806,17.658 C2.22042709,18.2437498 2.22042709,19.1932502 2.806,19.779 L4.22,21.193 C4.8154777,21.7555628 5.7465223,21.7555628 6.342,21.193 L7.66,19.876 C8.24308627,20.1981487 8.86021925,20.454393 9.5,20.64 L9.5,22.5 C9.5,23.3284271 10.1715729,24 11,24 L13,24 C13.8284271,24 14.5,23.3284271 14.5,22.5 L14.5,20.64 C15.1394282,20.4547361 15.756231,20.198825 16.339,19.877 L17.657,21.194 C18.2427498,21.7795729 19.1922502,21.7795729 19.778,21.194 L21.192,19.78 C21.7775729,19.1942502 21.7775729,18.2447498 21.192,17.659 L19.875,16.342 C20.1973156,15.7591171 20.4532482,15.141927 20.638,14.502 L22.5,14.502 C22.8981715,14.5020004 23.2800058,14.3436906 23.5613679,14.0619533 C23.84273,13.780216 24.0005309,13.3981711 24,13 L24,11 C24,10.1715729 23.3284271,9.5 22.5,9.5 Z M12,17 C9.23857625,17 7,14.7614237 7,12 C7,9.23857625 9.23857625,7 12,7 C14.7614237,7 17,9.23857625 17,12 C16.9966939,14.7600532 14.7600532,16.9966939 12,17 Z"
-                                                    ></path>
+                                                    <path d="M22.5,9.5 L20.638,9.5 C20.4528844,8.86020053 20.1969683,8.24305021 19.875,7.66 L21.192,6.344 C21.4735125,6.06266785 21.6316798,5.6809913 21.6316798,5.283 C21.6316798,4.8850087 21.4735125,4.50333215 21.192,4.222 L19.777,2.809 C19.1912502,2.22342709 18.2417498,2.22342709 17.656,2.809 L16.338,4.126 C15.7557624,3.80379909 15.1392478,3.54786836 14.5,3.363 L14.5,1.5 C14.5,0.671572875 13.8284271,5.07265313e-17 13,0 L11,0 C10.1715729,-5.07265313e-17 9.5,0.671572875 9.5,1.5 L9.5,3.363 C8.86058285,3.54829525 8.24378346,3.80420495 7.661,4.126 L6.343,2.809 C5.75725022,2.22342709 4.80774978,2.22342709 4.222,2.809 L2.807,4.223 C2.52548749,4.50433215 2.36732023,4.8860087 2.36732023,5.284 C2.36732023,5.6819913 2.52548749,6.06366785 2.807,6.345 L4.125,7.662 C3.80258623,8.24413488 3.54664535,8.86067399 3.362,9.5 L1.5,9.5 C0.671572875,9.5 8.37244157e-16,10.1715729 0,11 L0,13 C1.01453063e-16,13.8284271 0.671572875,14.5 1.5,14.5 L3.362,14.5 C3.54657493,15.1396698 3.80251731,15.756548 4.125,16.339 L2.806,17.658 C2.22042709,18.2437498 2.22042709,19.1932502 2.806,19.779 L4.22,21.193 C4.8154777,21.7555628 5.7465223,21.7555628 6.342,21.193 L7.66,19.876 C8.24308627,20.1981487 8.86021925,20.454393 9.5,20.64 L9.5,22.5 C9.5,23.3284271 10.1715729,24 11,24 L13,24 C13.8284271,24 14.5,23.3284271 14.5,22.5 L14.5,20.64 C15.1394282,20.4547361 15.756231,20.198825 16.339,19.877 L17.657,21.194 C18.2427498,21.7795729 19.1922502,21.7795729 19.778,21.194 L21.192,19.78 C21.7775729,19.1942502 21.7775729,18.2447498 21.192,17.659 L19.875,16.342 C20.1973156,15.7591171 20.4532482,15.141927 20.638,14.502 L22.5,14.502 C22.8981715,14.5020004 23.2800058,14.3436906 23.5613679,14.0619533 C23.84273,13.780216 24.0005309,13.3981711 24,13 L24,11 C24,10.1715729 23.3284271,9.5 22.5,9.5 Z M12,17 C9.23857625,17 7,14.7614237 7,12 C7,9.23857625 9.23857625,7 12,7 C14.7614237,7 17,9.23857625 17,12 C16.9966939,14.7600532 14.7600532,16.9966939 12,17 Z"></path>
                                                 </g>
                                             </svg>
                                         </span>
@@ -3001,82 +2834,48 @@
                                     <div id="in-call-device-settings-container" class="slds-hide">
                                         <div class="slds-popover slds-nubbin--top-right">
                                             <div class="slds-popover__header">
-                                                <span
-                                                    class="slds-text-heading--x-small slds-text-bold" style="font-size:16px;font-weight:600 !important;"
-                                                >
+                                                <span class="slds-text-heading--x-small slds-text-bold" style="font-size:16px;font-weight:600 !important;">
                                                     {!$Label.DeviceSettings_Header}
                                                 </span>
                                             </div>
                                             <div class="slds-popover__body slds-m-left--small">
                                                 <div>
-                                                    <label for="in-call-video-source-select"
-                                                        >{!$Label.DeviceSettings_VideoSource}</label
-                                                    >
+                                                    <label for="in-call-video-source-select">{!$Label.DeviceSettings_VideoSource}</label>
                                                     <div class="slds-grid slds-gutters">
                                                         <div class="slds-col slds-size_1-of-8">
-                                                            <span
-                                                                class="slds-icon_container slds-icon__svg--default slds-m-right--small"
-                                                            >
-                                                                <svg
-                                                                    class="slds-icon slds-icon--large slds-icon-text-default slds-p-right_medium"
-                                                                    aria-hidden="true"
-                                                                >
-                                                                    <use
-                                                                        xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#video')}"
-                                                                    ></use>
+                                                            <span class="slds-icon_container slds-icon__svg--default slds-m-right--small">
+                                                                <svg class="slds-icon slds-icon--large slds-icon-text-default slds-p-right_medium" aria-hidden="true">
+                                                                    <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#video')}"></use>
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <div
-                                                            class="slds-col slds-size_7-of-8 slds-p-top_x-small slds-p-bottom_x-small"
-                                                        >
-                                                            <select
-                                                                id="in-call-video-source-select"
-                                                                class="device-settings-select slds-p-vertical_x-small slds-m-left--small"
-                                                            ></select>
+                                                        <div class="slds-col slds-size_7-of-8 slds-p-top_x-small slds-p-bottom_x-small">
+                                                            <select id="in-call-video-source-select" class="device-settings-select slds-p-vertical_x-small slds-m-left--small"></select>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="slds-m-top--small">
-                                                    <label for="in-call-audio-source-select"
-                                                        >{!$Label.DeviceSettings_AudioSource}</label
-                                                    >
+                                                    <label for="in-call-audio-source-select">{!$Label.DeviceSettings_AudioSource}</label>
                                                     <div class="slds-grid slds-gutters">
                                                         <div class="slds-col slds-size_1-of-8">
-                                                            <span
-                                                                class="slds-icon_container slds-icon__svg--default slds-m-right--small"
-                                                            >
-                                                                <svg
-                                                                    class="slds-icon slds-icon--large slds-icon-text-default slds-p-right_medium"
-                                                                    aria-hidden="true"
-                                                                >
-                                                                    <use
-                                                                        xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#unmuted')}"
-                                                                    ></use>
+                                                            <span class="slds-icon_container slds-icon__svg--default slds-m-right--small">
+                                                                <svg class="slds-icon slds-icon--large slds-icon-text-default slds-p-right_medium" aria-hidden="true">
+                                                                    <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#unmuted')}"></use>
                                                                 </svg>
                                                             </span>
                                                         </div>
-                                                        <div
-                                                            class="slds-col slds-size_7-of-8 slds-p-top_x-small slds-p-bottom_x-small"
-                                                        >
-                                                            <select
-                                                                id="in-call-audio-source-select"
-                                                                class="device-settings-select slds-p-vertical_x-small slds-m-left--small"
-                                                            ></select>
+                                                        <div class="slds-col slds-size_7-of-8 slds-p-top_x-small slds-p-bottom_x-small">
+                                                            <select id="in-call-audio-source-select" class="device-settings-select slds-p-vertical_x-small slds-m-left--small"></select>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="option-buttons slds-m-top--large">
-                                                    <button
-                                                        class="slds-button slds-button--neutral slds-col" style="border-radius: 40px !important;height: 24px;width: 86px;font-weight: 600;color: #0768fd;"
-                                                        onclick="toggleDeviceSettingsVisible();"
-                                                    >
+                                                    <button class="slds-button slds-button--neutral slds-col" style="border-radius: 40px !important;height: 24px;width: 86px;font-weight: 600;color: #0768fd;"
+                                                        onclick="toggleDeviceSettingsVisible();">
                                                         {!$Label.Cancel}
                                                     </button>
-                                                    <button
-                                                        class="slds-button slds-button--brand slds-col" style="border-radius: 40px !important;height: 24px;width: 86px;background:#0768fd;"
-                                                        onclick="applyDeviceSettings();"
-                                                    >
+                                                    <button class="slds-button slds-button--brand slds-col" style="border-radius: 40px !important;height: 24px;width: 86px;background:#0768fd;"
+                                                        onclick="applyDeviceSettings();">
                                                         {!$Label.Apply}
                                                     </button>
                                                 </div>
@@ -3086,12 +2885,8 @@
                                 </div>
                                 <!--OMSF-5607-->
                                 <div class="people-icon-wrapper">
-                                    <button
-                                        id="people-button-in-call"
-                                        class="people-button slds-button slds-button--icon"
-                                        onclick="showparticipantListMobile();"
-                                    >
-                                        <apex:image height="24px" width="24px" url="{! URLFOR($Resource.TelevisitParticipantIcon)}"/>
+                                    <button id="people-button-in-call" class="people-button slds-button slds-button--icon" onclick="showparticipantListMobile();">
+                                        <apex:image height="24px" width="24px" url="{! URLFOR($Resource.TelevisitParticipantIcon)}" />
                                         <!--
                                         <span class="icon-people">
                                             <svg
@@ -3110,26 +2905,17 @@
                         </div>
 
                         <div class="slds-grid call-content-container">
-                            <div
-                                class="slds-col slds-size_1-of-4 slds-show_medium participants-container"
-                            >
+                            <div class="slds-col slds-size_1-of-4 slds-show_medium participants-container">
                                 <div class="participants">
-                                    <header
-                                        class="slds-p-left_small slds-p-top_xx-small slds-p-bottom_xx-small"
-                                    >
+                                    <header class="slds-p-left_small slds-p-top_xx-small slds-p-bottom_xx-small">
                                         <h2 class="slds-text-heading_x-small">
                                             {!$Label.Participants}
                                         </h2>
                                     </header>
                                     <apex:outputPanel id="participant-list">
-                                        <ul
-                                            class="participant-list slds-text-body_small slds-scrollable--y"
-                                        >
+                                        <ul class="participant-list slds-text-body_small slds-scrollable--y">
                                             <apex:repeat value="{!attendees}" var="attendee">
-                                                <li
-                                                    id="{!attendee.streamId}"
-                                                    class="participant-item"
-                                                >
+                                                <li id="{!attendee.streamId}" class="participant-item">
                                                     {!attendee.name}
                                                 </li>
                                             </apex:repeat>
@@ -3137,26 +2923,16 @@
                                     </apex:outputPanel>
                                 </div>
                             </div>
-                            <div
-                                class="slds-col slds-size_1-of-1 slds-medium-size_3-of-4 slds-p-around_large video-container"
-                            >
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-4 slds-p-around_large video-container">
                                 <div id="speaker-container" class="speaker-container">
                                     <div class="firstAttendeeMsg" id="firstAttendeeMsg">
-                                        <span
-                                            class="slds-icon_container slds-icon-utility-groups slds-align_absolute-center"
-                                        >
-                                            <svg
-                                                class="slds-icon slds-icon-text-default slds-icon_small"
-                                            >
-                                                <use
-                                                    xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#groups')}"
-                                                ></use>
+                                        <span class="slds-icon_container slds-icon-utility-groups slds-align_absolute-center">
+                                            <svg class="slds-icon slds-icon-text-default slds-icon_small">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#groups')}"></use>
                                             </svg>
                                         </span>
                                         <br/>
-                                        <span
-                                            class="slds-align_absolute-center firstAttendeeText"
-                                        >
+                                        <span class="slds-align_absolute-center firstAttendeeText">
                                             {!$Label.First_Attendee}
                                         </span>
                                     </div>
@@ -3168,209 +2944,87 @@
 
                                     <div id="screen-sharing-username-text">
                                         <apex:outputPanel id="screen-sharing-username-text">
-                                            <apex:outputText value="{!$Label.ScreenSharePublisherUsernameText}"
-                                            >
+                                            <apex:outputText value="{!$Label.ScreenSharePublisherUsernameText}">
                                                 <apex:param value="{!sharingUserName}" />
                                             </apex:outputText>
                                         </apex:outputPanel>
                                     </div>
                                 </div>
 
-                                <div
-                                    class="callbuttons ctrls-feeds-action-bar speaker-view slds-grid slds-clearfix callButtonsContainer"
-                                >
-                                    <div
-                                        id="last-active-feed"
-                                        class="last-active-feed slds-col slds-size_1-of-4 slds-show_small slds-m-right--large"
-                                    ></div>
-                                    <div
-                                        id="self-feed-container"
-                                        class="self-feed-container slds-col slds-size_1-of-4 slds-x-small-size_1-of-3 slds-small-size_1-of-4"
-                                    ></div>
-
-                                    <div
-                                        id="controls"
-                                        class="controls slds-col slds-align-bottom"
-                                        style="padding-left: 0;min-height: 117px;padding-top: 67px;" 
-                                    >
+                                <div class="callbuttons ctrls-feeds-action-bar speaker-view slds-grid slds-clearfix callButtonsContainer">
+                                    <div id="last-active-feed" class="last-active-feed slds-col slds-size_1-of-4 slds-show_small slds-m-right--large"></div>
+                                    <div id="self-feed-container" class="self-feed-container slds-col slds-size_1-of-4 slds-x-small-size_1-of-3 slds-small-size_1-of-4"></div>
+                                    <div id="controls" class="controls slds-col slds-align-bottom" style="padding-left: 0;min-height: 117px;padding-top: 67px;">
                                         <div class="slds-grid slds-float_right">
-                                            <button
-                                                class="slds-col button--audio slds-button-circle button_white"
-                                                type="button"
-                                                onclick="toggleAudio();"
-                                                title="{!$Label.Audio_Hover_Message_Off}"
-                                                data-on="{!$Label.Audio_Hover_Message_Off}"
-                                                data-off="{!$Label.Audio_Hover_Message_On}"
-                                            >
+                                            <button class="slds-col button--audio slds-button-circle button_white" type="button" onclick="toggleAudio();" title="{!$Label.Audio_Hover_Message_Off}"
+                                                data-on="{!$Label.Audio_Hover_Message_Off}" data-off="{!$Label.Audio_Hover_Message_On}">
                                                 <span class="slds-assistive-text">Audio</span>
-                                                <svg
-                                                    class="icon-audioOn slds-hide"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        d="M18,6.25a6,6,0,0,0-12,0V11a.5.5,0,0,0,.5.5h11A.5.5,0,0,0,18,11Z"
-                                                    />
-                                                    <path
-                                                        d="M12,18a6,6,0,0,0,5.77-4.364A.5.5,0,0,0,17.289,13H6.711a.5.5,0,0,0-.481.636A6,6,0,0,0,12,18Z"
-                                                    />
-                                                    <path
-                                                        d="M21,8.25a1,1,0,0,0-1,1V11.5a7.915,7.915,0,0,1-8,8,7.915,7.915,0,0,1-8-8V9.25a1,1,0,0,0-2,0V11.5a9.878,9.878,0,0,0,8.779,9.929.25.25,0,0,1,.221.248V22.75a1,1,0,0,0,2,0V21.677a.251.251,0,0,1,.221-.248A9.878,9.878,0,0,0,22,11.5V9.25A1,1,0,0,0,21,8.25Z"
+                                                <svg class="icon-audioOn slds-hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <path d="M18,6.25a6,6,0,0,0-12,0V11a.5.5,0,0,0,.5.5h11A.5.5,0,0,0,18,11Z" />
+                                                    <path d="M12,18a6,6,0,0,0,5.77-4.364A.5.5,0,0,0,17.289,13H6.711a.5.5,0,0,0-.481.636A6,6,0,0,0,12,18Z" />
+                                                    <path d="M21,8.25a1,1,0,0,0-1,1V11.5a7.915,7.915,0,0,1-8,8,7.915,7.915,0,0,1-8-8V9.25a1,1,0,0,0-2,0V11.5a9.878,9.878,0,0,0,8.779,9.929.25.25,0,0,1,.221.248V22.75a1,1,0,0,0,2,0V21.677a.251.251,0,0,1,.221-.248A9.878,9.878,0,0,0,22,11.5V9.25A1,1,0,0,0,21,8.25Z"
                                                     />
                                                 </svg>
-                                                <svg
-                                                    class="icon-audioOff"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        d="M12,20a7.508,7.508,0,0,1-7.5-7.5V10a1,1,0,0,0-2,0v2.5a9.514,9.514,0,0,0,8.282,9.422.249.249,0,0,1,.218.248V23a1,1,0,0,0,2,0v-.83a.249.249,0,0,1,.218-.248,9.433,9.433,0,0,0,3.859-1.4.25.25,0,0,0,.043-.388l-1.091-1.091a.25.25,0,0,0-.3-.04A7.448,7.448,0,0,1,12,20Z"
+                                                <svg class="icon-audioOff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <path d="M12,20a7.508,7.508,0,0,1-7.5-7.5V10a1,1,0,0,0-2,0v2.5a9.514,9.514,0,0,0,8.282,9.422.249.249,0,0,1,.218.248V23a1,1,0,0,0,2,0v-.83a.249.249,0,0,1,.218-.248,9.433,9.433,0,0,0,3.859-1.4.25.25,0,0,0,.043-.388l-1.091-1.091a.25.25,0,0,0-.3-.04A7.448,7.448,0,0,1,12,20Z"
                                                     />
-                                                    <path
-                                                        d="M6.427,9.447A.25.25,0,0,0,6,9.623V12.5a6,6,0,0,0,8.471,5.467.25.25,0,0,0,.074-.4Z"
-                                                    />
-                                                    <path
-                                                        d="M23.707,22.3l-3.952-3.952a.248.248,0,0,1-.026-.322A9.453,9.453,0,0,0,21.5,12.5V10a1,1,0,0,0-2,0v2.5a7.459,7.459,0,0,1-1.157,4,.249.249,0,0,1-.184.114.246.246,0,0,1-.2-.071l-.728-.727a.251.251,0,0,1-.039-.3A5.963,5.963,0,0,0,18,12.5V6A6,6,0,0,0,6.244,4.309a.251.251,0,0,1-.417.106L1.707.3A1.013,1.013,0,0,0,.293.3a1,1,0,0,0,0,1.414l22,22,0,0,0,0,.007.007a1,1,0,0,0,1.4-1.425Z"
+                                                    <path d="M6.427,9.447A.25.25,0,0,0,6,9.623V12.5a6,6,0,0,0,8.471,5.467.25.25,0,0,0,.074-.4Z" />
+                                                    <path d="M23.707,22.3l-3.952-3.952a.248.248,0,0,1-.026-.322A9.453,9.453,0,0,0,21.5,12.5V10a1,1,0,0,0-2,0v2.5a7.459,7.459,0,0,1-1.157,4,.249.249,0,0,1-.184.114.246.246,0,0,1-.2-.071l-.728-.727a.251.251,0,0,1-.039-.3A5.963,5.963,0,0,0,18,12.5V6A6,6,0,0,0,6.244,4.309a.251.251,0,0,1-.417.106L1.707.3A1.013,1.013,0,0,0,.293.3a1,1,0,0,0,0,1.414l22,22,0,0,0,0,.007.007a1,1,0,0,0,1.4-1.425Z"
                                                     />
                                                 </svg>
                                             </button>
-                                            <button
-                                                class="slds-col button--video slds-button-circle button_white"
-                                                type="button"
-                                                onclick="toggleVideo();"
-                                                title="{!$Label.Video_Hover_Message_Off}"
-                                                data-on="{!$Label.Video_Hover_Message_Off}"
-                                                data-off="{!$Label.Video_Hover_Message_On}"
-                                            >
-                                                <svg
-                                                    class="icon-videoOn slds-hide"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <rect
-                                                        x="0.25"
-                                                        y="5.499"
-                                                        width="15"
-                                                        height="13"
-                                                        rx="1"
-                                                        ry="1"
-                                                    />
-                                                    <path
-                                                        d="M23.513,6.074a.5.5,0,0,0-.487-.022l-6,3a.5.5,0,0,0-.276.448v5a.5.5,0,0,0,.276.447l6,3a.5.5,0,0,0,.724-.447V6.5A.5.5,0,0,0,23.513,6.074Z"
+                                            <button class="slds-col button--video slds-button-circle button_white" type="button" onclick="toggleVideo();" title="{!$Label.Video_Hover_Message_Off}"
+                                                data-on="{!$Label.Video_Hover_Message_Off}" data-off="{!$Label.Video_Hover_Message_On}">
+                                                <svg class="icon-videoOn slds-hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <rect x="0.25" y="5.499" width="15" height="13" rx="1" ry="1" />
+                                                    <path d="M23.513,6.074a.5.5,0,0,0-.487-.022l-6,3a.5.5,0,0,0-.276.448v5a.5.5,0,0,0,.276.447l6,3a.5.5,0,0,0,.724-.447V6.5A.5.5,0,0,0,23.513,6.074Z"
                                                     />
                                                 </svg>
-                                                <svg
-                                                    id="svgVideoOff"
-                                                    class="icon-videoOff"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        d="M3.165,6.432a.251.251,0,0,0-.279-.051A1.5,1.5,0,0,0,2,7.75v9a1.5,1.5,0,0,0,1.5,1.5H14.379a.25.25,0,0,0,.177-.427Z"
+                                                <svg id="svgVideoOff" class="icon-videoOff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <path d="M3.165,6.432a.251.251,0,0,0-.279-.051A1.5,1.5,0,0,0,2,7.75v9a1.5,1.5,0,0,0,1.5,1.5H14.379a.25.25,0,0,0,.177-.427Z"
                                                     />
-                                                    <path
-                                                        d="M21.737,7.451l-3,1.711A1.447,1.447,0,0,0,18,10.412v3.676a1.449,1.449,0,0,0,.737,1.25l3,1.711A1.5,1.5,0,0,0,24,15.8V8.7A1.5,1.5,0,0,0,21.737,7.451Z"
+                                                    <path d="M21.737,7.451l-3,1.711A1.447,1.447,0,0,0,18,10.412v3.676a1.449,1.449,0,0,0,.737,1.25l3,1.711A1.5,1.5,0,0,0,24,15.8V8.7A1.5,1.5,0,0,0,21.737,7.451Z"
                                                     />
-                                                    <path
-                                                        d="M17.073,15.659A.249.249,0,0,1,17,15.482V7.75a1.5,1.5,0,0,0-1.5-1.5H7.768a.249.249,0,0,1-.177-.073L1.707.293A1,1,0,0,0,.44.172.984.984,0,0,0,.293.293a1,1,0,0,0,0,1.414l22,22a1,1,0,0,0,1.414-1.414Z"
+                                                    <path d="M17.073,15.659A.249.249,0,0,1,17,15.482V7.75a1.5,1.5,0,0,0-1.5-1.5H7.768a.249.249,0,0,1-.177-.073L1.707.293A1,1,0,0,0,.44.172.984.984,0,0,0,.293.293a1,1,0,0,0,0,1.414l22,22a1,1,0,0,0,1.414-1.414Z"
                                                     />
                                                 </svg>
-                                                <span class="slds-assistive-text"
-                                                    >{!$Label.WelcomeModal_Video}</span
-                                                >
+                                                <span class="slds-assistive-text">{!$Label.WelcomeModal_Video}</span>
                                             </button>
-                                            <button
-                                                class="slds-col button--sharing slds-button-circle button_white slds-show_medium"
-                                                type="button"
-                                                onclick="toggleSharing();"
-                                                title="{!$Label.Screen_Share_Hover_Message_Off}"
-                                                data-on="{!$Label.Screen_Share_Hover_Message_Off}"
-                                                data-off="{!$Label.Screen_Share_Hover_Message_On}"
-                                            >
-                                                <span class="slds-assistive-text"
-                                                    >{!$Label.Screen_Share}</span
-                                                >
-                                                <svg
-                                                    class="icon-startShare"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        d="M18.5,7H15.25a.25.25,0,0,0-.25.25V11a3,3,0,0,1-6,0V7.248A.25.25,0,0,0,8.75,7H5.5a2,2,0,0,0-2,2V22a2,2,0,0,0,2,2h13a2,2,0,0,0,2-2V9A2,2,0,0,0,18.5,7Z"
+                                            <button class="slds-col button--sharing slds-button-circle button_white slds-show_medium" type="button" onclick="toggleSharing();"
+                                                title="{!$Label.Screen_Share_Hover_Message_Off}" data-on="{!$Label.Screen_Share_Hover_Message_Off}"
+                                                data-off="{!$Label.Screen_Share_Hover_Message_On}">
+                                                <span class="slds-assistive-text">{!$Label.Screen_Share}</span>
+                                                <svg class="icon-startShare" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <path d="M18.5,7H15.25a.25.25,0,0,0-.25.25V11a3,3,0,0,1-6,0V7.248A.25.25,0,0,0,8.75,7H5.5a2,2,0,0,0-2,2V22a2,2,0,0,0,2,2h13a2,2,0,0,0,2-2V9A2,2,0,0,0,18.5,7Z"
                                                     />
-                                                    <path
-                                                        d="M11,11a1,1,0,0,0,2,0V5.748a.25.25,0,0,1,.25-.25H15.5a1,1,0,0,0,.707-1.707l-3.5-3.5a1,1,0,0,0-1.414,0l-3.5,3.5A1,1,0,0,0,8.5,5.5h2.25a.25.25,0,0,1,.25.25Z"
+                                                    <path d="M11,11a1,1,0,0,0,2,0V5.748a.25.25,0,0,1,.25-.25H15.5a1,1,0,0,0,.707-1.707l-3.5-3.5a1,1,0,0,0-1.414,0l-3.5,3.5A1,1,0,0,0,8.5,5.5h2.25a.25.25,0,0,1,.25.25Z"
                                                     />
                                                 </svg>
-                                                <svg
-                                                    class="icon-stopShare slds-hide"
-                                                    width="24px"
-                                                    height="24px"
-                                                    viewBox="0 0 24 24"
-                                                    version="1.1"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                >
+                                                <svg class="icon-stopShare slds-hide" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
                                                     <defs>
-                                                        <path
-                                                            d="M6.65513196,17.7820385 L7.9992822,19.1206515 L9.34487068,17.7820385 C9.7229809,17.4055226 10.3343294,17.4055226 10.7124396,17.7820385 C11.088491,18.1565042 11.0897764,18.7649185 10.7153107,19.1409699 L10.7124396,19.143841 L9.3672822,20.4826515 L10.7156671,21.8254455 C11.0930417,22.2012283 11.0943322,22.8117829 10.7185494,23.1891575 L10.6761352,23.2292483 L10.6761352,23.2292483 C10.2478609,23.6101943 9.59569845,23.5868795 9.1957203,23.1763235 L7.9482822,21.8956515 L6.60973276,23.2292483 C6.23162254,23.6057642 5.62027402,23.6057642 5.2421638,23.2292483 C4.86611244,22.8547826 4.86482701,22.2463683 5.2392927,21.8703169 C5.24024771,21.8693579 5.24120475,21.8684009 5.2421638,21.8674458 L6.6012822,20.5126515 L5.27715792,19.1541307 C4.90407364,18.7711798 4.90871287,18.1592884 5.28756082,17.7820385 C5.66567182,17.4055225 6.27702096,17.4055225 6.65513196,17.7820385 Z M5.13235294,6.5 C5.23330433,6.5 5.31851667,6.56783732 5.34467742,6.66055264 L5.35294118,6.71882353 L5.35294118,10.0294118 C5.35294118,11.491342 6.53806978,12.6764706 8,12.6764706 C9.40570213,12.6764706 10.5554856,11.5807526 10.6418511,10.1968159 L10.6470588,10.0294118 L10.6470588,6.72058824 C10.6470588,6.6190653 10.7156427,6.53356098 10.809006,6.50787962 L10.8676471,6.5 L13.7352941,6.5 C14.6611833,6.5 15.4205301,7.21305238 15.4941501,8.11997256 L15.5,8.26470588 L15.5,19.7352941 C15.5,20.6611833 14.7869476,21.4205301 13.8800274,21.4941501 L13.7352941,21.5 L13,21.5 L13,17.5 C13,16.3954305 12.1045695,15.5 11,15.5 L11,15.5 L5,15.5 C3.8954305,15.5 3,16.3954305 3,17.5 L3,17.5 L3,21.5 L3,21.5 L2.26470588,21.5 C1.33881674,21.5 0.57946991,20.7869476 0.505849949,19.8800274 L0.5,19.7352941 L0.5,8.26470588 C0.5,7.33881674 1.21305238,6.57946991 2.11997256,6.50584995 L2.26470588,6.5 L5.13235294,6.5 Z M8.53821957,0.186352523 L8.62922201,0.268347633 L11.7397668,3.47620341 C11.9938609,3.73832579 12.0698595,4.13247261 11.9323344,4.47490474 C11.8100898,4.77928886 11.5405269,4.98954743 11.2297168,5.03256931 L11.1114367,5.0407205 L9.11180082,5.0407205 C9.00954448,5.0407205 8.92342247,5.11196087 8.89755559,5.20894054 L8.88961905,5.26985305 L8.88961905,10.0834698 C8.88961905,10.5896554 8.49172238,11 8.00089197,11 C7.54781774,11 7.17392967,10.6503573 7.11908934,10.1984374 L7.11216489,10.0834698 L7.11216489,5.27168611 C7.11216489,5.16623077 7.04308561,5.0774145 6.94904784,5.05073839 L6.88998312,5.04255356 L4.8903472,5.04255356 C4.53016704,5.04321962 4.20521263,4.81962593 4.06752554,4.47638883 C3.94513703,4.17128919 3.99222766,3.82529035 4.18355683,3.5681938 L4.26201715,3.47620341 L7.37256193,0.268347633 C7.69068907,-0.0596328074 8.18991011,-0.0869645108 8.53821957,0.186352523 Z"
-                                                            id="path-1"
-                                                        ></path>
+                                                        <path d="M6.65513196,17.7820385 L7.9992822,19.1206515 L9.34487068,17.7820385 C9.7229809,17.4055226 10.3343294,17.4055226 10.7124396,17.7820385 C11.088491,18.1565042 11.0897764,18.7649185 10.7153107,19.1409699 L10.7124396,19.143841 L9.3672822,20.4826515 L10.7156671,21.8254455 C11.0930417,22.2012283 11.0943322,22.8117829 10.7185494,23.1891575 L10.6761352,23.2292483 L10.6761352,23.2292483 C10.2478609,23.6101943 9.59569845,23.5868795 9.1957203,23.1763235 L7.9482822,21.8956515 L6.60973276,23.2292483 C6.23162254,23.6057642 5.62027402,23.6057642 5.2421638,23.2292483 C4.86611244,22.8547826 4.86482701,22.2463683 5.2392927,21.8703169 C5.24024771,21.8693579 5.24120475,21.8684009 5.2421638,21.8674458 L6.6012822,20.5126515 L5.27715792,19.1541307 C4.90407364,18.7711798 4.90871287,18.1592884 5.28756082,17.7820385 C5.66567182,17.4055225 6.27702096,17.4055225 6.65513196,17.7820385 Z M5.13235294,6.5 C5.23330433,6.5 5.31851667,6.56783732 5.34467742,6.66055264 L5.35294118,6.71882353 L5.35294118,10.0294118 C5.35294118,11.491342 6.53806978,12.6764706 8,12.6764706 C9.40570213,12.6764706 10.5554856,11.5807526 10.6418511,10.1968159 L10.6470588,10.0294118 L10.6470588,6.72058824 C10.6470588,6.6190653 10.7156427,6.53356098 10.809006,6.50787962 L10.8676471,6.5 L13.7352941,6.5 C14.6611833,6.5 15.4205301,7.21305238 15.4941501,8.11997256 L15.5,8.26470588 L15.5,19.7352941 C15.5,20.6611833 14.7869476,21.4205301 13.8800274,21.4941501 L13.7352941,21.5 L13,21.5 L13,17.5 C13,16.3954305 12.1045695,15.5 11,15.5 L11,15.5 L5,15.5 C3.8954305,15.5 3,16.3954305 3,17.5 L3,17.5 L3,21.5 L3,21.5 L2.26470588,21.5 C1.33881674,21.5 0.57946991,20.7869476 0.505849949,19.8800274 L0.5,19.7352941 L0.5,8.26470588 C0.5,7.33881674 1.21305238,6.57946991 2.11997256,6.50584995 L2.26470588,6.5 L5.13235294,6.5 Z M8.53821957,0.186352523 L8.62922201,0.268347633 L11.7397668,3.47620341 C11.9938609,3.73832579 12.0698595,4.13247261 11.9323344,4.47490474 C11.8100898,4.77928886 11.5405269,4.98954743 11.2297168,5.03256931 L11.1114367,5.0407205 L9.11180082,5.0407205 C9.00954448,5.0407205 8.92342247,5.11196087 8.89755559,5.20894054 L8.88961905,5.26985305 L8.88961905,10.0834698 C8.88961905,10.5896554 8.49172238,11 8.00089197,11 C7.54781774,11 7.17392967,10.6503573 7.11908934,10.1984374 L7.11216489,10.0834698 L7.11216489,5.27168611 C7.11216489,5.16623077 7.04308561,5.0774145 6.94904784,5.05073839 L6.88998312,5.04255356 L4.8903472,5.04255356 C4.53016704,5.04321962 4.20521263,4.81962593 4.06752554,4.47638883 C3.94513703,4.17128919 3.99222766,3.82529035 4.18355683,3.5681938 L4.26201715,3.47620341 L7.37256193,0.268347633 C7.69068907,-0.0596328074 8.18991011,-0.0869645108 8.53821957,0.186352523 Z"
+                                                            id="path-1"></path>
                                                     </defs>
-                                                    <g
-                                                        id="icons/screenshare/off"
-                                                        stroke="none"
-                                                        stroke-width="1"
-                                                        fill="none"
-                                                        fill-rule="evenodd"
-                                                    >
-                                                        <g
-                                                            id="color/9-#FFFFFF"
-                                                            transform="translate(4.000000, 0.000000)"
-                                                        >
+                                                    <g id="icons/screenshare/off" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <g id="color/9-#FFFFFF" transform="translate(4.000000, 0.000000)">
                                                             <mask id="mask-2" fill="white">
                                                                 <use xlink:href="#path-1"></use>
                                                             </mask>
-                                                            <use
-                                                                id="Mask"
-                                                                fill="#FFFFFF"
-                                                                fill-rule="nonzero"
-                                                                xlink:href="#path-1"
-                                                            ></use>
+                                                            <use id="Mask" fill="#FFFFFF" fill-rule="nonzero" xlink:href="#path-1"></use>
                                                             <g id="Group" mask="url(#mask-2)">
-                                                                <g
-                                                                    transform="translate(-4.000000, 0.000000)"
-                                                                    id="color/9-#FFFFFF"
-                                                                >
-                                                                    <rect
-                                                                        id="Rectangle"
-                                                                        fill="#FFFFFF"
-                                                                        x="0"
-                                                                        y="0"
-                                                                        width="24"
-                                                                        height="24"
-                                                                    ></rect>
+                                                                <g transform="translate(-4.000000, 0.000000)" id="color/9-#FFFFFF">
+                                                                    <rect id="Rectangle" fill="#FFFFFF" x="0" y="0" width="24" height="24"></rect>
                                                                 </g>
                                                             </g>
                                                         </g>
                                                     </g>
                                                 </svg>
                                             </button>
-                                            <button
-                                                class="slds-col button--endCall slds-button-circle button_pink"
-                                                type="button"
-                                                onclick="manageCall();"
-                                                title="{!$Label.EndCall}"
-                                            >
-                                                <span class="slds-assistive-text"
-                                                    >{!$Label.EndCall}</span
-                                                >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        d="M22.673,17.009l-2.452-2.453a2.811,2.811,0,0,0-3.979,0l-.5.5A54.366,54.366,0,0,1,8.94,8.245l.5-.5a2.817,2.817,0,0,0,0-3.978L6.983,1.317A2.883,2.883,0,0,0,3,1.317L1.66,2.663a3.981,3.981,0,0,0-.5,4.994A54.174,54.174,0,0,0,16.333,22.833a4.015,4.015,0,0,0,5-.5l1.345-1.346a2.809,2.809,0,0,0,0-3.977Z"
+                                            <button class="slds-col button--endCall slds-button-circle button_pink" type="button" onclick="manageCall();" title="{!$Label.EndCall}">
+                                                <span class="slds-assistive-text">{!$Label.EndCall}</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                    <path d="M22.673,17.009l-2.452-2.453a2.811,2.811,0,0,0-3.979,0l-.5.5A54.366,54.366,0,0,1,8.94,8.245l.5-.5a2.817,2.817,0,0,0,0-3.978L6.983,1.317A2.883,2.883,0,0,0,3,1.317L1.66,2.663a3.981,3.981,0,0,0-.5,4.994A54.174,54.174,0,0,0,16.333,22.833a4.015,4.015,0,0,0,5-.5l1.345-1.346a2.809,2.809,0,0,0,0-3.977Z"
                                                     />
                                                 </svg>
                                             </button>
@@ -3387,20 +3041,13 @@
 
             <div class="call-end-screen slds-hide" id="call-end-screen-container">
                 <div id="rejoin-call-container">
-                    <div
-                        class="slds-grid slds-grid_align-center rejoin-container top-margin-rejoin"
-                    >
+                    <div class="slds-grid slds-grid_align-center rejoin-container top-margin-rejoin">
                         <div class="slds-col">
                             <div class="slds-grid">
                                 <div class="slds-col slds-size_1-of-1">
                                     <div class="slds-text-align_center televisit-rejoin">
-                                        <span
-                                            class="slds-icon_container slds-icon-utility-groups slds-m-bottom--small"
-                                        >
-                                            <img
-                                                src="{!$Resource.televisit_icons + '/EndCall.svg'}"
-                                                class="end-call-logo"
-                                            />
+                                        <span class="slds-icon_container slds-icon-utility-groups slds-m-bottom--small">
+                                            <img src="{!$Resource.televisit_icons + '/EndCall.svg'}" class="end-call-logo" />
                                         </span>
                                         <div class="slds-grid">
                                             <div class="slds-col slds-medium-size_12-of-12">
@@ -3408,16 +3055,10 @@
                                                     {!$Label.PT_Televisit_Left}
                                                 </div>
                                                 <div class="rejoin-buttons televisitleftcss">
-                                                    <button
-                                                        class="close-tv-button"
-                                                        onclick="confirmCancelRejoin();"
-                                                    >
+                                                    <button class="close-tv-button" onclick="confirmCancelRejoin();">
                                                         {!$Label.PT_Televisit_Close}
                                                     </button>
-                                                    <button
-                                                        class="rejoin-button"
-                                                        onclick="confirmReJoin();"
-                                                    >
+                                                    <button class="rejoin-button" onclick="confirmReJoin();">
                                                         {!$Label.PT_Televisit_Rejoin}
                                                     </button>
                                                 </div>
@@ -3432,36 +3073,26 @@
             </div>
             <div class="tv-end-screen slds-hide" id="tv-end-screen-container">
                 <div id="tv-end-container">
-                    <div
-                        class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container"
-                    >
+                    <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container">
                         <div class="slds-col">
                             <div class="slds-grid">
                                 <div class="slds-col slds-size_1-of-1">
                                     <div class="slds-text-align_center televisit-rejoin">
-                                        <span
-                                            class="slds-icon_container slds-icon-utility-groups slds-m-bottom--small"
-                                        >
-                                            <img
-                                                src="{!$Resource.televisit_icons + '/Hourglass.svg'}"
-                                                class="end-call-logo"
-                                            />
+                                        <span class="slds-icon_container slds-icon-utility-groups slds-m-bottom--small">
+                                            <img src="{!$Resource.televisit_icons + '/Hourglass.svg'}" class="end-call-logo" />
                                         </span>
                                         <div class="slds-grid">
                                             <div class="slds-col slds-medium-size_12-of-12">
                                                 <div class="televisit-end" style="inline-size: 400px;padding: 0px 24px;">
                                                     {!$Label.PT_Session_Ended}
-                                                    
-                                                    
+
+
                                                 </div>
                                                 <br/>
-                                                <button
-                                                        id="tv-back-button"
-                                                        class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button"
-                                                        onclick="confirmCancel();"
-                                                    >
-                                                        {!$Label.PP_Opt_Out_Close_window}
-                                                    </button>
+                                                <button id="tv-back-button" class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button"
+                                                    onclick="confirmCancel();">
+                                                    {!$Label.PP_Opt_Out_Close_window}
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -3474,9 +3105,7 @@
 
             <div class="duplicate-meet-screen slds-hide" id="duplicate-meet-screen-container">
                 <div id="duplicate-meet-container">
-                    <div
-                        class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container"
-                    >
+                    <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container">
                         <div class="slds-col">
                             <div class="slds-grid">
                                 <div class="slds-col slds-size_1-of-1">
@@ -3498,20 +3127,13 @@
         <apex:outputPanel rendered="{!isSessionJoinable == false}">
             <div class="non-attendee-screen" id="non-attendee-screen-container">
                 <div id="non-attendee-container">
-                    <div
-                        class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container"
-                    >
+                    <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-center rejoin-container">
                         <div class="slds-col">
                             <div class="slds-grid">
                                 <div class="slds-col slds-size_1-of-1">
                                     <div class="slds-text-align_center televisit-rejoin">
-                                        <span
-                                            class="slds-icon_container slds-icon-utility-groups slds-m-bottom--small"
-                                        >
-                                            <img
-                                                src="{!$Resource.televisit_icons + '/Lock.svg'}"
-                                                class="end-call-logo"
-                                            />
+                                        <span class="slds-icon_container slds-icon-utility-groups slds-m-bottom--small">
+                                            <img src="{!$Resource.televisit_icons + '/Lock.svg'}" class="end-call-logo" />
                                         </span>
                                         <div class="slds-grid">
                                             <div class="slds-col slds-medium-size_12-of-12">
@@ -3532,16 +3154,11 @@
             <div id="in-call-device-people-container" class="people-container">
                 <div class="participant-header">
                     <span class="slds-text-heading--medium slds-text people-container-heading">
-                        <apex:image height="21px" width="21px" url="{! URLFOR($Resource.TelevisitParticipantIcon)}"/>{!$Label.Participants}
+                        <apex:image height="21px" width="21px" url="{! URLFOR($Resource.TelevisitParticipantIcon)}" />{!$Label.Participants}
                     </span>
-                    <button
-                        class="slds-button slds-button_icon slds-button_icon-small closebtn"
-                        onclick="closeparticipatList();"
-                    >
+                    <button class="slds-button slds-button_icon slds-button_icon-small closebtn" onclick="closeparticipatList();">
                         <svg class="slds-button__icon" aria-hidden="true">
-                            <use
-                                xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"
-                            ></use>
+                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
                         </svg>
                     </button>
                 </div>

@@ -49,17 +49,17 @@ window.communityService = (function () {
             if (service.isInitialized()) return;
             service.executeAction(component, 'getCommunityData', null, function (returnValue) {
                 let communityData = JSON.parse(returnValue);
-                let isJanssen = false; 
+                let isJanssen = false;
                 let sr = JSON.parse(communityData.studyDetails);
-                if(sr != null){
-                 let ctp = sr.ctp;
-                  if(ctp != null){
-                  let CommTemp = ctp.CommunityTemplate__c;
-                  let tempName = JSON.stringify(ctp.PPTemplate__c);
-                  if(CommTemp == 'Janssen'){
-                    isJanssen = true;
-                  }
-                  }
+                if (sr != null) {
+                    let ctp = sr.ctp;
+                    if (ctp != null) {
+                        let CommTemp = ctp.CommunityTemplate__c;
+                        let tempName = JSON.stringify(ctp.PPTemplate__c);
+                        if (CommTemp == 'Janssen') {
+                            isJanssen = true;
+                        }
+                    }
                 }
 
                 preventedCookies = communityData.preventedCookies;
@@ -89,9 +89,10 @@ window.communityService = (function () {
                 hasIQVIAStudiesPI = communityData.hasIQVIAStudiesPI;
                 communityName = communityData.communityName;
                 service.setCurrentCommunityMode(communityData.currentUserMode, null, true);
-                if(communityName != 'Janssen_Community1'){ 
-                    if(!isJanssen){
-                    service.setCookie('RRLanguage', communityData.language, 365);}  
+                if (communityName != 'Janssen_Community1') {
+                    if (!isJanssen) {
+                        service.setCookie('RRLanguage', communityData.language, 365);
+                    }
                 }
                 //console.log('CommunityService initialized:');
                 //console.log('is TC accepted: ' + isTCAcceptedFlag);
@@ -391,6 +392,9 @@ window.communityService = (function () {
             //console.log('Navigate to page: ' + pageName);
             urlEvent.fire();
         },
+        loadPage() {
+            location.reload();
+        },
 
         navigateToHome: function () {
             service.navigateToPage('');
@@ -613,7 +617,84 @@ window.communityService = (function () {
             }
             return false;
         },
-
+        isIpad: function () {
+            if (window.innerWidth >= 768 && window.innerWidth < 1279) {
+                if (/ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                    return true;
+                } else if (/macintel/i.test(navigator.platform.toLowerCase())) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        isIpadPortrait() {
+            let orientation = screen.orientation.type;
+            let portrait = true;
+            if (orientation === 'landscape-primary') {
+                portrait = false;
+            }
+            if (window.innerWidth >= 768 && window.innerWidth < 1279 && portrait) {
+                if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                    return true;
+                } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+            return false;
+        },
+        isIpadLandscape() {
+            let orientation = screen.orientation.type;
+            let landscape = false;
+            if (orientation === 'landscape-primary') {
+                landscape = true;
+            }
+            if (window.innerWidth >= 768 && window.innerWidth < 1279 && landscape) {
+                if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                    return true;
+                } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        isAndroidTablet: function () {
+            if (window.innerWidth >= 768 && window.innerWidth <= 1280) {
+                if ((navigator.userAgent.match(/Android/i))) {
+                    return true;
+                } 
+            }
+            return false;
+        },
+        isAndroidTabletPortrait() {
+            let orientation = screen.orientation.type;
+            let portrait = true;
+            if (orientation.startsWith('landscape')) {
+                portrait = false;
+            }
+            if (window.innerWidth >= 768 && window.innerWidth <= 1280 && portrait) {
+                if ((navigator.userAgent.match(/Android/i))) {
+                    return true;
+                } 
+            } else {
+                return false;
+            }
+            return false;
+        },
+        isAndroidTabletLandscape() {
+            let orientation = screen.orientation.type;
+            let landscape = false;
+            if (orientation.startsWith('landscape')) {
+                landscape = true;
+            }
+            if (window.innerWidth >= 768 && window.innerWidth <= 1280 && landscape) {
+                if ((navigator.userAgent.match(/Android/i))) {
+                    return true;
+                }
+            }
+            return false;
+        },
         preLoginPageRedirection: function (currentUrl, redirectPage) {
             sessionStorage.setItem('Cookies', 'Accepted');
             let urlEvent = $A.get('e.force:navigateToURL');

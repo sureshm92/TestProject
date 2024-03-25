@@ -50,7 +50,7 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
 
     //exclamation_green = rr_community_icons + '/' + 'status-exclamation.svg';
     help_section_icon = pp_icons + '/' + 'help-section-icon.png';
-    exclamation = pp_icons + '/' + 'status-exclamation-icon.png';
+    exclamation = pp_icons + '/' + 'status-exclamation.svg';
     homeSvg = rr_community_icons + '/' + 'icons.svg' + '#' + 'icon-home-pplite-new';
 
     get cardRTL() {
@@ -71,6 +71,10 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
         return this.isRTL ? 'mr-10' : '';
     }
 
+    get padExclamationIcon(){
+        return this.isRTL ? 'pad-l-10  exclamation_mobile' : 'pad-r-10  exclamation_mobile';
+    }
+
     handleHomePage() {
         communityService.navigateToPage('');
     }
@@ -79,7 +83,7 @@ export default class PpHelp extends NavigationMixin(LightningElement) {
     connectedCallback() {
         let currentDelgId = communityService.getCurrentCommunityMode().currentDelegateId;
         this.showGetSupport = currentDelgId == null ? true : false;
-        DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
+        DEVICE == 'Large' ? (this.isMobile = false) : (this.isMobile = true);
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 Promise.all([loadStyle(this, communityPPTheme)])

@@ -61,12 +61,12 @@ public without sharing class TherapeuticAreaPatientTriggerHandler extends Trigge
                     ':' +
                     taAssignment.Therapeutic_Area__c
                 );
-                for (String langCode : langsList) {
+                if(langsList != null && !langsList.isEmpty()){
                     if (
                         (!String.isEmpty(taAssignment.Resource__r?.Language__c) &&
-                         taAssignment.Resource__r?.Language__c == langCode) ||
+                         langsList.contains(taAssignment.Resource__r?.Language__c)) ||
                         (!String.isEmpty(taAssignment.Resource__r?.Languages__c) &&
-                         taAssignment.Resource__r?.Languages__c.contains(langCode))
+                         langsList.contains(taAssignment.Resource__r?.Languages__c))
                     ) {
                         resourceIds.add(taAssignment.Resource__c);
                     }

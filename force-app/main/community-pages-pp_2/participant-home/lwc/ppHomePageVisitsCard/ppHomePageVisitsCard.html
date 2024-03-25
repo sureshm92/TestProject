@@ -31,13 +31,17 @@
                                 </header>
                             </div>
                         </article>
-                        <lightning-layout>
-                            <lightning-layout-item size="8">
+                        <lightning-layout class="slds-wrap">
+                            <lightning-layout-item
+                                size="8"
+                                large-device-size="8"
+                                small-device-size="12"
+                            >
                                 <article
                                     class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
                                 >
                                     <div
-                                        class="slds-card__header slds-grid slds-media slds-media_center slds-has-flexi-truncate card-wrap"
+                                        class="slds-grid slds-media slds-media_center slds-has-flexi-truncate card-wrap"
                                     >
                                         <div class="slds-media__figure icon">
                                             <c-web-icon
@@ -58,8 +62,8 @@
                                                             <lightning-formatted-date-time
                                                                 value={planDateTime}
                                                                 year="numeric"
-                                                                month="long"
-                                                                day="numeric"
+                                                                month="short"
+                                                                day="2-digit"
                                                                 time-zone={userTimeZone}
                                                             >
                                                             </lightning-formatted-date-time>
@@ -74,11 +78,15 @@
                                     </div>
                                 </article>
                             </lightning-layout-item>
-                            <lightning-layout-item size="4">
+                            <lightning-layout-item
+                                size="4"
+                                large-device-size="4"
+                                small-device-size="12"
+                            >
                                 <article
                                     class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
                                 >
-                                    <div class="slds-card__header slds-grid card-wrap">
+                                    <div class="slds-grid card-wrap">
                                         <header
                                             class="slds-media slds-media_center slds-has-flexi-truncate"
                                         >
@@ -123,7 +131,29 @@
                             class="slds-card slds-has-bottom-magnet slds-has-top-magnet card-wrap"
                         >
                             <div class="slds-card__header slds-grid card-wrap hide-overflow">
-                                <div class="detail-section slds-truncate hide-overflow">
+                                <div class="slds-col slds-size_1-of-12">
+                                    <c-web-icon
+                                        icon-size="small"
+                                        icon-name="location_pin"
+                                        data-id="location"
+                                        icon-color="#00A3E0"
+                                    >
+                                    </c-web-icon>
+                                </div>
+                                <div class="slds-col slds-size_11-of-12 slds-p-left_small">
+                                    <div class="slds-grid">
+                                        <p class="site-title-text">{siteTitle}</p>
+                                    </div>
+                                    <div class="slds-grid">
+                                        <span class="font-color location-overflow" title={siteLocation}>
+                                            {siteLocation}
+                                        </span>
+                                    </div>
+                                    <div class="slds-grid">
+                                        <p class="font-color">{sitePhone}</p>
+                                    </div>
+                                </div>
+                                <!-- <div class="detail-section slds-truncate hide-overflow">
                                     <div>
                                         <c-web-icon
                                             icon-size="small"
@@ -142,7 +172,7 @@
                                         </div>
                                         <p class="font-color">{sitePhone}</p>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </article>
                     </div>
@@ -324,8 +354,8 @@
                                                     <lightning-formatted-date-time
                                                         value={planDateTime}
                                                         year="numeric"
-                                                        month="long"
-                                                        day="numeric"
+                                                        month="short"
+                                                        day="2-digit"
                                                         time-zone={userTimeZone}
                                                     >
                                                     </lightning-formatted-date-time>

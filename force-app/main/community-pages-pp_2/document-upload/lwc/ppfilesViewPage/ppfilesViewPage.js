@@ -44,6 +44,9 @@ import PP_Filerenamedsuccesfully from '@salesforce/label/c.PP_Filerenamedsuccesf
 import PP_Limit10Files from '@salesforce/label/c.PP_Limit10Files';
 import PP_Fileremovedsuccesfully from '@salesforce/label/c.PP_Fileremovedsuccesfully';
 import formFactor from '@salesforce/client/formFactor';
+import REMOVE from '@salesforce/label/c.PP_Remove';
+import RENAME from '@salesforce/label/c.PP_Rename';
+import PREVIEW from '@salesforce/label/c.PP_Preview';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const MAX_FILE_SIZE = 4500000; //2621440;// 4500000; max file size prog can handle
@@ -92,7 +95,10 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         PP_Backt_o_My_Files,
         PP_Filerenamedsuccesfully,
         PP_Limit10Files,
-        PP_Fileremovedsuccesfully
+        PP_Fileremovedsuccesfully,
+        REMOVE,
+        RENAME,
+        PREVIEW
     };
 
     value = 'inProgress';
@@ -127,19 +133,20 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     // progresBarClass =' progressBarError slds-col slds-size_5-of-12 ';
 
     renameObj = {
-        name: 'Rename'
+        name: RENAME
     };
     Preview = {
-        name: 'Preview'
+        name: PREVIEW
     };
     removeobj = {
-        name: 'Remove'
+        name: REMOVE
     };
 
     uploadonid; //perid
 
     @track
     filesData = [];
+    @track isAndroid;
 
     get options() {
         return [
@@ -152,6 +159,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     }
     getRseult;
     connectedCallback() {
+        this.isAndroid=this.isAndroidApp();
         if (formFactor === 'Small' || formFactor === 'Medium') {
             this.isMobile = true;
             this.isDesktop=false;
@@ -181,7 +189,13 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
             });
         }
     }
-
+    isAndroidApp(){
+        if ( (navigator.userAgent.match(/Android/i)) && communityService.isMobileSDK()) {
+            return true;
+        }  else{
+            return false;
+        }
+    }
     showUploadSectiontoUser(event) {
         this.isSaving = true;
         this.ShowuploadSection = true;
@@ -412,7 +426,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 extension.toLowerCase() != 'png'
             ) {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -441,7 +455,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 continue;
             } else if (fileCon.size > MAX_FILE_SIZE) {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -470,7 +484,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 continue;
             } else {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -638,6 +652,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                                     this.totalValidFileProcessed = this.totalValidFileProcessed + 1;
                                     this.filesData[index].UploadCompleted = true;
                                     this.toggleUploadButton();
+                                    this.filesData[index].prevUrl = getresult.prevUrl;
                                 }
                             }
                         }
@@ -731,35 +746,20 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
             this.isRenameOpen = true;
             this.toggleUploadButton();
         } else if (methodNameCalled == 'Preview') {
-            let extension_index = this.filesData[indexcalled].fileName.lastIndexOf('.');
-            let extension = this.filesData[indexcalled].fileName.slice(extension_index + 1);
-            let filenamewitoutextension = this.filesData[indexcalled].fileName.slice(
-                0,
-                extension_index
+            
+            let filePrevUrl = this.filesData[indexcalled].prevUrl;
+            var y = window.outerHeight / 2 + window.screenY - 500 / 2;
+            var x = window.outerWidth / 2 + window.screenX - 600 / 2;
+            window.open(
+            filePrevUrl,
+            "popup",
+            "toolbar=no,scrollbars=no,resizable=no,top=" +
+                y +
+                ",left=" +
+                x +
+                ",width=600,height=500"
             );
-            this.previewHeader = filenamewitoutextension;
-            this.openfileUrl =
-                '../apex/MedicalHistoryPreviewVF?resourceId=' +
-                this.filesData[indexcalled].fileContentVerId;
-           if(this.isMobile && extension=='pdf'){
-            this.template.querySelectorAll('.getpreviewCss').forEach(function (L) {
-                L.classList.add('previewCssMobile');
-            });
-            this.template.querySelectorAll('.getpreviewCss').forEach(function (L) {
-                L.classList.remove('previewCss');
-            });
-           }
-           else{
-            this.template.querySelectorAll('.getpreviewCss').forEach(function (L) {
-                L.classList.remove('previewCssMobile');
-            });
-            this.template.querySelectorAll('.getpreviewCss').forEach(function (L) {
-                L.classList.add('previewCss');
-            });
-
-           }
-           this.openmodel = true;
-           this.modalHeaderFilePage=true;
+            return false;
         }
         else if(methodNameCalled == 'Remove')
         {   

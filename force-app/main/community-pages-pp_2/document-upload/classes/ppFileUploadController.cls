@@ -5,7 +5,7 @@ public without sharing class ppFileUploadController {
     public class fileId{
         public string filecontentversion;
         public string FileContentDocId;
-
+        public string prevUrl;
     }
 
     @AuraEnabled
@@ -62,6 +62,10 @@ public without sharing class ppFileUploadController {
             objWrapper = saveFiles(parentId, fileName, base64Data,Progress); 
         } else {
             system.debug('>>inside apend>>'+isRetry);
+            if(String.isBlank(objWrapper.prevUrl)){
+                ContentDistribution  ctDistrId = [SELECT Id,DistributionPublicUrl FROM ContentDistribution WHERE ContentVersionId =: objWrapper.filecontentversion];
+                objWrapper.prevUrl = ctDistrId.DistributionPublicUrl;
+            }
             appendToFile(fileId, base64Data,Progress);
         }
 
@@ -133,15 +137,18 @@ public without sharing class ppFileUploadController {
         sizeStringFileName = sizeStringFileName+'...'; 
         }
         
-        insert new ContentDistribution(
+        ContentDistribution ctDistrId = new ContentDistribution(
             ContentVersionId = contentToInsert.Id,
             Name = sizeStringFileName,
             PreferencesNotifyOnVisit = false,
             PreferencesAllowPDFDownload = false
         );
+        Insert ctDistrId;
+        ctDistrId = [SELECT Id,DistributionPublicUrl FROM ContentDistribution WHERE ContentVersionId =: contentToInsert.Id];
         ppFileUploadController.fileId objWrapper = new ppFileUploadController.fileId();
         objWrapper.filecontentversion = contentToInsert.Id;
         objWrapper.FileContentDocId = contentToInsert.ContentDocumentId;
+        objWrapper.prevUrl = ctDistrId.DistributionPublicUrl;
         // return contentToInsert.id;
         
         return objWrapper;
@@ -393,8 +400,26 @@ public without sharing class ppFileUploadController {
                         }
                     }
            }
-            if(!conv.isEmpty() && conv !=null){
-                String convId = conv[0].Id;  
+           set<id> cntDocumentidPER = new set<Id> ();
+           set<id> cntDocumentidShareByPI= new set<Id> ();
+           for (ContentDocumentLink cdlink : [SELECT Id, LinkedEntityId, ContentDocument.CreatedById, ContentDocumentId
+                                              FROM ContentDocumentLink WHERE LinkedEntityId = :perId])
+            {
+                cntDocumentidPER.add(cdlink.ContentDocumentId);
+            }
+            for(ContentVersion objCntvr : [SELECT ID,title,ContentDocumentId from ContentVersion Where ContentDocumentId IN:cntDocumentidPER 
+                                            AND FileSharedbyPI__c = true ])
+             {
+                 cntDocumentidShareByPI.add(objCntvr.ContentDocumentId);
+
+             }
+
+             system.debug('>>>perId>>'+perId+'>>cntDocumentidPER>>'+cntDocumentidPER+'>>cntDocumentidShareByPI>>'+cntDocumentidShareByPI);
+           
+            if((!conv.isEmpty() && conv !=null) || (!cntDocumentidShareByPI.isEmpty() && cntDocumentidShareByPI !=null)){
+                String convId = '';
+                if(!conv.isEmpty())
+                   convId =  conv[0].Id;  
             
                    String queryString =
                     'SELECT ' +
@@ -406,11 +431,28 @@ public without sharing class ppFileUploadController {
                     'ContentDocument.FileExtension,' +
                     'ContentDocument.LatestPublishedVersionId,' +
                     'LinkedEntityId ' +
-                    ' FROM ContentDocumentLink WHERE ' +
-                    'LinkedEntityId =: convId';
+                    ' FROM ContentDocumentLink WHERE ' ;
+                    if(String.isNotBlank(convId)){
+                    queryString = queryString + ' LinkedEntityId =: convId  ' ;
+                    if(!cntDocumentidShareByPI.isEmpty())
+                    queryString = queryString + ' OR ';
+                    } 
+                    if(!cntDocumentidShareByPI.isEmpty() && cntDocumentidShareByPI !=null){
+                    queryString = queryString + ' (ContentDocumentId IN:cntDocumentidShareByPI and LinkedEntityId=:perId) ';
+                    }
                     
+                    system.debug('>>>query is>>'+queryString);
                  
-                String qCountString = 'SELECT COUNT() FROM ContentDocumentLink WHERE LinkedEntityId = :convId ';
+                String qCountString = 'SELECT COUNT() FROM ContentDocumentLink WHERE ' ;
+                if(String.isNotBlank(convId)){
+                    qCountString = qCountString + ' LinkedEntityId =: convId  ' ;
+                    if(!cntDocumentidShareByPI.isEmpty())
+                    qCountString = qCountString + ' OR ';
+                    } 
+                    if(!cntDocumentidShareByPI.isEmpty() && cntDocumentidShareByPI !=null){
+                    qCountString = qCountString + ' (ContentDocumentId IN:cntDocumentidShareByPI and LinkedEntityId=:perId) ';
+                    }
+               // qCountString = qCountString + 'LinkedEntityId = :convId OR ( ContentDocumentId IN:cntDocumentidShareByPI and  LinkedEntityId=:perId) ';
                 System.debug('pageNumber' + pageNumber);
                 Integer offsetLimit = (pageNumber - 1) * 10;
                 String orderByString;
@@ -428,6 +470,7 @@ public without sharing class ppFileUploadController {
                 queryString = queryString + orderByString;
                 cdlList = Database.query(queryString);
     
+                 system.debug('>>>final query is>>'+queryString);
                 
                 qCountString = qCountString;
                 Integer totalCount = Database.countQuery(qCountString);

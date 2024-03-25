@@ -2,11 +2,72 @@
     doInit: function (component, event, helper) {
         if (communityService.isInitialized()) {
             component.set('v.communityServ', communityService);
+            if (communityService.isIpad()) {
+                component.set('v.isIpad', true);
+            }
             helper.init(component);
             helper.handleOrientationInit(component);
             helper.registerOrientationChange(component);
         } else {
             communityService.initialize(component);
+        }
+    },
+    handleRouteChange: function (component, event, helper) {
+        var perRecId = communityService.getUrlParameter('perId');
+        var contactRecId = communityService.getUrlParameter('contactId');
+        var targetRec = communityService.getUrlParameter('targetRecId');
+        var isPast = communityService.getUrlParameter('ispast');
+        var perContId = communityService.getUrlParameter('perContactId');
+        var whatId_ = communityService.getUrlParameter('whatId');
+        var notificationType_ = communityService.getUrlParameter('notificationType');
+        var recipientId_ = communityService.getUrlParameter('recipientId');
+        var srId_ = communityService.getUrlParameter('srId');
+        if (contactRecId != null) {
+            communityService.executeAction(
+                component,
+                'updateContact',
+                {
+                    peId: perRecId,
+                    recId: contactRecId,
+                    peContactId: perContId
+                },
+                function (returnValue) {
+                    var pageurl = communityService.getFullPageName();
+                    if (srId_ != sessionStorage.getItem('srId')) {
+                        sessionStorage.setItem('srId', srId_);
+                        communityService.loadPage();
+                    }
+
+                    if (pageurl.includes('messages')) {
+                        communityService.navigateToPage('messages');
+                    } else if (pageurl.includes('televisit')) {
+                        communityService.navigateToPage('televisit?ispast=' + isPast);
+                    } else if (pageurl.includes('results')) {
+                        if (returnValue)
+                            communityService.navigateToPage('past-studies?per=' + perRecId);
+                        else communityService.navigateToPage('results?vrlist&pvId=' + targetRec);
+                    } else {
+                        communityService.navigateToPage('');
+                    }
+                }
+            );
+        } else if (whatId_ != null && notificationType_ != null && recipientId_ != null) {
+            //contact_changed
+            if (srId_ != sessionStorage.getItem('srId')) {
+                sessionStorage.setItem('srId', srId_);
+                communityService.executeAction(
+                    component,
+                    'updateCurrentContact',
+                    {
+                        whatId: whatId_,
+                        notificationType: notificationType_,
+                        recipientId: recipientId_
+                    },
+                    function (returnValue) {
+                        communityService.loadPage();
+                    }
+                );
+            }
         }
     },
 

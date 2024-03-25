@@ -204,7 +204,7 @@ p {
 
 .change-preferences {
     height: 24px;
-    width: 118px;
+    min-width: 118px;
     color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 13px;
@@ -300,4 +300,15 @@ p {
 
 .left-column {
     overflow-y: hidden;
+}
+
+@media all and (min-width: 768px) and (max-width: 1279px) and (orientation: portrait) {
+    .no-links-available {
+        margin-top: 130%;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1279px) and (orientation: landscape) {
+    .no-links-available {
+        margin-top: 99%;
+    }
 }

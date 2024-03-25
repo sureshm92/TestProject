@@ -31,6 +31,12 @@
     font-size: 16px!important;
     letter-spacing: 0;    
 }
+.pir-parent .slds-tabs_default__overflow-button .slds-button {
+    font-size: 16px;
+}
+.pir-parent .slds-tabs_default__overflow-button:after{
+    display:none;  
+}
 .pir-parent .all-tabs .slds-tabs_default__item:after {
     width: 90%;
     margin: 0 auto;
@@ -121,6 +127,53 @@ height: 70px;
 .dateErrAlign .slds-form-element__help{	
     width: 300px;	
 }
+.sharepermissioncheckbox .slds-checkbox [type='checkbox'] + .slds-checkbox__label .slds-checkbox_faux {
+    cursor: pointer;
+}
+.highriskcssclass  .slds-checkbox [type='checkbox'] + .slds-checkbox__label .slds-checkbox_faux {
+    cursor: pointer;
+}
+.highPrioritycssclass  .slds-checkbox [type='checkbox'] + .slds-checkbox__label .slds-checkbox_faux {
+    cursor: pointer;
+}
+.sharepermissioncheckbox .slds-checkbox [type='checkbox'] + .slds-checkbox__label .slds-checkbox_faux:hover
+{
+   border-radius: 2px;
+border: 1px solid var(--neptune-primary-dark, #0557D5);
+background: var(--neptune-primary-light, #ECF3FF);
+}
+.sharepermissioncheckbox .slds-checkbox [type='checkbox']:checked + .slds-checkbox__label .slds-checkbox_faux:hover
+{
+   border-radius: 2px;
+border: 1px solid #0557D5;
+background: #0557D5;;
+}
+
+.highriskcssclass .slds-checkbox [type='checkbox'] + .slds-checkbox__label .slds-checkbox_faux:hover
+{
+   border-radius: 2px;
+border: 1px solid var(--neptune-primary-dark, #0557D5);
+background: var(--neptune-primary-light, #ECF3FF);
+}
+.highriskcssclass .slds-checkbox [type='checkbox']:checked + .slds-checkbox__label .slds-checkbox_faux:hover
+{
+   border-radius: 2px;
+border: 1px solid #0557D5;
+background: #0557D5;;
+}
+.highPrioritycssclass .slds-checkbox [type='checkbox'] + .slds-checkbox__label .slds-checkbox_faux:hover
+{
+   border-radius: 2px;
+border: 1px solid var(--neptune-primary-dark, #0557D5);
+background: var(--neptune-primary-light, #ECF3FF);
+}
+.highPrioritycssclass .slds-checkbox [type='checkbox']:checked + .slds-checkbox__label .slds-checkbox_faux:hover
+{
+   border-radius: 2px;
+border: 1px solid #0557D5;
+background: #0557D5;;
+}
+
 @media (max-device-width: 767px) {
     .pir-parent .slds-tabs_default__link {
       max-width: 190px;
@@ -164,4 +217,15 @@ height: 70px;
 
 .label-gap .slds-form-element__label{
     margin-bottom: 8px;
+}
+
+lightning-combobox.labelEllipsis label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+ 
+lightning-combobox.labelEllipsis .slds-form-element__control {
+  margin-top: -4.5px;
 }

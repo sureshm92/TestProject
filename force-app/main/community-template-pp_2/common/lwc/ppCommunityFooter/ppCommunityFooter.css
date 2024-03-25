@@ -48,6 +48,9 @@
     background: transparent;
     border: none;
 }
+.contact-support-btn:hover {
+    font-weight: 600;
+}
 
 @media all and (max-width: 500px) {
     .cf-links {
@@ -78,5 +81,25 @@
         padding: 10px 0px;
         margin: unset;
         justify-content: space-evenly;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
+    .cf-margin-cutter {
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin: -10px;
+    }
+
+    .cf-copyright,
+    .cf-links {
+        text-align: center;
+        width: 100%;
+        padding: 10px 0px;
+        margin: unset;
+        justify-content: space-evenly;
+    }
+    .cf-link {
+        display: block;
+        padding: 5px 0px;
     }
 }

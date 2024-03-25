@@ -45,8 +45,16 @@
     width: 40px;
 }
 .rr-icon_big-custom {
-    height: 45px;
+    height: 46px;
+    width: 44px;
+}
+.rr-icon_big-custom-tasksurvey {
+    height: 46px;
     width: 45px;
+}
+.rr-icon_big-custom-taskillustration {
+    height: 45px;
+    width: 44px;
 }
 .rr-icon_big {
     height: 60px;

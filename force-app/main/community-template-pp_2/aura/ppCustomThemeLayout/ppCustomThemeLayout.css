@@ -4,6 +4,17 @@
 .THIS {
     font-family: 'Proxima Nova';
 }
+.THIS .parentNavDiv{
+    height: 4rem;
+}
+.THIS .iqviaLogo{
+    width:232px;
+    height: 100%;
+}
+.THIS .iqviaLogo-ipad{
+    width:200px;
+    height: 100%;
+}
 .THIS.DESKTOP .rr-body-content {
     margin-top: 4rem;
     padding-top: 1.5rem;
@@ -15,7 +26,7 @@
 }
 
 .THIS.TABLET .rr-body-content {
-    margin-top: 5rem;
+    padding-top: 5rem;
 }
 .THIS.PHONE .rr-body-content {
     padding-top: 5rem;
@@ -49,19 +60,6 @@
     height: 1px;
 }
 
-.THIS .logo-container-RTL {
-    /* @noflip */
-    height: 50px;
-    /* @noflip */
-    display: flex;
-    /* @noflip */
-    align-items: center;
-    /* @noflip */
-    margin-left: 15px;
-    /* @noflip */
-    flex-shrink: 0;
-    /*    margin-right: -9px; */
-}
 
 .THIS .slds-backdrop {
     background-color: rgba(0, 0, 0, 0.7);
@@ -85,13 +83,7 @@
     margin-top: 6px;
 }
 
-.THIS .logo-container {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-    flex-shrink: 0;
-}
+
 
 .THIS .layout-header {
     height: 100%;
@@ -99,7 +91,7 @@
     display: flex;
 }
 
-.THIS .layout-header.rtl {
+.THIS .rtl {
     /* flex-direction: row-reverse;*/
     /* @noflip */
     direction: rtl;
@@ -156,6 +148,13 @@
     margin-left: 1.5rem;
 }
 
+.THIS .layout-header .barsIconrtl {
+    height: 30px;
+    width: 30px;
+    margin-top: 18px;
+    margin-right: 1rem;
+}
+
 .THIS .slds-form-element__icon {
     padding-top: 2px;
 }
@@ -201,10 +200,7 @@
 }
 
 .THIS .right-block {
-    flex-shrink: 0;
-    margin-left: auto;
-    align-items: center;
-    display: flex;
+    height:100%
 }
 
 .THIS .menuheight {
@@ -402,9 +398,6 @@
 @media screen and (max-width: 600px) {
     .THIS .vis-path.slds-grid {
         padding-top: 25px;
-    }
-    .THIS .mob-logo-container-pp {
-        width: 100%;
     }
     .THIS .vis-path.slds-grid .line-div .state-ico-wrapper {
         width: 30px;
@@ -623,8 +616,7 @@
     letter-spacing: 0;
     line-height: 24px;
     cursor: pointer;
-    padding-right: 1.4rem;
-}
+} 
 
 .THIS .iqvia_text {
     height: 24px;
@@ -638,15 +630,7 @@
 }
 
 @media (max-width: 1024px) and (orientation: landscape) {
-    .THIS .logo-container-pp {
-        width: 80% !important;
-    }
     .THIS .iqvia_logo {
         padding-right: 0px !important;
-    }
-}
-@media only screen and (min-width: 321px) and (orientation: landscape) {
-    .THIS .mob-logo-container-pp {
-        width: 75px;
     }
 }

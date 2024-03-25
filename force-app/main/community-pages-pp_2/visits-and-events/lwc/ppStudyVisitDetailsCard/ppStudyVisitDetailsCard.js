@@ -2,6 +2,7 @@ import { LightningElement, api, track, wire } from 'lwc';
 import moment from '@salesforce/resourceUrl/moment_js';
 import momentTZ from '@salesforce/resourceUrl/momenttz';
 import COMETD_LIB from '@salesforce/resourceUrl/cometd';
+import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 import getSessionId from '@salesforce/apex/TelevisitMeetBannerController.getSessionId';
 import { loadScript } from 'lightning/platformResourceLoader';
 import recheckOptIns from '@salesforce/apex/TaskEditRemote.checkSmsEmailOptIn';
@@ -53,6 +54,8 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
         REMIND_ME,
         nodateavailable
     };
+
+    @api isRTL = false;
 
     @api visitid;
     @api isinitialvisit;
@@ -115,6 +118,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     spinner;
     desktop = true;
     communicationTab = '_blank';
+    isAndroidTab=false;
 
     initialRecord = {
         Planned_Date__c: '',
@@ -136,13 +140,34 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
     subscription;
     channel = '/event/Communication_Preference_Change__e';
 
+    get locationtitleStyle() {
+        return this.isRTL ? 'location-title-rtl' : 'location-title';
+    }
+
+    get isTablet(){
+        if((DEVICE == 'Medium') || (DEVICE == 'Small' && this.isAndroidTab))
+        return true;
+        else 
+        return false;
+    }
+
     connectedCallback() {
-        if (DEVICE != 'Small') {
+        this.isAndroidTab=communityService.isAndroidTablet();
+        if (DEVICE == 'Large') {
             this.desktop = true;
         } else {
             this.desktop = false;
             this.url = this.url ? this.url + 'withprevtask' : '';
         }
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+                console.log('rtl--->'+this.isRTL);
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+            });
+
         loadScript(this, COMETD_LIB).then(() => {
             loadScript(this, moment).then(() => {
                 loadScript(this, momentTZ).then(() => {
@@ -155,6 +180,7 @@ export default class PpStudyVisitDetailsCard extends LightningElement {
                 });
             });
         });
+
     }
 
     loadSessionId() {

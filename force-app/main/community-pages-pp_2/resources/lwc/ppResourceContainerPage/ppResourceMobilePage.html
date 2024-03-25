@@ -66,7 +66,7 @@
                                             ><img src={empty_state} class="empty-state-img-size"
                                         /></span>
                                         <span class="no-links-available slds-m-top_medium"
-                                            >No modules available</span
+                                            >{labels.No_modules_available}</span
                                         >
                                     </div>
                                 </div>
@@ -90,7 +90,6 @@
                     </template>
 
                     <template if:true={discoverVisible}>
-                        <lightning-layout multiple-rows="true">
                             <lightning-layout-item size="12">
                                 <div class="links-will-open-in-a">{labels.DISCLAIMER}</div>
                                 <!--Discover Section starts here-->
@@ -104,7 +103,6 @@
                                     ></c-pp-discover-links>
                                 </div>
                             </lightning-layout-item>
-                        </lightning-layout>
                     </template>
                 </lightning-layout>
 

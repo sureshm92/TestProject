@@ -18,6 +18,14 @@ import PP_DeleteFile from '@salesforce/label/c.PP_DeleteFile';
 import PP_DeleteConfirmation from '@salesforce/label/c.PP_DeleteConfirmation';
 import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
 import profileTZ from "@salesforce/i18n/timeZone";
+import Sort_By from "@salesforce/label/c.Sort_By";
+import PP_Sort_Title_Desc from "@salesforce/label/c.PP_Sort_Title_Desc";
+import PP_Sort_Title_Asc from "@salesforce/label/c.PP_Sort_Title_Asc";
+import PP_Sort_Type_Asc from "@salesforce/label/c.PP_Sort_Type_Asc";
+import PP_Sort_Type_Desc from "@salesforce/label/c.PP_Sort_Type_Desc";
+import PP_Sort_Date_Desc from "@salesforce/label/c.PP_Sort_Date_Desc";
+import PP_Sort_Date_Asc from "@salesforce/label/c.PP_Sort_Date_Asc";
+import Sort_Detail_By from "@salesforce/label/c.Sort_Detail_By";
 
 export default class PpPastStudiesFileTable extends LightningElement {
     downloadIcon = pp_icons + '/' + 'download.svg';
@@ -85,7 +93,15 @@ export default class PpPastStudiesFileTable extends LightningElement {
         pir_Delete_Btn,
         PP_DeleteFile,
         PP_DeleteConfirmation,
-        BTN_Cancel
+        BTN_Cancel,
+        Sort_By,
+        PP_Sort_Title_Desc,
+        PP_Sort_Title_Asc,
+        PP_Sort_Type_Asc,
+        PP_Sort_Type_Desc,
+        PP_Sort_Date_Desc,
+        PP_Sort_Date_Asc,
+        Sort_Detail_By
     }
 
     connectedCallback() {
@@ -422,6 +438,13 @@ export default class PpPastStudiesFileTable extends LightningElement {
         this.resetPagination = true;
         this.getTableFiles();
     }
+    get isFileNameSorted() {
+        if (this.arrowUpTitle || this.arrowDownTitle) {
+          return "boldfont table-Header-Sorted";
+        } else {
+          return "boldfont";
+        }
+      }
 
     sortByMsgTitle(event) {
        
@@ -443,6 +466,13 @@ export default class PpPastStudiesFileTable extends LightningElement {
         this.resetPaginationMsg = true;
         this.getTableMsgFiles();
     }
+    get isMessageTitleSorted() {
+        if (this.arrowUpTitleMsg || this.arrowDownTitleMsg) {
+          return "boldfont table-Header-Sorted";
+        } else {
+          return "boldfont";
+        }
+      }
 
     sortByDate(event) {
         this.arrowUpTitle = this.arrowDownTitle = this.arrowUpType = this.arrowDownType = false;
@@ -464,6 +494,14 @@ export default class PpPastStudiesFileTable extends LightningElement {
         this.resetPagination = true;
         this.getTableFiles();
     }
+    get isSortedByDate() {
+        if (this.arrowUpDate || this.arrowDownDate) {
+          return "boldfont table-Header-Sorted";
+        } else {
+          return "boldfont";
+        }
+      }
+    
 
     sortByMsgDate(event) {
 
@@ -487,6 +525,13 @@ export default class PpPastStudiesFileTable extends LightningElement {
         this.resetPaginationMsg = true;
         this.getTableMsgFiles();
     }
+    get isMsgDateSorted() {
+        if (this.arrowUpDateMsg || this.arrowDownDateMsg) {
+          return "boldfont table-Header-Sorted";
+        } else {
+          return "boldfont";
+        }
+      }
 
     sortByType(event) {
         this.arrowUpTitle =
@@ -513,6 +558,13 @@ export default class PpPastStudiesFileTable extends LightningElement {
         this.resetPagination = true;
         this.getTableFiles();
     }
+    get isTypeSorted() {
+        if (this.arrowUpType || this.arrowDownType) {
+          return "boldfont table-Header-Sorted";
+        } else {
+          return "boldfont";
+        }
+      }
 
     sortByMsgType(event) { 
        
@@ -540,6 +592,13 @@ export default class PpPastStudiesFileTable extends LightningElement {
         this.resetPaginationMsg = true;
         this.getTableMsgFiles();
     }
+    get isMessageTypeSorted() {
+        if (this.arrowUpTypeMsg || this.arrowDownTypeMsg) {
+          return "boldfont table-Header-Sorted";
+        } else {
+          return "boldfont";
+        }
+      }
 
     
 
@@ -584,12 +643,12 @@ export default class PpPastStudiesFileTable extends LightningElement {
     }
     get optionsSort() {
         return [
-            { label: 'Title: A-Z', value: 'titleasc' },
-            { label: 'Title: Z-A', value: 'titledesc' },
-            { label: 'File Type: A-Z', value: 'filetypeasc' },
-            { label: 'File Type: Z-A', value: 'filetypedesc' },
-            { label: 'Date: Last Uploaded', value: 'datedesc' },
-            { label: 'Date: First Uploaded', value: 'dateasc' }
+            { label: this.label.PP_Sort_Title_Asc, value: "titleasc" },
+            { label: this.label.PP_Sort_Title_Desc, value: "titledesc" },
+            { label: this.label.PP_Sort_Type_Asc, value: "filetypeasc" },
+            { label: this.label.PP_Sort_Type_Desc, value: "filetypedesc" },
+            { label: this.label.PP_Sort_Date_Desc, value: "datedesc" },
+            { label: this.label.PP_Sort_Date_Asc, value: "dateasc" }
         ];
     }
 
@@ -627,7 +686,7 @@ export default class PpPastStudiesFileTable extends LightningElement {
             this.isInitial = true;
             this.firstClick=true;
             this.sortOn = "CreatedDate";
-            this.selectedsortOption = "Sort By";
+            this.selectedsortOption = this.label.Sort_By;
 
             this.getTableFiles();
         }
@@ -643,7 +702,7 @@ export default class PpPastStudiesFileTable extends LightningElement {
             this.isInitialMsg = true;
             this.firstClickMsg=true;
             this.sortOnMsg = "ContentDocument.CreatedDate";
-            this.selectedsortOption = "Sort By";
+            this.selectedsortOption = this.label.Sort_By;
 
             this.getTableMsgFiles();
         }
@@ -657,7 +716,7 @@ export default class PpPastStudiesFileTable extends LightningElement {
         }
     }
     handlenewOnSelectSort(event) {
-        this.selectedsortOption = 'By: ' + event.target.dataset.title;
+        this.selectedsortOption = this.label.Sort_Detail_By + " "  + event.target.dataset.title;
         this.template.querySelectorAll('.fBold').forEach(function (L) {
             L.classList.add('fw-550');
         });
@@ -718,7 +777,7 @@ export default class PpPastStudiesFileTable extends LightningElement {
           this.handleonblur();
     }
     handlenewOnSelectSortMsg(event) {
-        this.selectedsortOption = 'By: ' + event.target.dataset.title;
+        this.selectedsortOption = this.label.Sort_Detail_By + " "  + event.target.dataset.title;
         this.template.querySelectorAll('.fBold').forEach(function (L) {
             L.classList.add('fw-550');
         });

@@ -22,16 +22,19 @@
                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-p-horizontal_none"
                 >
                     <lightning-layout class="slds-p-vertical_x-small"
-                        ><lightning-layout-item size="9">
+                        ><lightning-layout-item size="8">
                             <span class="visit-name">{patientVisitName}</span>
                             <span class="completed-date">
                                 &nbsp;&nbsp;|
                                 <lightning-formatted-date-time
                                     value={completedDate}
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
                                     class="completed-date slds-m-left_small"
                                     time-zone={userTimezone}
                                 ></lightning-formatted-date-time></span></lightning-layout-item
-                        ><lightning-layout-item size="3" class="slds-align-middle download-section">
+                        ><lightning-layout-item size="4" class="slds-align-middle download-section">
                             <c-pp-download-results-data
                                 patient-visit-nam={patientVisitName}
                                 patient-visit-id={currentVisitId}

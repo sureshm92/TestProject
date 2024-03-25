@@ -1552,11 +1552,6 @@ public without sharing class PIR_HomepageController {
         FROM Participant_Enrollment__c
         WHERE Id = :peId
       ]) {
-        if (pe.Initial_visit_scheduled_date__c != null) {
-          pe.High_Priority__c = true;
-        } else {
-          pe.High_Priority__c = false;
-        }
 
         pe.Participant_Status__c = 'Eligibility Passed';
         pe.ParticipantNoShow__c= false;
@@ -2714,6 +2709,8 @@ public without sharing class PIR_HomepageController {
       public List<LabelValueItem> visitPlansLVList;
       @AuraEnabled
       Public Study_Site__c objStudySite;
+      @AuraEnabled
+      public Boolean consentPref;
   }
 
   public class LabelValueItemISO {
@@ -2781,6 +2778,9 @@ public without sharing class PIR_HomepageController {
           }
           result.visitPlansLVList =StudySiteService.getVisitPlansLVList(studySiteId);
           result.objStudySite = sites[0];
+        }
+        if(studySiteId!=null){
+           result.consentPref = ConsentManagerController.getConsentPreferences('ImportPart',studySiteId).consentPref;
         }
         return result;
     }

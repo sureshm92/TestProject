@@ -38,10 +38,10 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Type';
     public static final String MESSAGE_TO_PT_ECOA_TASK_INSTANT_DEL_TYPE = 'Message_To_PT_Ecoa_Task_Instant_Del_Type';
     public static final String MESSAGE_TO_PT_ACTIVATE_ECOA_TASK_INSTANT_TYPE = 'Message_to_PT_Activate_eDairies';
+    public static final String MESSAGE_TO_PT_FOR_INVALID_NUMBER = 'Message_To_PT_For_Invalid_Number';
 
     /*Start Email Consent*/
     public static final String MESSAGE_TO_PT_PT_COMPLETE_BL_SURVEY_TYPE = 'Message_to_PT_Complete_BL_Survey_Type';
-
 
     // for patient statuses
     public static final String MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_PT_Ref_Status_Update_Type';
@@ -148,7 +148,19 @@ public without sharing class NotificationCatalog {
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE
     };
-        
+    
+    //List of notifications where we dont need any consent for sending communication.
+    static public Set<String> notificationsNotRequiresAnyConsent = new Set<String>{
+        NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP,
+        NotificationCatalog.MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_FOR_INVALID_NUMBER
+    };
+
+    //List of system task notifications where we dont need any consent for sending communication.
+    static public Set<String> systemTaskNotificationsNotRequiresAnyConsent = new Set<String>{
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE
+    };
      //Updates
     public static final String UPDATE_TO_PT_NEW_ARTICLE_TYPE = 'Update_to_PT_New_Article_Type';
     public static final String UPDATE_TO_PT_NEW_LINK_TYPE = 'Update_to_PT_New_Link_Type';
@@ -164,4 +176,21 @@ public without sharing class NotificationCatalog {
     public static final String UPDATE_TO_PT_TELEVISIT_SCHEDULED = 'Update_to_PT_Televisit_Scheduled';
     public static final String UPDATE_TO_PT_TELEVISIT_RESCHEDULED = 'Update_to_PT_Televisit_Rescheduled';
     public static final String UPDATE_TO_PT_TELEVISIT_CANCELED = 'Update_to_PT_Televisit_Canceled';
+
+    //push
+    public static final String PUSH_TO_PT_NEW_ARTICLE = 'Push_To_PT_New_Article';
+    public static final String PUSH_TO_PT_NEW_VIDEO = 'Push_To_PT_New_Video';
+    public static final String PUSH_TO_PT_NEW_LINK = 'Push_To_PT_New_Link';
+    public static final String PUSH_TO_PT_NEW_MULTIMEDIA = 'Push_To_PT_New_Multimedia';
+    public static final String PUSH_TO_PT_NEW_DOCUMENT = 'Push_To_PT_New_Document';
+    
+    
+    
+    public static final String PUSH_TO_PT_NEW_PLATFORM_ARTICLE = 'Push_To_PT_New_Platform_Article';
+    public static final String PUSH_TO_PT_NEW_PLATFORM_VIDEO = 'Push_To_PT_New_Platform_Video';
+    public static final String PUSH_TO_PT_NEW_PLATFORM_LINK = 'Push_To_PT_New_Platform_Link';
+    public static final String PUSH_TO_PT_NEW_PLATFORM_MULTIMEDIA = 'Push_To_PT_New_Platform_Multimedia';
+    public static final String PUSH_TO_PT_NEW_PLATFORM_DOCUMENT = 'Push_To_PT_New_Platform_Document';
+
+    public static final String MESSAGE_TO_PT_DEL_VISIT_RESULT_AVAILAB = 'Message_to_PT_Del_Visit_Result_Availabl';
 }

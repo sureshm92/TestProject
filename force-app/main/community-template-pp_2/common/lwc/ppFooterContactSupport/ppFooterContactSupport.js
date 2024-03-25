@@ -92,11 +92,14 @@ export default class PpFooterContactSupport extends LightningElement {
     phoneCopyHoverd = false;
     phoneTitle = 'Copy';
     customHeightRendered = false;
-
     siteStaffTooltip;
-
+    
     get copyIconStyle() {
         return this.isRTL ? 'copyIconRTL' : 'copyIcon';
+    }
+
+    get pinIconPaddingStyle() {
+        return this.isRTL ? 'paddingRight-16' : 'paddingLeft-16';
     }
 
     get getShowLabel() {
@@ -122,7 +125,8 @@ export default class PpFooterContactSupport extends LightningElement {
     }
 
     connectedCallback() {
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+       // DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
         this.showmodal = true;
 
         //this.piSalutation = this.studysite.Principal_Investigator__r.Salutation;

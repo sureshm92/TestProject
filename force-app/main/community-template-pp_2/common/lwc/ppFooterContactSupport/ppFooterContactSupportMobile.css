@@ -110,7 +110,7 @@
 }
 
 .mob-needSupport2 {
-    height: 63px;
+    min-height: 63px;
     /* width: 618px; */
     color: #444444;
     font-family: 'Proxima Nova';
@@ -184,7 +184,7 @@
 
 .mob-ph-notAvailable {
     height: 17px;
-    width: 81px;
+    /* width: 81px; */
     color: #999999;
     font-family: 'Proxima Nova';
     font-size: 14px;
@@ -320,6 +320,11 @@
 .pd-10 {
     padding: 10px;
 }
-.ml{
-    margin-left: -500px;
+.ml {
+    position: fixed;
+    top: 0;
+    left: -100px;
+}
+textarea {
+    font-size: 16px;
 }

@@ -49,6 +49,9 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
     get borderPOHome() {
         return this.isRTL ? 'borderLeft' : 'borderRight';
     }
+    get paddingPIPhoneAndName() {
+        return this.isRTL ? 'pad-Rtl' : 'pad-5';
+    }
     get noStudyOverviewAvailable() {
         return this.alumniParticipant || this.delegateSelfView ? true : false;
     }
@@ -69,7 +72,7 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
     }
 
     connectedCallback() {
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
 
         if (this.clinicalrecord) {
             if (this.clinicalrecord.Brief_Summary__c) {

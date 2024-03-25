@@ -12,10 +12,11 @@
             show-spinner={isSaving}
         ></c-web-spinner>
 
-        <div class="document-boxDesk pir-parent pp-doc">
+        <!-- <div class="document-boxDesk pir-parent pp-doc"> -->
+        <div class={maincssclass}>
             <div class="section-padding all-tabs slds-show_medium">
                 <lightning-tabset active-tab-value="">
-                    <lightning-tab label="Uploaded" onactive={handleFiles}>
+                    <lightning-tab label={label.Uploaded} onactive={handleFiles}>
                         <template if:false={noRecords}>
                             <div
                                 class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small ppfont tablePP"
@@ -45,14 +46,14 @@
                                                         onclick={sortByTitle}
                                                         data-id="title"
                                                     >
-                                                        <span class="boldfont">
+                                                        <span class={isFileNameSorted}>
                                                             {label.Resource_Title}
                                                         </span>
                                                         <template
                                                             if:true={arrowUpTitle}
                                                         >
                                                             <lightning-icon
-                                                                class="iconMargin"
+                                                                class="iconMargin blackArrow"
                                                                 icon-name="utility:arrowup"
                                                                 size="xx-small"
                                                                 title={label.PP_Sort}
@@ -63,7 +64,7 @@
                                                             if:true={arrowDownTitle}
                                                         >
                                                             <lightning-icon
-                                                                class="iconMargin"
+                                                                class="iconMargin blackArrow"
                                                                 icon-name="utility:arrowdown"
                                                                 size="xx-small"
                                                                 title={label.PP_Sort}
@@ -73,7 +74,7 @@
                                                     </div>
                                                 </th>
                                                 <th
-                                                    class="table-header slds-text-align_center slds-medium-size_2-of-12 bgc"
+                                                    class="table-header slds-text-align--left slds-medium-size_2-of-12 bgc"
                                                     scope="col"
                                                 >
                                                     <div
@@ -82,7 +83,7 @@
                                                         onclick={sortByType}
                                                         data-id="fileType"
                                                     >
-                                                        <span class="boldfont">
+                                                        <span class={isTypeSorted}>
                                                             {label.File_Type}
                                                         </span>
                                                        
@@ -91,7 +92,7 @@
                                                         >
                                                             <span>
                                                                 <lightning-icon
-                                                                    class="iconMargin"
+                                                                    class="iconMargin blackArrow"
                                                                     icon-name="utility:arrowup"
                                                                     size="xx-small"
                                                                     title={label.PP_Sort}
@@ -105,7 +106,7 @@
                                                         >
                                                             <span>
                                                                 <lightning-icon
-                                                                    class="iconMargin"
+                                                                    class="iconMargin blackArrow"
                                                                     icon-name="utility:arrowdown"
                                                                     size="xx-small"
                                                                     title={label.PP_Sort}
@@ -116,7 +117,7 @@
                                                     </div>
                                                 </th>
                                                 <th
-                                                    class="table-header slds-text-align_center slds-medium-size_2-of-12 bgc"
+                                                    class="table-header slds-text-align--left slds-medium-size_2-of-12 bgc"
                                                     scope="col"
                                                 >
                                                     <div
@@ -125,15 +126,15 @@
                                                         onclick={sortByDate}
                                                         data-id="createdDate"
                                                     >
-                                                        <span class="boldfont"
-                                                            >{label.PP_UploadDate}
+                                                        <span class={isSortedByDate}>
+                                                            {label.PP_UploadDate}
                                                         </span>
                                                        
                                                         <template
                                                             if:true={arrowUpDate}
                                                         >
                                                             <lightning-icon
-                                                                class="iconMargin C"
+                                                                class="iconMargin C blackArrow"
                                                                 icon-name="utility:arrowup"
                                                                 size="xx-small"
                                                                 title={label.PP_Sort}
@@ -144,7 +145,7 @@
                                                             if:true={arrowDownDate}
                                                         >
                                                             <lightning-icon
-                                                                class="iconMargin C"
+                                                                class="iconMargin C blackArrow"
                                                                 icon-name="utility:arrowdown"
                                                                 size="xx-small"
                                                                 title={label.PP_Sort}
@@ -170,12 +171,12 @@
                                                     ></div>
                                                 </th>
 
-                                                <!---  <th class="table-header slds-text-align_center" scope="col">
-                                                    <div class="table-header-label slds-truncate" title="Status">Status</div>
-                                                </th>-->
+                                                
+
+                                                
                                             </tr>
                                         </thead>
-                                        <!--<template if:true={bulkHistoryDataCompleted}>-->
+
                                         <template if:true={cvList}>
                                             <template
                                                 for:each={cvList}
@@ -205,7 +206,7 @@
                                                         </td>
                                                         <td
                                                             data-label="ffiletype"
-                                                            class="slds-text-align_center"
+                                                            class="slds-text-align--left"
                                                         >
                                                             <div
                                                                 class="slds-truncate"
@@ -216,7 +217,7 @@
                                                         </td>
                                                         <td
                                                             data-label="fuploaddate"
-                                                            class="slds-text-align_center"
+                                                            class="slds-text-align--left"
                                                         >
                                                             <div
                                                                 class="slds-truncate"
@@ -286,9 +287,15 @@
                         </template>
                     </lightning-tab>
                     <lightning-tab
-                        label="Shared with Me"
+                        label={label.Shared_with_Me}
                         onactive={handleMessageFiles}
                     >
+                    <div class="rectangle-box slds-grid slds-p-around--small slds-m-left--small slds-m-right--x-small slds-align--absolute-center" >
+                        <img src={infocheck} class="infocheckcss" />
+                        <span class="slds-p-left_x-small msg-disclaimer-color">{label.PP_SharedwithmeMessage}</span>
+                        
+                     
+                    </div>
                         <template if:false={noMsgRecords}>
                             <div
                                 class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small ppfont tablePP"
@@ -318,7 +325,7 @@
                                                         onclick={sortByMsgTitle}
                                                         data-id="title"
                                                     >
-                                                        <span class="boldfont">
+                                                        <span class={isMessageTitleSorted}>
                                                             {label.Resource_Title}
                                                         </span>
                                                         
@@ -326,7 +333,7 @@
                                                             if:true={arrowUpTitleMsg}
                                                         >
                                                             <lightning-icon
-                                                                class="iconMargin"
+                                                                class="iconMargin blackArrow"
                                                                 icon-name="utility:arrowup"
                                                                 size="xx-small"
                                                                 title={label.PP_Sort}
@@ -337,7 +344,7 @@
                                                             if:true={arrowDownTitleMsg}
                                                         >
                                                             <lightning-icon
-                                                                class="iconMargin"
+                                                                class="iconMargin blackArrow"
                                                                 icon-name="utility:arrowdown"
                                                                 size="xx-small"
                                                                 title={label.PP_Sort}
@@ -347,7 +354,7 @@
                                                     </div>
                                                 </th>
                                                 <th
-                                                    class="table-header slds-text-align_center slds-medium-size_2-of-12"
+                                                    class="table-header slds-text-align--left slds-medium-size_2-of-12"
                                                     scope="col"
                                                 >
                                                     <div
@@ -356,7 +363,7 @@
                                                         onclick={sortByMsgType}
                                                         data-id="fileType"
                                                     >
-                                                        <span class="boldfont">
+                                                        <span class={isMessageTypeSorted}>
                                                             {label.File_Type}
                                                         </span>
                                                        
@@ -365,7 +372,7 @@
                                                         >
                                                             <span>
                                                                 <lightning-icon
-                                                                    class="iconMargin"
+                                                                    class="iconMargin blackArrow"
                                                                     icon-name="utility:arrowup"
                                                                     size="xx-small"
                                                                     title={label.PP_Sort}
@@ -379,7 +386,7 @@
                                                         >
                                                             <span>
                                                                 <lightning-icon
-                                                                    class="iconMargin"
+                                                                    class="iconMargin blackArrow"
                                                                     icon-name="utility:arrowdown"
                                                                     size="xx-small"
                                                                     title={label.PP_Sort}
@@ -390,7 +397,7 @@
                                                     </div>
                                                 </th>
                                                 <th
-                                                    class="table-header slds-text-align_center slds-medium-size_2-of-12"
+                                                    class="table-header slds-text-align--left slds-medium-size_2-of-12"
                                                     scope="col"
                                                 >
                                                     <div
@@ -399,7 +406,7 @@
                                                         onclick={sortByMsgDate}
                                                         data-id="createdDate"
                                                     >
-                                                        <span class="boldfont">
+                                                        <span class={isMsgDateSorted}>
                                                             {label.TV_TH_Date}
                                                         </span>
                                                        
@@ -407,7 +414,7 @@
                                                             if:true={arrowUpDateMsg}
                                                         >
                                                             <lightning-icon
-                                                                class="iconMargin C"
+                                                                class="iconMargin C blackArrow"
                                                                 icon-name="utility:arrowup"
                                                                 size="xx-small"
                                                                 title={label.PP_Sort}
@@ -418,7 +425,7 @@
                                                             if:true={arrowDownDateMsg}
                                                         >
                                                             <lightning-icon
-                                                                class="iconMargin C"
+                                                                class="iconMargin C blackArrow"
                                                                 icon-name="utility:arrowdown"
                                                                 size="xx-small"
                                                                 title={label.PP_Sort}
@@ -428,7 +435,7 @@
                                                     </div>
                                                 </th>
                                                 <th
-                                                    class="table-header slds-text-align_center slds-medium-size_1-of-12"
+                                                    class="table-header slds-text-align--left slds-medium-size_1-of-12"
                                                     scope="col"
                                                 >
                                                     <div
@@ -451,7 +458,7 @@
                                                     >
                                                         <td data-label="ftitle">
                                                             <div
-                                                                class="slds-truncate titleLink"
+                                                                class="slds-truncate titleLink sharetabtitlelink"
                                                                 title={b.ContentDocument.Title}
                                                                 data-id={b.Id}
                                                                 data-title={b.ContentDocument.Title}
@@ -469,7 +476,7 @@
                                                         </td>
                                                         <td
                                                             data-label="ffiletype"
-                                                            class="slds-text-align_center"
+                                                            class="slds-text-align--left"
                                                         >
                                                             <div
                                                                 class="slds-truncate file-uppercase"
@@ -480,7 +487,7 @@
                                                         </td>
                                                         <td
                                                             data-label="fuploaddate"
-                                                            class="slds-text-align_center"
+                                                            class="slds-text-align--left"
                                                         >
                                                             <div
                                                                 class="slds-truncate"
@@ -496,7 +503,7 @@
                                                         </td>
                                                         <td
                                                             data-label="action"
-                                                            class="slds-text-align_center"
+                                                            class="slds-text-align--left"
                                                         >
                                                             <div
                                                                 class="slds-truncate"
@@ -546,7 +553,7 @@
     </template>
     <template if:true={openDeleteModel}>
         <c-pp-modal
-            header-text="Delete File"
+            header-text={label.PP_DeleteFile}
             size="small"
             is-show="true"
             onclose={handleCancelModel}
@@ -619,7 +626,7 @@
             <!-- Uplaoded by picklist -->
             <div
                 class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large D"
-            >
+                onblur={handleonblur} tabindex="0">
                 <button
                     class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small button-content actionsList"
                     aria-haspopup="true"
@@ -627,6 +634,7 @@
                     title="Uploaded"
                     onclick={opendropdown}
                     onblur={handleonblur}
+                    tabindex="0"
                 >
                     <span class="slds-truncate w-100">{selectedmenu}</span>
                     <span>
@@ -680,7 +688,7 @@
                 <template if:false={noRecords}>
                     <div
                         class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large Sort"
-                    >
+                        onblur={handleonblur} tabindex="0">
                         <button
                             class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small sortbutton-content actionsList"
                             aria-haspopup="true"
@@ -688,6 +696,7 @@
                             title="Uploaded"
                             onclick={opendropdownSort}
                             onblur={handleonblur}
+                            tabindex="0"
                         >
                             <span class="slds-truncate w-100 fBold"
                                 >{selectedsortOption}</span
@@ -724,7 +733,7 @@
                                             onmousedown={handlenewOnSelectSort}
                                         >
                                             <span
-                                                class="slds-truncate drag-drop-txt"
+                                                class="slds-truncate"
                                                 title={sortopt.label}
                                                 data-title={sortopt.label}
                                                 data-id={sortopt.value}
@@ -799,6 +808,11 @@
 
                                     <!-- </span> -->
                                 </div>
+                                <div  key={b.Id}
+                                class="slds-p-left--medium slds-p-right--medium slds-m-top--large bordercss"
+                                style="width: 100%; height: 100%;  display: inline-flex">
+                                <span class="borderinnercss" style="width: 100%; height: 1px; background: #F6F7FB"></span>
+                              </div>
                             </template>
                         </template>
                     </div>
@@ -820,10 +834,17 @@
             </template>
 
             <template if:false={isUploadedTab}>
+                 
+                <div class="mob-rectangle-box slds-grid slds-p-around--small slds-m-left--small slds-m-right--small slds-m-top--small " >
+                    <img src={infocheck} class="infocheckcssMbl" />
+                    <span class="slds-p-left_x-small msg-disclaimer-color">{label.PP_SharedwithmeMessage}</span>   
+                     
+                   
+                </div>
                 <template if:false={noMsgRecords}>
                     <div
                         class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large Sort"
-                    >
+                        onblur={handleonblur} tabindex="0">
                         <button
                             class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small sortbutton-content actionsList"
                             aria-haspopup="true"
@@ -831,6 +852,7 @@
                             title="Uploaded"
                             onclick={opendropdownSort}
                             onblur={handleonblur}
+                            tabindex="0"
                         >
                             <span class="slds-truncate w-100 fBold"
                                 >{selectedsortOption}</span
@@ -930,6 +952,11 @@
                                     </div>
                                     <!-- </span> -->
                                 </div>
+                                <div  key={b.Id}
+                                class="slds-p-left--medium slds-p-right--medium slds-p-top--large bordercss"
+                                style="width: 100%; height: 100%;  display: inline-flex">
+                                <span class="borderinnercss" style="width: 100%; height: 1px; background:#F6F7FB"></span>
+                              </div>
                             </template>
                         </template>
                     </div>
