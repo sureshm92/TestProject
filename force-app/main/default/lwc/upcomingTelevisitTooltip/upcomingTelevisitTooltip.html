@@ -4,7 +4,7 @@
             <div class="slds-form-element__icon">
                 <button class="slds-button slds-button_icon" onmouseover={togglePasswordHint}
                     onmouseout={togglePasswordHint}>
-                    <template if:false={ismobile}>
+                    <template if:true={desktop}>
                         <div class={helpTextClass} role="tooltip" id="help" style={toolTipBox}>
                             <div class="slds-popover__body">
                                 <template for:each={relatedAttendees} for:item="record">
@@ -16,7 +16,7 @@
                             </div>
                         </div>
                     </template>
-                    <template if:true={ismobile}>
+                    <template if:false={desktop}>
                         <div class={helpTextClassmobile} role="tooltip"
                             style="width: 200px;position: absolute;left: -212px;text-align:left;">
                             <div class="slds-popover__body">
