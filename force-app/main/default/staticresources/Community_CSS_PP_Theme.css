@@ -1463,6 +1463,12 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     .cPpCustomThemeLayout .curve-input .timc .slds-input {
         width: 450px !important;
     }
+    .pastDocContainer .card-border .thumbnail-outerbox{
+        margin: 0px;
+        padding: 2px 2px 2px 2px;
+        display: grid;
+        align-items: center;
+    }
 }
 @media all and (max-width: 768px) {
     .cPpCustomThemeLayout .apollo-btn,
@@ -2222,7 +2228,7 @@ user agent stylesheet svg:not(:root) {
 
 .support-container button {
     height: 40px;
-    line-height: 40px;
+    line-height: 40px !important;
 }
 
 .support-container lightning-base-combobox-item span.slds-media__body span {
