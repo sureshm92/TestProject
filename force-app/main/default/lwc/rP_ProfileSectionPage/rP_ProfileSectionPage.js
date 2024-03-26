@@ -243,7 +243,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
                                 this.restrictedlst=this.peRecordList[0].restrictedRecrds.Referral_Resource__c.split(';');
                             }
                             if(this.restrictedlst.length !=0 ){
-                                this.referralSource = (this.peRecordList[0].peRecord.Referral_Source__c == 'ePR' || this.peRecordList[0].peRecord.Referral_Source__c == 'ePRCampaign')  ? this.peRecordList[0].peRecord.Referral_Source__c +'-'+this.peRecordList[0].peRecord.DataControllerOrg__c :this.peRecordList[0].peRecord.Referral_Source__c; 
+                                this.referralSource = (this.peRecordList[0].peRecord.Referral_Source__c == 'ePR' || this.peRecordList[0].peRecord.Referral_Source__c == 'ePR_Campaign')  ? this.peRecordList[0].peRecord.Referral_Source__c +'-'+this.peRecordList[0].peRecord.DataControllerOrg__c :this.peRecordList[0].peRecord.Referral_Source__c; 
                                 if(this.restrictedlst.includes(this.referralSource)){
                                     this.consentpref =  true; //restricted 
                                 }
