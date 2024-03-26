@@ -1171,6 +1171,7 @@ export default class Pir_participantDetail extends LightningElement {
         }else{
             this.abortDup = true;
             this.showConsent=true;
+            this.useEnteredEmailDuplicate = true;
             try { 
                 this.newDel = JSON.parse(JSON.stringify(this.newDupDel));
                 this.pd.delegate.Id = '';
