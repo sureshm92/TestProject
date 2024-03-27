@@ -759,15 +759,12 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         String restrictFieldOnCtp = ss.Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c;
         String referralSource = objPE.Referral_Source__c;
         Boolean fieldMatch;
-        if(Batch_UpsertEprParticipantAndPE.eprBatchRunning ){ 
-            if(restrictFieldOnCtp != null){   
+        if(Batch_UpsertEprParticipantAndPE.eprBatchRunning && restrictFieldOnCtp != null){    
          if(restrictFieldOnCtp.contains(referralSource)){
              fieldMatch = false;
          }else{
         fieldMatch = true;
         }
-    }else
-     fieldMatch = true; 
 }else{
     fieldMatch = true; 
 }
