@@ -599,17 +599,69 @@ public without sharing class TaskEditRemote {
                 'smsConsent' => false
             };
             if (isTaskStudyLevel) {
+                String rawInitData = AccountSettingsController.getInitData(
+                    CommunityService.USER_MODE_PARTICIPANT
+                );
+                AccountSettingsController.AccountData initData = (AccountSettingsController.AccountData) JSON.deserialize(
+                    rawInitData,
+                    AccountSettingsController.AccountData.class
+                );
+                Boolean isDelegateSelfView = initData.consentPreferenceData.isDelegateSelfView;
+                Boolean isParticipantLoggedIn = initData.consentPreferenceData.isParticipantLoggedIn;
+                Boolean isDelegateAlsoAParticipant = initData.consentPreferenceData.isDelegateAlsoAParticipant;
+                Contact myContact = AccountSettingsController.getCurrentContact();
+                List<Patient_Delegate_Enrollment__c> pdeList = new List<Patient_Delegate_Enrollment__c>();
+                List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
                 if (taskList[0].WhatId != null) {
                     String objType = String.valueOf(taskList[0].WhatId.getSobjectType());
                     if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
-                        List<Participant_Enrollment__c> peList = [
-                            SELECT
-                                Permit_SMS_Text_for_this_study__c,
-                                Permit_Mail_Email_contact_for_this_study__c
-                            FROM Participant_Enrollment__c
-                            WHERE Id = :taskList[0].WhatId
-                            LIMIT 1
-                        ];
+                        //Delegate Self View
+                        if(isDelegateSelfView){
+                            pdeList =[
+                                SELECT
+                                    Id,
+                                    Study_Email_Consent__c,
+                                    Study_SMS_Consent__c,
+                                    Participant_Enrollment__c
+                                    from Patient_Delegate_Enrollment__c
+                                    WHERE Patient_Delegate__r.Contact__c = :myContact.Id
+                                    AND Status__c = 'Active' AND Participant_Enrollment__c = :taskList[0].WhatId
+                                    LIMIT 1];
+                        }
+                        //Multi-role View
+                        else if(isDelegateAlsoAParticipant){
+                            peList = [
+                                SELECT
+                                    Permit_SMS_Text_for_this_study__c,
+                                    Permit_Mail_Email_contact_for_this_study__c
+                                FROM Participant_Enrollment__c
+                                WHERE Id = :taskList[0].WhatId 
+                                AND Participant_Contact__c = :myContact.Id
+                                LIMIT 1
+                            ];
+                            pdeList =[
+                                SELECT
+                                    Id,
+                                    Study_Email_Consent__c,
+                                    Study_SMS_Consent__c,
+                                    Participant_Enrollment__c
+                                    from Patient_Delegate_Enrollment__c
+                                    WHERE Patient_Delegate__r.Contact__c = :myContact.Id
+                                    AND Status__c = 'Active' AND Participant_Enrollment__c = :taskList[0].WhatId
+                                    LIMIT 1];
+                        }else {
+                            //Participant Self View and Delegate-Participant View
+                            System.debug('Entered into Participant Self View and Delegate-Participant View');
+                            peList = [
+                                SELECT
+                                    Permit_SMS_Text_for_this_study__c,
+                                    Permit_Mail_Email_contact_for_this_study__c
+                                FROM Participant_Enrollment__c
+                                WHERE Id = :taskList[0].WhatId
+                                LIMIT 1
+                            ];
+                            System.debug('The peList is: ' + peList);
+                        }
                         if (peList.size() > 0) {
                             if (peList[0].Permit_Mail_Email_contact_for_this_study__c) {
                                 consentMap.put('emailConsent', true);
@@ -617,24 +669,93 @@ public without sharing class TaskEditRemote {
                             if (peList[0].Permit_SMS_Text_for_this_study__c) {
                                 consentMap.put('smsConsent', true);
                             }
+                        }else if(pdeList.size() > 0){
+                            if (pdeList[0].Study_Email_Consent__c) {
+                                consentMap.put('emailConsent', true);
+                            }
+                            if (pdeList[0].Study_SMS_Consent__c) {
+                                consentMap.put('smsConsent', true);
+                            }
                         }
                     }
                 }
+                //Trail Survey
                 if (
                     taskList[0].Survey_Invitation__c != null &&
                     taskList[0].Survey_Invitation__r.IsTrialSurvey__c
                 ) {
-                    if (
-                        taskList[0]
-                            .Survey_Invitation__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c
-                    ) {
-                        consentMap.put('emailConsent', true);
+                    //Delegate Self View 
+                    if(isDelegateSelfView){
+                        pdeList =[
+                            SELECT
+                                Id,
+                                Study_Email_Consent__c,
+                                Study_SMS_Consent__c,
+                                Participant_Enrollment__c
+                                from Patient_Delegate_Enrollment__c
+                                WHERE Patient_Delegate__r.Contact__c = :myContact.Id
+                                AND Status__c = 'Active' AND Participant_Enrollment__c = :taskList[0].Survey_Invitation__r.Participant_Enrollment__c
+                                LIMIT 1];
+                        if (pdeList.size() > 0) {
+                            if (pdeList[0].Study_Email_Consent__c) {
+                                consentMap.put('emailConsent', true);
+                            }
+                            if (pdeList[0].Study_SMS_Consent__c) {
+                                consentMap.put('smsConsent', true);
+                            }
+                        }
                     }
-                    if (
-                        taskList[0]
-                            .Survey_Invitation__r.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c
-                    ) {
-                        consentMap.put('smsConsent', true);
+                    //Multi-role View
+                    else if(isDelegateAlsoAParticipant){
+                        peList = [
+                            SELECT
+                                Permit_SMS_Text_for_this_study__c,
+                                Permit_Mail_Email_contact_for_this_study__c
+                            FROM Participant_Enrollment__c
+                            WHERE Id = :taskList[0].Survey_Invitation__r.Participant_Enrollment__c
+                            AND Participant_Contact__c = :myContact.Id
+                            LIMIT 1
+                        ];
+                        pdeList =[
+                            SELECT
+                                Id,
+                                Study_Email_Consent__c,
+                                Study_SMS_Consent__c,
+                                Participant_Enrollment__c
+                                from Patient_Delegate_Enrollment__c
+                                WHERE Patient_Delegate__r.Contact__c = :myContact.Id
+                                AND Status__c = 'Active' AND Participant_Enrollment__c = :taskList[0].Survey_Invitation__r.Participant_Enrollment__c
+                                LIMIT 1];
+                        if (peList.size() > 0) {
+                            if (peList[0].Permit_Mail_Email_contact_for_this_study__c) {
+                                consentMap.put('emailConsent', true);
+                            }
+                            if (peList[0].Permit_SMS_Text_for_this_study__c) {
+                                consentMap.put('smsConsent', true);
+                            }
+                        }else if(pdeList.size() > 0){
+                            if (pdeList[0].Study_Email_Consent__c) {
+                                consentMap.put('emailConsent', true);
+                            }
+                            if (pdeList[0].Study_SMS_Consent__c) {
+                                consentMap.put('smsConsent', true);
+                            }
+                        }
+                    }
+                    //Participant Self View and Delegate-Participant View
+                    else{
+                        if (
+                            taskList[0]
+                                .Survey_Invitation__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c
+                        ) {
+                            consentMap.put('emailConsent', true);
+                        }
+                        if (
+                            taskList[0]
+                                .Survey_Invitation__r.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c
+                        ) {
+                            consentMap.put('smsConsent', true);
+                        }
                     }
                 }
                 return consentMap;

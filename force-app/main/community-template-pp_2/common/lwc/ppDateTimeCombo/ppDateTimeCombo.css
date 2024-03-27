@@ -137,3 +137,7 @@ input[type='date']::-webkit-calendar-picker-indicator,
         padding-left: 0px;
     }
 }
+
+.time-curve-input {
+    height: 2.1rem !important;
+}

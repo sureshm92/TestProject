@@ -115,6 +115,7 @@
     color: #444444;
     border-radius: 12px;
     margin-top: -14px;
+    word-break: break-all;
 }
 .lt-initial-pos {
     position: relative;
