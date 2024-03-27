@@ -378,7 +378,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     String restrictFieldOnCtp = newPE.Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c;
                     String referralSource = newPE.Referral_Source__c;
                     if(Batch_UpsertEprParticipantAndPE.eprBatchRunning && restrictFieldOnCtp != null){
-                        if(restrictFieldOnCtp.equals(referralSource)){
+                        if(restrictFieldOnCtp.contains(referralSource)){
                             fieldMatch = false;
                         }else{
                             fieldMatch = true;
