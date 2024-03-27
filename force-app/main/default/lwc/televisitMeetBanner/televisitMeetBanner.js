@@ -231,13 +231,15 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     }
 
     handleJoinClick(event) {
+        var mobileApp = communityService.isMobileSDK();
         this.handleOpenCloseVisits();
-        let url = this.urlPathPrefix.replace('/s', '') + event.target.dataset.name;
+        let url = this.urlPathPrefix.replace('/s', '') + event.target.dataset.name + '&mobileApp=' + mobileApp ;
         window.open(url, '_blank');
     }
     handleSingleMeetJoin(event) {
+        var mobileApp = communityService.isMobileSDK();
         event.target.style.color = 'white';
-        let url = this.urlPathPrefix.replace('/s', '') + this.meetLinkUrl;
+        let url = this.urlPathPrefix.replace('/s', '') + this.meetLinkUrl + '&mobileApp=' + mobileApp;
         window.open(url, '_blank');
         
     }
