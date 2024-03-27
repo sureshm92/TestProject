@@ -16,6 +16,17 @@
                     }
                 }
                 component.set('v.siteRankWrapper', piStudySites);
+                component.set('v.totalcountpisites',piStudySites.length);
+                if(piStudySites.length===0){
+                    var dummyValue = [{
+                        "contacted":0,
+                        "enrolled_randomized":0,
+                        "initial_Visits_Completed":0,
+                        "rank":0,"scheduled":0,
+                        "screened":0,
+                        "site_Name":'N/A'}];
+                        component.set('v.siteRankWrapper',dummyValue);
+                }
                 component.set('v.loaded', false);
             } else {
                 helper.showError(component, event, helper, action.getError()[0].message);

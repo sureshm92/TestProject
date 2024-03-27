@@ -212,7 +212,7 @@ public class StudyActionsPI extends StudyActions {
                 null,
                 new List<DisableReason>{
                     supportLevelReason,
-                    hcpLockedByAdmin,
+                    hcpLockedByAdmin, 
                     //studySiteOnHoldReason,
                     studySiteNotAcceptedReasonrp,
                     bulkimporthistory,

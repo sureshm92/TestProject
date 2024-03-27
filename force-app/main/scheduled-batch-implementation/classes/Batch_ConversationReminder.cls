@@ -6,15 +6,23 @@ public with sharing class Batch_ConversationReminder extends Batch_ScheduledAbst
     Map<Id, Integer> contactsAndTheirThreads = new Map<Id, Integer>();
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
+        List<String> siteActivationStatus = new List<String>();
+        siteActivationStatus.add('Activated');
+        siteActivationStatus.add('Activated (Admin)');
+        siteActivationStatus.add('On Hold');
+        
         Datetime fiveDaysAgo = Datetime.now().addDays(-5);
         return Database.getQueryLocator(
             [
                 SELECT
                     Id,
                     Participant_Enrollment__r.PI_Contact__c,
-                    Participant_Enrollment__r.Study_Site__c
+                    Participant_Enrollment__r.Study_Site__c,
+                    Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c,
+                    Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c,
+                    Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c
                 FROM Conversation__c
-                WHERE haveUnreadForPI__c = TRUE AND FirstUnreadDate__c <= :fiveDaysAgo
+                WHERE haveUnreadForPI__c = TRUE AND Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c = TRUE AND Participant_Enrollment__r.Study_Site__r.Site_Activation_Status__c IN:siteActivationStatus AND Participant_Enrollment__r.Study_Site__r.Override_PI_Referral_Status__c =:'Accepted' AND FirstUnreadDate__c <= :fiveDaysAgo
             ]
         );
     }

@@ -12,6 +12,7 @@
             var state = response.getState();
             if (state === 'SUCCESS') {
                 var returnValue = response.getReturnValue();
+
                 component.set('v.peList', returnValue);
                 var count =
                     parseInt(returnValue[0].count) +
@@ -19,6 +20,9 @@
                     parseInt(returnValue[2].count) +
                     parseInt(returnValue[3].count) +
                     parseInt(returnValue[4].count);
+                    component.set('v.totalcount', count);
+
+
                 component.set('v.loaded', false);
             } else {
                 helper.showError(component, event, helper, action.getError()[0].message);

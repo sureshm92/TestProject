@@ -276,6 +276,9 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
                     this.showInclude = false;
                     this.referbuttonDisable = true;
                     this.disabledOutreachButton = true;
+                    if(this.peRecordList[0].accessLevel == "Level 3"){
+                        this.isaccessLevelthree = true;
+                      }
                 }else{
                    if (this.peRecordList[0].peRecord.Participant_Status__c == 'Excluded from Referring') {
                         this.showInclude = true;
