@@ -357,6 +357,7 @@
             var isExternalUser;
             var isMobileApp;
 
+
             var previewPublisher;
 
             var streamMap = new Map();
@@ -1366,7 +1367,7 @@
                 isSubscribedScreenShare = false;
                 isScreenShareLocked = false;
 
-            if('{!$CurrentPage.parameters.mobileApp}' == 'true'){
+                if('{!$CurrentPage.parameters.mobileApp}' == 'true'){
                     isMobileApp = true;
                     for (var i = 0; i < document.getElementsByClassName("hideCloseButton").length; i++) {
                           document.getElementsByClassName("hideCloseButton")[i].style.display = 'none'; 
@@ -2877,9 +2878,21 @@
                                                             ></div>
                                                         </div>
                                                         -->
-                                                            <div class="slds-col slds-size_3-of-8"></div>
-                                                            <div class="slds-col slds-size_2-of-8 slds-align_absolute-center slds-text-align_center hideCloseButton">
-                                                                <button id="tv-back-button" class="slds-button slds-col slds-align_absolute-center back-button " onclick="confirmCancel();">
+                                                        <div
+                                                            id="back-button"
+                                                            class="slds-p-top_small slds-p-bottom_small"
+                                                        >
+                                                            <div
+                                                                class="slds-col slds-size_3-of-8"
+                                                            ></div>
+                                                            <div
+                                                                class="slds-col slds-size_2-of-8 slds-align_absolute-center slds-text-align_center hideCloseButton"
+                                                            >
+                                                                <button
+                                                                    id="tv-back-button"
+                                                                    class="slds-button slds-col slds-align_absolute-center back-button"
+                                                                    onclick="confirmCancel();"
+                                                                >
                                                                     {!$Label.BTN_Close}
                                                                 </button>
                                                             </div>
@@ -3410,7 +3423,10 @@
                                                     {!$Label.PT_Televisit_Left}
                                                 </div>
                                                 <div class="rejoin-buttons televisitleftcss hideCloseButton">
-                                                    <button class="close-tv-button" onclick="confirmCancelRejoin();">
+                                                    <button
+                                                        class="close-tv-button"
+                                                        onclick="confirmCancelRejoin();"
+                                                    >
                                                         {!$Label.PT_Televisit_Close}
                                                     </button>
                                                     <button
@@ -3454,8 +3470,11 @@
                                                     
                                                 </div>
                                                 <br/>
-                                                <button id="tv-back-button" class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button hideCloseButton"
-                                                    onclick="confirmCancel();">
+                                                <button
+                                                        id="tv-back-button"
+                                                        class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button hideCloseButton"
+                                                        onclick="confirmCancel();"
+                                                    >
                                                         {!$Label.PP_Opt_Out_Close_window}
                                                     </button>
                                             </div>
