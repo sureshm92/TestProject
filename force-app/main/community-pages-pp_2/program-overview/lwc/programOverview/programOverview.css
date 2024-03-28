@@ -123,7 +123,11 @@
     width: 12px;
     /* margin-right: 12px; */
 }
-
+.piPhoneNumber{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
 .piNameText {
     width: 100%;
     /* padding-right: 16px; */
@@ -156,8 +160,8 @@
     .po-more{
         padding-left:.8rem;
     }
-    .phoneIcon,.piIcon {
-        margin-left: 13px
+    .phoneIconTab,.piIconTab {
+        margin-left: 15px;
     }
 }
 .marginClass{
