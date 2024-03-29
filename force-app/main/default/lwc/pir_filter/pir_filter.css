@@ -68,6 +68,9 @@
 .active-p-top{
     padding-top: 4px;
 }
+.margin-filter-top{
+    margin-bottom: .8px;
+}
 .edit .close-icon-pop{
     display: none;
 }
