@@ -34,7 +34,7 @@
               p-left-none
               p-right-rtl
             ">
-              <div class="text-overflow active-p-top margin-top" title={label.Active_InActive}>{label.Active_InActive}
+              <div class="text-overflow margin-filter-top" title={label.Active_InActive}>{label.Active_InActive}
               </div>
               <lightning-combobox name="Active/Inactive" variant="label-hidden" value={selectedActiveInactive}
                 placeholder="" options={activeoptions} onchange={activehandleChange}></lightning-combobox>
@@ -58,7 +58,7 @@
               m-bottom-small
               p-left-none
             ">
-              <div title={label.Study_Sites} class="text-overflow margin-top">{label.Study_Sites}</div>
+              <div title={label.Study_Sites} class="text-overflow margin-filter-top">{label.Study_Sites}</div>
               <lightning-combobox name="StudySites" variant="label-hidden" value={defaultSite} placeholder=""
                 options={studySiteList} onchange={studysiteshandleChange}></lightning-combobox>
             </div>
