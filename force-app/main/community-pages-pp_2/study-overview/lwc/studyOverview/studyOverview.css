@@ -192,12 +192,17 @@
     .study-logo{
         max-height:102px;
     }
-    .po-more{
+    .po-more-tab{
         margin-left:.7rem;
     }
 }
 @media (min-width:768px) and (max-width:1280px) and (orientation: portrait){
-    .po-more{
+    .po-more-tab{
         margin-left:.4rem;
     }
+}
+.piPhoneNumber{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
