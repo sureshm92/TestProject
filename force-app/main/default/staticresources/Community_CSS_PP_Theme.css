@@ -1702,7 +1702,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     border-radius: 21px !important;
 }
 .manage-del .box-add-assignment-btn-former {
-    width: 200px !important;
+    min-width: 200px !important;
 }
 .manage-del .box-add-assignment-btn-former-mob {
     width: 100% !important;
@@ -2228,7 +2228,7 @@ user agent stylesheet svg:not(:root) {
 
 .support-container button {
     height: 40px;
-    line-height: 40px;
+    line-height: 40px !important;
 }
 
 .support-container lightning-base-combobox-item span.slds-media__body span {
@@ -2294,4 +2294,8 @@ user agent stylesheet svg:not(:root) {
 .past-results .custom-notify-container-mobile{
     left: 0;
     top: 33px !important;
+}
+/* icon Overlapping issue on Questionnaire Dropdown*/
+.help-support lightning-icon{  
+    z-index: 1 !important;
 }

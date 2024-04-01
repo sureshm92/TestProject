@@ -121,7 +121,7 @@ public with sharing class ManualTaskLookupRemote {
                         Id,
                         Name,
                         Study_Code_Name__c
-                        WHERE id NOT IN :selectedIds AND Tasks_Are_Available__c = TRUE)
+                        WHERE id NOT IN :selectedIds)
                 LIMIT :MAX_RESULTS
             ];
 
@@ -162,8 +162,7 @@ public with sharing class ManualTaskLookupRemote {
                         Id,
                         Name
                         WHERE
-                            id NOT IN :selectedIds
-                            AND Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE)
+                            id NOT IN :selectedIds)
                 LIMIT :MAX_RESULTS
             ];
 
