@@ -769,6 +769,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         let template = this.template;
 
         let checkOtherSMSOptInsAvailable = false;
+        let isEmailSMSConsentChecked = false;
 
         if (label == 'All') {
             this.consentPreferenceDataLocal.pdeList.forEach(function (pde) {
@@ -799,6 +800,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                     if (processSave) {
                         pde.Study_Phone_Consent__c = pde.Study_Email_Consent__c = pde.Study_SMS_Consent__c = pde.Study_Direct_Mail_Consent__c = value;
                         processConsentSave = true;
+                        isEmailSMSConsentChecked = true;
                         //studyError = false;
                         // Update checkOtherSMSOptInsAvailable flag to check if SMS channel is checked for other studies/IQVIA outreach
                         pde.Study_SMS_Consent__c == false
@@ -836,6 +838,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                     case 'Email':
                         pde.Id == pdeId ? (pde.Study_Email_Consent__c = value) : '';
                         processConsentSave = true;
+                        isEmailSMSConsentChecked = true;
                         break;
                     case 'SMS':
                         if (pde.Id == pdeId) {
@@ -865,6 +868,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                             if (processSave) {
                                 pde.Study_SMS_Consent__c = value;
                                 processConsentSave = true;
+                                isEmailSMSConsentChecked = true;
                                 //studyError = false;
                                 // Update checkOtherSMSOptInsAvailable flag to check if SMS channel is checked for other studies/IQVIA outreach
                                 pde.Study_SMS_Consent__c == false
@@ -895,6 +899,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             this.studyError = this.checkSMSCheckedOrNot();
         }
         if (processConsentSave) {
+            this.emailSMSConsent = isEmailSMSConsentChecked;
             this.updateAllPDEFlag();
             this.doSaveCommunicationPref('PDE');
         }

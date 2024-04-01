@@ -68,6 +68,9 @@
 .active-p-top{
     padding-top: 4px;
 }
+.margin-filter-top{
+    margin-bottom: .8px;
+}
 .edit .close-icon-pop{
     display: none;
 }
@@ -190,7 +193,7 @@
     padding-left: 0;
 }
 .and{
-    padding-left: 5px;
+    text-align: center;
     width:47px;
 }
 @media (max-device-width: 767px) {
@@ -466,6 +469,13 @@ and (max-device-width: 898px)
     .rtl .btn-p-left{
         padding-left:0;
     }  
+    .rtl .eth .close-icon{
+        cursor: pointer;
+        padding-left: 0px;
+        opacity: 0.75;
+        width: 100%;
+        text-align: left;
+    }
  .rtl .filter-age{
      text-align:right;
  } 
