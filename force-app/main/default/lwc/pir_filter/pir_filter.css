@@ -193,7 +193,7 @@
     padding-left: 0;
 }
 .and{
-    padding-left: 10px;
+    text-align: center;
     width:47px;
 }
 @media (max-device-width: 767px) {
@@ -469,6 +469,13 @@ and (max-device-width: 898px)
     .rtl .btn-p-left{
         padding-left:0;
     }  
+    .rtl .eth .close-icon{
+        cursor: pointer;
+        padding-left: 0px;
+        opacity: 0.75;
+        width: 100%;
+        text-align: left;
+    }
  .rtl .filter-age{
      text-align:right;
  } 
