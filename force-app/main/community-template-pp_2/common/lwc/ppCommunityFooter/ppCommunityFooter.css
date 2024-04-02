@@ -67,7 +67,7 @@
     }
 }
 
-@media all and (min-width: 500px) and (max-width: 768px) {
+@media all and (min-width: 500px) and (max-width: 767px) {
     .cf-margin-cutter {
         justify-content: space-between;
         flex-wrap: wrap;
@@ -87,7 +87,7 @@
     .cf-margin-cutter {
         justify-content: space-between;
         flex-wrap: wrap;
-        margin: -10px;
+        /* margin: -10px; */
     }
 
     .cf-copyright,
