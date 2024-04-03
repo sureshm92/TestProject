@@ -1339,10 +1339,10 @@ public without sharing class NotificationAvailabilityService {
             String triggerDate;
             Datetime notificationstartDateTime = n.StartDate__c;
             datetime gmtDateTime = datetime.now();
-            String userTimeZone = contact.Users[0].TimeZoneSidKey;
+           // String userTimeZone = contact.Users[0].TimeZoneSidKey;
          
             if (contact.Users.size() > 0) {
-                //String userTimeZone = contact.Users[0].TimeZoneSidKey;
+                String userTimeZone = contact.Users[0].TimeZoneSidKey;
                 if (userTimeZone != null) {
                     triggerDate = notificationstartDateTime.format('yyyy-MM-dd',userTimeZone);
                     string participantDate = gmtDateTime.format('yyyy-MM-dd', userTimeZone);
