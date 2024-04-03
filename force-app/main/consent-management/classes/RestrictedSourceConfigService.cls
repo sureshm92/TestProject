@@ -370,7 +370,7 @@ public without sharing class RestrictedSourceConfigService {
                     }
                     String[] restrictedlst = ctpRestrictedSources.get(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c) != null ? ctpRestrictedSources.get(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c).toUppercase().split(';') :  null;
                     system.debug('if restrictedlst::'+restrictedlst);
-                    String referralSource = (pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR  || pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR_Campaign )?pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() +'-'+pde.Participant_Enrollment__r.DataControllerOrg__c.toUppercase() :pde.Participant_Enrollment__r.Referral_Source__c.toUppercase(); 
+                    String referralSource = (pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR  || pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR_Campaign && pde.Participant_Enrollment__r.DataControllerOrg__c != null)?pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() +'-'+pde.Participant_Enrollment__r.DataControllerOrg__c.toUppercase() :pde.Participant_Enrollment__r.Referral_Source__c.toUppercase(); 
                     system.debug('referralSource::'+referralSource);
                     if(restrictedlst != null && !restrictedlst.isEmpty() && !restrictedlst.contains(referralSource)){
                         system.debug('if block::');
