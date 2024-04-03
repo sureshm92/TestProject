@@ -344,7 +344,7 @@ public without sharing class RestrictedSourceConfigService {
                     system.debug('displayConsentPref::'+displayConsentPref);
                     String[] restrictedlst = ctpRestrictedSources.get(per.Clinical_Trial_Profile__c) != null ? ctpRestrictedSources.get(per.Clinical_Trial_Profile__c).toUppercase().split(';') :  null;
                     system.debug('restrictedlst::'+restrictedlst);
-                    String referralSource = (per.Referral_Source__c.toUppercase() == EPR || per.Referral_Source__c.toUppercase() == EPR_Campaign)  ? per.Referral_Source__c.toUppercase() +'-'+per.DataControllerOrg__c.toUppercase() : per.Referral_Source__c.toUppercase(); 
+                    String referralSource = ((per.Referral_Source__c.toUppercase() == EPR || per.Referral_Source__c.toUppercase() == EPR_Campaign) && per.DataControllerOrg__c != null)  ? per.Referral_Source__c.toUppercase() +'-'+per.DataControllerOrg__c.toUppercase() : per.Referral_Source__c.toUppercase(); 
                     system.debug('referralSource::'+referralSource);
                     if(restrictedlst != null && !restrictedlst.isEmpty() && !restrictedlst.contains(referralSource)){
                         system.debug('if block::');
