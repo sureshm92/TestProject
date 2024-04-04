@@ -86,7 +86,7 @@ export default class Pir_participantHeader extends LightningElement {
     @api btnToolTip = '';
     @api showPrinticon = false;
     @api isrtl = false;
-    isShowPatientPotalDisable = false;
+    isShowPatientPotalDisable = true;
     maindivcls;
     initialsName;
 
@@ -138,7 +138,7 @@ export default class Pir_participantHeader extends LightningElement {
         this.surveyInProgress = [];
         this.surveyCompleted = [];
         this.showPreScreen = false;
-        this.isShowPatientPotalDisable = false;
+        this.isShowPatientPotalDisable = true;
         if(this.peId)
         {
              this.showPrinticon = true;
