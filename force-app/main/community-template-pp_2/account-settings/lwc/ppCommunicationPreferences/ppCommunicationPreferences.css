@@ -461,15 +461,15 @@
         align-items: center;
     }
     .study-paramters {
-        padding: 0px 2px 0px 0px;
+        padding: 8px 2px 0px 0px;
     }
     .border-left {
         display: grid;
         align-self: center;
         padding-top: 8px !important;
     }
+    
 }
-
 .custom-pad{
     padding-left: 0;
 }
