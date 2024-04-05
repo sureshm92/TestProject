@@ -231,9 +231,16 @@ and (orientation: portrait)
     border: none;
     padding: 0px;
 }
+.blockEle{
+    display: inline-block;
+    width: auto;
+    height: auto;
+}
 .delete-icon {
     height: 20px;
     width: 18px;
+    min-height: 20px;
+    min-width: 18px;
 }
 .delete-btn {
     background: none;
