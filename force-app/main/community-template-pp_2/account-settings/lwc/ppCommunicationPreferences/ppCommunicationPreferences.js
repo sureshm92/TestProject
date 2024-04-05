@@ -545,9 +545,10 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             : 'study-content study-content-mobile';
     }
     get ECOAPad11() {
-        return !this.isDesktop && this.showBackButton
-            ? 'communication-pref-no-margin'
-            : 'communication-pref';
+        return 'communication-pref';
+        // return !this.isDesktop && this.showBackButton
+        //     ? 'communication-pref-no-margin'
+        //     : 'communication-pref';
     }
     get TermUseStudyConsentClass() {
         return this.isRTL ? 'study-content study-content-mobile-rtl' : 'study-content';
