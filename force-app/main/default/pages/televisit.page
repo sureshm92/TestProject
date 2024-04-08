@@ -358,7 +358,6 @@
             var isSubscribedScreenShare;
             var isScreenShareLocked;
             var isExternalUser;
-            var isMobileApp;
 
             var previewPublisher;
 
@@ -1369,19 +1368,6 @@
             isPublishingScreenShare = false;
             isSubscribedScreenShare = false;
             isScreenShareLocked = false;
-
-            if('{!$CurrentPage.parameters.mobileApp}' == 'true'){
-                    isMobileApp = true;
-                    for (var i = 0; i < document.getElementsByClassName("hideCloseButton").length; i++) {
-                          document.getElementsByClassName("hideCloseButton")[i].style.display = 'none'; 
-                    }
-                    
-            }else if('{!$CurrentPage.parameters.mobileApp}' == 'false'){
-                    isMobileApp = false; 
-                    for (var i = 0; i < document.getElementsByClassName("hideCloseButton").length; i++) {
-                          document.getElementsByClassName("hideCloseButton")[i].style.display = 'block'; 
-                    }
-            }
 
             timer.init();
 
@@ -2772,7 +2758,7 @@
                                                         <div id="back-button" class="slds-p-top_small slds-p-bottom_small">
                                                             <div class="slds-col slds-size_3-of-8"></div>
                                                             <div class="slds-col slds-size_2-of-8 slds-align_absolute-center slds-text-align_center">
-                                                                <button id="tv-back-button" class="slds-button slds-col slds-align_absolute-center back-button hideCloseButton" onclick="confirmCancel();">
+                                                                <button id="tv-back-button" class="slds-button slds-col slds-align_absolute-center back-button" onclick="confirmCancel();">
                                                                     {!$Label.BTN_Close}
                                                                 </button>
                                                             </div>
@@ -3068,32 +3054,14 @@
                                                 <div class="televisit-end" style="inline-size: 284px;margin-left: 50px;">
                                                     {!$Label.PT_Televisit_Left}
                                                 </div>
-                                                <apex:outputPanel rendered="{!$CurrentPage.parameters.mobileApp == 'true'}">
-                                                    <div class="rejoin-buttons televisitleftcss">
-                                                        <button
-                                                            class="rejoin-button"
-                                                            onclick="confirmReJoin();"
-                                                        >
-                                                            {!$Label.PT_Televisit_Rejoin}
-                                                        </button>
-                                                    </div>
-                                                </apex:outputPanel>
-                                                <apex:outputPanel rendered="{!$CurrentPage.parameters.mobileApp == 'false'}">
-                                                    <div class="rejoin-buttons televisitleftcss">
-                                                        <button
-                                                            class="close-tv-button"
-                                                            onclick="confirmCancelRejoin();"
-                                                        >
-                                                            {!$Label.PT_Televisit_Close}
-                                                        </button>
-                                                        <button
-                                                            class="rejoin-button"
-                                                            onclick="confirmReJoin();"
-                                                        >
-                                                            {!$Label.PT_Televisit_Rejoin}
-                                                        </button>
-                                                    </div>
-                                                </apex:outputPanel>
+                                                <div class="rejoin-buttons televisitleftcss">
+                                                    <button class="close-tv-button" onclick="confirmCancelRejoin();">
+                                                        {!$Label.PT_Televisit_Close}
+                                                    </button>
+                                                    <button class="rejoin-button" onclick="confirmReJoin();">
+                                                        {!$Label.PT_Televisit_Rejoin}
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -3121,7 +3089,7 @@
 
                                                 </div>
                                                 <br/>
-                                                <button id="tv-back-button" class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button hideCloseButton"
+                                                <button id="tv-back-button" class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button"
                                                     onclick="confirmCancel();">
                                                     {!$Label.PP_Opt_Out_Close_window}
                                                 </button>
