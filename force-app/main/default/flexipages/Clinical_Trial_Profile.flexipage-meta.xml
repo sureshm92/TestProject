@@ -613,8 +613,6 @@
             </fieldInstance>
         </itemInstances>
         <itemInstances>
-        </itemInstances>
-        <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
