@@ -116,3 +116,14 @@ img,
 .icon-center-mobile {
     margin: 5% 25%;
 }
+@media all and (min-width: 768px) and (max-width: 1280px) and (orientation: portrait) {
+    .resource-pointer-mobile {
+        height: 125px;
+    } 
+    .summary-mobile {
+        height: 125px;
+    }
+    .empty-icon-mobile {
+        height: 125px;
+    }
+}
