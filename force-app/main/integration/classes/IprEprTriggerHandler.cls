@@ -69,7 +69,7 @@ public without sharing class IprEprTriggerHandler {
             
             //SS Map
             for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c,Participant_DOB_format__c, 
-                                     Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c
+                                     Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c
                                      FROM Study_Site__c WHERE Primary_Key_ePR__c IN :ssNumbersList ])
             {ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);}      
             
@@ -261,7 +261,7 @@ public without sharing class IprEprTriggerHandler {
                 protocolIds.add(objIPR.protocolId__c);
             }
             for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c, 
-                                     Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c
+                                     Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c
                                      FROM Study_Site__c WHERE Primary_Key_ePR__c IN :ssNumbersList ])
             {	
                 ssByPrimaryKeyEPRMap_batch.put(ss.Primary_Key_ePR__c, ss);
@@ -353,7 +353,7 @@ public without sharing class IprEprTriggerHandler {
 				ssNumbersList.add(ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c);
 			}
 			for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c,Participant_DOB_format__c, 
-                                     Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c
+                                     Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c
                                      FROM Study_Site__c WHERE Primary_Key_ePR__c IN :ssNumbersList ])
             {ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);}
 			
@@ -756,20 +756,6 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             Human_Id__c = ipr.Human_Id__c,
             Additional_Information__c = ipr.Additional_Information__c
         );
-        String restrictFieldOnCtp = ss.Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c;
-        String referralSource = objPE.Referral_Source__c;
-        Boolean fieldMatch;
-        if(Batch_UpsertEprParticipantAndPE.eprBatchRunning && restrictFieldOnCtp != null){    
-            List<String> RestrictedreferralSources = new List<String>();
-            RestrictedreferralSources = restrictFieldOnCtp.split(',');
-         if(RestrictedreferralSources.contains(referralSource)){
-             fieldMatch = false;
-         }else{
-        fieldMatch = true;
-        }
-}else{
-    fieldMatch = true; 
-}
 
     Boolean filterCriteria =
             ss.Study_Site_Type__c!='Virtual'&& ss.Study_Site_Type__c!='Hybrid' &&
@@ -778,7 +764,7 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             !ss.Suppress_Participant_Emails__c &&
             !ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
             ss.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
-            participantId != null && fieldMatch ;
+            participantId != null ;
         if(fieldNotVisible!=true){
             objPE.Study_PI_Storage_Consent_Time__c = Datetime.now();
         }
