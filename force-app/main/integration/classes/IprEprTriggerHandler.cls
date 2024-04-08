@@ -697,7 +697,6 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
         newContact.UserCommunityIsDelegate__c = true;
         ContactAndSiteType conAndSt = new ContactAndSiteType(newContact, studySiteType);
-        System.debug('>>test16<<'+conAndSt); 
         return conAndSt;
     }
     
