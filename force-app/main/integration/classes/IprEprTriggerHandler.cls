@@ -760,7 +760,9 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         String referralSource = objPE.Referral_Source__c;
         Boolean fieldMatch;
         if(Batch_UpsertEprParticipantAndPE.eprBatchRunning && restrictFieldOnCtp != null){    
-         if(restrictFieldOnCtp.contains(referralSource)){
+            List<String> RestrictedreferralSources = new List<String>();
+            RestrictedreferralSources = restrictFieldOnCtp.split(',');
+         if(RestrictedreferralSources.contains(referralSource)){
              fieldMatch = false;
          }else{
         fieldMatch = true;
