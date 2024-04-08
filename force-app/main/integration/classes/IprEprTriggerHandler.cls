@@ -697,6 +697,7 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
         newContact.UserCommunityIsDelegate__c = true;
         ContactAndSiteType conAndSt = new ContactAndSiteType(newContact, studySiteType);
+        System.debug('>>test16<<'+conAndSt); 
         return conAndSt;
     }
     
@@ -760,7 +761,9 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         String referralSource = objPE.Referral_Source__c;
         Boolean fieldMatch;
         if(Batch_UpsertEprParticipantAndPE.eprBatchRunning && restrictFieldOnCtp != null){    
-         if(restrictFieldOnCtp.contains(referralSource)){
+            List<String> RestrictedreferralSources = new List<String>();
+            RestrictedreferralSources = restrictFieldOnCtp.split(',');
+         if(RestrictedreferralSources.contains(referralSource)){
              fieldMatch = false;
          }else{
         fieldMatch = true;
