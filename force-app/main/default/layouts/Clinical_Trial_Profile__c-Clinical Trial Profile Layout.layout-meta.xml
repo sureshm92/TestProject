@@ -257,10 +257,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Restrict_automatic_PP_invitation_email__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Patient_study_search__c</field>
             </layoutItems>
         </layoutColumns>
