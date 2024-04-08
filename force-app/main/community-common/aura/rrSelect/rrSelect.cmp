@@ -41,7 +41,7 @@
     <div
         id="{!v.id}"
         class="{!'rrs-container ' + v.class}"
-        style="{!if(v.isRTL, 'margin-right: 0%;','')}"
+        style="{!if(v.isRTL, 'margin-right: 1%;','')}"
         title="{!v.title}"
     >
         <aura:if isTrue="{!!empty(v.label)}">

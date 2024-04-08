@@ -1702,7 +1702,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     border-radius: 21px !important;
 }
 .manage-del .box-add-assignment-btn-former {
-    min-width: 200px !important;
+    width: 200px !important;
 }
 .manage-del .box-add-assignment-btn-former-mob {
     width: 100% !important;

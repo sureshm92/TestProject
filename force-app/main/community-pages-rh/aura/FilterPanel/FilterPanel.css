@@ -97,7 +97,6 @@
 .THIS .fp-form-elementRTL + .fp-form-elementRTL {
     /* @noflip */  margin-right: 15px;
     /* @noflip */   margin-bottom: 15px;
-    margin-left: 4px;
 }
 
 .THIS .fp-form-element > label {
