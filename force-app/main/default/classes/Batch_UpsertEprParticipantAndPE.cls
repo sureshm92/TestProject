@@ -103,7 +103,6 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             Site__c,
             Override_PI_Referral_Status__c,
             Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-            Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c,
             Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
             Suppress_Participant_Emails__c,
             Participant_DOB_format__c 
@@ -697,7 +696,6 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                                                                   Study_Site__r.Study_Site_Type__c,
                                                                   Study_Site__r.Suppress_Participant_Emails__c,
                                                                   Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                                                                  Study_Site__r.Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c,
                                                                   Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c
                                                                   FROM Participant_Enrollment__c
                                                                   WHERE Participant__c IN :participantSet
