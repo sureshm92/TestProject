@@ -131,6 +131,8 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
     cancelmodalisOpen = false;
     displaytooltiptitle = 'browse files';
+    isIpadPortrait=false;
+    isIpadLand=false;
 
     progresBarClass = ' progressBar slds-col slds-size_5-of-12 ';
     // progresBarClass =' progressBarError slds-col slds-size_5-of-12 ';
@@ -169,6 +171,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     getRseult;
     connectedCallback() {
         this.isAndroid=this.isAndroidApp();
+        this.isIpadPortrait=communityService.isIpadPortrait();
         if (formFactor === 'Small' || formFactor === 'Medium') {
             this.isMobile = true;
             this.isDesktop=false;
@@ -205,7 +208,11 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
             .catch(function (error) {
                 console.error('Error RTL: ' + JSON.stringify(error));
             });
+        window.addEventListener('orientationchange', this.onOrientationChange);
     }
+    onOrientationChange = () => {
+        this.isIpadPortrait=communityService.isIpadPortrait();
+    };
     isAndroidApp(){
         if ( (navigator.userAgent.match(/Android/i)) && communityService.isMobileSDK()) {
             return true;
@@ -443,7 +450,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 extension.toLowerCase() != 'png'
             ) {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar  slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -472,7 +479,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 continue;
             } else if (fileCon.size > MAX_FILE_SIZE) {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -501,7 +508,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 continue;
             } else {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar  slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -858,7 +865,22 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         }
        
     }
-
+    get uploadButtonDis(){
+        if(this.isIpadPortrait){
+            return 'std-upload-btndisable';
+        }
+        else{
+            return 'std-upload-btndisable slds-m-horizontal_small';
+        }
+    }
+    get uploadButton(){
+        if(this.isIpadPortrait){
+            return 'std-upload-btn';
+        }
+        else{
+            return 'std-upload-btn slds-m-horizontal_small';
+        }
+    }
 
     handleCancelModelRemove(){
         this.removefilefromDraftmodel = false;

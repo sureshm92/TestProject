@@ -65,6 +65,10 @@
     line-height: 16px;
     margin-bottom: 4px;
 }
+.marbottom{
+    line-height: 13px !important;
+    margin-bottom: 10px !important;
+}
 
 .separator {
     box-sizing: border-box;
