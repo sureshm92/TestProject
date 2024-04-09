@@ -190,9 +190,21 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
             ? 'slds-p-right_medium slds-size_2-of-12'
             : 'slds-p-right_large slds-size_1-of-12';
     }
-
+    get sizeC(){
+        return this.isIpadPortrait ? 7 : this.isIpadLand ? 11 : 12;
+    }
+    get sizeCri(){
+        return this.isIpadPortrait ? 3 : this.isIpadLand ? 3 : 2;
+    }
+    get sizeIcon(){
+        return this.isIpadLand ? 7 : 8;
+    }
+    isIpadPortrait=false;
+    isIpadLand=false;
     connectedCallback() {
         this.isIpad();
+        this.isIpadPortrait=communityService.isIpadPortrait();
+        this.isIpadLand=communityService.isIpadLandscape();
         window.addEventListener('orientationchange', this.onOrientationChange);
         // if (formFactor === 'Small') {
         //     this.isMobile = true;
@@ -223,6 +235,8 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
 
     onOrientationChange = () => {
         this.isIpad();
+        this.isIpadPortrait=communityService.isIpadPortrait();
+        this.isIpadLand=communityService.isIpadLandscape();
     };
     
 
