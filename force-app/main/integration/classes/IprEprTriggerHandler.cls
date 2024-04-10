@@ -727,15 +727,6 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             }
         }
         
-        Boolean filterCriteria =
-            ss.Study_Site_Type__c!='Virtual'&& ss.Study_Site_Type__c!='Hybrid' &&
-            ss != null &&
-            ss.Clinical_Trial_Profile__c != null &&
-            !ss.Suppress_Participant_Emails__c &&
-            !ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-            ss.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
-            participantId != null ;
-        
         
         Participant_Enrollment__c objPE = new Participant_Enrollment__c(
             Participant__c = participantId,
@@ -765,6 +756,15 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             Human_Id__c = ipr.Human_Id__c,
             Additional_Information__c = ipr.Additional_Information__c
         );
+
+    Boolean filterCriteria =
+            ss.Study_Site_Type__c!='Virtual'&& ss.Study_Site_Type__c!='Hybrid' &&
+            ss != null &&
+            ss.Clinical_Trial_Profile__c != null &&
+            !ss.Suppress_Participant_Emails__c &&
+            !ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+            ss.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
+            participantId != null ;
         if(fieldNotVisible!=true){
             objPE.Study_PI_Storage_Consent_Time__c = Datetime.now();
         }

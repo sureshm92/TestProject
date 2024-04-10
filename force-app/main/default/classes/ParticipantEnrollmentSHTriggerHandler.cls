@@ -372,6 +372,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 User participantUser;
                 if (participant != null && participant.Contact__c != null)
                     participantUser = usersByContactId.get(participant.Contact__c);
+
                 Boolean filterCriteria =
                     !newPE.Is_Virtual_Study_Site__c &&
                     newPE.Study_Site__c != null &&

@@ -277,7 +277,7 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
                 Participant_Enrollment__c objPE = IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c,fieldNotVisible);
                  objPE.Id = REFNamePERIdMap.get(ipr.UTM_campaignName__c);
                  objPE.Participant_Name__c = ipr.firstName__c;
-                 objPE.Participant_Surname__c = ipr.lastName__c;
+                 objPE.Participant_Surname__c = ipr.lastName__c; 
                  peList.add(objPE);
             }
             //peList.add(IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c));
