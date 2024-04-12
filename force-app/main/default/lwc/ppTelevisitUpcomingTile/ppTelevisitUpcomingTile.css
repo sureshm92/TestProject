@@ -200,8 +200,19 @@
 .keydiv{
     padding-right:3px;
 }
-@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+@media screen and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
     .tvbody{
         font-size: 12px;
     }
 }
+@media screen and (min-device-width: 770px) and (max-device-width: 1024px) and (orientation: portrait) {
+    .tvbody{
+        font-size: 15px;
+    }
+}
+@media screen and (min-device-width: 770px) and (max-device-width: 1280px) and (orientation: landscape) {
+    .tvbody{
+        font-size: 15px;
+    }
+}
+
