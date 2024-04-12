@@ -1470,6 +1470,11 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
         align-items: center;
     }
 }
+@media all and (min-device-width: 800px) and (max-device-width: 1024px) and (orientation: portrait) {
+        .cPpCustomThemeLayout .tab-fix .past-button{
+            height: 35px !important;               
+           }   
+}
 @media all and (max-width: 768px) {
     .cPpCustomThemeLayout .apollo-btn,
     .cPpCustomThemeLayout .slds-input,

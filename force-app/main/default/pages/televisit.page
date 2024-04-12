@@ -2624,6 +2624,9 @@
                 .callButtonsContainer {
                     max-width: 40vh;
                 }
+                .slds-button-circle.button_white {                
+                    margin-right: 10px;
+                }
             }
         </style>
 
