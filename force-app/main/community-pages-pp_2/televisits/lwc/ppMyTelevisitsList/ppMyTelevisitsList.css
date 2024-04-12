@@ -288,3 +288,8 @@
 .card-wrap {
     padding: 0;
 }
+@media (min-width:770px) and (max-width:1280px) and (orientation: landscape){
+    .group-icon{
+        margin-top: 2%;
+    }
+}

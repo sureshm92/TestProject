@@ -185,19 +185,33 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
 
     get actionButtonCssClass() {
         return this.ishomepage && this.isIPAD
-            ? 'iPadIcon-hide'
+            ? 'slds-p-right_medium slds-size_2-of-12 arrowWidthiPad'
             : this.ishomepage ?'slds-p-around_small slds-size_2-of-12': this.isMobile
             ? 'slds-p-right_medium slds-size_2-of-12'
             : 'slds-p-right_large slds-size_1-of-12';
     }
+    get iconCss(){
+        return this.ishomepage && this.isIPAD ? '1': '2';
+    }
+    get criticalCss() {
+        return this.ishomepage && this.isIPAD
+            ? 'iPadIcon-hide'
+            : this.ishomepage ?'slds-align_absolute-center':'';
+        
+    }
     get sizeC(){
-        return this.isIpadPortrait ? 7 : this.isIpadLand ? 11 : 12;
+        return this.isIpadLand ? 11 : 12;
     }
     get sizeCri(){
-        return this.isIpadPortrait ? 3 : this.isIpadLand ? 3 : 2;
+        return this.isIpadLand ? 3 : 2;
     }
     get sizeIcon(){
-        return this.isIpadLand ? 7 : 8;
+        return this.isIpadPortrait ? 10 : this.isIpadLand ? 7 : 8;
+    }
+    get visibilityIcon() {
+        return this.ishomepage && this.isIPAD
+            ? 'iPadIcon-hide '
+            : 'slds-align--absolute-center';   
     }
     isIpadPortrait=false;
     isIpadLand=false;

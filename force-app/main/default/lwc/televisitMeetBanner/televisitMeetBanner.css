@@ -289,6 +289,28 @@ a:hover {
     margin-top: 6px;
 }
 
+@media screen and  (min-width: 780px) and (max-width: 1280px) and (orientation: landscape) { 
+    .divBodyPP2Mobile {       
+        top: -16px !important;
+    }
+    .mt-6{
+        margin-top: -5px;
+    }
+    .tab-class{
+        padding-left: 13rem;
+    }
+}
+@media screen and  (min-width: 770px) and (max-width: 1024px) and (orientation: portrait) { 
+    .mt-6{
+        margin-top: 0px;
+    }
+    .tab-class{
+        padding-left: 7rem;
+    }
+    .multipleJoinPP2Mobile{
+        padding:7px;
+    }
+}
 
 @media screen and (orientation: landscape) { 
     .multipleJoinPP2Mobile{
