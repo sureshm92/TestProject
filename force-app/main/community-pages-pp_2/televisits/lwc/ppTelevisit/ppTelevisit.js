@@ -173,7 +173,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
             });
     }
     connectedCallback() {
-        DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
+        DEVICE == 'Large' ? (this.isMobile = false) : (this.isMobile = true);
         if (communityService.getUrlParameter('ispast') === 'true') {
             this.gettelevisitdetails(true);
         } else {
