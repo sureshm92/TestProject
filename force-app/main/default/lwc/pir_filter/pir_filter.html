@@ -180,8 +180,8 @@
               outcome-form-element
               slds-m-bottom_medium p-left
             ">
-              <label class="slds-form-element__label slds-no-flex disflex"><span class="text-overflow1"
-                  title={RH_Ethnicity}>{RH_Ethnicity}</span><span class="close-icon"
+              <label class="slds-form-element__label slds-no-flex disflex"><span class="text-overflow1 m-top1"
+                  title={RH_Ethnicity}>{RH_Ethnicity}</span><span class="close-icon m-top1"
                   onclick={removeAllE}>{label.Clear_All}</span></label>
               <div class="
                 slds-form-element__control
@@ -261,7 +261,7 @@
               p-left-none
               m-top-birth
             ">
-              <div class="text-overflow " title={label.SexAtBirth}>{label.SexAtBirth}</div>
+              <div class="text-overflow m-top1" title={label.SexAtBirth}>{label.SexAtBirth}</div>
               <lightning-combobox name="Sex at Birth" variant="label-hidden" value={defaultSex} placeholder=""
                 options={sexatbirthoptions} onchange={sexatbirthhandleChange}></lightning-combobox>
             </div>
@@ -372,7 +372,7 @@
                       w-scheduled-date
                       m-bottom-small
                     ">
-                      <div class="slds-form-element">
+                      <div class="slds-form-element m-top1">
                         <label class="slds-form-element__label" for="">
                           {label.InitialVisitScheduledDate}
                         </label>

@@ -232,7 +232,7 @@ and (orientation: portrait)
     padding: 0px;
 }
 .blockEle{
-    display: inline-block;
+    display: inline-flex;
     width: auto;
     height: auto;
 }
