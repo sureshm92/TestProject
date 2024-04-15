@@ -44,11 +44,8 @@ public without sharing class RestrictedSourceConfigService {
                 }  
             }
         }
-        system.debug('contactIds::'+contactIds);
         //For Delegates
         List<Patient_Delegate_Enrollment__c> pdelst = PatientDelegateEnrollmentService.getPDEnrollmentforDelContactwithFilter(contactIds);
-        system.debug('pdelst::'+pdelst);
-        system.debug('pdelst::'+pdelst.size());
         if(pdelst.size()>0)
             displayConsents = getCTPwithReferalSources(null,pdelst); 
         
@@ -317,21 +314,17 @@ public without sharing class RestrictedSourceConfigService {
                 studieslst.add(per.Clinical_Trial_Profile__c);
             }
         }
-        system.debug('perLst::'+perLst);
 
         if(pdeLst != null && !pdeLst.isEmpty()){
             for(Patient_Delegate_Enrollment__c pde : pdeLst){
                 studieslst.add(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c);
             }
         }
-        system.debug('pdeLst::'+pdeLst);
         Map<ID, Restricted_Source_Config__c> restrictedsourcelst = new Map<ID, Restricted_Source_Config__c>([SELECT Id, Study__c, Sponsor__c, Referral_Resource__c FROM Restricted_Source_Config__c where Study__c	IN : studieslst]); //AND Sponsor__c IN : sponserlst.values()
         for(Restricted_Source_Config__c resConfig : restrictedsourcelst.values()){
-            system.debug(resConfig.Referral_Resource__c);
             if (!ctpRestrictedSources.containsKey(resConfig.Study__c))
                 ctpRestrictedSources.put(resConfig.Study__c, resConfig.Referral_Resource__c);
         }
-        system.debug('ctpRestrictedSources::'+ctpRestrictedSources);
         if(perLst != null && !perLst.isEmpty()){
             for(Participant_Enrollment__c per : perLst){
                 if(ctpRestrictedSources.containsKey(per.Clinical_Trial_Profile__c)){ // study with all PERS for that CTP
@@ -341,46 +334,62 @@ public without sharing class RestrictedSourceConfigService {
                     else{
                         continue;
                     }
-                    system.debug('displayConsentPref::'+displayConsentPref);
                     String[] restrictedlst = ctpRestrictedSources.get(per.Clinical_Trial_Profile__c) != null ? ctpRestrictedSources.get(per.Clinical_Trial_Profile__c).toUppercase().split(';') :  null;
-                    system.debug('restrictedlst::'+restrictedlst);
-                    String referralSource = (per.Referral_Source__c.toUppercase() == EPR || per.Referral_Source__c.toUppercase() == EPR_Campaign)  ? per.Referral_Source__c.toUppercase() +'-'+per.DataControllerOrg__c.toUppercase() : per.Referral_Source__c.toUppercase(); 
-                    system.debug('referralSource::'+referralSource);
+                    //String referralSource = ((per.Referral_Source__c.toUppercase() == EPR || per.Referral_Source__c.toUppercase() == EPR_Campaign) && per.DataControllerOrg__c != null)  ? per.Referral_Source__c.toUppercase() +'-'+per.DataControllerOrg__c.toUppercase() : per.Referral_Source__c.toUppercase(); 
+                    String referralSource;
+                    if( per.DataControllerOrg__c != null &&
+                        per.Referral_Source__c != null &&
+                        per.Referral_Source__c !='' &&
+                        per.DataControllerOrg__c !='' &&
+                       (per.Referral_Source__c.toUppercase() == EPR  || 
+                        per.Referral_Source__c.toUppercase() == EPR_Campaign)){
+                            referralSource = per.Referral_Source__c.toUppercase() +'-'+per.DataControllerOrg__c.toUppercase() ;
+                        }else{
+                            if(per.Referral_Source__c != null && per.Referral_Source__c !=''){
+                                referralSource = per.Referral_Source__c.toUppercase();
+                            }
+                        }
                     if(restrictedlst != null && !restrictedlst.isEmpty() && !restrictedlst.contains(referralSource)){
-                        system.debug('if block::');
                         displayConsentPref.put(per.Participant_Contact__c,true);
                     }
                 }
                 else {
-                    system.debug('else block::');
                     displayConsentPref.put(per.Participant_Contact__c,true);
                 }
             }
         }
         if(pdeLst != null && !pdeLst.isEmpty()){
             for(Patient_Delegate_Enrollment__c pde : pdeLst){ // each CTP
-                system.debug('pde::'+pde);
                 if(ctpRestrictedSources.containsKey(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c)){ // study with all PERS for that CTP
                     if(!displayConsentPref.containskey(pde.Patient_Delegate__r.Contact__c)  || !displayConsentPref.get(pde.Patient_Delegate__r.Contact__c)){
-                        system.debug('if block::');
                         displayConsentPref.put(pde.Patient_Delegate__r.Contact__c,false);
                     }
                     else{
                         continue;
                     }
                     String[] restrictedlst = ctpRestrictedSources.get(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c) != null ? ctpRestrictedSources.get(pde.Participant_Enrollment__r.Clinical_Trial_Profile__c).toUppercase().split(';') :  null;
-                    system.debug('if restrictedlst::'+restrictedlst);
-                    String referralSource = (pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR  || pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR_Campaign )?pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() +'-'+pde.Participant_Enrollment__r.DataControllerOrg__c.toUppercase() :pde.Participant_Enrollment__r.Referral_Source__c.toUppercase(); 
-                    system.debug('referralSource::'+referralSource);
+                    //String referralSource = (pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR  || pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR_Campaign && pde.Participant_Enrollment__r.DataControllerOrg__c != null)?pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() +'-'+pde.Participant_Enrollment__r.DataControllerOrg__c.toUppercase() :pde.Participant_Enrollment__r.Referral_Source__c.toUppercase(); 
+                    String referralSource;
+                    if( pde.Participant_Enrollment__r.DataControllerOrg__c != null &&
+                        pde.Participant_Enrollment__r.Referral_Source__c != null &&
+                        pde.Participant_Enrollment__r.Referral_Source__c !='' &&
+                        pde.Participant_Enrollment__r.DataControllerOrg__c !='' &&
+                       (pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR  || 
+                        pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() == EPR_Campaign)){
+                            referralSource = pde.Participant_Enrollment__r.Referral_Source__c.toUppercase() +'-'+pde.Participant_Enrollment__r.DataControllerOrg__c.toUppercase() ;
+                    }else{
+                        if(pde.Participant_Enrollment__r.Referral_Source__c != null && 
+                            pde.Participant_Enrollment__r.Referral_Source__c !='' ){
+                            referralSource = pde.Participant_Enrollment__r.Referral_Source__c.toUppercase();
+                        }
+                    }
                     if(restrictedlst != null && !restrictedlst.isEmpty() && !restrictedlst.contains(referralSource)){
-                        system.debug('if block::');
                         displayConsentPref.put(pde.Patient_Delegate__r.Contact__c,true);
                     }
                 }
                 else {
                     displayConsentPref.put(pde.Patient_Delegate__r.Contact__c,true);
                 }
-                system.debug('if displayConsentPref::'+displayConsentPref);
             }
         } 
         return displayConsentPref;

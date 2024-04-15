@@ -75,6 +75,13 @@
     width: 95%; */
 }
 
+@media screen and (min-width: 767px) and (max-width: 1139px) {
+    .THIS .logo-block-mobile {
+        height: 770px;
+        border-radius: 45px;
+    }
+}
+
 .THIS .rr-link {
     color: #297dfd;
     display: inline-flex;
@@ -111,6 +118,12 @@
 .THIS .page-content-mobile {
     margin-top: -94px;
     padding-left: 24px;
+}
+
+@media screen and (min-width: 767px) and (max-width: 1139px) {
+    .THIS .page-content-mobile {
+        margin-top: -208px;
+    }
 }
 
 .THIS .cusContentMargin {
