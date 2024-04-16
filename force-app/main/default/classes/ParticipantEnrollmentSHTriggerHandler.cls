@@ -378,7 +378,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     String referralSource = newPE.Referral_Source__c;
                     if(Batch_UpsertEprParticipantAndPE.eprBatchRunning && restrictFieldOnCtp != null){
                         List<String> RestrictedreferralSources = new List<String>();
-                        RestrictedreferralSources = restrictFieldOnCtp.split(',');
+                        RestrictedreferralSources = restrictFieldOnCtp.split(';');
                      if(RestrictedreferralSources.contains(referralSource)){
                             fieldMatch = false;
                         }else{
