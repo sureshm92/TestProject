@@ -762,7 +762,7 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         Boolean fieldMatch;
         if(Batch_UpsertEprParticipantAndPE.eprBatchRunning && restrictFieldOnCtp != null){    
             List<String> RestrictedreferralSources = new List<String>();
-            RestrictedreferralSources = restrictFieldOnCtp.split(',');
+            RestrictedreferralSources = restrictFieldOnCtp.split(';');
          if(RestrictedreferralSources.contains(referralSource)){
              fieldMatch = false;
          }else{
