@@ -3,6 +3,12 @@
     padding-right: 24px;
 }
 
+@media screen and (min-width: 767px) and (max-width: 1139px) {
+    .main-content-div {
+        padding-left: 15px;
+    }
+}
+
 .main-content-div-mobile {
     padding-left: 24px;
 }
@@ -45,6 +51,12 @@
     color: #444444;
     text-align: left;
     padding-left: 24px;
+}
+
+@media screen and (min-width: 767px) and (max-width: 1139px) {
+    .success-message-text {
+        padding-left: 15px;
+    }
 }
 
 .slds-checkbox .slds-checkbox__label .slds-form-element__label {
