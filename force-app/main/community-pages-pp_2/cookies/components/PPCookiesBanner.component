@@ -109,6 +109,14 @@
                 margin: 0 1rem;
             }
         }
+        @media (min-width:780px) and (max-width:1280px) and (orientation: landscape){
+            .desk-btn-margin
+            {
+                margin-top: 3rem;
+            }
+        }
+
+
         @media screen and (max-width: 768px) {
             .mob-cookies-banner {
                 width: 100%;
@@ -344,7 +352,7 @@
                         {!$Label.PP_Cookie_Banner_Header} 
                     </div>
                     <div class="banner-txt slds-m-top_x-small slds-show_medium rh-desktop-device"> 
-                        {!$Label.PP_Cookies_Banner_Desc1}
+                        <p>{!$Label.PP_Cookies_Banner_Desc1}</p>
                         <b>{!$Label.PP_Cookies_Banner_Desc2}</b>
                         {!$Label.PP_Cookies_Banner_Desc3}
                     </div>
