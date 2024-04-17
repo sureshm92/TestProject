@@ -466,10 +466,28 @@
     .border-left {
         display: grid;
         align-self: center;
-        padding-top: 8px !important;
+        padding-top: 16px !important;
     }
     
 }
 .custom-pad{
     padding-left: 0;
+}
+
+.uniform-space{
+    font-size: 14px;
+    word-break: break-word;
+    font-weight: 500;
+}
+
+.align-center{
+    text-align: center;
+}
+
+.custom-pad{
+    padding: 10px 0px 10px 0px !important;
+}
+
+.hide{
+    display: none;
 }
