@@ -3,10 +3,8 @@
     padding-right: 24px;
 }
 
-@media screen and (min-width: 767px) and (max-width: 1139px) {
-    .main-content-div {
-        padding-left: 15px;
-    }
+.main-content-ipad{
+    padding-left: 15px;
 }
 
 .main-content-div-mobile {
@@ -52,11 +50,11 @@
     text-align: left;
     padding-left: 24px;
 }
-
-@media screen and (min-width: 767px) and (max-width: 1139px) {
-    .success-message-text {
-        padding-left: 15px;
-    }
+.ipad-padding{
+padding-left:15px;
+}
+.tab-padding{
+    padding-left:26px !important;
 }
 
 .slds-checkbox .slds-checkbox__label .slds-form-element__label {

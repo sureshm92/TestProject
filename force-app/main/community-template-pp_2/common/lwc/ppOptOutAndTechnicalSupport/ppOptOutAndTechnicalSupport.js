@@ -34,6 +34,9 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         PPOptOutCloseWindow
     };
     isMobile = false;
+    @track ipad;
+    @track android;
+
 
     @wire(MessageContext)
     messageContext;
@@ -43,10 +46,16 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         if(this.showSuccessMessage){
             return 'slds-hide';
         }
-        else{
-          return 'slds-show main-content-div';
+        else{       
+            if(this.ipad){
+                return 'slds-show main-content-div main-content-ipad';
+            }
+            else{
+                return 'slds-show main-content-div';
+            }       
+        }          
         }
-    }
+    
     get displayLabelMobile(){
         if(this.showSuccessMessage){
             return 'slds-hide';
@@ -65,7 +74,13 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
     }
     get displayLogo(){
         if(this.showSuccessMessage){
-            return 'slds-show success-message-text';
+            if(this.ipad && !this.android){
+                return 'slds-show success-message-text ipad-padding';
+            }else if(!this.ipad && this.android){
+                return 'slds-show success-message-text tab-padding';
+            }else{
+            return 'slds-show success-message-text'; 
+                    }
         }
         else{
             return 'slds-hide';
@@ -74,6 +89,8 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
     connectedCallback(){
         this.disabled = true;
 		this.showSpinner = true;
+		this.ipad = communityService.isIpadPortrait();
+        this.android = communityService.isAndroidTabletPortrait();
 
         if (formFactor === 'Small') {
             this.isMobile = true;
