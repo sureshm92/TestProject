@@ -55,6 +55,8 @@ export default class PpCreateTask extends LightningElement {
     initialRecord;
     updatedRecord;
     @api isRTL;
+    customLayoutSizeFields;
+    customLayoutSizeImg;
 
     labels = { REMIND_USING_REQUIRED };
     label = {
@@ -114,7 +116,20 @@ export default class PpCreateTask extends LightningElement {
             .catch((error) => {
                 console.error('Error in loading moment: ' + JSON.stringify(error));
             });
+            window.addEventListener('orientationchange',this.onOrientationChange);
     }
+
+    onOrientationChange = () => {
+        console.log('this.onOrientationChange--->'+ screen.orientation.type);
+        if(screen.orientation.type == 'landscape-primary'){
+            this.customLayoutSizeFields = 10;
+            this.customLayoutSizeImg = 2;
+        }else if(screen.orientation.type == 'portrait-primary'){
+            this.customLayoutSizeFields = 12;
+            this.customLayoutSizeImg = 0;
+        }
+    }
+
     initializeData() {
         this.spinner.show();
         if (!communityService.isDummy()) {
@@ -250,7 +265,7 @@ export default class PpCreateTask extends LightningElement {
                 this.taskNameLeng = tasksubject.length;
                 this.subject = tasksubject;
                 if (event.target.value !== '') {
-                    this.template.querySelector('[data-id="taskName"]').value = tasksubject;
+                    this.template.querySelector('lightning-input[data-id="taskName"]').value = tasksubject;
                 }
             } else {
                 this.subject = '';
