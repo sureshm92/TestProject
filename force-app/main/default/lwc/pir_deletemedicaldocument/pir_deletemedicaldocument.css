@@ -87,6 +87,12 @@
         width: 100%;
     }
 }
+
+@media screen and (min-width: 769px) and (max-width: 1139px){
+    .deletemodelcss{
+        width: 44%;
+    }
+}
 @media (min-width: 992px) {
     .model-small{
         width: 470px;

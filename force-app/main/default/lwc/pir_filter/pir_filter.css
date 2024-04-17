@@ -68,6 +68,9 @@
 .active-p-top{
     padding-top: 4px;
 }
+.margin-filter-top{
+    margin-bottom: .8px;
+}
 .edit .close-icon-pop{
     display: none;
 }
@@ -99,6 +102,9 @@
 }
 .m-top-date{
     margin-top: -19px;
+}
+.m-top1{
+    margin-top: 4px;
 }
 .w-Demographics{
     padding-top: 4px;
@@ -190,7 +196,7 @@
     padding-left: 0;
 }
 .and{
-    padding-left: 5px;
+    text-align: center;
     width:47px;
 }
 @media (max-device-width: 767px) {
@@ -325,6 +331,9 @@
     .and{
         padding-left: 2px;
     }
+    .m-top1{
+        margin-top: 0px;
+    }
 }
 .eth .slds-no-flex{
     width: 100%;
@@ -427,7 +436,7 @@
 and (max-device-width: 898px) 
 {
     .w-date{
-        width: 48%;
+        width: 45%;
     }
 }
 /*RTL start*/
@@ -466,6 +475,13 @@ and (max-device-width: 898px)
     .rtl .btn-p-left{
         padding-left:0;
     }  
+    .rtl .eth .close-icon{
+        cursor: pointer;
+        padding-left: 0px;
+        opacity: 0.75;
+        width: 100%;
+        text-align: left;
+    }
  .rtl .filter-age{
      text-align:right;
  } 

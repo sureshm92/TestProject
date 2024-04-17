@@ -29,9 +29,11 @@ export default class PpVisitResultDisplayCard extends LightningElement {
     @track actualResultValue;
     @track expectedRangeLabel;
     @track isContentLoaded = false;
+    @track isAndroidTab=false;
 
     showExpectedRange = true;
     connectedCallback() {
+        this.isAndroidTab=communityService.isAndroidTablet();
         this.initializeData();
     }
     initializeData() {
@@ -130,10 +132,10 @@ export default class PpVisitResultDisplayCard extends LightningElement {
     }
 
     get isMobile() {
-        return FORM_FACTOR == 'Small';
+        return FORM_FACTOR == 'Small' && !this.isAndroidTab;
     }
 
     get isTablet() {
-        return FORM_FACTOR == 'Medium';
+        return this.isAndroidTab || FORM_FACTOR == 'Medium' ;
     }
 }
