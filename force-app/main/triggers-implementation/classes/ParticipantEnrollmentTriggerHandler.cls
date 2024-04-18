@@ -4,20 +4,28 @@
  */
 
 public without sharing class ParticipantEnrollmentTriggerHandler {
+    
+   
     // Handlers: -------------------------------------------------------------------------------------------------------
     public static final List<User> isValidUsr = [
         SELECT Id
         FROM User
         WHERE Profile.Name = 'API Only'
     ];
+    //for bypassing the trigger
+    public static TriggerBypass__c bypasslogic = TriggerBypass__c.getinstance(UserInfo.getProfileId());
+    //
     public static Boolean executedJanssenNotfication = false;
+    
     public class PrepareAdditionalFieldsHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             prepareAdditionalFields(newList, null);
         }
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            prepareAdditionalFields(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                prepareAdditionalFields(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            }
         }
     }
 
@@ -27,10 +35,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updatePatientVisits(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                updatePatientVisits(
+                    (List<Participant_Enrollment__c>) newList,
+                    (Map<Id, Participant_Enrollment__c>) oldMap
+                );
+            }
         }
     }
 
@@ -38,31 +48,39 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             checkVisitPlanFromStudySite(newList, null);
         }
-
+        
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            checkVisitPlanFromStudySite(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                checkVisitPlanFromStudySite(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            }
         }
     }
-
+    
     public class StudySiteHistoryHandler extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            studySiteHistory(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                studySiteHistory(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            }
         }
     }
     public class UpdateParticipantInitialVisit extends TriggerHandler {
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            disablePESH(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                disablePESH(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            }
         }
     }
-
+    
     public class CreateStatusTrackingHistoryRecordsHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             setChangedDate(newList);
             updateWithStepSuccessFlags(newList);
         }
-
+        
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            resetNotesAndSetChangeDate(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                resetNotesAndSetChangeDate(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            }
         }
     }
     public class CreateJanssenNotification extends TriggerHandler {
@@ -70,40 +88,51 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             sendJanssenNotification(newList, null);
         }
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            sendJanssenNotification(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                sendJanssenNotification(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            }
         }
     }
     public class DefaultEcoaTask extends TriggerHandler {
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createDefaultTaskForEcoa(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            if(!bypasslogic.Bypass_Trigger_Logic__c){ 
+                createDefaultTaskForEcoa(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            }
         }
     }
     public class CompleteEnrollmentTasks extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            completeTasks(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                
+                completeTasks(
+                    (List<Participant_Enrollment__c>) newList,
+                    (Map<Id, Participant_Enrollment__c>) oldMap
+                );
+            }
         }
     }
-
+    
     public class SetSourceTypeHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             setSourceTypeHandler(newList);
         }
-
+        
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            setSourceTypeHandler(newList);
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                setSourceTypeHandler(newList);
+            }
         }
     }
-
+    
     public class UpdateParticipantState extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             updateParticipantStudyStatus(newList, null);
         }
-
+        
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateParticipantStudyStatus(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                updateParticipantStudyStatus(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            }
         }
     }
     /*For Welcome Msg -- Added by Anitha*/
@@ -112,108 +141,128 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             createnotificationforwelcomemsg(newList, null);
         }
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createnotificationforwelcomemsg(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                createnotificationforwelcomemsg(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            }
         }
     }
     public class CreateMissingStatuses extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createPrimaryHistoryEntry(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                createPrimaryHistoryEntry(
+                    (List<Participant_Enrollment__c>) newList,
+                    (Map<Id, Participant_Enrollment__c>) oldMap
+                );
+            }
+            
         }
-
         public override void afterInsert(List<SObject> newList) {
             createPrimaryHistoryEntry((List<Participant_Enrollment__c>) newList, null);
         }
     }
-
+    
     // Handlers: On study ----------------------------------------------------------------------------------------------
     public class DeactivateDeceasedUsersHandler extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            deactivateDeceasedUsers(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
-        }
-    }
-
-    public class CreateVisitsScheduleHandler extends TriggerHandler {
-        public override void afterInsert(List<SObject> newList) {
-            createVisitsSchedule((List<Participant_Enrollment__c>) newList, null);
-        }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createVisitsSchedule(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
-        } 
-    }
-
-    public class HideSurveyTasks extends TriggerHandler {
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            hideSurveyTaskForCompletedStatuses(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
-        }
-    }
-
-    public class SendFOVtoAPI extends TriggerHandler {
-        public override void afterInsert(List<SObject> newList) {
-            sendtoAPIafterInsert((List<Participant_Enrollment__c>) newList);
-        }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            if (!Test.isRunningTest()) {
-                sendtoAPIafterUpdate(
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                deactivateDeceasedUsers(
                     (List<Participant_Enrollment__c>) newList,
                     (Map<Id, Participant_Enrollment__c>) oldMap
                 );
             }
         }
     }
-
+    
+    public class CreateVisitsScheduleHandler extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            createVisitsSchedule((List<Participant_Enrollment__c>) newList, null);
+        }
+        
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                createVisitsSchedule(
+                    (List<Participant_Enrollment__c>) newList,
+                    (Map<Id, Participant_Enrollment__c>) oldMap
+                );
+            } 
+        }
+    }
+    
+    public class HideSurveyTasks extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                hideSurveyTaskForCompletedStatuses(
+                    (List<Participant_Enrollment__c>) newList,
+                    (Map<Id, Participant_Enrollment__c>) oldMap
+                );
+            }
+        }
+    }
+    
+    public class SendFOVtoAPI extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            sendtoAPIafterInsert((List<Participant_Enrollment__c>) newList);
+        }
+        
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                if (!Test.isRunningTest()) {
+                    sendtoAPIafterUpdate(
+                        (List<Participant_Enrollment__c>) newList,
+                        (Map<Id, Participant_Enrollment__c>) oldMap
+                    );
+                }
+            }
+        }
+    }
+    
     public class UnenrollorCancelPer extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            CreatePeshafterUpdate(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                CreatePeshafterUpdate(
+                    (List<Participant_Enrollment__c>) newList,
+                    (Map<Id, Participant_Enrollment__c>) oldMap
+                );
+            }
         }
     }
-
+    
     public class EcoaEvents extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            CreateEcoaEvents(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                CreateEcoaEvents(
+                    (List<Participant_Enrollment__c>) newList,
+                    (Map<Id, Participant_Enrollment__c>) oldMap
+                );
+            }
         }
     }
-
+    
     public class StudyConsentTimestamps extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             updateStudyConsentTimestamps((List<Participant_Enrollment__c>) newList);
         }
-
+        
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateStudyConsentTimestamps(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                updateStudyConsentTimestamps(
+                    (List<Participant_Enrollment__c>) newList,
+                    (Map<Id, Participant_Enrollment__c>) oldMap
+                );
+            }
         }
     }
     public class PatientVisitsDeletion extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            deleteOldPatientVisits(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                deleteOldPatientVisits(
+                    (List<Participant_Enrollment__c>) newList,
+                    (Map<Id, Participant_Enrollment__c>) oldMap
+                );
+            }
         }
     }
-
+    
     public class UpdatePatientConsent extends TriggerHandler {
         Boolean isPortalUser = checkCurrentusrProfile();
         public override void beforeInsert(List<SObject> newList) {
@@ -222,14 +271,17 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
         }
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            if (isPortalUser) {
-                patientConsentUpdate(
-                    (List<Participant_Enrollment__c>) newList,
-                    (Map<Id, Participant_Enrollment__c>) oldMap
-                );
+            if(!bypasslogic.Bypass_Trigger_Logic__c){
+                if (isPortalUser) {
+                    patientConsentUpdate(
+                        (List<Participant_Enrollment__c>) newList,
+                        (Map<Id, Participant_Enrollment__c>) oldMap
+                    );
+                }
             }
         }
     }
+    
 
     // Logic: ----------------------------------------------------------------------------------------------------------
     //Update initial visit scheduled and completion date and time set by PI to
