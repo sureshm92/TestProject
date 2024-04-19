@@ -37,7 +37,7 @@
                             <p class="for-participants-c">{!$Label.c.OptOut_PP_Subheader}</p>
                         </lightning:layoutItem>
 
-                        <lightning:layoutItem size="12" class="cusContentMargin">
+                        <lightning:layoutItem size="12">
                             <div class="body-components">{!v.body}</div>
                         </lightning:layoutItem>
                     </lightning:layout>
@@ -81,7 +81,7 @@
                             <span> <img class="img-dimensions-mobile" src="{!$Resource.IQVIA_Logo + '/IQVIA_DarkBlue_Logo.png'}" /></span>
                         </lightning:layoutItem> 
                     <aura:set attribute="else">
-                        <lightning:layoutItem size="12" class="mob-footerOptOut center footer-tab">                                                    
+                        <lightning:layoutItem size="12" class="mob-footerOptOut center">                                                    
                             <span class="powered-by-mobile">{!$Label.c.PP_Powered_by_Footer}</span>                           
                             <span> <img class="img-dimensions-mobile" src="{!$Resource.IQVIA_Logo + '/IQVIA_DarkBlue_Logo.png'}" /></span>
                         </lightning:layoutItem> 

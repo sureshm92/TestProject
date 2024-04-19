@@ -14,6 +14,7 @@ import PPOPTOUTCOMMUNICATIONPREFHELP from '@salesforce/label/c.PP_Communication_
 import PPCPSUBMITBTN from '@salesforce/label/c.CP_Submit_Button';
 import PPOPTOUTSUCCESSMSG from '@salesforce/label/c.PP_Opt_Out_Success_Message';
 import PPOptOutCloseWindow from '@salesforce/label/c.PP_Opt_Out_Close_window';
+import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
 
 export default class PpOptOutAndTechnicalSupport extends LightningElement {
 
@@ -26,6 +27,10 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
     disabled = false;
     showSuccessMessage=false;
     showSpinner = false;
+    AndroidTablet;
+    ipad;
+
+    loaded = false;
     label = {
         PPOPTOUTCOMMUNICATIONPREF,
         PPOPTOUTCOMMUNICATIONPREFHELP,
@@ -34,9 +39,6 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         PPOptOutCloseWindow
     };
     isMobile = false;
-    @track ipad;
-    @track android;
-
 
     @wire(MessageContext)
     messageContext;
@@ -46,16 +48,18 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         if(this.showSuccessMessage){
             return 'slds-hide';
         }
-        else{       
+        else{
             if(this.ipad){
-                return 'slds-show main-content-div main-content-ipad';
+                return 'slds-show main-content-div-ipad';
+            }
+            else if(!this.isMobile && !this.ipad && !this.AndroidTablet){
+                return 'slds-show main-content-div-desk';
             }
             else{
                 return 'slds-show main-content-div';
-            }       
-        }          
+            }
         }
-    
+    }
     get displayLabelMobile(){
         if(this.showSuccessMessage){
             return 'slds-hide';
@@ -69,33 +73,63 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
             return 'slds-hide ml-24';
         }
         else{
-            return 'slds-show submit-button-div ml-24';
+            if(this.ipad){
+                 return 'slds-show submit-button-div-ipad';
+            }
+            else if(this.isMobile || this.AndroidTablet){
+                return 'slds-show ml-24';
+            }
+            else if(!this.isMobile){
+                return 'slds-show';
+            }
         }
     }
     get displayLogo(){
         if(this.showSuccessMessage){
-            if(this.ipad && !this.android){
-                return 'slds-show success-message-text ipad-padding';
-            }else if(!this.ipad && this.android){
-                return 'slds-show success-message-text tab-padding';
-            }else{
-            return 'slds-show success-message-text'; 
-                    }
+
+            if(this.AndroidTablet || this.isMobile){
+                return 'slds-show success-message-text';
+            }
+            else if(this.ipad){
+                return 'slds-show success-message-text-ipad';
+            }
+            else{
+                return 'slds-show success-message-text-desk';
+            }
         }
         else{
             return 'slds-hide';
+        }
+
+    }
+
+    get successMargin(){
+        if(this.AndroidTablet){
+            return 'apollo-btn primary submit-mobile mb-112';
+        }
+        else{
+            return 'apollo-btn primary submit-mobile mb-30';
         }
     }
     connectedCallback(){
         this.disabled = true;
 		this.showSpinner = true;
-		this.ipad = communityService.isIpadPortrait();
-        this.android = communityService.isAndroidTabletPortrait();
 
-        if (formFactor === 'Small') {
+        if (formFactor === 'Small' ||formFactor === 'Medium' ) {
             this.isMobile = true;
         } else {
             this.isMobile = false;
+        }
+
+        if (!this.loaded) {
+            loadScript(this, rrCommunity).then(() => {
+                if (communityService.isAndroidTablet()) {
+                    this.AndroidTablet = true;
+                }
+                else if (communityService.isIpad()) {
+                    this.ipad = true;
+                }
+            });
         }
 
         loadScript(this, RR_COMMUNITY_JS)
@@ -205,7 +239,9 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
     }
 
     closeWindow(){
+//window.top.close();
         window.close();
+       
     }
 
 
