@@ -211,7 +211,7 @@
             <targetReference>Check_Offset_Hour</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <variables>
         <name>minuseighthour</name>
         <dataType>Number</dataType>
