@@ -37,7 +37,7 @@
                             <p class="for-participants-c">{!$Label.c.OptOut_PP_Subheader}</p>
                         </lightning:layoutItem>
 
-                        <lightning:layoutItem size="12" class="cusContentMargin">
+                        <lightning:layoutItem size="12">
                             <div class="body-components">{!v.body}</div>
                         </lightning:layoutItem>
                     </lightning:layout>
