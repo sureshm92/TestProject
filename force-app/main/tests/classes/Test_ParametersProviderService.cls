@@ -35,6 +35,7 @@ public with sharing class Test_ParametersProviderService {
             Study_Site__c.getSObjectType(),
             DatabaseService.fieldEqual('Id', testData.ss.Id)
         );
+        Test.startTest();
         String resultValue = ParametersProviderService.substituteMergeFields(
             parameter,
             label,
@@ -42,5 +43,9 @@ public with sharing class Test_ParametersProviderService {
             'en_US'
         );
         System.assert(!resultValue.contains('##'));
+        List<Id> recordIds = new List<Id>();
+        recordIds.add(studySites.get(0).Id);
+        ParametersProviderService.queryRecords(recordIds,label);
+        Test.stopTest();
     }
 }

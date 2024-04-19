@@ -218,3 +218,13 @@
 .pointer-class {
     cursor: pointer;
 }
+@media all and (max-width: 1024px) and (min-width: 768px) and (orientation: portrait) {
+    .televisits-title{
+        margin-right:0px;
+        font-size : 14px;
+    }
+    .televisit-title-horizontal{
+        margin-right:0px;
+        font-size : 14px;
+    }
+}

@@ -221,7 +221,9 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
                 console.log('Error: ' + error);
             });
     }
-
+    @track restrictedlst = [];
+    referralSource;
+    @track consentpref;
     getPEdetails() {
         getSelectedPeDetails({ peId: this.peId, delegateId: this.delegateid, userMode: this.usermode })
             .then(result => {
@@ -231,7 +233,38 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
 
                 this.checkLegalStatus(this.peRecordList[0].peRecord.Legal_Status__c);
                 this.checkPatientAuthStatus(this.peRecordList[0].peRecord.Patient_Auth__c);
+                if( this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                    if(this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.CommunityTemplate__c !='PatientPortal' && (this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' || this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0')){
+                        this.consentpref =  false;
+                    }
+                    else{ 
+                        if(this.peRecordList[0].restrictedRecrds!=null){
+                            if(this.peRecordList[0].restrictedRecrds.Referral_Resource__c != null){
+                                this.restrictedlst=this.peRecordList[0].restrictedRecrds.Referral_Resource__c.split(';');
+                            }
+                            if(this.restrictedlst.length !=0 ){
+                                this.referralSource = (this.peRecordList[0].peRecord.Referral_Source__c == 'ePR' || this.peRecordList[0].peRecord.Referral_Source__c == 'ePR_Campaign')  ? this.peRecordList[0].peRecord.Referral_Source__c +'-'+this.peRecordList[0].peRecord.DataControllerOrg__c :this.peRecordList[0].peRecord.Referral_Source__c; 
+                                if(this.restrictedlst.includes(this.referralSource)){
+                                    this.consentpref =  true; //restricted 
+                                }
+                                else{
+                                    this.consentpref =  false; //non restricted
+                                }
 
+                            }
+                            else{
+                            this.consentpref =  true;
+                            }
+                        }
+                        else{
+                            this.consentpref =  false;
+                        }
+                    }
+                }
+                else
+                {
+                    this.consentpref =  true;
+                } 
 
                 if (this.peRecordList[0].peRecord.Patient_ID__c != undefined && this.peRecordList[0].peRecord.Participant_Name__c != undefined
                     && this.peRecordList[0].peRecord.YOB__c != undefined && this.peRecordList[0].peRecord.Patient_Auth__c != undefined

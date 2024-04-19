@@ -150,6 +150,14 @@
     /* @noflip */    box-shadow: none;
     /* @noflip */    height: 40px;
 }
+@media screen and (min-width: 769px) and (max-width: 1139px) {
+    .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
+        left: auto;
+        right: -40px;
+        bottom: 60px;
+        top: unset;
+    }
+}
 
 @media all and (max-width: 768px) {
     .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {

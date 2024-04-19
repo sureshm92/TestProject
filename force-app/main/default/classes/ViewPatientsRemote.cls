@@ -221,7 +221,7 @@ public without sharing class ViewPatientsRemote {
             initData.peFilter.additionalFilter = additionalFilter;
             List<Participant_Enrollment__c> peList;
             if (userMode != CommunityService.USER_MODE_PI) {
-                peList = ParticipantEnrollmentService.getParticipantEnrollments(
+                peList = ParticipantEnrollmentService.getParticipantEnrollmentsRP(
                     initData.peFilter,
                     delegateId,
                     sponsorName
@@ -298,7 +298,7 @@ public without sharing class ViewPatientsRemote {
             );
             List<Participant_Enrollment__c> peList;
             if (userMode != CommunityService.USER_MODE_PI) {
-                peList = ParticipantEnrollmentService.getParticipantEnrollments(
+                peList = ParticipantEnrollmentService.getParticipantEnrollmentsRP(
                     result.peFilter,
                     delegateId,
                     sponsorName
