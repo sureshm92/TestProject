@@ -1,0 +1,130 @@
+.po-bg {
+    /*  background-color: #f7f8fa;
+    padding-left: 20px;*/
+    height: auto;
+}
+.widthLimiter {
+    background: #fff;
+    /*  border-radius: 4px 4px 0 0;
+    border: 1px solid #e9e9e9;
+    border-width: 1px 1px 0 1px;
+    box-shadow: 1px 0 2px 0 rgb(0 0 0 / 4%);*/
+    max-width: 900px;
+    margin: auto;
+    width: 100%;
+    margin-top: 24px;
+    border-radius: 16px;
+}
+.back-link {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+    margin-bottom: 16px;
+}
+.back-link-mble {
+    margin-left: 14.5px;
+    height: auto;
+    /*margin-top: 14px;*/
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+}
+hr {
+    margin: 0%;
+    margin-bottom: 16px;
+}
+.iframecss {
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+}
+.subjectMessage {
+    font-size: 17px;
+
+    color: red;
+    text-align: center;
+    margin: auto;
+}
+.po-about-program {
+    height: auto;
+    width: 900px;
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.po-edaries {
+    color: #444444;
+    font-size: 32px;
+    font-weight: 600;
+    font-family: 'Proxima Nova';
+    letter-spacing: 0;
+    line-height: 48px;
+}
+.cardRTL {
+    direction: rtl;
+}
+.po-mr-36 {
+    margin-right: 40px;
+}
+@media only screen   and (min-device-width: 768px)   
+and (max-device-width: 1024px)    
+{
+    .po-custom-box {
+        width: auto !important;
+    }
+}
+
+.po-custom-box {
+    margin-top: 24px;
+    height: 600px;
+    width: 900px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+}
+.po-custom-content {
+    padding-top: 24px;
+    /*padding-right: 50px;*/
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+.po-custom-edaries-content {
+    padding-top: 4px;
+    /*padding-right: 50px;*/
+    color: #757575;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    font-weight: 400;
+}
+.po-custom-comm-Prefences {
+    margin-top: 24px; 
+    transform: rotate(-360deg);
+    color: #015ff1;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+.pointer {
+    cursor: pointer;
+}

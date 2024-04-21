@@ -169,7 +169,6 @@ private class Test_MyTeamRemote {
     @IsTest
     static void piDelegateTest() {
         TestData testData = new TestData();
-        Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
         System.runAs(testData.piUser) {
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, null);
@@ -185,6 +184,7 @@ private class Test_MyTeamRemote {
                 .delegateTrials[0]
                 .siteLevels[0]
                 .delegateLevel = DelegateService.DELEGATE_LEVEL_2;
+                    Test.startTest();
             MyTeamRemote.saveDelegateLevelChanges(
                 CommunityService.USER_MODE_PI,
                 JSON.serialize(detail.delegates[0]),
@@ -235,7 +235,6 @@ private class Test_MyTeamRemote {
     @IsTest
     static void piDelegateWithParentTest() {
         TestData testData = new TestData();
-        Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
         List<Contact> parentContact = [
             SELECT Id, Salutation
@@ -260,6 +259,7 @@ private class Test_MyTeamRemote {
                 .delegateTrials[0]
                 .siteLevels[0]
                 .delegateLevel = DelegateService.DELEGATE_LEVEL_2;
+            Test.startTest();
             MyTeamRemote.saveDelegateLevelChanges(
                 CommunityService.USER_MODE_PI,
                 JSON.serialize(detail.delegates[0]),
@@ -293,8 +293,8 @@ private class Test_MyTeamRemote {
                 JSON.serialize(detail.delegates[0]),
                 null
             );
+            Test.stopTest();
         }
-        Test.stopTest();
         Site_Staff__c testPiDel = [
             SELECT
                 Id,
@@ -328,7 +328,7 @@ private class Test_MyTeamRemote {
     @IsTest
     static void piDelegateWithoutParentSalutationTest() {
         TestData testData = new TestData();
-        Test.startTest();
+        //Test.startTest();
         MyTeamRemote.MyTeamDetail detail;
         List<Contact> parentContact = [
             SELECT Id, Salutation
@@ -340,6 +340,7 @@ private class Test_MyTeamRemote {
             Database.update(parentContact);
         }
         System.runAs(testData.piUser) {
+            Test.startTest();
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, testData.piUser.ContactId);
             detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
@@ -375,6 +376,7 @@ private class Test_MyTeamRemote {
                 ),
                 MyTeamRemote.MyTeamDetail.class
             );
+            Test.stopTest();
             detail.delegates[0]
                 .delegateTrials[0]
                 .siteLevels[0]
@@ -387,7 +389,7 @@ private class Test_MyTeamRemote {
                 null
             );
         }
-        Test.stopTest();
+        //Test.stopTest();
         Site_Staff__c testPiDel = [
             SELECT
                 Id,
@@ -493,6 +495,11 @@ private class Test_MyTeamRemote {
         MyTeamRemote.MyTeamDetail detail;
         Test.startTest();
         System.runAs(tstData.participantUser) {
+            MyTeamRemote.getDelegateContactData(
+                CommunityService.USER_MODE_PARTICIPANT,
+                'jsmith@somemail.com',
+                null
+            );
             MyTeamRemote.getInitData(CommunityService.USER_MODE_PARTICIPANT, null);
             detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
@@ -554,28 +561,27 @@ private class Test_MyTeamRemote {
         TestData tstData = new TestData();
         tstData.createPatientDelegate();
         MyTeamRemote.MyTeamDetail detail;
+        List<LabelValueItem> items = new List<LabelValueItem>();
+        MyTeamRemote.PEFilterData fltrdatas = new MyTeamRemote.PEFilterData();
+        fltrdatas.studies = items;
+        fltrdatas.studiesSelected = items;
+
+        List<Participant_Enrollment__c> peid = new List<Participant_Enrollment__c>();
+        MyTeamRemote.SelectedStudiesData slctddata = new MyTeamRemote.SelectedStudiesData();
+        slctddata.active = false;
+        slctddata.assigned = false;
+        slctddata.label = 'test';
+        slctddata.value = 'tstvalue';
+
         Test.startTest();
         System.runAs(tstData.participantUser) {
             Contact c = new Contact();
             c.FirstName = 'dummy';
             c.LastName = 'd';
             c.Email = 'lol@l.com';
-
-            String studyData =
-                '[' +
-                '{' +
-                '"label":"Hello Study 1",' +
-                '"value": "' +
-                tstData.pe.Id +
-                '",' +
-                '"assigned":false,' +
-                '"active":false,' +
-                '"pdEnrollmentId":null}]';
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c), studyData);
+            MyTeamRemote.savePatientDelegate(JSON.serialize(c), JSON.serialize(items));
             Boolean isExistingDelegate = MyTeamRemote.isExistingDelegate(JSON.serialize(c));
             System.assertEquals(false, isExistingDelegate);
-            String userMode = CommunityService.USER_MODE_PARTICIPANT;
-            MyTeamRemote.getFilterData(userMode);
         }
         Test.stopTest();
     }
@@ -591,14 +597,14 @@ private class Test_MyTeamRemote {
             c.FirstName = 'dummy';
             c.LastName = 'd';
             c.Email = 'lol@l.com';
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c));
+            MyTeamRemote.doSavePatientDelegate(JSON.serialize(c));
             Contact c2 = [
                 SELECT Id, FirstName, LastName, EMail
                 FROM Contact
                 WHERE Email = 'lol@l.com'
                 LIMIT 1
             ];
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c2));
+            MyTeamRemote.doSavePatientDelegate(JSON.serialize(c2));
         }
 
         Test.stopTest();
@@ -615,7 +621,7 @@ private class Test_MyTeamRemote {
             c.FirstName = 'dummy';
             c.LastName = 'd';
             c.Email = 'lol@l.com';
-            MyTeamRemote.savePatientDelegate(JSON.serialize(c));
+            MyTeamRemote.doSavePatientDelegate(JSON.serialize(c));
 
             Contact c2 = [
                 SELECT Id, FirstName, LastName, EMail

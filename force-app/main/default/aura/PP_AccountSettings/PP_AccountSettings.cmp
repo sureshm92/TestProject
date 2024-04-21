@@ -39,6 +39,12 @@
     <aura:attribute name="hoverId" type="string" />
     <aura:attribute name="showManageDelegateTab" type="Boolean" default="false" />
     <aura:attribute name="showMamanageAssignmentTab" type="Boolean" default="false" />
+    <aura:attribute
+        name="isJanssen"
+        type="Boolean"
+        description="get is janssen login"
+        default="false"
+    />
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
@@ -154,6 +160,22 @@
                                         >{!$Label.c.PP_Cookie_Settings}</a
                                     >
                                 </li>
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!v.isJanssen}">
+                                        <li
+                                            id="6"
+                                            aura:id="6"
+                                            class="{!(v.compId == '6') ? 'navItem mouse-hover group-6' : 'navItem' }"
+                                            >
+                                            <a
+                                               class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset"
+                                               data-menu-item-id="6"
+                                               onclick="{!c.selectCookie}"
+                                               >{!$Label.c.PP_Cookie_Settings}</a
+                                                >
+                                        </li>
+                                    </aura:if>
+                                </aura:set>
                             </aura:if>
                             <!-- Manage Delegates Start -->
                             <aura:if
@@ -240,11 +262,15 @@
                     <aura:if
                         isTrue="{!AND((v.compId == '8'),(v.userMode == 'Participant'),(v.showManageDelegateTab))}"
                     >
+                    <div class="manage-delegate-acc-setting-old">
                         <c:manageDelegates
                             userMode="{!v.userMode}"
-                            participantState="{!v.initData.participantState}"
+                            participantContactId="{!v.initData.myContact.Id}"
                             isRTL="{!v.isRTLLanguage}"
+                            picklistLabel="{!$Label.c.PG_MS_L_Studies_up}"
                         />
+                    </div>
+                        
                     </aura:if>
                     <!-- Manage Delegates Ends -->
                     <!-- Manage Assignment Start -->
@@ -252,11 +278,7 @@
                         isTrue="{!AND((v.compId == '9'),(v.userMode == 'Participant'),(v.showMamanageAssignmentTab))}"
                     >
                         <c:manageAssignment
-                            userMode="{!v.userMode}"
-                            hasPatientDelegates="{!v.initData.participantState.hasPatientDelegates}"
-                            isDelegate="{!v.initData.participantState.isDelegate}"
-                            ParticipantStateValue="{!v.initData.participantState.value}"
-                            isRTL="{!v.isRTLLanguage}"
+                        isRTL="{!v.isRTLLanguage}"
                         />
                     </aura:if>
                     <!-- Manage Assignment Ends -->

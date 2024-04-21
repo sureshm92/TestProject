@@ -110,6 +110,7 @@ public without sharing class TaskTriggerHandler {
         Set<Notification__c> deDupeNotifications = new Set<Notification__c>();
         List<Id> allContactsIds = new List<Id>();
         Map<Id,List<Task>> allPeIds = new Map<Id,List<Task>>();
+        set<String> conWithPdeRecrd = new set<String>();
         Set<Id> ownerIds = new Set<Id>();
         Set<Id> contactWithoutUser = new Set<Id>();
         // set to hold all tasks whose onwers are minor participants
@@ -126,10 +127,13 @@ public without sharing class TaskTriggerHandler {
                 InitialTaskNotification__c,
                 WhoId,
                 Start_Date__c,
-                Owner_Contact__c
+                Action_URL__c,
+                Owner_Contact__c,
+                Community_Template_Name__c
             FROM Task
             WHERE Id IN :tasks
         ];
+        Set<Id> receipientIdset = new Set<Id>();
         /* If the task is created for user without email, owner_contact  is present*/
         for (Task t : tasksWithOwner) {
             if (t.Owner_Contact__c == null) {
@@ -147,12 +151,14 @@ public without sharing class TaskTriggerHandler {
                     allPeIds.put(t.whatId, new List<Task>());
                 }
                 allPeIds.get(t.whatId).add(t); 
+                receipientIdset.add(t.WhoId);
             }
             else if(t.Task_Type__c == 'Survey' ){
                 if (!allPeIds.containsKey(t.Survey_Invitation__r.Participant_Enrollment__c)) {
                     allPeIds.put(t.Survey_Invitation__r.Participant_Enrollment__c, new List<Task>());
                 }
                 allPeIds.get(t.Survey_Invitation__r.Participant_Enrollment__c).add(t);
+                receipientIdset.add(t.WhoId);
             }
             else{
                 allContactsIds.add(t.WhoId);
@@ -224,6 +230,11 @@ public without sharing class TaskTriggerHandler {
                 FROM Patient_Delegate_Enrollment__c
                 WHERE Participant_Enrollment__c IN : allPeIds.keySet() AND Status__c = 'Active' 
             ];
+            for(Patient_Delegate_Enrollment__c pde : patientDelegates){
+                if(receipientIdset.contains(pde.Patient_Delegate__r.contact__c)){
+                    conWithPdeRecrd.add(pde.Patient_Delegate__r.contact__c+'-'+pde.Participant_Enrollment__c);
+                }
+            }
         }else{
             patientDelegates = [
             SELECT
@@ -253,7 +264,6 @@ public without sharing class TaskTriggerHandler {
             }
             delegatesCntByPartCnt.get(pd.Patient_Delegate__r.Participant__r.Contact__c).add(pd.Patient_Delegate__r.Contact__c);
         }
-
         for (Task task : tasksWithOwner) {
            if (task.Task_Code__c != null ) {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
@@ -273,7 +283,8 @@ public without sharing class TaskTriggerHandler {
                                     Recipient__c = usersByIds.get(task.OwnerId).ContactId,
                                     WhatId__c = whatId,
                                     Notification_Type__c = card.Immediate_Notification_Type__c,
-                                    RemindUsing__c = 'Email'
+                                    RemindUsing__c = 'Email',
+                                    IsDelegate__c = conWithPdeRecrd.contains(usersByIds.get(task.OwnerId).ContactId+'-'+task.whatId) ? true : false
                                 )
                             );
                         }
@@ -318,6 +329,45 @@ public without sharing class TaskTriggerHandler {
                         }
                     }
                 }
+                else if(task.Action_URL__c != null && task.Task_Code__c == TaskService.TASK_CODE_ECOA_TASK && (task.Community_Template_Name__c == CommunityTemplateService.TEMPLATE_PP || task.Community_Template_Name__c == CommunityTemplateService.TEMPLATE_JANSSEN)){
+                    Id whatId = task.WhatId;
+                    //Start
+                    if (
+                            task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) &&
+                            !tasksWithoutUser.contains(task.Id)
+                        ) {
+                            notifications.add(
+                                new Notification__c(
+                                    Recipient__c = usersByIds.get(task.OwnerId).ContactId,
+                                    WhatId__c = task.Id,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ACTIVATE_ECOA_TASK_INSTANT_TYPE,
+                                    RemindUsing__c = 'Email',
+                                    IsDelegate__c = conWithPdeRecrd.contains(usersByIds.get(task.OwnerId).ContactId+'-'+task.whatId) ? true : false
+                                )
+                            );
+                        }
+                        if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
+                            List<Contact> delegates = delegatesByPAContact.containskey(task.WhoId)
+                            ? delegatesByPAContact.get(task.WhoId)
+                            : null;
+                            List<Patient_Delegate_Enrollment__c> pdEnrollments = new List<Patient_Delegate_Enrollment__c>();
+                            pdEnrollments = perIdPdeMap.containsKey(task.WhatId) 
+                                                    ? perIdPdeMap.get(task.WhatId) : null;
+                            if(pdEnrollments != null && !pdEnrollments.isEmpty()){
+                                for(Patient_Delegate_Enrollment__c pde:pdEnrollments){
+                                    deDupeNotifications.add(new Notification__c(
+                                            Recipient__c = pde.Patient_Delegate__r.Contact__c,
+                                            WhatId__c = task.Id,
+                                            IsDelegate__c = true,
+                                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ACTIVATE_ECOA_TASK_INSTANT_TYPE,
+                                            StartDate__c = task.Start_Date__c,
+                                            RemindUsing__c = 'Email'
+                                        ));
+                                }
+                            }        
+                        }
+                    //End
+                }
             }
             if (
                 task.InitialTaskNotification__c && task.Task_Type__c == TaskService.TASK_TYPE_ECOA
@@ -333,7 +383,8 @@ public without sharing class TaskTriggerHandler {
                             WhatId__c = task.Id,
                             Notification_Type__c = 'Message_To_PT_Ecoa_Task_Instant_Type',
                             StartDate__c = task.Start_Date__c,
-                            RemindUsing__c = 'Email'
+                            RemindUsing__c = 'Email',
+                            IsDelegate__c = conWithPdeRecrd.contains(task.WhoId+'-'+task.whatId) ? true : false
                         )
                     );
                 }
@@ -341,21 +392,21 @@ public without sharing class TaskTriggerHandler {
                     List<Contact> delegates = delegatesByPAContact.containskey(task.WhoId)
                         ? delegatesByPAContact.get(task.WhoId)
                         : null;
-                    if (delegates != null && !delegates.isEmpty()) {
-                        for (Contact delContact : delegates) {
-                            notifications.add(
-                                new Notification__c(
-                                    Recipient__c = delContact.Id,
-                                    IsDelegate__c = true,
-                                    Task_Id__c = task.Id,
-                                    WhatId__c = task.Id,
-                                    Notification_Type__c = 'Message_To_PT_Ecoa_Task_Instant_Del_Type',
-                                    StartDate__c = task.Start_Date__c,
-                                    RemindUsing__c = 'Email'
-                                )
-                            );
+                        List<Patient_Delegate_Enrollment__c> pdEnrollments = new List<Patient_Delegate_Enrollment__c>();
+                        pdEnrollments = perIdPdeMap.containsKey(task.WhatId) 
+                                                ? perIdPdeMap.get(task.WhatId) : null;
+                        if(pdEnrollments != null && !pdEnrollments.isEmpty()){
+                            for(Patient_Delegate_Enrollment__c pde:pdEnrollments){
+                                deDupeNotifications.add(new Notification__c(
+                                        Recipient__c = pde.Patient_Delegate__r.Contact__c,
+                                        WhatId__c = task.Id,
+                                        IsDelegate__c = true,
+                                        Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
+                                        StartDate__c = task.Start_Date__c,
+                                        RemindUsing__c = 'Email'
+                                    ));
+                            }
                         }
-                    }
                 }
             }
             if (
@@ -372,7 +423,9 @@ public without sharing class TaskTriggerHandler {
                             WhatId__c = task.Id,
                             Notification_Type__c = 'Message_To_PT_Task_Instant_Type',
                             StartDate__c = task.Start_Date__c,
-                            RemindUsing__c = 'Email'
+                            RemindUsing__c = 'Email',
+                            IsDelegate__c = conWithPdeRecrd.contains(task.WhoId+'-'+task.whatId) ? true : false
+
                         )
                     );
                 }
@@ -380,7 +433,23 @@ public without sharing class TaskTriggerHandler {
                     List<Contact> delegates = delegatesByPAContact.containskey(task.WhoId)
                         ? delegatesByPAContact.get(task.WhoId)
                         : null;
-                    if (delegates != null && !delegates.isEmpty()) {
+                    List<Patient_Delegate_Enrollment__c> pdEnrollments = new List<Patient_Delegate_Enrollment__c>();
+                    pdEnrollments = perIdPdeMap.containsKey(task.WhatId) 
+                                            ? perIdPdeMap.get(task.WhatId) : null;
+                    if(pdEnrollments != null && !pdEnrollments.isEmpty()){
+                        for(Patient_Delegate_Enrollment__c pde:pdEnrollments){
+                            deDupeNotifications.add(new Notification__c(
+                                    Recipient__c = pde.Patient_Delegate__r.Contact__c,
+                                    WhatId__c = task.Id,
+                                    IsDelegate__c = true,
+                                    Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
+                                    StartDate__c = task.Start_Date__c,
+                                    RemindUsing__c = 'Email'
+                                ));
+                        }
+                    }
+                    
+                    else if (delegates != null && !delegates.isEmpty()) {
                         for (Contact delContact : delegates) {
                             deDupeNotifications.add(
                                 new Notification__c(
@@ -509,7 +578,8 @@ public without sharing class TaskTriggerHandler {
 
     public static Map<Id, Boolean> isSurveyTaskNewPP(Set<Id> surveyInvitationSet) {
         List<SurveyInvitation> surveyInvitationList = [
-            SELECT Id, Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+            SELECT Id, Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c
             FROM SurveyInvitation
             WHERE Id IN :surveyInvitationSet
         ];
@@ -517,7 +587,10 @@ public without sharing class TaskTriggerHandler {
         for (SurveyInvitation surveyInvitation : surveyInvitationList) {
             if (
                 surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                CommunityTemplateService.TEMPLATE_PP
+                CommunityTemplateService.TEMPLATE_PP ||
+                (surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                'Janssen' &&
+                surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
             ) {
                 surveyInvitationMap.put(surveyInvitation.Id, true);
             } else {

@@ -8,7 +8,7 @@
 
 .header-panel-mobile {
     /*padding: 1rem;*/
-    margin: -1rem 1rem 1rem 1rem;
+    margin: 0rem 1rem 1rem 1rem;
 }
 
 .com-icon {
@@ -16,7 +16,7 @@
     height: 20px;
     width: 20px;
 }
-.mob-as-title{
+.mob-as-title {
     height: 48px;
     color: #444444;
     font-family: 'Proxima Nova';
@@ -87,8 +87,8 @@
 .mb-15 {
     margin-bottom: 15px;
 }
-.des-15{
-    margin-bottom: 15px;  
+.des-15 {
+    margin-bottom: 15px;
 }
 
 .mb-20 {
@@ -96,15 +96,18 @@
 }
 
 .pad-r-10 {
-    padding-right: 10px;
+    padding-right:5px;
 }
 
+.pad-l-10 {
+    padding-left: 10px;
+}
 .pt-4 {
     padding-top: 2px;
 }
 
 .ml-12 {
-    margin-left: -12px;
+    /* margin-left: -12px; */
 }
 
 .mt-20 {
@@ -144,8 +147,7 @@
 }
 
 .exclamation_mobile {
-    height: 100%;
-    width: 100%;
+    
 }
 
 .center-align {
@@ -176,6 +178,9 @@
 
 .acc-settings-link:hover {
     cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    color: #0557d5;
 }
 
 .to-update-all-other {
@@ -191,4 +196,39 @@
 
 .pad10 {
     text-align: center;
+}
+
+@media all and (max-width: 1024px) and (min-width: 768px) and (orientation: portrait) {
+
+    .exclamation_green{
+        height: fit-content;
+        width: fit-content;
+    }
+    .ml-12 {
+        /* margin-left: 0px !important; */
+    }
+    .exclamation_mobile{
+        width : fit-content;
+    }
+}
+@media only screen   and (min-device-width: 1024px)   and (max-device-width: 1366px)   and (orientation: landscape){
+    .exclamation_mobile{
+        width : fit-content;
+    }
+    .img-size{
+        width : 25% !important;
+    }
+    .rectangle{
+        padding: 10px 6px;
+    }
+    .exclamation_green{
+        height: fit-content;
+        width: fit-content;
+    }
+    .pad-r-10{
+        padding-right: unset;
+    }
+    .help_section_tab{
+        width:75%;
+    }
 }

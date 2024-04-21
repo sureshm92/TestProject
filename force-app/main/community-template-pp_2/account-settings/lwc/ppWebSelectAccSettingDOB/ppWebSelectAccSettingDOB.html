@@ -1,0 +1,52 @@
+<template>
+    <div class={comboboxClass}>
+        <div id="dropdown" class={dropdownClass}>
+            <select
+                id="select-01"
+                onchange={handleOptionSelect}
+                disabled={disableIsSelect}
+                class={hideDropdownForRTL}
+            >
+                <template if:true={isDisplayDropDownBox}>
+                    <template for:each={options} for:item="option">
+                        <template lwc:if={option.isSelected}>
+                            <option
+                                selected
+                                key={option.value}
+                                value={option.value}
+                                data-value={option.value}
+                                data-label={option.label}
+                            >
+                                <lightning-formatted-rich-text
+                                    class="dropdown-span slds-truncate"
+                                    value={option.label}
+                                ></lightning-formatted-rich-text>
+                            </option>
+                        </template>
+                        <template lwc:else>
+                            <template lwc:if={displayplaceHolderOneTime}>
+                                <option key={placeHolder} value="" disabled selected hidden>{placeHolder}</option>   
+                            </template>
+                            <option
+                                key={option.value}
+                                value={option.value}
+                                data-value={option.value}
+                                data-label={option.label}
+                            >
+                                <lightning-formatted-rich-text
+                                    class="dropdown-span slds-truncate"
+                                    value={option.label}
+                                ></lightning-formatted-rich-text>
+                            </option>
+                        </template>
+                    </template>
+                </template>
+                <template if:false={isDisplayDropDownBox}>
+                    <template if:false={selectedValue}>
+                        <option hidden disabled selected value>{placeHolder}</option>
+                    </template>
+                </template>
+            </select>
+        </div>
+    </div>
+</template>

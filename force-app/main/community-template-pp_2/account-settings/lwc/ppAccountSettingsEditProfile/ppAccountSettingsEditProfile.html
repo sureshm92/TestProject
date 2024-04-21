@@ -7,18 +7,18 @@
             <template if:true={isMobile}>
                 <div class="slds-grid slds-wrap slds-gutters slds-p-bottom_small">
                     <div class="slds-col slds-size_1-of-1">
-                        <div class="back-button">
+                        <div class="back-button" onclick={showMenuBar}>
                             <template if:false={isRTL}>
                                 <c-web-icon
                                     icon-size="medium"
                                     icon-name={iconChevron}
                                     icon-color="#297dfd"
+                                    data-header="profile-information"
                                 >
                                 </c-web-icon>
                             </template>
                             <span
                                 class="slds-p-left_x-small slds-p-right_x-small"
-                                onclick={showMenuBar}
                                 data-header="profile-information"
                                 >{labels.BACK}</span
                             >
@@ -92,7 +92,7 @@
                                     <c-pp-web-select
                                         is-r-t-l={isRTL}
                                         label-hidden="true"
-                                        place-holder="Select"
+                                        place-holder={labels.DOB_Age}
                                         selected-value={personWrapper.prefix}
                                         is-disabled={isDelegate}
                                         options={contactSectionData.prefixList}
@@ -129,7 +129,7 @@
                             </div>
                         </div>
                         <!--MIDDLE INITIAL-->
-                        <div class={shortContainerClass}>
+                        <div class={shortContainerClass1}>
                             <div class="slds-form-element">
                                 <label
                                     class="slds-form-element__label field-title"
@@ -247,80 +247,223 @@
                         </div>
                         <!--DATE OF BIRTH-->
                         <div class={dobContainerClass}>
-                            <div class="slds-form-element">
-                                <label class="slds-form-element__label field-title" for="dob-input">
-                                    {labels.DOB}<abbr
-                                        class="slds-required required-icon"
-                                        title="Date of Birth"
-                                        >*
-                                    </abbr></label
-                                >
+                            <div class="slds-form-element">                               
                                 <div class="slds-form-element__control" data-id="dob-input">
                                     <div class="slds-grid">
-                                        <!--MONTH-->
-                                        <div class={dobFieldClass}>
-                                            <c-pp-web-select
-                                                is-r-t-l={isRTL}
-                                                label-hidden="true"
-                                                place-holder="Month"
-                                                custom-class={dobInputClass}
-                                                selected-value={dateOfBirth.month}
-                                                is-disabled={dobDisabled}
-                                                options={monthsList}
-                                                onchangevalue={handleMonthChange}
-                                            ></c-pp-web-select>
-                                        </div>
-                                        <!--DAY-->
-                                        <div class={dobFieldClass}>
-                                            <c-pp-web-select
-                                                is-r-t-l={isRTL}
-                                                label-hidden="true"
-                                                place-holder="Day"
-                                                custom-class={dobInputClass}
-                                                selected-value={dateOfBirth.day}
-                                                is-disabled={dobDisabled}
-                                                options={daysList}
-                                                onchangevalue={handleDayChange}
-                                            ></c-pp-web-select>
-                                        </div>
-                                        <!--YEAR-->
-                                        <div class={dobFieldClass}>
-                                            <c-pp-web-select
-                                                is-r-t-l={isRTL}
-                                                label-hidden="true"
-                                                place-holder="Year"
-                                                custom-class={dobInputClass}
-                                                selected-value={dateOfBirth.year}
-                                                is-disabled={dobDisabled}
-                                                options={yearsList}
-                                                onchangevalue={handleYearChange}
-                                            ></c-pp-web-select>
-                                        </div>
+                                        <template lwc:if={dobForDelegate}>
+                                            <div class={dobFieldClass}>
+                                                <label class="slds-form-element__label field-title" for="dob-input">
+                                                    {labels.DOB}<abbr
+                                                        class="slds-required required-icon"
+                                                        title="Date of Birth"
+                                                        >*
+                                                    </abbr></label
+                                                >
+                                                <lightning-input
+                                                    type="text"
+                                                    disabled=true
+                                                    value={personWrapper.birthYear}
+                                                    placeholder={labels.DOB_YYYY}>
+                                                </lightning-input>
+                                            </div>
+                                        </template>
+                                        <template lwc:else>
+                                            <template lwc:if={dobForParticipant}>
+                                                    <!-- Add year code-->
+                                                    <div class={dobFieldClass}>
+                                                         <label class="slds-form-element__label field-title" for="dob-input">
+                                                            {labels.DOB}<abbr
+                                                                class="slds-required required-icon"
+                                                                title="Date of Birth"
+                                                                >*
+                                                            </abbr></label
+                                                        >
+                                                        <c-pp-web-select-acc-setting-d-o-b
+                                                            is-r-t-l={isRTL}
+                                                            label-hidden="true"
+                                                            place-holder={labels.DOB_YYYY}
+                                                            custom-class={dobInputClass}
+                                                            selected-value={personWrapper.birthYear}
+                                                            is-disabled={dobDisabled}
+                                                            options={optionsYYYY}
+                                                            onchangevalue={handleYearChange}
+                                                        ></c-pp-web-select-acc-setting-d-o-b>
+                                                    </div>
+                                                    <!--Month-->
+                                                    <template lwc:if={showMonth}>
+                                                        <div class={dobFieldClass}>
+                                                             <label class="slds-form-element__label field-title" for="dob-input" style="display: block;">
+                                                                                  <abbr
+                                                                                        class="slds-required required-icon" 
+                                                                                        
+                                                                                        >
+                                                                                    </abbr></label
+                                                              >   
+                                                            <c-pp-web-select-acc-setting-d-o-b
+                                                            is-r-t-l={isRTL}
+                                                            label-hidden="true"
+                                                            place-holder={labels.DOB_Month}
+                                                            custom-class={dobInputClass}
+                                                            selected-value={personWrapper.birthMonth}
+                                                            is-disabled={dobDisabled}
+                                                            options={optionsMMList}
+                                                            onchangevalue={handleMonthChange}
+                                                            class="monthEle"
+                                                            ></c-pp-web-select-acc-setting-d-o-b>
+                                                        </div>
+                                                    </template>
+                                                    <!--  DAY -->
+                                                    <template lwc:if={showDay}>
+                                                        <div class={dobFieldClass}>
+                                                            <label class="slds-form-element__label field-title" for="dob-input" style="display: block;">
+                                                                <abbr
+                                                                      class="slds-required required-icon" 
+                                                                      
+                                                                      >
+                                                                  </abbr></label>   
+                                                            <c-pp-web-select-acc-setting-d-o-b
+                                                                is-r-t-l={isRTL}
+                                                                label-hidden="true"
+                                                                place-holder={labels.DOB_DD}
+                                                                custom-class={dobInputClass}
+                                                                selected-value={personWrapper.birthDay}
+                                                                is-disabled={dobDisabled}
+                                                                options={optionsDDList}
+                                                                onchangevalue={handleDayChange}
+                                                                class="dayEle"
+                                                            ></c-pp-web-select-acc-setting-d-o-b>   
+                                                        </div>
+                                                    </template>
+                                                    <template lwc:else>
+                                                                <template lwc:if={dobForParticipant}>
+                                                                        <template lwc:if={ageInputDisabled}>
+                                                                            <!--<div class="input-text alignAge">{selectedAge}</div>-->
+                                                                        </template>
+                                                                        <template lwc:else>
+                                                                            <div class={doGetAgeClass}> 
+                                                                                 <label class="slds-form-element__label field-title" for="dob-input" style="display: block;">
+                                                                                    {labels.AGE}<abbr
+                                                                                        class="slds-required required-icon" 
+                                                                                        
+                                                                                        >*
+                                                                                    </abbr></label
+                                                                                >   
+                                                                                <c-pp-web-select-acc-setting-d-o-b
+                                                                                    is-r-t-l={isRTL}
+                                                                                    label-hidden="true"
+                                                                                    place-holder={labels.DOB_Age}
+                                                                                    custom-class={dobInputClass}
+                                                                                    selected-value={personWrapper.age}
+                                                                                    is-disabled={dobDisabled}
+                                                                                    options={ageOpt}
+                                                                                    onchangevalue={handleAgeChange}>
+                                                                                </c-pp-web-select-acc-setting-d-o-b>
+                                                                            </div>
+                                                                        </template>
+                                                                </template>  
+                                                    </template>
+                                            </template>
+                                            <template lwc:if={isDelegate}>
+                                                <!-- add Year-->
+                                                <div class={dobFieldClass}>
+                                                    <label class="slds-form-element__label field-title" for="dob-input">
+                                                        {labels.DOB}<abbr
+                                                            class="slds-required required-icon"
+                                                            title="Date of Birth"
+                                                            >*
+                                                        </abbr></label
+                                                    >
+                                                    <c-pp-web-select-acc-setting-d-o-b
+                                                    is-r-t-l={isRTL}
+                                                    label-hidden="true"
+                                                    place-holder={labels.DOB_YYYY}
+                                                    custom-class={dobInputClass}
+                                                    selected-value={personWrapper.birthYear}
+                                                    is-disabled={dobDisabled}
+                                                    options={optionsYYYY}
+                                                    onchangevalue={handleYearChange}
+                                                    ></c-pp-web-select-acc-setting-d-o-b>
+                                                </div>
+                                                <template lwc:if={showMonth}>
+                                                    <div class={dobFieldClass}>
+                                                        <label class="slds-form-element__label field-title" for="dob-input" style="display: block;">
+                                                            <abbr
+                                                                  class="slds-required required-icon" 
+                                                                  
+                                                                  >
+                                                              </abbr></label>   
+                                                        <c-pp-web-select-acc-setting-d-o-b
+                                                        is-r-t-l={isRTL}
+                                                        label-hidden="true"
+                                                        place-holder={labels.DOB_Month}
+                                                        custom-class={dobInputClass}
+                                                        selected-value={personWrapper.birthMonth}
+                                                        is-disabled={dobDisabled}
+                                                        options={optionsMMList}
+                                                        onchangevalue={handleMonthChange}>
+                                                        </c-pp-web-select-acc-setting-d-o-b>
+                                                    </div>
+                                                </template>
+                                                <template lwc:if={showDay}>
+                                                    <div class={dobFieldClass}>
+                                                        <label class="slds-form-element__label field-title" for="dob-input" style="display: block;">
+                                                            <abbr
+                                                                  class="slds-required required-icon" 
+                                                                  
+                                                                  >
+                                                              </abbr>
+                                                        </label>   
+                                                        <c-pp-web-select-acc-setting-d-o-b
+                                                        is-r-t-l={isRTL}
+                                                        label-hidden="true"
+                                                        place-holder={labels.DOB_DD}
+                                                        custom-class={dobInputClass}
+                                                        selected-value={personWrapper.birthDay}
+                                                        is-disabled={dobDisabled}
+                                                        options={optionsDDList}
+                                                        onchangevalue={handleDayChange}
+                                                    ></c-pp-web-select-acc-setting-d-o-b> 
+                                                    </div>
+                                                </template>
+                                                <template lwc:else> 
+                                                    <template lwc:if={isDelegate}>
+                                                        <template lwc:if={ageInputDisabled}>
+                                                        </template>
+                                                        <template lwc:else>
+                                                            <div class={doGetAgeClass}>
+                                                                <label class="slds-form-element__label field-title" for="dob-input" style="display: block;">
+                                                                    {labels.AGE}<abbr
+                                                                        class="slds-required required-icon" 
+                                                                        
+                                                                        >*
+                                                                    </abbr></label
+                                                                >   
+                                                                <c-pp-web-select-acc-setting-d-o-b
+                                                                    is-r-t-l={isRTL}
+                                                                    label-hidden="true"
+                                                                    place-holder={labels.DOB_Age}
+                                                                    custom-class={dobInputClass}
+                                                                    selected-value={personWrapper.age}
+                                                                    is-disabled={dobDisabled}
+                                                                    options={ageOpt}
+                                                                    onchangevalue={handleAgeChange}>
+                                                                </c-pp-web-select-acc-setting-d-o-b>
+                                                            </div>
+                                                        </template>
+                                                    </template>
+                                        </template>
+                                            </template>
+                                        </template>
+                                        <!-- Anitha End-->
+                                        
                                     </div>
-                                </div>
-                                <div
-                                    class="slds-form-element__help field-error-message slds-hide"
-                                    data-id="dob-error-message"
-                                >
-                                    {dobFieldError}
                                 </div>
                             </div>
                         </div>
+                        <!--Age-->
                     </div>
                 </div>
             </div>
-
-            <!--Delegate Withdraw Consent Section Yet to Design-->
-            <template if:true={isDelegate}>
-                <div class="delegate-info slds-p-vertical_medium">
-                    <c-pp-delegate-information
-                        user-mode="Participant"
-                        delegate-contact={delegateContact}
-                        is-mobile={isMobile}
-                        is-r-t-l={isRTL}
-                    ></c-pp-delegate-information>
-                </div>
-            </template>
             <!--Contact Information Section-->
             <template if:true={initData.participant.Adult__c}>
                 <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
@@ -339,16 +482,10 @@
                             <div class={emailContainerClass}>
                                 <!--EMAIL-->
                                 <div class="slds-form-element">
-                                    <label
-                                        class="slds-form-element__label field-title"
-                                        for="email-input"
-                                    >
-                                        {labels.EMAIL_ADDRESS}<abbr
-                                            class="slds-required required-icon"
-                                            title="required"
-                                        >
-                                        </abbr
-                                    ></label>
+                                    <label class="slds-form-element__label field-title" for="email-input">
+                                        {labels.EMAIL_ADDRESS}<abbr class="slds-required required-icon"
+                                            title="required">
+                                        </abbr></label>
                                     <div class="slds-form-element__control">
                                         <lightning-input
                                             type="email"
@@ -391,18 +528,14 @@
                     >
                         <div class={mobileContainerClass}>
                             <div
-                                class="slds-form-element slds-col slds-size_4-of-4 slds-medium-size_7-of-7 slds-p-vertical_x-small"
+                                class="slds-form-element slds-col slds-size_4-of-4 slds-medium-size_8-of-8 slds-p-vertical_x-small"
                             >
                                 <div class="slds-form-element">
                                     <label
                                         class="slds-form-element__label field-title"
                                         for="mobile-phone-input"
-                                        >{labels.MOBILE_PHONE}<abbr
-                                            class="slds-required required-icon"
-                                            title="required"
-                                            ><template if:true={isMobilePhoneRequired}>*</template>
-                                        </abbr></label
-                                    >
+                                        >{labels.MOBILE_PHONE}
+                                    </label>
                                     <div class="slds-form-element__control">
                                         <div class="slds-grid slds-wrap slds-gutters">
                                             <div class={mobilePhoneContainerClass}>
@@ -411,9 +544,9 @@
                                                     data-id="mobile-phone-input"
                                                     variant="label-hidden"
                                                     class="profile-info-input"
-                                                    required={isMobilePhoneRequired}
                                                     value={personWrapper.mobilePhone}
                                                     onkeyup={handleMobilePhoneChange}
+                                                    disabled={isDelegate}
                                                 ></lightning-input>
                                             </div>
                                             <div class={useAsDaytimeContainerClass}>
@@ -463,6 +596,18 @@
                                         </abbr></label
                                     >
                                     <div class="slds-form-element__control">
+                                        <template lwc:if={isDelegate}>
+                                            <lightning-input
+                                                type="tel"
+                                                data-id="daytime-phone-input"
+                                                variant="label-hidden"
+                                                class="profile-info-input"
+                                                value={personWrapper.homePhone}
+                                                onkeyup={handleDaytimePhoneChange}
+                                                disabled="true"
+                                            ></lightning-input>
+                                        </template>
+                                        <template lwc:else>
                                         <lightning-input
                                             type="tel"
                                             data-id="daytime-phone-input"
@@ -472,6 +617,7 @@
                                             onkeyup={handleDaytimePhoneChange}
                                             disabled={isUseAsDaytimePhoneChecked}
                                         ></lightning-input>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -483,6 +629,19 @@
                                         >{labels.PHONE_TYPE}</label
                                     >
                                     <div class="slds-form-element__control">
+                                        <template lwc:if={isDelegate}>
+                                            <c-pp-web-select
+                                                is-r-t-l={isRTL}
+                                                label-hidden="true"
+                                                place-holder="Select"
+                                                selected-value={personWrapper.phoneType}
+                                                is-disabled="true"
+                                                options={contactSectionData.phoneTypeList}
+                                                onchangevalue={handlePhoneTypeChange}
+                                                custom-class={phoneTypeWidthClass}
+                                            ></c-pp-web-select>
+                                        </template>
+                                        <template lwc:else>
                                         <c-pp-web-select
                                             is-r-t-l={isRTL}
                                             label-hidden="true"
@@ -493,6 +652,7 @@
                                             onchangevalue={handlePhoneTypeChange}
                                             custom-class={phoneTypeWidthClass}
                                         ></c-pp-web-select>
+                                        </template>
                                     </div>
                                 </div>
                             </div>

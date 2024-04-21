@@ -1,5 +1,5 @@
 .summary-title {
-    color: #0768fd;
+    color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
@@ -11,6 +11,13 @@
     -webkit-box-orient: vertical;
     word-break: break-word;
 }
+
+.summary-title:hover {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    color: #0557d5;
+}
+
 .summary-text {
     color: #000000;
     font-family: 'Proxima Nova';
@@ -52,7 +59,6 @@ img,
 }
 .resource-icon {
     display: block;
-    margin-left: 70%;
 }
 .resource-pointer {
     object-fit: cover;

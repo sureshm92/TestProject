@@ -668,6 +668,7 @@ private without sharing class Test_ReferringRemote {
                 testDataInstance.ctp.Id,
                 testDataInstance.pe.Id,
                 testDataInstance.hcpEnrollment.Id,
+                false,
                 CommunityService.USER_MODE_HCP,
                 null,
                 null
@@ -685,15 +686,16 @@ private without sharing class Test_ReferringRemote {
     @IsTest
     static void getInitData() {
         
-        Test.startTest();
         TestData.loadTestData();
         TestData testDataInstance = new TestData();
+        Test.startTest();
         String initDataStr;
         System.runAs(testDataInstance.hcpUser) {
             initDataStr = ReferringRemote.getInitData(
                 testDataInstance.ctp.Id,
                 testDataInstance.pe.Id,
                 testDataInstance.hcpEnrollment.Id,
+                false,
                 CommunityService.USER_MODE_HCP,
                 null,
                 null
@@ -705,6 +707,52 @@ private without sharing class Test_ReferringRemote {
             ReferringRemote.InitData.class
         );
         System.assertEquals(1, initData.studies.size());
+    }
+
+    @isTest
+    public static void TestM1(){
+        TestData.loadTestData();
+        TestData testDataInstance = new TestData();
+            String base64Data = EncodingUtil.base64Encode(blob.valueOf('File test data'));
+            String base64Content = EncodingUtil.Base64Encode( 
+            Blob.valueOf( 'Testing' ) 
+          );
+         Blob blobContent = EncodingUtil.base64Decode( base64Content );
+        String contentVersionId;
+        String contentDocumentId;
+         ContentVersion contentVersion = new ContentVersion(
+            Title = 'Test.csv',
+            PathOnClient = 'Test.jpg',
+            VersionData = Blob.valueOf(base64Data),
+            IsMajorVersion = true
+
+        );
+            insert contentVersion;
+        ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion.Id].ContentDocumentId;
+        ContentDocumentLink contentLink =   [SELECT Id FROM ContentDocumentLink WHERE LinkedEntityId =:UserInfo.getUserId() AND ContentDocumentId =: ContentDocumentId ];
+            Test.startTest();
+       ReferringRemote.ContentInfoWrapper wrapper =  ReferringRemote.saveTheChunkFile('Test.pdf', base64Data ,contentVersionId ,contentDocumentId );
+            string base = 'tesinigmydocument';
+            string filename = 'test file';
+        string fId = wrapper.contentVersionId; 
+        string cDocId = wrapper.contentDocumentId;
+        string pdfData = 'x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x\nx,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x\n,,,,,cherry@yop.com,2010,Yes,No,,,76767,,,,x,,,,,1998,No,err\n1234,,,,,,,,,,,,,,,,,,,,,,err\n1224,,,,,,1982,Yes,,,,,,,,x,,,,,,,err\n1234,,,,,,,,,,,,,,,,,,,,,,err\nSomePatientId1,,,,,,,,,,,,,,,,,,,,,,err\n1562,,,,,,2010,No,,,,456791001,Work,,,m,c,m@c.com,78965413,Work,1962,Yes,err\n';
+        string pdfData22 = 'x,x,x,x,x,x\nx,x,x,x,x,x,x,x\nx,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x';
+        string pdfData21 = 'x,x,x,x,x,x\nx,x,x,x,x,x,x,x\nx,x,x,x,x,x,No,No,x,x,x,x,x,x,x,x,x,x,x,x,No,No';
+        ReferringRemote.saveFiles('Test.pdf',base64Data); 
+       ContentVersion[] versionDatas = [
+            SELECT Id, VersionData,ContentDocumentId
+            FROM ContentVersion
+            WHERE Id = :fId Limit 1
+        ];
+        if(!versionDatas.isEmpty()){
+            ContentVersion versionData = versionDatas[0];
+            String updatedbody = EncodingUtil.base64Encode(versionData.VersionData);   
+             ReferringRemote.appendToFile(fId ,base64Data);
+        }
+           
+        ReferringRemote.deleteFile(fId);
+          Test.stopTest();               
     }
 
     @IsTest
@@ -774,7 +822,7 @@ private without sharing class Test_ReferringRemote {
         Insert contentDocList;  
         
          //Test.startTest();
-        ReferringRemote.deleteFile(Documents[0].id);
+        //ReferringRemote.deleteFile(Documents[0].id);
 
         string lang = 'en_US';
         Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c();

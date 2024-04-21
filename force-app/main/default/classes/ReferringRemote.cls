@@ -21,6 +21,7 @@ public without sharing class ReferringRemote {
         public String contentDoc;
         public PreScreener_Survey__c preScreenerSurvey;
         public PreScreener_Survey__c mrrSurvey;
+        public Boolean iqviaConsentPref;
     }
 
     public class AccountWrapper {
@@ -37,6 +38,7 @@ public without sharing class ReferringRemote {
         Id trialId,
         Id peId,
         Id hcpeId,
+		Boolean patientDoesNotExist,
         String userMode,
         String delegateId,
         String language
@@ -70,11 +72,96 @@ public without sharing class ReferringRemote {
             );
         }
         if (initData.mrrSurvey != null) {
-            initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(
-                trialId,
-                null,
-                delegateId
-            );
+		List<String> customFields = new List<String>{
+            'Id',
+            'isAuthorized__c',
+            'Participant_Surname__c',
+            'Permit_SMS_Text_for_this_study__c',
+            'Participant__r.Adult__c',
+            'Participant__r.Mailing_Country_Code__c',
+            'Mailing_Country_Code__c',
+            'Clinical_Trial_Profile__r.Study_Code_Name__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
+            'Participant_Name__c',
+            'Study_Site__r.Is_Virtual_Study_Site__c',
+            'Study_Site__c',
+            'Participant__c',
+            'Is_Virtual_Study_Site__c',
+            'HCP__r.Study_Site__c',
+            'Participant__r.Middle_Name__c',
+            'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
+            'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
+            'Study_Site__r.Principal_Investigator__r.Salutation',
+            'Study_Site__r.Principal_Investigator__r.Name',
+            'HCP__r.HCP_Contact__r.Salutation',
+            'Participant__r.Mailing_State_Code__c',
+            'Permit_Voice_Text_contact_for_this_study__c',
+            'Permit_Mail_Email_contact_for_this_study__c',
+            'Delegate_Consent__c',
+            'Delegate_SMS_Consent__c',
+            'Mailing_State_Code__c',
+            'Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c',
+            'HCP__r.HCP_Contact__r.Name',
+            'Study_Site__r.Participant_DOB_format__c',
+            'Study_Site__r.Site__r.BillingStreet',
+            'Participant__r.Mailing_Zip_Postal_Code__c',
+            'HCP__r.HCP_Contact__r.Account.BillingCountryCode',
+            'HCP__r.HCP_Contact__r.Account.BillingStateCode',
+            'Study_Site__r.Site__r.BillingPostalCode',
+            'Study_Site__r.Site__r.BillingCountryCode',
+            'Enrolled_Date__c',
+            'Enrolled_DateTime__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
+            'HCP__r.Status__c',
+            'HCP__r.HCP_Contact__r.FirstName',
+            'HCP__r.HCP_Contact__r.LastName',
+            'Patient_ID__c',
+            'Phone__c',
+            'Is_Phone__c',
+            'Participant_Alternative_Phone__c',
+            'Participant__r.First_Name__c',
+            'Participant__r.Last_Name__c',
+            'Participant__r.Email__c',
+            'Participant__r.Phone__c',
+            'Study_Site__r.Study_Site_Phone__c',
+            'Participant_Phone_Opt_In_Permit_Phone__c',
+            'Participant__r.Phone_Type__c',
+            'Participant_Alt_Phone_Type__c',
+            'Patient_Phone_Type__c',
+            'Participant__r.Alternative_Phone_Type__c',
+            'Participant__r.Date_of_Birth__c',
+            'Patient_Middle_Name_Initial__c',
+            'Patient_Sex__c',
+            'Participant__r.Birth_Year__c',
+            'Participant__r.Gender__c',
+            'Is_Email__c',
+            'Email__c',
+            'Primary_Delegate_First_Name__c',
+            'Primary_Delegate_Last_Name__c',
+            'Primary_Delegate_Email__c',
+            'Primary_Delegate_Phone_Number__c',
+            'Primary_Delegate_Phone_Type__c',
+            'Primary_Delegate_YOB__c',
+            'Is_Delegate_Certify__c',
+            'Birth_Month__c',
+            'YOB__c',
+            'Medical_Record_Review_Status__c',
+            'Pre_screening_Status__c',
+            'Participant_Opt_In_Status_Emails__c',
+            'Participant_Opt_In_Status_SMS__c',
+            'IQVIA_Direct_Mail_Consent__c',
+            'Study_Site__r.Name',
+            'Postal_Code__c'
+                };
+            if(patientDoesNotExist != true){
+                initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(
+                    trialId,
+                    null,
+                    delegateId,
+                    customFields
+                );
+		    }	
             if(initData.pendingPEnrollments != null && !initData.pendingPEnrollments.isEmpty()) {
                 Map<Id, List<Participant_PrescreenerResponse__c>> peIdResponseMap = new Map<Id, List<Participant_PrescreenerResponse__c>>();
                 for(Participant_PrescreenerResponse__c response : [
@@ -141,6 +228,82 @@ public without sharing class ReferringRemote {
         //            aw.addrCity = getCityString(site);
         //            aw.clinic = site;
         //            initData.studies.add(aw);
+        
+        
+        String[] restrictedlst;  String referralSource;
+        list<Participant_Enrollment__c> lstPer = new list<Participant_Enrollment__c>();
+        
+        if(peId != null) {
+            list<Restricted_Source_Config__c> restrictedRecrd = new list<Restricted_Source_Config__c>();
+            lstPer = [Select Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        Referral_Source__c,DataControllerOrg__c,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Clinical_Trial_Profile__r.PPTemplate__c
+                        from Participant_Enrollment__c where Id=:peId limit 1];
+            
+            if(lstPer[0].Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                  if(lstPer[0].Clinical_Trial_Profile__r.CommunityTemplate__c !='PatientPortal' && (lstPer[0].Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' || lstPer[0].Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0'))
+                  {
+                     initData.iqviaConsentPref =  false;
+                  }
+                  else
+                  {
+                    restrictedRecrd = [SELECT Id,Study__c,Study__r.IQVIA_Outreach__c,Referral_Resource__c FROM Restricted_Source_Config__c WHERE Study__c =: lstPer[0].Clinical_Trial_Profile__c limit 1];
+                        if(restrictedRecrd != null && !restrictedRecrd.isEmpty()){
+                            restrictedlst = restrictedRecrd[0].Referral_Resource__c != null ? restrictedRecrd[0].Referral_Resource__c.split(';') : null;
+                        
+                            if(restrictedlst != null && !restrictedlst.isEmpty()){
+                                referralSource = (lstPer[0].Referral_Source__c == 'ePR' || lstPer[0].Referral_Source__c == 'ePR_Campaign')  ? lstPer[0].Referral_Source__c +'-'+lstPer[0].DataControllerOrg__c :lstPer[0].Referral_Source__c; 
+                                if(restrictedlst.contains('HCP')){
+                                initData.iqviaConsentPref =  true; //restricted dnd
+                                }else{
+                                initData.iqviaConsentPref =  false; //non restricted
+                                }
+                            
+                            }else{
+                            initData.iqviaConsentPref =  true; // restricted
+                            }
+                        }else{initData.iqviaConsentPref =  false;} //non restricted dis
+                    }
+            }
+            else{
+                initData.iqviaConsentPref =  true;  //dnd
+            }  
+        }else{
+            list<Clinical_Trial_Profile__c> lstCtp = new list<Clinical_Trial_Profile__c>();
+            List<Restricted_Source_Config__c> restrictedRecrd = new List<Restricted_Source_Config__c> ();
+            lstCtp = [Select Id,IQVIA_Outreach__c,
+                        CommunityTemplate__c,
+                        PPTemplate__c
+                        from Clinical_Trial_Profile__c where Id=:trialId limit 1];
+            restrictedRecrd = [SELECT Id,Study__c,Study__r.IQVIA_Outreach__c,Referral_Resource__c FROM Restricted_Source_Config__c WHERE Study__c =: trialId limit 1];
+            if(lstCtp[0].IQVIA_Outreach__c){
+                if(lstCtp[0].CommunityTemplate__c !='PatientPortal' && (lstCtp[0].CommunityTemplate__c != 'Janssen' || lstCtp[0].PPTemplate__c != 'PP 2.0'))
+                {
+                    initData.iqviaConsentPref =  false;
+                }
+                else
+                {
+                    if(restrictedRecrd!=null && !restrictedRecrd.isEmpty()){
+                        restrictedlst = restrictedRecrd[0].Referral_Resource__c != null ? restrictedRecrd[0].Referral_Resource__c.split(';') : null;
+                        if(restrictedlst != null && !restrictedlst.isEmpty()){
+                        if(restrictedlst.contains('HCP')){
+                            initData.iqviaConsentPref =  true;
+                        }else{
+                            initData.iqviaConsentPref=  false;
+                        }
+                        }else{  
+                            initData.iqviaConsentPref=  true;
+                        } 
+                    }else{
+                        initData.iqviaConsentPref=  false;
+                    }  
+                }
+            }else{
+                initData.iqviaConsentPref=true;
+            }
+        }
+        
         initData.countries = CountryStateUtil.getCountries();
         initData.genders = ParticipantService.getGenderLVList();
         initData.phoneTypes = ParticipantService.getPhoneTypeLVList();
@@ -350,13 +513,60 @@ throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
 
+    public class ContentInfoWrapper{
+        @AuraEnabled  public Id contentVersionId {get;set;}
+        @AuraEnabled  public Id contentDocumentId  {get; set;}
+    }
     @AuraEnabled
-    public static void deleteFile(String contentDocId) {
-        System.debug('contentDocId--' + contentDocId);
+    public static ContentInfoWrapper saveTheChunkFile(String fileName, String base64Data,String fileId,String contentDocumentId){
+        ContentInfoWrapper wrapper = new ContentInfoWrapper();  
+        base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
+        if ( String.isBlank(fileId) ) {
+            wrapper = saveFiles(fileName, base64Data );
+        } else {
+            wrapper.contentVersionId = fileId;
+        wrapper.contentDocumentId = ContentDocumentId;
+            appendToFile(fileId, base64Data);
+        }
+        return wrapper;
+    }
+
+    public static ContentInfoWrapper saveFiles(String fileName, String base64Data )  { 
+        ContentInfoWrapper wrapper = new ContentInfoWrapper();
+        ContentVersion contentVersion = new ContentVersion();
+        contentVersion.Title = fileName;
+        contentVersion.PathOnClient = '/' + fileName;
+        contentVersion.VersionData = EncodingUtil.base64Decode(base64Data);
+        contentVersion.IsMajorVersion = false;
+        insert contentVersion;
+        id ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion.Id].ContentDocumentId;
+       ContentDocumentLink contentLink =   [SELECT Id FROM ContentDocumentLink WHERE LinkedEntityId =:UserInfo.getUserId() AND ContentDocumentId =: ContentDocumentId ];
+        wrapper.contentDocumentId = ContentDocumentId;
+        wrapper.contentVersionId = contentVersion.Id; 
+        return wrapper;
+        
+    } 
+
+    public static void appendToFile(Id contentDocumentId, String base64Data) {
+         ContentVersion versionData = [
+            SELECT Id, VersionData,ContentDocumentId
+            FROM ContentVersion
+            WHERE Id = :contentDocumentId
+        ];
+        if(versionData != null){ 
+           String existingBody     = EncodingUtil.base64Encode(versionData.VersionData);
+           versionData.VersionData = EncodingUtil.base64Decode(existingBody + base64Data); 
+    }
+    update versionData;
+    }
+
+    @AuraEnabled
+    public static void deleteFile(String fileId) {
         try {
-            if (!String.isBlank(contentDocId)) {
-                ContentDocument objCon = [SELECT Id FROM ContentDocument WHERE Id = :contentDocId];
-                delete objCon;
+            if (!String.isBlank(fileId)) {
+                ContentVersion cv = [SELECT ContentDocumentId FROM ContentVersion WHERE id = :fileId];
+                contentdocument cd = new contentdocument(id = cv.contentDocumentId);
+            delete cd;
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -938,6 +1148,9 @@ return String.join(addressList, ', ');
              TriggerHandlerExecutor.bypassHandler(
                                 PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                             );  
+             TriggerHandlerExecutor.bypassHandler( 
+                                PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+                                );  
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
@@ -1092,6 +1305,9 @@ return String.join(addressList, ', ');
              TriggerHandlerExecutor.bypassHandler(
                                 PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                             );  
+             TriggerHandlerExecutor.bypassHandler( 
+                                PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+                                );  
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
@@ -1630,6 +1846,9 @@ update objConVersion;*/
              TriggerHandlerExecutor.bypassHandler(
                                 PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                             );  
+             TriggerHandlerExecutor.bypassHandler( 
+                                PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+                                ); 
             List<Patient_Delegate__c> lstPTUpdate = new List<Patient_Delegate__c> ();
              for(Patient_Delegate__c objPT : [ SELECT Id, Primary_Delegate__c FROM Patient_Delegate__c 
                                                 Where ID IN:lstPatientDelegtaeId and Primary_Delegate__c = True])
@@ -1649,6 +1868,9 @@ update objConVersion;*/
              TriggerHandlerExecutor.bypassHandler(
                                 PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                             );               
+             TriggerHandlerExecutor.bypassHandler( 
+                                PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+                                );              
             
             List<Patient_Delegate__c> lstPTUpdate = new List<Patient_Delegate__c> ();
 

@@ -9,9 +9,7 @@
                 <h1 class="my-visits">{label.myVisits}</h1>
             </template>
             <div class="slds-grid slds-wrap slds-gutters">
-                <div
-                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_3-of-12 col1"
-                >
+                <div class={col1CssClass}>
                     <template if:true={contentLoaded}>
                         <c-pp-my-visits-list
                             pastvisits={pastVisits}
@@ -35,10 +33,7 @@
                     </template>
                 </div>
 
-                <div
-                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col2 slds-p-horizontal_large"
-                    data-id={column2}
-                >
+                <div class={col2CssClass} data-id={column2}>
                     <h1 if:false={past} class="visit3 slds-truncate" title={visitName}>
                         {visitName}
                         <div class="visit-date-time">
@@ -69,7 +64,6 @@
                         <div class={iconContainerCss}>
                             <div class="slds-clearfix">
                                 <template if:false={isError}>
-                                    <!--<template if:true={contentLoaded}>-->
                                     <div class="rem-border">
                                         <c-pp-r-r-icon-splitter
                                             icons={icondetails}
@@ -79,7 +73,6 @@
                                         ></c-pp-r-r-icon-splitter>
                                     </div>
                                 </template>
-                                <!--</template>-->
                                 <template if:true={isError}>
                                     <div>
                                         <div
@@ -130,15 +123,16 @@
                     </div>
                 </div>
                 <div
-                    class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12 col3"
+                    class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_4-of-12 col3"
                     data-id={column3}
                 >
                     <img src={visitimage2} class="image-result-visit" />
                     <template if:true={isResultsCard}>
-                        <h1 class="what-to-expect">{label.results}</h1>
-                        <div class="icon-cont1 slds-align_absolute-center">
-                            <c-pp-study-visit-result-card></c-pp-study-visit-result-card>
-                        </div>
+                        <c-pp-study-visit-result-card
+                            is-past-visit={past}
+                            patient-visit-id={visitid}
+                            ctp-sharing-timing={ctpSharingTiming}
+                        ></c-pp-study-visit-result-card>
                     </template>
                 </div>
             </div>

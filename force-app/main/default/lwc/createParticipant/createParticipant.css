@@ -1,0 +1,90 @@
+.postions{
+    padding-top: 6px;
+    font-weight: 501;
+    font-family: "Proxima Nova";
+    padding-left: 10px;
+}
+.buttonposition{
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    font-weight: 501;
+    font-family: "Proxima Nova";
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+    padding-left: 13px;
+    padding-right: 13px;
+    float:right;
+    --sds-c-button-neutral-color-background-hover:white;
+    --slds-c-button-text-color-hover:#297dfd;
+}
+.background{
+    background-color: #F2F2F2;
+}
+
+.overridecss{
+    color: white;
+}
+.slds-button:disabled{
+    color:#297dfd;
+    border-color: #D9D9D9;
+    cursor: not-allowed;
+    opacity: 0.5;
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+}
+
+.msg_padding{
+    padding-left: 13px
+}
+.date_padding{
+    padding-left: 4px
+}
+
+.title {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+}
+.sub-text{
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+}
+
+@media all and (max-width: 1023px){
+    .buttonposition{
+        float:none;
+        width: 98%;
+        height: 30px;
+        margin-top: 18px;
+        margin-left:4px;
+        padding-left: 94px;
+    }
+    .postions{
+        padding-top:none;
+        margin-left:-5px;
+        padding-left: none;
+    }
+    .slds-button:disabled{
+       margin-top: 30px;
+    }
+    .msg_padding{
+        padding-left: 10px
+    }
+    .button-mob{
+        height: 32px;
+        width: 67px;
+    }
+}
+
+
+/*@media only screen and (max-width: 767px) {
+    .buttonposition {
+        width: 278px;
+        height: 30px;
+    }
+  }*/

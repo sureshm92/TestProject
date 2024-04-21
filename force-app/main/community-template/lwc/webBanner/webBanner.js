@@ -75,7 +75,7 @@ export default class WebBanner extends LightningElement {
             .catch((error) => {
                 this.dispatchEvent(
                     new ShowToastEvent({
-                        title: 'Error loading RR_COMMUNITY_JS',
+                        title: 'Error loading rr_community_js',
                         message: error.message,
                         variant: 'error'
                     })

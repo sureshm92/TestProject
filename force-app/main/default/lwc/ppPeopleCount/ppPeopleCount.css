@@ -1,0 +1,48 @@
+.group-icon {
+    height: 24px;
+    padding-left: 2.5rem;
+}
+.box-container {
+    display: none;
+    position: absolute;
+    top: 20.2rem;
+    right: 3.6rem;
+    z-index: 2;
+    box-sizing: border-box;
+    height: 194px;
+    width: 273px;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
+    overflow-y: auto;
+    font-size: 16px;
+}
+.truncate_name{
+   overflow: hidden;
+   text-overflow: ellipsis;  
+}
+/*.pointer:hover + .box-container {
+    display: block;
+  }**/
+.ms-item-icon-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+.lt-initial-pos {
+    position: relative;
+    top: 4px;
+}
+.pi-name-font {
+    font-size: 16px;
+    color: #444444;
+}
+.lt-initial-pos-tab {
+    position: relative;
+    top: 22%;
+}

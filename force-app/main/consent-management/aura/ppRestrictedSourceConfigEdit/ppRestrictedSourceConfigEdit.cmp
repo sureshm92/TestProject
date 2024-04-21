@@ -1,0 +1,16 @@
+<aura:component
+    description="ButtonForFlow"
+    implements="force:lightningQuickAction,lightning:actionOverride,force:hasRecordId,lightning:hasPageReference,lightning:isUrlAddressable"
+>
+<aura:attribute name="recordId" type="String" />
+<aura:handler name="change" value="{!v.pageReference}" action="{!c.doInit}" /> 
+<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+<aura:attribute name="showLWC" type="Boolean" />
+
+<aura:if isTrue="{!v.showLWC}">
+    <div class="res-source-edit-form-aura">
+	<c:ppRestrictedSourceConfigEditLWC parentrecId="{!v.recordId}" onmodalvaluechange="{!c.getValueFromLwc}"></c:ppRestrictedSourceConfigEditLWC>
+    </div>
+</aura:if>
+
+</aura:component>

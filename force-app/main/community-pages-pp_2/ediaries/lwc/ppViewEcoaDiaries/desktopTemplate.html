@@ -1,0 +1,59 @@
+<template>
+    <template if:true={showBackToHome}>
+        <lightning-layout multiple-rows="true">
+            <!-- ************** Back To Resources *************** -->
+            <lightning-layout-item size="12">
+                <span onclick={handleBackClick} class={backLinkClass}>
+                    <c-web-icon
+                        icon-size="medium-large"
+                        icon-name="chevron-left"
+                        icon-color="#015ff1"
+                        class="slds-p-right_xx-small"
+                    ></c-web-icon
+                    >{labels.backToHome}
+                </span>
+                  <hr />
+            </lightning-layout-item>
+        </lightning-layout>  
+    </template>
+    <div class={cardRTL}>
+        <div class="po-bg">
+            <lightning-layout multiple-rows="true" vertical-align="center" horizontal-align="center" class="po-custom-card">
+                <lightning-layout-item size="12" class={programName}>
+                    <p class="po-about-program"><lightning-formatted-text value={studyProgramName}></lightning-formatted-text></p>   
+                </lightning-layout-item>
+                <lightning-layout-item size="12" class={programName}>
+                    <p class="po-edaries"><lightning-formatted-text value={labels.ediaries}></lightning-formatted-text></p>   
+                </lightning-layout-item>
+
+            </lightning-layout>
+
+         <template if:false={subjectAvailable}>
+            <div class="subjectMessage">
+                        <div class="po-custom-box slds-align_absolute-center">
+                            <lightning-layout multiple-rows="true" vertical-align="center" horizontal-align="center">
+                                <lightning-layout-item size="12">
+                                    <div class="slds-col slds-align_absolute-center"><img src={underConstruction}/></div>
+                                    <div class="slds-col po-custom-content">{labels.ediariesWorkMsg}</div>
+                                    <div class="slds-col po-custom-edaries-content">{labels.ediariesActivation}</div>
+                                    <div class="slds-col po-custom-comm-Prefences pointer">
+                                        <a><span class="" onclick={handleCommunicationPreferences}>{labels.ediariesComPref}</span></a>
+                                    </div>
+
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                        </div>
+                    
+            </div>
+           </template>
+    
+    
+    <template if:true={subjectAvailable}> 
+        <div class="widthLimiter slds-align_absolute-center">
+            <iframe src={ecoaUrl} frameborder="0" height="600px" width="900px" class="iframecss"></iframe>
+        </div>
+    </template>
+</div>
+</div>        
+</template>

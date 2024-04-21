@@ -1,0 +1,238 @@
+<template>
+    <template if:false={isMobile}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item
+                size="12"
+                class="parent-chat-item-sec"
+                id="messageBody"
+            >
+                <template if:true={selectConWrap}>
+                    <template if:false={selectConWrap.noConversation}>
+                        <template if:false={isPastStudy}>
+                            <lightning-layout>
+                                <lightning-layout-item
+                                    size="12"
+                                    class="child-chat-item-sec active-study"
+                                >
+                                    <template
+                                        for:each={selectConWrap.messages}
+                                        for:item="msWr"
+                                        for:index="index"
+                                    >
+                                        <c-pp-message-item
+                                            key={msWr.message.Id}
+                                            msg-item={msWr}
+                                            msg-index={index}
+                                            user-id={userId}
+                                            message_attachment={message_attachment}
+                                            file_default={file_default}
+                                            is-secondary={isSecondary}
+                                            is-mobile={isMobile}
+                                        ></c-pp-message-item>
+                                    </template>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                        <template if:true={isPastStudy}>
+                            <lightning-layout>
+                                <lightning-layout-item
+                                    size="12"
+                                    class="child-chat-item-sec old-study"
+                                >
+                                    <template
+                                        for:each={selectConWrap.messages}
+                                        for:item="msWr"
+                                        for:index="index"
+                                    >
+                                        <c-pp-message-item
+                                            key={msWr.message.Id}
+                                            msg-item={msWr}
+                                            msg-index={index}
+                                            user-id={userId}
+                                            message_attachment={message_attachment}
+                                            file_default={file_default}
+                                            is-secondary={isSecondary}
+                                            is-mobile={isMobile}
+                                        ></c-pp-message-item>
+                                    </template>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                    </template>
+                    <template if:true={selectConWrap.noConversation}>
+                        <template if:true={isPastStudy}>
+                            <div
+                                class="slds-grid slds-grid_vertical-align-center slds-grid_align-center medium child-chat-item-sec old-study"
+                            >
+                                <div class="slds-col">
+                                    <p><img src={msgIllustration} /></p>
+                                    <p class="slds-m-top_small empty-msg">
+                                        {labels.PP_No_Messages}
+                                    </p>
+                                    <template if:false={isPastStudy}>
+                                        <p class="empty-msg">
+                                            {labels.PP_Select_Question_Below}
+                                        </p>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:false={isPastStudy}>
+                            <div
+                                class="slds-grid slds-grid_vertical-align-center slds-grid_align-center medium child-chat-item-sec active-study"
+                            >
+                                <div class="slds-col">
+                                    <p><img src={msgIllustration} /></p>
+                                    <p class="slds-m-top_small empty-msg">
+                                        {labels.PP_No_Messages}
+                                    </p>
+                                    <template if:false={isPastStudy}>
+                                        <p class="empty-msg">
+                                            {labels.PP_Select_Question_Below}
+                                        </p>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </template>
+
+                <template if:false={selectConWrap}>
+                    <div
+                        class="slds-grid slds-grid_vertical-align-center slds-grid_align-center medium"
+                    >
+                        <div class="slds-col">
+                            <p><img src={msgIllustration} /></p>
+                            <p class="slds-m-top_small empty-msg">
+                                {labels.PP_No_Messages}
+                            </p>
+                            <template if:false={isPastStudy}>
+                                <p class="empty-msg">
+                                    {labels.PP_Select_Question_Below}
+                                </p>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </lightning-layout-item>
+
+            <template if:false={isPastStudy}>
+                <lightning-layout-item size="12" class="question-item">
+                    <lightning-layout>
+                        <lightning-layout-item size="9">
+                            <lightning-combobox
+                                name="message"
+                                value={messageValue}
+                                placeholder={labels.PP_Select_Question}
+                                options={options}
+                                onchange={handleChange}
+                                class="selection"
+                                onfocus={handleChanges}
+                                dropdown-alignment="bottom-left"
+                            >
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="3" class="send-button">
+                            <button
+                                class="primaryBtn ms-send-button"
+                                data-gtm="ms-send-pa-button"
+                                onclick={handleSendClick}
+                                disabled={handleValidation}
+                            >
+                                {labels.BTN_Send}
+                            </button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+    </template>
+    <template if:true={isMobile}>
+        <lightning-layout class="slds-m-around_medium">
+            <lightning-layout-item
+                size="12"
+                class={headerHandlePadding}
+                id="mobMessageBody"
+            >
+                <template if:true={selectConWrap}>
+                    <template if:false={selectConWrap.noConversation}>
+                        <lightning-layout>
+                            <lightning-layout-item
+                                size="12"
+                                class="child-chat-item-sec  active-study-mob"
+                            >
+                                <template
+                                    for:each={selectConWrap.messages}
+                                    for:item="msWr"
+                                    for:index="index"
+                                >
+                                    <c-pp-message-item
+                                        key={msWr.message.Id}
+                                        msg-item={msWr}
+                                        msg-index={index}
+                                        user-id={userId}
+                                        message_attachment={message_attachment}
+                                        file_default={file_default}
+                                        is-secondary={isSecondary}
+                                        is-mobile={isMobile}
+                                    ></c-pp-message-item>
+                                </template>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                    <template if:true={selectConWrap.noConversation}>
+                        <template if:false={isPastStudy}>
+                            <div
+                                class="slds-grid slds-grid_vertical-align-center slds-grid_align-center mob-medium"
+                            >
+                                <div class="slds-col">
+                                    <p><img src={msgIllustration} /></p>
+                                    <p class="slds-m-top_small empty-msg">
+                                        {labels.PP_No_Messages}
+                                    </p>
+                                    <p class="empty-msg">
+                                        {labels.PP_Select_Question_Below}
+                                    </p>
+                                </div>
+                            </div>
+                        </template>
+                        <template if:true={isPastStudy}>
+                            <div
+                                class="slds-grid slds-grid_vertical-align-center slds-grid_align-center mob-medium"
+                            >
+                                <div class="slds-col">
+                                    <p><img src={msgIllustration} /></p>
+                                    <p class="slds-m-top_small empty-msg">
+                                        {labels.PP_No_Messages}
+                                    </p>
+                                    <template if:false={isPastStudy}>
+                                        <p class="empty-msg">
+                                            {labels.PP_Select_Question_Below}
+                                        </p>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </template>
+                <template if:false={selectConWrap}>
+                    <div
+                        class="slds-grid slds-grid_vertical-align-center slds-grid_align-center mob-medium"
+                    >
+                        <div class="slds-col">
+                            <p><img src={msgIllustration} /></p>
+                            <p class="slds-m-top_small empty-msg">
+                                {labels.PP_No_Messages}
+                            </p>
+                            <template if:false={isPastStudy}>
+                                <p class="empty-msg">
+                                    {labels.PP_Select_Question_Below}
+                                </p>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+</template>

@@ -37,6 +37,7 @@
     <aura:attribute name="isReferredPatientsTabInitialized" type="Boolean" />
     <aura:attribute name="isshowTravelCardInPreEnrollment" type="Boolean" default="false" />
     <aura:attribute name="isTeleVendorEnabled" type="Boolean" default="false" />
+    <aura:attribute name="isIQVIALogo" type="Boolean" default="true" />
 
     <!--change-->
     <aura:attribute name="resourceImagePath" type="String" access="private" />
@@ -91,9 +92,12 @@
                                 <c:RRNPathItem label="{!$Label.c.PG_RW_Title}" />
                             </c:RRNavigationPath>
                             <div class="rr-width-limiter">
-                                <aura:if
+                                <!-- <aura:if
                                     isTrue="{!OR(equals(v.studyDetail.communityName, 'IQVIA Referral Hub'),equals(v.studyDetail.communityName, 'IQVIA Patient Portal'))}"
-                                >
+                                >  -->
+                                <aura:if
+                                isTrue="{!v.isIQVIALogo }"
+                            >
                                     <img
                                         class="contrast-logo"
                                         src="{!$Resource.PH_logo + '/iqvia.png'}"

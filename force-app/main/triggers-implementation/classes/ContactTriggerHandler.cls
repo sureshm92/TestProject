@@ -92,6 +92,12 @@ public without sharing class ContactTriggerHandler {
         }
     }
     
+    public without sharing class UpdateNotificationHandler extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updateExisistingNotifications(newList, oldMap);
+        }
+    }
+    
     // Logic: ----------------------------------------------------------------------------------------------------------
     
     @TestVisible
@@ -916,6 +922,252 @@ participantIds
                 con.IQVIA_Artificial_Voice_Consent_Time__c = Datetime.now();
             }
         }
+    }
+    
+    @TestVisible
+    private static void updateExisistingNotifications(
+        List<SObject> newList,
+        Map<Id, SObject> oldMap
+    ) {
+        List<Id> targetedContactList = new List<Id>();
+        for (SObject sObj : newList) {
+            Contact contactObj = (Contact) sObj;
+            if (
+                (((Contact) oldMap.get(contactObj.Id)).Language__c != contactObj.Language__c) ||
+                (((Contact) oldMap.get(contactObj.Id)).Second_Choice_Language__c !=
+                 contactObj.Second_Choice_Language__c) ||
+                (((Contact) oldMap.get(contactObj.Id)).Third_Choice_Language__c !=
+                 contactObj.Third_Choice_Language__c)
+            ) {
+                targetedContactList.add(contactObj.Id);
+            }
+        }
+        if (targetedContactList != null && !targetedContactList.isEmpty()) {
+            List<Id> studyIds = new List<Id>();
+            Map<Id, List<Contact>> ctpContactsMap = new Map<Id, List<Contact>>();
+            for (Participant_Enrollment__c peObj : [
+                SELECT
+                Clinical_Trial_Profile__c,
+                Participant__r.Contact__r.Id,
+                Participant__r.Contact__r.Language__c,
+                Participant__r.Contact__r.Second_Choice_Language__c,
+                Participant__r.Contact__r.Third_Choice_Language__c
+                FROM Participant_Enrollment__c
+                WHERE Participant__r.Contact__c = :targetedContactList
+            ]) {
+                studyIds.add(peObj.Clinical_Trial_Profile__c);
+                if (ctpContactsMap.keySet().contains(peObj.Clinical_Trial_Profile__c)) {
+                    ctpContactsMap.get(peObj.Clinical_Trial_Profile__c)
+                        .add(peObj.Participant__r.Contact__r);
+                } else {
+                    ctpContactsMap.put(
+                        peObj.Clinical_Trial_Profile__c,
+                        new List<Contact>{ peObj.Participant__r.Contact__r }
+                    );
+                }
+            }
+            List<Id> contactsToRemoveNotify = new List<Id>();
+            List<Id> resourceIds = new List<Id>();
+            List<Id> resIdsForContentDocs = new List<Id>();
+            Map<Id, List<Contact>> resourceIdContactMap = new Map<Id, List<Contact>>();
+            Map<Id, List<String>> contentLangByResId = new Map<Id, List<String>>();
+            
+            for (Res_study__c resStudy : [
+                SELECT
+                Resource__r.Language__c,
+                Resource__r.Languages__c,
+                Clinical_Trial_Profile__c,
+                Resource__r.Id,
+                Resource__r.Content_Type__c
+                FROM Res_study__c
+                WHERE Clinical_Trial_Profile__c = :studyIds
+            ]) {
+                List<Contact> contacts = ctpContactsMap.get(resStudy.Clinical_Trial_Profile__c);
+                if (resStudy.Resource__r.Content_Type__c == 'Study_Document') {
+                    resIdsForContentDocs.add(resStudy.Resource__r.Id);
+                }
+                for (Contact con : contacts) {
+                    if (resStudy.Resource__r.Content_Type__c == 'Study_Document') {
+                        if (resourceIdContactMap.keySet().contains(resStudy.Resource__r.Id)) {
+                            resourceIdContactMap.get(resStudy.Resource__r.Id).add(con);
+                        } else {
+                            resourceIdContactMap.put(
+                                resStudy.Resource__r.Id,
+                                new List<Contact>{ con }
+                            );
+                        }
+                    }
+                    Boolean isToDelete = checkContactResourceLang(resStudy.Resource__r, con);
+                    if (isToDelete) {
+                        contactsToRemoveNotify.add(con.Id);
+                        resourceIds.add(resStudy.Resource__r.Id);
+                    }
+                }
+            }
+            List<Id> rsIds = new List<Id>(resourceIdContactMap.keySet());
+            if (!rsIds.isEmpty()) {
+                List<ContentDocumentLink> contentDocumentLinks = [
+                    SELECT
+                    Id,
+                    LinkedEntityId,
+                    ContentDocument.Title,
+                    ContentDocument.LatestPublishedVersion.LanguageCode__c
+                    FROM ContentDocumentLink
+                    WHERE LinkedEntityId IN :rsIds
+                ];
+                
+                for (ContentDocumentLink content : contentDocumentLinks) {
+                    if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
+                        contentLangByResId.put(content.LinkedEntityId, new List<String>());
+                    }
+                    contentLangByResId.get(content.LinkedEntityId)
+                        .add(content.ContentDocument.LatestPublishedVersion.LanguageCode__c);
+                }
+            }
+            for (Id resourId : resourceIdContactMap.keySet()) {
+                for (Contact cont : resourceIdContactMap.get(resourId)) {
+                    List<String> langList = contentLangByResId.get(resourId);
+                    if (langList != null) {
+                        List<String> preferredLaguages = new List<String>();
+                        preferredLaguages.add(cont.Language__c);
+                        if (!String.isEmpty(cont.Second_Choice_Language__c))
+                            preferredLaguages.add(cont.Second_Choice_Language__c);
+                        if (!String.isEmpty(cont.Third_Choice_Language__c))
+                            preferredLaguages.add(cont.Third_Choice_Language__c);
+                        Boolean isToDelete = true;
+                        for (String langCode : preferredLaguages) {
+                            if (langList.contains(langCode)) {
+                                isToDelete = false;
+                            }
+                        }
+                        if (isToDelete) {
+                            contactsToRemoveNotify.add(cont.Id);
+                            resourceIds.add(resourId);
+                        }
+                    }
+                }
+            }
+            
+            List<Id> therapeuticIds = new List<Id>();
+            Map<Id, List<Contact>> therapeuticConMap = new Map<Id, List<Contact>>();
+            for (Therapeutic_Area_Patient__c tap : [
+                SELECT
+                Id,
+                Therapeutic_Area__c,
+                Participant__r.Contact__r.Language__c,
+                Participant__r.Contact__r.Second_Choice_Language__c,
+                Participant__r.Contact__r.Third_Choice_Language__c
+                FROM Therapeutic_Area_Patient__c
+                WHERE Participant__r.Contact__c = :targetedContactList
+            ]) {
+                therapeuticIds.add(tap.Therapeutic_Area__c); //collect all
+                if (therapeuticConMap.keySet().contains(tap.Therapeutic_Area__c)) {
+                    therapeuticConMap.get(tap.Therapeutic_Area__c)
+                        .add(tap.Participant__r.Contact__r);
+                } else {
+                    therapeuticConMap.put(
+                        tap.Therapeutic_Area__c,
+                        new List<Contact>{ tap.Participant__r.Contact__r }
+                    );
+                }
+            }
+            
+            List<Therapeutic_Area_Assignment__c> taAssignments = [
+                SELECT
+                Resource__r.Language__c,
+                Resource__r.Id,
+                Resource__r.Languages__c,
+                Therapeutic_Area__c,
+                Resource__r.Content_Type__c
+                FROM Therapeutic_Area_Assignment__c
+                WHERE Therapeutic_Area__c = :therapeuticIds
+            ];
+            
+            for (Therapeutic_Area_Assignment__c taAssignmentObj : taAssignments) {
+                List<Contact> contacts = therapeuticConMap.get(taAssignmentObj.Therapeutic_Area__c);
+                for (Contact con : contacts) {
+                    Boolean isToDelete = checkContactResourceLang(taAssignmentObj.Resource__r, con);
+                    if (isToDelete) {
+                        contactsToRemoveNotify.add(con.Id);
+                        resourceIds.add(taAssignmentObj.Resource__r.Id);
+                    }
+                }
+            }
+            Map<Id,Id> stdResPtResMap = new Map<Id,Id>();
+            for (Res_study__c resStudy : [
+                SELECT Id,Resource__c
+                FROM Res_study__c
+                WHERE Resource__c = :resourceIds
+            ]) {
+                resourceIds.add(resStudy.Id);
+                stdResPtResMap.put(resStudy.Id,resStudy.Resource__c);
+            }
+            
+            List<Notification__c> updateNotifications = new List<Notification__c>();
+            Map<String,Set<String>> ctIdRemovedResidsMap = new Map<String,Set<String>>();
+            for (Notification__c notification : [
+                SELECT Status__c,Recipient__c,Target_Record_Ids__c
+                FROM Notification__c
+                WHERE
+                Target_Record_Ids__c = :resourceIds
+                AND Recipient__c = :contactsToRemoveNotify
+                AND Status__c = :UpdateService.SR_STATUS_IN_PROGRESS
+            ]) { 
+                String resId = stdResPtResMap.containsKey(notification.Target_Record_Ids__c)?stdResPtResMap.get(notification.Target_Record_Ids__c):notification.Target_Record_Ids__c;
+                if(ctIdRemovedResidsMap.containsKey(notification.Recipient__c)){
+                    ctIdRemovedResidsMap.get(notification.Recipient__c).add(resId);
+                }else{
+                    ctIdRemovedResidsMap.put(notification.Recipient__c,new Set<String>{resId});
+                }
+                notification.Status__c = 'Processed';
+                updateNotifications.add(notification);
+            }
+            if (!updateNotifications.isEmpty()) {
+                update updateNotifications;
+            }
+            List<Contact> ctToupdate = new List<Contact>();
+            for(sObject sObj : newList){
+                Contact cnt = new Contact(Id = ((Contact) sObj).Id);
+                String resNotificationStr = ((Contact) sObj).Resource_Notifications__c;
+                if(ctIdRemovedResidsMap.containsKey(cnt.Id)){
+                    for(Id sObjId : ctIdRemovedResidsMap.get(cnt.Id)){
+                        if(resNotificationStr != null && resNotificationStr.contains(sObjId)){
+                            resNotificationStr = resNotificationStr.replace(sObjId + ';', '').replace('' + sObjId, '').removeEnd(';');   
+                        }
+                    }
+                    cnt.Resource_Notifications__c = resNotificationStr;
+                    ctToupdate.add(cnt);  
+                }
+            }
+            if(!ctToupdate.isEmpty()){
+                update ctToupdate;
+            }
+        }
+    }
+    
+    @TestVisible
+    private static Boolean checkContactResourceLang(Resource__c resourceObj, Contact contactObj) {
+        List<String> preferredLaguages = new List<String>();
+        preferredLaguages.add(contactObj.Language__c);
+        if (!String.isEmpty(contactObj.Second_Choice_Language__c))
+            preferredLaguages.add(contactObj.Second_Choice_Language__c);
+        if (!String.isEmpty(contactObj.Third_Choice_Language__c))
+            preferredLaguages.add(contactObj.Third_Choice_Language__c);
+        Boolean isToDelete = true;
+        for (String lanCode : preferredLaguages) {
+            if (
+                (resourceObj.Language__c != null &&
+                 resourceObj.Language__c.contains(lanCode) &&
+                 resourceObj.Content_Type__c != 'Relevant_Link' &&
+                 resourceObj.Content_Type__c != 'Study_Document') ||
+                (resourceObj.Languages__c != null &&
+                 resourceObj.Languages__c.contains(lanCode) &&
+                 resourceObj.Content_Type__c == 'Relevant_Link')
+            ) {
+                isToDelete = false;
+            }
+        }
+        return isToDelete;
     }
     
     @TestVisible

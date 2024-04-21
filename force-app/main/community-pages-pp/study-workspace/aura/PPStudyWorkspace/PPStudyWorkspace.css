@@ -326,6 +326,11 @@
     width: 100%;
 }
 
+.THIS .cRRTabSet.ts-tab-container .ts-tab-left::-webkit-scrollbar
+{
+	height: 0px;
+}
+
 .THIS .cRRTabSet.ts-tab-container .ts-tab-left .tabScroller{
     min-width: 500px;
     display: flex;

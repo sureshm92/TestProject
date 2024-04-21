@@ -22,6 +22,15 @@
     margin-top: 20px;
 }
 
+.updateButtonMobile:hover {
+    border-color: #015ff1;
+    background-color: #ecf3ff;
+    color: #015ff1;
+    transition: 0.25s;
+    text-decoration: none;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
+}
+
 .mb-10 {
     margin-bottom: 10px;
 }
@@ -57,12 +66,28 @@
 
 .from-date {
     box-sizing: border-box;
+    /*height: 40px;*/
+    margin-top: -5px;
+    padding: 7px;
+    text-align: center;
+    /* margin-left: -11px;
+    margin-right: 12px; */
+    border: 1px solid #d9d9d9;
+    border-radius: 20px;
+    color: #999999;
+    background-color: #f2f2f2;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
+}
+
+
+.from-date-rtl {
+    box-sizing: border-box;
     height: 40px;
     margin-top: -5px;
     padding: 7px;
     text-align: center;
-    margin-left: -11px;
-    margin-right: 12px;
+    margin-left: 11px;
+    margin-right: -12px;
     border: 1px solid #d9d9d9;
     border-radius: 20px;
     color: #999999;

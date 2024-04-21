@@ -106,7 +106,7 @@ public without sharing class EConsentIntegrationController {
         }
         
         String query = 'SELECT Id, Name, Study_Site_Number__c, Site__r.BillingCountry, Clinical_Trial_Profile__r.E_Consent_Configuration__c, '
-            + 'E_Consent_Vendor__c, E_Consent_Vendor__r.Name, E_Consent_Vendor__r.Vendor_URL__c '
+            + 'E_Consent_Vendor__c, E_Consent_Vendor__r.Name, E_Consent_Vendor__r.Vendor_URL__c,SiteGuid__c '
             + 'FROM Study_Site__c WHERE Clinical_Trial_Profile__c = :ctpId';
 
         if(!countryList.isEmpty()){
@@ -134,6 +134,7 @@ public without sharing class EConsentIntegrationController {
             wrap.studysitenumber = ss.Study_Site_Number__c;
             wrap.studysiteid = ss.id;
             wrap.studysiteurl = '/'+ss.id;
+            wrap.studysiteguid = (ss.SiteGuid__c != null) ? ss.SiteGuid__c : '';
             wrap.econsentvendorid = ss.E_Consent_Vendor__c;
             wrap.econsentvendorname = ss.E_Consent_Vendor__r.Name;
             wrap.econsentvendorurl = ss.E_Consent_Vendor__r.Vendor_URL__c;
@@ -177,7 +178,26 @@ public without sharing class EConsentIntegrationController {
             system.debug('==================>'+e.getMessage());
         }
     }
-    
+    @AuraEnabled
+    public static void updateStudyguid(List<object> studyList){
+        system.debug('received list:'+studyList);
+                List<Study_Site__c> studySiteList = new List<Study_Site__c>();
+        if(studyList != null && !studyList.isEmpty()){
+            for(object studyItem : studyList){
+                system.debug('received item:'+studyItem);
+                Map<Object,Object> mp_Study = (Map<Object,Object>)studyItem;
+                String siteId = (String)mp_Study.get('siteId');
+                String guid = (String)mp_Study.get('guid');
+                studySiteList.add(new Study_Site__c(Id = siteId, SiteGuid__c = guid));
+            }
+            if(!studySiteList.isEmpty()){
+               byPassStudySiteTriggersMethods();
+               update studySiteList;
+            }
+        }
+              
+    }
+
     @AuraEnabled
     public static string createconsentvendor(string name,String vendorURL, String vendorId){
 
@@ -314,6 +334,7 @@ public without sharing class EConsentIntegrationController {
     public class ResponeWrapper {
         
         @AuraEnabled public string studysitecountry;
+        @AuraEnabled public string studysiteguid;
         @AuraEnabled public string studysitename;
         @AuraEnabled public string studysitenumber;
         @AuraEnabled public string studysiteid;

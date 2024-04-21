@@ -169,15 +169,21 @@ a:hover {
     max-width: 1424px;
     min-height: 40px;
     min-width: 85%;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 500;
     line-height: 24px;
     text-align: center;
     box-shadow: 0px 3px 14px 0px rgba(0,0,0,0.24);
 }
+.toastContainer > .forceToastMessage .toastClose lightning-primitive-icon {
+    color: #FFFFFF!important;
+}
 
 .toastContainer > .forceToastMessage .toastContent.slds-notify__content{
     width: 100%;
+}
+.toastContainer > .forceToastMessage .toastClose lightning-primitive-icon {
+    color: #FFFFFF!important;
 }
 
 .toastContainer > .slds-theme--success{
@@ -187,7 +193,7 @@ a:hover {
     background: #FF0031;
 }
 .toastContainer > .slds-theme--warning{
-    background: #FFE200;
+    /* background: #FFE200; */
 }
 
 .toastContainer > .slds-theme--info{
@@ -371,7 +377,7 @@ input:focus {
     width: 9px;
     height: 5px;
     top: 6px;
-}
+} 
 
 .rr-form-element .slds-checkbox [type=checkbox]:checked + .slds-checkbox_faux,
 .rr-form-element .slds-checkbox [type=checkbox]:checked + .slds-checkbox--faux,
@@ -578,17 +584,6 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 }
 
 
-[c-ppaddnewdelegate_ppaddnewdelegate] .slds-form-element__label {
-    padding: 0 0 0 5px;
-    text-align: left;
-    font-size: 14px !important;
-    margin-top: -4px;
-    line-height: 22px !important;
-}
-
-[c-ppaddnewdelegate_ppaddnewdelegate] .slds-checkbox__label {
-    display: flex;
-}
 
 .mr_left_5 > .slds-col {
     padding: .25rem;
@@ -1624,7 +1619,11 @@ input[type=password]::-ms-clear
 }
 
 /*----------------------------------------------------- Responsive Common -----------------------------------------------------*/
-
+@media screen and (min-width: 769px) and (max-width: 1139px) {
+    .rr-header-margin {
+        height: 0;
+    }
+}
 @media all and (max-width: 768px){
 
     .rr-header-margin {
@@ -1661,6 +1660,11 @@ input[type=password]::-ms-clear
     .logo-container-pp {
         margin-right: 0px !important;
         margin-left: 52px !important;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .logo-container-pp {
+        margin-left: 12rem !important;
     }
 }
 
@@ -1902,10 +1906,10 @@ border: 1px solid #00c221 !important;
 outline: none !important;
 }
 /* Delegate redesing - Chages-  Starts */
-.add-delegate-input-container .slds-input{
+.manage-delegate-acc-setting-old .add-delegate-input-container .slds-input{
     height: 40px !important;
 }
-.add-delegate-input-container .slds-input[disabled]{
+.manage-delegate-acc-setting-old .add-delegate-input-container .slds-input[disabled]{
     /* opacity: .4; */
     cursor: not-allowed;
     pointer-events: none;
@@ -1915,6 +1919,20 @@ outline: none !important;
     -webkit-text-fill-color: #747474;
     opacity: 1; /* required on iOS */
 }
+
+@media screen and (max-width: 768px){
+    .manage-delegate-acc-setting-old .profile-information-rectangle{
+        width: 100% !important;
+        padding-right: 0px !important;
+    }
+    .manage-delegate-acc-setting-old .back-to-manage-del-btn {
+        display: block !important;
+        margin-top : 24px !important;
+        padding-bottom: 16px !important;
+    }
+
+}
+
 .e-consent-aligment .slds-checkbox .slds-checkbox__label .slds-form-element__label {
     font-size: 14px !important;
     padding: 0 5px 0 5px;
@@ -1925,22 +1943,38 @@ outline: none !important;
     display: flex;
 }
 
-.add-del-fn-ln-cls input:disabled{
-    /* color: #747474;
-    background-color: #f2f2f2; */
-    color: red;
-    background-color: magenta;
-
-}
 .std .text-checked-bold .slds-checkbox .slds-checkbox__label .slds-form-element__label{
     font-weight: 600 !important;
+}
+.manage-delegate-acc-setting-old .slds-form-element__label {
+    /* padding: 0 0 0 5px; */
+    text-align: left;
+    font-size: 14px !important;
+    margin-top: -4px;
+    line-height: 22px !important;
+}
+.manage-delegate-acc-setting-old .slds-checkbox__label {
+    display: flex;
+}
+
+.manage-delegate-acc-setting-old .std .study-more-class-p-left{
+    padding: 5px 0px 0px 16px !important;
+    display: inline-block !important;
+}
+
+.manage-delegate-acc-setting-old .std .selectedValue{
+    margin-top: 4.5px !important;
+}
+.manage-delegate-acc-setting-old .manage-del-multi-picklist .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    font-size:14px !important;
+    white-space: normal !important;
 }
 .adn-multi-picklist .slds-media__body {
     height: 30px !important;
     line-height: 42px !important;
 }
 .adn-multi-picklist .slds-truncate{
-	line-height: 35px !important;
+	line-height: 30px !important;
     height: 30px !important;
 }
 .ma-what-I-can-see-button .apollo-btn{
@@ -1964,6 +1998,28 @@ outline: none !important;
     height: 56px;
     padding: 16px 11px 16px 11px;
     width: 100%
+}
+
+.manage-delegate-acc-setting-old .manage-del-continer .slds-checkbox__label {
+    display: flex !important;
+}
+.manage-delegate-acc-setting-old .manage-del-continer .slds-form-element__label {
+    padding: 0 0 0 5px !important; 
+    text-align: left !important;
+    margin-top: -4px !important;
+    line-height: 22px !important;
+}
+.manage-delegate-acc-setting-old .add-delegate-input-container .slds-form-element__label {
+    padding: 0 !important; 
+}
+.manage-delegate-acc-setting-old .manage-del-continer-mobile .slds-checkbox__label {
+    display: flex !important;
+}
+.manage-delegate-acc-setting-old .manage-del-continer-mobile .slds-form-element__label {
+    padding: 0 0 0 5px;
+    text-align: left !important;
+    margin-top: -4px !important;
+    line-height: 22px !important;
 }
 
 
@@ -2007,5 +2063,57 @@ outline: none !important;
     width: 20px;
     height: 20px;
 }
+.manage-delegate-acc-setting-old .study-box{
+    height: 40px !important;
+}
+.manage-delegate-acc-setting-old .check-box-label-class input:focus {
+    box-shadow: none !important
+}
+/* This is for Add New Delegate Page */
+.manage-delegate-acc-setting-old .md-check-box-layout-item{
+    height: auto !important;
+    width: 100% !important;
+    padding-top: 10px !important;
+    padding-left: 10px !important;
+    font-size: 16px !important;
+    font-family: 'Proxima Nova' !important;
+    cursor: pointer !important;
+}
 
+.manage-delegate-acc-setting-old .md-check-box-layout-item:hover{  
+    background: #ecf3ff !important;
+}
+/* This is for manage Assignment  Page */
+.manage-delegate-acc-setting-old .manage-del-continer .md-check-box-layout-item{
+    height: auto !important;
+    width: 100% !important;
+    padding-top: 10px !important;
+    padding-left: 10px !important;
+    font-size: 16px !important;
+    font-family: 'Proxima Nova' !important;
+    cursor: pointer !important;
+}
+
+.manage-delegate-acc-setting-old .manage-del-continer .md-check-box-layout-item:hover{  
+    background: #ecf3ff !important;
+}
+.manage-delegate-acc-setting-old .noclk .slds-checkbox_faux{
+            margin-top: -2px;
+}
+.manage-delegate-acc-setting-old .manage-del-continer-mobile .md-check-box-layout-item{
+    height: auto !important;
+    width: 100% !important;
+    padding-top: 10px !important;
+    padding-left: 10px !important;
+    font-size: 16px !important;
+    font-family: 'Proxima Nova' !important;
+    cursor: pointer !important;
+}
+
+.manage-delegate-acc-setting-old .manage-del-continer-mobile .md-check-box-layout-item:hover{  
+    background: #ecf3ff !important;
+}
 /* Delegate redesing - Chages-  Ends */
+.manage-pref-spinner-container .rr-spinner {
+    z-index: 50001 !important;
+}

@@ -39,10 +39,9 @@
                         </template>
                         <template if:true={isMobile}>
                             <div
-                                class="slds-var-p-top_x-small resource-btn profile-info-btn-mobile"
+                                class={padSubmitButtonMobile}
                             >
                                 <lightning-button
-                                    variant="brand"
                                     label={labels.SUBMIT}
                                     onclick={handleCreateArticles}
                                     class={saveButtonClass}

@@ -4,10 +4,10 @@
     <protected>false</protected>
     <values>
         <field>Active__c</field>
-        <value xsi:type="xsd:boolean">false</value>
-    </values>
+        <value xsi:type="xsd:boolean">true</value>    
+    </values> 
     <values>
-        <field>CPRA_Label__c</field>
+        <field>CPRA_Label__c</field> 
         <value xsi:type="xsd:string">CPRA_DoNotSell_Janssen</value>
     </values>
     <values>
@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>Link_to_redirect__c</field>
-        <value xsi:type="xsd:string">https://www.iqvia.com/about-us/privacy/ccpa/do-not-sell</value>
+        <value xsi:type="xsd:string">https://www.janssen.com/us/privacy-request</value>
     </values>
 </CustomMetadata>

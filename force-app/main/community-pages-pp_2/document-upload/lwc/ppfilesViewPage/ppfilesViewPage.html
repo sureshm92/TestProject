@@ -1,0 +1,692 @@
+<template>
+
+
+    <!-- Delete Modal -->
+    <template if:true={removefilefromDraftmodel}>
+        <c-pp-modal
+            header-text={label.PP_RemoveFileHeader}
+            size="small"
+            is-show="true"
+            onclose={handleCancelModelRemove}
+            
+        >
+        <div slot="body">
+            <div class="body-container">
+                <lightning-formatted-rich-text
+                    value={fileRemoveMessage}
+                ></lightning-formatted-rich-text>
+            </div>
+        </div>
+        <div slot="footer">
+            <template lwc:if={isDesktop}>
+            <div class="slds-grid slds-gutters slds-grid_align-end  ">
+                <div class="slds-col button-cancel">
+                    <button class="slds-button  button-cancel" onclick={handleCancelModelRemove}>
+                        {label.BTN_Cancel}
+                    </button>
+                </div>
+                <div class="slds-col  ">
+                    <button class="slds-button button-continue button-delete" onclick={removeFileFromDraft}>
+                        {label.Button_Remove}
+                    </button>
+                </div>
+            </div>
+        </template>
+        <template lwc:else>
+            <!-- for Mobile-->
+            <div class="slds-grid slds-wrap ">
+                <div
+                class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-top_medium"
+            >
+                <button
+                    class="slds-button button-continue button-delete-mobile"
+                    onclick={removeFileFromDraft}
+                >
+                {label.Button_Remove}
+                </button>
+            </div>
+                <div class="slds-col slds-size_1-of-1 slds-align_absolute-center button-cancel">
+                    <button
+                        class="slds-button button-cancel"
+                        onclick={handleCancelModelRemove}
+                    >
+                    {label.BTN_Cancel}
+                    </button>
+                </div>
+               
+            </div>
+        </template>
+        </div>
+            
+        </c-pp-modal>
+    </template>
+<!-- Upload Popup warning for error files -->
+    <template if:true={displayErrorFilesPopupWarning}>
+        <c-pp-modal
+            header-text={label.PP_NeedHelp}
+            size="small"
+            is-show="true"
+            onclose={handleCancelwarning}
+            
+        >
+        <div slot="body">
+            <div class="body-container">
+                <lightning-formatted-rich-text
+                    value={label.PP_ReviewAcceptFile}
+                ></lightning-formatted-rich-text>
+            </div>
+        </div>
+        <div slot="footer">
+            <template lwc:if={isDesktop}> 
+            <div class="slds-grid slds-gutters slds-grid_align-end  ">
+                <div class="slds-col button-cancel">
+                    <button class="slds-button button-cancelwarn" onclick={handleCancelwarning}>
+                       {label.PP_ReviewFiles}
+                    </button>
+                </div>
+                <div class="slds-col  button-uploadWarning">
+                    <button class="slds-button button-continue" onclick={uploadFilesToserver}>
+                        {label.RH_Upload_import}
+                    </button>
+                </div>
+            </div>
+            </template>
+            <template lwc:else>
+                <!-- for Mobile-->
+                <div class="slds-grid slds-wrap ">
+                    <div class="slds-col slds-size_1-of-1 slds-align_absolute-center button-upload-mobile">
+                        <button
+                            class="slds-button button-upload-mobile"
+                            onclick={uploadFilesToserver}
+                        >
+                        {label.RH_Upload_import}
+                        </button>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-top_medium button-cancel"
+                    >
+                        <button
+                            class="slds-button button-cancel"
+                            onclick={handleCancelwarning}
+                        >
+                        {label.PP_ReviewFiles}
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </div>
+            
+        </c-pp-modal>
+    </template>
+
+    <!-- Cancel Popup  -->
+    <template if:true={cancelmodalisOpen}>
+        <c-pp-modal
+            header-text={label.PP_CancelUploadHeader}
+            size="small"
+            is-show="true"
+            onclose={backtoUploadClick}
+            
+        >
+        <div slot="body">
+            <div class="body-container">
+                <lightning-formatted-rich-text
+                    value={label.PP_CancelUpload}
+                ></lightning-formatted-rich-text>
+            </div>
+        </div>
+        <div slot="footer">
+            <template lwc:if={isDesktop}> 
+            <div class="slds-grid slds-gutters slds-grid_align-end  ">
+            <!--<div class="slds-grid slds-gutters slds-grid_align-end">-->
+                <div class="slds-col">
+                    <button class="slds-button  button-cancel" onclick={backtoUploadClick}>
+                       {label.PP_BacktoUpload}
+                    </button>
+                </div>
+                <div class="slds-col  button-uploadWarning  ">
+                    <button class="slds-button button-continue " onclick={ContinuetoDeleteFiles}>
+                        {label.Continue}
+                    </button>
+                </div>
+            </div>
+            </template>
+            <template lwc:else>
+                <!-- for Mobile-->
+                <div class="slds-grid slds-wrap ">
+                    <div class="slds-col slds-size_1-of-1 slds-align_absolute-center button-upload-mobile">
+                        <button
+                            class="slds-button button-upload-mobile"
+                            onclick={ContinuetoDeleteFiles}
+                        >
+                        {label.Continue}
+                        </button>
+                    </div>
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-top_medium button-cancel"
+                    >
+                        <button
+                            class="slds-button button-cancel"
+                            onclick={backtoUploadClick}
+                        >
+                        {label.PP_BacktoUpload}
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </div>
+            
+        </c-pp-modal>
+    </template>
+
+      <!-- show modal popup preview-->
+      <template if:true={openmodel}>
+        <c-pp-modal
+        header-text={previewHeader}
+        size="default"
+        is-show="true"
+        onclose={closeModal}
+        modal-header-file-page={modalHeaderFilePage}
+    >
+        <div slot="body">
+            <div class="body-container" >
+                <span>
+                    <iframe
+                       class="previewCss"
+                        src={openfileUrl}
+                        frameborder="0"
+                       
+                    >
+                    </iframe>
+                </span>
+               
+            </div>
+        </div>
+      
+    </c-pp-modal>
+
+      
+
+        <!-- pp modal -->
+      
+            
+      </template> 
+      <c-custom-toast-files-p-p is-mobile={isMobile}></c-custom-toast-files-p-p>
+    <template if:false={isMobile}> 
+    <div class="my-files">{label.PP_MyFiles}</div>
+    
+    <lightning-layout   class="mob-upld-card-center">
+       <c-web-spinner class="main-spinner" fixed="true" show-spinner={isSaving}></c-web-spinner>
+        <lightning-layout-item
+            class="documentuploadempty"
+            size={getsize}   >
+            <div if:false={ShowuploadSection}>  
+                <c-ppdocment-view-page onreccountupdate={recCountUpdate} onpageswap={changePage} ontabchange={handleTabChange} ongettotalrecord={handletotalrecord} ongettotalrecordmsg={handletotalrecordmsg} onresetpagination={handleresetpagination}  onresetpaginationmsg={handleresetpaginationmsg} onresetpageonupdate={handleresetpageonupdate}  onresetondelete={handleresetondelete} stop-spinner={stopSpinnerChild} >
+                
+                </c-ppdocment-view-page>
+                <div class="tablePPn slds-col slds-large-size_12-of-12 slds-show_medium">
+                    <div class=" ">
+                        <template if:false={issharedFilesTab}>
+                            <template if:true={totalRecord}>
+                                <c-pir_participant-pagination
+                                    class="pg"
+                                    total-records={totalRecord}
+                                    onpagechange={pageChanged}
+                                    is-file={isFile}
+                                >
+                                </c-pir_participant-pagination> 
+                            </template>
+                        </template>
+                        <template if:true={issharedFilesTab}>
+                            <template if:true={totalRecordMsg}>
+                                <c-pir_participant-pagination
+                                    class="pg"
+                                    total-records={totalRecordMsg}
+                                    onpagechange={pageChanged}
+                                    is-file={isFile}
+                                >
+                                </c-pir_participant-pagination>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+            
+            </div> 
+        </lightning-layout-item>
+
+        <lightning-layout-item
+        class=" "
+        size="4">
+
+        <!-- Desktop upload View When files not available-->
+        <template if:true={isCTPenableUpload}> 
+            <span class="upload-new-document slds-show_medium">{label.PP_UploadNewDocument}</span>
+           
+            <div  if:true={Nofilesupload} class="uploadDivMain"  data-id="browsediv" >
+                <input onchange={handleFilesChange} type="file" class="fileInputclassEmptyouter" title={displaytooltiptitle} multiple></input>
+                <div class="upload-newdocument-boxNoFiles slds-align_absolute-center">
+                    <input onchange={handleFilesChange} type="file" class="fileInputclassEmptyinner" title={displaytooltiptitle} multiple></input>
+                    <div  class="dis-block">
+                        <span class="center"
+                            ><img src={uploadNewDocuments} class="upload-new-doc-img-size"
+                        /></span>
+                        <span class="slds-m-top_medium center">
+                            <span class="drag-drop-txt">{label.PP_DragFiles}</span> 
+                        </span>
+                        <span class="center orclass slds-m-bottom--x-small">{label.PP_or_smallcase}</span> 
+                         <span class="center"><button class="browse-btn">{label.PP_Browsefiles}</button></span>
+
+                        <div class="center slds-m-top_x-large filesizeinfoclass">
+                            <span>{label.PP_acceptedformats}</span><br />
+                            <b>{label.PP_AcceptedFileformats} </b>
+                        </div>
+
+                        <div class="center slds-m-top_small filesizeinfoclass">
+                            <!-- Maximum upload file size is <b>4MB</b> -->
+                            <lightning-formatted-rich-text
+                            value={label.PP_MaxiumumFileUpload}
+                        ></lightning-formatted-rich-text>
+                        </div> 
+                    </div> 
+                </div>
+                <div class="wait-time-nofile center">
+                    {label.PP_WaitTime}
+                </div>
+            </div> 
+
+          <!-- Desktop upload View When files  available-->
+            <div if:false={Nofilesupload} class="mainuploadclass"  >
+             <div class="upload-newdocument-boxfiles" >
+                <div class="fileHolder " data-id="browsediv" >
+                    <input onchange={handleFilesChange} type="file" class="fileInput" title={displaytooltiptitle}  multiple></input>
+                    <div class="fileBox slds-wrap">
+                       <div class="slds-size_full slds-m-top--medium slds-align_absolute-center" > 
+                        <img src={uploadNewDocuments} class="desk-upload-new-doc-img-size"/>
+                       </div>
+                       <div class="slds-size_full slds-m-top_small slds-align_absolute-center uploadLabeldrag">
+                                    {label.PP_DragFiles}
+                        </div>
+                        <div class="slds-size_full center slds-m-bottom_large">
+                            {label.PP_or_smallcase} <span class="linkLabel uploadLabeldrag"> <u>browse </u> </span>
+                        </div>
+                        
+                        <div class="center slds-m-left--medium slds-m-right--medium slds-m-top_medium uploadLabel">
+                            <span>{label.PP_acceptedformats}</span>
+                            <div><b>{label.PP_AcceptedFileformats}</b></div>
+                        </div>
+        
+                        <div class="center uploadLabel"> <lightning-formatted-rich-text
+                            value={label.PP_MaxiumumFileUpload}
+                        ></lightning-formatted-rich-text>
+                    </div> 
+                       
+                    </div>
+                  </div>
+                </div>
+                        <div class="wait-time center" title={label.PP_WaitTime}>{label.PP_WaitTime}
+                        </div>
+                        <div class="scrollableclass">
+                            <template for:each={filesData} for:item="imgData" for:index="index">
+                                <div if:false={imgData.isDeleted} class="slds-grid slds-p-top_x-small slds-p-left_medium slds-p-bottom_x-small filegrid  "
+                                    key={imgData.index}>
+                                    <div class="slds-truncate imgname imgNamedesk slds-col slds-size_6-of-12"
+                                        data-key={imgData.index}>
+                                        <template lwc:if={imgData.isNameReadOnly}>
+                                            <span class="upld-file-txt" title={imgData.fileName}>
+                                                {imgData.fileName}
+                                            </span>
+                                        </template>
+                                        <template lwc:else>
+                                            <span class="pld-file-txtinput deskinput" title={imgData.fileName}>
+                                                <lightning-input tabindex="0" type="text" class="file-name-input"
+                                                    variant="label-hidden" value={imgData.fileNameForEdit}
+                                                    data-key={imgData.index} onblur={validateandsaveFileName}>
+                                                </lightning-input>
+                                            </span>
+                                            <span if:true={imgData.isNameEmptyorNotValid} 
+                                                class="errorFileNameEmpty" >{label.PP_FileNameRequired} </span>
+                                            <span if:true={imgData.fileNameTooLong} class="errorFileNameEmpty" title={label.PP_LimitCharacters}> {label.PP_LimitCharacters} </span>
+                                        </template>
+                                        <div if:false={imgData.isValid} class="errorMessage"
+                                            title={imgData.ErrorMessage}>
+                                            {imgData.ErrorMessage}
+                                        </div>
+                                    </div>
+                                    <div class={imgData.progresBarClass}>
+                                        <template lwc:if={imgData.isValid}>
+                                            <div if:false={imgData.error}
+                                                class=" slds-progress-bar slds-progress-bar_large slds-progress-bar_circular "
+                                                aria-valuemin="0" aria-valuemax="100" aria-valuenow={imgData.progress}
+                                                aria-busy="true" role="progressbar">
+                                                <span class="slds-progress-bar__value"
+                                                    style={imgData.progressWidth}></span>
+                                            </div>
+                                            <div if:true={imgData.error} class="errorMessageProgress">
+                                                {label.PP_UploadFailed}
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <template if:false={imgData.UploadCompleted}>
+                                        <div if:false={imgData.error}
+                                            class="slds-col slds-size_1-of-12 slds-align--absolute-center  imagecsscrossicon">
+                                            <lightning-icon icon-name='utility:clear'  title={label.RH_RP_Cancel} class="crossicon" 
+                                                data-key={imgData.index} aria-describedby="cancelbutton" 
+                                                alternative-text={label.RH_RP_Cancel} size='xx-small'  onclick={removeFiles}>
+                                            </lightning-icon>
+                                        </div>
+                                        <span if:true={imgData.error} class="slds-col slds-size_1-of-12 retryimageicon">
+                                            <div class="image-result crossicon">
+                                                <lightning-icon icon-name='utility:loop' title={label.PP_Retry}  data-key={imgData.index}
+                                                alternative-text={label.PP_Retry} size='x-small'  onclick={retryFiles}></lightning-icon>
+                                            </div>
+                                        </span>
+                                    </template>
+
+                                    <template if:true={imgData.UploadCompleted}>
+                                        <template lwc:if={imgData.isValid}>
+                                            <div class="slds-col slds-size_1-of-12 slds-dropdown-trigger slds-dropdown-trigger_click D imagecss slds-align--absolute-center imagecssDesk"
+                                                onclick={showActionMenu} tabindex="0" onblur={closeMenu}
+                                                data-key={imgData.index}>
+                                                <div aria-haspopup="true" aria-expanded="true" tabindex="0"
+                                                    onblur={closeMenu} class="crossicon">
+                                                    <img src={threedots_imgUrl} class="image-result" />
+                                                </div>
+
+                                                <div class="action-menu slds-dropdown slds-dropdown--x-small  slds-dropdown_right"
+                                                    tabindex="0" onblur={closeMenu} data-key={imgData.index}>
+                                                    <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                                        <template for:each={popupActionItems} for:item="citem">
+                                                            <li class="slds-dropdown__item popup-default"
+                                                                role="presentation" key={citem}>
+                                                                <a href="#" onmousedown={callMethod}
+                                                                    data-method={citem.name} data-key={imgData.index}
+                                                                    role="menuitem">
+                                                                    <span class="slds-truncate">
+                                                                        &nbsp;&nbsp;{citem.name}
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                        </template>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template lwc:else>
+
+                                            <div class="slds-col slds-size_1-of-12 slds-align--absolute-center imagecsscrossiconinvalid">
+
+                                                <lightning-icon icon-name='utility:clear' class="  crossicon"
+                                                    data-key={imgData.index} alternative-text={label.RH_RP_Cancel} size='xx-small'
+                                                    title={label.RH_RP_Cancel} onclick={removeFiles}>
+                                                </lightning-icon>
+
+                                            </div>
+                                        </template>
+                                    </template>
+
+                                </div>
+                                <span if:false={imgData.isDeleted} class="dividerfiles" key={imgData.index}></span>
+                            </template>
+                        </div>
+                        <div class="uplaodfilesbutton">
+                            <div class="center uploadinfo slds-m-bottom_medium" title={label.PP_UploadedFilesShar}>{label.PP_UploadedFilesShar} </div>
+                            <span class="horizontal"></span>
+                            <div class="upld-can-btn slds-m-around--medium">
+                                <span class="cancel-btnDesk slds-m-right--small" onclick={cancelFiles}>
+                                    {label.RH_RP_Cancel}
+                                </span>
+                                <button if:true={FileUploadPending} type="button"
+                                    class="std-upload-btndisable slds-m-horizontal_small" disabled>
+                                    {label.RH_Upload_import}
+                                </button>
+                                <button if:false={FileUploadPending} type="button"
+                                    class="std-upload-btn slds-m-horizontal_small" onclick={uploadFiles}>
+                                    {label.RH_Upload_import}
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+
+    <!-- Only Mob upload View -->
+    <template if:true={isMobile}>
+        <c-web-spinner class="main-spinner" fixed="true" show-spinner={isSaving}></c-web-spinner>
+        <div if:false={ShowuploadSection} class="my-filesmbl slds-m-around_small">{label.PP_MyFiles}</div>
+    <template if:true={isCTPenableUpload}>
+            <div if:false={ShowuploadSection} class="slds-col center uploadfileBtn slds-m-around_small  ">
+                <button class="upload-newFile-btn" onclick={showfileUplaodSection}>
+                    <span class="upload-new-file-txt">{label.PP_UploadNewFile}</span>
+                </button>
+            </div>
+        </template>
+        <lightning-layout multiple-rows class="mob-upld-card-center">
+            <lightning-layout-item size="12" class="">
+                <div if:false={ShowuploadSection}>
+                    <c-ppdocment-view-page isctpenable-upload={isCTPenableUpload} onreccountupdate={recCountUpdate}
+                    ontabchange={handleTabChange} onpageswap={changePage} 
+                    ongettotalrecord={handletotalrecord} ongettotalrecordmsg={handletotalrecordmsg} onresetpagination={handleresetpagination}  
+                    onresetpaginationmsg={handleresetpaginationmsg} onresetondelete={handleresetondelete}  onresetpageonupdate={handleresetpageonupdate}   
+                    stop-spinner={stopSpinnerChild} onshowuplaodsectionevent={showUploadSectiontoUser}>
+
+                    </c-ppdocment-view-page>
+                    <div class=" ">
+                        <template if:false={issharedFilesTab}>
+                            <template if:true={totalRecord}>
+                                <c-pir_participant-pagination
+                                    class="pg"
+                                    total-records={totalRecord}
+                                    onpagechange={pageChanged}
+                                    is-file={isFile}
+                                >
+                                </c-pir_participant-pagination> 
+                            </template>
+                        </template>
+                        <template if:true={issharedFilesTab}>
+                            <template if:true={totalRecordMsg}>
+                                <c-pir_participant-pagination
+                                    class="pg"
+                                    total-records={totalRecordMsg}
+                                    onpagechange={pageChanged}
+                                    is-file={isFile}
+                                >
+                                </c-pir_participant-pagination>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+               
+            
+            </lightning-layout-item>
+            <template lwc:if={ShowuploadSection}>
+                <lightning-layout-item size="12">
+                    <div class="backtoFile" onclick={handlebacktoFile}>
+                        <span class="slds-m-top_large center ">
+                            <img src={chevron_left} />
+                        </span>
+                      
+                        <span   class="backtofilecss slds-m-around_small linkLabelMyFiles"> {label.PP_Backt_o_My_Files}</span>     
+                    </div>
+                    <div class="backBoarder"> </div>
+                        <div class="dis-block mob-upload-rectangle mbllightninglayout"  data-id="browsediv">
+                            <template if:true={isAndroid}>
+                                <input onchange={handleFilesChange} type="file" class="fileInputMobile"  title={displaytooltiptitle} ></input>
+                            </template>
+                            <template if:false={isAndroid}>
+                                <input onchange={handleFilesChange} type="file" class="fileInputMobile"  title={displaytooltiptitle} multiple  ></input>
+                            </template>
+                        <!--Changed from slds-m-top-medium to slds-m-top-small-->
+                        <span class="slds-m-top--small center">
+                        <img src={uploadNewDocuments} class="mob-upload-new-doc-img-size"/>
+                    </span>
+                    <span class="center" >
+                        <span class="linkLabelMbl"> <u>{label.PP_Browsefiles}</u> </span>   
+                    </span>
+        
+                    <div class="center slds-m-top--large  mob-margin">
+                        <span>{label.PP_acceptedformats} </span>
+                        <div><b>{label.PP_AcceptedFileformats}</b> </div>
+                    </div>
+        
+                    <div class="center slds-m-bottom_small">
+                         <lightning-formatted-rich-text
+                            value={label.PP_MaxiumumFileUpload}
+                        ></lightning-formatted-rich-text>
+                    </div>
+                    </div>
+                    <div class="mob-wait-time center slds-m-top--medium">
+                        {label.PP_WaitTime}
+                    </div>
+                    <!-- Mob upload progress bar start -->
+                    <div class="upload-progress-scroll filesspace">
+                        <template for:each={filesData} for:item="imgData" for:index="index">
+                            <div if:false={imgData.isDeleted} class="slds-grid slds-m-top_medium" key={imgData.index}>
+                                <div class="slds-col slds-size_8-of-12 slds-p-left_medium imgNamedesk"
+                                    data-key={imgData.index}>
+                                    <template lwc:if={imgData.isNameReadOnly}>
+                                        <div class="upld-file-txt slds-m-bottom_x-small overFlowTitle">
+                                            {imgData.fileName}
+                                        </div>
+                                    </template>
+                                    <template lwc:else>
+                                        <span class="pld-file-txtinput" title={imgData.fileName}>
+                                            <lightning-input tabindex="0" type="text" class=" "
+                                                value={imgData.fileNameForEdit} variant="label-hidden"
+                                                data-key={imgData.index} onblur={validateandsaveFileName}>
+                                            </lightning-input>
+                                        </span>
+                                        <span if:true={imgData.isNameEmptyorNotValid} class="errorFileNameEmpty" >{label.PP_FileNameRequired} </span>
+                                        <span if:true={imgData.fileNameTooLong} class="errorFileNameEmpty" >{label.PP_LimitCharacters} </span>
+                                    </template>
+                                    
+                                    <div class="progressBarMbl  slds-col slds-size--1-of-1">
+                                        <template lwc:if={imgData.isValid}>
+                                            <div if:false={imgData.error} aria-valuemin="0" aria-valuemax="100"
+                                                aria-valuenow={imgData.progress} aria-busy="true" role="progressbar"
+                                                class="slds-progress-bar slds-progress-bar_large slds-progress-bar_circular">
+                                                <span class="slds-progress-bar__value"
+                                                    style={imgData.progressWidth}></span>
+                                            </div>
+                                            <div if:true={imgData.error} class="errorMessageProgress">
+                                                {label.PP_UploadFailed} 
+                                            </div>
+                                        </template>
+                                        <div if:false={imgData.isValid} class="errorMessageMbl"
+                                            title={imgData.ErrorMessage}>
+                                            {imgData.ErrorMessage}
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <template if:false={imgData.UploadCompleted}>
+                                    <div if:false={imgData.error}
+                                        class="slds-col imgcrossmbl  slds-align-middle slds-size_4-of-12">
+                                        <lightning-icon icon-name='utility:clear' data-key={imgData.index}
+                                            class="crossicon" alternative-text={label.RH_RP_Cancel} size='x-small' title={label.RH_RP_Cancel}
+                                            onclick={removeFiles}></lightning-icon>
+                                    </div>
+                                    <span if:true={imgData.error}
+                                        class="slds-col  imgcrossmbl slds-align-middle slds-size_4-of-12">
+                                        <img src={retry_icon} class="image-result crossicon" data-key={imgData.index}
+                                            title={label.PP_Retry} onclick={retryFiles} />
+                                    </span>
+                                </template>
+        
+                                <template if:true={imgData.UploadCompleted}>
+                                    <template lwc:if={imgData.isValid}>
+                                        <div class="slds-col center slds-align-middle slds-size_4-of-12 slds-dropdown-trigger imgcrossmbl slds-dropdown-trigger_click D imagecss slds-align-middle imagecssDesk"
+                                            onclick={showActionMenu} tabindex="0" onblur={closeMenu}
+                                            data-key={imgData.index}>
+                                            <div aria-haspopup="true" aria-expanded="true" tabindex="0"
+                                                onblur={closeMenu}>
+                                                <img src={threedots_imgUrl} class="image-result" />
+                                            </div>
+
+                                            <div class="slds-dropdown slds-dropdown_right  action-menu" tabindex="0"
+                                                onblur={closeMenu} data-key={imgData.index}>
+                                                <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                                    <template for:each={popupActionItems} for:item="citem">
+                                                        <li class="slds-dropdown__item popup-default"
+                                                            role="presentation" key={citem}>
+                                                            <a href="#" onmousedown={callMethod}
+                                                                data-method={citem.name} data-key={imgData.index}
+                                                                role="menuitem">
+                                                                <span class="slds-truncate">
+                                                                    &nbsp;&nbsp;{citem.name}
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template lwc:else>
+                                        <div class="slds-col center slds-align-middle imgcrossmbl slds-size_4-of-12">
+                                            <lightning-icon icon-name='utility:clear' data-key={imgData.index}
+                                                alternative-text={label.RH_RP_Cancel} size='xx-small' title={label.RH_RP_Cancel}
+                                                onclick={removeFiles}></lightning-icon>
+                                        </div>
+                                    </template>
+                                </template>
+
+                            </div>
+                            <span if:false={imgData.isDeleted} class="dividerfilesMbl" key={imgData.index}></span>
+                        </template>
+                        <!-- <div class="slds-grid slds-m-top_medium">
+                        <div class="slds-col slds-size_10-of-12 slds-p-left_medium">
+                            <div class="upld-file-name slds-m-bottom_x-small">Rash on Left Shoulder.jpeg</div>
+                            <div class="">upload progress bar</div>
+                        </div>
+                        <div class="slds-col center slds-align-middle slds-size_2-of-12">
+                            <img src={threedots_imgUrl} class="image-result" />
+                        </div>
+                    </div> -->
+
+                </div>
+                    <!-- Mob upload progress bar end -->
+
+                    <div class="slds-grid slds-wrap  btn-position mbllightninglayout float-btns">
+                        <div class="slds-col slds-size--1-of-1 uploadshare center slds-m-bottom--large">
+                            {label.PP_UploadedFilesShar} 
+                        </div>
+                        <div class="slds-col slds-size--4-of-12">
+                            <span class="cancelBtnmbl "><button if:true={cancelDisbledMbl} class="cancel-btn opacityon" 
+                                onclick={cancelFiles} disabled={cancelDisbledMbl}>{label.RH_RP_Cancel}</button>
+                                <button if:false={cancelDisbledMbl} class="cancel-btn" 
+                                onclick={cancelFiles} disabled={cancelDisbledMbl}>{label.RH_RP_Cancel}</button></span>
+                        </div>
+                        <div class="slds-col slds-size--8-of-12 ">
+                            <span >
+                                <button if:true={FileUploadPending} class="upload-btn opacityon" disabled>
+                                    {label.RH_Upload_import}
+
+                                </button>
+                                <button if:false={FileUploadPending} class="upload-btn "  onclick={uploadFiles}  >
+                                    {label.RH_Upload_import}
+
+                                </button>
+
+
+                            </span>
+                        </div>
+                    </div>
+
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+
+    </template>
+
+
+
+
+
+
+
+
+</template>

@@ -206,7 +206,8 @@
     }
 
     .THIS {
-        padding: 1.5rem 0;
+        /* padding: 1.5rem 0; */
+        padding: 0.2rem 0;
     }
 
     .THIS .apollo-btn {
@@ -224,6 +225,7 @@
 
     .THIS .as-title {
         margin-left: 1.5rem;
+        margin-top: 2px;
     }
 
     .THIS .as-container .as-sub-title.cookieDesc {

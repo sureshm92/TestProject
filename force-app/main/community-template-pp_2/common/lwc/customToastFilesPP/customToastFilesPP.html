@@ -1,0 +1,66 @@
+<template>
+    <template if:false={isMobile}>
+        <template if:true={showToastBar}>
+            <div class="slds-notify_container toastContainerF">
+                <div class={outerClass} role="status">
+                    <span class="slds-assistive-text">{type}</span>
+                    <span class={innerClass} title={message}>
+                        <lightning-icon
+                            icon-name={getIconName}
+                            alternative-text="icon"
+                            styleclass="slds-icon slds-icon--x-small"
+                            variant="inverse"
+                            size="x-small"
+                        ></lightning-icon>
+                    </span>
+                    <div class="slds-notify__content toastContentF">
+                       <p>{message}</p>
+                    </div>
+
+                    <div class="slds-notify__close toastCloseF custom-icon custom-close">
+                        <lightning-icon
+                            icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            onclick={closeModel}
+                            size="x-small"
+                            title="close"
+                        ></lightning-icon>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </template>
+    <template if:true={isMobile}>
+        <template if:true={showToastBar}>
+            <div class="custom-notify-container-mobile toastContainerFMbl">
+                <div class={outerClass} role="status">
+                    <span class="slds-assistive-text">{type}</span>
+                    <lightning-layout
+                        ><lightning-layout-item size="1"
+                            ><lightning-icon
+                                icon-name={getIconName}
+                                alternative-text="icon"
+                                styleclass="slds-icon slds-icon--x-small"
+                                variant="inverse"
+                                size="x-small"
+                            ></lightning-icon></lightning-layout-item
+                        ><lightning-layout-item size="9">
+                            <p class="slds-notify__content_mobile">
+                                {message}
+                            </p></lightning-layout-item
+                        ><lightning-layout-item size="2" style="text-align: right"
+                            ><lightning-icon
+                                icon-name="utility:close"
+                                alternative-text="close"
+                                variant="inverse"
+                                onclick={closeModel}
+                                size="x-small"
+                                title="close"
+                            ></lightning-icon></lightning-layout-item
+                    ></lightning-layout>
+                </div>
+            </div>
+        </template>
+    </template>
+</template>

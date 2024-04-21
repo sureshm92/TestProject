@@ -8,6 +8,7 @@ public with sharing class TrialDetail {
     public Boolean isTCAccepted;
     public Boolean isSSAccepted;
     public Boolean showVisits;
+    public Boolean perInTrail;
     public Study_Site__c studySite; //for PI mode
     public HCP_Enrollment__c hcpe; //for HCP mode
     public Participant_Enrollment__c pe; //for Participant;
@@ -18,6 +19,7 @@ public with sharing class TrialDetail {
     public List<ResourceService.ResourceWrapper> resources;
     public String communityName;
     public Boolean showTravelCardInPreEnrollment;
+    public TrialDetail.TabPermission tabvisiblity;
     public List<StudyActions.Action> shareActions = new List<StudyActions.Action>{
         new StudyActions.Action(
             StudyActions.ACT_SHARE_EMAIL,
@@ -44,6 +46,11 @@ public with sharing class TrialDetail {
             false
         )
     };
+
+    public class TabPermission{
+        public Boolean isFileTabVisiblity;
+        public Boolean isPastStudyVisible;
+    }
 
     public class ClinicWrapper implements Comparable {
         public Account clinic; //If there is no completed BillingAddress, the clinic is not displayed on RRGoogleMap

@@ -24,7 +24,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         }
         list<string> statuses = PEStatusState.PE_STATUS_GROUP_FAILED;
         string query;
-        query = 'SELECT Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Days_After_Enrolled__c, Participant_Contact__c,Days_Since_Last_Status_Change__c,Participant_Status__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :ctpSet AND Participant_Status__c NOT IN :statuses AND Participant_Contact__c != NULL AND Participant_Contact__c NOT IN ( SELECT ContactId FROM User  WHERE IsActive = FALSE )';
+        query = 'SELECT Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.PPTemplate__c,Days_After_Enrolled__c, Participant_Contact__c,Days_Since_Last_Status_Change__c,Participant_Status__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :ctpSet AND Participant_Status__c NOT IN :statuses AND Participant_Contact__c != NULL AND Participant_Contact__c NOT IN ( SELECT ContactId FROM User  WHERE IsActive = FALSE )';
 
         if (Test.isRunningTest()) {
             query = query + ' limit 1 ';
@@ -109,11 +109,28 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         Map<String, Id> communitiesMap = CommunityService.getCommunityIdsMap();
         Map<Id, String> networkByPE = new Map<Id, String>();
         for (Participant_Enrollment__c pe : enrollments) {
-            String communityName = CommunityTemplateService.getTemplate(
-                    pe.Clinical_Trial_Profile__r.CommunityTemplate__c
-                )
-                .communityName;
-            networkByPE.put(pe.Id, communitiesMap.get(communityName));
+            if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                if(pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'){
+                String communityName = CommunityTemplateService.getTemplate(
+                   'PatientPortal'
+               )
+               .communityName;
+               networkByPE.put(pe.Id, communitiesMap.get(communityName));
+               }else{
+                    String communityName = CommunityTemplateService.getTemplate(
+                   pe.Clinical_Trial_Profile__r.CommunityTemplate__c
+               )
+               .communityName;
+                networkByPE.put(pe.Id, communitiesMap.get(communityName));
+               }
+               
+           }else{
+             String communityName = CommunityTemplateService.getTemplate(
+                   pe.Clinical_Trial_Profile__r.CommunityTemplate__c
+               )
+               .communityName;
+             networkByPE.put(pe.Id, communitiesMap.get(communityName));
+           }
         }
 
         Map<String, List<SurveyInvitation>> invitationMap = getInvitationMap(enrollments);

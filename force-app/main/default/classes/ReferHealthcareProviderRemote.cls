@@ -500,6 +500,10 @@ global without sharing class ReferHealthcareProviderRemote {
         TriggerHandlerExecutor.bypassHandler(
             PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
             );
+        TriggerHandlerExecutor.bypassHandler( 
+            PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+            );
+           
         try {
             HealthcareProvider delegateDuplicate;
             if (ddInfo != null)
@@ -532,11 +536,11 @@ global without sharing class ReferHealthcareProviderRemote {
             }
             Boolean boolisUserCreated;
             Id ContactId;
-			Id delegateContactId;
+            Id delegateContactId;
             Patient_Delegate__c delContact; 
             Patient_Delegate_Enrollment__c delEnrollContact;
-			List<User> existingUserPatientDelegate = new List<User>();
-			Id delegateUser;
+            List<User> existingUserPatientDelegate = new List<User>();
+            Id delegateUser;
             Id participantShareIds;
             List<User> particpantUser = new List<User>();
             set<Id> participantAndDelIds = new set<Id>();
@@ -548,7 +552,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 List<User> lstUser = [SELECT ID, Email FROM User WHERE ContactId = :ContactId];
                 boolisUserCreated = lstUser.isEmpty() ? false : true;
             }
-			//Contact newContact;
+            //Contact newContact;
             if (delegateId == null) {
                 String countryCode = participantObj.Mailing_Country_Code__c;
                 String stateCode = participantObj.Mailing_State_Code__c;
@@ -571,6 +575,24 @@ global without sharing class ReferHealthcareProviderRemote {
                 Contact newContact;
                 if (delegateDuplicate == null || delegateDuplicate.contactId == null) {
                     newContact = new Contact();
+                    //Added for performance improvement
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.createNotificationsHandler.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                    );
+                    TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.SetShowTourDefaultHandler.class);
+                    TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
+                    TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
+                    TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
+                    TriggerHandlerExecutor.bypassHandler(
+                        ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+                    );
+                    //
                     newContact.FirstName = delegateObj.firstName;
                     newContact.LastName = delegateObj.lastName;
                     newContact.Email = delegateObj.email;
@@ -609,6 +631,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     } else {
                         newContact.Phone = participantObj.Phone__c;
                     }
+                    
                     insert newContact;
                 } else {
                     newContact = [
@@ -616,17 +639,28 @@ global without sharing class ReferHealthcareProviderRemote {
                         IQVIA_Contact_info_storage_consent__c,
                         Participant_Opt_In_Status_Emails__c,
                         IQVIA_PI_Storage_Consent_Time__c,
-                        IQVIA_Email_Consent_Time__c
+                        IQVIA_Email_Consent_Time__c,
+                        UserCommunityIsDelegate__c
                         FROM Contact
                         WHERE Id = :delegateDuplicate.contactId
                     ];
-					if(delegateDuplicate.contactId != null){
+                    if(delegateDuplicate.contactId != null){
                         existingUserPatientDelegate = [SELECT ID, Email FROM User WHERE ContactId = :delegateDuplicate.contactId];
+                    }
+                    //update participant as delegate
+                    if(!newContact.UserCommunityIsDelegate__c){
+                        newContact.UserCommunityIsDelegate__c = true;
+                    	update newContact;
                     }
                     //createUser = false;
                 }
 
                 Participant__c participantDelegate;
+                //Added for performance improvement
+                TriggerHandlerExecutor.bypassHandler(
+                        ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class
+                );
+                
                 if (delegateDuplicate == null || delegateDuplicate.participantId == null) {
                     participantDelegate = new Participant__c(
                         Adult__c = true,
@@ -648,6 +682,7 @@ global without sharing class ReferHealthcareProviderRemote {
                             .getCurrentContactId();
                     }
                     insert participantDelegate;
+                    
                 }
                 if (!participantObj.Adult__c) {
                     update new Participant__c(
@@ -667,11 +702,11 @@ global without sharing class ReferHealthcareProviderRemote {
                     ptDelegateRef.Status__c = DEL_ACTIVE;  
                 }
                 if(createUser) { //RH-5163
-                	ptDelegateRef.isInviteToPP__c = true;
+                    ptDelegateRef.isInviteToPP__c = true;
                     ptDelegateEnroll.isInviteToPP__c = true;
                 }
                 upsert ptDelegateRef;
-				delegateContactId = newContact.Id;
+                delegateContactId = newContact.Id;
 
                 if (
                 delegateDuplicate != null &&
@@ -690,14 +725,14 @@ global without sharing class ReferHealthcareProviderRemote {
             }
 
                 if (!lstPatientDelegateEnroll.isEmpty()) {
-                    if(lstPatientDelegateEnroll[0].Status__c == 'Withdrawn' || lstPatientDelegateEnroll[0].Status__c == 'Deleted'){	
-                        ptDelegateEnroll.ID = lstPatientDelegateEnroll[0].ID;	
-                        ptDelegateEnroll.Status__c = DEL_ACTIVE;	
-                        ptDelegateEnroll.Study_Email_Consent__c = true;	
-                        ptDelegateEnroll.Study_Email_Consent_Time__c = Datetime.now();	
-                   }else{	
+                    if(lstPatientDelegateEnroll[0].Status__c == 'Withdrawn'){   
+                        ptDelegateEnroll.ID = lstPatientDelegateEnroll[0].ID;   
+                        ptDelegateEnroll.Status__c = DEL_ACTIVE;    
+                        ptDelegateEnroll.Study_Email_Consent__c = true; 
+                        ptDelegateEnroll.Study_Email_Consent_Time__c = Datetime.now();  
+                   }else{   
                         ptDelegateEnroll.ID = lstPatientDelegateEnroll[0].ID;
-                        ptDelegateEnroll.Status__c ='Active';	
+                        ptDelegateEnroll.Status__c ='Active';   
                    }
                    update ptDelegateEnroll;
                 }
@@ -745,26 +780,27 @@ global without sharing class ReferHealthcareProviderRemote {
                 getPtDelegateEnroll.Status__c = DEL_ACTIVE;
 
                 if(createUser) { //RH-5163
-                	update new Patient_Delegate__c(Id = getPtDelegateEnroll.Patient_Delegate__c, Status__c = DEL_ACTIVE, isInviteToPP__c=true);
+                    update new Patient_Delegate__c(Id = getPtDelegateEnroll.Patient_Delegate__c, Status__c = DEL_ACTIVE, isInviteToPP__c=true);
                     getPtDelegateEnroll.isInviteToPP__c = true;
                 } else {
                     update new Patient_Delegate__c(Id = getPtDelegateEnroll.Patient_Delegate__c, Status__c = DEL_ACTIVE);
                 }
                 update getPtDelegateEnroll;
             }
-			if(participantObj != null && participantObj.Contact__c != null && (delegateContactId != null || ContactId != null)){
+            if(participantObj != null && participantObj.Contact__c != null && (delegateContactId != null || ContactId != null)){
                 participantAndDelIds.add(participantObj.Contact__c);
                 if(delegateContactId != null){
                 participantAndDelIds.add(delegateContactId);
                 }else{
                     participantAndDelIds.add(ContactId);
                 }
-               }
+               }   
             if(participantAndDelIds != null){
                 particpantUser = [SELECT ID, Email, ContactId FROM User WHERE ContactId IN :participantAndDelIds];
             }
             List<Conversation__c> patientConversation = new List<Conversation__c>();
-			
+            List<Patient_Delegate_Enrollment__c> lstPDE = new List<Patient_Delegate_Enrollment__c>();
+            
             for(User usr: particpantUser){
                 if(participantObj != null && participantObj.Contact__c != null && usr.ContactId == participantObj.Contact__c){
                     participantShareIds = usr.Id;
@@ -772,11 +808,28 @@ global without sharing class ReferHealthcareProviderRemote {
                     delegateUser = usr.Id;  
                 }
             }
-			if(participantShareIds != null){
-			patientConversation = ConversationService.getSharedConversations(
+            if(participantShareIds != null){
+            patientConversation = ConversationService.getSharedConversations(
                         participantShareIds
                     );
-			}
+            }else{
+                if(participantObj.Contact__c != null){
+                   
+                    List<Conversation__c> lstCoversation = new List<Conversation__c>();
+                    lstCoversation = [SELECT Id,Participant_Enrollment__c FROM Conversation__c where Participant_Enrollment__c=:perID ];
+                    List<Id> convIds = new List<Id>();
+                    for (Conversation__c conversation : lstCoversation){
+                    convIds.add(conversation.Id);}
+                    
+                    if(!lstCoversation.isEmpty() && lstCoversation != null && delegateUser != null){
+                                     insert ConversationService.createConversationSharesForUser(
+                           convIds,
+                            delegateUser
+                        );
+                    }
+                }
+            }
+            
             if (patientConversation != null && delegateUser != null) {
                 List<Id> conversationIds = new List<Id>();
                 for (Conversation__c conversation : patientConversation)
@@ -804,12 +857,24 @@ global without sharing class ReferHealthcareProviderRemote {
             update newHP;
         } else {
             Patient_Delegate_Enrollment__c pder = 
-                    [Select Id ,Status__c, Patient_Delegate__c
+                    [Select Id ,Status__c, Patient_Delegate__c, Patient_Delegate__r.Contact__c,Participant_Enrollment__c
                     FROM Patient_Delegate_Enrollment__c
                     WHERE id=:delegateId ];
                     pder.Status__c = DEL_ON_DISCONNECTED;
                     update pder;
             update new Patient_Delegate__c(Id = pder.Patient_Delegate__c, Status__c = DEL_ON_DISCONNECTED);
+            List<User> delegateUsers = [SELECT Id FROM User WHERE ContactId =:pder.Patient_Delegate__r.Contact__c];
+            Map<Id, Conversation__c> conversationMap = new Map<Id, Conversation__c>(
+            [SELECT Id FROM Conversation__c WHERE Participant_Enrollment__c =:pder.Participant_Enrollment__c]
+            );
+            List<Conversation__Share> conversationShares = [
+            SELECT Id
+            FROM Conversation__Share
+            WHERE ParentId IN :conversationMap.keySet() AND UserOrGroupId IN :delegateUsers 
+            ];
+            if (!conversationShares.isEmpty())
+            delete conversationShares;
+        
         }
     }
 
@@ -1288,11 +1353,11 @@ global without sharing class ReferHealthcareProviderRemote {
                 Reminder_Schedule__c,
                 Reminder_Schedule__r.First_Reminder_day__c,
                 Survey.Name,
-             	Trial_Survey__r.Whose_response_needed__c
+                Trial_Survey__r.Whose_response_needed__c
             FROM SurveyInvitation
             WHERE
                 Participant_Enrollment__r.Participant__c =: participantId
-             	AND Participant_Enrollment__r.Is_Created_by_Bulk_Import__c = TRUE
+                AND Participant_Enrollment__r.Is_Created_by_Bulk_Import__c = TRUE
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
                 AND Trial_Survey__r.Active_On_Status__c !=NULL
         ];

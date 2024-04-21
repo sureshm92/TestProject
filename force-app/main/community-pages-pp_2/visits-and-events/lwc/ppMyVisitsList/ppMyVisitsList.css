@@ -54,7 +54,6 @@
 .my-visits,
 .visit3 {
     color: #444444;
-    font-family: 'Proxima Nova';
     letter-spacing: 0;
     font-size: 2rem;
     font-weight: 600;
@@ -74,13 +73,11 @@
 .visit3 lightning-formatted-date-time {
     font-size: 20px;
     color: #444444;
-    font-family: 'Proxima Nova';
     font-weight: 400;
 }
 
 .dt-fsize {
     color: #444444;
-    font-family: 'Proxima Nova';
     letter-spacing: 0;
     font-size: 24px;
     letter-spacing: 0;
@@ -120,7 +117,6 @@
 
 .fasting {
     color: #595959;
-    font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 0;
@@ -136,7 +132,6 @@
 .name-style,
 .nameStyle {
     color: #595959;
-    font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 0;
@@ -146,16 +141,17 @@
     float: right;
     padding-right: 1rem;
 }
-
+/*
 a {
     background: #015ff1 !important;
     border-radius: 15px 0 0 15px;
     color: white;
 }
-
+*/
 .up-button {
-    border-radius: 16px 0 0 16px;
+    /* border-radius: 16px 0 0 16px; */
     border: 1px solid #d9d9d9 !important;
+    min-width: 109px;
 }
 
 .active-button-background {
@@ -171,19 +167,27 @@ a {
 .past-button {
     box-sizing: border-box;
     border: 1px solid #d9d9d9;
-    border-radius: 0 16px 16px 0 !important;
+    /* border-radius: 0 16px 16px 0 !important; */
     font-family: 'Proxima Nova';
     font-weight: 400;
     letter-spacing: 0;
-    line-height: 24px;
+    /* line-height: 24px; */
     text-align: center;
-    height: 32px;
-    width: 109px;
+    /* height: 32px; */
+    min-width: 109px;
     margin-left: -1px;
 }
 
+.border-radius-rtl {
+    border-radius: 0 16px 16px 0;
+}
+
+.border-radius {
+    border-radius: 16px 0 0 16px;
+}
+
 .scroll-bar {
-    height: 39rem;
+    height: 39rem;   
     border-radius: 4px;
     margin-right: 1rem;
 }
@@ -315,7 +319,6 @@ a {
 .date-style {
     width: 189px;
     color: #595959;
-    font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
 }
@@ -327,17 +330,19 @@ a {
     font-weight: 400;
 }
 
+@media all and (min-width: 768px) {
+    .active-custom-box,
+    .inactive-custom-box {
+        margin-inline: auto;
+        /* max-width: 340px; */
+    }
+}
+
 @media all and (max-width: 1200px) {
     .col3 {
         min-width: 50%;
         margin-top: 2rem;
         margin-left: auto;
-    }
-
-    .active-custom-box,
-    .inactive-custom-box {
-        min-width: 75%;
-        margin-inline: auto;
     }
 
     .upcomingButton {
@@ -391,6 +396,46 @@ a {
         width: 100%;
     }
 }
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    .active-custom-box {
+        width: 280px;
+        height: max-content;
+        display: inline-grid;
+        align-items: center;
+    }
+    .inactive-custom-box {
+        width: 280px;
+        height: max-content;
+        display: inline-grid;
+        align-items: center;
+    }
+}
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: landscape) {
+    .active-custom-box {
+        max-width: 100%;
+        height: max-content;
+        display: inline-grid;
+        align-items: center;
+    }
+    .inactive-custom-box {
+        max-width: 100%;
+        height: max-content;
+        display: inline-grid;
+        align-items: center;
+    }
+    .up-button {
+        width: 100px;
+    }
+    .past-button {
+        width: 100px;
+    }
+    .list-selection {
+        justify-content: left;
+    }
+    .scroll-bar {
+        margin-right: 0px;
+    }
+}
 .card-wrap {
     padding: 0;
 }
@@ -426,6 +471,12 @@ a {
 @media all and (max-width: 486px) {
     .visit-card-upcoming {
         height: 213px;
-        width: 326px;
+        width: auto !important;
     }
+    .scroll-bar {
+        margin-right: 0rem !important;
+    }
+}
+.tab-css {
+    width: 468px ;
 }

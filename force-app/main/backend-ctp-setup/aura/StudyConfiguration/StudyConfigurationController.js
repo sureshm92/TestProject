@@ -17,7 +17,11 @@
                 component.set('v.study_version_guid', initData.ctp.Study_Version_GUID__c);
                 component.set('v.user_has_permission', initData.user_has_permission);
                 component.set('v.noVisitPlansMessage', initData.noVisitPlansMessage);
-                
+                component.set('v.isPP', false);
+                if(initData.ctp.CommunityTemplate__c == 'PatientPortal' || 
+                   (initData.ctp.CommunityTemplate__c == 'Janssen' && initData.ctp.PPTemplate__c == 'PP 2.0')){
+                     component.set('v.isPP', true);
+                }
                 
                 component.find('spinner').hide();
             }

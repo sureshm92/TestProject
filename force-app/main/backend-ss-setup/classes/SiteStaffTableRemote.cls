@@ -191,6 +191,7 @@ public with sharing class SiteStaffTableRemote {
             }
             staffMembers[0].is_Invited__c = true;
             DMLService.updateRecord(staffMembers[0]);
+            DelegateService.addConversationSharesForPITeam(staffMembers);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }

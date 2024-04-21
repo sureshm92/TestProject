@@ -15,6 +15,8 @@ import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordL
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import PP_Login_Form_Show from '@salesforce/label/c.PP_Login_Form_Show';
 import PP_Login_Form_Hide from '@salesforce/label/c.PP_Login_Form_Hide';
+import PP_For_Participants_and_Caregivers from '@salesforce/label/c.PP_For_Participants_and_Caregivers';
+import PP_Connecting_professionals from '@salesforce/label/c.PP_Connecting_professionals';
 
 export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @track inError;
@@ -47,56 +49,14 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         enterPasswordMsg,
         login,
         PP_Login_Form_Hide,
-        PP_Login_Form_Show
+        PP_Login_Form_Show,
+        PP_For_Participants_and_Caregivers,
+        PP_Connecting_professionals
     };
 
     currentPageReference;
     erroContainerPosition = 'margin-left: 13px';
     errorIconPosition = 'margin-left: 8px';
-
-    renderedCallback() {
-        Promise.all([loadStyle(this, communityPPTheme)])
-            .then(() => {
-                console.log('Files loaded');
-            })
-            .catch((error) => {
-                console.log(error.body.message);
-            });
-    }
-
-    adjustWindowHeight() {
-        if (this.inError) {
-            switch (window.innerHeight) {
-                case 609:
-                case 577:
-                    document.querySelectorAll(
-                        '.slds-col.slds-large-size_4-of-7'
-                    )[0].style.maxHeight = '115vh';
-                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
-                        '115vh';
-                    break;
-                case 554:
-                case 525:
-                    document.querySelectorAll(
-                        '.slds-col.slds-large-size_4-of-7'
-                    )[0].style.maxHeight = '130vh';
-                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
-                        '130vh';
-                    break;
-                case 487:
-                case 462:
-                    document.querySelectorAll(
-                        '.slds-col.slds-large-size_4-of-7'
-                    )[0].style.maxHeight = '150vh';
-                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
-                        '145vh';
-                    document.querySelectorAll(
-                        '.slds-col.slds-large-size_4-of-7 img'
-                    )[0].style.marginTop = '-25px';
-                    break;
-            }
-        }
-    }
 
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
@@ -266,7 +226,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         return this.btnclassName;
     }
 
-    get PasswordEyeIconTitle(){
+    get PasswordEyeIconTitle() {
         return this.isEyeHidden ? this.label.PP_Login_Form_Show : this.label.PP_Login_Form_Hide;
     }
 

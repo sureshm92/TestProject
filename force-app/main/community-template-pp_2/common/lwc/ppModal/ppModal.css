@@ -22,6 +22,10 @@
     border-top-right-radius: 1rem;
     background: linear-gradient(90deg, rgb(0, 85, 135) 0%, rgb(0, 141, 158) 100%);
 }
+.card-top-bg-file-page {
+    margin-top: 5rem;
+    padding-top: 1rem;
+}
 
 .close-cursor {
     cursor: pointer;
@@ -34,6 +38,9 @@
     padding-bottom: 1.5rem;
     margin-top: -0.75rem;
     border-top: none;
+}
+.overFlowTitle{
+    overflow-wrap:anywhere;
 }
 
 @media screen and (max-width: 768px) {

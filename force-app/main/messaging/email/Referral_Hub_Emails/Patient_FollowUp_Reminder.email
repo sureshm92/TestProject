@@ -9,7 +9,8 @@
                           header="{!$Label.Email_Header_FollowUp_Reminder}"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
                           signature="{!$Label.Email_Signature_New_Short}"
-                          specificEmailProvider="EmailTemplateProviderForgot">
+                          specificEmailProvider="EmailTemplateProviderForgot"
+                          communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen','Janssen',relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_FollowUp_Reminder}"/>
             <c:TemplateLink linkLabel="{!$Label.BTN_Click_here}" urlLink="##ForgotPasswordURL"/>
         </c:EmailWireframe>
@@ -21,7 +22,8 @@
                               header="{!$Label.Email_Header_FollowUp_Reminder}"
                               greeting="{!$Label.Email_User_Greeting_FirstName}"
                               signature="{!$Label.Email_Signature_New_Short}"
-                              specificEmailProvider="EmailTemplateProviderForgot">
+                              specificEmailProvider="EmailTemplateProviderForgot"
+                               communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen','Janssen',relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_FollowUp_Reminder}"/>
             <c:TemplateLinkText linkLabel="{!$Label.BTN_Click_here}" urlLink="##ForgotPasswordURL"/>
         </c:EmailWireframeText>

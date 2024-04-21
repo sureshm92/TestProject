@@ -23,7 +23,10 @@ global without sharing class PP_EmailWireframeController {
     global Id surveyIdString { get; set; }
     private EmailTemplateProvider templateProvider;
     global Boolean isInitialEmailValue { get; set; }
-
+    global Boolean isJanssen { get; set; }
+    global Boolean isDelegates { get; set; }
+	global String currentMode { get; set; }
+    
     global String getUserLanguageCode() {
         return getProvider().getUserLanguage();
     }
@@ -77,7 +80,7 @@ global without sharing class PP_EmailWireframeController {
             communitiesList.add(ns.CommunityName__c);
         return communitiesList.contains(getProvider().getCommunityName());
     }
-
+  
     public Map<String, String> getTemplateMap() {
         return getProvider().getParameters();
     }
@@ -195,6 +198,47 @@ global without sharing class PP_EmailWireframeController {
     public Boolean getIsInitialized() {
         return getProvider().isInitialized();
     }
+
+    public String getStudyTemplate() {
+        String communityTemplateNameValue;
+        Set<String> templates = new Set<String>();
+        if(isDelegates == true){
+            
+            List<Patient_Delegate_Enrollment__c> pdes =  [SELECT Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,LastModifiedDate
+            FROM Patient_Delegate_Enrollment__c where Patient_delegate__r.contact__c =: emailRecipientId
+             ORDER By LastModifiedDate DESC];
+            return findTemplateMultipleStudy(pdes);
+         }
+        if(currentMode == 'Participant Delegate') {
+            user u = [select Id,contactId from user where Id=:emailRecipientId];
+            List<Patient_Delegate_Enrollment__c> pdes =  [SELECT Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
+            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,LastModifiedDate
+            FROM Patient_Delegate_Enrollment__c where Patient_delegate__r.contact__c =: u.contactId
+             ORDER By LastModifiedDate DESC];
+            return findTemplateMultipleStudy(pdes);
+        }
+        return getProvider().getParameters().get('communityTemplateName');
+    }
+    public String findTemplateMultipleStudy(List<Patient_Delegate_Enrollment__c> pdeList){
+        String templatename;
+        Datetime latestDate;
+        Set<String> templates  = new Set<String>();
+         for(Integer i=0;i<pdeList.size();i++){
+            if(i==0)
+              latestDate = pdeList[i].LastmodifiedDate;
+            if(pdeList[i].LastModifiedDate == latestDate){
+                templates.add(pdeList[i].Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
+            }
+        }
+        if(!templates.isEmpty() && templates.size() > 1)
+            return 'PatientPortal';
+        
+        return new List<String>(templates)[0];
+    }
+
     @TestVisible
     private EmailTemplateProvider getProvider() {
         if (templateProvider == null) {

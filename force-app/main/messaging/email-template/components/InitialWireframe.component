@@ -34,21 +34,30 @@
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_Patient}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
-                      signature="{!IF(communityTemplate == 'Default',IF(checkVisitedCommunity,$Label.Email_Signature_Patient_Short,$Label.Email_Signature_Patient_New),$Label.Email_Signature_Patient)}"
+                      signature="{!IF(communityTemplate == 'Default',
+                        IF(checkVisitedCommunity,$Label.Email_Signature_Patient_Short,$Label.Email_Signature_Patient_New),
+                        IF(communityTemplate == 'Janssen',
+                        IF(checkVisitedCommunity,$Label.Email_Signature_Patient_Short,$Label.Email_Signature_Patient_New),
+                        $Label.Email_Signature_Patient))}"
                       communityTemplate="{!communityTemplate}"
                      >
         <!-- Inner body -->
        
        
-          <c:Paragraph emailLabel="{!IF(communityTemplate == 'Default',$Label.Email_Body_Initial_Patient_Created_By_PI_New,$Label.Email_Body_Initial_Patient_Created_By_PI)}"/> 
-        
+         <c:Paragraph emailLabel="{!IF(communityTemplate == 'Default',$Label.Email_Body_Initial_Patient_Created_By_PI_New,
+                                    IF(communityTemplate == 'Janssen',$Label.Email_Body_Initial_Patient_Created_By_PI_New,
+                                    $Label.Email_Body_Initial_Patient_Created_By_PI))}"/> 
+
         <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/> 
       <!--  <c:ParticipantEmailActionBtn rendered="{!(communityTemplate == 'Default')}" buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/> -->
         <c:ParticipantParagraph rendered="{!(communityTemplate == 'Default')}" learnmoreLabel="{!$Label.Learn_more_about_study}"   
                                 discoverLabel="{!$Label.Discover_future_Clinical}"
                                 trackLabel="{!$Label.Track_your_study}" 
                                 communityNameHelpLabel="{!$Label.The_Patient_Portal_Help}" />
-    
+        <c:ParticipantParagraph rendered="{!(communityTemplate == 'Janssen')}" learnmoreLabel="{!$Label.Learn_more_about_study}"   
+                                discoverLabel="{!$Label.Discover_future_Clinical}"
+                                trackLabel="{!$Label.Track_your_study}" 
+                                communityNameHelpLabel="{!$Label.The_Patient_Portal_Help}" />
 
        <!-- <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/> -->
     </c:EmailWireframe>
@@ -79,16 +88,24 @@
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_Patient_Delegate}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"  
-                      signature="{!IF(communityTemplate == 'Default',$Label.Email_Signature_Participant_Delegate_New,$Label.Email_Signature_New)}"
+                      signature="{!IF(communityTemplate == 'Default',
+                                $Label.Email_Signature_Participant_Delegate_New,
+                                IF(communityTemplate == 'Janssen',
+                                $Label.Email_Signature_Participant_Delegate_New,
+                                $Label.Email_Signature_New))}"
                       communityTemplate="{!communityTemplate}"
                       >
         <!-- Inner body -->
-        <c:Paragraph emailLabel="{!IF(communityTemplate == 'Default',$Label.Email_Body_Initial_Patient_Delegate_New,$Label.Email_Body_Initial_Patient_Delegate)}"/>
+        <c:Paragraph emailLabel="{!IF(communityTemplate == 'Default',
+                                $Label.Email_Body_Initial_Patient_Delegate_New,
+                                IF(communityTemplate == 'Janssen',
+                                $Label.Email_Body_Initial_Patient_Delegate_New,
+                                $Label.Email_Body_Initial_Patient_Delegate))}"/>
         <c:EmailTemplateDelegateParticipant communityTemplate="{!communityTemplate}" recipientId="{!recordId}"/>
-        <c:Paragraph rendered="{!(communityTemplate == 'Default')}" emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate_New2}" />
+        <c:Paragraph rendered="{!(communityTemplate == 'Default' || communityTemplate == 'Janssen')}" emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate_New2}" />
          <c:EmailActionBtn buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/> 
      <!--  <c:ParticipantEmailActionBtn rendered="{!(communityTemplate == 'Default')}" buttonLabel="{!BTNLabel}" buttonURL="{!buttonURL}"/>  -->
-        <c:DelegateParagraph rendered="{!(communityTemplate == 'Default')}" learnmoreLabel="{!$Label.Delegate_learnmore}"   
+        <c:DelegateParagraph rendered="{!(communityTemplate == 'Default' || communityTemplate == 'Janssen')}" learnmoreLabel="{!$Label.Delegate_learnmore}"   
                                 trackLabel="{!$Label.Delegate_roadmap_Content}" 
                                 communityNameHelpLabel="{!$Label.The_Delegate_Header}" />
     </c:EmailWireframe>

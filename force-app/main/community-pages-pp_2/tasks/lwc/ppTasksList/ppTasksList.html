@@ -3,53 +3,114 @@
     <template for:each={tasksList} for:item="item" for:index="index">
         <template if:false={item.expandCard}>
             <div key={item} class={containerClass} data-parentdiv={item.task.Id}>
-                <lightning-layout-item size="2">
+                <lightning-layout-item size="2" class="slds-align--absolute-center">
                     <!--System Tasks Icons Section at Home-->
-                    <template if:true={ishomepage}>
-                        <template if:true={item.systemTask}>
-                            <div
-                                class="slds-p-around_medium"
-                                onclick={taskOpen}
-                                data-actionurl={item.task.Action_URL__c}
-                                data-status={item.task.Status}
-                                data-index={item.task.Id}
-                            >
-                                <!--System Non-Business Tasks at Home-->
-                                <template if:false={item.businessTask}>
-                                    <template if:true={isMobile}>
+                    <template if:false={isIPAD}>                       
+                        <template if:true={ishomepage}>
+                            <template if:true={item.systemTask}>
+                                <div
+                                    class="slds-p-around_medium"
+                                    onclick={taskOpen}
+                                    data-actionurl={item.task.Action_URL__c}
+                                    data-status={item.task.Status}
+                                    data-index={item.task.Id}
+                                >
+                                    <!--System Non-Business Tasks at Home-->
+                                    <template if:false={item.businessTask}>
+                                        <template if:true={item.activateEcoaTask}>
+                                            <template if:true={isMobile}>
+                                                <c-web-icon
+                                                    class={systemIconClass}
+                                                    icon-name="ecoa-illustration"
+                                                    icon-size="big-custom"
+                                                >
+                                                </c-web-icon>
+                                            </template>
+                                            <template if:false={isMobile}>
+                                                <c-web-icon
+                                                    class={systemIconClass}
+                                                    icon-name="ecoa-illustration"
+                                                    icon-size="big-custom"
+                                                >
+                                                </c-web-icon>
+                                            </template>
+                                        </template>
+                                        <template if:false={item.activateEcoaTask}>
+                                            <template if:true={isMobile}>
+                                                <c-web-icon
+                                                    class={systemIconClass}
+                                                    icon-name="task-illustration"
+                                                    icon-size="big-custom"
+                                                >
+                                                </c-web-icon>
+                                            </template>
+                                            <template if:false={isMobile}>
+                                                <c-web-icon
+                                                    class={systemIconClass}
+                                                    icon-name="task-illustration"
+                                                    icon-size="big-custom-taskillustration"
+                                                >
+                                                </c-web-icon>
+                                            </template>
+                                        </template>
+                                    </template>
+                                    <!--System Business Tasks at Home-->
+                                    <template if:true={item.businessTask}>
                                         <c-web-icon
                                             class={systemIconClass}
-                                            icon-name="task-illustration"
+                                            icon-name="task-survey"
+                                            icon-size="big-custom-tasksurvey"
+                                        >
+                                        </c-web-icon>
+                                    </template>
+                                </div>
+                            </template>
+                            <!--- Ecao task-->
+                            <template if:true={item.ecoaTask}>
+                                <div
+                                    class="slds-p-around_medium"
+                                    onclick={taskOpen}
+                                    data-actionurl={item.task.Action_URL__c}
+                                    data-status={item.task.Status}
+                                    data-index={item.task.Id}
+                                >
+                                    <!--System Non-Business Tasks at Home-->
+                                    <template if:false={item.businessTask}>
+                                        <template if:true={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="ecoa-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                        <template if:false={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="ecoa-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                    </template>
+                                    <!--System Business Tasks at Home-->
+                                    <template if:true={item.businessTask}>
+                                        <c-web-icon
+                                            class={systemIconClass}
+                                            icon-name="ecoa-illustration"
                                             icon-size="big-custom"
                                         >
                                         </c-web-icon>
                                     </template>
-                                    <template if:false={isMobile}>
-                                        <c-web-icon
-                                            class={systemIconClass}
-                                            icon-name="task-illustration"
-                                            icon-size="big-custom"
-                                        >
-                                        </c-web-icon>
-                                    </template>
-                                </template>
-                                <!--System Business Tasks at Home-->
-                                <template if:true={item.businessTask}>
-                                    <c-web-icon
-                                        class={systemIconClass}
-                                        icon-name="task-survey"
-                                        icon-size="big-custom"
-                                    >
-                                    </c-web-icon>
-                                </template>
-                            </div>
-                        </template>
-                    </template>
+                                </div>
+                            </template>
+                         </template>               
+                    </template> 
                     <!--System Tasks Icons Section at Task Page-->
                     <template if:false={ishomepage}>
                         <template if:true={item.systemTask}>
                             <div
-                                class="slds-p-around_medium"
+                                class="slds-p-around_xx-small"
                                 onclick={taskOpen}
                                 data-actionurl={item.task.Action_URL__c}
                                 data-status={item.task.Status}
@@ -57,21 +118,41 @@
                             >
                                 <!--System Non-Business Tasks at Task Page-->
                                 <template if:false={item.businessTask}>
-                                    <template if:true={isMobile}>
-                                        <c-web-icon
-                                            class={systemIconClass}
-                                            icon-name="task-illustration"
-                                            icon-size="big-custom"
-                                        >
-                                        </c-web-icon>
+                                    <template if:true={item.activateEcoaTask}>
+                                        <template if:true={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="ecoa-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                        <template if:false={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="ecoa-illustration"
+                                                icon-size="big"
+                                            >
+                                            </c-web-icon>
+                                        </template>
                                     </template>
-                                    <template if:false={isMobile}>
-                                        <c-web-icon
-                                            class={systemIconClass}
-                                            icon-name="task-illustration"
-                                            icon-size="big"
-                                        >
-                                        </c-web-icon>
+                                    <template if:false={item.activateEcoaTask}>
+                                        <template if:true={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="task-illustration"
+                                                icon-size="big-custom"
+                                            >
+                                            </c-web-icon>
+                                        </template>
+                                        <template if:false={isMobile}>
+                                            <c-web-icon
+                                                class={systemIconClass}
+                                                icon-name="task-illustration"
+                                                icon-size="big"
+                                            >
+                                            </c-web-icon>
+                                        </template>
                                     </template>
                                 </template>
                                 <!--System Business Tasks at Task Page-->
@@ -97,119 +178,201 @@
                                 </template>
                             </div>
                         </template>
-                    </template>
-
-                    <template if:false={item.systemTask}>
-                        <template if:false={item.isClosed}>
-                            <c-web-icon
-                                class={webIconClass}
-                                icon-name="icon-opentask"
-                                icon-color=""
-                                onclick={showTaskCompleteModal}
-                                onmouseover={fillTheOpenIcon}
-                                onmouseout={fillTheOpenIcon}
-                                data-index={item.task.Id}
+                        <!--Ecao task-->
+                        <template if:true={item.ecoaTask}>
+                            <div
+                                class="slds-p-around_xx-small"
+                                onclick={taskOpen}
+                                data-actionurl={item.task.Action_URL__c}
                                 data-status={item.task.Status}
+                                data-index={item.task.Id}
                             >
-                            </c-web-icon>
-                        </template>
-                        <!--Mark Task as Complete Modal-->
-                        <template if:true={isShowModal}>
-                            <c-pp-task-complete-modal
-                                contact={contact}
-                                messtext={messText}
-                                tittext={titText}
-                                usermode={usermode}
-                                selectedparent={selectedparent}
-                                onconfirmmodal={closeTheTask}
-                                onmodalclose={hideModalBox}
-                            ></c-pp-task-complete-modal>
-                        </template>
-                        <!--Mark Task as Ignore Modal-->
-                        <template if:true={isTaskIgnoreModal}>
-                            <c-pp-task-ignore-modal
-                                contact={contact}
-                                messtext={messText}
-                                tittext={titText}
-                                usermode={usermode}
-                                selectedparent={selectedparent}
-                                onconfirmmodal={markTheTaskIgnore}
-                                onmodalclose={closeModel}
-                            ></c-pp-task-ignore-modal>
-                        </template>
-                        <template if:true={item.isClosed}>
-                            <c-web-icon
-                                class={webIconClass}
-                                icon-name="icon-completedtask"
-                                onclick={showTaskCompleteModal}
-                                onmouseover={fillTheOpenIcon}
-                                onmouseout={fillTheOpenIcon}
-                                data-index={item.task.Id}
-                                data-status={item.task.Status}
-                            ></c-web-icon>
+                                <!--System Non-Business Tasks at Task Page-->
+                                <template if:false={item.businessTask}>
+                                    <template if:true={isMobile}>
+                                        <c-web-icon
+                                            class={systemIconClass}
+                                            icon-name="ecoa-illustration"
+                                            icon-size="big-custom"
+                                        >
+                                        </c-web-icon>
+                                    </template>
+                                    <template if:false={isMobile}>
+                                        <c-web-icon
+                                            class={systemIconClass}
+                                            icon-name="ecoa-illustration"
+                                            icon-size="big"
+                                        >
+                                        </c-web-icon>
+                                    </template>
+                                </template>
+                                <!--System Business Tasks at Task Page-->
+                                <template if:true={isMobile}>
+                                    <template if:true={item.businessTask}>
+                                        <c-web-icon
+                                            class={systemIconClass}
+                                            icon-name="ecoa-illustration"
+                                            icon-size="big-custom"
+                                        >
+                                        </c-web-icon>
+                                    </template>
+                                </template>
+                                <template if:false={isMobile}>
+                                    <template if:true={item.businessTask}>
+                                        <c-web-icon
+                                            class={systemIconClass}
+                                            icon-name="ecoa-illustration"
+                                            icon-size="big"
+                                        >
+                                        </c-web-icon>
+                                    </template>
+                                </template>
+                            </div>
                         </template>
                     </template>
+                    <template if:true={isIPAD}>
+                        <template if:false={ishomepage}>
+                            <template if:false={item.systemTask}>
+                                <template if:false={item.ecoaTask}>
+                                    <template if:false={item.isClosed}>
+                                        <c-web-icon
+                                            class={webIconClass}
+                                            icon-name="icon-opentask"
+                                            icon-color=""
+                                            onclick={showTaskCompleteModal}
+                                            data-index={item.task.Id}
+                                            data-status={item.task.Status}
+                                        >
+                                        </c-web-icon>
+                                    </template>
+                                <!--Mark Task as Complete Modal-->
+                                <template if:true={isShowModal}>
+                                    <c-pp-task-complete-modal
+                                        contact={contact}
+                                        messtext={messText}
+                                        tittext={titText}
+                                        usermode={usermode}
+                                        selectedparent={selectedparent}
+                                        onconfirmmodal={closeTheTask}
+                                        onmodalclose={hideModalBox}
+                                    ></c-pp-task-complete-modal>
+                                </template>
+                                <!--Mark Task as Ignore Modal-->
+                                <template if:true={isTaskIgnoreModal}>
+                                    <c-pp-task-ignore-modal
+                                        contact={contact}
+                                        messtext={messText}
+                                        tittext={titText}
+                                        usermode={usermode}
+                                        selectedparent={selectedparent}
+                                        onconfirmmodal={markTheTaskIgnore}
+                                        onmodalclose={closeModel}
+                                    ></c-pp-task-ignore-modal>
+                                </template>
+                                <template if:true={item.isClosed}>
+                                   <c-web-icon
+                                        class={webIconClass}
+                                        icon-name="icon-completedtask"
+                                        onclick={showTaskCompleteModal}
+                                        data-index={item.task.Id}
+                                        data-status={item.task.Status}
+                                        tabindex="0"
+                                    ></c-web-icon>
+                                </template>
+                               </template>
+                            </template>
+                            </template>
+
+                    </template>
+                        <template if:false={item.systemTask}>
+                            <template if:false={item.ecoaTask}>
+                                <template if:false={item.isClosed}>
+                                    <c-web-icon
+                                        class={webIconClass}
+                                        icon-name="icon-opentask"
+                                        icon-color=""
+                                        onclick={showTaskCompleteModal}
+                                        data-index={item.task.Id}
+                                        data-status={item.task.Status}
+                                    >
+                                    </c-web-icon>
+                                </template>
+                            <!--Mark Task as Complete Modal-->
+                            <template if:true={isShowModal}>
+                                <c-pp-task-complete-modal
+                                    contact={contact}
+                                    messtext={messText}
+                                    tittext={titText}
+                                    usermode={usermode}
+                                    selectedparent={selectedparent}
+                                    onconfirmmodal={closeTheTask}
+                                    onmodalclose={hideModalBox}
+                                ></c-pp-task-complete-modal>
+                            </template>
+                            <!--Mark Task as Ignore Modal-->
+                            <template if:true={isTaskIgnoreModal}>
+                                <c-pp-task-ignore-modal
+                                    contact={contact}
+                                    messtext={messText}
+                                    tittext={titText}
+                                    usermode={usermode}
+                                    selectedparent={selectedparent}
+                                    onconfirmmodal={markTheTaskIgnore}
+                                    onmodalclose={closeModel}
+                                ></c-pp-task-ignore-modal>
+                            </template>
+                            <template if:true={item.isClosed}>
+                               <c-web-icon
+                                    class={webIconClass}
+                                    icon-name="icon-completedtask"
+                                    onclick={showTaskCompleteModal}
+                                    data-index={item.task.Id}
+                                    data-status={item.task.Status}
+                                    tabindex="0"
+                                ></c-web-icon>
+                            </template>
+                           </template>
+                        </template>
+
+
+                <!-- <template if:false={isIPAD}> -->
+                   
+                <!-- </template>  -->
                 </lightning-layout-item>
                 <!--Desktop View for Task List Subject, Critical and Due Date Section-->
                 <template if:false={isMobile}>
                     <!--Task List Subject, Critical and Due Date Section for Home Page-->
                     <template if:true={ishomepage}>
-                        <lightning-layout-item size="8" class="">
+                        <lightning-layout-item size="8">
                             <lightning-layout size="12">
-                                <template if:true={ishomepage}>
-                                    <lightning-layout-item size="12">
-                                        <!--Subject-->
-                                        <lightning-layout>
+                                <lightning-layout-item size="12" class={rtlMargin}>
+                                    <!--Subject-->
+                                    <lightning-layout>
+                                        <lightning-layout-item class={item.homeSubjectEllipsisClass}
+                                            ><span
+                                                class={item.subjectClass}
+                                                onclick={handleonclick}
+                                                data-index={item.task.Id}
+                                                ><lightning-formatted-text
+                                                    value={item.task.Subject}
+                                                    title={item.task.Subject}
+                                                >
+                                                </lightning-formatted-text
+                                            ></span>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                    <!--Due Date-->
+                                    <template if:true={item.dueDate}
+                                        ><lightning-layout>
                                             <lightning-layout-item
-                                                class={item.homeSubjectEllipsisClass}
-                                                ><span
-                                                    class={item.subjectClass}
-                                                    onclick={handleonclick}
-                                                    data-index={item.task.Id}
-                                                    ><lightning-formatted-text
-                                                        value={item.task.Subject}
-                                                        title={item.task.Subject}
-                                                    >
-                                                    </lightning-formatted-text
-                                                ></span>
-                                            </lightning-layout-item>
-                                        </lightning-layout>
-                                        <!--Due Date-->
-                                        <template if:true={item.dueDate}
-                                            ><lightning-layout>
-                                                <lightning-layout-item
-                                                    ><span class={dueTimeClass}
-                                                        ><template if:true={item.isClosed}
-                                                            >{label.taskPPCompletedLabel}</template
-                                                        ><template if:false={item.isClosed}>
-                                                            <template lwc:if={item.isCTPSurvey}>
-                                                                <template
-                                                                    lwc:if={item.isCTPSurveyEndDate}
-                                                                >
-                                                                    {label.taskDue}:&nbsp;
-                                                                    <lightning-formatted-date-time
-                                                                        value={item.task.Activity_Datetime__c}
-                                                                        year="numeric"
-                                                                        month="short"
-                                                                        day="2-digit"
-                                                                        time-zone={userTimeZone}
-                                                                    ></lightning-formatted-date-time
-                                                                    ><template
-                                                                        if:false={item.isMCPTask}
-                                                                        >&nbsp;|&nbsp;
-                                                                        <lightning-formatted-date-time
-                                                                            value={item.task.Activity_Datetime__c}
-                                                                            hour="numeric"
-                                                                            minute="numeric"
-                                                                            time-zone={userTimeZone}
-                                                                        ></lightning-formatted-date-time>
-                                                                    </template>
-                                                                </template>
-                                                                <template lwc:else>
-                                                                    <!--PEH-11426: When it is unchecked-->
-                                                                </template>
-                                                            </template>
-                                                            <template lwc:else>
+                                                ><span class={dueTimeClass}
+                                                    ><template if:true={item.isClosed}
+                                                        >{label.taskPPCompletedLabel}</template
+                                                    ><template if:false={item.isClosed}>
+                                                        <template lwc:if={item.isCTPSurvey}>
+                                                            <template
+                                                                lwc:if={item.isCTPSurveyEndDate}
+                                                            >
                                                                 {label.taskDue}:&nbsp;
                                                                 <lightning-formatted-date-time
                                                                     value={item.task.Activity_Datetime__c}
@@ -228,78 +391,81 @@
                                                                     ></lightning-formatted-date-time>
                                                                 </template>
                                                             </template>
+                                                            <template lwc:else>
+                                                                <!--PEH-11426: When it is unchecked-->
+                                                                <template
+                                                                    lwc:if={item.isCTPSurveyParticipantEndDate}
+                                                                >
+                                                                    {label.taskDue}:&nbsp;
+                                                                    <lightning-formatted-date-time
+                                                                        value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                        year="numeric"
+                                                                        month="short"
+                                                                        day="2-digit"
+                                                                        time-zone={userTimeZone}
+                                                                    ></lightning-formatted-date-time
+                                                                    ><template
+                                                                        if:false={item.isMCPTask}
+                                                                        >&nbsp;|&nbsp;
+                                                                        <lightning-formatted-date-time
+                                                                            value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                            hour="numeric"
+                                                                            minute="numeric"
+                                                                            time-zone={userTimeZone}
+                                                                        ></lightning-formatted-date-time>
+                                                                    </template>
+                                                                </template>
+                                                            </template>
                                                         </template>
-                                                    </span>
-                                                </lightning-layout-item> </lightning-layout
-                                        ></template>
-                                        <!--If Due Date is not available - Keep text 'Completed' when task completed in Home page-->
-                                        <template if:false={item.dueDate}
-                                            ><lightning-layout>
-                                                <lightning-layout-item
-                                                    ><span class={dueTimeClass}
-                                                        ><template if:true={item.isClosed}
-                                                            >{label.taskPPCompletedLabel}</template
-                                                        >
-                                                    </span>
-                                                </lightning-layout-item>
-                                            </lightning-layout></template
-                                        >
-                                    </lightning-layout-item>
-                                </template>
-                                <template if:false={ishomepage}>
-                                    <lightning-layout-item size="10">
-                                        <!--Subject-->
-                                        <lightning-layout>
-                                            <lightning-layout-item class={item.subjectEllipsisClass}
-                                                ><span
-                                                    class={item.subjectClass}
-                                                    onclick={taskOpen}
-                                                    data-actionurl={item.task.Action_URL__c}
-                                                    data-status={item.task.Status}
-                                                    data-index={item.task.Id}
-                                                    ><lightning-formatted-text
-                                                        value={item.task.Subject}
-                                                    >
-                                                    </lightning-formatted-text
-                                                ></span>
-                                            </lightning-layout-item>
-                                        </lightning-layout>
-                                        <!--Due Date-->
-                                        <template if:true={item.dueDate}
-                                            ><lightning-layout>
-                                                <lightning-layout-item
-                                                    ><span class={dueTimeClass}
-                                                        ><template if:true={item.isClosed}
-                                                            >{label.taskPPCompletedLabel}</template
-                                                        ><template if:false={item.isClosed}
-                                                            >{label.taskDue}</template
-                                                        >:&nbsp;
-
-                                                        <lightning-formatted-date-time
-                                                            value={item.task.Activity_Datetime__c}
-                                                            year="numeric"
-                                                            month="short"
-                                                            day="2-digit"
-                                                            time-zone={userTimeZone}
-                                                        ></lightning-formatted-date-time
-                                                        ><template if:false={item.isMCPTask}>
-                                                            &nbsp;|&nbsp;
+                                                        <template lwc:else>
+                                                            {label.taskDue}:&nbsp;
                                                             <lightning-formatted-date-time
                                                                 value={item.task.Activity_Datetime__c}
-                                                                hour="numeric"
-                                                                minute="numeric"
+                                                                year="numeric"
+                                                                month="short"
+                                                                day="2-digit"
                                                                 time-zone={userTimeZone}
-                                                            ></lightning-formatted-date-time>
+                                                            ></lightning-formatted-date-time
+                                                            ><template if:false={item.isMCPTask}
+                                                                >&nbsp;|&nbsp;
+                                                                <lightning-formatted-date-time
+                                                                    value={item.task.Activity_Datetime__c}
+                                                                    hour="numeric"
+                                                                    minute="numeric"
+                                                                    time-zone={userTimeZone}
+                                                                ></lightning-formatted-date-time>
+                                                            </template>
+                                                            <template if:true={item.ecoaTask}
+                                                                    >&nbsp;|&nbsp;
+                                                                    <lightning-formatted-date-time
+                                                                        value={item.task.Activity_Datetime__c}
+                                                                        hour="numeric"
+                                                                        minute="numeric"
+                                                                        time-zone={userTimeZone}
+                                                                    ></lightning-formatted-date-time>
+                                                            </template>
                                                         </template>
-                                                    </span>
-                                                </lightning-layout-item> </lightning-layout
-                                        ></template>
-                                    </lightning-layout-item>
-                                </template>
+                                                    </template>
+                                                </span>
+                                            </lightning-layout-item> </lightning-layout
+                                    ></template>
+                                    <!--If Due Date is not available - Keep text 'Completed' when task completed in Home page-->
+                                    <template if:false={item.dueDate}
+                                        ><lightning-layout>
+                                            <lightning-layout-item
+                                                ><span class={dueTimeClass}
+                                                    ><template if:true={item.isClosed}
+                                                        >{label.taskPPCompletedLabel}</template
+                                                    >
+                                                </span>
+                                            </lightning-layout-item>
+                                        </lightning-layout></template
+                                    >
+                                </lightning-layout-item>
                                 <!--Critical Label if any-->
                                 <lightning-layout-item class="slds-align_absolute-center" size="2"
                                     ><template if:true={item.criticalTask}
-                                        ><span class="critical-rect"
+                                        ><span class="critical-rect-home"
                                             >{label.taskPriorityCritical}</span
                                         ></template
                                     >
@@ -387,6 +553,28 @@
                                                                     </template>
                                                                     <template lwc:else>
                                                                         <!--PEH-11426: When it is unchecked-->
+                                                                        <template
+                                                                            lwc:if={item.isCTPSurveyParticipantEndDate}
+                                                                        >
+                                                                            {label.taskDue}:&nbsp;
+                                                                            <lightning-formatted-date-time
+                                                                                value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                                year="numeric"
+                                                                                month="short"
+                                                                                day="2-digit"
+                                                                                time-zone={userTimeZone}
+                                                                            ></lightning-formatted-date-time
+                                                                            ><template
+                                                                                if:false={item.isMCPTask}
+                                                                                >&nbsp;|&nbsp;
+                                                                                <lightning-formatted-date-time
+                                                                                    value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                                    hour="numeric"
+                                                                                    minute="numeric"
+                                                                                    time-zone={userTimeZone}
+                                                                                ></lightning-formatted-date-time>
+                                                                            </template>
+                                                                        </template>
                                                                     </template>
                                                                 </template>
                                                                 <template lwc:else>
@@ -408,6 +596,15 @@
                                                                             time-zone={userTimeZone}
                                                                         ></lightning-formatted-date-time>
                                                                     </template>
+                                                                    <template if:true={item.ecoaTask}
+                                                                    >&nbsp;|&nbsp;
+                                                                    <lightning-formatted-date-time
+                                                                        value={item.task.Activity_Datetime__c}
+                                                                        hour="numeric"
+                                                                        minute="numeric"
+                                                                        time-zone={userTimeZone}
+                                                                    ></lightning-formatted-date-time>
+                                                            </template>
                                                                 </template>
                                                             </template>
                                                         </span>
@@ -467,7 +664,6 @@
                         <lightning-layout-item size="8">
                             <lightning-layout size="12">
                                 <lightning-layout-item
-                                    size="10"
                                     class={item.homeSubjectEllipsisClass}
                                     ><span
                                         class={item.subjectClass}
@@ -480,9 +676,9 @@
                                         </lightning-formatted-text
                                     ></span>
                                 </lightning-layout-item>
-                                <lightning-layout-item size="2"
+                                <lightning-layout-item size="1"
                                     ><template if:true={item.criticalTask}
-                                        ><span class="critical-rect"
+                                        ><span class="critical-rect-home"
                                             >{label.taskPriorityCritical}</span
                                         ></template
                                     ></lightning-layout-item
@@ -517,6 +713,27 @@
                                                     </template>
                                                     <template lwc:else>
                                                         <!--PEH-11426: When it is unchecked-->
+                                                        <template
+                                                            lwc:if={item.isCTPSurveyParticipantEndDate}
+                                                        >
+                                                            {label.taskDue}:&nbsp;
+                                                            <lightning-formatted-date-time
+                                                                value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                year="numeric"
+                                                                month="short"
+                                                                day="2-digit"
+                                                                time-zone={userTimeZone}
+                                                            ></lightning-formatted-date-time
+                                                            ><template if:false={item.isMCPTask}
+                                                                >&nbsp;|&nbsp;
+                                                                <lightning-formatted-date-time
+                                                                    value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                    hour="numeric"
+                                                                    minute="numeric"
+                                                                    time-zone={userTimeZone}
+                                                                ></lightning-formatted-date-time>
+                                                            </template>
+                                                        </template>
                                                     </template>
                                                 </template>
                                                 <template lwc:else>
@@ -536,6 +753,15 @@
                                                             minute="numeric"
                                                             time-zone={userTimeZone}
                                                         ></lightning-formatted-date-time>
+                                                    </template>
+                                                    <template if:true={item.ecoaTask}
+                                                                    >&nbsp;|&nbsp;
+                                                                    <lightning-formatted-date-time
+                                                                        value={item.task.Activity_Datetime__c}
+                                                                        hour="numeric"
+                                                                        minute="numeric"
+                                                                        time-zone={userTimeZone}
+                                                                    ></lightning-formatted-date-time>
                                                     </template>
                                                 </template>
                                             </template>
@@ -636,6 +862,27 @@
                                                         </template>
                                                         <template lwc:else>
                                                             <!--PEH-11426: When it is unchecked-->
+                                                            <template
+                                                                lwc:if={item.isCTPSurveyParticipantEndDate}
+                                                            >
+                                                                {label.taskDue}:&nbsp;
+                                                                <lightning-formatted-date-time
+                                                                    value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                    year="numeric"
+                                                                    month="short"
+                                                                    day="2-digit"
+                                                                    time-zone={userTimeZone}
+                                                                ></lightning-formatted-date-time
+                                                                ><template if:false={item.isMCPTask}
+                                                                    >&nbsp;|&nbsp;
+                                                                    <lightning-formatted-date-time
+                                                                        value={item.task.Survey_Invitation__r.Participant_Due_Date__c}
+                                                                        hour="numeric"
+                                                                        minute="numeric"
+                                                                        time-zone={userTimeZone}
+                                                                    ></lightning-formatted-date-time>
+                                                                </template>
+                                                            </template>
                                                         </template>
                                                     </template>
                                                     <template lwc:else>
@@ -655,6 +902,15 @@
                                                                 minute="numeric"
                                                                 time-zone={userTimeZone}
                                                             ></lightning-formatted-date-time>
+                                                        </template>
+                                                        <template if:true={item.ecoaTask}
+                                                                    >&nbsp;|&nbsp;
+                                                                    <lightning-formatted-date-time
+                                                                        value={item.task.Activity_Datetime__c}
+                                                                        hour="numeric"
+                                                                        minute="numeric"
+                                                                        time-zone={userTimeZone}
+                                                                    ></lightning-formatted-date-time>
                                                         </template>
                                                     </template>
                                                 </template>
@@ -707,7 +963,7 @@
                         <template if:false={item.isClosed}>
                             <!--Arrow Icon for System Tasks as Home Page-->
                             <template if:true={ishomepage}>
-                                <template if:true={item.systemTask}>
+                                <template if:true={item.displayChevron}> 
                                     <img
                                         src={task_arrow}
                                         class="curpointer"
@@ -717,6 +973,7 @@
                                         data-index={item.task.Id}
                                     />
                                 </template>
+                                
                             </template>
                             <!--Three Dots for Tasks as Task Page-->
                             <template if:false={ishomepage}>

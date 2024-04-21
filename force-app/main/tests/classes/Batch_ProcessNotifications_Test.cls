@@ -22,7 +22,7 @@ public class Batch_ProcessNotifications_Test {
 
         List<Notification__c> newList = new List<Notification__c>();
         Notification__c notifyForTest = new Notification__c(
-            Notification_Type__c = 'PP_RH_Push_Notification',
+            Notification_Type__c = 'PP_v2_Push_Notification',
             Recipient__c = pe.Participant__r.Contact__c,
             WhatId__c = pe.Id,
             Status__c = NotificationService.NOTIFICATION_STATUS_PENDING

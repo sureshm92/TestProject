@@ -46,6 +46,22 @@ public without sharing class MessageTriggerHandler {
         Map<Id, List<Id>> delegatesByPAConId = PatientDelegateEnrollmentService.getDelegateContactIdsByPAContactIs(
             participantConIds,true
         );
+        
+        List<Id> lstDelIds = new List<Id>();
+        List<Patient_Delegate_Enrollment__c> lstPDE = new List<Patient_Delegate_Enrollment__c>();
+        List<Id> lstSecDelegate = new List<Id>();
+        for(Id s:delegatesByPAConId.keySet()){
+            lstDelIds.addall(delegatesByPAConId.get(s));
+        }
+        if(!lstDelIds.isEmpty() && lstDelIds!=null){
+            lstPDE =[Select Id,Participant_Enrollment__c,Primary_Delegate__c,Patient_Delegate__c,Patient_Delegate__r.Contact__c from Patient_Delegate_Enrollment__c
+                      where Participant_Enrollment__c IN:peIds and Primary_Delegate__c=false and Patient_Delegate__r.Contact__c IN:lstDelIds];
+            if(!lstPDE.isEmpty() && lstPDE != null){
+                for(Patient_Delegate_Enrollment__c pde:lstPDE){
+                  lstSecDelegate.add(pde.Patient_Delegate__r.Contact__c); 
+                }
+            }          
+        }
 
         List<Site_Staff__c> siteStaff = [
             SELECT Site_Contact__c, Study_Site__r.Principal_Investigator__c
@@ -100,14 +116,27 @@ public without sharing class MessageTriggerHandler {
                 List<Id> delegateIds = delegatesByPAConId.get(headRecipientId);
                 if (delegateIds != null) {
                     for (Id delConId : delegateIds) {
-                        notifications.add(
-                            new Notification__c(
-                                Recipient__c = delConId,
-                                WhatId__c = conversation.Participant_Enrollment__c,
-                                IsDelegate__c = true,
-                                Notification_Type__c = notType //Message to PT when there is a new message	
-                            )
-                        );
+                          if(mes.Is_Confidential__c){
+                             if(!lstSecDelegate.contains(delConId)){
+                                    notifications.add(
+                                    new Notification__c(
+                                        Recipient__c = delConId,
+                                        WhatId__c = conversation.Participant_Enrollment__c,
+                                        IsDelegate__c = true,
+                                        Notification_Type__c = notType //Message to PT when there is a new message  
+                                    )
+                                );
+                             }
+                          }else{
+                                notifications.add(
+                                new Notification__c(
+                                    Recipient__c = delConId,
+                                    WhatId__c = conversation.Participant_Enrollment__c,
+                                    IsDelegate__c = true,
+                                    Notification_Type__c = notType //Message to PT when there is a new message  
+                                )
+                            );
+                          }   
                     }
                 }
             }

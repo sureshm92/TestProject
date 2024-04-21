@@ -3,10 +3,12 @@
  -->
  <apex:component id="PPCookiesBanner" controller="PPCookiesBannerController" allowDML="true" >
     <apex:attribute name="community" description="community Name" type="String" />
+    <apex:attribute name="communityName" description="community" type="String" />
+   
     <apex:actionFunction action="{!updateCookiePreferences}" name="updateCookies" reRender="none" />
-
-    <apex:actionFunction
-        action="{!fetchTheCookieData}"
+    <apex:actionFunction action="{!updateCookiePreferencesJs}" name="updateCookiesJs" reRender="none" />
+    
+    <apex:actionFunction action="{!fetchTheCookieData}"
         name="fetchTheData"
         reRender="strictCookiesInfo,functionCookiesInfo"
         oncomplete="disableTheCookiesBanner()"
@@ -58,7 +60,7 @@
             width: 156px;
             border: none;
             border-radius: 16px;
-            background-color: #0768fd;
+            background-color: #015FF1;
             box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
         }
         .rh-mobile-device {
@@ -87,6 +89,9 @@
         .cookie-btn {
             pointer-events: auto;
             border-color: transparent;
+        }  
+        .cookie-cursor {
+            cursor: pointer;
         }
 
         .hide-banner {
@@ -108,7 +113,7 @@
                 text-align: center;
             }
             .btn-container {
-                width: 366px !important;
+                width: 100%;
             }
             /* Mobile modal css */
             .always-active::before {
@@ -192,7 +197,7 @@
 
         .acordion-title {
             transform: rotate(-360deg);
-            color: #0768fd;
+            color: #015FF1;
             font-size: 18px;
         }
 
@@ -328,9 +333,9 @@
             <div class="slds-col slds-size_12-of-12 slds-large-size_9-of-12 slds-p-around_small">
                 <div class="we-care-about-your-p">
                     <div class="banner-heading slds-m-top_small">
-                        {!$Label.PP_Cookie_Banner_Header}
+                        {!$Label.PP_Cookie_Banner_Header} 
                     </div>
-                    <div class="banner-txt slds-m-top_x-small slds-show_medium rh-desktop-device">
+                    <div class="banner-txt slds-m-top_x-small slds-show_medium rh-desktop-device"> 
                         {!$Label.PP_Cookies_Banner_Desc1}
                         <b>{!$Label.PP_Cookies_Banner_Desc2}</b>
                         {!$Label.PP_Cookies_Banner_Desc3}
@@ -353,22 +358,22 @@
             >
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
-                        <apex:commandButton
+                          <apex:commandButton
                             styleClass="btn-container btn-label cookie-btn rh-border-radius"
                             value="{!$Label.PP_Cookies_Button_Accept}"
                             onclick="closeCookiesInfo();return false;"
                             id="accept"
-                        />
+                        /> 
                     </div>
                     <div
                         class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-m-top_large"
                     >
-                        <apex:commandButton
+                       <apex:commandButton
                             styleClass="btn-container manage cookie-btn rh-border-radius"
                             value="{!$Label.PP_Cookies_Button_Manage_Prefer}"
                             onclick="showManagePreferences();return false;"
                             id="manage"
-                        />
+                        /> 
                     </div>
                 </div>
             </div>
@@ -389,8 +394,8 @@
                         {!$Label.Manage_Cookies_Desc}
                     </div>
 
-                    <div class="accordion rh-border-radius">
-                        <div class="acordion-title right-angle-chevron slds-p-horizontal_small">
+                    <div class="accordion rh-border-radius ">
+                        <div class="acordion-title right-angle-chevron slds-p-horizontal_small cookie-cursor">
                             {!$Label.AccountSettings_Strictly_Necessary_Cookies}
                             <span class="always-active">{!$Label.Cookie_Always_Active}</span>
                         </div>
@@ -402,7 +407,7 @@
                                             <apex:outputText value="{!cookieSetting.cookieName}" />
                                         </div>
                                         <div class="cookie-desc-font-size">
-                                            <apex:outputText
+                                             <apex:outputText
                                                 value="{!cookieSetting.cookieDescription}"
                                             />
                                         </div>
@@ -410,16 +415,16 @@
                                 </apex:repeat>
                                 <div
                                     class="cookie-title slds-p-horizontal_medium"
-                                    style="{!IF(community=='Janssen Community' , 'display:block', 'display:none')}"
+                                    style="{!IF(community =='Janssen Community' || communityName =='Janssen Community',  'display:block', 'display:none')}"
                                 >
                                     <div class="cookie-title-font-size">
                                         <apex:outputText
-                                            value="{!$Label.AccountSettings_Functional_RRCookies}"
+                                        value="{!$Label.AccountSettings_Functional_RRCookies}"
                                         />
                                     </div>
                                     <div class="cookie-desc-font-size">
-                                        <apex:outputText
-                                            value="{!$Label.AccountSettings_RRCookies_Description}"
+                                        <apex:outputText 
+                                        value="{!$Label.AccountSettings_RRCookies_Description}"
                                         />
                                     </div>
                                 </div>
@@ -428,10 +433,10 @@
                     </div>
                     <div
                         class="accordion active rh-border-radius"
-                        style="{!IF(community!='Janssen Community' , 'display:block', 'display:none')}"
+                        style="{!IF(community!='Janssen Community' && communityName !='Janssen Community','display:block' , 'display:none')}"
                     >
                         <apex:outputPanel id="functionCookiesInfo">
-                            <div class="acordion-title slds-p-horizontal_small">
+                            <div class="acordion-title slds-p-horizontal_small cookie-cursor">
                                 {!$Label.AccountSettings_Functional_Cookies}
                             </div>
                             <div class="panel" style="display: block">
@@ -449,8 +454,8 @@
                                             <label
                                                 class="slds-checkbox_toggle slds-grid slds-grid_align-center"
                                             >
-                                                <apex:inputCheckbox
-                                                    id="currentRRCookies"
+                                                <apex:inputCheckbox 
+                                                id="currentRRCookies"
                                                     value="{!currentContact.RRCookiesAllowedCookie__c}"
                                                 />
                                                 <span
@@ -478,8 +483,8 @@
                                             <label
                                                 class="slds-checkbox_toggle slds-grid slds-grid_align-center"
                                             >
-                                                <apex:inputCheckbox
-                                                    value="{!currentContact.RRLanguageAllowedCookie__c}"
+                                                <apex:inputCheckbox 
+                                                value="{!currentContact.RRLanguageAllowedCookie__c}"
                                                 />
                                                 <span
                                                     id="checkbox-toggle-16"
@@ -495,15 +500,24 @@
                             </div>
                         </apex:outputPanel>
                     </div>
-
-                    <div class="slds-grid slds-grid_align-end slds-m-top_medium">
-                        <apex:commandButton
-                            styleClass="accept-btn-container rh-accept-btn-container btn-label cookie-btn"
-                            value="{!$Label.BTN_Accept}"
-                            onclick="updateCookies();closeManageModal();return false;"
-                            id="manageaccept"
-                        />
-                    </div>
+                     <apex:outputPanel rendered="{!communityName == 'Janssen Community'}">
+                                     <div class="slds-grid slds-grid_align-end slds-m-top_medium">
+                                <apex:commandButton styleClass="accept-btn-container rh-accept-btn-container btn-label cookie-btn"
+                                    value="{!$Label.BTN_Accept}"
+                                   onclick="updateCookiesJs();closeManageModalJs();return false;" 
+                                    id="manageacceptjs"
+                                /> 
+                            </div>
+                     </apex:outputPanel>
+                      <apex:outputPanel rendered="{!communityName != 'Janssen Community'}">
+                                     <div class="slds-grid slds-grid_align-end slds-m-top_medium">
+                                <apex:commandButton styleClass="accept-btn-container rh-accept-btn-container btn-label cookie-btn"
+                                    value="{!$Label.BTN_Accept}"
+                                    onclick="updateCookies();closeManageModal();return false;"  
+                                    id="manageaccept"
+                                /> 
+                            </div>
+                     </apex:outputPanel>
                 </div>
             </div>
         </section>
@@ -523,7 +537,7 @@
         var dataIsAvailable = false;
         var acc = document.getElementsByClassName('accordion');
         var i;
-
+       
         for (i = 0; i < acc.length; i++) {
             acc[i].addEventListener('click', function () {
                 this.classList.toggle('active');
@@ -613,15 +627,27 @@
             if (!agreedtoPolicy && !rrCookies && !init && ele) ele.style.display = 'block';
         }
         function closeManageModal() {
-            agreedtoPolicy = true;
+          agreedtoPolicy = true;
             let ele = document.getElementById('bannerId');
             ele.style.display = 'none';
             var checkedVal = $('[id$=currentRRCookies]').is(':checked');
-            if (checkedVal) {
+            if (checkedVal) { 
                 closeCookiesInfo();
             } else {
                 sessionStorage.setItem('Cookies', 'Accepted');
             }
+            document.body.removeEventListener('keypress', this.bodyBlock);
+            document.body.removeEventListener('keydown', this.bodyBlock);
+            document.body.classList.remove('cookie-block-user');
+            let htmlDivs = document.getElementsByTagName('html');
+            htmlDivs[0].classList.remove('cookie-block-user');
+            event.preventDefault();
+        }
+        function closeManageModalJs() {
+          agreedtoPolicy = true;
+            let ele = document.getElementById('bannerId');
+            ele.style.display = 'none';
+            closeCookiesInfo();
             document.body.removeEventListener('keypress', this.bodyBlock);
             document.body.removeEventListener('keydown', this.bodyBlock);
             document.body.classList.remove('cookie-block-user');

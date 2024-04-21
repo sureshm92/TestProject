@@ -74,6 +74,7 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
   @api currentuserdate = "";
   @api latestStatusGrp = '';
   @api isrtl = false;
+  @api isDisableButton = false;
   @api addTelevisitForInitialVisit = false;
   @track disableTelevisitCheckbox = true;
   @track disableTelevisitCheckbox2 = true;
@@ -112,6 +113,7 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
     RH_Pir_Add_Televisit_ForScreeningVisit
   };
   connectedCallback() {
+    this.participantrecord.Participant_Status__c == "Declined Final Consent" ? (this.isDisableButton = true) : (this.isDisableButton = false);
     if (this.isrtl) {
       this.maindivcls = 'rtl';
     } else {
@@ -839,6 +841,12 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
       } else {
         this.participantrecord.Participant_Status__c = this.outcomeValues[event.detail.value];
       }
+        if( this.outcomeValues[event.detail.value]=='Declined Final Consent' ){
+          this.isDisableButton = true;
+        }else{
+          this.isDisableButton = false;
+          this.assignedConsentChecked = false;
+        }
     }
     this.statusChanged = true;
     let reasonopts = this.createopts(
@@ -1240,15 +1248,6 @@ export default class Pir_participantSubStatusFields extends NavigationMixin(Ligh
         btnValidationSuccess = false;
         validationList.push(btnValidationSuccess);
       }
-    }
-
-    //7.
-    if (this.participantrecord.Initial_visit_scheduled_time__c <= '04:59:00.000' || this.participantrecord.Initial_visit_scheduled_time__c >= '23:46:00.000') {
-      btnValidationSuccess = false;
-      validationList.push(btnValidationSuccess);
-    } else {
-      btnValidationSuccess = true;
-      validationList.push(btnValidationSuccess);
     }
 
     //8.

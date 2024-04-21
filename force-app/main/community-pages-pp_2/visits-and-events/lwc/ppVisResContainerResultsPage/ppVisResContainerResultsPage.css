@@ -1,0 +1,111 @@
+.visit-info {
+    margin-top: -1.25rem;
+}
+.visit-name {
+    color: #444444;
+    font-size: 32px;
+    font-weight: 600;
+}
+.completed-date {
+    color: #444444;
+    font-size: 1.5rem;
+    letter-spacing: 0;
+    line-height: 3rem;
+}
+.border-class {
+    border-left: 6px solid black;
+}
+
+/* .active-btn {
+    background: rgba(7, 104, 253, 1);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    
+} 
+
+*/
+
+.show-result-type-text {
+    color: #000000;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+}
+
+/* .active-btn {
+    background-color: #015ff1;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+}
+.inactive-btn {
+    color: #595959;
+    font-size: 1rem;
+    font-weight: 500;
+    border: 1px solid #d9d9d9;
+    background: #ffffff;
+} */
+.group-button1 {
+    height: 32px;
+    width: 119px;
+    border-radius: 16px 0 0 16px;
+    justify-content: center;
+}
+.group-button2 {
+    box-sizing: border-box;
+    height: 32px;
+    width: 119px;
+    margin-left: 0px;
+    justify-content: center;
+    border-radius: unset;
+}
+.group-button3 {
+    box-sizing: border-box;
+    height: 32px;
+    width: 119px;
+    border-radius: 0 16px 16px 0;
+    margin-left: 0px;
+    justify-content: center;
+    border-left-color: transparent;
+}
+.container-visit-results {
+    position: relative;
+    height: 100%;
+}
+.toggle-off-image {
+    height: 2.5rem;
+    width: 2.6rem;
+}
+
+.toggle-off-text {
+    color: #6e6e6e;
+    font-size: 1rem;
+    letter-spacing: 0;
+    text-align: center;
+    padding-bottom: 5.313rem;
+    width: 385px;
+}
+.toggle-off-section {
+    padding-top: 148px;
+}
+
+.divider {
+    border: 1px solid #999999;
+    height: 18px;
+}
+.disclaimer {
+    color: #444444;
+    font-size: 16px;
+    line-height: 21px;
+}
+.horizontal-line {
+    display: block;
+    border: 1px solid #e9e9e9;
+}
+.visit-result-buttons .secondaryBtn {
+    color: #595959 !important;
+}

@@ -24,13 +24,14 @@ public with sharing class StudyConfigurationRemote {
                     Visit_Schedule_Is_Available__c,
                     Is_Program__c,
                     Study_Documents_Are_Available__c,
+                    Pre_Trial_Status_Config__c,
                     Video_And_Articles_Are_Available__c,
                     Tasks_Are_Available__c,
                     Travel_Vendor_Is_Available__c,
                     Trial_Match_Is_Available__c,
                     Relevant_Links_Are_Available__c,
                     Received_Until_Consent_Is_Available__c,
-                	Delayed_No_Of_Days__c,
+                    Delayed_No_Of_Days__c,
                     Enrolled_Or_Randomized_Consent_Available__c,
                     Payment_Is_Available__c,
                     Medical_Vendor_is_Available__c,
@@ -40,7 +41,11 @@ public with sharing class StudyConfigurationRemote {
                     Visits_are_Available__c,
                     Televisit_Vendor_is_Available__c, //Televisit
                     IQVIA_Outreach__c,
-                    E_Consent_Configuration__c
+                    Document_Upload_Is_Available__c, 
+                    E_Consent_Configuration__c,
+                    Status_Milestone_Available__c,
+                    CommunityTemplate__c,
+                    PPTemplate__c
                 FROM Clinical_Trial_Profile__c
                 WHERE Id = :ctpId
             ];

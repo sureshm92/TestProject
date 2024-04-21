@@ -43,7 +43,7 @@
     font-size: 14px;
 }
 .chevron-icon {
-    --sds-c-icon-color-foreground-default: #0768fd;
+    --sds-c-icon-color-foreground-default: #015ff1;
     cursor: pointer;
 }
 .participant-label {
@@ -90,4 +90,9 @@
     -webkit-border-radius: 10px;
     border-radius: 10px;
     background: #999999;
+}
+.pointer-class{
+    cursor: pointer;
+    color:#015ff1;
+    padding-top : 5px;
 }

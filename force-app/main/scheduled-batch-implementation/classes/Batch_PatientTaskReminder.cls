@@ -93,6 +93,7 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
             );
         }
         List<Patient_Delegate_Enrollment__c> patientDelegates = new List<Patient_Delegate_Enrollment__c>();
+        Set<Id> delContactIds = new Set<Id>();
         Map<Id, List<Patient_Delegate_Enrollment__c>> perIdPdeMap = new Map<Id, List<Patient_Delegate_Enrollment__c>>();
         if (allPeIds.size() > 0){
             patientDelegates = [
@@ -113,6 +114,8 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
             ];
         }
         for (Patient_Delegate_Enrollment__c pd : patientDelegates) {
+            if(!delContactIds.contains(pd.Patient_Delegate__r.Contact__c))
+            delContactIds.add(pd.Patient_Delegate__r.Contact__c);
             if(!perIdPdeMap.containsKey(pd.Participant_Enrollment__c)){
                perIdPdeMap.put(pd.Participant_Enrollment__c,new List<Patient_Delegate_Enrollment__c>()); 
             }
@@ -149,7 +152,8 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
                     task,
                     paContact,
                     delegatesByPAContact.get(paContact.Id),
-                    pdeList
+                    pdeList,
+                    delContactIds.contains(paContact.Id) ? true : false
                 )
             );
         }

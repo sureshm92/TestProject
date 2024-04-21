@@ -1,0 +1,29 @@
+<template>
+    <span class="past-results">
+        <c-custom-toast-files-p-p is-mobile=true></c-custom-toast-files-p-p>
+    </span>
+    <template if:true={loaded}>
+        <div if:true={resultsAvailable}> 
+            <div class="slds-p-around_medium slds-align--absolute-center">
+                {label.Past_Studies_Result_Text}
+            </div>
+            <div class="slds-p-around_medium slds-align--absolute-center footer-block">
+                <span class="footer-link" onclick={openResult}>
+                    <img src={downloadresulticon}/>{label.PP_Download_Results_Data}
+                </span>
+            </div>
+        </div>
+        <div if:false={resultsAvailable} class="slds-align--absolute-center slds-p-vertical_medium slds-grid slds-wrap">
+            <div class="slds-size--1-of-1 no-result-img"><img src={noResultsIcon}/></div>
+            <div class="slds-size--1-of-1 no-result-txt">{label.PP_No_results_available}</div>
+        </div>
+    </template>
+    <div if:false={loaded} class="top">
+        <div role="status" class="slds-spinner slds-spinner_medium">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+    
+</template>

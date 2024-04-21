@@ -1,0 +1,39 @@
+<template>
+    <div class={floatClass}>
+        <div class="slds-form-element">
+            <div class="slds-form-element__icon">
+                <button class="slds-button slds-button_icon" onmouseover={togglePasswordHint}
+                    onmouseout={togglePasswordHint}>
+                    <template if:true={desktop}>
+                        <div class={helpTextClass} role="tooltip" id="help" style={toolTipBox}>
+                            <div class="slds-popover__body">
+                                <template for:each={relatedAttendees} for:item="record">
+
+                                    <p style="line-height: 18px;padding:4px 0px;" key={record.firstname}> <span
+                                            style="font-weight: 600;"> {record.firstname} {record.lastname} </span>
+                                        ({record.attendeeType})</p>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:false={desktop}>
+                        <div class={helpTextClassmobile} role="tooltip"
+                            style="width: 200px;position: absolute;left: -212px;text-align:left;">
+                            <div class="slds-popover__body">
+                                <template for:each={relatedAttendees} for:item="record">
+
+                                    <p style="line-height: 18px;padding:4px 0px;" key={record.firstname}> <span
+                                            style="font-weight: 600;">{record.firstname} {record.lastname} </span>
+                                        ({record.attendeeType})</p>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <span class="upcomingToolTip">
+                        {displaytext}
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</template>

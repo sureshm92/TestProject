@@ -316,5 +316,9 @@
                 helper.setSearchResponse(component, searchResponse);
             }
         );
+    },
+
+    handleRecordUpdate: function(component, event, helper) {
+        
     }
 });

@@ -39,6 +39,10 @@
                 <behavior>Edit</behavior>
                 <field>Bell_Notification_Reminder__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>StudyGUID__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -485,6 +489,10 @@
                 <behavior>Edit</behavior>
                 <field>Co_morbidity__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Study_External_URL__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -538,6 +546,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Verification_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>OrgID__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>

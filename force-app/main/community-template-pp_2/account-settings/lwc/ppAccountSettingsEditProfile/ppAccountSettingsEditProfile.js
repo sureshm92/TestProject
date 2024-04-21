@@ -1,9 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import LOCALE from '@salesforce/i18n/locale';
-import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import JANUARY from '@salesforce/label/c.January';
@@ -30,6 +27,11 @@ import SUFFIX from '@salesforce/label/c.PG_AS_F_Suffix';
 import PREFERRED_NAME from '@salesforce/label/c.PP_Preferred_Name';
 import GENDER from '@salesforce/label/c.cont_study_gender';
 import DOB from '@salesforce/label/c.PG_AS_F_Date_of_Birth';
+import AGE from '@salesforce/label/c.Age';
+import DOB_YYYY from '@salesforce/label/c.Year_Placeholder';
+import DOB_Month from '@salesforce/label/c.AccountSetting_Birth_Month';
+import DOB_DD from '@salesforce/label/c.Date_Placeholder';
+import DOB_Age from '@salesforce/label/c.Select';
 import MOBILE_PHONE from '@salesforce/label/c.Mob_Phone_Field';
 import USE_AS_DAYTIME_PHONE from '@salesforce/label/c.PP_USE_AS_DAYTIME_PHONE';
 import DAYTIME_PHONE from '@salesforce/label/c.PP_Daytime_Phone';
@@ -56,8 +58,9 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     @api userMode;
     @api isRTL = false;
     @api isMobile = false;
+    @api isIpad = false;
     @track initData;
-    @track personWrapper;
+    @track personWrapper = [];
     @track contact;
     @track oldContactEmail = '';
     @track delegateContact;
@@ -65,6 +68,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     minorUserName = '';
     hasProfilePic = false;
     isInitialized = false;
+    loadOnce = false;
     @api isDelegate = false;
     contactChanged = false;
     optInEmail = false;
@@ -90,7 +94,8 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         isEmailHasError: false,
         isMPHasError: false,
         isDPHasError: false,
-        isFieldChanged: false
+        isFieldChanged: false,
+        isAgeHasError: false
     };
     labels = {
         ERROR_MESSAGE,
@@ -105,6 +110,11 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         PREFERRED_NAME,
         GENDER,
         DOB,
+        DOB_YYYY,
+        DOB_Month,
+        DOB_Age,
+        DOB_DD,
+        AGE,
         MOBILE_PHONE,
         USE_AS_DAYTIME_PHONE,
         DAYTIME_PHONE,
@@ -130,71 +140,226 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     emailFieldError = this.labels.EMAIL_FORMAT_ERROR;
     mobilePhoneFieldError = this.labels.INVALID_PHONE_FORMAT;
     daytimePhoneFieldError = this.labels.INVALID_PHONE_FORMAT;
-    dobFieldError = this.labels.DOB_ERROR;
-    @track dateOfBirth = {
-        year: '',
-        month: '',
-        day: ''
-    };
 
-    @track monthsList = [
-        { label: JANUARY, value: '01' },
-        { label: FEBRUARY, value: '02' },
-        { label: MARCH, value: '03' },
-        { label: APRIL, value: '04' },
-        { label: MAY, value: '05' },
-        { label: JUNE, value: '06' },
-        { label: JULY, value: '07' },
-        { label: AUGUST, value: '08' },
-        { label: SEPTEMBER, value: '09' },
-        { label: OCTOBER, value: '10' },
-        { label: NOVEMBER, value: '11' },
-        { label: DECEMBER, value: '12' }
-    ];
+    dobConfigFormat = '';
+    selectedAge = null;
+    lastDay = 31;
+    @track optionsDDList = [];
+    @track optionsMMList = [];
+    @track optionsYYYY = [];
+    @track ageOpt = [];
+    showDay = false;
+    showMonth = true;
+    ageInputDisabled = false;
+    ageStart = '0';
+    ageEnd = '150';
 
     daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    @track daysList = [];
 
-    get yearsList() {
-        let yearsOptions = [];
-        let currentYear = new Date().getFullYear();
-        let earliestYear = currentYear - 100;
-        while (currentYear >= earliestYear) {
-            let formattedYearNumber = earliestYear.toString();
-            let yearOption = {
-                label: formattedYearNumber,
-                value: formattedYearNumber
-            };
-            earliestYear++;
-            yearsOptions = [...yearsOptions, yearOption];
+    optiondateList() {
+        var opt = [];
+        var lastDay = this.lastDay;
+        for (var i = 1; i <= lastDay; i++) {
+            var x = i.toString();
+            if (i < 10) x = '0' + x;
+            opt.push({ label: x, value: x, isSelected: false });
+            if (
+                this.personWrapper &&
+                this.personWrapper.birthDay &&
+                this.personWrapper.birthDay == x
+            ) {
+                opt[x - 1].isSelected = true;
+            }
         }
-        return yearsOptions;
+        this.optionsDDList = opt;
+        if (onchange == 'onchange') {
+            this.showDay = !this.showDay;
+        }
     }
-
-    connectedCallback() {
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                Promise.all([loadStyle(this, communityPPTheme)])
-                    .then(() => {
-                        this.spinner = this.template.querySelector('c-web-spinner');
-                        this.spinner.show();
-                        this.initializeData();
-                    })
-                    .catch((error) => {
-                        console.log(error.body.message);
-                    });
-            })
-            .catch((error) => {
-                this.showToast(this.labels.ERROR_MESSAGE, error.message, 'error');
+    monthsList() {
+        var monthsList = [
+            { label: JANUARY, value: '01', isSelected: false },
+            { label: FEBRUARY, value: '02', isSelected: false },
+            { label: MARCH, value: '03', isSelected: false },
+            { label: APRIL, value: '04', isSelected: false },
+            { label: MAY, value: '05', isSelected: false },
+            { label: JUNE, value: '06', isSelected: false },
+            { label: JULY, value: '07', isSelected: false },
+            { label: AUGUST, value: '08', isSelected: false },
+            { label: SEPTEMBER, value: '09', isSelected: false },
+            { label: OCTOBER, value: '10', isSelected: false },
+            { label: NOVEMBER, value: '11', isSelected: false },
+            { label: DECEMBER, value: '12', isSelected: false }
+        ];
+        if (this.personWrapper && this.personWrapper.birthMonth) {
+            monthsList.forEach((item, index) => {
+                if (this.personWrapper.birthMonth == item.value) {
+                    item.isSelected = true;
+                }
             });
+        }
+        this.optionsMMList = monthsList;
+        this.loadMMLeapYear();
+    }
+    yearsList() {
+        let yearsOptions = [];
+        let currentYear = parseInt(new Date().getFullYear());
+        let earliestYear = 1900;
+        for (var i = currentYear; i >= earliestYear; i--) {
+            if (
+                this.personWrapper &&
+                this.personWrapper.birthYear &&
+                this.personWrapper.birthYear == i.toString()
+            ) {
+                yearsOptions.push({ label: i.toString(), value: i.toString(), isSelected: true });
+            } else {
+                yearsOptions.push({ label: i.toString(), value: i.toString(), isSelected: false });
+            }
+        }
+        this.optionsYYYY = yearsOptions;
+        var format = this.dobConfigFormat;
+        if (format != undefined) {
+            this.showDay = format.includes('DD') ? true : false;
+            this.showMonth = format.includes('MM') ? true : false;
+        }
+        //Onload of any othe DOB fields are Empty and onchange of other fields with DOB empty disable the save btn
+        if (this.dobConfigFormat == 'DD-MM-YYYY') {
+            if (
+                !this.personWrapper.birthDay ||
+                !this.personWrapper.birthMonth ||
+                !this.personWrapper.birthYear
+            ) {
+                this.hasFieldError.isDOBHasError = true;
+            }
+        } else if (this.dobConfigFormat == 'MM-YYYY') {
+            if (!this.personWrapper.birthYear || !this.personWrapper.birthMonth) {
+                this.hasFieldError.isDOBHasError = true;
+            }
+        } else if (this.dobConfigFormat == 'YYYY') {
+            if (!this.personWrapper.birthYear) {
+                this.hasFieldError.isDOBHasError = true;
+            }
+        }
+        this.setLastDay();
+
+        if (!this.showDay) {
+            this.setMinMaxAge();
+        }
+
+        // write some additional logic
+    }
+    loadMMLeapYear() {
+        var maxDayMonths = ['01', '03', '05', '07', '08', '10', '12'];
+        var minDayMonths = ['04', '06', '09', '11'];
+        var personWrapper = this.personWrapper;
+
+        if (maxDayMonths.includes(personWrapper.birthMonth)) {
+            this.lastDay = 31;
+        } else if (minDayMonths.includes(personWrapper.birthMonth)) {
+            this.lastDay = 30;
+        }
+        this.setLastDay();
+    }
+    setLastDay() {
+        var personWrapper = this.personWrapper;
+        if (personWrapper.birthMonth == '02') {
+            if (personWrapper.birthMonth == '----' || this.isLeapYear()) {
+                this.lastDay = 29;
+            } else {
+                this.lastDay = 28;
+            }
+        }
+        if (parseInt(personWrapper.birthDay) > this.lastDay) {
+            var lastDayval = this.lastDay;
+            personWrapper.birthDay = lastDayval.toString();
+            this.personWrapper = personWrapper;
+        }
+        var onchange = 'onchange';
+        this.optiondateList(onchange);
     }
 
-    renderedCallback() {}
+    setMinMaxAge() {
+        var personWrapper = this.personWrapper;
+        var format = this.dobConfigFormat;
+        var partDOB = '';
+        if (format != 'DD-MM-YYYY') {
+            if (format == 'MM-YYYY') {
+                if (personWrapper.birthYear && personWrapper.birthMonth) {
+                    partDOB =
+                        personWrapper.birthYear +
+                        '-' +
+                        personWrapper.birthMonth +
+                        '-' +
+                        this.lastDay;
+                }
+            } else if (format == 'YYYY') {
+                if (personWrapper.birthYear) {
+                    partDOB = personWrapper.birthYear + '-12-31';
+                }
+            }
+            if (partDOB && !partDOB.includes('--')) {
+                var dob = new Date(partDOB.replace(/-/g, '/'));
+                var month_diff = Date.now() - dob.getTime();
+                var age_dt = new Date(month_diff);
+                var year = age_dt.getUTCFullYear();
+                if (year - 1970 >= 0) {
+                    var age = Math.abs(year - 1970);
+                    this.ageStart = age;
+                    var endAge = age;
+                    if (
+                        (dob.getMonth() == new Date().getMonth() &&
+                            dob.getDate() != new Date().getDate()) ||
+                        format == 'YYYY'
+                    ) {
+                        endAge++;
+                    }
+                    this.ageEnd = endAge;
+                    this.setAge();
+                } else {
+                    this.ageStart = '0';
+                    this.ageEnd = '0';
+                    this.setAge();
+                }
+            }
+        }
+    }
+    setAge() {
+        var opt = [];
+        var ageStart = parseInt(this.ageStart);
+        var ageEnd = parseInt(this.ageEnd);
+        var selectedAgeNotInOptions = false;
+        for (var i = ageStart; i <= ageEnd; i++) {
+            if (
+                this.personWrapper &&
+                this.personWrapper.age &&
+                (this.personWrapper.age == ageStart || this.personWrapper.age == ageEnd)
+            ) {
+                selectedAgeNotInOptions = true;
+                opt.push({ label: i.toString(), value: i.toString(), isSelected: true });
+            } else {
+                opt.push({ label: i.toString(), value: i.toString(), isSelected: false });
+            }
+        }
+        this.ageOpt = opt;
+        if (!selectedAgeNotInOptions) {
+            this.personWrapper.age = null;
+            this.selectedAge = null;
+            this.handleAgeErrorMessage();
+        }
+    }
+
+    renderedCallback() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+        if (!this.loadOnce) {
+            this.template.querySelector('c-web-spinner')?.show();
+            this.initializeData();
+            this.loadOnce = true;
+        }
+    }
     initializeData() {
         getInitData({ userMode: this.userMode })
             .then((result) => {
                 let initialData = JSON.parse(result);
-
                 this.initData = initialData;
                 this.personWrapper = initialData.contactSectionData.personWrapper;
                 this.contactSectionData = initialData.contactSectionData;
@@ -205,13 +370,23 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 this.oldContactEmail = initialData.myContact.Email;
                 this.delegateContact = initialData.delegateContact;
                 this.hasProfilePic = initialData.hasProfilePic;
-
+                this.dobConfigFormat = this.initData.consentPreferenceData.studySiteYOBFormat;
+                var participantselectedage =
+                    this.personWrapper.age != undefined ? this.personWrapper.age.toString() : '';
+                if (this.dobConfigFormat == 'DD-MM-YYYY') {
+                    this.ageInputDisabled = true;
+                } else {
+                    this.ageInputDisabled = false;
+                }
+                this.selectedAge = participantselectedage;
                 if (this.userMode === 'Participant') {
                     this.isAdult = initialData.participant.Adult__c;
                 }
                 /**Delegate */
+                // DEl switching to Participant
                 if (communityService.getCurrentCommunityMode().currentDelegateId) {
                     this.isDelegate = true;
+                    this.isMobilePhoneInvalid = true;
                     this.userId = communityService.getCurrentCommunityMode().currentDelegateId;
                     if (this.userMode === 'Participant') {
                         if (
@@ -220,22 +395,11 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                         ) {
                             this.userEmail = initialData.delegateUserName.Username;
                         }
-                        if (this.personWrapper.showBirthDate && this.personWrapper.dateBirth) {
-                            this.parseDOB(this.personWrapper.dateBirth);
-                        }
                     }
                 } else {
+                    // Participant,Del self view, Multi Role
                     this.isDelegate = false;
                     this.userId = initialData.myContact.Id;
-                    if (
-                        !this.isDelegate &&
-                        !this.personWrapper.showBirthDate &&
-                        !this.personWrapper.dateBirth
-                    ) {
-                        this.parseDelegateDOB(this.personWrapper.birthYear);
-                    } else {
-                        this.parseDOB(this.personWrapper.dateBirth);
-                    }
                     if (this.userMode === 'Participant' && this.isAdult) {
                         this.userEmail = initialData.userName;
                     }
@@ -251,6 +415,12 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                     this.disableEmailToggle = true;
                 }
                 this.initializeLabels();
+                this.yearsList();
+                this.monthsList();
+                this.optiondateList();
+                if (this.dobConfigFormat == 'DD-MM-YYYY') {
+                    this.participantAge();
+                }
                 this.isInitialized = true;
                 this.spinner.hide();
             })
@@ -277,11 +447,6 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
                 '##HELPLINK',
                 `<a href="./help" style="font-weight:600;">${this.labels.HELP}</a>`
             );
-
-        let currentDate = new Date();
-        let dateFormat = { year: 'numeric', month: 'long', day: '2-digit' };
-        let formattedDate = currentDate.toLocaleDateString(LOCALE, dateFormat).toString();
-        this.dobFieldError = this.labels.DOB_ERROR.replace('##TODAY', formattedDate);
     }
 
     /**CSS Getters START */
@@ -295,9 +460,17 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     get shortContainerClass() {
+        if (this.isIpad) {
+            return 'slds-form-element slds-col slds-medium-size_2-of-7 slds-p-vertical_x-small';
+        }
         return this.isMobile
             ? 'slds-form-element slds-col slds-size_3-of-8 slds-p-vertical_x-small'
             : 'slds-form-element slds-col slds-medium-size_1-of-7 slds-p-vertical_x-small';
+    }
+    get shortContainerClass1() {
+        return this.isMobile
+            ? 'slds-form-element slds-col slds-size_3-of-8 slds-p-vertical_x-small'
+            : 'slds-form-element slds-medium-size_1-of-7 slds-p-vertical_x-small';
     }
 
     get webSelectClass() {
@@ -327,6 +500,9 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     get genderContainerClass() {
+        if (this.isIpad) {
+            return 'slds-form-element slds-col slds-size_2-of-7 slds-p-vertical_x-small';
+        }
         return this.isMobile
             ? 'slds-form-element slds-col slds-size_4-of-4 slds-p-vertical_x-small'
             : 'slds-form-element slds-col slds-size_1-of-7 slds-p-vertical_x-small';
@@ -337,11 +513,13 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     get dobContainerClass() {
+        if (this.isIpad) {
+            return 'slds-form-element slds-col slds-size_5-of-7 slds-p-vertical_x-small';
+        }
         return this.isMobile
             ? 'slds-form-element slds-col slds-size_4-of-4 slds-p-vertical_x-small'
             : 'slds-form-element slds-col slds-size_3-of-7 slds-p-vertical_x-small';
     }
-
     get dobFieldClass() {
         return this.isMobile
             ? this.isRTL
@@ -350,6 +528,16 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             : this.isRTL
             ? 'slds-col slds-size_1-of-3 slds-p-right_none slds-p-left_x-small'
             : 'slds-col slds-size_1-of-3 slds-p-left_none slds-p-right_x-small';
+    }
+
+    get doGetAgeClass() {
+        return this.isMobile
+            ? this.isRTL
+                ? 'slds-col slds-size_1-of-3 slds-p-right_none slds-p-left_x-small'
+                : 'slds-col slds-size_1-of-3 slds-p-left_none slds-p-right_x-small'
+            : this.isRTL
+            ? 'slds-col slds-size_1-of-3 slds-p-right_none slds-p-left_x-small'
+            : 'slds-col slds-size_1-of-3 slds-p-left_none slds-p-right_x-small customMargin';
     }
 
     get dobInputClass() {
@@ -381,7 +569,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     get emailContainerClass() {
         return this.isMobile
             ? 'slds-form-element slds-col slds-size_4-of-4 slds-p-vertical_x-small'
-            : 'slds-form-element slds-col slds-size_3-of-7 slds-p-vertical_x-small';
+            : 'slds-form-element slds-col slds-size_4-of-7 slds-p-vertical_x-small';
     }
 
     get mobileContainerClass() {
@@ -395,7 +583,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     get mobilePhoneContainerClass() {
-        return this.isMobile ? 'slds-col slds-size_5-of-8' : 'slds-col slds-size_3-of-7';
+        return this.isMobile ? 'slds-col slds-size_5-of-8' : 'slds-col slds-size_4-of-8';
     }
 
     get mobileInputClass() {
@@ -405,13 +593,13 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     get useAsDaytimeContainerClass() {
         return this.isMobile
             ? 'slds-col slds-size_5-of-8 slds-p-top_small custom-checkbox'
-            : 'slds-col slds-size_2-of-7 custom-checkbox';
+            : 'slds-col slds-size_4-of-8 custom-checkbox';
     }
 
     get daytimePhoneContainerClass() {
         return this.isMobile
             ? 'slds-form-element slds-col slds-size_5-of-8 slds-p-vertical_x-small'
-            : 'slds-form-element slds-col slds-size_3-of-7 slds-p-vertical_x-small';
+            : 'slds-form-element slds-col slds-size_4-of-8 slds-p-vertical_x-small';
     }
 
     get phoneTypeContainerClass() {
@@ -441,11 +629,11 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     get saveButtonClass() {
         return this.isMobile
             ? this.isSaveDisabled
-                ? 'slds-button slds-button_brand save-button save-button-disabled full-width'
-                : 'slds-button slds-button_brand save-button full-width'
+                ? 'primaryBtn slds-button slds-button_brand save-button save-button-disabled full-width'
+                : 'primaryBtn slds-button slds-button_brand save-button full-width'
             : this.isSaveDisabled
-            ? 'slds-button slds-button_brand save-button save-button-disabled'
-            : 'slds-button slds-button_brand save-button';
+            ? 'primaryBtn slds-button slds-button_brand save-button save-button-disabled'
+            : 'primaryBtn slds-button slds-button_brand save-button';
     }
 
     /**CSS Getters END */
@@ -461,9 +649,16 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             ? true
             : false;
     }
-
-    get isMobilePhoneRequired() {
-        return this.personWrapper.optInSMS && this.personWrapper.mailingCC === 'US' ? true : false;
+    get delSelfView() {
+        if (this.isDelegate || (!this.isDelegate && !this.personWrapper.showBirthDate)) {
+            return false;
+        }
+    }
+    get dobForDelegate() {
+        return !this.isDelegate && !this.personWrapper.showBirthDate ? true : false;
+    }
+    get dobForParticipant() {
+        return !this.isDelegate && this.personWrapper.showBirthDate ? true : false;
     }
 
     get isMobilePhoneDisabled() {
@@ -478,6 +673,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             !this.hasFieldError.isEmailHasError &&
             !this.hasFieldError.isMPHasError &&
             !this.hasFieldError.isDPHasError &&
+            !this.hasFieldError.isAgeHasError &&
             this.hasFieldError.isFieldChanged
         ) {
             return false;
@@ -563,68 +759,143 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     handleMonthChange(event) {
-        if (this.dateOfBirth.month != event.detail) {
-            this.dateOfBirth.month = event.detail;
-            this.setAllowedDays(this.dateOfBirth.month);
-            if (this.dateOfBirth.month && this.dateOfBirth.day && this.dateOfBirth.year) {
-                let isDOBFuture = this.isFutureDOB(
-                    this.dateOfBirth.month,
-                    this.dateOfBirth.day,
-                    this.dateOfBirth.year
-                );
-                this.handleDOBErrorMessage(isDOBFuture);
+        if (this.personWrapper.birthMonth != event.detail) {
+            this.personWrapper.birthMonth = event.detail;
+            this.setAllowedDays(this.personWrapper.birthMonth);
+            var studyDobFormat = this.dobConfigFormat;
+            if (studyDobFormat == 'DD-MM-YYYY') {
+                this.participantAge();
+                this.handleDOBErrorMessage();
+            } else {
+                this.personWrapper.age = null;
+                this.selectedAge = null;
+                this.setMinMaxAge();
+                this.handleDOBErrorMessage();
+                this.handleAgeErrorMessage();
             }
         }
     }
 
     handleDayChange(event) {
-        if (this.dateOfBirth.day != event.detail) {
-            this.dateOfBirth.day = event.detail;
-            if (this.dateOfBirth.month && this.dateOfBirth.day && this.dateOfBirth.year) {
-                let isDOBFuture = this.isFutureDOB(
-                    this.dateOfBirth.month,
-                    this.dateOfBirth.day,
-                    this.dateOfBirth.year
-                );
-                this.handleDOBErrorMessage(isDOBFuture);
+        if (this.personWrapper.birthDay != event.detail) {
+            this.personWrapper.birthDay = event.detail;
+            var studyDobFormat = this.dobConfigFormat;
+            if (studyDobFormat == 'DD-MM-YYYY') {
+                this.participantAge();
+                this.handleDOBErrorMessage();
             }
         }
     }
 
     handleYearChange(event) {
-        if (this.dateOfBirth.year != event.detail) {
-            this.dateOfBirth.year = event.detail;
-            this.setAllowedDays(this.dateOfBirth.month);
-            if (this.dateOfBirth.month && this.dateOfBirth.day && this.dateOfBirth.year) {
-                let isDOBFuture = this.isFutureDOB(
-                    this.dateOfBirth.month,
-                    this.dateOfBirth.day,
-                    this.dateOfBirth.year
-                );
-                this.handleDOBErrorMessage(isDOBFuture);
+        if (this.personWrapper.birthYear != event.detail) {
+            this.personWrapper.birthYear = event.detail;
+            this.setAllowedMonths(this.personWrapper.birthYear);
+            this.setAllowedDays(this.personWrapper.birthMonth);
+            if (this.dobConfigFormat == 'DD-MM-YYYY') {
+                this.participantAge();
+                this.handleDOBErrorMessage();
+            } else {
+                this.personWrapper.age = null;
+                this.selectedAge = null;
+                this.setMinMaxAge();
+                this.handleDOBErrorMessage();
+                this.handleAgeErrorMessage();
             }
         }
     }
 
-    handleDOBErrorMessage(isDOBInValid) {
-        let dobErrorElement = this.template.querySelector(`[data-id="dob-error-message"]`);
-        this.personWrapper.dateBirth =
-            this.dateOfBirth.year + '-' + this.dateOfBirth.month + '-' + this.dateOfBirth.day;
-        if (!isDOBInValid) {
-            this.isDOBInvalid = false;
-            this.hasFieldError.isFieldChanged = true;
-            this.hasFieldError.isDOBHasError = false;
-            !dobErrorElement.classList.contains('slds-hide')
-                ? dobErrorElement.classList.add('slds-hide')
-                : 'Not Today!';
-        } else {
-            this.isDOBInvalid = true;
-            this.hasFieldError.isFieldChanged = true;
-            this.hasFieldError.isDOBHasError = true;
-            dobErrorElement.classList.contains('slds-hide')
-                ? dobErrorElement.classList.remove('slds-hide')
-                : 'Not Today!';
+    handleDOBErrorMessage() {
+        if (this.dobConfigFormat == 'YYYY') {
+            if (this.personWrapper.birthYear) {
+                this.hasFieldError.isFieldChanged = true;
+                this.hasFieldError.isDOBHasError = false;
+            } else {
+                this.hasFieldError.isFieldChanged = true;
+                this.hasFieldError.isDOBHasError = true;
+            }
+        } else if (this.dobConfigFormat == 'MM-YYYY') {
+            if (this.personWrapper.birthYear && this.personWrapper.birthMonth) {
+                this.hasFieldError.isFieldChanged = true;
+                this.hasFieldError.isDOBHasError = false;
+            } else {
+                this.hasFieldError.isFieldChanged = true;
+                this.hasFieldError.isDOBHasError = true;
+            }
+        } else if (this.dobConfigFormat == 'DD-MM-YYYY') {
+            if (
+                this.personWrapper.birthYear &&
+                this.personWrapper.birthMonth &&
+                this.personWrapper.birthDay
+            ) {
+                this.hasFieldError.isFieldChanged = true;
+                this.hasFieldError.isDOBHasError = false;
+            } else {
+                this.hasFieldError.isFieldChanged = true;
+                this.hasFieldError.isDOBHasError = true;
+            }
         }
+    }
+    handleAgeErrorMessage() {
+        let delSelfView = !this.isDelegate && !this.personWrapper.showBirthDate ? true : false;
+        if (!delSelfView) {
+            if (
+                this.dobConfigFormat == 'MM-YYYY' &&
+                this.personWrapper.birthYear &&
+                this.personWrapper.birthMonth
+            ) {
+                if (
+                    this.selectedAge == null ||
+                    this.selectedAge == undefined ||
+                    this.selectedAge == ''
+                ) {
+                    this.hasFieldError.isFieldChanged = true;
+                    this.hasFieldError.isAgeHasError = true;
+                } else {
+                    this.hasFieldError.isFieldChanged = true;
+                    this.hasFieldError.isAgeHasError = false;
+                }
+            }
+            if (this.dobConfigFormat == 'YYYY' && this.personWrapper.birthYear) {
+                if (
+                    this.selectedAge == null ||
+                    this.selectedAge == undefined ||
+                    this.selectedAge == ''
+                ) {
+                    this.hasFieldError.isFieldChanged = true;
+                    this.hasFieldError.isAgeHasError = true;
+                } else {
+                    this.hasFieldError.isFieldChanged = true;
+                    this.hasFieldError.isAgeHasError = false;
+                }
+            }
+        }
+    }
+    handleAgeChange(event) {
+        let ageVal = event.detail;
+        this.selectedAge = event.detail;
+        var num = parseFloat(this.selectedAge).toFixed(2);
+        var personWrapper = this.personWrapper;
+        personWrapper.age = num;
+        this.personWrapper = personWrapper;
+        let ageOptions = this.ageOpt;
+        let ageOptSelected = [];
+        if (this.ageOpt) {
+            ageOptions.forEach((item, index) => {
+                if (personWrapper && personWrapper.age && item.value == personWrapper.age) {
+                    ageOptSelected.push({ label: item.label, value: item.value, isSelected: true });
+                } else {
+                    ageOptSelected.push({
+                        label: item.label,
+                        value: item.value,
+                        isSelected: false
+                    });
+                }
+            });
+            this.ageOpt = ageOptSelected;
+        }
+        this.handleDOBErrorMessage();
+        this.handleAgeErrorMessage();
     }
 
     handleEmailChange(event) {
@@ -758,56 +1029,81 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
         return false;
     }
 
-    /**Convert DOB to three different fields */
-    parseDOB(dateOfBirthInput) {
-        if (dateOfBirthInput) {
-            let dob = new Date(dateOfBirthInput);
-            this.dateOfBirth = {
-                year: dob.getFullYear().toString(),
-                month: dob.toLocaleString(LOCALE, { month: '2-digit' }).toString(),
-                day: dob.toLocaleString(LOCALE, { day: '2-digit' }).toString()
-            };
-            this.setAllowedDays(this.dateOfBirth.month);
-        }
-    }
-
-    parseDelegateDOB(birthYearInput) {
-        if (birthYearInput) {
-            this.dateOfBirth.year = birthYearInput;
-        }
-    }
-
     /**Set days based on month and year */
     setAllowedDays(monthInput) {
         let daysOptions = [];
-        let allowedDays =
-            monthInput !== '02'
-                ? this.daysInMonth[parseInt(monthInput) - 1]
-                : this.isLeapYear(this.dateOfBirth.year)
-                ? this.daysInMonth[parseInt(monthInput) - 1] + 1
-                : this.daysInMonth[parseInt(monthInput) - 1];
+        let currentDate = new Date();
+        let date = currentDate.getDate();
+        let year = currentDate.getFullYear();
+        let month = currentDate.getMonth() + 1;
+        let allowedDays;
+        if (this.personWrapper.birthYear == year && monthInput == month) {
+            allowedDays = date;
+        } else {
+            allowedDays =
+                monthInput !== '02'
+                    ? this.daysInMonth[parseInt(monthInput) - 1]
+                    : this.isLeapYear(this.personWrapper.birthYear)
+                    ? this.daysInMonth[parseInt(monthInput) - 1] + 1
+                    : this.daysInMonth[parseInt(monthInput) - 1];
+        }
         for (let dayNumber = 1; dayNumber <= allowedDays; dayNumber++) {
             let formattedDayNumber = ('0' + dayNumber).slice(-2).toString();
+            let daySelected = false;
+            if (
+                this.personWrapper &&
+                this.personWrapper.birthDay &&
+                this.personWrapper.birthDay == formattedDayNumber
+            ) {
+                daySelected = true;
+            }
             let dayOption = {
                 label: formattedDayNumber,
-                value: formattedDayNumber
+                value: formattedDayNumber,
+                isSelected: daySelected
             };
             daysOptions = [...daysOptions, dayOption];
         }
-        this.daysList = daysOptions;
-        if (allowedDays < parseInt(this.dateOfBirth.day)) {
-            this.dateOfBirth.day = '01';
+
+        this.optionsDDList = daysOptions;
+        this.lastDay = allowedDays;
+        if (parseInt(this.personWrapper.birthDay) > this.lastDay) {
+            this.personWrapper.birthDay = '01';
         }
     }
-
-    /**Compare DOB with Today */
-    isFutureDOB(month, day, year) {
-        let currentDate = new Date();
-        let formattedDOB = year + '-' + month + '-' + day;
-        let dobInput = new Date(formattedDOB);
-        return dobInput > currentDate ? true : false;
+    setAllowedMonths(yearInput) {
+        let optionsMMList1 = [];
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1;
+        let monthInSelectedOptions = false;
+        let currentMonth = this.personWrapper.birthMonth;
+        if (yearInput == year) {
+            for (let monthNumber = 1; monthNumber <= month; monthNumber++) {
+                for (var i = monthNumber - 1; i < this.optionsMMList.length; i++) {
+                    let monthOption = {
+                        label: this.optionsMMList[i].label,
+                        value: this.optionsMMList[i].value,
+                        isSelected: this.optionsMMList[i].isSelected
+                    };
+                    if (currentMonth && currentMonth == monthOption.value) {
+                        monthInSelectedOptions = true;
+                    }
+                    optionsMMList1 = [...optionsMMList1, monthOption];
+                    break;
+                }
+            }
+            if (!monthInSelectedOptions) {
+                //if current Month is May and previous one / backend one is future month
+                this.personWrapper.birthMonth = '';
+                this.personWrapper.birthDay = '';
+                this.ageOpt = [];
+            }
+            this.optionsMMList = optionsMMList1;
+        } else {
+            this.monthsList();
+        }
     }
-
     validatePhoneFormat(phoneInput) {
         let validFormat = /^[0-9]*$/;
         let isValid = false;
@@ -889,6 +1185,44 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     handleUpdatePerson() {
+        this.personWrapper.dateBirth = '';
+        // Participnat part of Multiple studies (DD-MM-YYYY and MM-YYYY) and select the future day nullify the future dates at backend
+        if (this.dobConfigFormat == 'MM-YYYY') {
+            var personWrapper = this.personWrapper;
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth() + 1;
+            const day = currentDate.getDate();
+            if (
+                personWrapper.birthYear == year &&
+                personWrapper.birthMonth == month &&
+                this.personWrapper.birthDay > day
+            ) {
+                this.personWrapper.birthDay = '';
+            }
+        } else if (this.dobConfigFormat == 'YYYY') {
+            var personWrapper = this.personWrapper;
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth() + 1;
+            const day = currentDate.getDate();
+            if (
+                personWrapper.birthYear == year &&
+                personWrapper.birthMonth &&
+                personWrapper.birthMonth == month &&
+                personWrapper.birthDay &&
+                this.personWrapper.birthDay > day
+            ) {
+                this.personWrapper.birthDay = '';
+            } else if (
+                personWrapper.birthYear == year &&
+                personWrapper.birthMonth &&
+                personWrapper.birthMonth > month
+            ) {
+                this.personWrapper.birthMonth = '';
+                this.personWrapper.birthDay = '';
+            }
+        }
         updatePerson({ wrapperJSON: JSON.stringify(this.personWrapper) })
             .then((result) => {
                 this.showToast(this.labels.DATA_UPDATE, this.labels.DATA_UPDATE, 'success');
@@ -918,7 +1252,8 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
             isEmailHasError: false,
             isMPHasError: false,
             isDPHasError: false,
-            isFieldChanged: false
+            isFieldChanged: false,
+            isAgeHasError: false
         };
     }
 
@@ -934,5 +1269,54 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
 
     disconnectedCallback() {
         this.isInitialized = false;
+    }
+    //dob changes
+    participantAge() {
+        //alert('this.parti');
+        var studyDobFormat = this.dobConfigFormat;
+        var personWrapperDob = this.personWrapper;
+        console.log(
+            personWrapperDob.birthYear +
+                '-' +
+                personWrapperDob.birthMonth +
+                '-' +
+                personWrapperDob.birthDay
+        );
+        if (
+            studyDobFormat == 'DD-MM-YYYY' &&
+            personWrapperDob.birthYear != undefined &&
+            personWrapperDob.birthYear != null &&
+            personWrapperDob.birthYear != '' &&
+            personWrapperDob.birthMonth != undefined &&
+            personWrapperDob.birthMonth != null &&
+            personWrapperDob.birthMonth != '' &&
+            personWrapperDob.birthDay != undefined &&
+            personWrapperDob.birthDay != null &&
+            personWrapperDob.birthDay != ''
+        ) {
+            var dob = new Date(
+                personWrapperDob.birthYear +
+                    '-' +
+                    personWrapperDob.birthMonth +
+                    '-' +
+                    personWrapperDob.birthDay
+            );
+            //calculate month difference from current date in time
+            var month_diff = Date.now() - dob.getTime();
+            //convert the calculated difference in date format
+            var age_dt = new Date(month_diff);
+            //extract year from date
+            var year = age_dt.getUTCFullYear();
+            //now calculate the age of the user
+            var age = Math.abs(year - 1970);
+            var num = parseFloat(age).toFixed(2);
+            personWrapperDob.age = num;
+            this.selectedAge = age.toString();
+            this.personWrapper = personWrapperDob;
+        } else {
+            this.selectedAge = null;
+            personWrapperDob.age = null;
+            this.personWrapper = personWrapperDob;
+        }
     }
 }

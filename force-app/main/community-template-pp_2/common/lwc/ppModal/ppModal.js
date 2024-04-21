@@ -6,6 +6,7 @@ export default class PpModal extends LightningElement {
     @api isShow = false;
     @api isHeaderImage = false;
     @api isAlertChanged = false;
+    @api modalHeaderFilePage=false;
 
     headerPP = pp_community_icons + '/' + 'Modal_Header_PP.png';
     headerWelcome = pp_community_icons + '/' + 'Modal_Header_Welcome.png';
@@ -37,6 +38,13 @@ export default class PpModal extends LightningElement {
 
     get topBackground() {
         return this.ppBackgroundRequired ? 'slds-grid card-top-bg' : 'slds-hide';
+    }
+
+    get modalHeaderCss() {
+        return this.modalHeaderFilePage ? 'slds-grid card-top-bg card-top-bg-file-page' : 'slds-grid card-top-bg';
+    }
+    get textHeaderCss() {
+        return this.modalHeaderFilePage ? 'slds-col modal-header-text overFlowTitle' : 'slds-col modal-header-text';
     }
 
     handleCloseModal() {

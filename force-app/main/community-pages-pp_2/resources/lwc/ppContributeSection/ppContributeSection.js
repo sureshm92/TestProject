@@ -1,7 +1,6 @@
 import { LightningElement, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CHANGE_PREFERENCES from '@salesforce/label/c.PP_Change_Preferences';
-import basePathName from '@salesforce/community/basePath';
 import { NavigationMixin } from 'lightning/navigation';
 import PP_Share_Article from '@salesforce/label/c.PP_Share_Article';
 import CONTRIBUTE from '@salesforce/label/c.PP_Resources_Contribute';
@@ -12,6 +11,7 @@ import SUCCESS from '@salesforce/label/c.PP_Resource_Submit';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import PASTE_URL from '@salesforce/label/c.PP_Paste_URL';
 import PP_URL_Error from '@salesforce/label/c.PP_URL_Error';
+import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 
 export default class PpContributeSection extends NavigationMixin(LightningElement) {
     labels = {
@@ -30,6 +30,7 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
     @track textValue;
     labelPasteURL;
     showSection = true;
+    isRTL = false;
 
     connectedCallback() {
         this.labelPasteURL = FORM_FACTOR !== 'Large' ? PASTE_URL : URLLINK;
@@ -43,6 +44,14 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
                 this.showSection = true;
             }
         }
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+            });
+            console.log('the isRTL value is ' + this.isRTL);
     }
 
     get isMobile() {
@@ -50,32 +59,41 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
     }
 
     get inputGridSize() {
-        return this.isMobile ? "9" : "10";
+        return this.isMobile ? '9' : '10';
     }
 
     get buttonGridSize() {
-        return this.isMobile ? "3" : "2";
+        return this.isMobile ? '3' : '2';
+    }
+
+    get padSubmitButtonMobile() {
+        if(this.isRTL && this.isMobile){
+            return 'slds-var-p-top_x-small resource-btn profile-info-btn-mobile submit-button-rtl';
+        }
+        else{
+            return 'slds-var-p-top_x-small resource-btn profile-info-btn-mobile';
+        }
     }
 
     handleChangePreference() {
-        this.redirecturl = window.location.origin + basePathName + '/account-settings?changePref';
-        const config = {
-            type: 'standard__webPage',
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
             attributes: {
-                url: this.redirecturl
+                pageName: 'account-settings'
+            },
+            state: {
+                changePref: null
             }
-        };
-        this[NavigationMixin.GenerateUrl](config).then((url) => {
-            sessionStorage.setItem('Cookies', 'Accepted');
-            window.open(url, '_self');
         });
     }
 
     handleUrlValidation(event) {
         var inputValue = this.template.querySelector('lightning-input[data-input]').value;
         var urlField = this.template.querySelector('lightning-input[data-input]');
-        var validURLregex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:\?#[\]@!\$&\(\)\*\+,;=.]+$/;
-        var validregex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
+        var validURLregex =
+            /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:\?#[\]@!\$&\(\)\*\+,;=.]+$/;
+        var validregex =
+            /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
         if (inputValue) {
             if (validURLregex.test(inputValue) || validregex.test(inputValue)) {
                 urlField.setCustomValidity(' ');
@@ -93,8 +111,10 @@ export default class PpContributeSection extends NavigationMixin(LightningElemen
     handleUrlValidationBlur(event) {
         var inputValue = this.template.querySelector('lightning-input[data-input]').value;
         var urlField = this.template.querySelector('lightning-input[data-input]');
-        var validURLregex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:\?#[\]@!\$&\(\)\*\+,;=.]+$/;
-        var validregex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
+        var validURLregex =
+            /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:\?#[\]@!\$&\(\)\*\+,;=.]+$/;
+        var validregex =
+            /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm;
         if (inputValue) {
             if (validURLregex.test(inputValue) || validregex.test(inputValue)) {
                 urlField.setCustomValidity(' ');

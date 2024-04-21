@@ -1,4 +1,4 @@
-import { LightningElement, track, api } from 'lwc';
+import { LightningElement, track, api, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
@@ -7,12 +7,15 @@ import formFactor from '@salesforce/client/formFactor';
 import TU_HEADER from '@salesforce/label/c.CPD_Terms_of_Use';
 import LAST_UPDATED from '@salesforce/label/c.Last_Updated_On';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
+import Back from '@salesforce/label/c.Back';
 import CHAPTER from '@salesforce/label/c.Chapter';
 import getPortalTcData from '@salesforce/apex/TermsAndConditionsRemote.getPortalTcData';
+import getPortalTcDataJn from '@salesforce/apex/TermsAndConditionsRemote.getPortalTcDataJn';
 import getTrialTcData from '@salesforce/apex/TermsAndConditionsRemote.getTrialTcData';
 import PP_Theme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
 import Core_Theme from '@salesforce/resourceUrl/Community_CSS_Core';
 import Proxima_Nova from '@salesforce/resourceUrl/proximanova';
+import { CurrentPageReference } from 'lightning/navigation';
 
 export default class PpTermsOfUse extends LightningElement {
     isRTL = false;
@@ -25,12 +28,19 @@ export default class PpTermsOfUse extends LightningElement {
     ppRichText;
     @track currentHeaderLabel = '';
     spinner;
+    
+    currentPageReference = null; 
+    urlStateParameters = null;
+
+    isJanssen = false;
+    iscalledfromCommunityPrefconsent = false;
 
     labels = {
         TU_HEADER,
         ERROR_MESSAGE,
         LAST_UPDATED,
-        CHAPTER
+        CHAPTER,
+        Back
     };
 
     connectedCallback() {
@@ -41,6 +51,7 @@ export default class PpTermsOfUse extends LightningElement {
             loadStyle(this, Proxima_Nova + '/proximanova.css')
         ])
             .then(() => {
+                this.showBackButton = communityService.isMobileSDK();
                 this.initializeData();
             })
             .catch((error) => {
@@ -48,6 +59,17 @@ export default class PpTermsOfUse extends LightningElement {
             });
     }
 
+    @wire(CurrentPageReference)
+    getStateParameters(currentPageReference) {
+       if (currentPageReference) {
+          this.urlStateParameters = currentPageReference.state;
+          this.setParametersBasedOnUrl();
+       }
+    }
+    setParametersBasedOnUrl() {
+        this.isJanssen = this.urlStateParameters.isJanssen || false;   
+        this.iscalledfromCommunityPrefconsent = this.urlStateParameters.iscalledfromRegistrationORcommpref;
+     }
     initializeData() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (this.spinner) {
@@ -72,6 +94,7 @@ export default class PpTermsOfUse extends LightningElement {
         if (this.isPortalTC) {
             let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
             let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;
+            if(!this.iscalledfromCommunityPrefconsent){
             getPortalTcData({ useDefaultCommunity: userDefalutTC && HasIQVIAStudiesPI })
                 .then((result) => {
                     let tcData = JSON.parse(result);
@@ -89,6 +112,26 @@ export default class PpTermsOfUse extends LightningElement {
                 .catch((error) => {
                     this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
                 });
+            }else{
+                getPortalTcDataJn({ useDefaultCommunity: userDefalutTC && HasIQVIAStudiesPI,
+                                   isJanseen : this.isJanssen  })
+                .then((result) => {
+                    let tcData = JSON.parse(result);
+                    this.lanCode = communityService.getUrlParameter('lanCode')
+                        ? communityService.getUrlParameter('lanCode')
+                        : null;
+                    if (
+                        rtlLanguages.includes(communityService.getLanguage()) ||
+                        rtlLanguages.includes(this.lanCode)
+                    ) {
+                        this.isRTL = true;
+                    }
+                    this.initializeTCData(tcData);
+                })
+                .catch((error) => {
+                    this.showErrorToast(this.labels.ERROR_MESSAGE, error.message, 'error');
+                });
+            }
         } else {
             getTrialTcData({ ctpId: cTPId })
                 .then((result) => {
@@ -110,7 +153,9 @@ export default class PpTermsOfUse extends LightningElement {
             ? 'slds-col slds-size_3-of-12 tc-text slds-p-left_large tc-header rtl'
             : 'slds-col slds-size_3-of-12 tc-text tc-header';
     }
-
+    get headerMobileClass(){
+        return this.showBackButton ? 'slds-grid slds-wrap slds-p-left_medium slds-p-right_medium slds-p-top_xx-small' : 'slds-grid slds-wrap slds-p-left_medium slds-p-right_medium slds-p-top_large';
+    }
     get headerScrollerClass() {
         return this.isRTL ? 'header-scroller rtl' : 'header-scroller';
     }
@@ -172,23 +217,26 @@ export default class PpTermsOfUse extends LightningElement {
             })
         );
     }
-
+    shouldCheckPolcyHeader = true;
     initializeTCData(tcData) {
         this.tcId = tcData.tc.Id;
         this.tcRichText = tcData.tc.T_C_Text__c;
         this.lastUpdated = tcData.tc.Last_Updated_on__c;
-        let headerLists = tcData.tc.Policy_Headers__c.split('\r\n');
-        let headerOptions = [];
-        headerLists.map((name, index) => {
-            let headerOption = {
-                label: name,
-                value: name
-            };
-            headerOptions = [...headerOptions, headerOption];
-        });
-        this.options = headerOptions;
-        this.currentHeaderLabel = this.options[0].label;
-
+        this.shouldCheckPolcyHeader = true;
+        if(this.shouldCheckPolcyHeader) {
+            let headerLists = tcData.tc.Policy_Headers__c.split('\r\n');
+           
+            let headerOptions = [];
+            headerLists.map((name, index) => {
+                let headerOption = {
+                    label: name,
+                    value: name
+                };
+                headerOptions = [...headerOptions, headerOption];
+            });
+            this.options = headerOptions;
+            this.currentHeaderLabel = this.options[0].label;
+        }   
         if (this.tcRichText) {
             this.tcRichText = this.tcRichText.replace(/<ul>/g, '<ul style="list-style: disc;">');
             this.tcRichText = this.tcRichText.replace(
@@ -278,5 +326,8 @@ export default class PpTermsOfUse extends LightningElement {
     removeElementFocus() {
         let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
         ddMenu.classList.remove('active');
+    }
+    goToPreviousPage(){
+        window.history.back();
     }
 }

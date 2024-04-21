@@ -62,7 +62,7 @@ public with sharing class Test_ECOAService {
         ctp.ECOA_Is_Avaialble__c = true;
         update ctp;
         Participant_Enrollment__c pe = [
-            SELECT id, Subject_GUID__c, Participant_Status__c
+            SELECT id, Subject_GUID__c, Participant_Status__c, Visit_Plan__c
             FROM Participant_Enrollment__c
             WHERE Clinical_Trial_Profile__c = :ctp.id
             LIMIT 1
@@ -95,7 +95,8 @@ public with sharing class Test_ECOAService {
                 Clinical_Trial_Profile__c,
                 Clinical_Trial_Profile__r.Study_GUID__c,
                 Clinical_Trial_Profile__r.Study_Version_GUID__c,
-                Study_Site__r.ECOA_Site_Guid__c
+                Study_Site__r.ECOA_Site_Guid__c,
+                Visit_Plan__c
             FROM Participant_Enrollment__c
         ];
 

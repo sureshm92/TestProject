@@ -1,5 +1,6 @@
 ({
     saveCTPHelper: function (component, event, helper) {
+        var localHelper = this;     
         var source = event.getSource().get('v.name');
         console.log('Source: ' + source);
         var appEvent = $A.get('e.c:TaskToggleEvent');
@@ -11,13 +12,14 @@
             let prValue = component.find('prToggle').get('v.checked');
             component.find('stworkspaceToggle').set('v.checked', !prValue);
         }
-        if (source === 'visitScheduleToggle') {
+        if (source === 'visitScheduleToggle' && (!component.get('v.isPP'))) {    
             let vsValue = component.find('vsToggle').get('v.checked');
             component.find('stToggle').set('v.checked', !vsValue);
         }
         if (source === 'statusTimelineToggle') {
             let stValue = component.find('stToggle').get('v.checked');
             component.find('vsToggle').set('v.checked', !stValue);
+            localHelper.fireProgressBarUpdateEvents(component,event);
         }
         if (source === 'medicalVendorToggle') {
             let stValue = component.find('mdToggle').get('v.checked');
@@ -50,6 +52,11 @@
             let stValue = component.find('iqviaToggle').get('v.checked');
             component.find('iqviaToggle').set('v.checked', stValue);
         }
+         //Document Upload Starts
+         if (source === 'DocumentUpload') {
+            let stValue = component.find('documentUploadToggle').get('v.checked');
+            component.find('documentUploadToggle').set('v.checked', stValue);
+        }
         
         
         component.find('spinner').show();
@@ -78,6 +85,10 @@
                         var appEvent = $A.get("e.c:EconsentEvent"); 
                         appEvent.fire(); 
                     }
+                    if (source === 'statusTimelineTogglePP2' || source === 'studyWorkspaceToggle' || source === 'programToggle' || source === 'preTrialStatusToggle') {
+                        console.log('Before firing pp toggle event');
+                        localHelper.fireProgressBarUpdateEvents(component,event);
+                    }
                     communityService.showSuccessToast('Success', 'Study Configuration setting saved!');
                 }
             );
@@ -87,8 +98,18 @@
             //  communityService.showToast('Error', 'error', 'The incentive program already exists');
         }
         if (source === 'tasksToggle') {
-            $A.get('e.force:refreshView').fire();
-            appEvent.fire();
+            // $A.get('e.force:refreshView').fire();
+            // appEvent.fire();
+            let stValue = component.find('tasksToggle').get('v.checked');
+            component.find('tasksToggle').set('v.checked', stValue);
         }
+        
+    },
+    fireProgressBarUpdateEvents : function (component, event) {
+        const ppStatusBarChange = {
+            notificationId: "ppProgressBarStatusUpdate",
+            payload: "none"
+        };
+        component.find("ctpUpdatesChannel").publish(ppStatusBarChange);
     }
 });

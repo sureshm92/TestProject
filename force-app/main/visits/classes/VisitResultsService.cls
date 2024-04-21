@@ -197,7 +197,7 @@ public inherited sharing class VisitResultsService {
         );
         String dataOrder = isAlumniParticipant
             ? ' ORDER BY Completed_Date__c NULLS LAST'
-            : ' ORDER BY Visit_Number__c, Completed_Date__c';
+            : ' ORDER BY  Completed_Date__c, Visit_Number__c';
         String visitsQuery =
             'SELECT ' +
             'Id, ' +
@@ -232,9 +232,11 @@ public inherited sharing class VisitResultsService {
                     Set<String> visitResultGroupSet = visitResultAvailabilityByGroupForReport(
                         queryResult.get(i).Visit_Results__r
                     );
-                    if(visitResultGroupSet!=null && visitResultGroupSet.size()>0){
+                    if (visitResultGroupSet != null && visitResultGroupSet.size() > 0) {
                         if (
-                            visitResultGroupSet.contains(VisitResultSharingService.VITAL_RECORDTYPE) &&
+                            visitResultGroupSet.contains(
+                                VisitResultSharingService.VITAL_RECORDTYPE
+                            ) &&
                             !visitResultGroupwithPatientVisitMap
                                 .containsKey(VisitResultSharingService.VITAL_RECORDTYPE)
                         ) {
@@ -253,7 +255,9 @@ public inherited sharing class VisitResultsService {
                             }
                         }
                         if (
-                            visitResultGroupSet.contains(VisitResultSharingService.LAB_RECORDTYPE) &&
+                            visitResultGroupSet.contains(
+                                VisitResultSharingService.LAB_RECORDTYPE
+                            ) &&
                             !visitResultGroupwithPatientVisitMap
                                 .containsKey(VisitResultSharingService.LAB_RECORDTYPE)
                         ) {
@@ -288,7 +292,9 @@ public inherited sharing class VisitResultsService {
                             } else {
                                 patientVisitbyVisitGroupMap.put(
                                     queryResult.get(i).Id,
-                                    new Set<String>{ VisitResultSharingService.BIOMARKER_RECORDTYPE }
+                                    new Set<String>{
+                                        VisitResultSharingService.BIOMARKER_RECORDTYPE
+                                    }
                                 );
                             }
                         }

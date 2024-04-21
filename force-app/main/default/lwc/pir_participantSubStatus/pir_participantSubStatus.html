@@ -8,10 +8,10 @@
             <div class="step-title text-wrap-btn" title={checkGroupName}>{checkGroupName}</div>
             <div class="step-status text-wrap-btn" title={checkGroupStatus}>{checkGroupStatus} </div>
             <template if:true={isInitialVisit}>
-                <div class="step-status"><lightning-formatted-date-time value={groupdate}  month="short" day="2-digit" year="numeric"  ></lightning-formatted-date-time></div>
+                <div class="step-status"><lightning-formatted-date-time value={groupdate}  month="short" day="2-digit" year="numeric" time-zone="UTC" ></lightning-formatted-date-time></div>
             </template>
             <template if:false={isInitialVisit}>
-                <div class="step-status"> <lightning-formatted-date-time value={groupdate}  ></lightning-formatted-date-time></div>
+                <div class="step-status"> <lightning-formatted-date-time value={groupdate} month="short" day="2-digit" year="numeric" ></lightning-formatted-date-time></div>
             </template>
         </div> 
     </button> 

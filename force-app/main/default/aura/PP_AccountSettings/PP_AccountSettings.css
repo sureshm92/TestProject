@@ -216,9 +216,9 @@
         background: transparent;
     }
 
-    .THIS .navBar ul:hover .navItem {
+    /* .THIS .navBar ul:hover .navItem {
         display: block;
-    }
+    } */
 }
 
 @media (any-pointer: coarse) and (orientation: portrait) {

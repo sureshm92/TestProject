@@ -1,0 +1,86 @@
+<template>
+    <div  if:true={nofiles} class=" slds-align--absolute-center slds-grid slds-wrap fullHeight">
+        <div class="slds-size--1-of-1 no-file-img"><img src={noFilesIcon}/></div>
+        <div class="slds-size--1-of-1 no-file-txt">{label.PP_No_files_available}</div>
+    </div>
+    <div if:false={loaded}  class="fullHeight">
+        <div role="status" class="slds-spinner slds-spinner_medium">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+    <div  if:true={showFiles} class={iconClass}>
+        <div class={sectionClass}>
+            <template if:true={fileList} for:each={fileList} for:item="file" for:index="index">
+                <div key={file.Title} class="main-sec slds-align--absolute-center">
+                    <div class="left-sec">
+                        <div class="file-name" data-pvid={file.cdid} onclick={previewFile}>{file.title}</div>
+                        <div class="file-type">{file.type}</div>
+                        <div class="upload-date">
+                            <lightning-formatted-date-time
+                                year="numeric"
+                                month="short"
+                                day="2-digit"
+                                value={file.uploadDate}
+                                time-zone={timeZone}
+                            ></lightning-formatted-date-time>
+                        </div>
+                    </div>
+                    <div class="right-sec">
+                        <div class="slds-float_right">
+                            <div class="download-icon" data-cdid={file.cdid} onclick={downloadFile} title={label.PIR_Download}>                
+                                <img src={downloadIcon} class="no-click" alt={label.PIR_Download} title={label.PIR_Download}/>
+                            </div>
+                            <div if:true={fileUploaded} class="del-icon" data-cvid={file.cvid}  onclick={deleteFile} title={label.pir_Delete_Btn}>
+                                <img src={deleteIcon} class="no-click" alt={label.pir_Delete_Btn} title={label.pir_Delete_Btn}/>
+                            </div>
+                        </div>                
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+    <template if:true={openDeleteModel}>
+        <c-pp-modal
+            header-text={label.PP_DeleteFile}
+            size="small"
+            is-show="true"
+            onclose={handleCancelModel}
+        >
+            <div slot="body">
+                <div class="body-container">
+                    <lightning-formatted-rich-text
+                        value={label.PP_DeleteConfirmation}
+                    ></lightning-formatted-rich-text>
+                </div>
+            </div>
+            <div slot="footer">                
+                <div class="slds-grid slds-gutters slds-grid_align-end no-show-mobile">
+                    <div class="slds-col button-cancel">
+                        <button class="slds-button button-continue" onclick={handleCancelModel}>
+                            {label.BTN_Cancel}
+                        </button>
+                    </div>
+                    <div class="slds-col button-delete">
+                        <button class="slds-button button-continue no-color" onclick={handleContinueModel}>
+                            {label.pir_Delete_Btn}
+                        </button>
+                    </div>
+                </div>
+               <div class="slds-grid slds-wrap slds-hide--large">
+                    <div class="slds-col slds-size_1-of-1 slds-align_absolute-center button-delete-mobile">
+                        <button class="slds-button button-delete-mobile" onclick={handleContinueModel} >
+                            {label.pir_Delete_Btn}
+                        </button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-top_medium button-cancel">
+                        <button class="slds-button button-cancel" onclick={handleCancelModel} >
+                            {label.BTN_Cancel}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </c-pp-modal>
+    </template>
+</template>

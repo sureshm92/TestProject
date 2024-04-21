@@ -30,6 +30,11 @@
                 <default>false</default>
                 <label>Bell</label>
             </value>
+            <value>
+                <fullName>Updates</fullName>
+                <default>false</default>
+                <label>Updates</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

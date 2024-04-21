@@ -550,6 +550,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Document_Upload_Is_Available__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.ECOA_Is_Avaialble__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -7360,6 +7365,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>SurveyInvitation.Participant_Due_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>SurveyInvitation.ReminderDateTime__c</field>
         <readable>false</readable>
@@ -7770,6 +7780,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Televisit__c.Reshedule_Email_Notification_Check__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Terms_And_Conditions_Acceptance__c.Accepted_Date__c</field>
         <readable>false</readable>
@@ -7787,6 +7802,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Terms_And_Conditions__c.Community_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Terms_And_Conditions__c.Janssen_Template__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

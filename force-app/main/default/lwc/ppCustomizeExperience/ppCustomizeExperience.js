@@ -5,6 +5,7 @@ import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
+import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 
 import PP_Condition_of_Interest_title from '@salesforce/label/c.PP_Condition_of_Interest_title';
 import PP_Customize_Exp_Description from '@salesforce/label/c.PP_Customize_Exp_Description';
@@ -13,6 +14,9 @@ import BTN_Save from '@salesforce/label/c.BTN_Save';
 import Task_Subject_Select_COI_PP from '@salesforce/label/c.Task_Subject_Select_COI_PP';
 import BACK from '@salesforce/label/c.Back';
 import PP_Profile_Update_Success from '@salesforce/label/c.PP_Profile_Update_Success';
+import PP_Customize_Experience from '@salesforce/label/c.PP_Customize_Experience';
+import PP_Conditions from '@salesforce/label/c.PP_Conditions';
+import PP_Select_up_to_5_conditions from '@salesforce/label/c.PP_Customize_footer_message';
 
 import getInitData from '@salesforce/apex/SearchConditionsOfInterestRemote.getConditionOfInterest';
 import searchConditionOfInterest from '@salesforce/apex/SearchConditionsOfInterestRemote.searchConditionOfInterest';
@@ -34,7 +38,7 @@ export default class PpCustomizeExperience extends LightningElement {
 
     spinner;
     isInitialized = false;
-    isValueChanged =  false;
+    isValueChanged = false;
 
     label = {
         PP_Condition_of_Interest_title,
@@ -43,7 +47,10 @@ export default class PpCustomizeExperience extends LightningElement {
         BTN_Save,
         BACK,
         PP_Profile_Update_Success,
-        Task_Subject_Select_COI_PP
+        Task_Subject_Select_COI_PP,
+        PP_Customize_Experience,
+        PP_Conditions,
+        PP_Select_up_to_5_conditions
     };
 
     itemshow = false;
@@ -86,15 +93,17 @@ export default class PpCustomizeExperience extends LightningElement {
     }
 
     get isSaveDisabled() {
-        if (
-            this.isValueChanged
-        ) {
+        if (this.isValueChanged) {
             return false;
         } else {
             return true;
         }
     }
-    
+
+    get searchInputStyle() {
+        return this.isRTL ? 'profile-info-input customize-exp rtl' : 'profile-info-input customize-exp';
+    }
+
     renderedCallback() {
         if (this.isInitialized == true) {
             this.spinner = this.template.querySelector('c-web-spinner');
@@ -116,9 +125,18 @@ export default class PpCustomizeExperience extends LightningElement {
             .catch((error) => {
                 communityService.showToast('', 'error', error.message, 100);
             });
+
+            getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+                console.log('rtl--->'+this.isRTL);
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+            });
     }
 
-    initializeData(){        
+    initializeData() {
         getInitData()
             .then((returnValue) => {
                 console.log('success', returnValue);
@@ -128,7 +146,7 @@ export default class PpCustomizeExperience extends LightningElement {
                 this.conditionsOfInterestTemp = copy;
                 //console.log(this.conditionsOfInterestTemp[0].coi.Id);
                 window.setTimeout(() => {
-                    this.callhelper(coival);                    
+                    this.callhelper(coival);
                 }, 500);
                 this.spinner.hide();
             })
@@ -201,7 +219,10 @@ export default class PpCustomizeExperience extends LightningElement {
         let removedPill = event.currentTarget.getAttribute('data-name');
         //alert(removedPill);
         this.handleClearPill(removedPill);
-        this.isValueChanged = JSON.stringify(this.displayedItems) == JSON.stringify(this.conditionOfInterestList) ? false : true;
+        this.isValueChanged =
+            JSON.stringify(this.displayedItems) == JSON.stringify(this.conditionOfInterestList)
+                ? false
+                : true;
     }
 
     handleClearPill(removedPill) {
@@ -222,15 +243,15 @@ export default class PpCustomizeExperience extends LightningElement {
     handleChange(event) {
         let taList = this.conditionsOfInterestTemp;
         let inputValue = event.target.name;
-		let check =this.conditionOfInterestList;
+        let check = this.conditionOfInterestList;
         var capturedCheckboxName = inputValue;
         var selectedCheckBoxes = this.selectedValues;
         let uncheckedValues = [];
         let finalSelectedvalues = [];
         let copy = JSON.parse(JSON.stringify(this.conditionOfInterestList));
-			if(check.length <5){
-					this.isValueChanged = false;
-			}
+        if (check.length < 5) {
+            this.isValueChanged = false;
+        }
         if (!event.target.checked) {
             for (let i = 0; i < taList.length; i++) {
                 if (
@@ -248,15 +269,16 @@ export default class PpCustomizeExperience extends LightningElement {
                     }
                 }
                 taList = finalSelectedvalues;
-		     }				
+            }
         } else if (taList.length < 5) {
             selectedCheckBoxes.push(capturedCheckboxName);
             taList.push(capturedCheckboxName);
         } else {
-            event.target.checked = false;				
+            event.target.checked = false;
         }
         this.conditionsOfInterestTemp = taList;
-        this.isValueChanged =  JSON.stringify(this.conditionsOfInterestTemp) == JSON.stringify(copy)? false : true ;
+        this.isValueChanged =
+            JSON.stringify(this.conditionsOfInterestTemp) == JSON.stringify(copy) ? false : true;
     }
 
     showMenuBar(event) {

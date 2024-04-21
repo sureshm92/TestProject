@@ -1,0 +1,11 @@
+.download-res-data {
+    color: #0768fd;
+    font-size: 14px;
+    font-weight: 600;
+}
+.download-icon {
+    --slds-c-icon-color-foreground-default: #0768fd;
+}
+.download-section {
+    text-align: end;
+}

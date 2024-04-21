@@ -10,7 +10,7 @@
                           greeting="{!$Label.Email_User_Greeting}"
                           signature="{!$Label.Email_Signature_RH}"
                          communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK',
-                                                                                         'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
+                                                                                         'Default',IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal', 'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c))}">
             <c:ParagraphPendingReferrals emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"
                                          filterrequired="true"/>
             <c:EmailTemplatePendingParticipants sourceId="{!recipient.Id}"/>
@@ -27,7 +27,7 @@
                               greeting="{!$Label.Email_User_Greeting}"
                               signature="{!$Label.Email_Signature_RH}"
                          communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK',
-                                                                                         'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
+                                                                                         'Default',IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal', 'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c))}">
             <c:ParagraphPendingReferralsText emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"
                                              filterrequired="true"/>                                             
             <c:EmailTemplatePendingParticipantsText sourceId="{!recipient.Id}"/>

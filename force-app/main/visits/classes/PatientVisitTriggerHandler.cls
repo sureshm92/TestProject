@@ -26,6 +26,11 @@ public without sharing class PatientVisitTriggerHandler {
             updateEcoaEvents(newList, (Map<Id, Patient_Visit__c>) oldMap);
         }
     }
+    public class completePatientVisitTask extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            completePVTask(newList, (Map<Id, Patient_Visit__c>) oldMap);
+        }
+    }
     /*public override void afterInsert(List<SObject> newList) {
         updateEcoaEvents(newList);
     }*/
@@ -45,6 +50,30 @@ public without sharing class PatientVisitTriggerHandler {
         if (!pvIds.isEmpty() && !system.isBatch()) {
             triggerEcoaEventAsync(pvIds);
         }
+    }
+
+    private static void completePVTask(
+        List<Patient_Visit__c> patientVisits,
+        Map<Id, Patient_Visit__c> oldMap
+    ) {
+        Set<Id> pvIds = new Set<Id>();
+        List<Task> tasks = new List<Task>();
+        for (Patient_Visit__c pv : patientVisits) {
+            if (pv.Status__c == 'Completed' && pv.Status__c != oldMap.get(pv.Id).Status__c) {
+                pvIds.add(pv.Id);
+            }
+        }
+        if(!pvIds.isEmpty() && !system.isBatch()){
+            for(Task task:[Select Id from Task where Patient_Visit__c IN:pvIds]){
+                Task newTask = new Task();
+                newTask.Id = task.Id;
+                newTask.Status = 'Completed';
+                newTask.Completed_Date__c = Datetime.now();
+                tasks.add(newTask);
+            }
+        }
+        if(!tasks.isEmpty())
+        update tasks;
     }
 
     @Future(Callout=true)

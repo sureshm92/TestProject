@@ -1,0 +1,236 @@
+<aura:component
+    description="ppCustomThemeLayout"
+    implements="forceCommunity:themeLayout,lightning:hasPageReference,lightning:isUrlAddressable"
+    controller="CommunityFacadeRemote"
+>
+    <ltng:require
+        styles="{!join(',', $Resource.Community_CSS_PP_Theme, $Resource.proximanova + '/proximanova.css')}"
+        scripts="{!$Resource.rr_community_js}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
+
+    <!-- attributes: -->
+    <aura:attribute name="showSideMenu" type="Boolean" default="false" />
+    <aura:attribute name="isInitialized" type="Boolean" default="false" />
+    <aura:attribute name="isDummy" type="Boolean" default="false" />
+    <aura:attribute name="isMobileApp" type="Boolean" default="false" />
+    <aura:attribute name="currentMode" type="Object" />
+    <aura:attribute name="showModeSwitcher" type="Boolean" default="false" />
+    <aura:attribute name="logoURL" type="String" />
+    <aura:attribute name="isRTL" type="Boolean" />
+    <aura:attribute name="urlPathPrefix" type="String" />
+    <aura:attribute name="communityServ" type="Object" />
+    <aura:attribute name="handleTelevistBanner" type="Boolean" default="false" />
+    <aura:attribute name="stopLoading" type="Boolean" default="false" />
+    <aura:attribute name="hasMessage" type="Boolean" access="public" default="false" />
+    <aura:attribute name="paddingChange" type="Boolean" default="false" />
+    <aura:attribute name="mediaContent" type="Boolean" default="false" />
+    <aura:attribute name="isIpad" type="Boolean" default="false" />
+    <aura:attribute name="innerWidth" type="Integer" />
+    <aura:attribute name="innerHeight" type="Integer" />
+    <aura:attribute name="pageReference" type="Object" />
+    <lightning:messageChannel type="ppLightningMessageService__c" onMessage="{!c.handleMessage}" />
+
+    <!-- events: -->
+    <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
+    <aura:handler event="c:ppCloseNavMenu" action="{!c.handleClickCloseNavMenu}" />
+
+    <aura:handler event="c:PPMobileMenu" action="{!c.handleClickCloseNavMenu}" />
+    <aura:handler event="forceCommunity:routeChange" action="{!c.handleRouteChange}" />
+
+    <!-- methods: -->
+    <aura:method name="init" action="{!c.doInit}" access="public" />
+
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
+
+    <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+        <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" showFullSpinner="true" />
+    </aura:if>
+
+    <aura:if isTrue="{!v.isInitialized}">
+        <div
+            class="{!'rr-all-content ' + $Browser.formFactor + ' ' + if(v.showSideMenu, ' bodyShift ', ' ') + if(v.availableModes.length > 1, ' with-selector ', '')}"
+        >
+            <div
+                class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode ', ' ') + if(v.isInitialized, 'pp-main-header-brand', 'main-header-neutral')}"
+            >
+            
+                <div class="{!'slds-grid slds-grid_align-spread parentNavDiv ' + if(v.isRTL, ' rtl', '')}">
+                    
+                    <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">
+                        <aura:if isTrue="{!v.isIpad}">
+                            <!-- IpadApp/SafariBrowser Navigation Section -->
+                            <div class="slds-col">
+                                <div
+                                    class="iqviaLogo-ipad slds-align--absolute-center"
+                                    onclick="{!c.handleClickCloseNavMenu}"
+                                    ontouchmove="{!c.handleClickCloseNavMenu}"
+                                    ontouchend="{!c.handleHamberungTouchEnd}"
+                                >
+                                    <div class="iqvia_logo" onclick="{!c.doGoHome}">
+                                        IQVIA <span class="iqvia_text">Patient Portal</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-col_bump-right">
+                                <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
+                                <!--new pp navigation-->
+                                <c:ppCommunityNavigation
+                                    communityServic="{!v.communityServ}"
+                                    aura:id="ppMenu"
+                                    showSideMenu="{!v.showSideMenu}"
+                                    onhandleLoadTelevisitBanner="{!c.handleLoadTelevisitBanner}"
+                                />
+                            </div>
+                            <div class="slds-col slds-p-right_small">
+                                <div
+                                    class="right-block slds-align--absolute-center"
+                                    data-gtm="community_mode_switcher"
+                                    onclick="{!c.handleClickCloseNavMenu}"
+                                    ontouchmove="{!c.handleClickCloseNavMenu}"
+                                    ontouchend="{!c.handleHamberungTouchEnd}"
+                                >
+                                    <c:ppCommunityModeSwitcherMenu
+                                        aura:id="modeSwitcher"
+                                        currentMode="{!v.currentMode}"
+                                        onModeChange="{!c.doRefresh}"
+                                    />
+                                </div>
+                            </div>
+                            <aura:set attribute="else">
+                                <!-- Desktop Navigation Section -->
+                                <div class="slds-col">
+                                    <div
+                                        class="iqviaLogo slds-align--absolute-center"
+                                        onclick="{!c.handleClickCloseNavMenu}"
+                                        ontouchmove="{!c.handleClickCloseNavMenu}"
+                                        ontouchend="{!c.handleHamberungTouchEnd}"
+                                    >
+                                        <div class="iqvia_logo" onclick="{!c.doGoHome}">
+                                            IQVIA <span class="iqvia_text">Patient Portal</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-col_bump-right">
+                                    <img src="{!$Resource.PP_DesktopLogos + '/Nav_Tab_Divider.svg'}" />
+                                    <!--new pp navigation-->
+                                    <c:ppCommunityNavigation
+                                        communityServic="{!v.communityServ}"
+                                        aura:id="ppMenu"
+                                        showSideMenu="{!v.showSideMenu}"
+                                        onhandleLoadTelevisitBanner="{!c.handleLoadTelevisitBanner}"
+                                    />
+                                </div>
+                                <div class="slds-col slds-p-right_small">
+                                    <div
+                                        class="right-block slds-align--absolute-center"
+                                        data-gtm="community_mode_switcher"
+                                        onclick="{!c.handleClickCloseNavMenu}"
+                                        ontouchmove="{!c.handleClickCloseNavMenu}"
+                                        ontouchend="{!c.handleHamberungTouchEnd}"
+                                    >
+                                        <c:ppCommunityModeSwitcherMenu
+                                            aura:id="modeSwitcher"
+                                            currentMode="{!v.currentMode}"
+                                            onModeChange="{!c.doRefresh}"
+                                        />
+                                    </div>
+                                </div>
+                            </aura:set>
+                        </aura:if>                        
+                    </aura:if>
+                    <aura:if isTrue="{!$Browser.formFactor != 'DESKTOP'}">
+                        <!-- Mobile/Tablet Navigation Section -->
+                        <div class="slds-col slds-align-content-center slds-p-left_small">
+                            <aura:if isTrue="{!v.hasMessage}">
+                                <img
+                                    src="{!$Resource.icon_hamburgerMenuNotify}"
+                                    onclick="{!c.handleClick}"
+                                    class="barsIcon"
+                                />
+                                <aura:set attribute="else">
+                                    <img
+                                        src="{!$Resource.icon_hamburgerMenu}"
+                                        onclick="{!c.handleClick}"
+                                        class="{!v.isRTL? ' barsIconrtl':'barsIcon'}"
+                                    />
+                                </aura:set>
+                            </aura:if>
+                        </div>                        
+                        <div class="slds-col slds-align-content-center">
+                            <div
+                                onclick="{!c.handleClickCloseNavMenu}"
+                                ontouchmove="{!c.handleClickCloseNavMenu}"
+                                ontouchend="{!c.handleHamberungTouchEnd}"
+                            >
+                                <div class="iqvia_logo" onclick="{!c.doGoHome}">
+                                    IQVIA <span class="iqvia_text">Patient Portal</span>
+                                </div>
+                            </div>
+                        </div>                        
+                        <div class="slds-col slds-align-content-center slds-p-right_small">
+                            <div
+                                class="right-block1"
+                                data-gtm="community_mode_switcher"
+                                onclick="{!c.handleClickCloseNavMenu}"
+                                ontouchmove="{!c.handleClickCloseNavMenu}"
+                                ontouchend="{!c.handleHamberungTouchEnd}"
+                            >
+                                <c:ppCommunityModeSwitcherMenu
+                                    aura:id="modeSwitcher"
+                                    currentMode="{!v.currentMode}"
+                                    onModeChange="{!c.doRefresh}"
+                                />
+                            </div>
+                        </div>
+                    </aura:if>
+                </div> 
+            
+            </div>
+
+            <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
+
+            <div
+                class="{!if(v.paddingChange, 'rr-body-content-res', 'rr-body-content') + ' rr-min-body-height' }"
+                onclick="{!c.handleClickCloseNavMenu}"
+                ontouchmove="{!c.handleClickCloseNavMenu}"
+                ontouchend="{!c.handleHamberungTouchEnd}"
+            >
+                <aura:if isTrue="{!$Browser.formFactor != 'DESKTOP'}">
+                    <c:ppCommunityNavigation
+                        communityServic="{!v.communityServ}"
+                        showSideMenu="{!v.showSideMenu}"
+                        aura:id="ppMenu"
+                        is-initial-load="{!v.isInitialized}"
+                        onhandleLoadTelevisitBanner="{!c.handleLoadTelevisitBanner}"
+                        onmsgnotify="{!c.handleMessageNotification}"
+                    />
+                </aura:if>
+                <!-- Televisit Meet Banner Section PEH-5892 -->
+                <aura:if isTrue="{!v.handleTelevistBanner}">
+                    <c:televisitMeetBanner
+                        urlPathPrefix="{!v.urlPathPrefix}"
+                        currentMode="{!v.currentMode}"
+                    ></c:televisitMeetBanner>
+                </aura:if>
+                {!v.body}
+            </div>
+            <aura:if isTrue="{!not(v.paddingChange)}">
+                <div
+                    class="footer"
+                    onclick="{!c.handleClickCloseNavMenu}"
+                    ontouchmove="{!c.handleClickCloseNavMenu}"
+                    ontouchend="{!c.handleHamberungTouchEnd}"
+                >
+                    <div class="rr-width-limiter-pp">
+                        <c:ppCommunityFooter aura:id="ppFooter" />
+                    </div>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!not(v.isDummy)}">
+                <c:ppAlerts aura:id="ppAlerts"></c:ppAlerts>
+                <c:ppCookiesBanner />
+            </aura:if>
+        </div>
+    </aura:if>
+</aura:component>

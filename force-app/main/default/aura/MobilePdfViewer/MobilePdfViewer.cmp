@@ -19,17 +19,20 @@
 
     <aura:attribute name="isResourceVisible" type="boolean" default="false" />
 
-    <ui:button aura:id="button" class="button" label="Back" press="{!c.backToPreviousPage}" />
+    <div onclick="{!c.backToPreviousPage}"  class="back-link-mobile slds-p-top_x-small slds-p-bottom_xx-small" aura:id="back_button">     
+        <lightning:icon iconName="utility:chevronleft" size="x-small"/>
+        <span class="back-btn">{!$Label.c.Back}</span>
+    </div>
 
     <iframe
         aura:id="pdfFrame"
         id="pp"
         src="/resource/pdfjs_dist/web/viewer.html"
-        style="height: 600px"
+        style="height: 100vh"
         class="{!v.hideDiv+' pdfFrame'}"
         onload="{!c.loadpdf}"
     >
     </iframe>
 
-    <iframe id="frame" width="100%" height="600px" frameborder="0" class="{!v.hideDivResource}" />
+    <iframe id="frame" width="100%" style="height: 100vh" frameborder="0" class="{!v.hideDivResource}" />
 </aura:component>

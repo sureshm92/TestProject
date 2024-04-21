@@ -8,13 +8,11 @@
         isValidEmail = this.checkValidEmail(DelegateEmail,DelegateEmailValue);
         if($A.util.isEmpty(component.get('v.isBulkImportOld')) && component.get('v.isBulkImport'))
         {
-            console.log('>>coming in helper 10>');
             component.set('v.isBulkImportOld',true);
         }
         if(isValidEmail)
         {
             var PER = JSON.parse(JSON.stringify(component.get('v.pe')));
-            console.log('>>>participantid>>'+PER.Participant__c);
             communityService.executeAction(
                 component,
                 'checkExisitingParticipant',
@@ -26,7 +24,6 @@
                 },
                 
                 function (returnValue) {
-                    console.log('>>retunrParticiapnt>>'+JSON.stringify(returnValue));
                     if(returnValue){
                         component.set('v.participantDelegate.First_Name__c',returnValue.firstName);
                         component.set('v.participantDelegate.Last_Name__c',returnValue.lastName);
@@ -50,14 +47,12 @@
                         component.set('v.isBulkImport',returnValue.isBulkImport);
                     }
                     else if(!$A.util.isEmpty(participantDelegateOld.Id)){
-                        console.log('>>>coming in 466>>>');
                         component.set('v.participantDelegate.Id',participantDelegateOld.Id);
                         component.set('v.participantDelegate.Contact__c',participantDelegateOld.Contact__c);
                         component.set('v.isEmailConfrmBtnClick',false);
                         component.set('v.recordFound',false);
                         component.set('v.useThisDelegate', false);
                         component.set('v.isFirstPrimaryDelegate',false);
-                        console.log('>>>bulkImportOdl>>'+component.get('v.isBulkImportOld'));
                         if(component.get('v.isBulkImportOld'))
                             component.set('v.isBulkImport',true);
                     }
@@ -72,7 +67,6 @@
                         component.set('v.isEmailConfrmBtnClick',true);
                         component.set('v.isBulkImport',false);
                     }
-                    console.log('>>final participant>>>'+JSON.stringify(component.get('v.participantDelegate')));
                 }
             );
         }
@@ -159,19 +153,31 @@
     },
     setMM: function (component, event, helper) {
         var opt = [];
+        var jan = $A.get("$Label.c.January");
+        var feb = $A.get("$Label.c.February");
+        var mar = $A.get("$Label.c.March");
+        var apr = $A.get("$Label.c.April");
+        var may = $A.get("$Label.c.May");
+        var jun = $A.get("$Label.c.June");
+        var jul = $A.get("$Label.c.July");
+        var aug = $A.get("$Label.c.August");
+        var sep = $A.get("$Label.c.September");
+        var oct = $A.get("$Label.c.October");
+        var nov = $A.get("$Label.c.November");
+        var dec = $A.get("$Label.c.December");
         // opt.push({label: '----', value:'--' });
-        opt.push({label: 'January', value:'01' });
-        opt.push({label: 'February', value:'02' });
-        opt.push({label: 'March', value:'03' });
-        opt.push({label: 'April', value:'04' });
-        opt.push({label: 'May', value:'05' });
-        opt.push({label: 'June', value:'06' });
-        opt.push({label: 'July', value:'07' });
-        opt.push({label: 'August', value:'08' });
-        opt.push({label: 'September', value:'09' });
-        opt.push({label: 'October', value:'10' });
-        opt.push({label: 'November', value:'11' });
-        opt.push({label: 'December', value:'12' });       
+        opt.push({label: jan, value:'01' });
+        opt.push({label: feb, value:'02' });
+        opt.push({label: mar, value:'03' });
+        opt.push({label: apr, value:'04' });
+        opt.push({label: may, value:'05' });
+        opt.push({label: jun, value:'06' });
+        opt.push({label: jul, value:'07' });
+        opt.push({label: aug, value:'08' });
+        opt.push({label: sep, value:'09' });
+        opt.push({label: oct, value:'10' });
+        opt.push({label: nov, value:'11' });
+        opt.push({label: dec, value:'12' });       
         component.set("v.optionsMM",opt);
     },
     setYYYY: function (component, event, helper) {
@@ -374,7 +380,6 @@
         component.find('spinner').show();
         let parent = component.get('v.parentComponent');
         if (parent!=null && parent.checkDateOfBith) {
-            console.log('Parent checkDateOfBith');
             parent.checkDateOfBith(function(result) {
                 component.set('v.participant.Adult__c', result);
                  $A.enqueueAction(component.get('c.doCheckFields'));

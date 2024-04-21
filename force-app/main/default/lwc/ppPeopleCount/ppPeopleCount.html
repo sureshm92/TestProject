@@ -1,0 +1,25 @@
+<template>
+    <lightning-layout class="slds-m-vertical_medium"
+        ><lightning-layout-item size="2" class="ms-item-icon-circle slds-align-middle">
+            <template if:true={hasImages}>
+                <lightning-avatar
+                    variant="circle"
+                    src={imgPath}
+                    fallback-icon-name="standard:person_account"
+                ></lightning-avatar>
+            </template>
+            <template if:false={hasImages}>
+                <div class="ms-item-icon-circle">
+                    <template if:true={isTab}>
+                        <span class="lt-initial-pos-tab">{initials} </span></template
+                    >
+                    <template if:false={isTab}>
+                        <span class="lt-initial-pos">{initials} </span>
+                    </template>  
+                </div>
+            </template> </lightning-layout-item
+        ><lightning-layout-item size="10" title={peopleName} class="slds-p-left_small slds-p-top_xx-small truncate_name"
+            ><span class="pi-name-font">{peopleName}</span></lightning-layout-item
+        ></lightning-layout
+    >
+</template>

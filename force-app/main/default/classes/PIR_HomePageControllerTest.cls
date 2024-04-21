@@ -137,8 +137,49 @@ public without sharing class PIR_HomePageControllerTest {
             
             PIR_HomepageController.getListViewData(1,2,'Janssen',filterlistnew,true,true,'','',1,false,null);
             PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,true,'','',1,false,null);
-            PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,false,partEnroll.Participant__r.First_Name__c,'',1,false,null);
             
+        }
+       
+        Test.stopTest();
+    }
+     @isTest static void testgetListViewData_withFirstNameasFilter() {
+        // TestData.loadTestData();
+        TestData testData = new TestData();
+        List<Clinical_Trial_Profile__c> ctpList = new List<Clinical_Trial_Profile__c>();
+        List<Study_Site__c> ssList = new List<Study_Site__c>();
+        List<String> ctpIdList = new List<String>();
+        List<Id> ssIdList = new List<Id>(); 
+        ctpList = [SELECT Id FROM Clinical_Trial_Profile__c];
+        ssList = [SELECT Id FROM Study_Site__c]; 
+        ctpIdList.add(ctpList[0].Id); 
+        ssIdList.add(ssList[0].Id);
+        Test.startTest();
+        Participant_Enrollment__c partEnroll = [
+            SELECT Id, Participant__c, Participant__r.First_Name__c,Show_Referring_Provider__c
+            FROM Participant_Enrollment__c where Participant__r.First_Name__c!=null
+            LIMIT 1
+        ]; 
+        partEnroll.Clinical_Trial_Profile__c=ctpList[0].id;
+        partEnroll.Study_Site__c=ssList[0].Id;
+        partEnroll.Participant_Status__c='Received';
+        partEnroll.Referral_Source__c='Principal Investigator';
+        update partEnroll;
+        Participant_Enrollment_Status_History__c pehistory1 = new Participant_Enrollment_Status_History__c(
+            Date__c = Datetime.now(),
+            Status__c = 'Eligibility Passed',
+            Additional_Notes__c = 'Test Notes testing testclass code on this date by test user',
+            ParticipantEnrollment__c = partEnroll.Id,
+            Non_Enrollment_Reason__c= 'PI Decision',
+            Notes__c='Test Notes testing testclass code on this date by test user'
+        );
+        insert pehistory1;
+        String filterlist = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Eligibility Passed"],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+        String filterlistnew = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Not Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Sent to DCT"],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+        String filterlistnull = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":[],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Sent to DCT","Eligibility Passed"],"studyList":[],"activeInactive":"Inactive"}';
+        String filterlist1 = '{"activeInactive":"Active","ageFrom":"150","ageTo":"0","comorbidities":"false","ethnicityList":[],"highPriority":false,"highRisk":"false","initialVisit":"All","isDefault":true,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Received","Sent to DCT","Eligibility Passed"],"studyList":["'+ctpList[0].id+'"]}';
+         
+        System.runAs(testData.piUser) { 
+            PIR_HomepageController.getListViewData(1,2,'Default',filterlist,true,false,partEnroll.Participant__r.First_Name__c,'',1,false,null); 
         }
        
         Test.stopTest();
@@ -186,6 +227,50 @@ public without sharing class PIR_HomePageControllerTest {
         System.runAs(testData.piUser) {    
             PIR_HomepageController.getListViewData(1,-1,'Janssen',filterlistnull,false,false,'','',1,false,null);
             PIR_HomepageController.getListViewData(1,2,'Default',filterlistnull,true,true,'','',1,false,null);
+        }
+       
+        Test.stopTest();
+    }
+     @isTest static void testgetListViewDataNew_withdifffilter() {
+        // TestData.loadTestData();
+        TestData testData = new TestData();
+        List<Clinical_Trial_Profile__c> ctpList = new List<Clinical_Trial_Profile__c>();
+        List<Study_Site__c> ssList = new List<Study_Site__c>();
+        List<String> ctpIdList = new List<String>();
+        List<Id> ssIdList = new List<Id>();
+        
+        
+        ctpList = [SELECT Id FROM Clinical_Trial_Profile__c];
+        ssList = [SELECT Id FROM Study_Site__c];
+        
+        ctpIdList.add(ctpList[0].Id); 
+        ssIdList.add(ssList[0].Id);
+        Test.startTest();
+        Participant_Enrollment__c partEnroll = [
+            SELECT Id, Participant__c, Show_Referring_Provider__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ]; 
+        partEnroll.Clinical_Trial_Profile__c=ctpList[0].id;
+        partEnroll.Study_Site__c=ssList[0].Id;
+        partEnroll.Participant_Status__c='Received';
+        partEnroll.Referral_Source__c='Principal Investigator';
+        update partEnroll;
+        Participant_Enrollment_Status_History__c pehistory1 = new Participant_Enrollment_Status_History__c(
+            Date__c = Datetime.now(),
+            Status__c = 'Eligibility Passed',
+            Additional_Notes__c = 'Test Notes testing testclass code on this date by test user',
+            ParticipantEnrollment__c = partEnroll.Id,
+            Non_Enrollment_Reason__c= 'PI Decision',
+            Notes__c='Test Notes testing testclass code on this date by test user'
+        );
+        insert pehistory1;
+        String filterlist = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Scheduled","initialVisitStartDate":"2022-03-02","initialVisitEndDate":"2022-04-04","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Eligibility Passed"],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+        String filterlistnew = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"highPriority":true,"initialVisit":"Initial Visit Not Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Sent to DCT"],"studyList":["'+ctpList[0].id+'"],"activeInactive":"Inactive","ageFrom":"140","ageTo":"0","sex":"F","highRisk":"true","comorbidities":"true"}';
+        String filterlistnull = '{"ethnicityList":["0- Prefer not to say","1- Hispanic/Latino","2- American Indian/Alaskan Native","7- Two or more races"],"initialVisit":"Initial Visit Scheduled","isDefault":false,"presetId":"","presetName":"","siteList":[],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Sent to DCT","Eligibility Passed"],"studyList":[],"activeInactive":"Inactive"}';
+        String filterlist1 = '{"activeInactive":"Active","ageFrom":"150","ageTo":"0","comorbidities":"false","ethnicityList":[],"highPriority":false,"highRisk":"false","initialVisit":"All","isDefault":true,"presetId":"","presetName":"","siteList":["'+ssList[0].id+'"],"source":["Referring Provider","Principal Investigator","Digital Recruitment"],"status":["Received","Sent to DCT","Eligibility Passed"],"studyList":["'+ctpList[0].id+'"]}';
+         
+        System.runAs(testData.piUser) {   
             PIR_HomepageController.getListViewData(1,2,'Default',filterlistnew,true,true,'','',1,false,null);
         }
        
@@ -532,7 +617,7 @@ public without sharing class PIR_HomePageControllerTest {
     @isTest
     static void testgetStudyAccessLevel_2() {
         TestData testData = new TestData();
-        Test.startTest();
+        
         Study_Site__c ssn= [select id from Study_Site__c];
         Participant_Enrollment__c partEnroll = [
             SELECT Id, Participant__c, Study_Site__c,Show_Referring_Provider__c
@@ -540,7 +625,12 @@ public without sharing class PIR_HomePageControllerTest {
             LIMIT 1
         ]; 
         partEnroll.Study_Site__c=ssn.id;
-        update partEnroll;
+        update partEnroll; 
+        Test.startTest();
+         List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
+        ctpList[0].CommunityTemplate__c='Janssen';
+        update ctpList;
+        
         Participant_Enrollment_Status_History__c pehistory1 = new Participant_Enrollment_Status_History__c(
             Date__c = Datetime.now(),
             Status__c = 'Eligibility Passed',
@@ -563,12 +653,8 @@ public without sharing class PIR_HomePageControllerTest {
             Study_Site__c=ssn.id,
             Site_Contact__c = con.id,
             Delegate_Level__c = 'Level 3',
-            is_Invited__c = true);
-        insert s;
-        List<Clinical_Trial_Profile__c> ctpList = [SELECT Id,CommunityTemplate__c FROM Clinical_Trial_Profile__c limit 1];
-        ctpList[0].CommunityTemplate__c='Janssen';
-        update ctpList;
-        
+            is_Invited__c = true); 
+        insert s; 
         System.runAs(testData.piUser) {
             PIR_HomepageController.getPEData(partEnroll.id);
         }

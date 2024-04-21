@@ -115,6 +115,8 @@ global without sharing class SiteCalendarController {
                 Study_Site__c IN :filterDetails.studySite
                 AND Study_Site__r.Clinical_Trial_Profile__c IN :filterDetails.study
                 AND Initial_visit_scheduled_date__c = :filterDetails.calendarDate
+                AND Add_televisit_for_Initial_Visit__c = False
+                AND Initial_visit_scheduled_flag__c = True
                 ORDER BY Initial_visit_scheduled_date__c DESC
             ];
             

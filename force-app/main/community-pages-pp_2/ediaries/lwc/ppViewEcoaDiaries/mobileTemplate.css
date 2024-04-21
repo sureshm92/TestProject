@@ -1,0 +1,131 @@
+.po-bg {
+    /*  background-color: #f7f8fa;
+    padding-left: 20px;*/
+    height: auto;
+}
+.po-about-program {
+    height: auto;
+    /*width: 357px;*/
+    color: #6e6e6e;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-left: 24px;
+    margin-right: 24px;
+}
+.widthLimiter {
+    background: #fff;
+    /*  border-radius: 4px 4px 0 0;
+    border: 1px solid #e9e9e9;
+    border-width: 1px 1px 0 1px;
+    box-shadow: 1px 0 2px 0 rgb(0 0 0 / 4%);*/
+    max-width: 900px;
+    margin: auto;
+    width: 100%;
+    margin-top: 24px;
+    border-radius: 16px;
+}
+.back-link-mble {
+    margin-left: 8px;
+    height: auto;
+    margin-bottom: 16px;
+    /*margin-top: 14px;*/
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+    line-height: 24px;
+}
+.widthLimitermble {
+    background: #fff;
+    max-width: 900px;
+    margin: auto;
+    /*width: 100%;*/
+    margin-left: 16px;
+    margin-top: 8px;
+    margin-right: 16px;
+    border-radius: 16px;
+}
+.iframecss {
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+}
+
+.subjectMessage {
+    font-size: 17px;
+    font-weight: 600;
+    color: red;
+    text-align: center;
+    margin: auto;
+}
+.po-edaries {
+    height: 48px;
+    /*width: 366px;*/
+    color: #444444;
+    font-size: 32px;
+    font-weight: 600;
+    font-family: 'Proxima Nova';
+    letter-spacing: 0;
+    line-height: 48px;
+    margin-right: 24px;
+    margin-left: 24px;
+}
+.cardRTL {
+    direction: rtl;
+}
+.po-mr-36 {
+    margin-right: 40px;
+}
+.po-custom-box {
+    margin-left: 16px;
+    margin-top: 8px;
+    margin-right: 16px;
+    height: 509px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+}
+.po-custom-content {
+    margin-top: 24px;
+    height: 24px;
+    /*width: 331px;*/
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+.po-custom-edaries-content {
+    margin-top: 4px;
+    height: 24px;
+    /*width: 290px;*/
+    color: #757575;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    font-weight: 400;
+}
+.po-custom-comm-Prefences {
+    margin-top: 24px;
+    transform: rotate(-360deg);
+    color: #015ff1;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+hr {
+    margin: 0%;
+    margin-bottom: 16px;
+}

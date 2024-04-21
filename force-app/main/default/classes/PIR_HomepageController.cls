@@ -299,11 +299,23 @@ public without sharing class PIR_HomepageController {
         '  LIMIT 1' +
         ' )' +
         'FROM Participant_Enrollment__c WHERE ';
-      String janssenLabel = system.Label.Janssen_Community_Template_Name;
-      String filterStringPP =
+      String janssenLabel =  UserContext.getCurrentCommunityTemplate().templateName;
+      
+      String sponsorsName = UserContext.getCurrentCommunityTemplate().templateName;
+      String filterStringPP ='';
+      if(sponsorsName == CommunityTemplateService.TEMPLATE_JANSSEN){
+          filterStringPP =
+        ' AND (Participant_Contact__r.Is_Patient_User_Created__c = FALSE OR Invited_To_PP_Date__c =NULL) AND Participant__r.Email__c!=NULL AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !=\'Virtual\' AND Study_Site__r.Study_Site_Type__c !=\'Hybrid\' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE' +
+        ' AND Clinical_Trial_Profile__r.CommunityTemplate__c =: janssenLabel' +
+        ' AND Clinical_Trial_Profile__r.PPTemplate__c !=NULL' +
+        ' AND Study_Site__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE';
+      }else{
+          filterStringPP =
         ' AND (Participant_Contact__r.Is_Patient_User_Created__c = FALSE OR Invited_To_PP_Date__c =NULL) AND Participant__r.Email__c!=NULL AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !=\'Virtual\' AND Study_Site__r.Study_Site_Type__c !=\'Hybrid\' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE' +
         ' AND Clinical_Trial_Profile__r.CommunityTemplate__c !=: janssenLabel' +
         ' AND Study_Site__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE';
+      }
+    
 
       List<String> pshStatus = new List<String>();
       for (Promote_to_SH__mdt psl : [
@@ -598,31 +610,40 @@ public without sharing class PIR_HomepageController {
         Integer limitOfRecords = (pageNumber * 10);
         List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
         String orderByString = sortOn + ' LIMIT :limitOfRecords ';
+        String queryString2 = 'SELECT Id FROM Participant_Enrollment__c Where ';
         if(isEnabled){
-          queryString = queryString + ' Id IN :listOfIds' + orderByString;
+          queryString2 = queryString2 + ' Id IN :listOfIds' + orderByString;
         }
         else if (isPPFiltered == true) {
-          queryString =
-            queryString +
-            filterString +
-            filterStringPP +
-            orderByString;
+          queryString2 =
+                        queryString2 +
+                        filterString +
+                        filterStringPP +
+                        orderByString;
         }else if(isDCTFiltered == true){
-          queryString =
-            queryString +
-            filterString +
-            filterStringDCT+
-            orderByString;
+          queryString2 =
+                        queryString2 +
+                        filterString +
+                        filterStringDCT+
+                        orderByString;
         }else {
-          queryString = queryString + filterString + orderByString;
+          queryString2 = queryString2 + filterString + orderByString;
         }
 
-        perList = Database.query(queryString);
+        perList = Database.query(queryString2);
         List<Participant_Enrollment__c> perLimitList = new List<Participant_Enrollment__c>();
-        for (Integer i = (limitOfRecords - 10); i < perList.size(); i++) {
-          perLimitList.add(perList[i]);
-        }
-        listViewWrapper = createListViewWrapper(perLimitList, studyIdlist);
+                List<Id> perIdList = new List<Id>();
+                Integer loopStart = limitOfRecords - 10;
+                Integer loopEnd = perList.size();
+                for (Integer i = loopStart; i < loopEnd; i++) {
+                    perIdList.add(perList[i].Id);
+                }
+                
+                String fltrStringNew = ' ID IN :perIdList';
+                queryString = queryString + fltrStringNew;
+                perLimitList = Database.query(queryString);
+                listViewWrapper = createListViewWrapper(perLimitList, studyIdlist);
+
         //for pages more than 200 ends
       } else {
         Integer offsetLimit = (pageNumber - 1) * 10;
@@ -1350,6 +1371,7 @@ public without sharing class PIR_HomepageController {
           Clinical_Trial_Profile__r.Link_to_Pre_screening__c,
           Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
           Clinical_Trial_Profile__r.CommunityTemplate__c,
+          Clinical_Trial_Profile__r.PPTemplate__c,
           Clinical_Trial_Profile__r.Initial_Visit_Required__c,
           Status_Order__c,
           Participant__r.Full_Name__c,
@@ -1530,11 +1552,6 @@ public without sharing class PIR_HomepageController {
         FROM Participant_Enrollment__c
         WHERE Id = :peId
       ]) {
-        if (pe.Initial_visit_scheduled_date__c != null) {
-          pe.High_Priority__c = true;
-        } else {
-          pe.High_Priority__c = false;
-        }
 
         pe.Participant_Status__c = 'Eligibility Passed';
         pe.ParticipantNoShow__c= false;
@@ -1562,7 +1579,8 @@ public without sharing class PIR_HomepageController {
           Invited_To_PP_Date__c,
           HCP_Contact__c,
           HCP_Contact_HCPEnroll__c,
-          Clinical_Trial_Profile__r.CommunityTemplate__c
+          Clinical_Trial_Profile__r.CommunityTemplate__c,
+          Clinical_Trial_Profile__r.PPTemplate__c
         FROM Participant_Enrollment__c
         WHERE Id = :peId
       ];
@@ -1571,9 +1589,15 @@ public without sharing class PIR_HomepageController {
         update new Contact(
           Id = pe.Participant_Contact__c,
           Consent_To_Inform_About_Study__c = true,
-          Is_Patient_User_Created__c = true
+          Is_Patient_User_Created__c = true,
+          UserCommunityIsDelegate__c = false
         );
-      }
+      }else{
+          update new Contact(
+          Id = pe.Participant_Contact__c,
+          UserCommunityIsDelegate__c = false
+        );
+     }
 
       List<User> returnUsers = new List<User>();
       if (!pe.Participant_Contact__r.Is_Patient_User_Created__c) {
@@ -1599,10 +1623,20 @@ public without sharing class PIR_HomepageController {
       update pe;
 
       Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-      String permissionSetName = CommunityTemplateService.getTemplate(
+      String permissionSetName = '';
+      if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+      {
+        permissionSetName =  CommunityTemplateService.getTemplate(
+          'PatientPortal'
+        )
+        .permissionSet;
+      }
+      else {
+       permissionSetName = CommunityTemplateService.getTemplate(
           pe.Clinical_Trial_Profile__r.CommunityTemplate__c
         )
         .permissionSet;
+      }
       actionAssignContactPermissions.addPermission(
         pe.Participant_Contact__c,
         permissionSetName
@@ -2293,6 +2327,11 @@ public without sharing class PIR_HomepageController {
         } else {
           pe.Final_consent__c = finalconsent;
         }
+        if(pe.Final_consent__c == true){
+          pe.Final_Consent_Date__c= system.today();
+          }else{
+            pe.Final_Consent_Date__c = null; 
+          }
           pe.Participant_Status_Last_Changed_Date__c = system.now();
           if (consentSigned != null && signedDate != null) {
               pe.Informed_Consent__c = consentSigned;
@@ -2670,6 +2709,8 @@ public without sharing class PIR_HomepageController {
       public List<LabelValueItem> visitPlansLVList;
       @AuraEnabled
       Public Study_Site__c objStudySite;
+      @AuraEnabled
+      public Boolean consentPref;
   }
 
   public class LabelValueItemISO {
@@ -2714,7 +2755,8 @@ public without sharing class PIR_HomepageController {
                 Clinical_Trial_Profile__r.Initial_Visit_Required__c,
                 Clinical_Trial_Profile__r.Final_Consent_Required__c,
                 Clinical_Trial_Profile__r.Tokenization_Support__c,
-                Clinical_Trial_Profile__r.Promote_to_SH__c
+                Clinical_Trial_Profile__r.Promote_to_SH__c,
+                Clinical_Trial_Profile__r.PPTemplate__c
             FROM Study_Site__c
             WHERE Id = :studySiteId
         ];
@@ -2736,6 +2778,9 @@ public without sharing class PIR_HomepageController {
           }
           result.visitPlansLVList =StudySiteService.getVisitPlansLVList(studySiteId);
           result.objStudySite = sites[0];
+        }
+        if(studySiteId!=null){
+           result.consentPref = ConsentManagerController.getConsentPreferences('ImportPart',studySiteId).consentPref;
         }
         return result;
     }
@@ -2817,6 +2862,7 @@ public without sharing class PIR_HomepageController {
         }else{
             communityTypeList.add('Default');
             communityTypeList.add('GSK');
+            communityTypeList.add('PatientPortal');
         }
       List<Study_Site__c> lstOfStudySite = new List<Study_Site__c>();
       List<Participant_Enrollment__c> lstOfPE = new List<Participant_Enrollment__c>();

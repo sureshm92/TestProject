@@ -59,6 +59,7 @@ public without sharing class ConversationService {
                 'OwnerId',
                 'Participant_Enrollment__c',
                 'Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
+                'Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c',
                 'Participant_Enrollment__r.Participant__c',
                 'Participant_Enrollment__r.Participant__r.Full_Name__c',
                 'Participant_Enrollment__r.Participant_Contact__c',
@@ -67,7 +68,9 @@ public without sharing class ConversationService {
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c',    
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Name',
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Title',
-                'Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c'
+                'Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c',
+                'Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
+                'FirstUnreadDate__c'
             },
             Conversation__c.getSObjectType(),
             DatabaseService.fieldInValues('Id', conIds),
@@ -83,7 +86,9 @@ public without sharing class ConversationService {
         List<Id> peIdList = new List<Id>();
         Integer unreadCount = 0;
         Boolean hasPe = true;
-
+        Set<Id> nonPrimaryconvId = new Set<Id>();
+        Boolean isDelegate = false;
+        Map<Id,List<Message__c>> convVsmsg;
         if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             pState = ParticipantService.getInstance().getState();
             //System.debug('pState: '+pState.value);
@@ -91,10 +96,38 @@ public without sharing class ConversationService {
             if(UserContext.getUserContact().Current_Participant_Enrollment__c == null){// alumni pt and delegate
                 hasPe = false;
                 if(pState.isDelegate){
-                    peSet = PatientDelegateEnrollmentService.getPEIdSet(
+                    isDelegate = true;
+                    /**peSet = PatientDelegateEnrollmentService.getPEIdSet(
                                 ParticipantContext.getCurrentContactId(),
                                 UserContext.getUserContactId()
-                            ) ;
+                            ) ;**/
+                     peSet = PatientDelegateEnrollmentService.getPEIdSetActive(
+                                ParticipantContext.getCurrentContactId(),
+                                UserContext.getUserContactId()
+                            ) ;      
+                     /**List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollments(
+                                                                                                  ParticipantContext.getCurrentContactId(),
+                                                                                                  UserContext.getUserContactId());**/
+                                                                                                  
+                     List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollmentsActive(
+                                                                                                  ParticipantContext.getCurrentContactId(),
+                                                                                                  UserContext.getUserContactId());
+                    // validate PDE and seprate nonprimary conversations            
+                    if(!pdes.isEmpty()){
+                        Set<Id> nonPrimayEnrollments = new Set<Id>();
+                        for(Patient_Delegate_Enrollment__c pde : pdes){
+                            if(!pde.Primary_Delegate__c)  nonPrimayEnrollments.add(pde.Participant_Enrollment__c);    
+                        }
+                        if(!nonPrimayEnrollments.isEmpty()){
+                             List<Conversation__c> conversations = getPeSharedConversations(new List<Id>(nonPrimayEnrollments));
+                             
+                             for(Conversation__c con : conversations){
+                                nonPrimaryconvId.add(con.id);
+                            }
+                             convVsmsg = MessageService.getMessagesByConversations(new List<Id>(nonPrimaryconvId));
+                        }
+                     } 
+                    
                 }else{
                     peSet = new Map<Id,Participant_Enrollment__c>([SELECT Id FROM Participant_Enrollment__c Where Participant_Contact__c =:ParticipantContext.getCurrentContactId()]).keyset();
                 }
@@ -110,10 +143,39 @@ public without sharing class ConversationService {
                         peSet.add(pState.pe.Id);
                     }
                 }else{// delegate active
-                    Set<Id> peIdSet = PatientDelegateEnrollmentService.getPEIdSet(
+                    isDelegate = true;
+                    /**List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollments(
+                                                                                                  ParticipantContext.getCurrentContactId(),
+                                                                                                  UserContext.getUserContactId()
+                                                                                                 );**/
+                    List<Patient_Delegate_Enrollment__c> pdes = PatientDelegateEnrollmentService.getPatientDelegateEnrollmentsActive(
+                                                                                                  ParticipantContext.getCurrentContactId(),
+                                                                                                  UserContext.getUserContactId()
+                                                                                                 );                                                                             
+                    // validate PDE and seprate nonprimary conversations
+                    if(!pdes.isEmpty()){
+                        Set<Id> nonPrimayEnrollments = new Set<Id>();
+                        for(Patient_Delegate_Enrollment__c pde : pdes){
+                            if(!pde.Primary_Delegate__c)  nonPrimayEnrollments.add(pde.Participant_Enrollment__c);    
+                        }
+                        if(!nonPrimayEnrollments.isEmpty()){
+                             List<Conversation__c> conversations = getPeSharedConversations(new List<Id>(nonPrimayEnrollments));
+                             
+                             for(Conversation__c con : conversations){
+                                nonPrimaryconvId.add(con.id);
+                            }
+                             convVsmsg = MessageService.getMessagesByConversations(new List<Id>(nonPrimaryconvId));
+                        }
+                            
+                     } 
+                    /**Set<Id> peIdSet = PatientDelegateEnrollmentService.getPEIdSet(
                                         ParticipantContext.getCurrentContactId(),
                                         UserContext.getUserContactId()
-                                    ) ;
+                                    ) ;**/
+                    Set<Id> peIdSet = PatientDelegateEnrollmentService.getPEIdSetActive(
+                                        ParticipantContext.getCurrentContactId(),
+                                        UserContext.getUserContactId()
+                                    ) ;                
                     if(!peIdSet.isEmpty()){
                         peSet.addAll(peIdSet);
                     }
@@ -146,14 +208,34 @@ public without sharing class ConversationService {
                 conversation.haveUnreadForParticipant__c &&
                 userMode.equals(CommunityService.USER_MODE_PARTICIPANT)
             ) {
-                List<Participant_Enrollment__c> enrollments = [
-                    SELECT Id
+                //increase count only if message is non confidential
+                if(isDelegate && nonPrimaryconvId.contains(conversation.id) && convVsmsg.containsKey(conversation.id)){
+                        List<Message__c> messages = convVsmsg.get(conversation.id);
+                        if(!messages.isEmpty()){
+                           Message__c  message = messages[0];
+                            if(!message.Is_Confidential__c && conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
+                                unreadCount++;
+                            }
+                        }                       
+                }
+                else{
+                  List<Participant_Enrollment__c> enrollments = [
+                    SELECT Id,
+                    Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                    Invited_To_PP_Date__c
                     FROM Participant_Enrollment__c
                     WHERE Id IN :peIdList
-                ];
-                for (Participant_Enrollment__c enrollment : enrollments) {
-                    if (conversation.Participant_Enrollment__c == enrollment.Id)
-                        unreadCount++;
+                    ];
+                    for (Participant_Enrollment__c enrollment : enrollments) {
+                        if (!isDelegate && conversation.Participant_Enrollment__c == enrollment.Id && 
+                            enrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true &&
+                            enrollment.Invited_To_PP_Date__c != null){
+                                unreadCount++;
+                        }else if (isDelegate && conversation.Participant_Enrollment__c == enrollment.Id && 
+                            enrollment.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true){
+                                unreadCount++;
+                        }
+                    }  
                 }
             }
         }

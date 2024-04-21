@@ -54,7 +54,7 @@ public class Test_ContactTriggerHandler {
         ContactTriggerHandler.updateParticipantAndUserEmailsOnEmailChange(contactList,contactOldMap);
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-        //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
+         
     }
      @isTest
     private static void test1(){ 
@@ -178,10 +178,7 @@ public class Test_ContactTriggerHandler {
         ContactTriggerHandler.updateParticipantConsent(contactList,contactOldMap);
         ContactTriggerHandler.updateParticipantConsent(contactList,null);
         ContactTriggerHandler.setShowTourDefault(contactList);
-        ContactTriggerHandler.createUserForCCContact(contactList);
-        //ContactTriggerHandler.createTaskToUpdatePhoneNumber(contactList,contactOldMap);
-        //ContactTriggerHandler.retryWelcomeMsg(contactList,contactOldMap);
-        //ContactTriggerHandler.createUserForDelegateContact(contactList);
+        ContactTriggerHandler.createUserForCCContact(contactList); 
         contactList[0].Participant_Phone_Opt_In_Permit_Phone__c = false;
         ContactTriggerHandler.updateParticipantConsent(contactList,null);
         pcon.Participant_Phone_Opt_In_Permit_Phone__c = true;
@@ -193,13 +190,27 @@ public class Test_ContactTriggerHandler {
         
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-        //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-    }
+         
+    }  
     @isTest
-    private static void test2(){ 
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class);
+    private static void test2() {
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+        );
 
+        TriggerHandlerExecutor.bypassHandler(
+            TaskTriggerHandler.SendImmediateEmailsForTaskCodeHandler.class
+        );
+
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class
+        );
+
+		Account account_1 = new Account(Name = 'Community', BillingCountry = 'United States');
+        insert account_1;
         List<Contact> contactList = new List<Contact>();
          Map<Id, Contact> contactOldMap = new  Map<Id, Contact>();
         Contact partContact = new Contact(
@@ -209,6 +220,7 @@ public class Test_ContactTriggerHandler {
             Language__c = 'en_US',
             MailingCountry = 'United States',
             Participant_Opt_In_Status_SMS__c=false,
+           
             MailingCountryCode='US',
             Phone='123',
             UserCommunityIsDelegate__c=false,
@@ -251,11 +263,16 @@ public class Test_ContactTriggerHandler {
         contactList.add(pcon);
        insert pcon;
 
+        
 
-       
+        Therapeutic_Area__c newTA = new Therapeutic_Area__c(Name = 'Cancer');
+        insert newTA;
 
-        Account  account_1 = new Account(Name = 'Community', BillingCountry = 'United States');
-        insert account_1;
+        Therapeutic_Area_Patient__c tap = new Therapeutic_Area_Patient__c();
+        tap.Therapeutic_Area__c = newTA.Id;
+        tap.Participant__c = participant.Id;
+        tap.Condition_Of_Interest_Order__c = 0;
+        insert tap;
 
         Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
             Protocol_ID__c = 'tt123456790',
@@ -292,6 +309,145 @@ public class Test_ContactTriggerHandler {
         );
         insert pe;
 
+        /** Update notification data- begin */
+        TriggerHandlerExecutor.bypassHandler(TaskTriggerHandler.class);
+        Resource__c docPtRes = new Resource__c(
+            Content_Type__c = 'Study_Document',
+            Description__c = 'testBehavior',
+            document_type__c = 'Document',
+            Title__c = 'Test Res',
+            Content_Class__c = 'Study-Specific',
+            Resource_Type__c = 'Study Document',
+            Version_Date__c = System.today(),
+            Language__c = 'en_US',
+            RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByDeveloperName()
+                .get('Study_Document')
+                .getRecordTypeId()
+        );
+        insert docPtRes;
+
+        Therapeutic_Area_Assignment__c taaLinkObj2 = new Therapeutic_Area_Assignment__c();
+        taaLinkObj2.Resource__c = docPtRes.Id;
+        taaLinkObj2.Therapeutic_Area__c = newTA.Id;
+
+        insert taaLinkObj2;
+
+        Res_study__c resDocStudy = new Res_study__c(
+            Clinical_Trial_Profile__c = clinical.Id,
+            Notify_On_Availability__c = true,
+            Resource__c = docPtRes.Id,
+            Visible_In_Alumni__c = true,
+            Visible_To_Delegates__c = true,
+            Visible_To_Participant__c = true
+        );
+        insert resDocStudy;
+
+        Resource__c vedioPtRes = new Resource__c(
+            Content_Type__c = 'Video',
+            Description__c = 'testBehavior',
+            Title__c = 'TestRes',
+            Content_Class__c = 'Study-Specific',
+            Resource_Type__c = 'Study Document',
+            RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByDeveloperName()
+                .get('Video')
+                .getRecordTypeId()
+        );
+        insert vedioPtRes;
+        Therapeutic_Area_Assignment__c taaLinkObj3 = new Therapeutic_Area_Assignment__c();
+        taaLinkObj3.Resource__c = vedioPtRes.Id;
+        taaLinkObj3.Therapeutic_Area__c = newTA.Id;
+
+        insert taaLinkObj3;
+
+        Res_study__c resVideoStudy = new Res_study__c(
+            Clinical_Trial_Profile__c = clinical.Id,
+            Notify_On_Availability__c = true,
+            Resource__c = vedioPtRes.Id,
+            Visible_In_Alumni__c = false,
+            Visible_To_Delegates__c = true,
+            Visible_To_Participant__c = true
+        );
+        insert resVideoStudy;
+
+        Resource__c linkPtRes = new Resource__c(
+            Content_Type__c = 'Relevant_Link',
+            Description__c = 'testBehavior',
+            Title__c = 'TestRes',
+            Languages__c = 'en_US',
+            Type__c = 'Relevant Links',
+            URL__c = 'https://www.msn.com',
+            Resource_Type__c = 'Study Document',
+            RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByDeveloperName()
+                .get('Relevant_Link')
+                .getRecordTypeId()
+        );
+        insert linkPtRes;
+
+        Res_study__c resLinkStudy = new Res_study__c(
+            Clinical_Trial_Profile__c = clinical.Id,
+            Notify_On_Availability__c = true,
+            Resource__c = linkPtRes.Id,
+            Visible_In_Alumni__c = false,
+            Visible_To_Delegates__c = true,
+            Visible_To_Participant__c = true
+        );
+        insert resLinkStudy;
+
+        Id conId = partContact.Id;
+
+        Participant__c pt = participant;
+        
+        //DOC
+        Notification__c nt1 = new Notification__c(
+            Target_Record_Ids__c = resDocStudy.Id,
+            Recipient__c = conId,
+            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
+            WhatId__c = pe.Id,
+            Status__c = 'In Progress'
+        );
+        insert nt1;
+        Notification__c nt3 = new Notification__c(
+            Target_Record_Ids__c = docPtRes.Id,
+            Recipient__c = conId,
+            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
+            WhatId__c = pt.Id,
+            Status__c = 'In Progress'
+        );
+        insert nt3;
+        Notification__c nt2 = new Notification__c(
+            Target_Record_Ids__c = vedioPtRes.Id,
+            Recipient__c = conId,
+            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
+            WhatId__c = pt.Id,
+            Status__c = 'In Progress'
+        );
+        insert nt2;
+        Notification__c nt4 = new Notification__c(
+            Target_Record_Ids__c = resVideoStudy.Id,
+            Recipient__c = conId,
+            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
+            WhatId__c = pe.Id,
+            Status__c = 'In Progress'
+        );
+        insert nt4;
+        Notification__c nt5 = new Notification__c(
+            Target_Record_Ids__c = linkPtRes.Id,
+            Recipient__c = conId,
+            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
+            WhatId__c = pt.Id,
+            Status__c = 'In Progress'
+        );
+        insert nt5;
+        Notification__c nt6 = new Notification__c(
+            Target_Record_Ids__c = resLinkStudy.Id,
+            Recipient__c = conId,
+            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
+            WhatId__c = pe.Id,
+            Status__c = 'In Progress'
+        );
+        insert nt6;
+
+        /** End */
         
         Participant__c p = new Participant__c(
             First_Name__c = 'Patient',
@@ -329,10 +485,8 @@ public class Test_ContactTriggerHandler {
         insert t;
 
         Test.startTest();
-        partContact.MailingStateCode = 'MH';
-        partContact.MailingCountry='India';
-        partContact.MailingCountryCode='IN';
-        partContact.MailingPostalCode = '3733';
+         
+        partContact.MailingPostalCode = '94151';
         partContact.Language__c = 'ru';
         partContact.Participant_Opt_In_Status_SMS__c=true;
         partContact.MobilePhone='12223';
@@ -343,17 +497,14 @@ public class Test_ContactTriggerHandler {
         partContact.IQVIA_Direct_Mail_Consent__c=false;
         partContact.IQVIA_Assisted_Dialing_Consent__c=false;
         partContact.IQVIA_Artificial_Voice_Consent__c=false;
+        partContact.Resource_Notifications__c ='testResources';
         update partContact;
-
-       
-        
         
         
         contactOldMap.put(partContact.Id,partContact);
         Participant__c newValPart = [SELECT Id,Mailing_Zip_Postal_Code__c FROM Participant__c WHERE Id =:participant.Id];
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-        //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
     }
     @isTest
     private static void test3(){ 
@@ -408,7 +559,6 @@ public class Test_ContactTriggerHandler {
         ContactTriggerHandler.updateParticipantConsent(contactList,null);
         Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
-        //system.assertNOtEquals(contactOldMap.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
     }
 
     @isTest
@@ -581,5 +731,215 @@ public class Test_ContactTriggerHandler {
             );
         } catch(Exception ex){}
         Test.stopTest();
+
+        //Contact id=partContact.Id
     }
+
+    @isTest
+    private static void test6() {
+        Contact partContact = new Contact(
+            FirstName = 'PITD',
+            LastName = 'PITD',
+            Email = 'pi@emil.com',
+            Language__c = 'en_US',
+            MailingCountry = 'United States',
+            Participant_Opt_In_Status_SMS__c = true,
+            MailingCountryCode = 'US',
+            Phone = '123',
+            UserCommunityIsDelegate__c = true,
+            MobilePhone = '1223',
+            is_Invalid_number__c = false,
+            Participant_Phone_Opt_In_Permit_Phone__c = false
+        );
+        insert partContact;
+        List<Contact> contactList = new List<Contact>();
+        Map<Id, Contact> contactOldMap = new Map<Id, Contact>();
+        contactOldMap.put(partContact.Id, partContact);
+
+        contactList.add(partContact);
+
+        Participant__c participant = new Participant__c(
+            First_Name__c = 'ParticipantTD',
+            Last_Name__c = 'ParticipantTD',
+            Phone__c = '55313535',
+            Email__c = 'pi@emil.com',
+            Preferred_Language__c = 'en_US',
+            Mailing_Country_Code__c = 'US',
+            Mailing_State_Code__c = 'AL',
+            Mailing_Zip_Postal_Code__c = '2733',
+            Adult__c = true,
+            Contact__c = partContact.Id
+        );
+        insert participant;
+
+        Account account_1 = new Account(Name = 'Community', BillingCountry = 'United States');
+        insert account_1;
+
+        Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
+            Protocol_ID__c = 'tt123456790',
+            Override_Recruitment_Status__c = 'Actively Enrolling',
+            NCT_Number__c = 'NCT00000002',
+            Link_to_Pre_screening__c = 'some link',
+            Study_Title__c = 'Some Title',
+            Study_Code_Name__c = 'Some Code Name',
+            Suppress_Participant_Emails__c = false
+        );
+        insert clinical;
+
+        Study_Site__c studySite = new Study_Site__c(
+            Name = 'Test',
+            Study_Site_Phone__c = '0000034445',
+            Clinical_Trial_Profile__c = clinical.Id,
+            Site__c = account_1.Id,
+            Study_Site_Type__c = 'Traditional',
+            Suppress_Participant_Emails__c = false
+        );
+        insert studySite;
+        Participant_Enrollment__c pe = new Participant_Enrollment__c(
+            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+            Initial_visit_scheduled_date__c = date.today(),
+            Patient_ID__c = 'SomePatientId1',
+            Referral_Source__c = 'HCP',
+            Study_Site__c = studySite.id,
+            Source_Type__c = 'Referring Provider',
+            HighRisk_Indicator__c = 'Yes',
+            Participant__c = participant.Id,
+            Screening_ID__c = 'PESCR1',
+            Comorbidities__c = 'Yes'
+        );
+        insert pe;
+
+        Resource__c docPtRes = new Resource__c(
+            Content_Type__c = 'Study_Document',
+            Description__c = 'testBehavior',
+            document_type__c = 'Document',
+            Title__c = 'Test Res',
+            Content_Class__c = 'Study-Specific',
+            Resource_Type__c = 'Study Document',
+            Version_Date__c = System.today(),
+            Language__c = 'en_US',
+            RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByDeveloperName()
+                .get('Study_Document')
+                .getRecordTypeId()
+        );
+        insert docPtRes;
+
+        Res_study__c resDocStudy = new Res_study__c(
+            Clinical_Trial_Profile__c = clinical.Id,
+            Notify_On_Availability__c = true,
+            Resource__c = docPtRes.Id,
+            Visible_In_Alumni__c = true,
+            Visible_To_Delegates__c = true,
+            Visible_To_Participant__c = true
+        );
+        insert resDocStudy;
+
+        Resource__c vedioPtRes = new Resource__c(
+            Content_Type__c = 'Video',
+            Description__c = 'testBehavior',
+            Title__c = 'TestRes',
+            Content_Class__c = 'Study-Specific',
+            Resource_Type__c = 'Study Document',
+            RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByDeveloperName()
+                .get('Video')
+                .getRecordTypeId()
+        );
+        insert vedioPtRes;
+
+        Res_study__c resVideoStudy = new Res_study__c(
+            Clinical_Trial_Profile__c = clinical.Id,
+            Notify_On_Availability__c = true,
+            Resource__c = vedioPtRes.Id,
+            Visible_In_Alumni__c = false,
+            Visible_To_Delegates__c = true,
+            Visible_To_Participant__c = true
+        );
+        insert resVideoStudy;
+
+        Resource__c linkPtRes = new Resource__c(
+            Content_Type__c = 'Relevant_Link',
+            Description__c = 'testBehavior',
+            Title__c = 'TestRes',
+            Languages__c = 'en_US',
+            Type__c = 'Relevant Links',
+            URL__c = 'https://www.msn.com',
+            Resource_Type__c = 'Study Document',
+            RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByDeveloperName()
+                .get('Relevant_Link')
+                .getRecordTypeId()
+        );
+        insert linkPtRes;
+
+        Res_study__c resLinkStudy = new Res_study__c(
+            Clinical_Trial_Profile__c = clinical.Id,
+            Notify_On_Availability__c = true,
+            Resource__c = linkPtRes.Id,
+            Visible_In_Alumni__c = false,
+            Visible_To_Delegates__c = true,
+            Visible_To_Participant__c = true
+        );
+        insert resLinkStudy;
+
+        Id conId = partContact.Id;
+
+        Participant__c pt = participant;
+        //  Participant_Enrollment__c pe = pe.Id;
+        TriggerHandlerExecutor.bypassHandler(
+            NotificationTriggerHandler.UpdateNotificationHandler.class
+        );
+        //DOC
+        Notification__c nt1 = new Notification__c(
+            Target_Record_Ids__c = resDocStudy.Id,
+            Recipient__c = conId,
+            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
+            WhatId__c = pe.Id,
+            Status__c = 'In Progress'
+        );
+        insert nt1;
+        Notification__c nt3 = new Notification__c(
+            Target_Record_Ids__c = docPtRes.Id,
+            Recipient__c = conId,
+            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
+            WhatId__c = pt.Id,
+            Status__c = 'In Progress'
+        );
+        insert nt3;
+        Notification__c nt2 = new Notification__c(
+            Target_Record_Ids__c = vedioPtRes.Id,
+            Recipient__c = conId,
+            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
+            WhatId__c = pt.Id,
+            Status__c = 'In Progress'
+        );
+        insert nt2;
+        Notification__c nt4 = new Notification__c(
+            Target_Record_Ids__c = resVideoStudy.Id,
+            Recipient__c = conId,
+            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
+            WhatId__c = pe.Id,
+            Status__c = 'In Progress'
+        );
+        insert nt4;
+        Notification__c nt5 = new Notification__c(
+            Target_Record_Ids__c = linkPtRes.Id,
+            Recipient__c = conId,
+            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
+            WhatId__c = pt.Id,
+            Status__c = 'In Progress'
+        );
+        insert nt5;
+        Notification__c nt6 = new Notification__c(
+            Target_Record_Ids__c = resLinkStudy.Id,
+            Recipient__c = conId,
+            Notification_Type__c = NotificationCatalog.UPDATE_TO_PT_NEW_PLATFORM_VIDEO_TYPE,
+            WhatId__c = pe.Id,
+            Status__c = 'In Progress'
+        );
+        insert nt6;
+        Contact c = contactList[0];
+        c.Language__c = 'ru';
+        contactList[0] = c;
+        ContactTriggerHandler.updateExisistingNotifications(contactList, contactOldMap);
+    }  
 }

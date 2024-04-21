@@ -10,3 +10,9 @@
     flex-direction: column;
     height: 100%;
 }
+
+.THIS .info-text {
+    color: darkslategrey;
+    font-size: 12px;
+    padding-top: 2px;
+}

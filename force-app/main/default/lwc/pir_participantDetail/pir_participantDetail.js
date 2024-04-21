@@ -128,6 +128,7 @@ export default class Pir_participantDetail extends LightningElement {
     @api visitplanoptions = {};
     @api showVisitPlan = false;
     @api perId;
+    @api showIqviaOutreach;
 
     fieldMap = new Map([["src" , "MRN_Id__c"],
     ["cnt" , "Permit_Mail_Email_contact_for_this_study__c"],
@@ -204,7 +205,8 @@ export default class Pir_participantDetail extends LightningElement {
         getParticipantData({ PEid: value })
             .then(result => {
 
-                let peDel = result;
+                let peDel = result.perDetail;
+                this.showIqviaOutreach = !result.consentPref; 
                 
                 if (peDel['delegate']) {
                 let pdelegate = peDel['delegate']['Patient_Delegate__r']['Participant_Delegate__r'];
@@ -309,6 +311,7 @@ export default class Pir_participantDetail extends LightningElement {
                             for (let i = 0; i < this.visitplanoptions.length; i++) {
                                 if (this.pd['pe']['Visit_Plan__c'] == this.visitplanoptions[i].value) {
                                     this.selectedPlan = this.visitplanoptions[i].value;
+                                    this.vPlan = this.visitplanoptions[i].value;
                                 }
                             }
                         } else {
@@ -371,7 +374,6 @@ export default class Pir_participantDetail extends LightningElement {
         console.log('get value vp', event.target.dataset.value + '' + event.target.value);
         this.vPlan = event.target.value;
         this.pd['pe']['Visit_Plan__c'] = this.vPlan;
-        console.log('value update' + this.vPlan);
 
     }
     get checkDelegateLevels() {

@@ -101,6 +101,15 @@ public without sharing class LibraryPIRemote {
         Map<Id,Id> mapResourceIdToContentDocId = new Map<Id,Id> ();
         Map<String, String> resourceLanguageMap = new Map<String, String>();
         List<ResourceWrapper> initData = new List<ResourceWrapper>();
+        String communityType = UserContext.getCurrentUserMode().template.templateName;
+        List<String> communityTypeList = new List<String>();
+          if(communityType == 'Janssen'){
+              communityTypeList.add(communityType);
+          }else{
+              communityTypeList.add('Default');
+              communityTypeList.add('GSK');
+              communityTypeList.add('PatientPortal');
+          }
         Contact currentContact = CommunityService.getContacts(
             new Set<Id>{ CommunityService.getUserContact().Id }
         )[0];
@@ -134,7 +143,7 @@ public without sharing class LibraryPIRemote {
             WHERE
                 (Principal_Investigator__c = :CommunityService.getUserContact().Id
                 OR Id IN :ssIds)
-                AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplate
+                AND Clinical_Trial_Profile__r.CommunityTemplate__c in :communityTypeList
         ]) {
             ctpIds.add(ss.Clinical_Trial_Profile__c);
             if (!initDataMap.containsKey(ss.Clinical_Trial_Profile__r.Study_Code_Name__c)) {

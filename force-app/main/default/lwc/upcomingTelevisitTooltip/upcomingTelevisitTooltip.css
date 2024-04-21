@@ -1,0 +1,34 @@
+.popover-position{
+    position: absolute;
+    
+}
+.customIcon{
+    width: 24px;
+}
+
+.slds-popover_tooltip .slds-popover__body{
+    color: #FFFFFF;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+    font-weight: 500;
+}
+.slds-popover_tooltip .slds-popover__body .help-text-header-class{
+    font-weight: 500;
+}
+.slds-popover_tooltip,
+.slds-popover--tooltip ::after {
+    background-color: #444444 !important;
+}
+
+.upcomingToolTip{
+    color: #444444;
+    background-color: transparent;
+    padding: 4px 8px;
+    border-radius: 10px;
+}
+
+.upcomingToolTip:hover{
+    background: #ebf2fe;
+}

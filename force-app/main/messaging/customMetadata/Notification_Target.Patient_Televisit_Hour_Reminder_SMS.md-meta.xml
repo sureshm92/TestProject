@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Message_Body__c</field>
-        <value xsi:type="xsd:string">PT_Televisit_Hour_Reminder_SMS</value>
+        <value xsi:type="xsd:string">PT_Televisit_Day_Reminder_SMS</value>
     </values>
     <values>
         <field>Notification_Type__c</field>

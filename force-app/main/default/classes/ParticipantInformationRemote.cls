@@ -113,7 +113,7 @@ public without sharing class ParticipantInformationRemote {
                   pi.detail =  ' ' +
                     TranslateHelper.getLabelValue('PE_Status_History_On_Date') +
                     ' ' +
-                    pehistory[0].Date__c.format() +
+                    pehistory[0].Date__c.format('dd/MM/YYYY hh:mm:ss a') +
                     ' ' +
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
@@ -152,7 +152,7 @@ public without sharing class ParticipantInformationRemote {
                   pi.detail =  ' ' +
                     TranslateHelper.getLabelValue('PE_Status_History_On_Date') +
                     ' ' +
-                    pehistory[0].Date__c.format() +
+                    pehistory[0].Date__c.format('dd/MM/YYYY hh:mm:ss a') +
                     ' ' +
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
@@ -560,6 +560,9 @@ public without sharing class ParticipantInformationRemote {
             TriggerHandlerExecutor.bypassHandler(
             PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
             );
+            TriggerHandlerExecutor.bypassHandler( 
+            PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+            );
             ReferHealthcareProviderRemote.HealthcareProvider ddi = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(
                 duplicateDelegateInfo,
                 ReferHealthcareProviderRemote.HealthcareProvider.class
@@ -604,13 +607,29 @@ public without sharing class ParticipantInformationRemote {
                 );
                 insert delegateContact;
             } else {
-                delegateContact = new Contact(Id = ddi.contactId,
-                    IQVIA_Contact_info_storage_consent__c =true,
-                    Participant_Opt_In_Status_Emails__c =true,
-                    IQVIA_PI_Storage_Consent_Time__c =Datetime.now(),
-                    IQVIA_Email_Consent_Time__c =Datetime.now()
-                    );
-                    //update delegateContact;
+                // delegateContact = new Contact(Id = ddi.contactId,
+                //     IQVIA_Contact_info_storage_consent__c =true,
+                //     Participant_Opt_In_Status_Emails__c =true,
+                //     IQVIA_PI_Storage_Consent_Time__c =Datetime.now(),
+                //     IQVIA_Email_Consent_Time__c =Datetime.now()
+                //     );
+                //     //update delegateContact;
+                delegateContact = [
+                        SELECT Id, FirstName, LastName, Email, MailingCity,
+                        IQVIA_Contact_info_storage_consent__c,
+                        Participant_Opt_In_Status_Emails__c,
+                        IQVIA_PI_Storage_Consent_Time__c,
+                        IQVIA_Email_Consent_Time__c,
+                        UserCommunityIsDelegate__c
+                        FROM Contact
+                        WHERE Id = :ddi.contactId
+                    ];
+                    //update contact as delegate
+                    if(!delegateContact.UserCommunityIsDelegate__c){
+                        delegateContact.UserCommunityIsDelegate__c = true;
+                    	update delegateContact;
+                    }
+
             }
 
             List<Patient_Delegate__c> patientDelegatesEver = [
@@ -746,6 +765,9 @@ public without sharing class ParticipantInformationRemote {
         TriggerHandlerExecutor.bypassHandler(
             PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
             );
+        TriggerHandlerExecutor.bypassHandler( 
+            PatientDelegateTriggerHandler.CreateReactivatedNotification.class
+            );
             
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(
@@ -767,12 +789,20 @@ public without sharing class ParticipantInformationRemote {
             List<id> delContact= new List<id> ();
             Study_Site__c studySite = StudySiteService.getStudySiteForPIById(studySiteId);
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-            String permissionSetName = CommunityTemplateService.getTemplate(
+            String permissionSetName  = '';
+            if(studySite.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && studySite.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+            {
+                 permissionSetName = CommunityTemplateService.getTemplate(
+                     'PatientPortal'
+                )
+                .permissionSet;
+            }
+            else{
+             permissionSetName = CommunityTemplateService.getTemplate(
                     studySite.Clinical_Trial_Profile__r.CommunityTemplate__c
                 )
                 .permissionSet;
-
-
+            }
             update participant;
             if (participantContact.Id != null) {
                 participantContact.Email = participant.Email__c;

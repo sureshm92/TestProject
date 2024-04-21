@@ -1,27 +1,51 @@
 .desk-cookies-banner {
-    bottom: 0;
+    bottom: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+    position: fixed;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.8);
+    height: auto;
+    width: 900px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+}
+
+.desk-cookies-banner-post-login {
+    bottom: 0px;
     left: 0;
     position: fixed;
     border-radius: 16px 16px 0 0;
     box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
     z-index: 99999;
     background: rgba(0, 0, 0, 0.8);
+    /* height: 180px; */
 }
 
 .rh-cookies-banner {
-    border-radius: 4px 4px 0 0;
+    border-radius: 8px;
 }
 
 .we-care-about-your-p {
-    color: #ffffff;
-    margin: 0 1.5rem 0 3rem;
+    color: #000;
+    margin: 32px 48px;
 }
 .banner-heading {
-    font-size: 18px;
+    height: 32px;
+    width: 100%;
+    color: #2b3942;
+    font-family: 'Proxima Nova';
+    font-size: 24px;
     font-weight: bold;
+    letter-spacing: 0;
     line-height: 32px;
 }
 .banner-txt {
+    height: auto;
+    width: 100%;
+    color: #2b3942;
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0;
@@ -32,8 +56,9 @@
     margin-top: 2.2rem;
 }
 .btn-container {
-    height: 40px;
-    width: 264px;
+    /* height: 40px; */
+    padding: 5px 0px;
+    width: 91%;
     border-radius: 20px;
     background-color: #015ff1;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
@@ -44,13 +69,13 @@
     width: 156px;
     border: none;
     border-radius: 16px;
-    background-color: #0768fd;
+    background-color: #015ff1;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
 }
 
 .btn-label {
     color: #ffffff !important;
-    font-size: 1rem !important;
+    font-size: 18px !important;
     font-weight: 600 !important;
     letter-spacing: 0;
     line-height: 24px;
@@ -85,6 +110,9 @@
 .modal-container {
     top: 2rem;
 }
+.displaydot {
+    display: none;
+}
 
 /** RH **/
 .rh-border-radius {
@@ -106,19 +134,126 @@
 .rh-modal-container {
     top: 2.2rem !important;
 }
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    .desk-cookies-banner {
+        left: 50%;
+        transform: translateX(-50%);
+        position: fixed;
+        z-index: 99999;
+        background: rgba(0, 0, 0, 0.8);
+        height: auto;
+        width: 730px;
+        border-radius: 16px;
+        background-color: #ffffff;
+        box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+    }
+}
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: landscape) {
+    .desk-cookies-banner {
+        left: 50%;
+        transform: translateX(-50%);
+        position: fixed;
+        z-index: 99999;
+        background: rgba(0, 0, 0, 0.8);
+        height: auto;
+        border-radius: 16px;
+        background-color: #ffffff;
+        box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+    }
+}
 @media screen and (min-width: 768px) {
     .desk-pad-left {
         padding-left: 10%;
     }
 }
 
+@media screen and (max-width: 370px) {
+    .we-care-about-your-p {
+        margin: 18px 16px !important;
+    }
+    .footer-m-top {
+        margin-top: 1rem !important;
+    }
+    .banner-heading {
+        line-height: 26px !important;
+        margin-top: 0.5rem !important;
+    }
+}
+
 /** RH End **/
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
+    .manage {
+        margin-bottom: 40px;
+    }
+    .footer-m-top {
+        margin-top: 1.5rem;
+    }
+    .displaydot {
+        padding: 0px 7px;
+        opacity: 0;
+        display: inline;
+    }
     .mob-cookies-banner {
-        width: 100%;
+        width: auto;
+        bottom: 0;
+        margin: 25px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(0, 0, 0, 0.8);
+        height: auto;
+        border-radius: 16px;
+        background-color: #ffffff;
+        box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+        left: 0;
+        transform: none;
+    }
+    .mob-cookies-banner-new {
+        width: auto;
+        bottom: 0;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(0, 0, 0, 0.9);
+        height: auto;
+        box-shadow: -2px 8px 10px 0 rgba(0, 0, 0, 0.15);
+        left: 0;
+        transform: none;
     }
     .we-care-about-your-p {
-        margin: 0 0 0 1rem;
+        margin: 32px 24px;
+    }
+    .we-care-about-your-p-new {
+        margin: 18px 18px !important;
+    }
+    .banner-heading {
+        height: auto;
+        width: 100%;
+        color: #2b3942;
+        font-family: 'Proxima Nova';
+        font-size: 24px;
+        font-weight: bold;
+        letter-spacing: 0;
+        line-height: 32px;
+    }
+    .banner-txt {
+        height: auto;
+        width: 100%;
+        color: #2b3942;
+        font-family: 'Proxima Nova';
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 24px;
+    }
+    .uniform-margin {
+        margin: 0 24px !important;
+    }
+    .acknowledge_button {
+        width: 100% !important;
+    }
+    .footer_logo_login_cookie_pos_mobile {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 32px;
     }
     .login-close {
         margin-top: 18px;
@@ -129,7 +264,7 @@
         text-align: center;
     }
     .btn-container {
-        width: 366px !important;
+        width: 92% !important;
     }
     /* Mobile modal css */
     .always-active::before {
@@ -158,6 +293,7 @@
         margin-left: unset !important;
     }
 }
+
 /* Modal css */
 .card-top-bg {
     border-top-left-radius: 16px;
@@ -218,7 +354,7 @@
 
 .acordion-title {
     transform: rotate(-360deg);
-    color: #0768fd;
+    color: #015ff1;
     font-size: 18px;
 }
 
@@ -319,4 +455,77 @@
     background-color: #b5b5b5 !important;
     border: 1px solid #b5b5b5 !important;
     outline: none !important;
+}
+
+.com-icon {
+    fill: #595959;
+    height: 20px;
+    width: 20px;
+}
+
+.acknowledge_button {
+    height: 40px;
+    width: 264px;
+    border-radius: 20px;
+    background-color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(7, 104, 253, 0.32);
+    float: right;
+    border: 0;
+    pointer-events: auto;
+    cursor: pointer;
+    /* margin-bottom: 20px; */
+}
+
+.acknowledge_content {
+    height: 24px;
+    width: auto;
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.uniform-margin {
+    margin: 0 48px;
+}
+
+.footer_logo_login_cookie_pos {
+    margin-left: -14px;
+    margin-top: -8px;
+}
+
+.desk-cookies-banner-post-login .banner-heading {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 32px;
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+}
+.desk-cookies-banner-post-login .banner-txt {
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.desk-cookies-banner-post-login .we-care-about-your-p {
+    color: #000;
+    margin: 14px 0px 24px 56px;
+}
+.desk-cookies-banner-post-login .we-care-about-your-p-new {
+    color: #000;
+    margin: 14px 0px 24px 56px;
+}
+.modal_bottom_css {
+    border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
 }

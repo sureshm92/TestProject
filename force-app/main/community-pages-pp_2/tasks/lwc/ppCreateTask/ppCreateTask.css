@@ -18,7 +18,7 @@
     border: 1px solid #d9d9d9;
     border-radius: 16px;
     background-color: #ffffff;
-    color: #0768fd;
+    color: #015ff1;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     cursor: pointer;
 }
@@ -28,7 +28,7 @@
     width: 96px;
     border: 1px solid #d9d9d9;
     border-radius: 20px;
-    background-color: #0768fd;
+    background-color: #015ff1;
     color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     cursor: pointer;
@@ -37,10 +37,10 @@
     opacity: 0.5;
     box-sizing: border-box;
     height: 32px;
-    width: 96px;
+    min-width: 96px;
     border: 1px solid #d9d9d9;
     border-radius: 20px;
-    background-color: #0768fd;
+    background-color: #015ff1;
     color: #ffffff;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
     pointer-events: none;
@@ -49,6 +49,11 @@
 .pad-right {
     padding-right: 16px;
 }
+
+.pad-left {
+    padding-left: 16px;
+}
+
 .slds-required {
     font-size: 16px;
     font-weight: bold;
@@ -80,5 +85,71 @@ input[type='text']:disabled {
     .taskFooter {
         padding: 1rem 1rem 0 0;
         border-top: 1px solid #e9e9e9;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1366px) {
+    .task-card-mobile {
+        box-sizing: border-box;
+        height: auto;
+        width: 100%;
+        border: 1px solid #e9e9e9;
+        border-radius: 16px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    }
+
+    .taskFooter {
+        padding: 1rem 1rem 0 0;
+        border-top: 1px solid #e9e9e9;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1366px) {
+    .task-card-mobile {       
+        width: 510px; 
+    }
+}
+
+.dateTimeContainer input {
+    -moz-appearance: none;
+    /* for Safari, Chrome, Opera */
+    -webkit-appearance: none;
+    appearance: none;
+}
+@media (min-width: 768px) and (max-width: 1280px) and (orientation: portrait){
+    .inIpadHide{
+        display:block;
+    }
+    .inIpadShow{
+        display:none;
+    }
+    .inIpadPotraitShow{
+        display:block;
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+    .inIpadPotraitHide{
+        display:none;
+    }
+}
+@media (min-width: 768px) and (max-width: 1280px) and (orientation: landscape){
+    .inIpadShow{
+        display:block;
+    }
+    .inIpadHide{
+        display:none;
+    }
+    .inIpadPotraitShow{
+        display:none;
+    }
+    .inIpadPotraitHide{
+        display:block;
+    }
+    
+}
+@media (max-width: 768px){
+    .inIpadShow{
+        display:none;
     }
 }

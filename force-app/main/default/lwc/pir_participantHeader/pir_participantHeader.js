@@ -86,6 +86,7 @@ export default class Pir_participantHeader extends LightningElement {
     @api btnToolTip = '';
     @api showPrinticon = false;
     @api isrtl = false;
+    isShowPatientPotalDisable = true;
     maindivcls;
     initialsName;
 
@@ -137,7 +138,7 @@ export default class Pir_participantHeader extends LightningElement {
         this.surveyInProgress = [];
         this.surveyCompleted = [];
         this.showPreScreen = false;
-        
+        this.isShowPatientPotalDisable = true;
         if(this.peId)
         {
              this.showPrinticon = true;
@@ -150,7 +151,16 @@ export default class Pir_participantHeader extends LightningElement {
                  this.isAllowedForSH = result.isAllowedForSH;
                 // this.mrrLink = this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;
                 // this.preScreenerLink = this.per.Clinical_Trial_Profile__r.Link_to_Pre_screening__c;
-                    if(this.per.Participant__r.Adult__c == true && this.per.Participant__r.Email__c != null && this.per.Study_Site__r.Study_Site_Type__c == 'Traditional' && this.per.Clinical_Trial_Profile__r.CommunityTemplate__c != this.label.Janssen_Community_Template_Name && (this.per.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c || this.per.Study_Site__r.Suppress_Participant_Emails__c))
+                let communityWithPPInv = true;
+                if(this.per.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == false){
+                    this.isShowPatientPotalDisable = true;
+                 }else{
+                     this.isShowPatientPotalDisable = false;
+                 }
+                if(this.per.Clinical_Trial_Profile__r.CommunityTemplate__c == this.label.Janssen_Community_Template_Name && !this.per.Clinical_Trial_Profile__r.PPTemplate__c){
+                   communityWithPPInv = false;
+                }
+                    if(this.per.Participant__r.Adult__c == true && this.per.Participant__r.Email__c != null && communityWithPPInv &&  this.per.Study_Site__r.Study_Site_Type__c == 'Traditional' && (this.per.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c || this.per.Study_Site__r.Suppress_Participant_Emails__c))
                     {
                         this.showAction = true;
                         this.showActionName = 'PP';
@@ -158,7 +168,7 @@ export default class Pir_participantHeader extends LightningElement {
                         this.showActionlabel = this.label.inviteToPP;
                         this.showActiondt = false;
                         this.btnToolTip = this.label.inviteToPP;
-                    }else if((this.per.Participant_Contact__r.Is_Patient_User_Created__c == false || this.per.Invited_To_PP_Date__c == null) && this.per.Clinical_Trial_Profile__r.CommunityTemplate__c != this.label.Janssen_Community_Template_Name &&
+                    }else if((this.per.Participant_Contact__r.Is_Patient_User_Created__c == false || this.per.Invited_To_PP_Date__c == null) && communityWithPPInv &&
                               this.per.Participant__r.Adult__c == true && this.per.Participant__r.Email__c != null && this.per.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c && this.per.Participant__r.Adult__c == true  &&  this.per.Participant__r.Email__c != null &&
                               this.per.Study_Site__r.Study_Site_Type__c != 'Virtual' && this.per.Study_Site__r.Study_Site_Type__c != 'Hybrid' && this.per.Participant__r.IsCountry_NOT_Eligible_for_Emails__c == false &&
                               this.per.Permit_IQVIA_to_contact_about_study__c)
@@ -169,7 +179,7 @@ export default class Pir_participantHeader extends LightningElement {
                             this.showActionlabel = this.label.inviteToPP; 
                             this.showActiondt = false;  
                             this.btnToolTip = this.label.inviteToPP; 
-                    }else if(this.per.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c && this.per.Participant_Contact__r.Is_Patient_User_Created__c == true && this.per.Invited_To_PP_Date__c != undefined && this.per.Invited_To_PP_Date__c != null && this.per.Clinical_Trial_Profile__r.CommunityTemplate__c != this.label.Janssen_Community_Template_Name &&
+                    }else if(this.per.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c && this.per.Participant_Contact__r.Is_Patient_User_Created__c == true && this.per.Invited_To_PP_Date__c != undefined && this.per.Invited_To_PP_Date__c != null &&
                               this.per.Participant__r.Adult__c == true  &&  this.per.Participant__r.Email__c != null && this.per.Study_Site__r.Study_Site_Type__c != 'Virtual' && this.per.Study_Site__r.Study_Site_Type__c != 'Hybrid')  
                     {
                         this.showAction = true;

@@ -3,26 +3,25 @@
  */
 
 .rrc-footer {
-    margin: 25px 0;
+    margin: 14px 0;
     overflow: hidden;
 }
 
 .rtl {
     /* @noflip */
     direction: rtl;
-} 
+}
 
 .cf-margin-cutter {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin: -10px;
 }
 .cf-copyright {
     display: inline-block;
     white-space: nowrap;
-    color: #6b6b6b;
-    font-size: 0.8rem;
+    color: #999999;
+    font-size: 12px;
 }
 
 .cf-links {
@@ -39,6 +38,20 @@
     padding: 10px;
 }
 
+.contact-support-btn {
+    display: inline-block;
+    color: #015ff1;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+}
+.contact-support-btn:hover {
+    text-shadow: #015ff1 0.5px 0px;
+}
+
 @media all and (max-width: 500px) {
     .cf-links {
         margin: 0;
@@ -47,36 +60,46 @@
         justify-content: space-evenly;
         text-align: center;
     }
-    
-.footer-copyright{
-    width: 100%;
-    text-align: center;
-} 
 
+    .footer-copyright {
+        width: 100%;
+        text-align: center;
+    }
 }
 
 @media all and (min-width: 500px) and (max-width: 768px) {
     .cf-margin-cutter {
-        
         justify-content: space-between;
         flex-wrap: wrap;
         margin: -10px;
     }
 
-     .cf-copyright,     
-     .cf-links {
+    .cf-copyright,
+    .cf-links {
         text-align: center;
         width: 100%;
         padding: 10px 0px;
         margin: unset;
         justify-content: space-evenly;
     }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
+    .cf-margin-cutter {
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin: -10px;
+    }
 
-    /* .cf-links {
-       
-        width: 100%;
-        
+    .cf-copyright,
+    .cf-links {
         text-align: center;
-      
-    } */
+        width: 100%;
+        padding: 10px 0px;
+        margin: unset;
+        justify-content: space-evenly;
+    }
+    .cf-link {
+        display: block;
+        padding: 5px 0px;
+    }
 }

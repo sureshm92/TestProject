@@ -110,8 +110,9 @@ public without sharing class StudyDetailItem implements Comparable {
                         (piParticipantDetail.Salutation__c == null
                          ? ''
                          : piParticipantDetail.Salutation__c + ' ') +
-                        piParticipantDetail.First_Name__c +
-                        ' ' +
+                         (piParticipantDetail.First_Name__c == null
+                         ? ''
+                        : piParticipantDetail.First_Name__c + ' ') +
                         piParticipantDetail.Last_Name__c +
                         (piParticipantDetail.Suffix__c == null
                          ? ''
@@ -121,8 +122,9 @@ public without sharing class StudyDetailItem implements Comparable {
                         (studySite.Principal_Investigator__r.Salutation == null
                          ? ''
                          : studySite.Principal_Investigator__r.Salutation + ' ') +
-                        studySite.Principal_Investigator__r.FirstName +
-                        ' ' +
+                         (studySite.Principal_Investigator__r.FirstName == null
+                         ? ''
+                         : studySite.Principal_Investigator__r.FirstName + ' ') +
                         studySite.Principal_Investigator__r.LastName +
                         (studySite.Principal_Investigator__r.Suffix == null
                          ? ''

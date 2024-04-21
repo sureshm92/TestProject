@@ -18,7 +18,7 @@ body {
 
 .pref-container {
     height: 24px;
-    color: #0768fd;
+    color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 500;
@@ -230,12 +230,16 @@ p {
 
 .change-preferences {
     height: 24px;
-    color: #0768fd;
+    min-width: max-content;
+    color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0;
     text-decoration: underline;
+}
+.change-preferences:hover {
+    cursor: pointer;
 }
 
 .resource-container {
@@ -278,7 +282,7 @@ p {
     font-size: 14px;
     letter-spacing: 0;
     line-height: 21px;
-    text-align: justify;
+    text-align: left;
     padding: 2px;
     margin-bottom: 10px;
 }
@@ -363,13 +367,6 @@ select.minimal:focus {
     box-shadow: 0 4px 16px 0 rgb(0 0 0 / 4%);
     border: 3px solid #00568c;
     margin-bottom: 10px;
-    background-image: linear-gradient(45deg, transparent 50%, #005587 50%),
-        linear-gradient(135deg, #005587 50%, transparent 50%);
-    background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px),
-        calc(100% - 2.5em) 0.5em;
-    background-size: 6px 5px, 5px 5px, 1px 1.5em;
-    background-repeat: no-repeat;
-
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -383,6 +380,13 @@ select.minimal:focus {
     padding-top: 10px;
     z-index: 10001;
 }
+.down-icon {
+    float:right;
+    padding-right:20px;
+}
+.green-utility-icon {
+        --sds-c-icon-color-foreground-default: #00568c;
+}
 .res-options {
     position: relative;
     box-sizing: border-box;
@@ -395,7 +399,8 @@ select.minimal:focus {
     margin-left: -10px;
     padding-left: 0px;
     margin-top: 14px;
-    z-index: 10001;
+    z-index: 3;
+    font-weight: 500;
 }
 .res-options li {
     height: 32px;
@@ -443,4 +448,9 @@ select.minimal:focus {
 }
 .mt-16 {
     margin-top: 16px;
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1280px) and (orientation: landscape) {
+    .res-container{
+        max-width: 704px;
+    }
 }

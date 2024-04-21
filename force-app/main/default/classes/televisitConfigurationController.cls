@@ -4,9 +4,9 @@ public without sharing class  televisitConfigurationController {
     Public static WrapperResult getinitData(String ctpId,String[] countryList,String[] vendorList,String[] studyList,String sortingOrder,string stringType){
         List<Televisit_Record_Vendor__c> trvList ;
         if(!vendorList.isEmpty()){
-            trvList = [Select id,Name,Description__c,Televisit_Vendor__c from Televisit_Record_Vendor__c where ID IN:vendorList];
+            trvList = [Select id,Name,Description__c,Televisit_Vendor__c from Televisit_Record_Vendor__c where ID IN:vendorList and Clinical_Trial_Profile__c = :ctpId];
         }else{
-            trvList = [Select id,Name,Description__c,Televisit_Vendor__c from Televisit_Record_Vendor__c];
+            trvList = [Select id,Name,Description__c,Televisit_Vendor__c from Televisit_Record_Vendor__c WHERE Clinical_Trial_Profile__c = :ctpId];
         }
         
         String query = 'select id,First_Reminder__c,Second_Reminder__c,Banner_Display_Offset_Time__c,Banner_Dispose_Offset_Time__c,name,Study_Site_Number__c,Site__r.BillingCountry,(select id,Study_Site__c,name,By_Country__c,isEnable__c,Televisit_Record_Vendor__r.name,Televisit_Record_Vendor__r.Televisit_Vendor__c from TelevisitVendorSettings__r),Clinical_Trial_Profile__r.Televisit_Vendor_is_Available__c from Study_Site__c where Clinical_Trial_Profile__c =:ctpId';
@@ -125,7 +125,7 @@ public without sharing class  televisitConfigurationController {
             try{
                 update tvsList;
             }catch(exception e){
-                system.debug('==================>'+e.getMessage());
+                
             }
             
         }else if(isEnable){
@@ -136,7 +136,7 @@ public without sharing class  televisitConfigurationController {
             try{
                 insert tvs;
             }catch(exception e){
-                system.debug('==================>'+e.getMessage());
+                
             }
             
         }
@@ -187,7 +187,7 @@ public without sharing class  televisitConfigurationController {
             try{
                 upsert toupsert;
             }catch(exception e){
-                system.debug('==================>'+e.getMessage());
+                
             }
         }
         
@@ -226,12 +226,21 @@ public without sharing class  televisitConfigurationController {
     @AuraEnabled
     public static void  deleteVendor( string vendorId ){
         list<Televisit_Record_Vendor__c> vendorList = [select id from Televisit_Record_Vendor__c where ID=:vendorId];
+        list<TelevisitVendorSettings__c> lstVendorSetting = new list<TelevisitVendorSettings__c>([select id from TelevisitVendorSettings__c where Televisit_Record_Vendor__c =:vendorId]);
         if(!vendorList.isEmpty()){
             
             try{
                 delete vendorList;
             }catch(exception e){
-                system.debug('==================>'+e.getMessage());
+                
+            }
+        }
+        
+        if(!lstVendorSetting.isEmpty()){
+            try{
+                delete lstVendorSetting;
+            }catch(exception e){
+                
             }
         }
     }
@@ -278,7 +287,7 @@ public without sharing class  televisitConfigurationController {
                         );
             update ss;
         }catch(exception e){
-            system.debug('==================>'+e.getMessage());
+            
         }
     }
     @AuraEnabled
@@ -330,7 +339,7 @@ public without sharing class  televisitConfigurationController {
                         );
             update ss;
         }catch(exception e){
-            system.debug('==================>'+e.getMessage());
+            
         }
 
     }
@@ -398,5 +407,58 @@ public without sharing class  televisitConfigurationController {
         @AuraEnabled public List<String> picklistvalues;  
         @AuraEnabled public boolean televisitpermissioncheck = false;
     }
+    
+    @AuraEnabled
+    public static List<Televisit_Vendor_Setting_Detail__mdt> fetchTelevisitVendorDetails(String ctpId, Boolean editMode){
+        List<Televisit_Record_Vendor__c> lstTRV = new List<Televisit_Record_Vendor__c>();
+        lstTRV = [SELECT Id,Name,API_Key__c,API_Secret__c,Description__c,Clinical_Trial_Profile__c FROM Televisit_Record_Vendor__c WHERE Clinical_Trial_Profile__c =: ctpId];
+        List<Televisit_Vendor_Setting_Detail__mdt> tvsd = new List<Televisit_Vendor_Setting_Detail__mdt>();
+        
+        
+        
+        List<String> lstStr = new List<String>();
+        for(Televisit_Record_Vendor__c trv : lstTRV){
+            lstStr.add(trv.Name);
+        }
+        
+        
+        if(!editMode){
+            tvsd = [SELECT Id,DeveloperName,MasterLabel,Mandatory_Fields__c,Non_Mandatory_Fields__c FROM Televisit_Vendor_Setting_Detail__mdt WHERE DeveloperName NOT IN :lstStr];
+        
+        }else{
+            tvsd = [SELECT Id,DeveloperName,MasterLabel,Mandatory_Fields__c,Non_Mandatory_Fields__c FROM Televisit_Vendor_Setting_Detail__mdt WHERE DeveloperName IN :lstStr];
+        
+        }
+        return tvsd;
+    }
+    
+    @AuraEnabled
+    public static List<Televisit_Record_Vendor__c> fetchExisitingTelevisitRecordVendor(String vendorId){
+        List<Televisit_Record_Vendor__c> lstTRV = new List<Televisit_Record_Vendor__c>();
+        lstTRV = [SELECT Id,Name,API_Key__c,API_Secret__c,Description__c,Project_Name__c FROM Televisit_Record_Vendor__c WHERE Id =: vendorId];
+        return lstTRV;
+    }
+    
+    @AuraEnabled
+    public static String submitTelevisitVendorDetails(String jsonString){
+        List<Televisit_Record_Vendor__c> trvList = new List<Televisit_Record_Vendor__c>();
+        Map<String, Object> parsedData = (Map<String, Object>)JSON.deserializeUntyped(jsonString);
+        Televisit_Record_Vendor__c trv = new Televisit_Record_Vendor__c();
+        for(String apiname : parsedData.keySet()){
+            trv.put(apiname,(string) parsedData.get(apiname));
+        }
+        trvList.add(trv);
+        if(!trvList.isEmpty()){
+            try{
+                upsert trvList;
+                
+            }
+            catch (Exception e){
+                return e.getMessage();
+            }
+        }
+        return 'Success';
+    }
+    
     
 }

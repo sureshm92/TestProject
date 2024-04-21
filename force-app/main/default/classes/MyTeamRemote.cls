@@ -991,15 +991,15 @@ public without sharing class MyTeamRemote {
         if(delegateFilterData!=null){
             hasStudyFilter = true;
         }
-        savePatientDelegate(delegate);
+        doSavePatientDelegate(delegate);
         PatientDelegateService.getInstance().createPatientDelegate(delContact,delegateFilterData);  
        
     }
 
     @AuraEnabled
-    public static void savePatientDelegate(String delegate) {
+    public static void doSavePatientDelegate(String delegate) {
         try {
-            System.debug('savePatientDelegate:');
+            System.debug('doSavePatientDelegate:');
             List<User> existingUserPatientDelegate = new List<User>();
             User user;
             Contact contactDelegate = (Contact) JSON.deserialize(delegate, Contact.class);
@@ -1021,6 +1021,8 @@ public without sharing class MyTeamRemote {
                 contactDelegate.AccountId = user.Contact.AccountId;
                 contactDelegate.Current_Participant_Enrollment__c = null;
                 contactDelegate.Language__c = UserInfo.getLanguage();
+                contactDelegate.Second_Choice_Language__c = '';
+                contactDelegate.Third_Choice_Language__c = '';
                 contactDelegate.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactDelegate.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactDelegate.UserCommunityIsDelegate__c = true;
@@ -1403,6 +1405,8 @@ public without sharing class MyTeamRemote {
                                                                    Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
                                                             FROM Participant_Enrollment__c
                                                             WHERE Participant__r.Contact__c =:participantState.participant.Contact__c
+                                                            and Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c=true
+                                                            and Invited_To_PP_Date__c!=null
                                                             ];
             for(Participant_Enrollment__c per: availablePERs) {
                 peFilterData.studies.add(new LabelValueItem(per.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, per.Id));

@@ -84,7 +84,9 @@ CommunityFacadeRemote.getCommunityData();
         Contact testDelCont = [SELECT Id, Next_Notify_Date__c FROM Contact WHERE Id = :delCon.Id];
         System.assert(testCont.Next_Notify_Date__c != Null);
         // System.assertEquals(null, testDelCont.Next_Notify_Date__c); 
-    }    
+    }
+    
+
     @IsTest
     private static void testContactSite(){
       
@@ -248,9 +250,9 @@ CommunityFacadeRemote.getCommunityData();
             Screening_ID__c = 'PESCR4'
         );
         participantPeList.add(pe4);
+        Test.startTest();
         insert participantPeList;
  
-        Test.startTest();
         participantLst.add(participantupdate);
         piContact.AccountId = pianotherconatctAccount.Id;
         contactLst.add(piContact);

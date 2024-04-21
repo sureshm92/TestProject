@@ -6,12 +6,20 @@
     <aura:attribute name="reset" type="Boolean" default="false" />
     <aura:attribute name="hasProfilePic" type="Boolean" />
     <aura:attribute name="initialCommunityModes" type="Object" />
+    <aura:method name="refresh" action="{!c.doInit}" access="public" />
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <!-- events: -->
     <aura:registerEvent access="global" name="onModeChange" type="c:uiEvent" />
+    <!-- LMS: -->
+    <lightning:messageChannel
+        type="ppLightningMessageService__c"
+        aura:id="LMS"
+        scope="APPLICATION"
+        onMessage="{!c.handleMessage}"
+    />
     <aura:if isTrue="{!not(v.reset)}">
-        <c:ppModeHeaderMenu class="menu-block" >
+        <c:ppModeHeaderMenu class="menu-block">
             <aura:set attribute="title">
                 <c:profileImageDropdown
                     user="{!v.user}"
@@ -26,6 +34,7 @@
                     hasProfilePic="{!v.hasProfilePic}"
                     onpagenavigation="{!c.handleCardVisiblity}"
                     onitemselection="{!c.doSelectItem}"
+                    allModes="{!v.communityModes}"
                 />
             </li>
             <li class="body">

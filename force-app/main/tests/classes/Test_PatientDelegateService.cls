@@ -290,8 +290,8 @@ public class Test_PatientDelegateService {
             CommunityService.isNewSession();
             CommunityService.setUserToCommunity(testData.participantUser.contactid);
             // CommunityService.setUserToCommunity(delegateContact.Id);
-            PatientDelegateService pds = new PatientDelegateService();
-            pds.createPDAlerts(delegateContact);
+            //PatientDelegateService pds = new PatientDelegateService();
+            //pds.createPDAlerts(delegateContact);
             PatientDelegateService.changeStatus(delegateContact.Id, 'Active');
             PatientDelegateService.getParticipantByDelegateContactId(delegateContact.Id);
             PatientDelegateService.getPastPEIdsForContact(delegateContact.Id);

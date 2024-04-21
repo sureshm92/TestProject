@@ -48,7 +48,6 @@ private class Test_ParticipantVisitsRemote {
 
     @IsTest
     static void test() {
-
         Participant__c participant = [
             SELECT
                 Id,
@@ -91,7 +90,6 @@ private class Test_ParticipantVisitsRemote {
 
     @IsTest
     static void testwithcount() {
-
         Participant__c participant = [
             SELECT
                 Id,
@@ -180,7 +178,11 @@ private class Test_ParticipantVisitsRemote {
             FROM Participant__c
             WHERE Last_Name__c = 'ParticipantTD'
         ];
-        Participant_Enrollment__c pe = [SELECT Id,Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Participant__c =:participant.Id];
+        Participant_Enrollment__c pe = [
+            SELECT Id, Clinical_Trial_Profile__c
+            FROM Participant_Enrollment__c
+            WHERE Participant__c = :participant.Id
+        ];
         Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c();
         ctp.Id = pe.Clinical_Trial_Profile__c;
         ctp.Is_Program__c = true;
@@ -193,7 +195,8 @@ private class Test_ParticipantVisitsRemote {
         List<PatientVisitService.VisitWrapper> participantVisits;
         List<Patient_Visit__c> cardPatientVisits;
         System.runAs(participantUser) {
-            participantVisits = ParticipantVisitsRemote.getParticipantVisitsAndStudyType('Current').pvList;
+            participantVisits = ParticipantVisitsRemote.getParticipantVisitsAndStudyType('Current')
+                .pvList;
             cardPatientVisits = ParticipantVisitsRemote.getCardPatientVisits();
         }
         Test.stopTest();
@@ -337,7 +340,8 @@ private class Test_ParticipantVisitsRemote {
         Patient_Visit__c pv = [SELECT Id FROM Patient_Visit__c LIMIT 1];
         Test.startTest();
         try {
-            ParticipantVisitsRemote.getParticipantVisitsDetails(pv.Id);
+            ParticipantVisitsRemote.getParticipantVisitsDetails(pv.Id, false);
+            ParticipantVisitsRemote.getParticipantVisitsDetails(pv.Id, true);
         } catch (Exception e) {
             isExceptionThrown = true;
             System.assert(e.getTypeName() == 'System.AuraHandledException');
@@ -403,13 +407,13 @@ private class Test_ParticipantVisitsRemote {
     }
 
     @IsTest
-    static void getIconDetails_test(){
-        List<Patient_Visit__c> vl = [select Id FROM Patient_Visit__c];
+    static void getIconDetails_test() {
+        List<Patient_Visit__c> vl = [SELECT Id FROM Patient_Visit__c];
         PatientVisitService.getVisitIcons(vl[0].Id);
         PatientVisitService.getVisitIconsbyName(vl[0].Id);
         PatientVisitService pvs = new PatientVisitService();
         pvs.getPatientVisitDetails(vl[0].Id);
-                Participant__c participant = [
+        Participant__c participant = [
             SELECT
                 Id,
                 Name,
@@ -437,11 +441,8 @@ private class Test_ParticipantVisitsRemote {
         Test.startTest();
         System.runAs(participantUser) {
             PatientVisitService pvsl = new PatientVisitService();
-            pvsl.getVisitWrappers('Scheduled',5);
+            pvsl.getVisitWrappers('Scheduled', 5);
         }
         Test.stopTest();
-
     }
- 
-    
 }

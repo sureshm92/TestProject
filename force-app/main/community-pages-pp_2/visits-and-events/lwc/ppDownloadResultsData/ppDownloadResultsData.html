@@ -1,0 +1,124 @@
+<template>
+    <c-custom-toast-files-p-p is-mobile={isMobile}></c-custom-toast-files-p-p>
+    <a class="download-results" target="_self" download>Download</a>
+    <template lwc:if={showDownloadResults}>
+        <template lwc:if={isPastStudies}>
+            <div>{label.myResults}</div>
+            <lightning-layout multiple-rows class="results-past-study">
+                <lightning-layout-item size="12" class="slds-p-around_medium bottom-border"
+                    >{label.Visit_Results_Disclaimer_Past_Studies}</lightning-layout-item
+                >
+                <lightning-layout-item size="6" class="right-border"
+                    ><a
+                        target="_blank"
+                        onclick={generateReport}
+                        class="slds-align_absolute-center slds-p-around_medium"
+                        name="download-res-past"
+                    >
+                        <span class="download-section">
+                            <lightning-icon
+                                icon-name="utility:download"
+                                size="xx-small"
+                                class="download-icon"
+                            >
+                            </lightning-icon>
+                            <span class="download-res-data slds-p-left_small"
+                                >{label.PP_Download_Results_Data}
+                            </span>
+                        </span>
+                    </a></lightning-layout-item
+                ><lightning-layout-item size="6"
+                    ><a
+                        target="_blank"
+                        onclick={generateReport}
+                        class="slds-align_absolute-center slds-p-around_medium"
+                        name="view-res-past"
+                    >
+                        <span class="download-section">
+                            <lightning-icon
+                                icon-name="utility:new_window"
+                                size="xx-small"
+                                class="download-icon"
+                            >
+                            </lightning-icon>
+                            <span class="download-res-data slds-p-left_small"
+                                >{label.Open_In_New_Tab_PP}
+                            </span>
+                        </span>
+                    </a></lightning-layout-item
+                >
+            </lightning-layout>
+        </template>
+        <template lwc:else>
+            <template lwc:if={isIPadView}> 
+                <lightning-layout-item size="12"
+                            ><a
+                                target="_self"
+                                onclick={generateReport}
+                                class="slds-align_absolute-center slds-p-around_medium"
+                                download
+                                name="download-res"
+                            >
+                                <span class="download-section">
+                                    <lightning-icon
+                                        icon-name="utility:download"
+                                        size="xx-small"
+                                        class="download-icon"
+                                    >
+                                    </lightning-icon>
+                                    <span class="download-res-data slds-p-left_small"
+                                        >{label.PP_Download_Results_Data}
+                                    </span>
+                                </span>
+                            </a></lightning-layout-item>
+            </template>
+            <template lwc:else >
+            <div class="btn-group">
+                <button onclick={generateReport} class="download-text" name="download-res">
+                    <span
+                        ><lightning-icon
+                            icon-name="utility:download"
+                            alternative-text="download"
+                            size="xx-small"
+                            title="download"
+                            class="download-icon"
+                        ></lightning-icon></span
+                    ><span class="slds-p-left_x-small">{label.Download_PP}</span>
+                </button>
+                <button class="download">
+                    <lightning-icon
+                        icon-name="utility:down"
+                        alternative-text="down"
+                        size="xx-small"
+                        class="download-icon"
+                    ></lightning-icon>
+                    <div class="download-content">
+                        <div onclick={generateReport} data-name="download-vis-res">
+                            <span
+                                ><lightning-icon
+                                    icon-name="utility:download"
+                                    alternative-text="download"
+                                    size="xx-small"
+                                    title="download"
+                                    class="downld-icon-color"
+                                ></lightning-icon></span
+                            ><span class="slds-p-left_medium">{label.Download_PP}</span>
+                        </div>
+                        <div onclick={generateReport} data-name="view-res">
+                            <span
+                                ><lightning-icon
+                                    icon-name="utility:new_window"
+                                    alternative-text="new_window"
+                                    size="xx-small"
+                                    title="new_window"
+                                    class="downld-icon-color"
+                                ></lightning-icon></span
+                            ><span class="slds-p-left_medium">{label.Open_In_New_Tab_PP}</span>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </template>
+        </template>
+    </template>
+</template>

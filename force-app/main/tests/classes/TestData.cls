@@ -78,6 +78,7 @@ public class TestData {
                 Study_Title__c,
                 Protocol_ID__c,
                 Patient_Portal_Enabled__c,
+                Study_Sponsor__c,
                 Terms_and_Conditions__c,
                 Initial_Visit_Required__c,
                 Participant_Workflow_Final_Step__c,
@@ -119,8 +120,7 @@ public class TestData {
                 Study_Site__r.Principal_Investigator__c,
                 Study_Site__r.Principal_Investigator__r.Name,
                 Study_Site__r.Principal_Investigator__r.Title,
-                Participant__r.Mailing_Country_Code__c,
-                Participant__r.Mailing_Country__c
+                Participant__r.Mailing_Country_Code__c
             FROM Participant_Enrollment__c
             WHERE Participant__c = :participant.Id
         ];

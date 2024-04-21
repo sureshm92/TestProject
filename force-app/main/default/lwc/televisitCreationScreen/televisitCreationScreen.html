@@ -154,7 +154,7 @@
                                                 <label class="inputFields">{label.Start_Time}</label>
                                             </div>
                                             <div>
-                                                <lightning-input class="inputFields slds-p-vertical_x-small time"
+                                                <lightning-input class="inputFields slds-p-vertical_x-small time rh-initial-visit-date"
                                                     name="Start Time" data-id="Start Time" type="time"
                                                     data-value="Start Time" onchange={handleChangeValidation}
                                                     variant="label-hidden" value={startTime} label="Start Time"
@@ -221,7 +221,41 @@
                                                             class="slds-icon-text-default"></lightning-icon>
                                                     </span>
                                                 </div>
-                                                <div id="listbox-id"
+                                                <template lwc:if={cardRTL}>
+                                                    <div id="listbox-id-rtl"
+                                                    class="slds-dropdown rtl-slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid vk-scrollbar"
+                                                    role="listbox" onmouseleave={closeOptionsMenu}>
+                                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                        <template for:each={televisitAttendeesList} for:item="option">
+                                                            <li role="presentation" class="slds-listbox__item"
+                                                                key={option.id}>
+                                                                <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                                    role="option">
+                                                                    <span class="slds-media__body">
+                                                                        <span
+                                                                            class="slds-listbox__option-text slds-listbox__option-text_entity"
+                                                                            data-id={option.id}
+                                                                            data-first-name={option.firstName}
+                                                                            data-last-name={option.lastName}
+                                                                            data-attendee-type={option.attendeeType}
+                                                                            data-is-mandatory-selection={option.isMandatorySelection}
+                                                                            data-attendee-id={option.attendeeId}
+                                                                            data-participant-primary-delegate={option.participantPrimaryDelegate}
+                                                                            data-participant-has-email={option.participantHasEmail}
+                                                                            onclick={handleSelection}>
+                                                                            {option.firstName} {option.lastName}
+                                                                            ({option.attendeeType})
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                        </template>
+                                                        <!-- <li if:true={noResultsFound} class="slds-p-left_small"> No results found</li> -->
+                                                    </ul>
+                                                </div>
+                                                </template>
+                                                <template lwc:else>
+                                                    <div id="listbox-id"
                                                     class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid vk-scrollbar"
                                                     role="listbox" onmouseleave={closeOptionsMenu}>
                                                     <ul class="slds-listbox slds-listbox_vertical" role="presentation">
@@ -252,6 +286,7 @@
                                                         <!--<li if:true={noResultsFound} class="slds-p-left_small"> No results found</li>-->
                                                     </ul>
                                                 </div>
+                                                </template>
                                             </div>
                                         </div>
                                         <template if:true={isLoading}>
@@ -316,7 +351,7 @@
                                                 <button title=""
                                                     class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-button apollo-btn primary btn-height save-btn"
                                                     data-id="Update" onclick={submitDetails}
-                                                    disabled={disableSaveButton}> Update </button>
+                                                    disabled={disableSaveButton}> {label.Update} </button>
                                             </template>
                                         </div>
                                     </div>
@@ -363,12 +398,12 @@
                                         <lightning-layout-item>
                                             <lightning-button-menu onselect={handleOnselect} menu-alignment="auto">
                                                 <!--data-starttime={tv.startTime}-->
-                                                <lightning-menu-item value="Edit" label="Edit" data-id={tv.id}
+                                                <lightning-menu-item value={label.Edit} label={label.Edit} data-id={tv.id}
                                                     data-title={tv.title} data-visitdate={tv.visitDate}
                                                     data-starttime={tv.startTime} data-visitdatetime={tv.visitDateTime}
                                                     data-duration={tv.duration} data-attendeeslist={tv.attendeesList}
                                                     onclick={openModal}></lightning-menu-item>
-                                                <lightning-menu-item value="Cancel" label="Cancel" data-id={tv.id}
+                                                <lightning-menu-item value={label.Cancel} label={label.Cancel} data-id={tv.id}
                                                     onclick={openCancelModal}></lightning-menu-item>
                                             </lightning-button-menu>
                                         </lightning-layout-item>
@@ -389,7 +424,10 @@
                                         <lightning-layout-item>
                                         <!-- <lightning-formatted-date-time value={tv.visitDate}>
                                             </lightning-formatted-date-time>-->
-                                            <lightning-formatted-date-time value={tv.visitDateTime}></lightning-formatted-date-time>
+                                            <lightning-formatted-date-time value={tv.visitDateTime} year="numeric"
+                                            month="short"
+                                            day="2-digit" ></lightning-formatted-date-time>
+                                        </lightning-layout-item><span class="tv_span">,&nbsp;</span>
                                         </lightning-layout-item><span class="tv_span">,&nbsp;</span>
                                     </div>
                                     <div

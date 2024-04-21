@@ -6,9 +6,63 @@
     width: 10px;
     height: 9px;
     border-radius: 50%;
-    /* color: #fff; */
-    /* text-align: center; */
-    /* font-size: 12px; */
     position: absolute;
     top: 9px;
+}
+.new-msg-outer {
+    border-radius: 20px;
+    border: 0.1rem solid #ffffff;
+    width: 48px;
+    height: 22px;
+    text-align: center;
+    background: red;
+}
+.new-message {
+    position: relative;
+    bottom: 2px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+}
+.nav-msg-heading {
+    padding-left: 0.7rem !important;
+}
+.nav-item:nth-child(5) {
+    padding: 0px 10px !important;
+}
+@media (max-width: 1024px) {
+    .new-msg-outer {
+        margin: 0.2rem 0 0 0.8rem;
+    }
+    .new-message {
+        position: relative;
+        bottom: 0px !important;
+    }
+}
+.new-message-tab {
+    position: relative;
+    bottom: -1px !important;
+    position: relative;
+    bottom: 2px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+}
+.new-msg-outer-tab {
+    margin: 0.2rem 0 0 0.8rem !important;
+    
+}
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    .new-message {
+        display: grid;
+        align-items: center;
+        bottom: none;
+    }
+}
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: landscape) {
+    .new-message {
+        display: grid;
+        align-items: center;
+        bottom: auto !important;
+    }
 }

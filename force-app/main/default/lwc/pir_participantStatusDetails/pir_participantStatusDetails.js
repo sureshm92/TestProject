@@ -305,4 +305,8 @@ export default class Pir_participantStatusDetails extends NavigationMixin(Lightn
             this[NavigationMixin.Navigate](config);
         }    
       }
+
+    get hasPerId(){
+        return this.selectedPE_ID != '' && this.selectedPE_ID != null;
+    }
 }

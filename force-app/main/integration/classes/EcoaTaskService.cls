@@ -59,17 +59,21 @@ public without sharing class EcoaTaskService {
                 userlocaltime.day()
             );
             Datetime dt = Datetime.now();
-            if (userlocaltime.day() == dt.day()) {
+            /*if (userlocaltime.day() == dt.day()) {
                 userlocaltime = userlocaltime.addDays(1);
-            }
+            }*/
             Integer endoffset = tz.getOffset(task.Window_End__c);
             Datetime WindoEndlocaltime = task.Window_End__c.addSeconds(endoffset / 1000);
 
             System.debug('userObj::' + userObj);
             System.debug('delegateUserObj::' + delegateUserObj);
             Task t = new Task();
-            t.OwnerId = userObj != null ? userObj.Id : delegateUserObj.Id;
-            t.Subject = 'eDiary ' + task.Diary_Name__c;
+            if (userObj != null) {
+                t.OwnerId = userObj.Id;
+            } else {
+                t.Owner_Contact__c = task.Participant_Enrollment__r.Participant_Contact__c;
+            }
+            t.Subject = task.Diary_Name__c;
             t.Priority = 'Normal';
             //t.Action_URL__c ='e-diaries';
             t.Action_URL__c = 'e-diaries';

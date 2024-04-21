@@ -1,6 +1,11 @@
 .full-width {
     width: 100%;
 }
+@media all and (max-width: 759px) {
+    .full-width {
+        width: 100%;
+    }
+}
 
 .curve-input {
     display: flex;
@@ -83,5 +88,13 @@ input[type='date']::-webkit-calendar-picker-indicator,
     }
     .slds-grid.slds-wrap.slds-grid_vertical-align-start.slds-m-top_medium {
         margin-top: unset;
+    }
+}
+.ipadLeft{
+    padding-left: 0px !important;
+}
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    .ipadLeft{
+        padding-left: 0px !important;
     }
 }

@@ -6,7 +6,7 @@ public without sharing class Action_SendPush implements Action {
     public class Action_SendPush_Exception extends Exception {
     }
 
-    private final static String CUSTOM_NOTIFICATION_TYPE_NAME = 'PP_RH_Push_Notification';
+    private final static String CUSTOM_NOTIFICATION_TYPE_NAME = 'PP_v2_Push_Notification';
     private List<Id> notificationIds;
     transient private NotificationResultService sendResultService;
 

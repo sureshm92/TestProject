@@ -5,7 +5,7 @@
             <!-- DESKTOP VIEW -->
             <template if:false={isMobile}>
                 <div class={cardRTL}>
-                    <div class="as-title mb-15">Customize Experience</div>
+                    <div class="as-title mb-15">{label.PP_Customize_Experience}</div>
                     <div class="as-title-small mb-5">{label.PP_Condition_of_Interest_title}</div>
 
                     <lightning-layout multiple-rows="true" class="mb-15">
@@ -23,7 +23,7 @@
                                 class="slds-form-element__label field-title"
                                 for="customize-condition"
                             >
-                                Conditions
+                            {label.PP_Conditions}
                             </label>
                         </lightning-layout-item>
                         <lightning-layout-item size="6">
@@ -35,7 +35,7 @@
                                     onchange={bulkSearch}
                                     type="search"
                                     name="search"
-                                    class="profile-info-input customize-exp"
+                                    class={searchInputStyle}
                                     value={searchInput}
                                 ></lightning-input>
                             </div>
@@ -45,7 +45,7 @@
                                 class="slds-form-element__label field-title"
                                 for="customize-condition"
                             >
-                                Select up to 5 conditions
+                            {label.PP_Select_up_to_5_conditions}
                             </label>
                         </lightning-layout-item>
                     </lightning-layout>
@@ -150,18 +150,18 @@
                 <div class={cardRTL}>
                     <lightning-layout>
                         <lightning-layout-item size="12">
-                            <div class="back-button">
+                            <div class="back-button" onclick={showMenuBar}>
                                 <template if:false={isRTL}>
                                     <c-web-icon
                                         icon-size="medium"
                                         icon-name={iconChevron}
                                         icon-color="#297dfd"
+                                        data-header="customize-experience"
                                     >
                                     </c-web-icon>
                                 </template>
                                 <span
                                     class="slds-p-left_x-small slds-p-right_x-small"
-                                    onclick={showMenuBar}
                                     data-header="customize-experience"
                                     >{label.BACK}</span
                                 >
@@ -176,7 +176,7 @@
                             </div>
                         </lightning-layout-item>
                     </lightning-layout>
-                    <div class="as-title mb-15">Customize Experience</div>
+                    <div class="as-title mb-15">{label.PP_Customize_Experience}</div>
                     <div class="as-title-small mb-5">{label.PP_Condition_of_Interest_title}</div>
 
                     <lightning-layout multiple-rows="true" class="mb-15">
@@ -194,7 +194,7 @@
                                 class="slds-form-element__label field-title"
                                 for="customize-condition"
                             >
-                                Conditions
+                            {label.PP_Conditions}
                             </label>
                         </lightning-layout-item>
                         <lightning-layout-item size="12">
@@ -216,7 +216,7 @@
                                 class="slds-form-element__label field-title"
                                 for="customize-condition"
                             >
-                                Select up to 5 conditions
+                            {label.PP_Select_up_to_5_conditions}
                             </label>
                         </lightning-layout-item>
                     </lightning-layout>

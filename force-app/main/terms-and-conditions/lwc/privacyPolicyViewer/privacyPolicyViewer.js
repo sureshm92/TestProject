@@ -17,6 +17,7 @@ import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons'; //Lofi_
 
 export default class PrivacyPolicyViewer extends LightningElement {
     @api isModalOpen;
+    @api receiveMessage = false;
     @api isRtl;
     @api isCommunityFooter;
     @api commPref = false;
@@ -42,6 +43,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
     @track richTextStyle = 'richTextArea slds-size_1-of-1';
     @track closeStyle = 'closeIcon closeIcon1';
     @track frmFactor = false;
+    @track stopCallingMultiple = false;
     currentPageReference = null;
     closePrivacyPolicyTab = false;
     defaultCommunityBoolean = true;
@@ -77,6 +79,13 @@ export default class PrivacyPolicyViewer extends LightningElement {
     openModal() {
         // to open modal set isModalOpen tarck value as true
         this.isModalOpen = true;
+        if(this.receiveMessage && !this.stopCallingMultiple){
+            this.connectedCallback();
+            this.stopCallingMultiple = true;
+        }else{
+            this.connectedCallback();
+            this.stopCallingMultiple = true;
+        }
     }
     closeModal() {
         // to close modal set isModalOpen tarck value as false
@@ -162,6 +171,9 @@ export default class PrivacyPolicyViewer extends LightningElement {
         let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;
         let useDefaultCommunityTemp = HasIQVIAStudiesPI && userDefalutTC;
         if (this.commPref) {
+            useDefaultCommunityTemp = true;
+        }
+        if(this.receiveMessage){
             useDefaultCommunityTemp = true;
         }
         let ppGetter = getPrivacyPolicy({

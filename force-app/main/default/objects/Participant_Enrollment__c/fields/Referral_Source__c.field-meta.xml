@@ -89,6 +89,11 @@
                 <default>false</default>
                 <label>James Lind Care</label>
             </value>
+            <value>
+                <fullName>Spectrum</fullName>
+                <default>false</default>
+                <label>Spectrum</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

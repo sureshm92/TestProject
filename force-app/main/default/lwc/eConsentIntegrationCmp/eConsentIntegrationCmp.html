@@ -108,6 +108,9 @@
                         <th class="" scope="col">
                             <div class="slds-truncate" title="Some Custom Column">{label.studysitNumbrLabel}</div>
                         </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Some Custom Column">Site Guid</div>
+                        </th>
 
                         <template for:each={venders} for:item="row">
                             <th key={row.Id}>
@@ -148,7 +151,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template for:each={eConsentdetails} for:item="row">
+                    <template for:each={eConsentdetails} for:item="row" for:index="index">
                         <tr key={row.studysiteid}>
                             <td class="">{row.studysitecountry}</td>
                             <td class="fix">
@@ -157,6 +160,18 @@
                                 </a>
                             </td>
                             <td class="">{row.studysitenumber}</td>
+                            <td>
+                                <div  class="slds-form-element slds-hint-parent test-id__output-root slds-form-element_edit slds-form-element_stacked form-element">
+                                <div  class="slds-form-element__control">
+                                     <span  class="test-id__field-value slds-form-element__static slds-grow word-break-ie11 form-element_output">
+                                         
+                                          <lightning-formatted-text data-output-element-id="output-field" value={row.studysiteguid} slot="outputField"></lightning-formatted-text>
+                                      </span>                              
+                                      <lightning-input  variant='label-hidden' type="text" onblur={handleInputchange}   class="form-element_input slds-hide" value={row.studysiteguid} data-id={row.studysiteid} data-target-id={index}></lightning-input>
+                                     <lightning-icon icon-name="utility:edit" class="form-element_button slds-p-left--x-small" onclick={handleEdit} size="xx-small" data-id={index}></lightning-icon> 
+                                </div>
+                               </div>
+                              </td>
                             <template for:each={row.vendorrapperlist} for:item="row1">
                                 <td key={row.studysiteid}>
 
@@ -172,6 +187,12 @@
                 </tbody>
             </table>
         </div>
+        <template if:true={editEnabled}>
+            <div class="form-element_action slds-float_right slds-p-around--small slds-p-right--none">
+                    <lightning-button variant="bare" label="Cancel" onclick={handleCancel}></lightning-button>
+                    <lightning-button variant="brand" class="slds-p-left--x-small" label="Save" onclick={handleSave}></lightning-button>
+            </div> 
+        </template>
         <template if:true={showpagenation}>
             <div style="margin-top: 20px;">
                 <c-rppagination records={totalstudysitelist} total-records={consentLength} show-search-box="false"

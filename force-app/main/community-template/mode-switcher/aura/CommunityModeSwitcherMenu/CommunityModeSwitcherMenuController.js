@@ -146,7 +146,9 @@
         if (event != null && event.getParams() != null) {
             const message = event.getParam('reset_PP_Menue_Items');
             if (message) {
-                helper.doInit(component, event, helper);
+                // helper.doInit(component, event, helper);
+                component.set('v.checkUpdatedData', true);
+                component.find('patientPortalMenuItemsCmp').reRenderAllModesData();
             }
         }
     }

@@ -1,5 +1,6 @@
 import { LightningElement, track, api } from 'lwc';
 import getParticipantVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsDetails';
+import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 import noVisitsLabel from '@salesforce/label/c.Study_Visit_No_Date_Or_Time_Entered';
 import noDataAvailable from '@salesforce/label/c.Visits_No_Data_Available';
 import upcoming from '@salesforce/label/c.Visits_Upcoming';
@@ -17,7 +18,9 @@ import No_Upcoming_Visits from '@salesforce/label/c.Visit_No_Upcoming_Visits';
 import No_Upcoming_Events from '@salesforce/label/c.Event_No_Upcoming_Events';
 import No_Past_Visit from '@salesforce/label/c.Visit_No_Past_Visit';
 import No_Past_Event from '@salesforce/label/c.Event_No_Past_Event';
+import unscheduledVisit from '@salesforce/label/c.StudyVisit_Unscheduled_Visit';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
+import DEVICE from '@salesforce/client/formFactor';
 
 export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     label = {
@@ -35,7 +38,8 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         No_Upcoming_Visits,
         No_Upcoming_Events,
         No_Past_Visit,
-        No_Past_Event
+        No_Past_Event,
+        unscheduledVisit
     };
     status = {
         scheduled: 'Scheduled',
@@ -48,6 +52,7 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     @api upcomingvisits;
     @api visittimezone;
 
+    @api isRTL;
     @api showupcomingvisits;
     @api visitid;
     @api pastvisitid;
@@ -67,6 +72,8 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     @track showList = true;
     @track selectedIndex = 0;
     @track visitTimezone = '';
+    @track isIpad = false;
+    @track isTabletDev=false;
 
     initialized = '';
     cbload = false;
@@ -75,12 +82,83 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     ispastvisits = true;
 
     empty_state = pp_community_icons + '/' + 'empty_visits.png';
+  
+    get upButtonStyle() {
+        if (this.past) {
+            return this.isRTL
+                ? 'slds-button slds-button_neutral up-button inactive-button-background border-radius-rtl'
+                : 'slds-button slds-button_neutral up-button inactive-button-background border-radius';
+        } else {
+            return this.isRTL
+                ? 'slds-button slds-button_brand up-button active-button-background border-radius-rtl'
+                : 'slds-button slds-button_brand up-button active-button-background border-radius';
+        }
+    }
+
+    get pastButtonStyle() {
+        if (this.past) {
+            return this.isRTL
+                ? 'slds-button slds-button_brand past-button active-button-background border-radius'
+                : 'slds-button slds-button_brand past-button active-button-background border-radius-rtl';
+        } else {
+            return this.isRTL
+                ? 'slds-button slds-button_neutral past-button inactive-button-background border-radius'
+                : 'slds-button slds-button_neutral past-button inactive-button-background border-radius-rtl';
+        }
+    }
+
+    get leftLineStyle() {
+        return this.isRTL
+            ? 'slds-p-right_x-small slds-size_1-of-12'
+            : 'slds-p-left_x-small slds-size_1-of-12';
+    }
+
+    get borderClass() {
+        return DEVICE=='Medium'
+            ? ''
+            : 'slds-border_right';
+    }
 
     connectedCallback() {
         this.visitTimezone = TIME_ZONE;
+        let ipadVal = this.isIpadLogic();
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+                console.log('rtl--->' + this.isRTL);
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+            });
     }
+   
     renderedCallback() {
         this.handleVisitChange();
+    }
+    get inactiveBoxClass(){
+        return this.isTabletDev?'inactive-custom-box tab-css':'inactive-custom-box';
+    }
+
+   
+
+    isIpadLogic() {
+        if (window.innerWidth >= 768 && window.innerWidth <= 1280) {
+            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                this.isIpad = true;
+                return true;
+            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                this.isIpad = true;
+                return true;
+            }else if (/android/i.test(navigator.userAgent.toLowerCase())) {
+                this.isTabletDev=true;                
+                return true;                
+            }
+        } else {
+            this.isIpad = false;
+            this.isTabletDev=false;              
+
+        }
+        return false;
     }
 
     onPastClick() {
@@ -89,7 +167,11 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         if (this.visitid) {
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
             if (theDiv) {
-                theDiv.className = 'inactive-custom-box';
+                if(this.isTabletDev){
+                    theDiv.className = 'inactive-custom-box tab-css';
+                }else{
+                    theDiv.className = 'inactive-custom-box';
+                }
             }
         }
         this.showupcomingvisits = false;
@@ -113,7 +195,11 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
             this.template.querySelector('[data-id="' + this.visitid + '"]');
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
             if (theDiv) {
-                theDiv.className = 'active-custom-box';
+                if(this.isTabletDev){
+                    theDiv.className = 'active-custom-box tab-css';
+                }else{
+                    theDiv.className = 'active-custom-box';
+                }
             }
         }
     }
@@ -122,7 +208,11 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         if (this.visitid) {
             const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
             if (theDiv) {
-                theDiv.className = 'inactive-custom-box';
+                if(this.isTabletDev){
+                    theDiv.className = 'inactive-custom-box tab-css';
+                }else{
+                    theDiv.className = 'inactive-custom-box';
+                }
             }
         }
         this.showupcomingvisits = true;
@@ -143,13 +233,13 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
     }
 
     createEditTask(index) {
-        console.log('Inside Create Edit');
         this.contentLoaded = false;
         this.template.querySelector('c-web-spinner').show();
         this.showreminderdatepicker = false;
         if (this.visitid) {
             getParticipantVisitsDetails({
-                visitId: this.visitid
+                visitId: this.visitid,
+                updateReminderExpTasks: true
             }).then((result) => {
                 const str =
                     '{"Id":"","Patient_Visit__c":"","Reminder_Date__c":"","ReminderDateTime":"","Remind_Me__c":"","Remind_Using_Email__c":false,"Remind_Using_SMS__c":false}';
@@ -169,12 +259,14 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
                     this.upcomingVisits[this.selectedIndex].isReminderDate = true;
                 }
                 if (!this.past && this.upcomingVisits) {
-                    this.upcomingVisits[this.selectedIndex].visit.Planned_Date__c =
-                        this.visitdata.visitDate;
+                    this.upcomingVisits[
+                        this.selectedIndex
+                    ].visit.Planned_Date__c = this.visitdata.visitDate;
                     if (this.visitdata.visitDate && this.showupcomingvisits) {
                         this.upcomingvisits[this.selectedIndex].noVisitDate = false;
-                        this.plannedDate =
-                            this.upcomingvisits[this.selectedIndex].visit.Planned_Date__c;
+                        this.plannedDate = this.upcomingvisits[
+                            this.selectedIndex
+                        ].visit.Planned_Date__c;
                     } else {
                         this.upcomingvisits[this.selectedIndex].noVisitDate = true;
                         this.plannedDate = '';
@@ -193,7 +285,11 @@ export default class ppMyVisitsList extends NavigationMixin(LightningElement) {
         var index = event.currentTarget.dataset.index;
         var past = event.currentTarget.dataset.past;
         const theDiv = this.template.querySelector('[data-id="' + this.visitid + '"]');
-        theDiv.className = 'inactive-custom-box';
+        if(this.isTabletDev){
+            theDiv.className = 'inactive-custom-box tab-css';
+        }else{
+            theDiv.className = 'inactive-custom-box';
+        }
         if (past === 'true') {
             this.past = true;
             this.visitid = this.pastvisits[index].visit.Id;

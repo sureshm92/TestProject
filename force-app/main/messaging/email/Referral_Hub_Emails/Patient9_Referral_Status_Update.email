@@ -8,7 +8,9 @@
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Referral_Status_Updated}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
-                         signature="{!$Label.Email_Signature_Patient_Short}">
+                         signature="{!$Label.Email_Signature_Patient_Short}"
+                         communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen',
+                                                                                         'Janssen',relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Patient9}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
         </c:EmailWireframe>
@@ -19,7 +21,9 @@
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Referral_Status_Updated}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
-                             signature="{!$Label.Email_Signature_Patient_Short}">
+                             signature="{!$Label.Email_Signature_Patient_Short}"
+                             communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen',
+                                                                                         'Janssen',relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Patient9}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
         </c:EmailWireframeText>

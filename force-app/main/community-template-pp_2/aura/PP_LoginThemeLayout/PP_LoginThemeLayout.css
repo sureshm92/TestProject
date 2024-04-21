@@ -13,7 +13,6 @@
 }
 .THIS .login-card {
     position: absolute;
-    top: 70px;
     right: 48px;
     min-height: 700px;
     width: 414px;
@@ -24,10 +23,11 @@
 .THIS .wave {
     height: 5rem;
 }
-.THIS .imgclass{
+.THIS .imgclass {
     margin-left: 3px;
+    display: inline-block;
 }
-.THIS .cpracss { 
+.THIS .cpracss {
     padding-right: 16px;
 }
 
@@ -59,7 +59,7 @@
 .THIS .footer {
     /* margin: 5.5rem 0 1rem 0; */
     position: absolute;
-    bottom: 1.2rem;;
+    bottom: 1.2rem;
 }
 .THIS .body-content {
     width: 20rem;
@@ -73,10 +73,25 @@
 }
 .THIS .pagelinkcss {
     font-size: 14px;
-    color: #015FF1; 
+    color: #015ff1;
     cursor: pointer;
     font-weight: 500;
 }
+
+.THIS .container {
+    position: relative;
+}
+.THIS .overlay {
+    position: absolute;
+    left: 82%;
+    top: 0.08rem;
+    opacity: 0;
+}
+
+.THIS .container:hover .overlay {
+    opacity: 1;
+}
+
 @media (max-width: 500px) {
     .THIS .body-img {
         display: none;
@@ -93,40 +108,61 @@
     }
 }
 /* Tablet media query start here */
-@media (min-width: 760px) and (max-width: 1024px) {
+@media (min-width: 760px) and (max-width: 1279px) {
     .THIS.body-content .body-img {
-        min-height: 960px;
+        height: 100vh;
     }
 }
 
-@media all  and (orientation: landscape)  and (max-width: 759px) {
+@media (min-width: 760px) and (max-width: 1279px) and (orientation: landscape) {
+    .THIS .login-card {
+        position: absolute;
+        right: 48px;
+        min-height: 600px;
+        width: 414px;
+        border-radius: 24px;
+        background-color: #ffffff;
+        box-shadow: 0 0 64px 0 rgba(0, 0, 0, 0.25);
+    }
+}
+
+@media (min-width: 414px) {
     .THIS .footer {
-         
-        position: absolute!important;
+        padding-left: 22px;
+    }
+}
+
+@media (min-width: 371px) and (max-width: 413px) {
+    .THIS .footer {
+        padding-left: calc((100vw - 370px) / 2);
+    }
+}
+@media all and (orientation: landscape) and (max-width: 759px) {
+    .THIS .footer {
+        position: absolute !important;
         left: 6%;
-        bottom: 2rem!important;
-        top: unset!important;
+        bottom: 2rem !important;
+        top: unset !important;
     }
     .THIS .footer-powered {
-        text-align: center!important;
+        text-align: center !important;
     }
-    .THIS .footerorientimage{
+    .THIS .footerorientimage {
         /* padding-left: 3rem; */
-        text-align: right!important;
+        text-align: right !important;
     }
-    .THIS .footerOrientPrivacy{
+    .THIS .footerOrientPrivacy {
         /* margin-left: -5rem!important; */
-        text-align: left!important;
+        text-align: left !important;
     }
     .THIS .footer-logo {
         /* flex: 1; */
         /* text-align: left; */
-        margin-left: unset!important;
+        margin-left: unset !important;
     }
-    .THIS .footerorientpadding{
+    .THIS .footerorientpadding {
         padding-right: 5rem;
     }
-     
 }
 
 /* Tablet media query end here */

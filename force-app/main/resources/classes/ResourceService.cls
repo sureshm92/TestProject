@@ -42,7 +42,7 @@ public virtual without sharing class ResourceService {
     public ResourceService init(String resourceType, String resourceId) {
         return init(resourceType, resourceId, null, null);
     }
-    public ResourceService ppinit(String resourceType, String participantData) {
+    public ResourceService ppInit(String resourceType, String participantData) {
         return init(resourceType, resourceId, null, participantData);
     }
 
@@ -86,6 +86,49 @@ public virtual without sharing class ResourceService {
         }
     }
 
+    public ResourceService.ResourceWrapperContainer getResourceWrapperContainer(Participant_Enrollment__c pe) {
+        Boolean isFilterDataMissing = isObjectsToFilterMissing() && resourceId != null;
+        if (isFilterDataMissing) {
+            return getErrorNoObjectsToFilter();
+        } else {
+            List<Resource__c> resources = getResources(pe);
+            if (resources.size() > 0) {
+                return getResourceWrapperContainer(resources);
+            } else {
+                return getErrorNoResources();
+            }
+        }
+        
+    }
+
+    public virtual List<Resource__c> getResources(Participant_Enrollment__c pe) {
+        List<Resource__c> resources = new List<Resource__c>();
+        if (resourceId != null && isObjectsToFilterMissing())
+            return resources;
+        List<Id> resourcesIds;
+        if (resourceId != null) {
+            resourcesIds = new List<Id>{ resourceId };
+        } else {
+            resourcesIds = getResourcesIds(pe);
+        }
+        if (resourcesIds.size() > 0) {
+            String whereClause =
+                'WHERE Id IN (' +
+                CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(resourcesIds)) +
+                ')';
+            if (Site.getMasterLabel() == 'IQVIA Patient Portal') {
+                whereClause =
+                    whereClause +
+                    ' ' +
+                    'AND  (Expiration_Date__c > TODAY OR Expiration_Date__c = NULL)';
+                resources = getResources(whereClause, getPPOrderByClause());
+            } else {
+                resources = getResources(whereClause, getOrderByClause());
+            }
+        }
+        return resources;
+    }
+
     public virtual List<Resource__c> getResources() {
         List<Resource__c> resources = new List<Resource__c>();
         if (resourceId != null && isObjectsToFilterMissing())
@@ -115,6 +158,10 @@ public virtual without sharing class ResourceService {
     }
 
     protected virtual List<Id> getResourcesIds() {
+        return new List<Id>();
+    }
+
+    protected virtual List<Id> getResourcesIds(Participant_Enrollment__c pe) {
         return new List<Id>();
     }
 
@@ -228,6 +275,7 @@ public virtual without sharing class ResourceService {
             'document_type__c, ' +
             'Image_Subtitle__c, ' +
             'article_external_link__c, ' +
+            'Posting_Date__c, '+
             'Subtitle__c, ' +
             'Byline__c, ' +
             'Author_s_Name__c, ' +

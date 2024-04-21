@@ -1,43 +1,32 @@
 .cardRTL {
     direction: rtl;
 }
-.open-task {
-    border-radius: 1rem 0 0 1rem;
-    width: 7.5rem;
-    height: 2rem;
-    letter-spacing: 0;
-    line-height: 1.5rem;
-}
 
-.active-btn {
-    background: rgba(7, 104, 253, 1);
-    color: #ffffff;
-    font-size: 1rem;
+.open-task {
+    border-radius: 16px 0 0 16px;
+    border: 1px solid #d9d9d9;
+    font-size: 14px;
+    padding: 0px 36px;
     font-weight: 600;
-    border: none;
 }
 
 .completed-task {
-    border-radius: 0rem 1rem 1rem 0rem;
-    width: 7.5rem;
-    height: 2rem;
-    margin-left: 0rem;
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+    border-radius: 0 16px 16px 0;
+    font-family: 'Proxima Nova';
+    font-weight: 600;
     letter-spacing: 0;
-    line-height: 1.5rem;
+    /* line-height: 24px; */
+    text-align: center;
+    /* height: 32px; */
+    width: 109px;
+    margin-left: -1px;
+    font-size: 14px;
 }
 
-.inactive-btn {
-    --slds-c-button-brand-color-background: #ffffff;
-    color: #595959;
-    font-size: 1rem;
-    font-weight: 500;
-    border: 1px solid #d9d9d9;
-    background: #ffffff;
-}
 .create-task {
-    background: rgba(7, 104, 253, 1);
     border-radius: 2rem;
-    color: #ffffff;
     width: 510px;
     height: 40px;
     font-size: 1rem;
@@ -46,16 +35,35 @@
     line-height: 1.5rem;
     border: none;
 }
+
+.active-button-background {
+    color: white;
+    background-color: #015ff1;
+    border-color: #015ff1;
+}
+
+.inactive-button-background {
+    color: #595959;
+    background-color: #ffffff;
+}
+
+.active-button-background:hover,
+.active-button-background:focus {
+    background-color: #0557d5;
+}
+
+.inactive-button-background:hover,
+.inactive-button-background:focus {
+    background-color: #ecf3ff;
+    border-color: #0557d5;
+}
+
 .plus-icon {
     --sds-c-icon-color-foreground-default: #ffffff;
-    padding-right: 16px;
+    padding-right: 1rem;
 }
-.before-create-task {
-    background: rgba(7, 104, 253, 1);
-    cursor: pointer;
-}
+
 .after-create-task {
-    background: rgba(7, 104, 253, 1);
     opacity: 0.4;
     pointer-events: none;
 }
@@ -284,6 +292,24 @@
     color: #6e6e6e;
 }
 
+.ignoreExpiredPath{
+    width: 100%;
+    box-sizing: border-box;
+    border: 0.6px solid #979797;
+    line-height: 1px;
+    margin: 15px 0 15px;
+    height: 1px;
+}
+.ignoreExpiredText{
+    background: #f6f7fb;
+    padding: 0px 10px 0px 0px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
 .ignored {
     height: 24px;
     width: 62px;
@@ -297,6 +323,7 @@
 .expired {
     height: 24px;
     width: 61px;
+   /* min-width: max-content; */
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 18px;
@@ -310,7 +337,7 @@
     width: 439px;
     border: 0.6px solid #979797;
     margin-top: 10px;
-    margin-left: -17px;
+    margin-left: -17px; 
 }
 
 @media all and (max-width: 486px) {
@@ -396,10 +423,14 @@
     color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
+    margin-top: 16px;
+}
+.comm-link:hover {
+    cursor: pointer;
 }
 .taskHeader {
     height: 3.14%;
@@ -414,7 +445,7 @@
     padding: 0;
 }
 .container-card {
-    background-color: rgb(246, 247, 249);
+    background-color: #f6f7fb;
     border-top-color: #c42ea5;
     border-top-width: 8px;
     padding: 0;
@@ -424,12 +455,14 @@
 }
 
 .container-card-mobile {
-    background-color: rgb(246, 247, 249);
+    max-width: 468px;
+    margin: 10px auto 0px auto !important;
+    background-color: #f6f7fb;
     border-top-color: #c627a6;
-    border-top-width: 38px;
+    border-top-width: 32px;
     padding: 0;
     border-radius: 25px;
-    height: 457px;
+    height: auto;
     margin: 0px 10px;
     border-left: 0;
     border-right: 0;
@@ -440,11 +473,14 @@
     position: relative;
     margin-top: -31px;
     text-align: center;
-    font-size: 20px;
+    font-size: 14px;
     color: #fff;
-    font-weight: 600;
+    font-weight: bold;
     font-family: 'Proxima Nova';
     text-transform: uppercase;
+    height: 32px;
+    letter-spacing: 0.5px;
+    line-height: 32px;
 }
 
 .custom-padding {
@@ -515,5 +551,30 @@
         font-weight: 600;
         letter-spacing: 0;
         line-height: 48px;
+    }
+    .container-card-mobile {
+        margin: 0px 10px !important;
+    }
+}
+.divider {
+    border-left: 1px solid #d3d3d3;
+}
+.tablet-margin {
+    margin: auto !important;
+}
+@media all and (max-width: 1023px) {
+    .divider {
+        border-left: none;
+        border-top: 1px solid #d3d3d3;
+        margin: inherit;
+        margin-top: 50px;
+    }
+    .card-gap {
+        margin-top: 18px;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
+    .overflow-scroll {       
+        height: 700px;        
     }
 }

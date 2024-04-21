@@ -5,7 +5,7 @@ import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import CONTINUE from '@salesforce/label/c.Continue';
 
-import getAlerts from '@salesforce/apex/AlertsRemote.getAlerts';
+import getAlerts from '@salesforce/apex/AlertsRemote.getPPAlerts';
 import setAlertViewed from '@salesforce/apex/AlertsRemote.setAlertViewed';
 
 export default class PpAlerts extends LightningElement {
@@ -20,16 +20,10 @@ export default class PpAlerts extends LightningElement {
 
     labels = { CONTINUE };
 
-    connectedCallback() {
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                if (!this.isInitialized) {
-                    this.initializeData();
-                }
-            })
-            .catch((error) => {
-                this.showToast(error.message, error.message, 'error');
-            });
+    renderedCallback() {
+        if (!this.isInitialized) {
+            this.initializeData();
+        }
     }
 
     get currentAlertData() {
@@ -48,9 +42,9 @@ export default class PpAlerts extends LightningElement {
         this.spinner = this.template.querySelector('c-web-spinner');
         let queryString = window.location.href;
         if (!queryString.includes('account-settings')) {
-        if (this.spinner) {
-            this.spinner.show();
-        }
+            if (this.spinner) {
+                this.spinner.show();
+            }
         }
         if (rtlLanguages.includes(communityService.getLanguage())) {
             this.isRTL = true;

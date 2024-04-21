@@ -133,6 +133,8 @@ hr {
 .mobile-padding {
     padding: 5px;
     padding-top: 12px;
+    background: white;
+    border-radius: 8px;
 }
 
 .expect-text {
@@ -200,10 +202,10 @@ hr {
     padding-bottom: 0;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    height: 220px;
+    /*height: 220px;*/
 }
 .visit-card-upcoming {
-    height: 377px;
+    height: 330px;
     display: grid;
 }
 .center-align {
@@ -218,7 +220,7 @@ hr {
     color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
@@ -235,6 +237,10 @@ hr {
 
 .info-icon-mobile {
     padding-left: 10px;
+}
+
+.slds-media__figure.icon {
+    padding-bottom: 3px;
 }
 
 .padding-top {
@@ -316,4 +322,12 @@ hr {
         color: #a9a9a9;
         margin-top: 8px;
     }
+    .label {
+        margin-top: 1rem;
+    }
+}
+.location-overflow{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

@@ -401,13 +401,18 @@ export default class Pir_sharingFormFields extends LightningElement {
                 pe != null &&
                 pe.Study_Site_Type__c != 'Virtual' &&
                 pe.Study_Site_Type__c != 'Hybrid' &&
-                pe.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c ==
-                    false &&
-                pe.Suppress_Participant_Emails__c == false &&                
-                pe.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' && 
+                pe.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c ==false &&
+                pe.Suppress_Participant_Emails__c == false &&  
                 pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true
             ) {
-                isDelegateInvited = true;
+                if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen')
+                {
+                    isDelegateInvited = pe.Clinical_Trial_Profile__r.PPTemplate__c != null ? true : false;
+                }
+                else {
+                    isDelegateInvited = true;    
+                }
+                
             }
             this.loading = true;
             this.toggleParentComponent();//disable parent component for navigation

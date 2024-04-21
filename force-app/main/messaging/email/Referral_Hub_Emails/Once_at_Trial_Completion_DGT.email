@@ -8,7 +8,9 @@
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Once_at_Trial_Completion}"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Signature_Trial_Completed}">
+                          signature="{!$Label.Email_Signature_Trial_Completed}"
+                          communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen',
+                                                                                         'Janssen',relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Once_at_Trial_Completion_DGT}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailWireframe>
@@ -20,7 +22,9 @@
                              header="{!$Label.Email_Header_Once_at_Trial_Completion}"
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
-                             signature="{!$Label.Email_Signature_Trial_Completed}">
+                             signature="{!$Label.Email_Signature_Trial_Completed}"
+                            communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen',
+                                                                                         'Janssen',relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Once_at_Trial_Completion_DGT}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                                   resourceId="{!relatedTo.Id}"/>

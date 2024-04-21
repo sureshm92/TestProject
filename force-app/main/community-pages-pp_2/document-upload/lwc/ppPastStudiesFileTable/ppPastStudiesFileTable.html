@@ -1,0 +1,918 @@
+<template>
+    <c-custom-toast-files-p-p is-mobile={isMobile}></c-custom-toast-files-p-p>
+    <template if:false={isMobile}>
+        <span class="document">{label.PP_Resource_Documents}</span>
+        <div class="document-box-desk pir-parent pp-doc">
+           <c-web-spinner
+                class="main-spinner"
+                fixed="true"
+                show-spinner={saving}
+            ></c-web-spinner>
+            <div class="section-padding all-tabs slds-show_medium">
+                <lightning-tabset active-tab-value="">
+                    <lightning-tab label="Uploaded" onactive={handleFiles}>
+                        <template if:false={noRecords}>
+                            <div
+                                class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small ppfont tablePP"
+                            >
+                                <div class="table-width nodata paddingTable">
+                                    <table
+                                        role="grid"
+                                        class="slds-table slds-table_cell-buffer table-width-D"
+                                    >
+                                        <colgroup>
+                                            <col class="fTitle" />
+                                            <col class="ffileType" />
+                                            <col span="2" class="fUploadDate" />
+                                            <col class="fDownload" />
+                                            <col class="fDelete" />
+                                        </colgroup>
+                                        <!--Header of the table-->
+                                        <thead>
+                                            <tr class="slds-line-height_reset">
+                                                <th
+                                                    class="table-header slds-large-size_6-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div
+                                                        class="table-header-label slds-truncate pptablewidth sort-onhover cuPointer"
+                                                        title={label.Resource_Title}
+                                                        onclick={sortByTitle}
+                                                        data-id="title"
+                                                    >
+                                                      <span class={isFileNameSorted}>
+                                                            {label.Resource_Title}</span
+                                                        >
+
+                                                        <template
+                                                            if:true={arrowUpTitle}
+                                                        >
+                                                            <lightning-icon
+                                                                class="iconMargin blackArrow"
+                                                                icon-name="utility:arrowup"
+                                                                size="xx-small"
+                                                                title={label.PP_Sort}
+                                                            >
+                                                            </lightning-icon>
+                                                        </template>
+                                                        <template
+                                                            if:true={arrowDownTitle}
+                                                        >
+                                                            <lightning-icon
+                                                                class="iconMargin blackArrow"
+                                                                icon-name="utility:arrowdown"
+                                                                size="xx-small"
+                                                                title={label.PP_Sort}
+                                                            >
+                                                            </lightning-icon>
+                                                        </template>                                    
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    class="table-header slds-text-align--left slds-medium-size_2-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div
+                                                        class="table-header-label slds-truncate sort-onhover cuPointer"
+                                                        title={label.File_Type}
+                                                        onclick={sortByType}
+                                                        data-id="fileType"
+                                                    >
+                                                        <span class={isTypeSorted}>
+                                                            {label.File_Type}</span
+                                                        >
+                                                        <template
+                                                            if:true={arrowUpType}
+                                                        >
+                                                            <span>
+                                                                <lightning-icon
+                                                                    class="iconMargin blackArrow"
+                                                                    icon-name="utility:arrowup"
+                                                                    size="xx-small"
+                                                                    title={label.PP_Sort}
+                                                                >
+                                                                </lightning-icon>
+                                                            </span>
+                                                        </template>
+
+                                                        <template
+                                                            if:true={arrowDownType}
+                                                        >
+                                                            <span>
+                                                                <lightning-icon
+                                                                    class="iconMargin blackArrow"
+                                                                    icon-name="utility:arrowdown"
+                                                                    size="xx-small"
+                                                                    title={label.PP_Sort}
+                                                                >
+                                                                </lightning-icon>
+                                                            </span>
+                                                        </template>
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    class="table-header slds-text-align--left slds-medium-size_2-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div
+                                                        class="table-header-label slds-truncate sort-onhover cuPointer"
+                                                        title={label.PP_UploadDate}
+                                                        onclick={sortByDate}
+                                                        data-id="createdDate"
+                                                    >
+                                                            <span class={isSortedByDate}>
+                                                            {label.PP_UploadDate}</span
+                                                        >
+
+                                                        <template
+                                                            if:true={arrowUpDate}
+                                                        >
+                                                            <lightning-icon
+                                                                class="iconMargin C blackArrow"
+                                                                icon-name="utility:arrowup"
+                                                                size="xx-small"
+                                                                title={label.PP_Sort}
+                                                            >
+                                                            </lightning-icon>
+                                                        </template>
+                                                        <template
+                                                            if:true={arrowDownDate}
+                                                        >
+                                                            <lightning-icon
+                                                                class="iconMargin C blackArrow"
+                                                                icon-name="utility:arrowdown"
+                                                                size="xx-small"
+                                                                title={label.PP_Sort}
+                                                            >
+                                                            </lightning-icon>
+                                                        </template>
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    class="table-header slds-text-align_center slds-medium-size_1-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div
+                                                        class="table-header-label slds-truncate"
+                                                    ></div>
+                                                </th>
+                                                <th
+                                                    class="table-header slds-medium-size_1-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div
+                                                        class="table-header-label slds-truncate"
+                                                    ></div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <template if:true={fileList}>
+                                            <template
+                                                for:each={fileList}
+                                                for:item="b"
+                                                for:index="index"
+                                            >
+                                                <tbody key={b.Id}>
+                                                    <tr
+                                                        class="slds-hint-parent table-row divider"
+                                                    >
+                                                        <td data-label="ftitle">
+                                                            <div
+                                                                class="slds-truncate titleLink"
+                                                                title={b.Title}
+                                                                onclick={onPreview}
+                                                                data-id={b.previewUrl}
+                                                                data-title={b.Title}
+                                                                data-label={b.ContentDocumentId}
+                                                            >
+                                                                <a
+                                                                    data-id={b.previewUrl}
+                                                                    data-title={b.Title}
+                                                                    data-label={b.ContentDocumentId}
+                                                                >
+                                                                    {b.Title}
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            data-label="ffiletype"
+                                                            class="slds-text-align--left"
+                                                        >
+                                                            <div
+                                                                class="slds-truncate"
+                                                                title={b.FileType}
+                                                            >
+                                                                {b.FileType}
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            data-label="fuploaddate"
+                                                            class="slds-text-align--left"
+                                                        >
+                                                            <div
+                                                                class="slds-truncate"
+                                                            >
+                                                                <lightning-formatted-date-time
+                                                                    year="numeric"
+                                                                    month="short"
+                                                                    day="2-digit"
+                                                                    value={b.CreatedDate}
+                                                                    time-zone={timeZone}
+                                                                ></lightning-formatted-date-time>
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            data-label="action"
+                                                            class="slds-text-align_center"
+                                                        >
+                                                            <div
+                                                                class="slds-truncate"
+                                                                title=""
+                                                            >
+                                                                <a  class="clickbox"
+                                                                    href={b.ContentUrl}
+                                                                >
+                                                                    <img src={downloadIcon} class="no-click" alt={label.PIR_Download} title={label.PIR_Download}/>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            data-label="action"
+                                                            class=""
+                                                        >
+                                                            <div
+                                                                class="slds-truncate"
+                                                                title=""
+                                                            >
+                                                                <div
+                                                                    class="cuPointer clickbox"
+                                                                    onclick={onDelete}
+                                                                    data-id={b.Id}
+                                                                >
+                                                                    <img data-id={b.Id} src={deleteIcon} class="no-click" alt={label.pir_Delete_Btn} title={label.pir_Delete_Btn}/>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </template>
+                                        </template>
+                                    </table>
+                                </div>
+                            </div>
+                        </template>
+                    </lightning-tab>
+                    <lightning-tab
+                        label="Shared with Me"
+                        onactive={handleMessageFiles}
+                    >
+                        <template if:false={noMsgRecords}>
+                            <div
+                                class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_small ppfont tablePP"
+                            >
+                                <div class="table-width nodata paddingTable">
+                                    <table
+                                        role="grid"
+                                        class="slds-table slds-table_cell-buffer table-width-D"
+                                    >
+                                        <colgroup>
+                                            <col class="fTitle" />
+                                            <col class="ffileType" />
+                                            <col span="2" class="fUploadDate" />
+                                            <col class="fDownload" />
+                                            <!-- <col class="fDelete" /> -->
+                                        </colgroup>
+                                        <!--Header of the table-->
+                                        <thead>
+                                            <tr class="slds-line-height_reset">
+                                                <th
+                                                    class="table-header slds-large-size_7-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div
+                                                        class="table-header-label slds-truncate pptablewidth sort-onhover cuPointer"
+                                                        title={label.Resource_Title}
+                                                        onclick={sortByMsgTitle}
+                                                        data-id="title"
+                                                    >
+                                                          <span class={isMessageTitleSorted}>
+                                                            {label.Resource_Title}</span
+                                                        >
+
+                                                        <template
+                                                            if:true={arrowUpTitleMsg}
+                                                        >
+                                                            <lightning-icon
+                                                                class="iconMargin blackArrow"
+                                                                icon-name="utility:arrowup"
+                                                                size="xx-small"
+                                                                title={label.PP_Sort}
+                                                            >
+                                                            </lightning-icon>
+                                                        </template>
+                                                        <template
+                                                            if:true={arrowDownTitleMsg}
+                                                        >
+                                                            <lightning-icon
+                                                                class="iconMargin blackArrow"
+                                                                icon-name="utility:arrowdown"
+                                                                size="xx-small"
+                                                                title={label.PP_Sort}
+                                                            >
+                                                            </lightning-icon>
+                                                        </template>
+
+                                                       
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    class="table-header slds-text-align--left slds-medium-size_2-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div
+                                                        class="table-header-label slds-truncate sort-onhover cuPointer"
+                                                        title={label.File_Type}
+                                                        onclick={sortByMsgType}
+                                                        data-id="fileType"
+                                                    >
+                                                         <span class={isMessageTypeSorted}>
+                                                            {label.File_Type}
+                                                        </span>
+
+                                                        <template
+                                                            if:true={arrowUpTypeMsg}
+                                                        >
+                                                            <span>
+                                                                <lightning-icon
+                                                                    class="iconMargin blackArrow"
+                                                                    icon-name="utility:arrowup"
+                                                                    size="xx-small"
+                                                                    title={label.PP_Sort}
+                                                                >
+                                                                </lightning-icon>
+                                                            </span>
+                                                        </template>
+
+                                                        <template
+                                                            if:true={arrowDownTypeMsg}
+                                                        >
+                                                            <span>
+                                                                <lightning-icon
+                                                                    class="iconMargin blackArrow"
+                                                                    icon-name="utility:arrowdown"
+                                                                    size="xx-small"
+                                                                    title={label.PP_Sort}
+                                                                >
+                                                                </lightning-icon>
+                                                            </span>
+                                                        </template>
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    class="table-header slds-text-align--left slds-medium-size_2-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div
+                                                        class="table-header-label slds-truncate sort-onhover cuPointer"
+                                                        title={label.TV_TH_Date}
+                                                        onclick={sortByMsgDate}
+                                                        data-id="createdDate"
+                                                    >
+                                                        <span class={isMsgDateSorted}>
+                                                            {label.TV_TH_Date}</span
+                                                        >
+
+                                                        <template
+                                                            if:true={arrowUpDateMsg}
+                                                        >
+                                                            <lightning-icon
+                                                                class="iconMargin C blackArrow"
+                                                                icon-name="utility:arrowup"
+                                                                size="xx-small"
+                                                                title={label.PP_Sort}
+                                                            >
+                                                            </lightning-icon>
+                                                        </template>
+                                                        <template
+                                                            if:true={arrowDownDateMsg}
+                                                        >
+                                                            <lightning-icon
+                                                                class="iconMargin C blackArrow"
+                                                                icon-name="utility:arrowdown"
+                                                                size="xx-small"
+                                                                title={label.PP_Sort}
+                                                            >
+                                                            </lightning-icon>
+                                                        </template>
+                                                    </div>
+                                                </th>
+                                                <th
+                                                    class="table-header slds-text-align_center slds-medium-size_1-of-12"
+                                                    scope="col"
+                                                >
+                                                    <div
+                                                        class="table-header-label slds-truncate"
+                                                    ></div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <template if:true={cvListMsg}>
+                                            <template
+                                                for:each={cvListMsg}
+                                                for:item="b"
+                                                for:index="index"
+                                            >
+                                                <tbody key={b.Id}>
+                                                    <tr
+                                                        class="slds-hint-parent table-row divider"
+                                                    >
+                                                        <td data-label="ftitle">
+                                                            <div
+                                                                class="slds-truncate titleLink"
+                                                                title={b.ContentDocument.Title}
+                                                                onclick={onPreview}
+                                                                data-id={b.previewUrl}
+                                                                data-title={b.ContentDocument.Title}
+                                                                data-label={b.ContentDocumentId}
+                                                            >
+                                                                <a
+                                                                    data-id={b.previewUrl}
+                                                                    data-title={b.ContentDocument.Title}
+                                                                    data-label={b.ContentDocumentId}
+                                                                >
+                                                                    {b.ContentDocument.Title}
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            data-label="ffiletype"
+                                                            class="slds-text-align--left"
+                                                        >
+                                                            <div
+                                                                class="slds-truncate file-uppercase"
+                                                                title={b.ContentDocument.FileExtension}
+                                                            >
+                                                                {b.ContentDocument.FileExtension}
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            data-label="fuploaddate"
+                                                            class="slds-text-align--left"
+                                                        >
+                                                            <div
+                                                                class="slds-truncate"
+                                                            >
+                                                                <lightning-formatted-date-time
+                                                                    year="numeric"
+                                                                    month="short"
+                                                                    day="2-digit"
+                                                                    value={b.ContentDocument.CreatedDate}
+                                                                    time-zone={timeZone}
+                                                                ></lightning-formatted-date-time>
+                                                            </div>
+                                                        </td>
+                                                        <td
+                                                            data-label="action"
+                                                            class="slds-text-align_center"
+                                                        >
+                                                            <div
+                                                                class="slds-truncate"
+                                                                title=""
+                                                            >
+                                                                <a  class="clickbox"
+                                                                    href={b.ContentUrl}
+                                                                >
+                                                                    <img src={downloadIcon} class="no-click" alt={label.PIR_Download} title={label.PIR_Download}/>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </template>
+                                        </template>
+                                    </table>
+                                </div>
+                            </div>
+                        </template>
+                    </lightning-tab>
+                </lightning-tabset>
+            </div>
+
+            <template if:true={isDocAvailable}>
+                <div class="slds-align_absolute-center top-center">
+                    <div class="dis-block">
+                        <span class="center"
+                            ><img
+                                src={noDocumentAvailable}
+                                class="no-doc-img-size"
+                        /></span>
+                        <span class="no-doc-txt slds-m-top_medium"
+                            >{label.No_Documents_Available}</span
+                        >
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
+
+    <template if:true={openDeleteModel}>
+        <c-pp-modal
+            header-text={label.PP_DeleteFile}
+            size="small"
+            is-show="true"
+            onclose={handleCancelModel}
+        >
+            <div slot="body">
+                <div class="body-container">
+                    <lightning-formatted-rich-text
+                        value={label.PP_DeleteConfirmation}
+                    ></lightning-formatted-rich-text>
+                </div>
+            </div>
+            <div slot="footer">
+                <template lwc:if={isDesktop}>
+                    <div class="slds-grid slds-gutters slds-grid_align-end">
+                        <!--<div class="slds-grid slds-gutters slds-grid_align-end">-->
+                        <div class="slds-col button-cancel">
+                            <button
+                                class="slds-button button-continue"
+                                onclick={handleCancelModel}
+                            >
+                                {label.BTN_Cancel}
+                            </button>
+                        </div>
+                        <div class="slds-col button-delete">
+                            <button
+                                class="slds-button button-continue"
+                                onclick={handleContinueModel}
+                            >
+                                {label.pir_Delete_Btn}
+                            </button>
+                        </div>
+                    </div>
+                </template>
+                <template lwc:else>
+                    <!-- for Mobile-->
+                    <div class="slds-grid slds-wrap">
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-align_absolute-center button-delete-mobile"
+                        >
+                            <button
+                                class="slds-button button-delete-mobile"
+                                onclick={handleContinueModel}
+                            >
+                                {label.pir_Delete_Btn}
+                            </button>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-top_medium button-cancel"
+                        >
+                            <button
+                                class="slds-button button-cancel"
+                                onclick={handleCancelModel}
+                            >
+                                {label.BTN_Cancel}
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </c-pp-modal>
+    </template>
+    <!-- only for mobile table data start here -->
+    <template if:true={isMobile}>
+        <div class="document-box pir-parent">
+            <c-web-spinner
+                class="main-spinner"
+                fixed="true"
+                show-spinner={saving}
+            ></c-web-spinner>
+            <div
+                class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large D"
+            >
+                <button
+                    class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small button-content actionsList"
+                    aria-haspopup="true"
+                    aria-expanded="true"
+                    title="Uploaded"
+                    onclick={opendropdown}
+                    onblur={handleonblur}
+                >
+                    <span class="slds-truncate w-100">{selectedmenu}</span>
+                    <span>
+                        <lightning-icon
+                            icon-name="utility:down"
+                            size="xx-small"
+                            alternative-text="down"
+                            title="down"
+                            class="slds-icon-text-primary"
+                        ></lightning-icon>
+                    </span>
+                </button>
+                <div
+                    class="slds-dropdown slds-dropdown_left w-100 dropdown-zindex uploadeditemswidth slds-m-left--xx-small"
+                >
+                    <ul
+                        class="slds-dropdown__list font-dropdowns"
+                        role="menu"
+                        aria-label="Uploaded"
+                    >
+                        <template for:each={optionstab} for:item="stab">
+                            <li
+                                class="slds-dropdown__item"
+                                role="presentation"
+                                key={stab.value}
+                                data-id={stab.value}
+                                data-title={stab.label}
+                            >
+                                <a
+                                    href="#"
+                                    role="menuitem"
+                                    data-id={stab.value}
+                                    data-title={stab.label}
+                                    onmousedown={handlenewOnSelect}
+                                >
+                                    <span
+                                        class="slds-truncate"
+                                        title={stab.label}
+                                        data-title={stab.label}
+                                        data-id="Uploaded"
+                                        >{stab.label }</span
+                                    >
+                                </a>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </div>
+            <template if:true={isUploadedTab}>
+                <template if:false={noRecords}>
+                    <div
+                        class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large Sort"
+                    >
+                        <button
+                            class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small sortbutton-content actionsList"
+                            aria-haspopup="true"
+                            aria-expanded="true"
+                            title="Uploaded"
+                            onclick={opendropdownSort}
+                            onblur={handleonblur}
+                        >
+                            <span class="slds-truncate w-100 fBold"
+                                >{selectedsortOption}</span
+                            >
+                            <span>
+                                <img src={sort} class="sortIcon" />
+                            </span>
+                        </button>
+                        <div
+                            class="slds-dropdown slds-dropdown_left w-100 dropdown-zindex sortitems"
+                        >
+                            <ul
+                                class="slds-dropdown__list font-dropdowns"
+                                role="menu"
+                                aria-label="SortBy"
+                            >
+                                <template
+                                    for:each={optionsSort}
+                                    for:item="sortopt"
+                                >
+                                    <li
+                                        class="slds-dropdown__item"
+                                        role="presentation"
+                                        key={sortopt.value}
+                                        data-id={sortopt.value}
+                                        data-title={sortopt.label}
+                                    >
+                                        <a
+                                            href="#"
+                                            role="menuitem"
+                                            data-id={sortopt.value}
+                                            data-title={sortopt.label}
+                                            onmousedown={handlenewOnSelectSort}
+                                        >
+                                            <span
+                                                class="slds-truncate"
+                                                title={sortopt.label}
+                                                data-title={sortopt.label}
+                                                data-id={sortopt.value}
+                                                >{sortopt.label}</span
+                                            >
+                                        </a>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <template if:true={fileList}>
+                            <template
+                                for:each={fileList}
+                                for:item="b"
+                                for:index="index"
+                            >
+                                <div class="slds-grid m-grid" key={b.Id}>
+                                    <!-- <span key={b.Id}> -->
+                                    <div
+                                        class="slds-col slds-size_8-of-12 slds-p-left_medium"
+                                    >
+                                        <div
+                                            class="upld-file-name"
+                                            title={b.Title}
+                                            onclick={onPreview}
+                                            data-id={b.previewUrl}
+                                            data-title={b.Title}
+                                            data-label={b.ContentDocumentId}
+                                        >
+                                            {b.Title}
+                                        </div>
+                                        <div class="pdf">{b.FileType}</div>
+                                        <div class="file-upld-date">
+                                            <lightning-formatted-date-time
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                                time-zone={timeZone}
+                                                value={b.CreatedDate}
+                                            ></lightning-formatted-date-time>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="slds-col center slds-align-middle slds-size_2-of-12"
+                                    >
+                                        <a class="clickbox" href={b.ContentUrl}>
+                                            <img src={downloadIcon} class="no-click" alt={label.PIR_Download} title={label.PIR_Download}/>
+                                        </a>
+                                    </div>
+                                    <div
+                                        class="slds-col center slds-align-middle slds-size_2-of-12 clickbox"
+                                        onclick={onDelete}
+                                        data-id={b.Id}
+                                    >
+                                        <img src={deleteIcon} class="no-click" alt={label.pir_Delete_Btn} title={label.pir_Delete_Btn}/>
+                                    </div>
+
+                                    <!-- </span> -->
+                                </div>
+                                <div  key={b.Id}
+                                class="slds-p-left--medium slds-p-right--medium slds-p-top--large bordercss"
+                                style="width: 100%; height: 100%;  display: inline-flex">
+                                <span class="borderinnercss" style="width: 100%; height: 1px; background: #F6F7FB"></span>
+                              </div>
+                            </template>
+                        </template>
+                    </div>
+                </template>
+
+                <template if:true={noRecords}>
+                    <div class="slds-align_absolute-center top-center">
+                        <div class="dis-block">
+                            <span class="center"
+                                ><img
+                                    src={noDocumentAvailable}
+                                    class="no-doc-img-size"
+                            /></span>
+                            <span class="no-doc-txt slds-m-top_medium"
+                                >{label.No_Documents_Available}</span
+                            >
+                        </div>
+                    </div>
+                </template>
+            </template>
+
+            <template if:false={isUploadedTab}>
+                <template if:false={noMsgRecords}>
+                    <div
+                        class="slds-dropdown-trigger slds-dropdown-trigger_click w-100 slds-m-left--small slds-m-top--medium slds-p-right--large Sort"
+                    >
+                        <button
+                            class="slds-button slds-button_icon slds-button_icon-border-filled w-100 btn-shadow slds-p-left_x-small slds-p-right_x-small sortbutton-content actionsList"
+                            aria-haspopup="true"
+                            aria-expanded="true"
+                            title="Uploaded"
+                            onclick={opendropdownSort}
+                            onblur={handleonblur}
+                        >
+                            <span class="slds-truncate w-100 fBold"
+                                >{selectedsortOption}</span
+                            >
+                            <span>
+                                <img src={sort} class="sortIcon" />
+                            </span>
+                        </button>
+                        <div
+                            class="slds-dropdown slds-dropdown_left w-100 dropdown-zindex sortitems"
+                        >
+                            <ul
+                                class="slds-dropdown__list font-dropdowns"
+                                role="menu"
+                                aria-label="SortBy"
+                            >
+                                <template
+                                    for:each={optionsSort}
+                                    for:item="sortopt"
+                                >
+                                    <li
+                                        class="slds-dropdown__item"
+                                        role="presentation"
+                                        key={sortopt.value}
+                                        data-id={sortopt.value}
+                                        data-title={sortopt.label}
+                                    >
+                                        <a
+                                            href="#"
+                                            role="menuitem"
+                                            data-id={sortopt.value}
+                                            data-title={sortopt.label}
+                                            onmousedown={handlenewOnSelectSortMsg}
+                                        >
+                                            <span
+                                                class="slds-truncate"
+                                                title={sortopt.label}
+                                                data-title={sortopt.label}
+                                                data-id={sortopt.value}
+                                                >{sortopt.label}</span
+                                            >
+                                        </a>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <template if:true={cvListMsg}>
+                            <template
+                                for:each={cvListMsg}
+                                for:item="b"
+                                for:index="index"
+                            >
+                                <div class="slds-grid m-grid" key={b.Id}>
+                                    <!-- <span key={b.Id}> -->
+                                    <div
+                                        class="slds-col slds-size_10-of-12 slds-p-left_medium"
+                                    >
+                                        <div
+                                            class="upld-file-name"
+                                            title={b.ContentDocument.Title}
+                                            onclick={onPreview}
+                                            data-id={b.previewUrl}
+                                            data-title={b.ContentDocument.Title}
+                                            data-label={b.ContentDocumentId}
+                                        >
+                                            {b.ContentDocument.Title}
+                                        </div>
+                                        <div class="pdf file-uppercase">
+                                            {b.ContentDocument.FileExtension}
+                                        </div>
+                                        <div class="file-upld-date">
+                                            <lightning-formatted-date-time
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                                time-zone={timeZone}
+                                                value={b.ContentDocument.CreatedDate}
+                                            ></lightning-formatted-date-time>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="slds-col center slds-align-middle slds-size_2-of-12"
+                                    >
+                                        <a class="clickbox" href={b.ContentUrl}>
+                                            <img src={downloadIcon} class="no-click" alt={label.PIR_Download} title={label.PIR_Download}/>
+                                        </a>
+                                    </div>
+                                    <!-- </span> -->
+                                </div>
+                                <div  key={b.Id}
+                                class="slds-p-left--medium slds-p-right--medium slds-p-top--large bordercss"
+                                style="width: 100%; height: 100%;  display: inline-flex">
+                                <span class="borderinnercss" style="width: 100%; height: 1px; background: #F6F7FB"></span>
+                              </div>
+                            </template>
+                        </template>
+                    </div>
+                </template>
+
+                <template if:true={noMsgRecords}>
+                    <div class="slds-align_absolute-center top-center">
+                        <div class="dis-block">
+                            <span class="center"
+                                ><img
+                                    src={noDocumentAvailable}
+                                    class="no-doc-img-size"
+                            /></span>
+                            <span class="no-doc-txt slds-m-top_medium"
+                                >{label.No_Documents_Available}</span
+                            >
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </template>
+
+    <!-- only for mobile table data end here -->
+</template>

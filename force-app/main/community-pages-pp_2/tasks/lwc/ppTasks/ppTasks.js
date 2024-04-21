@@ -27,6 +27,7 @@ import markAsCompleted from '@salesforce/apex/TaskEditRemote.markAsCompleted';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import basePathName from '@salesforce/community/basePath';
 import viewAllTasks from '@salesforce/label/c.View_All_Tasks';
+import PP_Open from '@salesforce/label/c.PP_Open';
 
 export default class PpTasks extends NavigationMixin(LightningElement) {
     initData;
@@ -56,11 +57,14 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         taskPPCompleted,
         taskPPIgnored,
         taskPPExpired,
-        viewAllTasks
+        viewAllTasks,
+        PP_Open
     };
     taskSelectionMode = 'Open';
-    taskBtnOpenClass = 'open-task active-btn';
-    taskBtnCompleteClass = 'completed-task inactive-btn';
+    taskBtnOpenClass = 'slds-button slds-button_neutral open-task active-button-background';
+    // taskBtnOpenClass = 'open-task primaryBtn slds-button';
+    taskBtnCompleteClass =
+        'slds-button slds-button_brand completed-task inactive-button-background';
     taskOpenTab = true;
     isEnrolled;
     emailOptIn;
@@ -109,12 +113,16 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     editMode = false;
     taskParamId;
     showSpinner = true;
+    rightPanelComponents = [];
+    isMobileApp;
+
     connectedCallback() {
         if (formFactor === 'Small') {
             this.isMobile = true;
         } else {
             this.isMobile = false;
         }
+        this.isMobileApp = communityService.isMobileSDK();
         var pageurl = communityService.getFullPageName();
         var pageParam = communityService.getUrlParameter('id');
         this.taskParamId = pageParam;
@@ -124,9 +132,15 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         } else {
             this.ishomepage = true;
         }
-        this.sfdcBaseURL = window.location.origin + basePathName + '/tasks';
         this.spinner = this.template.querySelector('c-web-spinner');
         this.initializeData();
+    }
+    get containerTabletCard() {
+        if (formFactor === 'Medium') {
+            return 'slds-card slds-card_boundary container-card-mobile tablet-margin slds-size_4-of-6';
+        } else {
+            return 'slds-card slds-card_boundary container-card-mobile';
+        }
     }
     initializeData() {
         try {
@@ -135,7 +149,7 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
             this.completedTasks = [];
             getPPParticipantTasks()
                 .then((participantTasks) => {
-                    console.log('participantTasks', participantTasks);
+                    console.log('participantTasks', JSON.stringify(participantTasks));
                     this.emptyIgnoreTasks = true;
                     this.emptyExpiredTasks = true;
                     this.showCreateTaskButton = participantTasks.showCreateTaskButton;
@@ -177,8 +191,8 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     }
     get taskButtonClass() {
         return this.isCreateTask
-            ? 'create-task after-create-task'
-            : 'create-task before-create-task';
+            ? 'primaryBtn slds-button create-task after-create-task'
+            : 'primaryBtn slds-button create-task';
     }
     handleTaskClose(event) {
         this.isCreateTask = event.detail.isClose;
@@ -209,6 +223,16 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                     tasks[i].openTask.Task_Code__c === undefined
                         ? false
                         : this.taskCodeList.includes(tasks[i].openTask.Task_Code__c);
+                tasks[i].activateEcoaTask = 
+                        this.taskCodeList.includes(tasks[i].openTask.Task_Code__c) && 
+                                tasks[i].openTask.Task_Code__c ==  'Activate_Ecoa_Ediaries' 
+                                ? true 
+                                : false;        
+                tasks[i].ecoaTask =
+                        tasks[i].openTask.Task_Type__c != undefined &&
+                            tasks[i].openTask.Task_Type__c == 'Ecoa' 
+                            ? true
+                            : false;
                 if (tasks[i].task.Id == this.taskParamId) {
                     tasks[i].expandCard = true;
                 }
@@ -228,18 +252,24 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 } else {
                     tasks[i].criticalTask = tasks[i].openTask.Priority == 'Critical' ? true : false;
                 }
-                tasks[i].subjectClass = tasks[i].systemTask
-                    ? 'set-up-your-account curpointer'
-                    : 'set-up-your-account';
+                tasks[i].subjectClass = 
+                    (tasks[i].systemTask || tasks[i].ecoaTask)
+                        ? 'set-up-your-account curpointer'
+                        : 'set-up-your-account';
                 tasks[i].subjectEllipsisClass = tasks[i].criticalTask
                     ? 'crit-subject-ellipsis crit-mob-subject-ellipsis'
                     : 'subject-ellipsis mob-subject-ellipsis';
                 tasks[i].homeSubjectEllipsisClass = tasks[i].criticalTask
                     ? 'home-crit-subject-ellipsis home-crit-mob-subject-ellipsis curpointer'
                     : 'home-subject-ellipsis mob-subject-ellipsis curpointer';
-                tasks[i].businessTask = tasks[i].systemTask
-                    ? tasks[i].openTask.Task_Code__c == 'Complete_Survey'
-                    : true;
+                tasks[i].businessTask = !tasks[i].ecoaTask && tasks[i].systemTask
+                    ? tasks[i].task.Task_Code__c == 'Complete_Survey'
+                    : true;    
+                if(tasks[i].ecoaTask) tasks[i].businessTask = false;
+                tasks[i].displayChevron = (tasks[i].ecoaTask ||  tasks[i].activateEcoaTask || tasks[i].systemTask )
+                    ? true
+                    : false;
+    
             }
             this.openTasks = JSON.parse(JSON.stringify(this.openTasks));
         } catch (e) {
@@ -257,8 +287,19 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].task.Task_Code__c === undefined
                     ? false
                     : this.taskCodeList.includes(tasks[i].task.Task_Code__c);
+            tasks[i].ecoaTask =
+                    tasks[i].task.Task_Type__c != undefined &&
+                        tasks[i].task.Task_Type__c == 'Ecoa' 
+                        ? true
+                        : false;
+            tasks[i].activateEcoaTask = 
+                    this.taskCodeList.includes(tasks[i].task.Task_Code__c) && 
+                            tasks[i].task.Task_Code__c ==  'Activate_Ecoa_Ediaries' 
+                            ? true 
+                            : false;        
+
             tasks[i].completed = tasks[i].task.Status == 'Completed' ? true : false;
-            tasks[i].dueDate = false;
+            tasks[i].dueDate = false; 
             if (!tasks[i].completed) {
                 tasks[i].dueDate = tasks[i].task.Activity_Datetime__c ? true : false;
             }
@@ -277,9 +318,14 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
                 tasks[i].criticalTask = tasks[i].task.Priority == 'Critical' ? true : false;
             }
 
-            tasks[i].businessTask = tasks[i].systemTask
-                ? tasks[i].task.Task_Code__c == 'Complete_Survey'
-                : true;
+            tasks[i].businessTask = !tasks[i].ecoaTask && tasks[i].systemTask
+            ? tasks[i].task.Task_Code__c == 'Complete_Survey'
+            : true;    
+            if(tasks[i].ecoaTask) tasks[i].businessTask = false;
+            tasks[i].displayChevron = (tasks[i].ecoaTask ||  tasks[i].activateEcoaTask || tasks[i].systemTask )
+            ? true
+            : false;
+
             if (tasks[i].task.Status == 'Completed') {
                 tasks[i].subjectClass = 'set-up-your-account complete-header cursor-default';
                 this.completedTasksList.push(tasks[i]);
@@ -304,16 +350,22 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
     }
     navigateToCompleted() {
         this.taskSelectionMode = 'Complete';
-        this.taskBtnOpenClass = 'open-task inactive-btn';
-        this.taskBtnCompleteClass = 'completed-task active-btn';
+        this.taskBtnOpenClass =
+            'slds-button slds-button_neutral open-task inactive-button-background';
+        this.taskBtnCompleteClass =
+            'slds-button slds-button_brand completed-task active-button-background';
+        // this.taskBtnCompleteClass = 'completed-task primaryBtn slds-button';
         this.taskOpenTab = this.taskSelectionMode == 'Open';
         this.initializeData();
     }
     navigateToOpen() {
         this.taskSelectionMode = 'Open';
         this.taskOpenTab = this.taskSelectionMode == 'Open';
-        this.taskBtnOpenClass = 'open-task active-btn';
-        this.taskBtnCompleteClass = 'completed-task inactive-btn';
+        this.taskBtnOpenClass =
+            'slds-button slds-button_neutral open-task active-button-background';
+        // this.taskBtnOpenClass = 'open-task primaryBtn slds-button';
+        this.taskBtnCompleteClass =
+            'slds-button slds-button_brand completed-task inactive-button-background';
         this.initializeData();
     }
     closeTheTask() {
@@ -444,8 +496,38 @@ export default class PpTasks extends NavigationMixin(LightningElement) {
         );
         radioTask.classList.remove('active-custom-box');
     }
-    setSessionCookie() {
-        sessionStorage.setItem('Cookies', 'Accepted');
-        return true;
+    navigateToTasks() {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: 'tasks'
+            }
+        });
+    }
+
+    handleLoad(event) {
+        let rightElement = this.template.querySelector('.task-panel_right');
+        let leftElement = this.template.querySelector('.task-panel_left');
+        this.rightPanelComponents.push(event.detail);
+        if (rightElement && !rightElement.classList.contains('divider')) {
+            rightElement.classList.add('divider');
+        }
+        if (leftElement && !leftElement.classList.contains('slds-large-size--2-of-3')) {
+            leftElement.classList.add('slds-large-size--2-of-3');
+        }
+    }
+
+    handleCardRemove(event) {
+        let cmpName = event.detail;
+        let leftElement = this.template.querySelector('.task-panel_left');
+        if (this.rightPanelComponents.includes(cmpName)) {
+            this.rightPanelComponents.splice(this.rightPanelComponents.indexOf(cmpName), 1);
+            if (this.rightPanelComponents.length == 0) {
+                this.template.querySelector('.task-panel_right').classList.remove('divider');
+                if (leftElement && leftElement.classList.contains('slds-large-size--2-of-3')) {
+                    leftElement.classList.remove('slds-large-size--2-of-3');
+                }
+            }
+        }
     }
 }

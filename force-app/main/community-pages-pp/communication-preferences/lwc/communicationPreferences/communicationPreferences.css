@@ -3,7 +3,11 @@
     padding-left: 20px;
     margin-bottom: 24px;
 }
-
+.mob-communication-pref {
+    margin-top: 10px;
+    padding-left: 20px;
+    margin-bottom: 24px;
+}
 .cardRTL {
     direction: rtl;
 }
@@ -316,6 +320,7 @@
 .saveBtn {
     font-family: 'Proxima Nova';
     width: 90%;
+    min-width: max-content;
     color: #0070d2;
     margin-top: 0;
     background-color: #fff;
@@ -353,17 +358,17 @@
     margin-right: 10px;
 }
 
-.commsTxt{ 
-color: #444444;
-font-family: "Proxima Nova";
-font-size: 16px;
-font-weight: 500;
-letter-spacing: 0;
-line-height: 24px;
-padding-right: 11px;
+.commsTxt {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    padding-right: 11px;
 }
 
-.study-header{
+.study-header {
     height: 24px;
     width: 218px;
     font-size: 20px;
@@ -371,12 +376,12 @@ padding-right: 11px;
     line-height: 32px;
     word-break: break-word;
 }
-.part-name{
+.part-name {
     height: 24px;
-    color: #6E6E6E;
+    color: #6e6e6e;
     font-size: 14px;
     font-weight: 600;
 }
-.tx-italic{
-    font-style: italic
+.tx-italic {
+    font-style: italic;
 }

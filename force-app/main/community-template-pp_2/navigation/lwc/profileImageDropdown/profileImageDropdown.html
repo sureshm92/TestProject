@@ -11,7 +11,7 @@
                     fallback-icon-name="standard:avatar"
                 >
                 </lightning-avatar
-                ><span class="caret-icon"
+                ><span class={caretIconClass}
                     ><lightning-icon
                         icon-name="utility:down"
                         size="x-small"
@@ -25,7 +25,7 @@
             <div title={fullName}>
                 <template if:true={isDelegate}>
                     <span class="avatar-delegate-size"><img src={icon_url} />
-                    <span class="profile-caret-icon"
+                    <span class={profCarIconClass}
                     ><lightning-icon
                         icon-name="utility:down"
                         size="x-small"
@@ -43,7 +43,7 @@
                         class="profileIcon"
                     >
                     </c-web-icon>
-                    <span class="caret-icon"
+                    <span class={caretIconClass}
                     ><lightning-icon
                         icon-name="utility:down"
                         size="x-small"

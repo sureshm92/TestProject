@@ -1,7 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
-import getPPResources from '@salesforce/apex/ResourceRemote.getPPResources';
+import getArticleAndVideos from '@salesforce/apex/ResourceRemote.getArticleAndVideos';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import ALL from '@salesforce/label/c.AF_All';
 import ARTICLES from '@salesforce/label/c.Resources_Card_Title_Articles';
@@ -48,14 +47,14 @@ export default class PpResourceEngage extends LightningElement {
             emptyLabel: ARTICLES_EMPTY
         },
         Favorites: {
-            pngLink: pp_icons + '/' + 'favorites_resources_empty.png',
+            pngLink: pp_icons + '/' + 'favorites_illustration.svg',
             emptyLabel: FAVORITE_EMPTY
         }
     };
 
     renderedCallback() {
         if (!this.isRendered) {
-            this.selectedOption = 'All';
+            this.selectedOption = ALL;
             this.isRendered = true;
             this.initializeData();
         }
@@ -67,7 +66,7 @@ export default class PpResourceEngage extends LightningElement {
         if (communityService.isInitialized()) {
             this.pData = communityService.getParticipantData();
             let data = JSON.stringify(this.pData);
-            await getPPResources({ participantData: data })
+            await getArticleAndVideos({ participantData: data })
                 .then((result) => {
                     this.resourcesData = result.wrappers;
                     this.resourcesFilterData = this.resourcesData[0] ? this.resourcesData : false;

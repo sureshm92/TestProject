@@ -1,0 +1,88 @@
+.download-res-data {
+    color: #0768fd;
+    font-size: 14px;
+    font-weight: 600;
+}
+.download-icon {
+    --slds-c-icon-color-foreground-default: #0768fd;
+}
+.downld-icon-color {
+    --slds-c-icon-color-foreground-default: #444444;
+}
+
+.download-results {
+    display: none;
+}
+.results-past-study {
+    border: 1px solid #e9e9e9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+}
+.bottom-border {
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.right-border {
+    border-right: 1px solid #d4d4d4;
+}
+
+.btn-group {
+    border-radius: 16px;
+    display: -webkit-inline-box;
+}
+.download-text {
+    padding: 8px 16px;
+}
+.btn-group button {
+    border: 1px solid #e9e9e9;
+    background-color: #ffffff;
+    color: #0768fd;
+    padding: 8px 12px;
+    cursor: pointer;
+   /* float: left;  Float the    side by side */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+    background-color: #ecf3ff;
+    border-color: #0768fd;
+}
+
+.download {
+    position: relative;
+    display: inline-block;
+}
+
+.download-content {
+    display: none;
+    position: absolute;
+    right: 0rem;
+    top: 41px;
+    width: 192px;
+    height: 92px;
+    z-index: 1;
+    padding-top: 8px;
+    border: 1px solid var(--neutrals-color-neutral-4, #d9d9d9);
+    background: var(--neutrals-color-neutral-0, #fff);
+    box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.08);
+}
+
+.download-content div {
+    padding: 8px 24px 8px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+    color: #444444;
+    text-align: initial;
+}
+
+.download-content div:hover {
+    background-color: #ecf3ff;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.download:hover .download-content {
+    display: block;
+}

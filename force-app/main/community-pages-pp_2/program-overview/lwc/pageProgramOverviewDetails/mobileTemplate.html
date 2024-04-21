@@ -50,7 +50,22 @@
 
                     <template if:true={tabContent}>
                         <lightning-layout-item size="12">
-                            <div class="po-tab-overview">
+                            <div class="contact-detail-tab">
+                                <div class="piPhone mr-left-24 mr-24"><img src={phone_Icon} class="phoneIcon"/>
+                                    <template lwc:if={phoneNotAvailable}>
+                                        <span class="no-phone"> {label.NOT_AVAILABLE}</span>
+                                    </template>
+                                    <template lwc:else> {studySitePhone} </template></div>
+                                <div class="mr-left-24 flex"><img src={address_Icon} class="pinIcon"/>
+                                    <span class="site-Name">{siteName}</span>
+                                </div>
+                                <div class="site-addr mr-left-54">{siteAddress}</div>
+                                <lightning-layout class="piName mr-left-24 mr-24">
+                                    <lightning-layout-item><img src={pi_Icon} class="piIcon"/></lightning-layout-item>
+                                    <lightning-layout-item class="piName-text">{piName}&nbsp;{label.PI_Post_Fix}</lightning-layout-item></lightning-layout>
+                            </div>
+
+                            <div class="po-tab-overview po-mt-10">
                                 <p class="po-pb-10">
                                     <lightning-formatted-text
                                         value={label.PPOBJECTIVE}

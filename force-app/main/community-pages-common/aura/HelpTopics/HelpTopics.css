@@ -137,15 +137,16 @@
 
 /* style for the dropdown box */
 .THIS .dropdown-menu {
-    width: 300px;
+    width: 100%;
     height: 300px;
     overflow-y: scroll;
     margin: 0;
     padding: 2rem 0 0.5rem;
-    position: absolute;
+    position: relative;
     z-index: 1;
-    top: 0.5rem;
-    left: -1px;
+    /* top: 0.5rem; */
+    top: 0px;
+    left: 0;
     background: #fff;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 4px;
@@ -197,6 +198,14 @@
     padding: 5px;
 }
 
+.THIS.placeholder-container{
+    width : 300px;
+}
+
+.THIS .cwidth{
+    width: 93%;
+    display: inline-block;
+}
 @media (max-width: 850px) {
     .THIS .h-body {
         margin-top: 20px;
@@ -240,5 +249,14 @@
 
     .THIS .pi-picklist-container .slds-grid > .slds-col:first-child {
         margin-bottom: 15px;
+    }
+    .THIS .dropdown {
+        width: 100% !important;
+    }
+    .THIS .dropdown-span {
+        width: 340px !important;
+    }
+    .THIS .dropdown:after {
+        top: auto !important;
     }
 }

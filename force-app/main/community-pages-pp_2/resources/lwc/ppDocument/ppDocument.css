@@ -19,7 +19,7 @@
 }
 
 .document-label {
-    color: #0768fd;
+    color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 600;
@@ -33,6 +33,12 @@
     cursor: pointer;
 }
 
+.document-label:hover {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    color: #0557d5;
+}
+
 .document-details {
     padding: 12px 15px 0 15px;
     height: 58px;
@@ -41,7 +47,7 @@
 .version-date {
     color: #6e6e6e;
     font-family: 'Proxima Nova';
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0;
     line-height: 10px;
 }
@@ -73,4 +79,37 @@
     margin-bottom: -98px;
     margin-top: -2px;
     margin-right: -85px;
+}
+
+@media all and (min-width: 768px) and (max-width: 1280px) and (orientation: portrait) {
+    .card-border {
+        height: auto !important;
+    }
+    .document-details {
+        height: auto !important;
+        padding: 10px !important;
+    }
+    .version-date {
+        line-height: 14px !important;
+        margin-top: 0.2rem !important;
+    }
+    .thumbnail-outerbox {
+        margin: 11px 0 0 0px;
+    }
+}
+.thumbnail-outerbox-tab {       
+    padding: 2px ;
+}
+@media all and (min-width: 768px) and (max-width: 1280px) and (orientation: landscape) {
+    .document-details {
+        height: auto !important;
+        padding: 10px !important;
+    }
+    .version-date {
+        line-height: 14px !important;
+        margin-top: 0.2rem !important;
+    }
+    .thumbnail-outerbox {
+        padding: 2px 0 2px 2px;
+    }
 }

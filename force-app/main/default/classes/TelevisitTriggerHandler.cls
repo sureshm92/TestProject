@@ -34,15 +34,21 @@ public without sharing class TelevisitTriggerHandler {
     @TestVisible
     public static void checkForTelevisitreschedulenotify(List<Televisit__c> televisits, Map<Id, Televisit__c> oldMap) {
         List<Id> televisitRecordIdsSet = new List<Id>();
+        List<Id> execluderescheemailnotificons = new List<Id>();
         for (Televisit__c televisitRecord : televisits) {
             if(televisitRecord.Visit_Date_Time__c != oldMap.get(televisitRecord.id).Visit_Date_Time__c || televisitRecord.Duration__c != oldMap.get(televisitRecord.id).Duration__c ){
                 Televisit__c teleVisObj = (Televisit__c) televisitRecord;
                 televisitRecordIdsSet.add(teleVisObj.Id);
+                if(televisitRecord.Reshedule_Email_Notification_Check__c != null &&
+                   televisitRecord.Reshedule_Email_Notification_Check__c != '' &&
+                   televisitRecord.Reshedule_Email_Notification_Check__c.trim() != ''){
+                        execluderescheemailnotificons.addAll(televisitRecord.Reshedule_Email_Notification_Check__c.split(';'));
+                }
             }
             
         }
         List<Televisit_Attendee__c> listAttendee = [Select id,Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Contact__c,Attendee_Type__c from Televisit_Attendee__c 
-                                                    where Televisit__r.Status__c = 'Scheduled' AND Televisit__c IN:televisitRecordIdsSet AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff')];
+                                                    where Televisit__r.Status__c = 'Scheduled' AND Contact__c NOT IN:execluderescheemailnotificons AND Televisit__c IN:televisitRecordIdsSet AND (Attendee_Type__c = 'PI' OR Attendee_Type__c = 'Site Staff')];
         try{
             List<Notification__c> notifications = new List<Notification__c>();
             for(Televisit_Attendee__c attendee:listAttendee){
@@ -73,6 +79,7 @@ public without sharing class TelevisitTriggerHandler {
     @TestVisible
     public static void alertAttendees(List<Televisit__c> televisits, Map<Id, Televisit__c> oldMap) {
         List<Id> televisitRecordIdsSet = new List<Id>();
+        Map<Id, TelevisitAttendeeTriggerHandler.TelevisitUpdateWrapper> updateTelevisitMap = new Map<Id, TelevisitAttendeeTriggerHandler.TelevisitUpdateWrapper>();
         for (sObject televisitRecord : televisits) {
             Televisit__c teleVisObj = (Televisit__c) televisitRecord;
             televisitRecordIdsSet.add(teleVisObj.Id);
@@ -81,8 +88,19 @@ public without sharing class TelevisitTriggerHandler {
             SELECT
                 Id,
                 Status__c,
-                Visit_Date_Time__c,
-                (SELECT Id, Contact__c, Attendee_Type__c FROM Televisit_Attendee__r)
+                Visit_Date_Time__c,Reshedule_Email_Notification_Check__c,
+                (
+                    SELECT
+                        Id,
+                        Contact__c,
+                        Televisit__c,
+                        Attendee_Type__c,
+                        Televisit__r.Participant_Enrollment__c,
+                        Televisit__r.Participant_Enrollment__r.Participant__c,
+                        Televisit__r.Participant_Enrollment__r.Participant__r.Contact__c,
+                        Televisit__r.Participant_Enrollment__r.Participant__r.Has_Studies_In_Progress__c
+                    FROM Televisit_Attendee__r
+                )
             FROM Televisit__c
             WHERE Id IN :televisitRecordIdsSet
         ];
@@ -102,6 +120,12 @@ public without sharing class TelevisitTriggerHandler {
         List<Notification__c> notificationsList = new List<Notification__c>();
         List<Televisit_Attendee__c> taList = new List<Televisit_Attendee__c>();
         for (Televisit__c teleObj : televisitsList) {
+            list<Id> consetnew ;
+            if(teleObj.Reshedule_Email_Notification_Check__c != null &&
+               teleObj.Reshedule_Email_Notification_Check__c != '' &&
+               teleObj.Reshedule_Email_Notification_Check__c.trim() != ''){
+                consetnew = teleObj.Reshedule_Email_Notification_Check__c.split(';');
+            }
             if (oldMap != null & oldMap.containsKey(teleObj.Id)) {
                 if (
                     oldMap.get(teleObj.Id).Status__c != teleObj.Status__c &
@@ -116,6 +140,10 @@ public without sharing class TelevisitTriggerHandler {
                             if(teleAttendee.Attendee_Type__c == 'Participant Delegate'){
                                 isdelegate = true;
                             }
+                            TelevisitAttendeeTriggerHandler.TelevisitUpdateWrapper teleVisitWrapperObj = new TelevisitAttendeeTriggerHandler.TelevisitUpdateWrapper();
+                            teleVisitWrapperObj.notificationType = NotificationCatalog.UPDATE_TO_PT_TELEVISIT_CANCELED;
+                            teleVisitWrapperObj.televisitAttendee = teleAttendee;
+                            updateTelevisitMap.put(teleAttendee.Contact__c, teleVisitWrapperObj);
                         notificationsList.add(
                             new Notification__c(
                                 Recipient__c = teleAttendee.Contact__c,
@@ -129,19 +157,23 @@ public without sharing class TelevisitTriggerHandler {
                 }
                 if (
                     teleObj.Status__c == 'Scheduled' &&
-                    oldMap.get(teleObj.Id).Meeting_URL__c != null &&
+                    //oldMap.get(teleObj.Id).Meeting_URL__c != null &&
                     oldMap.get(teleObj.Id).Visit_Date_Time__c != teleObj.Visit_Date_Time__c
                 ) {
                     for (Televisit_Attendee__c teleAttendee : teleObj.Televisit_Attendee__r) {
                         if (
                             teleAttendee.Attendee_Type__c != 'Site Staff' &&
-                            teleAttendee.Attendee_Type__c != 'PI'
+                            teleAttendee.Attendee_Type__c != 'PI' &&
+                            (consetnew == null || (consetnew != null && !consetnew.contains(teleAttendee.Contact__c)))
                         ) {
                             Boolean isdelegate = false;
                             if(teleAttendee.Attendee_Type__c == 'Participant Delegate'){
                                 isdelegate = true;
                             }
-   
+                            TelevisitAttendeeTriggerHandler.TelevisitUpdateWrapper teleVisitWrapperObj = new TelevisitAttendeeTriggerHandler.TelevisitUpdateWrapper();
+                            teleVisitWrapperObj.notificationType = NotificationCatalog.UPDATE_TO_PT_TELEVISIT_RESCHEDULED;
+                            teleVisitWrapperObj.televisitAttendee = teleAttendee;
+                            updateTelevisitMap.put(teleAttendee.Contact__c, teleVisitWrapperObj);
                         notificationsList.add(
                             new Notification__c(
                                 Recipient__c = teleAttendee.Contact__c,
@@ -169,6 +201,12 @@ public without sharing class TelevisitTriggerHandler {
             }
         }
     }
+        List<Notification__c> updateRescheduledNotificationsList = TelevisitAttendeeTriggerHandler.getUpdateNotifications(
+            updateTelevisitMap
+        );
+        if (!updateRescheduledNotificationsList.isEmpty()) {
+            notificationsList.addAll(updateRescheduledNotificationsList);
+        }
         List<SObject> sObjectsList = new List<SObject>();
         if (!taList.isEmpty()) {
             sObjectsList.addAll(taList);
@@ -185,11 +223,18 @@ public without sharing class TelevisitTriggerHandler {
     @Future(callout=true)
     public static Void SendRequestToVonageAPI(list<Id> listTelevisitId) {
         TokBoxSettings2__c tokbox = TokBoxSettings2__c.getOrgDefaults();
-        Televisit__c televisitRecord = [SELECT Id FROM Televisit__c WHERE Id = :listTelevisitId[0]];
+        List<Televisit__c> televisitRecord = new List<Televisit__c>([SELECT Id,Participant_Enrollment__r.Clinical_Trial_Profile__c,Participant_Enrollment__r.Study_Site__c FROM Televisit__c WHERE Id = :listTelevisitId[0]]);
+        String ctpId = televisitRecord[0].Participant_Enrollment__r.Clinical_Trial_Profile__c;
+        String studtStiteId = televisitRecord[0].Participant_Enrollment__r.Study_Site__c;
+        //List<Televisit_Record_Vendor__c> lstTRV = new List<Televisit_Record_Vendor__c>([SELECT Id,Name,Description__c,API_Key__c, API_Secret__c, Televisit_Vendor__c,Clinical_Trial_Profile__c FROM Televisit_Record_Vendor__c WHERE Clinical_Trial_Profile__c =:ctpId ]);
+        List<TelevisitVendorSettings__c> lstTVS = new List<TelevisitVendorSettings__c>([SELECT Id,Televisit_Record_Vendor__c,Televisit_Record_Vendor__r.Clinical_Trial_Profile__c,Televisit_Record_Vendor__r.Name,Televisit_Record_Vendor__r.API_Key__c, Televisit_Record_Vendor__r.API_Secret__c, Study_Site__c from TelevisitVendorSettings__c WHERE Study_Site__c =:studtStiteId AND Televisit_Record_Vendor__r.Clinical_Trial_Profile__c =:ctpId AND isEnable__c = true]);
+        
+        
         HttpRequest req = new HttpRequest();
         req.setEndpoint('https://api.opentok.com/session/create');
         req.setMethod('POST');
         req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+        /*
         req.setHeader(
             'X-OPENTOK-AUTH',
             new OpenTokJWT(
@@ -199,26 +244,50 @@ public without sharing class TelevisitTriggerHandler {
                 )
                 .getAuthJWTHeader()
         );
+        */
+        req.setHeader(
+            'X-OPENTOK-AUTH',
+            new OpenTokJWT(
+                    '',
+                    lstTVS[0].Televisit_Record_Vendor__r.API_Key__c,
+                    lstTVS[0].Televisit_Record_Vendor__r.API_Secret__c
+                )
+                .getAuthJWTHeader()
+        );
         req.setHeader('Accept', 'application/json');
         //req.setBody(null);
         Http http = new Http();
         HTTPResponse res = http.send(req);
         System.debug(res.getBody());
+        Boolean UnauthorizedToken = res.getBody().contains('Unauthorized token');
 
-        TelevisitWrapper wrap = new TelevisitWrapper();
-        wrap = (TelevisitWrapper) System.JSON.deserialize(
-            res.getBody().substring(1, res.getBody().length() - 1),
-            TelevisitWrapper.class
-        );
-        system.debug('Wrap Session Id :' + wrap.session_id);
-
-        Televisit__c updateTelevisitRecord = new Televisit__c();
-        updateTelevisitRecord.Id = televisitRecord.Id;
-        updateTelevisitRecord.Televisit_Request__c = String.valueOf(req);
-        updateTelevisitRecord.Televisit_Response__c = res.getBody();
-        updateTelevisitRecord.Session_Id__c = wrap.session_id;
-        updateTelevisitRecord.Meeting_URL__c = '/apex/televisit?sessionId=' + wrap.session_id;
-        update updateTelevisitRecord;
+        if(!UnauthorizedToken){
+            TelevisitWrapper wrap = new TelevisitWrapper();
+            wrap = (TelevisitWrapper) System.JSON.deserialize(
+                res.getBody().substring(1, res.getBody().length() - 1),
+                TelevisitWrapper.class
+            );
+            system.debug('Wrap Session Id :' + wrap.session_id);
+    
+            Televisit__c updateTelevisitRecord = new Televisit__c();
+            updateTelevisitRecord.Id = televisitRecord[0].Id;
+            updateTelevisitRecord.Televisit_Record_Vendor__c = lstTVS[0].Televisit_Record_Vendor__c;
+            updateTelevisitRecord.Televisit_Request__c = String.valueOf(req);
+            updateTelevisitRecord.Televisit_Response__c = res.getBody();
+            updateTelevisitRecord.Session_Id__c = wrap.session_id;
+            updateTelevisitRecord.Meeting_URL__c = '/apex/televisit?sessionId=' + wrap.session_id;
+            update updateTelevisitRecord;
+        }else{
+            Televisit__c updateTelevisitRecord = new Televisit__c();
+            updateTelevisitRecord.Id = televisitRecord[0].Id;
+            updateTelevisitRecord.Televisit_Record_Vendor__c = lstTVS[0].Televisit_Record_Vendor__c;
+            updateTelevisitRecord.Televisit_Request__c = String.valueOf(req);
+            updateTelevisitRecord.Televisit_Response__c = res.getBody();
+            //updateTelevisitRecord.Session_Id__c = wrap.session_id;
+            //updateTelevisitRecord.Meeting_URL__c = '/apex/televisit?sessionId=' + wrap.session_id;
+            update updateTelevisitRecord;
+        }
+        
     }
 
     public static void checkForTelevisitEventCreation(List<SObject> newList){

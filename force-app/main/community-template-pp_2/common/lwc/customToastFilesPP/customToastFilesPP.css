@@ -1,0 +1,116 @@
+.PP-Mot-Message-Toast {
+    height: 48px;
+    width: 520px;
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+}
+.toastContainerF > .slds-theme_success {
+    border-radius: 8px;
+    background-color: #009d3f;
+}
+.toastContainerFMbl > .slds-theme_warning {
+    border-radius: 8px;
+    background-color: darkorange;
+}
+.toastContainerFMbl > .slds-theme_error{
+    border-radius: 8px;
+    background-color: #E20000;
+}
+.toastContainerFMbl > .slds-theme_success{
+    border-radius: 8px;
+    background-color: #009d3f;
+}
+.cust-pad {
+    padding: 14px;
+}
+.slds-theme_success {
+    background-color: #009d3f;
+}
+.toastMessageF.forceActionsTextF {
+    font-family: 'Proxima Nova' !important;
+}
+.slds-text-heading_small {
+    height: 20px;
+    width: 179px;
+    color: #ffffff;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+.slds-notify_container {
+    border-radius: 8px;
+    width: 50% !important;
+    position: fixed;
+    left: 26%;
+    top: 61px;
+}
+.slds-notify__content {
+    width: 508px;
+    font-weight: 600;
+}
+.typeIcon {
+    height: 16px;
+    width: 16px;
+}
+.custom-icon {
+    margin-right: 15px;
+    text-align: right;
+    margin-top: 2px;
+}
+.custom-close {
+    background: none;
+    border-color: transparent;
+    /* color: FFFFFF; */
+    cursor: pointer;
+}
+.custom-icon-mobile {
+    margin-right: 10px;
+    text-align: right;
+}
+.slds-notify_container_mobile {
+    height: 80px;
+    border-radius: 8px;
+    margin-top: 18px;
+    width: 366px;
+}
+.toastContainerF .toastCloseF {
+    top: auto;
+    border-color: transparent;
+}
+
+.toastContainerF .toastCloseF lightning-primitive-icon {
+    color: #ffffff !important;
+}
+.PP-Mot-Message-Toast_mobile {
+    padding: 8px;
+    width: 366px;
+    margin-top: 16px;
+}
+.slds-notify__content_mobile {
+    font-weight: 600;
+    word-wrap: break-word;
+    color: white;
+}
+
+.custom-notify-container-mobile {
+    position: absolute;
+    top: 29px;
+    margin: 20px;
+    border-radius: 8px;
+    z-index: 10000000;
+    width: 90%;
+    border-radius: 8px;
+    
+}
+
+.mt-0 {
+    position: absolute;
+    top: 20px;
+}
+
+.slds-notify__close {
+    width: 24px;
+    height: 24px;
+    right: 1%;
+}

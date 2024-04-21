@@ -22,7 +22,35 @@
 .slds-input {
     border-radius: 20px;
 }
-
+.back-link {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+    line-height: 24px;
+    margin-bottom : 16px;
+}
+.back-link-mble{
+    margin-left: 8px;
+    height: auto;
+    margin-bottom: 16px;
+    /*margin-top: 14px;*/
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+    line-height: 24px;
+}
+hr {
+    margin: 0%;
+    margin-bottom: 16px;
+}
 .title {
     font-size: 1.5rem;
     white-space: nowrap;
@@ -160,7 +188,7 @@
 .slds-nav-vertical__action:hover {
     /* color: #ffffff; */
     box-shadow: none;
-    /* background: #0768fd; */
+    /* background: #015FF1; */
 }
 .slds-nav-vertical__item {
     color: #444444;
@@ -175,7 +203,7 @@
 .slds-nav-vertical__item.slds-is-active .slds-nav-vertical__action {
     color: #ffffff;
     box-shadow: none;
-    background: #0768fd;
+    background: #015ff1;
     border-bottom: none;
     font-weight: 600;
 }

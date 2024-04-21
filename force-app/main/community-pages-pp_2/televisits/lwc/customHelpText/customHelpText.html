@@ -1,0 +1,49 @@
+<template>
+    <div class="slds-float_right">
+        <div class="slds-form-element">
+            <div class="slds-form-element__icon">
+                <button
+                    class="slds-button slds-button_icon"
+                    onmouseover={togglePasswordHint}
+                    onmouseout={togglePasswordHintout}
+                >
+                    <!--<lightning-icon size="small" icon-name="utility:people">style = "left: -200px;top: -31px;</lightning-icon>-->
+                    <template if:false={ismobile}>
+                        <div class={helpTextClass} role="tooltip" id="help" style = "width: max-content;position: absolute;right: 50px;text-align:left;">
+                            <div class="slds-popover__body">
+                                <template for:each={relatedAttendees} for:item="record">
+                                    
+                                    <p key = {record.firstname}>{record.firstname} {record.lastname} ({record.attendeeType})</p>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:true={ismobile}>
+                        <div class={helpTextClassmobile} role="tooltip" style = "width: 270px;position: absolute;left: 73px;text-align:left;">
+                            <div class="slds-popover__body">
+                                <template for:each={relatedAttendees} for:item="record">
+                                    
+                                    <p key = {record.firstname}>{record.firstname} {record.lastname} ({record.attendeeType})</p>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:false={ismobile}>
+                       <div class="slds-align--absolute-center imageBg">
+                        <img src={attendeewithouthover} class="customIcon">
+                       </div>
+                    </template>
+                    <template if:true={ismobile}>
+                        <template if:true={avatareffect}>
+                            <img src={attendeehover}  class="customIcon2-mobile"> 
+                        </template>
+                        <template if:false={avatareffect}>
+                            <img src={attendeewithouthover} class="customIcon-mobile">
+                        </template>
+                    </template>
+                </button>
+                
+            </div>
+        </div>
+    </div>
+</template>

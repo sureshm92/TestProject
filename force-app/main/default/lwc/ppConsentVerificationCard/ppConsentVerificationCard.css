@@ -1,0 +1,85 @@
+.econsentButton{
+    width: 90%;
+    color: #015FF1;
+    font-family: "Proxima Nova";
+    font-size : 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+    border-color: #E9E9E9;
+    height: 32px;
+}
+.econsent-disable{
+  color : #D3D3D3;
+}
+
+.econsent-disable:hover{
+  color : #D3D3D3;
+}
+
+.uppergap{
+  margin-top: 10px;
+  margin-bottom: 30px;
+  --lwc-borderRadiusMedium: 8px;
+}
+
+.pp-tooltip{
+  --lwc-squareIconMediumContentAlt:16px;
+}
+
+.consent-main_header {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 550;
+    letter-spacing: 0;
+    line-height: 22px;
+  }
+
+  .consent-main_container{
+    overflow: auto;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%)
+  }
+
+  .consent-main_footer{
+    width: 90%;
+    border: 1px solid #E9E9E9;
+    border-radius: 16px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.04);
+    padding: 3PX;
+  }
+
+  .info-tooltip{
+    position: relative;
+  }
+
+.info-tooltip_dimension{
+    width: 17rem;
+    height:fit-content; 
+    color: #FFFFFF;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    
+}
+
+.info-tooltip_position{
+    position:absolute;
+    top:2.25rem;
+    right:-9rem;
+}
+
+.info-tooltip_position.slds-nubbin_top-right:before,.info-tooltip_position.slds-nubbin_top-right:after{
+    right:8.5rem;
+}
+
+.blue-icon{
+    --lwc-colorTextIconDefault: #595959;
+
+}
+.blue-icon:hover{
+    --lwc-colorTextIconDefault:#015ff1;   
+    cursor: pointer;
+
+}

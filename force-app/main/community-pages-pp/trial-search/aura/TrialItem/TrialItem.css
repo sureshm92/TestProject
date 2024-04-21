@@ -113,4 +113,15 @@
     .THIS .p-content {
         max-height: 40vh !important;
     }
+    .THIS .ctp-study-code-name {
+        width: 212px !important;
+        word-wrap: break-word;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+    }
+    .THIS .ctp-recruitment-status {
+        padding: 5px 0 0 25px !important;
+    }
 }

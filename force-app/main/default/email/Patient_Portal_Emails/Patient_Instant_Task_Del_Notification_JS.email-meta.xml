@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <available>true</available>
+    <description>When a task (one time or recurring) is triggered for delegate on behalf of Patient</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Patient Instant Task Del Notification Janssen</name>
+    <style>none</style>
+    <subject>Your patient has a new task:</subject>
+    <type>visualforce</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

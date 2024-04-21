@@ -10,11 +10,11 @@
                         <lightning-layout-item size="8" class="min-height">
                             <lightning-layout class={leftColPadding} multiple-rows="true">
                                 <lightning-layout-item size="12" class="mb-20">
-                                    <div class="as-title">Help</div>
+                                    <div class="as-title">{label.helpLabel}</div>
                                 </lightning-layout-item>
                                 <lightning-layout-item size="12" class="mb-20">
                                     <div class="rectangle">
-                                        <lightning-layout multiple-rows="true">
+                                        <lightning-layout class="slds-grid_vertical-align-center" multiple-rows="true">
                                             <lightning-layout-item size="1" class="center-align">
                                                 <img
                                                     style={errorIconPosition}
@@ -110,26 +110,27 @@
                                 ></lightning-formatted-text>
                                 <lightning-formatted-text
                                     class="slds-form-element__label"
-                                    value="Help"
+                                    value={label.helpLabel}
                                 ></lightning-formatted-text>
                             </div>
                         </lightning-layout-item>
                         <lightning-layout-item size="12" class="min-height">
                             <lightning-layout class="mb-15" multiple-rows="true">
                                 <lightning-layout-item size="12">
-                                    <div class="mob-as-title">Help</div>
+                                    <div class="mob-as-title">{label.helpLabel}</div>
                                 </lightning-layout-item>
                                 <lightning-layout-item size="12" class="mb-20">
                                     <div class="rectangle">
                                         <lightning-layout
                                             multiple-rows="true"
                                             vertical-align="center"
+                                            class="help_section_tab"
                                         >
                                             <lightning-layout-item size="1" class="center-align">
                                                 <img
                                                     style={errorIconPosition}
                                                     src={exclamation}
-                                                    class="pad-r-10 exclamation_mobile"
+                                                    class={padExclamationIcon}
                                                 />
                                                 <!-- <div>
                                                     <svg

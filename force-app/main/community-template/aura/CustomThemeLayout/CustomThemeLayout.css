@@ -112,6 +112,7 @@
     font-weight: 400;
     line-height: 17px;
 /*    margin-bottom: 8px; */
+    padding-top: inherit;
 }
 
 .THIS .slds-form-element__icon {
@@ -330,6 +331,12 @@
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1139px){
+    .THIS {
+        padding-bottom: 50px;
     }
 }
 

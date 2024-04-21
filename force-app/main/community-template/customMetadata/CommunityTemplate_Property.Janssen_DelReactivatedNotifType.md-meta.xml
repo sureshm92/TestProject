@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Value__c</field>
-        <value xsi:type="xsd:string">Message_to_PT_Del_Reactivated</value>
+        <value xsi:type="xsd:string">Message_to_PT_Del_Reactivated_Janssen</value>
     </values>
 </CustomMetadata>

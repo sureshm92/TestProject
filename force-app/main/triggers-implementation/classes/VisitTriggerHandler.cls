@@ -63,7 +63,7 @@ public without sharing class VisitTriggerHandler {
                 visitMap.put(v.Id, v);
 
             List<Patient_Visit__c> patientVisits = [
-                SELECT Id, Portal_Name__c, Visit__c, Visit_Number__c, Visit_Schedule__c
+                SELECT Id, Portal_Name__c, Visit__c, Visit_Number__c, Visit_Schedule__c, Icons__c
                 FROM Patient_Visit__c
                 WHERE Visit__c IN :visits AND Is_Adhoc__c = FALSE
             ];
@@ -72,6 +72,7 @@ public without sharing class VisitTriggerHandler {
                 pv.Portal_Name__c = visit.Patient_Portal_Name__c;
                 pv.Visit_Number__c = visit.Visit_Number__c;
                 pv.Visit_Schedule__c = visit.Visit_Schedule__c;
+                pv.Icons__c = visit.Icons__c;
             }
 
             update patientVisits;

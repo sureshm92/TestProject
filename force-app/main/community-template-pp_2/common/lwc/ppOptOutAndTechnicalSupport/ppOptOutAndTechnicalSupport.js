@@ -10,7 +10,7 @@ import { subscribe, publish, MessageContext } from 'lightning/messageService';
 import getInitData from '@salesforce/apex/OptOutAndTechnicalSupportRemote.getInitData';
 import createSupportCases from '@salesforce/apex/OptOutAndTechnicalSupportRemote.createSupportCases';
 import PPOPTOUTCOMMUNICATIONPREF from '@salesforce/label/c.PP_Opt_Out_Update_Communication_Pref';
-import PPOPTOUTCOMMUNICATIONPREFHELP from '@salesforce/label/c.PP_Opt_Out_Update_Communication_Pref_Help';
+import PPOPTOUTCOMMUNICATIONPREFHELP from '@salesforce/label/c.PP_Communication_Email_Text';
 import PPCPSUBMITBTN from '@salesforce/label/c.CP_Submit_Button';
 import PPOPTOUTSUCCESSMSG from '@salesforce/label/c.PP_Opt_Out_Success_Message';
 import PPOptOutCloseWindow from '@salesforce/label/c.PP_Opt_Out_Close_window';

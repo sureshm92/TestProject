@@ -1,5 +1,5 @@
 .back-button {
-    color: #0768fd;
+    color: #015ff1;
     font-size: 1rem;
     font-weight: 500;
     letter-spacing: 0;
@@ -121,6 +121,7 @@
     font-size: 0.875rem;
     letter-spacing: 0;
     line-height: 2rem;
+    min-width: max-content;
 }
 .field-error-message {
     color: #e20000;
@@ -191,4 +192,8 @@ a,
     direction: rtl;
     float: right;
     text-align: right;
+}
+
+.customMargin {
+    margin-left: 14px !important;
 }

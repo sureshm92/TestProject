@@ -23,35 +23,45 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
     private Set<Id> participantNoteIds = new Set<Id>();
     private Set<Id> participantAttachmentIds = new Set<Id>();
     private Set<Id> participantDocumentIds = new Set<Id>();
+    public Set<String> RefIds = new Set<String>();
+    public Boolean onlySelectedPart = false;
     
     public class BatchControlException extends Exception{}
     
     // Query the Participant Enrollment related with the current CTP
     public Database.QueryLocator start(Database.BatchableContext bc) {
         
-        if(isStudyToDelete == false && String.isNotBlank(studyClosureId)) {
-            
             List<Study_Closure__c> studyClosureProcessList = [
-                SELECT Id FROM Study_Closure__c WHERE Clinical_Trial_Profile_Id__c = :studyClosureId LIMIT 1
+                SELECT Id,Only_Selected_Participants__c FROM Study_Closure__c WHERE Clinical_Trial_Profile_Id__c = :studyClosureId LIMIT 1
             ];
             
             if(studyClosureProcessList.isEmpty() == false) {
                 
                 studyClosureProcessId = studyClosureProcessList[0].Id;
+                 if(studyClosureProcessList[0].Only_Selected_Participants__c){
+                    onlySelectedPart = true;
+                    List<Participant_Closure__c> partClosureList = [Select Name from Participant_Closure__c ];
+                    for(Participant_Closure__c pc:partClosureList){
+                        RefIds.add(pc.Name);
+                    }
+                  }else{ onlySelectedPart = false;}
             } else {
                 throw new BatchControlException('Please check the studyClosureId and created studyClosure record.');
             }
-        }   
          
         String query = 'SELECT Id, Participant__c FROM Participant_Enrollment__c ';
         if(String.isNotBlank(studyClosureId)) {
             query += 'WHERE Clinical_Trial_Profile__c = :studyClosureId';
+            if(onlySelectedPart){
+                     query += ' AND Name IN:RefIds';
+            }
         } else {
             query += 'LIMIT 0';
         }
         return Database.getQueryLocator(query);
     }
     public void execute(Database.BatchableContext bc, List<Participant_Enrollment__c> records) {
+        if(records.isEmpty() == false){
         
         // Mapping of Participant and related contact Id
         Map<Id,Id> participantandContactIdsMap = new Map<Id,Id>();
@@ -74,10 +84,17 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
             studyClosureId, participantContactIds, patientDelegateContactIds, participantIds, delegateParticipantIds, 
             participantandContactIdsMap, delparticipantandContactIdsMap
         );
+        
+        if(onlySelectedPart){
+        checkDelegateRefIDs(studyClosureId, participantContactIds, patientDelegateContactIds, delegateParticipantIds, 
+           onlySelectedPart, RefIds 
+        );}
+        
+        
         // Check participant and delegate contacts has any roles
         // (PI, Site staff, CC staff, HCP, RP Delegate and Patient delegate) in any other CTP
         checkContactRoles(
-            studyClosureId, participantContactIds, patientDelegateContactIds
+            studyClosureId, participantContactIds, patientDelegateContactIds, onlySelectedPart
         );
         // Delete the Participant and delegate related records
         // (Participant_Comorbidities, Task, Therapeutic_Area_Patient, Note, Attachment)
@@ -91,6 +108,8 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
         }
         // Delete all the Participant Enrollment records
         deleteParticipantEnrollments(isStudyToDelete, records, participantEnrollmentIds);
+        
+       } 
     }
     public void finish(Database.BatchableContext bc) {
     
@@ -245,17 +264,36 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
             }
         }
     }
+    
+     public static void checkDelegateRefIDs(
+        Id studyClosureId, Set<Id> participantContactIds, Set<Id> patientDelegateContactIds, Set<Id> delegateParticipantIds, Boolean onlySelectedPart, Set<String> RefIds 
+    ) {
+    
+            for(Patient_Delegate_Enrollment__c pder: [Select Id,Participant_Enrollment__c,Participant_Enrollment__r.Name,Patient_Delegate__c,
+                                                        Patient_Delegate__r.Participant_Delegate__c,Patient_Delegate__r.Contact__c  from
+                                                        Patient_Delegate_Enrollment__c where (Patient_Delegate__r.Participant_Delegate__c IN:delegateParticipantIds OR
+                                                        Patient_Delegate__r.Contact__c IN:patientDelegateContactIds) AND
+                                                         Participant_Enrollment__r.Name Not IN:RefIds])
+             {
+                      if(delegateParticipantIds.contains(pder.Patient_Delegate__r.Participant_Delegate__c)){
+                           delegateParticipantIds.remove(pder.Patient_Delegate__r.Participant_Delegate__c);
+                           patientDelegateContactIds.remove(pder.Patient_Delegate__r.Contact__c);
+                      }
+             
+             }                                           
+    
+    }
     // Check participant and delegate contacts has any roles
     // (PI, Site staff, CC staff, HCP, RP Delegate and Patient delegate) in any other CTP
     public static void checkContactRoles(
-        Id studyClosureId, Set<Id> participantContactIds, Set<Id> patientDelegateContactIds
+        Id studyClosureId, Set<Id> participantContactIds, Set<Id> patientDelegateContactIds, Boolean onlySelectedPart
     ) {
         
         checkContactAsPI(studyClosureId, participantContactIds, patientDelegateContactIds);
         checkContactAsSiteStaff(studyClosureId, participantContactIds, patientDelegateContactIds);
         checkContactAsCCStaff(participantContactIds, patientDelegateContactIds);
         checkContactAsRPDelegate(participantContactIds, patientDelegateContactIds);
-        checkContactAsHCP(studyClosureId, participantContactIds, patientDelegateContactIds);
+        checkContactAsHCP(studyClosureId, participantContactIds, patientDelegateContactIds, onlySelectedPart);
     }
     
     public static void checkContactAsPI(
@@ -267,8 +305,7 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
             For(Study_Site__c piUser:[
                 SELECT Id, Principal_Investigator__c 
                 FROM Study_Site__c 
-                WHERE (Principal_Investigator__c IN :participantContactIds OR Principal_Investigator__c IN :patientDelegateContactIds)
-                    AND Clinical_Trial_Profile__c != :studyClosureId
+                WHERE (Principal_Investigator__c IN :participantContactIds OR Principal_Investigator__c IN :patientDelegateContactIds)              
             ]){
             
                 if(participantContactIds.contains(piUser.Principal_Investigator__c)){
@@ -290,8 +327,7 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
             for(Site_Staff__c ssorRPUser:[
                 SELECT Id, Site_Contact__c 
                 FROM Site_Staff__c 
-                WHERE (Site_Contact__c IN :participantContactIds OR Site_Contact__c IN :patientDelegateContactIds)
-                    AND Study_Site__r.Clinical_Trial_Profile__c != :studyClosureId 
+                WHERE (Site_Contact__c IN :participantContactIds OR Site_Contact__c IN :patientDelegateContactIds)        
             ]){
                 if(participantContactIds.contains(ssorRPUser.Site_Contact__c)){
                     participantContactIds.remove(ssorRPUser.Site_Contact__c);
@@ -348,23 +384,39 @@ public without sharing class Batch_SCParticipantEnrollment implements Database.B
     }
     
     public static void checkContactAsHCP(
-        Id studyClosureId, Set<Id> participantContactIds, Set<Id> patientDelegateContactIds
+        Id studyClosureId, Set<Id> participantContactIds, Set<Id> patientDelegateContactIds, Boolean onlySelectedPart
     ) {
         
         if(participantContactIds.isEmpty() == false) {
-        
-            for(HCP_Enrollment__c hcpEnroll:[
-                SELECT Id, HCP_Contact__c 
-                FROM HCP_Enrollment__c 
-                WHERE (HCP_Contact__c IN :participantContactIds OR HCP_Contact__c IN :patientDelegateContactIds)
-                    AND Clinical_Trial_Profile__c != :studyClosureId 
-            ]){
-                
-                if(participantContactIds.contains(hcpEnroll.HCP_Contact__c)){
-                    participantContactIds.remove(hcpEnroll.HCP_Contact__c);
-                }
-                if(patientDelegateContactIds.contains(hcpEnroll.HCP_Contact__c)){
-                    patientDelegateContactIds.remove(hcpEnroll.HCP_Contact__c);
+            
+            if(onlySelectedPart){
+                 for(HCP_Enrollment__c hcpEnroll:[
+                    SELECT Id, HCP_Contact__c 
+                    FROM HCP_Enrollment__c 
+                    WHERE (HCP_Contact__c IN :participantContactIds OR HCP_Contact__c IN :patientDelegateContactIds)
+                ]){
+                    
+                    if(participantContactIds.contains(hcpEnroll.HCP_Contact__c)){
+                        participantContactIds.remove(hcpEnroll.HCP_Contact__c);
+                    }
+                    if(patientDelegateContactIds.contains(hcpEnroll.HCP_Contact__c)){
+                        patientDelegateContactIds.remove(hcpEnroll.HCP_Contact__c);
+                    }
+                }   
+            }else{
+                for(HCP_Enrollment__c hcpEnroll:[
+                    SELECT Id, HCP_Contact__c 
+                    FROM HCP_Enrollment__c 
+                    WHERE (HCP_Contact__c IN :participantContactIds OR HCP_Contact__c IN :patientDelegateContactIds)
+                        AND Clinical_Trial_Profile__c != :studyClosureId 
+                ]){
+                    
+                    if(participantContactIds.contains(hcpEnroll.HCP_Contact__c)){
+                        participantContactIds.remove(hcpEnroll.HCP_Contact__c);
+                    }
+                    if(patientDelegateContactIds.contains(hcpEnroll.HCP_Contact__c)){
+                        patientDelegateContactIds.remove(hcpEnroll.HCP_Contact__c);
+                    }
                 }
             }
         }

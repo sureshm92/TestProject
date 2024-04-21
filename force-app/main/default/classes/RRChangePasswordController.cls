@@ -3,6 +3,7 @@
  */
 
 public without sharing class RRChangePasswordController {
+    public String US { get; set; }
     public static final String ERROR_SUFFIX = ': ' + System.Label.RH_ProfileInfoErrorMsz;
     public static final String ERROR_VALUE_SUFFIX = ': You must enter a valid value';
     public static final String TEMP_ACCOUNT = 'temporary account';
@@ -46,6 +47,9 @@ public without sharing class RRChangePasswordController {
     public Boolean isAttested { get; set; }
     public Participant__c participant { get; set; }
     public Participant_Enrollment__c per { get; set; }
+    public Boolean isIQVIAOutreachToggleOnForParticipant { get; set; }
+    public Boolean isIQVIAOutreachToggleOnForDelegate { get; set; }
+    public Patient_Delegate_Enrollment__c pde { get; set; }
     public String tcLink { get; set; }
     public String studyPrivacyPolicyUrl { get; set; }
     public String platformPrivacyPolicyUrl { get; set; }
@@ -69,7 +73,7 @@ public without sharing class RRChangePasswordController {
 
     private String previousLanguage;
 
-    public List<SelectOption> countries { get; set; }
+    public List<SelectOption> countries { get; set; } 
     public List<SelectOption> states { get; set; }
     public List<SelectOption> years { get; set; }
     public String country { get; set; }
@@ -82,17 +86,76 @@ public without sharing class RRChangePasswordController {
     public boolean onLoad { get; set; }
     public boolean showErrorMessage { get; set; }
     public static boolean isAttestationUpdated = false;
+    public boolean showIQVIAConsents { get; set; }
+    public Map<Id,Boolean> consentPref { get; set; }
 
     public String maskUserName { get; set; }
     public String maskLastName { get; set; }
     public String maskDaytimephone { get; set; }
     public String addPhotoLabel { get; set; }
 
-    public String CPRAlabel {get;set;}
-    public Boolean isCPRAAvailable {get;set;}
-    public CPRA_DoNotSell__mdt CPRAMd {get;set;}
-    public String CPRALink {get;set;}
+    public String CPRAlabel { get; set; }
+    public Boolean isCPRAAvailable { get; set; }
+    public CPRA_DoNotSell__mdt CPRAMd { get; set; }
+    public String CPRALink { get; set; }
 
+    public String ctpName {get;set;} 
+    
+    //comm preference
+    //public ConsentPreferenceData cpd {get;set;} 
+    public Contact loginContact { get; set; }
+    public List<Participant_Enrollment__c> perListforCommPref { get; set; }
+    //public List<Participant_Enrollment__c> perListAllforCommPref { get; set; }
+    public List<String> studyConsentss { get; set; }
+    
+    public List<Id> delegateEnrollmentRecordPERIds { get; set; }
+    public List<Patient_Delegate_Enrollment__c> allPdeList { get; set; }
+    public Boolean outreachSelection { get; set; }
+    public Boolean studyConsentSelection { get; set; }
+    public Boolean isIQVIAOutreachToggleOn{ get; set; }
+    
+    
+    public List<perListCommPreferences> cpr { get; set; }
+    Public Class perListCommPreferences{
+        public Participant_Enrollment__c perListAllforCommPrefs { get; set; }
+        public Boolean studyCons { get; set; }
+        public String reDirTC { get; set; }
+        public String reDirPP { get; set; }
+        public perListCommPreferences(
+            Participant_Enrollment__c perListAllforCommPrefs ,
+            Boolean studyCons,
+            String reDirTC,
+            String reDirPP 
+        ) {
+            this.perListAllforCommPrefs = perListAllforCommPrefs ;
+            this.studyCons= studyCons;
+            this.reDirTC = reDirTC;
+            this.reDirPP = reDirPP;
+        }
+   }
+   
+    public List<perListCommPreferencesDel> cprDel { get; set; }
+    Public Class perListCommPreferencesDel{
+        public Patient_Delegate_Enrollment__c perListAllforCommPrefsDel { get; set; }
+        public Boolean studyConsDel { get; set; }
+        public String reDirTCDel { get; set; }
+        public String reDirPPDel { get; set; }
+        public perListCommPreferencesDel(
+            Patient_Delegate_Enrollment__c perListAllforCommPrefsDel ,
+            Boolean studyConsDel,
+            String reDirTCDel,
+            String reDirPPDel 
+        ) {
+            this.perListAllforCommPrefsDel = perListAllforCommPrefsDel ;
+            this.studyConsDel= studyConsDel;
+            this.reDirTCDel = reDirTCDel; 
+            this.reDirPPDel = reDirPPDel;
+        }
+   }
+    
+    
+   
+    
     public Boolean mainPortal {
         get {
             return !Site.getPathPrefix().startsWith('/gsk');
@@ -104,6 +167,8 @@ public without sharing class RRChangePasswordController {
     private Map<String, String> countryCodeByName = new Map<String, String>();
     private Map<String, String> stateCodeByName = new Map<String, String>();
     private String oldAccountName;
+    
+   
 
     public RRChangePasswordController() {
         passwordValidation = false;
@@ -150,9 +215,13 @@ public without sharing class RRChangePasswordController {
     }
 
     private void init() {
+        isIQVIAOutreachToggleOnForParticipant = false;
+        isIQVIAOutreachToggleOnForDelegate = false;
+        isIQVIAOutreachToggleOn = false;
         showPassword = true;
         showNewPassword = true;
         Id userId = UserInfo.getUserId();
+        List<Id> contactIds = new List<Id>();
         userVal = [
             SELECT
                 Id,
@@ -198,8 +267,15 @@ public without sharing class RRChangePasswordController {
         ];
 
         contact = userVal.Contact;
+        contactIds.add(contact.Id);
         system.debug('userVal.FullPhotoUrl' + userVal.FullPhotoUrl);
-
+        
+        if(contact.IQVIA_Direct_Mail_Consent__c && contact.Participant_Opt_In_Status_SMS__c && contact.Participant_Opt_In_Status_Emails__c && contact.Participant_Phone_Opt_In_Permit_Phone__c){
+            outreachSelection = true;
+        }else{
+            outreachSelection = false;
+        }
+        
         maskUserName = userVal.Username.substring(0, 3) + '************';
         hasProfilePic = !userVal.FullPhotoUrl.contains('profilephoto/005/F');
         system.debug('hasProfilePic-->' + hasProfilePic);
@@ -307,10 +383,14 @@ public without sharing class RRChangePasswordController {
         isDelegate = contact.UserCommunityIsDelegate__c;
         showErrorMessage = false;
         isSaveButtonDisabled = false;
+        showIQVIAConsents = false;
+        consentPref = RestrictedSourceConfigService.getConsentPreferences(contactIds);
+        showIQVIAConsents = !consentPref.isEmpty() && consentPref != null && consentPref.containskey(contact.Id) ? consentPref.get(contact.Id) : false;
         if (participant != null) {
             maskLastName = participant.Last_Name__c.substring(0, 1) + '************';
 
-            maskDaytimephone = participant.Phone__c != null && participant.Phone__c.length()>4
+            maskDaytimephone = participant.Phone__c != null &&
+                participant.Phone__c.length() > 4
                 ? '************' +
                   participant.Phone__c.substring(
                       participant.Phone__c.length() - 4,
@@ -324,63 +404,230 @@ public without sharing class RRChangePasswordController {
 
             /* Communitcation preference*/
             if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal && contact.Is_First_Logon__c) {
-            
-                List<Participant_Enrollment__c> loginUserPEs = [
+                List<Participant_Enrollment__c> loginUserPEs = new List<Participant_Enrollment__c> ();
+                // List<Participant_Enrollment__c> loginUserPEs = [
+                //     SELECT
+                //         Id,
+                //         CreatedDate,
+                //         Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                //         Clinical_Trial_Profile__r.Study_Code_Name__c,
+                //         Clinical_Trial_Profile__r.Name,
+                //         Permit_Mail_Email_contact_for_this_study__c,
+                //         Permit_SMS_Text_for_this_study__c,
+                //         Permit_Voice_Text_contact_for_this_study__c,
+                //         Study_Direct_Mail_Consent__c,
+                //         Clinical_Trial_Profile__r.CommunityTemplate__c,
+                //         Clinical_Trial_Profile__r.PPTemplate__c,
+                //         Clinical_Trial_Profile__c,
+                //         Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                //         Clinical_Trial_Profile__r.Privacy_Policy_ID__c
+                //     FROM Participant_Enrollment__c
+                //     WHERE
+                //         Participant_Contact__c = :contact.Id
+                //         AND ((Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal') OR 
+                //         (Clinical_Trial_Profile__r.CommunityTemplate__c='Janssen' AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+                //         AND Invited_To_PP_Date__c != NULL
+                //         AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                //        order by CreatedDate desc
+                // ];
+
+                List<Participant_Enrollment__c> loginUserPEsPP = [
                     SELECT
                         Id,
+                        CreatedDate,
                         Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        Clinical_Trial_Profile__r.Study_Code_Name__c,
+                        Clinical_Trial_Profile__r.Name,
                         Permit_Mail_Email_contact_for_this_study__c,
                         Permit_SMS_Text_for_this_study__c,
                         Permit_Voice_Text_contact_for_this_study__c,
                         Study_Direct_Mail_Consent__c,
                         Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Clinical_Trial_Profile__r.PPTemplate__c,
                         Clinical_Trial_Profile__c,
                         Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
                         Clinical_Trial_Profile__r.Privacy_Policy_ID__c
                     FROM Participant_Enrollment__c
                     WHERE
                         Participant_Contact__c = :contact.Id
-                        AND Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
+                        AND (Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal')  
+                        AND Invited_To_PP_Date__c != NULL
+                        AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                       order by CreatedDate asc
                 ];
-                if (loginUserPEs.size() > 0) {
-                    per = loginUserPEs[0];
+                List<Participant_Enrollment__c> loginUserPEsJanssen = [
+                    SELECT
+                        Id,
+                        CreatedDate,
+                        Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        Clinical_Trial_Profile__r.Study_Code_Name__c,
+                        Clinical_Trial_Profile__r.Name,
+                        Permit_Mail_Email_contact_for_this_study__c,
+                        Permit_SMS_Text_for_this_study__c,
+                        Permit_Voice_Text_contact_for_this_study__c,
+                        Study_Direct_Mail_Consent__c,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Clinical_Trial_Profile__r.PPTemplate__c,
+                        Clinical_Trial_Profile__c,
+                        Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                        Clinical_Trial_Profile__r.Privacy_Policy_ID__c
+                    FROM Participant_Enrollment__c
+                    WHERE
+                        Participant_Contact__c = :contact.Id
+                        AND (Clinical_Trial_Profile__r.CommunityTemplate__c='Janssen' AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0')
+                        AND Invited_To_PP_Date__c != NULL
+                        AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                       order by CreatedDate asc
+                ];
+                if(!loginUserPEsPP.isEmpty() && !loginUserPEsJanssen.isEmpty())
+                {
+                    if(loginUserPEsPP[0].CreatedDate < loginUserPEsJanssen[0].CreatedDate) //janssen per is latest
+                    {
+                        loginUserPEs.clear();
+                        loginUserPEs = loginUserPEsJanssen;
+                    }
+                    else { //PP Per is latest
+                        loginUserPEs.clear();
+                        loginUserPEs = loginUserPEsPP;
+                    }  
+                }
+                else {
+                    loginUserPEs.clear();
+                    loginUserPEs = loginUserPEsPP.isEmpty() ? loginUserPEsJanssen : loginUserPEsPP ;
+                }
+                List<Patient_Delegate_Enrollment__c> delegateContactUserPDEs = new List<Patient_Delegate_Enrollment__c> ();
+                
+                // List<Patient_Delegate_Enrollment__c> delegateContactUserPDEs = [
+                //     SELECT
+                //         Id,
+                //         CreatedDate,
+                //         Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                //         Study_Phone_Consent__c,
+                //         Study_SMS_Consent__c,
+                //         Study_Email_Consent__c,
+                //         Study_Direct_Mail_Consent__c,
+                //         Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                //         Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                //         Participant_Enrollment__r.Clinical_Trial_Profile__r.Name,
+                //         Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
+                //         Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                //         Participant_Enrollment__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                //         Participant_Enrollment__r.Clinical_Trial_Profile__r.Privacy_Policy_ID__c
+                //     FROM Patient_Delegate_Enrollment__c
+                //     WHERE
+                //         Patient_Delegate__r.Contact__c = :contact.Id
+                //         AND ((Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal') OR 
+                //         (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c='Janssen' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+                //         AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                //         AND Status__c = 'Active'  order by CreatedDate asc
+                // ];
+
+                List<Patient_Delegate_Enrollment__c> delegateContactUserPDEsPP = [
+                    SELECT
+                        Id,
+                        CreatedDate,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        Study_Phone_Consent__c,
+                        Study_SMS_Consent__c,
+                        Study_Email_Consent__c,
+                        Study_Direct_Mail_Consent__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Name,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Privacy_Policy_ID__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE
+                        Patient_Delegate__r.Contact__c = :contact.Id
+                        AND (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal')  
+                        AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                        AND Status__c = 'Active'  order by CreatedDate asc
+                ];
+
+                List<Patient_Delegate_Enrollment__c> delegateContactUserPDEsJanssen = [
+                    SELECT
+                        Id,
+                        CreatedDate,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        Study_Phone_Consent__c,
+                        Study_SMS_Consent__c,
+                        Study_Email_Consent__c,
+                        Study_Direct_Mail_Consent__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Name,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Privacy_Policy_ID__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE
+                        Patient_Delegate__r.Contact__c = :contact.Id
+                        AND(Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c='Janssen' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0')
+                        AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                        AND Status__c = 'Active'  order by CreatedDate asc
+                ];
+
+                if(!delegateContactUserPDEsPP.isEmpty() && !delegateContactUserPDEsJanssen.isEmpty())
+                {
+                    if(delegateContactUserPDEsPP[0].CreatedDate < delegateContactUserPDEsJanssen[0].CreatedDate) //janssen per is latest
+                    {
+                        delegateContactUserPDEs.clear();
+                        delegateContactUserPDEs = delegateContactUserPDEsJanssen;
+                    }
+                    else { //PP Per is latest
+                        delegateContactUserPDEs.clear();
+                        delegateContactUserPDEs = delegateContactUserPDEsPP;
+                    }  
+                }
+                else {
+                    delegateContactUserPDEs.clear();
+                    delegateContactUserPDEs = delegateContactUserPDEsPP.isEmpty() ? delegateContactUserPDEsJanssen : delegateContactUserPDEsPP ;
                 }
 
-                if (contact.UserCommunityIsDelegate__c) {
-                    //Delegate Logic shoule be here
-                    List<Patient_Delegate__c> delegatesPDList = [
-                        SELECT Id, Participant__r.Name, Participant__r.Contact__c
-                        FROM Patient_Delegate__c
-                        WHERE Contact__c = :contact.Id
-                    ];
-                    if (delegatesPDList.size() > 0) {
-                        List<Participant_Enrollment__c> delegateContactUserPEs = [
-                            SELECT
-                                Id,
-                                Clinical_Trial_Profile__r.IQVIA_Outreach__c,
-                                Permit_Mail_Email_contact_for_this_study__c,
-                                Permit_SMS_Text_for_this_study__c,
-                                Permit_Voice_Text_contact_for_this_study__c,
-                                Study_Direct_Mail_Consent__c,
-                                Clinical_Trial_Profile__r.CommunityTemplate__c,
-                                Clinical_Trial_Profile__c,
-                                Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
-                                Clinical_Trial_Profile__r.Privacy_Policy_ID__c
-                            FROM Participant_Enrollment__c
-                            WHERE
-                                Participant_Contact__c = :delegatesPDList[0]
-                                    .Participant__r.Contact__c
-                                AND Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
-                        ];
-                        if (delegateContactUserPEs.size() > 0) {
-                            per = delegateContactUserPEs[0];
+                if (loginUserPEs.size() != 0 && delegateContactUserPDEs.size() != 0) {
+                    //Multi ROle
+                    if((!loginUserPEsPP.isEmpty() && !delegateContactUserPDEsJanssen.isEmpty()) ||
+                        !loginUserPEsJanssen.isEmpty() && !delegateContactUserPDEsPP.isEmpty())
+                    {
+                        if (loginUserPEs[0].CreatedDate > delegateContactUserPDEs[0].CreatedDate) {
+                            per = loginUserPEs[0];
+                            isDelegate = false;
+                            setPartIQVIAOurtreachToggle(loginUserPEs);
+                        } else {
+                            pde = delegateContactUserPDEs[0];
+                            isDelegate = true;
+                            setDelIQVIAOurtreachToggle(delegateContactUserPDEs);
                         }
                     }
+                    else { 
+                        if (loginUserPEs[0].CreatedDate < delegateContactUserPDEs[0].CreatedDate) {
+                        per = loginUserPEs[0];
+                        isDelegate = false;
+                        setPartIQVIAOurtreachToggle(loginUserPEs);
+                    } else {
+                        pde = delegateContactUserPDEs[0];
+                        isDelegate = true;
+                        setDelIQVIAOurtreachToggle(delegateContactUserPDEs);
+                    }
+                    }
+                } else if (loginUserPEs.size() != 0 && delegateContactUserPDEs.size() == 0) {
+                    //pure participant
+                    per = loginUserPEs[0];
+                    isDelegate = false;
+                    setPartIQVIAOurtreachToggle(loginUserPEs);
+                } else if (delegateContactUserPDEs.size() != 0 && loginUserPEs.size() == 0) {
+                    //pure Delegate
+                    pde = delegateContactUserPDEs[0];
+                    isDelegate = true;
+                    setDelIQVIAOurtreachToggle(delegateContactUserPDEs);
                 }
             }
             /** Communication preference */
         }
-        if (contact.UserCommunityIsDelegate__c && isParticipant) {
+        if (isDelegate && isParticipant) {
             Integer currentYear = Date.Today().Year();
             for (Integer i = currentYear; i > currentYear - 150; i--) {
                 years.add(new SelectOption(String.valueof(i), String.valueof(i)));
@@ -390,7 +637,7 @@ public without sharing class RRChangePasswordController {
             isDisabled = false;
             if (!String.isBlank(participant.Birth_Year__c)) {
                 isAdult = true;
-            } else {
+            } else {    
                 isAdult = false;
             }
             isSaveButtonDisabled = true;
@@ -404,29 +651,183 @@ public without sharing class RRChangePasswordController {
         Id ctpId;
 
         ctpId = per?.Clinical_Trial_Profile__c;
-        String baseUrl = Site.getBaseUrl().replace('/pp', '/terms');
-
-        if (
-            (ctpId != null) && (per.Clinical_Trial_Profile__r?.Terms_And_Conditions_ID__c != null)
-        ) {
-            tcLink = baseUrl + '/s/terms-and-conditions?id=' + ctpId;
-        } else {
-            tcLink = baseUrl + '/s/terms-and-conditions/';
+        if(per != null)
+        {
+         ctpName = per.Clinical_Trial_Profile__r.Study_Code_Name__c + '???' +  per.Clinical_Trial_Profile__r.CommunityTemplate__c ;
+         ctpName += ' >>>> ' + per.Clinical_Trial_Profile__r.Name +'>isDelegate>> ' + isDelegate; 
         }
+        else if(pde != null)
+        {              
+            ctpName = pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c + '???' +  pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ;
+            ctpName += ' >>>> ' + pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Name +'>isDelegate>> ' + isDelegate; 
+        }
+        String baseUrl = Site.getBaseUrl()
+            .replace('/pp.clinicalresearch', '/policies.clinicalresearch')
+            .replace('.com/pp', '.com/terms');
         platformPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
-
-        if (ctpId != null && (per.Clinical_Trial_Profile__r?.Privacy_Policy_Id__c != null)) {
-            studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy?id=' + ctpId;
-        } else {
-            studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
+        if(per != null) {  
+            if ((ctpId != null) && (per.Clinical_Trial_Profile__r?.Terms_And_Conditions_ID__c != null)) 
+            {
+                tcLink = baseUrl + '/s/terms-and-conditions?id=' + ctpId;
+            } else {
+                tcLink = baseUrl + '/s/terms-and-conditions/';
+            }
+            if (ctpId != null && (per.Clinical_Trial_Profile__r?.Privacy_Policy_Id__c != null)) {
+                studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy?id=' + ctpId;
+            } else {
+                studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
+            }
         }
+        else{
+            if(ctpId == null && pde != null)
+            {
+                ctpId = pde.Participant_Enrollment__r.Clinical_Trial_Profile__c;
+            } 
+            if ((ctpId != null) && (pde != null) && (pde.Participant_Enrollment__r.Clinical_Trial_Profile__r?.Terms_And_Conditions_ID__c != null)) 
+            {
+                tcLink = baseUrl + '/s/terms-and-conditions?id=' + ctpId;
+            }
+            else {
+                tcLink = baseUrl + '/s/terms-and-conditions/';
+            } 
+            if ((ctpId != null) && (pde != null) && (pde.Participant_Enrollment__r.Clinical_Trial_Profile__r?.Privacy_Policy_Id__c != null)) {
+                studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy?id=' + ctpId;
+            } else {
+                studyPrivacyPolicyUrl = baseUrl + '/s/privacy-policy';
+            }
+        }
+        
+       loginContact = [
+            SELECT
+                Id,
+                FirstName,
+                MiddleName,
+                LastName,
+                AccountId,
+                Email,
+                Fax,
+                Phone,
+                MailingAddress,
+                MailingCity,
+                MailingCountry,
+                MailingCountryCode,
+                MailingPostalCode,
+                MailingState,
+                MailingStateCode,
+                MailingStreet,
+                MobilePhone,
+                Suffix,
+                primaryContact__c,
+                primaryContact__r.AccountId,
+                HasOptedOutOfEmail,
+                Participant_Opt_In_Status_Emails__c,
+                Participant_Opt_In_Status_SMS__c,
+                Participant_Phone_Opt_In_Permit_Phone__c,
+                IQVIA_Direct_Mail_Consent__c,
+                HCP_Opt_In_Patient_Status_Emails__c,
+                HCP_Opt_In_Study_Emails__c,
+                HCP_Opt_In_Referral_Status_Emails__c,
+                Delegate_Opt_In_Status_Emails__c,
+                RRCookiesAllowedCookie__c,
+                RRLanguageAllowedCookie__c,
+                Salutation,
+                Current_Participant_Enrollment__c,
+                userCommunityDelegateId__c,
+                userCommunytyType__c,
+                Phone_Type__c,
+                IQVIA_Contact_info_storage_consent__c,
+                Is_First_Logon__c,
+                Cookies_Agreed_on_Reg__c
+            FROM Contact
+            WHERE Id IN (SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId())
+            LIMIT 1
+        ];
+        List<Patient_Delegate_Enrollment__c> pde = new List<Patient_Delegate_Enrollment__c>();
+        List<Participant_Enrollment__c> listPE = new List<Participant_Enrollment__c>();
+        pde = [Select Id,Participant_Enrollment__c,Participant_Enrollment__r.Clinical_Trial_Profile__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                 Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,
+                 Participant_Enrollment__r.Clinical_Trial_Profile__r.Privacy_Policy_ID__c, 
+                 Status__c ,Study_Direct_Mail_Consent__c,Study_Email_Consent__c,Study_Phone_Consent__c,Study_SMS_Consent__c,isInviteToPP__c,Patient_Delegate__c,Patient_Delegate__r.Contact__c
+                 from Patient_Delegate_Enrollment__c
+                 where Patient_Delegate__r.Contact__c =:loginContact.Id AND Status__c = 'Active' AND
+                 (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' OR (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+                 ];
+        listPE = [Select Id,Participant_Contact__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.PPTemplate__c,Participant_Status__c, 
+                  Permit_Voice_Text_contact_for_this_study__c,Permit_Mail_Email_contact_for_this_study__c,Permit_SMS_Text_for_this_study__c,Study_Direct_Mail_Consent__c,
+                  Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c,Clinical_Trial_Profile__r.Privacy_Policy_ID__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c,Invited_To_PP_Date__c 
+                  from Participant_Enrollment__c where 
+                  Participant_Contact__c =:loginContact.Id AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Participant_Status__c NOT IN:PEStatusState.PE_STATUS_GROUP_ALUMNI AND Invited_To_PP_Date__c != null AND
+                  (Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' OR (Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen' AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+                  ];         
+       
+       if(!listPE.isEmpty() && listPE != null){
+           cpr= new List<perListCommPreferences>();
+           for(Participant_Enrollment__c per: listPE ){
+               Boolean allcons = false;
+               String redirPP = '';String redirTC = '';
+               if(per.Permit_Voice_Text_contact_for_this_study__c && per.Permit_Mail_Email_contact_for_this_study__c && per.Permit_SMS_Text_for_this_study__c && per.Study_Direct_Mail_Consent__c){
+                   allcons = true;
+               }
+               if(per.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c != null){
+                   redirTC = '/terms/s/terms-and-conditions?id='+per.Clinical_Trial_Profile__c;
+               }else{
+                   if(per.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                       redirTC = '/terms/s/terms-and-conditions?isJanssen=true&iscalledfromRegistrationORcommpref=true';
+                   }else{
+                       redirTC = '/terms/s/terms-and-conditions?iscalledfromRegistrationORcommpref=true';
+                   }
+               }
+               if(per.Clinical_Trial_Profile__r.Privacy_Policy_ID__c != null){
+                   redirPP = '/terms/s/privacy-policy?id='+per.Clinical_Trial_Profile__c;
+               }else{
+                   if(per.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                        redirPP = '/terms/s/privacy-policy?isJanssen=true&iscalledfromRegistrationORcommpref=true';
+                   }else{
+                        redirPP = '/terms/s/privacy-policy?iscalledfromRegistrationORcommpref=true';
+                   }
+               }
+              cpr.add( new perListCommPreferences(per,allcons,redirTC,redirPP));  
+           }
+       }
+       
+       if(!pde.isEmpty() && pde != null){
+           cprDel = new List<perListCommPreferencesDel>();
+           for(Patient_Delegate_Enrollment__c pd: pde){
+               Boolean allcons = false;
+               String redirPP = '';String redirTC = '';
+               if(pd.Study_Phone_Consent__c && pd.Study_Email_Consent__c && pd.Study_SMS_Consent__c && pd.Study_Direct_Mail_Consent__c){
+                   allcons = true;
+               }
+               if(pd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c != null){
+                   redirTC = '/terms/s/terms-and-conditions?id='+pd.Participant_Enrollment__r.Clinical_Trial_Profile__c;
+               }else{
+                    if(pd.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                      redirTC = '/terms/s/terms-and-conditions?isJanssen=true&iscalledfromRegistrationORcommpref=true';
+                   }else{
+                      redirTC = '/terms/s/terms-and-conditions?iscalledfromRegistrationORcommpref=true';
+                   }
+               }
+               if(pd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Privacy_Policy_ID__c != null){
+                   redirPP = '/terms/s/privacy-policy?id='+pd.Participant_Enrollment__r.Clinical_Trial_Profile__c;
+               }else{
+                   if(pd.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen'){
+                      redirPP =  '/terms/s/privacy-policy?isJanssen=true&iscalledfromRegistrationORcommpref=true';
+                   }else{
+                      redirPP = '/terms/s/privacy-policy?iscalledfromRegistrationORcommpref=true';
+                   }
+               }
+              cprDel.add( new perListCommPreferencesDel(pd,allcons,redirTC,redirPP));  
+           }
+       }
+       
+       
     }
-
+    
     public PageReference changePassword() {
         try {
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
             contact cont = new contact();
-
+        
             cont.Id = contact.Id;
             if (contact.Is_First_Logon__c) {
                 cont.Cookies_Agreed_on_Reg__c = true;
@@ -529,7 +930,25 @@ public without sharing class RRChangePasswordController {
             }
             update cont;
             update participant;
-            update per;
+                 List<Patient_Delegate_Enrollment__c > lsttoUpdPDER = new List<Patient_Delegate_Enrollment__c >();
+                if(cprDel != null && cprDel.size() != 0 && !cprDel.isEmpty()){
+                     for(perListCommPreferencesDel pp:cprDel){
+                            lsttoUpdPDER.add(pp.perListAllforCommPrefsDel);
+                     }
+                     if(lsttoUpdPDER != null && !lsttoUpdPDER.isEmpty()){
+                      update lsttoUpdPDER;
+                     }
+                 }
+                 
+                 List<Participant_Enrollment__c> lsttoUpd = new List<Participant_Enrollment__c>();
+                 if(cpr != null && cpr.size() != 0 && !cpr.isEmpty()){
+                     for(perListCommPreferences pp:cpr){
+                            lsttoUpd.add(pp.perListAllforCommPrefs);
+                     }
+                     if(lsttoUpd != null && !lsttoUpd.isEmpty()){  
+                     update lsttoUpd;
+                     } 
+                 }
             userVal.IsCommunityUserRegistered__c = true;
             update userVal;
             for (ApexPages.Message m : ApexPages.getMessages()) {
@@ -885,9 +1304,7 @@ public without sharing class RRChangePasswordController {
             ApexPages.addMessage(
                 new ApexPages.Message(
                     ApexPages.Severity.ERROR,
-                    e.getMessage() +
-                    '/n' +
-                    e.getStackTraceString()
+                    e.getMessage() + '/n' + e.getStackTraceString()
                 )
             );
         }
@@ -973,48 +1390,91 @@ public without sharing class RRChangePasswordController {
             CommunityTemplateService.PROPERTY_RESET_PASS_LOGO
         );
         CPRAMd = getCPRALink(currentCommunityName);
-       
-    } 
-    
-    public CPRA_DoNotSell__mdt getCPRALink(String strCommunityType){
-        
-        list<CPRA_DoNotSell__mdt> lstMd = new list<CPRA_DoNotSell__mdt> ();
-        if(strCommunityType == 'IQVIA Referral Hub')
-        {
-              lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
-                                                where Active__c = true and Link_to_redirect__c != Null and Community_Name__c = 'Default' LIMIT 1];
-        }
-        else if(strCommunityType == 'Janssen Community')
-        {
-            lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
-                        where Active__c = true and Link_to_redirect__c != Null and Community_Name__c = 'Janssen Community' LIMIT 1];
-        }
-        else if(strCommunityType == 'GSK Community')
-        {
-            lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
-                        where Active__c = true and Link_to_redirect__c != Null and Community_Name__c = 'GSK Community' LIMIT 1];
-        }
-        else if(strCommunityType == 'IQVIA Patient Portal')
-        {
-            
-            lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
-                        where Active__c = true and Link_to_redirect__c != Null and Community_Name__c = 'IQVIA Patient Portal' LIMIT 1];
-        }
-        else{
-             
-            lstMd = [SELECT id,Active__c,Community_Name__c,Link_to_redirect__c,CPRA_Label__c from CPRA_DoNotSell__mdt
-                        where Active__c = true and Link_to_redirect__c != Null and Community_Name__c =:strCommunityType LIMIT 1];
+    }
 
+    public CPRA_DoNotSell__mdt getCPRALink(String strCommunityType) {
+        list<CPRA_DoNotSell__mdt> lstMd = new List<CPRA_DoNotSell__mdt>();
+        list<CPRA_Active_Community__mdt> lstCpraActiveCommunity = new list<CPRA_Active_Community__mdt> ();
+        if (strCommunityType == 'IQVIA Referral Hub') {
+            lstMd = [
+                SELECT id, Active__c, Community_Name__c, Link_to_redirect__c, CPRA_Label__c
+                FROM CPRA_DoNotSell__mdt
+                WHERE
+                    Active__c = TRUE
+                    AND Link_to_redirect__c != NULL
+                    AND Community_Name__c = 'Default'
+                LIMIT 1
+            ];
+        } else if (strCommunityType == 'Janssen Community') {
+            lstMd = [
+                SELECT id, Active__c, Community_Name__c, Link_to_redirect__c, CPRA_Label__c
+                FROM CPRA_DoNotSell__mdt
+                WHERE
+                    Active__c = TRUE
+                    AND Link_to_redirect__c != NULL
+                    AND Community_Name__c = 'Janssen Community'
+                LIMIT 1
+            ];
+        } else if (strCommunityType == 'GSK Community') {
+            lstMd = [
+                SELECT id, Active__c, Community_Name__c, Link_to_redirect__c, CPRA_Label__c
+                FROM CPRA_DoNotSell__mdt
+                WHERE
+                    Active__c = TRUE
+                    AND Link_to_redirect__c != NULL
+                    AND Community_Name__c = 'GSK Community'
+                LIMIT 1
+            ];
+        } else if (strCommunityType == 'IQVIA Patient Portal') {
+            lstMd = [
+                SELECT id, Active__c, Community_Name__c, Link_to_redirect__c, CPRA_Label__c
+                FROM CPRA_DoNotSell__mdt
+                WHERE
+                    Active__c = TRUE
+                    AND Link_to_redirect__c != NULL
+                    AND Community_Name__c = 'IQVIA Patient Portal'
+                LIMIT 1
+            ];
+        } else {
+            lstMd = [
+                SELECT id, Active__c, Community_Name__c, Link_to_redirect__c, CPRA_Label__c
+                FROM CPRA_DoNotSell__mdt
+                WHERE
+                    Active__c = TRUE
+                    AND Link_to_redirect__c != NULL
+                    AND Community_Name__c = :strCommunityType
+                LIMIT 1
+            ];
         }
         isCPRAAvailable = false;
-        if(!lstMd.isEmpty())
+        if(isParticipant)
         {
-            isCPRAAvailable =   true ;
-            CPRAlabel =  lstMd[0].CPRA_Label__c;
+            lstCpraActiveCommunity = [ SELECT id, Active__c, Community_Name__c 
+                                    FROM CPRA_Active_Community__mdt WHERE
+                                    Active__c = TRUE and Community_Name__c='IQVIA PatientPortal1.0'];
+            if(!lstCpraActiveCommunity.isEmpty())
+            {
+                if (!lstMd.isEmpty()) {
+                    isCPRAAvailable = true;
+                    CPRAlabel = lstMd[0].CPRA_Label__c;
+                    CPRALink = lstMd[0].Link_to_redirect__c;
+                    return lstMd[0];
+                }
+                else {
+                    return null;
+                }
+                
+            }
+            else 
+            return null;
+        }
+        else if (!lstMd.isEmpty()) {
+            isCPRAAvailable = true;
+            CPRAlabel = lstMd[0].CPRA_Label__c;
             CPRALink = lstMd[0].Link_to_redirect__c;
             return lstMd[0];
-        }
-        else  return null ;
+        } else
+            return null;
     }
 
     public void updateBrowserLanguageAction() {
@@ -1214,17 +1674,15 @@ public without sharing class RRChangePasswordController {
 
             if (
                 ageByCountryCode.get(
-                    participant.Mailing_Country_Code__c +
-                    '_' +
-                    participant.Mailing_State_Code__c
+                    participant.Mailing_Country_Code__c + '_' + participant.Mailing_State_Code__c
                 ) != null
             ) {
                 if (
                     delegateAge >=
                     ageByCountryCode.get(
                         participant.Mailing_Country_Code__c +
-                        '_' +
-                        participant.Mailing_State_Code__c
+                            '_' +
+                            participant.Mailing_State_Code__c
                     )
                 ) {
                     isAdult = true;
@@ -1243,7 +1701,8 @@ public without sharing class RRChangePasswordController {
                 isDisabled = false;
                 if (
                     per != null &&
-                    per.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal'
+                    ((per.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal') ||
+                    (per.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && per.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'))
                 ) {
                     ppValidateSaveButton();
                 } else {
@@ -1279,6 +1738,20 @@ public without sharing class RRChangePasswordController {
         } else {
             if (String.isNotBlank(participant.Birth_Year__c) && isAttested && !passwordValidation) {
                 isSaveButtonDisabled = false;
+            }
+        }
+    }
+    public void setPartIQVIAOurtreachToggle(List<Participant_Enrollment__c> perRecords) {
+        for (Participant_Enrollment__c perOutreach : perRecords) {
+            if (perOutreach.Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
+                isIQVIAOutreachToggleOnForParticipant = true;
+            }
+        }
+    }
+    public void setDelIQVIAOurtreachToggle(List<Patient_Delegate_Enrollment__c> pdeRecords) {
+        for (Patient_Delegate_Enrollment__c pdeOutreach : pdeRecords) {
+            if (pdeOutreach.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
+                isIQVIAOutreachToggleOnForDelegate = true;
             }
         }
     }

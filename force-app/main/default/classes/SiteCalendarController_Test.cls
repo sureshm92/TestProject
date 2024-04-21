@@ -49,10 +49,13 @@ public class SiteCalendarController_Test {
         attendeeLst.add(attendee2);
         insert attendeeLst;
 
-        
         Test.startTest();
+
+        TemplatePropertiesService taobj = new TemplatePropertiesService(null);
+        taobj.defineTemplateName(visit.Id, CommunityModeService.USER_MODE_PARTICIPANT);
+        taobj.defineTemplateName(attendeeLst[0].Id, CommunityModeService.USER_MODE_PARTICIPANT);
+
         System.runAs(testData.piUser) {
-         
         Date myDate = Date.newInstance(2022, 4, 29);        
    
         SiteCalendarController.filterWrapper fl = new SiteCalendarController.filterWrapper();

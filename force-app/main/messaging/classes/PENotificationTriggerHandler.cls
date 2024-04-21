@@ -52,6 +52,7 @@ public without sharing class PENotificationTriggerHandler {
                 Participant__r.Contact__r.Visited_Communities__c,
                 Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                 Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Clinical_Trial_Profile__r.PPTemplate__c,
                 Study_Site__r.Principal_Investigator__r.Id,
                 Participant_Status__c,
                 Is_Virtual_Study_Site__c,
@@ -120,10 +121,17 @@ public without sharing class PENotificationTriggerHandler {
                     pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
                 ) {
                     String visitedCommunities = pe.Participant__r.Contact__r.Visited_Communities__c;
-                    String currentCommunityName = CommunityTemplateService.getTemplate(
+                    String currentCommunityName;
+                    if( pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' 
+                    &&pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0'){
+                        currentCommunityName='PatientPortal';
+                    }
+                    else{
+                        currentCommunityName = CommunityTemplateService.getTemplate(
                             pe.Clinical_Trial_Profile__r.CommunityTemplate__c
                         )
                         .templateName;
+                    }
                     Boolean checkVisitedCommunity = false;
                     if (currentCommunityName != null && visitedCommunities != null)
                         checkVisitedCommunity = visitedCommunities.contains(currentCommunityName);

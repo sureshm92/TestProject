@@ -25,7 +25,7 @@ public class Action_SendPush_Test {
 
         List<Notification__c> newList = new List<Notification__c>();
         Notification__c notifyForTest = new Notification__c(
-            Notification_Type__c = 'PP_RH_Push_Notification',
+            Notification_Type__c = 'PP_v2_Push_Notification',
             Recipient__c = pe.Participant__r.Contact__c,
             WhatId__c = pe.Id
         );
@@ -75,7 +75,7 @@ public class Action_SendPush_Test {
         nr.setInProgress(notification[0].id, 'PT_Task_Reminder_Vis_PUSH');
         nr.setInProgressPush(
             notification[0].id,
-            'PP_RH_Push_Notification',
+            'PP_v2_Push_Notification',
             'pushTitle',
             'messageBody'
         );

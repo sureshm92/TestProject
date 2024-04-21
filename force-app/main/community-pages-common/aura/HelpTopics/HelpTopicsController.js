@@ -144,6 +144,7 @@
         component.set('v.didThisHelp', '');
         component.set('v.textValueProblem', '');
         component.set('v.fileList', []);
+        helper.removeElementFocus(component, event, helper);
     },
     helpTopicChangedDeskTop: function(component,event,helper) {
         var helpTopicSettings = component.get('v.helpTopicSettings');
@@ -165,6 +166,9 @@
         component.set('v.didThisHelp', '');
         component.set('v.textValueProblem', '');
         component.set('v.fileList', []);
+        if ($A.get('$Browser.formFactor') !== 'DESKTOP') {
+            helper.removeElementFocus(component, event, helper);
+        }
     },
     doResponseReceived: function (component, event, helper) {
         var didThisHelp = component.get('v.didThisHelp');
@@ -202,9 +206,5 @@
     toggleElement: function (component, event, helper) {
         let element = helper.getToggleElement(component);
         element[0].classList.toggle('active');
-    },
-    removeElementFocus: function (component, event, helper) {
-        let element = helper.getToggleElement(component);
-        element[0].classList.remove('active');
-    }
+    }   
 });

@@ -1,4 +1,9 @@
 <template>  
+    <template if:true={hasPerId}>
+        <div class="slds-col slds-size_1-of-1">
+            <c-create-participant participantenrollmentid={selectedPE_ID}></c-create-participant>
+            </div>
+    </template>
     <div class={maindivcls}>
     <template if:false={showStatus}>
         <div class="slds-m-around_large">
@@ -7,7 +12,7 @@
             </template> 
         </div>
     </template>
-        <div class="slds-m-around_large">
+        <div>
             <template if:true={saveSpinner} class="slds-is-relative">
                 <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
             </template> 

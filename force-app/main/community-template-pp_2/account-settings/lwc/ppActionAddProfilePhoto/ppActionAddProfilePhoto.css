@@ -8,27 +8,29 @@
 }
 .avatar-icon {
     background-color: #d9d9d9;
-    height: 55px;
-    min-width: 55px;
+    height: 48px;
+    min-width: 48px;
     border-radius: 100%;
     display: flex;
     justify-content: center;
     align-content: center;
     align-items: center;
+    text-align: center;
 }
 .no-avatar-icon {
     border-radius: 100%;
     /* border: 0.1px solid lightgrey; */
-    width: 55px;
-    height: 55px;
+    width: 48px;
+    height: 48px;
     display: flex;
     justify-content: center;
     align-content: center;
     align-items: center;
+    text-align: center;
 }
 .profile-pic {
-    width: 55px;
-    height: 55px;
+    width: 48px;
+    height: 48px;
 }
 .single-avatar {
     /* height: 24px;
@@ -64,7 +66,7 @@
     color: blue;
 }
 .profile-label {
-    color: #0768fd;
+    color: #015ff1;
     font-size: 1rem;
     font-weight: 500;
     letter-spacing: 0;
@@ -93,7 +95,7 @@
     bottom: 0;
 }
 .divider-vertical-standard-line {
-    color: #0768fd;
+    color: #015ff1;
     font-size: 1rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -102,7 +104,7 @@
 }
 .remove-photo {
     font-size: 16px;
-    color: #0768fd;
+    color: #015ff1;
     font-family: 'Proxima Nova';
     letter-spacing: 0;
     line-height: 24px;

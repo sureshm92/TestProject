@@ -4,6 +4,49 @@
 
 @IsTest
 public class Test_ParticipantParagraphController {
+    @TestSetup
+    static void init() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
+    @IsTest
+    public static void runTest2() {
+        TestData testData = new TestData();
+        Case newCase = new Case();
+        newCase.Status = 'New';
+        newCase.Origin = 'Web';
+        newCase.Description = 'description';
+        newCase.ContactId = testData.piContact.Id;
+        insert newCase;
+
+        Task ta = new Task();
+        ta.Community_Template_Name__c = 'PatientPortal';
+        ta.OwnerId = testData.participantUser.Id;
+        insert ta;
+
+        TemplatePropertiesService taobj = new TemplatePropertiesService(null);
+        taobj.defineTemplateName(testData.pe.Id, CommunityModeService.USER_MODE_PARTICIPANT);
+        taobj.defineTemplateName(testData.ctp.Id, CommunityModeService.USER_MODE_PARTICIPANT);
+        taobj.defineTemplateName(newCase.Id, CommunityModeService.USER_MODE_PARTICIPANT);
+        taobj.defineTemplateName(ta.Id, CommunityModeService.USER_MODE_PARTICIPANT);
+        ta.WhatId = testData.pe.Id;
+        ta.Community_Template_Name__c = null;
+
+        update ta;
+        taobj.defineTemplateName(ta.Id, CommunityModeService.USER_MODE_PARTICIPANT);
+
+        ta.WhatId = null;
+
+        update ta;
+        taobj.defineTemplateName(ta.Id, CommunityModeService.USER_MODE_PARTICIPANT);
+        TemplatePropertiesService taObj2 = new TemplatePropertiesService(
+            ta.Id,
+            CommunityModeService.USER_MODE_PARTICIPANT
+        );
+    }
+
     @IsTest
     public static void runTest() {
         Contact recipient = new Contact(
@@ -33,5 +76,10 @@ public class Test_ParticipantParagraphController {
         controller.getTrackValue();
         controller.getCommunityHelpValue();
         controller.getisRTL();
+
+        ParagraphController controller1 = new ParagraphController();
+        controller1.labelName = System.Label.AL_Body_PRT_Become_Adult_Delegate;
+        controller1.outputMode = 'HTML';
+        controller1.getLabelValue();
     }
 }

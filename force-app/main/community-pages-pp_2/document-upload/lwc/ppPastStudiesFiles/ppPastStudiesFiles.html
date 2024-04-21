@@ -1,0 +1,146 @@
+<template>
+    <div onclick={backToDetail} class="fit">
+        <span class="pointer-cursor">
+            <lightning-icon icon-name="utility:chevronleft" class="chevronleft-icon"  size="x-small"></lightning-icon>
+            <span class="back-link">
+                {label.Backtostudiesandprogramspage}
+            </span>
+        </span>
+    </div>
+    <div class="seperator-v"></div>
+    <div class="my-files">{label.PP_MyFiles}</div>
+    <lightning-layout multiple-rows>
+        <lightning-layout-item size="12">
+            <div class="slds-col slds-size_12-of-12 marMobile" onscroll={handleLazyLoading}>
+                <span class="studyNamecss"> {dropDownLabel} </span>
+                <c-web-spinner
+                    class="main-spinner"
+                    fixed="true"
+                    show-spinner={isSaving}
+                ></c-web-spinner>
+                <template if:true={showDropdown}>
+                    <template if:false={isMobile}>
+                        <span class="divider slds-m-left--x-small slds-m-right--x-small"> </span>
+                    </template>
+                    <div
+                        class="slds-col slds-dropdown-trigger slds-dropdown-trigger_click D switchcss imagecss"
+                        tabindex="0"
+                        onblur={closeMenu}
+                    >
+                        <div
+                            aria-haspopup="true"
+                            aria-expanded="true"
+                            tabindex="0"
+                            onblur={closeMenu}
+                            class="pcolor"
+                        >
+                            <span onclick={showActionMenu} class="pointercss"
+                                >{label.PP_SwitchStudyProgram}
+                                <span class="marIcon">
+                                    <img src={sycnDropDown} class="no-doc-img-size" />
+                                </span>
+                                <!-- <img src={threedots_imgUrl} class="image-result" />-->
+                            </span>
+                        </div>
+
+                        <!-- slds-dropdown_right -->
+                        <div
+                            class="slds-dropdown slds-dropdown--left dropdownmargin"
+                            tabindex="0"
+                            onblur={closeMenu}
+                        >
+                            <div class="dropdownoptions" onscroll={handleLazyLoading}>
+                                <ul
+                                    class="slds-dropdown__list slds-dropdown_x-small font-dropdowns"
+                                    role="menu"
+                                    aria-label="Show More"
+                                >
+                                    <template
+                                        if:true={studyListToShow}
+                                        for:each={studyListToShow}
+                                        for:item="sList"
+                                        for:index="index"
+                                    >
+                                        <li
+                                            class="slds-dropdown__item popup-default"
+                                            role="presentation"
+                                            key={sList.id}
+                                            data-id={index}
+                                        >
+                                            <a
+                                                href="#"
+                                                onmousedown={callMethod}
+                                                class={sList.class}
+                                                data-key={sList.id}
+                                                role="menuitem"
+                                                data-id={index}
+                                            >
+                                                <span class="" data-id={index}>
+                                                    {sList.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="12">
+            <div
+                class="marginDoc slds-size_12-of-12 slds-large-size_12-of-12 slds-large-size_12-of-12"
+            >
+                <template if:true={isLoaded}>
+                    <c-pp-past-studies-file-table
+                        onreccountupdate={recCountUpdate}
+                        onpageswap={changePage}
+                        ongettotalrecord={handletotalrecord}
+                        onresetpagination={handleresetpagination}
+                        onresetondelete={handleresetondelete}
+                        onresetpageonupdate={handleresetpageonupdate}
+                        stop-spinner={stopSpinnerChild}
+                        selected-study-id={selectedStudyId}
+                        pe-id={perId}
+                        ongettotalrecordmsg={handletotalrecordmsg}
+                        onresetpaginationmsg={handleresetpaginationmsg}
+                        ontabchange={handleTabChange}
+                    >
+                    </c-pp-past-studies-file-table>
+                    <template if:false={issharedFilesTab}>
+                        <template if:true={totalRecord}>
+                            <div class="tablePPn slds-col slds-large-size_12-of-12">
+                                <div class="slds-align--absolute-center">
+                                    <c-pir_participant-pagination
+                                        class="pg"
+                                        total-records={totalRecord}
+                                        onpagechange={pageChanged}
+                                        is-file={isFile}
+                                    >
+                                    </c-pir_participant-pagination>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:true={issharedFilesTab}>
+                        <template if:true={totalRecordMsg}>
+                            <div class="tablePPn slds-col slds-large-size_12-of-12">
+                                <div class="slds-align--absolute-center">
+                                    <c-pir_participant-pagination
+                                        class="pg"
+                                        total-records={totalRecordMsg}
+                                        onpagechange={pageChanged}
+                                        is-file={isFile}
+                                    >
+                                    </c-pir_participant-pagination>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </template>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

@@ -1,0 +1,372 @@
+<template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+            <lightning-spinner
+                alternative-text="Loading"
+                variant="brand"
+                size="medium"
+                class="spins"
+            >
+            </lightning-spinner>
+        </template>
+    </div>
+    <div class="contact-support-popup">
+        <template if:true={desktop}>
+            <template if:true={showmodal}>
+                <c-pp-modal
+                    header-text={tittext}
+                    size="medium"
+                    onclose={handleModalClose}
+                    is-show={showmodal}
+                    class=""
+                >
+                    <div slot="body">
+                        <div class={cardRTL}>
+                            <lightning-layout
+                                horizontal-align="center"
+                                vertical-align="start"
+                                multiple-rows="true"
+                                class="mainContainer"
+                            >
+                                <lightning-layout-item size="12" class="slds-align_absolute-center">
+                                    <img src={site_Icon} class="siteIcon" />
+                                </lightning-layout-item>
+                                <lightning-layout-item
+                                    size="12"
+                                    class="slds-align_absolute-center study-program-support marginBottom-8"
+                                >
+                                    <span>{label.Studies_Program}</span>
+                                </lightning-layout-item>
+                                <lightning-layout-item
+                                    size="12"
+                                    class="slds-align_absolute-center for-questions-about"
+                                >
+                                    <span>{label.For_Question_Abt_Participant}</span>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" class="container2">
+                                    <lightning-layout vertical-align="stretch" multiple-rows="true">
+                                        <lightning-layout-item size="6" class="left-item">
+                                            <!-- Phone -->
+                                            <lightning-layout class="phoneContainer">
+                                                <!-- <lightning-layout multiple-rows="false" size="10" class="marginTop-16 marginLeft-16"> -->
+                                                <lightning-layout-item
+                                                    class="marginTop-16 marginLeft-14 marginRight-16"
+                                                >
+                                                    <img src={phone_Icon} />
+                                                </lightning-layout-item>
+                                                <lightning-layout-item
+                                                    size="8"
+                                                    class="marginTop-16"
+                                                >
+                                                    <lightning-layout multiple-rows="true">
+                                                        <lightning-layout-item
+                                                            size="12"
+                                                            class="subHeaders marginBottom-4"
+                                                        >
+                                                            {label.Phone_In_Caps}
+                                                        </lightning-layout-item>
+                                                        <template lwc:if={phoneNotAvailable}>
+                                                            <!-- <template if:true={phoneNotAvailable}> -->
+                                                            <lightning-layout-item
+                                                                size="12"
+                                                                class="ph-notAvailable"
+                                                            >
+                                                                {label.Not_Available}
+                                                            </lightning-layout-item>
+                                                        </template>
+                                                        <template lwc:else>
+                                                            <!-- <template if:false={phoneNotAvailable}> -->
+                                                            <lightning-layout-item
+                                                                size="12"
+                                                                class="phoneNumber content1"
+                                                            >
+                                                                <div class="param">
+                                                                    {studySitePhone}
+                                                                </div>
+                                                                <textarea
+                                                                    class="phone-value-ele textarea-style"
+                                                                >
+{studySitePhone}</textarea
+                                                                >
+                                                            </lightning-layout-item>
+                                                        </template>
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item
+                                                    size="2"
+                                                    class="marginTop-16 padding-top-18"
+                                                >
+                                                    <template lwc:if={phoneNotAvailable}>
+                                                    </template>
+                                                    <template lwc:else>
+                                                        <template lwc:if={phoneCopyHoverd}>
+                                                            <img
+                                                                src={copy_hover}
+                                                                title={phoneTitle}
+                                                                onclick={copyPhoneToClipboard}
+                                                                class="copyIcon"
+                                                                onmouseout={onPhoneMouseOut}
+                                                            />
+                                                        </template>
+                                                        <template lwc:elseif={phoneCopied}>
+                                                            <img
+                                                                src={copied}
+                                                                title={phoneTitle}
+                                                                class="copyIcon"
+                                                            />
+                                                        </template>
+                                                        <template lwc:else>
+                                                            <img
+                                                                src={copy_Icon}
+                                                                title={phoneTitle}
+                                                                onclick={copyPhoneToClipboard}
+                                                                class="copyIcon"
+                                                                onmouseover={phoneHoverHandler}
+                                                            />
+                                                        </template>
+                                                    </template>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+
+                                            <!-- Address -->
+                                            <lightning-layout
+                                                class="addressContainer"
+                                                style={adjustHeight}
+                                            >
+                                                <lightning-layout
+                                                    multiple-rows="false"
+                                                    class="marginTop-16"
+                                                >
+                                                    <lightning-layout-item
+                                                        size="2"
+                                                        class={pinIconPaddingStyle}
+                                                    >
+                                                        <img src={address_Icon} />
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item size="8">
+                                                        <lightning-layout multiple-rows="true">
+                                                            <lightning-layout-item
+                                                                size="12"
+                                                                class="subHeaders marginBottom-8"
+                                                            >
+                                                                {label.Site_And_Location_Caps}
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item
+                                                                size="12"
+                                                                class="content2 marginBottom-4"
+                                                            >
+                                                                {siteName}
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item
+                                                                size="8"
+                                                                class="addressContent"
+                                                            >
+                                                                <div class="param2">
+                                                                    {siteAddress}
+                                                                </div>
+                                                                <textarea
+                                                                    class="address-value-ele textarea-style"
+                                                                >
+{siteName}&nbsp;{siteAddress}</textarea
+                                                                >
+                                                            </lightning-layout-item>
+                                                        </lightning-layout>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item
+                                                        size="2"
+                                                        class="marginTop-16 padding-top-8"
+                                                    >
+                                                        <template lwc:if={addressCopyHoverd}>
+                                                            <img
+                                                                src={copy_hover}
+                                                                title={addressTitle}
+                                                                onclick={copyAddressToClipboard}
+                                                                class="copyIcon"
+                                                                onmouseout={onAddressMouseOut}
+                                                            />
+                                                        </template>
+                                                        <template lwc:elseif={addressCopied}>
+                                                            <img
+                                                                src={copied}
+                                                                title={addressTitle}
+                                                                class="copyIcon"
+                                                            />
+                                                        </template>
+                                                        <template lwc:else>
+                                                            <img
+                                                                src={copy_Icon}
+                                                                title={addressTitle}
+                                                                onclick={copyAddressToClipboard}
+                                                                class="copyIcon"
+                                                                onmouseover={addressHoverHandler}
+                                                            />
+                                                        </template>
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+
+                                        <!-- <lightning-layout-item size="6"  class="right-item" style={height: {leftHeight px;}> -->
+                                        <lightning-layout-item size="6" class="right-item">
+                                            <!-- PI -->
+                                            <lightning-layout
+                                                multiple-rows="false"
+                                                class="careTeamContainer"
+                                                style={customHeightStyle}
+                                            >
+                                                <lightning-layout-item
+                                                    size="1"
+                                                    class="marginTop-16 marginRight-15 marginLeft-19"
+                                                >
+                                                    <img src={pi_Icon} />
+                                                </lightning-layout-item>
+                                                <lightning-layout-item
+                                                    size="8"
+                                                    class="marginTop-16"
+                                                >
+                                                    <lightning-layout multiple-rows="true">
+                                                        <lightning-layout-item
+                                                            size="12"
+                                                            class="subHeaders marginBottom-16"
+                                                        >
+                                                            {label.Care_Team_Caps}
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item
+                                                            size="12"
+                                                            class="content1 marginBottom-12"
+                                                        >
+                                                            {piSalutation} {piName}
+                                                            <!-- &nbsp;{label.PI_Post_Fix} -->
+                                                        </lightning-layout-item>
+                                                        <!-- Site Staff -->
+                                                        <div
+                                                            style={customHeightMatchForSiteStaff}
+                                                            class="site-staff-container"
+                                                        >
+                                                            <!-- <template
+                                                                for:each={siteStaffParticipantListTooltip}
+                                                                for:item="ssName"
+                                                            > -->
+                                                            <template iterator:ssname={siteStaffParticipantListTooltip}>
+                                                                <lightning-layout
+                                                                    key={ssname.value.Id}
+                                                                    multiple-rows="true"
+                                                                >
+
+                                                                <template lwc:if={ssname.last}> 
+                                                                    <lightning-layout-item
+                                                                        size="12"
+                                                                        key={ssname.value.Id}
+                                                                        class="content1"
+                                                                    >
+                                                                        {ssname.value.Site_Contact__r.Salutation}
+                                                                        {ssname.value.Site_Contact__r.Name}
+                                                                     </lightning-layout-item>
+                                                                </template>                                                            
+                                                                <template lwc:else> 
+                                                                    <lightning-layout-item
+                                                                            size="12"
+                                                                            key={ssname.value.Id}
+                                                                            class="content1 marginBottom-12"
+                                                                        >
+                                                                            {ssname.value.Site_Contact__r.Salutation}
+                                                                            {ssname.value.Site_Contact__r.Name}
+                                                                            <!-- &nbsp;{label.Site_Staff_Post_Fix} -->
+                                                                     </lightning-layout-item>
+                                                                </template>
+                                                                   
+                                                                </lightning-layout>
+                                                            </template>
+                                                            <!-- <template if:true={displaypluscount}>
+                                                            <lightning-layout-item size="12" class="plusMore marginBottom-12">
+                                                                <div style="position:relative">
+                                                                    <span class="plus-more" aria-describedby="help" aria-disabled="true" onmouseover={showMoreSiteStaff} onmouseout={hideMoreSiteStaff}>+ {pluscount} {label.PIR_more}</span>
+                                                                    <div class="slds-popover slds-popover_tooltip nubbin-center slds-hide siteStaffTooltip" role="tooltip" id="help">
+                                                                      <div class="slds-popover__body">
+                                                                        <template
+                                                                        for:each={siteStaffParticipantListTooltip}
+                                                                        for:item="siteStaff"
+                                                                    >
+                                                                            <p key={siteStaff.Id} class="ss-name">{siteStaff.Site_Contact__r.Name}</p>
+                                                                        </template>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </lightning-layout-item>
+                                                        </template> -->
+                                                        </div>
+                                                        <template if:true={displaypluscount}>
+                                                           
+                                                                <lightning-layout-item
+                                                                    size="12"
+                                                                    class="show-more-or-less-container"
+                                                                >
+                                                                    <button
+                                                                        class="secondaryBtn slds-button cfs-footer_btn"
+                                                                        onclick={showHideSiteStaff}
+                                                                    >
+                                                                        <div>{getShowLabel}</div>
+                                                                        <lightning-icon
+                                                                            icon-name={getShowIcon}
+                                                                        ></lightning-icon>
+                                                                    </button>
+                                                                </lightning-layout-item>
+                                                           
+                                                        </template>
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                                <!-- <template if:true={displaypluscount}>
+                                                    <lightning-layout-item
+                                                        size="12"
+                                                        class="pd-10 show-more-or-less-container"
+                                                    >
+                                                        <button
+                                                            class="secondaryBtn slds-button cfs-footer_btn"
+                                                            onclick={showHideSiteStaff}
+                                                        >
+                                                            <div>{getShowLabel}</div>
+                                                            <lightning-icon
+                                                                icon-name={getShowIcon}
+                                                            ></lightning-icon>
+                                                        </button>
+                                                    </lightning-layout-item>
+                                                </template> -->
+                                                <!-- <template if:true={displaypluscount}>
+                                                    <lightning-layout-item
+                                                        size="12"
+                                                        class="pd-10 show-more-or-less-container"
+                                                    >
+                                                        <button
+                                                            class="secondaryBtn slds-button cfs-footer_btn"
+                                                            onclick={showHideSiteStaff}
+                                                        >
+                                                            <div>{getShowLabel}</div>
+                                                            <lightning-icon
+                                                                icon-name={getShowIcon}
+                                                            ></lightning-icon>
+                                                        </button>
+                                                    </lightning-layout-item>
+                                                </template> -->
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" class="needSupport">
+                                    {label.Need_Tech_Support}
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" class="needSupport2">
+                                    {label.If_You_Exp_Issue} &nbsp;
+                                    <a
+                                        class="support-Email"
+                                        href="mailto:support@mail.clinicalresearch.com"
+                                        >{label.supportEmail}</a
+                                    >.
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                    </div>
+                </c-pp-modal>
+            </template>
+        </template>
+    </div>
+</template>

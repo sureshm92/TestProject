@@ -1,9 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
-import myResource from '@salesforce/resourceUrl/rr_community_js';
-import { loadScript } from 'lightning/platformResourceLoader';
 import CCPA_icon from '@salesforce/resourceUrl/CCPA_icon';
-
+import CCPA_icon_hover from '@salesforce/resourceUrl/CCPA_icon_hover';
 
 export default class ppFooterLink extends NavigationMixin(LightningElement) {
     @api label;
@@ -11,15 +9,12 @@ export default class ppFooterLink extends NavigationMixin(LightningElement) {
     @api link;
     @api iscpraAvailable;
     CCPA_icon = CCPA_icon;
+    CCPA_icon_hover = CCPA_icon_hover;
 
     onClick(event) {
-        loadScript(this, myResource)
-            .then(() => console.log('Loaded Resource'))
-            .catch((error) => console.log(error));
-
         var link = this.page;
         if (link) {
-            link = '/' + link + '?ret=' + window.communityService.createRetString();
+            link = '/' + link + '?ret=' + communityService.createRetString();
         } else {
             link = this.link;
         }

@@ -1,13 +1,31 @@
 .pagelink {
-    cursor: pointer;
     display: inline-block;
-    color: #297dfd;
-    font-family: 'Proxima Nova';
-    font-size: 13px;
+    color: #015ff1;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0;
     font-weight: 500;
-    line-height: 16px;
+    background: transparent;
+    border: none;
+}
+.imgclass {
+    margin-left: 3px;
+    display: inline-block;
+}
+.pagelink:hover {
+	text-shadow: #015ff1 0.5px 0px;
+}
+ 
+.container {
+    position: relative;
+}
+.overlay {
+    position: absolute;
+    left: 83%;
+    top: 0.08rem;
+    opacity: 0;
 }
 
-.imgclass{
-    margin-left: 3px;
+.container:hover .overlay {
+    opacity: 1;
 }

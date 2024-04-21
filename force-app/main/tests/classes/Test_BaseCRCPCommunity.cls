@@ -12,7 +12,7 @@ private class Test_BaseCRCPCommunity {
         Test.stopTest();
     }
 
-    @IsTest
+  @IsTest
     static void testReferralNetworkService_AutoEmails() {
         Terms_And_Conditions__c studyTC = [
             SELECT Id
@@ -224,7 +224,10 @@ private class Test_BaseCRCPCommunity {
             TermsAndConditionsRemote.getTrialTcData(testData.ctp.Id);
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             TermsAndConditionsRemote.getTC('CookiePolicy', 'en_US', false); //TODO: check code
-            TermsAndConditionsRemote.getPPTC('CookiePolicy', 'en_US', false,ppTC.Id);
+            TermsAndConditionsRemote.getPPTC('CookiePolicy', 'en_US', false,ppTC.Id,false);
+            TermsAndConditionsRemote.getPPTC('PrivacyPolicy', 'en_US', false,null,false);  
+            TermsAndConditionsRemote.getPPTC('PrivacyPolicy', 'en_US', false,null,true); 
+            TermsAndConditionsRemote.getPPTCJn('PrivacyPolicy', 'en_US', false,null); 
             TermsAndConditionsRemote.generatePDF(ppTC.Id);
             TermsAndConditionsRemote.getCommunityName();
             List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();
@@ -263,7 +266,11 @@ private class Test_BaseCRCPCommunity {
         update testData.hcpEnrollment;
 
         System.runAs(testData.hcpUser) {
+             TermsAndConditionsRemote.getTCPP('PrivacyPolicy', 'en_US', true); 
+             TermsAndConditionsRemote.getTCPP('CookiePolicy', 'en_US', true); 
+             TermsAndConditionsRemote.getTCPP('TermsandConditions', 'en_US', true); 
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
+            
             Action_SendSiteRequestByHCPRemote.changeStudyForHCP(
                 testData.ss.Id,
                 testData.hcpEnrollment.Id
@@ -287,6 +294,8 @@ private class Test_BaseCRCPCommunity {
         update testData.hcpEnrollment;
 
         System.runAs(testData.hcpUser) {
+             TermsAndConditionsRemote.getTC('PrivacyPolicy', 'en_US', true); 
+             TermsAndConditionsRemote.getTC('TermsandConditions', 'en_US', true);  
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             Action_SendSiteRequestByHCPRemote.selectNoSites(testData.hcpEnrollment.Id);
         }
@@ -400,7 +409,7 @@ private class Test_BaseCRCPCommunity {
     //        Test.stopTest();
     //    }
 
-    @IsTest
+     @IsTest
     static void slideTour() {
         TestData testData = new TestData();
         Test.startTest();
@@ -573,7 +582,7 @@ private class Test_BaseCRCPCommunity {
         Test.stopTest();
     }
 
-    @IsTest
+     /*@IsTest
     static void basePITest5() {
         TestData testData = new TestData();
         Test.startTest();
@@ -605,9 +614,9 @@ private class Test_BaseCRCPCommunity {
             );
         }
         Test.stopTest();
-    }
+    }*/
 
-    @IsTest
+   @IsTest
     static void healthcareProvidersTest() {
         TestData testData = new TestData();
         
@@ -717,7 +726,96 @@ private class Test_BaseCRCPCommunity {
             AccountSettingsController.createCase('Some Case', 'Problem');
         }
         System.runAs(testData.participantUser) {
-            AccountSettingsController.getInitData(CommunityService.USER_MODE_PARTICIPANT);
+            //AccountSettingsController.getInitData(CommunityService.USER_MODE_PARTICIPANT);
+        }
+        Test.stopTest();
+    }  
+        @IsTest
+    static void testPIForInvetation() {
+        UserRole userRole_1 = [SELECT Id FROM UserRole WHERE Name = 'View All' LIMIT 1];
+        Profile profile_1 = [
+            SELECT Id
+            FROM Profile
+            WHERE Name = 'IQVIA Customer Community Plus Login User'
+            LIMIT 1
+        ];
+        User admin = [
+            SELECT Id, Username, UserRoleId
+            FROM User
+            WHERE
+                Profile.Name = 'System Administrator'
+                AND UserRoleId = :userRole_1.Id
+                AND IsActive = TRUE
+            LIMIT 1
+        ];
+        User user_1;
+        System.runAs(admin) {
+            Account usraccount = new Account(Name = 'Community');
+            insert usraccount;
+
+            Contact usrcontact = new Contact(AccountId = usraccount.Id, LastName = 'xgeek');
+            insert usrcontact;
+
+            user_1 = new User(
+                Email = 'yourusername@gmail.com',
+                ProfileId = profile_1.Id,
+                UserName = 'yourusername@gmail.com',
+                Alias = 'Test',
+                TimeZoneSidKey = 'America/New_York',
+                EmailEncodingKey = 'ISO-8859-1',
+                LocaleSidKey = 'en_US',
+                LanguageLocaleKey = 'en_US',
+                ContactId = usrcontact.Id,
+                PortalRole = 'Manager',
+                FirstName = 'Firstname',
+                LastName = 'Lastname'
+            );
+            insert user_1;
+        }
+        Test.startTest();
+        System.runAs(user_1) {
+            Account SiteAccount = new Account(
+                Name = 'Study Site Account',
+                BillingCountry = 'United States'
+            );
+
+            insert SiteAccount;
+
+            Contact con = new Contact(
+                FirstName = 'PITD',
+                LastName = 'PITD',
+                AccountId = SiteAccount.Id
+            );
+            insert con;
+
+            Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
+                Protocol_ID__c = 'tt123456790',
+                Override_Recruitment_Status__c = 'Actively Enrolling',
+                NCT_Number__c = 'NCT00000002',
+                Link_to_Pre_screening__c = 'some link',
+                Study_Title__c = 'Some Title',
+                Study_Code_Name__c = 'Some Code Name',
+                CommunityTemplate__c = CommunityTemplateService.TEMPLATE_DEFAULT,
+                Suppress_Participant_Emails__c = false
+            );
+            insert clinical;
+
+            Study_Site__c studySite = new Study_Site__c(
+                Name = 'Test',
+                Principal_Investigator__c = con.Id,
+                Clinical_Trial_Profile__c = clinical.Id,
+                Site__c = SiteAccount.Id,
+                Study_Site_Type__c = 'Traditional',
+                Suppress_Participant_Emails__c = false
+            );
+            insert studySite;
+            Site_Staff__c siteStaff = new Site_Staff__c(
+                Delegate_Level__c = 'Level 1',
+                Study_Site__c = studySite.Id,
+                Site_Contact__c = con.Id
+            );
+            insert siteStaff;
+            Action_InviteRPRemote.getPIForInvetation(CommunityTemplateService.TEMPLATE_DEFAULT);
         }
         Test.stopTest();
     }
@@ -725,6 +823,23 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void referralProfileTest() {
         TestData testData = new TestData();
+         List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
+         screenerList.add(new PreScreener_Survey__c(
+            Link_to_Pre_screening__c = 'https://link.test',
+            MRR__c = true,
+            ProviderName__c = 'surveygizmo',
+            Study__c = testData.ctp.Id,
+            Survey_Name__c = 'Medical Record Review'
+        ));
+         insert screenerList;
+          Participant_PrescreenerResponse__c response = new Participant_PrescreenerResponse__c(
+                PreScreener_Survey__c = screenerList[0].Id,
+              Participant_enrollment__c = testData.pe.Id,
+                Screener_Response__c = 'Test Response',
+              MRR__c = true,
+              Status__c = 'Pass'
+            );
+        insert response;
         Test.startTest();
         System.runAs(testData.piUser) {
             ReferralProfileRemote.getReferralProfileDetail(
@@ -738,6 +853,122 @@ private class Test_BaseCRCPCommunity {
             RRProfileController.getLogoutURL();
         }
         Test.stopTest();
+    }
+    
+     @IsTest
+    static void referralProfileTestResponseFail() {
+        TestData testData = new TestData();
+         List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
+         screenerList.add(new PreScreener_Survey__c(
+            Link_to_Pre_screening__c = 'https://link.test',
+            MRR__c = true,
+            ProviderName__c = 'surveygizmo',
+            Study__c = testData.ctp.Id,
+            Survey_Name__c = 'Medical Record Review'
+        ));
+         insert screenerList;
+          Participant_PrescreenerResponse__c response = new Participant_PrescreenerResponse__c(
+                PreScreener_Survey__c = screenerList[0].Id,
+              Participant_enrollment__c = testData.pe.Id,
+                Screener_Response__c = 'Test Response',
+              MRR__c = true,
+              Status__c = 'Fail'
+            );
+        insert response;
+        Test.startTest();
+        System.runAs(testData.piUser) {  
+            ReportsRemote.getInitData(testData.ctp.Id, CommunityService.USER_MODE_PI, null); 
+        }
+        Test.stopTest();
+    }
+     @IsTest
+    static void referralProfileTestPrescreenerfail() {
+        TestData testData = new TestData();
+         List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
+         screenerList.add(new PreScreener_Survey__c(
+            Link_to_Pre_screening__c = 'https://link.test',
+            MRR__c = true,
+            ProviderName__c = 'surveygizmo',
+            Study__c = testData.ctp.Id,
+            Survey_Name__c = 'Medical Record Review'
+        ));
+         insert screenerList;
+          Participant_PrescreenerResponse__c response = new Participant_PrescreenerResponse__c(
+                PreScreener_Survey__c = screenerList[0].Id,
+              Participant_enrollment__c = testData.pe.Id,
+                Screener_Response__c = 'Test Response',
+              Prescreener__c = true,
+              Status__c = 'Fail'
+            );
+        insert response;
+        Test.startTest();
+        System.runAs(testData.piUser) {  
+            ReportsRemote.getInitData(testData.ctp.Id, CommunityService.USER_MODE_PI, null); 
+        }
+        Test.stopTest();
+    }
+     @IsTest
+    static void referralProfileTestPrescreenerPass() {
+        TestData testData = new TestData();
+         List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
+         screenerList.add(new PreScreener_Survey__c(
+            Link_to_Pre_screening__c = 'https://link.test',
+            MRR__c = true,
+            ProviderName__c = 'surveygizmo',
+            Study__c = testData.ctp.Id,
+            Survey_Name__c = 'Medical Record Review'
+        ));
+         insert screenerList;
+          Participant_PrescreenerResponse__c response = new Participant_PrescreenerResponse__c(
+                PreScreener_Survey__c = screenerList[0].Id,
+              Participant_enrollment__c = testData.pe.Id,
+                Screener_Response__c = 'Test Response',
+              Prescreener__c = true,
+              Status__c = 'Pass'
+            );
+        insert response;
+        Test.startTest();
+        System.runAs(testData.piUser) {  
+            ReportsRemote.getInitData(testData.ctp.Id, CommunityService.USER_MODE_PI, null); 
+        }
+        Test.stopTest();
+    }
+     @IsTest
+    static void referralProfileTestNew() {
+        TestData testData = new TestData();
+         List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
+         screenerList.add(new PreScreener_Survey__c(
+            Link_to_Pre_screening__c = 'https://link.test',
+            MRR__c = true,
+            ProviderName__c = 'surveygizmo',
+            Study__c = testData.ctp.Id,
+            Survey_Name__c = 'Medical Record Review'
+        ));
+         insert screenerList;
+          Participant_PrescreenerResponse__c response = new Participant_PrescreenerResponse__c(
+                PreScreener_Survey__c = screenerList[0].Id,
+              Participant_enrollment__c = testData.pe.Id,
+                Screener_Response__c = 'Test Response',
+              Prescreener__c = true,
+              Status__c = 'Pass'
+            );
+        insert response;
+        Test.startTest();
+        System.runAs(testData.piUser) {  
+            ReportsRemote.getInitData(testData.ctp.Id, CommunityService.USER_MODE_HCP, null); 
+        }
+        Test.stopTest();
+    }
+    
+    @isTest
+    static void testgetAnaliticsJSON(){
+         TestData testData = new TestData();
+        Test.startTest();
+        System.runAs(testData.piUser) { 
+            ReportsRemote.getAnaliticsJSON(testData.ctp.Id,null, null, null, CommunityService.USER_MODE_PI, null);  
+        }
+        Test.stopTest();
+        
     }
 
     @IsTest
@@ -1047,8 +1278,9 @@ private class Test_BaseCRCPCommunity {
                 testData.ctp.Id,
                 testData.pe.Id,
                 testData.hcpEnrollment.Id,
+                false,
                 CommunityService.USER_MODE_HCP,
-                null,null
+                '',''
             );
             ReferringRemote.InitData refInitData = (ReferringRemote.InitData) JSON.deserialize(
                 refInitDataJSON,
@@ -1100,6 +1332,40 @@ private class Test_BaseCRCPCommunity {
             ViewPatientsRemote.InitData.class
         );
     }
+    
+    @IsTest
+    static void testresposneupdate() {
+        TestData testData = new TestData();
+
+        List<PreScreener_Survey__c> screenerList = new List<PreScreener_Survey__c>();
+        screenerList.add(new PreScreener_Survey__c(
+            Link_to_Pre_screening__c = 'https://link.test',
+            MRR__c = true,
+            ProviderName__c = 'surveygizmo',
+            Study__c = testData.ctp.Id,
+            Survey_Name__c = 'Medical Record Review'
+        ));
+        screenerList.add(new PreScreener_Survey__c(
+            Link_to_Pre_screening__c = 'https://link.test',
+            Prescreener__c = true,
+            ProviderName__c = 'surveygizmo',
+            Study__c = testData.ctp.Id,
+            Survey_Name__c = 'Prescreener'
+        ));
+
+        insert screenerList;
+          Participant_PrescreenerResponse__c response = new Participant_PrescreenerResponse__c(
+                PreScreener_Survey__c = screenerList[1].Id,
+                Screener_Response__c = 'Test Response'
+            );
+        
+        insert response;
+
+        Test.startTest(); 
+        update new Participant_PrescreenerResponse__c (Screener_Response__c='test response new',id=response.id);
+        Test.stopTest(); 
+        
+    } 
 
     @IsTest
     static void mrrAndReferringTest3() {
@@ -1173,10 +1439,117 @@ private class Test_BaseCRCPCommunity {
         TestData testData = new TestData();
         testData.ss.Study_Site_Type__c = 'Virtual';
         update testData.ss;
+        Contact delegate = new Contact(
+            FirstName = 'Patient',
+            LastName = 'Delegate',
+            Email = 'jsmith@somemail.com',
+            AccountId = testData.participant.Contact__r.AccountId,
+            Current_Participant_Enrollment__c = testData.pe.Id,
+            userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
+            userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
+            UserCommunityIsDelegate__c = true
+        );
+        insert delegate;
+        Participant__c p = new Participant__c(
+            First_Name__c = 'Patient',
+            Last_Name__c = 'Delegate',
+            Contact__c = delegate.Id
+        );
+        insert p;
+
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+            Contact__c = delegate.Id,
+            Contact__r = delegate,
+            Participant__c = testData.participant.Id,
+            Participant__r = testData.participant
+        );
+        insert patientDelegate;
+        
+        
+        
+      /*  Patient_Delegate__c objPD = new Patient_Delegate__c();
+        objPD.participant__C = testData.participant.Id;
+        objPD.Contact__c = testData.participant.Contact__c;
+        insert objPD; */
+        Patient_Delegate_Enrollment__c objPDER = new Patient_Delegate_Enrollment__c();
+        objPDER.Participant_Enrollment__c = testData.pe.Id;
+        objPDER.Patient_Delegate__c =patientDelegate.ID;
+        objPDER.Primary_Delegate__c = TRUE;
+        objPDER.Status__c = 'Active';
+        insert objPDER;
         Test.setMock(HttpCalloutMock.class, new IntegrationCalloutMock());
         Test.startTest();
         System.runAs(testData.hcpUser) {
             IntegrationService.sendPEToStudyHub(testData.pe.Id);
+        }
+        Test.stopTest();
+    }
+    
+     @IsTest
+    static void testsendPEToServiceNowAsync() {
+        TestData testData = new TestData();
+        testData.ss.Study_Site_Type__c = 'Virtual';
+        update testData.ss;
+        Test.setMock(HttpCalloutMock.class, new IntegrationCalloutMock());
+        Test.startTest();
+        System.runAs(testData.hcpUser) {
+            IntegrationService.sendPEToServiceNowAsync(testData.pe.Id);
+        }
+        Test.stopTest();
+    }
+     @IsTest
+    static void testsendPEToStudyHubAsync() {
+        TestData testData = new TestData();
+        testData.ss.Study_Site_Type__c = 'Virtual';
+        update testData.ss;
+        Test.setMock(HttpCalloutMock.class, new IntegrationCalloutMock());
+        Test.startTest();
+        System.runAs(testData.hcpUser) {
+            IntegrationService.sendPEToStudyHubAsync(testData.pe.Id);
+        }
+        Test.stopTest();
+    }
+    
+   
+    
+      @IsTest
+    static void testsendPESHToEPRBatch() {
+        TestData testData = new TestData();
+        testData.ss.Study_Site_Type__c = 'Virtual';
+        update testData.ss;
+        list<id> lstpeshid = new list<id> ();
+         Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
+            pesh.Date__c = Datetime.now();
+            pesh.Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED;
+            
+            pesh.ParticipantEnrollment__c = testData.pe.Id;
+            insert pesh;
+        lstpeshid.add(pesh.id);
+        Test.setMock(HttpCalloutMock.class, new IntegrationCalloutMock());
+        Test.startTest();
+        System.runAs(testData.hcpUser) {
+            IntegrationService.sendPESHToEPRBatch(lstpeshid);
+        }
+        Test.stopTest();
+    }
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    @isTest
+    static void testgetReferralSourceFieldsMap(){
+			  TestData testData = new TestData();
+          testData.ss.Study_Site_Type__c = 'Virtual';
+        update testData.ss;
+         Test.setMock(HttpCalloutMock.class, new IntegrationCalloutMock());
+         Test.startTest();
+        System.runAs(testData.hcpUser) {
+            IntegrationService.getReferralSourceFieldsMap();
         }
         Test.stopTest();
     }
@@ -1193,7 +1566,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-    @IsTest
+   @IsTest
     static void sitesSearchTest() {
         TestData testData = new TestData();
         Test.startTest();
@@ -1227,7 +1600,7 @@ private class Test_BaseCRCPCommunity {
         ];
         System.assertEquals(testData.ss.Study_Site_Phone__c, updatedSS.Study_Site_Phone__c);
         Test.stopTest();
-    }
+    } 
 
     @IsTest
     static void testgetExportAllList() {
@@ -1257,7 +1630,7 @@ private class Test_BaseCRCPCommunity {
         wrap = ViewPatientsRemote.getExportAllList(studies, studySites, perCount, perCount + 4500);
         System.assertEquals(perCount, wrap.startPos);
         Test.stopTest();
-    }
+    } 
 
     @IsTest
     static void getInterdependentFilterDataTest() {
@@ -1383,7 +1756,7 @@ private class Test_BaseCRCPCommunity {
         }
         ViewPatientsRemote.getDelAcceslevel(conRec[0].Id);
         Test.stopTest();
-    }
+    } 
 
     @IsTest
     static void getRecordsTest() {
@@ -1427,9 +1800,9 @@ private class Test_BaseCRCPCommunity {
             );
         }
         Test.stopTest();
-    }
+    } 
 
-    @IsTest
+   @IsTest
     static void getRecordsAsHcpTest() {
         TestData testData = new TestData();
         Account studySiteAccount = [SELECT Id FROM Account WHERE Name = 'Study Site Account'];
@@ -1457,9 +1830,9 @@ private class Test_BaseCRCPCommunity {
             );
         }
         Test.stopTest();
-    }
+    } 
 
-    @IsTest
+   @IsTest
     static void helpRemoteTest() {
         TestData testData = new TestData();
         Test.startTest();

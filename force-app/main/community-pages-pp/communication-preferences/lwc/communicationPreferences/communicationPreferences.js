@@ -41,7 +41,7 @@ import PP_Outreach_Communication_Pref_A from '@salesforce/label/c.PP_Outreach_Co
 import PP_Outreach_Communication_Pref_B from '@salesforce/label/c.PP_Outreach_Communication_Pref_B';
 import PP_Outreach_Communication_Pref_C from '@salesforce/label/c.PP_Outreach_Communication_Pref_C';
 import PP_Outreach_Communication_Pref_D from '@salesforce/label/c.PP_Outreach_Communication_Pref_D';
-
+import assigned_by from '@salesforce/label/c.assigned_by';
 
 //END TO DO
 
@@ -98,7 +98,8 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
         PP_Phone_Mandatory,
         PP_Phone_Numeric,
         Mob_Phone_Field,
-        BTN_Save
+        BTN_Save,
+        assigned_by
     };
 
     @track studyDetails = [];
@@ -160,10 +161,28 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                 let data = JSON.parse(result).consentPreferenceData;
                 this.consentPreferenceDataLocal = data;
                 this.setConsentVisibility();
+                let isParticipantLoggedIn = this.isParticipantLoggedIn;
+                let isDelegateSelfView = this.isDelegateSelfView;
+                let showIQIVAOutreachConsentFlag = false;
+                let showStudyConsentFlagLocal=false;
                 if (this.showPERConsents) {
                     this.consentPreferenceDataLocal.perList.forEach(function (study) {
                         study['all'] = false;
                         study['error'] = false;
+                        study['ppEnabled'] = false;
+                        console.log('The Invited Date for PP   '+study.Invited_To_PP_Date__c); 
+                       if( isParticipantLoggedIn && study.Invited_To_PP_Date__c != null  && study.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true ){
+                            study.ppEnabled = true;
+                            if(!showIQIVAOutreachConsentFlag && study.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                                showIQIVAOutreachConsentFlag=true;
+                            } 
+                        }
+                        if(!isParticipantLoggedIn && !isDelegateSelfView){
+                            study.ppEnabled = true;
+                            if(!showIQIVAOutreachConsentFlag && study.Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+                                showIQIVAOutreachConsentFlag=true;
+                            }
+                        }
                     });
                 }
                 if(this.ShowPDEConsents){
@@ -171,7 +190,20 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                         pde['all'] = false;
                         pde['error'] = false;
                         pde['parLastNameInitial'] = pde.Patient_Delegate__r.Participant__r.Last_Name__c.slice(0,1);
+                        pde['ppEnabledPD'] = false;
+                        if(!showIQIVAOutreachConsentFlag && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c && pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true){
+                            showIQIVAOutreachConsentFlag=true;
+                        }
+                        if(pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true &&  pde.Status__c == 'Active'){
+                            pde.ppEnabledPD = true;
+                            showStudyConsentFlagLocal=true;
+                        }
                     });
+                    this.showStudyConsentFlag = showStudyConsentFlagLocal;
+                }
+                this.showIQIVAOutreachConsentFlag = showIQIVAOutreachConsentFlag;
+                if (this.isDelegateSelfView && !this.showStudyConsentFlag && !this.showIQIVAOutreachConsentFlag) {
+                    this.showStaticMessageForDelSelfViewEmpty = true;
                 }
                 let conData = JSON.parse(result).myContact;
                 this.contactDataLocal.push(conData);
@@ -209,7 +241,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                 }
             })
             .catch((error) => {
-                this.showCustomToast('', 'Failed To read the Data...', 'error');
+                this.showCustomToast('', 'Failed to read the data.', 'error');
                 this.spinner = false;
             });
 
@@ -768,7 +800,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                 conObj = {};
             })
             .catch((error) => {
-                this.showCustomToast('', 'Failed To save the Record...', 'error');
+                this.showCustomToast('', 'Failed to save the data.', 'error');
                 this.spinner = false;
             });
     }
@@ -1047,7 +1079,7 @@ export default class CommunicationPreferences extends NavigationMixin(LightningE
                 this.updateErrorOnStudyPostMobileNumberCorrection();
             })
             .catch((error) => {
-                this.showCustomToast('', 'Failed To read the Data...', 'error');
+                this.showCustomToast('', 'Failed to read the data.', 'error');
                 this.spinner = false;
             });
         //}

@@ -19,7 +19,7 @@ public without sharing class IprEprTriggerHandler {
             this.siteType = inSiteType;
         }
     }
-    
+   
     public class CheckRequiredFieldsAndUpsertParticipantAndPEHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             validateReferralsV2(newList);
@@ -68,7 +68,7 @@ public without sharing class IprEprTriggerHandler {
             }
             
             //SS Map
-            for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c, 
+            for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c,Participant_DOB_format__c, 
                                      Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c
                                      FROM Study_Site__c WHERE Primary_Key_ePR__c IN :ssNumbersList ])
             {ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);}      
@@ -84,41 +84,143 @@ public without sharing class IprEprTriggerHandler {
             for (PicklistEntry ple : Participant__c.Language_Preference_Code__c.getDescribe().getPicklistValues()) 
             {languageCodes.add(ple.getValue());}
             
-            
+            Boolean needsGuardian = false;
+            Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
+            Map<String, Age_of_Majority__mdt> mapAgeM = Age_of_Majority__mdt.getAll();
+            for(String ageOfMajority : mapAgeM.keySet()){ 
+                if (mapAgeM.get(ageOfMajority).Age__c != null) {
+                    ageByCountryCode.put(
+                        mapAgeM.get(ageOfMajority).DeveloperName,
+                        mapAgeM.get(ageOfMajority).Age__c.intValue()
+                    );
+                }
+            }
             for (Integration_Patient_Referral__c ipr : newList) {
                 if(ipr.Error_Message__c == null || ipr.Error_Message__c == '' ){
                     List<String> errorsLog = new List<String>();
-                    
-                    // check country    
+                    Boolean isCheckCountryStateInvalid = false;
+                     // check country    
                     if(String.isNotBlank(ipr.Address_Country__c)) {
                         String countryName = CountryStateUtil.getCountryName(ipr.Address_Country__c);
-                        if(String.isBlank(countryName))
+                        if(String.isBlank(countryName)){
                             errorsLog.add(err.get('country_invalid').Error_Message__c);
+                            isCheckCountryStateInvalid = true;
+                        }
                     }   
-                    
                     // check state 
                     Map<String,String> states = CountryStateUtil.getStateCodeByNameMap(ipr.Address_Country__c);       
                     if(String.isNotBlank(ipr.address_state__c)) 
-                        if(!states.containskey(ipr.address_state__c))
-                        errorsLog.add(err.get('state_invalid').Error_Message__c);
-                    
+                        if(!states.containskey(ipr.address_state__c)){
+                            errorsLog.add(err.get('state_invalid').Error_Message__c);
+                            isCheckCountryStateInvalid = true;   
+                        }
                     // check state 
                     if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
-                        if(!states.containskey(ipr.Delegate_Mailing_State__c))
-                        errorsLog.add(err.get('state_invalid').Error_Message__c);
-                    
+                        if(!states.containskey(ipr.Delegate_Mailing_State__c)){
+                            errorsLog.add(err.get('state_invalid').Error_Message__c);
+                            isCheckCountryStateInvalid = true;  
+                        }
                     // check langauge  
                     if(String.isNotBlank(ipr.Language_Preference__c)) {                    
                         if(!languageCodes.contains(ipr.Language_Preference__c)) 
                             errorsLog.add(err.get('language_invalid').Error_Message__c);
                         
                     } 
+                    String studySiteNumber = ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
+                    Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
+                    if (!String.isBlank(ipr.BirthDate__c)) {
+                    List<String> dateOfBirth = ipr.BirthDate__c.split('-');
+                    String mmValue;
+                    String ddValue;
+                    String yyyyValue;
+                    if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                        if(dateOfBirth.size() > 2){
+                            ddValue = dateOfBirth[2];
+                            mmValue = dateOfBirth[1];
+                        }else if(dateOfBirth.size() > 1){
+                            mmValue = dateOfBirth[1];
+                        }
+                    }else if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                        if(dateOfBirth.size() > 1){
+                            mmValue = dateOfBirth[1];
+                        }
+                    }
+                    yyyyValue = dateOfBirth[0];
+                    Integer mm = String.isNotBlank(mmValue) ? Integer.valueof(mmValue) : 12;
+                    Integer dd = String.isNotBlank(ddValue) ? Integer.valueof(ddValue) : Date.daysInMonth(Integer.valueOf(yyyyValue), mm);
+                    Date birthDate = Date.newInstance( 
+                        Integer.valueOf(yyyyValue),mm,dd
+                    );
+                    Integer participantAge = Date.newInstance(
+                        2000,
+                        birthDate.month(),
+                        birthDate.day()
+                    ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
+                        ? Date.today().year() - birthDate.year()
+                        : Date.today().year() - birthDate.year() - 1;
+                    mmValue = String.valueof(mm);
+                    ddValue = String.valueof(dd);
+                    if(mm < 10){
+                        mmValue = '0'+mm;
+                    }
+                    if(dd < 10){
+                        ddValue = '0'+dd;
+                    }
+                    string tempBrVar = ipr.BirthDate__c;
+                    ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
+                    Participant__c objParticipant = convertToParticipant(ipr);
+                    ipr.BirthDate__c = tempBrVar ;
+                    objParticipant.Age__c = participantAge;
+                    if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                        if(dateOfBirth.size() > 2){
+                            objParticipant.Birth_Day__c = ddValue;
+                            objParticipant.Birth_Month__c = mmValue;
+                        }else if(dateOfBirth.size() > 1){
+                            objParticipant.Birth_Month__c = mmValue;
+                        }
+                    }else if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                        if(dateOfBirth.size() > 1){
+                            objParticipant.Birth_Month__c = mmValue;
+                        }
+                    }
+                    objParticipant.Birth_Year__c = yyyyValue;
+                    objParticipant.Date_of_Birth__c = null;
+                    
+                    if(!isCheckCountryStateInvalid){
+                            if (
+                                ageByCountryCode.get(
+                                    objParticipant.Mailing_Country_Code__c +
+                                    '_' +
+                                    objParticipant.Mailing_State_Code__c
+                                ) != null
+                            ) {
+                                needsGuardian =
+                                    participantAge <
+                                    ageByCountryCode.get(
+                                        objParticipant.Mailing_Country_Code__c +
+                                        '_' +
+                                        objParticipant.Mailing_State_Code__c
+                                    );
+                            } else if (ageByCountryCode.get(objParticipant.Mailing_Country_Code__c) != null) {
+                                needsGuardian =
+                                    participantAge < ageByCountryCode.get(objParticipant.Mailing_Country_Code__c);
+                            } else {
+                                needsGuardian = participantAge < 18;
+                            }
+                    }
+                    if(needsGuardian){
+                        ipr.email__c = '';
+                        ipr.phone__c = '';
+                        ipr.Participant_MobileNumber__c = '';
+                        ipr.Phone_Type__c = '';
+                    }
+                }
                     
                     //Check SS
                     //D:: String studySiteNumber = getSitePrimaryKeyEPR(ipr);
-                    String studySiteNumber = ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
+                    //String studySiteNumber = ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
                     
-                    Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
+                    //Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
                     if (ss == null) {
                         errorsLog.add(err.get('study_site_not_found').Error_Message__c.replace('SSNo',studySiteNumber));
                     } else if (
@@ -190,11 +292,11 @@ public without sharing class IprEprTriggerHandler {
             if(String.isNotBlank(ipr.address_state__c)) 
                 if(!states.containskey(ipr.address_state__c))
                        errorsLog.add(err.get('state_invalid').Error_Message__c);                
-                
-                // check state 
-                if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
-					if(!states.containskey(ipr.Delegate_Mailing_State__c))
-						errorsLog.add(err.get('state_invalid').Error_Message__c);
+            
+                 // check state 
+               if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
+                if(!states.containskey(ipr.Delegate_Mailing_State__c))
+                errorsLog.add(err.get('state_invalid').Error_Message__c);
             
             // check langauge  
             if(String.isNotBlank(ipr.Language_Preference__c)) {
@@ -238,7 +340,146 @@ public without sharing class IprEprTriggerHandler {
         }
         
     }
-    
+    public class participantMinorCheck extends TriggerHandler {
+        public override void beforeUpdate(List<SObject> newList,Map<Id,SObject>oldMap) {
+            checkMinor((List<Integration_Patient_Referral__c>) newList,(Map<Id,Integration_Patient_Referral__c>)oldMap);
+        }    
+        public void checkMinor(List<Integration_Patient_Referral__c> newList,Map<Id,Integration_Patient_Referral__c>oldMap){
+            Map<String, Study_Site__c> ssByPrimaryKeyEPRMap = new Map<String, Study_Site__c>();
+			List<String> ssNumbersList = new List<String>();
+            List<String> errorsLog = new List<String>();
+            Boolean needsGuardian = false;
+			for (Integration_Patient_Referral__c ipr : newList) {
+				ssNumbersList.add(ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c);
+			}
+			for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c,Participant_DOB_format__c, 
+                                     Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c
+                                     FROM Study_Site__c WHERE Primary_Key_ePR__c IN :ssNumbersList ])
+            {ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);}
+			
+            Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
+            Map<String, Age_of_Majority__mdt> mapAgeM = Age_of_Majority__mdt.getAll();
+            for(String ageOfMajority : mapAgeM.keySet()){ 
+                if (mapAgeM.get(ageOfMajority).Age__c != null) {
+                    ageByCountryCode.put(
+                        mapAgeM.get(ageOfMajority).DeveloperName,
+                        mapAgeM.get(ageOfMajority).Age__c.intValue()
+                    );
+                }
+            }
+            for(Integration_Patient_Referral__c ipr : newList){
+				String studySiteNumber = ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
+                Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
+                if(String.isNotBlank(ipr.Address_Country__c)) {
+                    String countryName = CountryStateUtil.getCountryName(ipr.Address_Country__c);
+                    if(String.isBlank(countryName)){
+                        errorsLog.add(err.get('country_invalid').Error_Message__c);
+                    }
+                }  
+                // check state 
+                Map<String,String> states = CountryStateUtil.getStateCodeByNameMap(ipr.Address_Country__c);       
+                if(String.isNotBlank(ipr.address_state__c)) 
+                    if(!states.containskey(ipr.address_state__c)){
+                        errorsLog.add(err.get('state_invalid').Error_Message__c);  
+                    }
+                // check state 
+                if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
+                    if(!states.containskey(ipr.Delegate_Mailing_State__c)){
+                        errorsLog.add(err.get('state_invalid').Error_Message__c);
+                    }
+					List<String> dateOfBirth = ipr.BirthDate__c.split('-');
+                    String mmValue;
+                    String ddValue;
+                    String yyyyValue;
+                    if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                        if(dateOfBirth.size() > 2){
+                            ddValue = dateOfBirth[2];
+                            mmValue = dateOfBirth[1];
+                        }else if(dateOfBirth.size() > 1){
+                            mmValue = dateOfBirth[1];
+                        }
+                    }else if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                        if(dateOfBirth.size() > 1){
+                            mmValue = dateOfBirth[1];
+                        }
+                    }
+                    yyyyValue = dateOfBirth[0];
+                    Integer mm = String.isNotBlank(mmValue) ? Integer.valueof(mmValue) : 12;
+                    Integer dd = String.isNotBlank(ddValue) ? Integer.valueof(ddValue) : Date.daysInMonth(Integer.valueOf(yyyyValue), mm);
+                    Date birthDate = Date.newInstance( 
+                        Integer.valueOf(yyyyValue),mm,dd
+                    );
+                    Integer participantAge = Date.newInstance(
+                        2000,
+                        birthDate.month(),
+                        birthDate.day()
+                    ) <= Date.newInstance(2000, Date.today().month(), Date.today().day())
+                        ? Date.today().year() - birthDate.year()
+                        : Date.today().year() - birthDate.year() - 1;
+                    mmValue = String.valueof(mm);
+                    ddValue = String.valueof(dd);
+                    if(mm < 10){
+                        mmValue = '0'+mm;
+                    }
+                    if(dd < 10){
+                        ddValue = '0'+dd;
+                    }
+                    string tempBrVar = ipr.BirthDate__c;
+                    ipr.BirthDate__c = yyyyValue + '-'+mmValue+'-'+ddValue;
+                    Participant__c objParticipant = convertToParticipant(ipr);
+                    ipr.BirthDate__c = tempBrVar ;
+                    objParticipant.Age__c = participantAge;
+                    if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'DD-MM-YYYY'){
+                        if(dateOfBirth.size() > 2){
+                            objParticipant.Birth_Day__c = ddValue;
+                            objParticipant.Birth_Month__c = mmValue;
+                        }else if(dateOfBirth.size() > 1){
+                            objParticipant.Birth_Month__c = mmValue;
+                        }
+                    }else if(ss != null && string.isNotBlank(ss.Participant_DOB_format__c) && ss.Participant_DOB_format__c == 'MM-YYYY'){
+                        if(dateOfBirth.size() > 1){
+                            objParticipant.Birth_Month__c = mmValue;
+                        }
+                    }
+                    objParticipant.Birth_Year__c = yyyyValue;
+                    objParticipant.Date_of_Birth__c = null;
+                if(oldMap != null && (errorsLog.isEmpty()) &&
+                   (ipr.Address_Country__c != oldMap.get(ipr.id).Address_Country__c || ipr.Address_State__c != oldMap.get(ipr.id).Address_State__c
+                    || ipr.BirthDate__c != oldMap.get(ipr.id).BirthDate__c
+                    || ipr.Batch_consideration__c != oldMap.get(ipr.id).Batch_consideration__c))
+                {
+                    if (
+                                ageByCountryCode.get(
+                                    objParticipant.Mailing_Country_Code__c +
+                                    '_' +
+                                    objParticipant.Mailing_State_Code__c
+                                ) != null
+                            ) {
+                                needsGuardian =
+                                    participantAge <
+                                    ageByCountryCode.get(
+                                        objParticipant.Mailing_Country_Code__c +
+                                        '_' +
+                                        objParticipant.Mailing_State_Code__c
+                                    );
+                            } else if (ageByCountryCode.get(objParticipant.Mailing_Country_Code__c) != null) {
+                                needsGuardian =
+                                    participantAge < ageByCountryCode.get(objParticipant.Mailing_Country_Code__c);
+                            } else {
+                                needsGuardian = participantAge < 18;
+                            }
+                    //needsGuardian = Boolean.valueOf(checkNeedsGuardian(JSON.serialize(participant),mapAgeM,ageByCountryCode));
+                    if(needsGuardian){
+                        ipr.email__c = '';
+                        ipr.phone__c = '';
+                        ipr.Participant_MobileNumber__c = '';
+                        ipr.Phone_Type__c = '';
+                    }
+                }
+            }
+        }
+        
+    }
     
     public static String getSitePrimaryKeyEPR(Integration_Patient_Referral__c ipr) {
         return ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
@@ -302,15 +543,15 @@ objMT.Ethnicity_Description__c
             participant.Ethnicity__c = strEthnicityDescr;
         }
         
-        if (ipr.Participant_MobileNumber__c != null)
+        participant.Adult__c = !Boolean.valueOf(checkNeedsGuardian(JSON.serialize(participant))); 
+        if (ipr.Participant_MobileNumber__c != null && participant.Adult__c){
             participant.Alternative_Phone_Type__c = 'Mobile';
+        }else{
+            participant.Alternative_Phone_Type__c = '';
+        }
         /*participant.Adult__c = !Boolean.valueOf(
 ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
 );*/
-        
-        participant.Adult__c = !Boolean.valueOf(checkNeedsGuardian(JSON.serialize(participant)));   
-        
-
         //map participants country and state code
         String countryName = null;
         String countryCode = participant.Mailing_Country_Code__c;
@@ -329,13 +570,12 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             }
             
         }
- 
-
-
+        
+        
+        
         return participant;
     }
-    
-    public static String checkNeedsGuardian(String participantJSON) {
+        public static String checkNeedsGuardian(String participantJSON) {
         Boolean needsGuardian = false;
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
@@ -422,7 +662,6 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
     ) {
         Contact newContact = new Contact(
             FirstName = ipr.Delegate_First_Name__c,
-            MiddleName = ipr.Delegate_Middle_Name__c,
             LastName = ipr.Delegate_Last_Name__c,
             Email = ipr.Delegate_Email_Address__c,
             MailingCountryCode = ipr.Address_Country__c,
@@ -467,16 +706,26 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         Id ssId,
         Study_Site__c ss,
         Boolean isAdult
+    ){
+    Boolean fieldNotVisible = false;
+     return createPE(ipr,participantId,ssId,ss,isAdult,fieldNotVisible);
+    }
+    public static Participant_Enrollment__c createPE(
+        Integration_Patient_Referral__c ipr,
+        Id participantId,
+        Id ssId,
+        Study_Site__c ss,
+        Boolean isAdult,
+        Boolean fieldNotVisible
     ) {
-        
-        Boolean filterCriteria =
-            ss.Study_Site_Type__c!='Virtual'&& ss.Study_Site_Type__c!='Hybrid' &&
-            ss != null &&
-            ss.Clinical_Trial_Profile__c != null &&
-            !ss.Suppress_Participant_Emails__c &&
-            !ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-            ss.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
-            participantId != null ;
+        Map<String,String> sourceToConsentMap = new Map<String,String>();
+
+        for(Referral_Source_Communication_Consent__mdt	 ccT: [ SELECT id, MasterLabel, DeveloperName, Consent_Values_Participant__c FROM 
+                                         Referral_Source_Communication_Consent__mdt	 ]){
+            if(ccT.Consent_Values_Participant__c!=null){
+                sourceToConsentMap.put(ccT.DeveloperName,ccT.Consent_Values_Participant__c);
+            }
+        }
         
         
         Participant_Enrollment__c objPE = new Participant_Enrollment__c(
@@ -488,11 +737,11 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             Referral_ID__c = ipr.referralID__c,
             Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
             Terms_and_Conditions_Accepted_Date__c = ipr.acceptedTermsAndConditions__c != null
-                ? Date.valueOf(ipr.acceptedTermsAndConditions__c)
-                : null,
+            ? Date.valueOf(ipr.acceptedTermsAndConditions__c)
+            : null,
             Referred_Date__c = ipr.Referred_Date__c != null
-                ? Date.valueOf(ipr.Referred_Date__c)
-                : null,
+            ? Date.valueOf(ipr.Referred_Date__c)
+            : null,
             Referred_By__c = 'Other',
             utm_campaign__c = ipr.UTM_campaignName__c,
             utm_content__c = ipr.UTM_campaignContent__c,
@@ -504,12 +753,40 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             Atid__c = ipr.Atid__c,
             HighRisk_Indicator__c = ipr.HighRisk_Indicator__c,
             Permit_IQVIA_to_contact_about_study__c = true,
-            Study_PI_Storage_Consent_Time__c = Datetime.now(),
             Human_Id__c = ipr.Human_Id__c,
             Additional_Information__c = ipr.Additional_Information__c
         );
+
+    Boolean filterCriteria =
+            ss.Study_Site_Type__c!='Virtual'&& ss.Study_Site_Type__c!='Hybrid' &&
+            ss != null &&
+            ss.Clinical_Trial_Profile__c != null &&
+            !ss.Suppress_Participant_Emails__c &&
+            !ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+            ss.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
+            participantId != null ;
+        if(fieldNotVisible!=true){
+            objPE.Study_PI_Storage_Consent_Time__c = Datetime.now();
+        }
+        if(sourceToConsentMap.containsKey(ipr.Data_Source__c)){
+            list<string> lstFields = sourceToConsentMap.get(ipr.Data_Source__c).split(',');
+            for(String objstr : lstFields)
+            {
+               objPE.put(objstr,true);
+            }
+                objPE.Study_Phone_Consent_Time__c = Datetime.now();
+                objPE.Study_Email_Consent_Time__c = Datetime.now();
+                objPE.Study_Direct_Mail_Consent_Time__c = Datetime.now();
+                objPE.Study_Assisted_Dialing_Consent_Time__c = Datetime.now();
+                objPE.Study_Artificial_Voice_Consent_Time__c = Datetime.now();
+                objPE.Study_Pre_recorded_Calls_Consent_Time__c = Datetime.now();
+            
+        }
         if(filterCriteria && isAdult && String.isNotBlank(ipr.email__c)){
             objPE.Invited_To_PP_Date__c = DateTime.now(); 
+        }
+        if(ipr.DataControllerOrg__c!=null){
+            objPE.DataControllerOrg__c=ipr.DataControllerOrg__c=='Sponsor Org'? 'SponsorSpecific':'Generic';
         }
         if (ipr.Comorbidities__c == 'True')
             objPE.Comorbidities__c = 'Yes';

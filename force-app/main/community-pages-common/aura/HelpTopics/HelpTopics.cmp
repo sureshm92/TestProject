@@ -48,26 +48,30 @@
                                 placeholder="{!$Label.c.PG_HLP_F_Placeholder_Help_Topic}"
                                 useSentenceFont="false"
                             />
-                            <aura:set attribute="else">
+                            <aura:set attribute="else">                              
                                 <div
                                     class="dropdown"
-                                    onclick="{!c.toggleElement}"
-                                    onfocusout="{!c.removeElementFocus}"
+                                    onclick="{!c.toggleElement}"                                   
                                     tabindex="1"
                                 >
-                                    <span class="dropdown-span">{!v.placeholderText}</span>
-                                    <ul class="dropdown-menu">
-                                        <aura:iteration items="{!v.helpTopicOptions}" var="item">
-                                            <li
-                                                class="dropdown-li"
-                                                value="{!item.value}"
-                                                onclick="{!c.helpTopicChanged}"
-                                            >
-                                                <aura:unescapedHtml value="{!item.label}" />
-                                            </li>
-                                        </aura:iteration>
-                                    </ul>
+                                    <span class="placeholder-container cwidth"><aura:unescapedHtml value="{!v.placeholderText}" /></span>
+                                    
                                 </div>
+                                 <div>
+                                        <ul class="dropdown-menu">
+                                            <aura:iteration items="{!v.helpTopicOptions}" var="item">
+                                                <li
+                                                    class="dropdown-li"
+                                                    value="{!item.value}"
+                                                    onclick="{!c.helpTopicChanged}"
+                                                    
+                                                >
+                                                    <aura:unescapedHtml value="{!item.label}" />
+                                                </li>
+                                            </aura:iteration>
+                                        </ul>
+                                </div>
+                               
                             </aura:set>
                         </aura:if>
                     </div>

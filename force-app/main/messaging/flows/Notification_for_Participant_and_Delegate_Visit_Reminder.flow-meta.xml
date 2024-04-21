@@ -117,7 +117,7 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <description>Get the record id for PP_RH_Push_Notification</description>
+        <description>Get the record id for PP_v2_Push_Notification</description>
         <name>Get_Custom_Notification_Id</name>
         <label>Get Custom Notification Id</label>
         <locationX>616</locationX>
@@ -131,7 +131,7 @@
             <field>DeveloperName</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>PP_RH_Push_Notification</stringValue>
+                <stringValue>PP_v2_Push_Notification</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>

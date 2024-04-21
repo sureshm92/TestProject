@@ -21,9 +21,10 @@ public without sharing class BatchSendInviteToPP implements Database.Batchable<S
         List<String> perIds = new List<String>();
         List<Participant_Enrollment__c> perList = DashboardParticipantCount.fetchPerRecords(perWhereClause,participantIds);
         for(Participant_Enrollment__c per:perList) {
-            if(per.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen') {
-                perIds.add(per.Id);
-            }
+            if(per.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && per.Clinical_Trial_Profile__r.PPTemplate__c == null ) {
+                continue;
+            } 
+            perIds.add(per.Id);
         }
         ListViewParticipantController.createUserForPatientProtal(perIds,true);
     }

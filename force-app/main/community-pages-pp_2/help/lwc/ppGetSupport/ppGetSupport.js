@@ -90,7 +90,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     }
 
     get YOBOpacityClass() {
-        return this.YOBSelected ? 'support-year' : 'support-year opacity';
+        return this.YOBSelected ? 'support-year slds-m-left_small' : 'support-year opacity slds-m-left_small';
     }
 
     get options() {
@@ -122,6 +122,9 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
         return this.showMinorErrorMsg
             ? 'highlight-error mt-5 fadePlaceholder'
             : 'mt-5 fade fadePlaceholder';
+    }
+    get currentYobClass(){
+        return this.isRTL ? 'from-date-rtl' : 'from-date';
     }
     handleChangeSelection(event) {
         this.disableSave = true;

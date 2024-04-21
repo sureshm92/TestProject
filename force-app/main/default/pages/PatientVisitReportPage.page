@@ -1,0 +1,113 @@
+<apex:page standardStylesheets="false" applyBodyTag="false" renderAs="pdf" controller="PatientVisitReportPageController" 
+           applyHtmlTag="false" showHeader="false" readOnly="true">
+    <html>
+        <head>
+            <style>
+                
+            </style>
+            <apex:stylesheet value="{!if(isRTL == true, $Resource.PatientVisitReportRTL, $Resource.PatientVisitReportLTR)}" />
+        </head>
+        <body style="font-family:Arial Unicode MS" class="{!if(isRTL == true, 'rtlEnable', '')}"> 
+            <div style="width:100% !important"> 
+                <apex:image value="{!$Resource.VisitReportBrandingLogo}" alt="logo"  width="100%" height="220px" />
+            </div>
+            <div class="footer">
+                <div class="peInfo">
+                    <div class="float-left">
+                        {!pdfFooterptFullName}
+                    </div>
+                    <div class="float-right">
+                        <span style="color:#000000;">{!dateLabel}</span> <apex:outputText rendered="{!(!ISBLANK(enrollmentDate))}"> {!enrollmentDate}</apex:outputText>&nbsp;&nbsp;&nbsp;&mdash;<apex:outputText rendered="{!!ISBLANK(pdfFooterptStatus)}">&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!pdfFooterptStatus}&nbsp;&nbsp;&nbsp;&mdash;</apex:outputText>&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Care_Center}:</span> {!pdfFooterstudySiteName}
+                    </div>
+                </div>
+                <div class="footer_text">{!footerText} </div>
+            </div>
+            <div class="footer_otherpages" >
+                <div class="peInfo">
+                    <div class="float-left">
+                        {!pdfFooterptFullName}
+                    </div>
+                    <div class="float-right">
+                        <span style="color:#000000;">{!dateLabel}</span> <apex:outputText rendered="{!(!ISBLANK(enrollmentDate))}" > {!enrollmentDate}</apex:outputText>&nbsp;&nbsp;&nbsp;&mdash;<apex:outputText rendered="{!!ISBLANK(pdfFooterptStatus)}">&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Participant_Status}:</span> {!pdfFooterptStatus}&nbsp;&nbsp;&nbsp;&mdash;</apex:outputText>&nbsp;&nbsp;&nbsp;<span style="color:#000000;">{!$Label.Report_Care_Center}:</span> {!pdfFooterstudySiteName}
+                    </div>
+                </div>
+                <div class="footer_text">{!footerText} </div>
+            </div>
+            <div class="top-left-header">
+                {!$Label.IQVIA_Patient_Portal}
+            </div>
+            <div class="top-right-header"> 
+                <div >{!pdfStudyHeaderName} | {!pdfHeaderVisitName} |&nbsp;<span class="pagenumber"/> / <span class="pagecount"/></div>
+            </div>
+            <div class= "patient-portal">
+                {!$Label.IQVIA_Patient_Portal}                    
+            </div>
+            <div class= "study-name">
+                {!studyCodeName}                 
+            </div>
+            <div class= "study-info">
+                {!studyTitle}                  
+            </div>
+            <div class= "visit-date">
+                <div style="margin-bottom:10px;">
+                    {!headerName}
+                </div>
+                <apex:outputPanel style="margin-top:10px;" rendered="{!(!ISBLANK(participantStatus))}">
+                    {!$CurrentPage.parameters.patientVisitNam} &nbsp; | &nbsp;
+                    <apex:outputText > 
+                        {!patVisitCompleted}
+                    </apex:outputText>
+               </apex:outputPanel>                   
+            </div>
+            <div class="content">
+                <div  class="datatab">
+                    <apex:repeat value="{!reportWrapperFinalObj.dataTables}" var="line"> 
+                        <div style="page-break-before:always;">
+                            <div style="font-size:20px;color:#C42EA5;padding-bottom:15px;"> <apex:outputText value="{!line.tableName}" /></div>
+                            <div>  
+                                <table   style="width:100%; page-break-inside: avoid;"> 
+                                    <!--<thead>-->
+                                    <tr>
+                                        <apex:repeat value="{!line.tHead}" var="tableHead">
+                                            <th style="text-align: center;"
+                                                >
+                                                <div
+                                                     style="font-size: 13px;text-transform: none;  display: block;color: #2B3942;padding-left:10px;padding-right:10px;"
+                                                     >
+                                                    {!tableHead.value}
+                                                </div>
+                                                
+                                            </th>
+                                        </apex:repeat>
+                                    </tr>
+                                    <!--</thead>-->
+                                    <tbody>
+                                        <apex:repeat value="{!line.visitResultsWrapper}" var="rows">
+                                            <tr>
+                                                <apex:repeat value="{!rows}" var="row">
+                                                    
+                                                    <apex:outputText rendered="{!row.value!='______'}"> 
+                                                        <td style="font-size: 15px;color:#C42EA5;padding-top:15px;padding-bottom:15px;text-align:center;padding-left:10px;padding-right:10px;" ><span><span>{!row.value}&nbsp;</span><span></span><span>{!row.measurement}</span></span></td>
+                                                    </apex:outputText>
+                                                    <apex:outputText rendered="{!row.value=='______'}">
+                                                        <td style="font-size: 15px;text-align:center;color:#999999;padding-top:4px;padding-bottom:15px;padding-left:10px;padding-right:10px;" >{!row.value}</td></apex:outputText>
+                                                </apex:repeat>  
+                                            </tr>
+                                        </apex:repeat>
+                                    </tbody>
+                                </table>  
+                            </div>
+                            <div style="padding-top:20px;"> 
+                                <apex:repeat value="{!line.labsDescription}" var="labdesc">  
+                                    <div style="font-size:15px;padding-top:10px;color:#000000;margin-top:5px;"> <apex:outputText value="{!labdesc.nameLabs}" /></div>
+                                    <div style="font-size:13px;padding-top:8px;color: #444444;margin-bottom:-5px;"><apex:outputText value="{!labdesc.descriptionLab}" /> </div>
+                                </apex:repeat>
+                            </div>
+                        </div>
+                    </apex:repeat>
+                </div>
+            </div>
+        </body>
+        
+    </html>
+</apex:page>

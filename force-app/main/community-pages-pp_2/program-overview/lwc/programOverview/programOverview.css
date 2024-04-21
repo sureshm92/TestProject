@@ -3,7 +3,7 @@
 }
 
 .po-custom-card {
-    height: 123px;
+    height: auto;
     border-radius: 16px;
     background-color: #fff;
     border: 1px solid #e9e9e9;
@@ -11,7 +11,7 @@
 }
 
 .po-custom-card-mobile {
-    height: 64px;
+    height: auto;
     background-color: #fff;
     font-family: Proxima Nova Medium;
 }
@@ -20,10 +20,10 @@
     text-align: center;
 }
 
-/* .po-logo {
-    width: 110px;
-    height: 69px;
+ .po-logo {
+    max-height: 120px;
 }
+/*
 
 .po-logo-mobile {
     width: 76px;
@@ -48,16 +48,27 @@
 
 .po-more {
     font-size: 16px;
-    color: #0768fd;
+    color: #015ff1;
     line-height: 24px;
     cursor: pointer;
+    /*PEH-11588*/
+    padding-top: 10px;
+    width: 100%;
+    /* max-width: 188px; */
+    word-wrap: break-word;
+}
+
+@media only screen and (min-width: 360px) and (max-width: 375px) {
+    .po-more {
+       max-width: 170px;
+    }    
 }
 
 .po-more-text {
-    border-bottom: 1px dotted #0768fd;
+    /* border-bottom: 1px dotted #015FF1; */
     height: 24px;
     width: 162px;
-    color: #0768fd;
+    color: #015ff1;
     font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 600;
@@ -71,4 +82,88 @@
 
 .borderRight {
     border-right: 1px solid #e9e9e9;
+}
+
+/*PEH-11588*/
+.li3 {
+    display: table-row;
+}
+
+.piPhone {
+    height: 17px;
+    /*width: 96px;*/
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 16px;
+}
+
+.piName {
+    min-height: 17px;
+    /* width: 129px; */
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 16px;
+    padding-top: 10px;
+}
+
+.phoneIcon {
+    height: 13.33px;
+    width: 12px;
+    /* margin-right: 10px; */
+}
+
+.piIcon {
+    height: 13.33px;
+    width: 12px;
+    /* margin-right: 12px; */
+}
+.piPhoneNumber{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.piNameText {
+    width: 100%;
+    /* padding-right: 16px; */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+@media (max-width: 500px) {
+    .piNameText {
+        width: 100%;
+        /* padding-right: 10px; */
+    }
+}
+.piIcon-li {
+    margin-right: 10px;
+}
+
+.pad-5{
+    padding-left: 5px;
+}
+@media (max-width:767px){
+    .prgm-logo{
+        max-height:95px;
+    }
+}
+@media (min-width:768px) and (max-width:1280px){
+    .prgm-logo{
+        max-height:102px;
+    }
+    .po-more{
+        padding-left:.8rem;
+    }
+    .phoneIconTab,.piIconTab {
+        margin-left: 15px;
+    }
+}
+.marginClass{
+    margin-right:10px;
 }

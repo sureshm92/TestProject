@@ -8,6 +8,23 @@
 .body-content {
     height: 85vh;
 }
+.back-link-mobile {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+    padding-left: 1rem;
+}
+hr {
+    margin: 0%;
+    margin-top: 2px;
+}
+.back-section-color{
+    background-color: #f8f9fb;
+}
 .tc-text {
     height: 100%;
     width: 25%;
@@ -88,7 +105,7 @@
     color: #ffffff;
     box-shadow: none;
     font-weight: bold;
-    background: #0768fd;
+    background: #015ff1;
     width: 295px;
 }
 .slds-nav-vertical__item {
@@ -103,7 +120,7 @@
 .slds-nav-vertical__item.slds-is-active .slds-nav-vertical__action {
     color: #ffffff;
     box-shadow: none;
-    background: #0768fd;
+    background: #015ff1;
     border-bottom: none;
     font-weight: bold;
 }

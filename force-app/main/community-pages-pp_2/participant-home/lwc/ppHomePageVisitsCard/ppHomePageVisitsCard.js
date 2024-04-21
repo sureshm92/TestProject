@@ -1,5 +1,6 @@
 //Created by Chetna Chauhan Sep 9,2022
 import { LightningElement, api, track } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 import getVisitsPreviewAndCount from '@salesforce/apex/ParticipantVisitsRemote.getVisitsPreviewAndCount';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
@@ -12,6 +13,8 @@ import VISIT_NO_EXPECT from '@salesforce/label/c.Visit_No_Expect';
 import EVENT_NO_EXPECT from '@salesforce/label/c.Event_No_Expect';
 import View_Visit_Details from '@salesforce/label/c.View_Visit_Details';
 import View_Event_Details from '@salesforce/label/c.View_Event_Details';
+import View_All_Visits from '@salesforce/label/c.View_All_Visits';
+import View_All_Events from '@salesforce/label/c.View_All_Events';
 import PG_Mobile_Title_Upcoming_Visits from '@salesforce/label/c.PG_Mobile_Title_Upcoming_Visits';
 import PG_Mobile_Title_Upcoming_Events from '@salesforce/label/c.PG_Mobile_Title_Upcoming_Events';
 import TIME_ZONE from '@salesforce/i18n/timeZone';
@@ -22,7 +25,7 @@ import visit_calendar from '@salesforce/label/c.Upcoming_Visit_calendar';
 import Upcoming_Visit_Location from '@salesforce/label/c.Upcoming_Visit_Location';
 import pp_community_icons from '@salesforce/resourceUrl/pp_community_icons';
 
-export default class HomePageVisitsCard extends LightningElement {
+export default class HomePageVisitsCard extends NavigationMixin(LightningElement) {
     planDateTime;
     siteLocation;
     siteTitle;
@@ -41,6 +44,8 @@ export default class HomePageVisitsCard extends LightningElement {
         MORE,
         View_Visit_Details,
         View_Event_Details,
+        View_All_Visits,
+        View_All_Events,
         NO_DATE,
         NO_TIME,
         VISIT_NO_EXPECT,
@@ -69,7 +74,8 @@ export default class HomePageVisitsCard extends LightningElement {
         if (this.spinner) {
             this.spinner.show();
         }
-        getVisitsPreviewAndCount({})
+        setTimeout(()=>{
+            getVisitsPreviewAndCount({})
             .then((result) => {
                 let visitDetails = result.visitPreviewList;
                 this.isVisitAvailable = result.showVisits;
@@ -84,7 +90,7 @@ export default class HomePageVisitsCard extends LightningElement {
                     this.planDateTime = this.upcomingVisit.visitDate
                         ? this.upcomingVisit.visitDate
                         : false;
-                    this.visitName = this.upcomingVisit.visit?.Visit__r?.Patient_Portal_Name__c;
+                        this.visitName = this.upcomingVisit.visit?.Visit__r?.Patient_Portal_Name__c;
                     this.siteTitle =
                         this.upcomingVisit.visit.Participant_Enrollment__r?.Study_Site__r?.Site__r?.Name;
                     this.sitePhone =
@@ -104,8 +110,8 @@ export default class HomePageVisitsCard extends LightningElement {
                         : '';
 
                     let icons = this.upcomingVisit.iconDetails;
-                    this.moreIconsCount = icons.length > 4 ? icons.length - 4 : false;
-                    this.iconDetails = icons.length > 0 ? icons?.slice(0, 4) : false;
+                    this.moreIconsCount = icons.length > 3 ? icons.length - 3 : false;
+                    this.iconDetails = icons.length > 0 ? icons?.slice(0, 3) : false;
                 } else {
                     this.isUpcomingDetails = false;
                 }
@@ -117,6 +123,8 @@ export default class HomePageVisitsCard extends LightningElement {
             .catch((error) => {
                 this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
             });
+        },12);
+      
     }
 
     showErrorToast(titleText, messageText, variantType) {
@@ -132,4 +140,14 @@ export default class HomePageVisitsCard extends LightningElement {
         sessionStorage.setItem('Cookies', 'Accepted');
         return true;
     }
+
+    navigateToVisit(event) {
+        var pagename = event.currentTarget.dataset.name;
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                pageName: pagename
+            }
+        });
+    }    
 }

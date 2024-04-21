@@ -24,9 +24,14 @@
     cursor: pointer;
 }
 
+.links-container:hover .links-header {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    color: #0557d5;
+}
+
 .links-header {
     color: #015ff1;
-    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0;
@@ -39,7 +44,6 @@
 
 .links-desc {
     color: #6e6e6e;
-    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0;
@@ -56,7 +60,6 @@
 .links-type {
     height: 16px;
     color: #757575;
-    font-family: 'Proxima Nova';
     font-size: 13px;
     letter-spacing: 0.1px;
     line-height: 16px;
@@ -101,7 +104,6 @@
 
 .no-links-available {
     color: #999999;
-    font-family: 'Proxima Nova';
     font-size: 13px;
     letter-spacing: 0;
     line-height: 24px;
@@ -131,3 +133,14 @@
         padding: 1rem;
     }
 }
+.card-container-mobile{
+    max-height: 320px;
+    overflow-y : auto;
+    padding: 1rem;
+}
+@media all and (min-width: 768px) and (max-width: 1280px) {
+    .card-container-height-medium{
+        height: auto;
+    }
+}
+

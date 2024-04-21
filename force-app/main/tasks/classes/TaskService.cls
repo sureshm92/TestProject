@@ -20,6 +20,7 @@ public without sharing class TaskService {
     public static final String TASK_VISIBILITY_ALL = 'Owner;Delegates';
     public static final String TASK_VISIBILITY_OWNER = 'Owner';
     public static final String TASK_VISIBILITY_DELEGATES = 'Delegates';
+    public static final String TASK_ORIGINATOR = 'Delegate';
 
     public static final String TASK_TYPE_ECOA = 'Ecoa';
     public static final String TASK_TYPE_MEDICATION = 'Medication';
@@ -34,6 +35,9 @@ public without sharing class TaskService {
     public static final String TASK_CODE_SELECT_COI = 'Select_COI';
 
     public static final String OPEN_TASKS_ORDER = ' ORDER BY Priority DESC, ActivityDate NULLS LAST, CreatedDate DESC';
+    public static map<id, Participant_Enrollment__c> pastEnrollmentsMap = new Map<id, Participant_Enrollment__c>();
+    public static  Boolean skipTaskForDelParView = false;
+    public static  Boolean skipSurveyForDelParView = false;
 
     public static final List<String> DEFAULT_FIELDS = new List<String>{
         'Id',
@@ -44,17 +48,20 @@ public without sharing class TaskService {
         'OwnerId',
         'CreatedById',
         'CreatedDate',
+        'CreatedByAdmin__c',    
         'Completed_Date__c',
         'ActivityDate',
         'Activity_Datetime__c',
         'Task_Code__c',
         'WhatId',
         'Task_Type__c',
+        'isPlatformLevelTask__c',  
         'Visible_For__c',
         'Action_URL__c',
         'ReminderDateTime',
         'Reminder_Date__c',
         'Originator__c',
+        'Owner_Contact__c',
         'Patient_Visit__c',
         'Remind_Me__c',
         'Reminder_Schedule__c',
@@ -65,9 +72,14 @@ public without sharing class TaskService {
         'Survey_Invitation__r.Is_Expired__c',
         'Survey_Invitation__r.Participant_Enrollment__c',
         'Survey_Invitation__r.IsTrialSurvey__c',
+        'Survey_Invitation__r.Trial_Survey__r.Display_in_UI__c',
+        'Survey_Invitation__r.Participant_Due_Date__c',
         'Start_Date__c',
+        'whoId',
         'Survey_Invitation__r.ExpireDateTime__c',
-        'Survey_Invitation__r.Is_End_Date_Visible__c'
+        'Survey_Invitation__r.Is_End_Date_Visible__c',
+        'Survey_Invitation__r.Participant_Enrollment__r.Invited_To_PP_Date__c',
+        'Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c'
     };
 
     public static final List<String> TASK_STATUS_GROUP_EXPIRE_AVAILABLE = new List<String>{
@@ -101,6 +113,8 @@ public without sharing class TaskService {
         CommunityMode currentMode = UserContext.getCurrentUserMode();
         Boolean isDecoupled = (ParticipantContext.getOwnParticipant() != null);
         Boolean alumDlgtPtView = false;
+        Boolean hasPastEnrollments = false;
+        Set<Id> dntSkipHalfAlumPEIds = new Set<Id>();
 
         String commonFilter = '';
         String ownerVisibility =
@@ -111,6 +125,7 @@ public without sharing class TaskService {
             ' AND Visible_For__c INCLUDES (\'' +
             TASK_VISIBILITY_DELEGATES +
             '\') ';
+        String minorlDelFilter = ' AND (Originator__c != \'' + TASK_ORIGINATOR + '\'' + ')';
         if (!ParticipantContext.isCurrentDelegate() || (isDecoupled && !currentMode.isDelegate)) {
             // Owner or decoupled delegate in prospect view
             commonFilter =
@@ -165,6 +180,19 @@ public without sharing class TaskService {
         if (sortOrder != null)
             commonFilter += ' ' + sortOrder;
         List<Task> tasks;
+        List<Participant_Enrollment__c> pastEnrollments = new List<Participant_Enrollment__c>();
+        if (ParticipantContext.getCurrentContact() != null) {
+            pastEnrollments = ContactService.getPastEnrollments(
+                ParticipantContext.getCurrentContact().Id
+            );
+        }
+        if (pastEnrollments.size() > 0) {
+            hasPastEnrollments = true;
+            for (Participant_Enrollment__c pe : pastEnrollments) {
+                dntSkipHalfAlumPEIds.add(pe.Id);
+                pastEnrollmentsMap.put(pe.Id, pe);
+            }
+        }
         if (
             currentMode.participantState == 'ALUMNI' &&
             currentMode.isDelegate &&
@@ -172,11 +200,20 @@ public without sharing class TaskService {
         ) {
             String alumniFilter;
             alumDlgtPtView = true;
-            /* alumniFilter = 'WhatId IN (Select Participant_Enrollment__c from Patient_Delegate_Enrollment__c Where Patient_Delegate__r.Contact__c = \''+
-            ParticipantContext.getOwnParticipant().Contact__c + '\'' +
-            ' AND Patient_Delegate__r.Participant__r.Contact__c = \''+
-            ParticipantContext.getCurrentContact().Id + '\'' +')';
-            commonFilter = alumniFilter +' AND ' + commonFilter;*/
+        }
+        else if(
+            currentMode.participantState == 'PARTICIPANT' &&
+            currentMode.isDelegate &&
+            ParticipantContext.getCurrentUserId() != null
+        ){
+            skipTaskForDelParView = true;
+        }
+         else if(
+            currentMode.participantState == 'REFERRAL' &&
+            currentMode.isDelegate &&
+            ParticipantContext.getCurrentUserId() != null
+        ){
+            skipSurveyForDelParView = true;
         }
         if (isDecoupled && ParticipantContext.getCurrentUserId() == null) {
             //Added for Minor Participant's Delegates
@@ -194,18 +231,28 @@ public without sharing class TaskService {
         }
         //send task list after filtering delegate tasks in patient view only
         TaskTriggerHandler.processDefaultFieldValues(tasks);
-        return filterTasks(tasks, currentMode, alumDlgtPtView);
+        return filterTasks(
+            tasks,
+            currentMode,
+            alumDlgtPtView,
+            dntSkipHalfAlumPEIds,
+            hasPastEnrollments
+        );
     }
 
     private List<Task> filterTasks(
         List<Task> tasks,
         CommunityMode currentMode,
-        Boolean alumDlgtPtView
+        Boolean alumDlgtPtView,
+        Set<Id> dntSkipHalfAlumPEIds,
+        Boolean hasPastEnrollments
     ) {
         List<Task> filteredList = new List<Task>();
         Set<Id> skipPEIds = new Set<Id>();
         Set<Id> skipSurveyInvIds = new Set<Id>();
         Set<Id> skipPEAlumnIds = new Set<Id>();
+        Set<String> skipPEForActiveDel = new Set<String>();
+        Set<String> skipPEForActiveDelSurvey = new Set<String>();
         if (alumDlgtPtView) {
             for (Patient_Delegate_Enrollment__c pde : [
                 SELECT Participant_Enrollment__c
@@ -219,6 +266,33 @@ public without sharing class TaskService {
                 skipPEAlumnIds.add(pde.Participant_Enrollment__c);
             }
         }
+        else if(skipTaskForDelParView){
+            for (Patient_Delegate_Enrollment__c pde : [
+                SELECT Participant_Enrollment__c,Patient_Delegate__r.Contact__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE
+                     Patient_Delegate__r.Participant__r.Contact__c = :ParticipantContext.getCurrentContact()
+                        .Id
+                AND Status__c = 'Active'
+            ]){
+                String conIdAndPerId = pde.Patient_Delegate__r.Contact__c+'_'+pde.Participant_Enrollment__c;
+                skipPEForActiveDel.add(conIdAndPerId); // map will not be empty
+                
+            }
+        }
+         else if(skipSurveyForDelParView){
+            for (Patient_Delegate_Enrollment__c pde : [
+                SELECT Participant_Enrollment__c,Patient_Delegate__r.Contact__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE
+                     Patient_Delegate__r.Participant__r.Contact__c = :ParticipantContext.getCurrentContact()
+                        .Id
+                AND Status__c = 'Active'
+            ]){
+                String conIdAndPerId = pde.Patient_Delegate__r.Contact__c+'_'+pde.Participant_Enrollment__c;
+                skipPEForActiveDelSurvey.add(conIdAndPerId); // map will not be empty
+            }
+        }
         for (Task t : tasks) {
             if (
                 t.WhatId != null &&
@@ -228,26 +302,63 @@ public without sharing class TaskService {
             if (t.Survey_Invitation__c != null)
                 skipSurveyInvIds.add(t.Survey_Invitation__c);
         }
-        skipPEIds = new Map<Id, Participant_Enrollment__c>(
-                [
-                    SELECT Id
-                    FROM Participant_Enrollment__c
-                    WHERE
-                        Id IN :skipPEIds
-                        AND Clinical_Trial_Profile__r.Tasks_Are_Available__c != TRUE
-                ]
-            )
-            .keySet();
-        skipSurveyInvIds = new Map<Id, SurveyInvitation>(
-                [
-                    SELECT Id
-                    FROM SurveyInvitation
-                    WHERE
-                        Id IN :skipSurveyInvIds
-                        AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Tasks_Are_Available__c != TRUE
-                ]
-            )
-            .keySet();
+
+        Map<id, Participant_Enrollment__c> mapPEIds = new Map<id, Participant_Enrollment__c>(
+            [
+                SELECT
+                    id,
+                    Clinical_Trial_Profile__r.Tasks_Are_Available__c,
+                    Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                    Invited_To_PP_Date__c
+                FROM Participant_Enrollment__c
+                WHERE id IN :skipPEIds
+            ]
+        );
+        skipPEIds.clear();
+
+        for (Participant_Enrollment__c objPER : mapPEIds.values()) {
+            if (objPER.Clinical_Trial_Profile__r.Tasks_Are_Available__c != true) {
+                skipPEIds.add(objPER.Id);
+            }
+        }
+        Map<Id, SurveyInvitation> surveyMap = new Map<Id, SurveyInvitation>(
+            [
+                SELECT
+                    Id,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Tasks_Are_Available__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
+                FROM SurveyInvitation
+                WHERE Id IN :skipSurveyInvIds
+            ]
+        );
+
+        skipSurveyInvIds.clear();
+
+        for (SurveyInvitation objSurvey : surveyMap.values()) {
+            if (
+                objSurvey.Participant_Enrollment__r.Clinical_Trial_Profile__r.Tasks_Are_Available__c !=
+                true
+            ) {
+                skipSurveyInvIds.add(objSurvey.Id);
+            }
+        }
+        // List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
+        // for(Participant_Enrollment__c pe : peList){
+        //     peOfCurrentuser.Add(pe.Id);
+        // }
+        contact currentContact = ParticipantContext.getCurrentContact();
+        set<Id> peOfCurrentuser = new Set<Id>();
+        Map<Id, Participant_Enrollment__c> perMapForMultiRole = new Map<Id, Participant_Enrollment__c>();
+        List<Patient_Delegate_Enrollment__c> pdeRecrds =  new List<Patient_Delegate_Enrollment__c>();
+
+        if (UserContext.getCurrentUserMode().userMode == CommunityService.USER_MODE_PARTICIPANT) {
+            perMapForMultiRole = ParticipantEnrollmentService.getPerMapByContactId(
+                currentContact.Id
+            );
+            pdeRecrds = PatientDelegateEnrollmentService.getPDEnrollmentforDelContact(
+                currentContact.Id
+            );
+        }
         for (Task t : tasks) {
             Boolean skipTask = false;
             Id curPEId = ParticipantContext.getCurrentPEId();
@@ -257,16 +368,178 @@ public without sharing class TaskService {
             ) {
                 //Visit Task to be displayed in Task Tab panel
                 skipTask =
-                    (skipPEIds.contains(t.WhatId) && t.Task_Type__c != 'Visit') ||
+                    (t.Owner_Contact__c != null &&
+                    t.Owner_Contact__c != ParticipantContext.getCurrentContact().Id) ||
+                    (skipPEIds.contains(t.WhatId) && t.Task_Type__c != 'Visit' && (t.Task_Type__c == 'Not Selected' && !t.isPlatformLevelTask__c)) ||
                     (!skipPEAlumnIds.contains(t.WhatId) && alumDlgtPtView) ||
                     (curPEId != null &&
                     t.WhatId != curPEId);
+                if (
+                    hasPastEnrollments &&
+                    dntSkipHalfAlumPEIds.contains(t.whatId) &&
+                    (curPEId != null &&
+                    t.WhatId != curPEId)
+                ) {
+                    skipTask = false;
+                }
+                if (
+                    UserContext.getCurrentUserMode().userMode ==
+                    CommunityService.USER_MODE_PARTICIPANT
+                ) {
+                    Boolean isPatientPortalEnabled = mapPEIds.get(t.WhatId)
+                        ?.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+                    Boolean isInvitedToPP = mapPEIds.get(t.WhatId).Invited_To_PP_Date__c != null
+                        ? true
+                        : false;
+                    Boolean taskToggleAtCTPIsON = mapPEIds.get(t.WhatId)
+                        ?.Clinical_Trial_Profile__r.Tasks_Are_Available__c;
+                    //Boolean skipBusinessTask  = false;
+                    Boolean skipBusinessTask = t.CreatedByAdmin__c && 
+                        t.Task_Type__c == 'Not Selected' &&
+                        !t.isPlatformLevelTask__c && 
+                        !taskToggleAtCTPIsON;
+                    //Participant View /Multirole(Self View)/Delegate switch to participant View.
+                    Id loggedInUserId = UserInfo.getuserid();
+                    if (curPEId != null) {
+                        if (!currentMode.isDelegate) {
+                            if (
+                                (t.WhatId == curPEId) && (!isInvitedToPP || !isPatientPortalEnabled)
+                            ) {
+                                //Pure participant View or Multirole(selfView)
+                                skipTask = true;
+                            } else if (
+                                t.WhatId != curPEId &&
+                                pastEnrollmentsMap.containsKey(t.WhatId) &&
+                                (!isInvitedToPP || !isPatientPortalEnabled)
+                            ) {
+                                //MultiROle(Self View) - task created for himself/herself as particapnt.
+                                skipTask = true;
+                            } 
+                            else if (t.WhatId != curPEId) {
+                                //MultiROle(Self View) - task created for himself/herself as particapnt.
+                                if(!isPatientPortalEnabled){
+                                    skipTask = true;
+                                }
+                                else if(isInvitedToPP && !perMapForMultiRole.containskey(t.whatId) && pdeRecrds != null && !pdeRecrds.isEmpty()){
+                                    skipTask = false;
+                                }
+                            }
+                        } else if (!isPatientPortalEnabled) {
+                            //Delegate Switch To participant View.
+                            skipTask = true;
+                        }
+                    } else if (curPEId == null) {
+                        //For Full Alumni
+                        if (hasPastEnrollments && (!isInvitedToPP || !isPatientPortalEnabled)) {
+                            skipTask = true;
+                        } else if (!hasPastEnrollments) {
+                            //Multi Role(Self View) with No invited study/Delegate self View.
+                            if (
+                                perMapForMultiRole.containsKey(t.whatId) &&
+                                (!isInvitedToPP || !isPatientPortalEnabled)
+                            ) {
+                                //MultiROle(Self View) - task created for himself/herself as particapnt.
+                                skipTask = true;
+                            } else if (
+                                !perMapForMultiRole.containsKey(t.whatId) && !isPatientPortalEnabled
+                            ) {
+                                //MultiROle(Self View)/Pure delegate self View - task created for himself/herself as delegate.
+                                skipTask = true;
+                            }
+                        }
+                    }
+                    String conAndPerId = ParticipantContext.getOwnParticipant().Contact__c+'_'+t.whatId;
+                    if((skipTaskForDelParView  && !skipPEForActiveDel.contains(conAndPerId)) || skipBusinessTask) {
+                        skipTask = true;
+                    }
+                }
             } else if (t.Survey_Invitation__c != null) {
                 skipTask =
                     skipSurveyInvIds.contains(t.Survey_Invitation__c) ||
-                    (!skipPEAlumnIds.contains(t.Survey_Invitation__r.Participant_Enrollment__c) && alumDlgtPtView) ||
+                    (!skipPEAlumnIds.contains(t.Survey_Invitation__r.Participant_Enrollment__c) &&
+                    alumDlgtPtView) ||
                     (curPEId != null &&
                     t.Survey_Invitation__r.Participant_Enrollment__c != curPEId);
+                if (
+                    hasPastEnrollments &&
+                    dntSkipHalfAlumPEIds.contains(
+                        t.Survey_Invitation__r.Participant_Enrollment__c
+                    ) &&
+                    (curPEId != null &&
+                    t.Survey_Invitation__r.Participant_Enrollment__c != curPEId)
+                ) {
+                    skipTask = false;
+                }
+
+                if (
+                    UserContext.getCurrentUserMode().userMode ==
+                    CommunityService.USER_MODE_PARTICIPANT
+                ) {
+                    Boolean isPatientPortalEnabled = t.Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+                    Boolean isInvitedToPP = t.Survey_Invitation__r.Participant_Enrollment__r.Invited_To_PP_Date__c !=
+                        null
+                        ? true
+                        : false;
+                    //Participant and Multirole(Self View)
+                    Id loggedInUserId = UserInfo.getuserid();
+                    Id SurveyPEId = t.Survey_Invitation__r.Participant_Enrollment__c;
+                    if (curPEId != null) {
+                        if (!currentMode.isDelegate) {
+                            if (
+                                (SurveyPEId == curPEId) &&
+                                (!isInvitedToPP || !isPatientPortalEnabled)
+                            ) {
+                                //Pure participant View or Multirole(selfView)
+                                skipTask = true;
+                            } else if (
+                                SurveyPEId != curPEId &&
+                                pastEnrollmentsMap.containsKey(SurveyPEId) &&
+                                (!isInvitedToPP || !isPatientPortalEnabled)
+                            ) {
+                                //MultiROle(Self View) - task created for himself/herself as particapnt.
+                                skipTask = true;
+                            } else if (SurveyPEId != curPEId ) {
+                                //MultiROle(Self View) - task created for himself/herself as particapnt.
+                                if(!isPatientPortalEnabled){
+                                    skipTask = true;
+                                }
+                                else if(isInvitedToPP && !perMapForMultiRole.containskey(SurveyPEId) && pdeRecrds != null && !pdeRecrds.isEmpty()){
+                                    skipTask = false;
+                                }
+                            }
+                        } else if (!isPatientPortalEnabled) {
+                            //Delegate Switch To participant View.
+                            skipTask = true;
+                        }
+                    } else if (curPEId == null) {
+                        //For Full Alumni
+                        if (hasPastEnrollments && (!isInvitedToPP || !isPatientPortalEnabled)) {
+                            skipTask = true;
+                        } else if (!hasPastEnrollments) {
+                            //Multi Role(Self View) with No invited study/Delegate self View.
+                            if (
+                                perMapForMultiRole.containsKey(SurveyPEId) &&
+                                (!isInvitedToPP || !isPatientPortalEnabled)
+                            ) {
+                                //MultiROle(Self View) - task created for himself/herself as particapnt.
+                                skipTask = true;
+                            } else if (
+                                !perMapForMultiRole.containsKey(SurveyPEId) &&
+                                !isPatientPortalEnabled
+                            ) {
+                                //MultiROle(Self View)/Pure delegate self View - task created for himself/herself as delegate.
+                                skipTask = true;
+                            }
+                        }
+                    }
+                    String conAndPerId = ParticipantContext.getOwnParticipant().Contact__c+'_'+t.whatId;
+                    if((skipSurveyForDelParView  && !skipPEForActiveDelSurvey.contains(conAndPerId)) && t.Survey_Invitation__r.Participant_Enrollment__c != curPEId ) {
+                        skipTask = true;
+                    } 
+                    else if((skipTaskForDelParView  && !skipPEForActiveDel.contains(conAndPerId)) && t.Survey_Invitation__r.Participant_Enrollment__c != curPEId ) {
+                        skipTask = true;   
+                    } 
+                }
             }
             if (!skipTask)
                 filteredList.add(t);
@@ -375,6 +648,7 @@ public without sharing class TaskService {
                 ReminderDateTime__c,
                 Participant_Enrollment__r.Participant_Contact__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
                 Reminder_Schedule__c,
                 Reminder_Schedule__r.First_Reminder_day__c,
                 Survey.Name,
@@ -520,7 +794,10 @@ public without sharing class TaskService {
             String subject;
             if (
                 inv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
-                CommunityTemplateService.TEMPLATE_PP
+                CommunityTemplateService.TEMPLATE_PP ||
+                (inv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ==
+                'Janssen' &&
+                inv.Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
             ) {
                 subject = Label.Task_Subject_Complete_Survey_PP.replace(
                     '##SurveyName',

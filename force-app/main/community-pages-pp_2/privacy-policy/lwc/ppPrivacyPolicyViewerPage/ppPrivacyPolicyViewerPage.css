@@ -7,6 +7,20 @@
     background-color: #f5f6fa;
     height: 100%;
 }
+.back-link-mobile {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #015ff1;
+    width: fit-content;
+    padding-left: 1rem;
+}
+hr {
+    margin: 0%;
+    margin-top: 2px;
+}
 .privacy-header {
     color: #444444;
     font-size: 32px;
@@ -247,7 +261,7 @@
 .slds-nav-vertical__action:hover {
     color: #ffffff;
     box-shadow: none;
-    background: #0768fd;
+    background: #015ff1;
     font-weight: bold;
     width: 295px;
 }
@@ -262,7 +276,7 @@
 .slds-nav-vertical__item.slds-is-active .slds-nav-vertical__action {
     color: #ffffff;
     box-shadow: none;
-    background: #0768fd;
+    background: #015ff1;
     border-bottom: none;
     font-weight: bold;
 }
@@ -281,6 +295,10 @@ li:last-child {
         margin-top: 0 !important;
         padding-top: 1.5rem;
     }
+    .header-container-app{
+        margin-top: 0 !important;
+        padding-top: 0.2rem;
+    }
 }
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
@@ -288,6 +306,9 @@ li:last-child {
 
 /* iPads (portrait and landscape) ----------- */
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+    .option-width{
+        width: 100% !important;
+    }
 }
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
 }

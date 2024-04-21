@@ -3,28 +3,28 @@
                          relatedToType="Study_Site__c"
                          language="{!relatedTo.Principal_Investigator__r.Language__c}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!recipient.Id}"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Import_Participants_Completed}"
                           greeting="{!$Label.Email_User_Greeting}"
                           signature="{!$Label.Email_Signature_RH}"
                           communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK',
-                                                                                         'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
+                                                                                         'Default',IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal', 'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c))}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Participant_Import_Completed}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                               buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Import_Participants_Completed}"
                               greeting="{!$Label.Email_User_Greeting}"
                               signature="{!$Label.Email_Signature_RH}"
                           communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK',
-                                                                                         'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
+                                                                                         'Default',IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'PatientPortal', 'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c))}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Participant_Import_Completed}"/>
              <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                               buttonURL="{!$Network.NetworkUrlForUserEmails}"/>

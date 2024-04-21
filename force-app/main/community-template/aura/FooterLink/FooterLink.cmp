@@ -7,11 +7,26 @@
     <aura:attribute name="page" type="String" />
     <aura:attribute name="link" type="String" />
     <aura:attribute name="enablePrivacyChoice" type="Boolean" default="false" />
+    <aura:attribute name="isRTL" type="Boolean" default="false" />
     
     <div class="page-link" onclick="{!c.onClick}">
-        {!v.label}
-        <aura:if isTrue="{!v.enablePrivacyChoice}">
-            <img src="{!$Resource.CCPA_icon}" class="imgclass"/> 
+        <aura:if isTrue="{!v.enablePrivacyChoice}"> 
+            <aura:if isTrue="{!v.isRTL}" >
+                <span class="container">
+                <img src="{!$Resource.CCPA_icon}" class="imgclassRTL" />
+                  <img src="{!$Resource.CCPA_icon_hover}" class="overlay" />
+                {!v.label}
+                </span>
+                <aura:set attribute="else">
+                    <span class="container">
+                        <span>{!v.label}</span>
+                        <img src="{!$Resource.CCPA_icon}" class="imgclass" />
+                        <img src="{!$Resource.CCPA_icon_hover}" class="overlay" />
+                    </span>
+                </aura:set>
+
             </aura:if>
+            <aura:set attribute="else"> {!v.label} </aura:set>
+        </aura:if>
     </div>
 </aura:component>

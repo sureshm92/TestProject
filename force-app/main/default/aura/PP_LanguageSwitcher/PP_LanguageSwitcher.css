@@ -80,11 +80,13 @@
 
 @media (max-width: 768px) {
     .THIS {
-        padding: 12px 1.5rem 1.5rem;
+        /* padding: 12px 1.5rem 1.5rem; */
+        padding: 0 1.5rem 0.625rem;
     }
 
     .THIS .as-title {
         line-height: 19px;
+        margin-top: 0px;
     }
 
     .THIS.as-container .as-sub-title,
@@ -113,9 +115,9 @@
 }
 
 @media screen and (max-width: 500px) {
-    .THIS {
+    /* .THIS {
         padding-bottom: 85px;
-    }
+    } */
 
     .THIS .language-switcher > * {
         padding: 0;

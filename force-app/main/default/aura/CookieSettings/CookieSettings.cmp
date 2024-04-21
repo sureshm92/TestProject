@@ -64,7 +64,13 @@
                     <div class="as-email-preference">
                         <div class="as-title">{!$Label.c.AccountSettings_Cookie_Settings}</div>
                         <div class="as-sub-title cookieDesc">
-                            <aura:unescapedHtml value="{!v.initData.cookieDescription}" />
+                            <aura:if isTrue="{!v.isJanssen}">
+                                    <aura:unescapedHtml value="{!$Label.c.AccountSettings_For_Strictly_Necessary_Cookies_Janssen}" />
+                                <aura:set attribute="else">
+                                    <aura:unescapedHtml value="{!v.initData.cookieDescription}" />
+                                </aura:set>
+                            </aura:if> 
+                            
                         </div>
                         <div class="collapse-section slds-m-top--large">
                             <c:RRCollapse

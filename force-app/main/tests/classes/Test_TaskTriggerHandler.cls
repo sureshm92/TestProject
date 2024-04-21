@@ -95,6 +95,16 @@ public class Test_TaskTriggerHandler {
             Status__c = 'Active'
         );
         insert patientDelegate;
+        
+        Patient_delegate_enrollment__c patientEnrollment =new Patient_delegate_enrollment__c(
+            Participant_Enrollment__c = testData.pe.Id,
+            Patient_Delegate__c= patientDelegate.id,
+            Study_Email_Consent__c=true,
+            Study_SMS_Consent__c=true,
+            Study_Phone_Consent__c=true,
+            Study_Direct_Mail_Consent__c=true
+        ); 
+        insert patientEnrollment;
 
         User delegateUser = CommunityService.createUser(delegate, null, null, null);
 
@@ -143,12 +153,46 @@ public class Test_TaskTriggerHandler {
             task6.Task_Type__c = 'Not Selected';
             task6.InitialTaskNotification__c = true;
             task6.WhoId = testData.participant.Contact__r.Id;
+            
+            Task task7 = new Task();
+            task7.Subject = 'testECOA';
+            task7.Task_Type__c= 'Ecoa';
+            task7.InitialTaskNotification__c= true;
+            task7.Visible_For__c = 'Owner;Delegates';
+            task7.Action_URL__c = 'e-diaries';
+            task7.Task_Code__c = 'Activate_Ecoa_Ediaries';
+            task7.Community_Template_Name__c = 'PatientPortal';
+            task7.WhatId = testData.participant.Id;
+            task7.WhoId = testData.participant.Contact__r.Id;
+            
+       		Task task8 = new Task();
+            task8.Subject = 'testECOA';
+            task8.Task_Type__c= TaskService.TASK_TYPE_ECOA;
+            task8.Visible_For__c = 'Owner;Delegates';
+            task8.Community_Template_Name__c = CommunityTemplateService.TEMPLATE_PP;
+            task8.Action_URL__c = 'http\\';
+            task8.Task_Code__c = TaskService.TASK_CODE_ECOA_TASK;
+            task8.WhatId = patientEnrollment.Participant_Enrollment__c;
+            task8.WhoId= patientDelegate.contact__c;
+            task8.InitialTaskNotification__c =  true;
+            
+            Task task9 = new Task();
+            task9.Subject = 'studyLevelTask';
+            task9.Task_Type__c= TaskService.TASK_TYPE_NOT_SELECTED;
+            task9.Visible_For__c = 'Owner;Delegates';
+            task9.Community_Template_Name__c = CommunityTemplateService.TEMPLATE_PP;
+            task9.Action_URL__c = 'http\\';
+            task9.WhatId = patientEnrollment.Participant_Enrollment__c;
+            task9.InitialTaskNotification__c =  true;
 
             tasks.add(task);
             tasks.add(task2);
             tasks.add(task4);
             tasks.add(task5);
             tasks.add(task6);
+            tasks.add(task7);
+            tasks.add(task8);
+            tasks.add(task9);
             try {
                 insert tasks;
             } catch (Exception e) {
@@ -160,6 +204,9 @@ public class Test_TaskTriggerHandler {
             tsHandler.beforeInsert(new List<Task>{ task4 });
             tsHandler.beforeInsert(new List<Task>{ task5 });
             tsHandler.beforeInsert(new List<Task>{ task6 });
+            tsHandler.beforeInsert(new List<Task>{ task7 });
+            tsHandler.beforeInsert(new List<Task>{ task8 });
+            tsHandler.beforeInsert(new List<Task>{ task9 });
 
             TaskTriggerHandler.SendImmediateEmailsForTaskCodeHandler tsHandler1 = new TaskTriggerHandler.SendImmediateEmailsForTaskCodeHandler();
             tsHandler1.afterInsert(new List<Task>{ task });
@@ -167,6 +214,9 @@ public class Test_TaskTriggerHandler {
             tsHandler1.afterInsert(new List<Task>{ task4 });
             tsHandler1.afterInsert(new List<Task>{ task5 });
             tsHandler1.afterInsert(new List<Task>{ task6 });
+            tsHandler1.afterInsert(new List<Task>{ task7 });
+            tsHandler1.afterInsert(new List<Task>{ task8 });
+            tsHandler1.afterInsert(new List<Task>{ task9 });
 
             task.Remind_Me__c = '2 day before';
             task2.Remind_Me__c = '2 day before';

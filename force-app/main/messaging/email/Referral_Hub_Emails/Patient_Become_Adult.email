@@ -7,7 +7,9 @@
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Patient_Become_Adult}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
-                         signature="{!$Label.Email_Signature_VT}">
+                         signature="{!$Label.Email_Signature_VT}"
+                         communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen',
+                                                                                         'Janssen',relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Patient_Become_Adult}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailWireframe>
@@ -18,7 +20,9 @@
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Patient_Become_Adult}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
-                             signature="{!$Label.Email_Signature_VT}">
+                             signature="{!$Label.Email_Signature_VT}"
+                             communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen',
+                                                                                         'Janssen',relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Patient_Become_Adult}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailWireframeText>

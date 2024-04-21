@@ -2,11 +2,8 @@
     <template if:false={isLockOut}>
         <div class="slds-grid slds-grid_align-center">
             <div class="slds-col">
-                <div class="patient-care-txt">For Participants and Caregivers</div>
-                <div class="prof-clinical-txt">
-                    Connecting professionals, patients and clinical researchers for better
-                    healthcare.
-                </div>
+                <div class="patient-care-txt">{label.PP_For_Participants_and_Caregivers}</div>
+                <div class="prof-clinical-txt">{label.PP_Connecting_professionals}</div>
                 <template if:true={inError}>
                     <div class="login-validation" style="margin-top: -1em; margin-bottom: 0.5em">
                         <img style={errorIconPosition} src={exclamation} />
@@ -37,31 +34,26 @@
                             class={className}
                             onkeyup={handlepasswordChange}
                         />
-                        <button class="slds-button slds-button_icon eye-icon" onclick={changeImgSrc}>
-                            <img class="" src={eyeHidden} style="" title={PasswordEyeIconTitle}/>
+                        <button
+                            class="slds-button slds-button_icon eye-icon"
+                            onclick={changeImgSrc}
+                        >
+                            <img class="" src={eyeHidden} style="" title={PasswordEyeIconTitle} />
                         </button>
                     </div>
-                    <button class="slds-button btn-login" onclick={handleLogin}>
+                    <button class="primaryBtn slds-button btn-login" onclick={handleLogin}>
                         {label.login}
                     </button>
                     <div class="slds-grid forgot-unable-link">
                         <div class="slds-col slds-size_6-of-12">
-                            <lightning-button
-                                variant="base"
-                                label={label.forgotPassword}
-                                onclick={handleForgotPassword}
-                                class="forgot-unable-pwd-txt font-thickness"
-                            >
-                            </lightning-button>
+                            <span onclick={handleForgotPassword} class="forgot-unable-pwd-txt font-thickness">
+                                {label.forgotPassword}
+                            </span>
                         </div>
                         <div class="slds-col slds-size_6-of-12">
-                            <lightning-button
-                                variant="base"
-                                label={label.unableToLogin}
-                                onclick={handleUnableToLogin}
-                                class="forgot-unable-pwd-txt unable-login font-thickness"
-                            >
-                            </lightning-button>
+                            <span onclick={handleUnableToLogin} class="forgot-unable-pwd-txt unable-login font-thickness" >
+                                {label.unableToLogin}
+                            </span>
                             <template if:true={showPopup}>
                                 <c-pp-unable-to-login
                                     user-id={userNam}

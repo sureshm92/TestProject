@@ -1,0 +1,36 @@
+<messaging:emailTemplate subject="{!$Label.Email_Header_Initial_Patient_Delegate}"
+                         recipientType="Contact"
+                         relatedToType="Participant__c"
+                         language="{!recipient.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          sourceId="{!relatedTo.Id}"
+                          header="{!$Label.Email_Header_Initial_Patient_Delegate}"
+                          title="{!$Label.Email_Title_PH}"
+                          greeting="{!$Label.Email_User_Greeting_FirstName}"
+                          signature="{!$Label.Email_Signature_Participant_Delegate_New}"
+                          communityTemplate="Janssen">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
+            <c:EmailTemplateDelegateParticipant communityTemplate="Janssen" sourceId="{!relatedTo.Id}" recipientId="{!recipient.Id}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
+                              buttonURL="/s/"/>
+        </c:EmailWireframe>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              sourceId="{!relatedTo.Id}"
+                              header="{!$Label.Email_Header_Initial_Patient_Delegate}"
+                              title="{!$Label.Email_Title_PH}"
+                              greeting="{!$Label.Email_User_Greeting_FirstName}"
+                              signature="{!$Label.Email_Signature_Participant_Delegate_New}"
+                              communityTemplate="Janssen">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_Initial_Patient_Delegate}"/>
+            <c:EmailTemplateDelegateParticipantText communityTemplate="Janssen" sourceId="{!relatedTo.Id}" recipientId="{!recipient.Id}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
+                                  buttonURL="/s/"/>
+        </c:EmailWireframeText>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

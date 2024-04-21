@@ -4,11 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Email_Template_Delegate__c</field>
-        <value xsi:type="xsd:string">Patient_Televisit_Cancelled_Notification</value>
+        <value xsi:type="xsd:string">Patient_Televi_Cancel_Notifi</value>
     </values>
     <values>
         <field>Email_Template__c</field>
-        <value xsi:type="xsd:string">Patient_Televisit_Cancelled_Notification</value>
+        <value xsi:type="xsd:string">Patient_Televi_Cancel_Notifi</value>
     </values>
     <values>
         <field>Message_Body__c</field>

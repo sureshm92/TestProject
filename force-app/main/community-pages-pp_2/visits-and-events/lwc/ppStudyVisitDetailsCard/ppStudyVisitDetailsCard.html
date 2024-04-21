@@ -3,7 +3,7 @@
     <c-web-spinner fixed="true" show-spinner={showSpinner}></c-web-spinner>
     <lightning-card>
         <div>
-            <div class="location-title">{label.location}</div>
+            <div class={locationtitleStyle}>{label.location}</div>
             <div class="address-section-outer">
                 <div class="address-section">
                     <div class="address-marker">
@@ -22,27 +22,29 @@
                 <div class="site-phone">{sitephone}</div>
             </div>
             <div>
-                <template if:true={isinitialvisit}>
-                    <div class="read-only-background">
-                        <c-pp-date-time-combo
-                            data-id="visitDateTime"
-                            if:false={past}
-                            reminder={booleanFalse}
-                            compdate={compDate}
-                            comptime={compTime}
-                            mindate={currentDate}
-                            mintime={currentTime}
-                            ondatechange={handleDate}
-                            ontimechange={handleTime}
-                            onnulldatetime={handleNullDateTime}
-                            oninitialdateload={handleInitialDateLoad}
-                            oninitialtimeload={handleInitialTimeLoad}
-                            ondate={handleOnlyDate}
-                            ontime={handleOnlyTime}
-                            read-only-mode={isinitialvisit}
-                        ></c-pp-date-time-combo>
-                    </div>
-                </template>
+                <div class="dateTimeContainer">
+                    <template if:true={isinitialvisit}>
+                        <div class="read-only-background">
+                            <c-pp-date-time-combo
+                                data-id="visitDateTime"
+                                if:false={past}
+                                reminder={booleanFalse}
+                                compdate={compDate}
+                                comptime={compTime}
+                                mindate={currentDate}
+                                mintime={currentTime}
+                                ondatechange={handleDate}
+                                ontimechange={handleTime}
+                                onnulldatetime={handleNullDateTime}
+                                oninitialdateload={handleInitialDateLoad}
+                                oninitialtimeload={handleInitialTimeLoad}
+                                ondate={handleOnlyDate}
+                                ontime={handleOnlyTime}
+                                read-only-mode={isinitialvisit}
+                            ></c-pp-date-time-combo>
+                        </div>
+                    </template>
+                <!-- </div> -->
                 <template if:false={isinitialvisit}>
                     <c-pp-date-time-combo
                         data-id="visitDateTime"
@@ -61,6 +63,7 @@
                         ontime={handleOnlyTime}
                     ></c-pp-date-time-combo>
                 </template>
+                </div>
                 <template if:false={dbCompletedDate}>
                     <template if:true={past}>
                         <br />
@@ -88,6 +91,7 @@
                                     disabled
                                     type="date"
                                     id="disableddate"
+                                    class="down-arrow-android-hide"
                                     value={dbCompletedDate}
                                 />
                             </div>
@@ -138,7 +142,7 @@
                                 checked={email}
                                 onchange={setAttributeValueEmail}
                             ></lightning-input>
-                            <lightning-input
+                            <!-- <lightning-input
                                 data:id="smsField"
                                 type="checkbox"
                                 label={label.sms}
@@ -147,13 +151,35 @@
                                 disabled={smsOptIn}
                                 checked={sms}
                                 onchange={setAttributeValueSms}
+                            ></lightning-input> -->
+                            <lightning-input
+                                data:id="smsField"
+                                type="checkbox"
+                                label={label.sms}
+                                name={label.sms}
+                                value={sms}
+                                disabled
+                                checked={sms}
+                                onchange={setAttributeValueSms}
                             ></lightning-input>
                         </div>
                     </div>
                 </div>
+              
                 <div class="slds-col slds-size_1-of-1 slds-p-top_xx-smal acc-pref" if:false={past}>
                     <div if:true={showEmailSms}>
-                        <a
+                        <template if:true={isTablet}>
+                            <a
+                            class="comm-link slds-p-left_medium"
+                            onclick={setSessionCookie}
+                            href={url}
+                            target={communicationTab}
+                        >
+                            <span>{label.PREFERENCES}</span>
+                        </a>
+                        </template>
+                        <template if:false={isTablet}>
+                            <a
                             class="comm-link"
                             onclick={setSessionCookie}
                             href={url}
@@ -161,9 +187,11 @@
                         >
                             <span>{label.PREFERENCES}</span>
                         </a>
+                        </template>
+                      
                     </div>
                 </div>
-                <div if:false={past}>
+                <div if:false={past} class="dateTimeContainer">
                     <c-pp-date-time-combo
                         if:true={showreminderdatepicker}
                         data-id="reminderDateTime"
@@ -188,7 +216,7 @@
             </div>
             <div if:false={past} class="slds-size_1-of-1 btn-footer">
                 <button
-                    class="secondaryBtn slds-button"
+                    class="secondaryBtn slds-button card-btn"
                     disabled={disableDiscard}
                     type="button"
                     onclick={doCancel}
@@ -196,7 +224,7 @@
                     {label.discard}
                 </button>
                 <button
-                    class="primaryBtn slds-button"
+                    class="primaryBtn slds-button card-btn"
                     disabled={disableButtonSaveCancel}
                     type="button"
                     onclick={doSave}

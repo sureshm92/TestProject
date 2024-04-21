@@ -38,10 +38,6 @@
         var pe = component.get('v.pe');
         var participant = component.get('v.participant');
         var userLanguage = component.get('v.userLanguage');
-        console.log(
-            "component.get('v.delegateDuplicateInfo')>>>>>>",
-            component.get('v.delegateDuplicateInfo')
-        );
         var ssId = communityService.getUrlParameter('ssId');
         var isDelegate = component.get('v.createUserForDelegate');
         if(!component.get('v.needsGuardian')) {
@@ -88,10 +84,6 @@
         var pe = component.get('v.pe');
         var participant = component.get('v.participant');
         var userLanguage = component.get('v.userLanguage');
-        console.log(
-            "component.get('v.delegateDuplicateInfo')>>>>>>",
-            component.get('v.delegateDuplicateInfo')
-        );
         var ssId = communityService.getUrlParameter('ssId');
         var isDelegate = component.get('v.createUserForDelegate');
         if(!component.get('v.needsGuardian')) {
@@ -117,8 +109,7 @@
         });
         action1.setCallback(this, function(response){
             var state = response.getState();
-            if (state === "SUCCESS") { 
-                console.log('server 1 call end');console.log('response-->'+response.getReturnValue());  
+            if (state === "SUCCESS") {  
                 var partid = response.getReturnValue() ;
                 component.set('v.partID',partid[0]);
                 component.set('v.dupPart',partid[1]);
@@ -145,10 +136,6 @@
         var dupPart = component.get('v.dupPart');
         var participant = component.get('v.participant');
         var userLanguage = component.get('v.userLanguage');
-        console.log(
-            "component.get('v.delegateDuplicateInfo')>>>>>>",
-            component.get('v.delegateDuplicateInfo')
-        );
         var ssId = communityService.getUrlParameter('ssId');
         var isDelegate = component.get('v.createUserForDelegate');
         if(!component.get('v.needsGuardian')) {
@@ -233,6 +220,7 @@
            component.find('editForm').refreshEmailInput(); 
            component.find('editForm').refreshPartDobInput(); 
         }else{
+           console.clear(); 
            var urlEvent = $A.get("e.force:navigateToURL");
            urlEvent.setParams({ "url": "/my-referrals" });  
            urlEvent.fire(); 
@@ -358,7 +346,6 @@
                 isValid = false;
             
         }
-        console.log('Delegate VALID: ' + isValid);
         component.set('v.isDelegateValid', isValid);
         let editForm = component.find('editForm');
         editForm.checkFields();
@@ -393,8 +380,6 @@
         var params = event.getParam('arguments');
         component.set('v.callback', params.callback);
         var callback = component.get('v.callback');
-        console.log('checkParticipantNeedsGuardian');
-        console.log(JSON.stringify(participant));
         
         communityService.executeAction(
             component,
@@ -403,12 +388,10 @@
                 participantJSON: JSON.stringify(participant)
             },
             function (returnValue) {
-                console.log('isNeedGuardian: ' + returnValue);
                 var isNeedGuardian = returnValue == 'true';
                 if (callback) {
                     callback(!isNeedGuardian);
                 }
-                console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
 
                 component.set('v.participant.Adult__c', !isNeedGuardian);
                 component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);

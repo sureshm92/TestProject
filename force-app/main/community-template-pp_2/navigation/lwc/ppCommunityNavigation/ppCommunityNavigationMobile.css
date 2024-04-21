@@ -10,6 +10,7 @@
 
 .phone-menu-background {
     padding: 1.25rem 0 1.25rem 2rem;
+    display: inline-flex;
 }
 
 /* .phone-menu-background:nth-child(3) {
@@ -90,5 +91,9 @@ a:visited {
     font-size: 18px;
     color: #fff;
     padding-left: 1rem;
-    width: 100%;
+    /* width: 100%; */
+    width: auto;
+}
+.text-color{
+    color: #fff !important;
 }

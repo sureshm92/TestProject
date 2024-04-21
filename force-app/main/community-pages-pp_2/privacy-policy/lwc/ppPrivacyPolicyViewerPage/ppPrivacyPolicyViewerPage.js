@@ -3,10 +3,12 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 import getPrivacyPolicy from '@salesforce/apex/TermsAndConditionsRemote.getPPTC';
+import getPPTCJncommpref from '@salesforce/apex/TermsAndConditionsRemote.getPPTCJncommpref';
 import generatePDF from '@salesforce/apex/TermsAndConditionsRemote.generatePDF';
 import formFactor from '@salesforce/client/formFactor';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import PP_HEADER from '@salesforce/label/c.Email_Footer_Privacy_Policy';
+import Back from '@salesforce/label/c.Back';
 import LAST_UPDATED from '@salesforce/label/c.Last_Updated_On';
 import CHAPTER from '@salesforce/label/c.Chapter';
 import DOWNLOAD_AS_PDF from '@salesforce/label/c.Download_PP_as_PDF';
@@ -21,24 +23,28 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
     lastUpdated;
     isLoggedinUser;
     @api isRTL;
-    @api ctpId;
+    @api ctpId;@api isJanssen = false;
     currentPageReference = null;
     urlStateParameters = null;
     studyId = null;
+    commpref = false;
     ppRichText;
     @track listOfHeaders = [];
     empNames = [];
     options = [];
     @track currentHeader = '';
     @track currentHeaderLabel = '';
+    showBackButton = false;
     labels = {
         PP_HEADER,
         LAST_UPDATED,
         CHAPTER,
-        DOWNLOAD_AS_PDF
+        DOWNLOAD_AS_PDF,
+        Back
     };
 
     connectedCallback() {
+        console.log('>>>>connectedcallback>>>>');
         Promise.all([
             loadScript(this, RR_COMMUNITY_JS),
             loadStyle(this, PP_Theme),
@@ -46,17 +52,19 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
             loadStyle(this, Proxima_Nova + '/proximanova.css')
         ])
             .then(() => {
+                this.showBackButton = communityService.isMobileSDK();
                 this.loadPrivacyPolicy();
             })
             .catch((error) => {
                 this.dispatchEvent(
                     new ShowToastEvent({
-                        title: 'Error Loading RR_COMMUNITY_JS',
+                        title: 'Error loading rr_community_js',
                         message: error.message,
                         variant: 'error'
                     })
                 );
             });
+            
     }
 
     @wire(CurrentPageReference)
@@ -69,6 +77,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
 
     setParametersBasedOnUrl() {
         this.ctpId = this.urlStateParameters.id || null;
+        this.isJanssen = this.urlStateParameters.isJanssen || false;
     }
 
     loadPrivacyPolicy() {
@@ -76,13 +85,23 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
         this.spinner.show();
 
         let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
+        let iscompreff = communityService.getUrlParameter('iscommpref'); //this is only getting checked when user is clicking IQVIA Outreach privacy policy
+        let isCalledfromcommPrefTermsofUse = communityService.getUrlParameter('iscalledfromRegistrationORcommpref');
+        
+        if(iscompreff)
+        {
+            this.commpref = true;
+        }
         let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;
-
+        console.log('>>>commpref>>'+this.commpref);
+        if(!isCalledfromcommPrefTermsofUse){
         getPrivacyPolicy({
             code: 'PrivacyPolicy',
             languageCode: communityService.getUrlParameter('language'),
             useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC,
-            ctId: this.ctpId
+            ctId: this.ctpId,
+            calledfromCommPref : this.commpref
+
         })
             .then((result) => {
                 let tcData = JSON.parse(result);
@@ -156,6 +175,87 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
             .catch((error) => {
                 console.log(JSON.stringify(error));
             });
+        }else{
+            getPPTCJncommpref({
+                code: 'PrivacyPolicy',
+                languageCode: communityService.getUrlParameter('language'),
+                useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC,
+                ctId: this.ctpId,
+                isJanssen : this.isJanssen
+            })
+                .then((result) => {
+                    let tcData = JSON.parse(result);
+                    this.lanCode = communityService.getUrlParameter('lanCode')
+                        ? communityService.getUrlParameter('lanCode')
+                        : null;
+                    if (
+                        rtlLanguages.includes(communityService.getLanguage()) ||
+                        rtlLanguages.includes(this.lanCode)
+                    ) {
+                        this.isRTL = true;
+                    }
+                    this.tcId = tcData.tc.Id;
+                    this.ppRichText = tcData.tc.T_C_Text__c;
+                    this.lastUpdated = tcData.tc.Last_Updated_on__c;
+                    let headerLists = tcData.tc.Policy_Headers__c.split('\r\n');
+                    this.empNames = headerLists;
+                    let headerOptions = [];
+                    this.empNames.map((name, index) => {
+                        let headerLabel = index + 1 + '. ' + name;
+                        let headerOption = {
+                            label: headerLabel,
+                            value: name
+                        };
+                        headerOptions = [...headerOptions, headerOption];
+                    });
+                    this.options = headerOptions;
+                    this.currentHeader = this.options[0].value;
+                    this.currentHeaderLabel = this.options[0].label;
+    
+                    if (this.ppRichText) {
+                        this.ppRichText = this.ppRichText.replace(
+                            /<ul>/g,
+                            '<ul style="list-style: disc;">'
+                        );
+    
+                        this.ppRichText = this.ppRichText.replace(
+                            '<strong><u>' + this.currentHeader + '</u></strong>',
+                            '<a data-id="startheader"></a>' +
+                                '<strong><u>' +
+                                this.currentHeader +
+                                '</u></strong>'
+                        );
+                        if (this.isRTL) {
+                            this.ppRichText = this.ppRichText.replace(
+                                /<li style="text-align: right;">/g,
+                                '<li style="text-align: right;margin-right: 5%;">'
+                            );
+                            this.ppRichText = this.ppRichText.replace(
+                                /<li>/g,
+                                '<li style="margin-right: 5%;">'
+                            );
+                        } else {
+                            this.ppRichText = this.ppRichText.replace(
+                                /<li>/g,
+                                '<li style="margin-left: 5%;">'
+                            );
+                        }
+                        let ppContent = '';
+                        if (this.isMobile) {
+                            ppContent = this.template.querySelector('[data-id="ppRichText"]');
+                        } else {
+                            ppContent = this.template.querySelector('[data-id="ppRichTextD"]');
+                        }
+                        if (ppContent) {
+                            ppContent.innerHTML = this.ppRichText;
+                            this.spinner.hide();
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.log(JSON.stringify(error));
+                });
+        }
     }
 
     get isMobile() {
@@ -164,7 +264,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
 
     get headerContainer() {
         return this.isMobile
-            ? 'header-container slds-grid slds-wrap slds-p-left_medium slds-p-right_medium'
+            ? (this.showBackButton ? 'header-container-app slds-grid slds-wrap slds-p-left_medium slds-p-right_medium' : 'header-container slds-grid slds-wrap slds-p-left_medium slds-p-right_medium')
             : 'slds-grid slds-gutters slds-p-around_medium';
     }
 
@@ -285,12 +385,12 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
             ppId: this.tcId
         })
             .then((result) => {
-                location.href = result;
+                window.open(result,"_self");
             })
             .catch((error) => {
                 this.dispatchEvent(
                     new ShowToastEvent({
-                        title: 'Unable to Download Privacy Policy PDF',
+                        title: 'Unable to download privacy policy PDF',
                         message: error.message,
                         variant: 'error'
                     })
@@ -306,5 +406,8 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
     removeElementFocus() {
         let ddMenu = this.template.querySelector('[data-id="dropdown-menu"]');
         ddMenu.classList.remove('active');
+    }
+    goToPreviousPage(){
+        window.history.back();
     }
 }

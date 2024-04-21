@@ -15,12 +15,78 @@ public without sharing class ResourceRemote {
             return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }
     }
+    //Use semicolon separated value for multiple types
     @AuraEnabled
-    public static ResourceService.ResourceWrapperContainer getPPResources(String participantData) {
+    public static ResourceService.ResourceWrapperContainer getUnsortedResourcesByType(
+        String resourceType,
+        String participantData
+    ) {
         try {
-            ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceArticleVideoService.getInstance()
-                .ppinit('Article;Video', participantData)
-                .getResourceWrapperContainer();
+            ResourceService.ResourceWrapperContainer resourceWrapperContainer = resourceType.equalsIgnoreCase(
+                    ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT
+                )
+                ? getStudyDocuments()
+                : ResourceArticleVideoService.getInstance()
+                      .ppInit(resourceType, participantData)
+                      .getResourceWrapperContainer();
+            return resourceWrapperContainer;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static ResourceService.ResourceWrapperContainer getPastStudyResources(
+        String resourceType,
+        String participantData,
+        Id peId
+    ) {
+        try {
+            String queryString =
+            'SELECT '+
+            'id ,'+
+            'Enrolled_DateTime__c ,'+
+            'Participant_Status__c ,'+
+            'Days_After_Enrolled__c ,'+
+            'Study_Site__r.Principal_Investigator__r.Name ,'+
+            'Study_Site__r.Site__r.Name ,'+
+            'Clinical_Trial_Profile__c ,'+
+            'Clinical_Trial_Profile__r.Profile_Picture__c ,'+
+            'Clinical_Trial_Profile__r.Study_Code_Name__c ,'+
+            'Clinical_Trial_Profile__r.Detailed_Description__c ,'+
+            'Clinical_Trial_Profile__r.Study_Documents_Are_Available__c ,'+
+            'Clinical_Trial_Profile__r.Visit_Data_Shareback__c ,'+
+            'Study_Site__r.Messages_Are_Available__c ,'+
+            'Study_Site__r.Study_Site_Phone__c ,'+
+            'Study_Site__r.Study_Site_Email__c ,'+
+            'Study_Site__r.Approved_Lng__c ,'+
+            'Study_Site__r.Override_PI_Referral_Status__c ,'+
+            'Study_Site__r.Site__r.BillingCountryCode '+
+            'FROM Participant_Enrollment__c '+
+            'WHERE Id =: peId ';
+            Participant_Enrollment__c  alumiPer =  Database.query(queryString);
+            ResourceService.ResourceWrapperContainer resourceWrapperContainer = resourceType.equalsIgnoreCase(
+                    ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT
+                )
+                ? getPastStudyDocuments(alumiPer)
+                : ResourceArticleVideoService.getInstance()
+                      .ppInit(resourceType, participantData)
+                      .getResourceWrapperContainer();
+            return resourceWrapperContainer;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static ResourceService.ResourceWrapperContainer getArticleAndVideos(
+        String participantData
+    ) {
+        try {
+            ResourceService.ResourceWrapperContainer resourceWrapperContainer = getUnsortedResourcesByType(
+                'Article;Video',
+                participantData
+            );
             resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(
                 resourceWrapperContainer.wrappers
             );
@@ -40,9 +106,9 @@ public without sharing class ResourceRemote {
         try {
             Integer counter = 0;
             //Relevant links data
-            RelevantLinksRemote.InitDataNew linkWrapper = (RelevantLinksRemote.InitDataNew) JSON.deserialize(
+            RelevantLinksRemote.DataWrapper linkWrapper = (RelevantLinksRemote.DataWrapper) JSON.deserialize(
                 linkWrapperText,
-                RelevantLinksRemote.InitDataNew.class
+                RelevantLinksRemote.DataWrapper.class
             );
             List<ResourceService.ResourceWrapper> resUpdates = linkWrapper?.resources;
 
@@ -54,9 +120,10 @@ public without sharing class ResourceRemote {
                 String.valueOf(ParticipantService.ParticipantStates.ALUMNI)
             ) {
                 if (linkWrapper.VideoAndArticlesAreAvailable) {
-                    ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
-                        .ppinit('Article;Video;Multimedia', participantData)
-                        .getResourceWrapperContainer();
+                    ResourceService.ResourceWrapperContainer contExplore = getUnsortedResourcesByType(
+                        'Article;Video;Multimedia',
+                        participantData
+                    );
 
                     resUpdates.addAll(contExplore.wrappers);
                 }
@@ -65,16 +132,18 @@ public without sharing class ResourceRemote {
                 String.valueOf(ParticipantService.ParticipantStates.ALUMNI)
             ) {
                 //for delegate and alumni view
-                ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
-                    .ppinit('Article;Video;Multimedia', participantData)
-                    .getResourceWrapperContainer();
+                ResourceService.ResourceWrapperContainer contExplore = getUnsortedResourcesByType(
+                    'Article;Video;Multimedia',
+                    participantData
+                );
 
                 resUpdates.addAll(contExplore.wrappers);
             } else if (linkWrapper.VideoAndArticlesAreAvailable) {
                 //for participant view
-                ResourceService.ResourceWrapperContainer contExplore = ResourceArticleVideoService.getInstance()
-                    .ppinit('Article;Video;Multimedia', participantData)
-                    .getResourceWrapperContainer();
+                ResourceService.ResourceWrapperContainer contExplore = getUnsortedResourcesByType(
+                    'Article;Video;Multimedia',
+                    participantData
+                );
 
                 resUpdates.addAll(contExplore.wrappers);
             }
@@ -82,7 +151,7 @@ public without sharing class ResourceRemote {
             //Documents Data
             if (linkWrapper.StudyDocumentsAreAvailable) {
                 ResourceService.ResourceWrapperContainer contDocs = ResourceStudyDocumentService.getInstance()
-                    .ppinit(
+                    .ppInit(
                         ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT,
                         participantData
                     )
@@ -113,11 +182,15 @@ public without sharing class ResourceRemote {
         }
     }
     @AuraEnabled
-    public static ResourceService.ResourceWrapperContainer getUpdateResource(String linkWrapperText, String participantData) {
+    public static ResourceService.ResourceWrapperContainer getMultimediaResources(
+        String linkWrapperText,
+        String participantData
+    ) {
         try {
-            ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceArticleVideoService.getInstance()
-                .ppinit('Multimedia', participantData)
-                .getResourceWrapperContainer();
+            ResourceService.ResourceWrapperContainer resourceWrapperContainer = getUnsortedResourcesByType(
+                'Multimedia',
+                participantData
+            );
             resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(
                 resourceWrapperContainer.wrappers
             );
@@ -139,6 +212,22 @@ public without sharing class ResourceRemote {
                 .getStudyDocuments();
             cont.wrappers = ResourceService.removeTranslations(cont.wrappers);
             return cont;
+        } catch (Exception e) {
+            return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
+        }
+    }
+
+     @AuraEnabled
+    public static ResourceService.ResourceWrapperContainer getPastStudyDocuments(Participant_Enrollment__c pe) {
+        try {
+            ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceStudyDocumentService.getInstance()
+            .init(ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT)
+            .getResourceWrapperContainer(pe);
+            resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(
+                    resourceWrapperContainer.wrappers
+                );
+            resourceWrapperContainer.wrappers = ResourceService.removeTranslations(resourceWrapperContainer.wrappers);
+            return resourceWrapperContainer;
         } catch (Exception e) {
             return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }

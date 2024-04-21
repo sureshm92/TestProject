@@ -12,6 +12,27 @@
     line-height: 16px;
 }
 
+.THIS.page-link:hover{
+    color: #135F90;
+    /* font-weight: 600; */
+}
 .THIS .imgclass{
     margin-left: 5px;
+    display: inline-block;
+}
+.THIS .container {
+    position: relative;
+}
+.THIS .overlay {
+    position: absolute;
+    left: 82%;
+    top: 0.08rem;
+    opacity: 0;
+}
+
+.THIS .container:hover .overlay {
+    opacity: 1;
+}
+.THIS .imgclassRTL{
+    margin-right: 5px;
 }

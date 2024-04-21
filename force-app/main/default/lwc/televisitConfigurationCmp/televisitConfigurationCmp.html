@@ -26,7 +26,9 @@
                   onoptionchange={selectedStusysite}></c-multi-lookup>
       </lightning-layout-item>
       <lightning-layout-item size="6" padding="around-small">
-         <div style="float:right"><lightning-button label={label.addvendorLabel} onclick={createvendor}></lightning-button></div>
+         <!--<div style="float:right"><lightning-button label={label.addvendorLabel} onclick={createvendor}></lightning-button></div>-->
+         
+         <div style="float:right"><lightning-button label="Add Vendor" onclick={openNewModalPopup}></lightning-button></div>&nbsp;
       </lightning-layout-item>
   </lightning-layout>
 </lightning-card>
@@ -92,7 +94,7 @@
       <th key = {row.Id}>
             <lightning-button-menu class="testBtn" variant="bare" alternative-text="Show menu" data-id = {row.Id} data-target-id ={row.Name}  onselect={handleOnselect} label={row.Name} title ={row.Name}>
                 <lightning-menu-item icon-position = "left" icon-name ="utility:edit" value= "Edit" label="Edit"></lightning-menu-item>
-                <lightning-menu-item icon-position = "left" icon-name ="utility:copy" value="Clone" label="Clone"></lightning-menu-item>
+                <!--<lightning-menu-item icon-position = "left" icon-name ="utility:copy" value="Clone" label="Clone"></lightning-menu-item>-->
                 <lightning-menu-item icon-position = "left" icon-name="utility:close" value="Remove" label="Remove"></lightning-menu-item>
             </lightning-button-menu>
         <div class="text-truncate" title={row.Name}>
@@ -200,4 +202,78 @@
   </div>
   <br/>
 </template>
+
+  <template if:true={isModalOpenNew}>
+    
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+          <div class="slds-modal__container">
+              <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalNew}>
+                      <lightning-icon icon-name="utility:close"
+                          alternative-text="close"
+                          variant="inverse"
+                          size="small" ></lightning-icon>
+                      <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Add Televisit Vendor Details</h2>
+              </header>
+              <template if:true={isVendorAvailable}>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    
+                      <lightning-combobox
+                      name="Vendor"
+                      label="Vendor Name"
+                      value={vendorValue}
+                      placeholder="Select Vendor"
+                      options={vendorOptions}
+                      onchange={handleVendorChange}
+                      disabled={isEditMode} ></lightning-combobox>
+
+        
+
+                      <template for:each={listOfMandatoryFields} for:item="field" for:index="index">  
+                        <div key={field.label}>  
+                          <lightning-input required type="text" label={field.label} data-apiname={field.value} onchange={handleRequiredFieldValidation}></lightning-input>
+                        </div>  
+                      </template> 
+
+                      <template for:each={listOfNonMandatoryFields} for:item="field" for:index="index">  
+                        <div key={field.label}>  
+                          <lightning-input type="text" label={field.label} data-apiname={field.value} onchange={handleRequiredFieldValidation}></lightning-input>
+                        </div>  
+                      </template> 
+        
+                  
+                </div>
+              </template>
+              <template if:false={isVendorAvailable}>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                  <p style="color: red;text-align:center;">
+                    {label.noTelevisitVendorAvailableLabel}
+                  </p>
+                </div>
+              </template>
+              <footer class="slds-modal__footer">
+                <template if:true={isVendorAvailable}>
+                  <button class="slds-button slds-button_neutral" onclick={closeModalNew} title="Cancel">Cancel</button>
+                  <template if:false={vendorId}>
+                    <button disabled={disableSaveUpdate} class="slds-button slds-button_brand" onclick={submitDetailsNew} title="Save">Save</button>
+                  </template>
+                  <template if:true={vendorId}>
+                    <button disabled={disableSaveUpdate} class="slds-button slds-button_brand" onclick={submitDetailsNew} title="Update">Update</button>
+                  </template>
+                </template>
+                <template if:false={isVendorAvailable}>
+                  <button class="slds-button slds-button_neutral" onclick={closeModalNew} title="Cancel">Cancel</button>
+                  <button disabled class="slds-button slds-button_brand" onclick={submitDetailsNew} title="Save">Save</button>
+                </template>
+              </footer>
+              
+          </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    
+    
+  </template>
+
 </template>

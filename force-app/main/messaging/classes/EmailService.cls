@@ -76,12 +76,12 @@ public without sharing class EmailService {
                 String emailTemplate = n.IsDelegate__c
                     ? emailTarget.Email_Template_Delegate__c
                     : emailTarget.Email_Template__c;
-                emailTemplate = availabilityService.isUpdatedPPTemplate(
-                        n.WhatId__c,
-                        n.Recipient__c
-                    ) == true
-                    ? emailTemplate + '_PP'
-                    : emailTemplate;
+                if(availabilityService.isJanssenPPTemplate(n.whatId__c)){
+                    emailTemplate = emailTemplate+'_JS';
+                }
+                else if(availabilityService.isUpdatedPPTemplate(n.whatId__c,n.Recipient__c)){
+                    emailTemplate = emailTemplate+'_PP';
+                }
                 emailMessages.add(
                     createEmail(
                         getEmailTemplateId(emailTemplate),

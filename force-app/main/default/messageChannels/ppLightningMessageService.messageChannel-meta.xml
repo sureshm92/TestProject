@@ -26,5 +26,9 @@
         <description>Reset PP Menue Items</description>
         <fieldName>reset_PP_Menue_Items</fieldName>
     </lightningMessageFields>
+     <lightningMessageFields>
+        <description>Media content either Video or Multimedia - set this to true</description>
+        <fieldName>mediaContent</fieldName>
+    </lightningMessageFields>
     <masterLabel>pplwcToAura</masterLabel>
 </LightningMessageChannel>

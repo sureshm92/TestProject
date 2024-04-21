@@ -9,6 +9,9 @@
     <aura:attribute name="icons" type="List" />
     <aura:attribute name="iconDetails" type="List" />
 
+    <aura:attribute name="communitytemplate" type="String"  />
+    <aura:attribute name="pptemplate" type="String"  />
+
     <aura:attribute name="callback" type="Object" access="private" />
     <aura:attribute name="mode" type="String" access="private" />
 
@@ -41,13 +44,13 @@
                         value="{!v.plan.Name}"
                         disabled="{!equals(v.mode,'view')}"
                     />
-                    <lightning:button
-                        class="btns toolbar-btn"
-                        variant="neutral"
-                        type="button"
-                        label="{!if(v.mode == 'view', $Label.c.View_Visit_Legend, $Label.c.Edit_Visit_Legend)}"
-                        onclick="{!c.doEditLegend}"
-                    />
+                        <lightning:button
+                            class="btns toolbar-btn"
+                            variant="neutral"
+                            type="button"
+                            label="{!if(v.mode == 'view', $Label.c.View_Visit_Legend, $Label.c.Edit_Visit_Legend)}"
+                            onclick="{!c.doEditLegend}"
+                        />
                 </div>
                 <div class="toolbar">
                     <lightning:input
@@ -58,13 +61,13 @@
                         disabled="{!equals(v.mode,'view')}"
                     />
                     <aura:if isTrue="{!notequals(v.mode,'view')}">
-                        <lightning:button
-                            class="btns toolbar-btn"
-                            variant="neutral"
-                            type="button"
-                            label="{!$Label.c.Visit_b_Add_Visit}"
-                            onclick="{!c.doAddVisit}"
-                        />
+                            <lightning:button
+                                class="btns toolbar-btn"
+                                variant="neutral"
+                                type="button"
+                                label="{!$Label.c.Visit_b_Add_Visit}"
+                                onclick="{!c.doAddVisit}"
+                            />
                     </aura:if>
                 </div>
             </div>
@@ -141,7 +144,7 @@
         planId="{!v.plan.Id}"
         isDisabled="{!equals(v.mode,'view')}"
     />
-    <c:Action_EditVisit aura:id="actionVisit" icons="{!v.icons}" />
+    <c:Action_EditVisit aura:id="actionVisit" icons="{!v.icons}"  communitytemplate="{!v.communitytemplate}" pptemplate="{!v.pptemplate}"/>
 
     <c:IconsStaticResourceService
         aura:id="iconsService"

@@ -10,17 +10,25 @@
     padding-left: unset;
 }
 
+.date-time-left-space-rtl {
+    padding-left: 1rem;
+    padding-right: 0rem;
+}
+.date-time-right-space-rtl {
+    padding-right: 1rem;
+    padding-left: 0rem;
+}
+
 .curve-input {
     display: flex;
     position: relative;
     width: 100%;
-    height: 2rem;
+    /* height: 2rem; */
     padding-left: 2.25rem;
     border-radius: 1rem;
     border: 1px solid #d9d9d9;
     background-color: #f2f2f2;
 }
-
 .curve-input .svg-icon {
     position: absolute;
     top: 45%;
@@ -34,7 +42,8 @@
 }
 
 .curve-input input[type='date'] {
-    height: 1.875rem !important;
+    /* height: 1.875rem !important; */
+    height: 2rem !important;
     width: 350px;
     display: flex;
     align-items: center;
@@ -96,6 +105,9 @@ input[type='date']::-webkit-calendar-picker-indicator,
         margin-bottom: 1rem;
         padding-left: 0;
     }
+    .curve-input input[type='date'] {
+        width: 448px;
+    }
 
     .slds-grid-visit {
         margin-bottom: unset;
@@ -113,4 +125,19 @@ input[type='date']::-webkit-calendar-picker-indicator,
     .slds-grid-visit {
         margin-bottom: unset;
     }
+}
+
+@media all and (min-width: 768px) and (max-width: 1279px) and (orientation: portrait) {
+    .curve-input input[type='date'] {
+        padding-left: 0px;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1279px) and (orientation: landscape) {
+    .curve-input input[type='date'] {
+        padding-left: 0px;
+    }
+}
+
+.time-curve-input {
+    height: 2.1rem !important;
 }

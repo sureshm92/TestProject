@@ -1,4 +1,4 @@
- /**
+/**
  * Created by Igor Malyuta on 10.06.2020.
  */
 public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract {
@@ -47,7 +47,15 @@ public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract
             do {
                 String permissionName = permByDT.get(datesSet.get(datesIndex));
                 for (Participant_Enrollment__c pe : enrollmentsByContact.get(contactId)) {
-                    String template = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                    String template = '';
+                    if(pe.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && pe.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+                    {
+                        template = 'PatientPortal';
+                    }
+                    else{
+                        template = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                    }
+
                     if (
                         CommunityTemplateService.getTemplate(template).templateName ==
                         CommunityTemplateService.getTemplateByPermissionSetName(permissionName)
@@ -97,9 +105,11 @@ public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract
         Map<Id, Map<Datetime, String>> permSetNameWithDTByContact
     ) {
         List<Participant_Enrollment__c> enrollments = [
-            SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c, Participant_Contact__c
+            SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c, Participant_Contact__c,Clinical_Trial_Profile__r.PPTemplate__c
             FROM Participant_Enrollment__c
             WHERE Participant_Contact__c IN :permSetNameWithDTByContact.keySet()
+            AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+            AND Invited_To_PP_Date__c != NULL
         ];
         Map<Id, List<Participant_Enrollment__c>> enrollmentsByContact = new Map<Id, List<Participant_Enrollment__c>>();
         for (Participant_Enrollment__c enrollment : enrollments) {

@@ -1,0 +1,333 @@
+<template>
+    <template if:false={isMobile}>
+        <template if:true = {backtopaststudies}>
+            <span onclick={handleBackToPastStudies} class="back-link pointer-cursor fit">
+                <lightning-icon icon-name="utility:chevronleft" class="chevronleft-icon"  size="x-small"></lightning-icon> &nbsp; {labels.Back_To_PastStudies}
+            </span>
+            <div class="seperator-v"></div>
+        </template>
+        <template if:false = {backtopaststudies}>
+            <div class="slds-grid">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="com-icon pointer slds-m-top_xxx-small"
+                >
+                    <use xlink:href={homeSvg} onclick={handleHomePage}></use>
+                </svg>
+                <lightning-icon
+                    icon-name="utility:chevronright"
+                    size="xx-small"
+                    class="slds-m-top_xxx-small slds-m-horizontal_xx-small"
+                >
+                </lightning-icon>
+                <div class="pp-message-txt">{labels.messagesLabel}</div>
+            </div>
+        </template>
+        <div class="msg-txt slds-m-vertical_small">{labels.messagesLabel}</div>
+        <div class="slds-grid rectangle-box slds-p-around--small">
+            <img src={message_disclaimer} class="info-icon" />
+            <span class="slds-p-left_x-small msg-disclaimer-color"
+                >{labels.disclaimerLabel}</span
+            >
+        </div>
+        <lightning-layout class="layout-box slds-m-top_small">
+            <template if:true={loaded}>
+                <c-web-spinner
+                    class="main-spinner"
+                    show-spinner={loaded}
+                    fixed="true"
+                ></c-web-spinner>
+            </template>
+            <lightning-layout-item size="4" class="divider">
+                <div class="border-btm slds-p-around_large">
+                    {labels.messagesLabel}
+                </div>
+                <template if:true={isInitialized}>
+                    <c-pp-message-list
+                        conversation-wrappers={conversationWrappers}
+                        enrollments={enrollments}
+                        onstudyselected={changeStudyConversation}
+                        onmtoggle={mobileViewToggle}
+                        message_attachment={message_attachment}
+                        onchangeevents={handleGroupMenu}
+                        is-mobile={isMobile}
+                    ></c-pp-message-list>
+                </template>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="8">
+                <lightning-layout multiple-rows="true" class="slds-grid_align-space border-btm">
+                    <lightning-layout-item
+                        size="10"
+                        class="slds-p-around_large study-txt-ellipse"
+                        title={studyName}
+                    >
+                        {studyName}</lightning-layout-item
+                    >
+                    <lightning-layout-item
+                        size="2"
+                        class={addPointer}
+                        style="text-align: center"
+                    >
+                        <img
+                            src={televisitAttendees_icon}
+                            class="group-icon img-color"
+                            id="img-color"
+                            onclick={showParticipants}
+                        />
+                        <template if:true={showCount}>
+                            <span
+                                class="slds-p-left_x-small team-color team-count"
+                                onclick={showParticipants}
+                                >{peopleCount}</span
+                            >
+                        </template>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item  size="12" class="slds-p-horizontal_large slds-col_bump-left box-container box-container-adjustment">
+                        <template if:true={nameList}>
+                            <template for:each={nameList} for:item="n">
+                                <c-pp-people-count
+                                    key={n.key}
+                                    userpic-id={n.key}
+                                    user-name={n.value}
+                                    usr-pic={usrPic}
+                                ></c-pp-people-count>
+                            </template>
+                        </template>
+                   </lightning-layout-item>   
+                </lightning-layout>
+                <template if:true={isMessageLoaded}>
+                    <c-pp-message-board
+                        onsavemessage={handleSpinner}
+                        message-templates={messageTemplates}
+                        select-con-wrap={selectConWrap}
+                        first-enrollments={firstEnrollments}
+                        oncalltoparent={mobileViewToggle}
+                        onmessageboardcmp={refreshPage}
+                        onmessagetemplateselection={handleGroupMenu}
+                        device-size={deviceSize}
+                        is-i-e={isIE}
+                        pi-contact-names={piContactNames}
+                        is-secondary={isSecondary}
+                        is-mobile={isMobile}
+                        is-single-part-alumni={isSinglePartAlumni}
+                    ></c-pp-message-board>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+    <template if:true={isMobile}>
+        <lightning-layout multiple-rows class="slds-m-around_medium ipad-wdth">
+            <template if:true={showBack}>
+                <lightning-layout-item size="12" class="back-txt-center">
+                    <span class="" onclick={handleBack}>
+                        <lightning-icon
+                            icon-name="utility:chevronleft"
+                            alternative-text="chevronleft"
+                            size="x-small"
+                            title="chevronleft"
+                            class="left-chevro my-icon"
+                        ></lightning-icon> </span
+                    ><span class="back" onclick={handleBack} >{labels.backLabel}</span>
+                </lightning-layout-item>
+            </template>
+            <template if:false={showBack}>
+                <template if:true = {backtopaststudies}>
+                    <lightning-layout-item size="12" class="back-txt-center">
+                        <span class="" onclick={handleBackToPastStudies}>
+                            <lightning-icon
+                                icon-name="utility:chevronleft"
+                                alternative-text="chevronleft"
+                                size="x-small"
+                                title="chevronleft"
+                                class="left-chevro my-icon"
+                            ></lightning-icon> </span
+                        ><span class="back" onclick={handleBackToPastStudies}>{labels.Back_To_PastStudies}</span>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="seperator-v"></lightning-layout-item>
+                </template>
+                <template if:false = {backtopaststudies}>
+                    <div class="slds-grid">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="com-icon pointer slds-m-top_xxx-small"
+                        >
+                            <use
+                                xlink:href={homeSvg}
+                                onclick={handleHomePage}
+                            ></use>
+                        </svg>
+                        <lightning-icon
+                            icon-name="utility:chevronright"
+                            size="xx-small"
+                            class="slds-m-top_xxx-small slds-m-horizontal_xx-small"
+                        >
+                        </lightning-icon>
+                        <div class="pp-message-txt">{labels.messagesLabel}</div>
+                    </div>
+                </template>
+            </template>
+            <template if:true={messageLabelShow}>
+            <lightning-layout-item size="12" class="">
+                <div class="mob-pp-message-txt">{labels.messagesLabel}</div>
+            </lightning-layout-item>
+        </template>
+            <template if:true={messageDescriptionShow}>
+            <lightning-layout-item
+                size="12"
+                class="mob-rectangle-box slds-p-around--small"
+            >
+            <template if:false={isTabLandscape}>
+                <lightning-layout>
+                    <lightning-layout-item
+                        size="2"
+                        small-device-size="2"
+                        medium-device-size="1"
+                        large-device-size="2"
+                        class="slds-align-middle slds-p-left_small"
+                        ><img src={message_disclaimer} class=""
+                    /></lightning-layout-item>
+                    <lightning-layout-item
+                        size="10"
+                        small-device-size="10"
+                        medium-device-size="11"
+                        large-device-size="10"
+                        >{labels.disclaimerLabel}</lightning-layout-item
+                    ></lightning-layout
+                >
+            </template>
+            <template if:true={isTabLandscape}>
+                <lightning-layout>
+                    <lightning-layout-item
+                        size="1"
+                        class="slds-align-middle slds-align_absolute-center"
+                        ><img src={message_disclaimer} class=""
+                    /></lightning-layout-item>
+                    <lightning-layout-item size="11"
+                        >{labels.disclaimerLabel}</lightning-layout-item
+                    ></lightning-layout
+                >
+            </template>
+            </lightning-layout-item>
+        </template>
+            <template if:true={loaded}>
+                <c-web-spinner
+                    class="main-spinner"
+                    show-spinner={loaded}
+                    fixed="true"
+                ></c-web-spinner>
+            </template>
+            <lightning-layout-item
+                size="12"
+                class="mob-msg-list-box slds-m-top_small L"
+            >
+                <lightning-layout class="border-btm slds-p-around--large"
+                    >{labels.messagesLabelAll}</lightning-layout
+                >
+                <lightning-layout
+                    class="slds-p-horizontal--large1 slds-grid_vertical list-border-btm1"
+                    ><template if:true={isInitialized}>
+                        <c-pp-message-list
+                            conversation-wrappers={conversationWrappers}
+                            enrollments={enrollments}
+                            onstudyselected={changeStudyConversation}
+                            onmtoggle={mobileViewToggle}
+                            message_attachment={message_attachment}
+                            onchangeevents={handleGroupMenu}
+                            is-mobile={isMobile}
+                        ></c-pp-message-list> </template
+                ></lightning-layout>
+            </lightning-layout-item>
+            <lightning-layout-item
+                size="12"
+                class="mob-msg-box slds-m-top_small hideMobile conversations"
+            >
+                <lightning-layout multiple-rows="true" class="slds-grid_align-space border-btm">
+                    <lightning-layout-item
+                        size="8"
+                        class="slds-p-vertical_large study-txt-ellipse"
+                        title={studyName}
+                    >
+                        {studyName}</lightning-layout-item
+                    >
+                    <lightning-layout-item size="2" class={addPointer}>
+                        <img
+                            src={televisitAttendees_icon}
+                            class="group-icon img-color"
+                            id="img-color-m"
+                            onclick={showParticipants}
+                        />
+                        <template if:true={showCount}>
+                            <span
+                                class="slds-p-left_x-small team-color team-count"
+                                onclick={showParticipants}
+                                >{peopleCount}</span
+                            >
+                        </template>
+                    </lightning-layout-item>
+                
+                    <lightning-layout-item size="12" class="slds-p-horizontal_large box-container slds-col_bump-left slds-m-right_medium mob-box-container">
+                        <template if:true={nameList}>
+                            <template for:each={nameList} for:item="n">
+                                <c-pp-people-count
+                                    key={n.key}
+                                    userpic-id={n.key}
+                                    user-name={n.value}
+                                    usr-pic={usrPic}
+                                ></c-pp-people-count>
+                            </template>
+                        </template>
+                    </lightning-layout-item>
+                
+                </lightning-layout>
+                <lightning-layout class="slds-align--absolute-center"
+                    ><template if:true={isMessageLoaded}>
+                        <c-pp-message-board
+                            onispaststudychanged={handleIsPastStudyChanged}
+                            onsavemessage={handleSpinner}
+                            message-templates={messageTemplates}
+                            select-con-wrap={selectConWrap}
+                            first-enrollments={firstEnrollments}
+                            oncalltoparent={mobileViewToggle}
+                            onmessageboardcmp={refreshPage}
+                            onmessagetemplateselection={handleGroupMenu}
+                            device-size={deviceSize}
+                            is-i-e={isIE}
+                            pi-contact-names={piContactNames}
+                            is-secondary={isSecondary}
+                            is-mobile={isMobile}
+                            is-single-part-alumni={isSinglePartAlumni}
+                            class="mob-msg-board"
+                        ></c-pp-message-board> </template></lightning-layout
+            ></lightning-layout-item>
+        </lightning-layout>
+        <template if:true={showBack}>
+        <lightning-layout class="new-tab">      
+            <lightning-layout-item class={visibleOfButton} size="12">
+                <c-pp-show-button  
+                onsavemessage={handleSpinner}
+                is-past-study={isPastStudy}
+                study-configuartion={studyConfiguartion}
+                            message-templates={messageTemplates}
+                            select-con-wrap={selectConWrap}
+                            first-enrollments={firstEnrollments}
+                            oncalltoparent={mobileViewToggle}
+                            onmessageboardcmp={refreshPage}
+                            onmessagetemplateselection={handleGroupMenu}
+                            device-size={deviceSize}
+                            is-i-e={isIE}
+                            pi-contact-names={piContactNames}
+                            is-secondary={isSecondary}
+                            is-mobile={isMobile}
+                            is-single-part-alumni={isSinglePartAlumni}
+                            class="mob-msg-board" >
+            </c-pp-show-button>
+      
+        </lightning-layout-item>
+       
+    
+    </lightning-layout>
+</template>
+    </template>
+</template>

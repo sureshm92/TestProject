@@ -7,7 +7,8 @@
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Televisit_Day_Del_Reminder }"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Body_Televisit_Day_Del_Signature}">
+                          signature="{!$Label.Email_Body_Televisit_Day_Del_Signature}"
+                           communityTemplate="{!IF(relatedTo.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen','Janssen',relatedTo.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Televisit_Day_Del_Reminder}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}" />
         </c:EmailWireframe>
@@ -18,7 +19,8 @@
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Televisit_Scheduled }"
                               greeting="{!$Label.Email_User_Greeting_FirstName}"
-                              signature="{!$Label.Email_Signature_Televisit_PT}">
+                              signature="{!$Label.Email_Signature_Televisit_PT}"
+                               communityTemplate="{!IF(relatedTo.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen','Janssen',relatedTo.Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Televisit_Scheduled}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailWireframeText>

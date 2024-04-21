@@ -10,11 +10,14 @@ import study from '@salesforce/label/c.CC_Study';
 import program from '@salesforce/label/c.PP_Program';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 
+import getSwitcherInitData from '@salesforce/apex/CommunityModeSwitcherRemote.getSwitcherInitData';
+
 export default class PatientPortalMenuItems extends NavigationMixin(LightningElement) {
     @api allModes;
     @api user;
     @api pickListOptions = [];
     @api defaultPickListValue;
+    @api checkUpdatedData;
     comboBoxHeader;
     isSingleCommMode;
     @api commModeList = [];
@@ -35,16 +38,23 @@ export default class PatientPortalMenuItems extends NavigationMixin(LightningEle
     contactName;
     icon_url = pp_icons + '/participant_settings.svg';
 
+    allModesLocal = [];
+
     connectedCallback() {
+        this.allModesLocal = JSON.parse(JSON.stringify(this.allModes));
+        this.initializeData();
+    }
+
+    initializeData() {
         this.contactName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
-        if (this.allModes.ppModeItems.length == 1) {
+        if (this.allModesLocal.ppModeItems.length == 1) {
             this.isSingleCommMode = true;
-            let allSubModes = this.allModes.ppModeItems[0].subItems;
+            let allSubModes = this.allModesLocal.ppModeItems[0].subItems;
             this.pickListOptions = this.preparePickListOptions(allSubModes);
         } else {
             let mode;
             this.isSingleCommMode = false;
-            let commModes = this.allModes.ppModeItems;
+            let commModes = this.allModesLocal.ppModeItems;
             for (let i = 0; i < commModes.length; i++) {
                 mode = this.prepareRecords(commModes[i].subItems);
                 if (mode.isSelected) {
@@ -54,6 +64,43 @@ export default class PatientPortalMenuItems extends NavigationMixin(LightningEle
                 }
             }
         }
+        //when delegate withdraw himself for any study.
+        if (this.checkUpdatedData) {
+            this.reRenderAllModesData();
+        }
+    }
+
+    @api
+    reRenderAllModesData() {
+        alert('reRenderAllModesData');
+        getSwitcherInitData({})
+            .then((result) => {
+                //this.setCurrentMode = undefined;
+                this.commModeList = [];
+                const userData = JSON.parse(result);
+                this.allModesLocal = userData.communityModes;
+                this.contactName = this.user.Contact.FirstName + ' ' + this.user.Contact.LastName;
+                if (this.allModesLocal.ppModeItems.length == 1) {
+                    this.isSingleCommMode = true;
+                    let allSubModes = this.allModesLocal.ppModeItems[0].subItems;
+                    this.pickListOptions = this.preparePickListOptions(allSubModes);
+                } else {
+                    let mode;
+                    this.isSingleCommMode = false;
+                    let commModes = this.allModesLocal.ppModeItems;
+                    for (let i = 0; i < commModes.length; i++) {
+                        mode = this.prepareRecords(commModes[i].subItems);
+                        if (mode.isSelected) {
+                            this.commModeList.unshift(mode);
+                        } else {
+                            this.commModeList.push(mode);
+                        }
+                    }
+                }
+            })
+            .catch((error) => {
+                this.showErrorToast(ERROR_MESSAGE, error.message, 'error');
+            });
     }
 
     prepareRecords(allSubModes) {
@@ -63,13 +110,13 @@ export default class PatientPortalMenuItems extends NavigationMixin(LightningEle
         let isDelegate;
         let isSelected;
         title = allSubModes[0].title == this.contactName ? self : allSubModes[0].title;
-        isDelegate = allSubModes[0].isDelegate;
+        isDelegate = allSubModes[0]?.isDelegate;
         pickListValues = this.preparePickListOptions(allSubModes);
         if (this.setCurrentMode) {
             this.currentMode = {
                 title:
                     this.currentSelection.title == this.contactName ? self : allSubModes[0].title,
-                isDelegate: this.currentSelection.isDelegate,
+                isDelegate: this.currentSelection?.isDelegate,
                 programList: pickListValues
             };
             this.pickListOptions = pickListValues;

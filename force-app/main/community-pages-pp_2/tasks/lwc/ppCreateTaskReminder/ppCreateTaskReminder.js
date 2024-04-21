@@ -12,6 +12,7 @@ import USER_ID from '@salesforce/user/Id';
 import getTaskEditData from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import getSessionId from '@salesforce/apex/TelevisitMeetBannerController.getSessionId';
 import checkEmailSMSPreferencesForPPTask from '@salesforce/apex/TaskEditRemote.checkEmailSMSPreferencesForPPTask';
+import getConsentPreferences from '@salesforce/apex/RestrictedSourceConfigService.getConsentPreferences';
 import ERROR_MESSAGE from '@salesforce/label/c.CPD_Popup_Error';
 import REMINDER from '@salesforce/label/c.Remind_Me';
 import SELECT_REMINDER from '@salesforce/label/c.PP_SELECT_REMINDER';
@@ -38,6 +39,9 @@ export default class PpCreateTaskReminder extends LightningElement {
     @api isRTL = false;
     @api isMobile = false;
     @api taskInfo;
+    @api maxReminderDate;
+    @api maxReminderTime;
+    restrictedCon;
 
     isInitialized = false;
     spinner;
@@ -105,6 +109,11 @@ export default class PpCreateTaskReminder extends LightningElement {
     ];
     @api editMode = false;
 
+    get reminderClass() {
+        return DEVICE == 'Small'
+            ? 'slds-size_1-of-1 slds-p-horizontal_none'
+            : 'slds-size_1-of-1';
+    }
     connectedCallback() {
         if (DEVICE != 'Large') {
             this.isMobile = true;
@@ -126,6 +135,10 @@ export default class PpCreateTaskReminder extends LightningElement {
                             this.isSMSReminderDisabled = !this.initData.smsOptIn;
                             if (this.taskInfo) {
                                 this.taskInfo = JSON.parse(JSON.stringify(this.taskInfo));
+                                this.maxReminderDate =
+                                    this.maxReminderDate != null
+                                        ? this.maxReminderDate
+                                        : this.taskDueDate;
                                 this.taskId = this.taskInfo.Id;
                                 this.systemTask =
                                     this.taskInfo.Originator__c != 'Participant'
@@ -138,6 +151,9 @@ export default class PpCreateTaskReminder extends LightningElement {
                                         : false;
                                 this.emailReminderOptIn = this.initData.task.Remind_Using_Email__c;
                                 this.smsReminderOptIn = this.initData.task.Remind_Using_SMS__c;
+                                if (this.systemTask) {
+                                    this.isEmailReminderDisabled = true;
+                                }
                                 if (this.systemTask || this.businessTask) {
                                     this.oldReminderDateForSystemTask = this.initData.reminderDate;
                                     if (this.oldReminderDateForSystemTask) {
@@ -145,8 +161,7 @@ export default class PpCreateTaskReminder extends LightningElement {
                                         this.taskPlaceholder = this.labels.CUSTOM;
                                     } else {
                                         this.taskPlaceholder = this.labels.SELECT_REMINDER;
-                                        this.selectedReminderOption =
-                                            this.initData.task.Remind_Me__c;
+                                        this.selectedReminderOption = this.initData.task.Remind_Me__c;
                                     }
                                 } else {
                                     this.selectedReminderOption = this.initData.task.Remind_Me__c;
@@ -166,8 +181,11 @@ export default class PpCreateTaskReminder extends LightningElement {
                                 ) {
                                     this.isTaskDueDateTimeSelected = false;
                                 }
+                                this.maxremtime();
                                 this.selectedReminderDate = this.initData.reminderDate;
+                                this.maxReminderDate = this.getDateFromDateTime(this.maxReminderDate);
                                 this.selectedReminderDateTime = this.initData.reminderDate;
+                                this.restrictedConData();
                             }
                             this.handleCommPrefChange();
                             this.isInitialized = true;
@@ -272,17 +290,62 @@ export default class PpCreateTaskReminder extends LightningElement {
         return this.selectedReminderDate == currentDateTimeString ? this.currentTime : null;
     }
 
-    get maximumReminderTime() {
-        let taskDueDateTime = new Date(this.taskDueDateTime).toLocaleString('en-US', {
+    maxremtime(){
+        this.maxReminderTime = new Date(
+            this.maxReminderTime
+        ).toLocaleString('en-US', {
             timeZone: TIME_ZONE
         });
-        let taskDueDateTimeObject = new Date(taskDueDateTime);
-        let taskDueDateTimeString = [
-            taskDueDateTimeObject.getFullYear(),
-            ('0' + (taskDueDateTimeObject.getMonth() + 1)).slice(-2),
-            ('0' + taskDueDateTimeObject.getDate()).slice(-2)
-        ].join('-');
-        return this.selectedReminderDate == taskDueDateTimeString ? this.taskDueTime : null;
+        var processlocaltimezonedate = new Date(this.maxReminderTime);
+        if (!isNaN(processlocaltimezonedate.valueOf())) {
+            var hh = String(
+                (processlocaltimezonedate.getHours() < 10 ? '0' : '') +
+                    processlocaltimezonedate.getHours()
+            );
+            var mm = String(
+                (processlocaltimezonedate.getMinutes() < 10 ? '0' : '') +
+                    processlocaltimezonedate.getMinutes()
+            );
+            var ss = String(
+                (processlocaltimezonedate.getSeconds() < 10 ? '0' : '') +
+                    processlocaltimezonedate.getSeconds()
+            );
+            this.maxReminderTime = hh + ':' + mm + ':' + ss;
+        } 
+    }
+    restrictedConData(){
+        var conlst = new Array();
+        this.restrictedCon = false;
+        conlst.push(this.taskInfo.WhoId);
+        getConsentPreferences({ contactIdslst: conlst})
+        .then((result) => {
+            let restrictedLst = result;
+            let recordCount= Object.keys(restrictedLst).length; 
+            if(recordCount > 0){
+                if(restrictedLst.hasOwnProperty(this.taskInfo.WhoId) && !restrictedLst[this.taskInfo.WhoId]){
+                    this.restrictedCon = false;
+                }
+                else if(!restrictedLst.hasOwnProperty(this.taskInfo.WhoId)){ // My Map{"0033O000017FxHjQAK":true} // 0033O000017FxHjQAK
+                    this.restrictedCon = false;
+                }
+                else{
+                    this.restrictedCon = true;
+                }
+            }
+            else{
+                this.restrictedCon = false;
+            }
+        })
+        .catch((error) => {
+            this.showToast('', error.message, 'error');
+        });
+    }
+    get maximumReminderTime() {
+        if (this.maxReminderTime != null) {
+            return this.selectedReminderDate == this.maxReminderDate ? this.maxReminderTime : null;
+        } else {
+            return this.selectedReminderDate == this.maxReminderDate ? this.taskDueTime : null;
+        }
     }
 
     get isReminderOptionSelected() {
@@ -356,6 +419,10 @@ export default class PpCreateTaskReminder extends LightningElement {
         getTaskEditData({ taskId: this.taskId })
             .then((result) => {
                 let initialData = result;
+                if (this.taskId) {
+                    this.taskInfo = initialData.task;
+                    this.restrictedConData();
+                }
                 this.handleCommPrefChange();
                 this.isInitialized = true;
                 this.spinner.hide();
@@ -490,8 +557,17 @@ export default class PpCreateTaskReminder extends LightningElement {
         this.spinner.show();
         checkEmailSMSPreferencesForPPTask({ taskId: this.taskId })
             .then((consentData) => {
-                this.isEmailReminderDisabled = !consentData.emailConsent;
-                this.isSMSReminderDisabled = !consentData.smsConsent;
+                if(this.businessTask || this.systemTask){
+                    if(this.taskInfo && this.taskInfo.Survey_Invitation__c != null && !this.restrictedCon && !this.taskInfo.Survey_Invitation__r.IsTrialSurvey__c){
+                        this.isEmailReminderDisabled = true;  
+                    }
+                    else{
+                        this.isEmailReminderDisabled = !consentData.emailConsent; 
+                    }
+                    this.isSMSReminderDisabled = !consentData.smsConsent;
+                }else{
+                    this.checkEmailSMSConsentEnabled(consentData.emailConsent,consentData.smsConsent);
+                }
                 this.emailReminderOptIn = this.isEmailReminderDisabled
                     ? false
                     : this.emailReminderOptIn;
@@ -506,5 +582,41 @@ export default class PpCreateTaskReminder extends LightningElement {
     setSessionCookie() {
         localStorage.setItem('Cookies', 'Accepted');
         return true;
+    }
+    //This Method Enables and Disables the Email and SMS Reminder based on Logged IN User Mode and Comm Pref
+    checkEmailSMSConsentEnabled(emailConsent,smsConsent){
+        let currentMode = communityService.getCurrentCommunityMode();
+
+        if(!currentMode.isDelegate){  
+            //participant View or Delegate self View
+            if(currentMode.currentPE != null && currentMode.participantState != 'ALUMNI'){    
+                //Active Participant View/ Half Alumni Participant View
+                this.isEmailReminderDisabled = !emailConsent;
+                this.isSMSReminderDisabled = !smsConsent;
+            }else{             
+                //Alumni Participant View or Delegate self View
+                this.isEmailReminderDisabled = false;
+                this.isSMSReminderDisabled = false;
+            }
+            if(this.taskInfo && this.taskInfo.Survey_Invitation__c != null && !this.restrictedCon && !this.taskInfo.Survey_Invitation__r.IsTrialSurvey__c){ // unrestricted = as it as true , restricted - disable
+                this.isEmailReminderDisabled = true;
+            }
+        }
+        else{
+            //Delegate switched to Participant View                                                       
+            if(currentMode.participantState == 'ALUMNI' && currentMode.currentPE == null){
+                //Delegate switched to Full Alumni Participant View
+                this.isEmailReminderDisabled = false;
+                this.isSMSReminderDisabled = false;
+            }else{
+                //Delegate switched to Active Participant View / Half alumni Participant View
+                this.isEmailReminderDisabled = !emailConsent;
+                this.isSMSReminderDisabled = !smsConsent;
+            }
+            if(this.taskInfo && this.taskInfo.Survey_Invitation__c != null && !this.restrictedCon && !this.taskInfo.Survey_Invitation__r.IsTrialSurvey__c){
+                this.isEmailReminderDisabled = true;
+
+            }
+        }
     }
 }

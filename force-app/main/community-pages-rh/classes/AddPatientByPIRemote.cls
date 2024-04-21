@@ -34,6 +34,8 @@ public without sharing class AddPatientByPIRemote {
         public Study_Site__c ss;
         @AuraEnabled
         public String userLanguage;
+        @AuraEnabled
+        public Boolean prefCons;
 
         public FormData() {
         }
@@ -55,6 +57,7 @@ public without sharing class AddPatientByPIRemote {
                 );
                 initData.userLanguage = getUserLanguage();
                 initData.yearOfBirth = ParticipantService.getYearofBirthList();
+                initData.prefCons = ConsentManagerController.getConsentPreferences('AddPart',ssId).consentPref;
             }
             return initData;
         } catch (Exception e) {
@@ -546,10 +549,20 @@ public without sharing class AddPatientByPIRemote {
     public static void assignParticipantPermissions(String ssId, String contactId) {
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
-        String permissionSetName = CommunityTemplateService.getTemplate(
+        String permissionSetName = '';
+        if(ss.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen' && ss.Clinical_Trial_Profile__r.PPTemplate__c == 'PP 2.0')
+        {
+            permissionSetName = CommunityTemplateService.getTemplate(
+                 'PatientPortal'
+            )
+            .permissionSet;
+        }
+        else {
+         permissionSetName = CommunityTemplateService.getTemplate(
                 ss.Clinical_Trial_Profile__r.CommunityTemplate__c
             )
             .permissionSet;
+        }
         actionAssignContactPermissions.addPermission(contactId, permissionSetName);
         if (!actionAssignContactPermissions.isEmpty()) {
             ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
@@ -688,6 +701,9 @@ public without sharing class AddPatientByPIRemote {
         );
         TriggerHandlerExecutor.bypassHandler(
         PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+        );
+        TriggerHandlerExecutor.bypassHandler( 
+        PatientDelegateTriggerHandler.CreateReactivatedNotification.class
         );
         
         if(sendPEToStudyHubAsync == true){
@@ -935,8 +951,8 @@ public without sharing class AddPatientByPIRemote {
                 /*ReferringRemote.createParticipantUsers(new Map<Id, Id>{
                         newContact.Id => null
                 });*/
-                ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                    .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
+                
+
                 //Recalling createSurveyTasks method to create survey task for Patient Delegates
                 TaskService.invitationsVisibleTemp = invitationsVisibleTemp;
                 if (

@@ -11,19 +11,20 @@
 
                     <lightning-layout-item if:true={resourcesAvailable} size="6" class="mb-8">
                         <div class="pref-container">
-                            <a
+                            <div
                                 onclick={handleChangePreference}
                                 class="change-preferences"
                                 style="float: right"
                             >
                                 {labels.CHANGE_PREFERENCES}
-                            </a>
+                            </div>
                         </div>
                     </lightning-layout-item>
 
                     <lightning-layout-item if:true={resourcesAvailable} size="12">
                         <div class="dropdown" data-key="dropdown" onclick={showOptions}>
                             <span>{selectedOptions}</span>
+                            <span class="down-icon"><lightning-icon icon-name='utility:down' alternative-text='down' size="x-small" class='green-utility-icon' title='down'></lightning-icon></span>
                             <ul class="res-options hidden">
                                 <template for:each={options} for:item="option">
                                     <li
@@ -43,17 +44,21 @@
                 <!-- Load Components based on Selection -->
                 <lightning-layout multiple-rows="true">
                     <template if:true={engageVisible}>
-                        <template if:true ={multimedia}>
+                        <template if:true={multimedia}>
                             <lightning-layout-item size="12">
                                 <!--Explore Section starts here-->
                                 <div class="res-explore-container res-explore-mobile">
                                     <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
-                                    <c-pp-resource-multimedia resourced-data = {resourcesData} desktop = {desktop}>
+                                    <c-pp-resource-multimedia
+                                        resourced-data={resourcesData}
+                                        desktop={desktop}
+                                        onresourceclick={handleResourceClick}
+                                    >
                                     </c-pp-resource-multimedia>
                                 </div>
                             </lightning-layout-item>
                         </template>
-                        <template if:false ={multimedia}>
+                        <template if:false={multimedia}>
                             <lightning-layout-item size="12">
                                 <div class="res-box-engage-container slds-align_absolute-center">
                                     <div class="dis-block">
@@ -61,7 +66,7 @@
                                             ><img src={empty_state} class="empty-state-img-size"
                                         /></span>
                                         <span class="no-links-available slds-m-top_medium"
-                                            >No modules available</span
+                                            >{labels.No_modules_available}</span
                                         >
                                     </div>
                                 </div>
@@ -74,27 +79,30 @@
                             <!--Explore Section starts here-->
                             <div class="res-explore-container res-explore-mobile">
                                 <!-- EXPLORE LWC COMPONENT PLACEHOLDER -->
-                                <c-pp-resource-engage desktop={desktop} is-rtl={isRTL}>
+                                <c-pp-resource-engage
+                                    desktop={desktop}
+                                    is-rtl={isRTL}
+                                    onresourceclick={handleResourceClick}
+                                >
                                 </c-pp-resource-engage>
                             </div>
                         </lightning-layout-item>
                     </template>
 
                     <template if:true={discoverVisible}>
-                        <lightning-layout multiple-rows="true">
                             <lightning-layout-item size="12">
-                                <div class="links-will-open-in-a">
-                                    Links will open in a new browser window. IQVIA Patient Portal is
-                                    not responsible for content provided in external websites.
-                                </div>
+                                <div class="links-will-open-in-a">{labels.DISCLAIMER}</div>
                                 <!--Discover Section starts here-->
                             </lightning-layout-item>
                             <lightning-layout-item size="12">
                                 <div class="res-box-relLinks-container pad10">
-                                    <c-pp-discover-links links-wrappers={linksWrappers} discover-empty-state={discoverEmptyState}></c-pp-discover-links>
+                                    <c-pp-discover-links
+                                        links-wrappers={linksWrappers}
+                                        discover-empty-state={discoverEmptyState}
+                                        onresourceclick={handleResourceClick}
+                                    ></c-pp-discover-links>
                                 </div>
                             </lightning-layout-item>
-                        </lightning-layout>
                     </template>
                 </lightning-layout>
 
@@ -103,7 +111,9 @@
                         <lightning-layout-item size="12">
                             <!--Explore Section starts here-->
                             <div class="res-box-document-container">
-                                <c-pp-Resource-Document-Container></c-pp-Resource-Document-Container>
+                                <c-pp-Resource-Document-Container
+                                    onresourceclick={handleResourceClick}
+                                ></c-pp-Resource-Document-Container>
                             </div>
                         </lightning-layout-item>
                     </lightning-layout>

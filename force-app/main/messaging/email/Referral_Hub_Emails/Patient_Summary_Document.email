@@ -3,23 +3,27 @@
                          relatedToType="Participant_Enrollment__c"
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!recipient.Id}"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Summary_Document}"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Signature_Summary_Document}">
+                          signature="{!$Label.Email_Signature_Summary_Document}"
+                          communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen',
+                                                                                         'Janssen',relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Summary_Document}"/>
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Summary_Document}"
                               greeting="{!$Label.Email_User_Greeting_FirstName}"
-                              signature="{!$Label.Email_Signature_Summary_Document}">
+                              signature="{!$Label.Email_Signature_Summary_Document}"
+                            communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'Janssen',
+                                                                                         'Janssen',relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Summary_Document}"/>
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailWireframeText>

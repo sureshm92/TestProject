@@ -1,6 +1,13 @@
 public without sharing class PIR_ParticipantDetailController {
+  public class perDetailWrapper{
+    @AuraEnabled
+    public map<String, sObject> perDetail;
+    @AuraEnabled
+    public Boolean consentPref;
+  }
   @AuraEnabled
-  public static map<String, sObject> getParticipantData(String PEid) {
+  public static perDetailWrapper getParticipantData(String PEid) {
+    perDetailWrapper pdw = new perDetailWrapper();
     map<String, sObject> dataMap = new Map<String, sObject>();
     dataMap.put(
       'pe',
@@ -55,6 +62,7 @@ public without sharing class PIR_ParticipantDetailController {
           Participant__r.Birth_Year__c,
           Clinical_Trial_Profile__r.IQVIA_Outreach__c,
           Participant_Contact__c,
+          DataControllerOrg__c,
           Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
           Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
                 Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
@@ -90,7 +98,44 @@ public without sharing class PIR_ParticipantDetailController {
     } catch (Exception e) {
       dataMap.put('delegate', null);
     }
-    return dataMap;
+    pdw.perDetail = dataMap;
+    list<Participant_Enrollment__c> lstPer = new list<Participant_Enrollment__c>();
+    list<Restricted_Source_Config__c> restrictedRecrd = new list<Restricted_Source_Config__c>();
+    String[] restrictedlst;String referralSource;
+    lstPer = [Select Id,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              Referral_Source__c,DataControllerOrg__c, Clinical_Trial_Profile__r.CommunityTemplate__c,
+              Clinical_Trial_Profile__r.PPTemplate__c
+              FROM Participant_Enrollment__c where Id=:PEid limit 1];
+        if(lstPer[0].Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+            if(lstPer[0].Clinical_Trial_Profile__r.CommunityTemplate__c !='PatientPortal' && (lstPer[0].Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' || lstPer[0].Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0'))
+            {
+              pdw.consentPref =  false; 
+            }
+            else{
+                restrictedRecrd = [SELECT Id,Sponsor__c,Study__c,Study__r.IQVIA_Outreach__c,Referral_Resource__c FROM Restricted_Source_Config__c WHERE Study__c =: lstPer[0].Clinical_Trial_Profile__c limit 1];
+                if(restrictedRecrd != null && !restrictedRecrd.isEmpty()){
+                      restrictedlst = restrictedRecrd[0].Referral_Resource__c != null ? restrictedRecrd[0].Referral_Resource__c.split(';') : null;
+                        if(restrictedlst != null && !restrictedlst.isEmpty()){
+                          referralSource = (lstPer[0].Referral_Source__c == 'ePR' || lstPer[0].Referral_Source__c == 'ePR_Campaign')  ? lstPer[0].Referral_Source__c +'-'+lstPer[0].DataControllerOrg__c :lstPer[0].Referral_Source__c; 
+                          if(restrictedlst.contains(referralSource)){
+                                pdw.consentPref =  true; 
+                          }else{
+                              pdw.consentPref =  false; 
+                          }
+                        }else{
+                            pdw.consentPref =  true; 
+                        }
+                }
+                else{
+                  pdw.consentPref =  false;
+                  } 
+                }
+            }
+        else{
+             pdw.consentPref =  true;  
+        }
+    
+    return pdw;
   }
   public static Map<Id, List<StudySiteVisitPlan__c>> getStudySiteVisitPlansMap(
     List<Id> ssIds
@@ -439,7 +484,7 @@ public without sharing class PIR_ParticipantDetailController {
                 createPDE(contactId,pdToupdateAfterInsertDuplicate,perRecord,consentWrapper);
                  
               }
-          }else{
+          }else{ 
             Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
               Primary_Delegate__c = true,
               Participant_Delegate__c = peDeligate.Participant_Delegate__r.Id,
@@ -583,12 +628,18 @@ public without sharing class PIR_ParticipantDetailController {
         con.id =delcon;
         con.AccountId = [Select Id,Participant__c,Participant__r.Contact__r.AccountId from Participant_Enrollment__c where Id=:perRecord.Id].Participant__r.Contact__r.AccountId;
         if(con.AccountId != null){
-        con.userCommunityIsDelegate__c = true;  
+        con.userCommunityIsDelegate__c = true; 
+        con.MailingPostalCode = perRecord.Participant__r.Mailing_Zip_Postal_Code__c;
+        con.MailingState = perRecord.Participant__r.Mailing_State__c;
+        con.MailingCountry = perRecord.Participant__r.Mailing_Country__c;
         update con;
         }
         else {
           contact objcon = new Contact(Id=delcon);
           objcon.userCommunityIsDelegate__c = true;
+          objcon.MailingPostalCode = perRecord.Participant__r.Mailing_Zip_Postal_Code__c;
+          objcon.MailingState = perRecord.Participant__r.Mailing_State__c;
+          objcon.MailingCountry = perRecord.Participant__r.Mailing_Country__c;
           update objcon;
         }
     

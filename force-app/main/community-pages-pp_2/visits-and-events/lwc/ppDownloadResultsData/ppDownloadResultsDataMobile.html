@@ -1,0 +1,53 @@
+<template>
+    <div class="past-studies">
+        <c-custom-toast-files-p-p is-mobile={isMobile}></c-custom-toast-files-p-p>
+    </div>
+    <template lwc:if={showDownloadResults}>
+        <template lwc:if={isMobile}>
+            <template lwc:if={isPastStudies}> <div>{label.myResults}</div>
+                <div class="slds-p-horizontal_xx-large">
+                    <lightning-layout multiple-rows class="results-past-study">
+                        <lightning-layout-item size="12" class="slds-p-around_medium"
+                            >{label.Visit_Results_Disclaimer_Past_Studies}</lightning-layout-item
+                        >
+                        <lightning-layout-item size="12" class="right-border"
+                            ><a
+                                target="_self"
+                                onclick={generateReport}
+                                class="slds-align_absolute-center slds-p-around_medium download-report" download name="download-res-mob-past"
+                            >
+                                <span class="download-section">
+                                    <lightning-icon
+                                        icon-name="utility:download"
+                                        size="xx-small"
+                                        class="download-icon"
+                                    >
+                                    </lightning-icon>
+                                    <span class="download-res-data slds-p-left_small"
+                                        >{label.PP_Download_Results_Data}
+                                    </span>
+                                </span>
+                            </a></lightning-layout-item
+                        >
+                    </lightning-layout>
+                </div>
+                </template>
+            <template lwc:else>
+                <a class="download-report" target="_self" onclick={generateReport} download name="download-res-mob">
+                    <span class="download-section">
+                        <lightning-icon
+                            icon-name="utility:download"
+                            size="xx-small"
+                            class="download-icon"
+                        >
+                        </lightning-icon>
+                        <span class="download-res-data slds-p-left_small"
+                            >{label.PP_Download_Results_Data}</span
+                        >
+                    </span>
+                </a>               
+                </template>
+            </template>
+        </template>
+    </template>
+</template>

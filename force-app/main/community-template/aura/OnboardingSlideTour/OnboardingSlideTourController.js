@@ -48,6 +48,9 @@
                 }
                 component.find('spinner').hide();
                 component.set('v.isInitialized', true);
+                var a = component.get('c.doInitialShow');
+                if (communityService.getCurrentCommunityTemplateName() != 'PatientPortal')
+                    $A.enqueueAction(a);
                 try {
                     component.find('carouselBody').getElement().scrollLeft = 0;
                 } catch (e) {}

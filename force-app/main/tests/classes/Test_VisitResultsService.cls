@@ -174,12 +174,13 @@ private class Test_VisitResultsService {
         testData.ctp.Participant_Visit_Result_Group__c = 'Hematology';
         update testData.ctp;
 
-        Test.startTest();
+        //Test.startTest();
         testData.pe.Clinical_Trial_Profile__c = testData.ctp.id;
         update testData.pe;
         testData.participant.Mailing_Country_Code__c = 'US';
         update testData.participant;
         System.runAs(testData.participantUser) {
+            Test.startTest();
             List<Visit_Result_Type_Sharing__c> vrslist = new List<Visit_Result_Type_Sharing__c>();
             Visit_Result_Type_Sharing__c vrts = new Visit_Result_Type_Sharing__c(
                 Clinical_Trial_Profile__c = testData.ctp.Id,
@@ -530,6 +531,8 @@ private class Test_VisitResultsService {
                 ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c
             );
             System.assertEquals(1, container.wrappers.size());
+            service.getPatientVisitsForReport(testData.pe);
+            VisitResultsService.getVisitResults(ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c,ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c,visitResultGroup);
         }
         update visits;
         delete visits;

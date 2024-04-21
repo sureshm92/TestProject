@@ -57,9 +57,25 @@ public without sharing class MedicalHistryTabController {
     public class ContentDocumentAndDelete{ 
         @AuraEnabled public ContentDocument attachment;
         @AuraEnabled public Boolean isDeleteAllowed = false;
-        public ContentDocumentAndDelete(ContentDocument attachment, Boolean isDeleteAllowed){
+        @AuraEnabled public Boolean hasPermission = false;
+        @AuraEnabled public Boolean isNameReadOnly = true;
+        @AuraEnabled public Boolean hasNameError = false;
+        @AuraEnabled public Boolean isNameUpdated = false;
+        @AuraEnabled public Boolean isFileFromPatientPortal = false;
+        @AuraEnabled public String fileNameForEdit = '';
+        @AuraEnabled public String FileErrorMsg = '';
+        public ContentDocumentAndDelete(ContentDocument attachment, Boolean isDeleteAllowed, Boolean hasPermission,Boolean isNameReadOnly
+                                        ,Boolean hasNameError,Boolean isNameUpdated,Boolean isFileFromPatientPortal,String fileNameForEdit,String FileErrorMsg){
             this.attachment = attachment;
             this.isDeleteAllowed = isDeleteAllowed;
+            this.hasPermission = hasPermission;
+            this.isNameReadOnly = isNameReadOnly;
+            this.hasNameError = hasNameError;
+            this.isNameUpdated = isNameUpdated;
+            this.isFileFromPatientPortal = isFileFromPatientPortal;
+            this.fileNameForEdit = fileNameForEdit;
+            this.FileErrorMsg = FileErrorMsg;
+
         }
     }    
 
@@ -69,8 +85,8 @@ public without sharing class MedicalHistryTabController {
             Boolean isSiteEnabledforHAPI = false;  
             medicalHistryWrapper objWrapper = new medicalHistryWrapper();
 
-            Participant_Enrollment__c objPer = [SELECT ID,Participant__r.BMI__c,Comorbidities__c,HighRisk_Indicator__c,High_Priority__c,Referral_Source__c,Participant__c
-                                                ,Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,Study_Site__c,Study_Site__r.Medical_Record_Upload__c,Unique_HumanId__c
+            Participant_Enrollment__c objPer = [SELECT ID,Participant__r.BMI__c,Comorbidities__c,HighRisk_Indicator__c,High_Priority__c,Referral_Source__c,Participant__c,Participant_Contact__c
+                                                ,Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,Study_Site__c,Study_Site__r.Medical_Record_Upload__c,Study_Site__r.Study_Site_Type__c,Unique_HumanId__c
                                                 from Participant_Enrollment__c where id=:peid] ;
 
             Id commorbidityRecordType = Schema.SObjectType.Comorbidities__c.getRecordTypeInfosByName().get('Comorbidity').getRecordTypeId();
@@ -91,10 +107,40 @@ public without sharing class MedicalHistryTabController {
             objWrapper.booliqviaregistry = objPer.Referral_Source__c == 'IQVIA registry' ? true : false;
             
             //Citizen Requirement
-            List<ContentDocumentLink> cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =:objPer.Participant__c ];
+            
 
-            if(!cdls.isEmpty()){
-                objWrapper.citizenRecords  = getMedicalHistory(cdls,objPer.Participant__c);
+            List<String> uploadedByContact = new List<String>();
+            List<Patient_Delegate_Enrollment__c> pder = [
+                SELECT
+                    id,
+                    Patient_Delegate__r.Contact__c,
+                    Participant_Enrollment__r.Participant_Contact__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Participant_Enrollment__c = :objPer.Id AND Primary_Delegate__c = TRUE
+                LIMIT 1
+            ];
+                uploadedByContact.add(objPer.Participant_Contact__c);
+            if (!pder.isEmpty()) {
+                uploadedByContact.add(pder[0].Patient_Delegate__r.Contact__c);
+            }
+            List<User> uploadedUser = [
+                SELECT id, contactId
+                FROM user
+                WHERE contactId IN :uploadedByContact
+            ];
+            List<id> useriDs = new List<id>();
+            for (User u : uploadedUser) {
+                useriDs.add(u.id);
+            }
+            
+
+            List<ContentDocumentLink> cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE (LinkedEntityId =:objPer.Participant__c 
+                                                OR ( LinkedEntityId = :objPer.Id AND ContentDocument.CreatedById IN :useriDs) )];
+            
+              
+
+            if(!cdls.isEmpty() ){
+                objWrapper.citizenRecords  = getMedicalHistory(cdls,objPer.Participant__c,objPer.Id);
                 objWrapper.isContainsFile = true;
             }
              // Human Api Check
@@ -111,10 +157,10 @@ public without sharing class MedicalHistryTabController {
                 {
                     objWrapper.MedicalreportList = HumanAPIcontroller.getReportList(objPer.Unique_HumanId__c);
                     objWrapper.isSiteEnabledHumanAPI = true;
-                    if(objWrapper.MedicalreportList.reportList == Null)
-                    { 
+                   // if(objWrapper.MedicalreportList.reportList == Null)
+                   // { 
                         objWrapper.lstParticipantEnrollmentHstry = HumanAPIcontroller.getRequestHistory(objPer.id);
-                    }
+                  //  }
                 } 
             }   
            
@@ -163,30 +209,91 @@ public without sharing class MedicalHistryTabController {
 
     //citizen requirement
     @AuraEnabled
-    public static MedicalHistryTabController.MedicalHistoryWrapper getMedicalHistory(List<ContentDocumentLink> cdls , Id participantId){
+    public static MedicalHistryTabController.MedicalHistoryWrapper getMedicalHistory(List<ContentDocumentLink> cdls , Id participantId, String perid){
         
         //If this method is called for refresh the list after add file, so they will pass participantid
         if(cdls == null || cdls.isEmpty())
         {
-             cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =:participantId ];
+
+            List<String> uploadedByContact = new List<String>();
+            List<Patient_Delegate_Enrollment__c> pder = [
+                SELECT
+                    id,
+                    Patient_Delegate__r.Contact__c,
+                    Participant_Enrollment__r.Participant_Contact__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Participant_Enrollment__c = :perid AND Primary_Delegate__c = TRUE
+                LIMIT 1
+            ];
+            if(string.isNotBlank(perid)){
+            Participant_Enrollment__c objPER = [SELECT ID,Participant_Contact__c FROM Participant_Enrollment__c where id=:perid];
+                uploadedByContact.add(objPer.Participant_Contact__c);
+            }
+            if (!pder.isEmpty()) {
+                uploadedByContact.add(pder[0].Patient_Delegate__r.Contact__c);
+            }
+            List<User> uploadedUser = [
+                SELECT id, contactId
+                FROM user
+                WHERE contactId IN :uploadedByContact
+            ];
+            List<id> useriDs = new List<id>();
+            for (User u : uploadedUser) {
+                useriDs.add(u.id);
+            }
+            
+
+             cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE (LinkedEntityId =:participantId 
+                                                OR ( LinkedEntityId = :perid AND ContentDocument.CreatedById IN :useriDs) )];  
         }
         
         List<ContentDocument> entries = new List<ContentDocument>(); 
-		
+        
         Set<Id> documentIds = new Set<Id>();
         for (ContentDocumentLink cdl : cdls) {
             documentIds.add(cdl.ContentDocumentId);
         }
-        List<ContentDocument> documents = [SELECT Id,OwnerId, Title,ContentSize, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument WHERE Id IN :documentIds 
-                                           ORDER BY CreatedDate];
+        List<ContentDocument> documents = [SELECT Id,OwnerId, Title,ContentSize, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument 
+                                            WHERE Id IN :documentIds ORDER BY CreatedDate DESC];
+                                            
+        List<ContentDocumentLink> lstHasPermission = [Select Id,LinkedEntityId,ContentDocumentId from ContentDocumentLink where LinkedEntityId=:perid];
+
+        set<Id> setContntDocPPID = new set<Id> ();
+         for(ContentVersion objCntvr : [SELECT ID,title,ContentDocumentId from ContentVersion Where ContentDocumentId IN:documentIds 
+                                            AND FileStatus__c = 'Uploaded' ])
+             {
+                 setContntDocPPID.add(objCntvr.ContentDocumentId);
+
+             }
+
+
+        
+        List<Id> lstHasPerId = new List<Id>();
+        for(ContentDocumentLink cvlnk:lstHasPermission){
+        lstHasPerId.add(cvlnk.ContentDocumentId);
+        }                                   
         Map<Id,Boolean> docDeleteAllowed = new Map<Id,Boolean>();
         Id currentUserId = UserInfo.getUserId();
         List<ContentDocumentAndDelete> docsAndDeleteList = new List<ContentDocumentAndDelete>();
+      //  attachment, isDeleteAllowed, hasPermission ,isNameReadOnly , hasNameError , isNameUpdated,isFileFromPatientPortal,fileNameForEdit
         for(ContentDocument cd : documents){
-            if(currentUserId == cd.OwnerId){
-                docsAndDeleteList.add(new ContentDocumentAndDelete(cd,true));
-            }else{
-                docsAndDeleteList.add(new ContentDocumentAndDelete(cd,false));
+            if(!setContntDocPPID.isEmpty() && setContntDocPPID.contains(cd.Id))
+            {
+               docsAndDeleteList.add(new ContentDocumentAndDelete(cd,false,false,true,false,false,true,'',''));        
+            }
+            else {
+              if(currentUserId == cd.OwnerId){
+                    if(!lstHasPerId.isEmpty() && lstHasPerId.contains(cd.Id)){
+                    docsAndDeleteList.add(new ContentDocumentAndDelete(cd,true,true,true,false,false,false,'',''));
+                    }else{
+                    docsAndDeleteList.add(new ContentDocumentAndDelete(cd,true,false,true,false,false,false,'',''));}
+                }else{
+                    if(!lstHasPerId.isEmpty() && lstHasPerId.contains(cd.Id)){
+                    docsAndDeleteList.add(new ContentDocumentAndDelete(cd,false,true,true,false,false,false,'',''));}
+                    else{
+                    docsAndDeleteList.add(new ContentDocumentAndDelete(cd,false,false,true,false,false,false,'',''));
+                    }
+                }
             }
         }       
         String basefileUrl = URL.getSalesforceBaseUrl().toExternalForm();
@@ -194,11 +301,120 @@ public without sharing class MedicalHistryTabController {
     }
 
     @AuraEnabled
-    public static MedicalHistryTabController.MedicalHistoryWrapper deleteFileAttachment(Id contentDocumentToDeleteId,Id participantId){
+    public static MedicalHistryTabController.MedicalHistoryWrapper deleteFileAttachment(Id contentDocumentToDeleteId,Id participantId, String perid ,Boolean bydate,Boolean ascending){
         ContentDocument contentDocumentToDelete = new ContentDocument();
         contentDocumentToDelete.Id = contentDocumentToDeleteId;
         delete contentDocumentToDelete;
-        return getMedicalHistory(new List<ContentDocumentLink>(), participantId);
+        return getMedicalHistorys(new List<ContentDocumentLink>(), participantId,perid,bydate,ascending);
+    }
+    
+    @AuraEnabled
+    public static MedicalHistryTabController.MedicalHistoryWrapper getMedicalHistorys(List<ContentDocumentLink> cdls , Id participantId, String perid,Boolean bydate,Boolean ascending){
+        
+        //If this method is called for refresh the list after add file, so they will pass participantid
+        if(cdls == null || cdls.isEmpty())
+        {
+
+            List<String> uploadedByContact = new List<String>();
+            List<Patient_Delegate_Enrollment__c> pder = [
+                SELECT
+                    id,
+                    Patient_Delegate__r.Contact__c,
+                    Participant_Enrollment__r.Participant_Contact__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Participant_Enrollment__c = :perid AND Primary_Delegate__c = TRUE
+                LIMIT 1
+            ];
+            if(string.isNotBlank(perid)){
+            Participant_Enrollment__c objPER = [SELECT ID,Participant_Contact__c FROM Participant_Enrollment__c where id=:perid];
+                uploadedByContact.add(objPer.Participant_Contact__c);
+            }
+            if (!pder.isEmpty()) {
+                uploadedByContact.add(pder[0].Patient_Delegate__r.Contact__c);
+            }
+            List<User> uploadedUser = [
+                SELECT id, contactId
+                FROM user
+                WHERE contactId IN :uploadedByContact
+            ];
+            List<id> useriDs = new List<id>();
+            for (User u : uploadedUser) {
+                useriDs.add(u.id);
+            }
+            
+
+             cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE (LinkedEntityId =:participantId 
+                                                OR ( LinkedEntityId = :perid AND ContentDocument.CreatedById IN :useriDs) )];  
+        }
+        
+        List<ContentDocument> entries = new List<ContentDocument>(); 
+        
+        Set<Id> documentIds = new Set<Id>();
+        for (ContentDocumentLink cdl : cdls) {
+            documentIds.add(cdl.ContentDocumentId);
+        }
+         List<ContentDocument> documents;
+        if(bydate){
+            if(ascending){
+                 documents = [SELECT Id,OwnerId, Title,ContentSize, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument 
+                                            WHERE Id IN :documentIds ORDER BY CreatedDate ASC];
+            }else{
+              documents = [SELECT Id,OwnerId, Title,ContentSize, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument 
+                                            WHERE Id IN :documentIds ORDER BY CreatedDate DESC];
+            }
+        }else{
+            if(ascending){
+                 documents = [SELECT Id,OwnerId, Title,ContentSize, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument 
+                                            WHERE Id IN :documentIds ORDER BY Title ASC];
+            }else{
+               documents = [SELECT Id,OwnerId, Title,ContentSize, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument 
+                                            WHERE Id IN :documentIds ORDER BY Title DESC];
+            }    
+        }
+        
+                                            
+        List<ContentDocumentLink> lstHasPermission = [Select Id,LinkedEntityId,ContentDocumentId from ContentDocumentLink where LinkedEntityId=:perid];
+
+        set<Id> setContntDocPPID = new set<Id> ();
+         for(ContentVersion objCntvr : [SELECT ID,title,ContentDocumentId from ContentVersion Where ContentDocumentId IN:documentIds 
+                                            AND FileStatus__c = 'Uploaded' ])
+             {
+                 setContntDocPPID.add(objCntvr.ContentDocumentId);
+
+             }
+
+
+        
+        List<Id> lstHasPerId = new List<Id>();
+        for(ContentDocumentLink cvlnk:lstHasPermission){
+        lstHasPerId.add(cvlnk.ContentDocumentId);
+        }                                   
+        Map<Id,Boolean> docDeleteAllowed = new Map<Id,Boolean>();
+        Id currentUserId = UserInfo.getUserId();
+        List<ContentDocumentAndDelete> docsAndDeleteList = new List<ContentDocumentAndDelete>();
+      //  attachment, isDeleteAllowed, hasPermission ,isNameReadOnly , hasNameError , isNameUpdated,isFileFromPatientPortal,fileNameForEdit
+        for(ContentDocument cd : documents){
+            if(!setContntDocPPID.isEmpty() && setContntDocPPID.contains(cd.Id))
+            {
+               docsAndDeleteList.add(new ContentDocumentAndDelete(cd,false,false,true,false,false,true,'',''));        
+            }
+            else {
+              if(currentUserId == cd.OwnerId){
+                    if(!lstHasPerId.isEmpty() && lstHasPerId.contains(cd.Id)){
+                    docsAndDeleteList.add(new ContentDocumentAndDelete(cd,true,true,true,false,false,false,'',''));
+                    }else{
+                    docsAndDeleteList.add(new ContentDocumentAndDelete(cd,true,false,true,false,false,false,'',''));}
+                }else{
+                    if(!lstHasPerId.isEmpty() && lstHasPerId.contains(cd.Id)){
+                    docsAndDeleteList.add(new ContentDocumentAndDelete(cd,false,true,true,false,false,false,'',''));}
+                    else{
+                    docsAndDeleteList.add(new ContentDocumentAndDelete(cd,false,false,true,false,false,false,'',''));
+                    }
+                }
+            }
+        }       
+        String basefileUrl = URL.getSalesforceBaseUrl().toExternalForm();
+        return new MedicalHistoryWrapper(docsAndDeleteList, basefileUrl);
     }
 
     @AuraEnabled 
@@ -231,19 +447,35 @@ public without sharing class MedicalHistryTabController {
     {
         return SurveyResponseViewController.getSurveyResponse(perid);
     }
-   
-
-
-    
+    public class attachmentNameWrapper {
+        public string cntnDocId;
+        public String title; 
+    } 
 
     
 /*Method to save the particiapnt enrollment,comorbiditiesa anad participant */
     @AuraEnabled 
     public static medicalHistryWrapper saveParticipantData(String strBMI, Boolean boolHighRisk, Boolean boolHighPrority, String strComorbityToInsert,
-                                              String strComorbiditiestoDelete,  String PerId  ){
+                                              String strComorbiditiestoDelete,  String PerId, String addPermission, String revokePermission, String UpdateNamelist){
             try{
                 List<Comorbidities__c> lstCommordtoInsert = (List<Comorbidities__c>) JSON.deserialize(strComorbityToInsert,List<Comorbidities__c>.class); 
-                List<Comorbidities__c> lstCommordtoDelete= (List<Comorbidities__c>) JSON.deserialize(strComorbiditiestoDelete,List<Comorbidities__c>.class); 
+                List<Comorbidities__c> lstCommordtoDelete= (List<Comorbidities__c>) JSON.deserialize(strComorbiditiestoDelete,List<Comorbidities__c>.class);
+                
+                Set<Id> lstAddPermission = (Set<Id>) JSON.deserialize(addPermission,Set<Id>.class);
+                List<Id> lstRevokePermission = (List<Id>) JSON.deserialize(revokePermission,List<Id>.class);
+
+                list<attachmentNameWrapper> lstAttachmentNameWrapper = (list<attachmentNameWrapper>)JSON.deserialize(UpdateNamelist,list<attachmentNameWrapper>.class);
+                 list<ContentVersion> lstCntVersionToUpdate = new List<ContentVersion> ();
+                 Map<Id,String> mapCntDocIdToName = new Map<Id,String> ();
+                 set<Id> setCntnDocId = new Set<Id> ();
+
+                for(attachmentNameWrapper objWrapper : lstAttachmentNameWrapper)
+                {
+                    setCntnDocId.add(objWrapper.cntnDocId);
+                    mapCntDocIdToName.put(objWrapper.cntnDocId,objWrapper.title);
+
+                }
+                 
                 Participant__c objParticipant = new Participant__c();
 
                 medicalHistryWrapper objwrapper = new medicalHistryWrapper();
@@ -291,6 +523,80 @@ public without sharing class MedicalHistryTabController {
                 }
                 Insert lstPartComToInsert; 
             }
+            
+            Set<Id> lstCdIds = new Set<Id>();
+            if(!lstAddPermission.isEmpty()){ //SendEmailDebug.sendEmail('cd ');
+                lstCdIds.addall(lstAddPermission);
+            }
+            if(!setCntnDocId.isEmpty()){
+                lstCdIds.addall(setCntnDocId);
+            }
+            
+            if(!lstCdIds.isEmpty()){
+               
+                List<ContentVersion> contentToInsert = [select id, ContentDocumentId,title from ContentVersion WHERE ContentDocumentId IN:lstCdIds];
+                List<ContentDocumentLink> lstConDocLnk = new List<ContentDocumentLink>();
+               //SendEmailDebug.sendEmail('cd +');
+                list<ContentDistribution> lstCntDstrblst = new list<ContentDistribution> ();
+                for(ContentVersion cv:contentToInsert){
+                    //creation of contentDocumentlink for PER   
+                    if(lstAddPermission.contains(cv.ContentDocumentId)){
+                    ContentDocumentLink cl = new ContentDocumentLink();
+                    cl.ContentDocumentId = cv.ContentDocumentId;
+                    cl.LinkedEntityId = PerId; 
+                    cl.ShareType = 'V';
+                    cl.Visibility = 'AllUsers';
+                    
+                    lstConDocLnk.add(cl);
+                    
+                    //creation of comtentDistributonLink
+                        string fileName = cv.title;
+                        Integer intIndex = fileName.lastindexOf('.');
+                        String fileTitle = fileName.left(intIndex);
+                        
+                        String sizeStringFileName = fileTitle;
+                        Integer maxSize = 96;
+                        if(sizeStringFileName.length() > maxSize ){
+                        sizeStringFileName = sizeStringFileName.substring(0, maxSize);
+                        sizeStringFileName = sizeStringFileName+'...'; 
+                        }
+                    ContentDistribution objCntv = new ContentDistribution();
+                    objCntv.ContentVersionId = cv.Id;
+                    objCntv.Name = sizeStringFileName;
+                    objCntv.PreferencesNotifyOnVisit = false;
+                    objCntv.PreferencesAllowPDFDownload = false;
+                    lstCntDstrblst.add(objCntv);
+                    }
+                    
+                    
+
+                    
+                    if(setCntnDocId.contains(cv.ContentDocumentId)){
+                    //Updation of custom field for the contentVersion
+                        if(mapCntDocIdToName.containskey(cv.ContentDocumentId)){
+                            //ContentVersion objCntvr = new ContentVersion();
+                            //objCntvr.id = objcnvrsn.Id;
+                            cv.title = mapCntDocIdToName.get(cv.ContentDocumentId);
+                            cv.FileSharedbyPI__c = true;
+                            //lstCntVersionToUpdate.add(objCntvr);
+                            lstCntVersionToUpdate.add(cv);
+                        }
+                    }else{
+                        cv.FileSharedbyPI__c = true;
+                        lstCntVersionToUpdate.add(cv);
+                    }
+                     
+                }
+                Insert lstConDocLnk;
+                if(!lstCntVersionToUpdate.isEmpty())
+                    update lstCntVersionToUpdate;
+                if(!lstCntDstrblst.isEmpty())
+                    insert lstCntDstrblst;
+            }
+            if(!lstRevokePermission.isEmpty()){
+                List<ContentDocumentLink> conDcLnk = [select id, ContentDocumentId,LinkedEntityId  from ContentDocumentLink WHERE ContentDocumentId IN:lstRevokePermission and LinkedEntityId=:PerId];
+                Delete conDcLnk;
+            }
 
             objWrapper.lstComorbidities = getParticipantComorbidities(objOldPer.Participant__c);
 
@@ -318,6 +624,127 @@ public without sharing class MedicalHistryTabController {
       
           }
     }
+
+
+    @AuraEnabled 
+    public static medicalHistryWrapper saveAttachmentPermission(String PerId, String addPermission, String revokePermission, String UpdateNamelist){
+
+       try{  
+                Set<Id> lstAddPermission = (Set<Id>) JSON.deserialize(addPermission,Set<Id>.class);
+                List<Id> lstRevokePermission = (List<Id>) JSON.deserialize(revokePermission,List<Id>.class);
+
+                list<attachmentNameWrapper> lstAttachmentNameWrapper = (list<attachmentNameWrapper>)JSON.deserialize(UpdateNamelist,list<attachmentNameWrapper>.class);
+                 list<ContentVersion> lstCntVersionToUpdate = new List<ContentVersion> ();
+                 Map<Id,String> mapCntDocIdToName = new Map<Id,String> ();
+                 set<Id> setCntnDocId = new Set<Id> ();
+
+                for(attachmentNameWrapper objWrapper : lstAttachmentNameWrapper)
+                {
+                    setCntnDocId.add(objWrapper.cntnDocId);
+                    mapCntDocIdToName.put(objWrapper.cntnDocId,objWrapper.title);
+
+                }
+                 
+                Participant__c objParticipant = new Participant__c();
+
+                medicalHistryWrapper objwrapper = new medicalHistryWrapper();
+
+                Participant_Enrollment__c objOldPer = [SELECT HighRisk_Indicator__c,High_Priority__c,Participant__r.BMI__c,Participant__c from Participant_Enrollment__c
+                                                        Where id=:PerId ];
+              
+            
+            Set<Id> lstCdIds = new Set<Id>();
+            if(!lstAddPermission.isEmpty()){ //SendEmailDebug.sendEmail('cd ');
+                lstCdIds.addall(lstAddPermission);
+            }
+            if(!setCntnDocId.isEmpty()){
+                lstCdIds.addall(setCntnDocId);
+            }
+            
+            if(!lstCdIds.isEmpty()){
+               
+                List<ContentVersion> contentToInsert = [select id, ContentDocumentId,title from ContentVersion WHERE ContentDocumentId IN:lstCdIds];
+                List<ContentDocumentLink> lstConDocLnk = new List<ContentDocumentLink>();
+               //SendEmailDebug.sendEmail('cd +');
+                list<ContentDistribution> lstCntDstrblst = new list<ContentDistribution> ();
+                for(ContentVersion cv:contentToInsert){
+                    //creation of contentDocumentlink for PER   
+                    if(lstAddPermission.contains(cv.ContentDocumentId)){
+                    ContentDocumentLink cl = new ContentDocumentLink();
+                    cl.ContentDocumentId = cv.ContentDocumentId;
+                    cl.LinkedEntityId = PerId; 
+                    cl.ShareType = 'V';
+                    cl.Visibility = 'AllUsers';
+                    
+                    lstConDocLnk.add(cl);
+                    
+                    //creation of comtentDistributonLink
+                        string fileName = cv.title;
+                        Integer intIndex = fileName.lastindexOf('.');
+                        String fileTitle = fileName.left(intIndex);
+                        
+                        String sizeStringFileName = fileTitle;
+                        Integer maxSize = 96;
+                        if(sizeStringFileName.length() > maxSize ){
+                        sizeStringFileName = sizeStringFileName.substring(0, maxSize);
+                        sizeStringFileName = sizeStringFileName+'...'; 
+                        }
+                    ContentDistribution objCntv = new ContentDistribution();
+                    objCntv.ContentVersionId = cv.Id;
+                    objCntv.Name = sizeStringFileName;
+                    objCntv.PreferencesNotifyOnVisit = false;
+                    objCntv.PreferencesAllowPDFDownload = false;
+                    lstCntDstrblst.add(objCntv);
+                    }
+                    
+                    if(setCntnDocId.contains(cv.ContentDocumentId)){
+                    //Updation of custom field for the contentVersion
+                        if(mapCntDocIdToName.containskey(cv.ContentDocumentId)){
+                            //ContentVersion objCntvr = new ContentVersion();
+                            //objCntvr.id = objcnvrsn.Id;
+                            cv.title = mapCntDocIdToName.get(cv.ContentDocumentId);
+                            cv.FileSharedbyPI__c = true;
+                            //lstCntVersionToUpdate.add(objCntvr);
+                            lstCntVersionToUpdate.add(cv);
+                        }
+                    }else{
+                        cv.FileSharedbyPI__c = true;
+                        lstCntVersionToUpdate.add(cv);
+                    }
+                     
+                }
+                Insert lstConDocLnk;
+                if(!lstCntVersionToUpdate.isEmpty())
+                    update lstCntVersionToUpdate;
+                if(!lstCntDstrblst.isEmpty())
+                    insert lstCntDstrblst;
+            }
+            if(!lstRevokePermission.isEmpty()){
+                List<ContentDocumentLink> conDcLnk = [select id, ContentDocumentId,LinkedEntityId  from ContentDocumentLink WHERE ContentDocumentId IN:lstRevokePermission and LinkedEntityId=:PerId];
+                Delete conDcLnk;
+            }
+
+            return objwrapper ; 
+       }
+        catch (Exception e) {
+
+            throw new AuraHandledException(
+      
+              e.getMessage() +
+      
+              '\n' +
+      
+              e.getStackTraceString()
+      
+            );
+      
+          }
+
+    }
+           
+
+
+
 
 
 

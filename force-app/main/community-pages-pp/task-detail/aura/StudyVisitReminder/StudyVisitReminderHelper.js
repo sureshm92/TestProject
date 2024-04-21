@@ -31,7 +31,9 @@
                         if (taskType === 'Visit') {
                             task.Subject = visitData.visit.Is_Adhoc__c
                                 ? $A.get('$Label.c.StudyVisit_Unscheduled_Visit')
-                                : visitData.visit.Visit__r.Patient_Portal_Name__c;
+                                : (visitData.visit.Visit__c ?
+                                    visitData.visit.Visit__r.Patient_Portal_Name__c:  
+                                    visitData.visit.Portal_Name__c);
                             wrapper.activityDate =
                                 visitData.completedOrPlannedDate ==
                                 $A.get('$Label.c.Study_Visit_Unavailable')

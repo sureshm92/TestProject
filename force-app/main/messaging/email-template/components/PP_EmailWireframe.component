@@ -6,7 +6,9 @@
     <apex:attribute name="recipientLanguage" type="String" assignTo="{!emailRecipientLanguage}" description="" access="global"
     />
     <apex:attribute name="sourceId" assignTo="{!sourceRecordId}" type="Id" description="" access="global" />
-
+    <apex:attribute name="isDelegate" assignTo="{!isDelegates}" type="Boolean" description="" access="global" />
+    <apex:attribute name="mode" assignTo="{!currentMode}" type="String" description="" access="global" />
+    
     <!-- Templates labels -->
     <apex:attribute name="header" assignTo="{!headerValue}" type="String" description="" />
     <apex:attribute name="title" assignTo="{!titleValue}" type="String" description="" />
@@ -28,6 +30,8 @@
     <!-- Other -->
     <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML" />
     <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" description="Community template name"
+    />
+    <apex:attribute name="isJanssenValue" type="Boolean" assignTo="{!isJanssen}" description="If community is Janssen 2.0"
     />
     <apex:attribute name="specificEmailProvider" type="String" assignTo="{!specificEmailProviderValue}" description="If you need specific instance of EmailTemplateProvider set this here"
     />
@@ -91,7 +95,7 @@
         <apex:outputPanel rendered="{!isPreBodyButton=true}">
             <div style="text-align:center;width: fit-content;margin: 0 auto;margin-top:32px;">
                 <c:PP_EmailActionButton rendered="true" buttonLabel="{!preBodyButtonName}" buttonURL="{!preBodyButtonURL}" communityTemplate="{!communityTemplate}"
-                    surveyId="{!surveyId}"></c:PP_EmailActionButton>
+                    surveyId="{!surveyId}" isPPJanssen="{!IF(isJanssenValue ,'yes',null)}"></c:PP_EmailActionButton>
             </div>
         </apex:outputPanel>
 
@@ -161,16 +165,16 @@
                         border-top: 1px solid #D9D9D9;
                         border-bottom: 1px solid #D9D9D9;
                         padding: 0.5rem 0 0.5rem 0;">
-                <div style="{!IF(isRTL=true,'display:block', 'display:none')}">
+                 <div style="{!IF(isRTL,'display:block;', 'display:none;')}">
                     <a style="color: #015FF1;
                             text-decoration: none;
-                            font-weight: 600;" href="{!emailCommunityURL + '/s/privacy-policy'}">{!$Label.Email_Footer_Privacy_Policy}</a>&nbsp;&nbsp;|&nbsp;&nbsp;{!$Label.Email_Footer_Address}
+                            font-weight: 600;" href="{!IF((isJanssenValue || StudyTemplate=='Janssen'), emailCommunityURL + '/s/janssen-privacy-policy', emailCommunityURL + '/s/privacy-policy')}">{!$Label.Email_Footer_Privacy_Policy}</a>&nbsp;&nbsp;|&nbsp;&nbsp;{!$Label.Email_Footer_Address}
                 </div>
-                <div style="{!IF(isRTL=false,'display:block;', 'display:none;')}">
-                    {!$Label.Email_Footer_Address}&nbsp;&nbsp;|&nbsp;
-                    <a style="color: #015FF1;
-                            text-decoration: none;
-                            font-weight: 600;" href="{!emailCommunityURL + '/s/privacy-policy'}">{!$Label.Email_Footer_Privacy_Policy}</a>
+                <div style="{!IF(!isRTL,'display:block;', 'display:none;')}">
+                    {!$Label.Email_Footer_Address}&nbsp;&nbsp;|&nbsp; 
+                   <a style="color: #015FF1;
+                            text-decoration: none; 
+                            font-weight: 600;" href="{!IF((isJanssenValue || StudyTemplate=='Janssen'), emailCommunityURL + '/s/janssen-privacy-policy', emailCommunityURL + '/s/privacy-policy')}" >{!$Label.Email_Footer_Privacy_Policy}</a>
                 </div>
             </div>
         </div>

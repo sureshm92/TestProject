@@ -13,7 +13,7 @@ import unableToLogin8 from '@salesforce/label/c.PG_Unable_To_Login_L8';
 import unableToLogin9 from '@salesforce/label/c.PG_Unable_To_Login_L9';
 import unableToLogin10 from '@salesforce/label/c.PG_Unable_To_Login_L10';
 import loginLinkForgot from '@salesforce/label/c.PG_Login_Link_Forgot';
-import BTN_OK from '@salesforce/label/c.BTN_OK';
+import BulkImport_Ok from '@salesforce/label/c.BulkImport_Ok';
 import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
 
 import FAV_ICON from '@salesforce/resourceUrl/Lofi_Login_Icons';
@@ -33,7 +33,7 @@ export default class UnableToLogin extends NavigationMixin(LightningElement) {
         unableToLogin9,
         unableToLogin10,
         loginLinkForgot,
-        BTN_OK
+        BulkImport_Ok
     };
     @api isRTLLanguage = false;
     userId;

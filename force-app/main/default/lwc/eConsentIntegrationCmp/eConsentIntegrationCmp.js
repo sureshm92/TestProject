@@ -4,7 +4,7 @@ import updateSiteConsentVendor from '@salesforce/apex/EConsentIntegrationControl
 import selectallstudysite from '@salesforce/apex/EConsentIntegrationController.selectallstudysites';
 import deselectallstudysite from '@salesforce/apex/EConsentIntegrationController.deselectallstudysites';
 import createconsentvendor from '@salesforce/apex/EConsentIntegrationController.createconsentvendor';
-
+import updateGuid from '@salesforce/apex/EConsentIntegrationController.updateStudyguid';
 import deletevendordetails from '@salesforce/apex/EConsentIntegrationController.deleteVendor';
 
 import saveLabel from '@salesforce/label/c.Save';
@@ -58,7 +58,7 @@ export default class EConsentIntegrationCmp extends LightningElement {
     };
     @api recordId;   
     venders; 
-    eConsentdetails = [];
+    @track eConsentdetails = [];
     totalstudysitelist = [];
     isModalOpen = false;
     vendername;
@@ -100,6 +100,9 @@ export default class EConsentIntegrationCmp extends LightningElement {
     sortingShow = true;
     show_E_Consentscreen = true;
     @api isreadonly = false;
+    editEnabled = false;
+    siteWithguid =[];
+    
     connectedCallback() {
         this.isSpinnerCheck = true;
         this.getEConsentDetails(this.recordId);
@@ -568,6 +571,113 @@ export default class EConsentIntegrationCmp extends LightningElement {
     
     handleClear() {
         this.receivedMessage = null;
+    }
+
+    handleEdit(event){
+        let itemIndex = event.target.dataset.id;
+        let classes =event.target.classList;
+        //hide button
+        classes.add('slds-hide');
+        this.editEnabled = true;
+        //make input test visible
+        this.template.querySelectorAll('lightning-input.form-element_input')[itemIndex].classList.remove('slds-hide');        //hide output text
+        this.template.querySelectorAll('span.form-element_output')[itemIndex].classList.add('slds-hide');
+        
+        this.template.querySelectorAll('div.form-element')[itemIndex].classList.remove('slds-form-element_stacked');
+    }
+
+    handleInputchange(event){
+
+        let value = event.target.value;
+        let siteId = event.target.dataset.id;
+        let itemIndex = event.target.dataset.targetId;
+            let index = this.siteWithguid.findIndex(element => element.siteId === siteId )
+            if(index  !== -1){
+                this.siteWithguid[index].guid = value; 
+            }
+            else{
+                this.siteWithguid.push({
+                    "siteId" : siteId,
+                    "guid":value,
+                    "listindex":itemIndex
+                })    
+            }
+       
+    }
+    handleSave(){
+            let filterChanged = [];
+            this.siteWithguid.forEach(item =>{
+                if(item.guid !== this.eConsentdetails[item.listindex].studysiteguid){
+                    filterChanged.push(item);
+                }
+            })
+            if(filterChanged.length > 0){
+                this.updateguid(filterChanged);
+            }
+            else{
+                this.editEnabled = false;
+                this.closingActions();
+            }
+           
+
+    }
+    handleCancel(){
+        this.closingActions();
+        this.editEnabled = false;
+    }
+
+    updateguid(studyList){
+        this.isSpinner = true;
+        let totalrecords = JSON.parse(JSON.stringify(this.eConsentdetails));
+        updateGuid({studyList : studyList})
+        .then(() =>{
+            this.isSpinner = false;
+            this.closingActions();
+            //hide button from UI
+            this.editEnabled  = false;
+            this.siteWithguid.forEach(item =>{
+                totalrecords[item.listindex].studysiteguid = item.guid;
+                            
+            })
+            this.eConsentdetails = totalrecords;
+            this.siteWithguid = [];
+            const event = new ShowToastEvent({
+                title: 'Success',
+                message: 'GUID updated successfully',
+                variant: 'success',
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(event);
+
+        })
+        .catch(error =>{
+            this.isSpinner = false;
+            const event = new ShowToastEvent({
+                title: 'Error',
+                message: error.body ? error.body.message : error,
+                variant: 'error',
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(event);
+            console.error('error:'+ JSON.stringify(error));
+        })
+    }
+
+    closingActions(){
+
+        this.template.querySelectorAll('lightning-input.form-element_input').forEach(item=>{
+            item.classList.add('slds-hide');
+        })        //hide output text
+        this.template.querySelectorAll('span.form-element_output').forEach(element => {
+            element.classList.remove('slds-hide')
+        });                    
+        this.template.querySelectorAll('div.form-element').forEach(element=>{
+            element.classList.add('slds-form-element_stacked')
+        });
+        this.template.querySelectorAll('lightning-icon.form-element_button').forEach(element => {
+            element.classList.remove('slds-hide');
+        })
+
     }
     
 }

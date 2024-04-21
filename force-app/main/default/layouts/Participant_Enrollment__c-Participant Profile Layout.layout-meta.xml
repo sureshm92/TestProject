@@ -119,6 +119,30 @@
                 <behavior>Edit</behavior>
                 <field>PPMID__c</field>
             </layoutItems>
+             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ParticipantGUID__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>DocumentCollectionId__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>DocumentCollectionName__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SenttoCompleteConsent__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>DocumentCollectionTitle__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Participantavailableincompleteconsen__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -291,6 +315,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Referral_Completed_by__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>DataControllerOrg__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

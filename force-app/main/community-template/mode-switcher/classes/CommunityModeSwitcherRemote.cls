@@ -15,7 +15,7 @@ public without sharing class CommunityModeSwitcherRemote {
         CommunityModesWrapper result = new CommunityModesWrapper();
         result.communityModes = new CommunityModes();
         List<User> currentUser = [
-            SELECT Id, Contact.FirstName, Contact.LastName, SmallPhotoUrl, Username
+            SELECT Id, Contact.FirstName, Contact.LastName, SmallPhotoUrl, Username , Contact.Current_Participant_Enrollment__c,Contact.userCommunityDelegateId__c
             FROM User
             WHERE Id = :UserInfo.getUserId()
         ];

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="19px" viewBox="0 0 21 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>C36551B8-4151-47FA-9AF7-A8A6411748AE</title>
+    <defs>
+        <path d="M20.629796,2.58944399 L10.5723289,17.3599997 C10.3054021,17.7044016 9.90737355,17.9300632 9.46768046,17.986278 C9.02798737,18.0424928 8.58350662,17.9245462 8.23411336,17.6589409 L0.6137075,11.4183087 C-0.0915741657,10.8694368 -0.205776504,9.86848061 0.358629439,9.18261037 C0.923035382,8.49674014 1.95232056,8.38568098 2.65760222,8.93455281 L8.67534678,14 L17.9972596,0.708340813 C18.3311371,0.22111445 18.913335,-0.0482623334 19.5127038,0.00716083017 C20.1120726,0.0625839937 20.6316311,0.433839323 20.8650996,0.973527727 C21.0985681,1.51321613 21.00817,2.13401298 20.629796,2.58944399 Z" id="path-1"></path>
+    </defs>
+    <g id="---↳--Adding-Site-Contact-Information" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Contact-Info-Modal-1" transform="translate(-637.000000, -361.000000)">
+            <g id="Group-43" transform="translate(323.000000, 161.000000)">
+                <g id="Group-38" transform="translate(50.000000, 68.000000)">
+                    <g id="Group-37" transform="translate(0.000000, 106.311828)">
+                        <g id="copy" transform="translate(264.000000, 26.043011)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <use id="icon-color" fill="#595959" xlink:href="#path-1"></use>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

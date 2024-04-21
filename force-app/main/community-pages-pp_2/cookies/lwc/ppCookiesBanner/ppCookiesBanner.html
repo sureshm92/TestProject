@@ -1,233 +1,290 @@
 <template>
+  <div class="manage-pref-spinner-container">
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
-    <template if:true={showBanner}>
-        <div class={containerClassCss}>
-            <lightning-layout multiple-rows>
-                <template if:false={loginPage}>
-                    <lightning-layout-item size="12" small-device-size="9" padding="around-small">
-                        <div class="we-care-about-your-p">
-                            <div class="banner-heading slds-m-top_small">
-                                {label.ppCookieBannerHeader}
-                            </div>
-                            <div class="banner-txt slds-m-top_x-small slds-show_medium">
-                                {label.ppCookiesBannerDesc1}<b> {label.ppCookiesBannerDesc2}</b>
-                                {cookiesBannerDesc3}
-                            </div>
-                            <div class="banner-txt slds-m-top_x-small slds-hide_medium">
-                                {label.ppCookiesBannerDesc1}
-                            </div>
-                            <div class="banner-txt slds-m-vertical_xx-small slds-hide_medium">
-                                <b>{label.ppCookiesBannerDesc2}</b>&nbsp;
-                            </div>
-                            <div class="banner-txt slds-hide_medium">
-                                {label.ppCookiesBannerDesc3}
-                            </div>
-                        </div>
-                    </lightning-layout-item>
-                    <lightning-layout-item
-                        class="desk-btn-margin mob-btn-center"
-                        size="12"
-                        small-device-size="3"
-                        padding="around-small"
-                    >
-                        <lightning-layout multiple-rows>
-                            <lightning-layout-item size="12" small-device-size="12"
-                                ><button class={acceptAllButtonCss} onclick={acceptAll}>
-                                    <label>{label.ppCookiesButtonAccept}</label>
-                                </button></lightning-layout-item
-                            >
-                            <lightning-layout-item
-                                size="12"
-                                small-device-size="12"
-                                class="slds-m-top_large"
-                                ><button class={manageButtonCss} onclick={showManagePreferences}>
-                                    <label>{label.ppCookiesButtonManagePrefer}</label>
-                                </button></lightning-layout-item
-                            >
-                        </lightning-layout>
-                    </lightning-layout-item>
-                </template>
-                <template if:true={loginPage}>
-                    <lightning-layout-item size="11" padding="around-small">
-                        <div class="we-care-about-your-p">
-                            <div class="banner-heading slds-m-top_small">
-                                {label.ppCookieBannerHeader}
-                            </div>
-                            <div class="banner-txt slds-m-top_x-small slds-show_medium">
-                                {label.ppCookiesBannerDesc1}<b> {label.ppCookiesBannerDesc2} </b>
-                                {label.ppCookiesBannerDesc3}
-                            </div>
-                            <div class="banner-txt slds-show_medium">
-                                {label.ppCookiesBannerLoginDesc}
-                            </div>
-                            <div class="banner-txt slds-m-vertical_x-small slds-hide_medium">
-                                {label.ppCookiesBannerDesc1}
-                            </div>
-                            <div class="banner-txt slds-m-top_medium slds-hide_medium">
-                                <b>{label.ppCookiesBannerDesc2}</b>
-                            </div>
-                            <div class="banner-txt slds-hide_medium">
-                                {label.ppCookiesBannerDesc3}
-                            </div>
-                            <div class="banner-txt slds-hide_medium">
-                                {label.ppCookiesBannerLoginDesc}
-                            </div>
-                        </div>
-                    </lightning-layout-item>
-                    <lightning-layout-item size="1" padding="around-small" class="login-close">
-                        <div onclick={closeTheBanner}>
-                            <c-web-icon
-                                class="svg-icon"
-                                icon-size="small"
-                                icon-name="pp-close-new"
-                                icon-color="white"
-                            >
-                            </c-web-icon>
-                        </div>
-                    </lightning-layout-item>
-                </template>
-            </lightning-layout>
-        </div>
-    </template>
-    <!-- Include the Banner modal logic-->
-    <template if:true={initData}>
-        <section
-            role="dialog"
-            tabindex="-1"
-            aria-modal="true"
-            class="slds-modal slds-fade-in-open cookie-btn"
-            style="z-index: 999999"
+  </div>
+  <template if:true={showBanner}>
+    <template if:false={loginPage}>
+      <div class={containerClassCssPostLogin}>
+        <lightning-layout
+          multiple-rows
+          vertical-align="center"
+          horizontal-align="center"
         >
-            <div class={modalContainer}>
-                <div class={modalTopCss}></div>
-                <div class="slds-modal__content slds-p-around_large">
-                    <div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small">
-                        <div class="slds-col modal-header-text">
-                            {label.cookieManageCookiesLabel}
-                        </div>
-                    </div>
-                    <div class="body-container modal-body slds-m-bottom_medium">
-                        {label.manageCookiesDesc}
-                    </div>
-
-                    <div class={accordionCss} id="strictcookies" onclick={showCookieDiv}>
-                        <div class="acordion-title right-angle-chevron slds-p-horizontal_medium">
-                            {label.accountSettingsStrictlyNecessaryCookies}
-                            <span class="always-active">{label.cookieAlwaysActive}</span>
-                        </div>
-                        <div class="panel">
-                            <template
-                                for:each={initData.cookieSettings}
-                                for:item="cookieSetting"
-                                for:index="index"
-                            >
-                                <div
-                                    class="cookie-title slds-p-horizontal_medium slds-p-vertical_x-small"
-                                    key={cookieSetting}
-                                >
-                                    <div class="cookie-title-font-size">
-                                        {cookieSetting.cookieName}
-                                    </div>
-                                    <div class="cookie-desc-font-size">
-                                        {cookieSetting.cookieDescription}
-                                    </div>
-                                </div>
-                            </template>
-                            <template if:true={isJanssenCommunity}>
-                                <div
-                                    class="cookie-title slds-p-horizontal_medium slds-p-vertical_x-small"
-                                >
-                                    <div class="cookie-title-font-size">
-                                        {label.accountSettingsFunctionalRRCookiesLabel}
-                                    </div>
-                                    <div class="cookie-desc-font-size">
-                                        {label.accountSettingsRRCookiesDescriptionLabel}
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-                    <template if:false={isJanssenCommunity}>
-                        <div
-                            class={accordionActiveCss}
-                            id="functionalcookies"
-                            onclick={showCookieDiv}
-                        >
-                            <div class="acordion-title slds-p-horizontal_medium">
-                                {label.accountSettingsFunctionalCookiesLabel}
-                            </div>
-                            <div class="panel" style="display: block">
-                                <div
-                                    class="slds-grid rr-cookie-title slds-p-horizontal_medium slds-p-vertical_x-small"
-                                >
-                                    <div class="slds-col slds-size_9-of-12">
-                                        <div class="cookie-title-font-size">
-                                            {label.accountSettingsFunctionalRRCookiesLabel}
-                                        </div>
-                                        <div class="cookie-desc-font-size">
-                                            {label.accountSettingsRRCookiesDescriptionLabel}
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="slds-col slds-size_3-of-12 slds-m-top_large desk-pad-left"
-                                    >
-                                        <div class="slds-form-element">
-                                            <lightning-input
-                                                type="toggle"
-                                                label=""
-                                                data-id="PPCookie"
-                                                messagetoggleactive={label.BTN_On}
-                                                variant="label-hidden"
-                                                messagetoggleinactive={label.BTN_Off}
-                                                class="slds-col ah-toggle"
-                                                checked={contact.RRCookiesAllowedCookie__c}
-                                                onchange={doSwitchOptInCookies}
-                                            >
-                                            </lightning-input>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="slds-grid rr-language-title slds-p-horizontal_medium slds-p-vertical_x-small"
-                                >
-                                    <div class="slds-col slds-size_9-of-12">
-                                        <div class="cookie-title-font-size">
-                                            {label.accountSettingsCookiesRRLanguageLabel}
-                                        </div>
-                                        <div class="cookie-desc-font-size mob-lang-desc">
-                                            {label.accountSettingsCookiesRRLanguageDescriptionLabel}
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="slds-col slds-size_3-of-12 slds-m-top_large desk-pad-left"
-                                    >
-                                        <div class="slds-form-element">
-                                            <lightning-input
-                                                type="toggle"
-                                                label=""
-                                                data-id="PPLang"
-                                                messagetoggleactive={label.BTN_On}
-                                                variant="label-hidden"
-                                                messagetoggleinactive={label.BTN_Off}
-                                                class="slds-col ah-toggle"
-                                                checked={contact.RRLanguageAllowedCookie__c}
-                                                onchange={doSwitchOptInCookies}
-                                            >
-                                            </lightning-input>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-                    <div class="slds-grid slds-grid_align-end slds-m-top_medium">
-                        <button class={acceptButtonCss} onclick={updateCookies}>
-                            {label.bTN_AcceptLabel}
-                        </button>
-                    </div>
-                </div>
+          <lightning-layout-item
+            size="12"
+            small-device-size="9"
+            class={postLoginCookieCard}
+          >
+            <div class="we-care-about-your-p-new">
+              <div class="banner-heading slds-m-top_small">
+                {label.ppCookieBannerHeader}
+              </div>
+              <div class="banner-txt slds-m-top_x-small slds-show_medium">
+                {label.ppCookiesBannerDesc1}<b> {label.ppCookiesBannerDesc2}</b>
+                {cookiesBannerDesc3}
+              </div>
+              <div class="banner-txt slds-m-top_x-small slds-hide_medium">
+                {label.ppCookiesBannerDesc1}
+              </div>
+              <div class="banner-txt slds-m-vertical_xx-small slds-hide_medium">
+                <b>{label.ppCookiesBannerDesc2}</b>&nbsp;
+              </div>
+              <div class="banner-txt slds-hide_medium">
+                {label.ppCookiesBannerDesc3}
+              </div>
             </div>
-        </section>
+          </lightning-layout-item>
+          <lightning-layout-item
+            class="mob-btn-center slds-p-top_small slds-p-left_small slds-p-right_small"
+            size="12"
+            small-device-size="3"
+          >
+            <lightning-layout multiple-rows>
+              <lightning-layout-item size="12" small-device-size="12"
+                ><button class={acceptAllButtonCss} onclick={acceptAll}>
+                  <label>{label.ppCookiesButtonAccept}</label>
+                </button></lightning-layout-item
+              >
+              <lightning-layout-item
+                size="12"
+                small-device-size="12"
+                class="slds-m-top_medium"
+                ><button
+                  class={manageButtonCss}
+                  onclick={showManagePreferences}
+                  style="box-shadow: none"
+                >
+                  <label>{label.ppCookiesButtonManagePrefer}</label>
+                </button></lightning-layout-item
+              >
+            </lightning-layout>
+          </lightning-layout-item>
+        </lightning-layout>
+      </div>
     </template>
-    <div class={backDropClass}></div>
+    <template if:true={loginPage}>
+      <div class={containerClassCss}>
+        <lightning-layout multiple-rows>
+          <lightning-layout-item size="12">
+            <div class="we-care-about-your-p">
+              <div class="banner-heading">
+                <p>{label.ppCookieBannerHeader}</p>
+              </div>
+              <div class="banner-txt slds-m-top_x-small slds-show_medium">
+                <p class="mb-10">{label.ppCookiesBannerDesc1}</p>
+                <p>
+                  <b> {label.ppCookiesBannerDesc2} </b>
+                  {label.ppCookiesBannerDesc3} {label.ppCookiesBannerLoginDesc}
+                </p>
+              </div>
+
+              <div class="banner-txt slds-m-vertical_x-small slds-hide_medium">
+                {label.ppCookiesBannerDesc1}
+              </div>
+              <span class="banner-txt slds-m-top_medium slds-hide_medium">
+                <b>{label.ppCookiesBannerDesc2}</b>
+              </span>
+              <span class="banner-txt slds-hide_medium">
+                &nbsp; {label.ppCookiesBannerDesc3}
+              </span>
+              <span class="banner-txt slds-hide_medium">
+                &nbsp;{label.ppCookiesBannerLoginDesc}
+              </span>
+            </div>
+          </lightning-layout-item>
+          <template lwc:if={isMobile}>
+            <lightning-layout-item size="12">
+              <lightning-layout multiple-rows class="uniform-margin">
+                <lightning-layout-item size="12">
+                  <button
+                    type="button"
+                    class={acknowledgeButtonCss}
+                    onclick={closeTheBanner}
+                  >
+                    <span class="acknowledge_content"
+                      >{label.bTN_I_Acknowledge}</span
+                    >
+                  </button>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" class="footer-m-top">
+                  <div class="footer_logo_login_cookie_pos_mobile">
+                    <img src={footerUILogo} />
+                  </div>
+                </lightning-layout-item>
+              </lightning-layout>
+            </lightning-layout-item>
+          </template>
+          <template lwc:else>
+            <lightning-layout-item size="12">
+              <lightning-layout multiple-rows class="uniform-margin">
+                <lightning-layout-item size="6" class="slds-p-vertical_large slds-p-left_xx-small">
+                  <img
+                    src={footerUILogo}
+                    class="footer_logo_login_cookie_pos"
+                  />
+                </lightning-layout-item>
+                <lightning-layout-item size="6" padding="around-small">
+                  <button
+                    type="button"
+                    class={acknowledgeButtonCss}
+                    onclick={closeTheBanner}
+                  >
+                    <span class="acknowledge_content"
+                      >{label.bTN_I_Acknowledge}</span
+                    >
+                  </button>
+                </lightning-layout-item>
+              </lightning-layout>
+            </lightning-layout-item>
+          </template>
+        </lightning-layout>
+      </div>
+    </template>
+  </template>
+  <!-- Include the Banner modal logic-->
+  <template if:true={initData}>
+    <section
+      role="dialog"
+      tabindex="-1"
+      aria-modal="true"
+      class="slds-modal slds-fade-in-open cookie-btn"
+      style="z-index: 999999; margin-top: -40px"
+    >
+      <div class={modalContainer}>
+        <div class={modalTopCss}></div>
+        <div class="slds-modal__content slds-p-around_large modal_bottom_css">
+          <div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small">
+            <div class="slds-col modal-header-text">
+              {label.cookieManageCookiesLabel}
+            </div>
+          </div>
+          <div class="body-container modal-body slds-m-bottom_medium">
+            {label.manageCookiesDesc}
+          </div>
+
+          <div class={accordionCss} id="strictcookies" onclick={showCookieDiv}>
+            <div
+              class="acordion-title right-angle-chevron slds-p-horizontal_medium"
+            >
+              {label.accountSettingsStrictlyNecessaryCookies}
+              <span class="displaydot">.</span>
+              <span class="always-active">{label.cookieAlwaysActive}</span>
+            </div>
+            <div class="panel">
+              <template
+                for:each={initData.cookieSettings}
+                for:item="cookieSetting"
+                for:index="index"
+              >
+                <div
+                  class="cookie-title slds-p-horizontal_medium slds-p-vertical_x-small"
+                  key={cookieSetting}
+                >
+                  <div class="cookie-title-font-size">
+                    {cookieSetting.cookieName}
+                  </div>
+                  <div class="cookie-desc-font-size">
+                    {cookieSetting.cookieDescription}
+                  </div>
+                </div>
+              </template>
+              <template if:true={isJanssenStudy}>
+                <div
+                  class="cookie-title slds-p-horizontal_medium slds-p-vertical_x-small"
+                >
+                  <div class="cookie-title-font-size">
+                    {label.accountSettingsFunctionalRRCookiesLabel}
+                  </div>
+                  <div class="cookie-desc-font-size">
+                    {label.accountSettingsRRCookiesDescriptionLabel}
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+          <template if:false={isJanssenStudy}>
+            <div
+              class={accordionActiveCss}
+              id="functionalcookies"
+              onclick={showCookieDiv}
+            >
+              <div class="acordion-title slds-p-horizontal_medium">
+                {label.accountSettingsFunctionalCookiesLabel}
+              </div>
+              <div class="panel" style="display: block">
+                <div
+                  class="slds-grid slds-wrap rr-cookie-title slds-p-horizontal_medium slds-p-vertical_x-small"
+                >
+                  <div
+                    class="slds-col slds-size_9-of-12 slds-medium-size_9-of-12"
+                  >
+                    <div class="cookie-title-font-size">
+                      {label.accountSettingsFunctionalRRCookiesLabel}
+                    </div>
+                    <div class="cookie-desc-font-size">
+                      {label.accountSettingsRRCookiesDescriptionLabel}
+                    </div>
+                  </div>
+                  <div
+                    class="slds-col slds-size_3-of-12 slds-medium-size_3-of-12 slds-m-top_large desk-pad-left"
+                  >
+                    <div class="slds-form-element">
+                      <lightning-input
+                        type="toggle"
+                        label=""
+                        data-id="PPCookie"
+                        messagetoggleactive={label.BTN_On}
+                        variant="label-hidden"
+                        messagetoggleinactive={label.BTN_Off}
+                        class="slds-col ah-toggle"
+                        checked={contact.RRCookiesAllowedCookie__c}
+                        onchange={doSwitchOptInCookies}
+                      >
+                      </lightning-input>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="slds-grid rr-language-title slds-p-horizontal_medium slds-p-vertical_x-small"
+                >
+                  <div class="slds-col slds-size_9-of-12">
+                    <div class="cookie-title-font-size">
+                      {label.accountSettingsCookiesRRLanguageLabel}
+                    </div>
+                    <div class="cookie-desc-font-size mob-lang-desc">
+                      {label.accountSettingsCookiesRRLanguageDescriptionLabel}
+                    </div>
+                  </div>
+                  <div
+                    class="slds-col slds-size_3-of-12 slds-m-top_large desk-pad-left"
+                  >
+                    <div class="slds-form-element">
+                      <lightning-input
+                        type="toggle"
+                        label=""
+                        data-id="PPLang"
+                        messagetoggleactive={label.BTN_On}
+                        variant="label-hidden"
+                        messagetoggleinactive={label.BTN_Off}
+                        class="slds-col ah-toggle"
+                        checked={contact.RRLanguageAllowedCookie__c}
+                        onchange={doSwitchOptInCookies}
+                      >
+                      </lightning-input>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+          <div class="slds-grid slds-grid_align-end slds-m-top_medium">
+            <button class={acceptButtonCss} onclick={updateCookies}>
+              {label.bTN_AcceptLabel}
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+  <div class={backDropClass}></div>
 </template>

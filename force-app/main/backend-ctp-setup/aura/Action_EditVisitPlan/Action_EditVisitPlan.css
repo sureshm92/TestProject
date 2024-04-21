@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 .THIS .edit-vp-container {
-    min-height: 180px;
+    min-height: 165px;
     position: relative;
 }
 
@@ -16,7 +16,7 @@
 .THIS .toolbar .btns {
     flex-shrink: 0;
     margin-left: 20px;
-    min-width: 165px;
+    min-width: 180px;
 }
 
 .THIS .toolbar .toolbar-btn + .toolbar-btn {
@@ -24,7 +24,7 @@
 }
 
 .THIS .inline-input {
-    display: flex !important;
+    /*display: flex !important; */
     width: 80%;
     white-space: nowrap;
 }
@@ -44,5 +44,5 @@
 
  .THIS .sprint23-visit-fix div{
     width: 100%;
-    display: inherit;
+    display: flex;
 }

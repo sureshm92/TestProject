@@ -2,6 +2,23 @@
     <!-- Loading Spinner-->
     <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
     <template if:true={isInitialized}>
+        <template if:true={showBackButton}>
+            <lightning-layout multiple-rows="true">
+                <!-- ************** Back To Resources *************** -->
+                <lightning-layout-item size="12">
+                    <span onclick={handleBackClick} class={backLinkClass}>
+                        <c-web-icon
+                            icon-size="medium-large"
+                            icon-name="chevron-left"
+                            icon-color="#015ff1"
+                            class="slds-p-right_xx-small"
+                        ></c-web-icon
+                        >{labels.backToeDiaries}
+                    </span>
+                    <hr />
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
         <div class={bodyContainerClass}>
             <!--Desktop Navigation Menu-->
             <template if:false={isMobile}>
@@ -88,6 +105,7 @@
                                 user-mode={userMode}
                                 is-r-t-l={isRTL}
                                 is-mobile={isMobile}
+                                is-ipad={isIpad}
                                 is-delegate={isDelegate}
                                 onshownavmenubar={showNavigationMenu}
                             ></c-pp-account-settings-edit-profile>
@@ -106,7 +124,9 @@
                             <!--Communication Preferences Component-->
                             <c-pp-communication-preferences
                                 is-delegate={isDelegate}
+                                show-back-button={showBackButton}
                                 participant-state={participantState}
+                                person-wrapper={personWrapper}
                                 is-desktop={isDesktopFlag}
                                 user-mode={userMode}
                                 onshownavmenubar={showNavigationMenu}
@@ -144,11 +164,33 @@
                                 is-mobile={isMobile}
                                 user-mode={userMode}
                                 onshownavmenubar={showNavigationMenu}
+                                is-janssen={isJanssen}
                             ></c-pp-cookie-settings>
                         </template>
                         <template if:true={showMedicalRecordAccess}>
                             <!--Medical Record Access Component-->
                         </template>
+                        <div class="manage-delegate-acc-setting">
+                            <template if:true={showManageDelegates}>
+                                <c-manage-delegates
+                                    user-mode={userMode}
+                                    participant-contact-id={initData.myContact.Id}
+                                    is-r-t-l={isRTL}
+                                    picklist-label={labels.STUDIES_AND_PROGRAM_PP}
+                                    current-community="Iqvia Patient Portal II"
+                                    onshownavmenubar={showNavigationMenu}
+                                ></c-manage-delegates>
+                            </template>
+                        </div>
+                        <div class="manage-assignment-acc-setting">
+                            <template if:true={showManageAssignments}>
+                                <c-manage-assignment
+                                    is-r-t-l={isRTL}
+                                    onshownavmenubar={showNavigationMenu}
+                                    current-community="Iqvia Patient Portal II"
+                                ></c-manage-assignment>
+                            </template>
+                        </div>
                     </div>
                 </div>
             </template>

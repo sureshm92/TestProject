@@ -14,6 +14,8 @@
                 component.set('v.userPermission', initData.userPermission);
                 component.set('v.initData', initData);
                 component.set('v.groups', initData.groups);
+                component.set('v.communityTemplate', initData.communityTemplate);
+                component.set('v.ppTemplate', initData.ppTemplate);
                 component.set('v.options', initData.options);
                 component.set('v.dataSnapshot', helper.takeSnapshot(component));
                 component.find('spinner').hide();
@@ -153,8 +155,10 @@
         }
 
         if (
-            (!displayOnMyResultCardFlag && options.countrySelectionType !== 'Disabled') ||
-            showCustomTooltipErrorMessage
+            ((component.get('v.communityTemplate') != 'PatientPortal') &&  (component.get('v.communityTemplate') != 'Janssen' ||  component.get('v.ppTemplate') != 'PP 2.0'))
+            &&
+            ((!displayOnMyResultCardFlag && options.countrySelectionType !== 'Disabled') ||
+                showCustomTooltipErrorMessage)
         ) {
             if (!displayOnMyResultCardFlag && options.countrySelectionType !== 'Disabled') {
                 communityService.showErrorToast(

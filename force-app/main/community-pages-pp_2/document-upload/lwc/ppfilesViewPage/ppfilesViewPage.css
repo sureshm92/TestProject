@@ -1,0 +1,1061 @@
+.my-files {
+    color: #444444;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.my-filesmbl {
+    color: #444444;
+    font-size: 24px;
+    font-weight: 600;
+}
+.document-box {
+    box-sizing: border-box;
+    height: 698px;
+    /* width: 790px; */
+    width: auto;
+    border: 1px solid #e9e9e9;
+    border-radius: 16px;
+    background-color: #ffffff;
+}
+.tablePPn {
+    position: relative;
+    /* margin-top: -10px; */
+    width: 100%;
+    left: 1px;
+}
+.tablePPn .pg {
+    width: 790px;
+    bottom: 0.75rem;
+    
+}
+.pg {
+    position: relative;
+    border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
+}
+.tablePPn .pg input {
+    color: #000000;
+    box-sizing: border-box;
+    height: 32px;
+    width: 65px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
+    text-align: center;
+}
+.pg input:focus-visible {
+    outline: none;
+}
+.pg .slds-icon_container {
+    cursor: pointer;
+}
+.pg .disabled .slds-icon_container {
+    cursor: unset;
+}
+
+.upload-newdocument-boxNoFiles {
+    box-sizing: border-box;
+    /* height: 655px; */
+    height: 639px;
+    /* width: 410px; */
+    width: 100%;
+
+    border-radius: 16px;
+    background-color: #ffffff;
+    /* padding-right: 30px; */
+    position: relative;
+}
+.upload-newdocument-boxfiles {
+    box-sizing: border-box;
+    /* height: 698px; */
+    /* width: 410px; */
+    width: 100%;
+    /* border: 1px solid #e9e9e9; */
+    border-radius: 16px;
+    background-color: #ffffff;
+    padding-right: 30px;
+}
+.documentuploadempty {
+    padding-right: 1.5rem;
+}
+.document {
+    color: #444444;
+    font-size: 18px;
+    font-weight: 500;
+}
+.upload-new-document {
+    color: #444444;
+    font-size: 18px;
+    font-weight: 500;
+}
+.slds-tabs_default {
+    display: block;
+    width: 36% !important;
+}
+.all-tabs .slds-tabs_default__item:after {
+    width: 30%;
+    margin: 0 auto;
+    border-radius: 80px;
+    height: calc(var(--sds-c-tabs-list-sizing-border, 2px) + 2.5px);
+}
+.section-padding {
+    padding-left: 10px;
+    padding-right: 16px;
+}
+.dis-block {
+    display: inline-grid;
+}
+.center {
+    text-align: center;
+}
+.no-doc-img-size {
+    width: 79px;
+    height: 72px;
+}
+.upload-new-doc-img-size {
+    height: 120px;
+    width: 133.71px;
+}
+.mob-upload-new-doc-img-size {
+    height: 56px;
+    width: 63px;
+}
+.desk-upload-new-doc-img-size {
+    height: 80px;
+    width: 89.1px;
+}
+.no-doc-txt {
+    color: #999999;
+    font-size: 13px;
+    font-weight: 500;
+}
+.top-center {
+    margin-top: 13rem;
+}
+.drag-drop-txt {
+    color: #444444;
+    font-size: 16px;
+    font-weight: 600;
+}
+.uploadDivMain {
+    box-sizing: border-box;
+    /* height: 698px; */
+    height: 682px;
+    /* width: 410px; */
+    width: 100%;
+    border: 1px solid #e9e9e9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    /* padding-right: 30px; */
+    position: relative;
+    margin-top: 8px;
+}
+
+.filesizeinfoclass {
+    font-size: 14px;
+}
+.orclass {
+    font-size: 16px;
+}
+.browse-btn {
+    height: 32px;
+    min-width: 132px;
+    border-radius: 16px;
+    background-color: #0557d5;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 2px 8px 0 rgba(7, 104, 253, 0.32);
+    cursor: pointer;
+    color: #ffffff;
+    border: none;
+}
+.uploadshare {
+    line-height: 16px;
+    font-size: 14px;
+    color: #595959;
+    letter-spacing: 0px;
+    font-family: 'Proxima Nova';
+    margin-top: 24px;
+}
+/* testing */
+.fileHolder {
+    /* min-height: 130px; */
+    position: relative;
+    width: 100%;
+}
+.fileInput {
+    width: 100%;
+    /* height: 280px; */
+    height: 265px;
+    position: absolute;
+    margin-left: 15px;
+    border-radius: 16px;
+}
+.fileInputMobile {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    /* margin: 15px; */
+    border-radius: 16px;
+    opacity: 0;
+}
+.fileInputclassEmpty {
+    border: none;
+    border-radius: 3px;
+    background: grey;
+    position: absolute;
+    /* left: 0px; */
+    text-align-last: justify;
+    /* top: 0px; */
+    height: 698px;
+    width: 100%;
+    opacity: 0;
+}
+.fileInputclassEmptyouter {
+    border-radius: 16px;
+    border: 1px solid #e9e9e9;
+    background: grey;
+    position: absolute;
+    /* left: 0px; */
+    text-align-last: justify;
+    /* top: 0px; */
+    /* height: 698px; */
+    height: 682px;
+    width: 100%;
+    opacity: 0;
+}
+.fileInputclassEmptyinner {
+    border-radius: 16px;
+    border: 1px solid #e9e9e9;
+    background: grey;
+    position: absolute;
+    /* left: 0px; */
+    text-align-last: justify;
+    /* top: 0px; */
+    /* height: 655px; */
+    height: 639px;
+    width: 100%;
+    opacity: 0;
+}
+.fileBox {
+    /* width: 382px; */
+    width: 100%;
+    /* height: 280px; */
+    height: auto;
+    border: 1px dashed #979797;
+    border-radius: 16px;
+    background-color: #f2f2f2;
+    position: relative;
+    pointer-events: none;
+    margin: 15px;
+}
+.uploadLabel {
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+}
+.uploadLabeldrag {
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+}
+.uploadLabelbrowse {
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+}
+.linkLabel {
+    color: #0768fd;
+}
+.linkLabelMbl {
+    color: #0768fd;
+    font-weight: 600;
+    font-size: 16px;
+}
+.linkLabelMyFiles {
+    color: #0768fd;
+    font-weight: 600;
+}
+.linkLabelMyFiles:hover {
+    cursor: pointer;
+}
+
+.imgname {
+    /* padding-left: 0.5rem; */
+    /* padding-top: 4px; */
+    padding-top: 5px;
+}
+.progressBar {
+    /* width: 95%; */
+    /* padding-top: 7px; */
+    /* display: inline-block;
+    padding-left: 1rem;
+    padding-top: 0.85rem; */
+    /* padding-top: 0.75rem; */
+}
+.progressBarMbl {
+    /* width: 95%; */
+    /* padding-top: 7px; */
+    display: inline-block;
+    /* padding-left: 1rem; */
+    /* padding-top: 0.85rem; */
+    /* padding-top: 0.75rem; */
+}
+.cancelBtnmbl {
+    padding-left: 8px;
+}
+.progressBarError {
+    /* width: 95%; */
+    /* padding-top: 7px; */
+    display: inline-block;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+}
+.mainuploadclass {
+    height: 682px;
+    /* height: 698px; */
+    box-sizing: border-box;
+    /* height: 698px; */
+    width: 100%;
+    border: 1px solid #e9e9e9;
+    border-radius: 16px;
+    background-color: #ffffff;
+    margin-top: 8px;
+}
+.progressBar .slds-progress-bar {
+    width: 81%;
+}
+.progressBar .slds-progress-bar__value {
+    background-color: #0768fd;
+}
+.progressBarMbl .slds-progress-bar__value {
+    background-color: #0768fd;
+}
+.deskinput .slds-input {
+    border-radius: none;
+}
+.button-uploadWarning {
+    justify-content: center;
+    width: 107px;
+    height: 2rem;
+    color: #ffffff;
+    font-size: 0.875rem;
+    /* font-weight: 600; */
+    letter-spacing: 0;
+    line-height: 1.3125rem;
+    text-align: center;
+    border-radius: 1.25rem;
+    background-color: #0768fd;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(226, 0, 0, 0.16);
+}
+
+.button-cancel {
+    color: #0768fd;
+    height: 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-color: transparent;
+    line-height: 1.3125rem;
+    text-align: center;
+}
+
+.button-cancel .slds-button:active {
+    border: transparent;
+}
+.button-continue {
+    color: white;
+    border: none;
+}
+.button-upload-mobile {
+    justify-content: center;
+    width: 100%;
+    height: 2rem;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.3125rem;
+    text-align: center;
+    border-radius: 1.25rem;
+    background-color: #015ff1;
+    box-shadow: 0 4px 8px 0 rgba(7, 104, 253, 0.25);
+}
+
+.button-delete {
+    justify-content: center;
+    width: 107px;
+    height: 2rem;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.3125rem;
+    text-align: center;
+    border-radius: 1.25rem;
+    background-color: #e20000;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(226, 0, 0, 0.16);
+}
+.button-delete-mobile {
+    justify-content: center;
+    width: 100%;
+    height: 2rem;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.3125rem;
+    text-align: center;
+    border-radius: 1.25rem;
+    background-color: #e20000;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(226, 0, 0, 0.16);
+    margin-bottom: 16px;
+}
+
+.previewCss {
+    width: 100%;
+    z-index: -999;
+    min-height: 400px;
+    /* overflow-y: auto; */
+}
+.previewCssMobile {
+    width: 100%;
+    z-index: -999;
+}
+.dividerfiles {
+    height: 1px;
+
+    border-bottom: 1px solid #f6f7fb;
+    /* border-bottom: 1px solid red; */
+    width: auto;
+    display: block;
+    margin-right: 1rem;
+    margin-left: 1.5rem;
+}
+.dividerfilesMbl {
+    height: 1px;
+    border-bottom: 1px solid #f6f7fb;
+    /* border-bottom: 1px solid red; */
+    width: auto;
+    display: block;
+    margin-right: 1rem;
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+}
+.backBoarder {
+    width: 93%;
+    border-top: 1px solid #e9e9e9;
+    position: relative;
+    margin-left: 14px;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+}
+.popovercss {
+    position: absolute;
+    /* top: 29rem; */
+    /* bottom: -8rem; */
+    /* left: 45px; */
+    right: 30px;
+}
+.info-tooltip_position {
+    position: absolute;
+    top: 1.25rem;
+    right: 0rem;
+}
+
+.info-tooltip_position.slds-nubbin_top-right:before,
+.info-tooltip_position.slds-nubbin_top-right:after {
+    right: 3.5rem;
+}
+.crossicon:hover {
+    cursor: pointer;
+}
+.toastContainer > .forceToastMessage {
+    margin-top: 4.25rem !important;
+}
+.errorMessage {
+    font-size: 13px;
+    /* padding-left: 1rem; */
+    color: #e20000;
+    font-style: italic;
+    font-family: 'Proxima Nova';
+}
+.errorMessageMbl {
+    font-size: 13px;
+    /* padding-left: 1rem; */
+    color: #e20000;
+    font-style: italic;
+    font-family: 'Proxima Nova';
+}
+.errorMessageProgress {
+    font-size: 13px;
+    padding-left: 6px;
+    font-style: italic;
+    color: #e20000;
+    font-family: 'Proxima Nova';
+}
+.errorFileNameEmpty {
+    font-size: 13px;
+    padding-left: 9px;
+    font-style: italic;
+    color: #e20000;
+    font-family: 'Proxima Nova';
+}
+.errornameboxred {
+    border: 1px solid #e20000;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
+}
+
+.retryIcon {
+    float: right;
+    padding-right: 2rem;
+}
+.uploadinfo {
+    height: 20px;
+    text-wrap: nowrap;
+    overflow: hidden;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-overflow: ellipsis;
+    font-size: 14px;
+}
+.action-menu {
+    margin-top: -19px;
+    margin-right: 5px;
+}
+.popup-default {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.imagecss {
+    /* margin-bottom: 3px; */
+    /* padding-left: 0.5rem; */
+    /* padding-left: 0.25rem; */
+}
+.imagecsscrossicon {
+    /* padding-top: 5px;
+    margin-bottom: 3px; */
+    /* padding-left: 0.5rem; */
+}
+.retryimageicon {
+    /* padding-top: 5px; */
+    margin-bottom: 3px;
+    padding-left: 0.2rem;
+}
+.imagecsscrossiconinvalid {
+    /* padding-top: 13px;
+    margin-bottom: 3px; */
+    /* padding-left: 0.5rem; */
+}
+/* testing end */
+.wait-time {
+    height: 20px;
+    text-wrap: nowrap;
+    overflow: hidden;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-overflow: ellipsis;
+    color: #757575;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 600;
+    position: relative;
+}
+.wait-time-nofile {
+    color: #757575;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 600;
+    position: relative;
+}
+.upload-new-file-txt {
+    height: 24px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+}
+.image-result {
+    height: 36px;
+    width: 16px;
+}
+.filegrid {
+    /* align-items: center; */
+}
+.upld-file-txt {
+    color: #444444;
+    font-size: 14px;
+    font-weight: 600;
+    /* padding-left: 1rem; */
+    font-family: 'Proxima Nova';
+    letter-spacing: 0;
+}
+.upld-file-txtinput {
+    color: #444444;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Proxima Nova';
+    letter-spacing: 0;
+}
+.renameinputclass {
+    padding-left: 11px;
+    padding-right: 17px;
+}
+.renameinputclassdiv {
+    padding-left: 19px;
+    padding-right: 17px;
+    padding-top: 5px;
+}
+.upload-failed {
+    color: #e20000;
+    font-size: 13px;
+    font-style: italic;
+}
+.addmarginwhenerror {
+    margin-top: -40px;
+}
+.horizontal {
+    display: block;
+    border-top: 1px solid var(--slds-g-color-border-base-1, var(--lwc-colorBorder, #d4d4d4));
+    height: 1px;
+    clear: both;
+}
+.cancel-btn {
+    color: #015ff1;
+    font-size: 14px;
+    font-weight: 600;
+}
+.std-upload-btn {
+    height: 32px;
+    width: 120px;
+    border-radius: 16px;
+    background-color: #015ff1;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 2px 8px 0 rgba(7, 104, 253, 0.32);
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 14px;
+    /* opacity: 0.4; */
+}
+.std-upload-btndisable {
+    height: 32px;
+    width: 120px;
+    border-radius: 16px;
+    background-color: #015ff1;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 2px 8px 0 rgba(7, 104, 253, 0.32);
+    border: none;
+    color: #ffffff;
+    /* cursor: pointer; */
+    font-size: 14px;
+    opacity: 0.4;
+}
+.upld-can-btn {
+    float: right;
+}
+.imgcrossmbl {
+    text-align: right;
+    padding-right: 1.5rem;
+}
+.mob-upload-rectangle {
+    box-sizing: border-box;
+    height: 188px;
+    /* width: 382px; */
+    /* width: 100%; */
+    width: 93%;
+    border: 1px dashed #979797;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+    font-size: 14px;
+    /* font-weight: 600; */
+    position: relative;
+    margin-left: 14px;
+}
+.mbllightninglayout {
+    padding-left: 11px;
+    padding-right: 11px;
+}
+.upload-rectangle {
+    box-sizing: border-box;
+    height: 250px;
+    width: 382px;
+    border: 1px dashed #979797;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 15px;
+}
+.mob-wait-time {
+    /* height: 20px; */
+    color: #757575;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.cancel-btn {
+    box-sizing: border-box;
+    height: 32px;
+    width: 157px;
+    border: 1px solid #e9e9e9;
+    /* border: 1px solid #9797975c; */
+    border-radius: 16px;
+    color: #015ff1;
+    cursor: pointer;
+    /* border: none; */
+    background: None;
+}
+.disabledrag {
+    opacity: 0.5;
+}
+.backtoFile {
+    margin-left: 14px;
+    margin-bottom: 11px;
+    margin-top: 6px;
+}
+.cancel-btnDesk {
+    box-sizing: border-box;
+    height: 32px;
+    width: 157px;
+    border: 1px solid #e9e9e9;
+    /* border: 1px solid #9797975c; */
+    border-radius: 16px;
+    color: #015ff1;
+    cursor: pointer;
+    border: none;
+    /* background-color: white; */
+}
+.upload-btn {
+    height: 32px;
+    width: 200px;
+    border-radius: 16px;
+    background-color: #015ff1;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 2px 8px 0 rgba(7, 104, 253, 0.32);
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    margin-left: 3.5rem;
+}
+.overFlowTitle {
+    overflow-wrap: anywhere;
+}
+.opacityon {
+    opacity: 0.4;
+}
+.upload-progress-scroll {
+    overflow-y: auto;
+    height: 360px;
+    margin-right: 8px;
+}
+.filesspace {
+    background-color: white;
+}
+.scrollableclass {
+    /* height: 262px; */
+    height: 258px;
+    overflow-y: auto;
+    margin-right: 8px;
+}
+.uplaodfilesbutton {
+    margin-top: 8px;
+}
+.upload-newFile-btn {
+    height: 32px;
+    width: 382px;
+    border-radius: 16px;
+    background-color: #0768fd;
+    /* box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 2px 8px 0 rgba(7, 104, 253, 0.32); */
+    cursor: pointer;
+    color: #ffffff;
+    border: none;
+}
+@media all and (min-width: 355px) and (max-width: 362px) {
+    .upload-btn {
+        margin-left: 2.5rem;
+        width: 180px;
+    }
+    .cancel-btn {
+        width: 140px;
+    }
+    .btn-position {
+        /* position: absolute; */
+        /* bottom: -0.5rem !important; */
+    }
+}
+
+@media all and (min-width: 389px) and (max-width: 394px) {
+    .cancel-btn {
+        width: 132px;
+    }
+}
+
+@media all and (min-width: 363px) and (max-width: 376px) {
+    .upload-btn {
+        margin-left: 2.5rem;
+        width: 190px;
+    }
+    .cancel-btn {
+        width: 124px;
+    }
+    .btn-position {
+        /* bottom: -4.8rem !important; */
+    }
+    .upload-newFile-btn {
+        width: 349px !important;
+    }
+    .my-filesmbl {
+        padding-left: 0.75rem;
+    }
+}
+@media all and (min-width: 376px) and (max-width: 395px) {
+    .upload-btn {
+        margin-left: 2.5rem;
+    }
+    .btn-position {
+        /* bottom: 6.2rem !important; */
+    }
+    .upload-newFile-btn {
+        width: 355px !important;
+    }
+}
+
+@media all and (min-width: 321px) and (max-width: 362px) {
+    .upload-newFile-btn {
+        width: 335px !important;
+    }
+}
+@media all and (max-width: 321px) {
+    .upload-newFile-btn {
+        width: 300px !important;
+    }
+    .cancel-btn {
+        width: 123px;
+    }
+    .upload-btn {
+        width: 146px;
+        margin-left: 3rem;
+    }
+    .btn-position {
+        /* top: 103%; */
+        bottom: unset !important;
+    }
+}
+
+@media all and (max-width: 394px) {
+    .upld-file-txt {
+        padding-left: 0.5rem;
+    }
+    .progressBarMbl {
+        padding-left: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .document-box,
+    .upload-newdocument-box {
+        width: auto;
+        margin: 0 1rem;
+    }
+    .mob-upld-card-center {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        margin: auto;
+    }
+    .my-files {
+        padding: 0.5rem 0 0.5rem 1rem;
+    }
+    .ppcombo-dropdown-all {
+        width: 100% !important;
+    }
+    .ppCombobox {
+        margin: 0px;
+    }
+
+    .mob-margin {
+        margin: 10px 10px 0px 10px;
+    }
+    .upld-file-name {
+        color: #444444;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .btn-position {
+        /* position: absolute; */
+        /* bottom: 7rem; */
+    }
+    .float-btns {
+        /* position: absolute;
+        bottom: 0;
+        background: #f2f2f2;
+        padding-bottom: 3%; */
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1024px) {
+    .mbllightninglayout {
+        width: 432px;
+    }
+    .btn-position {
+        /* margin-top: 7rem; */
+        position: unset;
+    }
+    .document-box {
+        width: 93%;
+        margin-left: 2rem;
+    }
+    .upload-newFile-btn {
+        width: 97%;
+    }
+    .wait-time {
+        height: 30px;
+        overflow: visible;
+        text-wrap: wrap;
+    }
+    .uploadinfo {
+        height: 30px;
+        overflow: visible;
+        text-wrap: wrap;
+    }
+    .scrollableclass {
+        height: 235px;
+    }
+    .upload-newdocument-boxNoFiles {
+        height: 620px;
+    }
+}
+
+@media all and (min-width: 769px) and (max-width: 821px) {
+    .btn-position {
+        /* margin-top: 13rem !important; */
+        position: unset;
+    }
+    .upload-progress-scroll {
+        height: 36rem;
+    }
+}
+@media all and (min-width: 822px) and (max-width: 1024px) {
+    .btn-position {
+        /* margin-top: 24rem !important; */
+        position: unset;
+    }
+    .upload-progress-scroll {
+        height: 45rem;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1368px) {
+    .mbllightninglayout {
+        width: 98%;
+    }
+}
+/* @media all and (min-width: 740px) and (max-width: 768px) {
+    .upload-progress-scroll {
+        height: 33rem;
+    }
+} */
+/* @media all and (max-width: 359px) {
+    .upload-progress-scroll {
+        height: 10rem;
+    }
+} */
+
+/* @media all and  (min-width: 360px)  and (max-width: 389px) {
+    .upload-progress-scroll {
+        height: 10rem; 
+    }   
+} */
+@media all and (min-width: 390px) and (max-width: 411px) {
+    .upload-progress-scroll {
+        /* height: 21rem;  */
+        /* height: 17rem; */
+    }
+}
+
+@media all and (min-width: 412px) and (max-width: 767px) {
+    .upload-progress-scroll {
+        /* height: 22rem;  */
+        /* height: 20rem; */
+    }
+}
+
+@media all and (min-width: 768px) and (max-width: 819px) {
+    .upload-progress-scroll {
+        height: 33rem;
+    }
+}
+
+@media all and (min-width: 658px) and (max-width: 1368px) {
+    .cancel-btn {
+        width: 100%;
+    }
+
+    .upload-btn {
+        width: 93%;
+        margin-left: 2.5rem;
+    }
+}
+
+@media screen and (pointer: coarse) and (orientation: landscape) and (min-width: 600px) {
+    .upload-progress-scroll {
+        height: 21rem;
+    }
+}
+@media screen and (pointer: coarse) and (orientation: landscape) {
+    .previewCss {
+        width: 100%;
+        z-index: -999;
+        min-height: 150px;
+    }
+}
+
+@media screen and (pointer: coarse) and (orientation: landscape) and (min-width: 74px) and (max-width: 895px) {
+    .btn-position {
+        position: unset;
+        /* bottom: 0px; */
+    }
+    .upload-btn {
+        margin-left: 2.5rem;
+    }
+}
+@media screen and (pointer: coarse) and (orientation: landscape) and (max-width: 740px) {
+    .upload-btn {
+        margin-left: 2.5rem;
+    }
+}
+@media screen and (pointer: coarse) and (orientation: landscape) and (max-width: 1368px) {
+    .upload-newFile-btn {
+        /* width: 94%; */
+        width: 100%;
+    }
+}
+@media screen and (pointer: coarse) and (pointer: coarse) and (orientation: landscape) and (min-width: 742px) and (max-width: 1280px) {
+    .my-filesmbl {
+        /* margin-top: -4rem; */
+    }
+}
+@media screen and (pointer: coarse) and (pointer: coarse) and (orientation: landscape) and (max-width: 741px) {
+    .my-filesmbl {
+        /* margin-top: -1rem; */
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 819px) {
+    .my-filesmbl {
+        /* margin-top: -1rem; */
+    }
+}
+@media screen and (min-width: 820px) and (max-width: 1180px) {
+    .my-filesmbl {
+        /* margin-top: -4rem; */
+    }
+}
+

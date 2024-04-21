@@ -1,0 +1,64 @@
+<template>
+    <div class={mainClass} onclick={setStudy}>
+        <div if:true={per.Clinical_Trial_Profile__r.Profile_Picture__c} class="container-img">
+            <img class="profile-pic" src={per.Clinical_Trial_Profile__r.Profile_Picture__c} />
+        </div>
+        <div class="container-title">
+            {per.Clinical_Trial_Profile__r.Study_Code_Name__c}
+        </div>
+        <div class="container-description">
+            <lightning-formatted-rich-text value={per.Clinical_Trial_Profile__r.Detailed_Description__c}>                
+            </lightning-formatted-rich-text>            
+        </div>
+        <div class="info-container-no-show">
+            <div>
+                <span class="labelT">{label.PE_Investigator_Name}</span>
+                <span class="info">{per.Study_Site__r.Principal_Investigator__r.Salutation} {per.Study_Site__r.Principal_Investigator__r.Name}</span>
+                
+            </div>
+            <div class="separator"></div>
+            <div>
+                <span class="labelT">{label.PS_Enrollment_Date}</span>
+                <span class="info">
+                    <lightning-formatted-date-time  value={per.Enrolled_DateTime__c}
+                                                    year="numeric"
+                                                    month="short"
+                                                    day="2-digit"
+                                                    time-zone={userTimeZone}>
+                    </lightning-formatted-date-time>
+                </span>
+                
+            </div>
+            <div class="separator"></div>
+            <div>
+                <span class="labelT">{label.PS_Site_Location}</span>
+                <span class="info">{per.Study_Site__r.Site__r.Name}</span>                
+            </div>
+        </div>
+        <div class="info-container">
+            <div>
+                <span class="labelT">{label.PE_Investigator_Name}</span>
+                <span class="info">{per.Study_Site__r.Principal_Investigator__r.Salutation} {per.Study_Site__r.Principal_Investigator__r.Name}</span>
+                
+            </div>
+            <div class="separator"></div>
+            <div>
+                <span class="labelT">{label.PS_Enrollment_Date}</span>
+                <span class="info">
+                    <lightning-formatted-date-time  value={per.Enrolled_DateTime__c}
+                                                    year="numeric"
+                                                    month="short"
+                                                    day="2-digit"
+                                                    time-zone={userTimeZone}>
+                    </lightning-formatted-date-time>
+                </span>
+                
+            </div>
+            <div class="separator"></div>
+            <div>
+                <span class="labelT">{label.PS_Site_Location}</span>
+                <span class="info">{per.Study_Site__r.Site__r.Name}</span>                
+            </div>
+        </div>
+    </div>
+</template>
