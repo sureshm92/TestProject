@@ -1,6 +1,6 @@
 <template>
     <c-web-spinner fixed="true"></c-web-spinner>
-    <div class="slds-border_right">
+    <div class={borderClass}>
         <div class="list-selection">
             <template if:true={past}>
                 <button data-id="upcoming" class={upButtonStyle} onclick={onUpcomingClick}>
@@ -24,9 +24,9 @@
                 <template if:true={showupcomingvisits}>
                     <template if:true={isupcomingvisits}>
                         <template for:each={upcomingvisits} for:item="item" for:index="index">
-                            <div class="custom-box-container" key={item}>
+                            <div class="custom-box-container slds-align_absolute-center" key={item}>
                                 <div
-                                    class="inactive-custom-box"
+                                    class={inactiveBoxClass}
                                     onclick={onVisitSelect}
                                     data-index={index}
                                     data-past="false"
@@ -115,9 +115,9 @@
                 <template if:false={showupcomingvisits}>
                     <template if:true={ispastvisits}>
                         <template for:each={pastvisits} for:item="item" for:index="index">
-                            <div class="custom-box-container" key={item}>
+                            <div class="custom-box-container slds-align_absolute-center" key={item}>
                                 <div
-                                    class="inactive-custom-box"
+                                    class={inactiveBoxClass}
                                     onclick={onVisitSelect}
                                     data-index={index}
                                     data-past="true"

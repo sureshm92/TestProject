@@ -12,6 +12,7 @@ import BTN_Save from '@salesforce/label/c.BTN_Save';
 import pir_Delete_close from '@salesforce/label/c.pir_Delete_close';
 import PIR_medicalAcceptedFile from '@salesforce/label/c.PIR_medicalAcceptedFile';
 import PIR_uploadFile_exced from '@salesforce/label/c.PIR_uploadFile_exced';
+import PP_Browsefiles from '@salesforce/label/c.PP_Browsefiles';
 import saveTheChunkFile from '@salesforce/apex/nonReferedBulkUpload.saveTheChunkFile'; 
  
 
@@ -27,6 +28,7 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
 
     BulkImport_Drag_file_here_or = BulkImport_Drag_file_here_or;
     BulkImport_browse = BulkImport_browse;
+    PP_Browsefiles = PP_Browsefiles;
     BulkImport_Max_size = BulkImport_Max_size;
     BulkImport_Wait_Warning = BulkImport_Wait_Warning;
     MedicalImport_MaxSize = MedicalImport_MaxSize;
@@ -54,11 +56,15 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
     @api 
     uploadonid;
     @api maindivcls;
+    @api ismobiledevice;
+    @api isrequirerefreshtable;
+    calledfromclosePopup =false;
 
     handleFilesChange(event) {
         
         if(event.target.files.length > 0) {
             this.template.querySelector('[data-id="browsediv"]').classList.add('disabledrag');
+            this.calledfromclosePopup =false;
             this.filesUploaded = event.target.files;
             event.target.disabled = true;
             this.fileName = event.target.files[0].name; 
@@ -227,6 +233,14 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
             this.isDoneLoading = true;
             this.isFileAdded = false;
             this.template.querySelector('[data-id="browsediv"]').classList.remove('disabledrag');
+            if(this.calledfromclosePopup){
+            let shouldRefreshTable = this.isrequirerefreshtable ? 'success' : 'false';
+            
+            const closemodel = new CustomEvent("closemodelpopup",{
+                detail : shouldRefreshTable
+            }) ;
+            this.dispatchEvent(closemodel); 
+            }
         })
         .catch(error => {
             this.isDoneLoading = true;
@@ -241,8 +255,10 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
         if(this.progress == 100 || this.progress == 0){
             if(this.progress == 100) 
             {
+                this.calledfromclosePopup =true;
                 this.deleteFiles();
             }
+            else{
             this.template.querySelector(".fileInput").value=null; 
             this.template.querySelector(".fileInput").disabled = false;
             this.fileName = '';
@@ -251,8 +267,17 @@ export default class Pir_uploadmedicaldocument extends LightningElement {
             this.base = 1;
             this.progressMultiplier = 0;
             this.isFileAdded = false;
-            const closemodel = new CustomEvent("closemodelpopup" ) ;
-            this.dispatchEvent(closemodel);
+
+            let shouldRefreshTable = this.isrequirerefreshtable ? 'success' : 'false';
+            
+                const closemodel = new CustomEvent("closemodelpopup",{
+                    detail : shouldRefreshTable
+                }) ;
+            this.dispatchEvent(closemodel); 
+            }
+
+            // const closemodel = new CustomEvent("closemodelpopup" ) ;
+            // this.dispatchEvent(closemodel);
         }
     }
 
