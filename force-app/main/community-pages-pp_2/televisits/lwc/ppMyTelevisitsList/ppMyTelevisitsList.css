@@ -69,11 +69,20 @@
     padding-left: 20px;
 }
 
+.left-line1-rtl{
+    position: relative;
+    padding-right: 20px;
+}
 
 .left-line2 {
     /*margin-left: 16px;*/
     margin-left: 24px;
 }
+
+.left-line2-rtl {
+    margin-right: 24px;
+}
+
 .leftline3 {
     position: absolute;
     height: 100%;
@@ -278,4 +287,9 @@
 }*/
 .card-wrap {
     padding: 0;
+}
+@media (min-width:770px) and (max-width:1280px) and (orientation: landscape){
+    .group-icon{
+        margin-top: 2%;
+    }
 }

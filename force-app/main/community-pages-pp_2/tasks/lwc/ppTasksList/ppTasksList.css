@@ -528,3 +528,19 @@
 .iPadIcon-hide{
     visibility: hidden; 
 }
+.arrowWidthiPad{
+    width: 20%;
+}
+@media all and (min-width: 768px) and (max-width: 1279px) and (orientation: portrait) {
+    .critical-rect-home {
+       right: 10px;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1279px) and (orientation: landscape) {
+    .home-sys-task {
+        margin-left: 0px;
+    }
+    .home-crit-subject-ellipsis {
+        width: 140px;
+    }
+}

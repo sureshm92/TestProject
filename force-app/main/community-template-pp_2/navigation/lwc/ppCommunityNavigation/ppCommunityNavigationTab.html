@@ -43,23 +43,25 @@
                                         variant="inverse" size="xx-small" class="slds-var-p-around_xx-small">
                                     </lightning-icon>
                                 </a>
-                                <div class="slds-dropdown slds-dropdown_left">
-                                    <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
-                                        <template for:each={submenu} for:item="subItem">
-                                            <template if:true={subItem.visible}>
-                                                <li class="slds-dropdown__item" role="menuitem" key={subItem.label}>
-                                                    <a onclick={handleNavigationSubMenu} data-pagename={subItem.page}
-                                                        role="menuitem" onmouseover={handleOnMouseOver}
-                                                        onmouseleave={handleOnMouseLeave}>
-                                                        <span class="slds-truncate"
-                                                            title={subItem.label}>{subItem.label}
-                                                        </span>
-                                                    </a>
-                                                </li>
+                                <template lwc:if={showSubMenu}>
+                                    <div class="slds-dropdown slds-dropdown_left">
+                                        <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                            <template for:each={submenu} for:item="subItem">
+                                                <template if:true={subItem.visible}>
+                                                    <li class="slds-dropdown__item" role="menuitem" key={subItem.label}>
+                                                        <a onclick={handleNavigationSubMenu} data-pagename={subItem.page}
+                                                            role="menuitem" onmouseover={handleOnMouseOver}
+                                                            onmouseleave={handleOnMouseLeave}>
+                                                            <span class="slds-truncate"
+                                                                title={subItem.label}>{subItem.label}
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </template>
                                             </template>
-                                        </template>
-                                    </ul>
-                                </div>
+                                        </ul>
+                                    </div>
+                                </template>
                             </div>
                         </template>
                     </div>
@@ -76,20 +78,22 @@
                                 size="xx-small" class="slds-var-p-around_xx-small">
                             </lightning-icon>
                         </a>
-                        <div class="slds-dropdown slds-dropdown_left">
-                            <ul class="slds-dropdown__list" role="menu" aria-label="More">
-                                <template for:each={participantTabsTwo} for:item="subItem">
-                                    <li class="slds-dropdown__item" role="menuitem" key={subItem.label}>
-                                        <a onclick={handleNavigationMoreButton} data-pagename={subItem.page}
-                                            role="menuitem" onmouseover={handleOnMouseOverOne}
-                                            onmouseleave={handleOnMouseLeaveOne}>
-                                            <span class="slds-truncate" title={subItem.label}>{subItem.label}
-                                            </span>
-                                        </a>
-                                    </li>
-                                </template>
-                            </ul>
-                        </div>
+                        <template lwc:if={showMoreSubMenu}>
+                            <div class="slds-dropdown slds-dropdown_left">
+                                <ul class="slds-dropdown__list" role="menu" aria-label="More">
+                                    <template for:each={participantTabsTwo} for:item="subItem">
+                                        <li class="slds-dropdown__item" role="menuitem" key={subItem.label}>
+                                            <a onclick={handleNavigationMoreButton} data-pagename={subItem.page}
+                                                role="menuitem" onmouseover={handleOnMouseOverOne}
+                                                onmouseleave={handleOnMouseLeaveOne}>
+                                                <span class="slds-truncate" title={subItem.label}>{subItem.label}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </template>
                     </div>
                 </div>
                 <img key={item.page} src={iconName} />

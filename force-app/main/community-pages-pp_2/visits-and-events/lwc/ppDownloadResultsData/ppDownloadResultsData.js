@@ -114,6 +114,10 @@ export default class PpDownloadResultsData extends LightningElement {
         return FORM_FACTOR == 'Medium';
     }
 
+    get downloadContentOption(){
+        return this.isRTL ? 'download-content download-content-rtl' : 'download-content';
+    }
+
     generateReport(event) {
         let anchorEle = '';
 

@@ -88,7 +88,7 @@
     padding-bottom: 56.25%;
     height: 620px;
     overflow: hidden;
-    /* margin-top: -1%; */
+    /** margin-top: -1%; **/
 }
 hr {
     margin: 0%;
@@ -216,5 +216,33 @@ hr {
     }
     .mt-8{
         margin-top: -8px;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1280px) and (orientation: portrait) {
+    .study-title {       
+        margin-left: 0px;
+    }
+    .resource-heading {     
+        margin-left: 0px;
+    }
+    .back-link{
+        padding-left: 0px;   
+    }
+    .back-link-mobile{
+        margin-left: 0px !important;
+    }
+}
+@media all and (min-width: 768px) and (max-width: 1280px) and (orientation: landscape) {
+    .study-title {       
+        margin-left: 0px;
+    }
+    .resource-heading {     
+        margin-left: 0px;
+    }
+    .resource-container {       
+        max-width: none;        
+    }
+    .back-link{
+        padding-left: 0px;
     }
 }

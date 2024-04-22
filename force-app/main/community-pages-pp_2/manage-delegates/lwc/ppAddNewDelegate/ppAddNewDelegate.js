@@ -115,6 +115,7 @@ export default class PpAddNewDelegate extends LightningElement {
     oldLastName;
     isContactSelected = false;
     isDeletedOrWithdrawnDelegate = false;
+    tabletcss;
     label = {
         PG_NTM_L_Personal_Information,
         PG_NTM_L_Team_member,
@@ -221,8 +222,8 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     get saveButtonClass() {
         return this.validateData
-            ? 'save-del-btn btn-save-opacity addDelegateMobile manage-del-add-Del-page-save-btn'
-            : 'save-del-btn addDelegateMobile manage-del-add-Del-page-save-btn';
+            ? 'save-del-btn btn-save-opacity addDelegateMobile manage-del-add-Del-page-save-btn buttonscss'
+            : 'save-del-btn addDelegateMobile manage-del-add-Del-page-save-btn buttonscss';
     }
     get whatDelCanSeeSection() {
         return this.isRTL
@@ -280,6 +281,11 @@ export default class PpAddNewDelegate extends LightningElement {
     }
     connectedCallback() {
         if (!communityService.isDummy()) {
+            if(communityService.isAndroidTablet()){
+                this.tabletcss = 'buttoncss';
+            }else{
+                this.tabletcss = '';
+            }
             this.isLoading = true;
             let userMode = communityService.getUserMode();
             this.userMode = userMode;

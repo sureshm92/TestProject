@@ -8,6 +8,7 @@ import PP_Select_Question_Below from "@salesforce/label/c.PP_Select_Question_Bel
 import BTN_Send from "@salesforce/label/c.BTN_Send";
 import PP_Select_Question from "@salesforce/label/c.PP_Select_Question";
 import PP_Select_Questions from "@salesforce/label/c.PP_Select_Questions";
+import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
 
 export default class PpMessageBoard extends LightningElement {
   value = "inProgress";
@@ -51,6 +52,16 @@ export default class PpMessageBoard extends LightningElement {
     return this.messageTemplatesOption;
   }
 
+  isRTL = false;
+
+  get selection(){
+      return this.isRTL ? 'selection-rtl' : 'selection';
+  }
+
+  get sendButton(){
+      return this.isRTL ? 'send-button-rtl' : 'send-button';
+  }
+
 renderedCallback(){
     var  paststudy;
     paststudy =  this.isPastStudy;
@@ -76,6 +87,15 @@ renderedCallback(){
       this.messageValue = "";
       this.isLoaded = true;
     }
+
+    getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+                console.log('rtl--->'+this.isRTL);
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+        });
   }
   @api isRendered = false;
   @api

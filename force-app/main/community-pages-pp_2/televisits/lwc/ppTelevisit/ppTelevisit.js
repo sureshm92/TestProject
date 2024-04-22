@@ -50,9 +50,9 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
 
     get pastButtonStyle() {
         if(this.past == true){
-            return this.isRTL ? 'slds-button slds-button_brand past-button active-button-background border-radius-rtl' : 'slds-button slds-button_brand past-button active-button-background border-radius';
+            return this.isRTL ? 'slds-button slds-button_brand past-button active-button-background border-radius-rtl mr-1' : 'slds-button slds-button_brand past-button active-button-background border-radius';
         }else{
-            return this.isRTL ? 'slds-button slds-button_neutral past-button inactive-button-background border-radius-rtl' : 'slds-button slds-button_neutral past-button inactive-button-background border-radius';
+            return this.isRTL ? 'slds-button slds-button_neutral past-button inactive-button-background border-radius-rtl mr-1' : 'slds-button slds-button_neutral past-button inactive-button-background border-radius';
         }
     }
 
@@ -173,7 +173,7 @@ export default class PpTelevisit extends NavigationMixin(LightningElement) {
             });
     }
     connectedCallback() {
-        DEVICE != 'Small' ? (this.isMobile = false) : (this.isMobile = true);
+        DEVICE == 'Large' ? (this.isMobile = false) : (this.isMobile = true);
         if (communityService.getUrlParameter('ispast') === 'true') {
             this.gettelevisitdetails(true);
         } else {
