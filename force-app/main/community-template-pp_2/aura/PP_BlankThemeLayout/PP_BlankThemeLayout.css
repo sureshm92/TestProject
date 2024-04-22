@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS.all-content {
+ .THIS.all-content {
     overflow: auto;
     position: fixed;
     width: 100%;
@@ -75,11 +75,19 @@
     width: 95%; */
 }
 
-@media screen and (min-width: 767px) and (max-width: 1139px) {
+@media screen and (min-width: 768px) and (max-width: 1279px){ 
     .THIS .logo-block-mobile {
+        font-size: 30px;
+        margin: auto;
+        margin-top: 125px;
+        margin-bottom: 182px;
+        box-sizing: border-box;
+        width: 613px;
+        background-color: #ffffff;
+        box-shadow: 0 0 64px 0 rgb(0 0 0 / 25%);
         height: 770px;
         border-radius: 45px;
-    }
+    }      
 }
 
 .THIS .rr-link {
@@ -120,14 +128,15 @@
     padding-left: 24px;
 }
 
-@media screen and (min-width: 767px) and (max-width: 1139px) {
-    .THIS .page-content-mobile {
-        margin-top: -208px;
-    }
-}
-
 .THIS .cusContentMargin {
     margin-left: -24px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1279px){
+    .THIS .page-content-mobile {
+    margin-top: -206px;
+    padding-left: 40px;
+    }
 }
 
 .THIS .footerOptOut {
@@ -148,6 +157,11 @@
     bottom: 0;
     width: 100%;
     color: white;
+}
+@media screen and (min-width: 768px) and (max-width: 1024px){
+    .THIS .mob-footerOptOut {
+    margin-top: 70px;
+    }
 }
 
 .THIS .mb-222 {

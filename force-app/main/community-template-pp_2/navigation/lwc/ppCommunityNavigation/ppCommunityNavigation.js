@@ -357,17 +357,10 @@ export default class PpCommunityNavigation extends LightningElement {
                 icon: 'folder_study',
                 visible: true
             },
-            'trial-match': {
-                page: 'trial-match',
-                label: trailMatch,
-                icon: 'trial-match-mob',
-                visible: true
-            },
-            messages: {
-                page: 'messages',
-                label: navigationMessages,
-                icon: '',
-                visible: true
+            tasks: {
+                page: 'tasks',
+                label: navigationTasks,
+                icon: 'icon_bell'
             },
             help: {
                 page: 'help',
