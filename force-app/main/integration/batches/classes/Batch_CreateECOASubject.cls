@@ -31,6 +31,7 @@ public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbst
                     AND Clinical_Trial_Profile__r.Study_GUID__c != NULL
                     AND Clinical_Trial_Profile__r.Study_Version_GUID__c != NULL
                     AND Study_Site__r.ECOA_Site_Guid__c != NULL
+                    AND ECOA_Retry_Disabled__c != TRUE
             ]
         );
     }
