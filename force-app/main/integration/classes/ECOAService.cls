@@ -324,8 +324,13 @@ public with sharing class ECOAService {
                         if (remoteCall.log.Success__c) {
                             List<ECOAService.CreateSubjectResponse> newSubjectInfo = getSubjectResponse(
                                 respBody
-                            );
+                            );                       
                             peObj.Subject_GUID__c = newSubjectInfo[0].ecoaResponseID;
+                            if(String.isEmpty(peObj.Subject_GUID__c)){
+                            	peObj.ECOA_Retry_Disabled__c = true;
+                            }else{
+                            	peObj.ECOA_Retry_Disabled__c  = false;
+                            }
                             // pesToUpdate.add(peObj);
                             sObjectsList.add(peObj);
                         }
