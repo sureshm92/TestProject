@@ -4659,6 +4659,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>All date ranges</value>
     </labels>
     <labels>
+        <fullName>DoNoTranslate_BypassTrigger</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DoNoTranslate_BypassTrigger</shortDescription>
+        <value>1</value>
+    </labels>
+    <labels>
         <fullName>DRF_L_Last_month</fullName>
         <language>en_US</language>
         <protected>false</protected>
