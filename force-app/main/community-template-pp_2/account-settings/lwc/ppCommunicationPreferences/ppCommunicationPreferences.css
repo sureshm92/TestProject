@@ -461,15 +461,33 @@
         align-items: center;
     }
     .study-paramters {
-        padding: 0px 2px 0px 0px;
+        padding: 8px 2px 0px 0px;
     }
     .border-left {
         display: grid;
         align-self: center;
-        padding-top: 8px !important;
+        padding-top: 16px !important;
     }
+    
+}
+.custom-pad{
+    padding-left: 0;
+}
+
+.uniform-space{
+    font-size: 14px;
+    word-break: break-word;
+    font-weight: 500;
+}
+
+.align-center{
+    text-align: center;
 }
 
 .custom-pad{
-    padding-left: 0;
+    padding: 10px 0px 10px 0px !important;
+}
+
+.hide{
+    display: none;
 }

@@ -436,11 +436,11 @@
                                     {label.RH_RP_Cancel}
                                 </span>
                                 <button if:true={FileUploadPending} type="button"
-                                    class="std-upload-btndisable slds-m-horizontal_small" disabled>
+                                    class={uploadButtonDis} disabled>
                                     {label.RH_Upload_import}
                                 </button>
                                 <button if:false={FileUploadPending} type="button"
-                                    class="std-upload-btn slds-m-horizontal_small" onclick={uploadFiles}>
+                                    class={uploadButton} onclick={uploadFiles}>
                                     {label.RH_Upload_import}
                                 </button>
                             </div>

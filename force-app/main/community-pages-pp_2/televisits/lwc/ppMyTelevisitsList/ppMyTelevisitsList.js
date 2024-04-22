@@ -78,13 +78,14 @@ export default class PpMyTelevisitsList extends NavigationMixin (LightningElemen
         });
     }
    joinmeeting (event){
-        if (communityService.isMobileSDK()) {
-        this.urlPathPrefix = communityService.getCommunityURLPathPrefix();
+        var mobileApp = communityService.isMobileSDK();
+        if (mobileApp) {
+            this.urlPathPrefix = communityService.getCommunityURLPathPrefix();
         }
         else{
-        this.urlPathPrefix = '/pp/s';
+            this.urlPathPrefix = '/pp/s';
         }  
-        let url = this.urlPathPrefix.replace('/s', '') + event.currentTarget.dataset.id;
+        let url = this.urlPathPrefix.replace('/s', '') + event.currentTarget.dataset.id +'&mobileApp=' + mobileApp ;
         window.open(url, '_blank');
     }
 

@@ -3,7 +3,7 @@
     <template for:each={tasksList} for:item="item" for:index="index">
         <template if:false={item.expandCard}>
             <div key={item} class={containerClass} data-parentdiv={item.task.Id}>
-                <lightning-layout-item size="2" class="slds-align--absolute-center">
+                <lightning-layout-item size={iconCss} class={visibilityIcon}>
                     <!--System Tasks Icons Section at Home-->
                     <template if:false={isIPAD}>                       
                         <template if:true={ishomepage}>
@@ -284,6 +284,7 @@
                             </template>
 
                     </template>
+                    <template if:false={isIPAD}>
                         <template if:false={item.systemTask}>
                             <template if:false={item.ecoaTask}>
                                 <template if:false={item.isClosed}>
@@ -333,6 +334,7 @@
                             </template>
                            </template>
                         </template>
+                    </template>
 
 
                 <!-- <template if:false={isIPAD}> -->
@@ -343,9 +345,9 @@
                 <template if:false={isMobile}>
                     <!--Task List Subject, Critical and Due Date Section for Home Page-->
                     <template if:true={ishomepage}>
-                        <lightning-layout-item size="8">
+                        <lightning-layout-item size={sizeIcon}>
                             <lightning-layout size="12">
-                                <lightning-layout-item size="12" class={rtlMargin}>
+                                <lightning-layout-item size={sizeC} class={rtlMargin}>
                                     <!--Subject-->
                                     <lightning-layout>
                                         <lightning-layout-item class={item.homeSubjectEllipsisClass}
@@ -463,7 +465,7 @@
                                     >
                                 </lightning-layout-item>
                                 <!--Critical Label if any-->
-                                <lightning-layout-item class="slds-align_absolute-center" size="2"
+                                <lightning-layout-item class={criticalCss} size={sizeCri}
                                     ><template if:true={item.criticalTask}
                                         ><span class="critical-rect-home"
                                             >{label.taskPriorityCritical}</span

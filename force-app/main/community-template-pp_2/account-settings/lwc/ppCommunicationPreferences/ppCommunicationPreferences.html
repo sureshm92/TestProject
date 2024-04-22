@@ -166,8 +166,9 @@
                     vertical-align="center"
                   >
                     <lightning-layout-item
-                      size="5"
+                      size={row1}
                       class={TermUseStudyConsentClass}
+                      style={ipadborder}
                     >
                       <!-- <span class="study-header"
                                                 >{study.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
@@ -177,7 +178,7 @@
                       </div>
 
                       <div
-                        class="slds-p-top--medium slds-p-bottom--small mob-p-bottom--medium"
+                        class="slds-p-top--medium slds-p-bottom--small mob-p-bottom--medium" style={override}
                       >
                         <a
                           data-id={study.Clinical_Trial_Profile__c}
@@ -207,14 +208,14 @@
                       </div>
                     </lightning-layout-item>
 
-                    <lightning-layout-item size="6" class="study-content">
+                    <lightning-layout-item size={col1} class="study-content custom-pad" >
                       <lightning-layout
                         key={study.Id}
                         multiple-rows="true"
                         class=""
                         vertical-align="center"
                       >
-                        <lightning-layout-item
+                        <lightning-layout-item class={hide}
                           flexibility="auto"
                         ></lightning-layout-item>
                         <lightning-layout-item
@@ -336,7 +337,7 @@
                         </lightning-layout-item>
                       </lightning-layout>
                     </lightning-layout-item>
-                    <lightning-layout-item size="1" class={borderStyle}
+                    <lightning-layout-item size={col2} class={borderStyle}
                       ><lightning-layout
                         key={study.Id}
                         multiple-rows="true"
@@ -386,7 +387,7 @@
                     class="study-card"
                     vertical-align="center"
                   >
-                    <lightning-layout-item size="5" class={StudyConsentClass}>
+                    <lightning-layout-item size={row1} class={StudyConsentClass} style={ipadborder}>
                       <span class="TermUse-study-header"
                         >{pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
                       >
@@ -396,7 +397,7 @@
                         {pde.parLastNameInitial}.
                       </p>
                       <div
-                        class="slds-p-top--small slds-p-bottom--medium mob-p-bottom--medium"
+                        class="slds-p-top--small slds-p-bottom--medium mob-p-bottom--medium" style={override}
                       >
                         <a
                           onclick={openStudyTermsOfUse}
@@ -426,7 +427,7 @@
                       </div>
                     </lightning-layout-item>
 
-                    <lightning-layout-item size="6" class="study-content">
+                    <lightning-layout-item size={col1} class="study-content custom-pad">
                       <lightning-layout
                         key={pde.Id}
                         multiple-rows="true"
@@ -435,7 +436,7 @@
                       >
                         <lightning-layout-item
                           flexibility="auto"
-                          class="study-paramters"
+                          class={hideOther}
                         >
                         </lightning-layout-item>
                         <lightning-layout-item
@@ -553,7 +554,7 @@
                         </lightning-layout-item>
                       </lightning-layout>
                     </lightning-layout-item>
-                    <lightning-layout-item size="1" class={borderStyle}>
+                    <lightning-layout-item size={col2} class={borderStyle}>
                       <lightning-layout
                         key={study.Id}
                         multiple-rows="true"
@@ -629,16 +630,16 @@
                 <lightning-layout
                   key={outreach.Id}
                   multiple-rows="true"
-                  class="study-card"
+                  class="study-card uniform-space"
                   vertical-align="center"
                 >
-                  <lightning-layout-item size="5" class={StudyConsentClass}>
-                    <span class="study-header"
+                  <lightning-layout-item size={row1} class={StudyConsentClass} style={ipadborder}>
+                    <span class="study-header" style={customPadOutreachLabel}
                       >{label.PP_Communication_Pref_Outreach_Gen_Comm}</span
                     >
                   </lightning-layout-item>
 
-                  <lightning-layout-item size="6" class="study-content">
+                  <lightning-layout-item size={col1} class="custom-pad">
                     <lightning-layout
                       key={outreach.Id}
                       multiple-rows="true"
@@ -647,7 +648,7 @@
                     >
                       <lightning-layout-item
                         flexibility="auto"
-                        class="study-paramters"
+                        class={hideOther}
                       >
                       </lightning-layout-item>
                       <lightning-layout-item
@@ -763,7 +764,7 @@
                       </lightning-layout-item>
                     </lightning-layout>
                   </lightning-layout-item>
-                  <lightning-layout-item size="1" class={borderStyle}
+                  <lightning-layout-item size={col2} class={borderStyle}
                     ><lightning-layout
                       key={study.Id}
                       multiple-rows="true"
@@ -1002,6 +1003,7 @@
                       <lightning-layout-item
                         size="12"
                         class={StudyConsentClass}
+                        style="margin:10px;"
                       >
                         <span class="study-header"
                           >{study.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
@@ -1038,7 +1040,7 @@
 
                     <lightning-layout class="slds-grid study-card-mobile">
                       <lightning-layout-item
-                        class="study-paramters mob-vertical-pad"
+                        class="study-paramters mob-vertical-pad custom-pad"
                         size="10"
                       >
                         <lightning-layout
@@ -1150,7 +1152,7 @@
                         </lightning-layout>
                       </lightning-layout-item>
                       <lightning-layout-item
-                        class="study-paramters mob-vertical-pad border-left slds-align--absolute-center"
+                        class="study-paramters mob-vertical-pad border-left slds-align--absolute-center custom-pad"
                         size="2"
                       >
                         <lightning-layout
@@ -1205,6 +1207,7 @@
                       <lightning-layout-item
                         size="12"
                         class={StudyConsentClass}
+                        style="margin:10px;"
                       >
                         <span class="study-header"
                           >{pde.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
@@ -1246,7 +1249,7 @@
 
                     <lightning-layout class="slds-grid study-card-mobile">
                       <lightning-layout-item
-                        class="study-paramters mob-vertical-pad"
+                        class="study-paramters mob-vertical-pad custom-pad"
                         size="10"
                       >
                         <lightning-layout
@@ -1354,7 +1357,7 @@
                         </lightning-layout>
                       </lightning-layout-item>
                       <lightning-layout-item
-                        class="study-paramters mob-vertical-pad border-left slds-align--absolute-center"
+                        class="study-paramters mob-vertical-pad border-left slds-align--absolute-center custom-pad"
                         size="2"
                       >
                         <lightning-layout
@@ -1440,7 +1443,7 @@
                     class=""
                     vertical-align="center"
                   >
-                    <lightning-layout-item size="12" class={StudyConsentClass}>
+                    <lightning-layout-item size="12" class={StudyConsentClass} style="margin:10px;">
                       <span class="study-header"
                         >{label.PP_Communication_Pref_Outreach_Gen_Comm}</span
                       >
@@ -1449,7 +1452,7 @@
 
                   <lightning-layout class="slds-grid study-card-mobile">
                     <lightning-layout-item
-                      class="study-paramters mob-vertical-pad"
+                      class="study-paramters mob-vertical-pad custom-pad"
                       size="10"
                     >
                       <lightning-layout
@@ -1555,7 +1558,7 @@
                       </lightning-layout>
                     </lightning-layout-item>
                     <lightning-layout-item
-                      class="study-paramters mob-vertical-pad border-left slds-align--absolute-center"
+                      class="study-paramters mob-vertical-pad border-left slds-align--absolute-center custom-pad"
                       size="2"
                     >
                       <lightning-layout
