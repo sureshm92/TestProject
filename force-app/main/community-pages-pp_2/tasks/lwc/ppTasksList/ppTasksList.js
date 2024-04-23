@@ -208,6 +208,9 @@ export default class PpTasksList extends NavigationMixin(LightningElement) {
     get sizeIcon(){
         return this.isIpadPortrait ? 10 : this.isIpadLand ? 7 : 8;
     }
+    get paddingClass(){
+        return this.isIpadPortrait ? 'ipad-padding' : '';
+    }
     get visibilityIcon() {
         return this.ishomepage && this.isIPAD
             ? 'iPadIcon-hide '
