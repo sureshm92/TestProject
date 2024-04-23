@@ -12,6 +12,7 @@ import PI_TV_MEET_INFO from '@salesforce/label/c.PI_Televisit_Meet_Info';
 import JOIN_MEET from '@salesforce/label/c.WelcomeModal_Join';
 import UPCOMING_VISIT from '@salesforce/label/c.Televisit_Upcoming_Meet';
 import FORM_FACTOR from '@salesforce/client/formFactor';
+import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 
 export default class TelevisitMeetBanner extends NavigationMixin(LightningElement) {
     @api channel = '/event/Televisit_Event__e';
@@ -49,13 +50,29 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
         JOIN_MEET
     };
 
+    isRTL = false;
+
+    get desktopMainCssClass() {
+        return this.isRTL ? 'slds-align_absolute-center slds-grid slds-col_bump-left Padding-rtl' : 'slds-align_absolute-center slds-grid slds-col_bump-left Padding';
+    }
+    
+    
+
     // Initializes the component
-    connectedCallback() {
-        this.getCommunintyTemplateName();
-        this.getVisits();
-        this.loadCometdScript();
-        this.timeInterval();
-        document.addEventListener('click', this._handler = this.close.bind(this));
+    connectedCallback() { 
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+                this.getCommunintyTemplateName();
+                this.getVisits();
+                this.loadCometdScript();
+                this.timeInterval();
+                document.addEventListener('click', this._handler = this.close.bind(this));
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+            });
+       
     }
 
     loadCometdScript() {
@@ -112,7 +129,8 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     getCommunintyTemplateName() {
         if(this._currentMode.template.communityName === 'IQVIA Patient Portal'){
             this.isPP2View = true;
-            this.allVisitCss = 'allVisitsPP2';
+            // this.allVisitCss = 'allVisitsPP2';
+             this.allVisitCss = this.isRTL ? 'allVisitsPP2-rtl' : 'allVisitsPP2' ;
             if(FORM_FACTOR == 'Large'){
                 this.bgCss = 'divBodyPP2 slds-p-around_medium slds-text-color_inverse';
                 this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2';
@@ -231,13 +249,15 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
     }
 
     handleJoinClick(event) {
+        var mobileApp = communityService.isMobileSDK();
         this.handleOpenCloseVisits();
-        let url = this.urlPathPrefix.replace('/s', '') + event.target.dataset.name;
+        let url = this.urlPathPrefix.replace('/s', '') + event.target.dataset.name + '&mobileApp=' + mobileApp ;
         window.open(url, '_blank');
     }
     handleSingleMeetJoin(event) {
+        var mobileApp = communityService.isMobileSDK();
         event.target.style.color = 'white';
-        let url = this.urlPathPrefix.replace('/s', '') + this.meetLinkUrl;
+        let url = this.urlPathPrefix.replace('/s', '') + this.meetLinkUrl + '&mobileApp=' + mobileApp;
         window.open(url, '_blank');
         
     }

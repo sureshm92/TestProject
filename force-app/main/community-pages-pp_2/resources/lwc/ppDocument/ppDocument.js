@@ -23,7 +23,14 @@ export default class Documents extends NavigationMixin(LightningElement) {
 
     connectedCallback() {
         this.processData();
+       this.isTabletLandscape();
+        window.addEventListener('orientationchange', this.onOrientationChange);
+
     }
+    onOrientationChange = () => {
+        this.isTabletLandscape();
+        };
+
 
     processData() {
         this.id = this.document.resource.Id;
@@ -128,6 +135,7 @@ export default class Documents extends NavigationMixin(LightningElement) {
     get docDetailClass(){
         return this.isTabPortrait?'slds-col slds-size_6-of-7 document-details':'slds-col slds-size_5-of-6 document-details';
     }
+  
     isTabletLandscape(){
         let orientation = screen.orientation.type;
         if(window.innerWidth >= 768 && window.innerWidth <= 1280 ){  

@@ -55,12 +55,22 @@
                                             >{label.PPLEARNMOREMBLELabel}</span
                                         ></a
                                     >
-                                    <lightning-button-icon
-                                        icon-name="utility:chevronright"
-                                        variant="bare"
-                                        size="large"
-                                        onclick={handleclick}
-                                    ></lightning-button-icon>
+                                    <template if:false={isRTL}>
+                                        <lightning-button-icon
+                                            icon-name="utility:chevronright"
+                                            variant="bare"
+                                            size="large"
+                                            onclick={handleclick}
+                                        ></lightning-button-icon>
+                                    </template>	
+                                    <template if:true={isRTL}>
+                                        <lightning-button-icon
+                                            icon-name="utility:chevronleft"
+                                            variant="bare"
+                                            size="large"
+                                            onclick={handleclick}
+                                        ></lightning-button-icon>
+                                    </template>	
                                 </div>
                             </lightning-layout-item>
                         </lightning-layout>

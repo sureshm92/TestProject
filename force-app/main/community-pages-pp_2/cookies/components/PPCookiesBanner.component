@@ -101,6 +101,22 @@
         .cookie-desc-font-size {
             font-size: 16px;
         }
+        @media (min-width:780px) and (max-width:1024px) and (orientation: portrait){
+            .btn-container {
+                width: 100% !important;
+            }
+            .we-care-about-your-p {
+                margin: 0 1rem;
+            }
+        }
+        @media (min-width:780px) and (max-width:1280px) and (orientation: landscape){
+            .desk-btn-margin
+            {
+                margin-top: 3rem;
+            }
+        }
+
+
         @media screen and (max-width: 768px) {
             .mob-cookies-banner {
                 width: 100%;
@@ -330,13 +346,13 @@
     </apex:outputPanel>
     <div class="c-container desk-cookies-banner mob-cookies-banner hide-banner rh-border-radius">
         <div class="slds-grid slds-wrap">
-            <div class="slds-col slds-size_12-of-12 slds-large-size_9-of-12 slds-p-around_small">
+            <div class="slds-col slds-size_12-of-12 slds-medium-size_12-of-12 slds-large-size_9-of-12 slds-p-around_small">
                 <div class="we-care-about-your-p">
                     <div class="banner-heading slds-m-top_small">
                         {!$Label.PP_Cookie_Banner_Header} 
                     </div>
                     <div class="banner-txt slds-m-top_x-small slds-show_medium rh-desktop-device"> 
-                        {!$Label.PP_Cookies_Banner_Desc1}
+                        <p>{!$Label.PP_Cookies_Banner_Desc1}</p>
                         <b>{!$Label.PP_Cookies_Banner_Desc2}</b>
                         {!$Label.PP_Cookies_Banner_Desc3}
                     </div>
@@ -354,10 +370,10 @@
                 </div>
             </div>
             <div
-                class="slds-col slds-size_12-of-12 slds-large-size_3-of-12 desk-btn-margin mob-btn-center slds-p-around_small"
+                class="slds-col slds-size_12-of-12 slds-medium-size_12-of-12 slds-large-size_3-of-12 desk-btn-margin mob-btn-center slds-p-around_small"
             >
                 <div class="slds-grid slds-wrap">
-                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                    <div class="slds-col slds-size_12-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12">
                           <apex:commandButton
                             styleClass="btn-container btn-label cookie-btn rh-border-radius"
                             value="{!$Label.PP_Cookies_Button_Accept}"
@@ -366,7 +382,7 @@
                         /> 
                     </div>
                     <div
-                        class="slds-col slds-size_12-of-12 slds-large-size_12-of-12 slds-m-top_large"
+                        class="slds-col slds-size_12-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-top_large"
                     >
                        <apex:commandButton
                             styleClass="btn-container manage cookie-btn rh-border-radius"

@@ -47,7 +47,9 @@ import formFactor from '@salesforce/client/formFactor';
 import REMOVE from '@salesforce/label/c.PP_Remove';
 import RENAME from '@salesforce/label/c.PP_Rename';
 import PREVIEW from '@salesforce/label/c.PP_Preview';
+import BulkImport_browse from '@salesforce/label/c.BulkImport_browse';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import getisRTL from '@salesforce/apex/HomePageParticipantRemote.getIsRTL';
 
 const MAX_FILE_SIZE = 4500000; //2621440;// 4500000; max file size prog can handle
 const CHUNK_SIZE = 750000; // 500000; //9000;//750000; max chunk size prog can handle 500000
@@ -98,7 +100,8 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         PP_Fileremovedsuccesfully,
         REMOVE,
         RENAME,
-        PREVIEW
+        PREVIEW,
+        BulkImport_browse
     };
 
     value = 'inProgress';
@@ -128,6 +131,8 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
 
     cancelmodalisOpen = false;
     displaytooltiptitle = 'browse files';
+    isIpadPortrait=false;
+    isIpadLand=false;
 
     progresBarClass = ' progressBar slds-col slds-size_5-of-12 ';
     // progresBarClass =' progressBarError slds-col slds-size_5-of-12 ';
@@ -148,6 +153,12 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     filesData = [];
     @track isAndroid;
 
+    isRTL = false;
+
+    get documentuploadempty() {
+        return this.isRTL ? 'documentuploadempty-rtl' : 'documentuploadempty';
+    }
+
     get options() {
         return [
             { label: 'Uploaded', value: 'uploaded' },
@@ -160,6 +171,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
     getRseult;
     connectedCallback() {
         this.isAndroid=this.isAndroidApp();
+        this.isIpadPortrait=communityService.isIpadPortrait();
         if (formFactor === 'Small' || formFactor === 'Medium') {
             this.isMobile = true;
             this.isDesktop=false;
@@ -188,7 +200,19 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 this.isSaving = false;
             });
         }
+
+        getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+            });
+        window.addEventListener('orientationchange', this.onOrientationChange);
     }
+    onOrientationChange = () => {
+        this.isIpadPortrait=communityService.isIpadPortrait();
+    };
     isAndroidApp(){
         if ( (navigator.userAgent.match(/Android/i)) && communityService.isMobileSDK()) {
             return true;
@@ -426,7 +450,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 extension.toLowerCase() != 'png'
             ) {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar  slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -455,7 +479,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 continue;
             } else if (fileCon.size > MAX_FILE_SIZE) {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -484,7 +508,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 continue;
             } else {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar  slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -841,7 +865,22 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
         }
        
     }
-
+    get uploadButtonDis(){
+        if(this.isIpadPortrait){
+            return 'std-upload-btndisable';
+        }
+        else{
+            return 'std-upload-btndisable slds-m-horizontal_small';
+        }
+    }
+    get uploadButton(){
+        if(this.isIpadPortrait){
+            return 'std-upload-btn';
+        }
+        else{
+            return 'std-upload-btn slds-m-horizontal_small';
+        }
+    }
 
     handleCancelModelRemove(){
         this.removefilefromDraftmodel = false;

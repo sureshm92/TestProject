@@ -62,7 +62,7 @@
                     options={optOutSubCategoryList}
                     value={selectedOptOutSubCategory}
                     onchange={handleChange}
-                    variant = "label-inline"
+                    variant = "label-hidden"
                     data-id="checkbox1">
                 </lightning-checkbox-group> 
             </div>
@@ -90,7 +90,7 @@
         </div> -->
         <div class={displayLogo}>
             <p class="success-message-padding success-label">{label.PPOPTOUTSUCCESSMSG}</p>
-            <button class="apollo-btn primary submit-mobile mb-30" onclick={closeWindow}>
+            <button class= {successMargin} onclick={closeWindow}>
                 <span class="submit-opt-out-mobile">{label.PPOptOutCloseWindow}</span>
             </button>
         </div>

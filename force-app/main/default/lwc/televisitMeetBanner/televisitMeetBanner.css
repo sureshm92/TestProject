@@ -94,6 +94,20 @@ a:hover {
     text-align: left;
     margin-top: 25px;
 }
+.allVisitsPP2-rtl {
+    z-index: 100;
+    position: absolute;
+    top: 95px;
+    background: white;
+    box-shadow: 0 0 3px rgb(116 116 116);
+    border-radius: 4px;
+    margin-right: 20%;
+    width: 60%;
+    padding-left: 10px;
+    /*padding-top: 8px;*/
+    text-align: left;
+    margin-top: 25px;
+}
 .singleMeet{
     font-size: 16px;
     display: flex;
@@ -118,6 +132,12 @@ a:hover {
 }
 .desktop{
     display: initial;
+}
+.Padding{
+    padding-left: 20%;
+}
+.Padding-rtl{
+    padding-right: 20%;
 }
 
 
@@ -269,6 +289,28 @@ a:hover {
     margin-top: 6px;
 }
 
+@media screen and  (min-width: 780px) and (max-width: 1280px) and (orientation: landscape) { 
+    .divBodyPP2Mobile {       
+        top: -16px !important;
+    }
+    .mt-6{
+        margin-top: -5px;
+    }
+    .tab-class{
+        padding-left: 13rem;
+    }
+}
+@media screen and  (min-width: 770px) and (max-width: 1024px) and (orientation: portrait) { 
+    .mt-6{
+        margin-top: 0px;
+    }
+    .tab-class{
+        padding-left: 7rem;
+    }
+    .multipleJoinPP2Mobile{
+        padding:7px;
+    }
+}
 
 @media screen and (orientation: landscape) { 
     .multipleJoinPP2Mobile{

@@ -50,6 +50,7 @@ export default class PpCommunityNavigation extends LightningElement {
     desktop = false;
     menuCss = 'phone-menu-background nav-menu slds-border_top ';
     showSubMenu = false;
+    showMoreSubMenu = false;
     @api isInitialLoad = false;
     hasRendered = false;
     shouldDisplayFilesTab = false;
@@ -115,6 +116,7 @@ export default class PpCommunityNavigation extends LightningElement {
             mobileDiv.classList.add('slds-hide');
         }
         this.showSubMenu = false;
+        this.showMoreSubMenu = false;
     }
     get handleDynamicCSS() {
         return 'font-size: 50px;color: #FFFFFF;';
@@ -130,6 +132,7 @@ export default class PpCommunityNavigation extends LightningElement {
             ? element.classList.remove('slds-is-open')
             : '';
         this.showSubMenu = false;
+        this.showMoreSubMenu = false;
     }
     handleNavigationSubMenu(event) {
         if (DEVICE != 'Large') {
@@ -354,17 +357,10 @@ export default class PpCommunityNavigation extends LightningElement {
                 icon: 'folder_study',
                 visible: true
             },
-            'trial-match': {
-                page: 'trial-match',
-                label: trailMatch,
-                icon: 'trial-match-mob',
-                visible: true
-            },
-            messages: {
-                page: 'messages',
-                label: navigationMessages,
-                icon: '',
-                visible: true
+            tasks: {
+                page: 'tasks',
+                label: navigationTasks,
+                icon: 'icon_bell'
             },
             help: {
                 page: 'help',
@@ -486,7 +482,7 @@ export default class PpCommunityNavigation extends LightningElement {
         }));
         //filtering submenu based on parentmenu clicked
         this.submenu = subMenu.filter((subItem) => subItem.parentMenu == headerMenu);
-        if (this.submenu && DEVICE != 'Large') {
+        if (this.submenu) {
             this.showSubMenu = !this.showSubMenu;
         }
         var isOpen = element.classList.contains('slds-is-open');
@@ -498,14 +494,13 @@ export default class PpCommunityNavigation extends LightningElement {
         this.newVar = !this.newVar;
         var element = this.template.querySelector('.my-menuOne');
         var headerMenu = element.getAttribute('data-key');
-        var subMenu = Object.keys(this.allPagesSubMenuTwo).map((key) => ({
+        this.participantTabsTwo = Object.keys(this.allPagesSubMenuTwo).map((key) => ({
             key: key,
             ...this.allPagesSubMenuTwo[key]
         }));
         //filtering submenu based on parentmenu clicked
-        this.submenu = subMenu.filter((subItem) => subItem.parentMenu == headerMenu);
-        if (this.submenu && DEVICE != 'Large') {
-            this.showSubMenu = !this.showSubMenu;
+        if (this.participantTabsTwo) {
+             this.showMoreSubMenu = !this.showMoreSubMenu;
         }
         var isOpen = element.classList.contains('slds-is-open');
         //dropdown toggle->adds class if second param true and remove if false
@@ -530,6 +525,8 @@ export default class PpCommunityNavigation extends LightningElement {
         //Stop closing sub menu drop when we click on sub menu item.
         if (element && !element.classList.contains('block-submenu-onblur')) {
             element.classList.remove('slds-is-open');
+            this.showSubMenu = false;
+            this.showMoreSubMenu = false;
         }
     }
 
