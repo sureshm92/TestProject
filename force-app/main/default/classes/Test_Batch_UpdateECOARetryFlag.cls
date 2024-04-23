@@ -16,7 +16,7 @@ public class Test_Batch_UpdateECOARetryFlag {
         update peup;
         csvRowValues.add(rowStr);
             String documentName = 'Update PE ECOA Retry';
-            String csvColumnHeader = 'Id';
+            String csvColumnHeader = 'Id' + '\n';
             String csvFile = csvColumnHeader + String.join(csvRowValues,'\n');
             //Document doc = new Document(Name = documentName, Body = Blob.valueOf(csvFile), Type = 'csv',FolderId = UserInfo.getUserId(), ContentType='application/vnd.ms-excel');
             //insert doc;
