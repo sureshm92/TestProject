@@ -168,7 +168,7 @@ hr {
 
 .rtl {
     text-align: right;
-    float: right;
+    /* float: right; */
     direction: rtl;
 }
 

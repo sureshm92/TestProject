@@ -53,6 +53,8 @@ export default class Pir_participantEmancipated extends LightningElement {
     delegates = [];
     delegatesConsents = [];
     hcpDelegates = [];
+    isPPEnabledLocal = false;
+    isValuePresent;
     @api studySiteId = '';
     @api participant;
     @api siteid='';
@@ -232,6 +234,7 @@ export default class Pir_participantEmancipated extends LightningElement {
                 this.isvirtualsite = result.isVirtualSite;
                 this.siteid = result.studySiteId;
                 this.showInvite = (!result.isVirtualSite && result.isPPEnabled);
+                this.isPPEnabledLocal = result.isPPEnabled;
                 if(this.communityTemplate == 'Janssen'){ 
                      this.showInvite = result.isJanseenPPEnabled; 
                      this.isJanssen = true;
@@ -349,6 +352,7 @@ export default class Pir_participantEmancipated extends LightningElement {
         this.addDelegateListNew[indexvalue].isConnectedOnce = event.detail.isConnectedOnce;
         this.addDelegateListNew[indexvalue].isDisconnected = event.detail.disconnect;
         this.addDelegateListNew[indexvalue].cbe = event.detail.cbe;
+        this.addDelegateListNew[indexvalue].isValuePresent = event.detail.em  && event.detail.fn && event.detail.ln;
         let partmsgname = this.utilLabels.PG_Ref_L_Delegate_continue_be_delegate;
         var partmsg = partmsgname.replace("##delegateName",event.detail.fn+' '+event.detail.ln);
         this.addDelegateListNew[indexvalue].continueDelegatenewMsg = partmsg;
@@ -857,6 +861,8 @@ export default class Pir_participantEmancipated extends LightningElement {
         }
         if(this.currentTab == "4"){
             var pathdetail = [];
+            this.isPPEnabledLocal;      
+           this.isValuePresent;
             var path = {
                 isStatusPassed : true,
                 styleName:'slds-col width-basis vpi-state success',
