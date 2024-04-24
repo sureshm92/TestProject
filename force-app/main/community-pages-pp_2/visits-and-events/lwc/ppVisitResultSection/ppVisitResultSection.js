@@ -33,6 +33,7 @@ export default class PpVisitResultSection extends LightningElement {
     @track visResultsList;
     isTablet=false;
     isLandscape = false;
+    @track isAndroidTab=false;
     tabResultCardClass = 'slds-col slds-size_8-of-12 slds-p-right_small slds-p-left_none slds-p-bottom_small card-center-ipad';
     landscapeResultCardClass = 'slds-col slds-size_1-of-2 slds-p-right_small slds-p-left_none slds-p-bottom_small';
     desktopResultCardClass = 'slds-col slds-size_4-of-12 slds-p-right_small slds-p-left_none slds-p-bottom_small';
@@ -50,6 +51,7 @@ export default class PpVisitResultSection extends LightningElement {
 
     connectedCallback() {
         //this.getResultsData();
+        this.isAndroidTab=communityService.isAndroidTablet();
         this.removeUpdatesCardForVisitResult();
         this.isTabletMenu();
         this.isIpadLandscape();
@@ -106,11 +108,11 @@ export default class PpVisitResultSection extends LightningElement {
     }
 
     get isMobile() {
-        return FORM_FACTOR == 'Small';
+        return FORM_FACTOR == 'Small' && !this.isAndroidTab;
     }
 
     get isTab() {
-        return FORM_FACTOR == 'Medium';
+        return FORM_FACTOR == 'Medium' || this.isAndroidTab;
     }
     removeUpdatesCardForVisitResult() {
         let participantContactId = communityService.getParticipantData().pe.Participant_Contact__c;

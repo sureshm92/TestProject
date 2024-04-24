@@ -594,7 +594,7 @@
                                                 for="studySMSConsent">{DIRECT_MAIL}</label></span>
                               </div>
                               </br> </br>
-                              <template if:true={pd.pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c}>
+                              <template if:true={showIqviaOutreach}>
                                     <div>
                                           <label
                                                 class="slds-form-element__label-for-checkbox consent_label">{PG_Ref_L_Permit_Study_Outreach_By}</label>
