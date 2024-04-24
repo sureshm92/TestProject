@@ -172,27 +172,46 @@
                         horizontal-align="center"
                         class="po-custom-card-mobile-no-study"
                     >
-                        <lightning-layout-item size="5">
-                            <div class="po-center slds-p-top_medium slds-p-left_medium">
-                                <template if:true={isIqviaLogo}>
-                                    <img src={iqviaLogoUrl} class="po-logo borderRight slds-align--absolute-center" />
-                                </template>
-                                <template if:true={isGskLogo}>
-                                    <img src={gskLogoUrl} class="po-logo borderRight" />
-                                </template>
-                            </div>
-                        </lightning-layout-item>
-                        <lightning-layout-item size="7">
-                            <!--    <div class="po-text_3 slds-p-top_large">
-                                <a><span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
-                                <img src={open_new_tab} onclick={handleclickClinicalResearch}/></a>
-                            </div> -->
-                        </lightning-layout-item>
-                        <lightning-layout-item size="12">
-                            <div class="po-text_3">
-                                {label.PP_StudyOverview_homePage_shortDecs_DelAlu}
-                            </div>
-                        </lightning-layout-item>
+                        <template if:true = {isTablet}>
+                            <lightning-layout-item size="3">
+                                <div class="po-center slds-p-top_medium slds-p-left_medium">
+                                    <template if:true={isIqviaLogo}>
+                                        <img src={iqviaLogoUrl} class="po-logo borderRight slds-align--absolute-center" />
+                                    </template>
+                                    <template if:true={isGskLogo}>
+                                        <img src={gskLogoUrl} class="po-logo borderRight" />
+                                    </template>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="9">
+                                <div class="po-text_3">
+                                    {label.PP_StudyOverview_homePage_shortDecs_DelAlu}
+                                </div>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:false = {isTablet}>
+                            <lightning-layout-item size="5">
+                                <div class="po-center slds-p-top_medium slds-p-left_medium">
+                                    <template if:true={isIqviaLogo}>
+                                        <img src={iqviaLogoUrl} class="po-logo borderRight slds-align--absolute-center" />
+                                    </template>
+                                    <template if:true={isGskLogo}>
+                                        <img src={gskLogoUrl} class="po-logo borderRight" />
+                                    </template>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="7">
+                                <!--    <div class="po-text_3 slds-p-top_large">
+                                    <a><span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
+                                    <img src={open_new_tab} onclick={handleclickClinicalResearch}/></a>
+                                </div> -->
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12">
+                                <div class="po-text_3">
+                                    {label.PP_StudyOverview_homePage_shortDecs_DelAlu}
+                                </div>
+                            </lightning-layout-item>
+                        </template>
                     </lightning-layout>
                 </div>
             </template>
