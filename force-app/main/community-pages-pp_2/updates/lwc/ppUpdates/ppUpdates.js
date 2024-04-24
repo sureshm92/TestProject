@@ -39,6 +39,8 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
     timer;
     @api initialLoadTime;
     loadMoreValue;
+    iPadPortrait;
+    iPadlandscape;
     get showloadMore() {
         if (this.counter > 4 && this.loadMoreValue && this.counter > this.offset) {
             return true;
@@ -47,7 +49,10 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
         }
     }
     get hor_scroll() {
-        if (this.counter > 4 && this.desktop && !this.showvisitsection) {
+        if(this.isIpadPortrait && this.counter > 3 && this.desktop && !this.showvisitsection){
+            return 'slds-grid horizontal-scroll';
+        }
+        else if (this.counter > 4 && this.desktop && !this.showvisitsection) {
             return 'slds-grid horizontal-scroll';
         } else if (this.counter <= 4 && this.desktop && !this.showvisitsection) {
             return 'slds-grid';
@@ -84,6 +89,20 @@ export default class PpUpdates extends NavigationMixin(LightningElement) {
             return 'position-container update-container desktop-update';
         }
     }
+    get updateCardHz(){
+        if(this.iPadPortrait && !this.showvisitsection){
+            return 'slds-col slds-size_4-of-12 slds-m-right_x-small horizontal-card';
+        }else{
+            return 'slds-col slds-size_3-of-12 slds-m-right_x-small horizontal-card';
+        }
+    }
+    connectedCallback() {
+        this.iPadPortrait = communityService.isIpadPortrait();
+        window.addEventListener('orientationchange', this.onOrientationChange);
+    }
+    onOrientationChange = () => {
+        this.iPadPortrait = communityService.isIpadPortrait();
+    };
     renderedCallback() {
         if (!this.isRendered) {
             this.isRendered = true;

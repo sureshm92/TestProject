@@ -121,7 +121,7 @@ public with sharing class MedicalHistryTabControllerTest {
         List<ContentVersion> contentVersionList = new List<ContentVersion>();
         byPassTriggersMethod();
         ContentVersion contentVersion = new ContentVersion(
-            Title = 'Test File',
+            Title = 'TestFile.jpg',
             PathOnClient = 'testFile.jpg',
             VersionData = Blob.valueOf('Test Content'),
             IsMajorVersion = true
@@ -129,32 +129,40 @@ public with sharing class MedicalHistryTabControllerTest {
         contentVersionList.add(contentVersion);   
         
         ContentVersion contentVersion2 = new ContentVersion(
-            Title = 'Test File',
-            PathOnClient = 'testFile.mp3',
+            Title = 'Test File Again.pdf',
+            PathOnClient = 'testFileagain.pdf',
             VersionData = Blob.valueOf('Test Content sadas'),
             IsMajorVersion = true
         );
         contentVersionList.add(contentVersion2);
         
-        insert contentVersionList;    
-        List<ContentDocument> documents = [SELECT Id, Title, LatestPublishedVersionId FROM ContentDocument];
-        system.debug('documents:'+documents);
+        insert contentVersionList;  
+        
+        ContentVersion objcon1 = [SELECT Id, Title, ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion.Id LIMIT 1];
+        ContentVersion objcon2 = [SELECT Id, Title, ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion2.Id LIMIT 1]; 
         
         List<ContentDocumentLink> contentDocList = new List<ContentDocumentLink>();
         //create ContentDocumentLink  record 
         ContentDocumentLink cdl = New ContentDocumentLink();
         cdl.LinkedEntityId = objpart[0].Participant__c;
-        cdl.ContentDocumentId = documents[0].Id;
+        cdl.ContentDocumentId = objcon1.ContentDocumentId;
         cdl.shareType = 'V';
         cdl.Visibility = 'AllUsers';
         contentDocList.add(cdl);
 
         ContentDocumentLink cdl1 = New ContentDocumentLink();
         cdl1.LinkedEntityId = objpart[1].Participant__c;
-        cdl1.ContentDocumentId = documents[1].Id;
+        cdl1.ContentDocumentId = objcon2.ContentDocumentId;
         cdl1.shareType = 'V';
         cdl1.Visibility = 'AllUsers';
         contentDocList.add(cdl1);
+        
+        list<Id> lstAddpermission = new list<Id> ();
+        lstAddpermission.add(objcon1.ContentDocumentId);
+        list<Id> lstRemovePermsiion = new list<Id> ();
+        lstRemovePermsiion.add(objcon1.ContentDocumentId);
+        String strAddpermission = JSON.serialize(lstAddpermission);
+        String strRemovePermsiion = JSON.serialize(lstRemovePermsiion);
         
         insert contentDocList;
         Map<String,String> comMap = new Map<String,String>();
@@ -177,6 +185,12 @@ public with sharing class MedicalHistryTabControllerTest {
         String comString = JSON.serialize(comListMap);
         String comDelString = JSON.serialize(comDelListMap);
         System.debug('comString:'+comString);
+        list<MedicalHistryTabController.attachmentNameWrapper> lstAttachmentWrapper = new list<MedicalHistryTabController.attachmentNameWrapper> ();
+        MedicalHistryTabController.attachmentNameWrapper objAttachmentWrapper = new MedicalHistryTabController.attachmentNameWrapper();
+        objAttachmentWrapper.cntnDocId = objcon1.ContentDocumentId;
+        objAttachmentWrapper.title = 'Updatedfile';
+        lstAttachmentWrapper.add(objAttachmentWrapper);
+        String strUpdateNamewrapper = JSON.serialize(lstAttachmentWrapper);  
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new HumanAPIcontrollerMock());
         MedicalHistryTabController.medicalHistryWrapper wrapper = new MedicalHistryTabController.medicalHistryWrapper();
@@ -192,14 +206,150 @@ public with sharing class MedicalHistryTabControllerTest {
         System.assert(history.size()==0);
         //MedicalHistryTabController.getSurveyResponsecovid(objpart[0].Id);
         MedicalHistryTabController.medicalHistryWrapper wrapper3 = new MedicalHistryTabController.medicalHistryWrapper();
-        MedicalHistryTabController.saveParticipantData('2.1',false,false,comString,'[]',objpart[0].Id);
+        MedicalHistryTabController.saveParticipantData('2.1',false,false,comString,'[]',objpart[0].Id,strAddpermission,'[]',strUpdateNamewrapper);
         System.assert(wrapper3!= null);
-        MedicalHistryTabController.saveParticipantData('2.1',false,true,comString,comDelString,objpart[0].Id);
+        MedicalHistryTabController.saveParticipantData('2.1',false,true,comString,comDelString,objpart[0].Id,'[]',strRemovePermsiion,'[]');
         try{
-            MedicalHistryTabController.saveParticipantData('2.1',false,true,comString,'',objpart[0].Id);
+            MedicalHistryTabController.saveParticipantData('2.1',false,true,comString,'',objpart[0].Id,'[]','[]','[]');
         }catch(Exception ex){}
         Test.stopTest();
+    } 
+    
+     @isTest
+    static void testSaveAttachmentPermission() {
+        List<Participant_Enrollment__c> objPER = [SELECT Id,Participant__r.BMI__c,Comorbidities__c,HighRisk_Indicator__c,High_Priority__c,Referral_Source__c,Participant__c
+        ,Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,Study_Site__c,Unique_HumanId__c,MRR_Survey_Results_URL__c FROM Participant_Enrollment__c ];
+
+        List<ContentVersion> contentVersionList = new List<ContentVersion>();
+        byPassTriggersMethod();
+        ContentVersion contentVersion = new ContentVersion(
+            Title = 'TestFile.jpg',
+            PathOnClient = 'testFile.jpg',
+            VersionData = Blob.valueOf('Test Content'),
+            IsMajorVersion = true
+        );
+        contentVersionList.add(contentVersion);   
+        
+        ContentVersion contentVersion2 = new ContentVersion(
+            Title = 'Test File Again.pdf',
+            PathOnClient = 'testFileagain.pdf',
+            VersionData = Blob.valueOf('Test Content sadas'),
+            IsMajorVersion = true
+        );
+        contentVersionList.add(contentVersion2);
+        
+        insert contentVersionList;  
+        
+        ContentVersion objcon1 = [SELECT Id, Title, ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion.Id LIMIT 1];
+        ContentVersion objcon2 = [SELECT Id, Title, ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion2.Id LIMIT 1]; 
+        
+        List<ContentDocumentLink> contentDocList = new List<ContentDocumentLink>();
+        //create ContentDocumentLink  record 
+        ContentDocumentLink cdl = New ContentDocumentLink();
+        cdl.LinkedEntityId = objPER[0].Participant__c;
+        cdl.ContentDocumentId = objcon1.ContentDocumentId;
+        cdl.shareType = 'V';
+        cdl.Visibility = 'AllUsers';
+        contentDocList.add(cdl);
+
+        ContentDocumentLink cdl1 = New ContentDocumentLink();
+        cdl1.LinkedEntityId = objPER[1].Participant__c;
+        cdl1.ContentDocumentId = objcon2.ContentDocumentId;
+        cdl1.shareType = 'V';
+        cdl1.Visibility = 'AllUsers';
+        contentDocList.add(cdl1);
+        list<Id> lstAddpermission = new list<Id> ();
+        lstAddpermission.add(objcon1.ContentDocumentId);
+        list<Id> lstRemovePermsiion = new list<Id> ();
+        lstRemovePermsiion.add(objcon1.ContentDocumentId);
+        String strAddpermission = JSON.serialize(lstAddpermission);
+        String strRemovePermsiion = JSON.serialize(lstRemovePermsiion); 
+        insert contentDocList;
+        list<MedicalHistryTabController.attachmentNameWrapper> lstAttachmentWrapper = new list<MedicalHistryTabController.attachmentNameWrapper> ();
+        MedicalHistryTabController.attachmentNameWrapper objAttachmentWrapper = new MedicalHistryTabController.attachmentNameWrapper();
+        objAttachmentWrapper.cntnDocId = objcon1.ContentDocumentId;
+        objAttachmentWrapper.title = 'Updatedfile';
+        lstAttachmentWrapper.add(objAttachmentWrapper);
+        String strUpdateNamewrapper = JSON.serialize(lstAttachmentWrapper);  
+        Test.startTest(); 
+         MedicalHistryTabController.saveAttachmentPermission(objPER[0].id,strAddpermission,'[]',strUpdateNamewrapper);
+        ContentVersion objcon1_updated = [SELECT Id, Title, ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion.Id LIMIT 1];
+        system.assertEquals('Updatedfile',objcon1_updated.Title); 
+        MedicalHistryTabController.saveAttachmentPermission(objPER[0].id,'[]',strRemovePermsiion,'[]');
+         MedicalHistryTabController.getMedicalHistorys(null,objPER[0].Participant__c,objPER[0].id,false,false);
+         MedicalHistryTabController.getMedicalHistorys(null,objPER[0].Participant__c,objPER[0].id,true,true); 
+         MedicalHistryTabController.getMedicalHistorys(null,objPER[0].Participant__c,objPER[0].id,false,true); 
+        MedicalHistryTabController.deleteFileAttachment(objcon1.ContentDocumentId,objPER[0].Participant__c,objPER[0].id,true,false);
+        
+         
+        Test.stopTest();
     }
+     @isTest
+    static void testgetMedicalHistory() {
+        List<Participant_Enrollment__c> objPER = [SELECT Id,Participant__r.BMI__c,Comorbidities__c,HighRisk_Indicator__c,High_Priority__c,Referral_Source__c,Participant__c
+        ,Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,Study_Site__c,Unique_HumanId__c,MRR_Survey_Results_URL__c FROM Participant_Enrollment__c ];
+
+        List<ContentVersion> contentVersionList = new List<ContentVersion>();
+        byPassTriggersMethod();
+        ContentVersion contentVersion = new ContentVersion(
+            Title = 'TestFile.jpg',
+            PathOnClient = 'testFile.jpg',
+            VersionData = Blob.valueOf('Test Content'),
+            IsMajorVersion = true
+        );
+        contentVersionList.add(contentVersion);   
+        
+        ContentVersion contentVersion2 = new ContentVersion(
+            Title = 'Test File Again.pdf',
+            PathOnClient = 'testFileagain.pdf',
+            VersionData = Blob.valueOf('Test Content sadas'),
+            IsMajorVersion = true
+        );
+        contentVersionList.add(contentVersion2);
+        
+        insert contentVersionList;  
+        
+        ContentVersion objcon1 = [SELECT Id, Title, ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion.Id LIMIT 1];
+        ContentVersion objcon2 = [SELECT Id, Title, ContentDocumentId FROM ContentVersion WHERE Id = :contentVersion2.Id LIMIT 1]; 
+        
+        List<ContentDocumentLink> contentDocList = new List<ContentDocumentLink>();
+        //create ContentDocumentLink  record 
+        ContentDocumentLink cdl = New ContentDocumentLink();
+        cdl.LinkedEntityId = objPER[0].Participant__c;
+        cdl.ContentDocumentId = objcon1.ContentDocumentId;
+        cdl.shareType = 'V';
+        cdl.Visibility = 'AllUsers';
+        contentDocList.add(cdl);
+
+        ContentDocumentLink cdl1 = New ContentDocumentLink();
+        cdl1.LinkedEntityId = objPER[1].Participant__c;
+        cdl1.ContentDocumentId = objcon2.ContentDocumentId;
+        cdl1.shareType = 'V';
+        cdl1.Visibility = 'AllUsers';
+        contentDocList.add(cdl1);
+        list<Id> lstAddpermission = new list<Id> ();
+        lstAddpermission.add(objcon1.ContentDocumentId);
+        list<Id> lstRemovePermsiion = new list<Id> ();
+        lstRemovePermsiion.add(objcon1.ContentDocumentId);
+        String strAddpermission = JSON.serialize(lstAddpermission);
+        String strRemovePermsiion = JSON.serialize(lstRemovePermsiion); 
+        insert contentDocList;
+        
+        Test.startTest(); 
+        MedicalHistryTabController.getMedicalHistory(null,objPER[0].Participant__c,objPER[0].Id);
+        Test.stopTest();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     @isTest
     static void testMedicalHistoryControllerDetails_Update() {
@@ -242,11 +392,11 @@ public with sharing class MedicalHistryTabControllerTest {
         Test.setMock(HttpCalloutMock.class, new HumanAPIcontrollerMock());
         MedicalHistryTabController.medicalHistryWrapper wrapper = new MedicalHistryTabController.medicalHistryWrapper();
         wrapper = MedicalHistryTabController.getPEDetails(objpart[0].Id);
-        MedicalHistryTabController.saveParticipantData('',false,true,comString,comDelString,objpart[0].Id);
+        MedicalHistryTabController.saveParticipantData('',false,true,comString,comDelString,objpart[0].Id,'[]','[]','[]');
         String survey = MedicalHistryTabController.getSurveyResponsecovid(objpart[0].Id);   
         System.assert(String.isNotBlank(survey));     
         Test.stopTest();
-    }
+    } 
 
     static void byPassTriggersMethod() {
         TriggerHandlerExecutor.bypassHandler(
@@ -351,5 +501,5 @@ public with sharing class MedicalHistryTabControllerTest {
         TriggerHandlerExecutor.bypassHandler(
             ParticipantTriggerHandler.UpdateNameOnPE.class
         );
-    }
+    } 
 }

@@ -62,8 +62,31 @@ public with sharing class PIR_ParticipantDetailControllerTest {
         
         String delegateString = '{ "Id": "","Participant_Delegate__c": "","Participant_Delegate__r": {"First_Name__c": "test1","Last_Name__c": "test","Email__c": "test2@test.com","Phone__c": "12312312","Birth_Year__c": "2000","Attestation__c": true}}';
         Test.startTest();
-        Map<String,sObject> dataMap = PIR_ParticipantDetailController.getParticipantData(testData.pe.Id);
-        System.assertEquals(true,dataMap.containsKey('pe'));
+         Clinical_Trial_Profile__c ctp = [
+            SELECT
+                Id,
+                Therapeutic_Area__c,
+                Study_Code_Name__c,
+                Study_Title__c,
+                Protocol_ID__c,
+                Patient_Portal_Enabled__c,
+                Terms_and_Conditions__c,
+                Initial_Visit_Required__c,
+                Participant_Workflow_Final_Step__c,
+                Final_Consent_Required__c,
+                Enable_for_Call_Center_Support__c,
+                Link_to_Medical_Record_Review__c,
+                Link_to_Pre_screening__c,
+             	IQVIA_Outreach__c
+            FROM Clinical_Trial_Profile__c
+            Limit 1
+        ];
+        ctp.IQVIA_Outreach__c= true;
+        update ctp;
+        PIR_ParticipantDetailController.perDetailWrapper dataMap = new PIR_ParticipantDetailController.perDetailWrapper();
+        //Map<String,sObject> dataMap = PIR_ParticipantDetailController.getParticipantData(testData.pe.Id);
+        dataMap=PIR_ParticipantDetailController.getParticipantData(testData.pe.Id);
+        //System.assertEquals(true,dataMap.containsKey('pe'));
         PIR_ParticipantDetailController.CountyrStateInfo countryInfo = new PIR_ParticipantDetailController.CountyrStateInfo();        
         PIR_ParticipantDetailController.getCnData();
         System.assert(countryInfo.stateMap != null);

@@ -63,7 +63,7 @@ export default class ProgramOverview extends LightningElement {
     }
 
     connectedCallback() {
-        DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+        DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
 
         if (this.clinicalrecord) {
             if (this.clinicalrecord.Brief_Summary__c) {

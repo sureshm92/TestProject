@@ -785,6 +785,9 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         if(filterCriteria && isAdult && String.isNotBlank(ipr.email__c)){
             objPE.Invited_To_PP_Date__c = DateTime.now(); 
         }
+        if(ipr.DataControllerOrg__c!=null){
+            objPE.DataControllerOrg__c=ipr.DataControllerOrg__c=='Sponsor Org'? 'SponsorSpecific':'Generic';
+        }
         if (ipr.Comorbidities__c == 'True')
             objPE.Comorbidities__c = 'Yes';
         else if (ipr.Comorbidities__c == 'False')
