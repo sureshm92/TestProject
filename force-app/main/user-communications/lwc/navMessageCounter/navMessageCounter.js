@@ -11,7 +11,9 @@ import Message_MaxTime_DoNotTranslate from '@salesforce/label/c.Message_MaxTime_
 export default class NavMessageCounter extends LightningElement {
     @api isOnPage = false;
     @track counter;
+    @track isTab;
     @api isMessagePage = false;
+    @api portraitCount;
     labels = {
         New,
         Message_MinTime_DoNotTranslate,
@@ -19,6 +21,10 @@ export default class NavMessageCounter extends LightningElement {
     };
 
     connectedCallback() {
+        this.isTab = this.isTablet();
+        if (this.portraitCount > 0) {
+            this.counter = this.portraitCount;
+        }
         setInterval(
             () => {
                 getCounter()
@@ -31,7 +37,7 @@ export default class NavMessageCounter extends LightningElement {
                         }
                         this.dispatchEvent(new CustomEvent('msgnotify', {
                             detail: {
-                                message:  this.counter
+                                message: this.counter
                             }
                         }));
                     })
@@ -39,8 +45,19 @@ export default class NavMessageCounter extends LightningElement {
                         console.error('Error in getCounter():' + JSON.stringify(error));
                     });
             },
-        this.isOnPage ? this.labels.Message_MinTime_DoNotTranslate : this.labels.Message_MaxTime_DoNotTranslate
-        // this.isOnPage ? 1000 : 5000
+            this.isOnPage ? this.labels.Message_MinTime_DoNotTranslate : this.labels.Message_MaxTime_DoNotTranslate
+            // this.isOnPage ? 1000 : 5000
         );
+    }
+    isTablet() {
+        if (window.innerWidth >= 768 && window.innerWidth <= 1280) {
+            if (/android/i.test(navigator.userAgent.toLowerCase())) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }

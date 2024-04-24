@@ -88,7 +88,7 @@ public class Test_ManualTaskFilter {
         filteredCountryCodes = manualTaskFilter.getCountryCode();
         manualTaskFilter.isPlatformLevel = true;
         manualTaskFilter.getContactsWithWhatIds(taskConfig);
-        manualTaskFilter.getContactsWithParticipantIds(taskConfig.visibility);
+        //manualTaskFilter.getContactsWithParticipantIds(taskConfig.visibility);
         
 
         System.assertEquals('US', testPEs[0].Participant__r.Mailing_Country_Code__c);
@@ -161,17 +161,81 @@ public class Test_ManualTaskFilter {
       }
             }
         insert patientDelegateLST;
+        Patient_delegate_enrollment__c patientEnrollment =new Patient_delegate_enrollment__c(
+            Participant_Enrollment__c = testPEs[0].Id,
+            Patient_Delegate__c= patientDelegateLST[0].id,
+            Study_Email_Consent__c=true,
+            Study_SMS_Consent__c=true,
+            Study_Phone_Consent__c=true,
+            Study_Direct_Mail_Consent__c=true
+        ); 
+        insert patientEnrollment;
         TaskService.TaskConfig taskConfig = new TaskService.TaskConfig();
         taskConfig.visibility ='Owner';
         filterResult = manualTaskFilter.filterTherapeutic();
         filteredCountryCodes = manualTaskFilter.getCountryCode();
         manualTaskFilter.isPlatformLevel = false;
         manualTaskFilter.getContactsWithWhatIds(taskConfig);
-        manualTaskFilter.getContactsWithParticipantIds(taskConfig.visibility);
+        //manualTaskFilter.getContactsWithParticipantIds(taskConfig.visibility);
         Test.stopTest();
 
         System.assertEquals('US', testPEs[0].Participant__r.Mailing_Country_Code__c);
         System.assert(filterResult.contains('Participant__c'));
         System.assert(filteredCountryCodes.contains('US'));
+    }
+    @IsTest
+    public static void testMultiRoleParticipantTask() {
+        List<String> testIds = new List<String>();
+        testIds.add('0011F00000PfTigQAF');
+        testIds.add('0011F00000PfTihQAF');
+        testIds.add('0011F00000PfTiiQAF');
+        testIds.add('0011F00000PfTijQAF');
+        
+		Test.startTest();
+        TestData td = new TestData();
+        List<Participant_Enrollment__c> testPEs;
+        String filterResult;
+        List<String> filteredCountryCodes;
+
+        ManualTaskFilter manualTaskFilter = new ManualTaskFilter();
+        System.assertEquals(FIELD_JOIN_EXPECTED, DatabaseService.fieldInValues('Account', testIds));
+
+        manualTaskFilter.countries.add(
+            new LookupSearchResult('US', 'Participant_Status__c', 'icon', 'title', 'subtitle')
+        );
+        manualTaskFilter.statuses.add('Enrolled');
+        manualTaskFilter.statuses.add('Referred');
+
+        testPEs = manualTaskFilter.getContactsWithPE().get(td.participant.Contact__c);
+    
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+            Contact__c = td.participant.Contact__c,
+            Contact__r = td.participant.Contact__r,
+            Participant__c = td.participant.id,
+            Participant__r = td.participant
+        );
+        insert patientDelegate;
+        Patient_delegate_enrollment__c patientEnrollment =new Patient_delegate_enrollment__c(
+            Participant_Enrollment__c = testPEs[0].Id,
+            Patient_Delegate__c= patientDelegate.id,
+            Study_Email_Consent__c=true,
+            Study_SMS_Consent__c=true,
+            Study_Phone_Consent__c=true,
+            Study_Direct_Mail_Consent__c=true
+        ); 
+        insert patientEnrollment;
+        TaskService.TaskConfig taskConfig = new TaskService.TaskConfig();
+        taskConfig.visibility ='Delegates';
+        filterResult = manualTaskFilter.filterTherapeutic();
+        filteredCountryCodes = manualTaskFilter.getCountryCode();
+        manualTaskFilter.isPlatformLevel = true;
+        manualTaskFilter.getContactsWithWhatIds(taskConfig);
+        //manualTaskFilter.getContactsWithParticipantIds(taskConfig.visibility);
+        
+
+        System.assertEquals('US', testPEs[0].Participant__r.Mailing_Country_Code__c);
+        System.assert(filterResult.contains('Participant__c'));
+        System.assert(filteredCountryCodes.contains('US'));
+        Test.stopTest();
     }
 }

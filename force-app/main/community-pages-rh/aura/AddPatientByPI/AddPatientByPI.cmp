@@ -58,6 +58,7 @@
     <aura:attribute name="futureDate" type="Boolean" />
 
     <aura:attribute name="dupPart" type="String"  />
+    <aura:attribute name="iqviaOutreachCons" type="Boolean" default="false" />
 
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
@@ -349,7 +350,7 @@
                             class="slds-form-element"
                             style="{!'margin-top: 20px; ' + if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}"
                         >
-                        <c:consentManager aura:id="consent-Manager" callSource="addParticipant" onconsentchange="{!c.handleConsentChange}" participantCountry="{!v.participant.Mailing_Country_Code__c}" studySiteId="{!v.pe.Study_Site__c}" ></c:consentManager></div>
+                        <c:consentManager aura:id="consent-Manager" callSource="addParticipant" onconsentchange="{!c.handleConsentChange}" participantCountry="{!v.participant.Mailing_Country_Code__c}" studySiteId="{!v.pe.Study_Site__c}"  iqviaconstImp="{!v.iqviaOutreachCons}"></c:consentManager></div>
                     </div>
                     <!-- Added for 1936-->
                     <!--div class="slds-grid slds-gutters slds-wrap">
@@ -520,6 +521,7 @@
                             </div>
                         </div>
                     </aura:if-->
+                    <aura:if isTrue="{!v.ctp.Patient_Portal_Enabled__c}">
                     <aura:if
                         isTrue="{!and(v.ss.Study_Site_Type__c == 'Traditional' ,          (v.ss.Suppress_Participant_Emails__c || v.ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c || (v.participant.Adult__c&amp;&amp;or(!v.participant.Email__c,v.participant.Email__c=='')&amp;&amp;v.needsGuardian)))}"
                     >
@@ -620,6 +622,7 @@
                             </aura:if>
                         </aura:set>
                     </aura:if>
+                </aura:if>
                 </div>
             </div>
             <div class="ap-bottom-info"></div>

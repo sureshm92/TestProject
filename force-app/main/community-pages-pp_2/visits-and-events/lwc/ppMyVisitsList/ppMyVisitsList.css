@@ -171,9 +171,9 @@ a {
     font-family: 'Proxima Nova';
     font-weight: 400;
     letter-spacing: 0;
-    line-height: 24px;
+    /* line-height: 24px; */
     text-align: center;
-    height: 32px;
+    /* height: 32px; */
     min-width: 109px;
     margin-left: -1px;
 }
@@ -187,7 +187,7 @@ a {
 }
 
 .scroll-bar {
-    height: 39rem;
+    height: 39rem;   
     border-radius: 4px;
     margin-right: 1rem;
 }
@@ -334,7 +334,7 @@ a {
     .active-custom-box,
     .inactive-custom-box {
         margin-inline: auto;
-        max-width: 340px;
+        /* max-width: 340px; */
     }
 }
 
@@ -396,6 +396,46 @@ a {
         width: 100%;
     }
 }
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    .active-custom-box {
+        width: 280px;
+        height: max-content;
+        display: inline-grid;
+        align-items: center;
+    }
+    .inactive-custom-box {
+        width: 280px;
+        height: max-content;
+        display: inline-grid;
+        align-items: center;
+    }
+}
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: landscape) {
+    .active-custom-box {
+        max-width: 100%;
+        height: max-content;
+        display: inline-grid;
+        align-items: center;
+    }
+    .inactive-custom-box {
+        max-width: 100%;
+        height: max-content;
+        display: inline-grid;
+        align-items: center;
+    }
+    .up-button {
+        width: 100px;
+    }
+    .past-button {
+        width: 100px;
+    }
+    .list-selection {
+        justify-content: left;
+    }
+    .scroll-bar {
+        margin-right: 0px;
+    }
+}
 .card-wrap {
     padding: 0;
 }
@@ -436,4 +476,7 @@ a {
     .scroll-bar {
         margin-right: 0rem !important;
     }
+}
+.tab-css {
+    width: 468px ;
 }

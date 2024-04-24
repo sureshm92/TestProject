@@ -1,36 +1,20 @@
 <template>
     <c-web-spinner fixed="true"></c-web-spinner>
-    <div class="slds-border_right">
+    <div class={borderClass}>
         <div class="list-selection">
             <template if:true={past}>
-                <button
-                    data-id="upcoming"
-                    class={upButtonStyle}
-                    onclick={onUpcomingClick}
-                >
+                <button data-id="upcoming" class={upButtonStyle} onclick={onUpcomingClick}>
                     {label.upcoming}
                 </button>
-                <button
-                    data-id="past"
-                    class={pastButtonStyle}
-                    onclick={onPastClick}
-                >
+                <button data-id="past" class={pastButtonStyle} onclick={onPastClick}>
                     {label.past}
                 </button>
             </template>
             <template if:false={past}>
-                <button
-                    data-id="upcoming"
-                    class={upButtonStyle}
-                    onclick={onUpcomingClick}
-                >
+                <button data-id="upcoming" class={upButtonStyle} onclick={onUpcomingClick}>
                     {label.upcoming}
                 </button>
-                <button
-                    data-id="past"
-                    class={pastButtonStyle}
-                    onclick={onPastClick}
-                >
+                <button data-id="past" class={pastButtonStyle} onclick={onPastClick}>
                     {label.past}
                 </button>
             </template>
@@ -40,9 +24,9 @@
                 <template if:true={showupcomingvisits}>
                     <template if:true={isupcomingvisits}>
                         <template for:each={upcomingvisits} for:item="item" for:index="index">
-                            <div key={item}>
+                            <div class="custom-box-container slds-align_absolute-center" key={item}>
                                 <div
-                                    class="inactive-custom-box"
+                                    class={inactiveBoxClass}
                                     onclick={onVisitSelect}
                                     data-index={index}
                                     data-past="false"
@@ -77,7 +61,10 @@
                                                         class="l-padding date-style"
                                                         time-zone={visitTimezone}
                                                     ></lightning-formatted-date-time>
-                                                    -
+                                                    <template lwc:if={isIpad}>
+                                                        <br />
+                                                    </template>
+                                                    <template lwc:else> - </template>
                                                     <lightning-formatted-date-time
                                                         if:false={past}
                                                         value={item.visit.Planned_Date__c}
@@ -128,9 +115,9 @@
                 <template if:false={showupcomingvisits}>
                     <template if:true={ispastvisits}>
                         <template for:each={pastvisits} for:item="item" for:index="index">
-                            <div key={item}>
+                            <div class="custom-box-container slds-align_absolute-center" key={item}>
                                 <div
-                                    class="inactive-custom-box"
+                                    class={inactiveBoxClass}
                                     onclick={onVisitSelect}
                                     data-index={index}
                                     data-past="true"
@@ -167,11 +154,23 @@
                                                     <template if:false={item.missedVisit}>
                                                         <p class="no-date date-style">
                                                             {item.visit.Status__c}
-                                                            <template if:true={item.visitDate}
-                                                                >: </template
-                                                            >&nbsp;
+                                                            <template lwc:if={isIpad}>
+                                                                <template
+                                                                    if:true={item.visitDate}
+                                                                ></template
+                                                                ><br />
+                                                            </template>
+                                                            <template lwc:else>
+                                                                <template if:true={item.visitDate}
+                                                                    >: </template
+                                                                >&nbsp;
+                                                            </template>
+
                                                             <lightning-formatted-date-time
                                                                 value={item.visitDate}
+                                                                year="numeric"
+                                                                month="short"
+                                                                day="2-digit"
                                                                 time-zone={visitTimezone}
                                                             ></lightning-formatted-date-time>
                                                         </p>
@@ -195,11 +194,21 @@
                                                     <template if:false={item.missedVisit}>
                                                         <p class="no-date date-style">
                                                             {item.visit.Status__c}
-                                                            <template if:true={item.visitDate}
-                                                                >: </template
-                                                            >&nbsp;
+                                                            <template lwc:if={isIpad}>
+                                                                <template if:true={item.visitDate}>
+                                                                </template
+                                                                ><br />
+                                                            </template>
+                                                            <template lwc:else>
+                                                                <template if:true={item.visitDate}
+                                                                    >: </template
+                                                                >&nbsp;
+                                                            </template>
                                                             <lightning-formatted-date-time
                                                                 value={item.visitDate}
+                                                                year="numeric"
+                                                                month="short"
+                                                                day="2-digit"
                                                                 time-zone={visitTimezone}
                                                             ></lightning-formatted-date-time>
                                                         </p>

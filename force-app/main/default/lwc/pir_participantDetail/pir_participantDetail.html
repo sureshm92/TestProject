@@ -101,7 +101,7 @@
                                     placeholder="MM"
                                     options={optionsMM}
                                     onchange={handleMMChange} required=""
-                                    class="dob-selectbox"
+                                    class="dob-selectbox labelEllipsis"
                                     >
                               </lightning-combobox>
                               <div class="errmsg" if:true={invalidDOB}>{convertedStringToDate}</div>
@@ -115,11 +115,11 @@
                                     placeholder="DD"
                                     options={optionsDD}
                                     onchange={handleDDChange} required=""
-                                    class="dob-selectbox"
+                                    class="dob-selectbox labelEllipsis"
                                     >
                               </lightning-combobox>
                                           </div>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 outcome-form-element slds-m-bottom_medium slds-p-right_none ltl-r-none rtl-r-none ">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 outcome-form-element slds-m-bottom_medium slds-p-right_none ltl-r-none rtl-r-none">
                               <lightning-combobox
                                     name={YOB}
                                     label={YOB}
@@ -128,7 +128,7 @@
                                     placeholder="YYYY"
                                     options={optionsYYYY}
                                     onchange={handleYYYYChange} required=""
-                                    class="dob-selectbox">
+                                    class="dob-selectbox labelEllipsis">
                                                 </lightning-combobox>
                                           </div>
                         <div if:false={ageInputDisabled} class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-large-size_2-of-12 outcome-form-element slds-m-bottom_medium slds-p-right_none ltl-r-none rtl-r-none ">
@@ -463,7 +463,7 @@
                                     <lightning-combobox disabled={altIsNotAdult} label={PG_AP_F_Alternative_Phone_Type}
                                           placeholder="--" options={contactPhoneType.data.values} data-lvl="2"
                                           name="altphtype" value={pd.pe.Participant__r.Alternative_Phone_Type__c}
-                                          onchange={handleValChange}></lightning-combobox>
+                                          onchange={handleValChange} title={PG_AP_F_Alternative_Phone_Type} class="labelEllipsis"></lightning-combobox>
                                     </div>
                               </div>
                               <div
@@ -594,7 +594,7 @@
                                                 for="studySMSConsent">{DIRECT_MAIL}</label></span>
                               </div>
                               </br> </br>
-                              <template if:true={pd.pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c}>
+                              <template if:true={showIqviaOutreach}>
                                     <div>
                                           <label
                                                 class="slds-form-element__label-for-checkbox consent_label">{PG_Ref_L_Permit_Study_Outreach_By}</label>

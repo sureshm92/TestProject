@@ -34,13 +34,14 @@
                             {label.versionDate}&nbsp;
                             <lightning-formatted-date-time
                                 value={documentData.versionDate}
+                                year="numeric"
+                                month="short"
+                                day="2-digit"
                             ></lightning-formatted-date-time>
                         </p>
                     </div>
                 </div>
-                <div class="slds-grid">
                     <a class="view-resource-label-vertical"> {label.VIEW_RESOURCE} </a>
-                </div>
             </div>
         </div>
     </template>
@@ -73,17 +74,20 @@
                             {documentData.title}
                         </p>
                     </div>
-                    <div class="slds-grid date-section">
-                        <div class="slds-col slds-size_11-of-12">
+                    <div class="slds-grid slds-wrap date-section">
+                        <!-- <div class="slds-col slds-size_11-of-12"> -->
                             <p class="date">
                                 {label.versionDate}&nbsp;
                                 <lightning-formatted-date-time
                                     value={documentData.versionDate}
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
                                 ></lightning-formatted-date-time>
                             </p>
-                        </div>
+                        <!--</div>-->
                     </div>
-                    <div class="slds-grid">
+                    <div class="slds-grid slds-wrap">
                         <a class="view-resource-label-vertical"> {label.VIEW_RESOURCE} </a>
                     </div>
                 </div>
@@ -123,6 +127,9 @@
                     {label.versionDate}&nbsp;
                     <lightning-formatted-date-time
                         value={documentData.versionDate}
+                        year="numeric"
+                        month="short"
+                        day="2-digit"
                     ></lightning-formatted-date-time>
                 </div>
                 <div class="slds-grid view-resource-container slds-align_absolute-center">

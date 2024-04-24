@@ -77,6 +77,7 @@ iqviaOutreachSMS = false;
 iqviaOutreachPhone = false;
 iqviaOutreachDirectMail = false;
 isSuppressed = true;
+isPatientPortalDisable = false;
 isStudyPPEnabled = false;
 disablePatientInvite = true;
 isDataLoading = false;
@@ -147,6 +148,7 @@ connectedCallback() {
             })
             .then((result) => {
                 var participentStatuses = result.participantStatuses;
+                this.iqviaconsent = !result.consentPref;
                 if(result.objStudySite.Clinical_Trial_Profile__r.Tokenization_Support__c){
                     for(let i=0 ; i < result.participantStatuses.length ; i++){
                         if(result.participantStatuses[i].value != 'Screening Passed' && result.participantStatuses[i].value != 'Enrollment Success' && result.participantStatuses[i].value != 'Randomization Success'){  
@@ -159,6 +161,12 @@ connectedCallback() {
                     this.importParticipantStatus = participentStatuses;
                 }
                 this.shouldDisableImportStatus = false; 
+                if(result.objStudySite.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == false)
+                    {
+                        this.isPatientPortalDisable = true;
+                    }else{
+                        this.isPatientPortalDisable = false;
+                    }
                 this.countryDisable=false;
                 if(communityService.getCurrentCommunityTemplateName() ==  this.label.Janssen_Community_Template_Name  && !result.objStudySite.Clinical_Trial_Profile__r.PPTemplate__c ){
                     this.communityWithPPInv  = false;
@@ -355,6 +363,7 @@ studyhandleChange(event) {
 handleppinvite(event){
     this.createUsers = event.target.checked;
 }
+@api iqviaconsent;
 studysitehandleChange(event) {
     this.selectedSite = event.target.value;
     this.isStudyPPEnabled = false;
@@ -373,6 +382,7 @@ studysitehandleChange(event) {
         //  this.template.querySelector('[data-id="mainDivscroll"]').classList.remove('bulkautoScroll');
             var participentStatuses = result.participantStatuses;
             this.participentStatus = [];
+            this.iqviaconsent = !result.consentPref; 
             if(result.objStudySite.Clinical_Trial_Profile__r.Tokenization_Support__c){
                 for(let i=0 ; i < participentStatuses.length ; i++){
                     if(participentStatuses[i].value != 'Screening Passed' && participentStatuses[i].value != 'Enrollment Success' && participentStatuses[i].value != 'Randomization Success'){  
@@ -385,7 +395,13 @@ studysitehandleChange(event) {
                 this.importParticipantStatus = participentStatuses;
             }
             
-            this.shouldDisableImportStatus = false; 
+            this.shouldDisableImportStatus = false;
+            if(result.objStudySite.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == false)
+                    {
+                        this.isPatientPortalDisable = true;
+                    }else{
+                        this.isPatientPortalDisable = false;
+                    } 
             this.countryDisable=false;
             if(this.template.querySelector("c-consent-manager"))
             {

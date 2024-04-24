@@ -36,7 +36,12 @@ a,
     box-shadow: none;
     font-weight: 600;
 }
-
+.forgot-unable-pwd-txt:hover,
+.forgot-unable-pwd-txt:focus {
+    color: #0557d5;
+    box-shadow: none;
+    font-weight: 600;
+}
 a:hover {
     text-decoration: underline;
     text-decoration-style: dashed;
@@ -188,9 +193,6 @@ input::placeholder {
     }
 }
 @media (max-width: 390px) {
-    .logo-container-pp {
-        width: 190px !important;
-    }
     .slds-popover_tooltip,
     .slds-popover--tooltip ::after {
         background-color: #444444;
@@ -258,6 +260,24 @@ input::placeholder {
 }
 .taskName-focus .slds-input:focus-within {
     border: 1px solid #015ff1 !important;
+}
+.taskName-focus .slds-input::placeholder {
+    color: #757575 !important;
+}
+.create-task-input-container .timec::placeholder {
+    color: #757575 !important;
+}
+.create-task-input-container .curve-input input[type='date'] {
+    color: #444444 !important;
+}
+.create-task-input-container .curve-input .slds-combobox__input.slds-input {
+    color: #444444 !important;
+}
+.taskName-focus .slds-input {
+    color: #444444 !important;
+}
+.create-task-input-container .curve-input .slds-input[type='time'] {
+    color: #444444 !important;
 }
 .time-input .slds-input {
     height: 2rem !important;
@@ -342,7 +362,7 @@ input::placeholder {
 }
 
 .PHONE .profileIcon .rr-icon_default {
-    margin-right: 1rem;
+    /* margin-right: 1rem; */
 }
 
 @media (max-width: 500px) {
@@ -352,10 +372,7 @@ input::placeholder {
     }
     .menu-block {
         position: relative !important;
-    }
-    .logo-container-pp {
-        margin: 0 0 0 42px !important;
-    }
+    }   
 }
 
 /**Toast Container CSS*/
@@ -512,7 +529,10 @@ input::placeholder {
 }
 
 .support-combobox.opacity .slds-truncate {
-    opacity: 0.5;
+    color: #757575;
+    font-family: 'Proxima Nova' !important;
+    font-weight: 600;
+    font-size: 1rem;
 }
 .support-combobox.opacity .slds-media__body .slds-truncate {
     opacity: 1;
@@ -653,15 +673,6 @@ input::placeholder {
     word-break: break-word;
     text-align: left;
     margin-top: -2px;
-}
-
-.logo-container-pp {
-    justify-content: center;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    width: 232px;
 }
 
 .cookie-accordion-border .slds-accordion__summary-action {
@@ -908,7 +919,7 @@ c-pp-study-visit-details-card .slds-card__header {
 .cPpCustomThemeLayout .curve-input .slds-input[type='time'],
 .cPpCustomThemeLayout .curve-input .slds-input_faux.slds-combobox__input,
 .cPpCustomThemeLayout .curve-input .slds-combobox__input.slds-input {
-    height: 2rem;
+    /* height: 2rem; */
     width: 350px;
     display: flex;
     align-items: center;
@@ -921,9 +932,11 @@ c-pp-study-visit-details-card .slds-card__header {
     color: #595959;
 }
 
+/*
+Commenting for PEH-18268
 .cPpCustomThemeLayout .curve-input .timc .slds-combobox__input.slds-input {
     height: 1.875rem !important;
-}
+} */
 
 .cPpCustomThemeLayout .curve-input .slds-input[type='time']:focus,
 .cPpCustomThemeLayout .curve-input .slds-input[type='time']:focus-visible,
@@ -1432,7 +1445,31 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     top: -2px !important;
     left: -2px !important;
 }
-
+@media all and (min-device-width: 768px) and (max-device-width: 1279px) and (orientation: portrait) {
+    c-pp-study-visit-details-card .slds-card {
+        width: 100%;
+        padding: 0;
+        border: 1px solid #d9d9d9;
+        border-radius: 16px;
+        min-width: 350px;
+    }
+    .manage-assignment-acc-setting .manage-assignment-continer .withdraw-btn {
+        min-width: 100px;
+        margin-right: 50px;
+    }
+    .cPpCustomThemeLayout .curve-input .slds-input[type='time'] {
+        width: 448px;
+    }
+    .cPpCustomThemeLayout .curve-input .timc .slds-input {
+        width: 450px !important;
+    }
+    .pastDocContainer .card-border .thumbnail-outerbox{
+        margin: 0px;
+        padding: 2px 2px 2px 2px;
+        display: grid;
+        align-items: center;
+    }
+}
 @media all and (max-width: 768px) {
     .cPpCustomThemeLayout .apollo-btn,
     .cPpCustomThemeLayout .slds-input,
@@ -1508,7 +1545,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
 .create-task-input-container .slds-input:disabled {
     background: #f2f2f2 !important;
     color: #595959 !important;
-    -webkit-text-fill-color: #595959 !important;
+    -webkit-text-fill-color: #757575 !important;
     opacity: 1 !important; /* required on iOS */
 }
 
@@ -1920,7 +1957,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     /* width: auto !important; */
     background-color: transparent !important;
     color: #015ff1 !important;
-    display: block !important;
+    /* display: block !important; */
     padding-top: 41px !important;
 }
 .manage-delegate-acc-setting .profile-information-rectangle {
@@ -1970,6 +2007,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     padding: 5px 0px 5px 0px !important;
     width: 107px !important;
 }
+
 .manage-assignment-acc-setting .manage-assignment-continer .ma-btn-box,
 .ma-btn-box-1,
 .ma-what-I-can-see-card,
@@ -2190,7 +2228,7 @@ user agent stylesheet svg:not(:root) {
 
 .support-container button {
     height: 40px;
-    line-height: 40px;
+    line-height: 40px !important;
 }
 
 .support-container lightning-base-combobox-item span.slds-media__body span {
@@ -2244,12 +2282,16 @@ user agent stylesheet svg:not(:root) {
 .pastStudiesFiles .slds-tabs_default__item {
     margin-left: -4px;
 }
-.dateTimeContainer input{
-    -moz-appearance: none; 
-        /* for Safari, Chrome, Opera */ 
-    -webkit-appearance: none; 
+.dateTimeContainer input {
+    -moz-appearance: none;
+    /* for Safari, Chrome, Opera */
+    -webkit-appearance: none;
     appearance: none;
 }
-.quick-reference-toast .slds-notify__content_mobile{
-    color:black!important;
+.quick-reference-toast .slds-notify__content_mobile {
+    color: black !important;
+}
+.past-results .custom-notify-container-mobile{
+    left: 0;
+    top: 33px !important;
 }

@@ -13,7 +13,7 @@
           <lightning-layout-item
             size="12"
             small-device-size="9"
-            padding="around-small"
+            class={postLoginCookieCard}
           >
             <div class="we-care-about-your-p-new">
               <div class="banner-heading slds-m-top_small">
@@ -35,10 +35,9 @@
             </div>
           </lightning-layout-item>
           <lightning-layout-item
-            class="mob-btn-center"
+            class="mob-btn-center slds-p-top_small slds-p-left_small slds-p-right_small"
             size="12"
             small-device-size="3"
-            padding="around-small"
           >
             <lightning-layout multiple-rows>
               <lightning-layout-item size="12" small-device-size="12"
@@ -118,7 +117,7 @@
           <template lwc:else>
             <lightning-layout-item size="12">
               <lightning-layout multiple-rows class="uniform-margin">
-                <lightning-layout-item size="6" padding="around-large">
+                <lightning-layout-item size="6" class="slds-p-vertical_large slds-p-left_xx-small">
                   <img
                     src={footerUILogo}
                     class="footer_logo_login_cookie_pos"

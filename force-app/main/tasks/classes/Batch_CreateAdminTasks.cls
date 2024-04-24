@@ -12,6 +12,9 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
     private Integer taskCreated;
     private Integer launchCount;
     private Map<id, String> IdTypeOfContactMap;
+    private Map<id, List<Id>> parPdeListofPeMap;
+
+    private Boolean isPlatformTask;
 
     public Batch_CreateAdminTasks(
         Map<Id, List<Id>> contactsWithWhatIds,
@@ -20,7 +23,9 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
         Integer taskCreated,
         Integer launchCount,
         Map<id, String> IdTypeOfContactMap,
-        Boolean isQueueable
+        Map<id, List<Id>> parPdeListofPeMap,
+        Boolean isQueueable,
+        Boolean isPlatformTask
     ) {
         this.contactsWithWhatIds = contactsWithWhatIds;
         this.failedContactsWithWhatIds = new Map<Id, List<Id>>();
@@ -29,7 +34,9 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
         this.taskCreated = taskCreated;
         this.launchCount = launchCount;
         this.IdTypeOfContactMap = IdTypeOfContactMap;
+        this.parPdeListofPeMap = parPdeListofPeMap;
         this.isQueueable = isQueueable;
+        this.isPlatformTask = isPlatformTask;
     }
 
     public List<WhatIdByContactWrapper> start(Database.BatchableContext param1) {
@@ -104,8 +111,13 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                         String.isNotBlank(TypeOfContactTemp) &&
                         TypeOfContactTemp.contains('Participant')
                     ) {
-                        TypeOfContactTemp = TypeOfContactTemp.remove('Participant');
-                        VisibleFor = 'Owner; Delegates';
+                        if(parPdeListofPeMap.containskey(user.ContactId) && parPdeListofPeMap.get(user.ContactId) != null && parPdeListofPeMap.get(user.ContactId).contains(whatId)){
+                            VisibleFor = 'Owner; Delegates';
+                        }
+                        else{
+                            TypeOfContactTemp = TypeOfContactTemp.remove('Participant');
+                            VisibleFor = 'Owner';
+                        }
                     } else if (
                         String.isNotBlank(TypeOfContactTemp) &&
                         TypeOfContactTemp.contains('Delegate')
@@ -130,7 +142,8 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                         WhoId = user.ContactId,
                         Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
                         CreatedByAdmin__c = true,
-                        InitialTaskNotification__c = true
+                        InitialTaskNotification__c = true,
+                        isPlatformLevelTask__c = isPlatformTask
                     );
                     if (
                         participantEnrollmentMap != null &&
@@ -217,8 +230,14 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                             String.isNotBlank(TypeOfContactTemp) &&
                             TypeOfContactTemp.contains('Participant')
                         ) {
-                            TypeOfContactTemp = TypeOfContactTemp.remove('Participant');
-                            VisibleFor = 'Owner; Delegates';
+                            if(parPdeListofPeMap.containskey(contactIds) && parPdeListofPeMap.get(contactIds) != null && parPdeListofPeMap.get(contactIds).contains(whatId)){
+                                VisibleFor = 'Owner; Delegates';
+                            }
+                            else{
+                                TypeOfContactTemp = TypeOfContactTemp.remove('Participant');
+                                system.debug('TypeOfContactTemp:::'+TypeOfContactTemp);
+                                VisibleFor = 'Owner';
+                            }
                         } else if (
                             String.isNotBlank(TypeOfContactTemp) &&
                             TypeOfContactTemp.contains('Delegate')
@@ -242,7 +261,8 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                             WhoId = contactIds,
                             Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
                             CreatedByAdmin__c = true,
-                            InitialTaskNotification__c = true
+                            InitialTaskNotification__c = true,
+                            isPlatformLevelTask__c = isPlatformTask
                         );
                         if (
                             participantEnrollmentMap != null &&
@@ -275,7 +295,9 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                     taskCreated,
                     ++launchCount,
                     IdTypeOfContactMap,
-                    isQueueable
+                    parPdeListofPeMap,
+                    isQueueable,
+                    isPlatformTask
                 )
             );
         } else {
@@ -319,8 +341,11 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
     public static void launch(
         Map<Id, List<Id>> contactsWithWhatIds,
         TaskService.TaskConfig adminTask,
-        Map<id, String> IdTypeOfContactMap
+        Map<id, String> IdTypeOfContactMap,
+        Map<id, List<Id>> parPdeListofPeMap,
+        Boolean isPlatformTask
     ) {
+        System.debug('The platform Task is in launch method: ' + isPlatformTask);
         Database.executeBatch(
             new Batch_CreateAdminTasks(
                 contactsWithWhatIds,
@@ -329,7 +354,9 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                 0,
                 1,
                 IdTypeOfContactMap,
-                System.isQueueable()
+                parPdeListofPeMap,
+                System.isQueueable(),
+                isPlatformTask
             )
         );
     }

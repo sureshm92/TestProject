@@ -152,7 +152,7 @@
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
     border-top: 1px solid lightgrey;
     margin-top: 0%;
-    margin-bottom: -11%;
+    /* margin-bottom: -11%; */
 }
 .mob-msg-list-box {
     box-sizing: border-box;
@@ -161,10 +161,10 @@
     background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
     height: auto;
 }
-.mob-box-container {
+/* .mob-box-container {
     position: unset!important;
     margin-top:-15px;
-}
+} */
 
 .study-team-207192 {
     color: #444444;
@@ -182,13 +182,23 @@
 }
 /* Ipad css */
 @media (min-width: 768px) and (max-width: 1024px) {
-    .ipad-wdth {
+    /* .ipad-wdth {
         max-width: 500px !important;
-    }
+    } */
     .slds-m-around_medium {
         margin: auto !important;
+        padding-bottom: 20px;
+    }
+    .mob-box-container {
+        margin-top:-15px;
+    } 
+}
+@media (max-width: 1280px) { 
+    .people-group {
+       text-align: end;
     }
 }
+
 .back-link {
     font-size: 16px;
     font-weight: 600;
@@ -209,6 +219,9 @@
     .parent {
         margin: 0px 16px;
     }
+    .mob-box-container {
+        margin-top:-15px;
+    } 
 }
 .chevronleft-icon{
     --slds-c-icon-color-foreground-default: #015FF1;
@@ -218,4 +231,10 @@
 }
 .fit{
     width: fit-content;
+}
+@media all and (min-width: 768px) and (max-width: 1280px) {
+    .new-tab {
+        margin-left: -1.8rem !important;
+        margin-right: -1.8rem !important;
+    }
 }

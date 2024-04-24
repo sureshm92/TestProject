@@ -51,6 +51,7 @@
                 },
                 function (returnValue) {
                     let initData = JSON.parse(returnValue);
+                    component.set('v.iqviaOutreachConsent', initData.iqviaConsentPref);
                     component.set('v.trialId', trialId);
                     component.set('v.hcpeId', hcpeId);
                     component.set('v.hadDiscussion', undefined);

@@ -58,6 +58,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     @api userMode;
     @api isRTL = false;
     @api isMobile = false;
+    @api isIpad = false;
     @track initData;
     @track personWrapper = [];
     @track contact;
@@ -348,7 +349,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     renderedCallback() {
-        this.spinner =  this.template.querySelector('c-web-spinner');
+        this.spinner = this.template.querySelector('c-web-spinner');
         if (!this.loadOnce) {
             this.template.querySelector('c-web-spinner')?.show();
             this.initializeData();
@@ -459,6 +460,9 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     get shortContainerClass() {
+        if (this.isIpad) {
+            return 'slds-form-element slds-col slds-medium-size_2-of-7 slds-p-vertical_x-small';
+        }
         return this.isMobile
             ? 'slds-form-element slds-col slds-size_3-of-8 slds-p-vertical_x-small'
             : 'slds-form-element slds-col slds-medium-size_1-of-7 slds-p-vertical_x-small';
@@ -496,6 +500,9 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     get genderContainerClass() {
+        if (this.isIpad) {
+            return 'slds-form-element slds-col slds-size_2-of-7 slds-p-vertical_x-small';
+        }
         return this.isMobile
             ? 'slds-form-element slds-col slds-size_4-of-4 slds-p-vertical_x-small'
             : 'slds-form-element slds-col slds-size_1-of-7 slds-p-vertical_x-small';
@@ -506,6 +513,9 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     get dobContainerClass() {
+        if (this.isIpad) {
+            return 'slds-form-element slds-col slds-size_5-of-7 slds-p-vertical_x-small';
+        }
         return this.isMobile
             ? 'slds-form-element slds-col slds-size_4-of-4 slds-p-vertical_x-small'
             : 'slds-form-element slds-col slds-size_3-of-7 slds-p-vertical_x-small';
@@ -559,7 +569,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     get emailContainerClass() {
         return this.isMobile
             ? 'slds-form-element slds-col slds-size_4-of-4 slds-p-vertical_x-small'
-            : 'slds-form-element slds-col slds-size_3-of-7 slds-p-vertical_x-small';
+            : 'slds-form-element slds-col slds-size_4-of-7 slds-p-vertical_x-small';
     }
 
     get mobileContainerClass() {
@@ -573,7 +583,7 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     }
 
     get mobilePhoneContainerClass() {
-        return this.isMobile ? 'slds-col slds-size_5-of-8' : 'slds-col slds-size_3-of-7';
+        return this.isMobile ? 'slds-col slds-size_5-of-8' : 'slds-col slds-size_4-of-8';
     }
 
     get mobileInputClass() {
@@ -583,13 +593,13 @@ export default class PpAccountSettingsEditProfile extends LightningElement {
     get useAsDaytimeContainerClass() {
         return this.isMobile
             ? 'slds-col slds-size_5-of-8 slds-p-top_small custom-checkbox'
-            : 'slds-col slds-size_2-of-7 custom-checkbox';
+            : 'slds-col slds-size_4-of-8 custom-checkbox';
     }
 
     get daytimePhoneContainerClass() {
         return this.isMobile
             ? 'slds-form-element slds-col slds-size_5-of-8 slds-p-vertical_x-small'
-            : 'slds-form-element slds-col slds-size_3-of-7 slds-p-vertical_x-small';
+            : 'slds-form-element slds-col slds-size_4-of-8 slds-p-vertical_x-small';
     }
 
     get phoneTypeContainerClass() {
