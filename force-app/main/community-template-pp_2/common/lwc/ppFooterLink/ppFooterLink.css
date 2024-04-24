@@ -13,7 +13,7 @@
     display: inline-block;
 }
 .pagelink:hover {
-    font-weight: 600;
+	text-shadow: #015ff1 0.5px 0px;
 }
  
 .container {

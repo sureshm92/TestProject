@@ -136,6 +136,7 @@
                                             isrtl={isRTL}
                                             selected-pe={selectedPE.id}
                                             onvalidatemedicalsavebutton={checkMedicalSaveBtn}
+                                            onvalidatemedicaltable={checkMedicalTable}
                                             onhandletabs={handleTabs}
                                         ></c-medicalinformation>
                                     </lightning-tab>
@@ -631,7 +632,7 @@
                                                 options={studySiteList}
                                                 onchange={studysitehandleChange}
                                                 disabled={studysiteaccess}
-                                            ></lightning-combobox>
+                                            ></lightning-combobox> 
                                         </div>
                                     </div>
                                     <div class="slds-grid slds-wrap slds-m-top_large">

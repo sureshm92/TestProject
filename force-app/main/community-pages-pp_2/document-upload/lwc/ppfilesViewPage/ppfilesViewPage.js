@@ -426,7 +426,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 extension.toLowerCase() != 'png'
             ) {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -455,7 +455,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 continue;
             } else if (fileCon.size > MAX_FILE_SIZE) {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -484,7 +484,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                 continue;
             } else {
                 this.filesData.push({
-                    progresBarClass: ' progressBar slds-col slds-size_5-of-12 ',
+                    progresBarClass: ' progressBar slds-align_absolute-center slds-col slds-size_5-of-12 ',
                     fileName: fileCon.name,
                     file: fileCon,
                     filecontentafterRead: '',
@@ -652,6 +652,7 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
                                     this.totalValidFileProcessed = this.totalValidFileProcessed + 1;
                                     this.filesData[index].UploadCompleted = true;
                                     this.toggleUploadButton();
+                                    this.filesData[index].prevUrl = getresult.prevUrl;
                                 }
                             }
                         }
@@ -745,35 +746,20 @@ export default class PpfilesViewPage extends NavigationMixin(LightningElement) {
             this.isRenameOpen = true;
             this.toggleUploadButton();
         } else if (methodNameCalled == 'Preview') {
-            let extension_index = this.filesData[indexcalled].fileName.lastIndexOf('.');
-            let extension = this.filesData[indexcalled].fileName.slice(extension_index + 1);
-            let filenamewitoutextension = this.filesData[indexcalled].fileName.slice(
-                0,
-                extension_index
+            
+            let filePrevUrl = this.filesData[indexcalled].prevUrl;
+            var y = window.outerHeight / 2 + window.screenY - 500 / 2;
+            var x = window.outerWidth / 2 + window.screenX - 600 / 2;
+            window.open(
+            filePrevUrl,
+            "popup",
+            "toolbar=no,scrollbars=no,resizable=no,top=" +
+                y +
+                ",left=" +
+                x +
+                ",width=600,height=500"
             );
-            this.previewHeader = filenamewitoutextension;
-            this.openfileUrl =
-                '../apex/MedicalHistoryPreviewVF?resourceId=' +
-                this.filesData[indexcalled].fileContentVerId;
-           if(this.isMobile && extension=='pdf'){
-            this.template.querySelectorAll('.getpreviewCss').forEach(function (L) {
-                L.classList.add('previewCssMobile');
-            });
-            this.template.querySelectorAll('.getpreviewCss').forEach(function (L) {
-                L.classList.remove('previewCss');
-            });
-           }
-           else{
-            this.template.querySelectorAll('.getpreviewCss').forEach(function (L) {
-                L.classList.remove('previewCssMobile');
-            });
-            this.template.querySelectorAll('.getpreviewCss').forEach(function (L) {
-                L.classList.add('previewCss');
-            });
-
-           }
-           this.openmodel = true;
-           this.modalHeaderFilePage=true;
+            return false;
         }
         else if(methodNameCalled == 'Remove')
         {   

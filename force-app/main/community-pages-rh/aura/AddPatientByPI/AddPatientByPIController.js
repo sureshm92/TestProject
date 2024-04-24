@@ -17,6 +17,7 @@
                 },
                 function (formData) {
                     component.set('v.ctp', formData.ctp);
+                    component.set('v.iqviaOutreachCons', !formData.prefCons);                    
                     if(formData.ctp.CommunityTemplate__c == $A.get('$Label.c.Janssen_Community_Template_Name') && !formData.ctp.PPTemplate__c){
                         component.set("v.communityWithPPInv",false);
                     }
