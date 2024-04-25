@@ -73,7 +73,7 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         }
         else{
             if(this.ipad){
-                 return 'slds-show';
+                 return 'slds-show submit-button-div-ipad';
             }
             else if(this.isMobile || this.AndroidTablet){
                 return 'slds-show ml-24';
