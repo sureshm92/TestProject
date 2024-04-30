@@ -1,7 +1,6 @@
 import { LightningElement ,track, wire} from 'lwc';
 
 import communityPPTheme from '@salesforce/resourceUrl/Community_CSS_PP_Theme';
-import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import formFactor from '@salesforce/client/formFactor';
 import ppOptoutchannel from '@salesforce/messageChannel/ppOptout__c';
@@ -122,29 +121,22 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         }
 
         if (!this.loaded) {
-            loadScript(this, rrCommunity).then(() => {
-                if (communityService.isAndroidTablet()) {
-                    this.AndroidTablet = true;
-                }
-                else if (communityService.isIpad()) {
-                    this.ipad = true;
-                }
-            });
-        }
-
-        loadScript(this, RR_COMMUNITY_JS)
-        .then(() => {
-            Promise.all([loadStyle(this, communityPPTheme)])
+            Promise.all([
+                loadScript(this, rrCommunity),
+                loadStyle(this, communityPPTheme),
+                ])
                 .then(() => {
-                   
+                    if (communityService.isAndroidTablet()) {
+                        this.AndroidTablet = true;
+                    }
+                    else if (communityService.isIpad()) {
+                        this.ipad = true;
+                    }
                 })
                 .catch((error) => {
                     console.log(error.body.message);
                 });
-        })
-        .catch((error) => {
-            console.log('error', error.message);
-        });  
+        } 
 
         let language = '';
             let sParam = 'language';
