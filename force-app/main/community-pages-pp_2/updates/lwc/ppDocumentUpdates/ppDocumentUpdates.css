@@ -73,7 +73,7 @@
     height: 75px;
     width: 96px;
     margin-top: 12px;
-    margin-left: 10%;
+    /* margin-left: 10%; */
 }
 
 .document-label-section-horizontal {
@@ -189,6 +189,11 @@
 }
 .pointer-class {
     cursor: pointer;
+}
+.thumnail-img-desktop-vertical-ipadLand{
+    height: 75px;
+    width: 96px;
+    margin-top: 12px;
 }
 
 @media all and (min-width: 768px) and (max-width: 1024px) {

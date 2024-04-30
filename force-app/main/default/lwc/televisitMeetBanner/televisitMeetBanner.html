@@ -27,7 +27,7 @@
                     </template>
                     <template if:false={singleActiveVisit}>
                         <template if:false={isMobileDevice}>
-                            <div class="slds-align_absolute-center slds-grid slds-col_bump-left " style="padding-left: 20%;" >
+                            <div class={desktopMainCssClass}>
                                 <div class="slds-p-right_small">
                                     <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
                                 </div>
@@ -49,7 +49,7 @@
                         </template>
 
                         <template if:true={isMobileDevice}>
-                            <div class="slds-align_absolute-center slds-grid slds-col_bump-left " >
+                            <div class="slds-align_absolute-center slds-grid slds-col_bump-left  tab-class" >
                                 <div class="slds-p-right_small">
                                     <lightning-icon icon-name="utility:video" variant="inverse" size="small"></lightning-icon>
                                 </div>

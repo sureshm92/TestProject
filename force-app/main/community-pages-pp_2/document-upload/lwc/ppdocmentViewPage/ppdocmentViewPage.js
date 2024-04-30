@@ -52,7 +52,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
   totalRecordMsg;
   isMobile = false;
   isDesktop;
-  selectedmenu = "Uploaded";
+  selectedmenu = Uploaded;
   selectedsortOption = "Sort By";
   @api isctpenableUpload;
   isSaving = false;
@@ -683,8 +683,8 @@ export default class ppdocmentViewPage extends NavigationMixin(
 
   get optionstab() {
     return [
-      { label: "Uploaded", value: "uploaded" },
-      { label: "Shared with Me", value: "sharewithme" }
+      { label: this.label.Uploaded, value: "uploaded" },
+      { label: this.label.Shared_with_Me, value: "sharewithme" }
     ];
   }
   get optionsSort() {
@@ -722,7 +722,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
   }
   handlenewOnSelect(event) {
     this.selectedmenu = event.target.dataset.title;
-    if (this.selectedmenu == "Uploaded") {
+    if (this.selectedmenu == this.label.Uploaded) {
       this.pageNumber = 1;
       this.stopSpinner = false;
       this.resetPagination = true;
@@ -755,7 +755,7 @@ export default class ppdocmentViewPage extends NavigationMixin(
     this.handleonblur();
   }
   get isUploadedTab() {
-    if (this.selectedmenu == "Uploaded") {
+    if (this.selectedmenu == this.label.Uploaded) {
       return true;
     } else {
       return false;
