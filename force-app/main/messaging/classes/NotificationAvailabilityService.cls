@@ -1336,12 +1336,15 @@ public without sharing class NotificationAvailabilityService {
         if (n.StartDate__c != null) {
             Contact contact = contactByIdMap.get(n.Recipient__c);
             //String triggerDate = n.StartDate__c.format();
+            String triggerDate;
             Datetime notificationstartDateTime = n.StartDate__c;
             datetime gmtDateTime = datetime.now();
-            string triggerDate = notificationstartDateTime.format('yyyy-MM-dd');
+           // String userTimeZone = contact.Users[0].TimeZoneSidKey;
+         
             if (contact.Users.size() > 0) {
                 String userTimeZone = contact.Users[0].TimeZoneSidKey;
                 if (userTimeZone != null) {
+                    triggerDate = notificationstartDateTime.format('yyyy-MM-dd',userTimeZone);
                     string participantDate = gmtDateTime.format('yyyy-MM-dd', userTimeZone);
                     list<String> participantSplitDate = participantDate.split('-');
                     Date participantDateObj = date.newinstance(
@@ -1355,7 +1358,7 @@ public without sharing class NotificationAvailabilityService {
                         Integer.valueOf(triggerSplitDate[1]),
                         Integer.valueOf(triggerSplitDate[2])
                     );
-
+ 
                     if (triggerDateObj > participantDateObj) {
                         return false;
                     }

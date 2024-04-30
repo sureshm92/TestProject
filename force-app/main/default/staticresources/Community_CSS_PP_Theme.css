@@ -1463,6 +1463,17 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     .cPpCustomThemeLayout .curve-input .timc .slds-input {
         width: 450px !important;
     }
+    .pastDocContainer .card-border .thumbnail-outerbox{
+        margin: 0px;
+        padding: 2px 2px 2px 2px;
+        display: grid;
+        align-items: center;
+    }
+}
+@media all and (min-device-width: 800px) and (max-device-width: 1024px) and (orientation: portrait) {
+        .cPpCustomThemeLayout .tab-fix .past-button{
+            height: 35px !important;               
+           }   
 }
 @media all and (max-width: 768px) {
     .cPpCustomThemeLayout .apollo-btn,
@@ -1696,7 +1707,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     border-radius: 21px !important;
 }
 .manage-del .box-add-assignment-btn-former {
-    width: 200px !important;
+    min-width: 200px !important;
 }
 .manage-del .box-add-assignment-btn-former-mob {
     width: 100% !important;
@@ -2222,7 +2233,7 @@ user agent stylesheet svg:not(:root) {
 
 .support-container button {
     height: 40px;
-    line-height: 40px;
+    line-height: 40px !important;
 }
 
 .support-container lightning-base-combobox-item span.slds-media__body span {
@@ -2288,4 +2299,8 @@ user agent stylesheet svg:not(:root) {
 .past-results .custom-notify-container-mobile{
     left: 0;
     top: 33px !important;
+}
+/* icon Overlapping issue on Questionnaire Dropdown*/
+.help-support lightning-icon{  
+    z-index: 1 !important;
 }

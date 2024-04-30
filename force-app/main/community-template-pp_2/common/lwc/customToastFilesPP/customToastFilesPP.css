@@ -114,3 +114,9 @@
     height: 24px;
     right: 1%;
 }
+.slds-notify__close-rtl{
+    width: 24px;
+    height: 24px;
+    position: relative;
+    right: 6%;
+}

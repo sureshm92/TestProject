@@ -1,4 +1,4 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api,track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import VERSION_DATE from '@salesforce/label/c.Version_date';
 import POSTING_DATE from '@salesforce/label/c.Posting_date';
@@ -13,22 +13,25 @@ export default class PpExploreUpdates extends NavigationMixin(LightningElement) 
         VERSION_DATE,
         POSTING_DATE,
         VIEW_RESOURCE
-    };
+    };  
+    @track isAndroidTab=false;
+
     get cardElement() {
-        if (DEVICE == 'Medium') {
+        if (DEVICE == 'Medium' || ( DEVICE == 'Small' && this.isAndroidTab)) {
             return 'slds-col slds-size_3-of-12 card-element';
         } else {
             return 'slds-col slds-size_2-of-6 card-element';
         }
     }
     get cardDataElement() {
-        if (DEVICE == 'Medium') {
+        if (DEVICE == 'Medium' || ( DEVICE == 'Small' && this.isAndroidTab)) {
             return 'slds-col slds-size_9-of-12 card-data-element';
         } else {
             return 'slds-col slds-size_4-of-6 card-data-element';
         }
     }
     connectedCallback() {
+        this.isAndroidTab=communityService.isAndroidTablet();
         this.noExploreImage = this.exploreData.thumbnailImage ? false : true;
     }
 

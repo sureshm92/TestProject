@@ -80,6 +80,10 @@
 .documentuploadempty {
     padding-right: 1.5rem;
 }
+.documentuploadempty-rtl {
+    padding-left: 1.5rem;
+}
+
 .document {
     color: #444444;
     font-size: 18px;
@@ -285,7 +289,7 @@
 }
 
 .imgname {
-    padding-left: 0.5rem;
+    /* padding-left: 0.5rem; */
     /* padding-top: 4px; */
     padding-top: 5px;
 }
@@ -294,14 +298,14 @@
     /* padding-top: 7px; */
     display: inline-block;
     padding-left: 1rem;
-    padding-top: 0.85rem;
+    padding-top: 0.8rem;
     /* padding-top: 0.75rem; */
 }
 .progressBarMbl {
     /* width: 95%; */
     /* padding-top: 7px; */
     display: inline-block;
-    padding-left: 1rem;
+    /* padding-left: 1rem; */
     /* padding-top: 0.85rem; */
     /* padding-top: 0.75rem; */
 }
@@ -478,7 +482,7 @@
 }
 .errorMessage {
     font-size: 13px;
-    padding-left: 1rem;
+    /* padding-left: 1rem; */
     color: #e20000;
     font-style: italic;
     font-family: 'Proxima Nova';
@@ -536,14 +540,14 @@
     line-height: 24px;
 }
 .imagecss {
-    margin-bottom: 3px;
+    /* margin-bottom: 3px; */
     /* padding-left: 0.5rem; */
-    padding-left: 0.25rem;
+    /* padding-left: 0.25rem; */
 }
 .imagecsscrossicon {
     padding-top: 5px;
     margin-bottom: 3px;
-    padding-left: 0.5rem;
+    /* padding-left: 0.5rem; */
 }
 .retryimageicon {
     /* padding-top: 5px; */
@@ -551,9 +555,9 @@
     padding-left: 0.2rem;
 }
 .imagecsscrossiconinvalid {
-    padding-top: 13px;
-    margin-bottom: 3px;
-    padding-left: 0.5rem;
+    /* padding-top: 13px;
+    margin-bottom: 3px; */
+    /* padding-left: 0.5rem; */
 }
 /* testing end */
 .wait-time {
@@ -594,7 +598,7 @@
     color: #444444;
     font-size: 14px;
     font-weight: 600;
-    padding-left: 1rem;
+    /* padding-left: 1rem; */
     font-family: 'Proxima Nova';
     letter-spacing: 0;
 }
@@ -895,10 +899,10 @@
         /* bottom: 7rem; */
     }
     .float-btns {
-        position: absolute;
+        /* position: absolute;
         bottom: 0;
         background: #f2f2f2;
-        padding-bottom: 3%;
+        padding-bottom: 3%; */
     }
 }
 @media all and (min-width: 768px) and (max-width: 1024px) {

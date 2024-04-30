@@ -19,7 +19,7 @@ public without sharing class IprEprTriggerHandler {
             this.siteType = inSiteType;
         }
     }
-    
+   
     public class CheckRequiredFieldsAndUpsertParticipantAndPEHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             validateReferralsV2(newList);
@@ -68,7 +68,7 @@ public without sharing class IprEprTriggerHandler {
             }
             
             //SS Map
-            for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c,Participant_DOB_format__c, 
+            for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c,Participant_DOB_format__c,Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c, 
                                      Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c
                                      FROM Study_Site__c WHERE Primary_Key_ePR__c IN :ssNumbersList ])
             {ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);}      
@@ -260,7 +260,7 @@ public without sharing class IprEprTriggerHandler {
                 ssNumbersList.add(objIPR.protocolId__c + '_' + objIPR.Address_Country__c + '_' + objIPR.siteSelected__c);
                 protocolIds.add(objIPR.protocolId__c);
             }
-            for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c, 
+            for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c,Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c, 
                                      Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c
                                      FROM Study_Site__c WHERE Primary_Key_ePR__c IN :ssNumbersList ])
             {	
@@ -637,6 +637,7 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             Phone__c = contactDelegate.Phone,
             Mailing_City__c = contactDelegate.MailingCity,
             Mailing_Country_Code__c = contactDelegate.MailingCountryCode,
+            Preferred_Language__c = contactDelegate.Language__c,
             Mailing_State__c = contactDelegate.MailingState,
             Mailing_Zip_Postal_Code__c = contactDelegate.MailingPostalCode,
             Phone_Type__c = phoneType
@@ -707,6 +708,17 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         Study_Site__c ss,
         Boolean isAdult
     ){
+    Boolean fieldNotVisible = false;
+     return createPE(ipr,participantId,ssId,ss,isAdult,fieldNotVisible);
+    }
+    public static Participant_Enrollment__c createPE(
+        Integration_Patient_Referral__c ipr,
+        Id participantId,
+        Id ssId,
+        Study_Site__c ss,
+        Boolean isAdult,
+        Boolean fieldNotVisible
+    ) {
         Map<String,String> sourceToConsentMap = new Map<String,String>();
 
         for(Referral_Source_Communication_Consent__mdt	 ccT: [ SELECT id, MasterLabel, DeveloperName, Consent_Values_Participant__c FROM 
@@ -715,15 +727,6 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
                 sourceToConsentMap.put(ccT.DeveloperName,ccT.Consent_Values_Participant__c);
             }
         }
-        
-        Boolean filterCriteria =
-            ss.Study_Site_Type__c!='Virtual'&& ss.Study_Site_Type__c!='Hybrid' &&
-            ss != null &&
-            ss.Clinical_Trial_Profile__c != null &&
-            !ss.Suppress_Participant_Emails__c &&
-            !ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-            ss.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
-            participantId != null ;
         
         
         Participant_Enrollment__c objPE = new Participant_Enrollment__c(
@@ -751,10 +754,34 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             Atid__c = ipr.Atid__c,
             HighRisk_Indicator__c = ipr.HighRisk_Indicator__c,
             Permit_IQVIA_to_contact_about_study__c = true,
-            Study_PI_Storage_Consent_Time__c = Datetime.now(),
             Human_Id__c = ipr.Human_Id__c,
             Additional_Information__c = ipr.Additional_Information__c
         );
+        String restrictFieldOnCtp = ss.Clinical_Trial_Profile__r.Restrict_automatic_PP_invitation_email__c;
+        String referralSource = objPE.Referral_Source__c;
+        Boolean fieldMatch;
+        if(Batch_UpsertEprParticipantAndPE.eprBatchRunning && restrictFieldOnCtp != null){    
+            List<String> RestrictedreferralSources = new List<String>();
+            RestrictedreferralSources = restrictFieldOnCtp.split(';');
+         if(RestrictedreferralSources.contains(referralSource)){
+             fieldMatch = false;
+         }else{
+        fieldMatch = true;
+        }
+}else{
+    fieldMatch = true; 
+}
+    Boolean filterCriteria =
+            ss.Study_Site_Type__c!='Virtual'&& ss.Study_Site_Type__c!='Hybrid' &&
+            ss != null &&
+            ss.Clinical_Trial_Profile__c != null &&
+            !ss.Suppress_Participant_Emails__c &&
+            !ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+            ss.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
+            participantId != null && fieldMatch ;
+        if(fieldNotVisible!=true){
+            objPE.Study_PI_Storage_Consent_Time__c = Datetime.now();
+        }
         if(sourceToConsentMap.containsKey(ipr.Data_Source__c)){
             list<string> lstFields = sourceToConsentMap.get(ipr.Data_Source__c).split(',');
             for(String objstr : lstFields)

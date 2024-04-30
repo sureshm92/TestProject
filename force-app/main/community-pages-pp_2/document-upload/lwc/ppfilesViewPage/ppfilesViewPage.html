@@ -218,7 +218,7 @@
     <lightning-layout   class="mob-upld-card-center">
        <c-web-spinner class="main-spinner" fixed="true" show-spinner={isSaving}></c-web-spinner>
         <lightning-layout-item
-            class="documentuploadempty"
+            class={documentuploadempty}
             size={getsize}   >
             <div if:false={ShowuploadSection}>  
                 <c-ppdocment-view-page onreccountupdate={recCountUpdate} onpageswap={changePage} ontabchange={handleTabChange} ongettotalrecord={handletotalrecord} ongettotalrecordmsg={handletotalrecordmsg} onresetpagination={handleresetpagination}  onresetpaginationmsg={handleresetpaginationmsg} onresetpageonupdate={handleresetpageonupdate}  onresetondelete={handleresetondelete} stop-spinner={stopSpinnerChild} >
@@ -307,7 +307,7 @@
                                     {label.PP_DragFiles}
                         </div>
                         <div class="slds-size_full center slds-m-bottom_large">
-                            {label.PP_or_smallcase} <span class="linkLabel uploadLabeldrag"> <u>browse </u> </span>
+                            {label.PP_or_smallcase} <span class="linkLabel uploadLabeldrag"> <u>{label.BulkImport_browse} </u> </span>
                         </div>
                         
                         <div class="center slds-m-left--medium slds-m-right--medium slds-m-top_medium uploadLabel">
@@ -327,7 +327,7 @@
                         </div>
                         <div class="scrollableclass">
                             <template for:each={filesData} for:item="imgData" for:index="index">
-                                <div if:false={imgData.isDeleted} class="slds-grid slds-m-vertical--x-small filegrid  "
+                                <div if:false={imgData.isDeleted} class="slds-grid slds-p-top_x-small slds-p-left_medium slds-p-bottom_x-small filegrid  "
                                     key={imgData.index}>
                                     <div class="slds-truncate imgname imgNamedesk slds-col slds-size_6-of-12"
                                         data-key={imgData.index}>
@@ -368,7 +368,7 @@
                                     </div>
                                     <template if:false={imgData.UploadCompleted}>
                                         <div if:false={imgData.error}
-                                            class="slds-col slds-size_1-of-12  imagecsscrossicon">
+                                            class="slds-col slds-size_1-of-12 slds-align--absolute-center  imagecsscrossicon">
                                             <lightning-icon icon-name='utility:clear'  title={label.RH_RP_Cancel} class="crossicon" 
                                                 data-key={imgData.index} aria-describedby="cancelbutton" 
                                                 alternative-text={label.RH_RP_Cancel} size='xx-small'  onclick={removeFiles}>
@@ -384,7 +384,7 @@
 
                                     <template if:true={imgData.UploadCompleted}>
                                         <template lwc:if={imgData.isValid}>
-                                            <div class="slds-col slds-size_1-of-12 slds-dropdown-trigger slds-dropdown-trigger_click D imagecss imagecssDesk"
+                                            <div class="slds-col slds-size_1-of-12 slds-dropdown-trigger slds-dropdown-trigger_click D imagecss slds-align--absolute-center imagecssDesk"
                                                 onclick={showActionMenu} tabindex="0" onblur={closeMenu}
                                                 data-key={imgData.index}>
                                                 <div aria-haspopup="true" aria-expanded="true" tabindex="0"
@@ -413,7 +413,7 @@
                                         </template>
                                         <template lwc:else>
 
-                                            <div class="slds-col slds-size_1-of-12 imagecsscrossiconinvalid">
+                                            <div class="slds-col slds-size_1-of-12 slds-align--absolute-center imagecsscrossiconinvalid">
 
                                                 <lightning-icon icon-name='utility:clear' class="  crossicon"
                                                     data-key={imgData.index} alternative-text={label.RH_RP_Cancel} size='xx-small'
@@ -436,11 +436,11 @@
                                     {label.RH_RP_Cancel}
                                 </span>
                                 <button if:true={FileUploadPending} type="button"
-                                    class="std-upload-btndisable slds-m-horizontal_small" disabled>
+                                    class={uploadButtonDis} disabled>
                                     {label.RH_Upload_import}
                                 </button>
                                 <button if:false={FileUploadPending} type="button"
-                                    class="std-upload-btn slds-m-horizontal_small" onclick={uploadFiles}>
+                                    class={uploadButton} onclick={uploadFiles}>
                                     {label.RH_Upload_import}
                                 </button>
                             </div>
@@ -544,7 +544,7 @@
                     <div class="upload-progress-scroll filesspace">
                         <template for:each={filesData} for:item="imgData" for:index="index">
                             <div if:false={imgData.isDeleted} class="slds-grid slds-m-top_medium" key={imgData.index}>
-                                <div class="slds-col slds-size_8-of-12 slds-p-left--x-small imgNamedesk"
+                                <div class="slds-col slds-size_8-of-12 slds-p-left_medium imgNamedesk"
                                     data-key={imgData.index}>
                                     <template lwc:if={imgData.isNameReadOnly}>
                                         <div class="upld-file-txt slds-m-bottom_x-small overFlowTitle">
@@ -598,7 +598,7 @@
         
                                 <template if:true={imgData.UploadCompleted}>
                                     <template lwc:if={imgData.isValid}>
-                                        <div class="slds-col center slds-align-middle slds-size_4-of-12 slds-dropdown-trigger imgcrossmbl slds-dropdown-trigger_click D imagecss imagecssDesk"
+                                        <div class="slds-col center slds-align-middle slds-size_4-of-12 slds-dropdown-trigger imgcrossmbl slds-dropdown-trigger_click D imagecss slds-align-middle imagecssDesk"
                                             onclick={showActionMenu} tabindex="0" onblur={closeMenu}
                                             data-key={imgData.index}>
                                             <div aria-haspopup="true" aria-expanded="true" tabindex="0"

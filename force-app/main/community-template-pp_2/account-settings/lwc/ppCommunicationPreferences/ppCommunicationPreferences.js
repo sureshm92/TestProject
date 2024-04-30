@@ -70,6 +70,12 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     @api isRTL;
     @api showBackButton;
 
+    hide;
+    hideOther;
+    override;
+    ipadborder;
+    customPadOutreachLabel;
+
     label = {
         PP_Communication_Pref_Del_Blank_Page,
         PP_Outreach_Communication_Pref_D,
@@ -169,11 +175,35 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     exclamation = LOFI_LOGIN_ICONS + '/status-exclamation.svg';
     exclamation_orange = rr_community_icons + '/' + 'status-exclamation.svg';
 
+    row1;
+    col1;
+    col2;
+
     connectedCallback() {
         // Get Initial Load Data
         this.spinner = true;
         this.retUrl = communityService.createRetString();
         this.showBackButton = communityService.isIpad();
+
+        var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+        if(width > 768 && width <= 1024){
+            this.hide = "hide";
+            this.hideOther = "hide study-paramters"
+            this.override = "padding-bottom: 0px;"
+            this.ipadborder = "border-bottom: 1px solid #e9e9e9;"
+            this.customPadOutreachLabel = "padding: 10px;"
+            this.setGridForIPADConsents();
+        }
+        else{
+            this.hide = "";
+            this.hideOther = "study-paramters"
+            this.override = "";
+            this.ipadborder = ""
+            this.customPadOutreachLabel = ""
+            this.row1 = "5";
+            this.col1= "6";
+            this.col2 = "1";
+        }
 
         getInitData({ userMode: this.userMode })
             .then((result) => {
@@ -201,6 +231,11 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                     console.error('Error RTL: ' + JSON.stringify(error));
                 });
         }
+    }
+    setGridForIPADConsents(){
+        this.row1 = "12";
+        this.col1= "10";
+        this.col2 = "2";
     }
     getConsentData(){
         const contactIds=[];
@@ -490,7 +525,8 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     }
 
     get borderStyle() {
-        return this.isRTL ? 'study-paramters border-right' : 'study-paramters border-left';
+        // return this.isRTL ? 'study-content custom-pad border-right' : 'study-content custom-pad border-left';
+        return this.isRTL ? 'border-right custom-pad' : 'border-left custom-pad';
     }
 
     get borderStyleMobile() {
@@ -540,14 +576,18 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     }
 
     get StudyConsentClass() {
+        // return this.isRTL
+        //     ? 'study-content study-content-mobile-rtl'
+        //     : 'study-content study-content-mobile';
         return this.isRTL
-            ? 'study-content study-content-mobile-rtl'
-            : 'study-content study-content-mobile';
+             ? 'study-content-mobile-rtl'
+             : 'study-content-mobile ';
     }
     get ECOAPad11() {
-        return !this.isDesktop && this.showBackButton
-            ? 'communication-pref-no-margin'
-            : 'communication-pref';
+        return 'communication-pref';
+        // return !this.isDesktop && this.showBackButton
+        //     ? 'communication-pref-no-margin'
+        //     : 'communication-pref';
     }
     get TermUseStudyConsentClass() {
         return this.isRTL ? 'study-content study-content-mobile-rtl' : 'study-content';
@@ -769,6 +809,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         let template = this.template;
 
         let checkOtherSMSOptInsAvailable = false;
+        let isEmailSMSConsentChecked = false;
 
         if (label == 'All') {
             this.consentPreferenceDataLocal.pdeList.forEach(function (pde) {
@@ -799,6 +840,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                     if (processSave) {
                         pde.Study_Phone_Consent__c = pde.Study_Email_Consent__c = pde.Study_SMS_Consent__c = pde.Study_Direct_Mail_Consent__c = value;
                         processConsentSave = true;
+                        isEmailSMSConsentChecked = true;
                         //studyError = false;
                         // Update checkOtherSMSOptInsAvailable flag to check if SMS channel is checked for other studies/IQVIA outreach
                         pde.Study_SMS_Consent__c == false
@@ -836,6 +878,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                     case 'Email':
                         pde.Id == pdeId ? (pde.Study_Email_Consent__c = value) : '';
                         processConsentSave = true;
+                        isEmailSMSConsentChecked = true;
                         break;
                     case 'SMS':
                         if (pde.Id == pdeId) {
@@ -865,6 +908,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
                             if (processSave) {
                                 pde.Study_SMS_Consent__c = value;
                                 processConsentSave = true;
+                                isEmailSMSConsentChecked = true;
                                 //studyError = false;
                                 // Update checkOtherSMSOptInsAvailable flag to check if SMS channel is checked for other studies/IQVIA outreach
                                 pde.Study_SMS_Consent__c == false
@@ -895,6 +939,7 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
             this.studyError = this.checkSMSCheckedOrNot();
         }
         if (processConsentSave) {
+            this.emailSMSConsent = isEmailSMSConsentChecked;
             this.updateAllPDEFlag();
             this.doSaveCommunicationPref('PDE');
         }

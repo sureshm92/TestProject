@@ -253,7 +253,7 @@ public without sharing class ReferringRemote {
                             restrictedlst = restrictedRecrd[0].Referral_Resource__c != null ? restrictedRecrd[0].Referral_Resource__c.split(';') : null;
                         
                             if(restrictedlst != null && !restrictedlst.isEmpty()){
-                                referralSource = (lstPer[0].Referral_Source__c == 'ePR' || lstPer[0].Referral_Source__c == 'ePRCampaign')  ? lstPer[0].Referral_Source__c +'-'+lstPer[0].DataControllerOrg__c :lstPer[0].Referral_Source__c; 
+                                referralSource = (lstPer[0].Referral_Source__c == 'ePR' || lstPer[0].Referral_Source__c == 'ePR_Campaign')  ? lstPer[0].Referral_Source__c +'-'+lstPer[0].DataControllerOrg__c :lstPer[0].Referral_Source__c; 
                                 if(restrictedlst.contains('HCP')){
                                 initData.iqviaConsentPref =  true; //restricted dnd
                                 }else{

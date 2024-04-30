@@ -619,6 +619,7 @@ public without sharing class CommunityService {
         Set<Id> participantContactIds;
         Map<Id, Id> contactIdsMap = new Map<Id, Id>();
         Set<Id> peIds;
+        Boolean retry = false;
 
         public CreateParticipantUsersAsync(
             Map<Id, Id> contactIdsMap,
@@ -630,6 +631,18 @@ public without sharing class CommunityService {
             this.peIds= peIds;
         }
 
+        public CreateParticipantUsersAsync(
+            Map<Id, Id> contactIdsMap,
+            Set<Id> participantContactIds,
+            Set<Id> peIds,
+            Boolean retry
+        ) {
+            this.contactIdsMap = contactIdsMap;
+            this.participantContactIds = participantContactIds;
+            this.peIds= peIds;
+            this.retry = retry;
+        }        
+        
         public void execute(QueueableContext context) {
             try {
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))
@@ -647,7 +660,11 @@ public without sharing class CommunityService {
                     PatientDelegateService.updatePermissionSets(allContactIds);
                 }
             } catch (Exception ex) {
+                if(retry == false && ex.getTypeName() == 'System.QueryException'){
+                     System.enqueueJob(new CreateParticipantUsersAsync(contactIdsMap, participantContactIds, peIds, true));
+                }else{
                 resetInvitationFlag(contactIdsMap);
+                }
             }
         }
     }

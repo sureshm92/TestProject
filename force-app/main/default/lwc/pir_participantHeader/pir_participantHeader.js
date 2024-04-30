@@ -137,7 +137,6 @@ export default class Pir_participantHeader extends LightningElement {
         this.surveyInProgress = [];
         this.surveyCompleted = [];
         this.showPreScreen = false;
-        
         if(this.peId)
         {
              this.showPrinticon = true;
@@ -156,7 +155,11 @@ export default class Pir_participantHeader extends LightningElement {
                 }
                     if(this.per.Participant__r.Adult__c == true && this.per.Participant__r.Email__c != null && communityWithPPInv &&  this.per.Study_Site__r.Study_Site_Type__c == 'Traditional' && (this.per.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c || this.per.Study_Site__r.Suppress_Participant_Emails__c))
                     {
+                        if(this.per.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c){
                         this.showAction = true;
+                        }else{
+                            this.showAction = false;
+                        }
                         this.showActionName = 'PP';
                         this.showActionbtnDisabled = true;
                         this.showActionlabel = this.label.inviteToPP;

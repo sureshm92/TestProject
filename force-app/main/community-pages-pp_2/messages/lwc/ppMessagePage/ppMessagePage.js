@@ -14,6 +14,8 @@ import backLabel from "@salesforce/label/c.back_Label";
 import profileTZ from "@salesforce/i18n/timeZone";
 import { CurrentPageReference } from 'lightning/navigation';
 import Back_To_PastStudies from '@salesforce/label/c.Back_to_Past_Studies_and_Programs';
+import getisRTL from '@salesforce/apex/PreferenceManagementController.getIsRTL';
+
 export default class PpMessagePage extends NavigationMixin(LightningElement) {
   curentMobileView = "list";
   progressValue = false;
@@ -52,6 +54,16 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
     backLabel,
     Back_To_PastStudies
   };
+  isRTL = false;
+
+  get divider(){
+    return this.isRTL ? 'divider-rtl' : 'divider';
+  }
+
+  get userInfoBox(){
+      return this.isRTL ? 'slds-p-horizontal_large slds-col_bump-left box-container box-container-adjustment-rtl' : 'slds-p-horizontal_large slds-col_bump-left box-container box-container-adjustment';
+  }
+
   mobileViewToggle() {
     if (this.progressValue == false) {
       if (this.curentMobileView == "list") {
@@ -102,6 +114,16 @@ export default class PpMessagePage extends NavigationMixin(LightningElement) {
         (this._handler = this.listener.bind(this))
       );
     }
+
+      getisRTL()
+            .then((data) => {
+                this.isRTL = data;
+                console.log('rtl--->'+this.isRTL);
+            })
+            .catch(function (error) {
+                console.error('Error RTL: ' + JSON.stringify(error));
+        });
+        
   }
   onOrientationChange = () => {
     this.isTabLandscape = this.isTabletLandscape();

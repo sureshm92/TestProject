@@ -34,16 +34,16 @@
                             </lightning-layout-item>
                             <lightning-layout-item size="3" class="slds-align_absolute-center li3">
                                 <lightning-layout class="piPhone">
-                                    <lightning-layout-item class={piUserIcon}
+                                    <lightning-layout-item size="1" class={piUserIcon}
                                         ><img src={phone_Icon} class="phoneIcon"
                                     /></lightning-layout-item>
-                                    <lightning-layout-item>{studySitePhone}</lightning-layout-item>
+                                    <lightning-layout-item size="11" class="piPhoneNumber">{studySitePhone}</lightning-layout-item>
                                 </lightning-layout>
                                 <lightning-layout class="piName">
-                                    <lightning-layout-item class={piUserIcon}
+                                    <lightning-layout-item size="1" class={piUserIcon}
                                         ><img src={pi_Icon} class="piIcon"
                                     /></lightning-layout-item>
-                                    <lightning-layout-item
+                                    <lightning-layout-item size="11"
                                         ><p title={piTitle} class="piNameText">
                                             {piName}&nbsp;{label.PI_Post_Fix}
                                         </p></lightning-layout-item
@@ -55,12 +55,22 @@
                                             >{label.PPLEARNMOREMBLELabel}</span
                                         ></a
                                     >
-                                    <lightning-button-icon
-                                        icon-name="utility:chevronright"
-                                        variant="bare"
-                                        size="large"
-                                        onclick={handleclick}
-                                    ></lightning-button-icon>
+                                    <template if:false={isRTL}>
+                                        <lightning-button-icon
+                                            icon-name="utility:chevronright"
+                                            variant="bare"
+                                            size="large"
+                                            onclick={handleclick}
+                                        ></lightning-button-icon>
+                                    </template>	
+                                    <template if:true={isRTL}>
+                                        <lightning-button-icon
+                                            icon-name="utility:chevronleft"
+                                            variant="bare"
+                                            size="large"
+                                            onclick={handleclick}
+                                        ></lightning-button-icon>
+                                    </template>	
                                 </div>
                             </lightning-layout-item>
                         </lightning-layout>
@@ -116,15 +126,15 @@
                                 </template>
                             </lightning-layout-item>
 
-                            <lightning-layout-item size="6" small-device-size="6" medium-device-size="7" class="li3 slds-p-horizontal_small">
+                            <lightning-layout-item size="7" class="li3 slds-align-content-center slds-m-left_small">
                                 <lightning-layout class="piPhone" vertical-align="center">
-                                    <lightning-layout-item size="1"
+                                    <lightning-layout-item size="1" class="slds-align--absolute-center"
                                         ><img src={phone_Icon} class="phoneIcon"
                                     /></lightning-layout-item>
                                     <lightning-layout-item size="11" class={paddingPIPhoneAndName}>{studySitePhone}</lightning-layout-item>
                                 </lightning-layout>
                                 <lightning-layout class="piName" vertical-align="center">
-                                    <lightning-layout-item size="1"
+                                    <lightning-layout-item size="1" class="slds-align--absolute-center"
                                         ><img src={pi_Icon} class="piIcon"
                                     /></lightning-layout-item>
                                     <lightning-layout-item size="11" class={paddingPIPhoneAndName}
@@ -135,7 +145,7 @@
                                         </lightning-layout-item
                                     >
                                 </lightning-layout>
-                                <div class="po-more">
+                                <div class="po-more po-more-tab">
                                     <a
                                         ><span class="po-more-text" onclick={handleclick}
                                             >{label.PPLEARNMOREMBLELabel}</span
@@ -162,27 +172,46 @@
                         horizontal-align="center"
                         class="po-custom-card-mobile-no-study"
                     >
-                        <lightning-layout-item size="5">
-                            <div class="po-center slds-p-top_medium slds-p-left_medium">
-                                <template if:true={isIqviaLogo}>
-                                    <img src={iqviaLogoUrl} class="po-logo borderRight slds-align--absolute-center" />
-                                </template>
-                                <template if:true={isGskLogo}>
-                                    <img src={gskLogoUrl} class="po-logo borderRight" />
-                                </template>
-                            </div>
-                        </lightning-layout-item>
-                        <lightning-layout-item size="7">
-                            <!--    <div class="po-text_3 slds-p-top_large">
-                                <a><span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
-                                <img src={open_new_tab} onclick={handleclickClinicalResearch}/></a>
-                            </div> -->
-                        </lightning-layout-item>
-                        <lightning-layout-item size="12">
-                            <div class="po-text_3">
-                                {label.PP_StudyOverview_homePage_shortDecs_DelAlu}
-                            </div>
-                        </lightning-layout-item>
+                        <template if:true = {isTablet}>
+                            <lightning-layout-item size="3">
+                                <div class="po-center slds-p-top_medium slds-p-left_medium">
+                                    <template if:true={isIqviaLogo}>
+                                        <img src={iqviaLogoUrl} class="po-logo borderRight slds-align--absolute-center" />
+                                    </template>
+                                    <template if:true={isGskLogo}>
+                                        <img src={gskLogoUrl} class="po-logo borderRight" />
+                                    </template>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="9">
+                                <div class="po-text_3">
+                                    {label.PP_StudyOverview_homePage_shortDecs_DelAlu}
+                                </div>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:false = {isTablet}>
+                            <lightning-layout-item size="5">
+                                <div class="po-center slds-p-top_medium slds-p-left_medium">
+                                    <template if:true={isIqviaLogo}>
+                                        <img src={iqviaLogoUrl} class="po-logo borderRight slds-align--absolute-center" />
+                                    </template>
+                                    <template if:true={isGskLogo}>
+                                        <img src={gskLogoUrl} class="po-logo borderRight" />
+                                    </template>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="7">
+                                <!--    <div class="po-text_3 slds-p-top_large">
+                                    <a><span class="po-more-text  slds-p-right_x-small" onclick={handleclickClinicalResearch}>{label.PP_Clinical_Research_by_IQVIA}</span>
+                                    <img src={open_new_tab} onclick={handleclickClinicalResearch}/></a>
+                                </div> -->
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12">
+                                <div class="po-text_3">
+                                    {label.PP_StudyOverview_homePage_shortDecs_DelAlu}
+                                </div>
+                            </lightning-layout-item>
+                        </template>
                     </lightning-layout>
                 </div>
             </template>

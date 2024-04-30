@@ -4659,6 +4659,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>All date ranges</value>
     </labels>
     <labels>
+        <fullName>DoNoTranslate_BypassTrigger</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DoNoTranslate_BypassTrigger</shortDescription>
+        <value>1</value>
+    </labels>
+    <labels>
         <fullName>DRF_L_Last_month</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11577,7 +11584,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Message to PT Televisit Cancelled</shortDescription>
         <value>Your televisit with ##PIFullName's team for the ##StudyCodeName is cancelled. Please contact your Care Team for more details.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Message_to_PT_Televisit_Cancelled_title</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -20829,7 +20836,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_EMAIL_COMMUNICATION_PREFERENCE</shortDescription>
-        <value>We will use your information provided below to notify you of updates or changes to your account.&lt;br /&gt;You can also set your preferences for additional optional study communication in ##COMM_PREF_LINK.</value>
+        <value>We will use your information provided below to notify you of updates or changes to your account. You can also set your preferences for additional optional study communication in ##COMM_PREF_LINK.</value>
     </labels>
     <labels>
         <fullName>PP_EditAllInfo</fullName>
@@ -32745,5 +32752,12 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Treatment_Period</shortDescription>
         <value>Treatment Period</value>
+    </labels>
+    <labels>
+        <fullName>View_All_Files</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View All Files</shortDescription>
+        <value>View All Files</value>
     </labels>
 </CustomLabels>

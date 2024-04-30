@@ -37,7 +37,7 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
 
     desktop = true;
     isRTL = false;
-
+    isTablet ;
     alumniParticipant = false;
     delegateSelfView = false;
     communityName;
@@ -73,7 +73,11 @@ export default class StudyOverview extends NavigationMixin(LightningElement) {
 
     connectedCallback() {
         DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
-
+        if(communityService.isAndroidTablet()){
+            this.isTablet = true;
+        }else{
+            this.isTablet = false;
+        }
         if (this.clinicalrecord) {
             if (this.clinicalrecord.Brief_Summary__c) {
                 let briefsummary = this.clinicalrecord.Brief_Summary__c;
