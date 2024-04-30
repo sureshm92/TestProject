@@ -856,7 +856,7 @@ export default class Pir_participantEmancipated extends LightningElement {
              this.pathdetails = [...this.pathdetails, ...pathdetail]; 
         }
         if(this.currentTab == "4"){
-            var pathdetail = [];
+            var pathdetail = [];   
             var path = {
                 isStatusPassed : true,
                 styleName:'slds-col width-basis vpi-state success',

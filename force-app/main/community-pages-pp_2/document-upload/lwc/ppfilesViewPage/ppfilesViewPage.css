@@ -80,6 +80,10 @@
 .documentuploadempty {
     padding-right: 1.5rem;
 }
+.documentuploadempty-rtl {
+    padding-left: 1.5rem;
+}
+
 .document {
     color: #444444;
     font-size: 18px;
@@ -292,9 +296,9 @@
 .progressBar {
     /* width: 95%; */
     /* padding-top: 7px; */
-    /* display: inline-block;
+    display: inline-block;
     padding-left: 1rem;
-    padding-top: 0.85rem; */
+    padding-top: 0.8rem;
     /* padding-top: 0.75rem; */
 }
 .progressBarMbl {
@@ -541,8 +545,8 @@
     /* padding-left: 0.25rem; */
 }
 .imagecsscrossicon {
-    /* padding-top: 5px;
-    margin-bottom: 3px; */
+    padding-top: 5px;
+    margin-bottom: 3px;
     /* padding-left: 0.5rem; */
 }
 .retryimageicon {
