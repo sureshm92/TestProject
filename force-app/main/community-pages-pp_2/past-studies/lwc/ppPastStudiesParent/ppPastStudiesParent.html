@@ -104,7 +104,7 @@
                             </div>
                         </div>
                         <div
-                            class="slds-large-size--2-of-5 slds-size--1-of-1 box-right contTableCell"
+                            class={boxRightpading}
                         >
                             <div class="box-header slds-hidden">.</div>
                             <div
@@ -143,7 +143,7 @@
                             <div class="box-header file-header">{label.PP_MyFiles}</div>
                             <div class="pir-parent pastStudiesFiles">
                                 <lightning-tabset class="all-tabs">
-                                    <lightning-tab label="Uploaded" onactive={handleFiles}>
+                                    <lightning-tab label={label.Uploaded} onactive={handleFiles}>
                                         <div class={uploadedFilesClass}>
                                             <div class="box-container file-box">
                                                 <c-pp-past-studies-my-files
@@ -156,12 +156,12 @@
                                                 ></c-pp-past-studies-my-files>
                                             </div>
                                             <div class="card-link slds-align_absolute-center">
-                                                <span onclick={viewFile}>View All Files</span>
+                                                <span onclick={viewFile}>{label.View_All_Files}</span>
                                             </div>
                                         </div>
                                     </lightning-tab>
                                     <lightning-tab
-                                        label="Shared with Me"
+                                        label={label.Shared_with_Me}
                                         onactive={handleMessageFiles}
                                     >
                                         <div class={sharedFilesClass}>
@@ -173,7 +173,7 @@
                                                 ></c-pp-past-studies-my-files>
                                             </div>
                                             <div class="card-link slds-align_absolute-center">
-                                                <span onclick={viewFile}>View All Files</span>
+                                                <span onclick={viewFile}>{label.View_All_Files}</span>
                                             </div>
                                         </div>
                                     </lightning-tab>

@@ -31,8 +31,9 @@ export default class PpDiscoverLinks extends LightningElement {
             return 'card-container';
         }
     }
-
+    isPad;
     connectedCallback() {
+        this.isPad=communityService.isIpadPortrait();
         // DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
         DEVICE == 'Large' ? (this.desktop = true) : (this.desktop = false);
     }
@@ -43,7 +44,14 @@ export default class PpDiscoverLinks extends LightningElement {
             this.isInitialized = true;
         }
     }
-
+    get linkClass(){
+        if (this.isPad){
+            return 'links-type marbottom';
+        }
+        else {
+            return 'links-type';
+        }
+    }
     openLink(event) {
         const clickResource = new CustomEvent('resourceclick', {
             detail: { resourceId: event.currentTarget.dataset.id },

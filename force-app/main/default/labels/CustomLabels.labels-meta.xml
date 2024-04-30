@@ -11584,7 +11584,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Message to PT Televisit Cancelled</shortDescription>
         <value>Your televisit with ##PIFullName's team for the ##StudyCodeName is cancelled. Please contact your Care Team for more details.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Message_to_PT_Televisit_Cancelled_title</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -32752,5 +32752,12 @@ The IQVIA Referral Hub Support Team</value>
         <protected>false</protected>
         <shortDescription>Treatment_Period</shortDescription>
         <value>Treatment Period</value>
+    </labels>
+    <labels>
+        <fullName>View_All_Files</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View All Files</shortDescription>
+        <value>View All Files</value>
     </labels>
 </CustomLabels>
