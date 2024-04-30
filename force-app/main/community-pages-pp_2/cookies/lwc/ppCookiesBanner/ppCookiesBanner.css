@@ -114,7 +114,7 @@
     display: none;
 }
 
-/** RH **/
+/*** RH ***/
 .rh-border-radius {
     border-radius: 4px !important;
 }
@@ -528,4 +528,9 @@
 .modal_bottom_css {
     border-bottom-left-radius: 16px !important;
     border-bottom-right-radius: 16px !important;
+}
+@media (min-width:780px) and (max-width:1280px) and (orientation: portrait){
+    .mob-cookies-banner {
+        /* z-index:2; */
+    }
 }

@@ -90,7 +90,7 @@ export default class PpGetSupport extends NavigationMixin(LightningElement) {
     }
 
     get YOBOpacityClass() {
-        return this.YOBSelected ? 'support-year slds-m-left_small' : 'support-year opacity slds-m-left_small';
+        return this.YOBSelected ? 'support-year ' : 'support-year opacity ';
     }
 
     get options() {

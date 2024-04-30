@@ -1,5 +1,10 @@
 .main-content-div {
-    padding-left: 24px;
+    margin-left: 24px;
+    padding-right: 24px;
+}
+
+.main-content-div-ipad {
+    margin-left: -10px;
     padding-right: 24px;
 }
 
@@ -7,6 +12,10 @@
     padding-left: 24px;
 }
 
+.main-content-div-desk {
+    margin-left: 0px;
+    padding-right: 24px;
+}
 .padding-for-techSupportGroup {
     padding-top: 50px;
 }
@@ -39,12 +48,26 @@
     float: none !important;
 }
 
+.success-message-text-desk {
+    font-size: 20px;
+    font-weight: 600;
+    color: #444444;
+    text-align: left;
+    /* padding-left: 24px; */
+}
 .success-message-text {
     font-size: 20px;
     font-weight: 600;
     color: #444444;
     text-align: left;
-    padding-left: 24px;
+    padding-left: 24px; 
+}
+.success-message-text-ipad {
+    font-size: 20px;
+    font-weight: 600;
+    color: #444444;
+    text-align: left;
+    margin-left: -10px;
 }
 
 .slds-checkbox .slds-checkbox__label .slds-form-element__label {
@@ -107,10 +130,12 @@
     margin-bottom: 20px;
 }
 
-.submit-button-div {
+.submit-button-div-ipad {
     /* margin-top: 45px;
     margin-left: 80%; */
+    margin-left: -10px !important;
 }
+
 .checkLogo {
     height: 25px;
     width: 30px;
@@ -239,5 +264,9 @@
 }
 
 .mt-minus55 {
-    margin-top: -55px;
+    margin-top: 15px;
+}
+
+.mb-112{
+     margin-bottom: 112px;
 }

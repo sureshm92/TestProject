@@ -399,6 +399,7 @@
                                             </button>
                                         </div>
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium">
+                                            
                                             <div class="model-body-content slds-m-top_medium">
                                                 {participantName}
                                             </div>
@@ -410,6 +411,7 @@
                                                     {utilLabels.Do_Not_Invite}
                                                 </template>
                                             </div>
+                                        
                                         </div>
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-large-size_4-of-12 slds-m-bottom_medium">
                                             <div class="participant-subtitle slds-m-bottom_x-smal">
@@ -540,6 +542,7 @@
                                         </template>
                                         <template for:each={addDelegateListNew} for:item="delegatenew" for:index="index">
                                             <div key={delegatenew} class="slds-grid slds-wrap slds-gutters">
+                                                
                                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_medium">
                                                     <div class="model-body-content slds-m-top_medium">
                                                         {delegatenew.continueDelegatenewMsg}
@@ -557,10 +560,12 @@
                                                     </div>
                                                 </div> 
                                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_6-of-12 slds-m-bottom_medium">
+                                                   
                                                     <div class="participant-subtext slds-m-bottom_x-smal">
                                                         {utilLabels.PG_AS_F_Email_address}: {delegatenew.em}
                                                     </div>
                                                 </div> 
+                                            
                                             </div>
                                         </template>
                                     </div>

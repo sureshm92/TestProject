@@ -358,6 +358,7 @@
             var isSubscribedScreenShare;
             var isScreenShareLocked;
             var isExternalUser;
+            var isMobileApp;
 
             var previewPublisher;
 
@@ -1369,6 +1370,19 @@
             isSubscribedScreenShare = false;
             isScreenShareLocked = false;
 
+            if('{!$CurrentPage.parameters.mobileApp}' == 'true'){
+                    isMobileApp = true;
+                    for (var i = 0; i < document.getElementsByClassName("hideCloseButton").length; i++) {
+                          document.getElementsByClassName("hideCloseButton")[i].style.display = 'none'; 
+                    }
+                    
+            }else if('{!$CurrentPage.parameters.mobileApp}' == 'false'){
+                    isMobileApp = false; 
+                    for (var i = 0; i < document.getElementsByClassName("hideCloseButton").length; i++) {
+                          document.getElementsByClassName("hideCloseButton")[i].style.display = 'block'; 
+                    }
+            }
+
             timer.init();
 
             session = OT.initSession(apiKey, sessionId);
@@ -1541,7 +1555,12 @@
         </script>
         <script>
             window.onload = function checkInternetDisconnect() {
-
+                var isAndroid = communityService.isAndroidTablet();
+               var isIpadDev = communityService.isIpad();
+                if(isAndroid ||isIpadDev ){
+                    document.getElementById("sharingbuttont").style.display = "none";
+                }
+               
                 window.addEventListener('online', () => onlineCall());
                 window.addEventListener('offline', () => offlineCall());
                 var isOffline = false;
@@ -2610,6 +2629,9 @@
                 .callButtonsContainer {
                     max-width: 40vh;
                 }
+                .slds-button-circle.button_white {                
+                    margin-right: 10px;
+                }
             }
         </style>
 
@@ -2758,7 +2780,7 @@
                                                         <div id="back-button" class="slds-p-top_small slds-p-bottom_small">
                                                             <div class="slds-col slds-size_3-of-8"></div>
                                                             <div class="slds-col slds-size_2-of-8 slds-align_absolute-center slds-text-align_center">
-                                                                <button id="tv-back-button" class="slds-button slds-col slds-align_absolute-center back-button" onclick="confirmCancel();">
+                                                                <button id="tv-back-button" class="slds-button slds-col slds-align_absolute-center back-button hideCloseButton" onclick="confirmCancel();">
                                                                     {!$Label.BTN_Close}
                                                                 </button>
                                                             </div>
@@ -2990,9 +3012,9 @@
                                                 </svg>
                                                 <span class="slds-assistive-text">{!$Label.WelcomeModal_Video}</span>
                                             </button>
-                                            <button class="slds-col button--sharing slds-button-circle button_white slds-show_medium" type="button" onclick="toggleSharing();"
+                                                <button class="slds-col button--sharing slds-button-circle button_white slds-show_medium" type="button" onclick="toggleSharing();"
                                                 title="{!$Label.Screen_Share_Hover_Message_Off}" data-on="{!$Label.Screen_Share_Hover_Message_Off}"
-                                                data-off="{!$Label.Screen_Share_Hover_Message_On}">
+                                                data-off="{!$Label.Screen_Share_Hover_Message_On}" id="sharingbuttont">
                                                 <span class="slds-assistive-text">{!$Label.Screen_Share}</span>
                                                 <svg class="icon-startShare" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                     <path d="M18.5,7H15.25a.25.25,0,0,0-.25.25V11a3,3,0,0,1-6,0V7.248A.25.25,0,0,0,8.75,7H5.5a2,2,0,0,0-2,2V22a2,2,0,0,0,2,2h13a2,2,0,0,0,2-2V9A2,2,0,0,0,18.5,7Z"
@@ -3054,14 +3076,32 @@
                                                 <div class="televisit-end" style="inline-size: 284px;margin-left: 50px;">
                                                     {!$Label.PT_Televisit_Left}
                                                 </div>
-                                                <div class="rejoin-buttons televisitleftcss">
-                                                    <button class="close-tv-button" onclick="confirmCancelRejoin();">
-                                                        {!$Label.PT_Televisit_Close}
-                                                    </button>
-                                                    <button class="rejoin-button" onclick="confirmReJoin();">
-                                                        {!$Label.PT_Televisit_Rejoin}
-                                                    </button>
-                                                </div>
+                                                <apex:outputPanel rendered="{!$CurrentPage.parameters.mobileApp == 'true'}">
+                                                    <div class="rejoin-buttons televisitleftcss">
+                                                        <button
+                                                            class="rejoin-button"
+                                                            onclick="confirmReJoin();"
+                                                        >
+                                                            {!$Label.PT_Televisit_Rejoin}
+                                                        </button>
+                                                    </div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!$CurrentPage.parameters.mobileApp == 'false'}">
+                                                    <div class="rejoin-buttons televisitleftcss">
+                                                        <button
+                                                            class="close-tv-button"
+                                                            onclick="confirmCancelRejoin();"
+                                                        >
+                                                            {!$Label.PT_Televisit_Close}
+                                                        </button>
+                                                        <button
+                                                            class="rejoin-button"
+                                                            onclick="confirmReJoin();"
+                                                        >
+                                                            {!$Label.PT_Televisit_Rejoin}
+                                                        </button>
+                                                    </div>
+                                                </apex:outputPanel>
                                             </div>
                                         </div>
                                     </div>
@@ -3089,7 +3129,7 @@
 
                                                 </div>
                                                 <br/>
-                                                <button id="tv-back-button" class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button"
+                                                <button id="tv-back-button" class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button hideCloseButton"
                                                     onclick="confirmCancel();">
                                                     {!$Label.PP_Opt_Out_Close_window}
                                                 </button>
