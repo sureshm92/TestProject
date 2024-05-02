@@ -38,7 +38,7 @@
                     fixed="true"
                 ></c-web-spinner>
             </template>
-            <lightning-layout-item size="4" class="divider">
+            <lightning-layout-item size="4" class={divider}>
                 <div class="border-btm slds-p-around_large">
                     {labels.messagesLabel}
                 </div>
@@ -84,7 +84,7 @@
                         </template>
                     </lightning-layout-item>
 
-                    <lightning-layout-item  size="12" class="slds-p-horizontal_large slds-col_bump-left box-container box-container-adjustment">
+                    <lightning-layout-item  size="12" class={userInfoBox}>
                         <template if:true={nameList}>
                             <template for:each={nameList} for:item="n">
                                 <c-pp-people-count

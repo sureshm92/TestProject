@@ -218,7 +218,7 @@
     <lightning-layout   class="mob-upld-card-center">
        <c-web-spinner class="main-spinner" fixed="true" show-spinner={isSaving}></c-web-spinner>
         <lightning-layout-item
-            class="documentuploadempty"
+            class={documentuploadempty}
             size={getsize}   >
             <div if:false={ShowuploadSection}>  
                 <c-ppdocment-view-page onreccountupdate={recCountUpdate} onpageswap={changePage} ontabchange={handleTabChange} ongettotalrecord={handletotalrecord} ongettotalrecordmsg={handletotalrecordmsg} onresetpagination={handleresetpagination}  onresetpaginationmsg={handleresetpaginationmsg} onresetpageonupdate={handleresetpageonupdate}  onresetondelete={handleresetondelete} stop-spinner={stopSpinnerChild} >
@@ -307,7 +307,7 @@
                                     {label.PP_DragFiles}
                         </div>
                         <div class="slds-size_full center slds-m-bottom_large">
-                            {label.PP_or_smallcase} <span class="linkLabel uploadLabeldrag"> <u>browse </u> </span>
+                            {label.PP_or_smallcase} <span class="linkLabel uploadLabeldrag"> <u>{label.BulkImport_browse} </u> </span>
                         </div>
                         
                         <div class="center slds-m-left--medium slds-m-right--medium slds-m-top_medium uploadLabel">
@@ -436,11 +436,11 @@
                                     {label.RH_RP_Cancel}
                                 </span>
                                 <button if:true={FileUploadPending} type="button"
-                                    class="std-upload-btndisable slds-m-horizontal_small" disabled>
+                                    class={uploadButtonDis} disabled>
                                     {label.RH_Upload_import}
                                 </button>
                                 <button if:false={FileUploadPending} type="button"
-                                    class="std-upload-btn slds-m-horizontal_small" onclick={uploadFiles}>
+                                    class={uploadButton} onclick={uploadFiles}>
                                     {label.RH_Upload_import}
                                 </button>
                             </div>

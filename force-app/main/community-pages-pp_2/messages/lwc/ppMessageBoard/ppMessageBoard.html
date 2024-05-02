@@ -126,13 +126,13 @@
                                 placeholder={labels.PP_Select_Question}
                                 options={options}
                                 onchange={handleChange}
-                                class="selection"
+                                class={selection}
                                 onfocus={handleChanges}
                                 dropdown-alignment="bottom-left"
                             >
                             </lightning-combobox>
                         </lightning-layout-item>
-                        <lightning-layout-item size="3" class="send-button">
+                        <lightning-layout-item size="3" class={sendButton}>
                             <button
                                 class="primaryBtn ms-send-button"
                                 data-gtm="ms-send-pa-button"

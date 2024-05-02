@@ -324,7 +324,7 @@ public with sharing class ECOAService {
                         if (remoteCall.log.Success__c) {
                             List<ECOAService.CreateSubjectResponse> newSubjectInfo = getSubjectResponse(
                                 respBody
-                            );
+                            );                       
                             peObj.Subject_GUID__c = newSubjectInfo[0].ecoaResponseID;
                             // pesToUpdate.add(peObj);
                             sObjectsList.add(peObj);
