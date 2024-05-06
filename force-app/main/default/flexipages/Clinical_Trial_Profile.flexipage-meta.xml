@@ -160,6 +160,26 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.SSO_enabled__c</fieldItem>
+                <identifier>RecordSSO_enabled_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Use_Social_IDP__c</fieldItem>
+                <identifier>RecordUse_Social_IDP_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Enable_for_Call_Center_Support__c</fieldItem>
                 <identifier>RecordEnable_for_Call_Center_Support_cField</identifier>
             </fieldInstance>
@@ -1316,6 +1336,98 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.MDM_Parent_Sponsor_Name__c</fieldItem>
+                <identifier>RecordMDM_Parent_Sponsor_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MDM_Protocol_Entity_Id__c</fieldItem>
+                <identifier>RecordMDM_Protocol_Entity_Id_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.UCPM_Sponsor_Org_Id__c</fieldItem>
+                <identifier>RecordUCPM_Sponsor_Org_Id_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-10fd16fe-bedd-49f0-b2d5-2e882778bd98</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MDM_Parent_Sponsor_Entity_Id__c</fieldItem>
+                <identifier>RecordMDM_Parent_Sponsor_Entity_Id_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MDM_trigger_status__c</fieldItem>
+                <identifier>RecordMDM_trigger_status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.UCPM_Study_Purpose_Id__c</fieldItem>
+                <identifier>RecordUCPM_Study_Purpose_Id_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-4f5c4e60-d70d-465b-a251-99ac304c46fa</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-10fd16fe-bedd-49f0-b2d5-2e882778bd98</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-4f5c4e60-d70d-465b-a251-99ac304c46fa</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-4fa9c2d2-5dbc-4638-ad94-b444ee429d31</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.MDM_Cluster_ID__c</fieldItem>
                 <identifier>RecordMDM_Cluster_ID_cField</identifier>
             </fieldInstance>
@@ -1524,6 +1636,24 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection12</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-4fa9c2d2-5dbc-4638-ad94-b444ee429d31</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>MDM Information</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
