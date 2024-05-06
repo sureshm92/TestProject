@@ -2210,6 +2210,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.SSO_enabled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>				
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Use_Social_IDP__c</field>
+        <readable>true</readable>
+    </fieldPermissions>		
+    <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Enable_for_Call_Center_Support__c</field>
         <readable>true</readable>
