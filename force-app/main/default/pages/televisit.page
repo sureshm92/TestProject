@@ -1556,7 +1556,8 @@
         <script>
             window.onload = function checkInternetDisconnect() {
                 var isAndroid = communityService.isAndroidTablet();
-                if(isAndroid){
+               var isIpadDev = communityService.isIpad();
+                if(isAndroid ||isIpadDev ){
                     document.getElementById("sharingbuttont").style.display = "none";
                 }
                

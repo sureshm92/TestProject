@@ -337,7 +337,7 @@ export default class PpPrivacyPolicyViewerPage extends LightningElement {
     get ppContentClass() {
         return this.isRTL
             ? 'pp-content slds-p-top_medium slds-p-left_medium rtl'
-            : 'pp-content slds-p-top_medium slds-p-left_medium';
+            : 'pp-content slds-p-top_medium slds-p-left_medium slds-p-bottom_medium';
     }
 
     navigateToSelectedHeader(event) {
