@@ -1552,4 +1552,4 @@ export default class Pir_participantDetail extends LightningElement {
     PG_Ref_L_Permit_IQVIA_To_Store_And_Contact=PG_Ref_L_Permit_IQVIA_To_Store_And_Contact;
     PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US=PG_Ref_L_Permit_IQVIA_To_Contact_SMS_Non_US;
     PG_Ref_L_Permit_IQVIA_To_Contact_ESP=PG_Ref_L_Permit_IQVIA_To_Contact_ESP;
-}
+} 
