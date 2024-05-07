@@ -128,7 +128,6 @@ export default class PpCreateTask extends LightningElement {
             this.customLayoutSizeImg = parseInt(0);
         }
     }
-    taskInitData;
     initializeData() {
         this.spinner.show();
         if (!communityService.isDummy()) {
