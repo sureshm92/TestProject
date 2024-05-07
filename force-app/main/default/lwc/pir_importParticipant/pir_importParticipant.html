@@ -213,11 +213,20 @@
                            </div>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-m-bottom_small importInputPopup">
+                          <template if:true={doContact}>
                            <div class="display-checkbox">
                            <lightning-input type="checkbox" data-name="ppcheck" disabled={disablePatientInvite} varient="label-hidden"   onchange={handleppinvite} 
                            name="inviteToPP"></lightning-input>
                            <span class="checkbox_width"><label class="" >{label.PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal}</label></span>
                            </div>
+                        </template>
+                        <template if:false={doContact}>
+                           <div class="display-checkbox">
+                           <lightning-input type="checkbox" disabled={disablePatientInvite}
+                           ></lightning-input>
+                           <span class="checkbox_width"><label class="" >{label.PG_Ref_L_Permit_IQVIA_To_Invite_Patient_For_PatienPortal}</label></span>
+                           </div>
+                        </template>
                         </div> 
                         
                        
