@@ -1211,6 +1211,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Integration_UCPM_Org_PP__c.Error_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>CommunityTemplate_Property__mdt.Community_Template__c</field>
         <readable>false</readable>
     </fieldPermissions>
