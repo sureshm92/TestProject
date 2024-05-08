@@ -1555,7 +1555,12 @@
         </script>
         <script>
             window.onload = function checkInternetDisconnect() {
-
+                var isAndroid = communityService.isAndroidTablet();
+               var isIpadDev = communityService.isIpad();
+                if(isAndroid ||isIpadDev ){
+                    document.getElementById("sharingbuttont").style.display = "none";
+                }
+               
                 window.addEventListener('online', () => onlineCall());
                 window.addEventListener('offline', () => offlineCall());
                 var isOffline = false;
@@ -3007,9 +3012,9 @@
                                                 </svg>
                                                 <span class="slds-assistive-text">{!$Label.WelcomeModal_Video}</span>
                                             </button>
-                                            <button class="slds-col button--sharing slds-button-circle button_white slds-show_medium" type="button" onclick="toggleSharing();"
+                                                <button class="slds-col button--sharing slds-button-circle button_white slds-show_medium" type="button" onclick="toggleSharing();"
                                                 title="{!$Label.Screen_Share_Hover_Message_Off}" data-on="{!$Label.Screen_Share_Hover_Message_Off}"
-                                                data-off="{!$Label.Screen_Share_Hover_Message_On}">
+                                                data-off="{!$Label.Screen_Share_Hover_Message_On}" id="sharingbuttont">
                                                 <span class="slds-assistive-text">{!$Label.Screen_Share}</span>
                                                 <svg class="icon-startShare" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                     <path d="M18.5,7H15.25a.25.25,0,0,0-.25.25V11a3,3,0,0,1-6,0V7.248A.25.25,0,0,0,8.75,7H5.5a2,2,0,0,0-2,2V22a2,2,0,0,0,2,2h13a2,2,0,0,0,2-2V9A2,2,0,0,0,18.5,7Z"

@@ -264,6 +264,13 @@ public without sharing class TaskTriggerHandler {
             }
             delegatesCntByPartCnt.get(pd.Patient_Delegate__r.Participant__r.Contact__c).add(pd.Patient_Delegate__r.Contact__c);
         }
+		
+		Map<String, Object> params = new Map<String, Object>(); //For flow passing variables
+        Set<Id> contactIds = new Set<Id>();
+        Map<Id,Date> taskDt = new Map<Id,Date>();
+        Map<Id,Notification__c> lstNotification = new Map<Id,Notification__c>();
+        Map<Id,Notification__c> finalLstNotification = new Map<Id,Notification__c>();
+        
         for (Task task : tasksWithOwner) {
            if (task.Task_Code__c != null ) {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
@@ -397,14 +404,24 @@ public without sharing class TaskTriggerHandler {
                                                 ? perIdPdeMap.get(task.WhatId) : null;
                         if(pdEnrollments != null && !pdEnrollments.isEmpty()){
                             for(Patient_Delegate_Enrollment__c pde:pdEnrollments){
-                                deDupeNotifications.add(new Notification__c(
+                                /** deDupeNotifications.add(new Notification__c(
                                         Recipient__c = pde.Patient_Delegate__r.Contact__c,
                                         WhatId__c = task.Id,
                                         IsDelegate__c = true,
                                         Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
                                         StartDate__c = task.Start_Date__c,
                                         RemindUsing__c = 'Email'
-                                    ));
+                                    )); **/
+							lstNotification.put(task.Id,new Notification__c(
+                            Recipient__c = pde.Patient_Delegate__r.Contact__c,
+                            WhatId__c = task.Id,
+                            IsDelegate__c = true,
+                            Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
+                            StartDate__c = task.Start_Date__c,
+                            RemindUsing__c = 'Email'
+                            ));
+                            contactIds.add(pde.Patient_Delegate__r.Contact__c); 
+                            taskDt.put(pde.Patient_Delegate__r.Contact__c,task.Start_Date__c); 
                             }
                         }
                 }
@@ -417,7 +434,7 @@ public without sharing class TaskTriggerHandler {
                     task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) &&
                     !tasksWithoutUser.contains(task.Id) //added check to prevent notifications from being created for minors
                 ) {
-                    deDupeNotifications.add(
+                    /** deDupeNotifications.add(
                         new Notification__c(
                             Recipient__c = task.WhoId,
                             WhatId__c = task.Id,
@@ -427,7 +444,18 @@ public without sharing class TaskTriggerHandler {
                             IsDelegate__c = conWithPdeRecrd.contains(task.WhoId+'-'+task.whatId) ? true : false
 
                         )
-                    );
+                    );  **/
+					lstNotification.put(task.Id,new Notification__c(
+                            Recipient__c = task.WhoId,
+                            WhatId__c = task.Id,
+                            Notification_Type__c = 'Message_To_PT_Task_Instant_Type',
+                            StartDate__c = task.Start_Date__c,
+                            RemindUsing__c = 'Email',
+                            IsDelegate__c = conWithPdeRecrd.contains(task.WhoId+'-'+task.whatId) ? true : false
+
+                        ));
+                    contactIds.add(task.WhoId); 
+                    taskDt.put(task.WhoId,task.Start_Date__c); 
                 }
                 if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
                     List<Contact> delegates = delegatesByPAContact.containskey(task.WhoId)
@@ -438,20 +466,33 @@ public without sharing class TaskTriggerHandler {
                                             ? perIdPdeMap.get(task.WhatId) : null;
                     if(pdEnrollments != null && !pdEnrollments.isEmpty()){
                         for(Patient_Delegate_Enrollment__c pde:pdEnrollments){
-                            deDupeNotifications.add(new Notification__c(
+                            
+							/**deDupeNotifications.add(new Notification__c(
                                     Recipient__c = pde.Patient_Delegate__r.Contact__c,
                                     WhatId__c = task.Id,
                                     IsDelegate__c = true,
                                     Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
                                     StartDate__c = task.Start_Date__c,
                                     RemindUsing__c = 'Email'
-                                ));
+                                )); **/
+							lstNotification.put(task.Id,new Notification__c(
+                            Recipient__c = pde.Patient_Delegate__r.Contact__c,
+                            WhatId__c = task.Id,
+                            IsDelegate__c = true,
+                            Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
+                            StartDate__c = task.Start_Date__c,
+                            RemindUsing__c = 'Email'
+                            ));
+                            contactIds.add(pde.Patient_Delegate__r.Contact__c); 
+                            taskDt.put(pde.Patient_Delegate__r.Contact__c,task.Start_Date__c); 
+								
+								
                         }
                     }
                     
                     else if (delegates != null && !delegates.isEmpty()) {
                         for (Contact delContact : delegates) {
-                            deDupeNotifications.add(
+                            /** deDupeNotifications.add(
                                 new Notification__c(
                                     Recipient__c = delContact.Id,
                                     WhatId__c = task.Id,
@@ -460,12 +501,116 @@ public without sharing class TaskTriggerHandler {
                                     StartDate__c = task.Start_Date__c,
                                     RemindUsing__c = 'Email'
                                 )
-                            );
+                            ); **/
+							lstNotification.put(task.Id,new Notification__c(
+                            Recipient__c = delContact.Id,
+                            WhatId__c = task.Id,
+                            IsDelegate__c = true,
+                            Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
+                            StartDate__c = task.Start_Date__c,
+                            RemindUsing__c = 'Email'
+                            ));
+                            contactIds.add(delContact.Id); 
+                            taskDt.put(delContact.Id,task.Start_Date__c); 
                         }
                     }
                 }
             }
         }
+		
+		if(contactIds!= null && !contactIds.isEmpty()){
+            List<User> userList = new List<User>();
+            List<Id> matchedDtCont = new List<Id>();
+            List<Id> NotMatchedDtCont = new List<Id>();
+            Map<Long, List<Notification__c>> lstOffstHrNotification = new Map<Long, List<Notification__c>>();
+            userList = [select Id,Name,TimeZoneSidKey,ContactId from User where ContactId IN:contactIds];
+            Map<Id,Long> contOffsethr = new Map<Id,Long>(); 
+            for(User u:userList){
+                if(u.TimeZoneSidKey != null){
+                    datetime partDtTime = datetime.now();
+                    string participantDate = partDtTime.format('yyyy-MM-dd', u.TimeZoneSidKey);
+                    Date participantdt;
+                    participantdt = Date.valueOf(participantDate);
+                    TimeZone tz = TimeZone.getTimeZone(u.TimeZoneSidKey);
+                    Integer offSet = tz.getOffSet(DateTime.now());
+                    Long offsethr = offset / (60 * 60 * 1000);
+                    Date taskdate = taskDt.get(u.ContactId);
+                    if(taskdate == participantdt){
+                        //system.debug('both dates are same, fire email');
+                        matchedDtCont.add(u.ContactId);
+                        //NotMatchedDtCont.add(u.ContactId);contOffsethr.put(u.ContactId,offsethr);
+                    }else if(taskdate > participantdt){
+                        //system.debug('participant dt not reached,pause email');
+                        NotMatchedDtCont.add(u.ContactId);
+                        contOffsethr.put(u.ContactId,offsethr);
+                    }else{
+                        matchedDtCont.add(u.ContactId);
+                    }
+               }else{
+                    matchedDtCont.add(u.ContactId);
+               } 
+            }
+            for(Id key:lstNotification.keyset()){
+                Notification__c N = lstNotification.get(key);
+                if(matchedDtCont.Contains(N.Recipient__c)){
+                    deDupeNotifications.add(
+                            new Notification__c(
+                                Recipient__c = N.Recipient__c,
+                                WhatId__c = N.WhatId__c,
+                                Notification_Type__c = N.Notification_Type__c,
+                                StartDate__c = N.StartDate__c,
+                                RemindUsing__c = N.RemindUsing__c,
+                                IsDelegate__c = N.IsDelegate__c
+                            )
+                        );
+                }else if(NotMatchedDtCont.Contains(N.Recipient__c)){
+                     Notification__c nfs = new Notification__c(
+                            Recipient__c = N.Recipient__c,
+                            WhatId__c = N.WhatId__c,
+                            Notification_Type__c = N.Notification_Type__c,
+                            StartDate__c = N.StartDate__c,
+                            RemindUsing__c = N.RemindUsing__c,
+                            IsDelegate__c = N.IsDelegate__c
+                           
+                        ); 
+                        
+                    if(lstOffstHrNotification.containsKey(contOffsethr.get(N.Recipient__c))) {
+                        lstOffstHrNotification.get(contOffsethr.get(N.Recipient__c)).add(nfs);
+                    } else {
+                        lstOffstHrNotification.put(contOffsethr.get(N.Recipient__c), new List<Notification__c> { nfs });
+                    }
+                    
+                    /**params.clear();
+                    Notification__c nf = new Notification__c(
+                            Recipient__c = N.Recipient__c,
+                            WhatId__c = N.WhatId__c,
+                            Notification_Type__c = N.Notification_Type__c,
+                            StartDate__c = N.StartDate__c,
+                            RemindUsing__c = N.RemindUsing__c,
+                            IsDelegate__c = N.IsDelegate__c,
+                            test__c = 'typetest-offsethr: '+contOffsethr.get(N.Recipient__c)
+                        );
+                      params.put('Notification', nf);
+                      params.put('OffsetHr', contOffsethr.get(N.Recipient__c));
+                      Flow.Interview.Create_Notification_based_on_User_Timezone yourFlow = new Flow.Interview.Create_Notification_based_on_User_Timezone(params);
+                      yourFlow.start(); **/
+                }
+            }
+            if(!lstOffstHrNotification.isEmpty()){
+                 for(Long key:lstOffstHrNotification.keyset()){
+                     List<Notification__c> lstntf = new List<Notification__c>();
+                     lstntf = lstOffstHrNotification.get(key);
+                     
+                     params.clear();
+                     params.put('NotificationList', lstntf);
+                     params.put('OffsetHr', key);
+                     Flow.Interview.Create_Notification_based_on_User_Timezone yourFlow = new Flow.Interview.Create_Notification_based_on_User_Timezone(params);
+                     yourFlow.start();
+                     lstntf.clear();
+                 }
+            }
+        }
+		
         if (!deDupeNotifications.isEmpty())
         notifications.addAll(deDupeNotifications);
         if (!notifications.isEmpty())
