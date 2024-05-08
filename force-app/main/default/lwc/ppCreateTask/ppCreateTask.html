@@ -1,0 +1,296 @@
+<template>
+    <!-- Loading Spinner-->
+    <c-web-spinner class="main-spinner" fixed="true"></c-web-spinner>
+    <!-- Create Task Desktop View -->
+    <template if:false={isMobile}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item class="slds-m-bottom_small" size="12">
+                <div class="slds-align_absolute-center">
+                    <lightning-card class="task-card">
+                        <lightning-layout>
+                            <lightning-layout-item padding="around-small" size="12" class="">
+                                <lightning-layout multiple-row="true">
+                                     <lightning-layout-item size={customLayoutSizeImg}
+                                        padding="around-medium"
+                                        class="taskIcon inIpadPotraitHide">
+                                        <img src={task_icon} />
+                                     </lightning-layout-item> 
+    
+                                     <lightning-layout-item size={customLayoutSizeFields}>
+                                         <lightning-layout size="12">
+                                            <lightning-layout-item size="10"
+                                                >{label.taskName}
+                                                <abbr class="slds-required" title="required"
+                                                    >*
+                                                </abbr></lightning-layout-item
+                                            >
+                                            <lightning-layout-item size="2"
+                                                ><lightning-layout class="slds-grid_align-end"
+                                                    ><template if:false={readOnlyMode}
+                                                        >{taskNameLength}/30</template
+                                                    ></lightning-layout
+                                                ></lightning-layout-item
+                                            >
+                                        </lightning-layout>
+                                        <div
+                                            class="profile-info-input taskName-focus create-task-input-container"
+                                        >
+                                            <lightning-input
+                                                type="text"
+                                                data-id="taskName"
+                                                placeholder={label.enterTaskName}
+                                                onkeyup={handletaskNameChange}
+                                                maxlength="30"
+                                                disabled={readOnlyMode}
+                                            ></lightning-input>
+                                        </div>
+                                        <lightning-layout-item>
+                                            <lightning-layout>
+                                                <lightning-layout-item
+                                                    size="12"
+                                                    class="slds-m-top_medium create-task-input-container dateTimeContainer"
+                                                    style="padding-inline: 0"
+                                                >
+                                                    <template if:true={displayDateInUi}>
+                                                        <c-pp-date-time-combo
+                                                            reminder={notReminder}
+                                                            mindate={currentDate}
+                                                            mintime={currentTime}
+                                                            create-task={createTask}
+                                                            ondatechange={handleDate}
+                                                            ontimechange={handleTime}
+                                                            compdate={taskDueDate}
+                                                            comptime={taskDueTime}
+                                                            ondate={handleOnlyDate}
+                                                            ontime={handleOnlyTime}
+                                                            onnulldatetime={handleNullDateTime}
+                                                            oninitialdateload={handleInitialDateLoad}
+                                                            oninitialtimeload={handleInitialTimeLoad}
+                                                            icon-size="small"
+                                                            icon-color="#C42EA5"
+                                                            edit-mode={editMode}
+                                                            read-only-mode={readOnlyMode}
+                                                            show-date-time={disbaleDateTime}
+                                                            is-visit-event-task="task"
+                                                            hide-time-input={isSystemOrBusinessTask}
+                                                        ></c-pp-date-time-combo>
+                                                    </template>
+                                                    <!--Display date in UI unchecked-->
+                                                    <template if:false={displayDateInUi}>
+                                                        <c-pp-date-time-combo
+                                                            reminder={notReminder}
+                                                            mindate={currentDate}
+                                                            mintime={currentTimeParticipant}
+                                                            maxdate={taskDueDate}
+                                                            maxtime={taskDueTime}
+                                                            ondatechange={handleDate}
+                                                            ontimechange={handleTime}
+                                                            compdate={participantDueDate}
+                                                            comptime={participantDueTime}
+                                                            ondate={handleOnlyDate}
+                                                            ontime={handleOnlyTime}
+                                                            onnulldatetime={handleNullDateTime}
+                                                            icon-size="small"
+                                                            icon-color="#C42EA5"
+                                                            edit-mode="true"
+                                                            read-only-mode={displayDateInUi}
+                                                            show-date-time={displayDateInUi}
+                                                            is-visit-event-task="task"
+                                                            hide-time-input={displayDateInUi}
+                                                            display-date-in-ui={displayDateInUi}
+                                                        ></c-pp-date-time-combo>
+                                                    </template>
+                                                    <!--Task Reminder Section-->
+                                                    <template if:true={taskInitData}
+                                                        ><c-pp-create-task-reminder
+                                                            init-data={initData}
+                                                            current-date={currentDate}
+                                                            current-time={todaytime}
+                                                            task-due-date-time={taskDateTime}
+                                                            task-due-date={taskDueDate}
+                                                            task-due-time={taskDueTime}
+                                                            is-task-due-date-time-selected={isDueDateTimeSelected}
+                                                            oncustomreminderdata={handleCustomReminder}
+                                                            onreminderdata={handleReminder}
+                                                            task-info={task}
+                                                            edit-mode={editMode}
+                                                            max-reminder-date={maxremdate}
+                                                            max-reminder-time={maxremtime}
+                                                        ></c-pp-create-task-reminder
+                                                    ></template>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                     </lightning-layout-item> 
+                                                                   
+                                        
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                        </lightning-layout>
+                        <p slot="footer">
+                            <lightning-layout class="slds-grid_align-end">
+                                <lightning-layout-item class={buttonPaddingStyle}
+                                    ><button class="task-cancel-btn" onclick={handleCancelTask}>
+                                        {label.cancel}
+                                    </button>
+                                </lightning-layout-item>
+                                <lightning-layout-item>
+                                    <button class={saveButtonClass} onclick={doCreateTask}>
+                                        {label.save}
+                                    </button></lightning-layout-item
+                                >
+                            </lightning-layout>
+                        </p>
+                    </lightning-card>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+    <!-- Create Task Mobile View -->
+    <template if:true={isMobile}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item class="slds-m-bottom_small" size="12">
+                <div class="slds-align_absolute-center">
+                    <lightning-card class="task-card-mobile">
+                        <lightning-layout>
+                            <lightning-layout-item padding="around-small" size="12" class="">
+                                <lightning-layout multiple-row="true">
+                                     <lightning-layout-item size={customLayoutSizeImg}
+                                        padding="around-medium"
+                                        class="taskIcon inIpadShow">
+                                        <img src={task_icon} />
+                                     </lightning-layout-item> 
+    
+                                     <lightning-layout-item size={customLayoutSizeFields}>
+                                         <lightning-layout size="12">
+                                            <lightning-layout-item size="10"
+                                                >{label.taskName}
+                                                <abbr class="slds-required" title="required"
+                                                    >*
+                                                </abbr></lightning-layout-item
+                                            >
+                                            <lightning-layout-item size="2"
+                                                ><lightning-layout class="slds-grid_align-end"
+                                                    ><template if:false={readOnlyMode}
+                                                        >{taskNameLength}/30</template
+                                                    ></lightning-layout
+                                                ></lightning-layout-item
+                                            >
+                                        </lightning-layout>
+                                        <div
+                                            class="profile-info-input taskName-focus create-task-input-container"
+                                        >
+                                            <lightning-input
+                                                type="text"
+                                                data-id="taskName"
+                                                placeholder={label.enterTaskName}
+                                                onkeyup={handletaskNameChange}
+                                                maxlength="30"
+                                                disabled={readOnlyMode}
+                                            ></lightning-input>
+                                        </div>
+                                        <lightning-layout-item>
+                                            <lightning-layout>
+                                                <lightning-layout-item
+                                                    size="12"
+                                                    class="slds-m-top_medium create-task-input-container dateTimeContainer"
+                                                    style="padding-inline: 0"
+                                                >
+                                                    <template if:true={displayDateInUi}>
+                                                        <c-pp-date-time-combo
+                                                            reminder={notReminder}
+                                                            mindate={currentDate}
+                                                            mintime={currentTime}
+                                                            create-task={createTask}
+                                                            ondatechange={handleDate}
+                                                            ontimechange={handleTime}
+                                                            compdate={taskDueDate}
+                                                            comptime={taskDueTime}
+                                                            ondate={handleOnlyDate}
+                                                            ontime={handleOnlyTime}
+                                                            onnulldatetime={handleNullDateTime}
+                                                            oninitialdateload={handleInitialDateLoad}
+                                                            oninitialtimeload={handleInitialTimeLoad}
+                                                            icon-size="small"
+                                                            icon-color="#C42EA5"
+                                                            edit-mode={editMode}
+                                                            read-only-mode={readOnlyMode}
+                                                            show-date-time={disbaleDateTime}
+                                                            is-visit-event-task="task"
+                                                            hide-time-input={isSystemOrBusinessTask}
+                                                        ></c-pp-date-time-combo>
+                                                    </template>
+                                                    <!--Display date in UI unchecked-->
+                                                    <template if:false={displayDateInUi}>
+                                                        <c-pp-date-time-combo
+                                                            reminder={notReminder}
+                                                            mindate={currentDate}
+                                                            mintime={currentTimeParticipant}
+                                                            maxdate={taskDueDate}
+                                                            maxtime={taskDueTime}
+                                                            ondatechange={handleDate}
+                                                            ontimechange={handleTime}
+                                                            compdate={participantDueDate}
+                                                            comptime={participantDueTime}
+                                                            ondate={handleOnlyDate}
+                                                            ontime={handleOnlyTime}
+                                                            onnulldatetime={handleNullDateTime}
+                                                            icon-size="small"
+                                                            icon-color="#C42EA5"
+                                                            edit-mode="true"
+                                                            read-only-mode={displayDateInUi}
+                                                            show-date-time={displayDateInUi}
+                                                            is-visit-event-task="task"
+                                                            hide-time-input={displayDateInUi}
+                                                            display-date-in-ui={displayDateInUi}
+                                                        ></c-pp-date-time-combo>
+                                                    </template>
+                                                    <!--Task Reminder Section-->
+                                                    <template if:true={taskInitData}
+                                                        ><c-pp-create-task-reminder
+                                                            init-data={initData}
+                                                            current-date={currentDate}
+                                                            current-time={todaytime}
+                                                            task-due-date-time={taskDateTime}
+                                                            task-due-date={taskDueDate}
+                                                            task-due-time={taskDueTime}
+                                                            is-task-due-date-time-selected={isDueDateTimeSelected}
+                                                            oncustomreminderdata={handleCustomReminder}
+                                                            onreminderdata={handleReminder}
+                                                            task-info={task}
+                                                            edit-mode={editMode}
+                                                            max-reminder-date={maxremdate}
+                                                            max-reminder-time={maxremtime}
+                                                        ></c-pp-create-task-reminder
+                                                    ></template>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                     </lightning-layout-item> 
+                                                                   
+                                        
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                        </lightning-layout>
+                        <div class="taskFooter">
+                            <p slot="footer">
+                                <lightning-layout class="slds-grid_align-end">
+                                    <lightning-layout-item class="pad-right"
+                                        ><button class="task-cancel-btn" onclick={handleCancelTask}>
+                                            {label.cancel}
+                                        </button>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item>
+                                        <button class={saveButtonClass} onclick={doCreateTask}>
+                                            {label.save}
+                                        </button></lightning-layout-item
+                                    >
+                                </lightning-layout>
+                            </p>
+                        </div>
+                    </lightning-card>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+</template> 
