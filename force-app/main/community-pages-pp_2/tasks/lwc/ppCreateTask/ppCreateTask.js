@@ -1,3 +1,4 @@
+/**LWC test on package */
 import { LightningElement, api, track } from 'lwc';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import moment from '@salesforce/resourceUrl/moment_js';
