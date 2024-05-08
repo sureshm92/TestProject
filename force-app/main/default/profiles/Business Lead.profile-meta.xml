@@ -2204,12 +2204,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.UCPM_Study_Purpose_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.UCPM_Sponsor_Org_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2261,6 +2261,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_UCPM_Org_PP__c.Processing_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_UCPM_Org_PP__c.Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
