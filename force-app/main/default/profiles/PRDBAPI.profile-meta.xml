@@ -2823,7 +2823,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.MDM_Parent_Sponsor_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
