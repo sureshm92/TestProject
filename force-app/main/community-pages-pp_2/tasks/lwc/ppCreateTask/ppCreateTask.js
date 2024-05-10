@@ -128,6 +128,7 @@ export default class PpCreateTask extends LightningElement {
             this.customLayoutSizeImg = parseInt(0);
         }
     }
+    taskInitData;
     initializeData() {
         this.spinner.show();
         if (!communityService.isDummy()) {
@@ -661,3 +662,5 @@ export default class PpCreateTask extends LightningElement {
         return this.enableSave ? 'task-save-btn' : 'task-save-btn-opacity';
     }
 } 
+
+//Test 
