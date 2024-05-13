@@ -17963,7 +17963,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_By</shortDescription>
-        <value>You confirm that you have documented consent from the participant and/or participant&apos;s legal guardian consents to be contacted by the study team for updates about important study-related information and activities by the following means selected below:</value>
+        <value>You confirm that you have documented consent from the participant and/or participant&apos;s legal guardian to be contacted by the study team for updates about important study-related information and activities by the following means selected below:</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_ESP</fullName>
@@ -18019,7 +18019,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Store_And_Contact</shortDescription>
-        <value>By checking this box, you confirm that you have documented consent from your participant and/or participant&apos;s legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to schedule study appointments and keep them updated with important study-related information. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
+        <value>By checking this box, you confirm that you have documented consent from your participant and/or participant&apos;s legal guardian to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, and via automated dialing, and/or artificial or pre-recorded voice, to schedule study appointments and keep them updated with important study-related information. Their consent is not required as a condition of purchasing any property, goods, or services.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_Study_Outreach_By</fullName>
