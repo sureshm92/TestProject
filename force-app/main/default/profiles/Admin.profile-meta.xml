@@ -2449,6 +2449,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.UCPM_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>User.Suppress_Physician_Outreach_Email__c</field>
         <readable>true</readable>
@@ -7037,6 +7042,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.UCPM_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Atid__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7779,6 +7789,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate_Enrollment__c.PPM_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.UCPM_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
