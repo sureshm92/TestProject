@@ -40,7 +40,7 @@
     </values>
     <values>
         <field>Participant_Quick_Reference__c</field>
-        <value xsi:type="xsd:string">Quick_Reference_Guide_2.0_Belguim_FR</value>
+        <value xsi:type="xsd:string">Quick_Reference_Guide_2dot0_Belguim_FR</value>
     </values>
     <values>
         <field>Participant_User_Manual__c</field>
