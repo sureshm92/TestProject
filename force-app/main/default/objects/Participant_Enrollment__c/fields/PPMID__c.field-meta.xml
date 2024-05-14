@@ -3,7 +3,7 @@
     <fullName>PPMID__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
-    <label>PPMID</label>
+    <label>PPM ID</label>
     <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
