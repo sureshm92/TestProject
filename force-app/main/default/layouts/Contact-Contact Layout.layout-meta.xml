@@ -303,6 +303,11 @@
                 <field>AccountId</field>
             </layoutItem>
         </relatedContentItems>
+        <relatedContentItems>
+            <layoutItem>
+                <component>runtime_sales_social:socialPanel</component>
+            </layoutItem>
+        </relatedContentItems>
     </relatedContent>
     <relatedLists>
         <fields>OPPORTUNITY.NAME</fields>
@@ -362,10 +367,4 @@
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
-    <summaryLayout>
-        <masterLabel>00hN0000001FsD3</masterLabel>
-        <sizeX>4</sizeX>
-        <sizeY>0</sizeY>
-        <summaryLayoutStyle>Default</summaryLayoutStyle>
-    </summaryLayout>
 </Layout>
