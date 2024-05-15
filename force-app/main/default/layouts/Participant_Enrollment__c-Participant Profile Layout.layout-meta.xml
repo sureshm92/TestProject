@@ -119,7 +119,11 @@
                 <behavior>Edit</behavior>
                 <field>PPMID__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>UCPM_Status__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>ParticipantGUID__c</field>
             </layoutItems>
@@ -491,7 +495,7 @@
                 <behavior>Edit</behavior>
                 <field>Final_Consent_Date__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Re_consent__c</field>
             </layoutItems>

@@ -35,6 +35,10 @@
                 <behavior>Edit</behavior>
                 <field>Primary_Delegate__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>UCPM_Status__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsTopToBottom</style>

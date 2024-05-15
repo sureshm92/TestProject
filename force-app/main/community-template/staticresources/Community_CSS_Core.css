@@ -211,7 +211,11 @@ a:hover {
 .toastContainer > .slds-theme--warning .slds-button {
     color: black;
 }
-
+.slds-list_inline, .slds-list--inline {
+    display: inline-flex;
+    max-width: 100%;
+    min-width: 100%;
+}	
 /*----------------------------------------------------- Statuses -------------------------------------------------------*/
 .status-Actively.Enrolling,
 .status-Activated,
