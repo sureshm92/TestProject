@@ -1346,8 +1346,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.MDM_Protocol_Entity_Id__c</fieldItem>
-                <identifier>RecordMDM_Protocol_Entity_Id_cField</identifier>
+                <fieldItem>Record.MDM_Protocol_Number_Standard__c</fieldItem>
+                <identifier>RecordMDM_Protocol_Number_Standard_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MDM_Sponsor_Name__c</fieldItem>
+                <identifier>RecordMDM_Sponsor_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1358,6 +1368,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.UCPM_Sponsor_Org_Id__c</fieldItem>
                 <identifier>RecordUCPM_Sponsor_Org_Id_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.UCPM_Study_Purpose_Id__c</fieldItem>
+                <identifier>RecordUCPM_Study_Purpose_Id_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-10fd16fe-bedd-49f0-b2d5-2e882778bd98</name>
@@ -1380,8 +1400,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.MDM_trigger_status__c</fieldItem>
-                <identifier>RecordMDM_trigger_status_cField</identifier>
+                <fieldItem>Record.MDM_Protocol_Entity_Id__c</fieldItem>
+                <identifier>RecordMDM_Protocol_Entity_Id_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1390,8 +1410,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.UCPM_Study_Purpose_Id__c</fieldItem>
-                <identifier>RecordUCPM_Study_Purpose_Id_cField</identifier>
+                <fieldItem>Record.MDM_Sponsor_Entity_Id__c</fieldItem>
+                <identifier>RecordMDM_Sponsor_Entity_Id_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MDM_trigger_status__c</fieldItem>
+                <identifier>RecordMDM_trigger_status_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-4f5c4e60-d70d-465b-a251-99ac304c46fa</name>
@@ -1422,16 +1452,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.MDM_Cluster_ID__c</fieldItem>
-                <identifier>RecordMDM_Cluster_ID_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>

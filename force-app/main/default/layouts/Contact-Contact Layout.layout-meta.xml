@@ -71,6 +71,10 @@
                 <behavior>Edit</behavior>
                 <field>Janssen_unique__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>UCPM_Status__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
