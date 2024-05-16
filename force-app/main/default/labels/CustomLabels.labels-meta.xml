@@ -17970,7 +17970,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Permit_IQVIA_To_Contact_ESP</shortDescription>
-        <value>By checking this box, you confirm that your participant and/or participant&apos;s legal guardian consents to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, to schedule study appointments and keep them updated with important study-related information.</value>
+        <value>By checking this box, you confirm that you have documented consent from your participant and/or participant&apos;s legal guardian to share their information with a study team, and to be contacted at the telephone number(s) and email they have provided, to schedule study appointments and keep them updated with important study-related information.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_To_Contact_Email</fullName>
