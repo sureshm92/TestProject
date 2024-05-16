@@ -890,4 +890,4 @@ public without sharing class TaskEditRemote {
             : delegateIds.contains(task.CreatedById);
         return (task.CreatedById != ParticipantContext.getCurrentUserId() && !createdByDelegate);
     }
-} 
+}
