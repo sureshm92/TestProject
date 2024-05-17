@@ -13,12 +13,12 @@ public with sharing class MDM_UCPM_CTPCreationTriggerHandler {
           ctp.MDM_Parent_Sponsor_Entity_Id__c != null &&
           ctp.MDM_Protocol_Entity_Id__c != null &&
           ctp.Protocol_ID__c != null &&
-          ((ctp.Recruitment_Status__c == 'Enrolling' ||
+          (ctp.Recruitment_Status__c == 'Enrolling' ||
           ctp.Recruitment_Status__c == 'In Development' ||
           ctp.Recruitment_Status__c == 'Open to Enrollment' ||
-          ctp.Recruitment_Status__c == 'Planning') ||
-          (ctp.Override_Recruitment_Status__c == 'Actively Enrolling' ||
-          ctp.Override_Recruitment_Status__c == 'On Hold'))
+          ctp.Recruitment_Status__c == 'On Hold' ||
+          ctp.Recruitment_Status__c == 'Enrollment Closed' ||
+          ctp.Recruitment_Status__c == 'Planning')
         ) {
           eligibleCTPforUCPM.add(ctp);
         }
@@ -45,12 +45,12 @@ public with sharing class MDM_UCPM_CTPCreationTriggerHandler {
           ctp.MDM_Parent_Sponsor_Entity_Id__c != null &&
           ctp.MDM_Protocol_Entity_Id__c != null &&
           ctp.Protocol_ID__c != null &&
-          ((ctp.Recruitment_Status__c == 'Enrolling' ||
+          (ctp.Recruitment_Status__c == 'Enrolling' ||
           ctp.Recruitment_Status__c == 'In Development' ||
           ctp.Recruitment_Status__c == 'Open to Enrollment' ||
-          ctp.Recruitment_Status__c == 'Planning') ||
-          (ctp.Override_Recruitment_Status__c == 'Actively Enrolling' ||
-          ctp.Override_Recruitment_Status__c == 'On Hold')))
+          ctp.Recruitment_Status__c == 'On Hold' ||
+          ctp.Recruitment_Status__c == 'Enrollment Closed' ||
+          ctp.Recruitment_Status__c == 'Planning'))
         ) {
           eligibleCTPforUCPM.add(ctp);
         }
