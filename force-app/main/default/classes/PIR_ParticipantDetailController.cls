@@ -8,6 +8,8 @@ public without sharing class PIR_ParticipantDetailController {
   @AuraEnabled
   public static perDetailWrapper getParticipantData(String PEid) {
     perDetailWrapper pdw = new perDetailWrapper();
+    //Fetching consents from UCPM while loading participant details page 
+    UCPM_ConsentFetchController.callUCPMtoFetchConsents(new list<Id>{PEid},null,'Participant Detail');
     map<String, sObject> dataMap = new Map<String, sObject>();
     dataMap.put(
       'pe',
@@ -115,16 +117,16 @@ public without sharing class PIR_ParticipantDetailController {
                 restrictedRecrd = [SELECT Id,Sponsor__c,Study__c,Study__r.IQVIA_Outreach__c,Referral_Resource__c FROM Restricted_Source_Config__c WHERE Study__c =: lstPer[0].Clinical_Trial_Profile__c limit 1];
                 if(restrictedRecrd != null && !restrictedRecrd.isEmpty()){
                       restrictedlst = restrictedRecrd[0].Referral_Resource__c != null ? restrictedRecrd[0].Referral_Resource__c.split(';') : null;
-                        if(restrictedlst != null && !restrictedlst.isEmpty()){
-                          referralSource = (lstPer[0].Referral_Source__c == 'ePR' || lstPer[0].Referral_Source__c == 'ePR_Campaign')  ? lstPer[0].Referral_Source__c +'-'+lstPer[0].DataControllerOrg__c :lstPer[0].Referral_Source__c; 
-                          if(restrictedlst.contains(referralSource)){
-                                pdw.consentPref =  true; 
-                          }else{
-                              pdw.consentPref =  false; 
-                          }
+                      if(restrictedlst != null && !restrictedlst.isEmpty()){
+                        referralSource = (lstPer[0].Referral_Source__c == 'ePR' || lstPer[0].Referral_Source__c == 'ePR_Campaign')  ? lstPer[0].Referral_Source__c +'-'+lstPer[0].DataControllerOrg__c :lstPer[0].Referral_Source__c; 
+                        if(restrictedlst.contains(referralSource)){
+                              pdw.consentPref =  true; 
                         }else{
-                            pdw.consentPref =  true; 
+                            pdw.consentPref =  false; 
                         }
+                      }else{
+                          pdw.consentPref =  true; 
+                      }
                 }
                 else{
                   pdw.consentPref =  false;
@@ -296,6 +298,7 @@ public without sharing class PIR_ParticipantDetailController {
       Participant__c piToUpdate = new Participant__c();
       Patient_Delegate__c peDeligate = (Patient_Delegate__c) JSON.deserialize(peDeligateString, Patient_Delegate__c.class);
       ConsentDetailsWrapper consentWrapper = (ConsentDetailsWrapper) JSON.deserialize(consentJSON, ConsentDetailsWrapper.class);
+      List<Id> pderidlist = new List<Id>();
       //Update Participant enrollment record
       if (isPeUpdated) {
         perToUpdate.Id = perRecord.Id;
@@ -354,7 +357,8 @@ public without sharing class PIR_ParticipantDetailController {
           }
           contactId = parti[0].Contact__c;
           insert pdToupdateAfterInsert;
-          createPDE(parti[0].Contact__c,pdToupdateAfterInsert,perRecord,consentWrapper);
+          Id pderId = createPDE(parti[0].Contact__c,pdToupdateAfterInsert,perRecord,consentWrapper);
+          pderidlist.add(pderId);
         }else if(delegateCriteria == 'insertDelegateSiteStaff'){
           Participant__c piToInsertDelegate = new Participant__c();
           piToInsertDelegate = peDeligate.Participant_Delegate__r;
@@ -376,7 +380,8 @@ public without sharing class PIR_ParticipantDetailController {
           }
           contactId = contactIdSiteStaff;
           insert pdToupdateAfterInsert;
-          createPDE(contactIdSiteStaff,pdToupdateAfterInsert,perRecord,consentWrapper);
+          Id pderId = createPDE(contactIdSiteStaff,pdToupdateAfterInsert,perRecord,consentWrapper);
+          pderidlist.add(pderId);
         }else if(delegateCriteria == 'updateParticipant'){
           Participant__c piToUpdateDelegate = new Participant__c();
           piToUpdateDelegate = peDeligate.Participant_Delegate__r;
@@ -396,6 +401,7 @@ public without sharing class PIR_ParticipantDetailController {
              pdenroll.Study_Email_Consent__c=consentWrapper.Study_Email_Consent;
              Update pdenroll;
              update new Contact(Id=pdenrollment.Patient_Delegate__r.Contact__c,userCommunityIsDelegate__c = true);
+             pderidlist.add(pdenrollment.Id);
           }
            
         }else if(delegateCriteria == 'updateDeligate'){
@@ -462,12 +468,14 @@ public without sharing class PIR_ParticipantDetailController {
                         
                         update pdeToupdateDuplicate;    
                         update new contact (id =pd[0].Contact__c, userCommunityIsDelegate__c = true) ; 
+                        pderidlist.add(pdeToupdateDuplicate.Id);
                  }else{
                       contactId = peDeligate.Participant_Delegate__r.Contact__c;
                       Patient_Delegate__c patdelgate = new Patient_Delegate__c();
                       patdelgate = [Select Id,Participant__c,Contact__c, Participant_Delegate__c,Contact__r.Participant_Opt_In_Status_SMS__c,Attestation__c,
                             Attestation_TimeStamp__c,Attested_by__c,isInviteToPP__c,Primary_Delegate__c from Patient_Delegate__c where Id=:pd[0].Id];
-                      createPDE(contactId,patdelgate ,perRecord,consentWrapper );
+                      Id pderId = createPDE(contactId,patdelgate ,perRecord,consentWrapper );
+                      pderidlist.add(pderId);
                  }
                   
             }else{
@@ -481,8 +489,8 @@ public without sharing class PIR_ParticipantDetailController {
                 contactId = peDeligate.Participant_Delegate__r.Contact__c;
                 insert pdToupdateAfterInsertDuplicate;
                 
-                createPDE(contactId,pdToupdateAfterInsertDuplicate,perRecord,consentWrapper);
-                 
+                Id pderId = createPDE(contactId,pdToupdateAfterInsertDuplicate,perRecord,consentWrapper);
+                pderidlist.add(pderId);
               }
           }else{ 
             Patient_Delegate__c pdToupdateAfterInsertDuplicate = new Patient_Delegate__c(
@@ -494,8 +502,8 @@ public without sharing class PIR_ParticipantDetailController {
             );
             contactId = peDeligate.Participant_Delegate__r.Contact__c;
             insert pdToupdateAfterInsertDuplicate;
-            createPDE(contactId,pdToupdateAfterInsertDuplicate,perRecord,consentWrapper);
-             
+            Id pderId = createPDE(contactId,pdToupdateAfterInsertDuplicate,perRecord,consentWrapper);
+            pderidlist.add(pderId);
           }
         }else if(string.isBlank(peDeligate.Participant_Delegate__r.First_Name__c)){//if(delegateCriteria == 'deleteDelegate'){
           Patient_Delegate__c pdToupdate = new Patient_Delegate__c(
@@ -583,6 +591,13 @@ public without sharing class PIR_ParticipantDetailController {
             
             update conlist;
         }
+        //Sending consents to UCPM from particint detail page while updating the consents
+        if(!pderidlist.isEmpty()){
+          UCPM_ConsentPostController_OldJson.getdatafromsharingoptionspage(new list<Id>{perRecord.Id},pderidlist,'Participant Detail');
+        }else{
+          UCPM_ConsentPostController_OldJson.getdatafromsharingoptionspage(new list<Id>{perRecord.Id},null,'Participant Detail');
+        }
+        
     } catch (Exception e) {
       bol = false;
       System.debug('e.getMessage(): ' + e.getMessage());
@@ -623,7 +638,7 @@ public without sharing class PIR_ParticipantDetailController {
       update con;
     
   }
-  public static void createPDE(Id delcon, Patient_Delegate__c peDeligate, Participant_Enrollment__c perRecord,ConsentDetailsWrapper consentWrapper){
+  public static Id createPDE(Id delcon, Patient_Delegate__c peDeligate, Participant_Enrollment__c perRecord,ConsentDetailsWrapper consentWrapper){
         contact con = new Contact();
         con.id =delcon;
         con.AccountId = [Select Id,Participant__c,Participant__r.Contact__r.AccountId from Participant_Enrollment__c where Id=:perRecord.Id].Participant__r.Contact__r.AccountId;
@@ -668,6 +683,7 @@ public without sharing class PIR_ParticipantDetailController {
       pde.Study_SMS_Consent__c = consentWrapper.Study_SMS_Consent;
      
       Insert pde;
+      return pde.Id;
     
   }
   @AuraEnabled
