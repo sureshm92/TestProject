@@ -22,8 +22,11 @@ public class UCPM_ConsentPostController {
           Participant__r.Email__c,
           Participant__c,
           Referral_Source__c,
+          DataControllerOrg__c,
           Clinical_Trial_Profile__r.Study_Code_Name__c,
           Clinical_Trial_Profile__r.NCT_Number__c,
+          Clinical_Trial_Profile__r.CommunityTemplate__c,
+          Clinical_Trial_Profile__r.PPTemplate__c,
           Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c,
           Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c,
           Clinical_Trial_Profile__r.MDM_Sponsor_Name__c,
@@ -85,8 +88,11 @@ public class UCPM_ConsentPostController {
           Participant__r.Email__c,
           Participant__c,
           Referral_Source__c,
+          DataControllerOrg__c,
           Clinical_Trial_Profile__r.Study_Code_Name__c,
           Clinical_Trial_Profile__r.NCT_Number__c,
+          Clinical_Trial_Profile__r.CommunityTemplate__c,
+          Clinical_Trial_Profile__r.PPTemplate__c,
           Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c,
           Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c,
           Clinical_Trial_Profile__r.MDM_Sponsor_Name__c,
@@ -108,6 +114,41 @@ public class UCPM_ConsentPostController {
       ];
     }
 
+    //Checking restricted resource and Iqvia Outreach validation
+    list<Restricted_Source_Config__c> restrictedRecrd = new list<Restricted_Source_Config__c>();
+    String[] restrictedlst;
+    String referralSource;
+    Boolean iqviaOutreach = false;
+    if(perList[0].Clinical_Trial_Profile__r.IQVIA_Outreach__c){
+      if(perList[0].Clinical_Trial_Profile__r.CommunityTemplate__c !='PatientPortal' && (perList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' || perList[0].Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0'))
+      {
+        iqviaOutreach =  true; 
+      }
+      else{
+          restrictedRecrd = [SELECT Id,Sponsor__c,Study__c,Study__r.IQVIA_Outreach__c,Referral_Resource__c FROM Restricted_Source_Config__c WHERE Study__c =: perList[0].Clinical_Trial_Profile__c and Referral_Resource__c != null];
+          if(restrictedRecrd != null && !restrictedRecrd.isEmpty()){
+            for(Restricted_Source_Config__c rsc:restrictedRecrd){
+              restrictedlst = rsc.Referral_Resource__c != null ? rsc.Referral_Resource__c.split(';') : null;
+              if(restrictedlst != null && !restrictedlst.isEmpty()){
+                referralSource = (perList[0].Referral_Source__c == 'ePR' || perList[0].Referral_Source__c == 'ePRCampaign')  ? perList[0].Referral_Source__c +'-'+perList[0].DataControllerOrg__c :perList[0].Referral_Source__c; 
+                if(restrictedlst.contains(referralSource)){
+                  iqviaOutreach =  false; 
+                  Break;
+                }else{
+                  iqviaOutreach =  true; 
+                }
+              }
+            }
+          }
+          else{
+            iqviaOutreach =  true;
+          } 
+      }
+    }
+    else{
+      iqviaOutreach =  false;  
+    }
+
     //if(perandPderMap.keySet() != null){
     for (Participant_Enrollment__c pe : perList) {
       //New PER and new participant contact without delegate
@@ -121,7 +162,7 @@ public class UCPM_ConsentPostController {
             pe,
             null,
             'Create',
-            pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+            iqviaOutreach,
             'PARTICIPANT',
             'Participant:ParticipantContact'
           )
@@ -144,7 +185,7 @@ public class UCPM_ConsentPostController {
             pe,
             perandPderMap.get(pe),
             'Create',
-            pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+            iqviaOutreach,
             'PARTICIPANT-DELEGATE',
             'Participant:ParticipantContact:Delegate:DelegateContact'
           )
@@ -161,7 +202,7 @@ public class UCPM_ConsentPostController {
             pe,
             null,
             'Both',
-            pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+            iqviaOutreach,
             'PARTICIPANT',
             'Participant',
             'PARTICIPANT',
@@ -186,7 +227,7 @@ public class UCPM_ConsentPostController {
             pe,
             perandPderMap.get(pe),
             'Both',
-            pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+            iqviaOutreach,
             'PARTICIPANT-DELEGATE',
             'Participant:ParticipantContact:Delegate',
             'DELEGATE',
@@ -212,7 +253,7 @@ public class UCPM_ConsentPostController {
             pe,
             perandPderMap.get(pe),
             'Create',
-            pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+            iqviaOutreach,
             'DELEGATE',
             'Delegate:DelegateContact'
           )
@@ -236,7 +277,7 @@ public class UCPM_ConsentPostController {
             pe,
             perandPderMap.get(pe),
             'Both',
-            pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+            iqviaOutreach,
             'DELEGATE',
             'Delegate',
             'DELEGATE',
@@ -256,7 +297,7 @@ public class UCPM_ConsentPostController {
             pe,
             null,
             'Update',
-            pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+            iqviaOutreach,
             'PARTICIPANT',
             'Participant:ParticipantContact'
           )
@@ -283,7 +324,7 @@ public class UCPM_ConsentPostController {
               pe,
               perandPderMap.get(pe),
               'Both',
-              pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              iqviaOutreach,
               'DELEGATE',
               'Delegate',
               'PARTICIPANT-DELEGATE',
@@ -297,7 +338,7 @@ public class UCPM_ConsentPostController {
               pe,
               perandPderMap.get(pe),
               'Both',
-              pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              iqviaOutreach,
               'DELEGATE',
               'Delegate:DelegateContact',
               'PARTICIPANT',
@@ -326,7 +367,7 @@ public class UCPM_ConsentPostController {
               pe,
               perandPderMap.get(pe),
               'Update',
-              pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              iqviaOutreach,
               'PARTICIPANT-DELEGATE',
               'Participant:ParticipantContact:Delegate:DelegateContact'
             )
@@ -338,7 +379,7 @@ public class UCPM_ConsentPostController {
               pe,
               perandPderMap.get(pe),
               'Both',
-              pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              iqviaOutreach,
               'DELEGATE',
               'DelegateContact',
               'PARTICIPANT-DELEGATE',
@@ -359,7 +400,7 @@ public class UCPM_ConsentPostController {
             pe,
             null,
             'Both',
-            pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+            iqviaOutreach,
             'PARTICIPANT',
             'ParticipantContact',
             'PARTICIPANT',
@@ -388,7 +429,7 @@ public class UCPM_ConsentPostController {
               pe,
               perandPderMap.get(pe),
               'Both',
-              pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              iqviaOutreach,
               'PARTICIPANT-DELEGATE',
               'Delegate:ParticipantContact',
               'PARTICIPANT-DELEGATE',
@@ -402,7 +443,7 @@ public class UCPM_ConsentPostController {
               pe,
               perandPderMap.get(pe),
               'Both',
-              pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              iqviaOutreach,
               'PARTICIPANT-DELEGATE',
               'Participant:Delegate:DelegateContact',
               'PARTICIPANT',
@@ -432,7 +473,7 @@ public class UCPM_ConsentPostController {
               pe,
               perandPderMap.get(pe),
               'Both',
-              pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              iqviaOutreach,
               'PARTICIPANT',
               'ParticipantContact',
               'PARTICIPANT-DELEGATE',
@@ -446,7 +487,7 @@ public class UCPM_ConsentPostController {
               pe,
               perandPderMap.get(pe),
               'Both',
-              pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              iqviaOutreach,
               'PARTICIPANT-DELEGATE',
               'ParticipantContact:DelegateContact',
               'PARTICIPANT-DELEGATE',
@@ -468,7 +509,7 @@ public class UCPM_ConsentPostController {
               pe,
               null,
               'Update',
-              pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              iqviaOutreach,
               'PARTICIPANT',
               'Participant:ParticipantContact'
             )
@@ -479,7 +520,7 @@ public class UCPM_ConsentPostController {
               pe,
               perandPderMap.get(pe),
               'Both',
-              pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              iqviaOutreach,
               'PARTICIPANT',
               'ParticipantContact',
               'PARTICIPANT',
@@ -507,7 +548,7 @@ public class UCPM_ConsentPostController {
               pe,
               perandPderMap.get(pe),
               'Update',
-              pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              iqviaOutreach,
               'DELEGATE',
               'Delegate:DelegateContact'
             )
@@ -518,7 +559,7 @@ public class UCPM_ConsentPostController {
               pe,
               perandPderMap.get(pe),
               'Both',
-              pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+              iqviaOutreach,
               'DELEGATE',
               'DelegateContact',
               'DELEGATE',
