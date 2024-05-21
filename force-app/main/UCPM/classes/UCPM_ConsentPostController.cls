@@ -9,8 +9,6 @@ public class UCPM_ConsentPostController {
     List<Id> pderIdList,
     String placeoffunctionality
   ) {
-    System.debug('++++++++++fetchPerAndPderDetailsperIdList' + perIdList);
-    System.debug('++++++++++fetchPerAndPderDetailspderIdList' + pderIdList);
     List<Participant_Enrollment__c> perList;
     Map<Participant_Enrollment__c, List<Patient_Delegate_Enrollment__c>> perandPderMap = new Map<Participant_Enrollment__c, List<Patient_Delegate_Enrollment__c>>();
     if (pderIdList != null && pderIdList.size() > 0) {
@@ -115,7 +113,7 @@ public class UCPM_ConsentPostController {
         WHERE id IN :perIdList
       ];
     }
-    
+
     //Checking restricted resource and Iqvia Outreach validation
     list<Restricted_Source_Config__c> restrictedRecrd = new list<Restricted_Source_Config__c>();
     String[] restrictedlst;
@@ -211,8 +209,6 @@ public class UCPM_ConsentPostController {
             'ParticipantContact'
           )
         );
-        //System.enqueueJob(new UCPM_PostConsentQueueable(pe,null,'Create',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT','Participant'));
-        //System.enqueueJob(new UCPM_PostConsentQueueable(pe,null,'Update',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT','ParticipantContact'));
       }
       //New PER,new participant contact,new delegate,existing delegate contact
       else if (
@@ -238,8 +234,6 @@ public class UCPM_ConsentPostController {
             'DelegateContact'
           )
         );
-        //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Create',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT-DELEGATE','Participant:ParticipantContact:Delegate'));
-        //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Update',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'DELEGATE','DelegateContact'));
       }
       // Existing per,existing participant contact,new delegate and new delegate contact
       else if (
@@ -290,8 +284,6 @@ public class UCPM_ConsentPostController {
             'DelegateContact'
           )
         );
-        //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Create',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'DELEGATE','Delegate'));
-        //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Update',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'DELEGATE','DelegateContact'));
       }
       //Existing per,existing participant contact without delegate
       else if (
@@ -339,8 +331,6 @@ public class UCPM_ConsentPostController {
               'Participant:ParticipantContact:DelegateContact'
             )
           );
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Update',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT-DELEGATE','Participant:ParticipantContact:DelegateContact'));
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Create',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'DELEGATE','Delegate'));
         } else {
           //new delegate contact
           System.enqueueJob(
@@ -355,8 +345,6 @@ public class UCPM_ConsentPostController {
               'Participant:ParticipantContact'
             )
           );
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Update',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT-DELEGATE','Participant:ParticipantContact'));
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Create',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'DELEGATE','Delegate:DelegateContact'));
         }
       }
       //Existing per,existing particpant contact,existing delegate and new/existing delegate contact
@@ -398,8 +386,6 @@ public class UCPM_ConsentPostController {
               'Participant:ParticipantContact:Delegate'
             )
           );
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Update',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT-DELEGATE','Participant:ParticipantContact:Delegate'));
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Create',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'DELEGATE','DelegateContact'));
         }
       }
       //Existing per,new participant contact without delegate
@@ -421,8 +407,6 @@ public class UCPM_ConsentPostController {
             'Participant'
           )
         );
-        //System.enqueueJob(new UCPM_PostConsentQueueable(pe,null,'Update',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT','Participant'));
-        //System.enqueueJob(new UCPM_PostConsentQueueable(pe,null,'Create',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT','ParticipantContact'));
       }
       //Existing per,new participant contact,new delegate and new/existing delegate contact
       else if (
@@ -452,8 +436,6 @@ public class UCPM_ConsentPostController {
               'Participant:DelegateContact'
             )
           );
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Update',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT-DELEGATE','Participant:DelegateContact'));
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Create',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT-DELEGATE','Delegate:ParticipantContact'));
         } else {
           //new delegate contact
           System.enqueueJob(
@@ -468,8 +450,6 @@ public class UCPM_ConsentPostController {
               'Participant'
             )
           );
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Update',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT','Participant'));
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Create',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT-DELEGATE','ParticipantContact:Delegate:DelegateContact'));
         }
       }
       //Existing per,new participant contact,existing delegate and existing/new delegate contact
@@ -500,8 +480,6 @@ public class UCPM_ConsentPostController {
               'Participant:Delegate:DelegateContact'
             )
           );
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Update',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT-DELEGATE','Participant:Delegate:DelegateContact'));
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Create',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT-DELEGATE','ParticipantContact'));
         } else {
           //new delegate contact
           System.enqueueJob(
@@ -516,8 +494,6 @@ public class UCPM_ConsentPostController {
               'Participant:Delegate'
             )
           );
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Update',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT-DELEGATE','Participant:Delegate'));
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Create',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT-DELEGATE','ParticipantContact:DelegateContact'));
         }
       }
       //Patinet self consents - Existing per,existing participant contact
@@ -551,8 +527,6 @@ public class UCPM_ConsentPostController {
               'Participant'
             )
           );
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,null,'Update',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT','Participant'));
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,null,'Create',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'PARTICIPANT','ParticipantContact'));
         }
       }
       //Delegate - Self consents - Existing pder, new delegate participant contact
@@ -592,8 +566,6 @@ public class UCPM_ConsentPostController {
               'Delegate'
             )
           );
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Update',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'DELEGATE','Delegate'));
-          //System.enqueueJob(new UCPM_PostConsentQueueable(pe,perandPderMap.get(pe),'Create',pe.Clinical_Trial_Profile__r.IQVIA_Outreach__c,'DELEGATE','DelegateContact'));
         }
       }
     }
@@ -884,7 +856,6 @@ public class UCPM_ConsentPostController {
     //delegat end
     gen.writeEndObject();
     String requestString = gen.getAsString();
-    System.debug('zzzzzzzzzz' + requestString);
     return requestString;
   }
   public static String requestJsonGeneration_Update(
@@ -1168,7 +1139,6 @@ public class UCPM_ConsentPostController {
     //delegat end
     gen.writeEndObject();
     String requestString = gen.getAsString();
-    System.debug('zzzzzzzzzz' + requestString);
     return requestString;
   }
 
@@ -1204,8 +1174,7 @@ public class UCPM_ConsentPostController {
     String accessToken,
     String IdentityType
   ) {
-    // try {
-      System.debug('@@   ');
+
       List<ResponseWrapper> responsWrap;
 
       List<Participant_Enrollment__c> perToUpdate = new List<Participant_Enrollment__c>();
@@ -1214,9 +1183,6 @@ public class UCPM_ConsentPostController {
       List<Contact> contactToUpdate = new List<Contact>();
       List<ParticipantData> respPart = new List<ParticipantData>();
       List<Delegates> respDelg = new List<Delegates>();
-
-      //accessToken=getAccessToken();
-      //System.debug('accessToken@@'+accessToken);
       String requestString = request;
       System.debug('requestBody@@' + requestString);
 
@@ -1265,9 +1231,6 @@ public class UCPM_ConsentPostController {
           s1,
           List<ResponseWrapper>.class
         );
-        for (ResponseWrapper rr : deserializedResponseWrapper) {
-          System.debug('r.: ' + rr.ParticipantData);
-        }
         if (deserializedResponseWrapper != null) {
           if (deserializedResponseWrapper[0].ParticipantData != null)
             respPart = deserializedResponseWrapper[0].ParticipantData;
@@ -1351,10 +1314,6 @@ public class UCPM_ConsentPostController {
         update pderToUpdate;
       if (!conToUpdate.isEmpty())
         update conToUpdate;
-    // } catch (Exception e) {
-    //   System.debug('e.getMessage(): ' + e.getMessage());
-    //   System.debug('e.getStackTraceString(): ' + e.getStackTraceString());
-    // }
   }
 
   public static void callUCPMtoPUTConsents(
@@ -1369,14 +1328,9 @@ public class UCPM_ConsentPostController {
     List<ParticipantData> respPart = new List<ParticipantData>();
     List<Delegates> respDelg = new List<Delegates>();
     try {
-      System.debug('@@   ');
+
       List<ResponseWrapper> responsWrap;
-
-      //accessToken=getAccessToken();
-      //System.debug('accessToken@@'+accessToken);
       String requestString = request;
-      System.debug('requestBody@@' + requestString);
-
       //Call Mulesoft-UCPM API for consents
       HTTP h = new HTTP();
       HTTPRequest r = new HTTPRequest();

@@ -13,6 +13,7 @@ public with sharing class UCPM_PostConsentQueueable implements Queueable, Databa
     String updateconditionOperator;
     String createrequestJSON;
     String updaterequestJSON;
+    // For two operations(Create,Update) same time 
     public UCPM_PostConsentQueueable(
         Participant_Enrollment__c perRec,
         List<Patient_Delegate_Enrollment__c> pDelEnrols,
@@ -25,7 +26,6 @@ public with sharing class UCPM_PostConsentQueueable implements Queueable, Databa
     ) {
         per = perRec;
         pDelEnrol = pDelEnrols;
-        //IdentityType = typeIdentity;
         operationtype = typeOperation;
         iqviaOutreach = iqviaOutreachcheck;
         createtypeIdentity = createtypeIdentities;
@@ -46,9 +46,8 @@ public with sharing class UCPM_PostConsentQueueable implements Queueable, Databa
                 updateconditionOperators
             );
         }
-        //accessToken = UCPM_ConsentPostController.getAccessToken();
     }
-
+    // For one operation either create/update 
     public UCPM_PostConsentQueueable(
         Participant_Enrollment__c perRec,
         List<Patient_Delegate_Enrollment__c> pDelEnrols,
@@ -78,7 +77,6 @@ public with sharing class UCPM_PostConsentQueueable implements Queueable, Databa
                 conditionOperator
             );
         }
-        //accessToken = UCPM_ConsentPostController.getAccessToken();
     }
 
     public void execute(QueueableContext context) {
