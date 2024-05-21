@@ -593,9 +593,9 @@ public without sharing class PIR_ParticipantDetailController {
         }
         //Sending consents to UCPM from particint detail page while updating the consents
         if(!pderidlist.isEmpty()){
-          UCPM_ConsentPostController_OldJson.getdatafromsharingoptionspage(new list<Id>{perRecord.Id},pderidlist,'Participant Detail');
+          UCPM_ConsentPostController.getdatafromsharingoptionspage(new list<Id>{perRecord.Id},pderidlist,'Participant Detail');
         }else{
-          UCPM_ConsentPostController_OldJson.getdatafromsharingoptionspage(new list<Id>{perRecord.Id},null,'Participant Detail');
+          UCPM_ConsentPostController.getdatafromsharingoptionspage(new list<Id>{perRecord.Id},null,'Participant Detail');
         }
         
     } catch (Exception e) {
