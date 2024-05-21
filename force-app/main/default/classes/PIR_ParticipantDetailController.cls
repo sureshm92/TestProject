@@ -9,7 +9,7 @@ public without sharing class PIR_ParticipantDetailController {
   public static perDetailWrapper getParticipantData(String PEid) {
     perDetailWrapper pdw = new perDetailWrapper();
     //Fetching consents from UCPM while loading participant details page 
-    //UCPM_ConsentFetchController.callUCPMtoFetchConsents(new list<Id>{PEid},null,'Participant Detail');
+    UCPM_ConsentFetchController.callUCPMtoFetchConsents(new list<Id>{PEid},null,'Participant Detail');
     map<String, sObject> dataMap = new Map<String, sObject>();
     dataMap.put(
       'pe',
