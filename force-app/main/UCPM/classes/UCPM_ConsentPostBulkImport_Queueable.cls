@@ -21,13 +21,10 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
             perList = [
                 SELECT
                     Id,
-                    Participant__r.First_Name__c,
-                    Participant__r.Last_Name__c,
-                    Participant__r.Birth_Year__c,
-                    Participant__r.Phone__c,
                     Participant__r.Email__c,
                     Participant__c,
                     Referral_Source__c,
+                    DataControllerOrg__c,
                     Clinical_Trial_Profile__r.Study_Code_Name__c,
                     Clinical_Trial_Profile__r.NCT_Number__c,
                     Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c,
@@ -35,6 +32,8 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     Clinical_Trial_Profile__r.MDM_Sponsor_Name__c,
                     Clinical_Trial_Profile__r.IQVIA_Outreach__c,
                     Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c,
+                    Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Clinical_Trial_Profile__r.PPTemplate__c,
                     Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
                     Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                     Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
@@ -52,11 +51,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                             Patient_Delegate__c,
                             Patient_Delegate__r.Participant_Delegate__r.Mailing_Country_Code__c,
                             Patient_Delegate__r.Participant_Delegate__r.Id,
-                            Patient_Delegate__r.Participant_Delegate__r.First_Name__c,
-                            Patient_Delegate__r.Participant_Delegate__r.Last_Name__c,
                             Patient_Delegate__r.Participant_Delegate__r.Email__c,
-                            Patient_Delegate__r.Participant_Delegate__r.Phone__c,
-                            Patient_Delegate__r.Participant_Delegate__r.Birth_Year__c,
                             Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                             Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
                             Patient_Delegate__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
@@ -75,13 +70,6 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                 FROM Participant_Enrollment__c
                 WHERE id IN :perIds
             ];
-
-
-            if (!perList.isEmpty()) {
-                for (Participant_Enrollment__c per : perList) {
-                    perandPderMap.put(per, per.Patient_Delegate_Enrollments__r);
-                }
-            }
         } else if (
             perIds != null &&
             perIds.size() > 0 &&
@@ -91,13 +79,10 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
             perList = [
                 SELECT
                     Id,
-                    Participant__r.First_Name__c,
-                    Participant__r.Last_Name__c,
-                    Participant__r.Birth_Year__c,
-                    Participant__r.Phone__c,
                     Participant__r.Email__c,
                     Participant__c,
                     Referral_Source__c,
+                    DataControllerOrg__c,
                     Clinical_Trial_Profile__r.Study_Code_Name__c,
                     Clinical_Trial_Profile__r.NCT_Number__c,
                     Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c,
@@ -105,6 +90,8 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     Clinical_Trial_Profile__r.MDM_Sponsor_Name__c,
                     Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c,
                     Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                    Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Clinical_Trial_Profile__r.PPTemplate__c,
                     Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
                     Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                     Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
@@ -121,6 +108,77 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
             ];
         }
 
+        Map<Participant_Enrollment__c, Id> mapPerAndCtpIds = new Map<Participant_Enrollment__c, Id>();
+        if (!perList.isEmpty()) {
+            for (Participant_Enrollment__c per : perList) {
+                perandPderMap.put(per, per.Patient_Delegate_Enrollments__r);
+                mapPerAndCtpIds.put(per, per.Clinical_Trial_Profile__c);
+            }
+        }
+        Map<Id, List<Restricted_Source_Config__c>> mapCtpAndRestSources = new Map<Id, List<Restricted_Source_Config__c>>();
+
+        for (Clinical_Trial_Profile__c ctp : [
+            SELECT
+                Id,
+                IQVIA_Outreach__c,
+                (
+                    SELECT Id, Sponsor__c, Study__c, Referral_Resource__c
+                    FROM Restricted_Source_Config__r
+                )
+            FROM Clinical_Trial_Profile__c
+            WHERE Id IN :mapPerAndCtpIds.values()
+        ]) {
+            mapCtpAndRestSources.put(ctp.Id, ctp.Restricted_Source_Config__r);
+        }
+        Map<Id, Boolean> mapPerIdAndOutReach = new Map<Id, Boolean>();
+        
+    //Checking restricted resource and Iqvia Outreach validation
+        for (Participant_Enrollment__c per : perList) {
+            String referralSource;
+            Boolean iqviaOutreach = false;
+            String[] restrictedlst;
+            if (per.Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
+                if (
+                    per.Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal' &&
+                    (per.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' ||
+                    per.Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0')
+                ) {
+                    iqviaOutreach = true;
+                } else {
+                    List<Restricted_Source_Config__c> restrictedRecrd = (mapCtpAndRestSources !=
+                        null &&
+                        mapCtpAndRestSources.get(per.Clinical_Trial_Profile__c) != null)
+                        ? mapCtpAndRestSources.get(per.Clinical_Trial_Profile__c)
+                        : null;
+                    if (restrictedRecrd != null && !restrictedRecrd.isEmpty()) {
+                        for (Restricted_Source_Config__c rsc : restrictedRecrd) {
+                            restrictedlst = rsc.Referral_Resource__c != null
+                                ? rsc.Referral_Resource__c.split(';')
+                                : null;
+                            if (restrictedlst != null && !restrictedlst.isEmpty()) {
+                                referralSource = (per.Referral_Source__c == 'ePR' ||
+                                    per.Referral_Source__c == 'ePRCampaign')
+                                    ? per.Referral_Source__c + '-' + per.DataControllerOrg__c
+                                    : per.Referral_Source__c;
+                                if (restrictedlst.contains(referralSource)) {
+                                    iqviaOutreach = false;
+                                    break;
+                                } else {
+                                    iqviaOutreach = true;
+                                }
+                            }
+                        }
+                    } else {
+                        iqviaOutreach = true;
+                    }
+                }
+            } else {
+                iqviaOutreach = false;
+            }
+
+            mapPerIdAndOutReach.put(per.Id, iqviaOutreach);
+        }
+
         if (perList != null && perList.size() > 0) {
             for (Participant_Enrollment__c per : perList) {
                 //New PER and new participant contact without delegate
@@ -134,7 +192,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
                         per,
                         null,
-                        per.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        mapPerIdAndOutReach.get(per.Id),
                         'Participant:ParticipantContact'
                     );
                     if (
@@ -159,13 +217,13 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
                         per,
                         null,
-                        per.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        mapPerIdAndOutReach.get(per.Id),
                         'Participant'
                     );
                     updaterequestJSON = UCPM_ConsentPostController.requestJsonGeneration_update(
                         per,
                         null,
-                        per.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        mapPerIdAndOutReach.get(per.Id),
                         'ParticipantContact'
                     );
                     if (
@@ -201,7 +259,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
                         per,
                         perandPderMap.get(per),
-                        per.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        mapPerIdAndOutReach.get(per.Id),
                         'Participant:ParticipantContact:Delegate:DelegateContact'
                     );
                     if (
@@ -229,14 +287,14 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
                         per,
                         perandPderMap.get(per),
-                        per.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        mapPerIdAndOutReach.get(per.Id),
                         'Participant:ParticipantContact:Delegate'
                     );
 
                     updaterequestJSON = UCPM_ConsentPostController.requestJsonGeneration_update(
                         per,
                         perandPderMap.get(per),
-                        per.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        mapPerIdAndOutReach.get(per.Id),
                         'DelegateContact'
                     );
                     if (
@@ -273,13 +331,13 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
                         per,
                         perandPderMap.get(per),
-                        per.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        mapPerIdAndOutReach.get(per.Id),
                         'Participant:Delegate:DelegateContact'
                     );
                     updaterequestJSON = UCPM_ConsentPostController.requestJsonGeneration_update(
                         per,
                         null,
-                        per.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        mapPerIdAndOutReach.get(per.Id),
                         'ParticipantContact'
                     );
 
@@ -317,13 +375,13 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
                         per,
                         perandPderMap.get(per),
-                        per.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        mapPerIdAndOutReach.get(per.Id),
                         'Participant:Delegate'
                     );
                     updaterequestJSON = UCPM_ConsentPostController.requestJsonGeneration_update(
                         per,
                         perandPderMap.get(per),
-                        per.Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                        mapPerIdAndOutReach.get(per.Id),
                         'ParticipantContact:DelegateContact'
                     );
 
