@@ -1,8 +1,9 @@
-public without sharing class Batch_UpsertEprParticipantAndPE implements Database.Batchable<sObject> {
+public without sharing class Batch_UpsertEprParticipantAndPE implements Database.Batchable<sObject>, Database.Stateful  {
     
     private Account tempAccount; 
     public static boolean eprBatchRunning = false;
-    
+    public List<Id> perIdlist = new List<Id>(); // As part of ucpm
+    public List<Id> pderIdlist = new List<Id>(); // As part of ucpm
     public Batch_UpsertEprParticipantAndPE(){
         tempAccount = new Account();
         Blob b = Crypto.GenerateAESKey(128);
@@ -373,6 +374,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         for (Integer i = 0; i < saveResults.size(); i++) {
             Participant_Enrollment__c pe = peList[i];	
             Database.SaveResult sr = saveResults[i];
+            perIdlist.add(sr.getId());
             Integration_Patient_Referral__c ipr = newMap.get(pe.Referral_ID__c);
             if (ipr != null) {
                 if (sr.isSuccess()) {
@@ -444,7 +446,12 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         
         if(!patientDelEnrollList.isEmpty()){
             insert patientDelEnrollList;
+            //Sending consents to UCPM
+            for(Patient_Delegate_Enrollment__c pde:patientDelEnrollList){
+                pderIdlist.add(pde.Id);
+            }
         }
+        
         //REF-4741
         if(!dupPartToUpdateList.isEmpty())
             update dupPartToUpdateList;
@@ -787,6 +794,10 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         //delete the temporary account
         try{
             delete tempAccount;
+            //Sending consents to UCPM from ePR
+            if(!perIdlist.isEmpty()){
+                System.enqueueJob(new UCPM_ConsentPostBulkImport_Queueable(new List<Id>(perIdlist),pderIdlist));
+            }
         } catch (Exception exp) {
             system.debug('ERROR during deleting records: ' + exp.getMessage());
         }
