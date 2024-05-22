@@ -597,7 +597,9 @@ public without sharing class PatientDelegateEnrollmentService {
             persIds.add(pdes.Participant_Enrollment__c);
             pdIdLst.add(pdes.id);
          }
-         UCPM_ConsentPostController.getdatafromsharingoptionspage(persIds,pdIdLst,'PP Manage Delegate');
+         if(persIds!=null && persIds.size()>0 && pdIdLst!=null && pdIdLst.size()>0){
+            UCPM_ConsentPostController.getdatafromsharingoptionspage(persIds,pdIdLst,'PP Manage Delegate');
+         }
        } catch (Exception  e) {
           System.debug('e.getMessage(): ' + e.getMessage());
        }

@@ -945,7 +945,9 @@ public without sharing class RRChangePasswordController {
                           pderIdlst.add(pder.id);
                           perIdlst.add(pder.Participant_Enrollment__c);
                         }
-                        UCPM_ConsentPostController.getdatafromsharingoptionspage(perIdlst,pderIdlst,'Delegate Registration');
+                        if(pderIdlst!=null && pderIdlst.size()>0 && perIdlst!=null && perIdlst.size()>0){
+                            UCPM_ConsentPostController.getdatafromsharingoptionspage(perIdlst,pderIdlst,'Delegate Registration');
+                        }
                      }
                  }
                  
@@ -962,7 +964,9 @@ public without sharing class RRChangePasswordController {
                      for(Participant_Enrollment__c per : lsttoUpd){
                           perIdlst.add(per.id);
                         }
-                        UCPM_ConsentPostController.getdatafromsharingoptionspage(perIdlst,null,'Patient Registration');
+                        if(perIdlst!=null && perIdlst.size()>0){
+                            UCPM_ConsentPostController.getdatafromsharingoptionspage(perIdlst,null,'Patient Registration');
+                        }
                      } 
                  }
             userVal.IsCommunityUserRegistered__c = true;

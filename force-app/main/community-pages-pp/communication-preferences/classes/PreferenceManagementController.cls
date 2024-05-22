@@ -61,7 +61,9 @@ public without sharing class PreferenceManagementController {
                 //ucpm callout to send the participant consent
                 List<id> perIdLst = new List<id>();
                 perIdLst.add(per.id);
-                UCPM_ConsentPostController.getdatafromsharingoptionspage(perIdLst,null,'Patient Communication Preferences');
+                if(perIdLst!=null && perIdLst.size()>0){
+                    UCPM_ConsentPostController.getdatafromsharingoptionspage(perIdLst,null,'Patient Communication Preferences');
+                }
             }
             //SMS Opt out for Patient Delegate.
             if (!per.Permit_SMS_Text_for_this_study__c) {
@@ -93,9 +95,10 @@ public without sharing class PreferenceManagementController {
                 List<id> perlistids = new List<id>();
                 pderIdlst.add(pde.id);
                 Patient_Delegate_Enrollment__c pder = [Select id, Participant_Enrollment__c from Patient_Delegate_Enrollment__c where Id=:pde.id];
-                
-                perlistids.add(pder.Participant_Enrollment__c);
-                UCPM_ConsentPostController.getdatafromsharingoptionspage(perlistids,pderIdlst,'Delegate Communication Preferences');
+                    perlistids.add(pder.Participant_Enrollment__c);
+                if(pderIdlst!=null && pderIdlst.size()>0 && perlistids!=null && perlistids.size()>0){
+                    UCPM_ConsentPostController.getdatafromsharingoptionspage(perlistids,pderIdlst,'Delegate Communication Preferences');
+                }
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -131,7 +134,9 @@ public without sharing class PreferenceManagementController {
                     if(pder!=null){                       
                         perIdLst.add(pder.Participant_Enrollment__c);
                         pderRecIdLst.add(pder.Id);
-                        UCPM_ConsentPostController.fetchPerAndPderDetails(perIdLst,pderRecIdLst,'Delegate Communication Preferences');
+                        if(perIdLst!=null && perIdLst.size()>0 && pderRecIdLst!=null && pderRecIdLst.size()>0){
+                            UCPM_ConsentPostController.fetchPerAndPderDetails(perIdLst,pderRecIdLst,'Delegate Communication Preferences');
+                        }
 
                     }
                 }
