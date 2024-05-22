@@ -117,8 +117,8 @@ public with sharing class UCPM_PostConsentQueueable implements Queueable, Databa
         accessToken = UCPM_ConsentPostController.getAccessToken();
         if (
             operationtype == 'Both' &&
-            !String.isblank(requestJSON) &&
-            !String.isblank(requestJSON)
+            !String.isblank(createrequestJSON) &&
+            !String.isblank(updaterequestJSON)
         ) {
             UCPM_ConsentPostController.callUCPMtoPostConsents(
                 createrequestJSON,
