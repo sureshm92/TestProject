@@ -2161,8 +2161,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
           update pdList;
         }
       }
+      String functionalityPlace='Bulk Import';
       if(  (!newlyCreatedPER.isEmpty()) && newlyCreatedPER.size()>0){
-        System.enqueueJob(new UCPM_ConsentPostBulkImport_Queueable(new List<Id>(newlyCreatedPER),new List<Id>(pderRecIds)));
+       System.enqueueJob(new UCPM_ConsentPostBulkImport_Queueable(new List<Id>(newlyCreatedPER),new List<Id>(pderRecIds),functionalityPlace));
       }    
     } catch (Exception exp) {
       system.debug(
