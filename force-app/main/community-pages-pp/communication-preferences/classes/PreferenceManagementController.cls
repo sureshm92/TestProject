@@ -57,6 +57,11 @@ public without sharing class PreferenceManagementController {
             system.debug('per: ' + per);
             if (per != null) {
                 update per;
+
+                //ucpm callout to send the participant consent
+                List<id> perIdLst = new List<id>();
+                perIdLst.add(per.id);
+                UCPM_ConsentPostController.getdatafromsharingoptionspage(perIdLst,null,'Patient Communication Preferences');
             }
             //SMS Opt out for Patient Delegate.
             if (!per.Permit_SMS_Text_for_this_study__c) {
@@ -82,6 +87,15 @@ public without sharing class PreferenceManagementController {
             system.debug('pde: ' + pde);
             if (pde != null) {
                 update pde;
+
+                //ucpm call-out to send delegate consent
+                List<id> pderIdlst = new List<id>();
+                List<id> perlistids = new List<id>();
+                pderIdlst.add(pde.id);
+                Patient_Delegate_Enrollment__c pder = [Select id, Participant_Enrollment__c from Patient_Delegate_Enrollment__c where Id=:pde.id];
+                
+                perlistids.add(pder.Participant_Enrollment__c);
+                UCPM_ConsentPostController.getdatafromsharingoptionspage(perlistids,pderIdlst,'Delegate Communication Preferences');
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -104,6 +118,23 @@ public without sharing class PreferenceManagementController {
             system.debug('****cont: ' + cont);
             if (cont != null) {
                 update cont;
+                List<id> perIdLst = new List<id>();
+                List<id> pderRecIdLst = new List<id>();
+                Contact con;
+                Patient_Delegate_Enrollment__c pder;
+                if (consentContactData.participantLoogedIn){
+                    con=[Select Id,Current_Participant_Enrollment__c from Contact where Id=:cont.Id];
+                    perIdLst.add(con.Current_Participant_Enrollment__c);
+                    UCPM_ConsentPostController.fetchPerAndPderDetails(perIdLst,null,'Patient Communication Preferences');
+                }else if(!consentContactData.participantLoogedIn && consentContactData.isDelegateSelfView){
+                    pder=[Select id, Participant_Enrollment__c,Patient_Delegate__c,Patient_Delegate__r.Contact__c from Patient_Delegate_Enrollment__c where Patient_Delegate__r.Contact__c=:cont.Id LIMIT 1];
+                    if(pder!=null){                       
+                        perIdLst.add(pder.Participant_Enrollment__c);
+                        pderRecIdLst.add(pder.Id);
+                        UCPM_ConsentPostController.fetchPerAndPderDetails(perIdLst,pderRecIdLst,'Delegate Communication Preferences');
+
+                    }
+                }
             }
             /*Not Required as Part of Delegate Redesign 
             //Update consent at Primady Delegate contact also when Participant consents got updated by Participant or Primary Delegate under participant account setting.
