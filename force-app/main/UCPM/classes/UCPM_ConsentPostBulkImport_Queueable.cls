@@ -6,9 +6,11 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
     String updatetypeIdentity;
     String createrequestJSON;
     String updaterequestJSON;
-    public UCPM_ConsentPostBulkImport_Queueable(List<Id> perIdList, List<Id> pderEnrolIds) {
+    String placeOfFunctionality;
+    public UCPM_ConsentPostBulkImport_Queueable(List<Id> perIdList, List<Id> pderEnrolIds,String functionalityPlace) {
         perRecIds = perIdList != null ? perIdList : null;
         pDelEnrolRecIds = pderEnrolIds != null ? pderEnrolIds : null;
+        placeOfFunctionality=functionalityPlace;
     }
 
     public void execute(QueueableContext context) {
@@ -193,7 +195,8 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                         per,
                         null,
                         mapPerIdAndOutReach.get(per.Id),
-                        'Participant:ParticipantContact'
+                        'Participant:ParticipantContact',
+                        placeOfFunctionality
                     );
                     if (
                         String.isNotBlank(createrequestJSON) && String.isNotEmpty(createrequestJSON)
@@ -218,13 +221,15 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                         per,
                         null,
                         mapPerIdAndOutReach.get(per.Id),
-                        'Participant'
+                        'Participant',
+                        placeOfFunctionality
                     );
                     updaterequestJSON = UCPM_ConsentPostController.requestJsonGeneration_update(
                         per,
                         null,
                         mapPerIdAndOutReach.get(per.Id),
-                        'ParticipantContact'
+                        'ParticipantContact',
+                        placeOfFunctionality
                     );
                     if (
                         String.isNotBlank(createrequestJSON) && String.isNotEmpty(createrequestJSON)
@@ -260,7 +265,8 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                         per,
                         perandPderMap.get(per),
                         mapPerIdAndOutReach.get(per.Id),
-                        'Participant:ParticipantContact:Delegate:DelegateContact'
+                        'Participant:ParticipantContact:Delegate:DelegateContact',
+                        placeOfFunctionality
                     );
                     if (
                         String.isNotBlank(createrequestJSON) && String.isNotEmpty(createrequestJSON)
@@ -288,14 +294,16 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                         per,
                         perandPderMap.get(per),
                         mapPerIdAndOutReach.get(per.Id),
-                        'Participant:ParticipantContact:Delegate'
+                        'Participant:ParticipantContact:Delegate',
+                        placeOfFunctionality
                     );
 
                     updaterequestJSON = UCPM_ConsentPostController.requestJsonGeneration_update(
                         per,
                         perandPderMap.get(per),
                         mapPerIdAndOutReach.get(per.Id),
-                        'DelegateContact'
+                        'DelegateContact',
+                        placeOfFunctionality
                     );
                     if (
                         String.isNotBlank(createrequestJSON) && String.isNotEmpty(createrequestJSON)
@@ -332,13 +340,16 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                         per,
                         perandPderMap.get(per),
                         mapPerIdAndOutReach.get(per.Id),
-                        'Participant:Delegate:DelegateContact'
+                        'Participant:Delegate:DelegateContact',
+                        placeOfFunctionality
+                        
                     );
                     updaterequestJSON = UCPM_ConsentPostController.requestJsonGeneration_update(
                         per,
                         null,
                         mapPerIdAndOutReach.get(per.Id),
-                        'ParticipantContact'
+                        'ParticipantContact',
+                        placeOfFunctionality
                     );
 
                     if (
@@ -376,13 +387,15 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                         per,
                         perandPderMap.get(per),
                         mapPerIdAndOutReach.get(per.Id),
-                        'Participant:Delegate'
+                        'Participant:Delegate',
+                        placeOfFunctionality
                     );
                     updaterequestJSON = UCPM_ConsentPostController.requestJsonGeneration_update(
                         per,
                         perandPderMap.get(per),
                         mapPerIdAndOutReach.get(per.Id),
-                        'ParticipantContact:DelegateContact'
+                        'ParticipantContact:DelegateContact',
+                        placeOfFunctionality
                     );
 
                     if (

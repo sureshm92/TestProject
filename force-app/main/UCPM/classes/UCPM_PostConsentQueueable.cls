@@ -13,7 +13,8 @@ public with sharing class UCPM_PostConsentQueueable implements Queueable, Databa
     String updateconditionOperator;
     String createrequestJSON;
     String updaterequestJSON;
-    // For two operations(Create,Update) same time 
+    string placeofFunctionality;
+    // For two operations(Create,Update) same time
     public UCPM_PostConsentQueueable(
         Participant_Enrollment__c perRec,
         List<Patient_Delegate_Enrollment__c> pDelEnrols,
@@ -22,8 +23,8 @@ public with sharing class UCPM_PostConsentQueueable implements Queueable, Databa
         String createtypeIdentities,
         String createconditionsOperator,
         String updatetypeIdentities,
-        String updateconditionOperators
-    ) {
+        String updateconditionOperators,
+        String functionalityPlace){
         per = perRec;
         pDelEnrol = pDelEnrols;
         operationtype = typeOperation;
@@ -32,18 +33,21 @@ public with sharing class UCPM_PostConsentQueueable implements Queueable, Databa
         createconditionOperator = createconditionsOperator;
         updatetypeIdentity = updatetypeIdentities;
         updateconditionOperator = updateconditionOperators;
+        placeofFunctionality = functionalityPlace;
         if (operationtype == 'Both') {
             createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
                 per,
                 pDelEnrol,
                 iqviaOutreach,
-                createconditionsOperator
+                createconditionsOperator,
+                placeofFunctionality
             );
             updaterequestJSON = UCPM_ConsentPostController.requestJsonGeneration_update(
                 per,
                 pDelEnrol,
                 iqviaOutreach,
-                updateconditionOperators
+                updateconditionOperators,
+                placeofFunctionality
             );
         }
     }
@@ -54,32 +58,35 @@ public with sharing class UCPM_PostConsentQueueable implements Queueable, Databa
         String typeOperation,
         Boolean iqviaOutreachcheck,
         String typeIdentity,
-        String conditionOperatorcheck
-    ) {
+        String conditionOperatorcheck,
+        String functionalityPlace){
         per = perRec;
         pDelEnrol = pDelEnrols;
         IdentityType = typeIdentity;
         operationtype = typeOperation;
         iqviaOutreach = iqviaOutreachcheck;
         conditionOperator = conditionOperatorcheck;
+        placeofFunctionality = functionalityPlace;
         if (operationtype == 'Create') {
             requestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
                 per,
                 pDelEnrol,
                 iqviaOutreach,
-                conditionOperator
+                conditionOperator,
+                placeofFunctionality
             );
         } else if (operationtype == 'Update') {
             requestJSON = UCPM_ConsentPostController.requestJsonGeneration_Update(
                 per,
                 pDelEnrol,
                 iqviaOutreach,
-                conditionOperator
+                conditionOperator,
+                placeofFunctionality
             );
         }
     }
 
-    public void execute(QueueableContext context) {
+    public void execute(QueueableContext context){
         if (
             String.isblank(requestJSON) ||
             String.isblank(createrequestJSON) ||
@@ -90,27 +97,31 @@ public with sharing class UCPM_PostConsentQueueable implements Queueable, Databa
                     per,
                     pDelEnrol,
                     iqviaOutreach,
-                    conditionOperator
+                    conditionOperator,
+                    placeofFunctionality
                 );
             } else if (operationtype == 'Update') {
                 requestJSON = UCPM_ConsentPostController.requestJsonGeneration_Update(
                     per,
                     pDelEnrol,
                     iqviaOutreach,
-                    conditionOperator
+                    conditionOperator,
+                    placeofFunctionality
                 );
             } else if (operationtype == 'Both') {
                 createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
                     per,
                     pDelEnrol,
                     iqviaOutreach,
-                    createconditionOperator
+                    createconditionOperator,
+                    placeofFunctionality
                 );
                 updaterequestJSON = UCPM_ConsentPostController.requestJsonGeneration_update(
                     per,
                     pDelEnrol,
                     iqviaOutreach,
-                    updateconditionOperator
+                    updateconditionOperator,
+                    placeofFunctionality
                 );
             }
         }

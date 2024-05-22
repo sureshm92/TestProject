@@ -796,7 +796,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             delete tempAccount;
             //Sending consents to UCPM from ePR
             if(!perIdlist.isEmpty()){
-                System.enqueueJob(new UCPM_ConsentPostBulkImport_Queueable(new List<Id>(perIdlist),pderIdlist));
+                System.enqueueJob(new UCPM_ConsentPostBulkImport_Queueable(new List<Id>(perIdlist),pderIdlist,'ePR'));
             }
         } catch (Exception exp) {
             system.debug('ERROR during deleting records: ' + exp.getMessage());
