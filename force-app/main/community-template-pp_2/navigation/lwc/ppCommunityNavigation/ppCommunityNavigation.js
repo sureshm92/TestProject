@@ -13,6 +13,7 @@ import navigationMessages from '@salesforce/label/c.Navigation_Messages';
 import navigationEDiary from '@salesforce/label/c.Navigation_eDiary';
 import trailMatch from '@salesforce/label/c.Trial_Match';
 import navigationResults from '@salesforce/label/c.PP_Tab_Results';
+import more from '@salesforce/label/c.Profile_Menu_More';
 import navigationVisits from '@salesforce/label/c.PP_Tab_Visits';
 import navigationEvents from '@salesforce/label/c.PP_Tab_Events';
 import navigationProgram from '@salesforce/label/c.Navigation_AboutProgram';
@@ -55,29 +56,39 @@ export default class PpCommunityNavigation extends LightningElement {
     hasRendered = false;
     shouldDisplayFilesTab = false;
     shouldDisplayPastStudyTab = false;
-    @track isTablet;
+    isTablet;
     iosString;
-    @track iosString2;
+    iosString2;
     @track portCounter;
     msgs;
     count = 0;
+
+    label = {
+        more
+    }
     connectedCallback() {
         window.addEventListener('orientationchange', this.onOrientationChange);
     }
     onOrientationChange = () => {
+        this.showMoreSubMenu = false;
         this.participantTabs = [];
         this.participantTabsOne = [];
-        this.participantTabsTwo = [];
-        this.isTabletMenu();
+        this.participantTabsTwo = [];      
         this.populateNavigationItems();
+        this.isTabletMenu();
     };
     renderedCallback() {
         if (!this.hasRendered) {
             this.hasRendered = true;
             this.baseLink = window.location.origin;
             this.initializeDataForDOM();
-            DEVICE != 'Small' ? (this.desktop = true) : (this.desktop = false);
+            // if(DEVICE == 'Small' || DEVICE == 'Medium'){
+            //     this.desktop = false;
+            // }else{
+            //     this.desktop = true; 
+            // }
         }
+       this.isTablet ? this.hideDesktopMenuItem(true) : this.hideDesktopMenuItem(false);
     }
     isTabletMenu() {
         let orientation = screen.orientation.type;
@@ -88,12 +99,16 @@ export default class PpCommunityNavigation extends LightningElement {
             portrait = false;
         }
         if (window.innerWidth >= 768 && window.innerWidth < 1279 && portrait) {
-            if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
-                this.isTablet = true;
-                return true;
+            if (/iphone|macintosh|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                if(!navigator.userAgent.toLowerCase().match('crios')){
+                    this.isTablet = true;
+                    return true;
+                }
             } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
-                this.isTablet = true;
-                return true;
+                if(!navigator.userAgent.toLowerCase().match('crios')){
+                    this.isTablet = true;
+                    return true;
+                }
             }
         } else {
             this.isTablet = false;
@@ -104,11 +119,56 @@ export default class PpCommunityNavigation extends LightningElement {
     render() {
         this.count = this.count += 1;
         this.iosString2 = this.isTabletMenu();
+        //alert("Navigation: " + this.isTablet + 'Device : ' + DEVICE);
         if (this.isTablet) {
-            return menuTablet;
+            //return menuTablet;
+            this.hideDesktopMenuItem(true);
+            this.desktop = true;
+            return menuDesktop;
         }
-        return DEVICE == 'Large' ? menuDesktop : menuMobile;
+        if(DEVICE == 'Large'){
+            this.desktop = true;
+            this.hideDesktopMenuItem(false);
+            return menuDesktop;
+        }else{
+             this.desktop = false;
+             return menuMobile;
+        }
     }
+    hideDesktopMenuItem(flag){
+
+        let resourceEle = this.template.querySelector(`div[data-id="resources"]`);
+        let taskEle = this.template.querySelector(`div[data-id="tasks"]`);
+        let helpEle = this.template.querySelector(`div[data-id="help"]`);
+
+        let resourceImgEle = this.template.querySelector(`img[data-id="resources"]`);
+        let taskImgEle = this.template.querySelector(`img[data-id="tasks"]`);
+        let helpImgEle = this.template.querySelector(`img[data-id="help"]`);
+
+        if(flag){
+            if(resourceEle){
+                resourceEle.classList.add('hideEle');
+            } 
+            taskEle ? taskEle.classList.add('hideEle'): '';
+            helpEle ? helpEle.classList.add('hideEle'): '';  
+
+            resourceImgEle ? resourceImgEle.classList.add('hideEle'): ''; 
+            taskImgEle ? taskImgEle.classList.add('hideEle'): ''; 
+            helpImgEle ? helpImgEle.classList.add('hideEle'): ''; 
+        }  
+        else{
+            if(resourceEle){
+                resourceEle.classList.remove('hideEle');
+            } 
+            taskEle ? taskEle.classList.remove('hideEle'): '';
+            helpEle ? helpEle.classList.remove('hideEle'): '';
+
+            resourceImgEle ? resourceImgEle.classList.remove('hideEle'): '';
+            taskImgEle ? taskImgEle.classList.remove('hideEle'): '';
+            helpImgEle ? helpImgEle.classList.remove('hideEle'): '';
+        }    
+    }
+
     @api
     handleCloseHamberungMenu() {
         let mobileDiv = this.template.querySelector(`[data-id="mobileMenu"]`);

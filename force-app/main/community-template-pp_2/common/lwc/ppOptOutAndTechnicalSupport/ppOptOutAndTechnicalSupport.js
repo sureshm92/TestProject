@@ -28,6 +28,7 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
     showSpinner = false;
     AndroidTablet;
     ipad;
+    isTablet = false;
 
     loaded = false;
     label = {
@@ -48,7 +49,7 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
             return 'slds-hide';
         }
         else{
-            if(this.ipad){
+            if(this.isTablet){
                 return 'slds-show main-content-div-ipad';
             }
             else if(!this.isMobile && !this.ipad && !this.AndroidTablet){
@@ -72,11 +73,11 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
             return 'slds-hide ml-24';
         }
         else{
-            if(this.ipad){
-                 return 'slds-show submit-button-div-ipad';
-            }
-            else if(this.isMobile || this.AndroidTablet){
+            if(this.isMobile || this.AndroidTablet){
                 return 'slds-show ml-24';
+            }
+            else if(this.isTablet){
+                return 'slds-show ml-10'
             }
             else if(!this.isMobile){
                 return 'slds-show';
@@ -89,7 +90,7 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
             if(this.AndroidTablet || this.isMobile){
                 return 'slds-show success-message-text';
             }
-            else if(this.ipad){
+            else if(this.isTablet){
                 return 'slds-show success-message-text-ipad';
             }
             else{
@@ -113,6 +114,7 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
     connectedCallback(){
         this.disabled = true;
 		this.showSpinner = true;
+        this.isTabletMenu();
 
         if (formFactor === 'Small' ||formFactor === 'Medium' ) {
             this.isMobile = true;
@@ -236,5 +238,24 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
        
     }
 
+     isTabletMenu() {       
+        if (window.innerWidth >= 768 && window.innerWidth < 1279) {
+            if (/iphone|macintosh|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                if(!navigator.userAgent.toLowerCase().match('crios')){
+                    this.isTablet = true;
+                    return true;
+                }
+            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                if(!navigator.userAgent.toLowerCase().match('crios')){
+                    this.isTablet = true;
+                    return true;
+                }
+            }
+        } else {
+            this.isTablet = false;
+        }
+        this.isTablet = false;
+        return false;
+    }
 
 }
