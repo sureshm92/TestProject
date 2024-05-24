@@ -877,6 +877,7 @@ public without sharing class ParticipantInformationRemote {
                     );
                 }
             }
+            List<Id> pderIds = new List<Id>();
            if(!consentDetails.isEmpty()){
                List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
                List<Patient_Delegate_Enrollment__c> updPDER = new List<Patient_Delegate_Enrollment__c>();
@@ -892,6 +893,7 @@ public without sharing class ParticipantInformationRemote {
                 }
              }
                for(Patient_Delegate_Enrollment__c pde:pder){
+                    pderIds.add(pde.Id);
                     if(!duplicates.contains(pde.Patient_Delegate__c)){
                        Patient_Delegate_Enrollment__c pdes = new Patient_Delegate_Enrollment__c();
                        pdes.Id = pde.Id;
@@ -1018,6 +1020,8 @@ public without sharing class ParticipantInformationRemote {
                 );
                 ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
             }*/
+            //Send consents to UCPM from emancipation page while adding new delegate
+            UCPM_ConsentPostController.fetchPerAndPderDetails(new list<Id>{peId},pderIds,'Emancipation With Multiple Delegates');
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
