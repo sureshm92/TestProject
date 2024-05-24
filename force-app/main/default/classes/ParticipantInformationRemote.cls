@@ -700,7 +700,7 @@ public without sharing class ParticipantInformationRemote {
                     update pder;
                     
                     //Send consents to UCPM from emancipation page while adding new delegate
-                    UCPM_ConsentPostController.getdatafromsharingoptionspage(new list<Id>{perId},new list<Id>{perId},'Emancipation');
+                    UCPM_ConsentPostController.getdatafromsharingoptionspage(new list<Id>{perId},new list<Id>{pder[0].Id},'Emancipation');
                     
                     }else{
                     Patient_Delegate_Enrollment__c pde = new Patient_Delegate_Enrollment__c();
