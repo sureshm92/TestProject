@@ -160,8 +160,30 @@ public class UCPM_ConsentPostController {
          !pe.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c){
         removeparticipantcontact = true;
       }
-      //New PER and new participant contact without delegate
+      //Existing PER with Multiple delegates from Emancipation page
       if (
+          pe.PPMID__c != null && 
+          pe.Participant_Contact__c != null &&
+          pderIdList != null &&
+          pderIdList.size() > 0 &&
+          perandPderMap.get(pe) != null &&
+          perandPderMap.get(pe).size() > 0 &&
+          placeoffunctionality == 'Emancipation With Multiple Delegates'
+        ) {
+          System.enqueueJob(
+          new UCPM_PostConsentQueueable(
+            pe,
+            perandPderMap.get(pe),
+            'Update',
+            iqviaOutreach,
+            'DELEGATE',
+            'Delegate',
+            placeoffunctionality
+          )
+          );
+      }
+      //New PER and new participant contact without delegate
+      else if (
         pe.PPMID__c == null &&
         pe.Participant_Contact__r.PPM_ID__c == null &&
         pderIdList == null
@@ -1431,7 +1453,7 @@ public class UCPM_ConsentPostController {
         database.update(perToUpdate,false);
       }
       if (!pderToUpdate.isEmpty()){
-        TriggerHandlerExecutor.bypassHandler(
+            TriggerHandlerExecutor.bypassHandler(
                 PatientDelegateEnrolTriggerHandler.CreateNewAssignmentNotification.class
             );
             TriggerHandlerExecutor.bypassHandler(
@@ -1505,7 +1527,7 @@ public class UCPM_ConsentPostController {
         'transactionId',
         MulesoftIntegrationApi.uniqueKeygeneration()
       );
-
+      r.setTimeout(20000);
       System.debug('###### request ' + r.getBody());
       HTTPResponse resp = h.send(r);
       System.debug('###### resp ' + resp);
