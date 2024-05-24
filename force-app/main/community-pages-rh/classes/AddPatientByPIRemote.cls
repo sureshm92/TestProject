@@ -742,7 +742,8 @@ public without sharing class AddPatientByPIRemote {
                 system.debug('No delegate was provided');
             }
         }
-
+        
+        List<Id> delegateenrollmentIds = new List<Id>();
         if (
             participantDelegate != null &&
             !String.isEmpty(participantDelegate.Last_Name__c) &&
@@ -857,6 +858,9 @@ public without sharing class AddPatientByPIRemote {
                      }
                      update allPDelList;
                      insert addPatientDelEnrollForDup;
+                     for(Patient_Delegate_Enrollment__c pde:addPatientDelEnrollForDup){
+                        delegateenrollmentIds.add(pde.Id);
+                     }
                      
                 List<Participant_Enrollment__c> particpantEnrollList = [
                     SELECT
@@ -916,6 +920,7 @@ public without sharing class AddPatientByPIRemote {
 
                              
                     insert ptDelegateEnroll;
+                    delegateenrollmentIds.add(ptDelegateEnroll.Id);
 
                 }
             }
@@ -980,6 +985,14 @@ public without sharing class AddPatientByPIRemote {
                 update pdList;
             }
         }
+        
+        //Sending consents to UCPM from Add Participant page
+        if(delegateenrollmentIds == null || delegateenrollmentIds.isEmpty()){
+            UCPM_ConsentPostController.fetchPerAndPderDetails(new list<Id>{peId},null,'');
+        }else{
+            UCPM_ConsentPostController.fetchPerAndPderDetails(new list<Id>{peId},delegateenrollmentIds,'');
+        }
+
     }
 
     @AuraEnabled
