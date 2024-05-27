@@ -1,38 +1,46 @@
 {
-  "appPageId" : "25a2727e-0f03-4438-822f-3a99fa9e3db5",
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
   "componentName" : "siteforce:sldsOneColLayout",
   "dataProviders" : [ ],
-  "id" : "8bbb2d56-e71f-4cf7-8aaa-47791f28c42f",
-  "label" : "Login",
+  "id" : "fef839da-d62d-4635-8475-a172521d32bb",
+  "label" : "Login_PP",
   "regions" : [ {
     "components" : [ {
       "componentAttributes" : { },
-      "componentName" : "c:ppPreLoginForm",
-      "id" : "c32434fa-8554-4a7a-ba82-e119208a90a9",
+      "componentName" : "c:ppLoginForm",
+      "id" : "34c9ad93-5d93-40f6-af7c-7cf2a8209864",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "80ea71f5-bada-46f5-8990-9f5a9b3f2e8e",
+    "id" : "a2745634-0d42-474c-b799-fb421890d5e4",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "553ee090-a180-4714-afbd-c28ad080d434",
     "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "41d969f4-da14-4219-a6eb-2192efb40398",
+    "regionName" : "footer",
     "type" : "region"
   }, {
     "components" : [ {
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "Login"
+        "title" : "Login_PP"
       },
       "componentName" : "forceCommunity:seoAssistant",
-      "id" : "e9c06310-c90e-4661-b52f-a9cb79721d2a",
+      "id" : "f3edbbca-0b37-4d8a-8382-791962cb5a59",
       "renditionMap" : { },
       "type" : "component"
     } ],
-    "id" : "f747d8a5-bbe8-4b03-b8d0-4fb0a5f1b348",
+    "id" : "5953e52e-274e-4008-8e6b-a92c3e3aab0f",
     "regionName" : "sfdcHiddenRegion",
     "type" : "region"
   } ],
   "themeLayoutType" : "Login",
   "type" : "view",
-  "viewType" : "login-home"
+  "viewType" : "custom-login-pp"
 }

@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "fef839da-d62d-4635-8475-a172521d32bb",
+  "appPageId" : "34dac43a-31bf-4ff1-bdc2-6a216d64c7c4",
+  "configurationTags" : [ ],
+  "id" : "cfd5ab00-f624-4a02-a041-34a29a45356b",
+  "label" : "Login_PP",
+  "pageAccess" : "Public",
+  "routeType" : "custom-login-pp",
+  "type" : "route",
+  "urlPrefix" : "login-success"
+}
