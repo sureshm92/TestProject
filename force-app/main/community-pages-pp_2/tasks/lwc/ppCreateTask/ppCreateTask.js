@@ -55,8 +55,8 @@ export default class PpCreateTask extends LightningElement {
     initialRecord;
     updatedRecord;
     @api isRTL;
-    customLayoutSizeFields = "";
-    customLayoutSizeImg = "";
+    customLayoutSizeFields = parseInt(12);
+    customLayoutSizeImg = parseInt(0);
 
     labels = { REMIND_USING_REQUIRED };
     label = {
