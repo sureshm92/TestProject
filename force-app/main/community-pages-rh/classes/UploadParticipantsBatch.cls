@@ -1958,7 +1958,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
               mapParticipantToDelegate.put(mapDuplicateParticipant.get(trackIndex.get(i)).id,true);
             }
           }
-        } else {
+        } 
+        else {
           participantUpdateMap.remove(contactParticipantMap.get(i).Id);
           errorRecordCount++;
           Integer errorIndex = trackIndex.get(i);
@@ -2039,6 +2040,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         }
       }
       Database.insert(patientDelEnrollList, false);
+      Set<Id> pderRecIds=new Set<Id>();
+     	for (Patient_Delegate_Enrollment__c pder: patientDelEnrollList){        
+        pderRecIds.add(pder.Id);           
+      }
       //Participant Enrollment insertion ends.
       //Delete the contacts which were newly created but their participant/enrollment were not created.
       List<Contact> conDelete = new List<Contact>();
@@ -2156,7 +2161,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
           update pdList;
         }
       }
-      //
+      String functionalityPlace='Bulk Import';
+      if(  (!newlyCreatedPER.isEmpty()) && newlyCreatedPER.size()>0){
+       System.enqueueJob(new UCPM_ConsentPostBulkImport_Queueable(new List<Id>(newlyCreatedPER),new List<Id>(pderRecIds),functionalityPlace));
+      }    
     } catch (Exception exp) {
       system.debug(
         'ERROR during CSV parsing: ' +

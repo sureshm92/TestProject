@@ -755,6 +755,8 @@ global without sharing class ReferHealthcareProviderRemote {
                      ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                         .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
                   }
+                //Sending consents to the UCPM from sharing option page while adding new delegate
+                UCPM_ConsentPostController.getdatafromsharingoptionspage(new List<Id>{perID},new List<Id>{ptDelegateEnroll.Id},'Sharing Options');
             } else {
                 if (!boolisUserCreated) {
                     if (ContactId != null && createUser) {
