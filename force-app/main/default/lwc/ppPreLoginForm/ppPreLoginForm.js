@@ -17,6 +17,7 @@ import PP_Login_Form_Show from '@salesforce/label/c.PP_Login_Form_Show';
 import PP_Login_Form_Hide from '@salesforce/label/c.PP_Login_Form_Hide';
 import PP_For_Participants_and_Caregivers from '@salesforce/label/c.PP_For_Participants_and_Caregivers';
 import PP_Connecting_professionals from '@salesforce/label/c.PP_Connecting_professionals';
+import isSSOEnabled from '@salesforce/apex/RRLoginRemote.isSSOEnabled';
 
 export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @track inError;
@@ -84,6 +85,8 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
             this.handleLogin();
         }
         this.btnclassName = 'slds-input input-field-container';
+        this.inError = false;
+        this.inputError = false;
     }
 
     handlepasswordChange(event) {
@@ -188,7 +191,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                         this[NavigationMixin.Navigate]({
                             type: 'comm__namedPage',
                             attributes: {
-                                name: 'Forgot_Login_Password__c'
+                                name: 'Forgot_Password'
                             }
                         });
                     }
@@ -200,7 +203,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
             this[NavigationMixin.Navigate]({
                 type: 'comm__namedPage',
                 attributes: {
-                    name: 'Forgot_Login_Password__c'
+                    name: 'Forgot_Password'
                 }
             });
         }
@@ -246,5 +249,72 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
             this.passwordInputType = 'password';
         }
         this.isEyeHidden = !isEyeHidden;
+    }
+    usrName = '';
+    handleUsername(event){
+       const value = event.target.value;
+       this.usrName = value;
+       console.log('usrName - ' +this.usrName);
+    }
+    handleNext(){
+        console.log('handlenext - ' +this.usrName);
+        if(this.usrName == null || this.usrName == ''){
+            this.inError = true;
+            this.inputError = true;
+            this.errorMsg = 'Enter a value in the User Name field.';
+            this.btnclassName = 'slds-input input-field-container-error';
+        }else{
+            const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if(this.usrName.match(emailRegex)){
+               console.log('no errror');
+               isSSOEnabled({ userName: this.usrName })
+                .then((result) => { console.log('r- '+JSON.stringify(result));
+                    if (result.usrNameExist && result.isSSOEnabled) {
+                        console.log('redirect to sso');
+                        this[NavigationMixin.Navigate]({
+                            type: 'comm__namedPage',
+                            attributes: {
+                                name: 'Login_PP__c'
+                            }
+                            });
+                    } else { console.log('redirect to Login');
+                        this[NavigationMixin.Navigate]({
+                            type: 'comm__namedPage',
+                            attributes: {
+                                name: 'Login_PP__c'
+                            }
+                            });
+                    }
+                })
+                .catch((error) => {console.log('e - '+JSON.stringify(error));
+                    this.error = error;
+                });
+            }else{ console.log('errror');
+            this.inError = true;
+            this.inputError = true;
+            this.errorMsg = 'Enter a valid User Name in the field.';
+            this.btnclassName = 'slds-input input-field-container-error';
+            }
+        }
+        
+        // if (allValid) {
+            // isSSOEnabled({ userName: this.usrName })
+            //     .then((result) => { console.log('r- '+JSON.stringify(result));
+            //         if (result.usrNameExist && result.isSSOEnabled) {
+            //             console.log('redirect to sso');
+            //         } else { console.log('redirect to Login');
+            //             this[NavigationMixin.Navigate]({
+            //                 type: 'comm__namedPage',
+            //                 attributes: {
+            //                     name: 'Login_PP__c'
+            //                 }
+            //                 });
+            //         }
+            //     })
+            //     .catch((error) => {console.log('e - '+JSON.stringify(error));
+            //         this.error = error;
+            //     });
+        // }
+        
     }
 }
