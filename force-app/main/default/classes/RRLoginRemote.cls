@@ -388,4 +388,65 @@ global without sharing class RRLoginRemote {
         }
         return returnMap;
     }
+    public class ssoWrapper{
+        @AuraEnabled
+        Public Boolean usrNameExist;
+        @AuraEnabled
+        Public Boolean isSSOEnabled;
+    }
+    @AuraEnabled
+    public static ssoWrapper isSSOEnabled(String userName) {
+     try {
+        ssoWrapper sso = new ssoWrapper();
+        List<User> u = new List<User>();
+        u = [Select Id,ContactId,Name,Username from User where Username=:userName];
+        
+        if(!u.isEmpty()){
+            List<Participant_Enrollment__c> per = new List<Participant_Enrollment__c>();
+            List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+            per = [SELECT Id,Name,Participant_Contact__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.SSO_enabled__c FROM Participant_Enrollment__c where 
+                                                    Participant_Contact__c=:u[0].ContactId AND Clinical_Trial_Profile__r.SSO_enabled__c = TRUE];
+            if(per.isEmpty() || per == null){
+                pder  = [Select Id,Participant_Enrollment__c,Participant_Enrollment__r.Participant_Contact__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.SSO_enabled__c from Patient_Delegate_Enrollment__c where 
+                         Participant_Enrollment__r.Participant_Contact__c=:u[0].ContactId AND Participant_Enrollment__r.Clinical_Trial_Profile__r.SSO_enabled__c = TRUE];
+            }
+            if(!per.isEmpty() && per!=null ){
+                 sso.usrNameExist = true;
+                 sso.isSSOEnabled = true;
+            }else{
+                 if(pder != null && pder.size() > 0){
+                     sso.usrNameExist = true;
+                     sso.isSSOEnabled = true;
+                 }else{
+                 sso.usrNameExist = true;
+                 sso.isSSOEnabled = false;}
+            }
+                return sso;
+        }else{
+             sso.usrNameExist = false;
+             sso.isSSOEnabled = false;
+             return sso;
+        }
+      } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }  
+       
+   }
+   
+   public static Organization getOrganization(){
+        Organization  orgObj    = [Select id,IsSandbox,InstanceName,OrganizationType, Name from Organization];
+        return orgObj;
+    }
+
+    public static Boolean isSandbox(){
+        Organization  orgObj = getOrganization();
+        return orgObj.IsSandbox;
+    }
+
+    public static String getSandboxName(){
+        String        domainUrl = Url.getOrgDomainUrl().toExternalForm();
+        System.Domain domain    = System.DomainParser.parse(domainUrl);
+        String        sandboxName = domain.getSandboxName();
+        return sandboxName;
+    }
 }
