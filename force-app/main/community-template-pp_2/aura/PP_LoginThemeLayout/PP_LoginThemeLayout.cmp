@@ -21,6 +21,7 @@
     <aura:attribute name="CPRAlabel" type="String" />
     <aura:attribute name="CPRALinkToredirect" type="String" />
     <aura:attribute name="footerLabel" type="String" default="{!$Label.c.Footer_T_Copyright}" />
+    <aura:attribute name="showCookiesBanner" type="Boolean" default="false" />
 
     <aura:if isTrue="{!v.languageChecked}">
         <div class="body-content slds-grid slds-wrap body-image slds-align_absolute-center">
@@ -77,7 +78,8 @@
                 </div>
             </div>
         </div>
-
-        <c:ppCookiesBanner isRTL="{!v.isRTL}" loginPage="true" communityName="PatientPortal" />
+		 <aura:if isTrue="{!v.showCookiesBanner}">
+        	<c:ppCookiesBanner isRTL="{!v.isRTL}" loginPage="true" communityName="PatientPortal" />
+        </aura:if>    
     </aura:if>
 </aura:component>

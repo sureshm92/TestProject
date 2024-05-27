@@ -589,6 +589,20 @@ public without sharing class PatientDelegateEnrollmentService {
         }
         if (pdEnrollments.size() > 0) {
             insert pdEnrollments;
+       try {
+          //UCPM Call-out to send delegates consent
+          List<id> persIds = new List<id>();
+          List<id> pdIdLst = new List<id>();
+          for(Patient_Delegate_Enrollment__c pdes :pdEnrollments){
+            persIds.add(pdes.Participant_Enrollment__c);
+            pdIdLst.add(pdes.id);
+         }
+         if(persIds!=null && persIds.size()>0 && pdIdLst!=null && pdIdLst.size()>0){
+            UCPM_ConsentPostController.getdatafromsharingoptionspage(persIds,pdIdLst,'PP Manage Delegate');
+         }
+       } catch (Exception  e) {
+          System.debug('e.getMessage(): ' + e.getMessage());
+       }
         }
         //Re activate the study assignment for Former/Active delegates.
         if (pDEIdList.size() > 0) {

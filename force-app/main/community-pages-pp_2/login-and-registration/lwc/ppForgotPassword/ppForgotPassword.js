@@ -85,7 +85,7 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
                         this[NavigationMixin.Navigate]({
                             type: 'comm__namedPage',
                             attributes: {
-                                name: 'Login'
+                                name: 'Login_PP__c'
                             },
                             state: {
                                 c__username: this.usrnameval
@@ -123,7 +123,7 @@ export default class PpForgotPassword extends NavigationMixin(LightningElement) 
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
-                name: 'Login'
+                name: 'Login_PP__c'
             }
         });
     }
