@@ -56,7 +56,7 @@ export default class PpCreateTask extends LightningElement {
     updatedRecord;
     @api isRTL;
     customLayoutSizeFields = parseInt(12);
-    customLayoutSizeImg = parseInt(0);
+    customLayoutSizeImg = "";
 
     labels = { REMIND_USING_REQUIRED };
     label = {
@@ -125,7 +125,7 @@ export default class PpCreateTask extends LightningElement {
             this.customLayoutSizeImg = parseInt(3);
         }else if(screen.orientation.type == 'portrait-primary'){
             this.customLayoutSizeFields = parseInt(12);
-            this.customLayoutSizeImg = parseInt(0);
+            this.customLayoutSizeImg = "";
         }
     }
 
