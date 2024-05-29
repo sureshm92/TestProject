@@ -55,8 +55,8 @@ export default class PpCreateTask extends LightningElement {
     initialRecord;
     updatedRecord;
     @api isRTL;
-    customLayoutSizeFields = parseInt(12);
-    customLayoutSizeImg = "";
+    customLayoutSizeFields = "9";
+    customLayoutSizeImg = "3";
 
     labels = { REMIND_USING_REQUIRED };
     label = {
@@ -116,17 +116,18 @@ export default class PpCreateTask extends LightningElement {
             .catch((error) => {
                 console.error('Error in loading moment: ' + JSON.stringify(error));
             });
+            this.onOrientationChange();
             window.addEventListener('orientationchange',this.onOrientationChange);
     }
 
-    onOrientationChange () {
+    onOrientationChange = () => {
         if(screen.orientation.type == 'landscape-primary'){
-            this.customLayoutSizeFields = parseInt(9);
-            this.customLayoutSizeImg = parseInt(3);
+            this.customLayoutSizeFields = "9";
+            this.customLayoutSizeImg = "3";
         }else if(screen.orientation.type == 'portrait-primary'){
-            this.customLayoutSizeFields = parseInt(12);
-            this.customLayoutSizeImg = "";
-        }
+            this.customLayoutSizeFields = "12"
+            this.customLayoutSizeImg = null;
+        }       
     }
 
     initializeData() {
