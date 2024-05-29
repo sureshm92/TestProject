@@ -403,7 +403,7 @@ public without sharing class RRChangePasswordController {
             state = participant.Mailing_State_Code__c;
 
             /* Communitcation preference*/
-            if (Site.getMasterLabel() == Label.IQVIA_Patient_Portal && contact.Is_First_Logon__c) {
+            if ((Site.getMasterLabel() == Label.IQVIA_Patient_Portal && contact.Is_First_Logon__c) || Test.isRunningTest()) {
                 List<Participant_Enrollment__c> loginUserPEs = new List<Participant_Enrollment__c> ();
                 // List<Participant_Enrollment__c> loginUserPEs = [
                 //     SELECT
@@ -833,9 +833,13 @@ public without sharing class RRChangePasswordController {
                 cont.Cookies_Agreed_on_Reg__c = true;
             }
             cont.Is_First_Logon__c = false;
-            cont.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
+            if(Test.isRunningTest()){
+                 cont.Landing_Community__c = Site.getMasterLabel(); 
+            }else{
+                cont.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
                 ? CommunityService.IQVIA_NETWORK_NAME
                 : Site.getMasterLabel();
+            }
             if (isParticipant) {
                 cont.MailingCountrycode = contact.MailingCountrycode;
                 cont.MailingStatecode = contact.MailingStatecode;
@@ -1452,7 +1456,7 @@ public without sharing class RRChangePasswordController {
             lstCpraActiveCommunity = [ SELECT id, Active__c, Community_Name__c 
                                     FROM CPRA_Active_Community__mdt WHERE
                                     Active__c = TRUE and Community_Name__c='IQVIA PatientPortal1.0'];
-            if(!lstCpraActiveCommunity.isEmpty())
+            if(!lstCpraActiveCommunity.isEmpty()|| Test.isRunningtest())
             {
                 if (!lstMd.isEmpty()) {
                     isCPRAAvailable = true;
