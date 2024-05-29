@@ -10,13 +10,13 @@
                         <lightning-layout>
                             <lightning-layout-item padding="around-small" size="12" class="">
                                 <lightning-layout multiple-row="true">
-                                     <lightning-layout-item size="3"
+                                     <lightning-layout-item size={customLayoutSizeImg}
                                         padding="around-medium"
                                         class="taskIcon inIpadPotraitHide">
                                         <img src={task_icon} />
                                      </lightning-layout-item> 
     
-                                     <lightning-layout-item size="9">
+                                     <lightning-layout-item size={customLayoutSizeFields}>
                                          <lightning-layout size="12">
                                             <lightning-layout-item size="10"
                                                 >{label.taskName}
