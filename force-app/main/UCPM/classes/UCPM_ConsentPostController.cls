@@ -1233,7 +1233,7 @@ public static void callUCPMtoSendConsents(
   String accessToken,
   String IdentityType
 ) {
-try{
+
     List<ResponseWrapper> responsWrap;
 
     List<Participant_Enrollment__c> perToUpdate = new List<Participant_Enrollment__c>();
