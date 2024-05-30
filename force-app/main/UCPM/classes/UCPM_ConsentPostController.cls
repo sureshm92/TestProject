@@ -1234,7 +1234,7 @@ public static void callUCPMtoSendConsents(
   String IdentityType
 ) {
 try{
-  List<ResponseWrapper> responsWrap;
+    List<ResponseWrapper> responsWrap;
 
     List<Participant_Enrollment__c> perToUpdate = new List<Participant_Enrollment__c>();
     List<Contact> conToUpdate = new List<Contact>();
@@ -1261,7 +1261,7 @@ try{
       'transactionId',
       MulesoftIntegrationApi.uniqueKeygeneration()
     );
-    r.setTimeout(120000);
+    r.setTimeout(20000);
     System.debug('###### request ' + r.getBody());
     HTTPResponse resp = h.send(r);
     System.debug('###### resp ' + resp);
@@ -1472,19 +1472,6 @@ try{
       );
       database.update(conToUpdate,false);
     }       
-}catch (Exception e) {
-  System.debug('e.getMessage(): ' + e.getMessage());
-  System.debug('e.getStackTraceString(): ' + e.getStackTraceString());
-  IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
-  objIntegrationLog.Response_Body__c = e.getMessage()+' 'e.getStackTraceString();
-  objIntegrationLog.Request_Time__c = system.now();
-  objIntegrationLog.Request_Type__c = 'Create PPMID in UCPM-Exception';
-  objIntegrationLog.Function_Name__c = 'UCPM_ConsentPostController.postconsentUCPMdata';
-  objIntegrationLog.Http_Method__c = 'POST';
-  objIntegrationLog.Endpoint_URL__c = 'callout:UCPM_Post_Consent';
-  insert objIntegrationLog;
-}
-    
 }
 
 public static void callUCPMtoPUTConsents(
@@ -1518,7 +1505,7 @@ public static void callUCPMtoPUTConsents(
       'transactionId',
       MulesoftIntegrationApi.uniqueKeygeneration()
     );
-    r.setTimeout(120000);
+    r.setTimeout(20000);
     System.debug('###### request ' + r.getBody());
     HTTPResponse resp = h.send(r);
     System.debug('###### resp ' + resp);
@@ -1621,14 +1608,6 @@ public static void callUCPMtoPUTConsents(
   } catch (Exception e) {
     System.debug('e.getMessage(): ' + e.getMessage());
     System.debug('e.getStackTraceString(): ' + e.getStackTraceString());
-    IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
-    objIntegrationLog.Response_Body__c = e.getMessage()+' 'e.getStackTraceString();
-    objIntegrationLog.Request_Time__c = system.now();
-    objIntegrationLog.Request_Type__c = 'Update PPMID in UCPM-Exception';
-    objIntegrationLog.Function_Name__c = 'UCPM_ConsentPostController.postconsentUCPMdata';
-    objIntegrationLog.Http_Method__c = 'PUT';
-    objIntegrationLog.Endpoint_URL__c = 'callout:UCPM_Post_Consent';
-    insert objIntegrationLog;
   }
 }
 
