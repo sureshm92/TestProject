@@ -1242,236 +1242,251 @@ public static void callUCPMtoSendConsents(
     List<Contact> contactToUpdate = new List<Contact>();
     List<ParticipantData> respPart = new List<ParticipantData>();
     List<Delegates> respDelg = new List<Delegates>();
-    String requestString = request;
-    System.debug('requestBody@@' + requestString);
-
-    //Call Mulesoft-UCPM API for consents
-    HTTP h = new HTTP();
-    HTTPRequest r = new HTTPRequest();
-    r.setEndpoint('callout:UCPM_Post_Consent');
-    r.setHeader('Content-Type', 'application/json;charset=UTF-8');
-    r.setMethod('POST');
-    r.setHeader('Authorization', 'Bearer ' + accessToken);
-    r.setbody(requestString);
-
-    // UPDATE DETAILS
-    r.setHeader('identityType', IdentityType);
-    r.setHeader('source', 'RH');
-    r.setHeader(
-      'transactionId',
-      MulesoftIntegrationApi.uniqueKeygeneration()
-    );
-    r.setTimeout(20000);
-    System.debug('###### request ' + r.getBody());
-    HTTPResponse resp = h.send(r);
-    System.debug('###### resp ' + resp);
-    System.debug('###### resp body  ' + resp.getBody());
-
-    //Create IntegrationLog__c for monitoring purpose
-    IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
-    objIntegrationLog.Request_Body__c = requestString;
-    objIntegrationLog.Request_Time__c = system.now();
-    objIntegrationLog.Request_Type__c = 'Create PPMID in UCPM';
-    objIntegrationLog.Function_Name__c = 'UCPM_ConsentPostController.postconsentUCPMdata';
-    objIntegrationLog.Http_Method__c = 'POST';
-    objIntegrationLog.Endpoint_URL__c = 'callout:UCPM_Post_Consent';
-
-    system.debug('status code' + resp.getStatusCode());
-    if (resp.getStatusCode() == 200) {
-      System.debug('200 ' + resp.getStatusCode());
-      objIntegrationLog.Success__c = true;
-      objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
-      objIntegrationLog.Response_Body__c = resp.getBody();
-      objIntegrationLog.Response_Time__c = system.now();
-      System.debug('resp.getBody(): ' + resp.getBody());
-      String s1 = resp.getBody();
-      s1 = s1.replace('failed-key', 'failed_key');
-      List<ResponseWrapper> deserializedResponseWrapper = (List<ResponseWrapper>) JSON.deserialize(
-        s1,
-        List<ResponseWrapper>.class
+    try{
+      String requestString = request;
+      System.debug('requestBody@@' + requestString);
+  
+      //Call Mulesoft-UCPM API for consents
+      HTTP h = new HTTP();
+      HTTPRequest r = new HTTPRequest();
+      r.setEndpoint('callout:UCPM_Post_Consent');
+      r.setHeader('Content-Type', 'application/json;charset=UTF-8');
+      r.setMethod('POST');
+      r.setHeader('Authorization', 'Bearer ' + accessToken);
+      r.setbody(requestString);
+  
+      // UPDATE DETAILS
+      r.setHeader('identityType', IdentityType);
+      r.setHeader('source', 'RH');
+      r.setHeader(
+        'transactionId',
+        MulesoftIntegrationApi.uniqueKeygeneration()
       );
-      if (deserializedResponseWrapper != null) {
-        if (deserializedResponseWrapper[0].ParticipantData != null)
-          respPart = deserializedResponseWrapper[0].ParticipantData;
-
-        if (deserializedResponseWrapper[0].Delegates != null)
-          respDelg = deserializedResponseWrapper[0].Delegates;
-
-        if (!respPart.isEmpty()) {
-          for (ParticipantData partData : respPart) {
-            if (
-              partData.code == 200 &&
-              partData.ppmid != null &&
-              !partData.iqviaOrg
-            ) {
-              Participant_Enrollment__c per = new Participant_Enrollment__c();
-              per.Id = partData.applicationId;
-              per.PPMID__c = partData.ppmid;
-              per.UCPM_Status__c = 'Completed';
-              perToUpdate.add(per);
+      r.setTimeout(120000);
+      System.debug('###### request ' + r.getBody());
+      HTTPResponse resp = h.send(r);
+      System.debug('###### resp ' + resp);
+      System.debug('###### resp body  ' + resp.getBody());
+  
+      //Create IntegrationLog__c for monitoring purpose
+      IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
+      objIntegrationLog.Request_Body__c = requestString;
+      objIntegrationLog.Request_Time__c = system.now();
+      objIntegrationLog.Request_Type__c = 'Create PPMID in UCPM';
+      objIntegrationLog.Function_Name__c = 'UCPM_ConsentPostController.postconsentUCPMdata';
+      objIntegrationLog.Http_Method__c = 'POST';
+      objIntegrationLog.Endpoint_URL__c = 'callout:UCPM_Post_Consent';
+  
+      system.debug('status code' + resp.getStatusCode());
+      if (resp.getStatusCode() == 200) {
+        System.debug('200 ' + resp.getStatusCode());
+        objIntegrationLog.Success__c = true;
+        objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
+        objIntegrationLog.Response_Body__c = resp.getBody();
+        objIntegrationLog.Response_Time__c = system.now();
+        System.debug('resp.getBody(): ' + resp.getBody());
+        String s1 = resp.getBody();
+        s1 = s1.replace('failed-key', 'failed_key');
+        List<ResponseWrapper> deserializedResponseWrapper = (List<ResponseWrapper>) JSON.deserialize(
+          s1,
+          List<ResponseWrapper>.class
+        );
+        if (deserializedResponseWrapper != null) {
+          if (deserializedResponseWrapper[0].ParticipantData != null)
+            respPart = deserializedResponseWrapper[0].ParticipantData;
+  
+          if (deserializedResponseWrapper[0].Delegates != null)
+            respDelg = deserializedResponseWrapper[0].Delegates;
+  
+          if (!respPart.isEmpty()) {
+            for (ParticipantData partData : respPart) {
+              if (
+                partData.code == 200 &&
+                partData.ppmid != null &&
+                !partData.iqviaOrg
+              ) {
+                Participant_Enrollment__c per = new Participant_Enrollment__c();
+                per.Id = partData.applicationId;
+                per.PPMID__c = partData.ppmid;
+                per.UCPM_Status__c = 'Completed';
+                perToUpdate.add(per);
+              }
+              if (
+                partData.code == 200 &&
+                partData.ppmid != null &&
+                partData.iqviaOrg
+              ) {
+                Participant_Enrollment__c per = [
+                  SELECT Id, Participant_Contact__c
+                  FROM Participant_Enrollment__c
+                  WHERE Id = :partData.applicationId
+                ];
+                Contact con = new Contact();
+                con.Id = per.Participant_Contact__c;
+                con.PPM_ID__c = partData.ppmid;
+                con.UCPM_Status__c = 'Completed';
+                conToUpdate.add(con);
+              }
             }
-            if (
-              partData.code == 200 &&
-              partData.ppmid != null &&
-              partData.iqviaOrg
-            ) {
-              Participant_Enrollment__c per = [
-                SELECT Id, Participant_Contact__c
-                FROM Participant_Enrollment__c
-                WHERE Id = :partData.applicationId
-              ];
-              Contact con = new Contact();
-              con.Id = per.Participant_Contact__c;
-              con.PPM_ID__c = partData.ppmid;
-              con.UCPM_Status__c = 'Completed';
-              conToUpdate.add(con);
+          }
+          if (!respDelg.isEmpty()) {
+            for (Delegates delgData : respDelg) {
+              if (
+                delgData.code == 200 &&
+                delgData.ppmid != null &&
+                !delgData.iqviaOrg
+              ) {
+                Patient_Delegate_Enrollment__c pder = new Patient_Delegate_Enrollment__c();
+                pder.Id = delgData.applicationId;
+                pder.PPM_ID__c = delgData.ppmid;
+                pder.UCPM_Status__c = 'Completed';
+                pderToUpdate.add(pder);
+              }
+              if (
+                delgData.code == 200 &&
+                delgData.ppmid != null &&
+                delgData.iqviaOrg
+              ) {
+                Patient_Delegate_Enrollment__c pder = [
+                  SELECT Id, Patient_Delegate__r.Contact__c
+                  FROM Patient_Delegate_Enrollment__c
+                  WHERE Id = :delgData.applicationId
+                ];
+                Contact con = new Contact();
+                con.Id = pder.Patient_Delegate__r.Contact__c;
+                con.PPM_ID__c = delgData.ppmid;
+                con.UCPM_Status__c = 'Completed';
+                conToUpdate.add(con);
+              }
             }
           }
         }
-        if (!respDelg.isEmpty()) {
-          for (Delegates delgData : respDelg) {
-            if (
-              delgData.code == 200 &&
-              delgData.ppmid != null &&
-              !delgData.iqviaOrg
-            ) {
-              Patient_Delegate_Enrollment__c pder = new Patient_Delegate_Enrollment__c();
-              pder.Id = delgData.applicationId;
-              pder.PPM_ID__c = delgData.ppmid;
-              pder.UCPM_Status__c = 'Completed';
-              pderToUpdate.add(pder);
-            }
-            if (
-              delgData.code == 200 &&
-              delgData.ppmid != null &&
-              delgData.iqviaOrg
-            ) {
-              Patient_Delegate_Enrollment__c pder = [
-                SELECT Id, Patient_Delegate__r.Contact__c
-                FROM Patient_Delegate_Enrollment__c
-                WHERE Id = :delgData.applicationId
-              ];
-              Contact con = new Contact();
-              con.Id = pder.Patient_Delegate__r.Contact__c;
-              con.PPM_ID__c = delgData.ppmid;
-              con.UCPM_Status__c = 'Completed';
-              conToUpdate.add(con);
-            }
-          }
-        }
+      } else {
+        objIntegrationLog.Success__c = false;
+        objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
+        objIntegrationLog.Response_Body__c = resp.getBody();
+        objIntegrationLog.Response_Time__c = system.now();
       }
-    } else {
-      objIntegrationLog.Success__c = false;
-      objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
-      objIntegrationLog.Response_Body__c = resp.getBody();
-      objIntegrationLog.Response_Time__c = system.now();
+      insert objIntegrationLog;
+      if (!perToUpdate.isEmpty()){
+        TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+        );
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.EcoaEvents.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class
+        );
+  
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.updateConsentTimeStamps.class
+        );
+        database.update(perToUpdate,false);
+      }
+      if (!pderToUpdate.isEmpty()){
+            TriggerHandlerExecutor.bypassHandler(
+                PatientDelegateEnrolTriggerHandler.CreateNewAssignmentNotification.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                PatientDelegateEnrolTriggerHandler.SetDefaultPatientDelegateStatusHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                PatientDelegateEnrolTriggerHandler.CreatePrimaryDelegateForMinor.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                PatientDelegateEnrolTriggerHandler.CreateReactivatedNotification.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                PatientDelegateEnrolTriggerHandler.UpdateDelegateConsent.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                PatientDelegateEnrolTriggerHandler.UpdateConsentTimeStamps.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
+            );
+            database.update(pderToUpdate,false);
+      }
+  
+      if (!conToUpdate.isEmpty()){
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateConsentTimeStamps.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForCCContactHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+        );
+        database.update(conToUpdate,false);
+      }       
     }
-    insert objIntegrationLog;
-    if (!perToUpdate.isEmpty()){
-      TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
-      );
-      TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.EcoaEvents.class);
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class
-      );
-
-      TriggerHandlerExecutor.bypassHandler(
-          PatientDelegateEnrolTriggerHandler.updateConsentTimeStamps.class
-      );
-      database.update(perToUpdate,false);
+    catch (Exception e) {
+      System.debug('e.getMessage(): ' + e.getMessage());
+      System.debug('e.getStackTraceString(): ' + e.getStackTraceString());
+      IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
+      objIntegrationLog.Response_Body__c = e.getMessage()+' '+e.getStackTraceString();
+      objIntegrationLog.Request_Time__c = system.now();
+      objIntegrationLog.Request_Type__c = 'Create PPMID in UCPM-Exception';
+      objIntegrationLog.Function_Name__c = 'UCPM_ConsentPostController.postconsentUCPMdata';
+      objIntegrationLog.Http_Method__c = 'POST';
+      objIntegrationLog.Endpoint_URL__c = 'callout:UCPM_Post_Consent';
+      insert objIntegrationLog;
     }
-    if (!pderToUpdate.isEmpty()){
-          TriggerHandlerExecutor.bypassHandler(
-              PatientDelegateEnrolTriggerHandler.CreateNewAssignmentNotification.class
-          );
-          TriggerHandlerExecutor.bypassHandler(
-              PatientDelegateEnrolTriggerHandler.SetDefaultPatientDelegateStatusHandler.class
-          );
-          TriggerHandlerExecutor.bypassHandler(
-              PatientDelegateEnrolTriggerHandler.CreatePrimaryDelegateForMinor.class
-          );
-          TriggerHandlerExecutor.bypassHandler(
-              PatientDelegateEnrolTriggerHandler.CreateReactivatedNotification.class
-          );
-          TriggerHandlerExecutor.bypassHandler(
-              PatientDelegateEnrolTriggerHandler.UpdateDelegateConsent.class
-          );
-          TriggerHandlerExecutor.bypassHandler(
-              PatientDelegateEnrolTriggerHandler.UpdateConsentTimeStamps.class
-          );
-          TriggerHandlerExecutor.bypassHandler(
-              PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
-          );
-          database.update(pderToUpdate,false);
-    }
-
-    if (!conToUpdate.isEmpty()){
-      TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateConsentTimeStamps.class);
-      TriggerHandlerExecutor.bypassHandler(
-          ContactTriggerHandler.CreateUserForCCContactHandler.class
-      );
-      TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
-      TriggerHandlerExecutor.bypassHandler(
-          ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ContactTriggerHandler.CreateUserForDelegateContactHandler.class
-      );
-      TriggerHandlerExecutor.bypassHandler(
-          ContactTriggerHandler.CreateUserForDelegateContactHandler.class
-      );
-      database.update(conToUpdate,false);
-    }       
+   
 }
 
 public static void callUCPMtoPUTConsents(
@@ -1505,7 +1520,7 @@ public static void callUCPMtoPUTConsents(
       'transactionId',
       MulesoftIntegrationApi.uniqueKeygeneration()
     );
-    r.setTimeout(20000);
+    r.setTimeout(120000);
     System.debug('###### request ' + r.getBody());
     HTTPResponse resp = h.send(r);
     System.debug('###### resp ' + resp);
@@ -1608,6 +1623,14 @@ public static void callUCPMtoPUTConsents(
   } catch (Exception e) {
     System.debug('e.getMessage(): ' + e.getMessage());
     System.debug('e.getStackTraceString(): ' + e.getStackTraceString());
+    IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
+    objIntegrationLog.Response_Body__c = e.getMessage()+' '+e.getStackTraceString();
+    objIntegrationLog.Request_Time__c = system.now();
+    objIntegrationLog.Request_Type__c = 'Update PPMID in UCPM-Exception';
+    objIntegrationLog.Function_Name__c = 'UCPM_ConsentPostController.postconsentUCPMdata';
+    objIntegrationLog.Http_Method__c = 'PUT';
+    objIntegrationLog.Endpoint_URL__c = 'callout:UCPM_Post_Consent';
+    insert objIntegrationLog;
   }
 }
 
