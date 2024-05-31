@@ -6,6 +6,8 @@
 public without sharing class Action_SendSMS implements Action {
     private List<Id> notificationIds;
     private Map<Id, PinpointWrapper> pinPointWrapperMap;
+    public static Set<sObject> consentUpdationRecords = new Set<sObject>();
+    public static Set<IntegrationLog__c> integrationLogRec = new Set<IntegrationLog__c>();
     public static Map<String, String> studySiteToFromNoMap = new Map<String, String>();
     /*Added by Anitha*/
     public static final String FROM_NUMBER = 'FromNumber';
@@ -442,9 +444,11 @@ public without sharing class Action_SendSMS implements Action {
                     Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                     Survey_Invitation__r.Participant_Enrollment__r.Study_Site__r.site__r.BillingCountryCode,
                     Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
+                    Survey_Invitation__r.Participant_Enrollment__r.PPMID__c,
                     Survey_Invitation__r.IsTrialSurvey__c,
                     Ecoa_Task_Configuration_del__c,
                     Ecoa_Task_Configuration_del__r.Participant_Enrollment__c,
+                    Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.PPMID__c,
                     Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Sent__c,
                     Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Delivered__c,
                     Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
@@ -497,6 +501,7 @@ public without sharing class Action_SendSMS implements Action {
                 SELECT
                     Id,
                     Participant_Enrollment__c,
+                    Participant_Enrollment__r.PPMID__c,
                     Participant_Enrollment__r.Study_Site__c,
                     Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c,
                     Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
@@ -507,7 +512,13 @@ public without sharing class Action_SendSMS implements Action {
                     Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
                     Participant_Enrollment__r.Study_Site__r.From_Number__c,
                     Participant_Enrollment__r.Welcome_Message_Sent__c,
-                    Participant_Enrollment__r.Welcome_Message_Delivered__c
+                    Participant_Enrollment__r.Welcome_Message_Delivered__c,
+                    Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
+                    Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                    Participant_Enrollment__r.Invited_To_PP_Date__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
                 FROM Televisit__c
                 WHERE Id IN :televisitIdList
             ]
@@ -517,6 +528,7 @@ public without sharing class Action_SendSMS implements Action {
                 SELECT
                     Id,
                     Televisit__r.Participant_Enrollment__c,
+                    Televisit__r.Participant_Enrollment__r.PPMID__c,
                     Televisit__r.Participant_Enrollment__r.Study_Site__c,
                     Televisit__r.Participant_Enrollment__r.Study_Site__r.Pin_Point_ProjectId__c,
                     Televisit__r.Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
@@ -527,19 +539,25 @@ public without sharing class Action_SendSMS implements Action {
                     Televisit__r.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
                     Televisit__r.Participant_Enrollment__r.Study_Site__r.From_Number__c,
                     Televisit__r.Participant_Enrollment__r.Welcome_Message_Sent__c,
-                    Televisit__r.Participant_Enrollment__r.Welcome_Message_Delivered__c
+                    Televisit__r.Participant_Enrollment__r.Welcome_Message_Delivered__c,
+                    Televisit__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                    Televisit__r.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                    Televisit__r.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                    Televisit__r.Participant_Enrollment__r.Invited_To_PP_Date__c,
+                    Televisit__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
                 FROM Televisit_Attendee__c
                 WHERE Id IN :televisitAttendeeIdList
             ]
         );
-        if(!televisitIdMap.isempty()){
-            for(Televisit__c tv : televisitIdMap.values()){
+        if (!televisitIdMap.isempty()) {
+            for (Televisit__c tv : televisitIdMap.values()) {
                 peIdList.add(tv.Participant_Enrollment__c);
             }
         }
-        
-        if(!televisitAttendeeIdMap.isempty()){
-            for(Televisit_Attendee__c tv : televisitAttendeeIdMap.values()){
+
+        if (!televisitAttendeeIdMap.isempty()) {
+            for (Televisit_Attendee__c tv : televisitAttendeeIdMap.values()) {
                 peIdList.add(tv.Televisit__r.Participant_Enrollment__c);
             }
         }
@@ -549,8 +567,13 @@ public without sharing class Action_SendSMS implements Action {
                 SELECT
                     Id,
                     Contact__c,
+                    Contact__r.PPM_ID__c,
                     Contact__r.Welcome_Message_Sent__c,
-                    Contact__r.Welcome_Message_Delivered__c
+                    Contact__r.Welcome_Message_Delivered__c,
+                    Contact__r.Participant_Opt_In_Status_Emails__c,
+                    Contact__r.Participant_Opt_In_Status_SMS__c,
+                    IsCountry_NOT_Eligible_for_Emails__c,
+                    Contact__r.Is_Patient_User_Created__c
                 FROM Participant__c
                 WHERE Id IN :participantIdList
             ]
@@ -564,6 +587,7 @@ public without sharing class Action_SendSMS implements Action {
                     Welcome_Message_Sent__c,
                     Study_Email_Consent__c,
                     Study_SMS_Consent__c,
+                    PPM_ID__c,
                     Welcome_Message_Delivered__c,
                     Patient_Delegate__r.Participant__r.Contact__c,
                     Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
@@ -583,7 +607,13 @@ public without sharing class Action_SendSMS implements Action {
                     Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
                     Participant_Enrollment__r.Name,
                     Participant_Enrollment__r.Clinical_Trial_Profile__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                    Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                    Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Participant_Status__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
                 FROM Patient_Delegate_Enrollment__c
                 WHERE
                     (Participant_Enrollment__c IN :peIdList
@@ -595,7 +625,21 @@ public without sharing class Action_SendSMS implements Action {
             [
                 SELECT
                     Id,
+                    PPMID__c,
+                    Permit_Mail_Email_contact_for_this_study__c,
+                    Invited_To_PP_Date__c,
+                    Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                     Clinical_Trial_Profile__c,
+                    Study_Site__r.Suppress_Participant_Emails__c,
+                    Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.PPTemplate__c,
+                    Study_Site__r.Suppress_Study_Site_PI_Emails__c,
+                    Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                    Participant_Status__c,
+                    HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c,
+                    Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                     Clinical_Trial_Profile__r.Pin_Point_ProjectId__c,
                     Clinical_Trial_Profile__r.Sponsor_AWS__c,
                     Clinical_Trial_Profile__r.Study_AWS__c,
@@ -617,6 +661,7 @@ public without sharing class Action_SendSMS implements Action {
                             Id,
                             IsTrialSurvey__c,
                             Participant_Enrollment__c,
+                            Participant_Enrollment__r.PPMID__c,
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c,
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Sponsor_AWS__c,
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_AWS__c,
@@ -631,7 +676,9 @@ public without sharing class Action_SendSMS implements Action {
                             Participant_Enrollment__r.Study_Site__r.Study_AWS__c,
                             Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c,
                             Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
-                            Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c
+                            Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
+                            Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                            Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c
                         FROM Survey_Invitations__r
                         WHERE Id IN :surveyInvitationIdList
                     )
@@ -708,7 +755,6 @@ public without sharing class Action_SendSMS implements Action {
         );
         system.debug('notificationsList:::' + notificationsList);
 
-        
         for (Notification__c notObj : notificationsList) {
             Map<Id, String> participantContactSponsorMap = new Map<Id, String>();
             Id peId = null;
@@ -752,18 +798,162 @@ public without sharing class Action_SendSMS implements Action {
                                     recipientID
                                 )
                                 .get(whatId);
-                            isSMSAvailableForPER =
-                                (pdelEnrollmentrecrd != null) &&
-                                pdelEnrollmentrecrd.Study_SMS_Consent__c &&
-                                pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                            welcomemsgsent =pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                            welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                            if (pdelEnrollmentrecrd.PPM_ID__c != null) {
+                                //UCPM start to get latest PDER with consents
+                                if (
+                                    NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                    !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                        pdelEnrollmentrecrd.PPM_ID__c
+                                    )
+                                ) {
+                                    List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+                                    pder.add(pdelEnrollmentrecrd);
+                                    UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                    retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                        null,
+                                        pder,
+                                        'notificationbatch'
+                                    );
+                                    Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
+                                    pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
+                                    Boolean isSuccess = retDataWrap.isSuccess;
+                                    if(integrationLogRec!=null){
+                                        integrationLogRec.add(retDataWrap.objIntegrationLog);
+                                    }
+                                    
+                                    if (isSuccess) {
+                                        isSMSAvailableForPER =
+                                            (pdelEnrollmentrecrd != null) &&
+                                            pdelEnrollmentrecrdUpdated.Study_SMS_Consent__c &&
+                                            pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                        consentUpdationRecords.add(retDataWrap.updatedRecord);
+                                        NotificationService.ppmIdtoUpdatedRecMap.put(
+                                            pdelEnrollmentrecrd.PPM_ID__c,
+                                            retDataWrap.updatedRecord
+                                        );
+                                    }
+                                    //UCPM end
+                                    else {
+                                        isSMSAvailableForPER =
+                                            (pdelEnrollmentrecrd != null) &&
+                                            pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                            pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                        NotificationService.ppmIdtoUpdatedRecMap.put(
+                                            pdelEnrollmentrecrd.PPM_ID__c,
+                                            pdelEnrollmentrecrd
+                                        );
+                                    }
+                                } else {
+                                    // If callout was already made, use the reposnse stored in the map.
+                                   Patient_Delegate_Enrollment__c pdelEnrollmentrecrdExistingfromUCPM = (Patient_Delegate_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                        pdelEnrollmentrecrd.PPM_ID__c
+                                    );
+                                    isSMSAvailableForPER =
+                                        (pdelEnrollmentrecrd != null) &&
+                                        pdelEnrollmentrecrdExistingfromUCPM.Study_SMS_Consent__c &&
+                                        pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                    welcomemsgsent =
+                                        pdelEnrollmentrecrd != null &&
+                                        pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                    welcomemsgDelivered =
+                                        pdelEnrollmentrecrd != null &&
+                                        pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                }
+                            } else {
+                                isSMSAvailableForPER =
+                                    (pdelEnrollmentrecrd != null) &&
+                                    pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                    pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                welcomemsgsent =
+                                    pdelEnrollmentrecrd != null &&
+                                    pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                welcomemsgDelivered =
+                                    pdelEnrollmentrecrd != null &&
+                                    pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                NotificationService.ppmIdtoUpdatedRecMap.put(
+                                    pdelEnrollmentrecrd.PPM_ID__c,
+                                    pdelEnrollmentrecrd
+                                );
+                            }
                         } else {
-                            isSMSAvailableForPER =
-                                peOBJ.Permit_SMS_Text_for_this_study__c &&
-                                peOBJ.Study_Site__r.SMS_Are_Available__c;
-                            welcomemsgsent = peOBJ.Welcome_Message_Sent__c;
-                            welcomemsgDelivered = peOBJ.Welcome_Message_Delivered__c;
+                            //UCPM start to get latest PER with consents
+                            //Check if already call out done for UCPM for this PER, if not then call UCPM.
+                            //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                            //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm
+                            if (peOBJ.PPMID__c != null) {
+                                if (
+                                    NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                    !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                        peOBJ.PPMID__c
+                                    )
+                                ) {
+                                    List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
+                                    perList.add(peOBJ);
+                                    UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                    retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                        null,
+                                        perList,
+                                        'notificationbatch'
+                                    );
+                                    Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
+                                    peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
+                                    Boolean isSuccess = retDataWrap.isSuccess;
+                                    if(integrationLogRec!=null){
+                                        integrationLogRec.add(retDataWrap.objIntegrationLog);
+                                    }
+                                    if (isSuccess) {
+                                        isSMSAvailableForPER =
+                                            peUpdated.Permit_SMS_Text_for_this_study__c &&
+                                            peOBJ.Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent = peOBJ.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered = peOBJ.Welcome_Message_Delivered__c;
+                                        consentUpdationRecords.add(retDataWrap.updatedRecord);
+                                        NotificationService.ppmIdtoUpdatedRecMap.put(
+                                            peOBJ.PPMID__c,
+                                            retDataWrap.updatedRecord
+                                        );
+                                    }
+                                    //UCPM end
+                                    else {
+                                        isSMSAvailableForPER =
+                                            peOBJ.Permit_SMS_Text_for_this_study__c &&
+                                            peOBJ.Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent = peOBJ.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered = peOBJ.Welcome_Message_Delivered__c;
+                                        NotificationService.ppmIdtoUpdatedRecMap.put(
+                                            peOBJ.PPMID__c,
+                                            peOBJ
+                                        );
+                                    }
+                                } else {
+                                    Participant_Enrollment__c perExistingfromUCPM = (Participant_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                        peOBJ.PPMID__c
+                                    );
+                                    isSMSAvailableForPER =
+                                        perExistingfromUCPM.Permit_SMS_Text_for_this_study__c &&
+                                        peOBJ.Study_Site__r.SMS_Are_Available__c;
+                                    welcomemsgsent = peOBJ.Welcome_Message_Sent__c;
+                                    welcomemsgDelivered = peOBJ.Welcome_Message_Delivered__c;
+                                }
+                            } else {
+                                isSMSAvailableForPER =
+                                    peOBJ.Permit_SMS_Text_for_this_study__c &&
+                                    peOBJ.Study_Site__r.SMS_Are_Available__c;
+                                welcomemsgsent = peOBJ.Welcome_Message_Sent__c;
+                                welcomemsgDelivered = peOBJ.Welcome_Message_Delivered__c;
+                            }
                         }
                         studySiteToFromNoMap.put(studySiteId, peOBJ.Study_Site__r.From_Number__c);
                         //If this method is called from platform Event
@@ -794,18 +984,167 @@ public without sharing class Action_SendSMS implements Action {
                                             recipientID
                                         )
                                         .get(per.Id);
-                                    isSMSAvailableForPER =
-                                        (pdelEnrollmentrecrd != null) &&
-                                        pdelEnrollmentrecrd.Study_SMS_Consent__c &&
-                                        pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                        welcomemsgsent = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                                        welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;            
+                                    //UCPM start to get latest PER with consents
+                                    //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                                    //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm
+                                    if (pdelEnrollmentrecrd.PPM_ID__c != null) {
+                                        if (
+                                            NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                            !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                                pdelEnrollmentrecrd.PPM_ID__c
+                                            )
+                                        ) {
+                                            List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+                                            pder.add(pdelEnrollmentrecrd);
+                                            UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                            retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                                null,
+                                                pder,
+                                                'notificationbatch'
+                                            );
+                                            Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
+                                            pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
+                                            Boolean isSuccess = retDataWrap.isSuccess;
+                                            if(integrationLogRec!=null){
+                                                integrationLogRec.add(retDataWrap.objIntegrationLog);
+                                            }
+                                            if (isSuccess) {
+                                                isSMSAvailableForPER =
+                                                    (pdelEnrollmentrecrd != null) &&
+                                                    pdelEnrollmentrecrdUpdated.Study_SMS_Consent__c &&
+                                                    pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                                welcomemsgsent =
+                                                    pdelEnrollmentrecrd != null &&
+                                                    pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                                welcomemsgDelivered =
+                                                    pdelEnrollmentrecrd != null &&
+                                                    pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                                consentUpdationRecords.add(
+                                                    retDataWrap.updatedRecord
+                                                );
+                                                NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                    pdelEnrollmentrecrd.PPM_ID__c,
+                                                    retDataWrap.updatedRecord
+                                                );
+                                            }
+                                            //UCPM end
+                                            else {
+                                                isSMSAvailableForPER =
+                                                    (pdelEnrollmentrecrd != null) &&
+                                                    pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                                    pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                                welcomemsgsent =
+                                                    pdelEnrollmentrecrd != null &&
+                                                    pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                                welcomemsgDelivered =
+                                                    pdelEnrollmentrecrd != null &&
+                                                    pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                                NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                    pdelEnrollmentrecrd.PPM_ID__c,
+                                                    pdelEnrollmentrecrd
+                                                );
+                                            }
+                                        } else {
+                                            // If callout was already made, use the reposnse stored in the map.
+                                            Patient_Delegate_Enrollment__c pdelEnrollmentrecrdExistingfromUCPM = (Patient_Delegate_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                                pdelEnrollmentrecrd.PPM_ID__c
+                                            );
+                                            isSMSAvailableForPER =
+                                                (pdelEnrollmentrecrd != null) &&
+                                                pdelEnrollmentrecrdExistingfromUCPM.Study_SMS_Consent__c &&
+                                                pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                            welcomemsgDelivered =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                        }
                                     } else {
-                                    isSMSAvailableForPER =
-                                        per.Permit_SMS_Text_for_this_study__c &&
-                                        per.Study_Site__r.SMS_Are_Available__c;
+                                        isSMSAvailableForPER =
+                                            (pdelEnrollmentrecrd != null) &&
+                                            pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                            pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                        NotificationService.ppmIdtoUpdatedRecMap.put(
+                                            pdelEnrollmentrecrd.PPM_ID__c,
+                                            pdelEnrollmentrecrd
+                                        );
+                                    }
+                                } else {
+                                    //UCPM start to get latest PER with consents
+                                    //Check if already call out done for UCPM for this PER, if not then call UCPM.
+                                    //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                                    //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm
+                                    if (per.PPMID__c != null) {
+                                        if (
+                                            NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                            !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                                per.PPMID__c
+                                            )
+                                        ) {
+                                            List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
+                                            perList.add(per);
+                                            UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                            retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                                null,
+                                                perList,
+                                                'notificationbatch'
+                                            );
+                                            Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
+                                            peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
+                                            Boolean isSuccess = retDataWrap.isSuccess;
+                                            if(integrationLogRec!=null){
+                                                integrationLogRec.add(retDataWrap.objIntegrationLog);
+                                            }
+                                            if (isSuccess) {
+                                                isSMSAvailableForPER =
+                                                    peUpdated.Permit_SMS_Text_for_this_study__c &&
+                                                    per.Study_Site__r.SMS_Are_Available__c;
+                                                welcomemsgsent = per.Welcome_Message_Sent__c;
+                                                welcomemsgDelivered = per.Welcome_Message_Delivered__c;
+                                                consentUpdationRecords.add(
+                                                    retDataWrap.updatedRecord
+                                                );
+                                                NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                    per.PPMID__c,
+                                                    retDataWrap.updatedRecord
+                                                );
+                                            }
+                                            //UCPM end
+                                            else {
+                                                isSMSAvailableForPER =
+                                                    per.Permit_SMS_Text_for_this_study__c &&
+                                                    per.Study_Site__r.SMS_Are_Available__c;
+                                                welcomemsgsent = per.Welcome_Message_Sent__c;
+                                                welcomemsgDelivered = per.Welcome_Message_Delivered__c;
+                                                NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                    per.PPMID__c,
+                                                    per
+                                                );
+                                            }
+                                        } else {
+                                            Participant_Enrollment__c perExistingfromUCPM = (Participant_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                                per.PPMID__c
+                                            );
+                                            isSMSAvailableForPER =
+                                                perExistingfromUCPM.Permit_SMS_Text_for_this_study__c &&
+                                                per.Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent = per.Welcome_Message_Sent__c;
+                                            welcomemsgDelivered = per.Welcome_Message_Delivered__c;
+                                        }
+                                    } else {
+                                        isSMSAvailableForPER =
+                                            per.Permit_SMS_Text_for_this_study__c &&
+                                            per.Study_Site__r.SMS_Are_Available__c;
                                         welcomemsgsent = per.Welcome_Message_Sent__c;
-                                        welcomemsgDelivered = per.Welcome_Message_Delivered__c;        
+                                        welcomemsgDelivered = per.Welcome_Message_Delivered__c;
+                                    }
                                 }
                                 studySiteToFromNoMap.put(
                                     studySiteId,
@@ -855,23 +1194,180 @@ public without sharing class Action_SendSMS implements Action {
                                         recipientID
                                     )
                                     .get(taskMap.get(whatId).WhatId);
-                                isSMSAvailableForPER =
-                                    (pdelEnrollmentrecrd != null) &&
-                                    pdelEnrollmentrecrd.Study_SMS_Consent__c &&
-                                    pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                welcomemsgsent = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                                welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                //UCPM start to get latest PER with consents
+                                //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                                //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm
+                                if (pdelEnrollmentrecrd.PPM_ID__c != null) {
+                                    if (
+                                        NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                        !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                            pdelEnrollmentrecrd.PPM_ID__c
+                                        )
+                                    ) {
+                                        List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+                                        pder.add(pdelEnrollmentrecrd);
+                                        UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                        retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                            null,
+                                            pder,
+                                            'notificationbatch'
+                                        );
+                                        Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
+                                        pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
+                                        Boolean isSuccess = retDataWrap.isSuccess;
+                                        if(integrationLogRec!=null){
+                                            integrationLogRec.add(retDataWrap.objIntegrationLog);
+                                        }
+                                        if (isSuccess) {
+                                            isSMSAvailableForPER =
+                                                (pdelEnrollmentrecrd != null) &&
+                                                pdelEnrollmentrecrdUpdated.Study_SMS_Consent__c &&
+                                                pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                            welcomemsgDelivered =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                            consentUpdationRecords.add(retDataWrap.updatedRecord);
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                pdelEnrollmentrecrd.PPM_ID__c,
+                                                retDataWrap.updatedRecord
+                                            );
+                                        }
+                                        //UCPM end
+                                        else {
+                                            isSMSAvailableForPER =
+                                                (pdelEnrollmentrecrd != null) &&
+                                                pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                                pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                            welcomemsgDelivered =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                pdelEnrollmentrecrd.PPM_ID__c,
+                                                pdelEnrollmentrecrd
+                                            );
+                                        }
+                                    } else {
+                                        // If callout was already made, use the reposnse stored in the map.
+                                        Patient_Delegate_Enrollment__c pdelEnrollmentrecrdExistingfromUCPM = (Patient_Delegate_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                            pdelEnrollmentrecrd.PPM_ID__c
+                                        );
+                                        isSMSAvailableForPER =
+                                            (pdelEnrollmentrecrd != null) &&
+                                            pdelEnrollmentrecrdExistingfromUCPM.Study_SMS_Consent__c &&
+                                            pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                    }
                                 } else {
-                                isSMSAvailableForPER =
-                                    peIdMap.get(taskMap.get(whatId).WhatId)
-                                        .Permit_SMS_Text_for_this_study__c &&
-                                    peIdMap.get(taskMap.get(whatId).WhatId)
-                                        .Study_Site__r.SMS_Are_Available__c;
+                                    isSMSAvailableForPER =
+                                        (pdelEnrollmentrecrd != null) &&
+                                        pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                        pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                    welcomemsgsent =
+                                        pdelEnrollmentrecrd != null &&
+                                        pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                    welcomemsgDelivered =
+                                        pdelEnrollmentrecrd != null &&
+                                        pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                }
+                            } else {
+                                //UCPM start to get latest PER with consents
+                                //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                                //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm
+                                if (peIdMap.get(taskMap.get(whatId).WhatId).PPMID__c != null) {
+                                    if (
+                                        NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                        !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                            peIdMap.get(taskMap.get(whatId).WhatId).PPMID__c
+                                        )
+                                    ) {
+                                        List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
+                                        perList.add(peIdMap.get(taskMap.get(whatId).WhatId));
+                                        UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                        retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                            null,
+                                            perList,
+                                            'notificationbatch'
+                                        );
+                                        Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
+                                        peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
+                                        Boolean isSuccess = retDataWrap.isSuccess;
+                                        if(integrationLogRec!=null){
+                                            integrationLogRec.add(retDataWrap.objIntegrationLog);
+                                        }
+                                        if (isSuccess) {
+                                            isSMSAvailableForPER =
+                                                peUpdated.Permit_SMS_Text_for_this_study__c &&
+                                                peIdMap.get(taskMap.get(whatId).WhatId)
+                                                    .Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
+                                                .Welcome_Message_Sent__c; //Added by Anitha
+                                            welcomemsgDelivered = peIdMap.get(
+                                                    taskMap.get(whatId).WhatId
+                                                )
+                                                .Welcome_Message_Delivered__c; //Added by Anitha
+                                            consentUpdationRecords.add(retDataWrap.updatedRecord);
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                peIdMap.get(taskMap.get(whatId).WhatId).PPMID__c,
+                                                retDataWrap.updatedRecord
+                                            );
+                                        }
+                                        //UCPM end
+                                        else {
+                                            isSMSAvailableForPER =
+                                                peIdMap.get(taskMap.get(whatId).WhatId)
+                                                    .Permit_SMS_Text_for_this_study__c &&
+                                                peIdMap.get(taskMap.get(whatId).WhatId)
+                                                    .Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
+                                                .Welcome_Message_Sent__c; //Added by Anitha
+                                            welcomemsgDelivered = peIdMap.get(
+                                                    taskMap.get(whatId).WhatId
+                                                )
+                                                .Welcome_Message_Delivered__c; //Added by Anitha
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                peIdMap.get(taskMap.get(whatId).WhatId).PPMID__c,
+                                                peIdMap.get(taskMap.get(whatId).WhatId)
+                                            );
+                                        }
+                                    } else {
+                                        // If callout was already made, use the reposnse stored in the map.
+                                        Participant_Enrollment__c perExistingfromUCPM = (Participant_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                            peIdMap.get(taskMap.get(whatId).WhatId).PPMID__c
+                                        );
+                                        isSMSAvailableForPER =
+                                            perExistingfromUCPM.Permit_SMS_Text_for_this_study__c &&
+                                            peIdMap.get(taskMap.get(whatId).WhatId)
+                                                .Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
+                                            .Welcome_Message_Sent__c; //Added by Anitha
+                                        welcomemsgDelivered = peIdMap.get(
+                                                taskMap.get(whatId).WhatId
+                                            )
+                                            .Welcome_Message_Delivered__c; //Added by Anitha
+                                    }
+                                } else {
+                                    isSMSAvailableForPER =
+                                        peIdMap.get(taskMap.get(whatId).WhatId)
+                                            .Permit_SMS_Text_for_this_study__c &&
+                                        peIdMap.get(taskMap.get(whatId).WhatId)
+                                            .Study_Site__r.SMS_Are_Available__c;
                                     welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
                                         .Welcome_Message_Sent__c; //Added by Anitha
                                     welcomemsgDelivered = peIdMap.get(taskMap.get(whatId).WhatId)
                                         .Welcome_Message_Delivered__c; //Added by Anitha
-                                    }
+                                }
+                            }
 
                             studySiteToFromNoMap.put(
                                 studySiteId,
@@ -919,27 +1415,184 @@ public without sharing class Action_SendSMS implements Action {
                                         taskMap.get(whatId)
                                             .Ecoa_Task_Configuration_del__r.Participant_Enrollment__c
                                     );
-                                isSMSAvailableForPER =
-                                    (pdelEnrollmentrecrd != null) &&
-                                    pdelEnrollmentrecrd.Study_SMS_Consent__c &&
-                                    pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                welcomemsgsent = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                                welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
-    
-                                } else {
-                                isSMSAvailableForPER =
-                                    taskMap.get(whatId)
-                                        .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
-                                        .Permit_SMS_Text_for_this_study__c &&
-                                    taskMap.get(whatId)
-                                        .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
-                                        .Study_Site__r.SMS_Are_Available__c;
-                                welcomemsgsent = taskMap.get(whatId)
-                                        .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Sent__c;
-                                welcomemsgDelivered = taskMap.get(whatId)
-                                        .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Delivered__c;
-        
+                                if (pdelEnrollmentrecrd.PPM_ID__c != null) {
+                                    if (
+                                        NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                        !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                            pdelEnrollmentrecrd.PPM_ID__c
+                                        )
+                                    ) {
+                                        List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+                                        pder.add(pdelEnrollmentrecrd);
+                                        UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                        retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                            null,
+                                            pder,
+                                            'notificationbatch'
+                                        );
+                                        Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
+                                        pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
+                                        Boolean isSuccess = retDataWrap.isSuccess;
+                                        if(integrationLogRec!=null){
+                                            integrationLogRec.add(retDataWrap.objIntegrationLog);
+                                        }
+                                        if (isSuccess) {
+                                            isSMSAvailableForPER =
+                                                (pdelEnrollmentrecrd != null) &&
+                                                pdelEnrollmentrecrdUpdated.Study_SMS_Consent__c &&
+                                                pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                            welcomemsgDelivered =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                            consentUpdationRecords.add(retDataWrap.updatedRecord);
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                pdelEnrollmentrecrd.PPM_ID__c,
+                                                retDataWrap.updatedRecord
+                                            );
+                                        } else {
+                                            isSMSAvailableForPER =
+                                                (pdelEnrollmentrecrd != null) &&
+                                                pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                                pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                            welcomemsgDelivered =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                pdelEnrollmentrecrd.PPM_ID__c,
+                                                pdelEnrollmentrecrd
+                                            );
+                                        }
+                                    } else {
+                                        // If callout was already made, use the reposnse stored in the map.
+                                        Patient_Delegate_Enrollment__c pdelEnrollmentrecrdExistingfromUCPM = (Patient_Delegate_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                            pdelEnrollmentrecrd.PPM_ID__c
+                                        );
+
+                                        isSMSAvailableForPER =
+                                            (pdelEnrollmentrecrd != null) &&
+                                            pdelEnrollmentrecrdExistingfromUCPM.Study_SMS_Consent__c &&
+                                            pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
                                     }
+                                } else {
+                                    isSMSAvailableForPER =
+                                        (pdelEnrollmentrecrd != null) &&
+                                        pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                        pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                    welcomemsgsent =
+                                        pdelEnrollmentrecrd != null &&
+                                        pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                    welcomemsgDelivered =
+                                        pdelEnrollmentrecrd != null &&
+                                        pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                }
+                            } else {
+                                if (
+                                    taskMap.get(whatId)
+                                        .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.PPMID__c !=
+                                    null
+                                ) {
+                                    if (
+                                        NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                        !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                            taskMap.get(whatId)
+                                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.PPMID__c
+                                        )
+                                    ) {
+                                        List<Participant_Enrollment__c> per = new List<Participant_Enrollment__c>();
+                                        per.add(
+                                            taskMap.get(whatId)
+                                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
+                                        );
+                                        UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                        retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                            null,
+                                            per,
+                                            'notificationbatch'
+                                        );
+                                        Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
+                                        peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
+                                        Boolean isSuccess = retDataWrap.isSuccess;
+                                        if(integrationLogRec!=null){
+                                            integrationLogRec.add(retDataWrap.objIntegrationLog);
+                                        }
+                                        if (isSuccess) {
+                                            isSMSAvailableForPER =
+                                                peUpdated.Permit_SMS_Text_for_this_study__c &&
+                                                taskMap.get(whatId)
+                                                    .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
+                                                    .Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent = taskMap.get(whatId)
+                                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                                            welcomemsgDelivered = taskMap.get(whatId)
+                                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+                                            consentUpdationRecords.add(retDataWrap.updatedRecord);
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                taskMap.get(whatId)
+                                                    .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.PPMID__c,
+                                                retDataWrap.updatedRecord
+                                            );
+                                        } else {
+                                            isSMSAvailableForPER =
+                                                taskMap.get(whatId)
+                                                    .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
+                                                    .Permit_SMS_Text_for_this_study__c &&
+                                                taskMap.get(whatId)
+                                                    .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
+                                                    .Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent = taskMap.get(whatId)
+                                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                                            welcomemsgDelivered = taskMap.get(whatId)
+                                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                taskMap.get(whatId)
+                                                    .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.PPMID__c,
+                                                taskMap.get(whatId)
+                                                    .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
+                                            );
+                                        }
+                                    } else {
+                                        // If callout was already made, use the reposnse stored in the map.
+                                        Participant_Enrollment__c perExistingfromUCPM = (Participant_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                            taskMap.get(whatId)
+                                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.PPMID__c
+                                        );
+
+                                        isSMSAvailableForPER =
+                                            perExistingfromUCPM.Permit_SMS_Text_for_this_study__c &&
+                                            taskMap.get(whatId)
+                                                .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
+                                                .Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent = taskMap.get(whatId)
+                                            .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered = taskMap.get(whatId)
+                                            .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+                                    }
+                                } else {
+                                    isSMSAvailableForPER =
+                                        taskMap.get(whatId)
+                                            .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
+                                            .Permit_SMS_Text_for_this_study__c &&
+                                        taskMap.get(whatId)
+                                            .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r
+                                            .Study_Site__r.SMS_Are_Available__c;
+                                    welcomemsgsent = taskMap.get(whatId)
+                                        .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                                    welcomemsgDelivered = taskMap.get(whatId)
+                                        .Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+                                }
+                            }
                             studySiteToFromNoMap.put(
                                 studySiteId,
                                 taskMap.get(whatId)
@@ -983,23 +1636,162 @@ public without sharing class Action_SendSMS implements Action {
                                         recipientID
                                     )
                                     .get(tvOBJ.Participant_Enrollment__c);
-                                isSMSAvailableForPER =
-                                    (pdelEnrollmentrecrd != null) &&
-                                    pdelEnrollmentrecrd.Study_SMS_Consent__c &&
-                                    pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                welcomemsgsent = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                                welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                //UCPM start to get latest PER with consents
+                                //Check if already call out done for UCPM for this PDER, if not then call UCPM.
+                                //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                                //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm
+                                if (pdelEnrollmentrecrd.PPM_ID__c != null) {
+                                    if (
+                                        NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                        !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                            pdelEnrollmentrecrd.PPM_ID__c
+                                        )
+                                    ) {
+                                        List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+                                        pder.add(pdelEnrollmentrecrd);
+                                        UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                        retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                            null,
+                                            pder,
+                                            'notificationbatch'
+                                        );
+                                        Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
+                                        pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
+                                        Boolean isSuccess = retDataWrap.isSuccess;
+                                        if(integrationLogRec!=null){
+                                            integrationLogRec.add(retDataWrap.objIntegrationLog);
+                                        }
+                                        if (isSuccess) {
+                                            isSMSAvailableForPER =
+                                                (pdelEnrollmentrecrd != null) &&
+                                                pdelEnrollmentrecrdUpdated.Study_SMS_Consent__c &&
+                                                pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                            welcomemsgDelivered =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                            consentUpdationRecords.add(retDataWrap.updatedRecord);
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                pdelEnrollmentrecrd.PPM_ID__c,
+                                                retDataWrap.updatedRecord
+                                            );
+                                        }
+                                        //UCPM end
+                                        else {
+                                            isSMSAvailableForPER =
+                                                (pdelEnrollmentrecrd != null) &&
+                                                pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                                pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                            // welcomemsgsent = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                            // welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                pdelEnrollmentrecrd.PPM_ID__c,
+                                                pdelEnrollmentrecrd
+                                            );
+                                        }
+                                    } else {
+                                        // If callout was already made, use the reposnse stored in the map.
+                                       Patient_Delegate_Enrollment__c pdelEnrollmentrecrdExistingfromUCPM = (Patient_Delegate_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                            pdelEnrollmentrecrd.PPM_ID__c
+                                        );
+                                        isSMSAvailableForPER =
+                                            (pdelEnrollmentrecrd != null) &&
+                                            pdelEnrollmentrecrdExistingfromUCPM.Study_SMS_Consent__c &&
+                                            pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                        // welcomemsgsent = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                        // welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                    }
+                                } else {
+                                    isSMSAvailableForPER =
+                                        (pdelEnrollmentrecrd != null) &&
+                                        pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                        pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                    // welcomemsgsent = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                    // welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                }
+                                welcomemsgsent =
+                                    pdelEnrollmentrecrd != null &&
+                                    pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                welcomemsgDelivered =
+                                    pdelEnrollmentrecrd != null &&
+                                    pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
                             } else {
-                                isSMSAvailableForPER =
-                                    tvOBJ.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c &&
-                                    tvOBJ.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                    
-                                welcomemsgsent = tvOBJ.Participant_Enrollment__r.Welcome_Message_Sent__c;
-                                welcomemsgDelivered = tvOBJ.Participant_Enrollment__r.Welcome_Message_Delivered__c;
-                                    
+                                //UCPM start to get latest PER with consents
+                                //Check if already call out done for UCPM for this PER, if not then call UCPM.
+                                //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                                //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm
+                                if (tvOBJ.Participant_Enrollment__r.PPMID__c != null) {
+                                    if (
+                                        NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                        !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                            tvOBJ.Participant_Enrollment__r.PPMID__c
+                                        )
+                                    ) {
+                                        List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
+                                        perList.add(tvOBJ.Participant_Enrollment__r);
+                                        UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                        retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                            null,
+                                            perList,
+                                            'notificationbatch'
+                                        );
+                                        Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
+                                        peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
+                                        Boolean isSuccess = retDataWrap.isSuccess;
+                                        if(integrationLogRec!=null){
+                                            integrationLogRec.add(retDataWrap.objIntegrationLog);
+                                        }
+                                        if (isSuccess) {
+                                            isSMSAvailableForPER =
+                                                peUpdated.Permit_SMS_Text_for_this_study__c &&
+                                                tvOBJ.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+
+                                            // welcomemsgsent = tvOBJ.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                                            // welcomemsgDelivered = tvOBJ.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+                                            consentUpdationRecords.add(retDataWrap.updatedRecord);
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                tvOBJ.Participant_Enrollment__r.PPMID__c,
+                                                retDataWrap.updatedRecord
+                                            );
+                                        }
+                                        //UCPM end
+                                        else {
+                                            isSMSAvailableForPER =
+                                                tvOBJ.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c &&
+                                                tvOBJ.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+
+                                            // welcomemsgsent = tvOBJ.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                                            // welcomemsgDelivered = tvOBJ.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                tvOBJ.Participant_Enrollment__r.PPMID__c,
+                                                tvOBJ.Participant_Enrollment__r
+                                            );
+                                        }
+                                        welcomemsgsent = tvOBJ.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered = tvOBJ.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+                                    } else {
+                                        // If callout was already made, use the reposnse stored in the map.
+                                       Participant_Enrollment__c perExistingfromUCPM = (Participant_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                            tvOBJ.Participant_Enrollment__r.PPMID__c
+                                        );
+                                        isSMSAvailableForPER =
+                                            perExistingfromUCPM.Permit_SMS_Text_for_this_study__c &&
+                                            tvOBJ.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+
+                                        welcomemsgsent = tvOBJ.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered = tvOBJ.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+                                    }
+                                } else {
+                                    isSMSAvailableForPER =
+                                        tvOBJ.Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c &&
+                                        tvOBJ.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                    welcomemsgsent = tvOBJ.Participant_Enrollment__r.Welcome_Message_Sent__c;
+                                    welcomemsgDelivered = tvOBJ.Participant_Enrollment__r.Welcome_Message_Delivered__c;
+                                }
                             }
                             fromNumber = tvOBJ.Participant_Enrollment__r.Study_Site__r.From_Number__c;
-                            
                         }
                     }
                 } else {
@@ -1032,25 +1824,184 @@ public without sharing class Action_SendSMS implements Action {
                                             surveyInvitationMap.get(whatId)
                                                 .Participant_Enrollment__c
                                         );
-                                    isSMSAvailableForPER =
-                                        (pdelEnrollmentrecrd != null) &&
-                                        pdelEnrollmentrecrd.Study_SMS_Consent__c &&
-                                        pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                    welcomemsgsent = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                                    welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
-        
-                                    } else {
-                                    isSMSAvailableForPER =
-                                        surveyInvitationMap.get(whatId)
-                                            .Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c &&
-                                        surveyInvitationMap.get(whatId)
-                                            .Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                    welcomemsgsent = surveyInvitationMap.get(whatId)
-                                            .Participant_Enrollment__r.Welcome_Message_Sent__c; //Added by Anitha
-                                    welcomemsgDelivered = surveyInvitationMap.get(whatId)
-                                            .Participant_Enrollment__r.Welcome_Message_Delivered__c; //Added by Anitha
-        
+                                    //UCPM start to get latest PDER with consents
+                                    if (pdelEnrollmentrecrd.PPM_ID__c != null) {
+                                        if (
+                                            NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                            !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                                pdelEnrollmentrecrd.PPM_ID__c
+                                            )
+                                        ) {
+                                            List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+                                            pder.add(pdelEnrollmentrecrd);
+                                            UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                            retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                                null,
+                                                pder,
+                                                'notificationbatch'
+                                            );
+                                            Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
+                                            pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
+                                            Boolean isSuccess = retDataWrap.isSuccess;
+                                            if(integrationLogRec!=null){
+                                                integrationLogRec.add(retDataWrap.objIntegrationLog);
+                                            }
+                                            if (isSuccess) {
+                                                isSMSAvailableForPER =
+                                                    (pdelEnrollmentrecrd != null) &&
+                                                    pdelEnrollmentrecrdUpdated.Study_SMS_Consent__c &&
+                                                    pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                                welcomemsgsent =
+                                                    pdelEnrollmentrecrd != null &&
+                                                    pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                                welcomemsgDelivered =
+                                                    pdelEnrollmentrecrd != null &&
+                                                    pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                                consentUpdationRecords.add(retDataWrap.updatedRecord);
+                                                NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                    pdelEnrollmentrecrd.PPM_ID__c,
+                                                    retDataWrap.updatedRecord
+                                                );
+                                            } else {
+                                                isSMSAvailableForPER =
+                                                    (pdelEnrollmentrecrd != null) &&
+                                                    pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                                    pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                                welcomemsgsent =
+                                                    pdelEnrollmentrecrd != null &&
+                                                    pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                                welcomemsgDelivered =
+                                                    pdelEnrollmentrecrd != null &&
+                                                    pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                                NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                    pdelEnrollmentrecrd.PPM_ID__c,
+                                                    pdelEnrollmentrecrd
+                                                );
+                                            }
+                                        } else {
+                                            // If callout was already made, use the reposnse stored in the map.
+                                            Patient_Delegate_Enrollment__c pdelEnrollmentrecrdExistingfromUCPM = (Patient_Delegate_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                                pdelEnrollmentrecrd.PPM_ID__c
+                                            );
+
+                                            isSMSAvailableForPER =
+                                                (pdelEnrollmentrecrd != null) &&
+                                                pdelEnrollmentrecrdExistingfromUCPM.Study_SMS_Consent__c &&
+                                                pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                            welcomemsgDelivered =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
                                         }
+                                    } else {
+                                        isSMSAvailableForPER =
+                                            (pdelEnrollmentrecrd != null) &&
+                                            pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                            pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                    }
+                                } else {
+                                    //UCPM start to get latest PER with consents
+                                    //Check if already call out done for UCPM for this PER, if not then call UCPM.
+                                    //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                                    //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm
+                                    if (
+                                        surveyInvitationMap.get(whatId)
+                                            .Participant_Enrollment__r.PPMID__c != null
+                                    ) {
+                                        if (
+                                            NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                            !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                                surveyInvitationMap.get(whatId)
+                                                    .Participant_Enrollment__r.PPMID__c
+                                            )
+                                        ) {
+                                            List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
+                                            perList.add(
+                                                surveyInvitationMap.get(whatId)
+                                                    .Participant_Enrollment__r
+                                            );
+                                            UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                            retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                                null,
+                                                perList,
+                                                'notificationbatch'
+                                            );
+                                            Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
+                                            peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
+                                            Boolean isSuccess = retDataWrap.isSuccess;
+                                            if(integrationLogRec!=null){
+                                                integrationLogRec.add(retDataWrap.objIntegrationLog);
+                                            }
+                                            if (isSuccess) {
+                                                isSMSAvailableForPER =
+                                                    peUpdated.Permit_SMS_Text_for_this_study__c &&
+                                                    surveyInvitationMap.get(whatId)
+                                                        .Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                                welcomemsgsent = surveyInvitationMap.get(whatId)
+                                                    .Participant_Enrollment__r.Welcome_Message_Sent__c; //Added by Anitha
+                                                welcomemsgDelivered = surveyInvitationMap.get(
+                                                        whatId
+                                                    )
+                                                    .Participant_Enrollment__r.Welcome_Message_Delivered__c; //Added by Anitha
+                                                consentUpdationRecords.add(retDataWrap.updatedRecord);
+                                                NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                    surveyInvitationMap.get(whatId)
+                                                        .Participant_Enrollment__r.PPMID__c,
+                                                    retDataWrap.updatedRecord
+                                                );
+                                            } else {
+                                                isSMSAvailableForPER =
+                                                    surveyInvitationMap.get(whatId)
+                                                        .Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c &&
+                                                    surveyInvitationMap.get(whatId)
+                                                        .Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                                welcomemsgsent = surveyInvitationMap.get(whatId)
+                                                    .Participant_Enrollment__r.Welcome_Message_Sent__c; //Added by Anitha
+                                                welcomemsgDelivered = surveyInvitationMap.get(
+                                                        whatId
+                                                    )
+                                                    .Participant_Enrollment__r.Welcome_Message_Delivered__c; //Added by Anitha
+                                                NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                    surveyInvitationMap.get(whatId)
+                                                        .Participant_Enrollment__r.PPMID__c,
+                                                    surveyInvitationMap.get(whatId)
+                                                        .Participant_Enrollment__r
+                                                );
+                                            }
+                                        } else {
+                                            Participant_Enrollment__c perExistingfromUCPM = (Participant_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                                surveyInvitationMap.get(whatId)
+                                                    .Participant_Enrollment__r.PPMID__c
+                                            );
+                                            isSMSAvailableForPER =
+                                                perExistingfromUCPM.Permit_SMS_Text_for_this_study__c &&
+                                                surveyInvitationMap.get(whatId)
+                                                    .Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent = surveyInvitationMap.get(whatId)
+                                                .Participant_Enrollment__r.Welcome_Message_Sent__c; //Added by Anitha
+                                            welcomemsgDelivered = surveyInvitationMap.get(whatId)
+                                                .Participant_Enrollment__r.Welcome_Message_Delivered__c; //Added by Anitha
+                                        }
+                                    } else {
+                                        isSMSAvailableForPER =
+                                            surveyInvitationMap.get(whatId)
+                                                .Participant_Enrollment__r.Permit_SMS_Text_for_this_study__c &&
+                                            surveyInvitationMap.get(whatId)
+                                                .Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent = surveyInvitationMap.get(whatId)
+                                            .Participant_Enrollment__r.Welcome_Message_Sent__c; //Added by Anitha
+                                        welcomemsgDelivered = surveyInvitationMap.get(whatId)
+                                            .Participant_Enrollment__r.Welcome_Message_Delivered__c; //Added by Anitha
+                                    }
+                                }
 
                                 studySiteToFromNoMap.put(
                                     studySiteId,
@@ -1105,25 +2056,177 @@ public without sharing class Action_SendSMS implements Action {
                                         recipientID
                                     )
                                     .get(taskMap.get(whatId).WhatId);
-                                isSMSAvailableForPER =
-                                    (pdelEnrollmentrecrd != null) &&
-                                    pdelEnrollmentrecrd.Study_SMS_Consent__c &&
-                                    pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
-                                welcomemsgsent =pdelEnrollmentrecrd != null &&   pdelEnrollmentrecrd.Welcome_Message_Sent__c;
-                                welcomemsgDelivered = pdelEnrollmentrecrd != null && pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
-    
-                                } else {
-                                isSMSAvailableForPER =
-                                    peIdMap.get(taskMap.get(whatId).WhatId)
-                                        .Permit_SMS_Text_for_this_study__c &&
-                                    peIdMap.get(taskMap.get(whatId).WhatId)
-                                        .Study_Site__r.SMS_Are_Available__c;
-                                welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
-                                        .Welcome_Message_Sent__c; //Added by Anitha
-                                welcomemsgDelivered = peIdMap.get(taskMap.get(whatId).WhatId)
-                                        .Welcome_Message_Delivered__c; //Added by Anitha
-        
+                                //UCPM start to get latest PER with consents
+                                //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                                //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm
+                                if (pdelEnrollmentrecrd.PPM_ID__c != null) {
+                                    if (
+                                        NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                        !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                            pdelEnrollmentrecrd.PPM_ID__c
+                                        )
+                                    ) {
+                                        List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+                                        pder.add(pdelEnrollmentrecrd);
+                                        UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                        retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                            null,
+                                            pder,
+                                            'notificationbatch'
+                                        );
+                                        Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
+                                        pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
+                                        Boolean isSuccess = retDataWrap.isSuccess;
+                                        if(integrationLogRec!=null){
+                                            integrationLogRec.add(retDataWrap.objIntegrationLog); //per1 call false
+                                        }
+                                        if (isSuccess) {
+                                           isSMSAvailableForPER =
+                                                (pdelEnrollmentrecrd != null) &&
+                                                pdelEnrollmentrecrdUpdated.Study_SMS_Consent__c &&
+                                                pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                            welcomemsgDelivered =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                            consentUpdationRecords.add(retDataWrap.updatedRecord);
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                pdelEnrollmentrecrd.PPM_ID__c,
+                                                retDataWrap.updatedRecord
+                                            );
+                                        } else {
+                                           isSMSAvailableForPER =
+                                                (pdelEnrollmentrecrd != null) &&
+                                                pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                                pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                            welcomemsgDelivered =
+                                                pdelEnrollmentrecrd != null &&
+                                                pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                pdelEnrollmentrecrd.PPM_ID__c,
+                                                pdelEnrollmentrecrd
+                                            );
+                                        }
+                                    } else {
+                                        //If callout was already made, use the reposnse stored in the map.
+                                        Patient_Delegate_Enrollment__c pdelEnrollmentrecrdExistingfromUCPM = (Patient_Delegate_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                            pdelEnrollmentrecrd.PPM_ID__c
+                                        );
+                                        isSMSAvailableForPER =
+                                            (pdelEnrollmentrecrd != null) &&
+                                            pdelEnrollmentrecrdExistingfromUCPM.Study_SMS_Consent__c &&
+                                            pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                        welcomemsgDelivered =
+                                            pdelEnrollmentrecrd != null &&
+                                            pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
                                     }
+                                } else {
+                                   isSMSAvailableForPER =
+                                        (pdelEnrollmentrecrd != null) &&
+                                        pdelEnrollmentrecrd.Study_SMS_Consent__c &&
+                                        pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c;
+                                    welcomemsgsent =
+                                        pdelEnrollmentrecrd != null &&
+                                        pdelEnrollmentrecrd.Welcome_Message_Sent__c;
+                                    welcomemsgDelivered =
+                                        pdelEnrollmentrecrd != null &&
+                                        pdelEnrollmentrecrd.Welcome_Message_Delivered__c;
+                                }
+                            } else {
+                                //UCPM start to get latest PER with consents
+                                //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                                //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm
+                                if (peIdMap.get(taskMap.get(whatId).WhatId).PPMID__c != null) {
+                                    if (
+                                        NotificationService.ppmIdtoUpdatedRecMap != null &&
+                                        !NotificationService.ppmIdtoUpdatedRecMap.containsKey(
+                                            peIdMap.get(taskMap.get(whatId).WhatId).PPMID__c
+                                        )
+                                    ) {
+                                        List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c>();
+                                        perList.add(peIdMap.get(taskMap.get(whatId).WhatId));
+                                        UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                        retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
+                                            null,
+                                            perList,
+                                            'notificationbatch'
+                                        );
+                                        Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
+                                        peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
+                                        Boolean isSuccess = retDataWrap.isSuccess;
+                                        if(integrationLogRec!=null){
+                                            integrationLogRec.add(retDataWrap.objIntegrationLog);
+                                        }
+                                        if (isSuccess) {
+                                            isSMSAvailableForPER =
+                                                peUpdated.Permit_SMS_Text_for_this_study__c &&
+                                                peIdMap.get(taskMap.get(whatId).WhatId)
+                                                    .Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
+                                                .Welcome_Message_Sent__c; //Added by Anitha
+                                            welcomemsgDelivered = peIdMap.get(
+                                                    taskMap.get(whatId).WhatId
+                                                )
+                                                .Welcome_Message_Delivered__c; //Added by Anitha
+                                            consentUpdationRecords.add(retDataWrap.updatedRecord);
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                peIdMap.get(taskMap.get(whatId).WhatId).PPMID__c,
+                                                retDataWrap.updatedRecord
+                                            );
+                                        } else {
+                                            isSMSAvailableForPER =
+                                                peIdMap.get(taskMap.get(whatId).WhatId)
+                                                    .Permit_SMS_Text_for_this_study__c &&
+                                                peIdMap.get(taskMap.get(whatId).WhatId)
+                                                    .Study_Site__r.SMS_Are_Available__c;
+                                            welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
+                                                .Welcome_Message_Sent__c; //Added by Anitha
+                                            welcomemsgDelivered = peIdMap.get(
+                                                    taskMap.get(whatId).WhatId
+                                                )
+                                                .Welcome_Message_Delivered__c; //Added by Anitha
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(
+                                                peIdMap.get(taskMap.get(whatId).WhatId).PPMID__c,
+                                                peIdMap.get(taskMap.get(whatId).WhatId)
+                                            );
+                                        }
+                                    } else {
+                                        // If callout was already made, use the reposnse stored in the map.
+                                        Participant_Enrollment__c perExistingfromUCPM = (Participant_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(
+                                            peIdMap.get(taskMap.get(whatId).WhatId).PPMID__c
+                                        );
+
+                                        isSMSAvailableForPER =
+                                            perExistingfromUCPM.Permit_SMS_Text_for_this_study__c &&
+                                            peIdMap.get(taskMap.get(whatId).WhatId)
+                                                .Study_Site__r.SMS_Are_Available__c;
+                                        welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
+                                            .Welcome_Message_Sent__c; //Added by Anitha
+                                        welcomemsgDelivered = peIdMap.get(
+                                                taskMap.get(whatId).WhatId
+                                            )
+                                            .Welcome_Message_Delivered__c; //Added by Anitha
+                                    }
+                                } else {
+                                    isSMSAvailableForPER =
+                                        peIdMap.get(taskMap.get(whatId).WhatId)
+                                            .Permit_SMS_Text_for_this_study__c &&
+                                        peIdMap.get(taskMap.get(whatId).WhatId)
+                                            .Study_Site__r.SMS_Are_Available__c;
+                                    welcomemsgsent = peIdMap.get(taskMap.get(whatId).WhatId)
+                                        .Welcome_Message_Sent__c; //Added by Anitha
+                                    welcomemsgDelivered = peIdMap.get(taskMap.get(whatId).WhatId)
+                                        .Welcome_Message_Delivered__c; //Added by Anitha
+                                }
+                            }
 
                             studySiteToFromNoMap.put(
                                 studySiteId,
@@ -1187,7 +2290,7 @@ public without sharing class Action_SendSMS implements Action {
                         //If Notification is Study level and SMS is opt in at PER and Study site both.
                         NotificationService.studyLevelSMSSet.Add(notObj.Id);
                     }
-                } else {
+                    } else {
                     //If Notification is platform level.
                     NotificationService.platfomLevelSMSSet.Add(notObj.Id);
                 }
@@ -1250,6 +2353,17 @@ public without sharing class Action_SendSMS implements Action {
         return pinPointWrapperMapObj;
     }
 
+    public static NotificationService.notificationElegibiltyWrapper consentUpdationRecordMethod() {
+        NotificationService.notificationElegibiltyWrapper notiElegibiltyWrapRec = new NotificationService.notificationElegibiltyWrapper();
+        if (consentUpdationRecords != null) {
+            notiElegibiltyWrapRec.updatedRecordSMS = consentUpdationRecords;
+        }
+        if (integrationLogRec != null) {
+            notiElegibiltyWrapRec.integrationLogRecSMS = integrationLogRec;
+        }
+        return notiElegibiltyWrapRec;
+    }
+
     /**
      * @description: This method populate them Map for WelcomeMessageSend and WelcomeMessageDelivered Flags from junction object betwene Participant Enrollment
      *               and Patient Delegate contact record.
@@ -1301,6 +2415,7 @@ public without sharing class Action_SendSMS implements Action {
                 Patient_Delegate__r.Contact__c,
                 Patient_Delegate__r.Participant__c,
                 Name,
+                PPM_ID__c,
                 Welcome_Message_Sent__c,
                 Study_Email_Consent__c,
                 Study_SMS_Consent__c,

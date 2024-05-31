@@ -12,7 +12,10 @@ public without sharing class NotificationService {
     public static Map<Id, Boolean> welcomemsgDelivered = new Map<Id, Boolean>();
     public static Map<String, Boolean> perIdDelConIdWelcomeMessageSentMap = new Map<String, Boolean>();
     public static Map<Id, Task> taskMap = new Map<Id, Task>();
-
+    public static Set<sObject> consentUpdationRecords = new Set<sObject>();
+    public static Set<sObject> consentUpdationRecordsSMS = new Set<sObject>();
+    public static Set<IntegrationLog__c> integraionLogUpdationRecords = new Set<IntegrationLog__c>();
+    public static Map<String, Sobject> ppmIdtoUpdatedRecMap = new Map<String, Sobject>();
     public static Map<String, Boolean> perIdDelConIdWelcomeMessageDeleveredMap = new Map<String, Boolean>();
 
     static public List<String> participantStatusListForHCP = new List<String>{
@@ -379,6 +382,10 @@ public without sharing class NotificationService {
 
         //Check if SMS is applicable to send for Study level notification.
         Action_SendSMS obj = new Action_SendSMS(notifications);
+        notificationElegibiltyWrapper notiElegibiltyWrapRecSMS = new notificationElegibiltyWrapper();
+        notiElegibiltyWrapRecSMS= Action_SendSMS.consentUpdationRecordMethod();
+        consentUpdationRecords = notiElegibiltyWrapRecSMS.updatedRecordSMS;
+        integraionLogUpdationRecords = notiElegibiltyWrapRecSMS.integrationLogRecSMS;
         for (Notification__c n : notifications) {
             //TODO add check contact available time, if not available set status to 'Pending', else set 'Processed'
             //TODO Now 'In Progress'
@@ -468,16 +475,22 @@ public without sharing class NotificationService {
                         )
                             continue;
                         if (!notificationTypeFirstEmail.contains(n.Notification_Type__c)) {
-                            if (
-                                availabilityService.isAvailable(
+                            NotificationService.notificationElegibiltyWrapper notiElegibiltyRec 
+                            = availabilityService.isAvailable(
                                     n.WhatId__c,
                                     notificationType.Recipient_Type__c,
                                     nt.Target_Type__c,
                                     n.Recipient__c,
                                     notificationType,
                                     n
-                                )
-                            ) {
+                                );
+                             if(notiElegibiltyRec.updatedRecord != null){
+                                consentUpdationRecords.add(notiElegibiltyRec.updatedRecord);
+                             }
+                             if(notiElegibiltyRec.integrationLogRec != null){
+                                integraionLogUpdationRecords.add(notiElegibiltyRec.integrationLogRec);
+                             }
+                            if (notiElegibiltyRec.isEligibleToSend) {
                                 if (
                                     (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
                                     (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
@@ -648,6 +661,26 @@ public without sharing class NotificationService {
         }
 
         sendResultService.updateResults();
+        
+        //update updated consents in respective records
+        try{
+            if(!consentUpdationRecords.isEmpty()){
+                update new List<SObject>(consentUpdationRecords);
+            }
+        } 
+        catch(DmlException e) {
+            System.debug('The following exception has occurred while updating the consents: ' + e.getMessage());
+        }
+        //Create integartion log records
+        try{
+            if(!integraionLogUpdationRecords.isEmpty()){
+                integraionLogUpdationRecords.remove(null);
+                Insert new List<IntegrationLog__c>(integraionLogUpdationRecords);
+            }
+        } 
+        catch(DmlException e) {
+            System.debug('The following exception has occurred while creating Itegration log: ' + e.getMessage());
+        }
         //Send emails:
         if (!emailNotifications.isEmpty()) {
             EmailService.send(emailNotifications, orgWideEmailByNotifyMap, availabilityService);
@@ -656,5 +689,20 @@ public without sharing class NotificationService {
         if (!smsNotifications.isEmpty()) {
             SMSService.sendQueueable(smsNotifications);
         }
+    }
+
+    //Wrapper class to return notification availabilty boolean value and 
+    //record which needs to be updated after ucpm call and Integration log from NotificationAvailabilityService
+    public class notificationElegibiltyWrapper {
+        public Sobject updatedRecord { get; set; }
+        public Boolean isEligibleToSend = false;
+        public IntegrationLog__c integrationLogRec = new IntegrationLog__c();
+        public Set<Sobject> updatedRecordSMS = new  Set<Sobject>();
+        public Set<IntegrationLog__c> integrationLogRecSMS = new Set<IntegrationLog__c>();
+    }
+    //Wrapper class to create map of PPMID and consnets to avoid maing duplicate callouts to UCPM
+    public class consentsWrapper {
+        public String ppmID;
+        public Set<Sobject> updatedRecordsfromUCPM;
     }
 }
