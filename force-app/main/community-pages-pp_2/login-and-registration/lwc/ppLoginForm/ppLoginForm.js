@@ -75,6 +75,21 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                 });
         }
     }
+    connectedCallback() {
+        let rvalue = sessionStorage.getItem('myKey');
+         console.log('session paramValue- '+this.currentPageReference.state.lg);
+         if(rvalue != this.currentPageReference.state.lg){
+             console.log('not   matching');
+             this[NavigationMixin.Navigate]({
+                 type: 'comm__namedPage',
+                 attributes: {
+                     name: 'Login'
+                 }
+                 });
+         }
+
+    }
+
 
     handleuserNameChange(event) {
         if (event.target.value !== '') {

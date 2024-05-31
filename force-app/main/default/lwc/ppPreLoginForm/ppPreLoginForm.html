@@ -1,5 +1,11 @@
 <template>
     <template if:false={isLockOut}>
+        <template lwc:if={iframeReq}>
+            <div>
+                 <iframe   style="width: 0; height:0; border: 0; border: none; position: absolute;" src={patientSSOUrl}
+                 ></iframe>     
+             </div>
+         </template>
         <div class="slds-grid slds-grid_align-center">
             <div class="slds-col">
                 <div class="patient-care-txt">{label.PP_For_Participants_and_Caregivers}</div>
@@ -24,6 +30,7 @@
                             class={className}
                             onkeyup={handleuserNameChange}
                             oninput={handleUsername}
+                            value={usrName}
                         />
                     </div>
                     <div class="slds-grid forgot-unable-link">
@@ -32,54 +39,10 @@
                                 Forgot Username?
                             </span>
                         </div>
-                        <!-- <div class="slds-col slds-size_6-of-12">
-                            <span onclick={handleUnableToLogin} class="forgot-unable-pwd-txt unable-login font-thickness" >
-                                {label.unableToLogin}
-                            </span>
-                            <template if:true={showPopup}>
-                                <c-pp-unable-to-login
-                                    user-id={userNam}
-                                    onmodalclose={handleModalClose}
-                                ></c-pp-unable-to-login>
-                            </template>
-                        </div> -->
                     </div>
-                    <!-- <label class="slds-form-element__label" for="password">{label.password}</label>
-                    <div class="slds-form-element__control">
-                        <input
-                            type={passwordInputType}
-                            data-id="password"
-                            class={className}
-                            onkeyup={handlepasswordChange}
-                        />
-                        <button
-                            class="slds-button slds-button_icon eye-icon"
-                            onclick={changeImgSrc}
-                        >
-                            <img class="" src={eyeHidden} style="" title={PasswordEyeIconTitle} />
-                        </button>
-                    </div> -->
                     <button class="primaryBtn slds-button btn-login" onclick={handleNext}>
                          Next
                     </button>
-                    <!-- <div class="slds-grid forgot-unable-link">
-                        <div class="slds-col slds-size_6-of-12">
-                            <span onclick={handleForgotPassword} class="forgot-unable-pwd-txt font-thickness">
-                                {label.forgotPassword}
-                            </span>
-                        </div>
-                        <div class="slds-col slds-size_6-of-12">
-                            <span onclick={handleUnableToLogin} class="forgot-unable-pwd-txt unable-login font-thickness" >
-                                {label.unableToLogin}
-                            </span>
-                            <template if:true={showPopup}>
-                                <c-pp-unable-to-login
-                                    user-id={userNam}
-                                    onmodalclose={handleModalClose}
-                                ></c-pp-unable-to-login>
-                            </template>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>

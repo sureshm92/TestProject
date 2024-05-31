@@ -106,7 +106,11 @@ global without sharing class RRLoginRemote {
             }
         }
     }
-
+    public String getCommunityPatientUrl() {
+        String url =  CommunityService.getCommunityURLFromTemplateName('PatientPortal');
+        url = url+'/s';
+        return url ;
+    }
     @AuraEnabled
     public static Boolean getIsUsernamePasswordEnabled() {
         Auth.AuthConfiguration authConfig = getAuthConfig();
@@ -388,51 +392,7 @@ global without sharing class RRLoginRemote {
         }
         return returnMap;
     }
-    public class ssoWrapper{
-        @AuraEnabled
-        Public Boolean usrNameExist;
-        @AuraEnabled
-        Public Boolean isSSOEnabled;
-    }
-    @AuraEnabled
-    public static ssoWrapper isSSOEnabled(String userName) {
-     try {
-        ssoWrapper sso = new ssoWrapper();
-        List<User> u = new List<User>();
-        u = [Select Id,ContactId,Name,Username from User where Username=:userName];
-        
-        if(!u.isEmpty()){
-            List<Participant_Enrollment__c> per = new List<Participant_Enrollment__c>();
-            List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
-            per = [SELECT Id,Name,Participant_Contact__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.SSO_enabled__c FROM Participant_Enrollment__c where 
-                                                    Participant_Contact__c=:u[0].ContactId AND Clinical_Trial_Profile__r.SSO_enabled__c = TRUE];
-            if(per.isEmpty() || per == null){
-                pder  = [Select Id,Participant_Enrollment__c,Participant_Enrollment__r.Participant_Contact__c,Participant_Enrollment__r.Clinical_Trial_Profile__r.SSO_enabled__c from Patient_Delegate_Enrollment__c where 
-                         Participant_Enrollment__r.Participant_Contact__c=:u[0].ContactId AND Participant_Enrollment__r.Clinical_Trial_Profile__r.SSO_enabled__c = TRUE];
-            }
-            if(!per.isEmpty() && per!=null ){
-                 sso.usrNameExist = true;
-                 sso.isSSOEnabled = true;
-            }else{
-                 if(pder != null && pder.size() > 0){
-                     sso.usrNameExist = true;
-                     sso.isSSOEnabled = true;
-                 }else{
-                 sso.usrNameExist = true;
-                 sso.isSSOEnabled = false;}
-            }
-                return sso;
-        }else{
-             sso.usrNameExist = false;
-             sso.isSSOEnabled = false;
-             return sso;
-        }
-      } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }  
-       
-   }
-   
+    
    public static Organization getOrganization(){
         Organization  orgObj    = [Select id,IsSandbox,InstanceName,OrganizationType, Name from Organization];
         return orgObj;
@@ -448,5 +408,153 @@ global without sharing class RRLoginRemote {
         System.Domain domain    = System.DomainParser.parse(domainUrl);
         String        sandboxName = domain.getSandboxName();
         return sandboxName;
+    }
+    public class SSODataWrapper{
+            @AuraEnabled
+            public String patientAuthProviderURL;
+            @AuraEnabled
+            public Boolean isSSOEnabled;
+            @AuraEnabled            
+            public String ssoUrl;
+            @AuraEnabled
+            Public Boolean usrNameExist;
+            @AuraEnabled
+            Public Boolean isValidPPUser;   
+    }
+    @AuraEnabled
+    public static SSODataWrapper getSSOData(String userName,String state){ 
+        try {
+        SSODataWrapper sso = new SSODataWrapper();
+        List<User> u = new List<User>();
+        //List<String> PE_STATUS_GROUP_ALUMNI = PEStatusState.PE_STATUS_GROUP_ALUMNI;
+        //List<String> PE_STATUS_GROUP_FAILED = PEStatusState.PE_STATUS_GROUP_FAILED;
+        List<String> PE_STATUS_GROUP_ACTIVE = PEStatusState.PE_STATUS_GROUP_ACTIVE;
+        List<Participant_Enrollment__c> validPE = new List<Participant_Enrollment__c>();
+        List<Patient_Delegate_Enrollment__c> validPDER = new List<Patient_Delegate_Enrollment__c>();
+        Boolean isSSO_PE_Active=false;
+        Boolean isSSO_PE_InActive=false;
+        Boolean isNSSO_PE_Active=false;
+        Boolean isNSSO_PE_InActive=false;
+        u = [Select Id,ContactId,Name,Username,IsActive,Email from User where Username=:userName AND IsActive = TRUE];
+        if(!u.isEmpty() && u[0].ContactId != null){
+         validPE = [SELECT Id,Name,Participant_Contact__c,Participant_Status__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.SSO_enabled__c, 
+                       Clinical_Trial_Profile__r.PPTemplate__c FROM Participant_Enrollment__c where 
+                       Participant_Contact__c=:u[0].ContactId AND ((Clinical_Trial_Profile__r.CommunityTemplate__c ='PatientPortal') OR
+                       (Clinical_Trial_Profile__r.CommunityTemplate__c ='Janssen' AND Clinical_Trial_Profile__r.PPTemplate__c ='PP 2.0'))];
+        validPDER = [Select Id,Participant_Enrollment__c,Patient_Delegate__c,Patient_Delegate__r.Contact__c from Patient_Delegate_Enrollment__c where 
+                         Patient_Delegate__r.Contact__c=:u[0].ContactId AND ((Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ='PatientPortal') OR
+                         (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c ='Janssen' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c ='PP 2.0')) ];  
+        }
+        if(!u.isEmpty() && u[0].ContactId != null && (!validPE.isEmpty() || !validPDER.isEmpty())){
+            String url;
+            String ssoLanguage = 'en';
+            Boolean isSocialIDP = false;
+            String signInEmail = u[0].Email;
+            String spSelection=isSocialIDP?'sp':'false';
+            List<Participant_Enrollment__c> per = new List<Participant_Enrollment__c>();
+            List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
+            
+            List<Participant_Enrollment__c> ssoPE = new List<Participant_Enrollment__c>();
+            List<Participant_Enrollment__c> nonssoPE = new List<Participant_Enrollment__c>();
+            List<Id> lstPEId= new List<Id>();
+            List<Participant_Enrollment__c> listPDER_PE = new List<Participant_Enrollment__c>();
+           
+                    
+            if(!validPE.isEmpty() || !validPDER.isEmpty()){}
+            per = [SELECT Id,Name,Participant_Contact__c,Participant_Status__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.SSO_enabled__c, 
+                   Clinical_Trial_Profile__r.PPTemplate__c FROM Participant_Enrollment__c where 
+                   Participant_Contact__c=:u[0].ContactId];
+            pder  = [Select Id,Participant_Enrollment__c,Patient_Delegate__c,Patient_Delegate__r.Contact__c from Patient_Delegate_Enrollment__c where 
+                         Patient_Delegate__r.Contact__c=:u[0].ContactId];
+            if(!pder.isEmpty() && pder !=null ){
+                for(Patient_Delegate_Enrollment__c pde:pder){
+                    lstPEId.add(pde.Participant_Enrollment__c);
+                }
+                listPDER_PE = [SELECT Id,Name,Participant_Contact__c,Participant_Status__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.SSO_enabled__c, 
+                   Clinical_Trial_Profile__r.PPTemplate__c FROM Participant_Enrollment__c where Id IN:lstPEId];
+                per.addAll(listPDER_PE);    
+            }       
+            if(!per.isEmpty() && per!=null ){
+                    for(Participant_Enrollment__c pe:per){
+                        if(pe.Clinical_Trial_Profile__r.SSO_enabled__c && ((pe.Clinical_Trial_Profile__r.CommunityTemplate__c =='PatientPortal') ||
+                           (pe.Clinical_Trial_Profile__r.CommunityTemplate__c =='Janssen' && pe.Clinical_Trial_Profile__r.PPTemplate__c =='PP 2.0')))
+                          {
+                              ssoPE.add(pe);
+                              if(PE_STATUS_GROUP_ACTIVE.Contains(pe.Participant_Status__c)){
+                                  isSSO_PE_Active = true;
+                                  }else{isSSO_PE_InActive = true;}
+                              
+                          }else{
+                              nonssoPE.add(pe);
+                              if(PE_STATUS_GROUP_ACTIVE.Contains(pe.Participant_Status__c)){
+                                  isNSSO_PE_Active= true;
+                                  }else{isNSSO_PE_InActive=true;}
+                          }
+                     }
+                     
+                     
+                if(!ssoPE.isEmpty() && isSSO_PE_Active){
+                     sso.isSSOEnabled = true;
+                }else if(!ssoPE.isEmpty() && isSSO_PE_InActive){
+                        if(!nonssoPE.isEmpty() && isNSSO_PE_Active){
+                             sso.isSSOEnabled = false;
+                        }else{sso.isSSOEnabled = true;}
+                }else{
+                    sso.isSSOEnabled = false;
+                }       
+                
+                sso.usrNameExist = true;
+                if(sso.isSSOEnabled){
+                    //AzureB2CAuthProvider__mdt authData=AzureB2CAuthProvider__mdt.getInstance('Patient_SSO');
+                    List<AzureB2CAuthProvider__mdt> authData = new List<AzureB2CAuthProvider__mdt>();
+                    authData = [Select MasterLabel, 
+                                              Auth_Url__c,Policy__c,Consumer_Key__c,Redirect_Url__c from AzureB2CAuthProvider__mdt where MasterLabel='Patient_SSO'];
+                    url=System.label.SSO_Sign_in_Url; 
+                    String redirectUrl = authData[0].Redirect_Url__c;
+                    redirectUrl = EncodingUtil.urlEncode(redirectUrl, 'UTF-8');
+                    redirectUrl = redirectUrl.replace ('+', '%2Fpp');
+        
+                    //List<Object> urlData = new List<Object>{authData[0].Auth_Url__c,authData[0].Policy__c,authData[0].Consumer_Key__c,authData[0].Redirect_Url__c,state,signInEmail,ssoLanguage,u[0].Username,spSelection};
+                    List<Object> urlData = new List<Object>{authData[0].Auth_Url__c,authData[0].Policy__c,authData[0].Consumer_Key__c,redirectUrl,state,signInEmail,ssoLanguage,u[0].Username,spSelection};
+                    url=String.format(url, urlData);
+                    sso.ssoUrl=url+'&prompt=select_account';
+                }
+            }else{
+                sso.usrNameExist = false;
+                 sso.isSSOEnabled = false;
+            }
+            sso.patientAuthProviderURL=RRLoginRemote.getPatientSsoUrl();
+            return sso;
+        }else{
+             sso.usrNameExist = false;
+             sso.isSSOEnabled = false;
+             return sso;
+        }
+      } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        } 
+    } 
+    @AuraEnabled
+    public static String getPatientSsoUrl(){
+      
+        Boolean isSandbox = RRLoginRemote.isSandbox();
+        String  sandboxName = isSandbox ? RRLoginRemote.getSandboxName() : '';
+        String  ssoUrl = '';
+        if(isSandbox){
+            //SSO_OrgSpecificMetadata__mdt orgSpecificMetadata = SSO_OrgSpecificMetadata__mdt.getInstance(sandboxName);
+            List<SSO_OrgSpecificMetadata__mdt> orgSpecificMetadata = new List<SSO_OrgSpecificMetadata__mdt >();
+            orgSpecificMetadata = [Select MasterLabel, 
+                                          Patient_Auth_Provider_URL__c from SSO_OrgSpecificMetadata__mdt where MasterLabel=:sandboxName];
+            if(!orgSpecificMetadata.isEmpty()){ 
+            ssoUrl = orgSpecificMetadata[0].Patient_Auth_Provider_URL__c;
+            }else{
+                ssoUrl = 'null';
+            }
+            
+        }else{
+            ssoUrl = 'null';
+        }
+        
+        return ssoUrl;
     }
 }
