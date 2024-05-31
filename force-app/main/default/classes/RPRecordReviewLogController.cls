@@ -300,6 +300,7 @@ public without sharing class RPRecordReviewLogController {
 
                
                update peEnrollment;
+               UCPM_ConsentPostController.fetchPerAndPderDetails(new list<Id>{peEnrollment.Id},null,'Referring Provider Participant');
                 //update peRecord;
                 return 'Success';
         } 
