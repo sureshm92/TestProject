@@ -48,6 +48,7 @@ public without sharing class NotificationAvailabilityService {
                 UserCommunityIsDelegate__c,
                 userCommunityMode__c,
                 Language__c,
+                PPM_ID__c,
                 MailingCountryCode,
                 Is_Invalid_Number__c,
                 Is_Patient_User_Created__c,
@@ -156,7 +157,8 @@ public without sharing class NotificationAvailabilityService {
                         Participant_Contact__c,
                         Permit_Mail_Email_contact_for_this_study__c,
                         Study_Site__r.Suppress_Participant_Emails__c,
-                        Invited_To_PP_Date__c
+                        Invited_To_PP_Date__c,
+                        PPMID__c
                     FROM Participant_Enrollment__c
                     WHERE
                         Clinical_Trial_Profile__c IN :objectsByIds.keyset()
@@ -176,6 +178,7 @@ public without sharing class NotificationAvailabilityService {
                         Id,
                         IsTrialSurvey__c,
                         Participant_Enrollment__c,
+                        Participant_Enrollment__r.PPMID__c,
                         Participant_Enrollment__r.Invited_To_PP_Date__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                         Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c,
@@ -204,6 +207,7 @@ public without sharing class NotificationAvailabilityService {
                             Task_Type__c,
                             Ecoa_Task_Configuration_del__c,
                             Ecoa_Task_Configuration_del__r.Participant_Enrollment__c,
+                            Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.PPMID__c,
                             Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Invited_To_PP_Date__c,
                             Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                             Ecoa_Task_Configuration_del__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
@@ -278,7 +282,8 @@ public without sharing class NotificationAvailabilityService {
             }
             if (objType == CONTACT) {
                 List<Contact> contactByObject = [
-                    SELECT Id
+                    SELECT Id,
+                    PPM_ID__c
                     FROM Contact
                     WHERE Id IN :objectsByStrings.get(objType)
                 ];
@@ -311,6 +316,7 @@ public without sharing class NotificationAvailabilityService {
                     SELECT
                         Id,
                         Participant_Enrollment__c,
+                        Participant_Enrollment__r.PPMID__c,
                         Participant_Enrollment__r.Invited_To_PP_Date__c,
                         Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                         Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
@@ -349,6 +355,7 @@ public without sharing class NotificationAvailabilityService {
                         Televisit__r.Status__c,
                         Televisit__r.Title__c,
                         Televisit__r.Participant_Enrollment__c,
+                        Televisit__r.Participant_Enrollment__r.PPMID__c,
                         Televisit__r.Participant_Enrollment__r.Invited_To_PP_Date__c,
                         Televisit__r.Participant_Enrollment__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                         Televisit__r.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c,
@@ -396,6 +403,7 @@ public without sharing class NotificationAvailabilityService {
                         Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                         Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
                         Status__c,
+                        PPM_ID__c,
                         Participant_Enrollment__c,
                         Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
                         Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c,
@@ -457,7 +465,7 @@ public without sharing class NotificationAvailabilityService {
         }
     }
 
-    public Boolean isEmailtoSend(
+    public NotificationService.notificationElegibiltyWrapper isEmailtoSend(
         String whatId,
         String recipientType,
         String notificationTarget,
@@ -467,28 +475,34 @@ public without sharing class NotificationAvailabilityService {
         Notification__c notObj
     ) {
         Boolean isEmailAvailableAtPER = false;
+        NotificationService.notificationElegibiltyWrapper notiElegibiltyRec= new NotificationService.notificationElegibiltyWrapper();
         if (notificationType.IsStudyLevel__c) {
             if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                     Id.valueOf(whatId)
                 );
-                Boolean perEmailToSend = isPEREmailtoSend(pe, notObj);
-                if (perEmailToSend) {
+                 notiElegibiltyRec= isPEREmailtoSend(pe, notObj);
+                if (notiElegibiltyRec.isEligibleToSend) {
                     isEmailAvailableAtPER = true;
                 }
             } else if (objType == TASK_OBJ_NAME) {
-                isEmailAvailableAtPER = isTaskEmailToSend(
+                //TODO: call ucpm
+                notiElegibiltyRec = isTaskEmailToSend(
                     objectsByIds,
                     whatId,
                     notificationType,
                     contactId,
                     notObj
                 );
+                isEmailAvailableAtPER = notiElegibiltyRec.isEligibleToSend;
             } else if (objType == TELEVISIT_OBJ_NAME) {
                 Televisit__c tv = (Televisit__c) objectsByIds.get(Id.valueOf(whatId));
+                
                 Participant_Enrollment__c pe = tv.Participant_Enrollment__r;
-                Boolean perEmailToSend = isPEREmailtoSend(pe, notObj);
-                if (perEmailToSend) {
+                List<Participant_Enrollment__c> listper =new List<Participant_Enrollment__c> ();
+                listper.add(pe);
+                notiElegibiltyRec= isPEREmailtoSend(pe, notObj);
+                if (notiElegibiltyRec.isEligibleToSend) {
                     isEmailAvailableAtPER = true;
                 }
             } else if (objType == TELEVISIT_ATTN_OBJ_NAME) {
@@ -496,9 +510,8 @@ public without sharing class NotificationAvailabilityService {
                     Id.valueOf(whatId)
                 );
                 Participant_Enrollment__c pe = ta.Televisit__r.Participant_Enrollment__r;
-                //Contact contact = contactByIdMap.get(contactId);
-                Boolean perEmailToSend = isPEREmailtoSend(pe, notObj);
-                if (perEmailToSend) {
+                notiElegibiltyRec= isPEREmailtoSend(pe, notObj);
+                if (notiElegibiltyRec.isEligibleToSend) {
                     isEmailAvailableAtPER = true;
                 }
             } else if (objType == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
@@ -507,8 +520,9 @@ public without sharing class NotificationAvailabilityService {
                 );
                 if (!ctp.Suppress_Participant_Emails__c && ctpContactToPer != null) {
                     String strkey = string.valueOf(ctp.Id) + '~' + string.valueOf(contactId);
+                    notiElegibiltyRec= isPEREmailtoSend(ctpContactToPer.get(strkey), notObj);
                     isEmailAvailableAtPER = ctpContactToPer.containsKey(strkey)
-                        ? isPEREmailtoSend(ctpContactToPer.get(strkey), notObj)
+                        ? notiElegibiltyRec.isEligibleToSend
                         : false;
                 }
             }
@@ -516,8 +530,9 @@ public without sharing class NotificationAvailabilityService {
             if (objType == SURVEY_INVITATION_OBJ_NAME) {
                 SurveyInvitation surveyInvitation = (SurveyInvitation) objectsByIds.get(
                     Id.valueOf(whatId)
-                );
+                ); 
                 Boolean perEmailToSend = false;
+                Participant_Enrollment__c pe = surveyInvitation.Participant_Enrollment__r;
                 if (
                     surveyInvitation.IsTrialSurvey__c &&
                     surveyInvitation.Participant_Enrollment__c != null
@@ -530,27 +545,146 @@ public without sharing class NotificationAvailabilityService {
                                 notObj.Recipient__c
                             )
                             .get(surveyInvitation.Participant_Enrollment__c);
-                        perEmailToSend =
-                            pdelEnrollmentrecrd != null &&
-                            pdelEnrollmentrecrd.Status__c == 'Active' &&
-                            pdelEnrollmentrecrd.Study_Email_Consent__c &&
-                            !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
-                            !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                            !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
-                            pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+                        //check if ppm id is not null for pde record 
+                        if(pdelEnrollmentrecrd.PPM_ID__c != null){
+                            //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                            //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm 
+                            if(NotificationService.ppmIdtoUpdatedRecMap != null && !NotificationService.ppmIdtoUpdatedRecMap.containsKey(pdelEnrollmentrecrd.PPM_ID__c)){
+                                List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c> ();
+                                pder.add(pdelEnrollmentrecrd);
+                                UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                retDataWrap=UCPM_ConsentFetchController.callUCPMtoFetchConsents(null,pder,'notificationbatch' );
+                                Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated= new Patient_Delegate_Enrollment__c();
+                                pdelEnrollmentrecrdUpdated =  (Patient_Delegate_Enrollment__c)retDataWrap.updatedRecord;
+                                Boolean isSuccess =retDataWrap.isSuccess;
+
+                                if(isSuccess){
+                                    perEmailToSend =
+                                        pdelEnrollmentrecrd != null &&
+                                        pdelEnrollmentrecrd.Status__c == 'Active' &&
+                                        pdelEnrollmentrecrdUpdated.Study_Email_Consent__c &&
+                                        !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                                        !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                        !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                        pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                                    notiElegibiltyRec.updatedRecord = retDataWrap.updatedRecord;
+                                    notiElegibiltyRec.isEligibleToSend = perEmailToSend;
+                                    NotificationService.ppmIdtoUpdatedRecMap.put(pdelEnrollmentrecrdUpdated.PPM_ID__c,retDataWrap.updatedRecord);
+                                }
+                                else{
+                                    perEmailToSend =
+                                        pdelEnrollmentrecrd != null &&
+                                        pdelEnrollmentrecrd.Status__c == 'Active' &&
+                                        pdelEnrollmentrecrd.Study_Email_Consent__c &&
+                                        !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                                        !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                        !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                        pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                                    notiElegibiltyRec.isEligibleToSend = perEmailToSend;
+                                    NotificationService.ppmIdtoUpdatedRecMap.put(pdelEnrollmentrecrd.PPM_ID__c,pdelEnrollmentrecrd);
+                                }
+                                notiElegibiltyRec.integrationLogRec = retDataWrap.objIntegrationLog;
+                            }
+                            //else if ppmIdtoUpdatedRecMap contains the key then use the values from map    
+                            else{
+                                Patient_Delegate_Enrollment__c  pdelEnrollmentrecrdExistingfromUCPM = (Patient_Delegate_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(pdelEnrollmentrecrd.PPM_ID__c);
+                                perEmailToSend =
+                                        pdelEnrollmentrecrd != null &&
+                                        pdelEnrollmentrecrd.Status__c == 'Active' &&
+                                        pdelEnrollmentrecrdExistingfromUCPM.Study_Email_Consent__c &&
+                                        !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                                        !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                        !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                        pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                                    notiElegibiltyRec.isEligibleToSend = perEmailToSend;
+                            }
+                        }else{
+                                perEmailToSend =
+                                    pdelEnrollmentrecrd != null &&
+                                    pdelEnrollmentrecrd.Status__c == 'Active' &&
+                                    pdelEnrollmentrecrd.Study_Email_Consent__c &&
+                                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                    pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                                notiElegibiltyRec.isEligibleToSend = perEmailToSend;
+                        }
                     } else {
-                        perEmailToSend =
-                            surveyInvitation != null &&
-                            surveyInvitation.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c &&
-                            !surveyInvitation.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
-                            !surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                            !surveyInvitation.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
-                            surveyInvitation.Participant_Enrollment__r.Invited_To_PP_Date__c !=
-                            null &&
-                            surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
-                    }
-                    if (perEmailToSend) {
-                        isEmailAvailableAtPER = true;
+                        //check if ppm id is not null for per record 
+                        if(pe.PPMID__c != null){
+                            //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                            //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm 
+                            if(NotificationService.ppmIdtoUpdatedRecMap != null && !NotificationService.ppmIdtoUpdatedRecMap.containsKey(pe.PPMID__c)){
+                                List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c> ();
+                                peList.add(pe);
+                                UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(null,peList,'notificationbatch' );
+                                Participant_Enrollment__c perUpdated= new Participant_Enrollment__c();
+                                perUpdated =  (Participant_Enrollment__c)retDataWrap.updatedRecord;
+                                Boolean isSuccess =retDataWrap.isSuccess;
+                                
+                                if(isSuccess){
+                                    perEmailToSend =
+                                        surveyInvitation != null &&
+                                        perUpdated.Permit_Mail_Email_contact_for_this_study__c &&
+                                        !surveyInvitation.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                                        !surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                        !surveyInvitation.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                        surveyInvitation.Participant_Enrollment__r.Invited_To_PP_Date__c !=
+                                        null &&
+                                        surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                                        notiElegibiltyRec.updatedRecord = retDataWrap.updatedRecord;
+                                        notiElegibiltyRec.isEligibleToSend = perEmailToSend;
+                                        NotificationService.ppmIdtoUpdatedRecMap.put(perUpdated.PPMID__c,retDataWrap.updatedRecord);
+                                }else{
+                                    perEmailToSend =
+                                        surveyInvitation != null &&
+                                        surveyInvitation.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c &&
+                                        !surveyInvitation.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                                        !surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                        !surveyInvitation.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                        surveyInvitation.Participant_Enrollment__r.Invited_To_PP_Date__c !=
+                                        null &&
+                                        surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                                        notiElegibiltyRec.isEligibleToSend = perEmailToSend;
+                                        NotificationService.ppmIdtoUpdatedRecMap.put(surveyInvitation.Participant_Enrollment__r.PPMID__c,surveyInvitation.Participant_Enrollment__r);
+                                }
+                                notiElegibiltyRec.integrationLogRec = retDataWrap.objIntegrationLog;
+                            }
+                            //else if ppmIdtoUpdatedRecMap contains the key then use the values from map    
+                            else{
+                                Participant_Enrollment__c  perUpdatedExistingfromUCPM = (Participant_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(pe.PPMID__c);
+                                perEmailToSend =
+                                    surveyInvitation != null &&
+                                    perUpdatedExistingfromUCPM.Permit_Mail_Email_contact_for_this_study__c &&
+                                    !surveyInvitation.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                                    !surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                    !surveyInvitation.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                    surveyInvitation.Participant_Enrollment__r.Invited_To_PP_Date__c !=
+                                    null &&
+                                    surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                                    notiElegibiltyRec.isEligibleToSend = perEmailToSend;
+                            } 
+                        }else{
+                                perEmailToSend =
+                                    surveyInvitation != null &&
+                                    surveyInvitation.Participant_Enrollment__r.Permit_Mail_Email_contact_for_this_study__c &&
+                                    !surveyInvitation.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                                    !surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                    !surveyInvitation.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                    surveyInvitation.Participant_Enrollment__r.Invited_To_PP_Date__c !=
+                                    null &&
+                                    surveyInvitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                                notiElegibiltyRec.isEligibleToSend = perEmailToSend;
+                        }
                     }
                 } 
                 else if(
@@ -561,31 +695,75 @@ public without sharing class NotificationAvailabilityService {
                         if(
                             !restrictedContacts.containskey(contactId)
                         ){
-                            isEmailAvailableAtPER = false;
+                           notiElegibiltyRec.isEligibleToSend = false;
                         }
                         //If Contact is Restricted
                         else if(
                             restrictedContacts.containskey(contactId) &&
                             !restrictedContacts.get(contactId) // false
                         ){
-                            isEmailAvailableAtPER = false;
+                            notiElegibiltyRec.isEligibleToSend = true;
                         }
                         //If Contact is unRestricted
                         else{
                             Contact contact = contactByIdMap.get(contactId);
-                            if (
-                                contact.Is_Patient_User_Created__c &&
-                                contact.Participant_Opt_In_Status_Emails__c
-                            )
-                                isEmailAvailableAtPER = true;
+                            //check if ppm id is not null for contact record 
+                            if(contact.PPM_ID__c != null){
+                                //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                                //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm 
+                                if(NotificationService.ppmIdtoUpdatedRecMap != null && !NotificationService.ppmIdtoUpdatedRecMap.containsKey(contact.PPM_ID__c)){
+                                    //call ucpm
+                                    List<Contact> conList = new List<Contact> ();
+                                    conList.add(contact);
+                                    UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                    retDataWrap=UCPM_ConsentFetchController.callUCPMtoFetchConsents(null,conList,'notificationbatch' );
+                                    Contact contactUpdated= new Contact();
+                                    contactUpdated =  (Contact)retDataWrap.updatedRecord;
+                                    Boolean isSuccess =retDataWrap.isSuccess;
+                                    
+                                    if(isSuccess){
+                                        if (
+                                            contact.Is_Patient_User_Created__c &&
+                                            contactUpdated.Participant_Opt_In_Status_Emails__c
+                                        ){
+                                            notiElegibiltyRec.updatedRecord = retDataWrap.updatedRecord;
+                                            notiElegibiltyRec.isEligibleToSend = true;
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(contactUpdated.PPM_ID__c,retDataWrap.updatedRecord);
+                                        }
+                                    }else{
+                                        if (
+                                            contact.Is_Patient_User_Created__c &&
+                                            contact.Participant_Opt_In_Status_Emails__c
+                                        ){
+                                            notiElegibiltyRec.isEligibleToSend = true;
+                                            NotificationService.ppmIdtoUpdatedRecMap.put(contact.PPM_ID__c,contact);
+                                        }
+                                    }
+                                    notiElegibiltyRec.integrationLogRec = retDataWrap.objIntegrationLog;   
+                                }
+                                //else if ppmIdtoUpdatedRecMap contains the key then use the values from map    
+                                else{
+                                    Contact contactExistingfromUCPM = (Contact) NotificationService.ppmIdtoUpdatedRecMap.get(contact.PPM_ID__c);
+                                    if (
+                                        contact.Is_Patient_User_Created__c &&
+                                        contactExistingfromUCPM.Participant_Opt_In_Status_Emails__c
+                                    )
+                                        notiElegibiltyRec.isEligibleToSend = true;
+                                }
+                            }else{
+                                    if (
+                                       contact.Is_Patient_User_Created__c &&
+                                        contact.Participant_Opt_In_Status_Emails__c
+                                    )
+                                        notiElegibiltyRec.isEligibleToSend = true;
+                            }
                         }
-                    }
-                    else{
-                        isEmailAvailableAtPER = false;
+                    }else{
+                        notiElegibiltyRec.isEligibleToSend = false;
                     }
                 }
             } else if (objType == TASK_OBJ_NAME) {
-                isEmailAvailableAtPER = isTaskEmailToSend(
+                notiElegibiltyRec = isTaskEmailToSend(
                     objectsByIds,
                     whatId,
                     notificationType,
@@ -596,42 +774,232 @@ public without sharing class NotificationAvailabilityService {
                 Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(
                     Id.valueOf(whatId)
                 );
-                if (
-                    !ctp.Suppress_Participant_Emails__c &&
-                    contactByIdMap.get(contactId).Participant_Opt_In_Status_Emails__c
-                )
-                    isEmailAvailableAtPER = true;
+                Contact contact = contactByIdMap.get(contactId);
+                //check if ppm id is not null for contact record 
+                if(contact.PPM_ID__c != null){
+                    //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                    //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm 
+                    if(NotificationService.ppmIdtoUpdatedRecMap != null && !NotificationService.ppmIdtoUpdatedRecMap.containsKey(contact.PPM_ID__c)){
+                        List<Contact> conList = new List<Contact> ();
+                        conList.add(contactByIdMap.get(contactId));
+                        UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                        retDataWrap=UCPM_ConsentFetchController.callUCPMtoFetchConsents(null,conList,'notificationbatch' );
+                        Contact contactUpdated= new Contact();
+                        contactUpdated =  (Contact)retDataWrap.updatedRecord;
+                        Boolean isSuccess =retDataWrap.isSuccess;
+                        
+                        if(isSuccess){
+                            if (
+                                !ctp.Suppress_Participant_Emails__c &&
+                                contactUpdated.Participant_Opt_In_Status_Emails__c
+                            ){
+                                notiElegibiltyRec.updatedRecord = retDataWrap.updatedRecord;
+                                notiElegibiltyRec.isEligibleToSend = true;
+                                NotificationService.ppmIdtoUpdatedRecMap.put(contactUpdated.PPM_ID__c,retDataWrap.updatedRecord);
+                            }
+                        }else{
+                            if (
+                                !ctp.Suppress_Participant_Emails__c &&
+                                contactByIdMap.get(contactId).Participant_Opt_In_Status_Emails__c
+                            ){
+                                notiElegibiltyRec.isEligibleToSend = true;
+                                NotificationService.ppmIdtoUpdatedRecMap.put(contactByIdMap.get(contactId).PPM_ID__c,contactByIdMap.get(contactId));
+                            }
+                        }
+                            notiElegibiltyRec.integrationLogRec = retDataWrap.objIntegrationLog;   
+                    }
+                    //else if ppmIdtoUpdatedRecMap contains the key then use the values from map    
+                    else{
+                        Contact contactExistingfromUCPM = (Contact) NotificationService.ppmIdtoUpdatedRecMap.get(contact.PPM_ID__c);
+                    if (
+                            !ctp.Suppress_Participant_Emails__c &&
+                            contactExistingfromUCPM.Participant_Opt_In_Status_Emails__c
+                        )
+                            notiElegibiltyRec.isEligibleToSend = true;
+                    }
+                }else{
+                    if (
+                        !ctp.Suppress_Participant_Emails__c &&
+                        contactByIdMap.get(contactId).Participant_Opt_In_Status_Emails__c
+                    )
+                        notiElegibiltyRec.isEligibleToSend = true;
+                }    
+
             } else if (objType == CASE_OBJ_NAME) {
                 ///Platform Level
                 Contact contact = contactByIdMap.get(contactId);
-                if (
-                    contact.Is_Patient_User_Created__c &&
-                    contact.Participant_Opt_In_Status_Emails__c
-                )
-                    isEmailAvailableAtPER = true;
+                //check if ppm id is not null for contact record 
+                if(contact.PPM_ID__c != null){
+                        //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                        //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm 
+                        if(NotificationService.ppmIdtoUpdatedRecMap != null && !NotificationService.ppmIdtoUpdatedRecMap.containsKey(contact.PPM_ID__c)){
+                            //call ucpm
+                            List<Contact> conList = new List<Contact> ();
+                            conList.add(contact);
+                            UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                            retDataWrap=UCPM_ConsentFetchController.callUCPMtoFetchConsents(null,conList,'notificationbatch' );
+                            Contact contactUpdated= new Contact();
+                            contactUpdated =  (Contact)retDataWrap.updatedRecord;
+                            Boolean isSuccess =retDataWrap.isSuccess;
+                            
+                            if(isSuccess){
+                                if (
+                                    contact.Is_Patient_User_Created__c &&
+                                    contactUpdated.Participant_Opt_In_Status_Emails__c
+                                ){
+                                    notiElegibiltyRec.updatedRecord = retDataWrap.updatedRecord;
+                                    notiElegibiltyRec.isEligibleToSend = true;
+                                    NotificationService.ppmIdtoUpdatedRecMap.put(contactUpdated.PPM_ID__c,retDataWrap.updatedRecord);
+                                }
+                            }else{
+                                if (
+                                    contact.Is_Patient_User_Created__c &&
+                                    contact.Participant_Opt_In_Status_Emails__c
+                                ){
+                                    notiElegibiltyRec.isEligibleToSend = true;
+                                    NotificationService.ppmIdtoUpdatedRecMap.put(contact.PPM_ID__c,contact);
+                                }
+                            }
+                                notiElegibiltyRec.integrationLogRec = retDataWrap.objIntegrationLog;   
+                        }
+                        //else if ppmIdtoUpdatedRecMap contains the key then use the values from map    
+                        else{
+                            Contact contactExistingfromUCPM = (Contact) NotificationService.ppmIdtoUpdatedRecMap.get(contact.PPM_ID__c);
+                            if (
+                                contact.Is_Patient_User_Created__c &&
+                                contactExistingfromUCPM.Participant_Opt_In_Status_Emails__c
+                            )
+                                notiElegibiltyRec.isEligibleToSend = true;
+                        }
+                }else{
+                    if (
+                        contact.Is_Patient_User_Created__c &&
+                        contact.Participant_Opt_In_Status_Emails__c
+                        )
+                            notiElegibiltyRec.isEligibleToSend = true;
+                }
+
             } else if (objType == PARTICIPANT_OBJ_NAME) {
                 Participant__c participant = (Participant__c) objectsByIds.get(Id.valueOf(whatId));
-                if (
-                    participant != null &&
-                    participant.Contact__r.Is_Patient_User_Created__c &&
-                    participant.Contact__r.Participant_Opt_In_Status_Emails__c &&
-                    !participant.IsCountry_NOT_Eligible_for_Emails__c
-                ) {
-                    isEmailAvailableAtPER = true;
+                Contact contact = participant.Contact__r;
+                //check if ppm id is not null for contact record 
+                if(contact.PPM_ID__c != null){
+                    //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                    //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm 
+                        if(NotificationService.ppmIdtoUpdatedRecMap != null && !NotificationService.ppmIdtoUpdatedRecMap.containsKey(contact.PPM_ID__c)){
+                            //call ucpm
+                            List<Contact> conList = new List<Contact> ();
+                            conList.add(contact);
+                            UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                            retDataWrap=UCPM_ConsentFetchController.callUCPMtoFetchConsents(null,conList,'notificationbatch' );
+                            Contact contactUpdated= new Contact();
+                            contactUpdated =  (Contact)retDataWrap.updatedRecord;
+                            Boolean isSuccess =retDataWrap.isSuccess;
+                            
+                            if(isSuccess){
+                                if (
+                                    participant != null &&
+                                    participant.Contact__r.Is_Patient_User_Created__c &&
+                                    contactUpdated.Participant_Opt_In_Status_Emails__c &&
+                                    !participant.IsCountry_NOT_Eligible_for_Emails__c
+                                ){
+                                    notiElegibiltyRec.updatedRecord = retDataWrap.updatedRecord;
+                                    notiElegibiltyRec.isEligibleToSend = true;
+                                    NotificationService.ppmIdtoUpdatedRecMap.put(contactUpdated.PPM_ID__c,retDataWrap.updatedRecord);
+                                }
+                            }else{
+                                if (
+                                    participant != null &&
+                                    participant.Contact__r.Is_Patient_User_Created__c &&
+                                    participant.Contact__r.Participant_Opt_In_Status_Emails__c &&
+                                    !participant.IsCountry_NOT_Eligible_for_Emails__c
+                                ){
+                                    notiElegibiltyRec.isEligibleToSend = true;
+                                    NotificationService.ppmIdtoUpdatedRecMap.put(participant.Contact__r.PPM_ID__c,participant.Contact__r);
+                                }
+                            }
+                                notiElegibiltyRec.integrationLogRec = retDataWrap.objIntegrationLog;   
+                        }
+                        //else if ppmIdtoUpdatedRecMap contains the key then use the values from map    
+                        else{
+                            Contact contactExistingfromUCPM = (Contact) NotificationService.ppmIdtoUpdatedRecMap.get(contact.PPM_ID__c);
+                            if (
+                                participant != null &&
+                                participant.Contact__r.Is_Patient_User_Created__c &&
+                                contactExistingfromUCPM.Participant_Opt_In_Status_Emails__c &&
+                                !participant.IsCountry_NOT_Eligible_for_Emails__c
+                            )
+                                notiElegibiltyRec.isEligibleToSend = true;
+                        }
+                }else{
+                    if (
+                       participant != null &&
+                        participant.Contact__r.Is_Patient_User_Created__c &&
+                        participant.Contact__r.Participant_Opt_In_Status_Emails__c &&
+                        !participant.IsCountry_NOT_Eligible_for_Emails__c
+                    )
+                        notiElegibiltyRec.isEligibleToSend = true;
                 }
+    
             } else if (objType == null) {
                 // Platform Level
                 Contact contact = contactByIdMap.get(contactId);
-                if (
-                    contact.Is_Patient_User_Created__c &&
-                    contact.Participant_Opt_In_Status_Emails__c
-                )
-                    isEmailAvailableAtPER = true;
+                //check if ppm id is not null for contact record 
+                if(contact.PPM_ID__c != null){
+                    //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                    //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm 
+                        if(NotificationService.ppmIdtoUpdatedRecMap != null && !NotificationService.ppmIdtoUpdatedRecMap.containsKey(contact.PPM_ID__c)){
+                            //call ucpm
+                            List<Contact> conList = new List<Contact> ();
+                            conList.add(contact);
+                            UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                            retDataWrap=UCPM_ConsentFetchController.callUCPMtoFetchConsents(null,conList,'notificationbatch' );
+                            Contact contactUpdated= new Contact();
+                            contactUpdated =  (Contact)retDataWrap.updatedRecord;
+                            Boolean isSuccess =retDataWrap.isSuccess;
+                            
+                            if(isSuccess){
+                                if (
+                                    contact.Is_Patient_User_Created__c &&
+                                    contactUpdated.Participant_Opt_In_Status_Emails__c
+                                ){
+                                    notiElegibiltyRec.updatedRecord = retDataWrap.updatedRecord;
+                                    notiElegibiltyRec.isEligibleToSend = true;
+                                    NotificationService.ppmIdtoUpdatedRecMap.put(contactUpdated.PPM_ID__c,retDataWrap.updatedRecord);
+                                }
+                            }else{
+                                if (
+                                    contact.Is_Patient_User_Created__c &&
+                                    contact.Participant_Opt_In_Status_Emails__c
+                                ){
+                                    notiElegibiltyRec.isEligibleToSend = true;
+                                    NotificationService.ppmIdtoUpdatedRecMap.put(contact.PPM_ID__c,contact);
+                                }
+                            }
+                                notiElegibiltyRec.integrationLogRec = retDataWrap.objIntegrationLog;   
+                        }
+                        //else if ppmIdtoUpdatedRecMap contains the key then use the values from map    
+                        else{
+                            Contact contactExistingfromUCPM = (Contact) NotificationService.ppmIdtoUpdatedRecMap.get(contact.PPM_ID__c);
+                            if (
+                                contact.Is_Patient_User_Created__c &&
+                                contactExistingfromUCPM.Participant_Opt_In_Status_Emails__c
+                            )
+                                notiElegibiltyRec.isEligibleToSend = true;
+                        }
+                }else{
+                                if (
+                                    contact.Is_Patient_User_Created__c &&
+                                    contact.Participant_Opt_In_Status_Emails__c
+                                )
+                                    notiElegibiltyRec.isEligibleToSend = true;
+                }
             }
         }
-        return isEmailAvailableAtPER;
+        return notiElegibiltyRec;
     }
-    public Boolean isTaskEmailToSend(
+
+    public NotificationService.notificationElegibiltyWrapper isTaskEmailToSend(
         Map<Id, SObject> objectsByIds,
         String whatIdrecrd,
         Notification_Type__mdt notificationType,
@@ -641,6 +1009,7 @@ public without sharing class NotificationAvailabilityService {
         Boolean isEmailAvailableAtPER = false;
         Boolean isStudyLevelEcoaPar = false;
         Boolean isPlatformLevelPar = false;
+        NotificationService.notificationElegibiltyWrapper notiElegibiltyRec= new NotificationService.notificationElegibiltyWrapper(); 
         if (!objectsByIds.isEmpty()) {
             Id whatId = Id.valueOf(whatIdrecrd);
             Task taskrecrd = (Task) objectsByIds.get(whatId);
@@ -664,17 +1033,20 @@ public without sharing class NotificationAvailabilityService {
                         Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                             taskrecrd.whatId
                         );
-                        isEmailAvailableAtPER = isPERTaskEmailtoSend(pe, notObj);
+                        notiElegibiltyRec= isPERTaskEmailtoSend(pe, notObj);
+                        isEmailAvailableAtPER = notiElegibiltyRec.isEligibleToSend;
+                        
                     } else if (objType == 'Participant__c') {
                            isEmailAvailableAtPER = true;
+                           notiElegibiltyRec.isEligibleToSend = isEmailAvailableAtPER;
                     }
                 } else {
                     if (objType == 'Participant_Enrollment__c') {
                         Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                             taskrecrd.whatId
                         );
-                        Boolean perEmailToSend = isPEREmailtoSend(pe, notObj);
-                        if (perEmailToSend) {
+                        notiElegibiltyRec = isPEREmailtoSend(pe, notObj);
+                        if (notiElegibiltyRec.isEligibleToSend) {
                             isEmailAvailableAtPER = true;
                         }
                     } else if (isPlatformLevelPar) {
@@ -714,20 +1086,68 @@ public without sharing class NotificationAvailabilityService {
                             isEmailAvailableAtPER = true;
                         }
                     }*/ //Write for platform Level
-                        Contact contact = contactByIdMap.get(contactId);
-                        if (
-                            contact.Is_Patient_User_Created__c &&
-                            contact.Participant_Opt_In_Status_Emails__c
-                        )
-                            isEmailAvailableAtPER = true;
+
+                     Contact contact = contactByIdMap.get(contactId);
+                     //check if ppm id is not null for contact record 
+                    if(contact.PPM_ID__c != null){
+                        //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                        //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm 
+                            if(NotificationService.ppmIdtoUpdatedRecMap != null && !NotificationService.ppmIdtoUpdatedRecMap.containsKey(contact.PPM_ID__c)){
+                                //call ucpm
+                                List<Contact> conList = new List<Contact> ();
+                                conList.add(contact);
+                                UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                                retDataWrap=UCPM_ConsentFetchController.callUCPMtoFetchConsents(null,conList,'notificationbatch' );
+                                Contact contactUpdated= new Contact();
+                                contactUpdated =  (Contact)retDataWrap.updatedRecord;
+                                Boolean isSuccess =retDataWrap.isSuccess;
+                                
+                                if(isSuccess){
+                                    if (
+                                        contact.Is_Patient_User_Created__c &&
+                                        contactUpdated.Participant_Opt_In_Status_Emails__c
+                                    ){
+                                        notiElegibiltyRec.updatedRecord = retDataWrap.updatedRecord;
+                                        notiElegibiltyRec.isEligibleToSend = true;
+                                        NotificationService.ppmIdtoUpdatedRecMap.put(contactUpdated.PPM_ID__c,retDataWrap.updatedRecord);
+                                    }
+                                }else{
+                                    if (
+                                        contact.Is_Patient_User_Created__c &&
+                                        contact.Participant_Opt_In_Status_Emails__c
+                                    ){
+                                        notiElegibiltyRec.isEligibleToSend = true;
+                                        NotificationService.ppmIdtoUpdatedRecMap.put(contact.PPM_ID__c,contact);
+                                    }
+                                }
+                                    notiElegibiltyRec.integrationLogRec = retDataWrap.objIntegrationLog;   
+                            }
+                            //else if ppmIdtoUpdatedRecMap contains the key then use the values from map    
+                            else{
+                                Contact contactExistingfromUCPM = (Contact) NotificationService.ppmIdtoUpdatedRecMap.get(contact.PPM_ID__c);
+                                if (
+                                    contact.Is_Patient_User_Created__c &&
+                                    contactExistingfromUCPM.Participant_Opt_In_Status_Emails__c
+                                )
+                                    notiElegibiltyRec.isEligibleToSend = true;
+                            }
+                    }else{
+                            if (
+                                contact.Is_Patient_User_Created__c &&
+                                contact.Participant_Opt_In_Status_Emails__c
+                            )
+                                    notiElegibiltyRec.isEligibleToSend = true;
+                        }
                     }
                 }
             }
         }
-        return isEmailAvailableAtPER;
+        return notiElegibiltyRec;
     }
-    public Boolean isPERTaskEmailtoSend(Participant_Enrollment__c pe, Notification__c notObj) {
+
+    public NotificationService.notificationElegibiltyWrapper isPERTaskEmailtoSend(Participant_Enrollment__c pe, Notification__c notObj) {
         Boolean perEmailToSend = false;
+        NotificationService.notificationElegibiltyWrapper notiElegibiltyWrapRec = new NotificationService.notificationElegibiltyWrapper();
         if (
             pe != null &&
             notObj.IsDelegate__c &&
@@ -741,59 +1161,305 @@ public without sharing class NotificationAvailabilityService {
                     perEmailToSend = true;
                 }
                 else{
-                perEmailToSend =
-                    pdelEnrollmentrecrd != null &&
-                    pdelEnrollmentrecrd.Study_Email_Consent__c &&
-                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
-                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
-                    pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+                   //check if ppm id is not null for pde record 
+                    if(pdelEnrollmentrecrd.PPM_ID__c != null){ 
+                        //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                        //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm 
+                        if(NotificationService.ppmIdtoUpdatedRecMap != null && !NotificationService.ppmIdtoUpdatedRecMap.containsKey(pdelEnrollmentrecrd.PPM_ID__c)){
+                            List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c> ();
+                            pder.add(pdelEnrollmentrecrd);
+                            UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                            retDataWrap=UCPM_ConsentFetchController.callUCPMtoFetchConsents(null,pder,'notificationbatch' );
+                            Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated= new Patient_Delegate_Enrollment__c();
+                            pdelEnrollmentrecrdUpdated =  (Patient_Delegate_Enrollment__c)retDataWrap.updatedRecord;
+                            Boolean isSuccess =retDataWrap.isSuccess;
+                            
+                            if(isSuccess){
+                                perEmailToSend =
+                                pdelEnrollmentrecrdUpdated != null &&
+                                pdelEnrollmentrecrdUpdated.Study_Email_Consent__c &&
+                                !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                                !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                                notiElegibiltyWrapRec.updatedRecord = retDataWrap.updatedRecord;
+                                notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                                NotificationService.ppmIdtoUpdatedRecMap.put(pdelEnrollmentrecrdUpdated.PPM_ID__c,retDataWrap.updatedRecord);
+                            }
+                            else{
+                                perEmailToSend =
+                                pdelEnrollmentrecrd != null &&
+                                pdelEnrollmentrecrd.Study_Email_Consent__c &&
+                                !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                                !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                                notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                                NotificationService.ppmIdtoUpdatedRecMap.put(pdelEnrollmentrecrd.PPM_ID__c,pdelEnrollmentrecrd);
+                            }
+                            notiElegibiltyWrapRec.integrationLogRec = retDataWrap.objIntegrationLog;
+                        } 
+                        //else if ppmIdtoUpdatedRecMap contains the key then use the values from map    
+                        else{
+                            Patient_Delegate_Enrollment__c  pdelEnrollmentrecrdExistingfromUCPM = (Patient_Delegate_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(pdelEnrollmentrecrd.PPM_ID__c);
+                            perEmailToSend =
+                                pdelEnrollmentrecrd != null &&
+                                pdelEnrollmentrecrdExistingfromUCPM.Study_Email_Consent__c &&
+                                !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                                !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+                        
+                            notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                        }
+                    }
+                    else{
+                        perEmailToSend =
+                            pdelEnrollmentrecrd != null &&
+                            pdelEnrollmentrecrd.Study_Email_Consent__c &&
+                            !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                            !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                            !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                            pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                        notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                    }
                 }
         } else {
             if(pe != null && PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)){
                 perEmailToSend = true;
             }else{
-           	 	perEmailToSend =
-                pe.Permit_Mail_Email_contact_for_this_study__c &&
-                !pe.Study_Site__r.Suppress_Participant_Emails__c &&
-                !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
-                pe.Invited_To_PP_Date__c != null &&
-                pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+                //check if ppm id is not null for per record 
+                if(pe.PPMID__c != null){
+                    //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                    //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm 
+                    if(NotificationService.ppmIdtoUpdatedRecMap != null && !NotificationService.ppmIdtoUpdatedRecMap.containsKey(pe.PPMID__c)){
+                        List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c> ();
+                        perList.add(pe);
+                        UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                        retDataWrap=UCPM_ConsentFetchController.callUCPMtoFetchConsents(null,perList,'notificationbatch' );
+                        Participant_Enrollment__c peUpdated= new Participant_Enrollment__c();
+                        peUpdated =  (Participant_Enrollment__c)retDataWrap.updatedRecord;
+                        Boolean isSuccess =retDataWrap.isSuccess;
+                        
+                        if(isSuccess){
+                            perEmailToSend =
+                            peUpdated.Permit_Mail_Email_contact_for_this_study__c &&
+                            !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                            !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                            !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                            pe.Invited_To_PP_Date__c != null &&
+                            pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                            notiElegibiltyWrapRec.updatedRecord = retDataWrap.updatedRecord;
+                            notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                            NotificationService.ppmIdtoUpdatedRecMap.put(peUpdated.PPMID__c,retDataWrap.updatedRecord);
+                        }
+                        else{
+                            perEmailToSend =
+                            pe.Permit_Mail_Email_contact_for_this_study__c &&
+                            !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                            !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                            !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                            pe.Invited_To_PP_Date__c != null &&
+                            pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                            notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                            NotificationService.ppmIdtoUpdatedRecMap.put(pe.PPMID__c,pe);
+                        }
+                        notiElegibiltyWrapRec.integrationLogRec = retDataWrap.objIntegrationLog;
+                    }
+                    //else if ppmIdtoUpdatedRecMap contains the key then use the values from map  
+                    else{
+                            Participant_Enrollment__c  perRecrdExistingfromUCPM = (Participant_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(pe.PPMID__c);
+                            perEmailToSend =
+                                perRecrdExistingfromUCPM.Permit_Mail_Email_contact_for_this_study__c &&
+                                !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                                !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                pe.Invited_To_PP_Date__c != null &&
+                                pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                            notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                    }
+                }
+                else{
+                    perEmailToSend =
+                        pe.Permit_Mail_Email_contact_for_this_study__c &&
+                        !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                        !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                        !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                        pe.Invited_To_PP_Date__c != null &&
+                        pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                    notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                }
             }
         }
-        return perEmailToSend;
+        return notiElegibiltyWrapRec;
     }
-    public Boolean isPEREmailtoSend(Participant_Enrollment__c pe, Notification__c notObj) {
+
+    public NotificationService.notificationElegibiltyWrapper isPEREmailtoSend(Participant_Enrollment__c pe, Notification__c notObj) {
         Boolean perEmailToSend = false;
+         NotificationService.notificationElegibiltyWrapper notiElegibiltyWrapRec = new NotificationService.notificationElegibiltyWrapper();
         if (
             pe != null &&
             notObj.IsDelegate__c &&
             delContIdMapOfPerIdPDEnromentMap.containsKey(notObj.recipient__c)
-        ) {
-            Patient_Delegate_Enrollment__c pdelEnrollmentrecrd = delContIdMapOfPerIdPDEnromentMap.get(
-                    notObj.recipient__c
-                )
-                .get(pe.Id);
-            perEmailToSend =
-                pdelEnrollmentrecrd != null &&
-                pdelEnrollmentrecrd.Study_Email_Consent__c &&
-                !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
-                !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
-                pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
-        } else {
-            perEmailToSend =
-                pe.Permit_Mail_Email_contact_for_this_study__c &&
-                !pe.Study_Site__r.Suppress_Participant_Emails__c &&
-                !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
-                pe.Invited_To_PP_Date__c != null &&
-                pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+        )   {
+                //ucpm and return pder record, use that record for follwing calculation
+                Patient_Delegate_Enrollment__c  pdelEnrollmentrecrd = delContIdMapOfPerIdPDEnromentMap.get(
+                        notObj.recipient__c
+                    )
+                    .get(pe.Id);
+                //check if ppm id is not null for pde record 
+                if(pdelEnrollmentrecrd.PPM_ID__c != null){
+                    //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                    //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm 
+                    if(NotificationService.ppmIdtoUpdatedRecMap != null && !NotificationService.ppmIdtoUpdatedRecMap.containsKey(pdelEnrollmentrecrd.PPM_ID__c)){
+                            List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c> ();
+                            pder.add(pdelEnrollmentrecrd);
+                            UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                            retDataWrap=UCPM_ConsentFetchController.callUCPMtoFetchConsents(null,pder,'notificationbatch' );
+                            Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated= new Patient_Delegate_Enrollment__c();
+                            pdelEnrollmentrecrdUpdated =  (Patient_Delegate_Enrollment__c)retDataWrap.updatedRecord;
+                            Boolean isSuccess =retDataWrap.isSuccess;
+
+                            if(isSuccess==true)
+                            {
+                                perEmailToSend =
+                                    pdelEnrollmentrecrdUpdated != null &&
+                                    pdelEnrollmentrecrdUpdated.Study_Email_Consent__c &&
+                                    pdelEnrollmentrecrd != null &&
+                                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                    pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                                notiElegibiltyWrapRec.updatedRecord = retDataWrap.updatedRecord;
+                                notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                                NotificationService.ppmIdtoUpdatedRecMap.put(pdelEnrollmentrecrdUpdated.PPM_ID__c,retDataWrap.updatedRecord);
+                            }
+                            else{
+                                perEmailToSend =
+                                    pdelEnrollmentrecrd != null &&
+                                    pdelEnrollmentrecrd.Study_Email_Consent__c &&
+                                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                    !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                    pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+                            
+                                notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                                NotificationService.ppmIdtoUpdatedRecMap.put(pdelEnrollmentrecrd.PPM_ID__c,pdelEnrollmentrecrd);
+                            }
+                            //adding integartion log record in wrapper
+                            notiElegibiltyWrapRec.integrationLogRec = retDataWrap.objIntegrationLog;
+                        }
+                    //else if ppmIdtoUpdatedRecMap contains the key then use the values from map    
+                    else{
+                        Patient_Delegate_Enrollment__c  pdelEnrollmentrecrdExistingfromUCPM = (Patient_Delegate_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(pdelEnrollmentrecrd.PPM_ID__c);
+                        perEmailToSend =
+                            pdelEnrollmentrecrd != null &&
+                            pdelEnrollmentrecrdExistingfromUCPM.Study_Email_Consent__c &&
+                            !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                            !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                            !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                            pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+                    
+                        notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                    } 
+                }
+                else{
+                    perEmailToSend =
+                        pdelEnrollmentrecrd != null &&
+                        pdelEnrollmentrecrd.Study_Email_Consent__c &&
+                        !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Suppress_Participant_Emails__c &&
+                        !pdelEnrollmentrecrd.Participant_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                        !pdelEnrollmentrecrd.Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                        pdelEnrollmentrecrd.Participant_Enrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+                            
+                    notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                }
+            } 
+            else 
+            {
+                //ucpm call with per id update db with latest
+                //check if ppm id is not null for per record 
+                if(pe.PPMID__c != null){
+                    //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+                    //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm 
+                    if(NotificationService.ppmIdtoUpdatedRecMap != null && !NotificationService.ppmIdtoUpdatedRecMap.containsKey(pe.PPMID__c)){
+                        List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c> ();
+                        perList.add(pe);
+                        UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                        retDataWrap=UCPM_ConsentFetchController.callUCPMtoFetchConsents(null,perList,'notificationbatch' );
+                        Participant_Enrollment__c peUpdated= new Participant_Enrollment__c();
+                        peUpdated =  (Participant_Enrollment__c)retDataWrap.updatedRecord;
+                        Boolean isSuccess =retDataWrap.isSuccess;
+
+                    
+                        if(isSuccess==true){
+                            perEmailToSend =
+                                peUpdated.Permit_Mail_Email_contact_for_this_study__c &&
+                                !peUpdated.Study_Site__r.Suppress_Participant_Emails__c &&
+                                !peUpdated.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                !peUpdated.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                peUpdated.Invited_To_PP_Date__c != null &&
+                                peUpdated.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                            notiElegibiltyWrapRec.updatedRecord = retDataWrap.updatedRecord;
+                            notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                            NotificationService.ppmIdtoUpdatedRecMap.put(peUpdated.PPMID__c,retDataWrap.updatedRecord);
+                        }
+                        else{
+                            perEmailToSend =
+                                pe.Permit_Mail_Email_contact_for_this_study__c &&
+                                !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                                !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                pe.Invited_To_PP_Date__c != null &&
+                                pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                            // notiElegibiltyWrapRec.updatedRecord = retDataWrap.updatedRecord;
+                            notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                            NotificationService.ppmIdtoUpdatedRecMap.put(pe.PPMID__c,pe);
+                        }
+                        //adding integartion log record in wrapper
+                        notiElegibiltyWrapRec.integrationLogRec = retDataWrap.objIntegrationLog;  
+                    }
+                    //else if ppmIdtoUpdatedRecMap contains the key then use the values from map  
+                    else{
+                            Participant_Enrollment__c  perRecrdExistingfromUCPM = (Participant_Enrollment__c) NotificationService.ppmIdtoUpdatedRecMap.get(pe.PPMID__c);
+                            perEmailToSend =
+                                perRecrdExistingfromUCPM.Permit_Mail_Email_contact_for_this_study__c &&
+                                !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                                !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                                pe.Invited_To_PP_Date__c != null &&
+                                pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                            notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                    }
+                }
+                else{
+                    perEmailToSend =
+                        pe.Permit_Mail_Email_contact_for_this_study__c &&
+                        !pe.Study_Site__r.Suppress_Participant_Emails__c &&
+                        !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                        !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &&
+                        pe.Invited_To_PP_Date__c != null &&
+                        pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+
+                    notiElegibiltyWrapRec.isEligibleToSend = perEmailToSend;
+                }
+               
         }
-        return perEmailToSend;
+        
+        return notiElegibiltyWrapRec;
     }
-    public Boolean isAvailable(
+    public NotificationService.notificationElegibiltyWrapper isAvailable(
         String whatId,
         String recipientType,
         String notificationTarget,
@@ -801,8 +1467,11 @@ public without sharing class NotificationAvailabilityService {
         Notification_Type__mdt notificationType,
         Notification__c notObj
     ) {
-        if (whatId != null && objectsByIds.get(Id.valueOf(whatId)) == null)
-            return false;
+        NotificationService.notificationElegibiltyWrapper notiElegibiltyRec = new NotificationService.notificationElegibiltyWrapper();
+        if (whatId != null && objectsByIds.get(Id.valueOf(whatId)) == null){
+            notiElegibiltyRec.isEligibleToSend = false;
+            return notiElegibiltyRec;
+        }
         Boolean checkForNotification = false;
         String objType = null;
         Id objId;
@@ -811,7 +1480,7 @@ public without sharing class NotificationAvailabilityService {
             objType = String.valueOf(objId.getSobjectType());
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PARTICIPANT) {
-            checkForNotification = isEmailtoSend(
+            notiElegibiltyRec = isEmailtoSend(
                 whatId,
                 recipientType,
                 notificationTarget,
@@ -820,6 +1489,7 @@ public without sharing class NotificationAvailabilityService {
                 objType,
                 notObj
             );
+            checkForNotification = notiElegibiltyRec.isEligibleToSend;
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_HCP) {
             if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
@@ -883,13 +1553,15 @@ public without sharing class NotificationAvailabilityService {
                     piHasSiteWithEnabledEmailMap.get(contactId));
             }
         }
-        return checkForNotification;
+        notiElegibiltyRec.isEligibleToSend = checkForNotification;
+        return notiElegibiltyRec;
     }
 
     public Boolean isAvailableForSMS(Id contactId, String whatId) {
         Boolean isAvailable = true;
         Id objId = whatId;
         Contact contact = contactByIdMap.get(contactId);
+        //call ucpm to update contact with latest 
         isAvailable = isAvailable && contact.Participant_Opt_In_Status_SMS__c;
         return isAvailable;
     }
@@ -1232,6 +1904,7 @@ public without sharing class NotificationAvailabilityService {
         return [
             SELECT
                 Id,
+                PPMID__c,
                 Permit_Mail_Email_contact_for_this_study__c,
                 Invited_To_PP_Date__c,
                 Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
@@ -1258,7 +1931,8 @@ public without sharing class NotificationAvailabilityService {
                 Contact__r.Participant_Opt_In_Status_Emails__c,
                 Contact__r.Participant_Opt_In_Status_SMS__c,
                 IsCountry_NOT_Eligible_for_Emails__c,
-                Contact__r.Is_Patient_User_Created__c
+                Contact__r.Is_Patient_User_Created__c,
+                Contact__r.PPM_ID__c
             FROM Participant__c
             WHERE Id IN :parIds
         ];
@@ -1268,6 +1942,7 @@ public without sharing class NotificationAvailabilityService {
         List<Participant_Enrollment__c> availablePEs = [
             SELECT
                 Id,
+                PPMID__c,
                 Permit_Mail_Email_contact_for_this_study__c,
                 Participant__c,
                 participant_Contact__c,
