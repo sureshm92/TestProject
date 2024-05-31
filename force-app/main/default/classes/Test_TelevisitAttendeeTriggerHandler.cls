@@ -1,88 +1,52 @@
 @IsTest
 public class Test_TelevisitAttendeeTriggerHandler {
-    @TestSetup
-    static void init() {
-        Test.startTest();
-        TestData.loadTestData();
-        Test.stopTest();
-    }
-
     @IsTest
-    static void taskTest() {
-        Test.setMock(HttpCalloutMock.class, new RestMock());
-        Test.startTest();
+    static void taskTest()
+    {
+         TriggerHandlerExecutor.bypassHandler(NotificationTriggerHandler.UpdateNotificationHandler.class);
+         Test.startTest();
+        TestData.loadTestData();
         TestData testData = new TestData();
-
+        Televisit_Record_Vendor__c trv = new Televisit_Record_Vendor__c(API_Key__c = 'test',API_Secret__c='test1', Clinical_Trial_Profile__c=testData.ctp.id);
+        insert trv;
+        TelevisitVendorSettings__c tvs = new TelevisitVendorSettings__c(Study_Site__c = testData.ss.id,isEnable__c=True, Televisit_Record_Vendor__c=trv.id);
+        insert tvs;
+        
         Televisit_Attendee__c taObj = new Televisit_Attendee__c();
-        Televisit_Attendee__c taObj1 = new Televisit_Attendee__c();
+                Televisit_Attendee__c taObj1 = new Televisit_Attendee__c();
 
         Televisit__c televisitRecord = new Televisit__c();
         televisitRecord.Title__c = 'title';
-        televisitRecord.Duration__c = '15 minutes';
-        televisitRecord.Status__c = 'Scheduled';
+        televisitRecord.Duration__c='15 minutes';
+        televisitRecord.Status__c='Scheduled';
         televisitRecord.Participant_Enrollment__c = testData.pe.Id;
         insert televisitRecord;
-        taObj.Attendee_Type__c = 'Participant';
+        taObj.Attendee_Type__c='Participant';
         taObj.Televisit__c = televisitRecord.Id;
-        taObj.Contact__c = testData.pe.Participant_Contact__c;
+        taObj.Contact__c =  testData.pe.Participant_Contact__c;
         insert taObj;
-        taObj1.Attendee_Type__c = 'PI';
+        taObj1.Attendee_Type__c='PI';
         taObj1.Televisit__c = televisitRecord.Id;
-        taObj1.Contact__c = testData.pe.Participant_Contact__c;
+        taObj1.Contact__c =  testData.pe.Participant_Contact__c;
         insert taObj1;
-        Televisit_Attendee__c taObj2 = new Televisit_Attendee__c();
-        taObj2.Attendee_Type__c = 'PI';
+                        Televisit_Attendee__c taObj2 = new Televisit_Attendee__c();
+         taObj2.Attendee_Type__c='PI';
         taObj2.Televisit__c = televisitRecord.Id;
-        taObj2.Contact__c = testData.pe.Participant_Contact__c;
+        taObj2.Contact__c =  testData.pe.Participant_Contact__c;
         insert taObj2;
-        Contact delegate = new Contact(
-            FirstName = 'Patient',
-            LastName = 'Delegate',
-            Email = 'delegate@somemail.com',
-            AccountId = testData.participant.Contact__r.AccountId,
-            Current_Participant_Enrollment__c = testData.pe.Id,
-            userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
-            userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
-            UserCommunityIsDelegate__c = true
-        );
-        insert delegate;
-        Participant__c p = new Participant__c(
-            First_Name__c = 'Patient',
-            Last_Name__c = 'Delegate',
-            Contact__c = delegate.Id
-        );
-        insert p;
-        Televisit_Attendee__c taObj3 = new Televisit_Attendee__c();
-        taObj3.Attendee_Type__c = 'Participant Delegate';
-        taObj3.Televisit__c = televisitRecord.Id;
-        taObj3.Contact__c = delegate.Id;
-        TriggerHandlerExecutor.bypassHandler(TelevisitAttendeeTriggerHandler.class);
-        TriggerHandlerExecutor.bypassHandler(
-            NotificationTriggerHandler.UpdateNotificationHandler.class
-        );
-        insert taObj3;
-
-        delete taObj2;
-        delete taObj3;
+delete taObj2;
+        List<Id> targetIds = new List<Id>();
         TelevisitAttendeeTriggerHandler.ManageAttendees manageAttendee = new TelevisitAttendeeTriggerHandler.ManageAttendees();
-        manageAttendee.afterDelete(new List<Televisit_Attendee__c>{ taObj, taObj1, taObj2 });
-        manageAttendee.afterInsert(new List<Televisit_Attendee__c>{ taObj, taObj1 });
+        manageAttendee.afterDelete(new List<Televisit_Attendee__c>{taObj,taObj1,taObj2});
+        manageAttendee.afterInsert(new List<Televisit_Attendee__c>{taObj,taObj1});
         TelevisitAttendeeTriggerHandler.TelevisitEventTrigger teTrigger = new TelevisitAttendeeTriggerHandler.TelevisitEventTrigger();
-        teTrigger.afterInsert(new List<Televisit_Attendee__c>{ taObj, taObj1 });
+        teTrigger.afterInsert(new List<Televisit_Attendee__c>{taObj,taObj1});
         TelevisitAttendeeTriggerHandler.TelevisitAttendeeTrigger taTrigger = new TelevisitAttendeeTriggerHandler.TelevisitAttendeeTrigger();
-        taTrigger.afterDelete(new List<Televisit_Attendee__c>{ taObj, taObj1, taObj2, taObj3 });
-        taTrigger.afterInsert(new List<Televisit_Attendee__c>{ taObj, taObj1 });
-        Test.stopTest();
-    }
-
-    private class RestMock implements HttpCalloutMock {
-        public HTTPResponse respond(HTTPRequest req) {
-            String fullJson = 'your Json Response';
-            HTTPResponse res = new HTTPResponse();
-            res.setHeader('Content-Type', 'text/json');
-            res.setBody('[{"session_id":"test"}]');
-            res.setStatusCode(200);
-            return res;
-        }
+        taTrigger.afterDelete(new List<Televisit_Attendee__c>{taObj,taObj1,taObj2});
+                taTrigger.afterInsert(new List<Televisit_Attendee__c>{taObj,taObj1});
+        TelevisitAttendeeTriggerHandler.gettrimmedTargetRecordIds(targetIds);
+        
+ Test.stopTest();
+        
     }
 }
