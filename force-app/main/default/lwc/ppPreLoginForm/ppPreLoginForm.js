@@ -1,5 +1,6 @@
-import { LightningElement, track, wire } from 'lwc';
+import { LightningElement, track, api, wire } from 'lwc';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { loadStyle } from 'lightning/platformResourceLoader';
 import unableToLogin from '@salesforce/label/c.PG_Unable_To_Login';
 import forgotPassword from '@salesforce/label/c.Lofi_Forgot_Password';
@@ -17,9 +18,13 @@ import PP_Login_Form_Show from '@salesforce/label/c.PP_Login_Form_Show';
 import PP_Login_Form_Hide from '@salesforce/label/c.PP_Login_Form_Hide';
 import PP_For_Participants_and_Caregivers from '@salesforce/label/c.PP_For_Participants_and_Caregivers';
 import PP_Connecting_professionals from '@salesforce/label/c.PP_Connecting_professionals';
-import isSSOEnabled from '@salesforce/apex/RRLoginRemote.isSSOEnabled';
+import getPatientSsoUrl from '@salesforce/apex/RRLoginRemote.getPatientSsoUrl';
+import getSSOData from '@salesforce/apex/RRLoginRemote.getSSOData';
+
+
 
 export default class PpLoginForm extends NavigationMixin(LightningElement) {
+    
     @track inError;
     @track errorMsg;
     @track isRTL;
@@ -32,6 +37,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     @track userNam;
     @track inputError = false;
     btnclassName = 'slds-input input-field-container';
+    @api loadSpinner = false;
 
     passwordInputType = 'password';
     isEyeHidden = true;
@@ -58,6 +64,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     currentPageReference;
     erroContainerPosition = 'margin-left: 13px';
     errorIconPosition = 'margin-left: 8px';
+    stateValue;
 
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
@@ -76,7 +83,30 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                 });
         }
     }
+    patientSSOUrl = "";
+    ssoval="false"; 
+    
+    connectedCallback() {
+            this.iframeReq = true;
+            getPatientSsoUrl()
+            .then(result => {
+                    this.patientSSOUrl = result;
+                    window.addEventListener("message", this.handleVFResponse.bind(this));
+            })
+            .catch(error => {
+                this.showErrorToast(error);
+            })    
 
+    }
+    
+    @api theIframe;
+    @api hasStateValue=false;
+   
+    statePara;
+    handleVFResponse(message) {
+        let sState = message.data;
+        this.statePara = sState.substring(7); console.log('statePara  - '+this.statePara);
+    }
     handleuserNameChange(event) {
         if (event.target.value !== '') {
             this.template.querySelector('[data-id="userName"]').value = event.target.value;
@@ -256,8 +286,8 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
        this.usrName = value;
        console.log('usrName - ' +this.usrName);
     }
+
     handleNext(){
-        console.log('handlenext - ' +this.usrName);
         if(this.usrName == null || this.usrName == ''){
             this.inError = true;
             this.inputError = true;
@@ -266,24 +296,31 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         }else{
             const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             if(this.usrName.match(emailRegex)){
-               console.log('no errror');
-               isSSOEnabled({ userName: this.usrName })
+               console.log('no errror - '+this.statePara);
+               getSSOData({ userName: this.usrName, state:this.statePara})
                 .then((result) => { console.log('r- '+JSON.stringify(result));
                     if (result.usrNameExist && result.isSSOEnabled) {
                         console.log('redirect to sso');
-                        this[NavigationMixin.Navigate]({
-                            type: 'comm__namedPage',
-                            attributes: {
-                                name: 'Login_PP__c'
-                            }
-                            });
-                    } else { console.log('redirect to Login');
-                        this[NavigationMixin.Navigate]({
-                            type: 'comm__namedPage',
-                            attributes: {
-                                name: 'Login_PP__c'
-                            }
-                            });
+                        console.log(result.ssoUrl);
+                        let randomNumber = parseInt(Math.random() * 100000000).toString();
+                        sessionStorage.setItem('myKey', randomNumber);
+                        window.open(result.ssoUrl,'_parent');    
+                    } else if(!result.usrNameExist){ 
+                        this.inError = true;
+                        this.inputError = true;
+                        this.errorMsg = 'Enter a valid User Name in the field.';
+                        this.btnclassName = 'slds-input input-field-container-error';
+                    }else{
+                        let randomNumber = parseInt(Math.random() * 100000000).toString();
+                        sessionStorage.setItem('myKey', randomNumber);
+                        console.log('redirect to Login');
+                            this[NavigationMixin.Navigate]({
+                                type: 'comm__namedPage',
+                                attributes: {
+                                    name: 'Login_PP__c'
+                                },
+                                state: { lg: randomNumber}
+                                });
                     }
                 })
                 .catch((error) => {console.log('e - '+JSON.stringify(error));
@@ -295,26 +332,17 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
             this.errorMsg = 'Enter a valid User Name in the field.';
             this.btnclassName = 'slds-input input-field-container-error';
             }
-        }
-        
-        // if (allValid) {
-            // isSSOEnabled({ userName: this.usrName })
-            //     .then((result) => { console.log('r- '+JSON.stringify(result));
-            //         if (result.usrNameExist && result.isSSOEnabled) {
-            //             console.log('redirect to sso');
-            //         } else { console.log('redirect to Login');
-            //             this[NavigationMixin.Navigate]({
-            //                 type: 'comm__namedPage',
-            //                 attributes: {
-            //                     name: 'Login_PP__c'
-            //                 }
-            //                 });
-            //         }
-            //     })
-            //     .catch((error) => {console.log('e - '+JSON.stringify(error));
-            //         this.error = error;
-            //     });
-        // }
-        
+        } 
     }
+    showErrorToast(msg) {
+        const evt = new ShowToastEvent({
+            title: msg,
+            message: msg,
+            variant: 'error',
+            duration:400,
+            mode: 'dismissible'
+        });
+        this.dispatchEvent(evt);
+    }
+   
 }
