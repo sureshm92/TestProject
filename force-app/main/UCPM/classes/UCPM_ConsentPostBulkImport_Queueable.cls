@@ -7,10 +7,18 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
     String createrequestJSON;
     String updaterequestJSON;
     String placeOfFunctionality;
-    public UCPM_ConsentPostBulkImport_Queueable(List<Id> perIdList, List<Id> pderEnrolIds,String functionalityPlace) {
+    List<IntegrationLog__c> logsToInsert = new List<IntegrationLog__c>();
+    List<Contact> conToUpdate = new List<Contact>();
+    List<Patient_Delegate_Enrollment__c> pderToUpdate = new List<Patient_Delegate_Enrollment__c>();
+    List<Participant_Enrollment__c> perToUpdate = new List<Participant_Enrollment__c>();
+    public UCPM_ConsentPostBulkImport_Queueable(
+        List<Id> perIdList,
+        List<Id> pderEnrolIds,
+        String functionalityPlace
+    ) {
         perRecIds = perIdList != null ? perIdList : null;
         pDelEnrolRecIds = pderEnrolIds != null ? pderEnrolIds : null;
-        placeOfFunctionality=functionalityPlace;
+        placeOfFunctionality = functionalityPlace;
     }
 
     public void execute(QueueableContext context) {
@@ -36,6 +44,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c,
                     Clinical_Trial_Profile__r.CommunityTemplate__c,
                     Clinical_Trial_Profile__r.PPTemplate__c,
+                    Participant_Contact__c,
                     Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
                     Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                     Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
@@ -94,6 +103,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     Clinical_Trial_Profile__r.IQVIA_Outreach__c,
                     Clinical_Trial_Profile__r.CommunityTemplate__c,
                     Clinical_Trial_Profile__r.PPTemplate__c,
+                    Participant_Contact__c,
                     Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
                     Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                     Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
@@ -133,8 +143,8 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
             mapCtpAndRestSources.put(ctp.Id, ctp.Restricted_Source_Config__r);
         }
         Map<Id, Boolean> mapPerIdAndOutReach = new Map<Id, Boolean>();
-        
-    //Checking restricted resource and Iqvia Outreach validation
+
+        //Checking restricted resource and Iqvia Outreach validation
         for (Participant_Enrollment__c per : perList) {
             String referralSource;
             Boolean iqviaOutreach = false;
@@ -182,15 +192,51 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
         }
 
         if (perList != null && perList.size() > 0) {
+            accessToken = getAccessToken();
+            System.debug('accessToken: ' + accessToken);
             for (Participant_Enrollment__c per : perList) {
-                //New PER and new participant contact without delegate
+                //New PER without participant contact and without delegate
                 if (
+                    placeOfFunctionality == 'RP BULK IMPORT' &&
+                    per.Participant_Contact__c == null &&
+                    per.PPMID__c == null
+                ) {
+                    createtypeIdentity = 'PARTICIPANT';
+                    // accessToken = UCPM_ConsentPostController.getAccessToken();
+                    createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
+                        per,
+                        null,
+                        mapPerIdAndOutReach.get(per.Id),
+                        'Participant',
+                        placeOfFunctionality
+                    );
+                    if (
+                        String.isNotBlank(createrequestJSON) && String.isNotEmpty(createrequestJSON)
+                    ) {
+                        UCPM_ConsentPostController.ReturnWrapper rw = new UCPM_ConsentPostController.ReturnWrapper();
+                        rw = UCPM_ConsentPostController.callUCPMtoSaveConsents(
+                            createrequestJSON,
+                            accessToken,
+                            createtypeIdentity
+                        );
+                        if(rw != null ){
+                            if(rw.per != null){
+                                perToUpdate.add(rw.per);
+                            }
+                            if(rw.log != null){
+                                logsToInsert.add(rw.log);
+                            }
+                        }
+                    }
+                }
+                //New PER and new participant contact without delegate
+                else if (
                     per.PPMID__c == null &&
                     per.Participant_Contact__r.PPM_ID__c == null &&
                     perandPderMap.get(per).size() == 0
                 ) {
                     createtypeIdentity = 'PARTICIPANT';
-                    accessToken = UCPM_ConsentPostController.getAccessToken();
+                    // accessToken = UCPM_ConsentPostController.getAccessToken();
                     createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
                         per,
                         null,
@@ -201,11 +247,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     if (
                         String.isNotBlank(createrequestJSON) && String.isNotEmpty(createrequestJSON)
                     ) {
-                        UCPM_ConsentPostController.callUCPMtoPostConsents(
-                            createrequestJSON,
-                            accessToken,
-                            createtypeIdentity
-                        );
+                        UCPM_ConsentPostController.callUCPMtoPostConsents(createrequestJSON, accessToken, createtypeIdentity);
                     }
                 }
                 //New PER,existing participant contact without delegate
@@ -214,7 +256,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     per.Participant_Contact__r.PPM_ID__c != null &&
                     perandPderMap.get(per).size() == 0
                 ) {
-                    accessToken = UCPM_ConsentPostController.getAccessToken();
+                    // accessToken = UCPM_ConsentPostController.getAccessToken();
                     createtypeIdentity = 'PARTICIPANT';
                     updatetypeIdentity = 'PARTICIPANT';
                     createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
@@ -259,7 +301,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     perandPderMap.get(per)[0].PPM_ID__c == null &&
                     perandPderMap.get(per)[0].Patient_Delegate__r.Contact__r.PPM_ID__c == null
                 ) {
-                    accessToken = UCPM_ConsentPostController.getAccessToken();
+                    // accessToken = UCPM_ConsentPostController.getAccessToken();
                     createtypeIdentity = 'PARTICIPANT-DELEGATE';
                     createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
                         per,
@@ -287,7 +329,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     perandPderMap.get(per)[0].PPM_ID__c == null &&
                     perandPderMap.get(per)[0].Patient_Delegate__r.Contact__r.PPM_ID__c != null
                 ) {
-                    accessToken = UCPM_ConsentPostController.getAccessToken();
+                    // accessToken = UCPM_ConsentPostController.getAccessToken();
                     createtypeIdentity = 'PARTICIPANT-DELEGATE';
                     updatetypeIdentity = 'DELEGATE';
                     createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
@@ -333,7 +375,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     perandPderMap.get(per)[0].PPM_ID__c == null &&
                     perandPderMap.get(per)[0].Patient_Delegate__r.Contact__r.PPM_ID__c == null
                 ) {
-                    accessToken = UCPM_ConsentPostController.getAccessToken();
+                    // accessToken = UCPM_ConsentPostController.getAccessToken();
                     createtypeIdentity = 'PARTICIPANT-DELEGATE';
                     updatetypeIdentity = 'PARTICIPANT';
                     createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
@@ -342,7 +384,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                         mapPerIdAndOutReach.get(per.Id),
                         'Participant:Delegate:DelegateContact',
                         placeOfFunctionality
-                        
+
                     );
                     updaterequestJSON = UCPM_ConsentPostController.requestJsonGeneration_update(
                         per,
@@ -380,7 +422,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                     perandPderMap.get(per)[0].PPM_ID__c == null &&
                     perandPderMap.get(per)[0].Patient_Delegate__r.Contact__r.PPM_ID__c != null
                 ) {
-                    accessToken = UCPM_ConsentPostController.getAccessToken();
+                    // accessToken = UCPM_ConsentPostController.getAccessToken();
                     createtypeIdentity = 'PARTICIPANT-DELEGATE';
                     updatetypeIdentity = 'PARTICIPANT-DELEGATE';
                     createrequestJSON = UCPM_ConsentPostController.requestJsonGeneration_Create(
@@ -419,5 +461,174 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                 }
             }
         }
+
+        try {
+            if (!perToUpdate.isEmpty()) {
+                TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.EcoaEvents.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class
+                );
+
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.updateConsentTimeStamps.class
+                );
+                database.update(perToUpdate, false);
+            }
+            if (!pderToUpdate.isEmpty()) {
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.CreateNewAssignmentNotification.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.SetDefaultPatientDelegateStatusHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.CreatePrimaryDelegateForMinor.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.CreateReactivatedNotification.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.UpdateDelegateConsent.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.UpdateConsentTimeStamps.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
+                );
+                database.update(pderToUpdate, false);
+            }
+
+            if (!conToUpdate.isEmpty()) {
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.UpdateConsentTimeStamps.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.CreateUserForCCContactHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.PopulateOverrideFields.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                );
+                database.update(conToUpdate, false);
+            }
+            if (!logsToInsert.isEmpty()) {
+                database.insert(logsToInsert, false);
+            }
+        } catch (Exception e) {
+            System.debug('e.getMessage(): ' + e.getMessage());
+            System.debug('e.getStackTraceString(): ' + e.getStackTraceString());
+            IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
+            objIntegrationLog.Response_Body__c = e.getMessage() + ' ' + e.getStackTraceString();
+            objIntegrationLog.Request_Time__c = system.now();
+            objIntegrationLog.Request_Type__c = 'Updation failed UCPM-Exception';
+            objIntegrationLog.Function_Name__c = 'UCPM_ConsentPostController.postconsentUCPMdata';
+            objIntegrationLog.Http_Method__c = 'POST';
+            objIntegrationLog.Endpoint_URL__c = 'callout:UCPM_Post_Consent';
+            insert objIntegrationLog;
+        }
+    }
+    public String getAccessToken() {
+        String accessToken;
+        MulesoftToken__c setting = MulesoftToken__c.getInstance('Mulesoft Access Token UCPM');
+        Http http1 = new Http();
+        HttpRequest request1 = new HttpRequest();
+        request1.setEndpoint('callout:' + setting.Named_Credentials_Name__c);
+        request1.setMethod('POST');
+        request1.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+        request1.setTimeout(120000);
+        String requestBody1 = 'grant_type=client_credentials';
+        request1.setBody(requestBody1);
+        System.debug('###### request1 ' + request1);
+
+        HttpResponse resp1;
+
+        try {
+            resp1 = http1.send(request1);
+        } catch (exception e) {
+            System.debug('MSGbody##: ' + e.getMessage());
+        }
+        System.debug('###### resp1 ' + resp1);
+        System.debug('###### resp1 ' + resp1.getBody());
+        if (resp1.getStatusCode() == 200) {
+            JsonParser parser = JSON.createParser(resp1.getBody());
+            ResponseWrapperToken deserializedResponseWrapper = (ResponseWrapperToken) JSON.deserialize(
+                resp1.getBody(),
+                ResponseWrapperToken.class
+            );
+            accessToken = deserializedResponseWrapper.access_token;
+        }
+        return accessToken;
+    }
+    //Response wrapper start
+    public class ResponseWrapperToken {
+        public String token_type;
+        public String access_token;
+        public Integer expires_in;
+        public String message;
+        public Boolean success;
+        public Integer statusCode;
     }
 }
