@@ -28135,6 +28135,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>View Sites</value>
     </labels>
     <labels>
+        <fullName>SSO_Sign_in_Url</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SSO_Sign_in_Url</shortDescription>
+        <value>{0}?p={1}&client_id={2}&redirect_uri={3}&scope=openid&response_type=code&state={4}&login_hint={5}&ui_locales={6}&external_system_id={7}&spselection={8}</value>
+    </labels>
+    <labels>
+        <fullName>SSO_Sign_up_Url</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SSO_Sign_up_Url</shortDescription>
+        <value>{0}?p={1}&client_id={2}&redirect_uri={3}&scope=openid&response_type=code&state={4}&firstname={5}&lastname={6}&country={7}&login_hint={8}&ui_locales={9}&external_system_id={10}&spselection={11}</value>
+    </labels>
+    <labels>
         <fullName>SS_invalidEmail</fullName>
         <language>en_US</language>
         <protected>true</protected>

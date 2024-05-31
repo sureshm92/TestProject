@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>pi3alpha</label>
+    <protected>false</protected>
+    <values>
+        <field>LoginPolicyContentUrl__c</field>
+        <value xsi:type="xsd:string">https://quintilesimscmo--pi3alpha.sandbox.my.salesforce-sites.com</value>
+    </values>
+    <values>
+        <field>Patient_Auth_Provider_URL__c</field>
+        <value xsi:type="xsd:string">https://quintilesimscmo--pi3alpha.sandbox.my.site.com/pp/services/auth/sso/Patient_SSO</value>
+    </values>
+</CustomMetadata>
