@@ -38,9 +38,9 @@
         component.set('v.cookieText', bodyText);
         let pgName =  window.document.title;
         if(pgName == 'Login'){
-            component.set('v.showCookiesBanner', false);
-        }else{
             component.set('v.showCookiesBanner', true);
+        }else{
+            component.set('v.showCookiesBanner', false);
         }
     },
     selectedRecords: function (component, event, helper) {
