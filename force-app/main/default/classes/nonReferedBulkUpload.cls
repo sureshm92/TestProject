@@ -494,6 +494,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                 }
             }
             
+            List<Id> peridList = new List<Id>();
             List<Database.SaveResult> saveResults = Database.insert(peList.values(), false);
             for (Integer i = 0; i < saveResults.size(); i++) {
                 if(!saveResults[i].isSuccess()){
@@ -505,6 +506,12 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     string row = rowsCSV.get(IndexPatientMap.get(pe.Patient_ID__c));
                     row = row.trim() + ','+errMSG;
                     errRowsCSV.put(pe.Patient_ID__c,row); 
+                }else{
+                    Participant_Enrollment__c pe = peList.values()[i];
+                    if(pe.Patient_Auth__c == 'Yes' ){
+                        peridList.add(saveResults[i].getId());
+                    }
+                    
                 }
             }
             
@@ -547,6 +554,15 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
             // }
             
             
+            if(!peridList.isEmpty()){
+                system.enqueuejob(
+                    new UCPM_ConsentPostBulkImport_Queueable(
+                    peridList,
+                    null,
+                    'RP BULK IMPORT'
+                    )
+                );
+            }
         } catch (Exception e) {
             system.debug(e.getMessage());
             system.debug(e.getStackTraceString());
