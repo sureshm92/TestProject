@@ -560,12 +560,18 @@ public without sharing class NotificationService {
                     }
 
                     //check if the SMS notification is eligible to send.
-                    Boolean isSMSAEligibleToSend = availabilityService.checkSMSIsEligibleToSkip(
+                    NotificationService.notificationElegibiltyWrapper notiElegibiltyRec = availabilityService.checkSMSIsEligibleToSkip(
                         n,
                         notificationType.Recipient_Type__c
                     );
+                    if(notiElegibiltyRec.updatedRecord != null){
+                        consentUpdationRecords.add(notiElegibiltyRec.updatedRecord);
+                    }
+                    if(notiElegibiltyRec.integrationLogRec != null){
+                        integraionLogUpdationRecords.add(notiElegibiltyRec.integrationLogRec);
+                    }
                     //Check if skipSMS flag is true then skip the SMS and continue for next iteration.
-                    if (!isSMSAEligibleToSend) {
+                    if (!notiElegibiltyRec.isEligibleToSend) {
                         if (
                             (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||
                             (taskSurveyReminderTypes.contains(n.Notification_Type__c) &&
