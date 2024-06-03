@@ -1557,13 +1557,45 @@ public without sharing class NotificationAvailabilityService {
         return notiElegibiltyRec;
     }
 
-    public Boolean isAvailableForSMS(Id contactId, String whatId) {
+    public NotificationService.notificationElegibiltyWrapper isAvailableForSMS(Id contactId, String whatId) {
         Boolean isAvailable = true;
         Id objId = whatId;
         Contact contact = contactByIdMap.get(contactId);
+        NotificationService.notificationElegibiltyWrapper notiElegibiltyRec = new NotificationService.notificationElegibiltyWrapper();
         //call ucpm to update contact with latest 
-        isAvailable = isAvailable && contact.Participant_Opt_In_Status_SMS__c;
-        return isAvailable;
+        //check if ppm id is not null for contact record 
+        if(contact.PPM_ID__c != null){
+        //check if ppmIdtoUpdatedRecMap contains the key if it conatins the ppmid as key means the ucpm callout is already done for this ppmid
+        //if ppmIdtoUpdatedRecMap does not contain the key then call ucpm 
+            if(NotificationService.ppmIdtoUpdatedRecMap != null && !NotificationService.ppmIdtoUpdatedRecMap.containsKey(contact.PPM_ID__c)){
+                //call ucpm
+                list<Contact> conList = new List<Contact> ();
+                conList.add(contact);
+                UCPM_ConsentFetchController.returnValueWrapper retDataWrap = new UCPM_ConsentFetchController.returnValueWrapper();
+                retDataWrap=UCPM_ConsentFetchController.callUCPMtoFetchConsents(null,conList,'notificationbatch' );
+                Contact contactUpdated= new Contact();
+                contactUpdated =  (Contact)retDataWrap.updatedRecord;
+                Boolean isSuccess =retDataWrap.isSuccess;
+                                    
+                if(isSuccess){
+                        notiElegibiltyRec.updatedRecord = retDataWrap.updatedRecord;
+                        notiElegibiltyRec.isEligibleToSend = isAvailable && contactUpdated.Participant_Opt_In_Status_SMS__c;
+                        NotificationService.ppmIdtoUpdatedRecMap.put(contactUpdated.PPM_ID__c,retDataWrap.updatedRecord);
+                }else{
+                    notiElegibiltyRec.isEligibleToSend = isAvailable && contact.Participant_Opt_In_Status_SMS__c;
+                    NotificationService.ppmIdtoUpdatedRecMap.put(contact.PPM_ID__c,contact);
+                }
+                notiElegibiltyRec.integrationLogRec = retDataWrap.objIntegrationLog;   
+            }
+            //else if ppmIdtoUpdatedRecMap contains the key then use the values from map    
+            else{
+                Contact contactExistingfromUCPM = (Contact) NotificationService.ppmIdtoUpdatedRecMap.get(contact.PPM_ID__c);
+                notiElegibiltyRec.isEligibleToSend = isAvailable && contactExistingfromUCPM.Participant_Opt_In_Status_SMS__c;
+            }
+        }else{
+            notiElegibiltyRec.isEligibleToSend = isAvailable && contact.Participant_Opt_In_Status_SMS__c;
+        }
+        return notiElegibiltyRec;
     }
 
     /**
@@ -1600,15 +1632,16 @@ public without sharing class NotificationAvailabilityService {
      * @param:  n
      * @return: Boolean
      **/
-    public Boolean checkSMSIsEligibleToSkip(Notification__c n, String recipientType) {
+    public NotificationService.notificationElegibiltyWrapper checkSMSIsEligibleToSkip(Notification__c n, String recipientType) {
         Boolean skipSMS = false;
+        NotificationService.notificationElegibiltyWrapper notiElegibiltyRec = new NotificationService.notificationElegibiltyWrapper();
         //If Notification is for Participant or Delegate
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PARTICIPANT) {
-            skipSMS = checkParticipantDelSMSSkipEligibility(n);
+            notiElegibiltyRec = checkParticipantDelSMSSkipEligibility(n);
         } else {
             //TODO: Implement logic as per the need based on the recipientType.
         }
-        return skipSMS;
+        return notiElegibiltyRec;
     }
     /**
      * @description:  This method checks if the SMS notification is eligible to send or skip for Paricipants/Delegates.
@@ -1616,44 +1649,53 @@ public without sharing class NotificationAvailabilityService {
      * @param:  n
      * @return: Boolean
      **/
-    public Boolean checkParticipantDelSMSSkipEligibility(notification__c n) {
+    public NotificationService.notificationElegibiltyWrapper checkParticipantDelSMSSkipEligibility(notification__c n) {
         //Boolean skipSMS = false;
         String perIdRecipientIdKey = n?.WhatId__c + '_' + n?.Recipient__c;
-
+        NotificationService.notificationElegibiltyWrapper notiElegibiltyRec = new NotificationService.notificationElegibiltyWrapper();
         //If Number is Invalid at contact then skip the SMS.
         if (isInvalidNumber(n.Recipient__c)) {
-            return true;
+            notiElegibiltyRec.isEligibleToSend = true;
+            return notiElegibiltyRec;
         }
-
         //If any of the AWS details are not available for the notification then skip the SMS.
         if (
             NotificationService.awsDetailsAreAvailable.containsKey(n.Id) &&
             !NotificationService.awsDetailsAreAvailable.get(n.Id)
         ) {
-            return true;
+            notiElegibiltyRec.isEligibleToSend = true;
+            return notiElegibiltyRec;
         }
 
+        notiElegibiltyRec = isAvailableForSMS(n.Recipient__c, n.WhatId__c);
         //Check if SMS are neither navailable to send for Platform level nor available to send for Study level then Skip the SMS
         Boolean isSMSAvailableAtPlatformLevel =
             NotificationService.platfomLevelSMSSet.contains(n.Id) &&
-            isAvailableForSMS(n.Recipient__c, n.WhatId__c);
+            notiElegibiltyRec.isEligibleToSend;
+            //isAvailableForSMS(n.Recipient__c, n.WhatId__c);
         Boolean isSMSAvailableAtStudyLevel = NotificationService.studyLevelSMSSet.contains(n.Id);
 
         //Check if Notification is platform level or study level and available to send else skip the SMS.
         if (isSMSAvailableAtPlatformLevel) {
             //Process Platform level SMS notification eligibility check.
             Boolean skipSMS = skipPlatformLevelSMSCheck(n);
-            if (skipSMS)
-                return true;
+            if (skipSMS){
+                notiElegibiltyRec.isEligibleToSend = true;
+                return notiElegibiltyRec;
+            }
         } else if (isSMSAvailableAtStudyLevel) {
             //Process Study level SMS notification eligibility check.
             Boolean skipSMS = skipStudyLevelSMSCheck(n);
-            if (skipSMS)
-                return true;
+            if (skipSMS){
+                notiElegibiltyRec.isEligibleToSend = true;
+                return notiElegibiltyRec;
+            }
         } else {
-            return true;
+            notiElegibiltyRec.isEligibleToSend = true;
+            return notiElegibiltyRec;
         }
-        return false;
+        notiElegibiltyRec.isEligibleToSend = false;
+        return notiElegibiltyRec;
     }
     /**
      * @description:  This method checks if the Study level SMS notification is eligible to send SMS.
