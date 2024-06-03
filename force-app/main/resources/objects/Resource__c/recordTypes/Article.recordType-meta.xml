@@ -1694,4 +1694,19 @@
             <default>false</default>
         </values>
     </picklistValues>
+    <picklistValues>
+        <picklist>Resource_Type__c</picklist>
+        <values>
+            <fullName>Patient Authorization Template</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Study Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Training</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>
