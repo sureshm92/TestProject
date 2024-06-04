@@ -124,6 +124,7 @@ public without sharing class RPRecordReviewLogController {
     @AuraEnabled(cacheable=false)
     public static list<peProfileSection> getSelectedPeDetails (String peId,String delegateId, String userMode) {
         try {
+            UCPM_FetchLatestConsents.callUCPMtoFetchConsents(peId,null,null,false,'Participant Detail');
             List<peProfileSection> peProfileSectionWrapperList = new List<peProfileSection>();
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             
