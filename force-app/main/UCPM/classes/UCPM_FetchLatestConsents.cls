@@ -196,7 +196,7 @@ public without sharing class UCPM_FetchLatestConsents {
             //Call Mulesoft-UCPM API for consents
             HTTP h = new HTTP();
             HTTPRequest r = new HTTPRequest();
-            r.setEndpoint('callout:UCPM_Fetch_Consent_App');
+            r.setEndpoint('callout:UCPM_Fetch_Consent');
             r.setHeader('Content-Type', 'application/json;charset=UTF-8');
             r.setMethod('POST');
             r.setHeader('Authorization', 'Bearer ' + accessToken);
@@ -934,7 +934,7 @@ public without sharing class UCPM_FetchLatestConsents {
             //Call Mulesoft-UCPM API for consents
             HTTP h = new HTTP();
             HTTPRequest r = new HTTPRequest();
-            r.setEndpoint('callout:UCPM_Fetch_Consent_App');
+            r.setEndpoint('callout:UCPM_Fetch_Consent');
             r.setHeader('Content-Type', 'application/json;charset=UTF-8');
             r.setMethod('POST');
             r.setHeader('Authorization', 'Bearer ' + accessToken);
