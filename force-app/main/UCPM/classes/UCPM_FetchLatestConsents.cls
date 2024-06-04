@@ -42,7 +42,7 @@ public without sharing class UCPM_FetchLatestConsents {
                       (Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' OR (Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen' AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
                     ]; 
             if(!isParticipant){
-                pdeList = [Select Id,PPM_ID__c,Participant_Enrollment__r.PPMID__c from Patient_Delegate_Enrollment__c
+                pdeList = [Select Id,PPM_ID__c,Participant_Enrollment__r.PPMID__c,Patient_Delegate__r.Contact__c,Patient_Delegate__r.Contact__r.PPM_ID__c from Patient_Delegate_Enrollment__c
                 where Patient_Delegate__r.Contact__c =:conId AND Status__c = 'Active' AND
                 (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' OR (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
                ];
@@ -164,7 +164,7 @@ public without sharing class UCPM_FetchLatestConsents {
                     gen.writeEndObject();
                 }
             }
-            if(listPE[0].Participant_Contact__r.PPM_ID__c != null){
+            if(listPE!= null && !listPE.isEmpty() && listPE[0].Participant_Contact__r.PPM_ID__c != null){
                 if(!fetchconsentsfromUCPM){
                     fetchconsentsfromUCPM = true;
                 }
@@ -172,6 +172,15 @@ public without sharing class UCPM_FetchLatestConsents {
                 gen.writeStringField('ppmid', listPE[0].Participant_Contact__r.PPM_ID__c);
                 gen.writeStringField('participantPPMID', '');
                 gen.writeStringField('applicationId', listPE[0].Participant_Contact__c);
+                gen.writeEndObject();
+            }else if(pdeList != null && !pdeList.isEmpty() && pdeList[0].Patient_Delegate__r.Contact__r.PPM_ID__c != null){
+                if(!fetchconsentsfromUCPM){
+                    fetchconsentsfromUCPM = true;
+                }
+                gen.writeStartObject();
+                gen.writeStringField('ppmid', pdeList[0].Patient_Delegate__r.Contact__r.PPM_ID__c);
+                gen.writeStringField('participantPPMID', '');
+                gen.writeStringField('applicationId', pdeList[0].Patient_Delegate__r.Contact__c);
                 gen.writeEndObject();
             }
             gen.writeEndArray();
