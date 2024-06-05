@@ -170,7 +170,15 @@ public class UCPM_ConsentPostController {
 
         //if(perandPderMap.keySet() != null){
         for (Participant_Enrollment__c pe : perList) {
-           
+            Boolean removeparticipantcontact = false;
+            if (
+                !pe.Participant_Contact__r.Participant_Opt_In_Status_Emails__c &&
+                !pe.Participant_Contact__r.Participant_Opt_In_Status_SMS__c &&
+                !pe.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c &&
+                !pe.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c
+            ) {
+                removeparticipantcontact = true;
+            }
 
             if (placeoffunctionality == 'Referring Provider Participant' && pderIdList == null) {
                 //New/Old PER without participant contact
@@ -238,7 +246,7 @@ public class UCPM_ConsentPostController {
                         'Create',
                         iqviaOutreach,
                         'PARTICIPANT',
-                        'Participant:ParticipantContact',
+                        removeparticipantcontact ? 'Participant' : 'Participant:ParticipantContact',
                         placeoffunctionality
                     )
                 );
@@ -261,7 +269,9 @@ public class UCPM_ConsentPostController {
                         'Create',
                         iqviaOutreach,
                         'PARTICIPANT-DELEGATE',
-                        'Participant:ParticipantContact:Delegate:DelegateContact',
+                        removeparticipantcontact
+                            ? 'Participant:Delegate:DelegateContact'
+                            : 'Participant:ParticipantContact:Delegate:DelegateContact',
                         placeoffunctionality
                     )
                 );
@@ -272,7 +282,19 @@ public class UCPM_ConsentPostController {
                 pe.Participant_Contact__r.PPM_ID__c != null &&
                 pderIdList == null
             ) {
-              
+                if (removeparticipantcontact) {
+                    System.enqueueJob(
+                        new UCPM_PostConsentQueueable(
+                            pe,
+                            null,
+                            'Create',
+                            iqviaOutreach,
+                            'PARTICIPANT',
+                            'Participant',
+                            placeoffunctionality
+                        )
+                    );
+                } else {
                     System.enqueueJob(
                         new UCPM_PostConsentQueueable(
                             pe,
@@ -286,7 +308,7 @@ public class UCPM_ConsentPostController {
                             placeoffunctionality
                         )
                     );
-                
+                }
             }
             //New PER,new participant contact,new delegate,existing delegate contact
             else if (
@@ -299,7 +321,22 @@ public class UCPM_ConsentPostController {
                 perandPderMap.get(pe)[0].PPM_ID__c == null &&
                 perandPderMap.get(pe)[0].Patient_Delegate__r.Contact__r.PPM_ID__c != null
             ) {
-                 System.enqueueJob(
+                if (removeparticipantcontact) {
+                    System.enqueueJob(
+                        new UCPM_PostConsentQueueable(
+                            pe,
+                            perandPderMap.get(pe),
+                            'Both',
+                            iqviaOutreach,
+                            'PARTICIPANT-DELEGATE',
+                            'Participant:Delegate',
+                            'DELEGATE',
+                            'DelegateContact',
+                            placeoffunctionality
+                        )
+                    );
+                } else {
+                    System.enqueueJob(
                         new UCPM_PostConsentQueueable(
                             pe,
                             perandPderMap.get(pe),
@@ -312,7 +349,7 @@ public class UCPM_ConsentPostController {
                             placeoffunctionality
                         )
                     );
-                
+                }
             }
             // Existing per,existing participant contact,new delegate and new delegate contact
             else if (
@@ -476,7 +513,7 @@ public class UCPM_ConsentPostController {
                             'Both',
                             iqviaOutreach,
                             'PARTICIPANT',
-                            'ParticipantContact',
+                            removeparticipantcontact ? '' : 'ParticipantContact',
                             'PARTICIPANT',
                             'Participant',
                             placeoffunctionality
@@ -502,7 +539,7 @@ public class UCPM_ConsentPostController {
                                 'Both',
                                 iqviaOutreach,
                                 'PARTICIPANT-DELEGATE',
-                                'Delegate:ParticipantContact',
+                                removeparticipantcontact ? 'Delegate' : 'Delegate:ParticipantContact',
                                 'PARTICIPANT-DELEGATE',
                                 'Participant:DelegateContact',
                                 placeoffunctionality
@@ -517,7 +554,7 @@ public class UCPM_ConsentPostController {
                                 'Both',
                                 iqviaOutreach,
                                 'PARTICIPANT-DELEGATE',
-                                'ParticipantContact:Delegate:DelegateContact',
+                                removeparticipantcontact ? 'Delegate:DelegateContact' : 'ParticipantContact:Delegate:DelegateContact',
                                 'PARTICIPANT',
                                 'Participant',
                                 placeoffunctionality
@@ -544,7 +581,7 @@ public class UCPM_ConsentPostController {
                                 'Both',
                                 iqviaOutreach,
                                 'PARTICIPANT',
-                                'ParticipantContact',
+                                removeparticipantcontact ? '' : 'ParticipantContact',
                                 'PARTICIPANT-DELEGATE',
                                 'Participant:Delegate:DelegateContact',
                                 placeoffunctionality
@@ -559,7 +596,7 @@ public class UCPM_ConsentPostController {
                                 'Both',
                                 iqviaOutreach,
                                 'PARTICIPANT-DELEGATE',
-                                'ParticipantContact:DelegateContact',
+                                removeparticipantcontact ? 'DelegateContact' : 'ParticipantContact:DelegateContact',
                                 'PARTICIPANT-DELEGATE',
                                 'Participant:Delegate',
                                 placeoffunctionality
@@ -595,7 +632,7 @@ public class UCPM_ConsentPostController {
                             'Both',
                             iqviaOutreach,
                             'PARTICIPANT',
-                            'ParticipantContact',
+                            removeparticipantcontact ? '' : 'ParticipantContact',
                             'PARTICIPANT',
                             'Participant',
                             placeoffunctionality
@@ -858,7 +895,13 @@ public class UCPM_ConsentPostController {
                     placeoffunctionality != 'ePR' &&
                     (string.isblank(per.Participant__r.Email__c) ||
                     placeoffunctionality == 'Delegate Communication Preferences' ||
-                    placeoffunctionality == 'Delegate Registration')
+                    placeoffunctionality == 'Delegate Registration') && 
+                    (
+                        pder.Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c ||
+                        pder.Patient_Delegate__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c ||
+                        pder.Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c || 
+                        pder.Patient_Delegate__r.Contact__r.IQVIA_Direct_Mail_Consent__c
+                    )
                 ) {
                     gen.writeStartObject();
                     gen.writeStringField('key', 'IQVIA-Outreach-Consents');
