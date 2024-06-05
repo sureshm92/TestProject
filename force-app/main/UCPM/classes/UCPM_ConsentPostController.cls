@@ -513,7 +513,7 @@ public class UCPM_ConsentPostController {
                             'Both',
                             iqviaOutreach,
                             'PARTICIPANT',
-                            'ParticipantContact',
+                            removeparticipantcontact ? '' : 'ParticipantContact',
                             'PARTICIPANT',
                             'Participant',
                             placeoffunctionality
@@ -539,7 +539,7 @@ public class UCPM_ConsentPostController {
                                 'Both',
                                 iqviaOutreach,
                                 'PARTICIPANT-DELEGATE',
-                                'Delegate:ParticipantContact',
+                                removeparticipantcontact ? 'Delegate' : 'Delegate:ParticipantContact',
                                 'PARTICIPANT-DELEGATE',
                                 'Participant:DelegateContact',
                                 placeoffunctionality
@@ -554,7 +554,7 @@ public class UCPM_ConsentPostController {
                                 'Both',
                                 iqviaOutreach,
                                 'PARTICIPANT-DELEGATE',
-                                'ParticipantContact:Delegate:DelegateContact',
+                                removeparticipantcontact ? 'Delegate:DelegateContact' : 'ParticipantContact:Delegate:DelegateContact',
                                 'PARTICIPANT',
                                 'Participant',
                                 placeoffunctionality
@@ -581,7 +581,7 @@ public class UCPM_ConsentPostController {
                                 'Both',
                                 iqviaOutreach,
                                 'PARTICIPANT',
-                                'ParticipantContact',
+                                removeparticipantcontact ? '' : 'ParticipantContact',
                                 'PARTICIPANT-DELEGATE',
                                 'Participant:Delegate:DelegateContact',
                                 placeoffunctionality
@@ -596,7 +596,7 @@ public class UCPM_ConsentPostController {
                                 'Both',
                                 iqviaOutreach,
                                 'PARTICIPANT-DELEGATE',
-                                'ParticipantContact:DelegateContact',
+                                removeparticipantcontact ? 'DelegateContact' : 'ParticipantContact:DelegateContact',
                                 'PARTICIPANT-DELEGATE',
                                 'Participant:Delegate',
                                 placeoffunctionality
@@ -632,7 +632,7 @@ public class UCPM_ConsentPostController {
                             'Both',
                             iqviaOutreach,
                             'PARTICIPANT',
-                            'ParticipantContact',
+                            removeparticipantcontact ? '' : 'ParticipantContact',
                             'PARTICIPANT',
                             'Participant',
                             placeoffunctionality
@@ -895,7 +895,13 @@ public class UCPM_ConsentPostController {
                     placeoffunctionality != 'ePR' &&
                     (string.isblank(per.Participant__r.Email__c) ||
                     placeoffunctionality == 'Delegate Communication Preferences' ||
-                    placeoffunctionality == 'Delegate Registration')
+                    placeoffunctionality == 'Delegate Registration') && 
+                    (
+                        pder.Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c ||
+                        pder.Patient_Delegate__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c ||
+                        pder.Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c || 
+                        pder.Patient_Delegate__r.Contact__r.IQVIA_Direct_Mail_Consent__c
+                    )
                 ) {
                     gen.writeStartObject();
                     gen.writeStringField('key', 'IQVIA-Outreach-Consents');
