@@ -1524,13 +1524,14 @@ language
             ) {
                 createDelegateuser = false;
             }
+            Contact newContact;
             /////
             if (
                 participantDelegate != null &&
                 !String.isEmpty(participantDelegate.Last_Name__c) &&
                 !String.isEmpty(participantDelegate.Email__c)
             ) {
-                Contact newContact;
+                
                 if (delegateDuplicateInfo == null || delegateDuplicateInfo.contactId == null) {
                     newContact = new Contact();
                     newContact.FirstName = participantDelegate.First_Name__c;
@@ -1754,12 +1755,6 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                       //String objJSONStr = Json.serialize(con);
                       //updateParticipantContact(objJSONStr);
                   }
-                if (createDelegateuser) {
-                    createParticipantUsers(
-                        new Map<Id, Id>{ newContact.Id => null },
-                        TaskService.invitationsVisibleTemp //Added to hold the value of this parameter in future Method
-                    );
-                }
             } else if (
                 !String.isBlank(hcpEnrollment.Study_Site__c) && !String.isBlank(participant.Id)
             ) {
@@ -1857,6 +1852,12 @@ update objConVersion;*/
                 ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
                );
                 update contactconsentsupdatelist;
+            }
+            if (createDelegateuser && newContact != null) {
+                createParticipantUsers(
+                    new Map<Id, Id>{ newContact.Id => null },
+                    TaskService.invitationsVisibleTemp //Added to hold the value of this parameter in future Method
+                );
             }
             //Send Consents to ucpm
             UCPM_ConsentPostController.fetchPerAndPderDetails(new list<Id>{enrollment.Id},pderIdlist.isEmpty() ? null : pderIdlist,'');
