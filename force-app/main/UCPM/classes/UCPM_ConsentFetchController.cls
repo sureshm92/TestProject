@@ -322,80 +322,9 @@ public class UCPM_ConsentFetchController {
         string typeName
     ) {
         // Bypass triggers
-        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateConsentTimeStamps.class);
-        TriggerHandlerExecutor.bypassHandler(
-            ContactTriggerHandler.CreateUserForCCContactHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
-        TriggerHandlerExecutor.bypassHandler(
-            ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
-        );
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.EcoaEvents.class);
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class
-        );
-
-        TriggerHandlerExecutor.bypassHandler(
-            PatientDelegateEnrolTriggerHandler.updateConsentTimeStamps.class
-        );
+        bypassContactTrigger();
+        bypassPerTrigger();
+        bypassPderTrigger();
 
         // Collect all ppmids and applicationIds to to retrieve the records
         List<String> ppmIdList = new List<String>();
@@ -417,7 +346,13 @@ public class UCPM_ConsentFetchController {
                 IQVIA_Email_Consent_Time__c,
                 IQVIA_SMS_Consent_Time__c,
                 IQVIA_Direct_Mail_Consent_Time__c,
-                IQVIA_Phone_Consent_Time__c
+                IQVIA_Phone_Consent_Time__c,
+                IQVIA_Assisted_Dialing_Consent__c,
+                IQVIA_Assisted_Dialing_Consent_Time__c,
+                IQVIA_Artificial_Voice_Consent__c,
+                IQVIA_Artificial_Voice_Consent_Time__c,
+                IQVIA_Pre_recorded_Calls_Consent_Time__c,
+                IQVIA_Pre_recorded_Voice_Consent__c
             FROM Contact
             WHERE Id IN :appIdList
         ]) {
@@ -437,6 +372,12 @@ public class UCPM_ConsentFetchController {
                 Study_Phone_Consent_Time__c,
                 Study_Direct_Mail_Consent_Time__c,
                 Study_SMS_Consent_Time__c,
+                Study_Assisted_Dialing_Consent__c,
+                Study_Artificial_Voice_Consent__c,
+                Study_Pre_recorded_Voice_Consent__c,
+                Study_Artificial_Voice_Consent_Time__c,
+                Study_Pre_recorded_Calls_Consent_Time__c,
+                Study_Assisted_Dialing_Consent_Time__c,
                 Participant_Contact__r.PPM_ID__c,
                 Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                 Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
@@ -445,7 +386,13 @@ public class UCPM_ConsentFetchController {
                 Participant_Contact__r.IQVIA_SMS_Consent_Time__c,
                 Participant_Contact__r.IQVIA_Phone_Consent_Time__c,
                 Participant_Contact__r.IQVIA_Email_Consent_Time__c,
-                Participant_Contact__r.IQVIA_Direct_Mail_Consent_Time__c
+                Participant_Contact__r.IQVIA_Direct_Mail_Consent_Time__c,
+                Participant_Contact__r.IQVIA_Assisted_Dialing_Consent__c,
+                Participant_Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c,
+                Participant_Contact__r.IQVIA_Artificial_Voice_Consent__c,
+                Participant_Contact__r.IQVIA_Artificial_Voice_Consent_Time__c,
+                Participant_Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c,
+                Participant_Contact__r.IQVIA_Pre_recorded_Voice_Consent__c
             FROM Participant_Enrollment__c
             WHERE Id IN :appIdList
         ]) {
@@ -465,6 +412,12 @@ public class UCPM_ConsentFetchController {
                 Study_Email_Consent_Time__c,
                 Study_Phone_Consent_Time__c,
                 Study_Direct_Mail_Consent_Time__c,
+                Study_Assisted_Dialing_Consent__c,
+                Study_Artificial_Voice_Consent__c,
+                Study_Pre_recorded_Voice_Consent__c,
+                Study_Artificial_Voice_Consent_Time__c,
+                Study_Assisted_Dialing_Consent_Time__c,
+                Study_Pre_recorded_Calls_Consent_Time__c,
                 Patient_Delegate__r.Participant__r.Contact__c,
                 Patient_Delegate__r.Participant__r.Contact__r.PPM_ID__c,
                 Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
@@ -474,7 +427,13 @@ public class UCPM_ConsentFetchController {
                 Patient_Delegate__r.Participant__r.Contact__r.IQVIA_SMS_Consent_Time__c,
                 Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Phone_Consent_Time__c,
                 Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Email_Consent_Time__c,
-                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent_Time__c
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent_Time__c,
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Assisted_Dialing_Consent__c,
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c,
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Artificial_Voice_Consent__c,
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Artificial_Voice_Consent_Time__c,
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c,
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Pre_recorded_Voice_Consent__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Id IN :appIdList
             //WHERE PPM_ID__c IN :ppmIdList
@@ -521,6 +480,21 @@ public class UCPM_ConsentFetchController {
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
+                                    per.Study_Assisted_Dialing_Consent__c = option.IsConsented;
+                                    per.Study_Artificial_Voice_Consent__c = option.IsConsented;
+                                    per.Study_Pre_recorded_Voice_Consent__c = option.IsConsented;
+                                    per.Study_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    per.Study_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    per.Study_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
                                         if (!perList.contains(per)) {
                                             perList.add(per);
                                         }
@@ -559,6 +533,21 @@ public class UCPM_ConsentFetchController {
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
+                                        per.Participant_Contact__r.IQVIA_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        per.Participant_Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                                '"' + purpose.ConsentDate + '"',
+                                                DateTime.class
+                                            );
+                                        per.Participant_Contact__r.IQVIA_Artificial_Voice_Consent__c = option.IsConsented;
+                                        per.Participant_Contact__r.IQVIA_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                                '"' + purpose.ConsentDate + '"',
+                                                DateTime.class
+                                            );
+                                        per.Participant_Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                                '"' + purpose.ConsentDate + '"',
+                                                DateTime.class
+                                            );
+                                        per.Participant_Contact__r.IQVIA_Pre_recorded_Voice_Consent__c = option.IsConsented;
                                         if (!perList.contains(per)) {
                                             perList.add(per);
                                         }
@@ -602,6 +591,21 @@ public class UCPM_ConsentFetchController {
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
+                                        pde.Study_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        pde.Study_Artificial_Voice_Consent__c = option.IsConsented;
+                                        pde.Study_Pre_recorded_Voice_Consent__c = option.IsConsented;
+                                        pde.Study_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        pde.Study_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        pde.Study_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
                                         if (!pdeList.contains(pde)) {
                                             pdeList.add(pde);
                                         }
@@ -640,6 +644,21 @@ public class UCPM_ConsentFetchController {
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                                '"' + purpose.ConsentDate + '"',
+                                                DateTime.class
+                                            );
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Artificial_Voice_Consent__c = option.IsConsented;
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                                '"' + purpose.ConsentDate + '"',
+                                                DateTime.class
+                                            );
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                                '"' + purpose.ConsentDate + '"',
+                                                DateTime.class
+                                            );
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Pre_recorded_Voice_Consent__c = option.IsConsented;
                                         if (!pdeList.contains(pde)) {
                                             pdeList.add(pde);
                                         }
@@ -683,6 +702,21 @@ public class UCPM_ConsentFetchController {
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
+                                    con.IQVIA_Assisted_Dialing_Consent__c = option.IsConsented;
+                                    con.IQVIA_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    con.IQVIA_Artificial_Voice_Consent__c = option.IsConsented;
+                                    con.IQVIA_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    con.IQVIA_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    con.IQVIA_Pre_recorded_Voice_Consent__c = option.IsConsented;
                                         if (!conList.contains(con)) {
                                             conList.add(con);
                                         }
@@ -851,4 +885,108 @@ public class UCPM_ConsentFetchController {
     }
 
     //Response wrapper end
+
+    //Trigger bypass methods
+
+    public static void bypassContactTrigger(){
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateConsentTimeStamps.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForCCContactHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+        );
+    }
+
+    public static void bypassPerTrigger(){
+        TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+        );
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.EcoaEvents.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class
+        );
+    }
+
+    public static void bypassPderTrigger(){
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.CreateNewAssignmentNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.CreateReactivatedNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.SetDefaultPatientDelegateStatusHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.updateConsentTimeStamps.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.CreatePrimaryDelegateForMinor.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.CreateJanssenNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
+        );
+        
+    }
+
 }
