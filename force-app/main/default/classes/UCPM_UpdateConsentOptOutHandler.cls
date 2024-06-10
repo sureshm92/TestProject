@@ -360,8 +360,6 @@ public with sharing class UCPM_UpdateConsentOptOutHandler {
             );
             update perToUpdate;
         }
-        MulesoftToken__c setting = MulesoftToken__c.getInstance('Mulesoft Access Token UCPM');
-        MulesoftIntegrationApi.saveAccessToken(setting, access_token, expires_in);
     }
     public class updateConsentPDERtoUCPM extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -804,8 +802,6 @@ public with sharing class UCPM_UpdateConsentOptOutHandler {
                 update pderToUpdate;
             }
         }
-        MulesoftToken__c setting = MulesoftToken__c.getInstance('Mulesoft Access Token UCPM');
-        MulesoftIntegrationApi.saveAccessToken(setting, access_token, expires_in);
     }
 
     public class updateConsentContacttoUCPM extends TriggerHandler {
@@ -1473,22 +1469,47 @@ public with sharing class UCPM_UpdateConsentOptOutHandler {
             );
             update conToUpdate;
         }
-        MulesoftToken__c setting = MulesoftToken__c.getInstance('Mulesoft Access Token UCPM');
-        MulesoftIntegrationApi.saveAccessToken(setting, access_token, expires_in);
     }
 
     //generate mulesoft access token
     public static String getAccessToken() {
         String accessToken;
-        accessToken = MulesoftIntegrationApi.getAccessTokenIfValid('Mulesoft Access Token UCPM');
-        MulesoftToken__c setting = MulesoftToken__c.getInstance('Mulesoft Access Token UCPM');
-        MulesoftIntegrationApi.ResponseWrapper tokenWrap = new MulesoftIntegrationApi.ResponseWrapper();
-        if (accessToken == null) {
-            tokenWrap = MulesoftIntegrationApi.generateAccessTokenWithoutSave(setting);
-            accessToken = tokenWrap.access_token;
+        MulesoftToken__c setting = MulesoftToken__c.getInstance(
+          'Mulesoft Access Token UCPM'
+        );
+        Http http1 = new Http();
+        HttpRequest request1 = new HttpRequest();
+        request1.setEndpoint('callout:' + setting.Named_Credentials_Name__c);
+        request1.setMethod('POST');
+        request1.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+        request1.setTimeout(120000);
+        String requestBody1 = 'grant_type=client_credentials';
+        request1.setBody(requestBody1);
+        System.debug('###### request1 ' + request1);
+
+        HttpResponse resp1;
+
+        try {
+          resp1 = http1.send(request1);
+        } catch (exception e) {
+          //Integration log generation
+          IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
+          objIntegrationLog.Response_Body__c = e.getMessage();
+          objIntegrationLog.Function_Name__c = 'Access Token';
+          objIntegrationLog.Success__c = false;
+          insert objIntegrationLog;
         }
-        access_token = tokenWrap.access_token;
-        expires_in = tokenWrap.expires_in;
+
+        System.debug('###### resp1 ' + resp1);
+        System.debug('###### resp1 ' + resp1.getBody());
+        if (resp1.getStatusCode() == 200) {
+          JsonParser parser = JSON.createParser(resp1.getBody());
+          ResponseWrapperToken deserializedResponseWrapper = (ResponseWrapperToken) JSON.deserialize(
+            resp1.getBody(),
+            ResponseWrapperToken.class
+          );
+          accessToken = deserializedResponseWrapper.access_token;
+        }
         return accessToken;
     }
     public class ResponseWrapper {
