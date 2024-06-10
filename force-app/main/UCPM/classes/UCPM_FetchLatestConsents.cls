@@ -35,20 +35,37 @@ public without sharing class UCPM_FetchLatestConsents {
         Participant_Enrollment__c per;
         List<Patient_Delegate_Enrollment__c> pdeList = new List<Patient_Delegate_Enrollment__c>();
         List<Participant_Enrollment__c> listPE = new List<Participant_Enrollment__c>();
-        if(conId != null && PerId == null){
-            listPE = [Select Id,PPMID__c,Participant_Contact__c,Participant_Contact__r.PPM_ID__c
-                      from Participant_Enrollment__c where 
-                      Participant_Contact__c =:conId AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Participant_Status__c NOT IN:PEStatusState.PE_STATUS_GROUP_ALUMNI AND Invited_To_PP_Date__c != null AND
-                      (Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' OR (Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen' AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
-                    ]; 
-            if(!isParticipant){
-                pdeList = [Select Id,PPM_ID__c,Participant_Enrollment__r.PPMID__c,Patient_Delegate__r.Contact__c,Patient_Delegate__r.Contact__r.PPM_ID__c from Patient_Delegate_Enrollment__c
-                where Patient_Delegate__r.Contact__c =:conId AND Status__c = 'Active' AND
-                (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' OR (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
-               ];
-            }  
-        }
-        else if (pderIdList != null && pderIdList.size() > 0) {
+        if (conId != null && PerId == null) {
+            listPE = [
+                SELECT Id, PPMID__c, Participant_Contact__c, Participant_Contact__r.PPM_ID__c
+                FROM Participant_Enrollment__c
+                WHERE
+                    Participant_Contact__c = :conId
+                    AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                    AND Participant_Status__c NOT IN :PEStatusState.PE_STATUS_GROUP_ALUMNI
+                    AND Invited_To_PP_Date__c != NULL
+                    AND (Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
+                    OR (Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen'
+                    AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+            ];
+            //if (!isParticipant) {
+                pdeList = [
+                    SELECT
+                        Id,
+                        PPM_ID__c,
+                        Participant_Enrollment__r.PPMID__c,
+                        Patient_Delegate__r.Contact__c,
+                        Patient_Delegate__r.Contact__r.PPM_ID__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE
+                        Patient_Delegate__r.Contact__c = :conId
+                        AND Status__c = 'Active'
+                        AND (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
+                        OR (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen'
+                        AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+                ];
+            //}
+        } else if (pderIdList != null && pderIdList.size() > 0) {
             per = [
                 SELECT
                     id,
@@ -58,7 +75,12 @@ public without sharing class UCPM_FetchLatestConsents {
                     Clinical_Trial_Profile__r.Study_Sponsor__c,
                     Clinical_Trial_Profile__c,
                     (
-                        SELECT id, PPM_ID__c, Participant_Enrollment__r.PPMID__c,Patient_Delegate__r.Contact__r.PPM_ID__c,Patient_Delegate__r.Contact__c
+                        SELECT
+                            id,
+                            PPM_ID__c,
+                            Participant_Enrollment__r.PPMID__c,
+                            Patient_Delegate__r.Contact__r.PPM_ID__c,
+                            Patient_Delegate__r.Contact__c
                         FROM Patient_Delegate_Enrollments__r
                         WHERE Id IN :pderIdList
                     )
@@ -81,10 +103,10 @@ public without sharing class UCPM_FetchLatestConsents {
 
         Boolean fetchconsentsfromUCPM = false;
         String requestString;
-        if(conId == null && PerId != null){
+        if (conId == null && PerId != null) {
             JSONGenerator gen = JSON.createGenerator(false);
             gen.writeStartArray();
-    
+
             if (per.PPMID__c != null) {
                 fetchconsentsfromUCPM = true;
                 gen.writeStartObject();
@@ -93,7 +115,7 @@ public without sharing class UCPM_FetchLatestConsents {
                 gen.writeStringField('applicationId', per.Id);
                 gen.writeEndObject();
             }
-    
+
             if (per.Participant_Contact__r.PPM_ID__c != null) {
                 fetchconsentsfromUCPM = true;
                 gen.writeStartObject();
@@ -102,11 +124,11 @@ public without sharing class UCPM_FetchLatestConsents {
                 gen.writeStringField('applicationId', per.Participant_Contact__c);
                 gen.writeEndObject();
             }
-    
+
             if (pderIdList != null && pderIdList.size() > 0) {
                 for (Patient_Delegate_Enrollment__c pde : per.Patient_Delegate_Enrollments__r) {
                     if (pde.PPM_ID__c != null) {
-                        if(!fetchconsentsfromUCPM){
+                        if (!fetchconsentsfromUCPM) {
                             fetchconsentsfromUCPM = true;
                         }
                         gen.writeStartObject();
@@ -118,8 +140,8 @@ public without sharing class UCPM_FetchLatestConsents {
                         gen.writeStringField('applicationId', pde.Id);
                         gen.writeEndObject();
                     }
-                    if(pde.Patient_Delegate__r.Contact__r.PPM_ID__c != null){
-                        if(!fetchconsentsfromUCPM){
+                    if (pde.Patient_Delegate__r.Contact__r.PPM_ID__c != null) {
+                        if (!fetchconsentsfromUCPM) {
                             fetchconsentsfromUCPM = true;
                         }
                         gen.writeStartObject();
@@ -133,16 +155,16 @@ public without sharing class UCPM_FetchLatestConsents {
                     }
                 }
             }
-    
+
             gen.writeEndArray();
             requestString = gen.getAsString();
             System.debug('requestBody: ' + requestString);
-        }else if(conId != null && PerId == null){
+        } else if (conId != null && PerId == null) {
             JSONGenerator gen = JSON.createGenerator(false);
             gen.writeStartArray();
-            for ( Participant_Enrollment__c perRec : listPE) {
+            for (Participant_Enrollment__c perRec : listPE) {
                 if (perRec.PPMID__c != null) {
-                    if(!fetchconsentsfromUCPM){
+                    if (!fetchconsentsfromUCPM) {
                         fetchconsentsfromUCPM = true;
                     }
                     gen.writeStartObject();
@@ -152,20 +174,27 @@ public without sharing class UCPM_FetchLatestConsents {
                     gen.writeEndObject();
                 }
             }
-            for ( Patient_Delegate_Enrollment__c pder : pdeList) {
+            for (Patient_Delegate_Enrollment__c pder : pdeList) {
                 if (pder.PPM_ID__c != null) {
-                    if(!fetchconsentsfromUCPM){
+                    if (!fetchconsentsfromUCPM) {
                         fetchconsentsfromUCPM = true;
                     }
                     gen.writeStartObject();
                     gen.writeStringField('ppmid', pder.PPM_ID__c);
-                    gen.writeStringField('participantPPMID', pder.Participant_Enrollment__r.PPMID__c);
+                    gen.writeStringField(
+                        'participantPPMID',
+                        pder.Participant_Enrollment__r.PPMID__c
+                    );
                     gen.writeStringField('applicationId', pder.Id);
                     gen.writeEndObject();
                 }
             }
-            if(listPE!= null && !listPE.isEmpty() && listPE[0].Participant_Contact__r.PPM_ID__c != null){
-                if(!fetchconsentsfromUCPM){
+            if (
+                listPE != null &&
+                !listPE.isEmpty() &&
+                listPE[0].Participant_Contact__r.PPM_ID__c != null
+            ) {
+                if (!fetchconsentsfromUCPM) {
                     fetchconsentsfromUCPM = true;
                 }
                 gen.writeStartObject();
@@ -173,8 +202,12 @@ public without sharing class UCPM_FetchLatestConsents {
                 gen.writeStringField('participantPPMID', '');
                 gen.writeStringField('applicationId', listPE[0].Participant_Contact__c);
                 gen.writeEndObject();
-            }else if(pdeList != null && !pdeList.isEmpty() && pdeList[0].Patient_Delegate__r.Contact__r.PPM_ID__c != null){
-                if(!fetchconsentsfromUCPM){
+            } else if (
+                pdeList != null &&
+                !pdeList.isEmpty() &&
+                pdeList[0].Patient_Delegate__r.Contact__r.PPM_ID__c != null
+            ) {
+                if (!fetchconsentsfromUCPM) {
                     fetchconsentsfromUCPM = true;
                 }
                 gen.writeStartObject();
@@ -185,15 +218,13 @@ public without sharing class UCPM_FetchLatestConsents {
             }
             gen.writeEndArray();
             requestString = gen.getAsString();
-
         }
 
-        if(fetchconsentsfromUCPM){
-            
+        if (fetchconsentsfromUCPM) {
             String accessToken;
             accessToken = getAccessToken();
             DateTime dt = DateTime.now();
-    
+
             //Integration log insertion
             IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
             objIntegrationLog.Request_Body__c = requestString;
@@ -201,7 +232,7 @@ public without sharing class UCPM_FetchLatestConsents {
             objIntegrationLog.Request_Type__c = 'UCPM_Fetch_Consent';
             objIntegrationLog.Function_Name__c = 'UCPM_Fetch_Consent';
             objIntegrationLog.Http_Method__c = 'POST';
-    
+
             //Call Mulesoft-UCPM API for consents
             HTTP h = new HTTP();
             HTTPRequest r = new HTTPRequest();
@@ -212,22 +243,22 @@ public without sharing class UCPM_FetchLatestConsents {
             r.setbody(requestString);
             r.setHeader('identityType', 'PARTICIPANT');
             r.setHeader('tid', MulesoftIntegrationApi.uniqueKeygeneration());
-    
+            r.setTimeout(120000);
             System.debug('###### request ' + r.getBody());
-    
+
             HTTPResponse resp = h.send(r);
             System.debug('###### resp ' + resp);
             System.debug('200 ' + resp.getBody());
-    
+
             objIntegrationLog.Response_Body__c = resp.getBody();
             objIntegrationLog.Response_Status__c = resp.getStatus();
             objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
-    
+
             if (resp.getStatusCode() == 200) {
                 System.debug('200 ' + resp.getBody());
                 objIntegrationLog.Success__c = true;
                 responseBody = resp.getBody();
-    
+
                 // Response code starts here
                 UCPM_FetchLatestConsents responseWrapper = (UCPM_FetchLatestConsents) JSON.deserialize(
                     responseBody,
@@ -241,7 +272,6 @@ public without sharing class UCPM_FetchLatestConsents {
                 insert objIntegrationLog;
             }
         }
-
     }
     public static void updateRecords(UCPM_FetchLatestConsents consentWrapper) {
         // Bypass triggers
@@ -339,7 +369,13 @@ public without sharing class UCPM_FetchLatestConsents {
                 IQVIA_Email_Consent_Time__c,
                 IQVIA_SMS_Consent_Time__c,
                 IQVIA_Direct_Mail_Consent_Time__c,
-                IQVIA_Phone_Consent_Time__c
+                IQVIA_Phone_Consent_Time__c,
+                IQVIA_Assisted_Dialing_Consent__c,
+                IQVIA_Assisted_Dialing_Consent_Time__c,
+                IQVIA_Artificial_Voice_Consent__c,
+                IQVIA_Artificial_Voice_Consent_Time__c,
+                IQVIA_Pre_recorded_Calls_Consent_Time__c,
+                IQVIA_Pre_recorded_Voice_Consent__c
             FROM Contact
             WHERE PPM_ID__c IN :ppmIdList
         ]) {
@@ -359,6 +395,12 @@ public without sharing class UCPM_FetchLatestConsents {
                 Study_Phone_Consent_Time__c,
                 Study_Direct_Mail_Consent_Time__c,
                 Study_SMS_Consent_Time__c,
+                Study_Assisted_Dialing_Consent__c,
+                Study_Artificial_Voice_Consent__c,
+                Study_Pre_recorded_Voice_Consent__c,
+                Study_Artificial_Voice_Consent_Time__c,
+                Study_Pre_recorded_Calls_Consent_Time__c,
+                Study_Assisted_Dialing_Consent_Time__c,
                 Participant_Contact__r.PPM_ID__c,
                 Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                 Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
@@ -388,6 +430,12 @@ public without sharing class UCPM_FetchLatestConsents {
                 Study_Email_Consent_Time__c,
                 Study_Phone_Consent_Time__c,
                 Study_Direct_Mail_Consent_Time__c,
+                Study_Assisted_Dialing_Consent__c,
+                Study_Artificial_Voice_Consent__c,
+                Study_Pre_recorded_Voice_Consent__c,
+                Study_Artificial_Voice_Consent_Time__c,
+                Study_Assisted_Dialing_Consent_Time__c,
+                Study_Pre_recorded_Calls_Consent_Time__c,
                 Patient_Delegate__r.Participant__r.Contact__c,
                 Patient_Delegate__r.Participant__r.Contact__r.PPM_ID__c,
                 Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
@@ -428,129 +476,93 @@ public without sharing class UCPM_FetchLatestConsents {
                                 );
                                 if (customPreference.Name == 'Communication-Consents') {
                                     if (option.Name == 'sms') {
-                                        //Check if consent is changed
-                                        if (
-                                            per.Permit_SMS_Text_for_this_study__c !=
-                                            option.IsConsented
-                                        ) {
-                                            per.Permit_SMS_Text_for_this_study__c = option.IsConsented;
-                                            per.Study_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Permit_SMS_Text_for_this_study__c = option.IsConsented;
+                                        per.Study_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     } else if (option.Name == 'email') {
-                                        System.debug('inside per email');
-                                        //Check if consent is changed
-                                        if (
-                                            per.Permit_Mail_Email_contact_for_this_study__c !=
-                                            option.IsConsented
-                                        ) {
-                                            System.debug('inside per email 1');
-                                            per.Permit_Mail_Email_contact_for_this_study__c = option.IsConsented;
-                                            per.Study_Email_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Permit_Mail_Email_contact_for_this_study__c = option.IsConsented;
+                                        per.Study_Email_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     } else if (option.Name == 'phone') {
-                                        System.debug('inside per phone');
-                                        //Check if consent is changed
-                                        if (
-                                            per.Permit_Voice_Text_contact_for_this_study__c !=
-                                            option.IsConsented
-                                        ) {
-                                            System.debug('inside per phone 1');
-                                            per.Permit_Voice_Text_contact_for_this_study__c = option.IsConsented;
-                                            per.Study_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Permit_Voice_Text_contact_for_this_study__c = option.IsConsented;
+                                        per.Study_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        per.Study_Artificial_Voice_Consent__c = option.IsConsented;
+                                        per.Study_Pre_recorded_Voice_Consent__c = option.IsConsented;
+                                        per.Study_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        per.Study_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        per.Study_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        per.Study_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     } else if (option.Name == 'directMail') {
-                                        //Check if consent is changed
-                                        if (
-                                            per.Study_Direct_Mail_Consent__c != option.IsConsented
-                                        ) {
-                                            per.Study_Direct_Mail_Consent__c = option.IsConsented;
-                                            per.Study_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Study_Direct_Mail_Consent__c = option.IsConsented;
+                                        per.Study_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     }
                                 } else if (customPreference.Name == 'IQVIA-Outreach-Consents') {
                                     if (option.Name == 'sms') {
-                                        //Check if consent is changed
-                                        if (
-                                            per.Participant_Contact__r.Participant_Opt_In_Status_SMS__c !=
-                                            option.IsConsented
-                                        ) {
-                                            per.Participant_Contact__r.Participant_Opt_In_Status_SMS__c = option.IsConsented;
-                                            per.Participant_Contact__r.IQVIA_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Participant_Contact__r.Participant_Opt_In_Status_SMS__c = option.IsConsented;
+                                        per.Participant_Contact__r.IQVIA_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     } else if (option.Name == 'email') {
-                                        //Check if consent is changed
-                                        if (
-                                            per.Participant_Contact__r.Participant_Opt_In_Status_Emails__c !=
-                                            option.IsConsented
-                                        ) {
-                                            per.Participant_Contact__r.Participant_Opt_In_Status_Emails__c = option.IsConsented;
-                                            per.Participant_Contact__r.IQVIA_Email_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Participant_Contact__r.Participant_Opt_In_Status_Emails__c = option.IsConsented;
+                                        per.Participant_Contact__r.IQVIA_Email_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     } else if (option.Name == 'phone') {
-                                        //Check if consent is changed
-                                        if (
-                                            per.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c !=
-                                            option.IsConsented
-                                        ) {
-                                            per.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
-                                            per.Participant_Contact__r.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
+                                        per.Participant_Contact__r.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     } else if (option.Name == 'directMail') {
-                                        //Check if consent is changed
-                                        if (
-                                            per.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c !=
-                                            option.IsConsented
-                                        ) {
-                                            per.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c = option.IsConsented;
-                                            per.Participant_Contact__r.IQVIA_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c = option.IsConsented;
+                                        per.Participant_Contact__r.IQVIA_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     }
                                 }
@@ -562,116 +574,93 @@ public without sharing class UCPM_FetchLatestConsents {
                                 );
                                 if (customPreference.Name == 'Communication-Consents') {
                                     if (option.Name == 'sms') {
-                                        //Check if consent is changed
-                                        if (pde.Study_SMS_Consent__c != option.IsConsented) {
-                                            pde.Study_SMS_Consent__c = option.IsConsented;
-                                            pde.Study_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Study_SMS_Consent__c = option.IsConsented;
+                                        pde.Study_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     } else if (option.Name == 'email') {
-                                        //Check if consent is changed
-                                        if (pde.Study_Email_Consent__c != option.IsConsented) {
-                                            pde.Study_Email_Consent__c = option.IsConsented;
-                                            pde.Study_Email_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Study_Email_Consent__c = option.IsConsented;
+                                        pde.Study_Email_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     } else if (option.Name == 'phone') {
-                                        //Check if consent is changed
-                                        if (pde.Study_Phone_Consent__c != option.IsConsented) {
-                                            pde.Study_Phone_Consent__c = option.IsConsented;
-                                            pde.Study_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Study_Phone_Consent__c = option.IsConsented;
+                                        pde.Study_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        pde.Study_Artificial_Voice_Consent__c = option.IsConsented;
+                                        pde.Study_Pre_recorded_Voice_Consent__c = option.IsConsented;
+                                        pde.Study_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        pde.Study_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        pde.Study_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        pde.Study_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     } else if (option.Name == 'directMail') {
-                                        //Check if consent is changed
-                                        if (
-                                            pde.Study_Direct_Mail_Consent__c != option.IsConsented
-                                        ) {
-                                            pde.Study_Direct_Mail_Consent__c = option.IsConsented;
-                                            pde.Study_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Study_Direct_Mail_Consent__c = option.IsConsented;
+                                        pde.Study_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     }
                                 } else if (customPreference.Name == 'IQVIA-Outreach-Consents') {
                                     if (option.Name == 'sms') {
-                                        //Check if consent is changed
-                                        if (
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c !=
-                                            option.IsConsented
-                                        ) {
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c = option.IsConsented;
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c = option.IsConsented;
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     } else if (option.Name == 'email') {
-                                        //Check if consent is changed
-                                        if (
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c !=
-                                            option.IsConsented
-                                        ) {
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c = option.IsConsented;
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Email_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c = option.IsConsented;
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Email_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     } else if (option.Name == 'phone') {
-                                        //Check if consent is changed
-                                        if (
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c !=
-                                            option.IsConsented
-                                        ) {
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     } else if (option.Name == 'directMail') {
-                                        //Check if consent is changed
-                                        if (
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent__c !=
-                                            option.IsConsented
-                                        ) {
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent__c = option.IsConsented;
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent__c = option.IsConsented;
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     }
                                 }
@@ -681,63 +670,40 @@ public without sharing class UCPM_FetchLatestConsents {
                                 Contact con = ppmtoConMap.get(payload.requestPPMID);
                                 if (customPreference.Name == 'IQVIA-Outreach-Consents') {
                                     if (option.Name == 'sms') {
-                                        //Check if consent is changed
-                                        if (
-                                            con.Participant_Opt_In_Status_SMS__c !=
-                                            option.IsConsented
-                                        ) {
-                                            con.Participant_Opt_In_Status_SMS__c = option.IsConsented;
-                                            con.IQVIA_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!conList.contains(con)) {
-                                                conList.add(con);
-                                            }
+                                        con.Participant_Opt_In_Status_SMS__c = option.IsConsented;
+                                        con.IQVIA_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!conList.contains(con)) {
+                                            conList.add(con);
                                         }
                                     } else if (option.Name == 'email') {
-                                        //Check if consent is changed
-                                        if (
-                                            con.Participant_Opt_In_Status_Emails__c !=
-                                            option.IsConsented
-                                        ) {
-                                            con.Participant_Opt_In_Status_Emails__c = option.IsConsented;
-                                            con.IQVIA_Email_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!conList.contains(con)) {
-                                                conList.add(con);
-                                            }
+                                        con.Participant_Opt_In_Status_Emails__c = option.IsConsented;
+                                        con.IQVIA_Email_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!conList.contains(con)) {
+                                            conList.add(con);
                                         }
                                     } else if (option.Name == 'phone') {
-                                        //Check if consent is changed
-                                        if (
-                                            con.Participant_Phone_Opt_In_Permit_Phone__c !=
-                                            option.IsConsented
-                                        ) {
-                                            con.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
-                                            con.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!conList.contains(con)) {
-                                                conList.add(con);
-                                            }
+                                        con.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
+                                        con.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!conList.contains(con)) {
+                                            conList.add(con);
                                         }
                                     } else if (option.Name == 'directMail') {
-                                        //Check if consent is changed
-                                        if (
-                                            con.IQVIA_Direct_Mail_Consent__c != option.IsConsented
-                                        ) {
-                                            con.IQVIA_Direct_Mail_Consent__c = option.IsConsented;
-                                            con.IQVIA_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!conList.contains(con)) {
-                                                conList.add(con);
-                                            }
+                                        con.IQVIA_Direct_Mail_Consent__c = option.IsConsented;
+                                        con.IQVIA_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!conList.contains(con)) {
+                                            conList.add(con);
                                         }
                                     }
                                 }
@@ -772,20 +738,37 @@ public without sharing class UCPM_FetchLatestConsents {
         Participant_Enrollment__c per;
         List<Patient_Delegate_Enrollment__c> pdeList = new List<Patient_Delegate_Enrollment__c>();
         List<Participant_Enrollment__c> listPE = new List<Participant_Enrollment__c>();
-        if(conId != null && PerId == null){
-            listPE = [Select Id,PPMID__c,Participant_Contact__c,Participant_Contact__r.PPM_ID__c
-                      from Participant_Enrollment__c where 
-                      Participant_Contact__c =:conId AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true AND Participant_Status__c NOT IN:PEStatusState.PE_STATUS_GROUP_ALUMNI AND Invited_To_PP_Date__c != null AND
-                      (Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' OR (Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen' AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
-                    ]; 
-            if(!isParticipant){
-                pdeList = [Select Id,PPM_ID__c,Participant_Enrollment__r.PPMID__c,Patient_Delegate__r.Contact__r.PPM_ID__c,Patient_Delegate__r.Contact__c from Patient_Delegate_Enrollment__c
-                where Patient_Delegate__r.Contact__c =:conId AND Status__c = 'Active' AND
-                (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal' OR (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen' AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
-               ];
-            }  
-        }
-        else if (pderIdList != null && pderIdList.size() > 0) {
+        if (conId != null && PerId == null) {
+            listPE = [
+                SELECT Id, PPMID__c, Participant_Contact__c, Participant_Contact__r.PPM_ID__c
+                FROM Participant_Enrollment__c
+                WHERE
+                    Participant_Contact__c = :conId
+                    AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+                    AND Participant_Status__c NOT IN :PEStatusState.PE_STATUS_GROUP_ALUMNI
+                    AND Invited_To_PP_Date__c != NULL
+                    AND (Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
+                    OR (Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen'
+                    AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+            ];
+            if (!isParticipant) {
+                pdeList = [
+                    SELECT
+                        Id,
+                        PPM_ID__c,
+                        Participant_Enrollment__r.PPMID__c,
+                        Patient_Delegate__r.Contact__r.PPM_ID__c,
+                        Patient_Delegate__r.Contact__c
+                    FROM Patient_Delegate_Enrollment__c
+                    WHERE
+                        Patient_Delegate__r.Contact__c = :conId
+                        AND Status__c = 'Active'
+                        AND (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
+                        OR (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen'
+                        AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+                ];
+            }
+        } else if (pderIdList != null && pderIdList.size() > 0) {
             per = [
                 SELECT
                     id,
@@ -795,7 +778,12 @@ public without sharing class UCPM_FetchLatestConsents {
                     Clinical_Trial_Profile__r.Study_Sponsor__c,
                     Clinical_Trial_Profile__c,
                     (
-                        SELECT id, PPM_ID__c, Participant_Enrollment__r.PPMID__c,Patient_Delegate__r.Contact__r.PPM_ID__c,Patient_Delegate__r.Contact__c
+                        SELECT
+                            id,
+                            PPM_ID__c,
+                            Participant_Enrollment__r.PPMID__c,
+                            Patient_Delegate__r.Contact__r.PPM_ID__c,
+                            Patient_Delegate__r.Contact__c
                         FROM Patient_Delegate_Enrollments__r
                         WHERE Id IN :pderIdList
                     )
@@ -818,10 +806,10 @@ public without sharing class UCPM_FetchLatestConsents {
 
         Boolean fetchconsentsfromUCPM = false;
         String requestString;
-        if(conId == null && PerId != null){
+        if (conId == null && PerId != null) {
             JSONGenerator gen = JSON.createGenerator(false);
             gen.writeStartArray();
-    
+
             if (per.PPMID__c != null) {
                 fetchconsentsfromUCPM = true;
                 gen.writeStartObject();
@@ -830,7 +818,7 @@ public without sharing class UCPM_FetchLatestConsents {
                 gen.writeStringField('applicationId', per.Id);
                 gen.writeEndObject();
             }
-    
+
             if (per.Participant_Contact__r.PPM_ID__c != null) {
                 fetchconsentsfromUCPM = true;
                 gen.writeStartObject();
@@ -839,11 +827,11 @@ public without sharing class UCPM_FetchLatestConsents {
                 gen.writeStringField('applicationId', per.Participant_Contact__c);
                 gen.writeEndObject();
             }
-    
+
             if (pderIdList != null && pderIdList.size() > 0) {
                 for (Patient_Delegate_Enrollment__c pde : per.Patient_Delegate_Enrollments__r) {
                     if (pde.PPM_ID__c != null) {
-                        if(!fetchconsentsfromUCPM){
+                        if (!fetchconsentsfromUCPM) {
                             fetchconsentsfromUCPM = true;
                         }
                         gen.writeStartObject();
@@ -855,8 +843,8 @@ public without sharing class UCPM_FetchLatestConsents {
                         gen.writeStringField('applicationId', pde.Id);
                         gen.writeEndObject();
                     }
-                    if(pde.Patient_Delegate__r.Contact__r.PPM_ID__c != null){
-                        if(!fetchconsentsfromUCPM){
+                    if (pde.Patient_Delegate__r.Contact__r.PPM_ID__c != null) {
+                        if (!fetchconsentsfromUCPM) {
                             fetchconsentsfromUCPM = true;
                         }
                         gen.writeStartObject();
@@ -870,16 +858,16 @@ public without sharing class UCPM_FetchLatestConsents {
                     }
                 }
             }
-    
+
             gen.writeEndArray();
             requestString = gen.getAsString();
             System.debug('requestBody: ' + requestString);
-        }else if(conId != null && PerId == null){
+        } else if (conId != null && PerId == null) {
             JSONGenerator gen = JSON.createGenerator(false);
             gen.writeStartArray();
-            for ( Participant_Enrollment__c perRec : listPE) {
+            for (Participant_Enrollment__c perRec : listPE) {
                 if (perRec.PPMID__c != null) {
-                    if(!fetchconsentsfromUCPM){
+                    if (!fetchconsentsfromUCPM) {
                         fetchconsentsfromUCPM = true;
                     }
                     gen.writeStartObject();
@@ -889,21 +877,28 @@ public without sharing class UCPM_FetchLatestConsents {
                     gen.writeEndObject();
                 }
             }
-            for ( Patient_Delegate_Enrollment__c pder : pdeList) {
+            for (Patient_Delegate_Enrollment__c pder : pdeList) {
                 if (pder.PPM_ID__c != null) {
-                    if(!fetchconsentsfromUCPM){
+                    if (!fetchconsentsfromUCPM) {
                         fetchconsentsfromUCPM = true;
                     }
                     gen.writeStartObject();
                     gen.writeStringField('ppmid', pder.PPM_ID__c);
-                    gen.writeStringField('participantPPMID', pder.Participant_Enrollment__r.PPMID__c);
+                    gen.writeStringField(
+                        'participantPPMID',
+                        pder.Participant_Enrollment__r.PPMID__c
+                    );
                     gen.writeStringField('applicationId', pder.Id);
                     gen.writeEndObject();
                 }
             }
-            system.debug('+++++++++++++'+listPE);
-            if(listPE != null && !listPE.isEmpty()  && listPE[0].Participant_Contact__r.PPM_ID__c != null){
-                if(!fetchconsentsfromUCPM){
+            system.debug('+++++++++++++' + listPE);
+            if (
+                listPE != null &&
+                !listPE.isEmpty() &&
+                listPE[0].Participant_Contact__r.PPM_ID__c != null
+            ) {
+                if (!fetchconsentsfromUCPM) {
                     fetchconsentsfromUCPM = true;
                 }
                 gen.writeStartObject();
@@ -911,8 +906,12 @@ public without sharing class UCPM_FetchLatestConsents {
                 gen.writeStringField('participantPPMID', '');
                 gen.writeStringField('applicationId', listPE[0].Participant_Contact__c);
                 gen.writeEndObject();
-            }else if(pdeList != null && !pdeList.isEmpty() && pdeList[0].Patient_Delegate__r.Contact__r.PPM_ID__c != null){
-                if(!fetchconsentsfromUCPM){
+            } else if (
+                pdeList != null &&
+                !pdeList.isEmpty() &&
+                pdeList[0].Patient_Delegate__r.Contact__r.PPM_ID__c != null
+            ) {
+                if (!fetchconsentsfromUCPM) {
                     fetchconsentsfromUCPM = true;
                 }
                 gen.writeStartObject();
@@ -923,15 +922,13 @@ public without sharing class UCPM_FetchLatestConsents {
             }
             gen.writeEndArray();
             requestString = gen.getAsString();
-
         }
         ReturnResponse rr = new ReturnResponse();
-        if(fetchconsentsfromUCPM){
-            
+        if (fetchconsentsfromUCPM) {
             String accessToken;
             accessToken = getAccessToken();
             DateTime dt = DateTime.now();
-    
+
             //Integration log insertion
             IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
             objIntegrationLog.Request_Body__c = requestString;
@@ -939,7 +936,7 @@ public without sharing class UCPM_FetchLatestConsents {
             objIntegrationLog.Request_Type__c = 'UCPM_Fetch_Consent';
             objIntegrationLog.Function_Name__c = 'UCPM_Fetch_Consent';
             objIntegrationLog.Http_Method__c = 'POST';
-    
+
             //Call Mulesoft-UCPM API for consents
             HTTP h = new HTTP();
             HTTPRequest r = new HTTPRequest();
@@ -950,13 +947,13 @@ public without sharing class UCPM_FetchLatestConsents {
             r.setbody(requestString);
             r.setHeader('identityType', 'PARTICIPANT');
             r.setHeader('tid', MulesoftIntegrationApi.uniqueKeygeneration());
-    
+
             System.debug('###### request ' + r.getBody());
-    
+
             HTTPResponse resp = h.send(r);
             System.debug('###### resp ' + resp);
             System.debug('200 ' + resp.getBody());
-    
+
             objIntegrationLog.Response_Body__c = resp.getBody();
             objIntegrationLog.Response_Status__c = resp.getStatus();
             objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
@@ -964,7 +961,7 @@ public without sharing class UCPM_FetchLatestConsents {
                 System.debug('200 ' + resp.getBody());
                 objIntegrationLog.Success__c = true;
                 responseBody = resp.getBody();
-    
+
                 // Response code starts here
                 UCPM_FetchLatestConsents responseWrapper = (UCPM_FetchLatestConsents) JSON.deserialize(
                     responseBody,
@@ -979,7 +976,6 @@ public without sharing class UCPM_FetchLatestConsents {
             }
         }
         return rr;
-
     }
     public static ReturnResponse updateRecordsReturn(UCPM_FetchLatestConsents consentWrapper) {
         // Bypass triggers
@@ -1166,129 +1162,93 @@ public without sharing class UCPM_FetchLatestConsents {
                                 );
                                 if (customPreference.Name == 'Communication-Consents') {
                                     if (option.Name == 'sms') {
-                                        //Check if consent is changed
-                                        if (
-                                            per.Permit_SMS_Text_for_this_study__c !=
-                                            option.IsConsented
-                                        ) {
-                                            per.Permit_SMS_Text_for_this_study__c = option.IsConsented;
-                                            per.Study_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Permit_SMS_Text_for_this_study__c = option.IsConsented;
+                                        per.Study_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     } else if (option.Name == 'email') {
-                                        System.debug('inside per email');
-                                        //Check if consent is changed
-                                        if (
-                                            per.Permit_Mail_Email_contact_for_this_study__c !=
-                                            option.IsConsented
-                                        ) {
-                                            System.debug('inside per email 1');
-                                            per.Permit_Mail_Email_contact_for_this_study__c = option.IsConsented;
-                                            per.Study_Email_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Permit_Mail_Email_contact_for_this_study__c = option.IsConsented;
+                                        per.Study_Email_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     } else if (option.Name == 'phone') {
-                                        System.debug('inside per phone');
-                                        //Check if consent is changed
-                                        if (
-                                            per.Permit_Voice_Text_contact_for_this_study__c !=
-                                            option.IsConsented
-                                        ) {
-                                            System.debug('inside per phone 1');
-                                            per.Permit_Voice_Text_contact_for_this_study__c = option.IsConsented;
-                                            per.Study_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Permit_Voice_Text_contact_for_this_study__c = option.IsConsented;
+                                        per.Study_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        per.Study_Artificial_Voice_Consent__c = option.IsConsented;
+                                        per.Study_Pre_recorded_Voice_Consent__c = option.IsConsented;
+                                        per.Study_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        per.Study_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        per.Study_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        per.Study_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     } else if (option.Name == 'directMail') {
-                                        //Check if consent is changed
-                                        if (
-                                            per.Study_Direct_Mail_Consent__c != option.IsConsented
-                                        ) {
-                                            per.Study_Direct_Mail_Consent__c = option.IsConsented;
-                                            per.Study_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Study_Direct_Mail_Consent__c = option.IsConsented;
+                                        per.Study_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     }
                                 } else if (customPreference.Name == 'IQVIA-Outreach-Consents') {
                                     if (option.Name == 'sms') {
-                                        //Check if consent is changed
-                                        if (
-                                            per.Participant_Contact__r.Participant_Opt_In_Status_SMS__c !=
-                                            option.IsConsented
-                                        ) {
-                                            per.Participant_Contact__r.Participant_Opt_In_Status_SMS__c = option.IsConsented;
-                                            per.Participant_Contact__r.IQVIA_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Participant_Contact__r.Participant_Opt_In_Status_SMS__c = option.IsConsented;
+                                        per.Participant_Contact__r.IQVIA_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     } else if (option.Name == 'email') {
-                                        //Check if consent is changed
-                                        if (
-                                            per.Participant_Contact__r.Participant_Opt_In_Status_Emails__c !=
-                                            option.IsConsented
-                                        ) {
-                                            per.Participant_Contact__r.Participant_Opt_In_Status_Emails__c = option.IsConsented;
-                                            per.Participant_Contact__r.IQVIA_Email_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Participant_Contact__r.Participant_Opt_In_Status_Emails__c = option.IsConsented;
+                                        per.Participant_Contact__r.IQVIA_Email_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     } else if (option.Name == 'phone') {
-                                        //Check if consent is changed
-                                        if (
-                                            per.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c !=
-                                            option.IsConsented
-                                        ) {
-                                            per.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
-                                            per.Participant_Contact__r.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
+                                        per.Participant_Contact__r.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     } else if (option.Name == 'directMail') {
-                                        //Check if consent is changed
-                                        if (
-                                            per.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c !=
-                                            option.IsConsented
-                                        ) {
-                                            per.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c = option.IsConsented;
-                                            per.Participant_Contact__r.IQVIA_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!perList.contains(per)) {
-                                                perList.add(per);
-                                            }
+                                        per.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c = option.IsConsented;
+                                        per.Participant_Contact__r.IQVIA_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!perList.contains(per)) {
+                                            perList.add(per);
                                         }
                                     }
                                 }
@@ -1300,116 +1260,93 @@ public without sharing class UCPM_FetchLatestConsents {
                                 );
                                 if (customPreference.Name == 'Communication-Consents') {
                                     if (option.Name == 'sms') {
-                                        //Check if consent is changed
-                                        if (pde.Study_SMS_Consent__c != option.IsConsented) {
-                                            pde.Study_SMS_Consent__c = option.IsConsented;
-                                            pde.Study_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Study_SMS_Consent__c = option.IsConsented;
+                                        pde.Study_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     } else if (option.Name == 'email') {
-                                        //Check if consent is changed
-                                        if (pde.Study_Email_Consent__c != option.IsConsented) {
-                                            pde.Study_Email_Consent__c = option.IsConsented;
-                                            pde.Study_Email_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Study_Email_Consent__c = option.IsConsented;
+                                        pde.Study_Email_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     } else if (option.Name == 'phone') {
-                                        //Check if consent is changed
-                                        if (pde.Study_Phone_Consent__c != option.IsConsented) {
-                                            pde.Study_Phone_Consent__c = option.IsConsented;
-                                            pde.Study_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Study_Phone_Consent__c = option.IsConsented;
+                                        pde.Study_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        pde.Study_Artificial_Voice_Consent__c = option.IsConsented;
+                                        pde.Study_Pre_recorded_Voice_Consent__c = option.IsConsented;
+                                        pde.Study_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        pde.Study_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        pde.Study_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        pde.Study_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     } else if (option.Name == 'directMail') {
-                                        //Check if consent is changed
-                                        if (
-                                            pde.Study_Direct_Mail_Consent__c != option.IsConsented
-                                        ) {
-                                            pde.Study_Direct_Mail_Consent__c = option.IsConsented;
-                                            pde.Study_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Study_Direct_Mail_Consent__c = option.IsConsented;
+                                        pde.Study_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     }
                                 } else if (customPreference.Name == 'IQVIA-Outreach-Consents') {
                                     if (option.Name == 'sms') {
-                                        //Check if consent is changed
-                                        if (
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c !=
-                                            option.IsConsented
-                                        ) {
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c = option.IsConsented;
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c = option.IsConsented;
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     } else if (option.Name == 'email') {
-                                        //Check if consent is changed
-                                        if (
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c !=
-                                            option.IsConsented
-                                        ) {
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c = option.IsConsented;
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Email_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c = option.IsConsented;
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Email_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     } else if (option.Name == 'phone') {
-                                        //Check if consent is changed
-                                        if (
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c !=
-                                            option.IsConsented
-                                        ) {
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     } else if (option.Name == 'directMail') {
-                                        //Check if consent is changed
-                                        if (
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent__c !=
-                                            option.IsConsented
-                                        ) {
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent__c = option.IsConsented;
-                                            pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!pdeList.contains(pde)) {
-                                                pdeList.add(pde);
-                                            }
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent__c = option.IsConsented;
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!pdeList.contains(pde)) {
+                                            pdeList.add(pde);
                                         }
                                     }
                                 }
@@ -1419,63 +1356,40 @@ public without sharing class UCPM_FetchLatestConsents {
                                 Contact con = ppmtoConMap.get(payload.requestPPMID);
                                 if (customPreference.Name == 'IQVIA-Outreach-Consents') {
                                     if (option.Name == 'sms') {
-                                        //Check if consent is changed
-                                        if (
-                                            con.Participant_Opt_In_Status_SMS__c !=
-                                            option.IsConsented
-                                        ) {
-                                            con.Participant_Opt_In_Status_SMS__c = option.IsConsented;
-                                            con.IQVIA_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!conList.contains(con)) {
-                                                conList.add(con);
-                                            }
+                                        con.Participant_Opt_In_Status_SMS__c = option.IsConsented;
+                                        con.IQVIA_SMS_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!conList.contains(con)) {
+                                            conList.add(con);
                                         }
                                     } else if (option.Name == 'email') {
-                                        //Check if consent is changed
-                                        if (
-                                            con.Participant_Opt_In_Status_Emails__c !=
-                                            option.IsConsented
-                                        ) {
-                                            con.Participant_Opt_In_Status_Emails__c = option.IsConsented;
-                                            con.IQVIA_Email_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!conList.contains(con)) {
-                                                conList.add(con);
-                                            }
+                                        con.Participant_Opt_In_Status_Emails__c = option.IsConsented;
+                                        con.IQVIA_Email_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!conList.contains(con)) {
+                                            conList.add(con);
                                         }
                                     } else if (option.Name == 'phone') {
-                                        //Check if consent is changed
-                                        if (
-                                            con.Participant_Phone_Opt_In_Permit_Phone__c !=
-                                            option.IsConsented
-                                        ) {
-                                            con.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
-                                            con.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!conList.contains(con)) {
-                                                conList.add(con);
-                                            }
+                                        con.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
+                                        con.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!conList.contains(con)) {
+                                            conList.add(con);
                                         }
                                     } else if (option.Name == 'directMail') {
-                                        //Check if consent is changed
-                                        if (
-                                            con.IQVIA_Direct_Mail_Consent__c != option.IsConsented
-                                        ) {
-                                            con.IQVIA_Direct_Mail_Consent__c = option.IsConsented;
-                                            con.IQVIA_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
-                                                '"' + purpose.ConsentDate + '"',
-                                                DateTime.class
-                                            );
-                                            if (!conList.contains(con)) {
-                                                conList.add(con);
-                                            }
+                                        con.IQVIA_Direct_Mail_Consent__c = option.IsConsented;
+                                        con.IQVIA_Direct_Mail_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        if (!conList.contains(con)) {
+                                            conList.add(con);
                                         }
                                     }
                                 }
@@ -1486,15 +1400,6 @@ public without sharing class UCPM_FetchLatestConsents {
             }
         }
         try {
-            /*if (!perList.isEmpty()) {
-                update perList;
-            }
-            if (!pdeList.isEmpty()) {
-                update pdeList;
-            }
-            if (!conList.isEmpty()) {
-                update conList;
-            }*/
             ReturnResponse rr = new ReturnResponse();
             rr.perslist = perList;
             rr.consList = conList;
@@ -1506,7 +1411,7 @@ public without sharing class UCPM_FetchLatestConsents {
         }
     }
 
-    public class ReturnResponse{
+    public class ReturnResponse {
         public list<Participant_Enrollment__c> perslist;
         public list<Contact> consList;
         public list<Patient_Delegate_Enrollment__c> pderslist;
@@ -1550,7 +1455,7 @@ public without sharing class UCPM_FetchLatestConsents {
 
     public class Purposes {
         public String Name;
-        public String  WithdrawalDate;
+        public String WithdrawalDate;
         public String ConsentDate;
         public String ExpiryDate;
         public List<CustomPreferences> CustomPreferences;
