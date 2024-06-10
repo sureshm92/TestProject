@@ -8,6 +8,11 @@
         <isRequired>false</isRequired>
     </displayedFields>
     <displayedFields>
+        <field>Detailed_Description__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
         <field>Study_Title__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
