@@ -116,14 +116,14 @@
 }
 
 .THIS .page-content-mobile {
-    padding-left: 24px;
+    padding-left: 24px !important;
 }
 
 .THIS .cusContentMargin {
     margin-left: -24px;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1279px){
+/* @media screen and (min-width: 768px) and (max-width: 1279px){
     .THIS .page-content-mobile {
     padding-left: 40px;
     }
@@ -133,7 +133,7 @@
     .THIS .page-content-mobile {
     padding-left: 40px;
     }
-}
+} */
 
 .THIS .footerOptOut {
     height: 60px;
