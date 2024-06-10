@@ -197,7 +197,7 @@
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="12">
                             <div>
-                                <lightning-combobox required="true" label={label.RH_RP_Legal_Status} name="Legal Status"
+                                <lightning-combobox required="true" disabled={isaccesslevelthree} label={label.RH_RP_Legal_Status} name="Legal Status"
                                     placeholder={label.RH_RP_Legal_Status_Verified} value={pe.peRecord.Legal_Status__c}
                                     options={pe.legalStatusList} data-value="LegalStatus" data-id={pe.peRecord.Id}
                                     onchange={changeInputValue} class="col-top">
