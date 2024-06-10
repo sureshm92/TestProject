@@ -398,7 +398,7 @@ export default class Rp_PatientTab extends LightningElement {
                 this.patientrecord[0].peRecord.Permit_Voice_Text_contact_for_this_study__c) :
                 (this.patientrecord[0].peRecord.Permit_Mail_Email_contact_for_this_study__c &&
                 this.patientrecord[0].peRecord.Permit_Voice_Text_contact_for_this_study__c)
-            )
+            ) && (!this.isaccesslevelthree)
         ) {
             this.disabledsavebutton = false;
         }
@@ -637,7 +637,7 @@ export default class Rp_PatientTab extends LightningElement {
             this.patientrecord[0].peRecord.Permit_Voice_Text_contact_for_this_study__c) :
             (this.patientrecord[0].peRecord.Permit_Mail_Email_contact_for_this_study__c &&
             this.patientrecord[0].peRecord.Permit_Voice_Text_contact_for_this_study__c)
-            )
+            ) && (!this.isaccesslevelthree)
         ) {
             this.disabledsavebutton = false;
         }
