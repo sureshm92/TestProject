@@ -32,4 +32,7 @@ trigger PatientDelegateEnrollmentTrigger on Patient_Delegate_Enrollment__c (
     TriggerHandlerExecutor.execute(
         PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
     );
+    TriggerHandlerExecutor.execute(
+        UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+    );
 }
