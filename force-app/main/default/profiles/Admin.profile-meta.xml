@@ -3599,6 +3599,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ECOA_Retry_Count__c.Participant_Enrollment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Community_Template_Selector__c.Template_Selector_Formula__c</field>
         <readable>true</readable>
