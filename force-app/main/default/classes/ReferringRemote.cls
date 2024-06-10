@@ -1860,7 +1860,7 @@ update objConVersion;*/
                 );
             }
             //Send Consents to ucpm
-            UCPM_ConsentPostController.fetchPerAndPderDetails(new list<Id>{enrollment.Id},pderIdlist.isEmpty() ? null : pderIdlist,'');
+            UCPM_ConsentPostController.fetchPerAndPderDetails(new list<Id>{enrollment.Id},pderIdlist.isEmpty() ? null : pderIdlist,'Referring Provider Participant');
 
         } catch (Exception e) {
             AuraHelper.throwException(e);            

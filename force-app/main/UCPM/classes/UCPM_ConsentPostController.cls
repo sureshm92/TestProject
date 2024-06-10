@@ -180,14 +180,14 @@ public class UCPM_ConsentPostController {
                 removeparticipantcontact = true;
             }
 
-            if (placeoffunctionality == 'Referring Provider Participant' && pderIdList == null) {
+            if (placeoffunctionality == 'Referring Provider Participant') {
                 //New/Old PER without participant contact
                 if (pe.Participant_Contact__c == null) {
                     if (pe.PPMID__c != null) {
                         System.enqueueJob(
                             new UCPM_PostConsentQueueable(
                                 pe,
-                                perandPderMap.get(pe),
+                                null,
                                 'Update',
                                 iqviaOutreach,
                                 'PARTICIPANT',
@@ -199,7 +199,7 @@ public class UCPM_ConsentPostController {
                         System.enqueueJob(
                             new UCPM_PostConsentQueueable(
                                 pe,
-                                perandPderMap.get(pe),
+                                null,
                                 'Create',
                                 iqviaOutreach,
                                 'PARTICIPANT',
@@ -207,6 +207,226 @@ public class UCPM_ConsentPostController {
                                 placeoffunctionality
                             )
                         );
+                    }
+                }else if(
+                    pe.Participant_Contact__c != null && 
+                    pderIdList == null
+                ){
+                    if (
+                        pe.PPMID__c == null && 
+                        pe.Participant_Contact__r.PPM_ID__c == null
+                    ) {
+                        System.enqueueJob(
+                            new UCPM_PostConsentQueueable(
+                                pe,
+                                null,
+                                'Create',
+                                iqviaOutreach,
+                                'PARTICIPANT',
+                                removeparticipantcontact ? 'Participant': 'Participant:ParticipantContact',
+                                placeoffunctionality
+                            )
+                        );
+                    } else if(
+                        pe.PPMID__c != null && 
+                        pe.Participant_Contact__r.PPM_ID__c == null
+                    ){
+                        System.enqueueJob(
+                            new UCPM_PostConsentQueueable(
+                                pe,
+                                null,
+                                'Both',
+                                iqviaOutreach,
+                                'PARTICIPANT',
+                                removeparticipantcontact ? '' : 'ParticipantContact',
+                                'PARTICIPANT',
+                                'Participant',
+                                placeoffunctionality
+                            )
+                        );
+                    } else if(
+                        pe.PPMID__c == null && 
+                        pe.Participant_Contact__r.PPM_ID__c != null
+                    ){
+                        System.enqueueJob(
+                            new UCPM_PostConsentQueueable(
+                                pe,
+                                null,
+                                'Both',
+                                iqviaOutreach,
+                                'PARTICIPANT',
+                                'Participant',
+                                'PARTICIPANT',
+                                'ParticipantContact',
+                                placeoffunctionality
+                            )
+                        );
+                    } else if(
+                        pe.PPMID__c != null && 
+                        pe.Participant_Contact__r.PPM_ID__c != null
+                    ){
+                        System.enqueueJob(
+                            new UCPM_PostConsentQueueable(
+                                pe,
+                                null,
+                                'Update',
+                                iqviaOutreach,
+                                'PARTICIPANT',
+                                'Participant:ParticipantContact',
+                                placeoffunctionality
+                            )
+                        );
+                    }
+                }else if(
+                    pe.Participant_Contact__c != null && 
+                    pderIdList != null
+                ){
+                    if (
+                        pe.PPMID__c == null && 
+                        pe.Participant_Contact__r.PPM_ID__c == null &&
+                        pderIdList.size() > 0 &&
+                        perandPderMap.get(pe) != null &&
+                        perandPderMap.get(pe).size() > 0 &&
+                        perandPderMap.get(pe)[0].PPM_ID__c == null 
+                    ) {
+                        if(perandPderMap.get(pe)[0].Patient_Delegate__r.Contact__r.PPM_ID__c == null){
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                perandPderMap.get(pe),
+                                'Create',
+                                iqviaOutreach,
+                                    'PARTICIPANT-DELEGATE',
+                                    removeparticipantcontact ? 'Participant:Delegate:DelegateContact': 'Participant:ParticipantContact:Delegate:DelegateContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        }else{
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'PARTICIPANT-DELEGATE',
+                                    removeparticipantcontact ? 'Participant:Delegate': 'Participant:ParticipantContact:Delegate',
+                                    'DELEGATE',
+                                    'DelegateContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        }
+                    }else if(
+                        pe.PPMID__c != null && 
+                        pe.Participant_Contact__r.PPM_ID__c == null &&
+                        pderIdList.size() > 0 &&
+                        perandPderMap.get(pe) != null &&
+                        perandPderMap.get(pe).size() > 0 &&
+                        perandPderMap.get(pe)[0].PPM_ID__c == null 
+                    ){
+                        if(perandPderMap.get(pe)[0].Patient_Delegate__r.Contact__r.PPM_ID__c == null){
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'PARTICIPANT-DELEGATE',
+                                    removeparticipantcontact ? 'Delegate:DelegateContact': 'ParticipantContact:Delegate:DelegateContact',
+                                'PARTICIPANT',
+                                'Participant',
+                                placeoffunctionality
+                            )
+                        );
+                        }else{
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'PARTICIPANT-DELEGATE',
+                                    removeparticipantcontact ? 'Delegate': 'ParticipantContact:Delegate',
+                                    'PARTICIPANT-DELEGATE',
+                                    'Participant:DelegateContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        }
+                    }else if(
+                        pe.PPMID__c == null && 
+                        pe.Participant_Contact__r.PPM_ID__c != null &&
+                        pderIdList.size() > 0 &&
+                        perandPderMap.get(pe) != null &&
+                        perandPderMap.get(pe).size() > 0 &&
+                        perandPderMap.get(pe)[0].PPM_ID__c == null 
+                    ){
+                        if(perandPderMap.get(pe)[0].Patient_Delegate__r.Contact__r.PPM_ID__c == null){
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'PARTICIPANT-DELEGATE',
+                                    'Participant:Delegate:DelegateContact',
+                                    'PARTICIPANT',
+                                    'ParticipantContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        }else{
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'PARTICIPANT-DELEGATE',
+                                    'Participant:Delegate',
+                                    'PARTICIPANT-DELEGATE',
+                                    'ParticipantContact:DelegateContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        }
+                    }else if(
+                        pe.PPMID__c != null && 
+                        pe.Participant_Contact__r.PPM_ID__c != null && 
+                        pderIdList.size() > 0 &&
+                        perandPderMap.get(pe) != null &&
+                        perandPderMap.get(pe).size() > 0 &&
+                        perandPderMap.get(pe)[0].PPM_ID__c == null 
+                    ){
+                        if(perandPderMap.get(pe)[0].Patient_Delegate__r.Contact__r.PPM_ID__c == null){
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'DELEGATE',
+                                    'Delegate:DelegateContact',
+                                    'PARTICIPANT',
+                                    'Participant:ParticipantContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        }else{
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'DELEGATE',
+                                    'Delegate',
+                                    'PARTICIPANT-DELEGATE',
+                                    'Participant:ParticipantContact:DelegateContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        }
                     }
                 }
             }
