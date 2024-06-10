@@ -70,6 +70,8 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
     @api isRTL;
     @api showBackButton;
 
+    isTablet = true;
+
     hide;
     hideOther;
     override;
@@ -184,6 +186,8 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         this.spinner = true;
         this.retUrl = communityService.createRetString();
         this.showBackButton = communityService.isIpad();
+        this.isTabletMenu();
+        !this.isTablet ? this.showBackButton = false : '';
 
         var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
         if(width > 768 && width <= 1024){
@@ -1362,5 +1366,25 @@ export default class PpCommunicationPreferences extends NavigationMixin(Lightnin
         this.consentPreferenceDataLocal.pdeList.forEach(function (pde) {
             pde['error'] = false;
         });
+    }
+
+    isTabletMenu() {       
+        if (window.innerWidth >= 768 && window.innerWidth < 1279) {
+            if (/iphone|macintosh|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
+                if(!navigator.userAgent.toLowerCase().match('crios')){
+                    this.isTablet = true;
+                    return true;
+                }
+            } else if (/macintel|iPad Simulator/i.test(navigator.platform.toLowerCase())) {
+                if(!navigator.userAgent.toLowerCase().match('crios')){
+                    this.isTablet = true;
+                    return true;
+                }
+            }
+        } else {
+            this.isTablet = false;
+        }
+        this.isTablet = false;
+        return false;
     }
 }

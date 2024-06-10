@@ -7,7 +7,7 @@
         <template if:true={isInitialized}>
             <!-- Desk:Orietation:{iosString}<br /> -->
             <template for:each={participantTabs} for:item="item">
-                <div class="nav-item" key={item.label} role="menu">
+                <div data-id={item.page} class="nav-item" key={item.label} role="menu">
                     <!--Home Page Tab-->
                     <template if:true={item.displayIcon}>
                         <div tabindex="0" role="menuitem" data-page-name={item.page} onclick={handleNavigation}
@@ -65,8 +65,41 @@
                         </div>
                     </template>
                 </div>
-                <img key={item.page} src={iconName} />
+                <img data-id={item.page} key={item.page} src={iconName} />
             </template>
+            <template if:true={isTablet}>
+                <div class="nav-item">
+                    <div class="slds-dropdown-trigger slds-dropdown-trigger_click my-menuOne my-submenuopenone newMoreMenu"
+                        data-key="moreButton" role="menuitem" aria-haspopup="true">
+                        <a href="javascript:void(0);" onclick={dropdownMenuTwo} onblur={removeElementFocus}
+                            data-tagname="myprogram1"
+                            class="more-dropdown slds-text-color_inverse color-text-link-disabled slds-var-p-around_x-small">
+                            {label.more}
+                            <lightning-icon icon-name="utility:down" alternative-text="dropdown" variant="inverse"
+                                size="xx-small" class="slds-var-p-around_xx-small">
+                            </lightning-icon>
+                        </a>
+                        <template lwc:if={showMoreSubMenu}>
+                            <div class="slds-dropdown slds-dropdown_left">
+                                <ul class="slds-dropdown__list" role="menu" aria-label="More">
+                                    <template for:each={participantTabsTwo} for:item="subItem">
+                                        <li class="slds-dropdown__item" role="menuitem" key={subItem.label}>
+                                            <a onclick={handleNavigationMoreButton} data-pagename={subItem.page}
+                                                role="menuitem" onmouseover={handleOnMouseOverOne}
+                                                onmouseleave={handleOnMouseLeaveOne}>
+                                                <span class="slds-truncate" title={subItem.label}>{subItem.label}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <img src={iconName} />
+            </template>
+          
         </template>
     </template>
     <!-- </div> -->

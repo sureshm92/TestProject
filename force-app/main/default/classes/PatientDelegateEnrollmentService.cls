@@ -612,6 +612,7 @@ public without sharing class PatientDelegateEnrollmentService {
         pde.Status__c = 'Active';
         pde.isInviteToPP__c = true;
         pde.Study_Email_Consent__c = true;
+        pde.Study_info_storage_consent__c = true;
         return pde;
     }
     //This Method will reactive the study assignments for the active/Former delegates.
