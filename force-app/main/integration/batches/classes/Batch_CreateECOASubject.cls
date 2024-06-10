@@ -10,6 +10,7 @@ public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbst
             PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
             PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
         };
+        Integer ecoaRetryLimit = Label.DO_NOT_TRANSLATE_ECOA_RETRY_LIMIT ==null?5: Integer.valueOf(Label.DO_NOT_TRANSLATE_ECOA_RETRY_LIMIT);    
         return Database.getQueryLocator(
             [
                 SELECT
@@ -22,10 +23,12 @@ public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbst
                     Clinical_Trial_Profile__r.Study_Version_GUID__c,
                     Clinical_Trial_Profile__r.Study_GUID__c,
                     Study_Site__r.ECOA_Site_Guid__c,
-                    Visit_Plan__c
+                    Visit_Plan__c,
+                	ECOA_Retry_Count__c
                 FROM Participant_Enrollment__c
                 WHERE
                     Subject_GUID__c = NULL
+                	AND (ECOA_Retry_Count__c = NULL OR ECOA_Retry_Count__c < :ecoaRetryLimit)
                     AND Clinical_Trial_Profile__r.ECOA_Is_Avaialble__c = TRUE
                     AND Participant_Status__c IN :peEnrollmentStatus
                     AND Clinical_Trial_Profile__r.Study_GUID__c != NULL
