@@ -3600,7 +3600,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ECOA_Retry_Count__c.Participant_Enrollment__c</field>
+        <field>Participant_Enrollment__c.ECOA_Retry_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
