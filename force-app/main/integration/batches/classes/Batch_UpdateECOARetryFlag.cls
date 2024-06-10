@@ -1,23 +1,17 @@
+//To be run occassionaly by App support team 
 global without sharing class Batch_UpdateECOARetryFlag implements Database.Batchable<SObject>,Database.Stateful {
     private Map<Id,String> peIds = new Map<Id,String>();
-    //Set<Id> peIdsForEvents = new Set<Id>();
     global Database.QueryLocator start(Database.BatchableContext BC) {
 ContentVersion cvo = [SELECT VersionData FROM ContentVersion WHERE ContentDocument.Title = 'Update PE ECOA Retry' AND isLatest= true];     
-    system.debug('cvo'+cvo);
     List<String> peIdstring = cvo.VersionData.toString().Split('\n');
 peIdstring.remove(0); 
     for(String pe:peIdstring){
-        system.debug('pe'+pe);
         List<String> peComponents = new List<String>();
         peComponents = pe.split(',');
-        system.debug('peComponents'+peComponents);
         if(peComponents.size() == 2){
             Id peId = Id.valueOf(peComponents[0].trim());
-            system.debug('peId'+peId);
             String peString = peComponents[1].trim();
-            system.debug('peString'+peString);
         peIds.put(peId,peString);
-       system.debug('peIds'+peIds);
         }
     }    
     return Database.getQueryLocator([SELECT ID,ECOA_Retry_Count__c,Subject_GUID__c FROM Participant_Enrollment__c WHERE ECOA_Retry_Count__c>=3 AND Id IN:peIds.keyset()]);

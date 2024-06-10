@@ -28,7 +28,7 @@ public without sharing class Batch_CreateECOASubject extends Batch_ScheduledAbst
                 FROM Participant_Enrollment__c
                 WHERE
                     Subject_GUID__c = NULL
-                	AND (ECOA_Retry_Count__c = NULL OR ECOA_Retry_Count__c > :ecoaRetryLimit)
+                	AND (ECOA_Retry_Count__c = NULL OR ECOA_Retry_Count__c < :ecoaRetryLimit)
                     AND Clinical_Trial_Profile__r.ECOA_Is_Avaialble__c = TRUE
                     AND Participant_Status__c IN :peEnrollmentStatus
                     AND Clinical_Trial_Profile__r.Study_GUID__c != NULL
