@@ -1979,6 +1979,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
       Database.SaveResult[] perSR = Database.insert(mapPER.values(), false);
       List<Patient_Delegate_Enrollment__c> patientDelEnrollList = new List<Patient_Delegate_Enrollment__c>();
 
+      // Comma seperated per ids to be inserted into the UCPM_Post_Consent__e platform event
+      String perRecordIds='';
       for (Integer k = 0; k < perSR.size(); k++) {
         List<Integer> setToList = new List<Integer>(mapPER.keySet());
         countIndexPER = setToList[k];
@@ -2004,7 +2006,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             getCleanMessage(csvLines, countIndexParticipant)
           );
         } else {
-          newlyCreatedPER.add(perSR[k].getId());
+          newlyCreatedPER.add(perSR[k].getId());         
+          perRecordIds = perSR[k].getId() + ',' + perRecordIds;
           PERecIds.add(perSR[k].getId());
           if (
             duplicateContactUsersMap.get(
@@ -2040,9 +2043,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         }
       }
       Database.insert(patientDelEnrollList, false);
-      Set<Id> pderRecIds=new Set<Id>();
+     
+    // Comma seperated pder ids to be inserted into the UCPM_Post_Consent__e platform event
+      String pderRecordIds='';
      	for (Patient_Delegate_Enrollment__c pder: patientDelEnrollList){        
-        pderRecIds.add(pder.Id);           
+        pderRecordIds = pder.Id + ',' + pderRecordIds;           
       }
       //Participant Enrollment insertion ends.
       //Delete the contacts which were newly created but their participant/enrollment were not created.
@@ -2161,10 +2166,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
           update pdList;
         }
       }
-      String functionalityPlace='Bulk Import';
-      if(  (!newlyCreatedPER.isEmpty()) && newlyCreatedPER.size()>0){
-       System.enqueueJob(new UCPM_ConsentPostBulkImport_Queueable(new List<Id>(newlyCreatedPER),new List<Id>(pderRecIds),functionalityPlace));
-      }    
+          // Insert the per and pder ids  to post consent event ,later from post consent event trigger consents would be sent to ucpm
+          List<UCPM_Post_Consent__e> pstConsentEventList = new List<UCPM_Post_Consent__e>();
+          UCPM_Post_Consent__e postConsEvent = new UCPM_Post_Consent__e();
+          if(string.isNotBlank(perRecordIds)){
+            postConsEvent.Participant_Enrollment_Record_Ids__c = perRecordIds;
+          }
+          if(string.isNotBlank(pderRecordIds)){
+            postConsEvent.Patient_Delegate_Enrollment_Record_Ids__c = pderRecordIds;
+          }
+          postConsEvent.Place_of_Funcitionality__c='Bulk Import';
+          pstConsentEventList.add(postConsEvent);
+          EventBus.publish(pstConsentEventList);   
     } catch (Exception exp) {
       system.debug(
         'ERROR during CSV parsing: ' +
