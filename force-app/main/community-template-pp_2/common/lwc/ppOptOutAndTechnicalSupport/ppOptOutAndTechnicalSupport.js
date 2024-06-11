@@ -176,22 +176,16 @@ export default class PpOptOutAndTechnicalSupport extends LightningElement {
         });
     }
     handleChange(event) {
-        var selectedOptOutSubCategory;
-        var selectedTechSupportSubCategory;
         if(event.currentTarget.dataset.id == 'checkbox1'){
-            selectedOptOutSubCategory = event.detail.value;
+            this.selectedOptOutSubCategory = event.detail.value;
         }
         else if(event.currentTarget.dataset.id == 'checkbox2'){
-            selectedTechSupportSubCategory = event.detail.value;
+            this.selectedTechSupportSubCategory = event.detail.value;
         }
-         selectedOptOutSubCategory = event.detail.value;
-        console.log('selectedOptOutSubCategory::'+selectedOptOutSubCategory);
-         selectedTechSupportSubCategory = event.detail.value;
-        console.log('selectedTechSupportSubCategory::'+selectedTechSupportSubCategory);
 
         if (
-            (selectedOptOutSubCategory && selectedOptOutSubCategory.length > 0) ||
-            (selectedTechSupportSubCategory && selectedTechSupportSubCategory.length > 0)
+            (this.selectedOptOutSubCategory && this.selectedOptOutSubCategory.length > 0) ||
+            (this.selectedTechSupportSubCategory && this.selectedTechSupportSubCategory.length > 0)
         ) {
             this.disabled = false;
         } else {
