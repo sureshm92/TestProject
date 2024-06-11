@@ -225,7 +225,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                             String.isNotBlank(createrequestJSON) &&
                             String.isNotEmpty(createrequestJSON)
                         ) {
-                            UCPM_ConsentPostController.callUCPMtoPostConsents(
+                            callUCPMtoPostConsents(
                                 createrequestJSON,
                                 accessToken,
                                 createtypeIdentity
