@@ -689,7 +689,25 @@ public without sharing class UCPM_FetchLatestConsents {
                                         }
                                     } else if (option.Name == 'phone') {
                                         con.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
+                                        con.IQVIA_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        con.IQVIA_Artificial_Voice_Consent__c = option.IsConsented;
+                                        con.IQVIA_Pre_recorded_Voice_Consent__c = option.IsConsented;
+                                        
                                         con.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    
+                                        con.IQVIA_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    
+                                        con.IQVIA_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        con.IQVIA_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
@@ -1524,10 +1542,29 @@ public without sharing class UCPM_FetchLatestConsents {
                                         }
                                     } else if (option.Name == 'phone') {
                                         con.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
+                                        con.IQVIA_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        con.IQVIA_Artificial_Voice_Consent__c = option.IsConsented;
+                                        con.IQVIA_Pre_recorded_Voice_Consent__c = option.IsConsented;
+
                                         con.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
+                                    
+                                        con.IQVIA_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    
+                                        con.IQVIA_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        con.IQVIA_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    
                                         if (!conList.contains(con)) {
                                             conList.add(con);
                                         }
