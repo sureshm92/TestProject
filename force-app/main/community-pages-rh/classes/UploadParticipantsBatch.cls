@@ -2180,7 +2180,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
           }
           postConsEvent.Place_of_Funcitionality__c='Bulk Import';
           pstConsentEventList.add(postConsEvent);
-          System.debug('pstConsentEventList: ' + pstConsentEventList);
           EventBus.publish(pstConsentEventList);   
     } catch (Exception exp) {
       system.debug(
