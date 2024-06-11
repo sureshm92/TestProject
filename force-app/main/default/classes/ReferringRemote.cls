@@ -1308,6 +1308,15 @@ return String.join(addressList, ', ');
              TriggerHandlerExecutor.bypassHandler( 
                                 PatientDelegateTriggerHandler.CreateReactivatedNotification.class
                                 );  
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class

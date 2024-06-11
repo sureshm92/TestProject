@@ -271,6 +271,15 @@ public with sharing class HumanAPIcontroller {
     Id peId,
     Id ParticipantId 
   ) {
+    TriggerHandlerExecutor.bypassHandler( 
+      UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+    );
+    TriggerHandlerExecutor.bypassHandler( 
+      UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+    );
+    TriggerHandlerExecutor.bypassHandler( 
+      UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+    );
     DateTime dt = DateTime.now();
     String strMessage = '';
     Map<String, String> COUNTRY_CODE_BY_NAME_MAP_Mdt = new Map<String, String>(); 
@@ -321,7 +330,7 @@ public with sharing class HumanAPIcontroller {
           return 'NoPermitEmail';
         }
       } 
-    	 
+      
       if(String.isBlank(email) || isAdult == false){
          List<Patient_Delegate_Enrollment__c> lstPatientDelegate = [SELECT ID,Patient_Delegate__c,Patient_Delegate__r.Participant_Delegate__c 
                                                         FROM Patient_Delegate_Enrollment__c 
