@@ -1807,6 +1807,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
       TriggerHandlerExecutor.bypassHandler(
         ContactTriggerHandler.UpdateParticipantDetailsHandler.class
       );
+      TriggerHandlerExecutor.bypassHandler(
+        UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+    );
       update existingContact;
 
       for (User u : [
@@ -2084,7 +2087,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         cc.AccountId = participantAccount.Id;
         conListtoBeUpdated.add(cc);
       }
-
+      TriggerHandlerExecutor.bypassHandler(
+        UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+    );
       if (!conListtoBeUpdated.isEmpty()) {
         update conListtoBeUpdated;
       }
