@@ -220,6 +220,13 @@ public without sharing class RRChangePasswordController {
         isIQVIAOutreachToggleOn = false;
         showPassword = true;
         showNewPassword = true;
+        TriggerHandlerExecutor.bypassHandler(
+                    UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class);
+        TriggerHandlerExecutor.bypassHandler(
+                     UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class);
+        TriggerHandlerExecutor.bypassHandler(
+                    UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
         Id userId = UserInfo.getUserId();
         user userInstance = [ SELECT Id,Contact.id FROM User WHERE Id = :userId ];
         Boolean isParticipantcheck = UserContext.isParticipant(); 

@@ -38,6 +38,15 @@ public without sharing class AccountSettingsController {
             loggedInUserMode = userMode;
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
+            TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
             
             UCPM_FetchLatestConsents.callUCPMtoFetchConsents(null,null,initData.myContact.Id,true,'Patient Registration');         
             
