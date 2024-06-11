@@ -459,6 +459,9 @@ public without sharing class UploadParticipantsDelegateHelper {
                                                     }
                                                     
         }
+        TriggerHandlerExecutor.bypassHandler(
+            UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+        );
         if(!updatePatientDelEnroll.isEmpty()){
             update updatePatientDelEnroll;
         }
@@ -503,6 +506,9 @@ public without sharing class UploadParticipantsDelegateHelper {
             cc.IQVIA_Direct_Mail_Consent__c = outreachDirectMail;
             conListtoBeUpdated.add(cc);
         }
+        TriggerHandlerExecutor.bypassHandler(
+            UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+        );
         if (!conListtoBeUpdated.isEmpty()) {
             update conListtoBeUpdated;
         }
