@@ -49,6 +49,15 @@ public without sharing class PreferenceManagementController {
      **/
     public static void saveStudyConsent(String studyDataJSON) {
         try {
+            TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+                );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+                );
             ConsentPreferenceDataWrapper consentData = (ConsentPreferenceDataWrapper) JSON.deserialize(
                 studyDataJSON,
                 ConsentPreferenceDataWrapper.class
@@ -81,6 +90,15 @@ public without sharing class PreferenceManagementController {
      **/
     public static void savePDEConsent(String studyDataJSON) {
         try {
+            TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+                );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+                );
             ConsentPreferencePDEDataWrapper consentData = (ConsentPreferencePDEDataWrapper) JSON.deserialize(
                 studyDataJSON,
                 ConsentPreferencePDEDataWrapper.class
@@ -113,6 +131,15 @@ public without sharing class PreferenceManagementController {
      **/
     public static void saveIQVIAOutreachConsent(String outReachDataJSON) {
         try {
+          TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+                );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+                );
             ConsentPreferenceContactDataWrapper consentContactData = (ConsentPreferenceContactDataWrapper) JSON.deserialize(
                 outReachDataJSON,
                 ConsentPreferenceContactDataWrapper.class
