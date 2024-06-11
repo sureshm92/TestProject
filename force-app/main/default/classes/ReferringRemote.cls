@@ -1308,6 +1308,15 @@ return String.join(addressList, ', ');
              TriggerHandlerExecutor.bypassHandler( 
                                 PatientDelegateTriggerHandler.CreateReactivatedNotification.class
                                 );  
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
             Participant__c participant = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
@@ -1472,6 +1481,7 @@ language
                 }
             }
             
+            List<Contact> contactconsentsupdatelist = new List<Contact>(); 
             String participantId = !String.isBlank(participant.Id)
                 ? participant.Id
                 : enrollment.Participant__c;
@@ -1505,14 +1515,16 @@ language
                            
                        }
                     //End
+                    contactconsentsupdatelist.add(participantCon);
                     //update participantCon; updating on future method
-                    String objJSONStr = Json.serialize(participantCon);
-                    updateParticipantContact(objJSONStr);    
+                    //String objJSONStr = Json.serialize(participantCon);
+                    //updateParticipantContact(objJSONStr);
                     
                 }
             }
             
             Boolean createDelegateuser = true;
+            List<Id> pderIdlist = new List<Id>();
             // Added this lines for REF-2592 bug fixing, to stop sending email to the Virtual/Hybrid study
             if (
                 hcpEnrollment != null &&
@@ -1521,13 +1533,14 @@ language
             ) {
                 createDelegateuser = false;
             }
+            Contact newContact;
             /////
             if (
                 participantDelegate != null &&
                 !String.isEmpty(participantDelegate.Last_Name__c) &&
                 !String.isEmpty(participantDelegate.Email__c)
             ) {
-                Contact newContact;
+                
                 if (delegateDuplicateInfo == null || delegateDuplicateInfo.contactId == null) {
                     newContact = new Contact();
                     newContact.FirstName = participantDelegate.First_Name__c;
@@ -1661,8 +1674,12 @@ FOR UPDATE
                      if(!lstPrimaryDelegate.isEmpty()  || !lstNonPrimaryDelegtae.isEmpty())
                         updatePatientDelegateExisting(lstPrimaryDelegate,lstNonPrimaryDelegtae);
                      //update allPDelList;
-                     if(!lstPatientDelEnrollForDup.isEmpty())
+                     if(!lstPatientDelEnrollForDup.isEmpty()){
                         insert lstPatientDelEnrollForDup;
+                        for(Patient_Delegate_Enrollment__c pde:lstPatientDelEnrollForDup){
+                            pderIdlist.add(pde.Id);
+                        }
+                     }
 
                     List<Participant_Enrollment__c> particpantEnrollList = [
                         SELECT
@@ -1721,6 +1738,7 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                         objPDPER.Primary_Delegate__c = true;
 
                         insert objPDPER;
+                        pderIdlist.add(objPDPER.Id);
                     }
                 }                
                 if(enrollment != null && (enrollment.Clinical_Trial_Profile__r.IQVIA_Outreach__c || (hcpEnrollment!=null && hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.IQVIA_Outreach__c) )   
@@ -1741,17 +1759,11 @@ ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactI
                       con.IQVIA_Pre_recorded_Voice_Consent__c = enrollment.Participant_Phone_Opt_In_Permit_Phone__c; 
                       con.Participant_Opt_In_Status_SMS__c = enrollment.Participant_Opt_In_Status_SMS__c;
                       con.IQVIA_Direct_Mail_Consent__c = enrollment.IQVIA_Direct_Mail_Consent__c;
-                      
+                      contactconsentsupdatelist.add(con);
                       //update con; moved to future method
-                      String objJSONStr = Json.serialize(con);
-                      updateParticipantContact(objJSONStr);
+                      //String objJSONStr = Json.serialize(con);
+                      //updateParticipantContact(objJSONStr);
                   }
-                if (createDelegateuser) {
-                    createParticipantUsers(
-                        new Map<Id, Id>{ newContact.Id => null },
-                        TaskService.invitationsVisibleTemp //Added to hold the value of this parameter in future Method
-                    );
-                }
             } else if (
                 !String.isBlank(hcpEnrollment.Study_Site__c) && !String.isBlank(participant.Id)
             ) {
@@ -1831,6 +1843,34 @@ update objConVersion;*/
                 //System.debug('participantId--'+participantId);
                 insert objConDocLink;
             }
+            if(!contactconsentsupdatelist.isEmpty()){
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+                );
+               TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.createNotificationsHandler.class
+               );
+               TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+               );
+               TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.SetShowTourDefaultHandler.class);
+               TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
+               TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.CreateUserForCCContactHandler.class);
+               TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
+               TriggerHandlerExecutor.bypassHandler(
+                ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+               );
+                update contactconsentsupdatelist;
+            }
+            if (createDelegateuser && newContact != null) {
+                createParticipantUsers(
+                    new Map<Id, Id>{ newContact.Id => null },
+                    TaskService.invitationsVisibleTemp //Added to hold the value of this parameter in future Method
+                );
+            }
+            //Send Consents to ucpm
+            UCPM_ConsentPostController.fetchPerAndPderDetails(new list<Id>{enrollment.Id},pderIdlist.isEmpty() ? null : pderIdlist,'Referring Provider Participant');
+
         } catch (Exception e) {
             AuraHelper.throwException(e);            
         }

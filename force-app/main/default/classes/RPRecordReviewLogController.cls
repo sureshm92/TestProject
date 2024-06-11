@@ -124,6 +124,16 @@ public without sharing class RPRecordReviewLogController {
     @AuraEnabled(cacheable=false)
     public static list<peProfileSection> getSelectedPeDetails (String peId,String delegateId, String userMode) {
         try {
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
+            UCPM_FetchLatestConsents.callUCPMtoFetchConsents(peId,null,null,false,'Participant Detail');
             List<peProfileSection> peProfileSectionWrapperList = new List<peProfileSection>();
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             
@@ -300,6 +310,7 @@ public without sharing class RPRecordReviewLogController {
 
                
                update peEnrollment;
+               UCPM_ConsentPostController.fetchPerAndPderDetails(new list<Id>{peEnrollment.Id},null,'Referring Provider Participant');
                 //update peRecord;
                 return 'Success';
         } 

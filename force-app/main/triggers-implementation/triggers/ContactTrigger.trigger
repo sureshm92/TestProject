@@ -33,5 +33,8 @@ trigger ContactTrigger on Contact(
         TriggerHandlerExecutor.execute(ContactTriggerHandler.ParticipantConsentUpdate.class);
         TriggerHandlerExecutor.execute(ContactTriggerHandler.UpdateConsentTimeStamps.class);
         TriggerHandlerExecutor.execute(ContactTriggerHandler.UpdateNotificationHandler.class);
+        TriggerHandlerExecutor.execute(
+            UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+        ); 
     }
 }
