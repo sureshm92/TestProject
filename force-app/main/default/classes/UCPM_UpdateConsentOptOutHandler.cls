@@ -1214,7 +1214,7 @@ public with sharing class UCPM_UpdateConsentOptOutHandler {
             // procesing end
 
             //gen.writeEndObject();
-            
+
             gen.writeStartObject();
             gen.writeStringField('key', 'IQVIA-Outreach-Consents');
             gen.writeBooleanField('iqviaOrg', true);
@@ -1491,6 +1491,14 @@ public with sharing class UCPM_UpdateConsentOptOutHandler {
 
         try {
           resp1 = http1.send(request1);
+          if (resp1.getStatusCode() == 200) {
+          JsonParser parser = JSON.createParser(resp1.getBody());
+          ResponseWrapperToken deserializedResponseWrapper = (ResponseWrapperToken) JSON.deserialize(
+            resp1.getBody(),
+            ResponseWrapperToken.class
+          );
+          accessToken = deserializedResponseWrapper.access_token;
+        }
         } catch (exception e) {
           //Integration log generation
           IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
@@ -1498,17 +1506,6 @@ public with sharing class UCPM_UpdateConsentOptOutHandler {
           objIntegrationLog.Function_Name__c = 'Access Token';
           objIntegrationLog.Success__c = false;
           insert objIntegrationLog;
-        }
-
-        System.debug('###### resp1 ' + resp1);
-        System.debug('###### resp1 ' + resp1.getBody());
-        if (resp1.getStatusCode() == 200) {
-          JsonParser parser = JSON.createParser(resp1.getBody());
-          ResponseWrapperToken deserializedResponseWrapper = (ResponseWrapperToken) JSON.deserialize(
-            resp1.getBody(),
-            ResponseWrapperToken.class
-          );
-          accessToken = deserializedResponseWrapper.access_token;
         }
         return accessToken;
     }
