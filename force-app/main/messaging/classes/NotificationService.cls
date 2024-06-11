@@ -669,6 +669,15 @@ public without sharing class NotificationService {
         sendResultService.updateResults();
         
         //update updated consents in respective records
+        TriggerHandlerExecutor.bypassHandler( 
+        UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+        );
+        TriggerHandlerExecutor.bypassHandler( 
+        UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+        );
+        TriggerHandlerExecutor.bypassHandler( 
+        UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+        );
         try{
             if(!consentUpdationRecords.isEmpty()){
                 update new List<SObject>(consentUpdationRecords);

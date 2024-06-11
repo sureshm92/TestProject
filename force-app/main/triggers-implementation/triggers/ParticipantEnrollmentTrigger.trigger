@@ -1,7 +1,7 @@
 /**
-* Created by D.Yasinskyi on 26.04.2018
-* Refactored by Leonid Bartenev
-*/
+ * Created by D.Yasinskyi on 26.04.2018
+ * Refactored by Leonid Bartenev
+ */
 
 trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     before insert,
@@ -78,4 +78,7 @@ ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
         TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.UpdateInitialVisits.class);
     }
     
+    TriggerHandlerExecutor.execute(
+        UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+    );
 }
