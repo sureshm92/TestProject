@@ -563,6 +563,15 @@ public without sharing class ParticipantInformationRemote {
             TriggerHandlerExecutor.bypassHandler( 
             PatientDelegateTriggerHandler.CreateReactivatedNotification.class
             );
+            TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
             ReferHealthcareProviderRemote.HealthcareProvider ddi = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(
                 duplicateDelegateInfo,
                 ReferHealthcareProviderRemote.HealthcareProvider.class

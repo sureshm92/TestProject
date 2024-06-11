@@ -121,6 +121,15 @@ public without sharing class nonReferedBulkUpload {
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
             );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
             /*
 TriggerHandlerExecutor.bypassHandler(
 ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
