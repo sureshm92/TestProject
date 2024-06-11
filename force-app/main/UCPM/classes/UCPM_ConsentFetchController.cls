@@ -33,6 +33,14 @@ public class UCPM_ConsentFetchController {
 
         try{
            resp1= http1.send(request1);
+           if (resp1.getStatusCode() == 200) {
+            JsonParser parser = JSON.createParser(resp1.getBody());
+            ResponseWrapperToken deserializedResponseWrapper = (ResponseWrapperToken) JSON.deserialize(
+                resp1.getBody(),
+                ResponseWrapperToken.class
+            );
+            accessToken = deserializedResponseWrapper.access_token;
+        }
         }
         catch(exception e){
           //Integration log generation 
@@ -44,16 +52,6 @@ public class UCPM_ConsentFetchController {
         }
         
     
-        System.debug('###### resp1 ' + resp1);
-        System.debug('###### resp1 ' + resp1.getBody());
-        if (resp1.getStatusCode() == 200) {
-            JsonParser parser = JSON.createParser(resp1.getBody());
-            ResponseWrapperToken deserializedResponseWrapper = (ResponseWrapperToken) JSON.deserialize(
-                resp1.getBody(),
-                ResponseWrapperToken.class
-            );
-            accessToken = deserializedResponseWrapper.access_token;
-        }
         return accessToken;
     }
 
@@ -63,6 +61,15 @@ public class UCPM_ConsentFetchController {
         List<SObject> sobj,
         string typeName
     ) {
+         TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+        TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+            );
+        TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
         //get mulesoft access token
         String accessToken;
         accessToken = getAccessToken();
