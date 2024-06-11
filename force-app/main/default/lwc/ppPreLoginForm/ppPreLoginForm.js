@@ -294,7 +294,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
             this.errorMsg = 'Enter a value in the User Name field.';
             this.btnclassName = 'slds-input input-field-container-error';
         }else{
-            const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,10}$/;
             if(this.usrName.match(emailRegex)){
                console.log('no errror - '+this.statePara);
                getSSOData({ userName: this.usrName, state:this.statePara})
