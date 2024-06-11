@@ -2161,10 +2161,27 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
           update pdList;
         }
       }
-      String functionalityPlace='Bulk Import';
-      if(  (!newlyCreatedPER.isEmpty()) && newlyCreatedPER.size()>0){
-       System.enqueueJob(new UCPM_ConsentPostBulkImport_Queueable(new List<Id>(newlyCreatedPER),new List<Id>(pderRecIds),functionalityPlace));
-      }    
+          // Insert the per and pder ids  to post consent event ,later from post consent event trigger consents would be sent to ucpm
+          List<UCPM_Post_Consent__e> pstConsentEventList = new List<UCPM_Post_Consent__e>();
+          UCPM_Post_Consent__e postConsEvent = new UCPM_Post_Consent__e();
+          if ((!newlyCreatedPER.isEmpty())) {
+              String perReccordIds='';
+              for (Id perId : newlyCreatedPER) {
+                  perReccordIds = perId + ',' + perReccordIds;
+              }
+              postConsEvent.Participant_Enrollment_Record_Ids__c = perReccordIds;
+          }
+          if (!pderRecIds.isEmpty()) {
+              String pderRecordIds='';
+              for (Id pderId : pderRecIds) {
+                  pderRecordIds = pderId + ',' + pderRecordIds;
+              }
+              postConsEvent.Patient_Delegate_Enrollment_Record_Ids__c = pderRecordIds;
+          }
+          postConsEvent.Place_of_Funcitionality__c='Bulk Import';
+          pstConsentEventList.add(postConsEvent);
+          System.debug('pstConsentEventList: ' + pstConsentEventList);
+          EventBus.publish(pstConsentEventList);   
     } catch (Exception exp) {
       system.debug(
         'ERROR during CSV parsing: ' +
