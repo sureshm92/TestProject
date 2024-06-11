@@ -293,12 +293,6 @@
                 <identifier>force_relatedListSingleContainer4</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>uCPM_ConsentFetchButtonOnRecord</componentName>
-                <identifier>c_uCPM_ConsentFetchButtonOnRecord</identifier>
-            </componentInstance>
-        </itemInstances>
         <mode>Replace</mode>
         <name>sidebar</name>
         <type>Region</type>
