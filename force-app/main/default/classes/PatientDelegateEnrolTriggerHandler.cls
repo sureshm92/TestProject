@@ -25,6 +25,26 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
             createDelegateReactivatedNotification(newList, (Map<Id, Patient_Delegate_Enrollment__c>) oldMap);
         }
     }
+    public class UCPMStausChangeOrPrimaryChangeNotification extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            List<Patient_Delegate_Enrollment__c> pdeList = newList;
+            List<Patient_Delegate_Enrollment__c> eligiblePDEforUCPM = new List<Patient_Delegate_Enrollment__c>();
+            Map<Id, Patient_Delegate_Enrollment__c> pdeOldMap = (Map<Id, Patient_Delegate_Enrollment__c>) oldMap;
+            for (Patient_Delegate_Enrollment__c pder : pdeList) {
+             if ( pder.PPM_ID__c != null && pder.Participant_Enrollment__r.PPMID__c != null &&
+                     ((pder.Status__c != PATIENT_DELEGATE_ACTIVE_STATUS &&
+                     pdeOldMap.get(pder.Id).Status__c == PATIENT_DELEGATE_ACTIVE_STATUS) || 
+                     (pder.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
+                      pder.Status__c !=pdeOldMap.get(pder.Id).Status__c ) || (pder.Primary_Delegate__c != pdeOldMap.get(pder.Id).Primary_Delegate__c ))){ 
+                          
+                eligiblePDEforUCPM.add(pder);
+                } 
+            }
+            if (!eligiblePDEforUCPM.isEmpty()) {
+             updateDelStsChangeOrPrimaryChangeNoti(eligiblePDEforUCPM); 
+            }            
+        }
+    }
     public class SetDefaultPatientDelegateStatusHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             setDefaultPatientStatus(newList);
@@ -994,6 +1014,120 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
             participantPermissions.put(pde.Patient_Delegate__r.Participant__c, permissions);
         }
         Set<String> communityPermissionSets = CommunityTemplateService.getAllPermissionSets();*/
+        
+    }
+    
+    @TestVisible
+    private static void updateDelStsChangeOrPrimaryChangeNoti(
+        List<Patient_Delegate_Enrollment__c> patientDelegateEnrollmentrecords
+    )  {
+        JSONGenerator gen = JSON.createGenerator(false);            
+            //Data prep for API callout                      
+            gen.writeStartArray();
+            for (Patient_Delegate_Enrollment__c pd : patientDelegateEnrollmentrecords) {
+                gen.writeStartObject();
+                    gen.writeStringField('PPMID', pd.PPM_ID__c);
+                    gen.writeStringField('ParticipantPpmid', pd.Participant_Enrollment__r.PPMID__c);
+                    if (pd.Status__c != null) {
+                        if(pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS){
+                            gen.writeBooleanField('IsActive', TRUE);
+                        }
+                        else{
+                            gen.writeBooleanField('IsActive', FALSE);
+                        }                           
+                    } else {
+                        gen.writeStringField('IsActive', '');
+                    }
+                    if (pd.Primary_Delegate__c != null) {
+                        if(pd.Primary_Delegate__c == TRUE){
+                            gen.writeBooleanField('IsPrimary', TRUE);
+                        }
+                        else{
+                            gen.writeBooleanField('IsPrimary', FALSE);
+                        }
+                    } else {
+                        gen.writeStringField('IsPrimary', '');
+                    }
+                    gen.writeEndObject();               
+            }
+            gen.writeEndArray();
+
+            String requestString;
+            requestString = gen.getAsString();
+            callUCPMtoUpdateStatusorPrimary(requestString);
+    }
+    @future(callout=true)
+    public static void callUCPMtoUpdateStatusorPrimary(
+           String requestString
+    ){
+        String accessToken;
+        String actionType ='DELEGATE';
+        accessToken = MulesoftIntegrationApi.getAccessTokenIfValid(
+            'Mulesoft Access Token UCPM'
+        );
+        MulesoftToken__c setting = MulesoftToken__c.getInstance(
+            'Mulesoft Access Token UCPM'
+        );
+        Boolean saveAccessToken = false;
+        MulesoftIntegrationApi.ResponseWrapper tokenWrap = new MulesoftIntegrationApi.ResponseWrapper();
+        if (accessToken == null) {
+            tokenWrap = MulesoftIntegrationApi.generateAccessTokenWithoutSave(
+            setting
+            );
+            accessToken = tokenWrap.access_token;
+            saveAccessToken = true;
+        }
+
+        DateTime dt = DateTime.now();
+
+         //Integration log generation 
+        IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
+        objIntegrationLog.Request_Body__c = requestString;
+        objIntegrationLog.Request_Time__c = dt;
+        objIntegrationLog.Request_Type__c = 'UCPM_UpdateStatusorPrimary';
+        objIntegrationLog.Function_Name__c = 'UCPM_UpdateStatusorPrimary';
+        objIntegrationLog.Http_Method__c = 'POST';
+
+        //Call Mulesoft-UCPM API for consents
+        HTTP h = new HTTP();
+        HTTPRequest r = new HTTPRequest();
+        r.setEndpoint('callout:UCPM_UpdateStatusorPrimary');
+        r.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        r.setTimeout(120000);
+        r.setMethod('POST');
+        r.setHeader('Authorization', 'Bearer ' + accessToken);
+        r.setbody(requestString);
+        r.setHeader('actionType', actionType);
+        r.setHeader('transactionId', MulesoftIntegrationApi.uniqueKeygeneration());
+
+        HTTPResponse resp;
+        try{
+            resp = h.send(r);
+            objIntegrationLog.Response_Body__c = resp.getBody();
+            objIntegrationLog.Response_Status__c = resp.getStatus();
+            objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
+
+            if (resp.getStatusCode() == 200) {
+                objIntegrationLog.Success__c = true;
+            }
+            else {
+                objIntegrationLog.Success__c = false;
+            }
+            insert objIntegrationLog;
+             if (saveAccessToken) {
+                MulesoftIntegrationApi.saveAccessToken(
+                setting,
+                tokenWrap.access_token,
+                tokenWrap.expires_in
+                );
+             }
+        }
+        catch(exception e){
+             objIntegrationLog.Response_Body__c = e.getMessage();
+             objIntegrationLog.Success__c = false;
+             insert objIntegrationLog;
+        }
+
         
     }
 
