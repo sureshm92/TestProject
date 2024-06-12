@@ -355,6 +355,8 @@
             var isSubscribedScreenShare;
             var isScreenShareLocked;
             var isExternalUser;
+            var isMobileApp;
+
 
             var previewPublisher;
 
@@ -1364,6 +1366,19 @@
                 isPublishingScreenShare = false;
                 isSubscribedScreenShare = false;
                 isScreenShareLocked = false;
+
+                if('{!$CurrentPage.parameters.mobileApp}' == 'true'){
+                    isMobileApp = true;
+                    for (var i = 0; i < document.getElementsByClassName("hideCloseButton").length; i++) {
+                          document.getElementsByClassName("hideCloseButton")[i].style.display = 'none'; 
+                    }
+                    
+                }else if('{!$CurrentPage.parameters.mobileApp}' == 'false'){
+                    isMobileApp = false; 
+                    for (var i = 0; i < document.getElementsByClassName("hideCloseButton").length; i++) {
+                          document.getElementsByClassName("hideCloseButton")[i].style.display = 'block'; 
+                    }
+                }
 
                 timer.init();
 
@@ -2871,7 +2886,7 @@
                                                                 class="slds-col slds-size_3-of-8"
                                                             ></div>
                                                             <div
-                                                                class="slds-col slds-size_2-of-8 slds-align_absolute-center slds-text-align_center"
+                                                                class="slds-col slds-size_2-of-8 slds-align_absolute-center slds-text-align_center hideCloseButton"
                                                             >
                                                                 <button
                                                                     id="tv-back-button"
@@ -3407,7 +3422,7 @@
                                                 <div class="televisit-end" style="inline-size: 284px;margin-left: 50px;">
                                                     {!$Label.PT_Televisit_Left}
                                                 </div>
-                                                <div class="rejoin-buttons televisitleftcss">
+                                                <div class="rejoin-buttons televisitleftcss hideCloseButton">
                                                     <button
                                                         class="close-tv-button"
                                                         onclick="confirmCancelRejoin();"
@@ -3457,7 +3472,7 @@
                                                 <br/>
                                                 <button
                                                         id="tv-back-button"
-                                                        class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button"
+                                                        class="slds-button slds-button_brand slds-col slds-align_absolute-center close-window-button hideCloseButton"
                                                         onclick="confirmCancel();"
                                                     >
                                                         {!$Label.PP_Opt_Out_Close_window}

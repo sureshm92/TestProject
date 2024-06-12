@@ -34,8 +34,10 @@ trigger StudySiteTrigger on Study_Site__c(
     // TODO: FIX FOR TRIGGER CONVENTIONS!
     if (Trigger.isAfter && Trigger.isUpdate) {
         ReferralNetworkService.sendEmails(Trigger.new, Trigger.oldMap);
+        StudySiteTriggerHandler.updatePIContactFieldOnPER(Trigger.new, Trigger.oldMap);
     }
     if (Trigger.isAfter && Trigger.isInsert) {
         ReferralNetworkService.sendEmails(Trigger.new, null);
     }
+    
 }

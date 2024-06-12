@@ -762,7 +762,7 @@ public without sharing class StudySiteTriggerHandler {
         List<String> newStudySiteIds = new List<String>();
         for(Study_Site__c ss: newStudySites){
             if(trigger.isInsert || ((Study_Site__c)trigger.newMap.get(ss.id)).Override_PI_Referral_Status__c != ((Study_Site__c)trigger.oldMap.get(ss.id)).Override_PI_Referral_Status__c  )
-            	newStudySiteIds.add(ss.Id);
+                newStudySiteIds.add(ss.Id);
         }
         if(!System.isFuture() && !System.isBatch()){
             handleStudySitePiStatusUpdatesAsync(newStudySiteIds);
@@ -825,4 +825,72 @@ public without sharing class StudySiteTriggerHandler {
         update studySitesToUpdate;
     }
 }
+
+    Public Static void updatePIContactFieldOnPER(List<Study_Site__c> lstStudySite, Map<Id,Study_Site__c> oldMapStudySite){
+        Map<Id,Id> mapStudySiteAndPIContactIds = new Map<Id,Id>();
+        List<Participant_Enrollment__c> lstPER = new List<Participant_Enrollment__c>();
+        for(Study_Site__c ss : lstStudySite){
+            if(ss.Principal_Investigator__c != oldMapStudySite.get(ss.Id).Principal_Investigator__c){
+                mapStudySiteAndPIContactIds.put(ss.Id, ss.Principal_Investigator__c);
+            }
+        }
+        
+        for(Participant_Enrollment__c per : [SELECT Id,PI_Contact__c,Study_Site__c  FROM Participant_Enrollment__c WHERE Study_Site__c IN :mapStudySiteAndPIContactIds.keySet()]){
+            Participant_Enrollment__c perUpdate = new Participant_Enrollment__c();
+            perUpdate.Id = per.Id;
+            perUpdate.PI_Contact__c = mapStudySiteAndPIContactIds.get(per.Study_Site__c);
+            lstPER.add(perUpdate);
+        }
+        
+        if(!lstPER.isEmpty()){
+            TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                PENotificationTriggerHandler.CreateNotificationHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+            );
+            update lstPER;
+        }
+        
+    }
 }
