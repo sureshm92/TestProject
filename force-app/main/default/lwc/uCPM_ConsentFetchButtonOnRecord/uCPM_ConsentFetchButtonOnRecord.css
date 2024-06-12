@@ -1,0 +1,12 @@
+.label {
+    text-align: center;    
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.slds-spinner_container {
+    background-color: white;
+}

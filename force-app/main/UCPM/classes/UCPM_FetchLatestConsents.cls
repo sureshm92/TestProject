@@ -49,21 +49,21 @@ public without sharing class UCPM_FetchLatestConsents {
                     AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
             ];
             //if (!isParticipant) {
-                pdeList = [
-                    SELECT
-                        Id,
-                        PPM_ID__c,
-                        Participant_Enrollment__r.PPMID__c,
-                        Patient_Delegate__r.Contact__c,
-                        Patient_Delegate__r.Contact__r.PPM_ID__c
-                    FROM Patient_Delegate_Enrollment__c
-                    WHERE
-                        Patient_Delegate__r.Contact__c = :conId
-                        AND Status__c = 'Active'
-                        AND (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
-                        OR (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen'
-                        AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
-                ];
+            pdeList = [
+                SELECT
+                    Id,
+                    PPM_ID__c,
+                    Participant_Enrollment__r.PPMID__c,
+                    Patient_Delegate__r.Contact__c,
+                    Patient_Delegate__r.Contact__r.PPM_ID__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE
+                    Patient_Delegate__r.Contact__c = :conId
+                    AND Status__c = 'Active'
+                    AND (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
+                    OR (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen'
+                    AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
+            ];
             //}
         } else if (pderIdList != null && pderIdList.size() > 0) {
             per = [
@@ -689,7 +689,25 @@ public without sharing class UCPM_FetchLatestConsents {
                                         }
                                     } else if (option.Name == 'phone') {
                                         con.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
+                                        con.IQVIA_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        con.IQVIA_Artificial_Voice_Consent__c = option.IsConsented;
+                                        con.IQVIA_Pre_recorded_Voice_Consent__c = option.IsConsented;
+                                        
                                         con.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    
+                                        con.IQVIA_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    
+                                        con.IQVIA_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        con.IQVIA_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
@@ -715,12 +733,161 @@ public without sharing class UCPM_FetchLatestConsents {
         }
         try {
             if (!perList.isEmpty()) {
+                TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.CreateJanssenNotification.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.PatientVisitsDeletion.class
+                );
+                /*For Welcome Msg -- Added by Anitha*/
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.createNotifications.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PENotificationTriggerHandler.CreateNotificationHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.EcoaEvents.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.UpdatePatientConsent.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.UpdateInitialVisits.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+                );
                 update perList;
             }
             if (!pdeList.isEmpty()) {
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.SetDefaultPatientDelegateStatusHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.CreateJanssenNotification.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.CreateNewAssignmentNotification.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.CreateReactivatedNotification.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.CreatePrimaryDelegateForMinor.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.UpdateDelegateConsent.class
+                );
+                //Timestamp should not be bypassed when consents are changed
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.UpdateConsentTimeStamps.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.UCPMStausChangeOrPrimaryChangeNotification.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+                );
+
                 update pdeList;
             }
             if (!conList.isEmpty()) {
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+                );
+                /*For Welcome Msg -- Added by Anitha Start*/
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.createNotificationsHandler.class
+                );
+
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.SetShowTourDefaultHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.PopulateOverrideFields.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.CreateUserForCCContactHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.UpdateParticipantDetailsHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+                );
+                //Timestamp should not be bypassed when consents are changed
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.ParticipantConsentUpdate.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.UpdateConsentTimeStamps.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.UpdateNotificationHandler.class
+                );
+
+                TriggerHandlerExecutor.bypassHandler(
+                    UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+                );
                 update conList;
             }
         } catch (DmlException e) {
@@ -1375,10 +1542,29 @@ public without sharing class UCPM_FetchLatestConsents {
                                         }
                                     } else if (option.Name == 'phone') {
                                         con.Participant_Phone_Opt_In_Permit_Phone__c = option.IsConsented;
+                                        con.IQVIA_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        con.IQVIA_Artificial_Voice_Consent__c = option.IsConsented;
+                                        con.IQVIA_Pre_recorded_Voice_Consent__c = option.IsConsented;
+
                                         con.IQVIA_Phone_Consent_Time__c = (DateTime) JSON.deserialize(
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
+                                    
+                                        con.IQVIA_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    
+                                        con.IQVIA_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        con.IQVIA_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    
                                         if (!conList.contains(con)) {
                                             conList.add(con);
                                         }

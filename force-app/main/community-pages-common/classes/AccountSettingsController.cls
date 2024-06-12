@@ -35,21 +35,20 @@ public without sharing class AccountSettingsController {
     @AuraEnabled
     public static String getInitData(String userMode) {
         try {
-            loggedInUserMode = userMode;
-            AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
-            initData.myContact = getCurrentContact();
-            TriggerHandlerExecutor.bypassHandler( 
+            TriggerHandlerExecutor.bypassHandler(
             UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
             );
-            TriggerHandlerExecutor.bypassHandler( 
+            TriggerHandlerExecutor.bypassHandler(
             UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
             );
-            TriggerHandlerExecutor.bypassHandler( 
+            TriggerHandlerExecutor.bypassHandler(
             UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
             );
-            
-            UCPM_FetchLatestConsents.callUCPMtoFetchConsents(null,null,initData.myContact.Id,true,'Patient Registration');         
-            
+            loggedInUserMode = userMode;
+            user usr = [select id,contactId from user where id =: UserInfo.getUserId()];
+            UCPM_FetchLatestConsents.callUCPMtoFetchConsents(null,null,usr.contactId,true,'Patient Registration');         
+            AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
+            initData.myContact = getCurrentContact();
             if (
                 loggedInUserMode != USER_MODE_HCP &&
                 initData.myContact.userCommunityDelegateId__c != null
