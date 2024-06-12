@@ -152,6 +152,7 @@
         <style>CustomLinks</style>
     </layoutSections>
     <platformActionList>
+        <actionListContext>Record</actionListContext>
         <platformActionListItems>
             <actionName>Patient_Delegate_Enrollment__c.Latest_Consent</actionName>
             <actionType>QuickAction</actionType>
