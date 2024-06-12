@@ -207,6 +207,17 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
             if (perList != null && perList.size() > 0) {             
 
                 for (Participant_Enrollment__c per : perList) {
+                    Boolean removeparticipantcontact = false;
+                    if (
+                        !per.Participant_Contact__r.Participant_Opt_In_Status_Emails__c &&
+                        !per.Participant_Contact__r.Participant_Opt_In_Status_SMS__c &&
+                        !per.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c &&
+                        !per.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c
+                    ) {
+                        removeparticipantcontact = true;
+                    }
+
+
                     //New PER without participant contact and without delegate
                     if (
                         placeOfFunctionality == 'RP BULK IMPORT' &&
@@ -243,7 +254,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                             per,
                             null,
                             mapPerIdAndOutReach.get(per.Id),
-                            'Participant:ParticipantContact',
+                            removeparticipantcontact?'Participant':'Participant:ParticipantContact',
                             placeOfFunctionality
                         );
                         if (
@@ -319,7 +330,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                                 per,
                                 perandPderMap.get(per),
                                 mapPerIdAndOutReach.get(per.Id),
-                                'Participant:ParticipantContact:Delegate:DelegateContact',
+                                removeparticipantcontact?'Participant:Delegate:DelegateContact':'Participant:ParticipantContact:Delegate:DelegateContact',
                                 placeOfFunctionality
                             );
                             if (
@@ -341,7 +352,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                                 per,
                                 perandPderMap.get(per),
                                 mapPerIdAndOutReach.get(per.Id),
-                                'Participant:ParticipantContact:Delegate',
+                                removeparticipantcontact?'Participant:Delegate':'Participant:ParticipantContact:Delegate',
                                 placeOfFunctionality
                             );
                             if (
@@ -371,7 +382,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                             per,
                             perandPderMap.get(per),
                             mapPerIdAndOutReach.get(per.Id),
-                            'Participant:ParticipantContact:Delegate',
+                            removeparticipantcontact?'Participant:Delegate':'Participant:ParticipantContact:Delegate',
                             placeOfFunctionality
                         );
 
