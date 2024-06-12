@@ -30,18 +30,16 @@ public without sharing class PatientDelegateEnrolTriggerHandler {
             List<Patient_Delegate_Enrollment__c> pdeList = newList;
             List<Patient_Delegate_Enrollment__c> eligiblePDEforUCPM = new List<Patient_Delegate_Enrollment__c>();
             Map<Id, Patient_Delegate_Enrollment__c> pdeOldMap = (Map<Id, Patient_Delegate_Enrollment__c>) oldMap;
-            for (Patient_Delegate_Enrollment__c pder : pdeList) {
-             if ( pder.PPM_ID__c != null && pder.Participant_Enrollment__r.PPMID__c != null &&
-                     ((pder.Status__c != PATIENT_DELEGATE_ACTIVE_STATUS &&
-                     pdeOldMap.get(pder.Id).Status__c == PATIENT_DELEGATE_ACTIVE_STATUS) || 
-                     (pder.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
-                      pder.Status__c !=pdeOldMap.get(pder.Id).Status__c ) || (pder.Primary_Delegate__c != pdeOldMap.get(pder.Id).Primary_Delegate__c ))){ 
-                          
-                eligiblePDEforUCPM.add(pder);
+            for (Patient_Delegate_Enrollment__c pder : [Select Id,PPM_ID__c,Participant_Enrollment__r.PPMID__c,Status__c,Primary_Delegate__c from Patient_Delegate_Enrollment__c where Id IN: pdeList ]) {
+               
+             if ( pder.PPM_ID__c != null && pder.Participant_Enrollment__r.PPMID__c != null && ((pder.Status__c != PATIENT_DELEGATE_ACTIVE_STATUS &&
+             pdeOldMap.get(pder.Id).Status__c == PATIENT_DELEGATE_ACTIVE_STATUS)|| (pder.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS &&
+             pder.Status__c !=pdeOldMap.get(pder.Id).Status__c ) || (pder.Primary_Delegate__c != pdeOldMap.get(pder.Id).Primary_Delegate__c ) )){ 
+              eligiblePDEforUCPM.add(pder);
                 } 
-            }
-            if (!eligiblePDEforUCPM.isEmpty()) {
-             updateDelStsChangeOrPrimaryChangeNoti(eligiblePDEforUCPM); 
+            }          
+            if (!eligiblePDEforUCPM.isEmpty() && eligiblePDEforUCPM.size()>0 ) {
+            updateDelStsChangeOrPrimaryChangeNoti(eligiblePDEforUCPM); 
             }            
         }
     }
