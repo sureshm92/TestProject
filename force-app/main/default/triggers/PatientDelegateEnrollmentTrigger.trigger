@@ -35,4 +35,7 @@ trigger PatientDelegateEnrollmentTrigger on Patient_Delegate_Enrollment__c (
     TriggerHandlerExecutor.execute(
         UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
     );
+    TriggerHandlerExecutor.execute(
+        PatientDelegateEnrolTriggerHandler.UCPMStausChangeOrPrimaryChangeNotification.class
+    );
 }

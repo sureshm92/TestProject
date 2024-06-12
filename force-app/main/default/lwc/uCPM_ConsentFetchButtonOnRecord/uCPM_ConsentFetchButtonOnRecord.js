@@ -1,44 +1,47 @@
-import { LightningElement,wire } from 'lwc';
-import { CurrentPageReference } from 'lightning/navigation';
+import { LightningElement,api} from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
+import { CloseActionScreenEvent } from 'lightning/actions'; 
 import callUCPMtoFetchLatestConsentsFromRecord from "@salesforce/apex/UCPM_FetchConsentFromButtonController.callUCPMtoFetchLatestConsentsFromRecord";
 
-export default class UCPM_ConsentFetchButton extends LightningElement {
-    clickedButtonLabel;
-    recordId;
-    objectname;
-    @wire(CurrentPageReference) pageRef;
+export default class uCPM_ConsentFetchButtonOnRecord extends LightningElement {
+    @api recordId;
+    @api objectApiName;
+    isLoading = false;
+    disableButton =false;
 
-   
-    handleClick(event) {
-        this.clickedButtonLabel = event.target.label;
-        console.log('inside method'+ this.clickedButtonLabel);
-        this.recordId = this.pageRef.attributes.recordId;
-        console.log('inside method'+ this.recordId);
-        this.objectname = this.currentPageReference?.state?.objectname;
-        
+    refreshRecord() {
+        this.isLoading = true;
+        this.disableButton = true;
+
         //call apex class
         callUCPMtoFetchLatestConsentsFromRecord({
             applicationId: this.recordId
         })
-            .then((result) => {
-                console.log('result--->'+result);
-                const event = new ShowToastEvent({
-                    variant: 'success',
-                    message:
-                        'Latest consents fetched from UCPM successfully.',
-                });
-                this.dispatchEvent(event);
-            })
-            .catch((error) => {
-                const event = new ShowToastEvent({
-                    variant: 'error',
-                    message:
-                        'Latest consents fetched from UCPM failed.',
-                });
-                this.dispatchEvent(event);
-                console.log(error);
+        .then((result) => {
+            const event = new ShowToastEvent({
+                variant: 'success',
+                message:
+                    'Latest consent fetched from UCPM successfully.',
             });
+            this.isLoading = false;
+            this.disableButton = false ;
+            this.dispatchEvent(event);
+            this.closeAction();
+        })
+        .catch((error) => {
+            const event = new ShowToastEvent({
+                variant: 'error',
+                message:
+                    'Failed to fetch latest consent from UCPM.',
+            });
+            this.dispatchEvent(event);
+            console.log(error);
+            this.isLoading = false;
+            this.disableButton = true ;
+        });
     }
+
+    closeAction() { 
+        this.dispatchEvent(new CloseActionScreenEvent());
+    } 
 }
