@@ -1,5 +1,10 @@
 global without sharing class UCPM_CreateCSVfileRecords_oneTimeBatch implements Database.Batchable<SObject>, Database.Stateful {
   public Set<ID> conUniqueID = new Set<ID>();
+  private String triggringUserId;
+  //constructor to capture who ran this batch
+  public UCPM_CreateCSVfileRecords_oneTimeBatch() {
+    this.triggringUserId = UserInfo.getUserId();
+  }
   global Database.QueryLocator start(Database.BatchableContext BC) {
     return Database.getQueryLocator(
       [
@@ -124,8 +129,8 @@ global without sharing class UCPM_CreateCSVfileRecords_oneTimeBatch implements D
         conUniqueID.add(per.Participant_Contact__c);
 
         Historical_Consent_Staging__c hcsPERcon = new Historical_Consent_Staging__c();
-        hcsPERcon.OTSponsorId__c = per.Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c;
-        hcsPERcon.OTPurposeId__c = per.Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c;
+        // hcsPERcon.OTSponsorId__c = per.Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c;
+        // hcsPERcon.OTPurposeId__c = per.Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c;
         hcsPERcon.ApplicationId__c = per.Participant_Contact__c;
         hcsPERcon.Sponsor__c = 'IQVIA';
         hcsPERcon.Study__c = per.Clinical_Trial_Profile__r.Study_Code_Name__c;
@@ -184,8 +189,8 @@ global without sharing class UCPM_CreateCSVfileRecords_oneTimeBatch implements D
             conUniqueID.add(pder.Patient_Delegate__r.Contact__c);
 
             Historical_Consent_Staging__c hcsPDERcon = new Historical_Consent_Staging__c();
-            hcsPDERcon.OTSponsorId__c = per.Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c;
-            hcsPDERcon.OTPurposeId__c = per.Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c;
+            // hcsPDERcon.OTSponsorId__c = per.Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c;
+            // hcsPDERcon.OTPurposeId__c = per.Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c;
             hcsPDERcon.ApplicationId__c = pder.Patient_Delegate__r.Contact__c;
             hcsPDERcon.Sponsor__c = 'IQVIA';
             hcsPDERcon.Study__c = per.Clinical_Trial_Profile__r.Study_Code_Name__c;
@@ -222,8 +227,30 @@ global without sharing class UCPM_CreateCSVfileRecords_oneTimeBatch implements D
   }
 
   global void finish(Database.BatchableContext bc) {
-    //send an email with confirmation
     System.debug('conUniqueID: ' + conUniqueID);
+    //send an email with confirmation
+
+    // Get the user who ran the batch
+    User batchUser = [
+      SELECT Id, Name, Email
+      FROM User
+      WHERE Id = :triggringUserId
+      LIMIT 1
+    ];
+    // Construct email content
+    String subject = 'Completion of Batch Job UCPM_UpdatePPMID_oneTimeBatch and UCPM_CreateCSVfileRecords_oneTimeBatch in Salesforce';
+    String body =
+      'Dear ' +
+      batchUser.Name +
+      ',\n\n' +
+      'Your Batch Job Batch Job UCPM_UpdatePPMID_oneTimeBatch and UCPM_CreateCSVfileRecords_oneTimeBatch that initiated in Salesforce has completed successfully. \n\n' +
+      'Thank you for your attention, and have a great day!\n\n';
+    // Send email
+    Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+    email.setToAddresses(new List<String>{ batchUser.Email });
+    email.setSubject(subject);
+    email.setPlainTextBody(body);
+    Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ email });
   }
 
   public static String generateJSONstringPER(Participant_Enrollment__c per) {
