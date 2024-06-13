@@ -31,6 +31,7 @@ public class UCPM_ConsentPostController {
                     Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c,
                     Clinical_Trial_Profile__r.MDM_Sponsor_Name__c,
                     Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                    Clinical_Trial_Profile__r.MDM_trigger_status__c,
                     Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c,
                     Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
                     Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
@@ -70,7 +71,10 @@ public class UCPM_ConsentPostController {
                         WHERE ID IN :pderIdList
                     )
                 FROM Participant_Enrollment__c
-                WHERE id IN :perIdList
+                WHERE id IN :perIdList and Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c!=null and
+                Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c!= null 
+               and Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c!=null and 
+               Clinical_Trial_Profile__r.MDM_trigger_status__c ='Completed'              
             ];
             if (pderIdList != null && pderIdList.size() > 0) {
                 for (Participant_Enrollment__c per : perList) {
@@ -99,6 +103,7 @@ public class UCPM_ConsentPostController {
                     Clinical_Trial_Profile__r.MDM_Sponsor_Name__c,
                     Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c,
                     Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                    Clinical_Trial_Profile__r.MDM_trigger_status__c,
                     Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
                     Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                     Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
@@ -111,7 +116,11 @@ public class UCPM_ConsentPostController {
                     Study_Direct_Mail_Consent__c,
                     PPMID__c
                 FROM Participant_Enrollment__c
-                WHERE id IN :perIdList
+                WHERE id IN :perIdList  and  
+                Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c!=null and
+                Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c!= null 
+               and Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c!=null and 
+               Clinical_Trial_Profile__r.MDM_trigger_status__c ='Completed'
             ];
         }
 
@@ -120,53 +129,56 @@ public class UCPM_ConsentPostController {
         String[] restrictedlst;
         String referralSource;
         Boolean iqviaOutreach = false;
-        if (perList[0].Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
-            if (
-                perList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal' &&
-                (perList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' ||
-                perList[0].Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0')
-            ) {
-                iqviaOutreach = true;
-            } else {
-                restrictedRecrd = [
-                    SELECT
-                        Id,
-                        Sponsor__c,
-                        Study__c,
-                        Study__r.IQVIA_Outreach__c,
-                        Referral_Resource__c
-                    FROM Restricted_Source_Config__c
-                    WHERE
-                        Study__c = :perList[0].Clinical_Trial_Profile__c
-                        AND Referral_Resource__c != NULL
-                ];
-                if (restrictedRecrd != null && !restrictedRecrd.isEmpty()) {
-                    for (Restricted_Source_Config__c rsc : restrictedRecrd) {
-                        restrictedlst = rsc.Referral_Resource__c != null
-                            ? rsc.Referral_Resource__c.split(';')
-                            : null;
-                        if (restrictedlst != null && !restrictedlst.isEmpty()) {
-                            referralSource = (perList[0].Referral_Source__c == 'ePR' ||
-                                perList[0].Referral_Source__c == 'ePRCampaign')
-                                ? perList[0].Referral_Source__c +
-                                  '-' +
-                                  perList[0].DataControllerOrg__c
-                                : perList[0].Referral_Source__c;
-                            if (restrictedlst.contains(referralSource)) {
-                                iqviaOutreach = false;
-                                break;
-                            } else {
-                                iqviaOutreach = true;
+        if (perList != null && perList.size() > 0) {             
+            if (perList[0].Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
+                if (
+                    perList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal' &&
+                    (perList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' ||
+                    perList[0].Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0')
+                ) {
+                    iqviaOutreach = true;
+                } else {
+                    restrictedRecrd = [
+                        SELECT
+                            Id,
+                            Sponsor__c,
+                            Study__c,
+                            Study__r.IQVIA_Outreach__c,
+                            Referral_Resource__c
+                        FROM Restricted_Source_Config__c
+                        WHERE
+                            Study__c = :perList[0].Clinical_Trial_Profile__c
+                            AND Referral_Resource__c != NULL
+                    ];
+                    if (restrictedRecrd != null && !restrictedRecrd.isEmpty()) {
+                        for (Restricted_Source_Config__c rsc : restrictedRecrd) {
+                            restrictedlst = rsc.Referral_Resource__c != null
+                                ? rsc.Referral_Resource__c.split(';')
+                                : null;
+                            if (restrictedlst != null && !restrictedlst.isEmpty()) {
+                                referralSource = (perList[0].Referral_Source__c == 'ePR' ||
+                                    perList[0].Referral_Source__c == 'ePRCampaign')
+                                    ? perList[0].Referral_Source__c +
+                                      '-' +
+                                      perList[0].DataControllerOrg__c
+                                    : perList[0].Referral_Source__c;
+                                if (restrictedlst.contains(referralSource)) {
+                                    iqviaOutreach = false;
+                                    break;
+                                } else {
+                                    iqviaOutreach = true;
+                                }
                             }
                         }
+                    } else {
+                        iqviaOutreach = true;
                     }
-                } else {
-                    iqviaOutreach = true;
                 }
+            } else {
+                iqviaOutreach = false;
             }
-        } else {
-            iqviaOutreach = false;
-        }
+        
+        
 
         //if(perandPderMap.keySet() != null){
         for (Participant_Enrollment__c pe : perList) {
@@ -928,6 +940,7 @@ public class UCPM_ConsentPostController {
                 }
             }
         }
+    }
         // }
     }
     public static String requestJsonGeneration_Create(
