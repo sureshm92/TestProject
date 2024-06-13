@@ -4784,7 +4784,6 @@
         <field>Help_Topic__mdt.User_Types__c</field>
         <readable>true</readable>
     </fieldPermissions>
-
     <fieldPermissions>
         <editable>true</editable>
         <field>Historical_Consent_Staging__c.ApplicationId__c</field>
@@ -4850,8 +4849,6 @@
         <field>Historical_Consent_Staging__c.Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
-
-
     <fieldPermissions>
         <editable>true</editable>
         <field>Icon_Details__c.Custom_Icon__c</field>
