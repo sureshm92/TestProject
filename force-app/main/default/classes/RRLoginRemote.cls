@@ -450,7 +450,7 @@ global without sharing class RRLoginRemote {
             String ssoLanguage = 'en';
             Boolean isSocialIDP = false;
             String signInEmail = u[0].Email;
-            String spSelection=isSocialIDP?'sp':'false';
+            
             List<Participant_Enrollment__c> per = new List<Participant_Enrollment__c>();
             List<Patient_Delegate_Enrollment__c> pder = new List<Patient_Delegate_Enrollment__c>();
             
@@ -462,7 +462,7 @@ global without sharing class RRLoginRemote {
                     
             if(!validPE.isEmpty() || !validPDER.isEmpty()){}
             per = [SELECT Id,Name,Participant_Contact__c,Participant_Status__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.SSO_enabled__c, 
-                   Clinical_Trial_Profile__r.PPTemplate__c FROM Participant_Enrollment__c where 
+                   Clinical_Trial_Profile__r.Use_Social_IDP__c,Clinical_Trial_Profile__r.PPTemplate__c FROM Participant_Enrollment__c where 
                    Participant_Contact__c=:u[0].ContactId];
             pder  = [Select Id,Participant_Enrollment__c,Patient_Delegate__c,Patient_Delegate__r.Contact__c from Patient_Delegate_Enrollment__c where 
                          Patient_Delegate__r.Contact__c=:u[0].ContactId];
@@ -471,7 +471,7 @@ global without sharing class RRLoginRemote {
                     lstPEId.add(pde.Participant_Enrollment__c);
                 }
                 listPDER_PE = [SELECT Id,Name,Participant_Contact__c,Participant_Status__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.SSO_enabled__c, 
-                   Clinical_Trial_Profile__r.PPTemplate__c FROM Participant_Enrollment__c where Id IN:lstPEId];
+                   Clinical_Trial_Profile__r.PPTemplate__c,Clinical_Trial_Profile__r.Use_Social_IDP__c FROM Participant_Enrollment__c where Id IN:lstPEId];
                 per.addAll(listPDER_PE);    
             }       
             if(!per.isEmpty() && per!=null ){
@@ -490,9 +490,9 @@ global without sharing class RRLoginRemote {
                                   isNSSO_PE_Active= true;
                                   }else{isNSSO_PE_InActive=true;}
                           }
+                          if(pe.Clinical_Trial_Profile__r.Use_Social_IDP__c != null){isSocialIDP = true;}
                      }
-                     
-                     
+                String spSelection=isSocialIDP?'sp':'false';
                 if(!ssoPE.isEmpty() && isSSO_PE_Active){
                      sso.isSSOEnabled = true;
                 }else if(!ssoPE.isEmpty() && isSSO_PE_InActive){
