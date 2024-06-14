@@ -77,9 +77,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-		 <aura:if isTrue="{!v.showCookiesBanner}">
-        	<c:ppCookiesBanner isRTL="{!v.isRTL}" loginPage="true" communityName="PatientPortal" />
-        </aura:if>    
+        </div> 
     </aura:if>
 </aura:component>
