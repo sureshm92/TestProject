@@ -1,6 +1,9 @@
 <template>
     <template if:false={isLockOut}>
-        <template lwc:if={iframeReq}>
+        <template lwc:if={loadSpinner}>
+            <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+        </template>
+         <template lwc:if={iframeReq}>
             <div>
                  <iframe   style="width: 0; height:0; border: 0; border: none; position: absolute;" src={patientSSOUrl}
                  ></iframe>     
@@ -64,6 +67,7 @@
                 onmodalclose={handleModalClose}
             ></c-pp-unable-to-login>
         </template>
-    </template>
+    </template> 
     <c-web-spinner fixed="true"></c-web-spinner>
+    <c-pp-cookies-banner is-r-t-l={isRTL} login-page="true" community-name="PatientPortal"></c-pp-cookies-banner>
 </template>
