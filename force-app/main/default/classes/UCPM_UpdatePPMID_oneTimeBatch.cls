@@ -1,4 +1,5 @@
-global without sharing class UCPM_UpdatePPMID_oneTimeBatch implements Database.Batchable<SObject> {
+global without sharing class UCPM_UpdatePPMID_oneTimeBatch implements Database.Batchable<SObject>, Database.Stateful {
+  public Set<ID> conUniqueIDppm = new Set<ID>();
   global Database.QueryLocator start(Database.BatchableContext BC) {
     return Database.getQueryLocator(
       [
@@ -48,12 +49,14 @@ global without sharing class UCPM_UpdatePPMID_oneTimeBatch implements Database.B
       }
       if (
         per.Participant_Contact__c != null &&
-        per.Participant_Contact__r.PPM_ID__c == null
+        per.Participant_Contact__r.PPM_ID__c == null &&
+        !conUniqueIDppm.contains(per.Participant_Contact__c)
       ) {
         Contact con = new Contact();
         con.Id = per.Participant_Contact__c;
         con.PPM_ID__c = generateUUID();
         conListToUpdate.add(con);
+        conUniqueIDppm.add(per.Participant_Contact__c);
       }
       for (
         Patient_Delegate_Enrollment__c pder : per.Patient_Delegate_Enrollments__r
@@ -67,13 +70,15 @@ global without sharing class UCPM_UpdatePPMID_oneTimeBatch implements Database.B
         if (
           pder.Patient_Delegate__r != null &&
           pder.Patient_Delegate__r.Contact__c != null &&
-          pder.Patient_Delegate__r.Contact__r.PPM_ID__c == null
+          pder.Patient_Delegate__r.Contact__r.PPM_ID__c == null &&
+          !conUniqueIDppm.contains(pder.Patient_Delegate__r.Contact__c)
         ) {
           pder.Patient_Delegate__r.Contact__r.PPM_ID__c = generateUUID();
           Contact con1 = new Contact();
           con1.Id = pder.Patient_Delegate__r.Contact__c;
           con1.PPM_ID__c = generateUUID();
           conListToUpdate.add(con1);
+          conUniqueIDppm.add(pder.Patient_Delegate__r.Contact__c);
         }
       }
     }
