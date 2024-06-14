@@ -20,6 +20,7 @@ import PP_For_Participants_and_Caregivers from '@salesforce/label/c.PP_For_Parti
 import PP_Connecting_professionals from '@salesforce/label/c.PP_Connecting_professionals';
 import getPatientSsoUrl from '@salesforce/apex/RRLoginRemote.getPatientSsoUrl';
 import getSSOData from '@salesforce/apex/RRLoginRemote.getSSOData';
+import RTL_Languages from '@salesforce/label/c.RTL_Languages';
 
 
 
@@ -58,13 +59,15 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         PP_Login_Form_Hide,
         PP_Login_Form_Show,
         PP_For_Participants_and_Caregivers,
-        PP_Connecting_professionals
+        PP_Connecting_professionals,
+        RTL_Languages
     };
 
     currentPageReference;
     erroContainerPosition = 'margin-left: 13px';
     errorIconPosition = 'margin-left: 8px';
     stateValue;
+    language;isRTL = false;
 
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
@@ -82,11 +85,19 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                     this.error = error;
                 });
         }
+       this.language = this.currentPageReference.state.language;
+       if(this.label.RTL_Languages.includes(this.language)){
+           this.isRTL = true;
+       }else{
+           this.isRTL = false;
+       }
+
     }
     patientSSOUrl = "";
     ssoval="false"; 
-    
+    loadSpinner=false;
     connectedCallback() {
+            this.loadSpinner=false;
             this.iframeReq = true;
             getPatientSsoUrl()
             .then(result => {
@@ -291,11 +302,12 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         if(this.usrName == null || this.usrName == ''){
             this.inError = true;
             this.inputError = true;
-            this.errorMsg = 'Enter a value in the User Name field.';
+            this.errorMsg = 'Enter a value in the UserName field.';
             this.btnclassName = 'slds-input input-field-container-error';
         }else{
             const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z\-0-9]{2,10}))$/;
-            if(this.usrName.match(emailRegex)){
+            if(this.usrName.match(emailRegex)){ 
+               this.loadSpinner=true;
                console.log('no errror - '+this.statePara);
                getSSOData({ userName: this.usrName, state:this.statePara})
                 .then((result) => { console.log('r- '+JSON.stringify(result));
@@ -306,9 +318,10 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                         sessionStorage.setItem('myKey', randomNumber);
                         window.open(result.ssoUrl,'_parent');    
                     } else if(!result.usrNameExist){ 
+                        this.loadSpinner=false;
                         this.inError = true;
                         this.inputError = true;
-                        this.errorMsg = 'Enter a valid User Name in the field.';
+                        this.errorMsg = 'Enter a valid UserName in the field.';
                         this.btnclassName = 'slds-input input-field-container-error';
                     }else{
                         let randomNumber = parseInt(Math.random() * 100000000).toString();
@@ -326,10 +339,10 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                 .catch((error) => {console.log('e - '+JSON.stringify(error));
                     this.error = error;
                 });
-            }else{ console.log('errror');
+            }else{ console.log('errror: ');this.loadSpinner=false;
             this.inError = true;
             this.inputError = true;
-            this.errorMsg = 'Enter a valid User Name in the field.';
+            this.errorMsg = 'Enter a valid UserName in the field.';
             this.btnclassName = 'slds-input input-field-container-error';
             }
         } 
