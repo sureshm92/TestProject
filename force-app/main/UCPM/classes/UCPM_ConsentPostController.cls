@@ -31,6 +31,7 @@ public class UCPM_ConsentPostController {
                     Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c,
                     Clinical_Trial_Profile__r.MDM_Sponsor_Name__c,
                     Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                    Clinical_Trial_Profile__r.MDM_trigger_status__c,
                     Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c,
                     Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
                     Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
@@ -70,7 +71,10 @@ public class UCPM_ConsentPostController {
                         WHERE ID IN :pderIdList
                     )
                 FROM Participant_Enrollment__c
-                WHERE id IN :perIdList
+                WHERE id IN :perIdList and Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c!=null and
+                Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c!= null 
+               and Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c!=null and 
+               Clinical_Trial_Profile__r.MDM_trigger_status__c ='Completed'              
             ];
             if (pderIdList != null && pderIdList.size() > 0) {
                 for (Participant_Enrollment__c per : perList) {
@@ -99,6 +103,7 @@ public class UCPM_ConsentPostController {
                     Clinical_Trial_Profile__r.MDM_Sponsor_Name__c,
                     Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c,
                     Clinical_Trial_Profile__r.IQVIA_Outreach__c,
+                    Clinical_Trial_Profile__r.MDM_trigger_status__c,
                     Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
                     Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                     Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
@@ -111,7 +116,11 @@ public class UCPM_ConsentPostController {
                     Study_Direct_Mail_Consent__c,
                     PPMID__c
                 FROM Participant_Enrollment__c
-                WHERE id IN :perIdList
+                WHERE id IN :perIdList  and  
+                Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c!=null and
+                Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c!= null 
+               and Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c!=null and 
+               Clinical_Trial_Profile__r.MDM_trigger_status__c ='Completed'
             ];
         }
 
@@ -120,53 +129,56 @@ public class UCPM_ConsentPostController {
         String[] restrictedlst;
         String referralSource;
         Boolean iqviaOutreach = false;
-        if (perList[0].Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
-            if (
-                perList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal' &&
-                (perList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' ||
-                perList[0].Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0')
-            ) {
-                iqviaOutreach = true;
-            } else {
-                restrictedRecrd = [
-                    SELECT
-                        Id,
-                        Sponsor__c,
-                        Study__c,
-                        Study__r.IQVIA_Outreach__c,
-                        Referral_Resource__c
-                    FROM Restricted_Source_Config__c
-                    WHERE
-                        Study__c = :perList[0].Clinical_Trial_Profile__c
-                        AND Referral_Resource__c != NULL
-                ];
-                if (restrictedRecrd != null && !restrictedRecrd.isEmpty()) {
-                    for (Restricted_Source_Config__c rsc : restrictedRecrd) {
-                        restrictedlst = rsc.Referral_Resource__c != null
-                            ? rsc.Referral_Resource__c.split(';')
-                            : null;
-                        if (restrictedlst != null && !restrictedlst.isEmpty()) {
-                            referralSource = (perList[0].Referral_Source__c == 'ePR' ||
-                                perList[0].Referral_Source__c == 'ePRCampaign')
-                                ? perList[0].Referral_Source__c +
-                                  '-' +
-                                  perList[0].DataControllerOrg__c
-                                : perList[0].Referral_Source__c;
-                            if (restrictedlst.contains(referralSource)) {
-                                iqviaOutreach = false;
-                                break;
-                            } else {
-                                iqviaOutreach = true;
+        if (perList != null && perList.size() > 0) {             
+            if (perList[0].Clinical_Trial_Profile__r.IQVIA_Outreach__c) {
+                if (
+                    perList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != 'PatientPortal' &&
+                    (perList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' ||
+                    perList[0].Clinical_Trial_Profile__r.PPTemplate__c != 'PP 2.0')
+                ) {
+                    iqviaOutreach = true;
+                } else {
+                    restrictedRecrd = [
+                        SELECT
+                            Id,
+                            Sponsor__c,
+                            Study__c,
+                            Study__r.IQVIA_Outreach__c,
+                            Referral_Resource__c
+                        FROM Restricted_Source_Config__c
+                        WHERE
+                            Study__c = :perList[0].Clinical_Trial_Profile__c
+                            AND Referral_Resource__c != NULL
+                    ];
+                    if (restrictedRecrd != null && !restrictedRecrd.isEmpty()) {
+                        for (Restricted_Source_Config__c rsc : restrictedRecrd) {
+                            restrictedlst = rsc.Referral_Resource__c != null
+                                ? rsc.Referral_Resource__c.split(';')
+                                : null;
+                            if (restrictedlst != null && !restrictedlst.isEmpty()) {
+                                referralSource = (perList[0].Referral_Source__c == 'ePR' ||
+                                    perList[0].Referral_Source__c == 'ePRCampaign')
+                                    ? perList[0].Referral_Source__c +
+                                      '-' +
+                                      perList[0].DataControllerOrg__c
+                                    : perList[0].Referral_Source__c;
+                                if (restrictedlst.contains(referralSource)) {
+                                    iqviaOutreach = false;
+                                    break;
+                                } else {
+                                    iqviaOutreach = true;
+                                }
                             }
                         }
+                    } else {
+                        iqviaOutreach = true;
                     }
-                } else {
-                    iqviaOutreach = true;
                 }
+            } else {
+                iqviaOutreach = false;
             }
-        } else {
-            iqviaOutreach = false;
-        }
+        
+        
 
         //if(perandPderMap.keySet() != null){
         for (Participant_Enrollment__c pe : perList) {
@@ -180,14 +192,14 @@ public class UCPM_ConsentPostController {
                 removeparticipantcontact = true;
             }
 
-            if (placeoffunctionality == 'Referring Provider Participant' && pderIdList == null) {
+            if (placeoffunctionality == 'Referring Provider Participant') {
                 //New/Old PER without participant contact
                 if (pe.Participant_Contact__c == null) {
                     if (pe.PPMID__c != null) {
                         System.enqueueJob(
                             new UCPM_PostConsentQueueable(
                                 pe,
-                                perandPderMap.get(pe),
+                                null,
                                 'Update',
                                 iqviaOutreach,
                                 'PARTICIPANT',
@@ -199,7 +211,7 @@ public class UCPM_ConsentPostController {
                         System.enqueueJob(
                             new UCPM_PostConsentQueueable(
                                 pe,
-                                perandPderMap.get(pe),
+                                null,
                                 'Create',
                                 iqviaOutreach,
                                 'PARTICIPANT',
@@ -207,6 +219,248 @@ public class UCPM_ConsentPostController {
                                 placeoffunctionality
                             )
                         );
+                    }
+                }else if(
+                    pe.Participant_Contact__c != null && 
+                    pderIdList == null
+                ){
+                    if (
+                        pe.PPMID__c == null && 
+                        pe.Participant_Contact__r.PPM_ID__c == null
+                    ) {
+                        System.enqueueJob(
+                            new UCPM_PostConsentQueueable(
+                                pe,
+                                null,
+                                'Create',
+                                iqviaOutreach,
+                                'PARTICIPANT',
+                                removeparticipantcontact
+                                    ? 'Participant'
+                                    : 'Participant:ParticipantContact',
+                                placeoffunctionality
+                            )
+                        );
+                    } else if(
+                        pe.PPMID__c != null && 
+                        pe.Participant_Contact__r.PPM_ID__c == null
+                    ){
+                        System.enqueueJob(
+                            new UCPM_PostConsentQueueable(
+                                pe,
+                                null,
+                                'Both',
+                                iqviaOutreach,
+                                'PARTICIPANT',
+                                removeparticipantcontact ? '' : 'ParticipantContact',
+                                'PARTICIPANT',
+                                'Participant',
+                                placeoffunctionality
+                            )
+                        );
+                    } else if(
+                        pe.PPMID__c == null && 
+                        pe.Participant_Contact__r.PPM_ID__c != null
+                    ){
+                        System.enqueueJob(
+                            new UCPM_PostConsentQueueable(
+                                pe,
+                                null,
+                                'Both',
+                                iqviaOutreach,
+                                'PARTICIPANT',
+                                'Participant',
+                                'PARTICIPANT',
+                                'ParticipantContact',
+                                placeoffunctionality
+                            )
+                        );
+                    } else if(
+                        pe.PPMID__c != null && 
+                        pe.Participant_Contact__r.PPM_ID__c != null
+                    ){
+                        System.enqueueJob(
+                            new UCPM_PostConsentQueueable(
+                                pe,
+                                null,
+                                'Update',
+                                iqviaOutreach,
+                                'PARTICIPANT',
+                                'Participant:ParticipantContact',
+                                placeoffunctionality
+                            )
+                        );
+                    }
+                }else if(
+                    pe.Participant_Contact__c != null && 
+                    pderIdList != null
+                ){
+                    if (
+                        pe.PPMID__c == null && 
+                        pe.Participant_Contact__r.PPM_ID__c == null &&
+                        pderIdList.size() > 0 &&
+                        perandPderMap.get(pe) != null &&
+                        perandPderMap.get(pe).size() > 0 &&
+                        perandPderMap.get(pe)[0].PPM_ID__c == null 
+                    ) {
+                        if (
+                            perandPderMap.get(pe)[0].Patient_Delegate__r.Contact__r.PPM_ID__c ==
+                            null
+                        ) {
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Create',
+                                    iqviaOutreach,
+                                    'PARTICIPANT-DELEGATE',
+                                    removeparticipantcontact
+                                        ? 'Participant:Delegate:DelegateContact'
+                                        : 'Participant:ParticipantContact:Delegate:DelegateContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        } else {
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'PARTICIPANT-DELEGATE',
+                                    removeparticipantcontact
+                                        ? 'Participant:Delegate'
+                                        : 'Participant:ParticipantContact:Delegate',
+                                    'DELEGATE',
+                                    'DelegateContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        }
+                    } else if (
+                        pe.PPMID__c != null &&
+                        pe.Participant_Contact__r.PPM_ID__c == null &&
+                        pderIdList.size() > 0 &&
+                        perandPderMap.get(pe) != null &&
+                        perandPderMap.get(pe).size() > 0 &&
+                        perandPderMap.get(pe)[0].PPM_ID__c == null
+                    ) {
+                        if (
+                            perandPderMap.get(pe)[0].Patient_Delegate__r.Contact__r.PPM_ID__c ==
+                            null
+                        ) {
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'PARTICIPANT-DELEGATE',
+                                    removeparticipantcontact
+                                        ? 'Delegate:DelegateContact'
+                                        : 'ParticipantContact:Delegate:DelegateContact',
+                                    'PARTICIPANT',
+                                    'Participant',
+                                    placeoffunctionality
+                                )
+                            );
+                        } else {
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'PARTICIPANT-DELEGATE',
+                                    removeparticipantcontact
+                                        ? 'Delegate'
+                                        : 'ParticipantContact:Delegate',
+                                    'PARTICIPANT-DELEGATE',
+                                    'Participant:DelegateContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        }
+                    } else if (
+                        pe.PPMID__c == null &&
+                        pe.Participant_Contact__r.PPM_ID__c != null &&
+                        pderIdList.size() > 0 &&
+                        perandPderMap.get(pe) != null &&
+                        perandPderMap.get(pe).size() > 0 &&
+                        perandPderMap.get(pe)[0].PPM_ID__c == null
+                    ) {
+                        if (
+                            perandPderMap.get(pe)[0].Patient_Delegate__r.Contact__r.PPM_ID__c ==
+                            null
+                        ) {
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'PARTICIPANT-DELEGATE',
+                                    'Participant:Delegate:DelegateContact',
+                                    'PARTICIPANT',
+                                    'ParticipantContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        } else {
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'PARTICIPANT-DELEGATE',
+                                    'Participant:Delegate',
+                                    'PARTICIPANT-DELEGATE',
+                                    'ParticipantContact:DelegateContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        }
+                    } else if (
+                        pe.PPMID__c != null &&
+                        pe.Participant_Contact__r.PPM_ID__c != null &&
+                        pderIdList.size() > 0 &&
+                        perandPderMap.get(pe) != null &&
+                        perandPderMap.get(pe).size() > 0 &&
+                        perandPderMap.get(pe)[0].PPM_ID__c == null
+                    ) {
+                        if (
+                            perandPderMap.get(pe)[0].Patient_Delegate__r.Contact__r.PPM_ID__c ==
+                            null
+                        ) {
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'DELEGATE',
+                                    'Delegate:DelegateContact',
+                                    'PARTICIPANT',
+                                    'Participant:ParticipantContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        } else {
+                            System.enqueueJob(
+                                new UCPM_PostConsentQueueable(
+                                    pe,
+                                    perandPderMap.get(pe),
+                                    'Both',
+                                    iqviaOutreach,
+                                    'DELEGATE',
+                                    'Delegate',
+                                    'PARTICIPANT-DELEGATE',
+                                    'Participant:ParticipantContact:DelegateContact',
+                                    placeoffunctionality
+                                )
+                            );
+                        }
                     }
                 }
             }
@@ -513,7 +767,7 @@ public class UCPM_ConsentPostController {
                             'Both',
                             iqviaOutreach,
                             'PARTICIPANT',
-                            'ParticipantContact',
+                            removeparticipantcontact ? '' : 'ParticipantContact',
                             'PARTICIPANT',
                             'Participant',
                             placeoffunctionality
@@ -539,7 +793,9 @@ public class UCPM_ConsentPostController {
                                 'Both',
                                 iqviaOutreach,
                                 'PARTICIPANT-DELEGATE',
-                                'Delegate:ParticipantContact',
+                                removeparticipantcontact
+                                    ? 'Delegate'
+                                    : 'Delegate:ParticipantContact',
                                 'PARTICIPANT-DELEGATE',
                                 'Participant:DelegateContact',
                                 placeoffunctionality
@@ -554,7 +810,9 @@ public class UCPM_ConsentPostController {
                                 'Both',
                                 iqviaOutreach,
                                 'PARTICIPANT-DELEGATE',
-                                'ParticipantContact:Delegate:DelegateContact',
+                                removeparticipantcontact
+                                    ? 'Delegate:DelegateContact'
+                                    : 'ParticipantContact:Delegate:DelegateContact',
                                 'PARTICIPANT',
                                 'Participant',
                                 placeoffunctionality
@@ -581,7 +839,7 @@ public class UCPM_ConsentPostController {
                                 'Both',
                                 iqviaOutreach,
                                 'PARTICIPANT',
-                                'ParticipantContact',
+                                removeparticipantcontact ? '' : 'ParticipantContact',
                                 'PARTICIPANT-DELEGATE',
                                 'Participant:Delegate:DelegateContact',
                                 placeoffunctionality
@@ -596,7 +854,9 @@ public class UCPM_ConsentPostController {
                                 'Both',
                                 iqviaOutreach,
                                 'PARTICIPANT-DELEGATE',
-                                'ParticipantContact:DelegateContact',
+                                removeparticipantcontact
+                                    ? 'DelegateContact'
+                                    : 'ParticipantContact:DelegateContact',
                                 'PARTICIPANT-DELEGATE',
                                 'Participant:Delegate',
                                 placeoffunctionality
@@ -632,7 +892,7 @@ public class UCPM_ConsentPostController {
                             'Both',
                             iqviaOutreach,
                             'PARTICIPANT',
-                            'ParticipantContact',
+                            removeparticipantcontact ? '' : 'ParticipantContact',
                             'PARTICIPANT',
                             'Participant',
                             placeoffunctionality
@@ -680,6 +940,7 @@ public class UCPM_ConsentPostController {
                 }
             }
         }
+    }
         // }
     }
     public static String requestJsonGeneration_Create(
@@ -695,7 +956,7 @@ public class UCPM_ConsentPostController {
         gen.writeFieldName('ParticipantData');
         gen.writeStartObject();
         // creation of delegate for existing par enrollment
-        if (
+        /*if (
             (splitList.contains('Delegate') || splitList.contains('DelegateContact')) &&
             ((!splitList.contains('Participant')) && (!splitList.contains('ParticipantContact')))
         ) {
@@ -706,9 +967,24 @@ public class UCPM_ConsentPostController {
                     ? ' '
                     : per.Participant_Contact__r.PPM_ID__c
             );
+        }*/
+        if (
+            !splitList.contains('Participant') && 
+            (splitList.contains('Delegate') || 
+            splitList.contains('DelegateContact') || 
+            splitList.contains('ParticipantContact') )
+        ) {
+            if(!string.isblank(per.PPMID__c)){
+                gen.writeStringField('studyPPMID', per.PPMID__c);
+            }
+            
         }
         // creation of per for existing par contact
-        if (splitList.contains('Participant') && (!splitList.contains('ParticipantContact'))) {
+        if (
+            !splitList.contains('ParticipantContact') && 
+            per.Participant_Contact__c != null &&
+            per.Participant_Contact__r.PPM_ID__c != null
+        ) {
             gen.writeStringField(
                 'iqviaPPMID',
                 string.isblank(per.Participant_Contact__r.PPM_ID__c)
@@ -895,7 +1171,11 @@ public class UCPM_ConsentPostController {
                     placeoffunctionality != 'ePR' &&
                     (string.isblank(per.Participant__r.Email__c) ||
                     placeoffunctionality == 'Delegate Communication Preferences' ||
-                    placeoffunctionality == 'Delegate Registration')
+                    placeoffunctionality == 'Delegate Registration') &&
+                    (pder.Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_Emails__c ||
+                    pder.Patient_Delegate__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c ||
+                    pder.Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c ||
+                    pder.Patient_Delegate__r.Contact__r.IQVIA_Direct_Mail_Consent__c)
                 ) {
                     gen.writeStartObject();
                     gen.writeStringField('key', 'IQVIA-Outreach-Consents');
@@ -1394,6 +1674,9 @@ public class UCPM_ConsentPostController {
                     ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.CreateJanssenNotification.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
                     PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
@@ -1403,6 +1686,12 @@ public class UCPM_ConsentPostController {
                     ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.PatientVisitsDeletion.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.createNotifications.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
                     ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
@@ -1410,6 +1699,9 @@ public class UCPM_ConsentPostController {
                 );
                 TriggerHandlerExecutor.bypassHandler(
                     ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PENotificationTriggerHandler.CreateNotificationHandler.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
                     ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
@@ -1439,57 +1731,94 @@ public class UCPM_ConsentPostController {
                     ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentTriggerHandler.UpdatePatientConsent.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
                     ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class
                 );
 
                 TriggerHandlerExecutor.bypassHandler(
-                    PatientDelegateEnrolTriggerHandler.updateConsentTimeStamps.class
+                    ParticipantEnrollmentTriggerHandler.UpdateInitialVisits.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
                 );
                 database.update(perToUpdate, false);
             }
             if (!pderToUpdate.isEmpty()) {
                 TriggerHandlerExecutor.bypassHandler(
-                    PatientDelegateEnrolTriggerHandler.CreateNewAssignmentNotification.class
-                );
-                TriggerHandlerExecutor.bypassHandler(
                     PatientDelegateEnrolTriggerHandler.SetDefaultPatientDelegateStatusHandler.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
-                    PatientDelegateEnrolTriggerHandler.CreatePrimaryDelegateForMinor.class
+                    PatientDelegateEnrolTriggerHandler.CreateJanssenNotification.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.CreateNewAssignmentNotification.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
                     PatientDelegateEnrolTriggerHandler.CreateReactivatedNotification.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.CreatePrimaryDelegateForMinor.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
                     PatientDelegateEnrolTriggerHandler.UpdateDelegateConsent.class
                 );
+                //Timestamp should not be bypassed when consents are changed
                 TriggerHandlerExecutor.bypassHandler(
                     PatientDelegateEnrolTriggerHandler.UpdateConsentTimeStamps.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
                     PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
                 );
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateEnrolTriggerHandler.UCPMStausChangeOrPrimaryChangeNotification.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+                );
+
                 database.update(pderToUpdate, false);
             }
 
             if (!conToUpdate.isEmpty()) {
                 TriggerHandlerExecutor.bypassHandler(
-                    ContactTriggerHandler.UpdateConsentTimeStamps.class
+                    ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
-                    ContactTriggerHandler.CreateUserForCCContactHandler.class
+                    ContactTriggerHandler.createNotificationsHandler.class
+                );
+
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.SetShowTourDefaultHandler.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
                     ContactTriggerHandler.PopulateOverrideFields.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.CreateUserForCCContactHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.UpdateParticipantDetailsHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
                     ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
-                    ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                    ContactTriggerHandler.ParticipantConsentUpdate.class
                 );
                 TriggerHandlerExecutor.bypassHandler(
-                    ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                    ContactTriggerHandler.UpdateConsentTimeStamps.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    ContactTriggerHandler.UpdateNotificationHandler.class
+                );
+
+                TriggerHandlerExecutor.bypassHandler(
+                    UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
                 );
                 database.update(conToUpdate, false);
             }

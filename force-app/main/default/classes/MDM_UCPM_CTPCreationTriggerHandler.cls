@@ -27,7 +27,6 @@ public with sharing class MDM_UCPM_CTPCreationTriggerHandler {
       Map<Id, SObject> oldMap
     ) {
       List<Clinical_Trial_Profile__c> ctpnewList = newList;
-      // Map<Id,Clinical_Trial_Profile__c> ctpoldMap = (Map<Id,Clinical_Trial_Profile__c>)oldMap;
 
       List<Clinical_Trial_Profile__c> eligibleCTPforUCPM = new List<Clinical_Trial_Profile__c>();
       for (Clinical_Trial_Profile__c ctp : ctpnewList) {
@@ -43,7 +42,6 @@ public with sharing class MDM_UCPM_CTPCreationTriggerHandler {
           eligibleCTPforUCPM.add(ctp);
         }
       }
-      //   System.debug('####eligibleCTPforUCPM: ' + eligibleCTPforUCPM);
       if (!eligibleCTPforUCPM.isEmpty()) {
         createCreateStudySponser(eligibleCTPforUCPM);
       }
@@ -67,8 +65,24 @@ public with sharing class MDM_UCPM_CTPCreationTriggerHandler {
         );
       }
     }
-    //Data prep for API callout
+    List<Map<String, List<Clinical_Trial_Profile__c>>> mapChunksList = chunkMap(
+      sponserToStudyMap,
+      50
+    );
+    for (
+      Map<String, List<Clinical_Trial_Profile__c>> chunkedSponserToStudyMap : mapChunksList
+    ) {
+      DataPrepWrapper dwrap = new DataPrepWrapper();
+      dwrap = createRequestWrapper(chunkedSponserToStudyMap);
+      callUCPMtoCreateStudySponser(dwrap.requestString, dwrap.ctpId);
+    }
+  }
 
+  public static DataPrepWrapper createRequestWrapper(
+    Map<String, List<Clinical_Trial_Profile__c>> sponserToStudyMap
+  ) {
+    //Data prep for API callout
+    DataPrepWrapper dwrap = new DataPrepWrapper();
     String requestString;
 
     List<Id> ctpId = new List<Id>();
@@ -111,7 +125,9 @@ public with sharing class MDM_UCPM_CTPCreationTriggerHandler {
     requestString = gen.getAsString();
 
     System.debug(requestString);
-    callUCPMtoCreateStudySponser(requestString, ctpId);
+    dwrap.requestString = requestString;
+    dwrap.ctpId = ctpId;
+    return dwrap;
   }
 
   @future(callout=true)
@@ -121,29 +137,20 @@ public with sharing class MDM_UCPM_CTPCreationTriggerHandler {
   ) {
     try {
       //-------------------------------------------generate mulesoft access token------------------------------------
-      String accessToken;
+      String accessToken = MulesoftIntegrationApi.getAccessTokenIfValid(
+        'Mulesoft Access Token UCPM'
+      );
       MulesoftToken__c setting = MulesoftToken__c.getInstance(
         'Mulesoft Access Token UCPM'
       );
-      Http http1 = new Http();
-      HttpRequest request1 = new HttpRequest();
-      request1.setEndpoint('callout:' + setting.Named_Credentials_Name__c);
-      request1.setMethod('POST');
-      request1.setHeader('Content-Type', 'application/x-www-form-urlencoded');
-      String requestBody1 = 'grant_type=client_credentials';
-      request1.setBody(requestBody1);
-      System.debug('###### request1 ' + request1);
-
-      HttpResponse resp1 = http1.send(request1);
-      System.debug('###### resp1 ' + resp1);
-      System.debug('###### resp1 ' + resp1.getBody());
-      if (resp1.getStatusCode() == 200) {
-        JsonParser parser = JSON.createParser(resp1.getBody());
-        ResponseWrapperToken deserializedResponseWrapper = (ResponseWrapperToken) JSON.deserialize(
-          resp1.getBody(),
-          ResponseWrapperToken.class
+      Boolean saveAccessToken = false;
+      MulesoftIntegrationApi.ResponseWrapper tokenWrap = new MulesoftIntegrationApi.ResponseWrapper();
+      if (accessToken == null) {
+        tokenWrap = MulesoftIntegrationApi.generateAccessTokenWithoutSave(
+          setting
         );
-        accessToken = deserializedResponseWrapper.access_token;
+        accessToken = tokenWrap.access_token;
+        saveAccessToken = true;
       }
       //Call Mulesoft-UCPM API for study sponser creation
       HTTP h = new HTTP();
@@ -163,7 +170,12 @@ public with sharing class MDM_UCPM_CTPCreationTriggerHandler {
 
       //Create IntegrationLog__c for monitoring purpose
       IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
-      objIntegrationLog.Request_Body__c = reqString;
+      String sizeString = reqString;
+      Integer maxSize = 130000;
+      if (sizeString.length() > maxSize) {
+        sizeString = sizeString.substring(0, maxSize);
+      }
+      objIntegrationLog.Request_Body__c = sizeString;
       objIntegrationLog.Request_Time__c = system.now();
       objIntegrationLog.Request_Type__c = 'Create Organization and Purpose in UCPM';
       objIntegrationLog.Function_Name__c = 'UCPM_ORG_PP_creation';
@@ -171,42 +183,88 @@ public with sharing class MDM_UCPM_CTPCreationTriggerHandler {
       objIntegrationLog.Endpoint_URL__c = 'callout:UCPM_organization_purpose';
 
       //Update CTP with In Progress status
+      String CTPstatus;
+      String messageBody;
       if (resp.getStatusCode() == 200) {
         objIntegrationLog.Success__c = true;
         objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
         objIntegrationLog.Response_Body__c = resp.getBody();
         objIntegrationLog.Response_Time__c = system.now();
-
-        List<Clinical_Trial_Profile__c> ctpToUpdate = new List<Clinical_Trial_Profile__c>();
-        for (Id c : ctpId) {
-          Clinical_Trial_Profile__c ct = new Clinical_Trial_Profile__c();
-          ct.Id = c;
-          ct.MDM_trigger_status__c = 'In Progress';
-          ctpToUpdate.add(ct);
-        }
-        update ctpToUpdate;
+        CTPstatus = 'In Progress';
       } else {
         objIntegrationLog.Success__c = false;
         objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
         objIntegrationLog.Response_Body__c = resp.getBody();
         objIntegrationLog.Response_Time__c = system.now();
+        CTPstatus = 'Failed';
+        messageBody = resp.getStatus();
       }
+
+      List<Clinical_Trial_Profile__c> ctpToUpdate = new List<Clinical_Trial_Profile__c>();
+      for (Id c : ctpId) {
+        Clinical_Trial_Profile__c ct = new Clinical_Trial_Profile__c();
+        ct.Id = c;
+        ct.MDM_trigger_status__c = CTPstatus;
+        ct.UCPM_error_message__c = messageBody;
+        ctpToUpdate.add(ct);
+      }
+      //TODO: need to write all CTP bypass trigger logic
+      if (!ctpToUpdate.isEmpty()) {
+        update ctpToUpdate;
+      }
+
       insert objIntegrationLog;
+      //MulesoftIntegrationApi.saveAccessToken method to save the Access token for future use
+      if (saveAccessToken) {
+        MulesoftIntegrationApi.saveAccessToken(
+          setting,
+          tokenWrap.access_token,
+          tokenWrap.expires_in
+        );
+      }
     } catch (Exception e) {
       System.debug('e.getMessage(): ' + e.getMessage());
       System.debug('e.getStackTraceString(): ' + e.getStackTraceString());
     }
   }
 
-  //Response wrapper start
-  public class ResponseWrapperToken {
-    public String token_type;
-    public String access_token;
-    public Integer expires_in;
-    public String message;
-    public Boolean success;
-    public Integer statusCode;
+  public class DataPrepWrapper {
+    public String requestString;
+    public List<Id> ctpId;
   }
 
-  //Response wrapper end
+  //method to chunk a map into n number of maps
+  //here chunksize we will pass as 50
+  public static List<Map<String, List<Clinical_Trial_Profile__c>>> chunkMap(
+    Map<String, List<Clinical_Trial_Profile__c>> originalMap,
+    Integer chunkSize
+  ) {
+    // List to hold the resulting chunks
+    List<Map<String, List<Clinical_Trial_Profile__c>>> mapChunks = new List<Map<String, List<Clinical_Trial_Profile__c>>>();
+    // Temporary map to hold current chunk
+    Map<String, List<Clinical_Trial_Profile__c>> currentChunk = new Map<String, List<Clinical_Trial_Profile__c>>();
+    // Counter to keep track of entries added to the current chunk
+    Integer counter = 0;
+    // Iterate through the original map
+    for (String key : originalMap.keySet()) {
+      // Add the current entry to the current chunk
+      currentChunk.put(key, originalMap.get(key));
+      counter++;
+      // If the current chunk has reached the specified size, add it to the list of chunks and start a new chunk
+      if (counter == chunkSize) {
+        mapChunks.add(
+          new Map<String, List<Clinical_Trial_Profile__c>>(currentChunk)
+        );
+        currentChunk.clear();
+        counter = 0;
+      }
+    }
+    // If there are any remaining entries in the current chunk, add it to the list of chunks
+    if (!currentChunk.isEmpty()) {
+      mapChunks.add(
+        new Map<String, List<Clinical_Trial_Profile__c>>(currentChunk)
+      );
+    }
+    return mapChunks;
+  }
 }

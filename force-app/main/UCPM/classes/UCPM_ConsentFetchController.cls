@@ -33,6 +33,14 @@ public class UCPM_ConsentFetchController {
 
         try{
            resp1= http1.send(request1);
+           if (resp1.getStatusCode() == 200) {
+            JsonParser parser = JSON.createParser(resp1.getBody());
+            ResponseWrapperToken deserializedResponseWrapper = (ResponseWrapperToken) JSON.deserialize(
+                resp1.getBody(),
+                ResponseWrapperToken.class
+            );
+            accessToken = deserializedResponseWrapper.access_token;
+        }
         }
         catch(exception e){
           //Integration log generation 
@@ -44,16 +52,6 @@ public class UCPM_ConsentFetchController {
         }
         
     
-        System.debug('###### resp1 ' + resp1);
-        System.debug('###### resp1 ' + resp1.getBody());
-        if (resp1.getStatusCode() == 200) {
-            JsonParser parser = JSON.createParser(resp1.getBody());
-            ResponseWrapperToken deserializedResponseWrapper = (ResponseWrapperToken) JSON.deserialize(
-                resp1.getBody(),
-                ResponseWrapperToken.class
-            );
-            accessToken = deserializedResponseWrapper.access_token;
-        }
         return accessToken;
     }
 
@@ -63,6 +61,15 @@ public class UCPM_ConsentFetchController {
         List<SObject> sobj,
         string typeName
     ) {
+         TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+        TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+            );
+        TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
         //get mulesoft access token
         String accessToken;
         accessToken = getAccessToken();
@@ -322,80 +329,9 @@ public class UCPM_ConsentFetchController {
         string typeName
     ) {
         // Bypass triggers
-        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateConsentTimeStamps.class);
-        TriggerHandlerExecutor.bypassHandler(
-            ContactTriggerHandler.CreateUserForCCContactHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
-        TriggerHandlerExecutor.bypassHandler(
-            ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
-        );
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.EcoaEvents.class);
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class
-        );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class
-        );
-
-        TriggerHandlerExecutor.bypassHandler(
-            PatientDelegateEnrolTriggerHandler.updateConsentTimeStamps.class
-        );
+        bypassContactTrigger();
+        bypassPerTrigger();
+        bypassPderTrigger();
 
         // Collect all ppmids and applicationIds to to retrieve the records
         List<String> ppmIdList = new List<String>();
@@ -417,7 +353,13 @@ public class UCPM_ConsentFetchController {
                 IQVIA_Email_Consent_Time__c,
                 IQVIA_SMS_Consent_Time__c,
                 IQVIA_Direct_Mail_Consent_Time__c,
-                IQVIA_Phone_Consent_Time__c
+                IQVIA_Phone_Consent_Time__c,
+                IQVIA_Assisted_Dialing_Consent__c,
+                IQVIA_Assisted_Dialing_Consent_Time__c,
+                IQVIA_Artificial_Voice_Consent__c,
+                IQVIA_Artificial_Voice_Consent_Time__c,
+                IQVIA_Pre_recorded_Calls_Consent_Time__c,
+                IQVIA_Pre_recorded_Voice_Consent__c
             FROM Contact
             WHERE Id IN :appIdList
         ]) {
@@ -437,6 +379,12 @@ public class UCPM_ConsentFetchController {
                 Study_Phone_Consent_Time__c,
                 Study_Direct_Mail_Consent_Time__c,
                 Study_SMS_Consent_Time__c,
+                Study_Assisted_Dialing_Consent__c,
+                Study_Artificial_Voice_Consent__c,
+                Study_Pre_recorded_Voice_Consent__c,
+                Study_Artificial_Voice_Consent_Time__c,
+                Study_Pre_recorded_Calls_Consent_Time__c,
+                Study_Assisted_Dialing_Consent_Time__c,
                 Participant_Contact__r.PPM_ID__c,
                 Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                 Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
@@ -445,7 +393,13 @@ public class UCPM_ConsentFetchController {
                 Participant_Contact__r.IQVIA_SMS_Consent_Time__c,
                 Participant_Contact__r.IQVIA_Phone_Consent_Time__c,
                 Participant_Contact__r.IQVIA_Email_Consent_Time__c,
-                Participant_Contact__r.IQVIA_Direct_Mail_Consent_Time__c
+                Participant_Contact__r.IQVIA_Direct_Mail_Consent_Time__c,
+                Participant_Contact__r.IQVIA_Assisted_Dialing_Consent__c,
+                Participant_Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c,
+                Participant_Contact__r.IQVIA_Artificial_Voice_Consent__c,
+                Participant_Contact__r.IQVIA_Artificial_Voice_Consent_Time__c,
+                Participant_Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c,
+                Participant_Contact__r.IQVIA_Pre_recorded_Voice_Consent__c
             FROM Participant_Enrollment__c
             WHERE Id IN :appIdList
         ]) {
@@ -465,6 +419,12 @@ public class UCPM_ConsentFetchController {
                 Study_Email_Consent_Time__c,
                 Study_Phone_Consent_Time__c,
                 Study_Direct_Mail_Consent_Time__c,
+                Study_Assisted_Dialing_Consent__c,
+                Study_Artificial_Voice_Consent__c,
+                Study_Pre_recorded_Voice_Consent__c,
+                Study_Artificial_Voice_Consent_Time__c,
+                Study_Assisted_Dialing_Consent_Time__c,
+                Study_Pre_recorded_Calls_Consent_Time__c,
                 Patient_Delegate__r.Participant__r.Contact__c,
                 Patient_Delegate__r.Participant__r.Contact__r.PPM_ID__c,
                 Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
@@ -474,7 +434,13 @@ public class UCPM_ConsentFetchController {
                 Patient_Delegate__r.Participant__r.Contact__r.IQVIA_SMS_Consent_Time__c,
                 Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Phone_Consent_Time__c,
                 Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Email_Consent_Time__c,
-                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent_Time__c
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent_Time__c,
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Assisted_Dialing_Consent__c,
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c,
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Artificial_Voice_Consent__c,
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Artificial_Voice_Consent_Time__c,
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c,
+                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Pre_recorded_Voice_Consent__c
             FROM Patient_Delegate_Enrollment__c
             WHERE Id IN :appIdList
             //WHERE PPM_ID__c IN :ppmIdList
@@ -521,6 +487,21 @@ public class UCPM_ConsentFetchController {
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
+                                    per.Study_Assisted_Dialing_Consent__c = option.IsConsented;
+                                    per.Study_Artificial_Voice_Consent__c = option.IsConsented;
+                                    per.Study_Pre_recorded_Voice_Consent__c = option.IsConsented;
+                                    per.Study_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    per.Study_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    per.Study_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
                                         if (!perList.contains(per)) {
                                             perList.add(per);
                                         }
@@ -559,6 +540,21 @@ public class UCPM_ConsentFetchController {
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
+                                        per.Participant_Contact__r.IQVIA_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        per.Participant_Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                                '"' + purpose.ConsentDate + '"',
+                                                DateTime.class
+                                            );
+                                        per.Participant_Contact__r.IQVIA_Artificial_Voice_Consent__c = option.IsConsented;
+                                        per.Participant_Contact__r.IQVIA_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                                '"' + purpose.ConsentDate + '"',
+                                                DateTime.class
+                                            );
+                                        per.Participant_Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                                '"' + purpose.ConsentDate + '"',
+                                                DateTime.class
+                                            );
+                                        per.Participant_Contact__r.IQVIA_Pre_recorded_Voice_Consent__c = option.IsConsented;
                                         if (!perList.contains(per)) {
                                             perList.add(per);
                                         }
@@ -602,6 +598,21 @@ public class UCPM_ConsentFetchController {
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
+                                        pde.Study_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        pde.Study_Artificial_Voice_Consent__c = option.IsConsented;
+                                        pde.Study_Pre_recorded_Voice_Consent__c = option.IsConsented;
+                                        pde.Study_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        pde.Study_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                        pde.Study_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
                                         if (!pdeList.contains(pde)) {
                                             pdeList.add(pde);
                                         }
@@ -640,6 +651,21 @@ public class UCPM_ConsentFetchController {
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Assisted_Dialing_Consent__c = option.IsConsented;
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                                '"' + purpose.ConsentDate + '"',
+                                                DateTime.class
+                                            );
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Artificial_Voice_Consent__c = option.IsConsented;
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                                '"' + purpose.ConsentDate + '"',
+                                                DateTime.class
+                                            );
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                                '"' + purpose.ConsentDate + '"',
+                                                DateTime.class
+                                            );
+                                        pde.Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Pre_recorded_Voice_Consent__c = option.IsConsented;
                                         if (!pdeList.contains(pde)) {
                                             pdeList.add(pde);
                                         }
@@ -683,6 +709,21 @@ public class UCPM_ConsentFetchController {
                                             '"' + purpose.ConsentDate + '"',
                                             DateTime.class
                                         );
+                                    con.IQVIA_Assisted_Dialing_Consent__c = option.IsConsented;
+                                    con.IQVIA_Assisted_Dialing_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    con.IQVIA_Artificial_Voice_Consent__c = option.IsConsented;
+                                    con.IQVIA_Artificial_Voice_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    con.IQVIA_Pre_recorded_Calls_Consent_Time__c = (DateTime) JSON.deserialize(
+                                            '"' + purpose.ConsentDate + '"',
+                                            DateTime.class
+                                        );
+                                    con.IQVIA_Pre_recorded_Voice_Consent__c = option.IsConsented;
                                         if (!conList.contains(con)) {
                                             conList.add(con);
                                         }
@@ -727,7 +768,7 @@ public class UCPM_ConsentFetchController {
         }
         //if method is called for notiifcation, call returnRecordPrep method to return list of records to be updated.
         //else return only isSuccess as true (no need to return updated records for other flows).
-        if (typeName == 'notificationbatch') {
+        if (typeName == 'notificationbatch' || typeName == 'RecordPage') {
             retDataWrap.updatedRecord = returnRecordPrep(updatedRecWrap);
             if (retDataWrap.updatedRecord != null) {
                 retDataWrap.isSuccess = true;
@@ -851,4 +892,275 @@ public class UCPM_ConsentFetchController {
     }
 
     //Response wrapper end
+
+    //Trigger bypass methods
+
+    public static void bypassContactTrigger(){
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.UpdateConsentTimeStamps.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForCCContactHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(ContactTriggerHandler.PopulateOverrideFields.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.UpdatePhoneNumberContactsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+        );
+    }
+
+    public static void bypassPerTrigger(){
+        TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantInitialVisit.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateMissingStatuses.class
+        );
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.EcoaEvents.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.DefaultEcoaTask.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudyConsentTimestamps.class
+        );
+    }
+
+    public static void bypassPderTrigger(){
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.CreateNewAssignmentNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.CreateReactivatedNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.SetDefaultPatientDelegateStatusHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.updateConsentTimeStamps.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.CreatePrimaryDelegateForMinor.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.CreateJanssenNotification.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
+        );
+        
+    }
+
+    //call from record detail page
+     @AuraEnabled
+    public static void callUCPMtoFetchLatestConsentsFromRecord(
+        Id applicationId,
+        String objType
+    ) {
+        System.debug('Inside callUCPMtoFetchLatestConsentsFromRecord ##: ');
+        //get mulesoft access token
+        String accessToken;
+        accessToken = getAccessToken();
+        System.debug('accessToken ##: ' + accessToken);
+
+        String ppmId;
+        String participantPpmid;
+
+        if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
+            Participant_Enrollment__c per = [
+                SELECT
+                    id,
+                    PPMID__c,
+                    Participant_Contact__r.PPM_ID__c,
+                    Clinical_Trial_Profile__r.Study_Sponsor__c,
+                    Clinical_Trial_Profile__c,
+                    Clinical_Trial_Profile__r.Study_Code_Name__c,
+                    Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c
+                FROM Participant_Enrollment__c
+                WHERE id = :applicationId
+            ];
+            
+            ppmId = per.PPMID__c;
+
+        }else if (objType == PATIENT_DEL_ENROLLMENT) {
+            Patient_Delegate_Enrollment__c pder = [
+                SELECT
+                    Id,
+                    Participant_Enrollment__c,
+                    PPM_ID__c,
+                    Participant_Enrollment__r.PPMID__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                    Participant_Enrollment__r.Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE Id = :applicationId
+            ];
+
+            ppmId = pder.PPM_ID__c;
+            participantPpmid = pder.Participant_Enrollment__r.PPMID__c;
+        
+        } else if (objType == CONTACT) {
+            Contact con = [
+                SELECT Id, PPM_ID__c
+                FROM Contact
+                WHERE Id = :applicationId
+            ];
+            ppmId = con.PPM_ID__c;
+
+        }
+
+        UCPMrequestBodyWrapper wrapper = new UCPMrequestBodyWrapper();
+        wrapper.ppmid = ppmId;
+        wrapper.participantPpmid = participantPpmid;
+        wrapper.applicationId = applicationId;
+        
+        //Data prep for API callout
+        JSONGenerator gen = JSON.createGenerator(false);
+        gen.writeStartArray();
+            gen.writeStartObject();
+            if (wrapper.ppmid != null) {
+                gen.writeStringField('ppmid', wrapper.ppmid);
+            } else {
+                gen.writeStringField('ppmid', '');
+            }
+            if (wrapper.participantPpmid != null) {
+                gen.writeStringField('participantPPMID', wrapper.participantPpmid);
+            } else {
+                gen.writeStringField('participantPPMID', '');
+            }
+             if (wrapper.applicationId != null) {
+                gen.writeStringField('applicationId', wrapper.applicationId);
+            } else {
+                gen.writeStringField('applicationId', '');
+            }
+           gen.writeEndObject();
+
+        gen.writeEndArray();
+
+        String requestString;
+        String responseBody;
+        requestString = gen.getAsString();
+
+        DateTime dt = DateTime.now();
+
+        //Integration log generation 
+        IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
+        objIntegrationLog.Request_Body__c = requestString;
+        objIntegrationLog.Request_Time__c = dt;
+        objIntegrationLog.Request_Type__c = 'UCPM_Fetch_Consent';
+        objIntegrationLog.Function_Name__c = 'UCPM_Fetch_Consent';
+        objIntegrationLog.Http_Method__c = 'POST';
+
+        //Call Mulesoft-UCPM API for consents
+        HTTP h = new HTTP();
+        HTTPRequest r = new HTTPRequest();
+        r.setEndpoint('callout:UCPM_Fetch_Consent');
+        r.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        r.setTimeout(120000);
+        r.setMethod('POST');
+        r.setHeader('Authorization', 'Bearer ' + accessToken);
+        r.setbody(requestString);
+        r.setHeader('identityType', identityType);
+        r.setHeader('transactionId', MulesoftIntegrationApi.uniqueKeygeneration());
+
+         HTTPResponse resp;
+        try{
+         resp = h.send(r);
+        }
+        catch(exception e){
+            objIntegrationLog.Response_Body__c = e.getMessage();
+            objIntegrationLog.Success__c = false;
+            //todo
+        }
+
+        objIntegrationLog.Response_Body__c = resp.getBody();
+        objIntegrationLog.Response_Status__c = resp.getStatus();
+        objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
+
+        if (resp.getStatusCode() == 200) {
+            objIntegrationLog.Success__c = true;
+            responseBody = resp.getBody();
+
+            UCPM_ConsentFetchController responseWrapper = (UCPM_ConsentFetchController) JSON.deserialize(
+                responseBody,
+                UCPM_ConsentFetchController.class
+            );
+
+            //call method to return wrapper with list of records to be updated and interation log           
+            returnValueWrapper retDataWrap = updateRecords(responseWrapper, 'RecordPage');
+            Sobject sObj = retDataWrap.updatedRecord;
+            
+            //update record
+            if(retDataWrap.isSuccess){
+                try{
+                    update sObj;
+                 } 
+                catch(DmlException e) {
+                    System.debug('The following exception has occurred while updating the consents: ' + e.getMessage());
+                }
+            }
+
+        } 
+        else {
+            objIntegrationLog.Success__c = false;
+        }
+
+        //Create integartion log records
+        try{
+            insert objIntegrationLog;
+        }
+        catch(DmlException e) {
+            System.debug('The following exception has occurred while creating Itegration log: ' + e.getMessage());
+        }        
+    }
+
+    
+
+
 }
