@@ -1,0 +1,17 @@
+<apex:page controller="RRLoginRemote" id="statereceiver">
+    <script type = "text/javascript">
+    
+    window.onload=function()       
+    
+    {     
+        if (window.location.search.includes('?state=')){
+            
+            var surl = window.location.search;
+            window.parent.postMessage(surl, '{!CommunityPatientUrl}');
+        }
+        
+        
+    };
+    
+    </script>
+</apex:page>

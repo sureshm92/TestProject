@@ -36,6 +36,7 @@
         component.set('v.isMobileApp', isMobileApp);
         bodyText = bodyText.replace('##cookiesURL', $A.get('$Label.c.Link_Cookies'));
         component.set('v.cookieText', bodyText);
+      
     },
     selectedRecords: function (component, event, helper) {
         component.set('v.showPpPopup', true);

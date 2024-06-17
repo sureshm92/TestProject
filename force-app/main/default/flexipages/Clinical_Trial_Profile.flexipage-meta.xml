@@ -160,6 +160,26 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.SSO_enabled__c</fieldItem>
+                <identifier>RecordSSO_enabled_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Use_Social_IDP__c</fieldItem>
+                <identifier>RecordUse_Social_IDP_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Enable_for_Call_Center_Support__c</fieldItem>
                 <identifier>RecordEnable_for_Call_Center_Support_cField</identifier>
             </fieldInstance>
