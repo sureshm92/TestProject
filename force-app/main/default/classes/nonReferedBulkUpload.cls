@@ -503,7 +503,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                 }
             }
             //List<Id> peridList = new List<Id>();
-            String perids ;
+            //String perids ;
             List<Database.SaveResult> saveResults = Database.insert(peList.values(), false);
             for (Integer i = 0; i < saveResults.size(); i++) {
                 if(!saveResults[i].isSuccess()){
@@ -515,7 +515,8 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     string row = rowsCSV.get(IndexPatientMap.get(pe.Patient_ID__c));
                     row = row.trim() + ','+errMSG;
                     errRowsCSV.put(pe.Patient_ID__c,row); 
-                }else{
+                }
+                /*else{
                     Participant_Enrollment__c pe = peList.values()[i];
                     if(pe.Patient_Auth__c == 'Yes' ){
                         //peridList.add(saveResults[i].getId());
@@ -526,7 +527,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         }
                     }
                     
-                }
+                }*/
             }
             
             // if(!errRowsCSV.isEmpty()){
@@ -567,6 +568,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
             insert contentToInsert; 
             // }
             
+            /*
             if(!string.isblank(perids)){
                 List<UCPM_Post_Consent__e> pstConsentEventList = new List<UCPM_Post_Consent__e>();
                 UCPM_Post_Consent__e postConsEvent = new UCPM_Post_Consent__e();
@@ -576,6 +578,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
           pstConsentEventList.add(postConsEvent);
           EventBus.publish(pstConsentEventList);
             }
+            */
         } catch (Exception e) {
             system.debug(e.getMessage());
             system.debug(e.getStackTraceString());
