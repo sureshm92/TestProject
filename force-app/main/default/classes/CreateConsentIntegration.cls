@@ -183,7 +183,7 @@ public class CreateConsentIntegration {
                   //duplicate consent 
                   if(wrapper.eConsentErrorCode == '40029' || wrapper.eConsentErrorCode == '40014'){
                       info.UI_MESSAGE = E_CONSENT_DUPLICATE_ERROR;
-                      refIdVsresponse.put(wrapper.subjectId,wrapper);
+                      refIdVsresponse.put(wrapper.externalId,wrapper);
                   }
                   else if(wrapper.eConsentErrorCode == '40017'){
                       info.UI_MESSAGE = USER_NOT_FOUND_ECONSENT;
@@ -200,7 +200,7 @@ public class CreateConsentIntegration {
                   info.isSuccess =  true;
                   info.UI_MESSAGE = E_CONSENT_SUCCESS;
                   perVsStatus.put(wrapper.subjectId,info);
-                  refIdVsresponse.put(wrapper.subjectId,wrapper);
+                  refIdVsresponse.put(wrapper.externalId,wrapper);
               }
               
           }
