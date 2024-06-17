@@ -9,7 +9,16 @@ public without sharing class PIR_ParticipantDetailController {
   public static perDetailWrapper getParticipantData(String PEid) {
     perDetailWrapper pdw = new perDetailWrapper();
     //Fetching consents from UCPM while loading participant details page 
-    // UCPM_ConsentFetchController.callUCPMtoFetchConsents(new list<Id>{PEid},null,'Participant Detail');
+    TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+    TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+            );
+    TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
+    UCPM_FetchLatestConsents.callUCPMtoFetchConsents(PEid,null,null,false,'Participant Detail');
     map<String, sObject> dataMap = new Map<String, sObject>();
     dataMap.put(
       'pe',
@@ -122,11 +131,11 @@ public without sharing class PIR_ParticipantDetailController {
                         if(restrictedlst.contains(referralSource)){
                               pdw.consentPref =  true; 
                         }else{
-                            pdw.consentPref =  false; 
+                              pdw.consentPref =  false; 
+                          }
+                        }else{
+                            pdw.consentPref =  true; 
                         }
-                      }else{
-                          pdw.consentPref =  true; 
-                      }
                 }
                 else{
                   pdw.consentPref =  false;
@@ -294,6 +303,15 @@ public without sharing class PIR_ParticipantDetailController {
   ) {
     Boolean bol = true;
     try {
+      TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+      TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+            );
+      TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
       Participant_Enrollment__c perToUpdate = new Participant_Enrollment__c();
       Participant__c piToUpdate = new Participant__c();
       Patient_Delegate__c peDeligate = (Patient_Delegate__c) JSON.deserialize(peDeligateString, Patient_Delegate__c.class);
