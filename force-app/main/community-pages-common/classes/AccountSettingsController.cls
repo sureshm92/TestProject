@@ -45,8 +45,20 @@ public without sharing class AccountSettingsController {
             UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
             );
             loggedInUserMode = userMode;
-            user usr = [select id,contactId from user where id =: UserInfo.getUserId()];
-            UCPM_FetchLatestConsents.callUCPMtoFetchConsents(null,null,usr.contactId,true,'Patient Registration');         
+            Id contactId;
+            if(ParticipantContext.isCurrentDelegate()){
+                if(ParticipantContext.getCurrentContact() != null){
+                    contactId = ParticipantContext.getCurrentContact().Id;
+                }else{
+                    user usr = [select id,contactId from user where id =: UserInfo.getUserId()];
+                    contactId = usr.contactId;
+                }
+            }else{
+                user usr = [select id,contactId from user where id =: UserInfo.getUserId()];   
+                contactId = usr.contactId;
+            }
+            system.debug('++++++contactId'+contactId);
+            UCPM_FetchLatestConsents.callUCPMtoFetchConsents(null,null,contactId,true,'Patient Registration');
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
             if (
