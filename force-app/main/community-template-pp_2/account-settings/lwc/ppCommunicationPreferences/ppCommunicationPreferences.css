@@ -416,6 +416,12 @@
     line-height: 32px;
     word-break: break-word;
 }
+.pad-left{
+    padding-left: 4%;
+}
+.pad-left-del{
+    padding-left: 2%;
+}
 .TermUse-study-header {
     /* height: 24px; */
     /* width: 218px; */
