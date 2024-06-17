@@ -188,7 +188,7 @@ public without sharing class Action_UploadParticipantsRemote {
                     fileName,
                     bulkHistory
                 ),
-                7
+                4
             );
             return 'Success';
           }

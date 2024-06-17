@@ -43,6 +43,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                         Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c,
                         Clinical_Trial_Profile__r.CommunityTemplate__c,
                         Clinical_Trial_Profile__r.PPTemplate__c,
+                        Clinical_Trial_Profile__r.MDM_trigger_status__c,
                         Participant_Contact__c,
                         Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
                         Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
@@ -78,7 +79,12 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                             WHERE ID IN :pderIds
                         )
                     FROM Participant_Enrollment__c
-                    WHERE id IN :perIds
+                    WHERE
+                        id IN :perIds
+                        AND Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c != NULL
+                        AND Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c != NULL
+                        AND Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c != NULL
+                        AND Clinical_Trial_Profile__r.MDM_trigger_status__c = 'Completed'
                 ];
             } else if (
                 perIds != null &&
@@ -102,6 +108,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                         Clinical_Trial_Profile__r.IQVIA_Outreach__c,
                         Clinical_Trial_Profile__r.CommunityTemplate__c,
                         Clinical_Trial_Profile__r.PPTemplate__c,
+                        Clinical_Trial_Profile__r.MDM_trigger_status__c,
                         Participant_Contact__c,
                         Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
                         Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
@@ -115,7 +122,12 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                         Study_Direct_Mail_Consent__c,
                         PPMID__c
                     FROM Participant_Enrollment__c
-                    WHERE id IN :perIds
+                    WHERE
+                        id IN :perIds
+                        AND Clinical_Trial_Profile__r.UCPM_Sponsor_Org_Id__c != NULL
+                        AND Clinical_Trial_Profile__r.UCPM_Study_Purpose_Id__c != NULL
+                        AND Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c != NULL
+                        AND Clinical_Trial_Profile__r.MDM_trigger_status__c = 'Completed'
                 ];
             }
 
@@ -204,9 +216,20 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
             }
             System.debug('accessToken: ' + accessToken);
 
-            if (perList != null && perList.size() > 0) {             
+            if (perList != null && perList.size() > 0) {
 
                 for (Participant_Enrollment__c per : perList) {
+                    Boolean removeparticipantcontact = false;
+                    if (
+                        !per.Participant_Contact__r.Participant_Opt_In_Status_Emails__c &&
+                        !per.Participant_Contact__r.Participant_Opt_In_Status_SMS__c &&
+                        !per.Participant_Contact__r.IQVIA_Direct_Mail_Consent__c &&
+                        !per.Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c
+                    ) {
+                        removeparticipantcontact = true;
+                    }
+
+
                     //New PER without participant contact and without delegate
                     if (
                         placeOfFunctionality == 'RP BULK IMPORT' &&
@@ -243,7 +266,9 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                             per,
                             null,
                             mapPerIdAndOutReach.get(per.Id),
-                            'Participant:ParticipantContact',
+                            removeparticipantcontact
+                                ? 'Participant'
+                                : 'Participant:ParticipantContact',
                             placeOfFunctionality
                         );
                         if (
@@ -319,7 +344,9 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                                 per,
                                 perandPderMap.get(per),
                                 mapPerIdAndOutReach.get(per.Id),
-                                'Participant:ParticipantContact:Delegate:DelegateContact',
+                                removeparticipantcontact
+                                    ? 'Participant:Delegate:DelegateContact'
+                                    : 'Participant:ParticipantContact:Delegate:DelegateContact',
                                 placeOfFunctionality
                             );
                             if (
@@ -341,7 +368,9 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                                 per,
                                 perandPderMap.get(per),
                                 mapPerIdAndOutReach.get(per.Id),
-                                'Participant:ParticipantContact:Delegate',
+                                removeparticipantcontact
+                                    ? 'Participant:Delegate'
+                                    : 'Participant:ParticipantContact:Delegate',
                                 placeOfFunctionality
                             );
                             if (
@@ -371,7 +400,9 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                             per,
                             perandPderMap.get(per),
                             mapPerIdAndOutReach.get(per.Id),
-                            'Participant:ParticipantContact:Delegate',
+                            removeparticipantcontact
+                                ? 'Participant:Delegate'
+                                : 'Participant:ParticipantContact:Delegate',
                             placeOfFunctionality
                         );
 
@@ -546,44 +577,48 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                 }
             }
 
-            if (!logsToInsert.isEmpty()) {
+            if (!logsToInsert.isEmpty() && logsToInsert.size() > 0) {
                 Database.insert(logsToInsert, false);
             }
-
-            //Append Int log id to failed per
-            for (Participant_Enrollment__c per : failedPerWithIntLog.keySet()) {
-                if (failedPerWithIntLog.get(per).Id != null) {
-                    per.UCPM_Error_Message__c =
-                        per.UCPM_Error_Message__c +
-                        ' ' +
-                        failedPerWithIntLog.get(per).Id;
-                    perToUpdate.add(per);
+            if (!failedPerWithIntLog.isEmpty() && failedPerWithIntLog.size() > 0) {
+                //Append Int log id to failed per
+                for (Participant_Enrollment__c per : failedPerWithIntLog.keySet()) {
+                    if (failedPerWithIntLog.get(per).Id != null) {
+                        per.UCPM_Error_Message__c =
+                            per.UCPM_Error_Message__c +
+                            ' ' +
+                            failedPerWithIntLog.get(per).Id;
+                        perToUpdate.add(per);
+                    }
                 }
             }
 
             //Append Int log id to failed pder
-
-            for (Patient_Delegate_Enrollment__c pder : failedPderWithIntLog.keySet()) {
-                if (failedPderWithIntLog.get(pder).Id != null) {
-                    pder.UCPM_Error_Message__c =
-                        pder.UCPM_Error_Message__c +
-                        ' ' +
-                        failedPderWithIntLog.get(pder).Id;
-                    pderToUpdate.add(pder);
+            if (!failedPderWithIntLog.isEmpty() && failedPderWithIntLog.size() > 0) {
+                for (Patient_Delegate_Enrollment__c pder : failedPderWithIntLog.keySet()) {
+                    if (failedPderWithIntLog.get(pder).Id != null) {
+                        pder.UCPM_Error_Message__c =
+                            pder.UCPM_Error_Message__c +
+                            ' ' +
+                            failedPderWithIntLog.get(pder).Id;
+                        pderToUpdate.add(pder);
+                    }
                 }
             }
 
             //Append Int log id to failed cont
-            for (Contact con : failedConWithIntLog.keySet()) {
-                if (failedConWithIntLog.get(con).Id != null) {
-                    con.UCPM_Error_Message__c =
-                        con.UCPM_Error_Message__c +
-                        ' ' +
-                        failedConWithIntLog.get(con).Id;
-                    conToUpdate.add(con);
+            if (!failedConWithIntLog.isEmpty() && failedConWithIntLog.size() > 0) {
+                for (Contact con : failedConWithIntLog.keySet()) {
+                    if (failedConWithIntLog.get(con).Id != null) {
+                        con.UCPM_Error_Message__c =
+                            con.UCPM_Error_Message__c +
+                            ' ' +
+                            failedConWithIntLog.get(con).Id;
+                        conToUpdate.add(con);
+                    }
                 }
             }
-            if (!perToUpdate.isEmpty()) {
+            if (!perToUpdate.isEmpty() && perToUpdate.size()>0) {
                 TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
                 TriggerHandlerExecutor.bypassHandler(
                     ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
@@ -663,7 +698,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                 );
                 database.update(perToUpdate, false);
             }
-            if (!pderToUpdate.isEmpty()) {
+            if (!pderToUpdate.isEmpty() && pderToUpdate.size()>0) {
                 TriggerHandlerExecutor.bypassHandler(
                     PatientDelegateEnrolTriggerHandler.SetDefaultPatientDelegateStatusHandler.class
                 );
@@ -699,7 +734,7 @@ public without sharing class UCPM_ConsentPostBulkImport_Future {
                 database.update(pderToUpdate, false);
             }
 
-            if (!conToUpdate.isEmpty()) {
+            if (!conToUpdate.isEmpty() && conToUpdate.size()>0) {
                 TriggerHandlerExecutor.bypassHandler(
                     ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
                 );
