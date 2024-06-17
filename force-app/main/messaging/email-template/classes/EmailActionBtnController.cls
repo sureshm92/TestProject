@@ -48,6 +48,7 @@ global without sharing class EmailActionBtnController {
             if (!result.containsIgnoreCase('http')) {
                 if (String.isNotBlank(result) && !result.startsWith('/'))
                     result = '/' + result;
+
                 result = getCurrentCommunityURL() + result;
             }
         } else {

@@ -442,6 +442,11 @@ public without sharing class TaskEditRemote {
             );
             Participant_Enrollment__c currentPE = ParticipantContext.getCurrentPE();
             
+            //UCPM call-out to Fetch Latest Consents
+            List<Id> perIdLst = new List<Id>();
+            perIdLst.add(currentPE.id);
+            UCPM_FetchLatestConsents.callUCPMtoFetchConsents(perIdLst[0],null,null,true,''); 
+
             availablePEs = [
                 SELECT
                     Id,

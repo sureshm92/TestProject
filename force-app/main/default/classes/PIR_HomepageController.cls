@@ -1586,6 +1586,9 @@ public without sharing class PIR_HomepageController {
       ];
 
       if (!pe.Participant_Contact__r.Is_Patient_User_Created__c) {
+        TriggerHandlerExecutor.bypassHandler(
+          UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+        );
         update new Contact(
           Id = pe.Participant_Contact__c,
           Consent_To_Inform_About_Study__c = true,
@@ -1593,6 +1596,9 @@ public without sharing class PIR_HomepageController {
           UserCommunityIsDelegate__c = false
         );
       }else{
+        TriggerHandlerExecutor.bypassHandler(
+          UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+        );
           update new Contact(
           Id = pe.Participant_Contact__c,
           UserCommunityIsDelegate__c = false
@@ -1619,6 +1625,9 @@ public without sharing class PIR_HomepageController {
             );
         }
       }
+      TriggerHandlerExecutor.bypassHandler(
+        UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+     );
       pe.Invited_To_PP_Date__c = DateTime.now();
       update pe;
 

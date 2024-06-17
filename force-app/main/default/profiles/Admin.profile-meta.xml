@@ -2464,6 +2464,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.UCPM_Error_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>User.Suppress_Physician_Outreach_Email__c</field>
         <readable>true</readable>
@@ -3606,6 +3611,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Community_Template_Selector__c.Participant_Enrollment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.ECOA_Retry_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4782,6 +4792,71 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Help_Topic__mdt.User_Types__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Historical_Consent_Staging__c.ApplicationId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Historical_Consent_Staging__c.ConsentData__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Historical_Consent_Staging__c.Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Historical_Consent_Staging__c.NctId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Historical_Consent_Staging__c.OTCPId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Historical_Consent_Staging__c.OTPurposeId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Historical_Consent_Staging__c.OTSponsorId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Historical_Consent_Staging__c.ParticipantPPMID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Historical_Consent_Staging__c.PPMID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Historical_Consent_Staging__c.PPName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>  
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Historical_Consent_Staging__c.Study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Historical_Consent_Staging__c.Sponsor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Historical_Consent_Staging__c.Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7057,6 +7132,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.UCPM_Error_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Atid__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7804,6 +7884,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate_Enrollment__c.UCPM_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.UCPM_Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

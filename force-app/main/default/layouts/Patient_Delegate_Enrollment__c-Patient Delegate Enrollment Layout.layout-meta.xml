@@ -150,7 +150,7 @@
         <layoutColumns/>
         <layoutColumns/>
         <style>CustomLinks</style>
-    </layoutSections>
+    </layoutSections>  
     <relatedLists>
         <fields>TASK.SUBJECT</fields>
         <fields>TASK.WHO_NAME</fields>

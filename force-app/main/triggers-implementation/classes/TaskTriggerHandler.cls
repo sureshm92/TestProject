@@ -264,7 +264,7 @@ public without sharing class TaskTriggerHandler {
             }
             delegatesCntByPartCnt.get(pd.Patient_Delegate__r.Participant__r.Contact__c).add(pd.Patient_Delegate__r.Contact__c);
         }
-		
+  
 		Map<String, Object> params = new Map<String, Object>(); //For flow passing variables
         Set<Id> contactIds = new Set<Id>();
         Map<Id,Date> taskDt = new Map<Id,Date>();
@@ -276,8 +276,10 @@ public without sharing class TaskTriggerHandler {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
                 if (card != null && card.Immediate_Email_Template__c != null) {
                     Id whatId = task.WhatId;
+                    Id whatIdDelegate;
                     if (whatId == null&& task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
                         whatId = task.Survey_Invitation__c;
+                        whatIdDelegate = task.Survey_Invitation__r.Participant_Enrollment__c	;
                         }
                     if (card.Immediate_Notification_Type__c != null) {
                         if (
@@ -285,15 +287,28 @@ public without sharing class TaskTriggerHandler {
                             usersByIds.containskey(task.OwnerId) &&
                             !tasksWithoutUser.contains(task.Id)
                         ) {
-                            notifications.add(
+                           if(task.Task_Type__c == TaskService.TASK_TYPE_SURVEY){
+                                notifications.add(
                                 new Notification__c(
                                     Recipient__c = usersByIds.get(task.OwnerId).ContactId,
                                     WhatId__c = whatId,
                                     Notification_Type__c = card.Immediate_Notification_Type__c,
-                                    RemindUsing__c = 'Email',
-                                    IsDelegate__c = conWithPdeRecrd.contains(usersByIds.get(task.OwnerId).ContactId+'-'+task.whatId) ? true : false
+                                    RemindUsing__c = 'Email', 
+                                    IsDelegate__c = conWithPdeRecrd.contains(usersByIds.get(task.OwnerId).ContactId+'-'+whatIdDelegate) ? true : false
                                 )
                             );
+                            }
+                            else{
+                                notifications.add(
+                                    new Notification__c(
+                                        Recipient__c = usersByIds.get(task.OwnerId).ContactId,
+                                        WhatId__c = whatId,
+                                        Notification_Type__c = card.Immediate_Notification_Type__c,
+                                        RemindUsing__c = 'Email',
+                                        IsDelegate__c = conWithPdeRecrd.contains(usersByIds.get(task.OwnerId).ContactId+'-'+task.whatId) ? true : false
+                                    )
+                                );
+                            }
                         }
                         if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
                              List<Contact> delegates = delegatesByPAContact.containskey(task.WhoId)
@@ -485,8 +500,8 @@ public without sharing class TaskTriggerHandler {
                             ));
                             contactIds.add(pde.Patient_Delegate__r.Contact__c); 
                             taskDt.put(pde.Patient_Delegate__r.Contact__c,task.Start_Date__c); 
-								
-								
+        
+        
                         }
                     }
                     
@@ -610,7 +625,7 @@ public without sharing class TaskTriggerHandler {
                  }
             }
         }
-		
+  
         if (!deDupeNotifications.isEmpty())
         notifications.addAll(deDupeNotifications);
         if (!notifications.isEmpty())

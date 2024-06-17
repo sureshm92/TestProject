@@ -268,6 +268,15 @@ public without sharing class AddPatientByPIRemote {
     ) {
         try {
             TriggerHandlerExecutor.bypassHandler(
+            UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+                );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+                );
+            TriggerHandlerExecutor.bypassHandler(
                 ContactTriggerHandler.CreateUserForCCContactHandler.class
             );
             TriggerHandlerExecutor.bypassHandler(
@@ -385,6 +394,15 @@ public without sharing class AddPatientByPIRemote {
         String ssType
     ) {
         try{ 
+            TriggerHandlerExecutor.bypassHandler(
+            UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+                );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+                );
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class
             ); 
@@ -706,6 +724,15 @@ public without sharing class AddPatientByPIRemote {
         PatientDelegateTriggerHandler.CreateReactivatedNotification.class
         );
         
+        TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+        TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+            );
+        TriggerHandlerExecutor.bypassHandler( 
+            UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
         if(sendPEToStudyHubAsync == true){
             IntegrationService.sendPEToStudyHub(peId);
         }
