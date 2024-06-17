@@ -179,7 +179,7 @@
                             </div>
                             <aura:set attribute="else">
                                 <div class="vpi-field">
-                                    <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Delegate_Phone}
+                                    <div class="label mypatients" style="white-space: pre-wrap;">{!$Label.c.PE_Delegate_Phone}
                                     </div>
                                     <div class="value">
                                         <lightning:formattedPhone value="{!v.minorDelegate.Phone__c}">
