@@ -709,7 +709,8 @@
 .cancel-btn {
     box-sizing: border-box;
     height: 32px;
-    width: 157px;
+    line-height: 32px;
+    width: 90%;
     border: 1px solid #e9e9e9;
     /* border: 1px solid #9797975c; */
     border-radius: 16px;
@@ -740,14 +741,14 @@
 }
 .upload-btn {
     height: 32px;
-    width: 200px;
+    width: 90%;
+    line-height: 32px;
     border-radius: 16px;
     background-color: #015ff1;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04), 0 2px 8px 0 rgba(7, 104, 253, 0.32);
     border: none;
     color: #ffffff;
     cursor: pointer;
-    margin-left: 3.5rem;
 }
 .overFlowTitle {
     overflow-wrap: anywhere;
@@ -784,11 +785,10 @@
 }
 @media all and (min-width: 355px) and (max-width: 362px) {
     .upload-btn {
-        margin-left: 2.5rem;
-        width: 180px;
+        width: 90%;
     }
     .cancel-btn {
-        width: 140px;
+        width: 90%;
     }
     .btn-position {
         /* position: absolute; */
@@ -798,17 +798,16 @@
 
 @media all and (min-width: 389px) and (max-width: 394px) {
     .cancel-btn {
-        width: 132px;
+        width: 90%;
     }
 }
 
 @media all and (min-width: 363px) and (max-width: 376px) {
     .upload-btn {
-        margin-left: 2.5rem;
-        width: 190px;
+        width: 90%;
     }
     .cancel-btn {
-        width: 124px;
+        width: 90%;
     }
     .btn-position {
         /* bottom: -4.8rem !important; */
@@ -822,7 +821,7 @@
 }
 @media all and (min-width: 376px) and (max-width: 395px) {
     .upload-btn {
-        margin-left: 2.5rem;
+        width: 90%;
     }
     .btn-position {
         /* bottom: 6.2rem !important; */
@@ -842,11 +841,10 @@
         width: 300px !important;
     }
     .cancel-btn {
-        width: 123px;
+        width: 90%;
     }
     .upload-btn {
-        width: 146px;
-        margin-left: 3rem;
+        width: 90%;
     }
     .btn-position {
         /* top: 103%; */
@@ -999,12 +997,11 @@
 
 @media all and (min-width: 658px) and (max-width: 1368px) {
     .cancel-btn {
-        width: 100%;
+        width: 90%;
     }
 
     .upload-btn {
-        width: 93%;
-        margin-left: 2.5rem;
+        width: 90%;
     }
 }
 
@@ -1027,12 +1024,12 @@
         /* bottom: 0px; */
     }
     .upload-btn {
-        margin-left: 2.5rem;
+        width: 90%;
     }
 }
 @media screen and (pointer: coarse) and (orientation: landscape) and (max-width: 740px) {
     .upload-btn {
-        margin-left: 2.5rem;
+        width: 90%;
     }
 }
 @media screen and (pointer: coarse) and (orientation: landscape) and (max-width: 1368px) {
@@ -1061,5 +1058,9 @@
     .my-filesmbl {
         /* margin-top: -4rem; */
     }
+}
+
+.center-align-items{
+    text-align: center;
 }
 
