@@ -32747,6 +32747,13 @@ The IQVIA Referral Hub Support Team</value>
         <value>Trial Completion</value>
     </labels>
     <labels>
+        <fullName>DO_NOT_TRANSLATE_ECOA_RETRY_LIMIT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DO NOT TRANSLATE ECOA RETRY LIMIT</shortDescription>
+        <value>3</value>
+    </labels>
+    <labels>
         <fullName>Treatment_Period</fullName>
         <language>en_US</language>
         <protected>false</protected>
