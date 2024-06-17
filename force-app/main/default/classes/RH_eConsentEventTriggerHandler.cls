@@ -16,8 +16,8 @@ public without sharing class RH_eConsentEventTriggerHandler{
         List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
         List<Participant_Enrollment_Status_History__c> updatehistories = new List<Participant_Enrollment_Status_History__c>();
         for (RH_eConsent__e evnt : newList) {
-            system.debug('EVENT--->'+evnt.Subject_Id__c+':'+evnt.Subject_Consent_Status__c+':'+evnt.Subject_Consent_Date__c);
-            eventPERList.put(evnt.Subject_Id__c,evnt);
+            system.debug('EVENT--->'+evnt.External_System_Subject_Id__c+':'+evnt.Subject_Consent_Status__c+':'+evnt.Subject_Consent_Date__c);
+            eventPERList.put(evnt.External_System_Subject_Id__c,evnt);
         }
         List<Participant_Enrollment__c> perList = [SELECT Id, Name, Participant_Status__c, Referral_ID__c, Study_Site__c,Informed_Consent__c,Informed_Consent_Date__c,Re_consent__c,  
                                                    Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c,Non_Enrollment_Reason__c,Initial_visit_occurred_flag__c  
@@ -33,6 +33,7 @@ public without sharing class RH_eConsentEventTriggerHandler{
                 for(Participant_Enrollment__c per:perList){
                     
                     eConsent = eventPERList.get(per.Name);
+                    per.EConsent_SubjectId__c = eConsent.Subject_Id__c;
                     if(eConsent.Subject_Consent_Status__c == 'Needs to re-consent'){
                         per.Re_consent__c  = true;
                         if(eConsent.Subject_Consent_Date__c != null){
