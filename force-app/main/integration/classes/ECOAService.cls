@@ -326,7 +326,15 @@ public with sharing class ECOAService {
                                 respBody
                             );                       
                             peObj.Subject_GUID__c = newSubjectInfo[0].ecoaResponseID;
+                            if(peObj.Subject_GUID__c == null){
+                               peObj.ECOA_Retry_Count__c = peObj.ECOA_Retry_Count__c==null?1:peObj.ECOA_Retry_Count__c+1;
+                            }else{
+                                peObj.ECOA_Retry_Count__c = null;
+                            }
                             // pesToUpdate.add(peObj);
+                            sObjectsList.add(peObj);
+                        }else{
+                            peObj.ECOA_Retry_Count__c = peObj.ECOA_Retry_Count__c==null?1:peObj.ECOA_Retry_Count__c+1;
                             sObjectsList.add(peObj);
                         }
                         if (remoteCall.log != null) {
