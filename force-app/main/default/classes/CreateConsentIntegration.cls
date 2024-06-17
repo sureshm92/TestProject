@@ -174,8 +174,8 @@ public class CreateConsentIntegration {
               if(wrapper.statusCode != '200' && wrapper.statusMessage == 'Failure'){
                   isSuccess = false;
                   errorMessage = (wrapper.eConsentErrorCode != '' || wrapper.eConsentErrorMessage != '')? 
-                      			  wrapper.eConsentErrorCode +':::'+ wrapper.eConsentErrorMessage :
-                  				 wrapper.message;
+                                  wrapper.eConsentErrorCode +':::'+ wrapper.eConsentErrorMessage :
+                                 wrapper.message;
                   statusInfo info = new statusInfo();
                   info.isSuccess =  false;
                   info.errorCode = wrapper.eConsentErrorCode;
@@ -224,7 +224,7 @@ public class CreateConsentIntegration {
            objIntegrationLog.Response_Time__c = system.now();
            String errorMsg = 'HTTP ' + resp.getStatusCode() + ' ' + resp.getStatus() + ': ' + resp.getBody();
            system.debug('Error : '+errorMsg);
-		   
+           
            statusInfo info = new statusInfo();
            info.isSuccess =  false;
            info.errorCode = String.valueOf(resp.getStatusCode());
@@ -249,12 +249,13 @@ public class CreateConsentIntegration {
             if(responseMap.containsKey(enrollment.Name) && responseMap.get(enrollment.name).participantId != null){
                 enrollment.ParticipantGUID__c = responseMap.get(enrollment.name).participantId;
                 enrollment.SenttoCompleteConsent__c = system.now();
-                enrollment.Participantavailableincompleteconsen__c = true;   
+                enrollment.Participantavailableincompleteconsen__c = true;
+                enrollment.EConsent_SubjectId__c = responseMap.get(enrollment.name).subjectId;
                 enrollmentToUpdate.add(enrollment);
             } 
         }
         if(!enrollmentToUpdate.isEmpty()){
-      		bypassParticipantEnrollmentTrigger();      
+            bypassParticipantEnrollmentTrigger();      
             update enrollmentToUpdate;
         }
         
@@ -305,7 +306,7 @@ public class CreateConsentIntegration {
             //request.documentCollectionID = (enrollment.DocumentCollectionId__c != null) ? enrollment.DocumentCollectionId__c :docCollection.get(enrollment.id).value ;
             request.documentCollectionID = enrollment.DocumentCollectionId__c;
             request.email = userInfo.getUserEmail();  //'jasika.kaur@iqvia.com'
-            request.subjectId = enrollment.name;
+            request.subjectId = '';
             request.externalId = enrollment.name;
             request.externalKey = 'ReferralHub';
             requests.add(request);
