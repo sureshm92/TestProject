@@ -120,10 +120,6 @@
                 <field>PPMID__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>EConsent_SubjectId__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>ParticipantGUID__c</field>
             </layoutItems>
