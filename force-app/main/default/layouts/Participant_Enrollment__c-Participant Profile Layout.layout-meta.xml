@@ -707,7 +707,7 @@
             <sortOrder>7</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Participant_Enrollment__c.Refresh_Consent</actionName>
+            <actionName>Participant_Enrollment__c.Latest_Consent</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>8</sortOrder>
         </platformActionListItems>

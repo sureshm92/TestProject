@@ -321,7 +321,7 @@
     </layoutSections>
     <platformActionList>
         <platformActionListItems>
-            <actionName>Contact.Refresh_Consent</actionName>
+            <actionName>Contact.Latest_Consent</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>43</sortOrder>
         </platformActionListItems>
