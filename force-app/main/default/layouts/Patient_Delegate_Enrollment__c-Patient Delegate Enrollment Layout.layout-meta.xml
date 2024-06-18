@@ -157,6 +157,7 @@
             <actionName>Patient_Delegate_Enrollment__c.Latest_Consent</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>0</sortOrder>
+        </platformActionListItems>
         <platformActionListItems>
             <actionName>NewTask</actionName>
             <actionType>QuickAction</actionType>
