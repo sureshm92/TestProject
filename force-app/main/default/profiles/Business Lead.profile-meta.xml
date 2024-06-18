@@ -2719,7 +2719,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant_Enrollment__c.EConsent_SubjectId__c</field>
+        <field>Participant_Enrollment__c.IVRS_IWRS__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
