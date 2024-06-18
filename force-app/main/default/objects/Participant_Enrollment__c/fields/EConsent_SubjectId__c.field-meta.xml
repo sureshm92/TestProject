@@ -3,7 +3,7 @@
     <fullName>EConsent_SubjectId__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
-    <label>EConsent_SubjectId</label>
+    <label>Subject Id</label>
     <length>1000</length>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>

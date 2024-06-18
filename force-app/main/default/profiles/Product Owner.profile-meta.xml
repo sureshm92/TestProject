@@ -2395,6 +2395,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.EConsent_SubjectId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate__c.Attested_by__c</field>
         <readable>true</readable>
