@@ -33,7 +33,7 @@ public without sharing class RH_eConsentEventTriggerHandler{
                 for(Participant_Enrollment__c per:perList){
                     
                     eConsent = eventPERList.get(per.Name);
-                    per.EConsent_SubjectId__c = eConsent.Subject_Id__c;
+                    per.IVRS_IWRS__c = eConsent.Subject_Id__c;
                     if(eConsent.Subject_Consent_Status__c == 'Needs to re-consent'){
                         per.Re_consent__c  = true;
                         if(eConsent.Subject_Consent_Date__c != null){
