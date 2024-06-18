@@ -319,6 +319,13 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <platformActionList>
+        <platformActionListItems>
+            <actionName>Contact.Refresh_Consent</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>43</sortOrder>
+        </platformActionListItems>
+    </platformActionList>
     <relatedContent>
         <relatedContentItems>
             <layoutItem>

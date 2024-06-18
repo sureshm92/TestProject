@@ -151,6 +151,13 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>  
+    <platformActionList>
+        <platformActionListItems>
+            <actionName>Patient_Delegate_Enrollment__c.Refresh_Consent</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>22</sortOrder>
+        </platformActionListItems>
+    </platformActionList>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>
         <fields>TASK.WHO_NAME</fields>
