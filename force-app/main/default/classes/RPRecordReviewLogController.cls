@@ -133,7 +133,7 @@ public without sharing class RPRecordReviewLogController {
             TriggerHandlerExecutor.bypassHandler( 
                 UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
             );
-            UCPM_FetchLatestConsents.callUCPMtoFetchConsents(peId,null,null,false,'Participant Detail');
+            //UCPM_FetchLatestConsents.callUCPMtoFetchConsents(peId,null,null,false,'Participant Detail');
             List<peProfileSection> peProfileSectionWrapperList = new List<peProfileSection>();
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             
@@ -310,7 +310,7 @@ public without sharing class RPRecordReviewLogController {
 
                
                update peEnrollment;
-               UCPM_ConsentPostController.fetchPerAndPderDetails(new list<Id>{peEnrollment.Id},null,'Referring Provider Participant');
+               //UCPM_ConsentPostController.fetchPerAndPderDetails(new list<Id>{peEnrollment.Id},null,'Referring Provider Participant');
                 //update peRecord;
                 return 'Success';
         } 

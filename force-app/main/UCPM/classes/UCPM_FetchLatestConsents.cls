@@ -45,11 +45,7 @@ public without sharing class UCPM_FetchLatestConsents {
                 WHERE
                     Participant_Contact__c = :conId
                     AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
-                    AND Participant_Status__c NOT IN :PEStatusState.PE_STATUS_GROUP_ALUMNI
                     AND Invited_To_PP_Date__c != NULL
-                    AND (Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
-                    OR (Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen'
-                    AND Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
             ];
             //if (!isParticipant) {
             pdeList = [
@@ -63,9 +59,6 @@ public without sharing class UCPM_FetchLatestConsents {
                 WHERE
                     Patient_Delegate__r.Contact__c = :conId
                     AND Status__c = 'Active'
-                    AND (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'PatientPortal'
-                    OR (Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c = 'Janssen'
-                    AND Participant_Enrollment__r.Clinical_Trial_Profile__r.PPTemplate__c = 'PP 2.0'))
             ];
             //}
         } else if (pderIdList != null && pderIdList.size() > 0) {

@@ -259,12 +259,16 @@
                                                         >*
                                                     </abbr></label
                                                 >
-                                                <lightning-input
-                                                    type="text"
-                                                    disabled=true
-                                                    value={personWrapper.birthYear}
-                                                    placeholder={labels.DOB_YYYY}>
-                                                </lightning-input>
+                                                <c-pp-web-select-acc-setting-d-o-b
+                                                            is-r-t-l={isRTL}
+                                                            label-hidden="true"
+                                                            place-holder={labels.DOB_YYYY}
+                                                            custom-class={dobInputClass}
+                                                            selected-value={personWrapper.birthYear}
+                                                            is-disabled="true"
+                                                            options={optionsYYYY}
+                                                            onchangevalue={handleYearChange}
+                                                        ></c-pp-web-select-acc-setting-d-o-b>
                                             </div>
                                         </template>
                                         <template lwc:else>
