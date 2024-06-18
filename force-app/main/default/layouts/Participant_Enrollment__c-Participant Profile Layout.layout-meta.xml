@@ -671,6 +671,7 @@
             <actionType>QuickAction</actionType>
             <sortOrder>0</sortOrder>
        </platformActionListItems>
+       <platformActionListItems>
             <actionName>FeedItem.LinkPost</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
