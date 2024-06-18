@@ -667,7 +667,6 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-        <platformActionListItems>
             <actionName>Participant_Enrollment__c.Latest_Consent</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>0</sortOrder>
