@@ -1,4 +1,7 @@
 public without sharing class UCPM_FetchLatestConsents {
+    private static final String PARTICIPANT_ENROLLMENT_OBJ_NAME = 'Participant_Enrollment__c';
+    private static final String CONTACT_OBJ_NAME = 'Contact';
+    private static final String PATIENT_DEL_ENROLLMENT_OBJ_NAME = 'Patient_Delegate_Enrollment__c';
     public static String getAccessToken() {
         String accessToken;
         MulesoftToken__c setting = MulesoftToken__c.getInstance('Mulesoft Access Token UCPM');
@@ -343,108 +346,129 @@ public without sharing class UCPM_FetchLatestConsents {
             PatientDelegateEnrolTriggerHandler.updateConsentTimeStamps.class
         );
 
+
         // Collect all ppmids to to retrieve the records
         List<String> ppmIdList = new List<String>();
+        
+        List<String> ConappIdList = new List<String>();
+        List<String> PerappIdList = new List<String>();
+        List<String> PderappIdList = new List<String>();
         for (payload payload : consentWrapper.payload) {
             system.debug('payload: ' + payload);
             ppmIdList.add(payload.requestPPMID);
+            if(Id.valueOf(payload.applicationId).getSObjectType().getDescribe().getName() == CONTACT_OBJ_NAME){
+                ConappIdList.add(payload.applicationId);
+            }
+            if(Id.valueOf(payload.applicationId).getSObjectType().getDescribe().getName() == PATIENT_DEL_ENROLLMENT_OBJ_NAME){
+                PderappIdList.add(payload.applicationId);
+            }
+            if(Id.valueOf(payload.applicationId).getSObjectType().getDescribe().getName() == PARTICIPANT_ENROLLMENT_OBJ_NAME){
+                PerappIdList.add(payload.applicationId);
+            }
         }
 
         Map<String, Contact> ppmtoConMap = new Map<String, Contact>();
-        for (Contact con : [
-            SELECT
-                Id,
-                PPM_ID__c,
-                Participant_Opt_In_Status_Emails__c,
-                Participant_Opt_In_Status_SMS__c,
-                Participant_Phone_Opt_In_Permit_Phone__c,
-                IQVIA_Direct_Mail_Consent__c,
-                IQVIA_Email_Consent_Time__c,
-                IQVIA_SMS_Consent_Time__c,
-                IQVIA_Direct_Mail_Consent_Time__c,
-                IQVIA_Phone_Consent_Time__c,
-                IQVIA_Assisted_Dialing_Consent__c,
-                IQVIA_Assisted_Dialing_Consent_Time__c,
-                IQVIA_Artificial_Voice_Consent__c,
-                IQVIA_Artificial_Voice_Consent_Time__c,
-                IQVIA_Pre_recorded_Calls_Consent_Time__c,
-                IQVIA_Pre_recorded_Voice_Consent__c
-            FROM Contact
-            WHERE PPM_ID__c IN :ppmIdList
-        ]) {
-            ppmtoConMap.put(con.PPM_ID__c, con);
+        if(!ConappIdList.isEmpty() && ConappIdList.size()>0){
+            for (Contact con : [
+                SELECT
+                    Id,
+                    PPM_ID__c,
+                    Participant_Opt_In_Status_Emails__c,
+                    Participant_Opt_In_Status_SMS__c,
+                    Participant_Phone_Opt_In_Permit_Phone__c,
+                    IQVIA_Direct_Mail_Consent__c,
+                    IQVIA_Email_Consent_Time__c,
+                    IQVIA_SMS_Consent_Time__c,
+                    IQVIA_Direct_Mail_Consent_Time__c,
+                    IQVIA_Phone_Consent_Time__c,
+                    IQVIA_Assisted_Dialing_Consent__c,
+                    IQVIA_Assisted_Dialing_Consent_Time__c,
+                    IQVIA_Artificial_Voice_Consent__c,
+                    IQVIA_Artificial_Voice_Consent_Time__c,
+                    IQVIA_Pre_recorded_Calls_Consent_Time__c,
+                    IQVIA_Pre_recorded_Voice_Consent__c
+                FROM Contact
+                WHERE PPM_ID__c IN :ppmIdList
+            ]) {
+                ppmtoConMap.put(con.PPM_ID__c, con);
+            }
         }
+       
 
         Map<String, Participant_Enrollment__c> ppmtoPerMap = new Map<String, Participant_Enrollment__c>();
-        for (Participant_Enrollment__c per : [
-            SELECT
-                Id,
-                PPMID__c,
-                Permit_Mail_Email_contact_for_this_study__c,
-                Permit_SMS_Text_for_this_study__c,
-                Permit_Voice_Text_contact_for_this_study__c,
-                Study_Direct_Mail_Consent__c,
-                Study_Email_Consent_Time__c,
-                Study_Phone_Consent_Time__c,
-                Study_Direct_Mail_Consent_Time__c,
-                Study_SMS_Consent_Time__c,
-                Study_Assisted_Dialing_Consent__c,
-                Study_Artificial_Voice_Consent__c,
-                Study_Pre_recorded_Voice_Consent__c,
-                Study_Artificial_Voice_Consent_Time__c,
-                Study_Pre_recorded_Calls_Consent_Time__c,
-                Study_Assisted_Dialing_Consent_Time__c,
-                Participant_Contact__r.PPM_ID__c,
-                Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
-                Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
-                Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
-                Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
-                Participant_Contact__r.IQVIA_SMS_Consent_Time__c,
-                Participant_Contact__r.IQVIA_Phone_Consent_Time__c,
-                Participant_Contact__r.IQVIA_Email_Consent_Time__c,
-                Participant_Contact__r.IQVIA_Direct_Mail_Consent_Time__c
-            FROM Participant_Enrollment__c
-            WHERE PPMID__c IN :ppmIdList
-        ]) {
-            ppmtoPerMap.put(per.PPMID__c, per);
+        if(!PerappIdList.isEmpty() && PerappIdList.size()>0){
+            for (Participant_Enrollment__c per : [
+                SELECT
+                    Id,
+                    PPMID__c,
+                    Permit_Mail_Email_contact_for_this_study__c,
+                    Permit_SMS_Text_for_this_study__c,
+                    Permit_Voice_Text_contact_for_this_study__c,
+                    Study_Direct_Mail_Consent__c,
+                    Study_Email_Consent_Time__c,
+                    Study_Phone_Consent_Time__c,
+                    Study_Direct_Mail_Consent_Time__c,
+                    Study_SMS_Consent_Time__c,
+                    Study_Assisted_Dialing_Consent__c,
+                    Study_Artificial_Voice_Consent__c,
+                    Study_Pre_recorded_Voice_Consent__c,
+                    Study_Artificial_Voice_Consent_Time__c,
+                    Study_Pre_recorded_Calls_Consent_Time__c,
+                    Study_Assisted_Dialing_Consent_Time__c,
+                    Participant_Contact__r.PPM_ID__c,
+                    Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
+                    Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
+                    Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                    Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
+                    Participant_Contact__r.IQVIA_SMS_Consent_Time__c,
+                    Participant_Contact__r.IQVIA_Phone_Consent_Time__c,
+                    Participant_Contact__r.IQVIA_Email_Consent_Time__c,
+                    Participant_Contact__r.IQVIA_Direct_Mail_Consent_Time__c
+                FROM Participant_Enrollment__c
+                WHERE PPMID__c IN :ppmIdList
+            ]) {
+                ppmtoPerMap.put(per.PPMID__c, per);
+            }
         }
-        System.debug('ppmtoPerMap--->' + ppmtoPerMap);
+       
 
         Map<String, Patient_Delegate_Enrollment__c> ppmtoPdeMap = new Map<String, Patient_Delegate_Enrollment__c>();
-        for (Patient_Delegate_Enrollment__c pde : [
-            SELECT
-                Id,
-                PPM_ID__c,
-                Study_Email_Consent__c,
-                Study_SMS_Consent__c,
-                Study_Phone_Consent__c,
-                Study_Direct_Mail_Consent__c,
-                Study_SMS_Consent_Time__c,
-                Study_Email_Consent_Time__c,
-                Study_Phone_Consent_Time__c,
-                Study_Direct_Mail_Consent_Time__c,
-                Study_Assisted_Dialing_Consent__c,
-                Study_Artificial_Voice_Consent__c,
-                Study_Pre_recorded_Voice_Consent__c,
-                Study_Artificial_Voice_Consent_Time__c,
-                Study_Assisted_Dialing_Consent_Time__c,
-                Study_Pre_recorded_Calls_Consent_Time__c,
-                Patient_Delegate__r.Participant__r.Contact__c,
-                Patient_Delegate__r.Participant__r.Contact__r.PPM_ID__c,
-                Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-                Patient_Delegate__r.Participant__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
-                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent__c,
-                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_SMS_Consent_Time__c,
-                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Phone_Consent_Time__c,
-                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Email_Consent_Time__c,
-                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent_Time__c
-            FROM Patient_Delegate_Enrollment__c
-            WHERE PPM_ID__c IN :ppmIdList
-        ]) {
-            ppmtoPdeMap.put(pde.PPM_ID__c, pde);
+        if(!PderappIdList.isEmpty() && PderappIdList.size()>0){
+            for (Patient_Delegate_Enrollment__c pde : [
+                SELECT
+                    Id,
+                    PPM_ID__c,
+                    Study_Email_Consent__c,
+                    Study_SMS_Consent__c,
+                    Study_Phone_Consent__c,
+                    Study_Direct_Mail_Consent__c,
+                    Study_SMS_Consent_Time__c,
+                    Study_Email_Consent_Time__c,
+                    Study_Phone_Consent_Time__c,
+                    Study_Direct_Mail_Consent_Time__c,
+                    Study_Assisted_Dialing_Consent__c,
+                    Study_Artificial_Voice_Consent__c,
+                    Study_Pre_recorded_Voice_Consent__c,
+                    Study_Artificial_Voice_Consent_Time__c,
+                    Study_Assisted_Dialing_Consent_Time__c,
+                    Study_Pre_recorded_Calls_Consent_Time__c,
+                    Patient_Delegate__r.Participant__r.Contact__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.PPM_ID__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.IQVIA_SMS_Consent_Time__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Phone_Consent_Time__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Email_Consent_Time__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent_Time__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE PPM_ID__c IN :ppmIdList
+            ]) {
+                ppmtoPdeMap.put(pde.PPM_ID__c, pde);
+            }
         }
-        System.debug('ppmtoPdeMap--->' + ppmtoPdeMap);
+      
 
         List<Sobject> conList = new List<Sobject>();
         List<Sobject> perList = new List<Sobject>();
@@ -1216,13 +1240,26 @@ public without sharing class UCPM_FetchLatestConsents {
 
         // Collect all ppmids to to retrieve the records
         List<String> ppmIdList = new List<String>();
+        List<String> conAppIdList = new List<String>();
+        List<String> perAppIdList = new List<String>();
+        List<String> pderAppIdList = new List<String>();
         for (payload payload : consentWrapper.payload) {
             system.debug('payload: ' + payload);
             ppmIdList.add(payload.requestPPMID);
+            if(Id.valueOf(payload.applicationId).getSObjectType().getDescribe().getName() == CONTACT_OBJ_NAME){
+                conAppIdList.add(payload.applicationId);
+            }
+            if(Id.valueOf(payload.applicationId).getSObjectType().getDescribe().getName() == PATIENT_DEL_ENROLLMENT_OBJ_NAME){
+                pderAppIdList.add(payload.applicationId);
+            }
+            if(Id.valueOf(payload.applicationId).getSObjectType().getDescribe().getName() == PARTICIPANT_ENROLLMENT_OBJ_NAME){
+                perAppIdList.add(payload.applicationId);
+            }
         }
 
         Map<String, Contact> ppmtoConMap = new Map<String, Contact>();
-        for (Contact con : [
+        if(!conAppIdList.isEmpty() && conAppIdList.size()>0 ){
+            for (Contact con : [
             SELECT
                 Id,
                 PPM_ID__c,
@@ -1239,65 +1276,72 @@ public without sharing class UCPM_FetchLatestConsents {
         ]) {
             ppmtoConMap.put(con.PPM_ID__c, con);
         }
+        }
+
+        
 
         Map<String, Participant_Enrollment__c> ppmtoPerMap = new Map<String, Participant_Enrollment__c>();
-        for (Participant_Enrollment__c per : [
-            SELECT
-                Id,
-                PPMID__c,
-                Permit_Mail_Email_contact_for_this_study__c,
-                Permit_SMS_Text_for_this_study__c,
-                Permit_Voice_Text_contact_for_this_study__c,
-                Study_Direct_Mail_Consent__c,
-                Study_Email_Consent_Time__c,
-                Study_Phone_Consent_Time__c,
-                Study_Direct_Mail_Consent_Time__c,
-                Study_SMS_Consent_Time__c,
-                Participant_Contact__r.PPM_ID__c,
-                Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
-                Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
-                Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
-                Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
-                Participant_Contact__r.IQVIA_SMS_Consent_Time__c,
-                Participant_Contact__r.IQVIA_Phone_Consent_Time__c,
-                Participant_Contact__r.IQVIA_Email_Consent_Time__c,
-                Participant_Contact__r.IQVIA_Direct_Mail_Consent_Time__c
-            FROM Participant_Enrollment__c
-            WHERE PPMID__c IN :ppmIdList
-        ]) {
-            ppmtoPerMap.put(per.PPMID__c, per);
+        if(!perAppIdList.isEmpty() && perAppIdList.size()>0 ){
+            for (Participant_Enrollment__c per : [
+                SELECT
+                    Id,
+                    PPMID__c,
+                    Permit_Mail_Email_contact_for_this_study__c,
+                    Permit_SMS_Text_for_this_study__c,
+                    Permit_Voice_Text_contact_for_this_study__c,
+                    Study_Direct_Mail_Consent__c,
+                    Study_Email_Consent_Time__c,
+                    Study_Phone_Consent_Time__c,
+                    Study_Direct_Mail_Consent_Time__c,
+                    Study_SMS_Consent_Time__c,
+                    Participant_Contact__r.PPM_ID__c,
+                    Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
+                    Participant_Contact__r.Participant_Opt_In_Status_SMS__c,
+                    Participant_Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                    Participant_Contact__r.IQVIA_Direct_Mail_Consent__c,
+                    Participant_Contact__r.IQVIA_SMS_Consent_Time__c,
+                    Participant_Contact__r.IQVIA_Phone_Consent_Time__c,
+                    Participant_Contact__r.IQVIA_Email_Consent_Time__c,
+                    Participant_Contact__r.IQVIA_Direct_Mail_Consent_Time__c
+                FROM Participant_Enrollment__c
+                WHERE PPMID__c IN :ppmIdList
+            ]) {
+                ppmtoPerMap.put(per.PPMID__c, per);
+            }
         }
-        System.debug('ppmtoPerMap--->' + ppmtoPerMap);
+       
 
         Map<String, Patient_Delegate_Enrollment__c> ppmtoPdeMap = new Map<String, Patient_Delegate_Enrollment__c>();
-        for (Patient_Delegate_Enrollment__c pde : [
-            SELECT
-                Id,
-                PPM_ID__c,
-                Study_Email_Consent__c,
-                Study_SMS_Consent__c,
-                Study_Phone_Consent__c,
-                Study_Direct_Mail_Consent__c,
-                Study_SMS_Consent_Time__c,
-                Study_Email_Consent_Time__c,
-                Study_Phone_Consent_Time__c,
-                Study_Direct_Mail_Consent_Time__c,
-                Patient_Delegate__r.Participant__r.Contact__c,
-                Patient_Delegate__r.Participant__r.Contact__r.PPM_ID__c,
-                Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
-                Patient_Delegate__r.Participant__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
-                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent__c,
-                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_SMS_Consent_Time__c,
-                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Phone_Consent_Time__c,
-                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Email_Consent_Time__c,
-                Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent_Time__c
-            FROM Patient_Delegate_Enrollment__c
-            WHERE PPM_ID__c IN :ppmIdList
-        ]) {
-            ppmtoPdeMap.put(pde.PPM_ID__c, pde);
+        if(!pderAppIdList.isEmpty() && pderAppIdList.size()>0 ){
+            for (Patient_Delegate_Enrollment__c pde : [
+                SELECT
+                    Id,
+                    PPM_ID__c,
+                    Study_Email_Consent__c,
+                    Study_SMS_Consent__c,
+                    Study_Phone_Consent__c,
+                    Study_Direct_Mail_Consent__c,
+                    Study_SMS_Consent_Time__c,
+                    Study_Email_Consent_Time__c,
+                    Study_Phone_Consent_Time__c,
+                    Study_Direct_Mail_Consent_Time__c,
+                    Patient_Delegate__r.Participant__r.Contact__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.PPM_ID__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Opt_In_Status_SMS__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.Participant_Phone_Opt_In_Permit_Phone__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.IQVIA_SMS_Consent_Time__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Phone_Consent_Time__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Email_Consent_Time__c,
+                    Patient_Delegate__r.Participant__r.Contact__r.IQVIA_Direct_Mail_Consent_Time__c
+                FROM Patient_Delegate_Enrollment__c
+                WHERE PPM_ID__c IN :ppmIdList
+            ]) {
+                ppmtoPdeMap.put(pde.PPM_ID__c, pde);
+            }
         }
-        System.debug('ppmtoPdeMap--->' + ppmtoPdeMap);
+       
 
         List<Sobject> conList = new List<Sobject>();
         List<Sobject> perList = new List<Sobject>();
@@ -1629,6 +1673,7 @@ public without sharing class UCPM_FetchLatestConsents {
         public String ppmid;
         public String Language;
         public string requestPPMID;
+        public String applicationId;
         public List<Purposes> Purposes;
     }
 
