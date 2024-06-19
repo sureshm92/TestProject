@@ -606,6 +606,7 @@ public without sharing class Action_SendSMS implements Action {
                     Participant_Enrollment__c,
                     Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
                     Participant_Enrollment__r.Name,
+                    Participant_Enrollment__r.PPMID__c,
                     Participant_Enrollment__r.Clinical_Trial_Profile__c,
                     Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                     Participant_Enrollment__r.Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
@@ -755,7 +756,7 @@ public without sharing class Action_SendSMS implements Action {
         );
         system.debug('notificationsList:::' + notificationsList);
 
-        
+
         for (Notification__c notObj : notificationsList) {
             Map<Id, String> participantContactSponsorMap = new Map<Id, String>();
             Id peId = null;
@@ -818,7 +819,7 @@ public without sharing class Action_SendSMS implements Action {
                                     Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
                                     pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
                                     Boolean isSuccess = retDataWrap.isSuccess;
-                                    if(integrationLogRec!=null){
+                                    if(retDataWrap.objIntegrationLog!=null){
                                         integrationLogRec.add(retDataWrap.objIntegrationLog);
                                     }
                                     
@@ -911,7 +912,7 @@ public without sharing class Action_SendSMS implements Action {
                                     Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
                                     peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
                                     Boolean isSuccess = retDataWrap.isSuccess;
-                                    if(integrationLogRec!=null){
+                                    if(retDataWrap.objIntegrationLog!=null){
                                         integrationLogRec.add(retDataWrap.objIntegrationLog);
                                     }
                                     if (isSuccess) {
@@ -1006,7 +1007,7 @@ public without sharing class Action_SendSMS implements Action {
                                             Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
                                             pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
                                             Boolean isSuccess = retDataWrap.isSuccess;
-                                            if(integrationLogRec!=null){
+                                            if(retDataWrap.objIntegrationLog!=null){
                                                 integrationLogRec.add(retDataWrap.objIntegrationLog);
                                             }
                                             if (isSuccess) {
@@ -1100,7 +1101,7 @@ public without sharing class Action_SendSMS implements Action {
                                             Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
                                             peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
                                             Boolean isSuccess = retDataWrap.isSuccess;
-                                            if(integrationLogRec!=null){
+                                            if(retDataWrap.objIntegrationLog!=null){
                                                 integrationLogRec.add(retDataWrap.objIntegrationLog);
                                             }
                                             if (isSuccess) {
@@ -1216,7 +1217,7 @@ public without sharing class Action_SendSMS implements Action {
                                         Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
                                         pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
                                         Boolean isSuccess = retDataWrap.isSuccess;
-                                        if(integrationLogRec!=null){
+                                        if(retDataWrap.objIntegrationLog!=null){
                                             integrationLogRec.add(retDataWrap.objIntegrationLog);
                                         }
                                         if (isSuccess) {
@@ -1303,7 +1304,7 @@ public without sharing class Action_SendSMS implements Action {
                                         Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
                                         peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
                                         Boolean isSuccess = retDataWrap.isSuccess;
-                                        if(integrationLogRec!=null){
+                                        if(retDataWrap.objIntegrationLog!=null){
                                             integrationLogRec.add(retDataWrap.objIntegrationLog);
                                         }
                                         if (isSuccess) {
@@ -1434,7 +1435,7 @@ public without sharing class Action_SendSMS implements Action {
                                         Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
                                         pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
                                         Boolean isSuccess = retDataWrap.isSuccess;
-                                        if(integrationLogRec!=null){
+                                        if(retDataWrap.objIntegrationLog!=null){
                                             integrationLogRec.add(retDataWrap.objIntegrationLog);
                                         }
                                         if (isSuccess) {
@@ -1525,7 +1526,7 @@ public without sharing class Action_SendSMS implements Action {
                                         Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
                                         peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
                                         Boolean isSuccess = retDataWrap.isSuccess;
-                                        if(integrationLogRec!=null){
+                                        if(retDataWrap.objIntegrationLog!=null){
                                             integrationLogRec.add(retDataWrap.objIntegrationLog);
                                         }
                                         if (isSuccess) {
@@ -1659,7 +1660,7 @@ public without sharing class Action_SendSMS implements Action {
                                         Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
                                         pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
                                         Boolean isSuccess = retDataWrap.isSuccess;
-                                        if(integrationLogRec!=null){
+                                        if(retDataWrap.objIntegrationLog!=null){
                                             integrationLogRec.add(retDataWrap.objIntegrationLog);
                                         }
                                         if (isSuccess) {
@@ -1741,7 +1742,7 @@ public without sharing class Action_SendSMS implements Action {
                                         Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
                                         peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
                                         Boolean isSuccess = retDataWrap.isSuccess;
-                                        if(integrationLogRec!=null){
+                                        if(retDataWrap.objIntegrationLog!=null){
                                             integrationLogRec.add(retDataWrap.objIntegrationLog);
                                         }
                                         if (isSuccess) {
@@ -1844,7 +1845,7 @@ public without sharing class Action_SendSMS implements Action {
                                             Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
                                             pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
                                             Boolean isSuccess = retDataWrap.isSuccess;
-                                            if(integrationLogRec!=null){
+                                            if(retDataWrap.objIntegrationLog!=null){
                                                 integrationLogRec.add(retDataWrap.objIntegrationLog);
                                             }
                                             if (isSuccess) {
@@ -1938,7 +1939,7 @@ public without sharing class Action_SendSMS implements Action {
                                             Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
                                             peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
                                             Boolean isSuccess = retDataWrap.isSuccess;
-                                            if(integrationLogRec!=null){
+                                            if(retDataWrap.objIntegrationLog!=null){
                                                 integrationLogRec.add(retDataWrap.objIntegrationLog);
                                             }
                                             if (isSuccess) {
@@ -2077,7 +2078,7 @@ public without sharing class Action_SendSMS implements Action {
                                         Patient_Delegate_Enrollment__c pdelEnrollmentrecrdUpdated = new Patient_Delegate_Enrollment__c();
                                         pdelEnrollmentrecrdUpdated = (Patient_Delegate_Enrollment__c) retDataWrap.updatedRecord;
                                         Boolean isSuccess = retDataWrap.isSuccess;
-                                        if(integrationLogRec!=null){
+                                        if(retDataWrap.objIntegrationLog!=null){
                                             integrationLogRec.add(retDataWrap.objIntegrationLog); //per1 call false
                                         }
                                         if (isSuccess) {
@@ -2162,7 +2163,7 @@ public without sharing class Action_SendSMS implements Action {
                                         Participant_Enrollment__c peUpdated = new Participant_Enrollment__c();
                                         peUpdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
                                         Boolean isSuccess = retDataWrap.isSuccess;
-                                        if(integrationLogRec!=null){
+                                        if(retDataWrap.objIntegrationLog!=null){
                                             integrationLogRec.add(retDataWrap.objIntegrationLog);
                                         }
                                         if (isSuccess) {
@@ -2435,7 +2436,8 @@ public without sharing class Action_SendSMS implements Action {
                 Patient_Delegate__r.Contact__r.Participant_Opt_In_Status_SMS__c,
                 Participant_Enrollment__r.Study_Site__r.SMS_Are_Available__c,
                 Participant_Enrollment__r.Clinical_Trial_Profile__c,
-                Participant_Enrollment__r.study__c
+                Participant_Enrollment__r.study__c,
+                Participant_Enrollment__r.PPMID__c
             FROM Patient_Delegate_Enrollment__c
             WHERE
                 Participant_Enrollment__c IN :peIdList
