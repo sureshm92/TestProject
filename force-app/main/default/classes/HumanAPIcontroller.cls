@@ -286,7 +286,7 @@ public with sharing class HumanAPIcontroller {
     IntegrationLog__c integrationLogRec = new IntegrationLog__c();
     Participant_Enrollment__c objPERupdated = new Participant_Enrollment__c();
     Boolean isSuccess =false;
-
+    Boolean isUCPMCalled= false;
       
       Participant_Enrollment__c objPER = [SELECT ID,Name,Human_Id__c,Participant__c,Participant__r.Full_Name__c,Participant__r.First_Name__c
                                          ,Participant__r.Last_Name__c,Participant__r.Email__c,Study_Site__r.Name,Participant__r.Country__c,Participant__r.Adult__c
@@ -300,11 +300,12 @@ public with sharing class HumanAPIcontroller {
       retDataWrap = UCPM_ConsentFetchController.callUCPMtoFetchConsents(
                                         null,
                                         new list<Participant_Enrollment__c>{objPER},
-                                        'notificationbatch'
+                                        'humanapi'
                                     );
       objPERupdated = (Participant_Enrollment__c) retDataWrap.updatedRecord;
       isSuccess = retDataWrap.isSuccess;
       integrationLogRec= retDataWrap.objIntegrationLog;
+      isUCPMCalled=true;
     }
       String email = objPER.Participant__r.Email__c;
       Boolean isAdult = objPER.Participant__r.Adult__c;
@@ -330,7 +331,7 @@ public with sharing class HumanAPIcontroller {
           return 'NoPermitEmail';
         }
       } 
-      
+
       if(String.isBlank(email) || isAdult == false){
          List<Patient_Delegate_Enrollment__c> lstPatientDelegate = [SELECT ID,Patient_Delegate__c,Patient_Delegate__r.Participant_Delegate__c 
                                                         FROM Patient_Delegate_Enrollment__c 
@@ -432,30 +433,32 @@ public with sharing class HumanAPIcontroller {
             RequestedMedicalRecords__c = dt
           );
           //updating latest consents from UCPM
-          if(objPERupdated.Permit_Mail_Email_contact_for_this_study__c!=null){
-            p.Permit_Mail_Email_contact_for_this_study__c=objPERupdated.Permit_Mail_Email_contact_for_this_study__c;
-          }
-          if(objPERupdated.Permit_SMS_Text_for_this_study__c!=null){
-            p.Permit_SMS_Text_for_this_study__c=objPERupdated.Permit_SMS_Text_for_this_study__c;
-          }
-          if(objPERupdated.Permit_Voice_Text_contact_for_this_study__c!=null){
-            p.Permit_Voice_Text_contact_for_this_study__c=objPERupdated.Permit_Voice_Text_contact_for_this_study__c;
-          }
-          if(objPERupdated.Study_Direct_Mail_Consent__c!=null){
-            p.Study_Direct_Mail_Consent__c=objPERupdated.Study_Direct_Mail_Consent__c;
-          }
-          if(objPERupdated.Study_Email_Consent_Time__c!=null){
-            p.Study_Email_Consent_Time__c=objPERupdated.Study_Email_Consent_Time__c;
-          }
-          if(objPERupdated.Study_Phone_Consent_Time__c!=null){
-            p.Study_Phone_Consent_Time__c=objPERupdated.Study_Phone_Consent_Time__c;
-          }
-          if(objPERupdated.Study_Direct_Mail_Consent_Time__c!=null){
-            p.Study_Direct_Mail_Consent_Time__c=objPERupdated.Study_Direct_Mail_Consent_Time__c;
-          }
-          if(objPERupdated.Study_SMS_Consent_Time__c!=null){
-            p.Study_SMS_Consent_Time__c=objPERupdated.Study_SMS_Consent_Time__c;
-          } 
+          if(objPERupdated!=null && isUCPMCalled){
+            if(objPERupdated.Permit_Mail_Email_contact_for_this_study__c!=null){
+              p.Permit_Mail_Email_contact_for_this_study__c=objPERupdated.Permit_Mail_Email_contact_for_this_study__c;
+            }
+            if(objPERupdated.Permit_SMS_Text_for_this_study__c!=null){
+              p.Permit_SMS_Text_for_this_study__c=objPERupdated.Permit_SMS_Text_for_this_study__c;
+            }
+            if(objPERupdated.Permit_Voice_Text_contact_for_this_study__c!=null){
+              p.Permit_Voice_Text_contact_for_this_study__c=objPERupdated.Permit_Voice_Text_contact_for_this_study__c;
+            }
+            if(objPERupdated.Study_Direct_Mail_Consent__c!=null){
+              p.Study_Direct_Mail_Consent__c=objPERupdated.Study_Direct_Mail_Consent__c;
+            }
+            if(objPERupdated.Study_Email_Consent_Time__c!=null){
+              p.Study_Email_Consent_Time__c=objPERupdated.Study_Email_Consent_Time__c;
+            }
+            if(objPERupdated.Study_Phone_Consent_Time__c!=null){
+              p.Study_Phone_Consent_Time__c=objPERupdated.Study_Phone_Consent_Time__c;
+            }
+            if(objPERupdated.Study_Direct_Mail_Consent_Time__c!=null){
+              p.Study_Direct_Mail_Consent_Time__c=objPERupdated.Study_Direct_Mail_Consent_Time__c;
+            }
+            if(objPERupdated.Study_SMS_Consent_Time__c!=null){
+              p.Study_SMS_Consent_Time__c=objPERupdated.Study_SMS_Consent_Time__c;
+            }
+          }   
            objWrapper.humanId = humanId;
             lstMulesoftWrapper.add(objWrapper);
         	String strHuman_RH_Data = JSON.serialize(lstMulesoftWrapper);
@@ -486,30 +489,32 @@ public with sharing class HumanAPIcontroller {
         RequestedMedicalRecords__c = dt
       );
           //updating latest consents from UCPM
-          if(objPERupdated.Permit_Mail_Email_contact_for_this_study__c!=null){
-            p.Permit_Mail_Email_contact_for_this_study__c=objPERupdated.Permit_Mail_Email_contact_for_this_study__c;
-          }
-          if(objPERupdated.Permit_SMS_Text_for_this_study__c!=null){
-            p.Permit_SMS_Text_for_this_study__c=objPERupdated.Permit_SMS_Text_for_this_study__c;
-          }
-          if(objPERupdated.Permit_Voice_Text_contact_for_this_study__c!=null){
-            p.Permit_Voice_Text_contact_for_this_study__c=objPERupdated.Permit_Voice_Text_contact_for_this_study__c;
-          }
-          if(objPERupdated.Study_Direct_Mail_Consent__c!=null){
-            p.Study_Direct_Mail_Consent__c=objPERupdated.Study_Direct_Mail_Consent__c;
-          }
-          if(objPERupdated.Study_Email_Consent_Time__c!=null){
-            p.Study_Email_Consent_Time__c=objPERupdated.Study_Email_Consent_Time__c;
-          }
-          if(objPERupdated.Study_Phone_Consent_Time__c!=null){
-            p.Study_Phone_Consent_Time__c=objPERupdated.Study_Phone_Consent_Time__c;
-          }
-          if(objPERupdated.Study_Direct_Mail_Consent_Time__c!=null){
-            p.Study_Direct_Mail_Consent_Time__c=objPERupdated.Study_Direct_Mail_Consent_Time__c;
-          }
-          if(objPERupdated.Study_SMS_Consent_Time__c!=null){
-            p.Study_SMS_Consent_Time__c=objPERupdated.Study_SMS_Consent_Time__c;
-          }
+           if(objPERupdated!=null && isUCPMCalled){
+              if(objPERupdated.Permit_Mail_Email_contact_for_this_study__c!=null){
+                p.Permit_Mail_Email_contact_for_this_study__c=objPERupdated.Permit_Mail_Email_contact_for_this_study__c;
+              }
+              if(objPERupdated.Permit_SMS_Text_for_this_study__c!=null){
+                p.Permit_SMS_Text_for_this_study__c=objPERupdated.Permit_SMS_Text_for_this_study__c;
+              }
+              if(objPERupdated.Permit_Voice_Text_contact_for_this_study__c!=null){
+                p.Permit_Voice_Text_contact_for_this_study__c=objPERupdated.Permit_Voice_Text_contact_for_this_study__c;
+              }
+              if(objPERupdated.Study_Direct_Mail_Consent__c!=null){
+                p.Study_Direct_Mail_Consent__c=objPERupdated.Study_Direct_Mail_Consent__c;
+              }
+              if(objPERupdated.Study_Email_Consent_Time__c!=null){
+                p.Study_Email_Consent_Time__c=objPERupdated.Study_Email_Consent_Time__c;
+              }
+              if(objPERupdated.Study_Phone_Consent_Time__c!=null){
+                p.Study_Phone_Consent_Time__c=objPERupdated.Study_Phone_Consent_Time__c;
+              }
+              if(objPERupdated.Study_Direct_Mail_Consent_Time__c!=null){
+                p.Study_Direct_Mail_Consent_Time__c=objPERupdated.Study_Direct_Mail_Consent_Time__c;
+              }
+              if(objPERupdated.Study_SMS_Consent_Time__c!=null){
+                p.Study_SMS_Consent_Time__c=objPERupdated.Study_SMS_Consent_Time__c;
+              }
+           }
       strMessage = 'true';
         objWrapper.humanId = objPER.Human_Id__c;
         lstMulesoftWrapper.add(objWrapper);
@@ -520,9 +525,22 @@ public with sharing class HumanAPIcontroller {
       //call mulesoft api to inform SFMC
     }
     //insert UCPM integration logs
-    if(integrationLogRec!=null){
+    if(integrationLogRec!=null && isUCPMCalled){
       insert integrationLogRec;
     } 
+    try{
+     if (UCPM_ConsentFetchController.saveAccessToken) {
+        MulesoftIntegrationApi.saveAccessToken(
+        UCPM_ConsentFetchController.setting,
+        UCPM_ConsentFetchController.tokenWrap.access_token,
+        UCPM_ConsentFetchController.tokenWrap.expires_in
+        );
+      }       
+    }
+    catch(DmlException e) {
+          System.debug('The following exception has occurred while saving MuleSoft Access Token : ' + e.getMessage());
+    }
+   
     return strMessage;
   }
     

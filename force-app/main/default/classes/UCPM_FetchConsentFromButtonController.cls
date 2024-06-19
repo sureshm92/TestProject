@@ -69,7 +69,7 @@ public with sharing class UCPM_FetchConsentFromButtonController {
             ppmId = con.PPM_ID__c;
 
         }
-
+        if(ppmId!=null){
         UCPM_ConsentFetchController.UCPMrequestBodyWrapper wrapper = new UCPM_ConsentFetchController.UCPMrequestBodyWrapper();
         wrapper.ppmid = ppmId;
         wrapper.participantPpmid = participantPpmid;
@@ -176,6 +176,10 @@ public with sharing class UCPM_FetchConsentFromButtonController {
             return objIntegrationLog.Response_Status__c;   
         }  
         return objIntegrationLog.Response_Status__c;      
+        }  
+        else{
+            return 'FALSE';
+        }   
     }
 
     

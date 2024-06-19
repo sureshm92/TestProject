@@ -17,6 +17,7 @@ public without sharing class NotificationService {
     public static Set<IntegrationLog__c> integraionLogUpdationRecords = new Set<IntegrationLog__c>();
     public static Map<String, Sobject> ppmIdtoUpdatedRecMap = new Map<String, Sobject>();
     public static Map<String, Boolean> perIdDelConIdWelcomeMessageDeleveredMap = new Map<String, Boolean>();
+    public static String accessTokenFromNotService;
 
     static public List<String> participantStatusListForHCP = new List<String>{
         PEStatusState.PE_STATUS_RECEIVED,
@@ -380,12 +381,15 @@ public without sharing class NotificationService {
         List<Notification__c> pushNotifications = new List<Notification__c>();
         NotificationResultService sendResultService = new NotificationResultService(notifications);
 
+        accessTokenFromNotService = UCPM_ConsentFetchController.getAccessToken();
         //Check if SMS is applicable to send for Study level notification.
         Action_SendSMS obj = new Action_SendSMS(notifications);
         notificationElegibiltyWrapper notiElegibiltyWrapRecSMS = new notificationElegibiltyWrapper();
         notiElegibiltyWrapRecSMS= Action_SendSMS.consentUpdationRecordMethod();
         consentUpdationRecords = notiElegibiltyWrapRecSMS.updatedRecordSMS;
-        integraionLogUpdationRecords = notiElegibiltyWrapRecSMS.integrationLogRecSMS;
+        if(!notiElegibiltyWrapRecSMS.integrationLogRecSMS.isEmpty() ){
+            integraionLogUpdationRecords = notiElegibiltyWrapRecSMS.integrationLogRecSMS;
+        }
         for (Notification__c n : notifications) {
             //TODO add check contact available time, if not available set status to 'Pending', else set 'Processed'
             //TODO Now 'In Progress'
@@ -688,7 +692,7 @@ public without sharing class NotificationService {
         }
         //Create integartion log records
         try{
-            if(!integraionLogUpdationRecords.isEmpty()){
+           if(!integraionLogUpdationRecords.isEmpty() &&  integraionLogUpdationRecords.size()>0){
                 integraionLogUpdationRecords.remove(null);
                 insert new List<IntegrationLog__c>(integraionLogUpdationRecords);
             }
@@ -696,7 +700,18 @@ public without sharing class NotificationService {
         catch(DmlException e) {
             System.debug('The following exception has occurred while creating Itegration log: ' + e.getMessage());
         }
-        
+        try{
+            if (UCPM_ConsentFetchController.saveAccessToken) {
+                MulesoftIntegrationApi.saveAccessToken(
+                UCPM_ConsentFetchController.setting,
+                UCPM_ConsentFetchController.tokenWrap.access_token,
+                UCPM_ConsentFetchController.tokenWrap.expires_in
+                );
+             }
+        }
+         catch(DmlException e) {
+            System.debug('The following exception has occurred while saving MuleSoft Access Token : ' + e.getMessage());
+        }
 
         //Send emails:
         if (!emailNotifications.isEmpty()) {
@@ -713,7 +728,7 @@ public without sharing class NotificationService {
     public class notificationElegibiltyWrapper {
         public Sobject updatedRecord { get; set; }
         public Boolean isEligibleToSend = false;
-        public IntegrationLog__c integrationLogRec = new IntegrationLog__c();
+        public IntegrationLog__c integrationLogRec ;
         public Set<Sobject> updatedRecordSMS = new  Set<Sobject>();
         public Set<IntegrationLog__c> integrationLogRecSMS = new Set<IntegrationLog__c>();
     }
