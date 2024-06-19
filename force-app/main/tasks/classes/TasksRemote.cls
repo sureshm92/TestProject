@@ -47,6 +47,33 @@ public without sharing class TasksRemote {
     }
 
     @AuraEnabled
+    public static void runUCPMduringcreateTask() {
+        TriggerHandlerExecutor.bypassHandler(
+            UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+            UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+            UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
+            Id contactId;
+            if(ParticipantContext.isCurrentDelegate()){
+                if(ParticipantContext.getCurrentContact() != null){
+                    contactId = ParticipantContext.getCurrentContact().Id;
+                }else{
+                    user usr = [select id,contactId from user where id =: UserInfo.getUserId()];
+                    contactId = usr.contactId;
+                }
+            }else{
+                user usr = [select id,contactId from user where id =: UserInfo.getUserId()];   
+                contactId = usr.contactId;
+            }
+            system.debug('++++++contactId'+contactId);
+            UCPM_FetchLatestConsents.callUCPMtoFetchConsents(null,null,contactId,true,'Patient Registration');
+    }
+
+    @AuraEnabled
     public static ParticipantTasks getParticipantTasks() {
         ParticipantTasks participantTasks = new ParticipantTasks();
         try {
