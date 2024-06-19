@@ -4359,6 +4359,11 @@
         <field>Participant_Enrollment__c.UCPM_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.UCPM_Error_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
        <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.DocumentCollectionId__c</field>
@@ -4807,6 +4812,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.UCPM_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.UCPM_Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5967,6 +5977,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate_Enrollment__c.UCPM_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate_Enrollment__c.UCPM_Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
      <fieldPermissions>
