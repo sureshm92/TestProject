@@ -228,32 +228,35 @@ public without sharing class RRChangePasswordController {
                     UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
             );
         Id userId = UserInfo.getUserId();
-        user userInstance = [ SELECT Id,Contact.id FROM User WHERE Id = :userId ];
-        Boolean isParticipantcheck = UserContext.isParticipant(); 
-        UCPM_FetchLatestConsents.ReturnResponse urr = new UCPM_FetchLatestConsents.ReturnResponse();
-        if(isParticipantcheck){
-            urr = UCPM_FetchLatestConsents.callUCPMtoFetchConsentdetails(null,null,userInstance.Contact.id,true,'Patient Registration');
-        }else{
-            urr = UCPM_FetchLatestConsents.callUCPMtoFetchConsentdetails(null,null,userInstance.Contact.id,false,'Delegate Registration');
-        }
+        user userInstance = [ SELECT Id,Contact.id,Contact.Is_First_Logon__c FROM User WHERE Id = :userId ];
         Map<Id,Participant_Enrollment__c> permap = new Map<Id,Participant_Enrollment__c>();
         Map<Id,Contact> conmap = new Map<Id,Contact>();
         Map<Id,Patient_Delegate_Enrollment__c> pdermap = new Map<Id,Patient_Delegate_Enrollment__c>();
-        if(urr.perslist != null && !urr.perslist.isEmpty()){
-            for(Participant_Enrollment__c per:urr.perslist){
-                permap.put(per.Id,per);
+        if(userInstance.Contact.Is_First_Logon__c){
+            Boolean isParticipantcheck = UserContext.isParticipant(); 
+            UCPM_FetchLatestConsents.ReturnResponse urr = new UCPM_FetchLatestConsents.ReturnResponse();
+            if(isParticipantcheck){
+                urr = UCPM_FetchLatestConsents.callUCPMtoFetchConsentdetails(null,null,userInstance.Contact.id,true,'Patient Registration');
+            }else{
+                urr = UCPM_FetchLatestConsents.callUCPMtoFetchConsentdetails(null,null,userInstance.Contact.id,false,'Delegate Registration');
             }
-        }
-        if(urr.consList != null && !urr.consList.isEmpty()){
-            for(Contact con:urr.consList){
-                conmap.put(con.Id,con);
+            if(urr.perslist != null && !urr.perslist.isEmpty()){
+                for(Participant_Enrollment__c per:urr.perslist){
+                    permap.put(per.Id,per);
+                }
             }
-        }
-        if(urr.pderslist != null && !urr.pderslist.isEmpty()){
-            for(Patient_Delegate_Enrollment__c pder:urr.pderslist){
-                pdermap.put(pder.Id,pder);
+            if(urr.consList != null && !urr.consList.isEmpty()){
+                for(Contact con:urr.consList){
+                    conmap.put(con.Id,con);
+                }
             }
-        }
+            if(urr.pderslist != null && !urr.pderslist.isEmpty()){
+                for(Patient_Delegate_Enrollment__c pder:urr.pderslist){
+                    pdermap.put(pder.Id,pder);
+                }
+            }
+        }  
+      
         List<Id> contactIds = new List<Id>();
         userVal = [
             SELECT
