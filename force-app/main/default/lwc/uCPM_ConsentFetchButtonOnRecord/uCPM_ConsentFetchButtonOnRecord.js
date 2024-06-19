@@ -8,6 +8,7 @@ export default class uCPM_ConsentFetchButtonOnRecord extends LightningElement {
     @api objectApiName;
     isLoading = false;
     disableButton =false;
+    status;
 
     refreshRecord() {
         this.isLoading = true;
@@ -18,6 +19,8 @@ export default class uCPM_ConsentFetchButtonOnRecord extends LightningElement {
             applicationId: this.recordId
         })
         .then((result) => {
+            this.status=result;
+            if(this.status!='FALSE'){
             const event = new ShowToastEvent({
                 variant: 'success',
                 message:
@@ -27,6 +30,17 @@ export default class uCPM_ConsentFetchButtonOnRecord extends LightningElement {
             this.disableButton = false ;
             this.dispatchEvent(event);
             this.closeAction();
+            }
+            else{
+                const event = new ShowToastEvent({
+                    variant: 'error',
+                    message:
+                        'Failed to fetch latest consent from UCPM since PPMID is not present.',
+                });
+                this.dispatchEvent(event);
+                this.isLoading = false;
+                this.disableButton = true ;
+            }
         })
         .catch((error) => {
             const event = new ShowToastEvent({
