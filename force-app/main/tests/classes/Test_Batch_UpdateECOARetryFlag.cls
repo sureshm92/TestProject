@@ -12,7 +12,7 @@ public class Test_Batch_UpdateECOARetryFlag {
         String rowStr = pe[0].Id;
         Participant_Enrollment__c peup = new Participant_Enrollment__c();
         peup.Id = pe[0].Id;
-        peup.ECOA_Retry_Disabled__c = true;
+        //peup.ECOA_Retry_Disabled__c = true;
         update peup;
         csvRowValues.add(rowStr);
             String documentName = 'Update PE ECOA Retry';
