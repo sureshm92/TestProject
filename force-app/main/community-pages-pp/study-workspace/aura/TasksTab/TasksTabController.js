@@ -22,12 +22,16 @@
     },
 
     doCreateNewTask: function (component, event, helper) {
-        //communityService.navigateToPage('task-detail');
-        let firstLoad = component.get('v.firstLoad');
-        let title = $A.get('$Label.c.TTL_Create_Task');
-        let taskData = {};
+         //communityService.navigateToPage('task-detail');
+        var action = component.get('c.runUCPMduringcreateTask'); 
+        action.setCallback(this, function(a){
+            let firstLoad = component.get('v.firstLoad');
+            let title = $A.get('$Label.c.TTL_Create_Task');
+            let taskData = {};
         // if (!firstLoad) {
-        helper.createStudyVisitReminder(component, title, taskData, false);
+            helper.createStudyVisitReminder(component, title, taskData, false);
+        });
+        $A.enqueueAction(action);
         /* } else {
             taskData.title = $A.get('$Label.c.TTL_Create_Task');
             taskData.isReminderOnly = false;
