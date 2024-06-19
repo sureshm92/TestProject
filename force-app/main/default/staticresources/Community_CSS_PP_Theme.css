@@ -1492,7 +1492,7 @@ input:focus + .slds-checkbox__label > .slds-checkbox_faux {
     }
 
     .cPpCustomThemeLayout .curve-input .timc .slds-input {
-        height: 1.875rem !important;
+        height: 2rem !important;
     }
 }
 
@@ -2303,4 +2303,10 @@ user agent stylesheet svg:not(:root) {
 /* icon Overlapping issue on Questionnaire Dropdown*/
 .help-support lightning-icon{  
     z-index: 1 !important;
+}
+.slds-listbox_vertical .slds-listbox__option.slds-has-focus {
+    box-shadow: none;
+}
+.slds-form-element__label.slds-no-flex{
+    display: none;
 }

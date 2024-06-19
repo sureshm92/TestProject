@@ -1,0 +1,21 @@
+<template> 
+    <div class="slds-m-around_large">
+        <div if:true={isLoading} class="slds-is-relative">
+            <lightning-spinner alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+        </div>
+    </div>
+    <lightning-record-view-form record-id={recordId} object-api-name={objectApiName}> 
+        <lightning-quick-action-panel style="color:#297dfd;" header="Get Latest Consent">     
+            <div class="slds-grid label"> 
+                <div class="slds-col slds-size_1-of-1"> 
+                    Do you want to get latest consent from UCPM?
+                </div> 
+            </div>
+        <div slot="footer"> 
+            <lightning-button variant="neutral" disabled={disableButton} label="Cancel" onclick={closeAction}></lightning-button>&nbsp;&nbsp; 
+            <lightning-button variant="brand" disabled={disableButton} label="Refresh" onclick={refreshRecord}></lightning-button>
+        </div> 
+        </lightning-quick-action-panel> 
+    </lightning-record-view-form> 
+</template>

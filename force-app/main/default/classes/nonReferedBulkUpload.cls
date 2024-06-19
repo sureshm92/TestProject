@@ -121,6 +121,15 @@ public without sharing class nonReferedBulkUpload {
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
             );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
+            );
+            TriggerHandlerExecutor.bypassHandler( 
+                UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+            );
             /*
 TriggerHandlerExecutor.bypassHandler(
 ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
@@ -493,8 +502,8 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     errRowsCSV.put(errKey,row);
                 }
             }
-            
-            List<Id> peridList = new List<Id>();
+            //List<Id> peridList = new List<Id>();
+            //String perids ;
             List<Database.SaveResult> saveResults = Database.insert(peList.values(), false);
             for (Integer i = 0; i < saveResults.size(); i++) {
                 if(!saveResults[i].isSuccess()){
@@ -506,13 +515,19 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     string row = rowsCSV.get(IndexPatientMap.get(pe.Patient_ID__c));
                     row = row.trim() + ','+errMSG;
                     errRowsCSV.put(pe.Patient_ID__c,row); 
-                }else{
+                }
+                /*else{
                     Participant_Enrollment__c pe = peList.values()[i];
                     if(pe.Patient_Auth__c == 'Yes' ){
-                        peridList.add(saveResults[i].getId());
+                        //peridList.add(saveResults[i].getId());
+                        if(string.isblank(perids)){
+                            perids = saveResults[i].getId();
+                        }else{
+                            perids = perids + ',' + saveResults[i].getId();
+                        }
                     }
                     
-                }
+                }*/
             }
             
             // if(!errRowsCSV.isEmpty()){
@@ -553,16 +568,17 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
             insert contentToInsert; 
             // }
             
-            
-            if(!peridList.isEmpty()){
-                system.enqueuejob(
-                    new UCPM_ConsentPostBulkImport_Queueable(
-                    peridList,
-                    null,
-                    'RP BULK IMPORT'
-                    )
-                );
+            /*
+            if(!string.isblank(perids)){
+                List<UCPM_Post_Consent__e> pstConsentEventList = new List<UCPM_Post_Consent__e>();
+                UCPM_Post_Consent__e postConsEvent = new UCPM_Post_Consent__e();
+          
+          postConsEvent.Participant_Enrollment_Record_Ids__c = perids;
+          postConsEvent.Place_of_Funcitionality__c='RP Bulk Import';
+          pstConsentEventList.add(postConsEvent);
+          EventBus.publish(pstConsentEventList);
             }
+            */
         } catch (Exception e) {
             system.debug(e.getMessage());
             system.debug(e.getStackTraceString());
