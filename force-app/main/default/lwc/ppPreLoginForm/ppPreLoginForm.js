@@ -87,9 +87,9 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         }
        this.language = this.currentPageReference.state.language;
        if(this.label.RTL_Languages.includes(this.language)){
-           this.isRTL = true;
+          this.isRTL = true;
        }else{
-           this.isRTL = false;
+        this.isRTL = false;
        }
 
     }
@@ -123,11 +123,12 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
             this.template.querySelector('[data-id="userName"]').value = event.target.value;
         }
         if (event.which == 13) {
-            this.handleLogin();
-        }
+            this.handleNext();
+        }else{
         this.btnclassName = 'slds-input input-field-container';
         this.inError = false;
         this.inputError = false;
+        }
     }
 
     handlepasswordChange(event) {
@@ -294,7 +295,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
     usrName = '';
     handleUsername(event){
        const value = event.target.value;
-       this.usrName = value;
+       this.usrName = value.trim();
        console.log('usrName - ' +this.usrName);
     }
 
@@ -302,7 +303,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
         if(this.usrName == null || this.usrName == ''){
             this.inError = true;
             this.inputError = true;
-            this.errorMsg = 'Enter a value in the UserName field.';
+            this.errorMsg = 'Enter a value in the Username field.';
             this.btnclassName = 'slds-input input-field-container-error';
         }else{
             const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z\-0-9]{2,10}))$/;
@@ -321,7 +322,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
                         this.loadSpinner=false;
                         this.inError = true;
                         this.inputError = true;
-                        this.errorMsg = 'Enter a valid UserName in the field.';
+                        this.errorMsg = 'Enter a valid Username in the field.';
                         this.btnclassName = 'slds-input input-field-container-error';
                     }else{
                         let randomNumber = parseInt(Math.random() * 100000000).toString();
@@ -342,7 +343,7 @@ export default class PpLoginForm extends NavigationMixin(LightningElement) {
             }else{ console.log('errror: ');this.loadSpinner=false;
             this.inError = true;
             this.inputError = true;
-            this.errorMsg = 'Enter a valid UserName in the field.';
+            this.errorMsg = 'Enter a valid Username in the field.';
             this.btnclassName = 'slds-input input-field-container-error';
             }
         } 
