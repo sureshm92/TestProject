@@ -14,44 +14,28 @@ public class UCPM_ConsentFetchController {
     private static final String PATIENT_DEL_ENROLLMENT = 'Patient_Delegate_Enrollment__c';
     private static String objTypeFinal;
     private static String identityType ='PARTICIPANT';
+    public static Boolean saveAccessToken =false;
+    public static MulesoftToken__c setting ;
+    public static MulesoftIntegrationApi.ResponseWrapper tokenWrap = new MulesoftIntegrationApi.ResponseWrapper();
 
     //generate mulesoft access token
     public static String getAccessToken() {
         String accessToken;
-        MulesoftToken__c setting = MulesoftToken__c.getInstance('Mulesoft Access Token UCPM');
-        Http http1 = new Http();
-        HttpRequest request1 = new HttpRequest();
-        request1.setEndpoint('callout:' + setting.Named_Credentials_Name__c);
-        request1.setMethod('POST');
-        request1.setHeader('Content-Type', 'application/x-www-form-urlencoded');
-        request1.setTimeout(120000);
-        String requestBody1 = 'grant_type=client_credentials';
-        request1.setBody(requestBody1);
-        System.debug('###### request1 ' + request1);
 
-        HttpResponse resp1;
 
-        try{
-           resp1= http1.send(request1);
-           if (resp1.getStatusCode() == 200) {
-            JsonParser parser = JSON.createParser(resp1.getBody());
-            ResponseWrapperToken deserializedResponseWrapper = (ResponseWrapperToken) JSON.deserialize(
-                resp1.getBody(),
-                ResponseWrapperToken.class
+         accessToken = MulesoftIntegrationApi.getAccessTokenIfValid(
+            'Mulesoft Access Token UCPM'
+        );
+        setting = MulesoftToken__c.getInstance(
+            'Mulesoft Access Token UCPM'
+        );
+        if (accessToken == null) {
+            tokenWrap = MulesoftIntegrationApi.generateAccessTokenWithoutSave(
+            setting
             );
-            accessToken = deserializedResponseWrapper.access_token;
+            accessToken = tokenWrap.access_token;
+            saveAccessToken = true;
         }
-        }
-        catch(exception e){
-          //Integration log generation 
-          IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
-          objIntegrationLog.Response_Body__c = e.getMessage();
-          objIntegrationLog.Function_Name__c = 'Access Token';
-          objIntegrationLog.Success__c = false;
-          insert objIntegrationLog;
-        }
-        
-    
         return accessToken;
     }
 
@@ -72,7 +56,10 @@ public class UCPM_ConsentFetchController {
             );
         //get mulesoft access token
         String accessToken;
-        accessToken = getAccessToken();
+        accessToken=NotificationService.accessTokenFromNotService;
+        if(typeName=='humanapi' && accessToken==null ){
+            accessToken = getAccessToken();
+        }
         System.debug('accessToken ##: ' + accessToken);
 
         String objType;
@@ -89,8 +76,13 @@ public class UCPM_ConsentFetchController {
         List<Id> pderIdList = new List<Id>();
         List<Id> conListId = new List<Id>();
         String responseBody;
+        Map<id, Participant_Enrollment__c> idTOpermap = new Map<id, Participant_Enrollment__c>();
+        Map<id, Patient_Delegate_Enrollment__c> idTopdermap = new Map<id, Patient_Delegate_Enrollment__c>();
+        Map<id, Contact> idToConMap = new Map<id, Contact>();
+        Map<id, SurveyInvitation> idToSurveymap = new Map<id, SurveyInvitation>();
+        Map<id, Participant__c> idToparticipantmap = new Map<id, Participant__c>();
 
-        if (ids == null && sobj != null && typeName == 'notificationbatch') {
+        if (ids == null && sobj != null && (typeName == 'notificationbatch' || typeName == 'humanapi')) {
             for (SObject so : sobj) {
                 objType = String.valueOf(so.getSobjectType());
                 if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
@@ -98,96 +90,36 @@ public class UCPM_ConsentFetchController {
                     perIDs.add(perid);
                     objTypeFinal = PARTICIPANT_ENROLLMENT_OBJ_NAME;
                     identityType ='PARTICIPANT';
+                    idTOpermap.put(perid, (Participant_Enrollment__c) so);
                 }
                 else if (objType == PATIENT_DEL_ENROLLMENT) {
                     Id pdeID = (String) so.get('id');
                     pderIdList.add(pdeID);
                     objTypeFinal = PATIENT_DEL_ENROLLMENT;
                     identityType ='DELEGATE';
+                    idTopdermap.put(pdeID, (Patient_Delegate_Enrollment__c) so);
                 } else if (objType == SURVEY_INVITATION_OBJ_NAME) {
                     Id surveyID = (String) so.get('id');
                     surveyInvitationIdList.add(surveyID);
                     objTypeFinal = SURVEY_INVITATION_OBJ_NAME;
                     identityType ='PARTICIPANT';
+                    idToSurveymap.put(surveyID,  (SurveyInvitation) so);
                 } else if (objType == CONTACT) {
                     Id conID = (String) so.get('id');
                     conListId.add(conID);
                     objTypeFinal = CONTACT;
                     identityType ='PARTICIPANT';
+                    idToConMap.put(conID, (contact) so);
                 } else if (objType == PARTICIPANT_OBJ_NAME) {
                     Id partID = (String) so.get('id');
                     participantIdList.add(partID);
                     objTypeFinal = PARTICIPANT_OBJ_NAME;
                     identityType ='PARTICIPANT';
+                    idToparticipantmap.put(partID, (Participant__c) so);
                 }
             }
-            List<Participant_Enrollment__c> perList = [
-                SELECT
-                    id,
-                    PPMID__c,
-                    Participant_Contact__r.PPM_ID__c,
-                    Clinical_Trial_Profile__r.Study_Sponsor__c,
-                    Clinical_Trial_Profile__c,
-                    Clinical_Trial_Profile__r.Study_Code_Name__c,
-                    Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c
-                FROM Participant_Enrollment__c
-                WHERE id = :perIDs
-            ];
-            Map<id, Participant_Enrollment__c> idTOpermap = new Map<id, Participant_Enrollment__c>();
-            for (Participant_Enrollment__c p : perList) {
-                idTOpermap.put(p.id, p);
-            }
-            List<Patient_Delegate_Enrollment__c> pderList = [
-                SELECT
-                    Id,
-                    Participant_Enrollment__c,
-                    PPM_ID__c,
-                    Participant_Enrollment__r.PPMID__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c
-                FROM Patient_Delegate_Enrollment__c
-                WHERE Id IN :pderIdList
-            ];
-            Map<id, Patient_Delegate_Enrollment__c> idTopdermap = new Map<id, Patient_Delegate_Enrollment__c>();
-            for (Patient_Delegate_Enrollment__c pde : pderList) {
-                idTopdermap.put(pde.id, pde);
-            }
-            List<Contact> conList = [
-                SELECT Id, PPM_ID__c
-                FROM Contact
-                WHERE Id IN :conListId
-            ];
-            Map<id, Contact> idToConMap = new Map<id, Contact>();
-            for (Contact c : conList) {
-                idToConMap.put(c.id, c);
-            }
-            List<SurveyInvitation> surveyInvList = [
-                SELECT
-                    Id,
-                    Participant_Enrollment__c,
-                    Participant_Enrollment__r.PPMID__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c
-                FROM SurveyInvitation
-                WHERE Id IN :surveyInvitationIdList
-            ];
-            Map<id, SurveyInvitation> idToSurveymap = new Map<id, SurveyInvitation>();
-            for (SurveyInvitation s : surveyInvList) {
-                idToSurveymap.put(s.id, s);
-            }
-            List<Participant__c> partList = [
-                SELECT Id, Contact__c, Contact__r.PPM_ID__c
-                FROM Participant__c
-                WHERE Id IN :participantIdList
-            ];
-            Map<id, Participant__c> idToparticipantmap = new Map<id, Participant__c>();
-            for (Participant__c part : partList) {
-                idToparticipantmap.put(part.id, part);
-            }
+            List<Participant_Enrollment__c> perList = new List<Participant_Enrollment__c> ();
+            List<Patient_Delegate_Enrollment__c> pderList = new  List<Patient_Delegate_Enrollment__c> ();
             for (SObject so : sobj) {
                 UCPMrequestBodyWrapper requestBodyWrapper = new UCPMrequestBodyWrapper();
                 objType = String.valueOf(so.getSobjectType());
@@ -288,9 +220,12 @@ public class UCPM_ConsentFetchController {
              objIntegrationLog.Success__c = false;
             //set return value
             returnValueWrapper retDataWrap = new returnValueWrapper();
-            retDataWrap.objIntegrationLog = objIntegrationLog;
+            if(objIntegrationLog!=null){
+                 retDataWrap.objIntegrationLog = objIntegrationLog;
+            }
             retDataWrap.updatedRecord = null;
             retDataWrap.isSuccess = false;
+            retDataWrap.saveAccessToken = saveAccessToken;
             return retDataWrap;
         }
          
@@ -309,7 +244,9 @@ public class UCPM_ConsentFetchController {
 
             //call method to return wrapper with list of records to be updated and interation log           
             returnValueWrapper retDataWrap = updateRecords(responseWrapper, typeName);
-            retDataWrap.objIntegrationLog = objIntegrationLog;
+            if(objIntegrationLog!=null){
+                 retDataWrap.objIntegrationLog = objIntegrationLog;
+            }
             
             return retDataWrap;
         } else {
@@ -317,8 +254,11 @@ public class UCPM_ConsentFetchController {
 
             //set return value
             returnValueWrapper retDataWrap = new returnValueWrapper();
-            retDataWrap.objIntegrationLog = objIntegrationLog;
+            if(objIntegrationLog!=null){
+                 retDataWrap.objIntegrationLog = objIntegrationLog;
+            }
             retDataWrap.updatedRecord = null;
+            retDataWrap.saveAccessToken = saveAccessToken;
             retDataWrap.isSuccess = false;
             return retDataWrap;
         }
@@ -336,13 +276,27 @@ public class UCPM_ConsentFetchController {
         // Collect all ppmids and applicationIds to to retrieve the records
         List<String> ppmIdList = new List<String>();
         List<String> appIdList = new List<String>();
+        List<String> ConappIdList = new List<String>();
+        List<String> PerappIdList = new List<String>();
+        List<String> PderappIdList = new List<String>();
         for (payload payload : consentWrapper.payload) {
             ppmIdList.add(payload.requestPPMID);
             appIdList.add(payload.applicationId);
+            if(Id.valueOf(payload.applicationId).getSObjectType().getDescribe().getName() == CONTACT){
+                ConappIdList.add(payload.applicationId);
+            }
+            if(Id.valueOf(payload.applicationId).getSObjectType().getDescribe().getName() == PATIENT_DEL_ENROLLMENT){
+                PderappIdList.add(payload.applicationId);
+            }
+            if(Id.valueOf(payload.applicationId).getSObjectType().getDescribe().getName() == PARTICIPANT_ENROLLMENT_OBJ_NAME){
+                PerappIdList.add(payload.applicationId);
+            }
         }
 
         Map<String, Contact> ppmtoConMap = new Map<String, Contact>();
-        for (Contact con : [
+        List<Contact> getconList = new List<Contact>();
+        if(!ConappIdList.isEmpty()){
+            getconList = [
             SELECT
                 Id,
                 PPM_ID__c,
@@ -362,12 +316,15 @@ public class UCPM_ConsentFetchController {
                 IQVIA_Pre_recorded_Voice_Consent__c
             FROM Contact
             WHERE Id IN :appIdList
-        ]) {
+        ];
+        }
+        for (Contact con :getconList ) {
             ppmtoConMap.put(con.PPM_ID__c, con);
         }
-
         Map<String, Participant_Enrollment__c> ppmtoPerMap = new Map<String, Participant_Enrollment__c>();
-        for (Participant_Enrollment__c per : [
+        List< Participant_Enrollment__c> getperList= new List< Participant_Enrollment__c>();
+        if(!PerappIdList.isEmpty()){
+             getperList = [
             SELECT
                 Id,
                 PPMID__c,
@@ -402,12 +359,15 @@ public class UCPM_ConsentFetchController {
                 Participant_Contact__r.IQVIA_Pre_recorded_Voice_Consent__c
             FROM Participant_Enrollment__c
             WHERE Id IN :appIdList
-        ]) {
+        ];
+        }
+        for (Participant_Enrollment__c per : getperList) {
             ppmtoPerMap.put(per.PPMID__c, per);
         }
-
         Map<String, Patient_Delegate_Enrollment__c> ppmtoPdeMap = new Map<String, Patient_Delegate_Enrollment__c>();
-        for (Patient_Delegate_Enrollment__c pde : [
+        List<Patient_Delegate_Enrollment__c> getpdeList = new List<Patient_Delegate_Enrollment__c>();
+        if(!PderappIdList.isEmpty()){
+            getpdeList=[
             SELECT
                 Id,
                 PPM_ID__c,
@@ -444,7 +404,9 @@ public class UCPM_ConsentFetchController {
             FROM Patient_Delegate_Enrollment__c
             WHERE Id IN :appIdList
             //WHERE PPM_ID__c IN :ppmIdList
-        ]) {
+        ];
+        }
+        for (Patient_Delegate_Enrollment__c pde : getpdeList) {
             ppmtoPdeMap.put(pde.PPM_ID__c, pde);
         }
 
@@ -764,21 +726,24 @@ public class UCPM_ConsentFetchController {
             //if DML fails return wrapper with isSuccess false
             retDataWrap.updatedRecord = null;
             retDataWrap.isSuccess = false;
+            retDataWrap.saveAccessToken = saveAccessToken;
             return retDataWrap;
         }
         //if method is called for notiifcation, call returnRecordPrep method to return list of records to be updated.
         //else return only isSuccess as true (no need to return updated records for other flows).
-        if (typeName == 'notificationbatch' || typeName == 'RecordPage') {
+        if (typeName == 'notificationbatch' || typeName == 'RecordPage' ||  typeName == 'humanapi') {
             retDataWrap.updatedRecord = returnRecordPrep(updatedRecWrap);
             if (retDataWrap.updatedRecord != null) {
                 retDataWrap.isSuccess = true;
             } else {
                 retDataWrap.isSuccess = false;
             }
+            retDataWrap.saveAccessToken = saveAccessToken;
             return retDataWrap;
         } else {
             retDataWrap.updatedRecord = null;
             retDataWrap.isSuccess = true;
+            retDataWrap.saveAccessToken = saveAccessToken;
             return retDataWrap;
         }
     }
@@ -831,6 +796,7 @@ public class UCPM_ConsentFetchController {
         public Boolean isSuccess = false;
         public IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
         public String ppmID ;
+        public Boolean saveAccessToken;
     }
 
     //Response wrapper start
@@ -996,169 +962,7 @@ public class UCPM_ConsentFetchController {
         
     }
 
-    //call from record detail page
-     @AuraEnabled
-    public static void callUCPMtoFetchLatestConsentsFromRecord(
-        Id applicationId,
-        String objType
-    ) {
-        System.debug('Inside callUCPMtoFetchLatestConsentsFromRecord ##: ');
-        //get mulesoft access token
-        String accessToken;
-        accessToken = getAccessToken();
-        System.debug('accessToken ##: ' + accessToken);
 
-        String ppmId;
-        String participantPpmid;
-
-        if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
-            Participant_Enrollment__c per = [
-                SELECT
-                    id,
-                    PPMID__c,
-                    Participant_Contact__r.PPM_ID__c,
-                    Clinical_Trial_Profile__r.Study_Sponsor__c,
-                    Clinical_Trial_Profile__c,
-                    Clinical_Trial_Profile__r.Study_Code_Name__c,
-                    Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c
-                FROM Participant_Enrollment__c
-                WHERE id = :applicationId
-            ];
-            
-            ppmId = per.PPMID__c;
-
-        }else if (objType == PATIENT_DEL_ENROLLMENT) {
-            Patient_Delegate_Enrollment__c pder = [
-                SELECT
-                    Id,
-                    Participant_Enrollment__c,
-                    PPM_ID__c,
-                    Participant_Enrollment__r.PPMID__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Sponsor__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                    Participant_Enrollment__r.Clinical_Trial_Profile__r.MDM_Parent_Sponsor_Name__c
-                FROM Patient_Delegate_Enrollment__c
-                WHERE Id = :applicationId
-            ];
-
-            ppmId = pder.PPM_ID__c;
-            participantPpmid = pder.Participant_Enrollment__r.PPMID__c;
-        
-        } else if (objType == CONTACT) {
-            Contact con = [
-                SELECT Id, PPM_ID__c
-                FROM Contact
-                WHERE Id = :applicationId
-            ];
-            ppmId = con.PPM_ID__c;
-
-        }
-
-        UCPMrequestBodyWrapper wrapper = new UCPMrequestBodyWrapper();
-        wrapper.ppmid = ppmId;
-        wrapper.participantPpmid = participantPpmid;
-        wrapper.applicationId = applicationId;
-        
-        //Data prep for API callout
-        JSONGenerator gen = JSON.createGenerator(false);
-        gen.writeStartArray();
-            gen.writeStartObject();
-            if (wrapper.ppmid != null) {
-                gen.writeStringField('ppmid', wrapper.ppmid);
-            } else {
-                gen.writeStringField('ppmid', '');
-            }
-            if (wrapper.participantPpmid != null) {
-                gen.writeStringField('participantPPMID', wrapper.participantPpmid);
-            } else {
-                gen.writeStringField('participantPPMID', '');
-            }
-             if (wrapper.applicationId != null) {
-                gen.writeStringField('applicationId', wrapper.applicationId);
-            } else {
-                gen.writeStringField('applicationId', '');
-            }
-           gen.writeEndObject();
-
-        gen.writeEndArray();
-
-        String requestString;
-        String responseBody;
-        requestString = gen.getAsString();
-
-        DateTime dt = DateTime.now();
-
-        //Integration log generation 
-        IntegrationLog__c objIntegrationLog = new IntegrationLog__c();
-        objIntegrationLog.Request_Body__c = requestString;
-        objIntegrationLog.Request_Time__c = dt;
-        objIntegrationLog.Request_Type__c = 'UCPM_Fetch_Consent';
-        objIntegrationLog.Function_Name__c = 'UCPM_Fetch_Consent';
-        objIntegrationLog.Http_Method__c = 'POST';
-
-        //Call Mulesoft-UCPM API for consents
-        HTTP h = new HTTP();
-        HTTPRequest r = new HTTPRequest();
-        r.setEndpoint('callout:UCPM_Fetch_Consent');
-        r.setHeader('Content-Type', 'application/json;charset=UTF-8');
-        r.setTimeout(120000);
-        r.setMethod('POST');
-        r.setHeader('Authorization', 'Bearer ' + accessToken);
-        r.setbody(requestString);
-        r.setHeader('identityType', identityType);
-        r.setHeader('transactionId', MulesoftIntegrationApi.uniqueKeygeneration());
-
-         HTTPResponse resp;
-        try{
-         resp = h.send(r);
-        }
-        catch(exception e){
-            objIntegrationLog.Response_Body__c = e.getMessage();
-            objIntegrationLog.Success__c = false;
-            //todo
-        }
-
-        objIntegrationLog.Response_Body__c = resp.getBody();
-        objIntegrationLog.Response_Status__c = resp.getStatus();
-        objIntegrationLog.Response_Status_Code__c = resp.getStatusCode();
-
-        if (resp.getStatusCode() == 200) {
-            objIntegrationLog.Success__c = true;
-            responseBody = resp.getBody();
-
-            UCPM_ConsentFetchController responseWrapper = (UCPM_ConsentFetchController) JSON.deserialize(
-                responseBody,
-                UCPM_ConsentFetchController.class
-            );
-
-            //call method to return wrapper with list of records to be updated and interation log           
-            returnValueWrapper retDataWrap = updateRecords(responseWrapper, 'RecordPage');
-            Sobject sObj = retDataWrap.updatedRecord;
-            
-            //update record
-            if(retDataWrap.isSuccess){
-                try{
-                    update sObj;
-                 } 
-                catch(DmlException e) {
-                    System.debug('The following exception has occurred while updating the consents: ' + e.getMessage());
-                }
-            }
-
-        } 
-        else {
-            objIntegrationLog.Success__c = false;
-        }
-
-        //Create integartion log records
-        try{
-            insert objIntegrationLog;
-        }
-        catch(DmlException e) {
-            System.debug('The following exception has occurred while creating Itegration log: ' + e.getMessage());
-        }        
-    }
 
     
 
