@@ -1,4 +1,3 @@
-/**LWC test on package */
 import { LightningElement, api, track } from 'lwc';
 import pp_icons from '@salesforce/resourceUrl/pp_community_icons';
 import moment from '@salesforce/resourceUrl/moment_js';
@@ -56,8 +55,8 @@ export default class PpCreateTask extends LightningElement {
     initialRecord;
     updatedRecord;
     @api isRTL;
-    customLayoutSizeFields = "9";
-    customLayoutSizeImg = "3";
+    customLayoutSizeFields = "";
+    customLayoutSizeImg = "";
 
     labels = { REMIND_USING_REQUIRED };
     label = {
@@ -117,20 +116,19 @@ export default class PpCreateTask extends LightningElement {
             .catch((error) => {
                 console.error('Error in loading moment: ' + JSON.stringify(error));
             });
-            this.onOrientationChange();
             window.addEventListener('orientationchange',this.onOrientationChange);
     }
 
-    onOrientationChange = () => {
+    onOrientationChange () {
         if(screen.orientation.type == 'landscape-primary'){
-            this.customLayoutSizeFields = "9";
-            this.customLayoutSizeImg = "3";
+            this.customLayoutSizeFields = parseInt(9);
+            this.customLayoutSizeImg = parseInt(3);
         }else if(screen.orientation.type == 'portrait-primary'){
-            this.customLayoutSizeFields = "12"
-            this.customLayoutSizeImg = null;
-        }       
+            this.customLayoutSizeFields = parseInt(12);
+            this.customLayoutSizeImg = parseInt(0);
+        }
     }
-
+    taskInitData;
     initializeData() {
         this.spinner.show();
         if (!communityService.isDummy()) {
@@ -224,6 +222,7 @@ export default class PpCreateTask extends LightningElement {
                         };
                     }
                     this.initData = wrapper;
+                    this.taskInitData= this.gettaskInitData();
                     this.spinner.hide();
                     var task = wrapper.task;
                     task.Status = this.taskStatusOpen;
@@ -249,7 +248,7 @@ export default class PpCreateTask extends LightningElement {
         return this.taskNameLeng > 0 ? this.taskNameLeng : '00';
     }
 
-    get taskInitData() {
+    gettaskInitData() {
         return this.initData && JSON.stringify(this.initData) != '{}' ? true : false;
     }
 
@@ -662,4 +661,4 @@ export default class PpCreateTask extends LightningElement {
         }
         return this.enableSave ? 'task-save-btn' : 'task-save-btn-opacity';
     }
-}
+} 
