@@ -208,6 +208,13 @@
                 width: unset !important;
             }
         }
+
+        .hide-laf{
+            display: none;
+        }
+        .ml-12{
+            margin-left: 12px;
+        }
     </style>
     <apex:stylesheet value="{!$Resource.proximanova}/proximanova.css" />
     <apex:stylesheet value="{!$Resource.Community_CSS_Core}" />
@@ -410,8 +417,23 @@
             }
 
             function manageCall() {
-
+                var isAndroid = communityService.isAndroidTablet();
+                var isIpadDev = communityService.isIpad();
                 var currentTime = getCurrentTime();;
+                if(isAndroid || isIpadDev){
+                    let innerHeight = window.innerHeight;
+                let height = (94/100) * innerHeight;
+                let rejoin = document.querySelectorAll(".top-margin-rejoin.rejoin-container")[0];
+                let topMargin = document.querySelectorAll(".top-margin-rejoin")[0];
+ 
+                const mediaQuery = window.matchMedia('(max-width: 1279px)')
+                if (mediaQuery.matches) {              
+                    rejoin.style.alignItems = "center !important";
+                    rejoin.style.justifyContent = "center !important";
+                    rejoin.style.height = height +"px !important";              
+                    topMargin.style.marginTop = "0px !important";
+                }
+                }
 
                 var communityUser = '{!attendeeType}';
                 var firstAttendeeMsg = document.getElementById("firstAttendeeMsg");
@@ -883,7 +905,8 @@
                 OT.checkScreenSharingCapability(function (response) {
 
                     if (!response.supported || response.extensionRegistered === false || response.extensionInstalled === false) {
-                        alert($Label.Error_ScreenShareNotSupported);
+                         alert($Label.Error_ScreenShareNotSupported);
+                        // document.write($Label.Error_ScreenShareNotSupported)
                     } else {
 
                         var screenShareOptions = getPublisherProperties(true);
@@ -1555,12 +1578,42 @@
         </script>
         <script>
             window.onload = function checkInternetDisconnect() {
+
+                // document.addEventListener('visibilitychange',function(){
+                //     publisher.publishAudio(true);
+                //     publisher.publishVideo(true);
+                // }, false);
+
                 var isAndroid = communityService.isAndroidTablet();
-               var isIpadDev = communityService.isIpad();
+                var isIpadDev = communityService.isIpad();
+            
                 if(isAndroid ||isIpadDev ){
-                    document.getElementById("sharingbuttont").style.display = "none";
+                    // document.getElementById("sharingbuttont").style.display = "block";
+                    // document.getElementById("sharingbuttont").style.background = "red";
                 }
-               
+                if(isAndroid || isIpadDev ){
+                    var link = document.createElement('link');
+                    link.setAttribute('rel', 'stylesheet');
+                    link.setAttribute('type', 'text/css');
+                    link.setAttribute('href', '{!$Resource.televisit_tablet}');
+                    document.head.appendChild(link);
+
+                    let ele = document.getElementsByClassName("video-container");
+                    if(ele[0]){
+                        ele[0].classList.remove('slds-medium-size_3-of-4');
+                        ele[0].classList.add('slds-medium-size_4-of-4');
+                    }
+
+                    let laf = document.getElementById("last-active-feed");
+                    laf.classList.add('hide-laf');
+
+                    let feed_con = document.getElementById("self-feed-container");
+                    feed_con.classList.add('ml-12');
+                    
+              }
+
+                // document.getElementById("sharingbuttont").style.display = "block";
+                // document.getElementById("sharingbuttont").style.background = "red";
                 window.addEventListener('online', () => onlineCall());
                 window.addEventListener('offline', () => offlineCall());
                 var isOffline = false;
@@ -1985,6 +2038,9 @@
                     padding-left: 17px;
                     padding-top: 8px;
                 }
+                .slds-scope .slds-show_medium, .slds-scope .slds-show--medium{
+                        display: none !important;
+                    }
                 .people-button {
                     height: 24px;
                     width: 24px;
@@ -2298,7 +2354,9 @@
                 font-weight: 500;
                 letter-spacing: 0;
                 line-height: 27px;
-                padding: 11px 0px 11px 18px;
+                padding: 11px 18px 11px 18px;
+                word-wrap: break-word;
+                text-align: left;
             }
 
             .participant-list {
@@ -2977,7 +3035,7 @@
                                     <div id="last-active-feed" class="last-active-feed slds-col slds-size_1-of-4 slds-show_small slds-m-right--large"></div>
                                     <div id="self-feed-container" class="self-feed-container slds-col slds-size_1-of-4 slds-x-small-size_1-of-3 slds-small-size_1-of-4"></div>
                                     <div id="controls" class="controls slds-col slds-align-bottom" style="padding-left: 0;min-height: 117px;padding-top: 67px;">
-                                        <div class="slds-grid slds-float_right">
+                                        <div class="slds-grid slds-float_right android-button-fix">
                                             <button class="slds-col button--audio slds-button-circle button_white" type="button" onclick="toggleAudio();" title="{!$Label.Audio_Hover_Message_Off}"
                                                 data-on="{!$Label.Audio_Hover_Message_Off}" data-off="{!$Label.Audio_Hover_Message_On}">
                                                 <span class="slds-assistive-text">Audio</span>
@@ -3012,7 +3070,7 @@
                                                 </svg>
                                                 <span class="slds-assistive-text">{!$Label.WelcomeModal_Video}</span>
                                             </button>
-                                                <button class="slds-col button--sharing slds-button-circle button_white slds-show_medium" type="button" onclick="toggleSharing();"
+                                                <button class="slds-col button--sharing slds-button-circle button_white" type="button" onclick="toggleSharing();"
                                                 title="{!$Label.Screen_Share_Hover_Message_Off}" data-on="{!$Label.Screen_Share_Hover_Message_Off}"
                                                 data-off="{!$Label.Screen_Share_Hover_Message_On}" id="sharingbuttont">
                                                 <span class="slds-assistive-text">{!$Label.Screen_Share}</span>

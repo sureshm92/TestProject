@@ -33,8 +33,9 @@
 }
 
 .THIS .sort-icon {
-    margin-left: 5%;
+    margin-left: 5px;
     cursor: pointer;
+    position: absolute;
 }
 
 .THIS .slds-table_bordered tbody th:hover,
@@ -204,4 +205,9 @@
     .THIS .mobile-display {
         display: block;
     }
+}
+
+.THIS .cus-width-fix{
+    max-width: 88%;
+    padding-right: 0px;
 }

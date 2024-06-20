@@ -224,11 +224,11 @@ a:hover {
     text-align: center;
     border-radius: 35px;
     height: 32px;
+    line-height: 32px;
     color: rgb(1, 95, 241);
     font-size: 14px;
     border: 1px solid #d6d6d6;
     display: block;
-    padding: 4px;
     width: 112px !important;
     /*margin-left: -8px;*/
     font-weight: 600;
@@ -238,11 +238,11 @@ a:hover {
     text-align: center;
     border-radius: 35px;
     height: 32px;
+    line-height: 32px;
     color: rgb(1, 95, 241);
     font-size: 14px;
     border: 1px solid;
     display: block;
-    padding: 4px;
     width: 112px !important;
     /*margin-left: -8px;*/
     background: aliceblue;
@@ -257,19 +257,20 @@ a:hover {
     text-align: center;
     border-radius: 35px;
     height: 34px;
+    line-height: 34px;
     color: rgb(1, 95, 241);
     font-size: 14px;
     border: 1px solid #d6d6d6;
     display: block;
     width: 66px !important;
     font-weight: 600;
-    padding: 2px;
 }
 
 .multipleJoinPP2Mobile:hover{
     text-align: center;
     border-radius: 35px;
     height: 34px;
+    line-height: 34px;
     color: rgb(1, 95, 241);
     font-size: 14px;
     border: 1px solid;
@@ -277,7 +278,6 @@ a:hover {
     width: 66px !important;
     background: aliceblue;
     font-weight: 600;
-    padding: 2px;
 }
 
 .hrline{
@@ -307,9 +307,9 @@ a:hover {
     .tab-class{
         padding-left: 7rem;
     }
-    .multipleJoinPP2Mobile{
+    /* .multipleJoinPP2Mobile{
         padding:7px;
-    }
+    } */
 }
 
 @media screen and (orientation: landscape) { 
@@ -317,19 +317,20 @@ a:hover {
         text-align: center;
         border-radius: 35px;
         height: 34px;
+        line-height: 34px;
         color: rgb(1, 95, 241);
         font-size: 14px;
         border: 1px solid #d6d6d6;
         display: block;
         width: 66px !important;
         font-weight: 600;
-        padding: 8px;
     }
     
     .multipleJoinPP2Mobile:hover{
         text-align: center;
         border-radius: 35px;
         height: 34px;
+        line-height: 34px;
         color: rgb(1, 95, 241);
         font-size: 14px;
         border: 1px solid;
@@ -337,7 +338,6 @@ a:hover {
         width: 66px !important;
         background: aliceblue;
         font-weight: 600;
-        padding: 8px;
     }
 
     .divBodyPP2Mobile {
