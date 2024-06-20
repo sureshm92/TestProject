@@ -129,7 +129,6 @@ export default class PpCreateTask extends LightningElement {
             this.customLayoutSizeImg = null;
         }       
     }
-    taskInitData;
     initializeData() {
         this.spinner.show();
         if (!communityService.isDummy()) {
@@ -223,7 +222,6 @@ export default class PpCreateTask extends LightningElement {
                         };
                     }
                     this.initData = wrapper;
-                    this.taskInitData= this.gettaskInitData();
                     this.spinner.hide();
                     var task = wrapper.task;
                     task.Status = this.taskStatusOpen;
@@ -249,7 +247,7 @@ export default class PpCreateTask extends LightningElement {
         return this.taskNameLeng > 0 ? this.taskNameLeng : '00';
     }
 
-    gettaskInitData() {
+    get taskInitData() {
         return this.initData && JSON.stringify(this.initData) != '{}' ? true : false;
     }
 
