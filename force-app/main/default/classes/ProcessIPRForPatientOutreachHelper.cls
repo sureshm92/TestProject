@@ -1,7 +1,7 @@
 public without sharing class ProcessIPRForPatientOutreachHelper {
 
-    //Process IPR based PER records which comes from patient outreach and alreday present in the RH.
-    public static void processIPRForPatientOutreach (
+    //Process IPR based PER records which comes from patient outreach and alreday present in the RH
+    public static IdslistReturnWrapper processIPRForPatientOutreach (
         Map<String, Integration_Patient_Referral__c> iprRPMap ,
         Account tempAccount,
         List<String> patientOutrachProtocolIds,
@@ -269,6 +269,8 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
         Set<Id> delegateIds = new Set<Id>();
         List<Participant__c> delegateParticipants = new List<Participant__c>();
 
+        List<Id> perIdlist = new List<Id>();
+        List<Id> pderIdlist = new List<Id>();
         for (Integration_Patient_Referral__c ipr : scope) {
             Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
             Study_Site__c ss = ssByPrimaryKeyEPRMap.get(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
@@ -307,6 +309,7 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
                     ipr.Batch_consideration__c = 'Completed';
                     ipr.Participant_Enrollment__c = sr.getId();
 
+                    perIdlist.add(sr.getId());
                     //REF-4741
                     if(dupPartUpdateMap.containsKey(pe.Participant__c))
                         dupPartToUpdateList.add(dupPartUpdateMap.get(pe.Participant__c));
@@ -331,6 +334,7 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
                             {
                             pder.put(objstr,true);
                             }
+                            pderIdlist.add(pder.Id);
                         }
                     patientDelEnrollList.add(pder);
                     }
@@ -677,6 +681,18 @@ public without sharing class ProcessIPRForPatientOutreachHelper {
 			update contactsToUpdateMap.values();
 		}     
         
+        if(!perIdlist.isEmpty()){
+            IdslistReturnWrapper returnwrap = new IdslistReturnWrapper();
+            returnwrap.perIdlist = perIdlist;
+            returnwrap.pderIdlist = pderIdlist;
+            return returnwrap;
+        }      
+        return null;
+    }
+
+    public class IdslistReturnWrapper{
+        public list<Id> perIdlist;
+        public list<Id> pderIdlist;
     }
     
 }
