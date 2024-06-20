@@ -137,7 +137,14 @@ export default class TelevisitMeetBanner extends NavigationMixin(LightningElemen
                 this.singleJoinCss = 'slds-text-color_inverse join singleJoinPP2';
                 this.deviceSize = 10;
                 this.isMobileDevice = false;
-            }else{
+            }else if(FORM_FACTOR == 'Medium'){
+                this.bgCss = 'divBodyPP2Mobile slds-p-around_medium slds-text-color_inverse';
+                this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2Mobile';
+                this.singleJoinCss = 'slds-text-color_inverse join singleJoinPP2Mobile';
+                this.deviceSize = 12;
+                this.isMobileDevice = true;
+            }
+            else{
                 this.bgCss = 'divBodyPP2Mobile slds-p-around_medium slds-text-color_inverse';
                 this.multipleJoinCss = 'slds-text-color_inverse join multipleJoinPP2Mobile';
                 this.singleJoinCss = 'slds-text-color_inverse join singleJoinPP2Mobile';

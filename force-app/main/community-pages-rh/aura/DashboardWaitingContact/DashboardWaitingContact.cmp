@@ -73,7 +73,7 @@
                                 </div>
                             </th>
                             <th class="" scope="col">
-                                <div class="slds-truncate" title="Added">
+                                <div class="slds-truncate cus-width-fix" title="{!$Label.c.PI_DB_PAC_Added_Header}">
                                     {!$Label.c.PI_DB_PAC_Added_Header}
                                     <span class="sort-icon" onclick="{!c.sortRecords}">
                                         <lightning:icon iconName="utility:sort" size="xx-small" />
