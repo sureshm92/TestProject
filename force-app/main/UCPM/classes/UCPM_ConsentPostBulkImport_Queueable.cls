@@ -526,6 +526,9 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                 TriggerHandlerExecutor.bypassHandler(
                     PatientDelegateEnrolTriggerHandler.updateConsentTimeStamps.class
                 );
+                TriggerHandlerExecutor.bypassHandler(
+                    UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
+                );
                 database.update(perToUpdate, false);
             }
             if (!pderToUpdate.isEmpty()) {
@@ -550,6 +553,9 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                 TriggerHandlerExecutor.bypassHandler(
                     PatientDelegateEnrolTriggerHandler.AssignCommunityPermissionSets.class
                 );
+                TriggerHandlerExecutor.bypassHandler(
+                    UCPM_UpdateConsentOptOutHandler.updateConsentPDERtoUCPM.class
+                );
                 database.update(pderToUpdate, false);
             }
 
@@ -571,6 +577,9 @@ public without sharing class UCPM_ConsentPostBulkImport_Queueable implements Que
                 );
                 TriggerHandlerExecutor.bypassHandler(
                     ContactTriggerHandler.CreateUserForDelegateContactHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                    UCPM_UpdateConsentOptOutHandler.updateConsentContacttoUCPM.class
                 );
                 database.update(conToUpdate, false);
             }

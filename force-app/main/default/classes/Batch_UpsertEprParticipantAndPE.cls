@@ -85,13 +85,20 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
 
         //Process IPR sepratly based on PER records which comes from patient outreach and alreday present in the RH
         if(!iprRPMap.isEmpty()) {
-            ProcessIPRForPatientOutreachHelper.processIPRForPatientOutreach(
+            ProcessIPRForPatientOutreachHelper.IdslistReturnWrapper resp = ProcessIPRForPatientOutreachHelper.processIPRForPatientOutreach(
                 iprRPMap,
                 tempAccount,
                 patientOutrachProtocolIds,
                 patientOutrachSSNumbersList,
                 patientOutrachNewMap
             );
+
+            if(resp != null && !resp.perIdlist.isEmpty()){
+                perIdlist.addAll(resp.perIdlist);
+                if(!resp.pderIdlist.isEmpty()){
+                    pderIdlist.addAll(resp.pderIdlist);
+                }
+            }
         }
 
         //SS Map
@@ -796,7 +803,39 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             delete tempAccount;
             //Sending consents to UCPM from ePR
             if(!perIdlist.isEmpty()){
-                System.enqueueJob(new UCPM_ConsentPostBulkImport_Queueable(new List<Id>(perIdlist),pderIdlist,'ePR'));
+                //System.enqueueJob(new UCPM_ConsentPostBulkImport_Queueable(new List<Id>(perIdlist),pderIdlist,'ePR'));
+                
+                List<UCPM_Post_Consent__e> pstConsentEventList = new List<UCPM_Post_Consent__e>();
+                UCPM_Post_Consent__e postConsEvent = new UCPM_Post_Consent__e();
+                String perRecordIds;
+                String pderRecordIds;
+                for(Id i:perIdlist){
+                    if(string.isblank(perRecordIds)){
+                        perRecordIds =  i +',';
+                    }else{
+                        perRecordIds = perRecordIds + i +',';
+                    }
+                }
+
+                if(!pderIdlist.isEmpty()){
+                    for(Id i:pderIdlist){
+                        if(string.isblank(pderRecordIds)){
+                            pderRecordIds =  i +',';
+                        }else{
+                            pderRecordIds = pderRecordIds + i +',';
+                        }
+                    }
+                }
+                if(string.isNotBlank(perRecordIds)){
+                  postConsEvent.Participant_Enrollment_Record_Ids__c = perRecordIds;
+                }
+                if(string.isNotBlank(pderRecordIds)){
+                    postConsEvent.Patient_Delegate_Enrollment_Record_Ids__c = pderRecordIds;
+                }
+                postConsEvent.Place_of_Funcitionality__c='ePR';
+                pstConsentEventList.add(postConsEvent);
+                EventBus.publish(pstConsentEventList); 
+                
             }
         } catch (Exception exp) {
             system.debug('ERROR during deleting records: ' + exp.getMessage());
