@@ -57,7 +57,7 @@ public class UCPM_ConsentFetchController {
         //get mulesoft access token
         String accessToken;
         accessToken=NotificationService.accessTokenFromNotService;
-        if((typeName=='humanapi' && accessToken==null ){
+        if(typeName=='humanapi' && accessToken==null ){
             accessToken = getAccessToken();
         }
         System.debug('accessToken ##: ' + accessToken);
