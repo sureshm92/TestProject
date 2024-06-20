@@ -12,7 +12,7 @@ public class UCPM_ConsentFetchController {
     private static final String TELEVISIT_OBJ_NAME = 'Televisit__c';
     private static final String TELEVISIT_ATTN_OBJ_NAME = 'Televisit_Attendee__c';
     private static final String PATIENT_DEL_ENROLLMENT = 'Patient_Delegate_Enrollment__c';
-    private static String objTypeFinal;
+    public static String objTypeFinal;
     private static String identityType ='PARTICIPANT';
     public static Boolean saveAccessToken =false;
     public static MulesoftToken__c setting ;
@@ -57,7 +57,7 @@ public class UCPM_ConsentFetchController {
         //get mulesoft access token
         String accessToken;
         accessToken=NotificationService.accessTokenFromNotService;
-        if(typeName=='humanapi' && accessToken==null ){
+        if((typeName=='humanapi' && accessToken==null ){
             accessToken = getAccessToken();
         }
         System.debug('accessToken ##: ' + accessToken);
@@ -247,7 +247,7 @@ public class UCPM_ConsentFetchController {
             if(objIntegrationLog!=null){
                  retDataWrap.objIntegrationLog = objIntegrationLog;
             }
-            
+
             return retDataWrap;
         } else {
             objIntegrationLog.Success__c = false;
@@ -415,7 +415,7 @@ public class UCPM_ConsentFetchController {
         List<Sobject> pdeList = new List<Sobject>();
 
         for (payload payload : consentWrapper.payload) {
-            if(payload.Purposes!=null){
+ if(payload.Purposes!=null){
             for (Purposes purpose : payload.Purposes) {
 
                 for (CustomPreferences customPreference : purpose.CustomPreferences) {
@@ -751,19 +751,19 @@ public class UCPM_ConsentFetchController {
     public static Sobject returnRecordPrep(
         UCPM_ConsentFetchController.updatedRecordsWrapper updatedRecWrap
     ) {
-        if (objTypeFinal == 'Participant_Enrollment__c') {
+        if (objTypeFinal == 'Participant_Enrollment__c' || UCPM_FetchConsentFromButtonController.objTypeFinal== 'Participant_Enrollment__c') {
             if (updatedRecWrap.perList != null && !updatedRecWrap.perList.isEmpty()) {
                 return updatedRecWrap.perList[0];
             } else {
                 return null;
             }
-        } else if (objTypeFinal == 'Patient_Delegate_Enrollment__c') {
+        } else if (objTypeFinal == 'Patient_Delegate_Enrollment__c' || UCPM_FetchConsentFromButtonController.objTypeFinal== 'Patient_Delegate_Enrollment__c') {
             if (updatedRecWrap.pdeList != null && !updatedRecWrap.pdeList.isEmpty()) {
                 return updatedRecWrap.pdeList[0];
             } else {
                 return null;
             }
-        } else if (objTypeFinal == 'Contact') {
+        } else if (objTypeFinal == 'Contact' || UCPM_FetchConsentFromButtonController.objTypeFinal== 'Contact') {
             if (updatedRecWrap.conList != null && !updatedRecWrap.conList.isEmpty()) {
                 return updatedRecWrap.conList[0];
             } else {

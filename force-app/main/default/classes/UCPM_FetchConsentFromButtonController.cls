@@ -1,11 +1,12 @@
 public with sharing class UCPM_FetchConsentFromButtonController {
     private static String identityType ='PARTICIPANT';
-
+    public static String objTypeFinal;
     //call from record detail page
      @AuraEnabled
     public static String callUCPMtoFetchLatestConsentsFromRecord(
         Id applicationId
     ) {
+        Boolean isUpdated=false;
         TriggerHandlerExecutor.bypassHandler( 
             UCPM_UpdateConsentOptOutHandler.updateConsentPERtoUCPM.class
             );
@@ -39,7 +40,7 @@ public with sharing class UCPM_FetchConsentFromButtonController {
                 FROM Participant_Enrollment__c
                 WHERE id = :applicationId limit 1
             ];
-            
+            objTypeFinal='Participant_Enrollment__c';
             ppmId = per.PPMID__c;
 
         }else if (objType == 'Patient_Delegate_Enrollment__c') {
@@ -56,7 +57,7 @@ public with sharing class UCPM_FetchConsentFromButtonController {
                 FROM Patient_Delegate_Enrollment__c
                 WHERE Id = :applicationId  limit 1
             ];
-
+            objTypeFinal='Patient_Delegate_Enrollment__c';
             ppmId = pder.PPM_ID__c;
             participantPpmid = pder.Participant_Enrollment__r.PPMID__c;
         
@@ -66,6 +67,7 @@ public with sharing class UCPM_FetchConsentFromButtonController {
                 FROM Contact
                 WHERE Id = :applicationId limit 1
             ];
+            objTypeFinal='Contact';
             ppmId = con.PPM_ID__c;
 
         }
@@ -131,7 +133,7 @@ public with sharing class UCPM_FetchConsentFromButtonController {
         catch(exception e){
             objIntegrationLog.Response_Body__c = e.getMessage();
             objIntegrationLog.Success__c = false;
-            return objIntegrationLog.Response_Status__c;   
+            return 'FALSE';   
         }
 
         objIntegrationLog.Response_Body__c = resp.getBody();
@@ -150,20 +152,22 @@ public with sharing class UCPM_FetchConsentFromButtonController {
             //call method to return wrapper with list of records to be updated and interation log           
             UCPM_ConsentFetchController.returnValueWrapper retDataWrap = UCPM_ConsentFetchController.updateRecords(responseWrapper, 'RecordPage');
             Sobject sObj = retDataWrap.updatedRecord;
-            
             //update record
             if(retDataWrap.isSuccess){
                 try{
                     update sObj;
-                 } 
+                    isUpdated=true;
+                 }
                 catch(DmlException e) {
                     System.debug('The following exception has occurred while updating the consents: ' + e.getMessage());
-                    return objIntegrationLog.Response_Status__c;   
+                    isUpdated=false;
+                    return 'FALSE';   
                 }
             }
 
         } 
         else {
+            isUpdated=false;
             objIntegrationLog.Success__c = false;
         }
 
@@ -173,12 +177,29 @@ public with sharing class UCPM_FetchConsentFromButtonController {
         }
         catch(DmlException e) {
             System.debug('The following exception has occurred while creating Itegration log: ' + e.getMessage());
-            return objIntegrationLog.Response_Status__c;   
-        }  
-        return objIntegrationLog.Response_Status__c;      
-        }  
+            return 'FALSE';   
+        }
+            try{
+                if (UCPM_ConsentFetchController.saveAccessToken) {
+                    MulesoftIntegrationApi.saveAccessToken(
+                    UCPM_ConsentFetchController.setting,
+                    UCPM_ConsentFetchController.tokenWrap.access_token,
+                    UCPM_ConsentFetchController.tokenWrap.expires_in
+                    );
+                }
+             }
+            catch(DmlException e) {
+                System.debug('The following exception has occurred while saving MuleSoft Access Token : ' + e.getMessage());
+            } 
+            if(isUpdated){
+                 return 'TRUE'; 
+        }
         else{
             return 'FALSE';
+        }
+        }  
+        else{
+            return 'FALSE PPMID';
         }   
     }
 
